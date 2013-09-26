@@ -1,0 +1,18 @@
+.TH libssh2_channel_get_exit_status 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_get_exit_status - get the remote exit code
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_get_exit_status(LIBSSH2_CHANNEL* channel)
+
+.SH DESCRIPTION
+\fIchannel\fP - Closed channel stream to retreive exit status from.
+
+Returns the exit code raised by the process running on the remote host at 
+the other end of the named channel. Note that the exit status may not be 
+available if the remote end has not yet set its status to closed.
+
+.SH RETURN VALUE
+Returns 0 on failure, otherwise the \fIExit Status\fP reported by remote host

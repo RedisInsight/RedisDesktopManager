@@ -1,0 +1,48 @@
+.TH libssh2_scp_send_ex 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_scp_send_ex - Send a file via SCP
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+LIBSSH2_CHANNEL *
+libssh2_scp_send_ex(LIBSSH2_SESSION *session, const char *path, int mode,
+                    size_t size, long mtime, long atime);
+.SH DESCRIPTION
+This function has been deemed deprecated since libssh2 1.2.6. See
+\fIlibssh2_scp_send64(3)\fP.
+
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIpath\fP - Full path and filename of file to transfer to. That is the remote
+file name.
+
+\fImode\fP - File access mode to create file with
+
+\fIsize\fP - Size of file being transmitted (Must be known 
+ahead of time precisely)
+
+\fImtime\fP - mtime to assign to file being created
+
+\fIatime\fP - atime to assign to file being created (Set this and 
+mtime to zero to instruct remote host to use current time).
+
+Send a file to the remote host via SCP.
+.SH RETURN VALUE
+Pointer to a newly allocated LIBSSH2_CHANNEL instance, or NULL on errors.
+
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_SCP_PROTOCOL\fP - 
+
+\fILIBSSH2_ERROR_EAGAIN\fP - Marked for non-blocking I/O but the call would
+block.
+.SH AVAILABILITY
+This function was marked deprecated in libssh2 1.2.6 as
+ \fIlibssh2_scp_send64(3)\fP has been introduced to replace this function.
+.SH SEE ALSO
+.BR libssh2_channel_open_ex(3)

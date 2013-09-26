@@ -1,0 +1,36 @@
+.TH libssh2_version 3 "23 Feb 2009" "libssh2 1.1" "libssh2 manual"
+.SH NAME
+libssh2_version - return the libssh2 version number
+.SH SYNOPSIS
+#include <libssh2.h>
+
+const char *
+libssh2_version(int required_version);
+.SH DESCRIPTION
+If \fIrequired_version\fP is lower than or equal to the version number of the
+libssh2 in use, the version number of libssh2 is returned as a pointer to a
+zero terminated string.
+
+The \fIrequired_version\fP should be the version number as constructed by the
+LIBSSH2_VERSION_NUM define in the libssh2.h public header file, which is a 24
+bit number in the 0xMMmmpp format. MM for major, mm for minor and pp for patch
+number.
+.SH RETURN VALUE
+The version number of libssh2 is returned as a pointer to a zero terminated
+string or NULL if the \fIrequired_version\fP isn't fulfilled.
+.SH EXAMPLE
+To make sure you run with the correct libssh2 version:
+
+.nf
+if (!libssh2_version(LIBSSH2_VERSION_NUM)) {
+  fprintf (stderr, \&"Runtime libssh2 version too old!\&");
+  exit(1);
+}
+.fi
+
+Unconditionally get the version number:
+
+printf(\&"libssh2 version: %s\&", libssh2_version(0) );
+.SH AVAILABILITY
+This function was added in libssh2 1.1, in previous versions there way no way
+to extract this info in run-time.

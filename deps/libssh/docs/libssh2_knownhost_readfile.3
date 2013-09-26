@@ -1,0 +1,29 @@
+.\"
+.\" Copyright (c) 2009-2011 by Daniel Stenberg
+.\"
+.TH libssh2_knownhost_readfile 3 "28 May 2009" "libssh2 1.2" "libssh2 manual"
+.SH NAME
+libssh2_knownhost_readfile - parse a file of known hosts
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int libssh2_knownhost_readfile(LIBSSH2_KNOWNHOSTS *hosts,
+                               const char *filename, int type);
+.SH DESCRIPTION
+Reads a collection of known hosts from a specified file and adds them to the
+collection of known hosts.
+
+\fIfilename\fP specifies which file to read
+
+\fItype\fP specifies what file type it is, and
+\fILIBSSH2_KNOWNHOST_FILE_OPENSSH\fP is the only currently supported
+format. This file is normally found named ~/.ssh/known_hosts
+.SH RETURN VALUE
+Returns a negative value, a regular libssh2 error code for errors, or a
+positive number as number of parsed known hosts in the file.
+.SH AVAILABILITY
+Added in libssh2 1.2
+.SH SEE ALSO
+.BR libssh2_knownhost_init(3)
+.BR libssh2_knownhost_free(3)
+.BR libssh2_knownhost_check(3)

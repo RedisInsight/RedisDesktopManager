@@ -1,0 +1,74 @@
+.TH libssh2_session_supported_algs 3 "23 Oct 2011" "libssh2 1.4.0" "libssh2 manual"
+.SH NAME
+libssh2_session_supported_algs - get list of supported algorithms
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+int libssh2_session_supported_algs(LIBSSH2_SESSION* session,
+                                   int method_type,
+                                   const char*** algs);
+.SH DESCRIPTION
+\fIsession\fP - An instance of initialized LIBSSH2_SESSION (the function will
+use its pointer to the memory allocation function).  \fImethod_type\fP - Method
+type. See .BR \fIlibssh2_session_method_pref(3)\fP.  \fIalgs\fP - Address of a
+pointer that will point to an array af returned algorithms
+
+Get a list of supported algorithms for the given \fImethod_type\fP. The
+method_type parameter is equivalent to method_type in
+\fIlibssh2_session_method_pref(3)\fP. If successful, the function will
+allocate the appropriate amount of memory. When not needed anymore, it must be
+deallocated by calling \fIlibssh2_free(3)\fP. When this function is
+unsuccessful, this must not be done.
+
+In order to get a list of all supported compression algorithms,
+libssh2_session_flag(session, LIBSSH2_FLAG_COMPRESS, 1) must be called before
+calling this function, otherwise only "none" will be returned.
+
+If successful, the function will allocate and fill the array with supported
+algorithms (the same names as defined in RFC 4253).  The array is not NULL
+terminated.
+.SH EXAMPLE
+.nf
+#include "libssh2.h"
+
+const char **algorithms;
+int rc, i;
+LIBSSH2_SESSION *session;
+
+/* initilize session */
+session = libssh2_session_init();
+rc = libssh2_session_supported_algs(session,
+                                    LIBSSH2_METHOD_CRYPT_CS,
+                                    &algorithms);
+if (rc>0) {
+    /* the call succeeded, do sth. with the list of algorithms
+       (e.g. list them)... */
+    printf("Supported symmetric algorithms:\n");
+    for ( i=0; i<rc; i++ )
+        printf("\t%s\n", algorithms[i]);
+
+    /* ... and free the allocated memory when not needed anymore */
+    libssh2_free(session, algorithms);
+}
+else {
+    /* call failed, error handling */
+}
+.SH RETURN VALUE
+On success, a number of returned algorithms (i.e a positive number will be
+returned).  In case of a failure, an error code (a negative number, see below)
+is returned.  0 should never be returned.
+.SH ERRORS
+\fILIBSSH2_ERROR_BAD_USE\fP - Invalid address of algs.
+
+\fILIBSSH2_ERROR_METHOD_NOT_SUPPORTED\fP -  Unknown method type.
+
+\fILIBSSH2_ERROR_INVAL\fP - Internal error (normally should not occur).
+
+\fILIBSSH2_ERROR_ALLOC\fP - Allocation of memory failed.
+.SH AVAILABILITY
+Added in 1.4.0
+.SH SEE ALSO
+.BR libssh2_session_methods(3),
+.BR libssh2_session_method_pref(3)
+.BR libssh2_free(3)

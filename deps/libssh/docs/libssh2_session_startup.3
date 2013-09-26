@@ -1,0 +1,42 @@
+.TH libssh2_session_startup 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_startup - begin transport layer
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_session_startup(LIBSSH2_SESSION *session, int socket);
+.SH DESCRIPTION
+Starting in libssh2 version 1.2.8 this function is considered deprecated. Use
+\fIlibssh2_session_handshake(3)\fP instead.
+
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIsocket\fP - Connected socket descriptor. Typically a TCP connection 
+though the protocol allows for any reliable transport and the library will 
+attempt to use any berkeley socket.
+
+Begin transport layer protocol negotiation with the connected host.
+.SH RETURN VALUE
+Returns 0 on success, negative on failure.
+.SH ERRORS
+\fILIBSSH2_ERROR_SOCKET_NONE\fP - The socket is invalid.
+
+\fILIBSSH2_ERROR_BANNER_SEND\fP - Unable to send banner to remote host.
+
+\fILIBSSH2_ERROR_KEX_FAILURE\fP - >Encryption key exchange with the remote 
+host failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_SOCKET_DISCONNECT\fP - The socket was disconnected.
+
+\fILIBSSH2_ERROR_PROTO\fP - An invalid SSH protocol response was received on 
+the socket.
+
+\fILIBSSH2_ERROR_EAGAIN\fP - Marked for non-blocking I/O but the call would block.
+
+.SH SEE ALSO
+.BR libssh2_session_free(3)
+.BR libssh2_session_init_ex(3)

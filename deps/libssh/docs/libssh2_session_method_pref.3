@@ -1,0 +1,40 @@
+.TH libssh2_session_method_pref 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_method_pref - set preferred key exchange method
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_session_method_pref(LIBSSH2_SESSION *session, int method_type, const char *prefs);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fImethod_type\fP - One of the Method Type constants.
+
+\fIprefs\fP - Coma delimited list of preferred methods to use with 
+the most preferred listed first and the least preferred listed last. 
+If a method is listed which is not supported by libssh2 it will be 
+ignored and not sent to the remote host during protocol negotiation.
+
+Set preferred methods to be negotiated. These 
+preferrences must be set prior to calling 
+.BR libssh2_session_handshake(3)
+as they are used during the protocol initiation phase.
+
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+
+.SH ERRORS
+\fILIBSSH2_ERROR_INVAL\fP - The requested method type was invalid.
+
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_METHOD_NOT_SUPPORTED\fP - The requested method is not supported.
+
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)
+.BR libssh2_session_handshake(3)

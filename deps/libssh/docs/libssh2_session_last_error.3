@@ -1,0 +1,31 @@
+.TH libssh2_session_last_error 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_last_error - get the most recent error
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int
+libssh2_session_last_error(LIBSSH2_SESSION *session, char **errmsg, int *errmsg_len, int want_buf);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIerrmsg\fP - If not NULL, is populated by reference with the human 
+readable form of the most recent error message.
+
+\fIerrmsg_len\fP - If not NULL, is populated by reference with the length 
+of errmsg. (The string is NUL-terminated, so the length is only useful as 
+an optimization, to avoid calling strlen.)
+
+\fIwant_buf\fP - If set to a non-zero value, "ownership" of the errmsg 
+buffer will be given to the calling scope. If necessary, the errmsg buffer 
+will be duplicated.
+
+Determine the most recent error condition and its cause.
+
+.SH RETURN VALUE
+Numeric error code corresponding to the the Error Code constants.
+
+.SH SEE ALSO
+.BR libssh2_session_last_errno(3)

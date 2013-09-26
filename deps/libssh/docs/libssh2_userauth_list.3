@@ -1,0 +1,39 @@
+.TH libssh2_userauth_list 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_userauth_list - list supported authentication methods
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+char *
+libssh2_userauth_list(LIBSSH2_SESSION *session, const char *username,
+                      unsigned int username_len);
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIusername\fP - Username which will be used while authenticating. Note that
+most server implementations do not permit attempting authentication with
+different usernames between requests. Therefore this must be the same username
+you will use on later userauth calls.
+
+\fIusername_len\fP - Length of username parameter.
+
+Send a \fBSSH_USERAUTH_NONE\fP request to the remote host. Unless the remote
+host is configured to accept none as a viable authentication scheme
+(unlikely), it will return \fBSSH_USERAUTH_FAILURE\fP along with a listing of
+what authentication schemes it does support. In the unlikely event that none
+authentication succeeds, this method with return NULL. This case may be
+distinguished from a failing case by examining
+\fIlibssh2_userauth_authenticated(3)\fP.
+.SH RETURN VALUE
+On success a comma delimited list of supported authentication schemes.  This
+list is internally managed by libssh2.  On failure ruturns NULL.
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_EAGAIN\fP - Marked for non-blocking I/O but the call
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)

@@ -1,0 +1,79 @@
+.TH libssh2_sftp_symlink_ex 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_sftp_symlink_ex - read or set a symbolic link
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+#include <libssh2_sftp.h>
+
+int 
+libssh2_sftp_symlink_ex(LIBSSH2_SFTP *sftp, const char *path,
+                        unsigned int path_len, char *target,
+                        unsigned int target_len, int link_type);
+.SH DESCRIPTION
+Create a symlink or read out symlink information from the remote side.
+
+\fIsftp\fP - SFTP instance as returned by 
+.BR libssh2_sftp_init(3)
+
+\fIpath\fP - Remote filesystem object to create a symlink from or resolve.
+
+\fIpath_len\fP - Length of the name of the remote filesystem object to 
+create a symlink from or resolve.
+
+\fItarget\fP - a pointer to a buffer. The buffer has different uses depending
+what the \fIlink_type\fP argument is set to.
+.br
+\fBLIBSSH2_SFTP_SYMLINK\fP: Remote filesystem object to link to.
+.br
+\fBLIBSSH2_SFTP_READLINK\fP: Pre-allocated buffer to resolve symlink target
+into.
+.br
+\fBLIBSSH2_SFTP_REALPATH\fP: Pre-allocated buffer to resolve realpath target
+into.
+
+\fItarget_len\fP - Length of the name of the remote filesystem target object.
+
+\fIlink_type\fP - One of the three previously mentioned constants which 
+determines the resulting behavior of this function.
+
+These are convenience macros:
+
+.BR libssh2_sftp_symlink(3)
+: Create a symbolic link between two filesystem objects.
+.br
+.BR libssh2_sftp_readlink(3)
+: Resolve a symbolic link filesystem object to its next target.
+.br
+.BR libssh2_sftp_realpath(3)
+: Resolve a complex, relative, or symlinked filepath to its effective target.
+.SH RETURN VALUE
+When using LIBSSH2_SFTP_SYMLINK, this funtion returns 0 on success or negative
+on failure.
+
+When using LIBSSH2_SFTP_READLINK or LIBSSH2_SFTP_REALPATH, it returns the
+number of bytes it copied to the target buffer (not including the terminating
+zero) or negative on failure.
+
+It returns LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+
+From 1.2.8, LIBSSH2_ERROR_BUFFER_TOO_SMALL is returned if the given 'target'
+buffer is too small to fit the requested object name.
+.SH BUG
+Passing in a too small buffer when receiving data only results in libssh2
+1.2.7 or earlier to not copy the entire data amount, and it is not possible
+for the application to tell when it happens!
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_SOCKET_TIMEOUT\fP - 
+
+\fILIBSSH2_ERROR_SFTP_PROTOCOL\fP - An invalid SFTP protocol response was 
+received on the socket, or an SFTP operation caused an errorcode to 
+be returned by the server.
+
+.SH SEE ALSO
+.BR libssh2_sftp_init(3)

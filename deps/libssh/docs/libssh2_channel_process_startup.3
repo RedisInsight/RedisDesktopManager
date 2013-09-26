@@ -1,0 +1,38 @@
+.TH libssh2_channel_process_startup 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_process_startup - request a shell on a channel
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+int libssh2_channel_process_startup(LIBSSH2_CHANNEL *channel,
+                                    const char *request,
+                                    unsigned int request_len,
+                                    const char *message,
+                                    unsigned int message_len);
+.SH DESCRIPTION
+\fIchannel\fP - Active session channel instance.
+
+\fIrequest\fP - Type of process to startup. The SSH2 protocol currently 
+defines shell, exec, and subsystem as standard process services.
+
+\fIrequest_len\fP - Length of request parameter.
+
+\fImessage\fP - Request specific message data to include.
+
+\fImessage_len\fP - Length of message parameter.
+
+Initiate a request on a session type channel such as returned by 
+.BR libssh2_channel_open_ex(3)
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_CHANNEL_REQUEST_DENIED\fP - 
+.SH SEE ALSO
+.BR libssh2_channel_open_ex(3)

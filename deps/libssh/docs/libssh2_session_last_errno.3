@@ -1,0 +1,20 @@
+.TH libssh2_session_last_errno 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_last_errno - get the most recent error number
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int
+libssh2_session_last_errno(LIBSSH2_SESSION *session);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+Determine the most recent error condition.
+
+.SH RETURN VALUE
+Numeric error code corresponding to the the Error Code constants.
+
+.SH SEE ALSO
+.BR libssh2_session_last_error(3)

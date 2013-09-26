@@ -1,0 +1,28 @@
+.TH libssh2_trace_sethandler 3 "15 Jan 2010" "libssh2 1.2.3" "libssh2 manual"
+.SH NAME
+libssh2_trace_sethandler - set a trace output handler
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+typedef void (*libssh2_trace_handler_func)(LIBSSH2_SESSION *session,
+                                           void* context,
+                                           const char *data,
+                                           size_t length);
+
+int libssh2_trace_sethandler(LIBSSH2_SESSION *session,
+                             void* context,
+                             libssh2_trace_handler_func callback);
+.SH DESCRIPTION
+libssh2_trace_sethandler installs a trace output handler for your application.
+By default, when tracing has been switched on via a call to libssh2_trace(),
+all output is written to stderr.  By calling this method and passing a
+function pointer that matches the libssh2_trace_handler_func prototype,
+libssh2 will call back as it generates trace output.  This can be used to
+capture the trace output and put it into a log file or diagnostic window.
+This function has no effect unless libssh2 was built to support this option,
+and a typical "release build" might not.
+
+\fBcontext\fP can be used to pass arbitrary user defined data back into the callback when invoked.
+.SH AVAILABILITY
+Added in libssh2 version 1.2.3

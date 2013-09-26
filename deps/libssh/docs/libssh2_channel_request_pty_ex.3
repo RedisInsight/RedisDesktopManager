@@ -1,0 +1,47 @@
+.TH libssh2_channel_request_pty_ex 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_request_pty_ex - short function description
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_request_pty_ex(LIBSSH2_CHANNEL *channel, const char *term, unsigned int term_len, const char *modes, unsigned int modes_len, int width, int height, int width_px, int height_px);
+
+int 
+libssh2_channel_request_pty(LIBSSH2_CHANNEL *channel, char *term);
+
+.SH DESCRIPTION
+\fIchannel\fP - Previously opened channel instance such as returned by 
+.BR libssh2_channel_open_ex(3)
+
+\fIterm\fP - Terminal emulation (e.g. vt102, ansi, etc...)
+
+\fIterm_len\fP - Length of term parameter
+
+\fImodes\fP - Terminal mode modifier values
+
+\fImodes_len\fP - Length of modes parameter.
+
+\fIwidth\fP - Width of pty in characters
+
+\fIheight\fP - Height of pty in characters
+
+\fIwidth_px\fP - Width of pty in pixels
+
+\fIheight_px\fP - Height of pty in pixels
+
+Request a PTY on an established channel. Note that this does not make sense 
+for all channel types and may be ignored by the server despite returning 
+success.
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_CHANNEL_REQUEST_DENIED\fP - 
+.SH SEE ALSO
+.BR libssh2_channel_open_ex(3)

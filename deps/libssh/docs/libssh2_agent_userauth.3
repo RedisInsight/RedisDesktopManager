@@ -1,0 +1,29 @@
+.\"
+.\" Copyright (c) 2009 by Daiki Ueno
+.\"
+.TH libssh2_agent_userauth 3 "23 Dec 2009" "libssh2 1.2" "libssh2 manual"
+.SH NAME
+libssh2_agent_userauth - authenticate a session with a public key, with the help of ssh-agent
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int libssh2_agent_userauth(LIBSSH2_AGENT *agent,
+                           const char *username,
+                           struct libssh2_agent_publickey *identity);
+.SH DESCRIPTION
+\fIagent\fP - ssh-agent handle as returned by 
+.BR libssh2_agent_init(3)
+
+\fIusername\fP - Remote user name to authenticate as.
+
+\fIidentity\fP - Public key to authenticate with, as returned by 
+.BR libssh2_agent_get_identity(3)
+
+Attempt public key authentication with the help of ssh-agent.
+.SH RETURN VALUE
+Returns 0 if succeeded, or a negative value for error.
+.SH AVAILABILITY
+Added in libssh2 1.2
+.SH SEE ALSO
+.BR libssh2_agent_init(3)
+.BR libssh2_agent_get_identity(3)

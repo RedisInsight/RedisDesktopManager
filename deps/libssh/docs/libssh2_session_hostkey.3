@@ -1,0 +1,21 @@
+.TH libssh2_session_hostkey 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_hostkey - get the remote key
+.SH SYNOPSIS
+#include <libssh2.h>
+
+const char *libssh2_session_hostkey(LIBSSH2_SESSION *session,
+                                    size_t *len, int *type);
+.SH DESCRIPTION
+Returns a pointer to the current host key, the value \fIlen\fP points to will
+get the length of the key.
+
+The value \fItype\fP points to the type of hostkey which is one of:
+LIBSSH2_HOSTKEY_TYPE_RSA, LIBSSH2_HOSTKEY_TYPE_DSS, or
+LIBSSH2_HOSTKEY_TYPE_UNKNOWN.
+
+.SH RETURN VALUE
+A pointer, or NULL if something went wrong.
+.SH SEE ALSO
+.BR libssh2_knownhost_check(3)
+.BR libssh2_knownhost_add(3)

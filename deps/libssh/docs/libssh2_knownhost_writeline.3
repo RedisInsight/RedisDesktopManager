@@ -1,0 +1,46 @@
+.\"
+.\" Copyright (c) 2009 by Daniel Stenberg
+.\"
+.TH libssh2_knownhost_writeline 3 "28 May 2009" "libssh2 1.2" "libssh2 manual"
+.SH NAME
+libssh2_knownhost_writeline - convert a known host to a line for storage
+.SH SYNOPSIS
+#include <libssh2.h>
+
+libssh2_knownhost_writeline(LIBSSH2_KNOWNHOSTS *hosts,
+                            struct libssh2_knownhost *known,
+                            char *buffer, size_t buflen,
+                            size_t *outlen,
+                            int type);
+.SH DESCRIPTION
+Converts a single known host to a single line of output for storage, using
+the 'type' output format.
+
+\fIknown\fP identifies which particular known host
+
+\fIbuffer\fP points to an allocated buffer
+
+\fIbuflen\fP is the size of the \fIbuffer\fP. See RETURN VALUE about the size.
+
+\fIoutlen\fP must be a pointer to a size_t variable that will get the output
+length of the stored data chunk. The number does not included the trailing
+zero!
+
+\fItype\fP specifies what file type it is, and
+\fILIBSSH2_KNOWNHOST_FILE_OPENSSH\fP is the only currently supported
+format.
+.SH RETURN VALUE
+Returns a regular libssh2 error code, where negative values are error codes
+and 0 indicates success.
+
+If the provided buffer is deemed too small to fit the data libssh2 wants to
+store in it, LIBSSH2_ERROR_BUFFER_TOO_SMALL will be returned. The application
+is then advised to call the function again with a larger buffer. The
+\fIoutlen\fP size will then hold the requested size.
+.SH AVAILABILITY
+Added in libssh2 1.2
+.SH SEE ALSO
+.BR libssh2_knownhost_get(3)
+.BR libssh2_knownhost_readline(3)
+.BR libssh2_knownhost_writefile(3)
+

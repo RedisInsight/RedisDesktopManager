@@ -1,0 +1,35 @@
+.\"
+.\" Copyright (c) 2009 by Daniel Stenberg
+.\"
+.TH libssh2_knownhost_get 3 "28 May 2009" "libssh2 1.2" "libssh2 manual"
+.SH NAME
+libssh2_knownhost_get - get a known host off the collection of known hosts
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int libssh2_knownhost_get(LIBSSH2_KNOWNHOSTS *hosts,
+                          struct libssh2_knownhost **store,
+                          struct libssh2_knownhost *prev):
+.SH DESCRIPTION
+\fIlibssh2_knownhost_get(3)\fP allows an application to iterate over all known
+hosts in the collection.
+
+\fIstore\fP should point to a pointer that gets filled in to point to the
+known host data.
+
+\fIprev\fP is a pointer to a previous 'struct libssh2_knownhost' as returned
+by a previous invoke of this function, or NULL to get the first entry in the
+internal collection.
+.SH RETURN VALUE
+Returns 0 if everything is fine and information about a host was stored in
+the \fIstore\fP struct.
+
+Returns 1 if it reached the end of hosts.
+
+Returns negative values for error
+.SH AVAILABILITY
+Added in libssh2 1.2
+.SH SEE ALSO
+.BR libssh2_knownhost_readfile(3)
+.BR libssh2_knownhost_writefile(3)
+.BR libssh2_knownhost_add(3)

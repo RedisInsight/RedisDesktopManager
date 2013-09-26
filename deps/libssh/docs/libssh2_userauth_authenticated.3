@@ -1,0 +1,20 @@
+.TH libssh2_userauth_authenticated 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_userauth_authenticated - return authentication status
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_userauth_authenticated(LIBSSH2_SESSION *session);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+Indicates whether or not the named session has been successfully authenticated.
+
+.SH RETURN VALUE
+Returns 1 if authenticated and 0 if not.
+
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)

@@ -1,0 +1,29 @@
+
+Creative people have written bindings or interfaces for various environments
+and programming languages. Using one of these bindings allows you to take
+advantage of libssh2 directly from within your favourite language.
+
+The bindings listed below are not part of the libssh2 distribution archives,
+but must be downloaded and installed separately.
+
+Cocoa/Objective-C
+  https://github.com/karelia/libssh2_sftp-Cocoa-wrapper
+
+Haskell
+  FFI bindings - http://hackage.haskell.org/package/libssh2
+
+Perl
+  Net::SSH2 - http://search.cpan.org/~rkitover/Net-SSH2-0.45/lib/Net/SSH2.pm
+
+PHP
+  ssh2 - http://pecl.php.net/package/ssh2 
+
+Python
+  pylibssh2 - http://www.wallix.org/pylibssh2-project/
+
+Python-ctypes
+
+  PySsh2 - https://github.com/gellule/PySsh2
+
+Ruby
+  libssh2-ruby - https://github.com/mitchellh/libssh2-ruby

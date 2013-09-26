@@ -1,0 +1,24 @@
+.TH libssh2_session_abstract 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_abstract - return a pointer to a session's abstract pointer
+.SH SYNOPSIS
+#include <libssh2.h>
+
+void **
+libssh2_session_abstract(LIBSSH2_SESSION *session);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+Return a pointer to where the abstract pointer provided to
+\fBlibssh2_session_init_ex(3)\fP is stored. By providing a doubly
+de-referenced pointer, the internal storage of the session instance may be
+modified in place.
+
+.SH RETURN VALUE
+A pointer to session internal storage whos contents point to previously 
+provided abstract data.
+
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)

@@ -1,0 +1,28 @@
+libssh2 1.4.3
+
+This release includes the following changes:
+
+ o compression: add support for zlib@openssh.com
+
+This release includes the following bugfixes:
+
+ o sftp_read: return error if a too large package arrives
+ o libssh2_hostkey_hash.3: update the description of return value
+ o Fixed MSVC NMakefile
+ o examples: use stderr for messages, stdout for data
+ o openssl: do not leak memory when handling errors
+ o improved handling of disabled MD5 algorithm in OpenSSL
+ o known_hosts: Fail when parsing unknown keys in known_hosts file
+ o configure: gcrypt doesn't come with pkg-config support
+ o session_free: wrong variable used for keeping state
+ o libssh2_userauth_publickey_fromfile_ex.3: mention publickey == NULL
+ o comp_method_zlib_decomp: handle Z_BUF_ERROR when inflating
+
+This release would not have looked like this without help, code, reports and
+advice from friends like these:
+
+ Guenter Knauf, Peter Stuge, TJ Saunders, Mike Abdullah, Maxime Larocque,
+ Dmitry Smirnov, Dave Hayden, Peter Krempa, Kamil Dudka
+ 
+        Thanks! (and sorry if I forgot to mention someone)
+

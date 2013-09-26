@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<connections>
+ <connection host="192.168.2.3" name="debi.virtual" auth="foobared" port="6379"/>
+ <connection sshUser="root" host="127.0.0.1" sshHost="192.168.2.3" name="debi.ssh" port="6379" sshPassword="2424" sshPort="22"/>
+ <connection host="127.0.0.1" name="local" port="6379"/>
+</connections>

@@ -1,0 +1,32 @@
+.TH libssh2_scp_recv 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_scp_recv - request a remote file via SCP
+.SH SYNOPSIS
+#include <libssh2.h>
+
+LIBSSH2_CHANNEL *
+libssh2_scp_recv(LIBSSH2_SESSION *session, const char *path, struct stat *sb);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIpath\fP - Full path and filename of file to transfer. That is the remote
+file name.
+
+\fIsb\fP - Populated with remote file's size, mode, mtime, and atime
+
+Request a file from the remote host via SCP.
+.SH RETURN VALUE
+Pointer to a newly allocated LIBSSH2_CHANNEL instance, or NULL on errors.
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SCP_PROTOCOL\fP - 
+
+\fILIBSSH2_ERROR_EAGAIN\fP - Marked for non-blocking I/O but the call would
+block.
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)
+.BR libssh2_channel_open_ex(3)
+

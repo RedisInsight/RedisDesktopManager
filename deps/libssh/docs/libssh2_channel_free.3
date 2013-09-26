@@ -1,0 +1,25 @@
+.TH libssh2_channel_free 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_free - free all resources associated with a channel
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_free(LIBSSH2_CHANNEL *channel);
+
+.SH DESCRIPTION
+\fIchannel\fP - Channel stream to free.
+
+Release all resources associated with a channel stream. If the channel has 
+not yet been closed with 
+.BR libssh2_channel_close(3)
+, it will be called automatically so that the remote end may know that it 
+can safely free its own resources.
+
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+
+.SH SEE ALSO
+.BR libssh2_channel_close(3)

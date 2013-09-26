@@ -1,0 +1,35 @@
+.TH libssh2_channel_direct_tcpip_ex 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_direct_tcpip_ex - Tunnel a TCP connection through an SSH session
+.SH SYNOPSIS
+#include <libssh2.h>
+
+LIBSSH2_CHANNEL * 
+libssh2_channel_direct_tcpip_ex(LIBSSH2_SESSION *session, const char *host, int port, const char *shost, int sport);
+
+LIBSSH2_CHANNEL * 
+libssh2_channel_direct_tcpip(LIBSSH2_SESSION *session, const char *host, int port);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIhost\fP - Third party host to connect to using the SSH host as a proxy.
+
+\fIport\fP - Port on third party host to connect to.
+
+\fIshost\fP - Host to tell the SSH server the connection originated on.
+
+\fIsport\fP - Port to tell the SSH server the connection originated from.
+
+Tunnel a TCP/IP connection through the SSH transport via the remote host to 
+a third party. Communication from the client to the SSH server remains 
+encrypted, communication from the server to the 3rd party host travels 
+in cleartext.
+
+.SH RETURN VALUE
+Pointer to a newly allocated LIBSSH2_CHANNEL instance, or NULL on errors.
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)

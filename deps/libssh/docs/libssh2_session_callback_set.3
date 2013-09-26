@@ -1,0 +1,44 @@
+.TH libssh2_session_callback_set 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_callback_set - set a callback function
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+void *libssh2_session_callback_set(LIBSSH2_SESSION *session,
+                                   int cbtype, void *callback);
+.SH DESCRIPTION
+Sets a custom callback handler for a previously initialized session
+object. Callbacks are triggered by the receipt of special packets at the
+Transport layer. To disable a callback, set it to NULL.
+
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIcbtype\fP - Callback type. One of the types listed in Callback Types.
+
+\fIcallback\fP - Pointer to custom callback function. The prototype for 
+this function must match the associated callback declaration macro.
+.SH CALLBACK TYPES
+.IP LIBSSH2_CALLBACK_IGNORE
+Called when a SSH_MSG_IGNORE message is received
+.IP LIBSSH2_CALLBACK_DEBUG
+Called when a SSH_MSG_DEBUG message is received
+.IP LIBSSH2_CALLBACK_DISCONNECT
+Called when a SSH_MSG_DISCONNECT message is received
+.IP LIBSSH2_CALLBACK_MACERROR
+Called when a mismatched MAC has been detected in the transport layer. If the
+function returns 0, the packet will be accepted nonetheless.
+.IP LIBSSH2_CALLBACK_X11
+Called when an X11 connection has been accepted
+.IP LIBSSH2_CALLBACK_SEND
+Called when libssh2 wants to send some data on the connection.
+Can be set to a custom function to handle I/O your own way.
+.IP LIBSSH2_CALLBACK_RECV
+Called when libssh2 wants to receive some data from the connection.
+Can be set to a custom function to handle I/O your own way.
+.SH RETURN VALUE
+Pointer to previous callback handler. Returns NULL if no prior callback
+handler was set or the callback type was unknown.
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)

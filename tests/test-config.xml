@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<connections>
+  <connection name="local" host="localhost" port="7777" auth="foobared" />
+</connections>

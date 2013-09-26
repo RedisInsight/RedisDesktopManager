@@ -1,0 +1,21 @@
+.TH libssh2_channel_window_write_ex 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_window_write_ex - Check the status of the write window
+.SH SYNOPSIS
+#include <libssh2.h>
+
+unsigned long
+libssh2_channel_window_write_ex(LIBSSH2_CHANNEL *channel,
+                                unsigned long *window_size_initial)
+.SH DESCRIPTION
+Check the status of the write window Returns the number of bytes which may be
+safely writen on the channel without blocking. 'window_size_initial' (if
+passed) will be populated with the size of the initial window as defined by
+the channel_open request
+.SH RETURN VALUE
+Number of bytes which may be safely writen on the channel without blocking.
+.SH ERRORS
+
+.SH SEE ALSO
+.BR libssh2_channel_window_read_ex(3),
+.BR libssh2_channel_receive_window_adjust(3)

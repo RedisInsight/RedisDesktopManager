@@ -1,0 +1,19 @@
+.TH libssh2_channel_wait_eof 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_wait_eof - wait for the remote to reply to an EOF request
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_wait_eof(LIBSSH2_CHANNEL *channel);
+
+.SH DESCRIPTION
+Wait for the remote end to acknowledge an EOF request.
+
+.SH RETURN VALUE
+Return 0 on success or negative on failure. It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+.SH SEE ALSO
+.BR libssh2_channel_send_eof(3)
+.BR libssh2_channel_eof(3)

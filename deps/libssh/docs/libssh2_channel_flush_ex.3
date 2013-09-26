@@ -1,0 +1,32 @@
+.TH libssh2_channel_flush_ex 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_flush_ex - flush a channel
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_flush_ex(LIBSSH2_CHANNEL *channel, int streamid);
+
+int 
+libssh2_channel_flush(LIBSSH2_CHANNEL *channel);
+
+int 
+libssh2_channel_flush_stderr(LIBSSH2_CHANNEL *channel);
+
+.SH DESCRIPTION
+\fIchannel\fP - Active channel stream to flush.
+
+\fIstreamid\fP - Specific substream number to flush. Groups of substreams may 
+be flushed by passing on of the following Constants.
+.br
+\fBLIBSSH2_CHANNEL_FLUSH_EXTENDED_DATA\fP: Flush all extended data substreams
+.br
+\fBLIBSSH2_CHANNEL_FLUSH_ALL\fP: Flush all substreams
+
+Flush the read buffer for a given channel instance. Individual substreams may 
+be flushed by number or using one of the provided macros.
+
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.

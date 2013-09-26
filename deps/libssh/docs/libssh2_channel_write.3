@@ -1,0 +1,18 @@
+.TH libssh2_channel_write 3 "20 Feb 2010" "libssh2 1.2.4" "libssh2 manual"
+.SH NAME
+libssh2_channel_write - convenience macro for \fIlibssh2_channel_write_ex(3)\fP
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+ssize_t libssh2_channel_write(LIBSSH2_CHANNEL *channel, const char *buf, size_t buflen);
+
+.SH DESCRIPTION
+This is a macro defined in a public libssh2 header file that is using the
+underlying function \fIlibssh2_channel_write_ex(3)\fP.
+.SH RETURN VALUE
+See \fIlibssh2_channel_write_ex(3)\fP
+.SH ERRORS
+See \fIlibssh2_channel_write_ex(3)\fP
+.SH SEE ALSO
+.BR libssh2_channel_write_ex(3)

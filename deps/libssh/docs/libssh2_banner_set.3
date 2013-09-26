@@ -1,0 +1,32 @@
+.TH libssh2_banner_set 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_banner_set - set the SSH prococol banner for the local client
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_banner_set(LIBSSH2_SESSION *session, const char *banner);
+
+.SH DESCRIPTION
+This function is \fBDEPRECATED\fP. Use \fIlibssh2_session_banner_set(3)\fP
+instead!
+
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fIbanner\fP - A pointer to a user defined banner
+
+Set the banner that will be sent to the remote host when the SSH session is 
+started with 
+.BR libssh2_session_handshake(3)
+  This is optional; a banner corresponding to the protocol and libssh2 version will be sent by default.
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+.SH AVAILABILITY
+Marked as deprecated since 1.4.0
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+.SH SEE ALSO
+.BR libssh2_session_handshake(3)

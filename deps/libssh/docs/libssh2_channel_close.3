@@ -1,0 +1,29 @@
+.TH libssh2_channel_close 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_channel_close - close a channel
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_close(LIBSSH2_CHANNEL *channel);
+
+.SH DESCRIPTION
+\fIchannel\fP - active channel stream to set closed status on.
+
+Close an active data channel. In practice this means sending an SSH_MSG_CLOSE 
+packet to the remote host which serves as instruction that no further data 
+will be sent to it. The remote host may still send data back until it sends 
+its own close message in response. To wait for the remote end to close its 
+connection as well, follow this command with 
+.BR libssh2_channel_wait_closed(3)
+
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+
+.SH ERRORS
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+.SH SEE ALSO
+.BR libssh2_channel_open_ex(3)

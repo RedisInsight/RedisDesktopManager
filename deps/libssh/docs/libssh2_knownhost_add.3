@@ -1,0 +1,66 @@
+
+.\" Copyright (c) 2009, 2010 by Daniel Stenberg
+.\"
+.TH libssh2_knownhost_add 3 "28 May 2009" "libssh2 1.2" "libssh2 manual"
+.SH NAME
+libssh2_knownhost_add - add a known host
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+
+int libssh2_knownhost_add(LIBSSH2_KNOWNHOSTS *hosts,
+                          char *host, char *salt,
+                          char *key, size_t keylen,
+                          int typemask,
+                          struct libssh2_knownhost **store);
+.SH DESCRIPTION
+We discourage use of this function as of libssh2 1.2.5. Instead we strongly
+urge users to use \fIlibssh2_knownhost_addc(3)\fP instead, which as a more
+complete API. \fIlibssh2_knownhost_add(3)\fP is subject for removal in a
+future release.
+
+Adds a known host to the collection of known hosts identified by the 'hosts'
+handle.
+
+\fIhost\fP is a pointer the host name in plain text or hashed. If hashed, it
+must be provided base64 encoded. The host name can be the IP numerical address
+of the host or the full name.
+
+\fIsalt\P is a pointer to the salt used for the host hashing, if the host is
+provided hashed. If the host is provided in plain text, salt has no meaning.
+The salt has to be provided base64 encoded with a trailing zero byte.
+
+\fIkey\fP is a pointer to the key for the given host.
+
+\fIkeylen\fP is the total size in bytes of the key pointed to by the \fIkey\fP
+argument
+
+\fItypemask\fP is a bitmask that specifies format and info about the data
+passed to this function. Specificly, it details what format the host name is,
+what format the key is and what key type it is.
+
+The host name is given as one of the following types:
+LIBSSH2_KNOWNHOST_TYPE_PLAIN, LIBSSH2_KNOWNHOST_TYPE_SHA1 or
+LIBSSH2_KNOWNHOST_TYPE_CUSTOM.
+
+The key is encoded using one of the following encodings:
+LIBSSH2_KNOWNHOST_KEYENC_RAW or LIBSSH2_KNOWNHOST_KEYENC_BASE64.
+
+The key is using one of these algorithms:
+LIBSSH2_KNOWNHOST_KEY_RSA1, LIBSSH2_KNOWNHOST_KEY_SSHRSA or
+LIBSSH2_KNOWNHOST_KEY_SSHDSS.
+
+\fIstore\fP should point to a pointer that gets filled in to point to the
+known host data after the addition. NULL can be passed if you don't care about
+this pointer.
+.SH RETURN VALUE
+Returns a regular libssh2 error code, where negative values are error codes
+and 0 indicates success.
+.SH AVAILABILITY
+Added in libssh2 1.2, deprecated since libssh2 1.2.5. Use
+\fIlibssh2_knownhost_addc(3)\fP instead!
+.SH SEE ALSO
+.BR libssh2_knownhost_init(3)
+.BR libssh2_knownhost_free(3)
+.BR libssh2_knownhost_check(3)
+.BR libssh2_knownhost_addc(3)

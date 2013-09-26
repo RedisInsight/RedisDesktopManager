@@ -1,0 +1,27 @@
+.TH libssh2_session_methods 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_methods - return the currently active algorithms
+.SH SYNOPSIS
+#include <libssh2.h>
+
+const char *
+libssh2_session_methods(LIBSSH2_SESSION *session, int method_type);
+
+.SH DESCRIPTION
+\fIsession\fP - Session instance as returned by 
+.BR libssh2_session_init_ex(3)
+
+\fImethod_type\fP - one of the method type constants: LIBSSH2_METHOD_KEX,
+LIBSSH2_METHOD_HOSTKEY, LIBSSH2_METHOD_CRYPT_CS, LIBSSH2_METHOD_CRYPT_SC,
+LIBSSH2_METHOD_MAC_CS, LIBSSH2_METHOD_MAC_SC, LIBSSH2_METHOD_COMP_CS,
+LIBSSH2_METHOD_COMP_SC, LIBSSH2_METHOD_LANG_CS, LIBSSH2_METHOD_LANG_SC.
+
+Returns the actual method negotiated for a particular transport parameter.
+.SH RETURN VALUE
+Negotiated method or NULL if the session has not yet been started.
+.SH ERRORS
+\fILIBSSH2_ERROR_INVAL\fP - The requested method type was invalid.
+
+\fILIBSSH2_ERROR_METHOD_NONE\fP - no method has been set
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)

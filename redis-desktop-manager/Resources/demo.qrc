@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images" >
+	  <file alias="redisIcon.png">../images/redis_small_icon.png</file>
+    <file alias="redisBigIcon.png">../images/redis_big_icon.png</file>
+    <file alias="redisIcon_offline.png">../images/redis_small_icon_offline.png</file>
+    <file alias="wait.png">../images/wait.png</file>
+    <file alias="db.png">../images/db.png</file>    
+    <file alias="namespace.png">../images/namespace.png</file>
+    <file alias="key.png">../images/key.png</file>    
+	</qresource>
+</RCC>

@@ -1,0 +1,17 @@
+.TH libssh2_sftp_rewind 3 "20 Feb 2010" "libssh2 1.2.4" "libssh2 manual"
+.SH NAME
+libssh2_sftp_rewind - convenience macro for \fIlibssh2_sftp_seek64(3)\fP calls
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int libssh2_sftp_rewind(LINBSSH2_SFTP_HANDLE *handle);
+
+.SH DESCRIPTION
+This is a macro defined in a public libssh2 header file that is using the
+underlying function \fIlibssh2_sftp_seek64(3)\fP.
+.SH RETURN VALUE
+See \fIlibssh2_sftp_seek64(3)\fP
+.SH ERRORS
+See \fIlibssh2_sftp_seek64(3)\fP
+.SH SEE ALSO
+.BR libssh2_sftp_seek64(3)

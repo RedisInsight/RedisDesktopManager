@@ -1,0 +1,43 @@
+.TH libssh2_sftp_read 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_sftp_read - read data from an SFTP handle
+.SH SYNOPSIS
+#include <libssh2.h>
+#include <libssh2_sftp.h>
+
+ssize_t 
+libssh2_sftp_read(LIBSSH2_SFTP_HANDLE *handle, char *buffer, size_t buffer_maxlen);
+
+.SH DESCRIPTION
+\fIhandle\fP is the SFTP File Handle as returned by 
+.BR libssh2_sftp_open_ex(3)
+
+\fIbuffer\fP is a pointer to a pre-allocated buffer of at least
+
+\fIbuffer_maxlen\fP bytes to read data into.
+
+Reads a block of data from an LIBSSH2_SFTP_HANDLE. This method is modelled
+after the POSIX 
+.BR read(2)
+function and uses the same calling semantics. 
+.BR libssh2_sftp_read(3)
+will attempt to read as much as possible however it may not fill all of buffer
+if the file pointer reaches the end or if further reads would cause the socket
+to block.
+.SH RETURN VALUE
+Number of bytes actually populated into buffer, or negative on failure.  
+It returns LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+.SH ERRORS
+\fILIBSSH2_ERROR_ALLOC\fP -  An internal memory allocation call failed.
+
+\fILIBSSH2_ERROR_SOCKET_SEND\fP - Unable to send data on socket.
+
+\fILIBSSH2_ERROR_SOCKET_TIMEOUT\fP - 
+
+\fILIBSSH2_ERROR_SFTP_PROTOCOL\fP - An invalid SFTP protocol response was
+received on the socket, or an SFTP operation caused an errorcode to be
+returned by the server.
+.SH SEE ALSO
+.BR libssh2_sftp_open_ex(3)
+.BR libssh2_sftp_read(3)

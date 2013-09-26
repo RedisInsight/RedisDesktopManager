@@ -1,0 +1,21 @@
+.TH libssh2_session_banner_get 3 "9 Sep 2011" "libssh2 1.4.0" "libssh2 manual"
+.SH NAME
+libssh2_session_banner_get - get the remote banner
+.SH SYNOPSIS
+#include <libssh2.h>
+
+const char *libssh2_session_banner_get(oLIBSSH2_SESSION *session);
+.SH DESCRIPTION
+Once the session has been setup and \fIlibssh2_session_handshake(3)\fP has
+completed successfully, this function can be used to get the server id from
+the banner each server presents.
+.SH RETURN VALUE
+A pointer to a string or NULL if something failed. The data pointed to will be
+allocated and associated to the session handle and will be freed by libssh2
+when \fIlibssh2_session_free(3)\fP is used.
+.SH AVAILABILITY
+Added in 1.4.0
+.SH SEE ALSO
+.BR libssh2_session_banner_set(3),
+.BR libssh2_session_handshake(3),
+.BR libssh2_session_free(3)

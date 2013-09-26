@@ -1,0 +1,15 @@
+Source: redis-desktop-manager
+Section: devel
+Priority: extra
+Maintainer: glide <u.glide@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: http://redisdesktop.com
+Vcs-Git: git@github.com:uglide/RedisDesktopManager.git
+
+
+Package: redis-desktop-manager
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Redis GUI Management Tool
+  Redis Crossplatform GUI Management Tool

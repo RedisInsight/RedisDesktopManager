@@ -1,0 +1,22 @@
+.TH libssh2_channel_wait_closed 3 "29 Nov 2007" "libssh2 0.19" "libssh2 manual"
+.SH NAME
+libssh2_channel_wait_closed - wait for the remote to close the channel
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_channel_wait_closed(LIBSSH2_CHANNEL *channel);
+
+.SH DESCRIPTION
+Enter a temporary blocking state until the remote host closes the named
+channel. Typically sent after \fIlibssh2_channel_close(3)\fP in order to
+examine the exit status.
+
+.SH RETURN VALUE
+Return 0 on success or negative on failure. It returns LIBSSH2_ERROR_EAGAIN
+when it would otherwise block. While LIBSSH2_ERROR_EAGAIN is a negative
+number, it isn't really a failure per se.
+.SH SEE ALSO
+.BR libssh2_channel_send_eof(3)
+.BR libssh2_channel_eof(3)
+.BR libssh2_channel_wait_eof(3)

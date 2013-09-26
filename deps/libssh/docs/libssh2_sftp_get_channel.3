@@ -1,0 +1,21 @@
+.TH libssh2_sftp_get_channel 3 "9 Sep 2011" "libssh2 1.4.0" "libssh2 manual"
+.SH NAME
+libssh2_sftp_get_channel - return the channel of sftp
+.SH SYNOPSIS
+.nf
+#include <libssh2.h>
+#include <libssh2_sftp.h>
+
+.fi
+LIBSSH2_CHANNEL *libssh2_sftp_get_channel(LIBSSH2_SFTP *sftp);
+.SH DESCRIPTION
+\fIsftp\fP - SFTP instance as returned by 
+.BR libssh2_sftp_init(3)
+
+Return the channel of the given sftp handle.
+.SH RETURN VALUE
+The channel of the SFTP instance or NULL if something was wrong.
+.SH AVAILABILITY
+Added in 1.4.0
+.SH SEE ALSO
+.BR libssh2_sftp_init(3)

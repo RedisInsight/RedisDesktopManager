@@ -1,0 +1,80 @@
+#! /bin/sh
+# Script to build release-archives with
+#
+
+version=$1
+
+if [ -z "$version" ]; then
+  echo "Specify a version number!"
+  exit
+fi
+
+libversion="$version"
+
+major=`echo $libversion |cut -d. -f1 | sed -e "s/[^0-9]//g"`
+minor=`echo $libversion |cut -d. -f2 | sed -e "s/[^0-9]//g"`
+patch=`echo $libversion |cut -d. -f3 | cut -d- -f1 | sed -e "s/[^0-9]//g"`
+
+numeric=`perl -e 'printf("%02x%02x%02x\n", '"$major, $minor, $patch);"`
+
+HEADER=include/libssh2.h
+
+# requires a date command that knows -u for UTC time zone
+datestamp=`date -u`
+
+# Replace version number in header file:
+sed -e 's/^#define LIBSSH2_VERSION .*/#define LIBSSH2_VERSION "'$libversion'"/g' \
+    -e 's/^#define LIBSSH2_VERSION_NUM .*/#define LIBSSH2_VERSION_NUM 0x'$numeric'/g' \
+    -e 's/^#define LIBSSH2_VERSION_MAJOR .*/#define LIBSSH2_VERSION_MAJOR '$major'/g' \
+    -e 's/^#define LIBSSH2_VERSION_MINOR .*/#define LIBSSH2_VERSION_MINOR '$minor'/g' \
+    -e 's/^#define LIBSSH2_VERSION_PATCH .*/#define LIBSSH2_VERSION_PATCH '$patch'/g' \
+    -e "s/^#define LIBSSH2_TIMESTAMP .*/#define LIBSSH2_TIMESTAMP \"$datestamp\"/g" \
+ $HEADER >$HEADER.dist
+
+echo "libssh2 version $libversion"
+echo "libssh2 numerical $numeric"
+echo "datestamp $datestamp"
+
+findprog()
+{
+  file="$1"
+  for part in `echo $PATH| tr ':' ' '`; do
+    path="$part/$file"
+    if [ -x "$path" ]; then
+      # there it is!
+      return 1
+    fi
+  done
+
+  # no such executable
+  return 0
+}
+
+############################################################################
+#
+# automake is needed to run to make a non-GNU Makefile.in if Makefile.am has
+# been modified.
+#
+
+if { findprog automake >/dev/null 2>/dev/null; } then
+  echo "- Could not find or run automake, I hope you know what you're doing!"
+else
+  echo "Runs automake --include-deps"
+  automake --include-deps Makefile >/dev/null
+fi
+
+#######################################################################
+#
+# Generate the changelog
+#
+echo "generate NEWS"
+git log --pretty=fuller --no-color --date=short --decorate=full -1000 | ./git2news.pl > NEWS.dist
+
+############################################################################
+#
+# Now run make dist to generate a tar.gz archive
+#
+
+echo "make dist"
+targz="libssh2-$version.tar.gz"
+make -s dist VERSION=$version

@@ -1,20 +1,26 @@
-# C++ objects and libs
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+*.sdf
+*.opensdf
+*/GeneratedFiles/*
+build-redis*
 
-*.slo
-*.lo
-*.o
-*.a
-*.la
-*.lai
-*.so
-*.dll
-*.dylib
-
-# Qt-es
-
-*.pro.user
-*.pro.user.*
-moc_*.cpp
-qrc_*.cpp
-Makefile
-*-build-*
+.vagrant/*
+redis-desktop-manager/Makefile*
+build/redis*

@@ -1,0 +1,18 @@
+.TH libssh2_session_free 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_session_free - frees resources associated with a session instance
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int 
+libssh2_session_free(LIBSSH2_SESSION *session);
+.SH DESCRIPTION
+Frees all resources associated with a session instance. Typically called after
+.BR libssh2_session_disconnect_ex(3)
+.SH RETURN VALUE
+Return 0 on success or negative on failure.  It returns
+LIBSSH2_ERROR_EAGAIN when it would otherwise block. While
+LIBSSH2_ERROR_EAGAIN is a negative number, it isn't really a failure per se.
+.SH SEE ALSO
+.BR libssh2_session_init_ex(3)
+.BR libssh2_session_disconnect_ex(3)

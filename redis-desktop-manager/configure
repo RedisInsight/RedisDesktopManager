@@ -1,0 +1,7 @@
+#!/bin/sh
+cd ./../deps/
+chmod -R 777 libssh
+cd ./libssh
+sh ./configure  --with-openssl --with-libz
+make
+make install

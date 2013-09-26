@@ -1,0 +1,4682 @@
+   Changelog for the libssh2 project. Generated with git2news.pl
+
+Version 1.4.3 (27 Nov 2012)
+
+Daniel Stenberg (27 Nov 2012)
+- RELEASE-NOTES: fixed for 1.4.3
+
+- sftp_read: return error if a too large package arrives
+
+Peter Stuge (13 Nov 2012)
+- Only define _libssh2_dsa_*() functions when building with DSA support
+
+Guenter Knauf (8 Nov 2012)
+- Added .def file to output.
+
+Kamil Dudka (1 Nov 2012)
+- libssh2_hostkey_hash.3: update the description of return value
+  
+  The function returns NULL also if the hash algorithm is not available.
+
+Guenter Knauf (24 Oct 2012)
+- Fixed mode acciedently committed.
+
+- Ignore generated file.
+
+- Added hack to make use of Makefile.inc.
+  
+  This should avoid further maintainance of the objects list.
+
+- Fixed MSVC NMakefile.
+  
+  Added missing source files; added resource for DLL.
+
+Kamil Dudka (22 Oct 2012)
+- examples: use stderr for messages, stdout for data
+  
+  Reported by: Karel Srot
+  Bug: https://bugzilla.redhat.com/867462
+
+- openssl: do not leak memory when handling errors
+  
+  ,.. in aes_ctr_init().  Detected by Coverity.
+
+- channel: fix possible NULL dereference
+  
+  ... in libssh2_channel_get_exit_signal().  Detected by Coverity.
+
+- Revert "aes: the init function fails when OpenSSL has AES support"
+  
+  This partially reverts commit f4f2298ef3635acd031cc2ee0e71026cdcda5864.
+  
+  We need to use the EVP_aes_???_ctr() functions in FIPS mode.
+
+- crypt: use hard-wired cipher block sizes consistently
+
+- openssl: do not ignore failure of EVP_CipherInit()
+
+- kex: do not ignore failure of libssh2_md5_init()
+  
+  The MD5 algorithm is disabled when running in FIPS mode.
+
+Daniel Stenberg (21 Aug 2012)
+- [Peter Krempa brought this change]
+
+  known_hosts: Fail when parsing unknown keys in known_hosts file.
+  
+  libssh2_knownhost_readfile() silently ignored problems when reading keys
+  in unsupported formats from the known hosts file. When the file is
+  written again from the internal structures of libssh2 it gets truntcated
+  to the point where the first unknown key was located.
+  
+   * src/knownhost.c:libssh2_knownhost_readfile() - return error if key
+                                                    parsing fails
+
+- AUTHORS: synced with 42fec44c8a4
+  
+  31 recent authors added
+
+- [Dave Hayden brought this change]
+
+  compression: add support for zlib@openssh.com
+  
+  Add a "use_in_auth" flag to the LIBSSH2_COMP_METHOD struct and a
+  separate "zlib@openssh.com" method, along with checking session->state
+  for LIBSSH2_STATE_AUTHENTICATED. Appears to work on the OpenSSH servers
+  I've tried against, and it should work as before with normal zlib
+  compression.
+
+- [Dmitry Smirnov brought this change]
+
+  configure: gcrypt doesn't come with pkg-config support
+  
+  ... so use plain old -lgcrypt to the linker to link with it.
+  
+  Fixes #225
+
+- sftp_read: Value stored to 'next' is never read
+  
+  Detected by clang-analyzer
+
+- publickey_init: errors are negative, fix check
+  
+  Detected by clang-analyzer.
+
+- [Maxime Larocque brought this change]
+
+  session_free: wrong variable used for keeping state
+  
+  If libssh2_session_free is called without the channel being freed
+  previously by libssh2_channel_free a memory leak could occur.
+  
+  A mismatch of states variables in session_free() prevent the call to
+  libssh2_channel_free function. session->state member is used instead of
+  session->free_state.
+  
+  It causes a leak of around 600 bytes on every connection on my systems
+  (Linux, x64 and PPC).
+  
+  (Debugging done under contract for Accedian Networks)
+  
+  Fixes #246
+
+Guenter Knauf (29 Jun 2012)
+- Small NetWare makefile tweak.
+
+- Some small Win32 makefile fixes.
+
+Daniel Stenberg (19 Jun 2012)
+- libssh2_userauth_publickey_fromfile_ex.3: mention publickey == NULL
+
+- comp_method_zlib_decomp: handle Z_BUF_ERROR when inflating
+  
+  When using libssh2 to perform an SFTP file transfer from the "JSCAPE MFT
+  Server" (http://www.jscape.com) the transfer failed. The default JSCAPE
+  configuration is to enforce zlib compression on SSH2 sessions so the
+  session was compressed. The relevant part of the debug trace contained:
+  
+   [libssh2] 1.052750 Transport: unhandled zlib error -5
+   [libssh2] 1.052750 Failure Event: -29 - decompression failure
+  
+  The trace comes from comp_method_zlib_decomp() in comp.c. The "unhandled
+  zlib error -5" is the status returned from the zlib function
+  inflate(). The -5 status corresponds to "Z_BUF_ERROR".
+  
+  The inflate() function takes a pointer to a z_stream structure and
+  "inflates" (decompresses) as much as it can. The relevant fields of the
+  z_stream structure are:
+  
+    next_in - pointer to the input buffer containing compressed data
+    avail_in - the number of bytes available at next_in
+    next_out - pointer to the output buffer to be filled with uncompressed
+               data
+    avail_out - how much space available at next_out
+  
+  To decompress data you set up a z_stream struct with the relevant fields
+  filled in and pass it to inflate(). On return the fields will have been
+  updated so next_in and avail_in show how much compressed data is yet to
+  be processed and next_out and avail_out show how much space is left in
+  the output buffer.
+  
+  If the supplied output buffer is too small then on return there will be
+  compressed data yet to be processed (avail_in != 0) and inflate() will
+  return Z_OK. In this case the output buffer must be grown, avail_out
+  updated and inflate() called again.
+  
+  If the supplied output buffer was big enough then on return the
+  compressed data will have been exhausted (avail_in == 0) and inflate()
+  will return Z_OK, so the data has all been uncompressed.
+  
+  There is a corner case where inflate() makes no progress. That is, there
+  may be unprocessed compressed data and space available in the output
+  buffer and yet the function does nothing. In this case inflate() will
+  return Z_BUF_ERROR. From the zlib documentation and the source code it
+  is not clear under what circumstances this happens. It could be that it
+  needs to write multiple bytes (all in one go) from its internal state to
+  the output buffer before processing the next chunk of input but but
+  can't because there is not enough space (though my guesses as to the
+  cause are not really relevant). Recovery from Z_BUF_ERROR is pretty
+  simple - just grow the output buffer, update avail_out and call
+  inflate() again.
+  
+  The comp_method_zlib_decomp() function does not handle the case when
+  inflate() returns Z_BUF_ERROR. It treats it as a non-recoverable error
+  and basically aborts the session.
+  
+  Fixes #240
+
+Guenter Knauf (12 Jun 2012)
+- MinGW makefile tweaks.
+  
+  Use GNU tools when compiling on Linux.
+  Fixed dist and dev targets.
+
+- NetWare makefile tweaks.
+  
+  Changed to use Windows commandline tools instead of
+  GNU tools when compiling on Windows. Fixed dist and
+  dev targets. Enabled nlmconv error for unresolved
+  symbols.
+
+Daniel Stenberg (11 Jun 2012)
+- Revert "config.rpath: generated file, no need to keep in git"
+  
+  This reverts commit 1ac7bd09cc685755577fb2c8829adcd081e7ab3c.
+  
+  This file still used by lib/*m4 functions so we need to keep the file
+  around.
+
+- BINDINGS: added PySsh2, a Python-ctypes binding
+
+Guenter Knauf (8 Jun 2012)
+- Fixed MinGW debug build.
+
+Daniel Stenberg (5 Jun 2012)
+- BINDINGS: Added the Cocoa/Objective-C one
+  
+  ... and sorted the bindings after the languages, alphabetically
+  
+  Reported by: Mike Abdullah
+
+- BINDINGS: document the bindings we know of
+
+Guenter Knauf (4 Jun 2012)
+- Fixed LIBSSH2_INT64_T_FORMAT macro.
+  
+  Usually a format macro should hold the whole format, otherwise
+  it should be named a prefix. Also fixed usage of this macro in
+  scp.c for a signed var where it was used as prefix for unsigned.
+
+- Removed obsolete define from makefiles.
+
+- Renamed NetWare makefiles.
+
+- Renamed NetWare makefiles.
+
+- Synced MinGW makefiles with 56c64a6..39e438f.
+  
+  Also synced MinGW test makefile with b092696..f8cb874.
+
+Peter Stuge (30 May 2012)
+- Revert "sftp: Don't send attrs.permissions on read-only SSH_FXP_OPEN"
+  
+  This reverts commit 04e79e0c798674a0796be8a55f63dd92e6877790.
+
+- sftp: Don't send attrs.permissions on read-only SSH_FXP_OPEN
+  
+  This works around a protocol violation in the ProFTPD 1.3.4 mod_sftp
+  server, as reported by Will Cosgrove in:
+  
+  http://libssh2.org/mail/libssh2-devel-archive-2012-05/0079.shtml
+  
+  Based on a suggested fix by TJ Saunders in:
+  
+  http://libssh2.org/mail/libssh2-devel-archive-2012-05/0104.shtml
+
+Guenter Knauf (28 May 2012)
+- Try to detect OpenSSL build type automatically.
+  
+  Also fixed recently added libgdi32 linkage which is only
+  required when OpenSSL libs are linked statically.
+
+Daniel Stenberg (25 May 2012)
+- config.rpath: generated file, no need to keep in git
+
+Guenter Knauf (22 May 2012)
+- Updated dependency libary versions.
+
+Daniel Stenberg (18 May 2012)
+- 1.4.3: towards the future
+
+Version 1.4.2 (18 May 2012)
+
+Daniel Stenberg (18 May 2012)
+- RELEASE-NOTES: synced with 92a9f952794
+
+Alexander Lamaison (15 May 2012)
+- win32/libssh2_config.h: Remove hardcoded #define LIBSSH2_HAVE_ZLIB.
+  
+  Rationale: Everything else in this file states a fact about the win32
+  platform that is unconditional for that platform.  There is nothing
+  unconditional about the presence of zlib.  It is neither included with
+  Windows nor with the platform SDK.  Therefore, this is not an appropriate
+  place to assert its presence.  Especially as, once asserted, it cannot be
+  overridden using a compiler flag.
+  
+  In contrast, if it is omitted, then it can easily be reasserted by adding
+  a compiler flag defining LIBSSH2_HAVE_ZLIB.
+
+Daniel Stenberg (14 May 2012)
+- RELEASE-NOTES: synced with 69a3354467c
+
+- _libssh2_packet_add: SSH_MSG_CHANNEL_REQUEST default to want_reply
+  
+  RFC4254 says the default 'want_reply' is TRUE but the code defaulted to
+  FALSE. Now changed.
+  
+  Fixes #233
+
+- gettimeofday: no need for a replacement under cygwin
+  
+  Fixes #224
+
+Alexander Lamaison (13 May 2012)
+- Prevent sftp_packet_read accessing freed memory.
+  
+  sftp_packet_add takes ownership of the packet passed to it and (now that we
+  handle zombies) might free the packet.  sftp_packet_read uses the packet type
+  byte as its return code but by this point sftp_packet_add might have freed
+  it.  This change fixes the problem by caching the packet type before calling
+  sftp_packet_add.
+  
+  I don't understand why sftp_packet_read uses the packet type as its return
+  code.  A future change might get rid of this entirely.
+
+Daniel Stenberg (12 May 2012)
+- sftp_packet_flush: flush zombies too
+  
+  As this function is called when the SFTP session is closed, it needs to
+  also kill all zombies left in the SFTP session to avoid leaking memory
+  just in case some zombie would still be in there.
+
+- sftp_packetlist_flush: zombies must not have responses already
+  
+  When flushing the packetlist, we must only add the request as a zombie
+  if no response has already been received. Otherwise we could wrongly
+  make it a zombie even though the response was already received and then
+  we'd get a zombie stuck there "forever"...
+
+- sftp_read: on EOF remove packet before flush
+  
+  Since the sftp_packetlist_flush() function will move all the existing
+  FXP_READ requests in this handle to the zombie list we must first remove
+  this just received packet as it is clearly not a zombie.
+
+- sftp_packet_require: sftp_packet_read() returning 0 is not an error
+  
+  Exactly as the comment in the code said, checking the return code from
+  sftp_packet_read() with <= was wrong and it should be < 0. With the new
+  filtering on incoming packets that are "zombies" we can now see this
+  getting zero returned.
+
+- sftp_packetlist_flush: only make it zombie if it was sent
+  
+  The list of outgoing packets may also contain packets that never were
+  sent off and we better not make them zombies too.
+
+- [Alexander Lamaison brought this change]
+
+  Mark outstanding read requests after EOF as zombies.
+  
+  In order to be fast, sftp_read sends many read requests at once.  With a small
+  file, this can mean that when EOF is received back, many of these requests are
+  still outstanding.  Responses arriving after we close the file and abandon the
+  file handle are queued in the SFTP packet queue and never collected.  This
+  causes transfer speed to drop as a progressively longer queue must be searched
+  for every packet.
+  
+  This change introduces a zombie request-ID list in the SFTP session that is
+  used to recognise these outstanding requests and prevent them being added to
+  the queue.
+
+Peter Stuge (23 Apr 2012)
+- [Rafael Kitover brought this change]
+
+  Update win32/GNUmakefile to use OpenSSL 1.0.1a
+  
+  libcrypto on win32 now depends on gdi32.dll, so move the OpenSSL LDLIBS
+  block to before the compiler definitions, so that libcrypto gets added
+  first, and then add -lgdi32 into the following common LDLIBS for gcc.
+
+Guenter Knauf (23 Apr 2012)
+- Changed 'Requires' to 'Requires.private'.
+  
+  Only static builds need to link against the crypto libs.
+
+- Fixed 'Requires:' names.
+  
+  The 'Requires:' line lists the names of the .pc files.
+
+- Added 'Requires:' line to libssh2.pc.
+  
+  This is necessary so that other libs which lookup libssh2 info
+  via pkg-config can add the right crypto lib dependencies.
+
+- Updated dependency lib versions.
+
+Peter Stuge (18 Apr 2012)
+- configure.ac: Add option to disable build of the example applications
+  
+  Examples are built by default. Any of the following options on the
+  configure command line will skip building them:
+  
+    --disable-examples-build
+    --enable-examples-build=no
+    --enable-examples-build=false
+
+- userauth.c: fread() from public key file to correctly detect any errors
+  
+  If the filename parameter for file_read_publickey() was the name of a
+  directory instead of a file then libssh2 would spin trying to fgetc()
+  from the FILE * for the opened directory when trying to determine the
+  length of the encoded public key, since fgetc() can't report errors.
+  
+  Use fread() instead to correctly detect this error condition along
+  with many others.
+  
+  This fixes the problem reported in
+  http://www.libssh2.org/mail/libssh2-devel-archive-2012-04/0021.shtml
+  
+  Reported-by: Oleksiy Zagorskyi <zalex_ua@i.ua>
+
+- Return LIBSSH2_ERROR_SOCKET_DISCONNECT on EOF when reading banner
+
+Guenter Knauf (17 Apr 2012)
+- Fixed copyright year.
+
+- Updated dependency lib versions in static makefiles.
+
+Daniel Stenberg (6 Apr 2012)
+- version: bump to 1.4.2
+  
+  We're on the 1.4.2 track now (at least)
+
+Version 1.4.1 (4 Apr 2012)
+
+Daniel Stenberg (4 Apr 2012)
+- RELEASE-NOTES: updated for 1.4.1 release
+
+- always do "forced" window updates
+  
+  When calling _libssh2_channel_receive_window_adjust() internally, we now
+  always use the 'force' option to prevent libssh2 to avoid sending the
+  update if the update isn't big enough.
+  
+  It isn't fully analyzed but we have seen corner cases which made a
+  necessary window update not get send due to this and then the other side
+  doesn't send data our side then sits waiting for forever.
+
+- channel_read: force window adjusts!
+  
+  if there's not enough room to receive the data that's being requested,
+  the window adjustment needs to be sent to the remote and thus the force
+  option has to be used. _libssh2_channel_receive_window_adjust() would
+  otherwise "queue" small window adjustments for a later packet but that
+  is really terribly for the small buffer read that for example is the
+  final little piece of a very large file as then there is no logical next
+  packet!
+  
+  Reported by: Armen Babakhanian
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2012-03/0130.shtml
+
+- [Paul Howarth brought this change]
+
+  aes: the init function fails when OpenSSL has AES support
+  
+  The internal init function only worked fine when the configure script
+  didn't detect the OpenSSL AES_CTR function!
+  
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2012-03/0111.shtml
+  Reported by: Paul Howarth
+
+- [Matthew Booth brought this change]
+
+  transport_send: Finish in-progress key exchange before sending data
+  
+  _libssh2_channel_write() first reads outstanding packets before writing
+  new data. If it reads a key exchange request, it will immediately start
+  key re-exchange, which will require sending a response. If the output
+  socket is full, this will result in a return from
+  _libssh2_transport_read() of LIBSSH2_ERROR_EAGAIN. In order not to block
+  a write because there is no data to read, this error is explicitly
+  ignored and the code continues marshalling a packet for sending. When it
+  is sent, the remote end immediately drops the connection because it was
+  expecting a continuation of the key exchange, but got a data packet.
+  
+  This change adds the same check for key exchange to
+  _libssh2_transport_send() that is in _libssh2_transport_read(). This
+  ensures that key exchange is completed before any data packet is sent.
+
+- channel_write: acknowledge transport errors
+  
+  When draining data off the socket with _libssh2_transport_read() (which
+  in turn has to be done so that we can be sure to have read any possible
+  window-increasing packets), this code previously ignored errors which
+  could lead to nasty loops. Now all error codes except EAGAIN will cause
+  the error to be returned at once.
+  
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2012-03/0068.shtml
+  Reported by: Matthew Booth
+
+- [Steven Dake brought this change]
+
+  In examples/x11.c, Make sure sizeof passed to read operation is correct
+  
+  sizeof(buf) expands to 8 or 4 (since its a pointer).  This variable may
+  have been static in the past, leading to this error.
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- [Steven Dake brought this change]
+
+  Fix suspicious sizeof usage in examples/x11.c
+  
+  In the x11 example, sizeof(buf) = 8UL (on x86_64), when this should
+  probably represent the buffer size available.  I am not sure how to
+  test that this change is actually correct, however.
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- sftp_packet_read: follow-up fix for EAGAIN/window adjust
+  
+  The commit in 7194a9bd7ba45 wasn't complete. This change makes sure
+  variables are initialized properly before used in the EAGAIN and window
+  adjust cases.
+
+- sftp_packet_add: use named error code instead of number
+
+- sftp_packet_add: verify the packet before accepting it
+  
+  In order to bail out as quickly as possible when things are wrong and
+  out of sync, make sure the SFTP message is one we understand.
+
+- SFTP: preserve the original error code more
+  
+  Lots of places in the code translated the original error into the more
+  generic LIBSSH2_ERROR_SOCKET_TIMEOUT but this turns out to distort the
+  original error reason a lot and makes tracking down the real origin of a
+  problem really hard. This change makes the original error code be
+  preserved to a larger extent when return up to the parent function.
+
+- sftp_packet_read: adjust window size as necessary
+  
+  Commit 03ca9020756 tried to simplify the window sizing logic but broke
+  SFTP readdir as there was no window sizing code left there so large
+  directory listings no longer worked.
+  
+  This change introduces window sizing logic to the sftp_packet_read()
+  function so that it now tells the remote about the local size having a
+  window size that suffice when it is about to ask for directory data.
+  
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2012-03/0069.shtml
+  Reported by: Eric
+
+- [Steven Dake brought this change]
+
+  Tell C compiler we don't care about return code of libssh2_init
+  
+  The call of libssh2_init returns a return code, but nothing could be done
+  within the _libssh2_init_if_needed execution path.
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- [Steven Dake brought this change]
+
+  Add comment indicating a resource leak is not really a resource leak
+  
+  While possibly obvious to those investigating the code, coverity complains
+  about this out of scope leak.
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- [Steven Dake brought this change]
+
+  Use safer snprintf rather then sprintf in scp_send()
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- [Steven Dake brought this change]
+
+  Use safer snprintf rather then sprintf in scp_recv()
+  
+  While the buffer is indeed allocated to a safe length, better safe then sorry.
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- [Steven Dake brought this change]
+
+  use snprintf in knownhost_writeline() rather then sprintf
+  
+  Although the function checks the length, if the code was in error, there
+  could potentially be a buffer overrun with the use of sprintf.  Instead replace
+  with snprintf.
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+- [Steven Dake brought this change]
+
+  Add tracing to print packets left on session at libssh2_session_free
+  
+  Signed-off-by: Steven Dake <sdake@redhat.com>
+
+Peter Stuge (2 Mar 2012)
+- Define and use LIBSSH2_INVALID_SOCKET instead of INVALID_SOCKET
+  
+  INVALID_SOCKET is a special value in Windows representing a
+  non-valid socket identifier. We were #defining this to -1 on
+  non-Windows platforms, causing unneccessary namespace pollution.
+  Let's have our own identifier instead.
+  
+  Thanks to Matt Lawson for pointing this out.
+
+- nw/Makefile.netware: Fix project name typo to avoid needless confusion
+
+- example/x11: Set raw terminal mode manually instead of with cfmakeraw()
+  
+  OpenSolaris has no cfmakeraw() so to make the example more portable
+  we simply do the equivalent operations on struct termios ourselves.
+  
+  Thanks to Tom Weber for reporting this problem, and finding a solution.
+
+Daniel Stenberg (17 Feb 2012)
+- sftp_write: cannot return acked data *and* EAGAIN
+  
+  Whenever we have acked data and is about to call a function that *MAY*
+  return EAGAIN we must return the number now and wait to get called
+  again. Our API only allows data *or* EAGAIN and we must never try to get
+  both.
+
+Peter Stuge (13 Feb 2012)
+- example/x11: Build only when sys/un.h is found by configure
+  
+  The example can't be built on systems without AF_UNIX sockets.
+
+Daniel Stenberg (10 Feb 2012)
+- [Alexander Lamaison brought this change]
+
+  Simplified sftp_read.
+  
+  Removed the total_read variable that originally must have tracked how
+  much data had been written to the buffer.  With non-blocking reads, we
+  must return straight away once we have read data into the buffer so this
+  variable served not purpose.
+  
+  I think it was still hanging around in case the initial processing of
+  'leftover' data meant we wrote to the buffer but this case, like the
+  others, must return immediately.  Now that it does, the last remaining
+  need for the variable is gone.
+
+- [Alexander Lamaison brought this change]
+
+  Cleaned up sftp_read and added more explanation.
+  
+  Replaced the gotos which were implementing the state machine with
+  a switch statement which makes the states more explicit.
+
+- sftp_read: avoid data *and* EAGAIN
+  
+  Whenever we have data and is about to call a function that *MAY* return
+  EAGAIN we must return the data now and wait to get called again. Our API
+  only allows data *or* EAGAIN and we must never try to get both.
+
+Peter Stuge (2 Feb 2012)
+- Add a tcpip-forward example which demonstrates remote port forwarding
+
+- libssh2.h: Add missing prototype for libssh2_session_banner_set()
+
+- example/subsystem_netconf.c: Return error when read buffer is too small
+  
+  Also remove a little redundancy in the read loop condition.
+
+- example/subsystem_netconf.c: Add a missing newline in an error message
+
+- Fix undefined reference to _libssh_error in libgcrypt backend
+  
+  Commit 209de22299b4b58e582891dfba70f57e1e0492db introduced a function
+  call to a non-existing function, and since then the libgcrypt backend
+  has not been buildable.
+
+Version 1.4.0 (31 Jan 2012)
+
+Daniel Stenberg (31 Jan 2012)
+- RELEASE-NOTES: synced with 6bd584d29 for 1.4.0
+
+- s/1.3.1/1.4.0
+  
+  We're bumping the minor number
+
+- [Jernej Kovacic brought this change]
+
+  libssh2_session_supported_algs: fix compiler warning
+
+- [Jernej Kovacic brought this change]
+
+  session_supported_algs docs: added an example
+
+- [Gellule Xg brought this change]
+
+  sftp-seek: clear EOF flag
+  
+  Set the EOF flag to False when calling seek64 to be able to get some
+  data back on a following read
+
+- [Peter Krempa brought this change]
+
+  userauth: Provide more informations if ssh pub key extraction fails
+  
+  If the function that extracts/computes the public key from a private key
+  fails the errors it reports were masked by the function calling it. This
+  patch modifies the key extraction function to return errors using
+  _libssh_error() function.  The error messages are tweaked to contain
+  reference to the failed operaton in addition to the reason.
+  
+   * AUTHORS: - add my name
+   * libgcrypt.c: _libssh2_pub_priv_keyfile(): - return a more verbose
+                                                 error using
+                                                 _libssh2_error() func.
+   * openssl.c: - modify call graph of _libssh2_pub_priv_keyfile() to use
+                  _libssh2_error for error reporting();
+   * userauth.c: - tweak functions calling _libssh2_pub_priv_keyfile() not
+                   to shadow error messages
+
+- TODO: remove issues we (sort of) did already
+
+- ssh2_exec: skip error outputs for EAGAIN
+  
+  Since the example uses non-blocking mode, it will just flood the output
+  with this "nonsense" error.
+
+Guenter Knauf (30 Nov 2011)
+- Some NetWare makefile tweaks.
+
+Daniel Stenberg (18 Nov 2011)
+- LIBSSH2_SFTP_PACKET_MAXLEN: increase to 80000
+  
+  Some SFTP servers send SFTP packets larger than 40000. Since the limit
+  is only present to avoid insane sizes anyway, we can easily bump it.
+  
+  The define was formerly in the public header libssh2_sftp.h but served
+  no external purpose and was moved into the source dir.
+  
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2011-11/0004.shtml
+  Reported by: Michael Harris
+
+Alexander Lamaison (18 Nov 2011)
+- [Peter Krempa brought this change]
+
+  knownhost_check(): Don't dereference ext if NULL is passed
+  
+  Documentation for libssh2_knownhost_checkp() and related functions
+  states that the last argument is filled with data if non-NULL.
+  
+  "knownhost if set to non-NULL, it must be a pointer to a 'struct
+  libssh2_knownhost' pointer that gets filled in to point to info about a
+  known host that matches or partially matches."
+  
+  In this function ext is dereferenced even if set to NULL, causing
+  segfault in applications not needing the extra data.
+
+Daniel Stenberg (11 Nov 2011)
+- [Peter Krempa brought this change]
+
+  knownhost_add: Avoid dereferencing uninitialized memory on error path.
+  
+  In function knownhost_add, memory is alocated for a new entry. If normal
+  alocation is used, memory is not initialized to 0 right after, but a
+  check is done to verify if correct key type is passed. This test is done
+  BEFORE setting the memory to null, and on the error path function
+  free_host() is called, that tries to dereference unititialized memory,
+  resulting into a glibc abort().
+  
+   * knownhost.c - knownhost_add(): - move typemask check before alloc
+
+- windows build: add define to avoid compiler warning
+  
+  A recent mingw compiler has started to complain on "#warning Please
+  include winsock2.h before windows.h" unless the magic define is set
+  first.
+  
+  Reported by: Vincent Torri
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2011-10/0064.shtml
+
+Henrik Nordstrom (31 Oct 2011)
+- [Vincent Torri brought this change]
+
+  Correct Windows include file name case, simplifying cross-compilation
+  
+  When cross compiling to Windows, libssh2.h include Windows header files
+  with upper case filenames : BaseTsd.h and WinSock2.h.
+  
+  These files have lowercase names with mingw-w64 (iirc, it's the same with
+  mingw). And as on Windows, being lowercase or uppercase does not matter.
+
+Daniel Stenberg (25 Oct 2011)
+- [Jernej Kovacic brought this change]
+
+  libssh2_session_supported_algs: added
+
+- [Kamil Dudka brought this change]
+
+  example/sftp_RW_nonblock: do not ignore LIBSSH2_ERROR_EAGAIN
+  
+  Bug: https://bugzilla.redhat.com/745420
+
+Peter Stuge (5 Oct 2011)
+- example/ssh2_agent: Print host key fingerprint before authentication
+  
+  Also moves the comment about not being authenticated to before the
+  agent authentication takes place, so that it better matches the code.
+
+Daniel Stenberg (29 Sep 2011)
+- OpenSSL EVP: fix threaded use of structs
+  
+  Make sure we don't clear or reset static structs after first init so
+  that they work fine even when used from multiple threads. Init the
+  structs in the global init.
+  
+  Help and assistance by: John Engstrom
+  
+  Fixes #229 (again)
+
+- openssl: don't init static structs differently
+  
+  make_ctr_evp() is changed to take a struct pointer, and then each
+  _libssh2_EVP_aes_[keylen]_ctr function is made to pass in their own
+  static struct
+  
+  Reported by: John Engstrom
+  Fixes #229
+
+Guenter Knauf (27 Sep 2011)
+- Removed obsolete include path.
+
+Daniel Stenberg (21 Sep 2011)
+- read_state: clear the state variable better
+  
+  Set read_state back to idle before trying to send anything so that if
+  the state somehow is wrongly set.
+  
+  Also, avoid such a case of confusion by resetting the read_state when an
+  sftp handle is closed.
+
+- sftp_read: remove leftover fprintf
+  
+  Reported by: Alexander Lamaison
+
+- sftp.h: fix the #ifdef to prevent multiple inclusions
+
+- sftp_read: use a state variable to avoid bad writes
+  
+  When a channel_write call has gotten an EAGAIN back, we try harder to
+  continue the same write in the subsequent invoke.
+
+- window_size: explicit adjustments only
+  
+  Removed the automatic window_size adjustments from
+  _libssh2_channel_read() and instead all channel readers must now make
+  sure to enlarge the window sizes properly themselves.
+  
+  libssh2_channel_read_ex() - the public function, now grows the window
+  size according to the requested buffer size. Applications can still opt
+  to grow the window more on demand. Larger windows tend to give higher
+  performance.
+  
+  sftp_read() now uses the read-ahead logic to figure out a window_size.
+
+- libssh2.h: bump the default window size to 256K
+
+- libssh2_userauth_keyboard_interactive.3: fix man warning
+  
+  It seemed to occur due to the excessive line length
+
+- [Mikhail Gusarov brought this change]
+
+  Add missing .gitignore entries
+
+- [Mikhail Gusarov brought this change]
+
+  Add manpage syntax checker to 'check' target
+  
+  In virtually every libssh2 release Debian's lintian catches syntax errors in
+  manpages. Prevent it by checking manpages as a part of testsuite.
+
+- libssh2_banner_set.3: fix nroff syntax mistake
+
+Guenter Knauf (10 Sep 2011)
+- Use predefined resource compiler macro.
+
+- Added casts to silent compiler warnings.
+
+- Fixed uint64_t printf.
+
+- Fixed macro function signatures.
+
+- NetWare makefile tweaks.
+
+- Removed unused var.
+
+- Added 2 samples not mentioned.
+
+- Dont build x11 sample with MinGW.
+
+- Fixed executable file description.
+
+- Removed unused var.
+
+- Kill stupid gcc 3.x uninitialized warning.
+
+- Build all examples.
+
+- More MinGW makefile tweaks.
+  
+  Renamed *.mingw makefiles to GNUmakefile since GNU make picks these
+  up automatically, and therefore win32/Makefile removed.
+
+- Removed forgotten WINSOCK_VERSION defines.
+
+Daniel Stenberg (9 Sep 2011)
+- libssh2_session_startup(3) => libssh2_session_handshake(3)
+  
+  Propagate for the current function in docs and examples.
+  libssh2_session_startup() is deprecated.
+
+- libssh2_banner_set => libssh2_session_banner_get
+  
+  Marked the old function as deprecated. Added the new name in the correct
+  name space with the same arguments and functionality.
+
+- new function: libssh2_session_banner_get
+  
+  Returns the banner from the server handshake
+  
+  Fixes #226
+
+- libssh2.h: bump version to 1.4.0 for new function(s)
+
+- remove embedded CVS/svn tags
+
+- [liuzl brought this change]
+
+  API add:libssh2_sftp_get_channel
+  
+  Return the channel of sftp, then caller can
+  control the channel's behavior.
+  
+  Signed-off-by: liuzl <xieepp@gmail.com>
+
+- _libssh2_channel_read: react on errors from receive_window_adjust
+  
+  Previously the function would ignore all errors except for EAGAIN.
+
+- sftp_read: extend and clarify the documentation
+
+- sftp_read: cap the read ahead maximum amount
+  
+  Now we only go up to LIBSSH2_CHANNEL_WINDOW_DEFAULT*30 bytes SFTP read
+  ahead, which currently equals 64K*30 == 1966080 bytes.
+
+- _libssh2_channel_read: fix non-blocking window adjusting
+  
+  If EAGAIN is returned when adjusting the receive window, we must not
+  read from the transport directly until we've finished the adjusting.
+
+Guenter Knauf (8 Sep 2011)
+- Fix for systems which need sys/select.h.
+
+- The files were not gone but renamed ...
+
+Daniel Stenberg (6 Sep 2011)
+- sftp_read: added documenting comment
+  
+  Taken from some recent email conversations I added some descriptions of
+  the logic in sftp_read() to aid readers.
+
+- 1.3.1: start the work
+
+Version 1.3.0 (6 Sep 2011)
+
+Daniel Stenberg (6 Sep 2011)
+- Makefile.am: the Makefile.win32 files are gone
+
+- RELEASE-NOTES: updated for 1.3.0
+
+- sftp_read: a short read is not end of file
+  
+  A returned READ packet that is short will now only reduce the
+  offset.
+  
+  This is a temporary fix as it is slightly better than the previous
+  approach but still not very good.
+
+- [liuzl brought this change]
+
+  _libssh2_packet_add: adjust window size when truncating
+  
+  When receiving more data than what the window size allows on a
+  particular channel, make sure that the window size is adjusted in that
+  case too. Previously it would only adjust the window in the non-error
+  case.
+
+Guenter Knauf (29 Aug 2011)
+- Silent compiler warning with MinGW64.
+
+- Fixed link to native Win32 awk tool.
+
+- Renamed MinGW makefiles.
+
+- Some MinGW makefile tweaks.
+  
+  Enable build without GNU tools and with MinGW64 compiler.
+
+- Fixed aes_ctr_do_cipher() signature.
+
+Daniel Stenberg (26 Aug 2011)
+- [liuzl brought this change]
+
+  libssh2_sftp_seek64: flush packetlist and buffered data
+  
+  When seeking to a new position, flush the packetlist and buffered data
+  to prevent already received or pending data to wrongly get used when
+  sftp-reading from the new offset within the file.
+
+- sftp_read: advance offset correctly for buffered copies
+  
+  In the case where a read packet has been received from the server, but
+  the entire contents couldn't be copied to the user-buffer, the data is
+  instead buffered and copied to the user's buffer in the next invocation
+  of sftp_read(). When that "extra" copy is made, the 'offset' pointer was
+  not advanced accordingly.
+  
+  The biggest impact of this flaw was that the 'already' variable at the
+  top of the function that figures out how much data "ahead" that has
+  already been asked for would slowly go more and more out of sync, which
+  could lead to the file not being read all the way to the end.
+  
+  This problem was most noticable in cases where the application would
+  only try to read the exact file size amount, like curl does. In the
+  examples libssh2 provides the sftp read function is most often called
+  with a fixed size large buffer and then the bug would not appear as
+  easily.
+  
+  This bug was introduced in the SFTP rewrite in 1.2.8.
+  
+  Bug: http://curl.haxx.se/mail/lib-2011-08/0305.html
+       http://www.libssh2.org/mail/libssh2-devel-archive-2011-08/0085.shtml
+
+- wrap some long lines < 80 columns
+
+- LIBSSH2_RECV: fix typo, use the RECV_FD macro
+
+- subsystem_netconf.c: fix compiler warnings
+
+- [Henrik Nordstrom brought this change]
+
+  Custom callbacks for performing low level socket I/O
+
+- version bump: start working towards 1.3.0
+
+Version 1.2.9 (16 Aug 2011)
+
+Daniel Stenberg (16 Aug 2011)
+- RELEASE-NOTES: synced with 95d69d3a81261
+
+- [Henrik Nordstrom brought this change]
+
+  Document prototypes for macro defined functions
+
+- [Henrik Nordstrom brought this change]
+
+  Avoid reuse after free when closing X11 channels
+
+- _libssh2_channel_write: handle window_size == 0 better
+  
+  When about to send data on the channel and the window size is 0, we must
+  not just return 0 if the transport_read() function returned EAGAIN as it
+  then causes a busy-loop.
+  
+  Bug: http://libssh2.org/mail/libssh2-devel-archive-2011-08/0011.shtml
+
+- gettimeofday: fix name space pollution
+  
+  For systems without its own gettimeofday() implementation, we still must
+  not provide one outside our namespace.
+  
+  Reported by: Bill Segall
+
+Dan Fandrich (5 Aug 2011)
+- libssh2.pc.in: Fixed spelling in pkgconfig file
+
+Peter Stuge (17 Jul 2011)
+- example/subsystem_netconf.c: Add missing #include <string.h>
+
+- example/subsystem_netconf.c: Discard ]]>]]> and return only XML response
+
+- example/subsystem_netconf.c: Fix uninitialized variable bug
+
+- example: Add subsystem_netconf.c
+  
+  This example demonstrates how to use libssh2 to send a request to
+  the NETCONF subsystem available e.g. in JunOS.
+  
+  See also http://tools.ietf.org/html/draft-ietf-netconf-ssh-06
+
+Daniel Stenberg (16 Jul 2011)
+- man page cleanups: non-existing functions need no man pages
+
+- libssh2_new_host_entry.3: removed
+  
+  This is just junk leftovers.
+
+- userauth_keyboard_interactive: fix buffer overflow
+  
+  Partly reverse 566894494b4972ae12 which was simplifying the code far too
+  much and ended up overflowing a buffer within the LIBSSH2_SESSION
+  struct. Back to allocating the buffer properly like it used to do.
+  
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2011-06/0032.shtml
+  Reported by: Alfred Gebert
+
+- keyboard-interactive man page: cleaned up
+
+- [Alfred Gebert brought this change]
+
+  _libssh2_recv(): handle ENOENT error as EAGAIN
+  
+  A sftp session failed with error "failure establishing ssh session" on
+  Solaris and HP-UX. Sometimes the first recv() function call sets errno
+  to ENOENT. In the man pages for recv of Solaris and HP-UX the error
+  ENOENT is not documented.
+  
+  I tested Solaris SPARC and x86, HP-UX i64, AIX, Windows and Linux.
+
+- agent_list_identities: fix out of scope access
+  
+  An auto variable out of scope was being referenced and used.
+  
+  fixes #220
+
+- _libssh2_wait_socket: fix timeouts for poll() uses
+
+- windows: inclusion fix
+  
+  include winsock2.h for all windows compilers
+
+- keyb-interactive: add the fixed buffer
+  
+  Belongs to commit 5668944
+
+- code cleanup: don't use C99/c++ comments
+  
+  We aim for C89 compliance
+
+- keyb-interactive: allow zero length fields
+  
+  Allow zero length fields so they don't cause malloc(0) calls
+  
+  Avoid free()ing NULL pointers
+  
+  Avoid a malloc of a fixed 5 byte buffer.
+
+- libssh2_channel_process_startup.3: clean up
+  
+  Remove the references to the macro-fied shortcuts as they have their own
+  individual man pages.
+  
+  Made the prototype different and more readable.
+
+- man page: fix .BR lines
+  
+  We don't use \fI etc on .BR lines
+
+- userauth_keyboard_interactive: skip code on zero length auth
+
+- libssh2_channel_forward_accept.3: mention how to get error
+  
+  Since this returns a pointer, libssh2_session_last_errno() must be used
+  to get the actual error code and it wasn't that clear before.
+
+- timeout docs: mention they're added in 1.2.9
+
+- sftp_write_sliding.c: indent fix
+  
+  Use the standard indenting and removed CVS leftover comment
+
+- [zl liu brought this change]
+
+  sftp_write_sliding: send the complete file
+  
+  When reaching the end of file there can still be data left not sent.
+
+- [Douglas Masterson brought this change]
+
+  session_startup: init state properly
+  
+  libssh2_session_startup() didn't set the state correctly so it could get
+  confused.
+  
+  Fixes #218
+
+- timeout: added man pages
+
+- BLOCK_ADJUST_ERRNO: move rc to right level
+  
+  We can't declare the variable within the block and use it in the final
+  do-while() expression to be properly portable C89.
+
+- [Matt Lilley brought this change]
+
+  adds a timeout to blocking calls
+  
+  Fixes bug #160 as per Daniel's suggestion
+  
+  Adds libssh2_session_set_timeout() and libssh2_session_get_timeout()
+
+- SCP: fix incorrect error code
+  
+  After an error occurs in libssh2_scp_recv() or libssh2_scp_send(), the
+  function libssh2_session_last_error() would return
+  LIBSSH2_ERROR_SOCKET_NONE on error.
+  
+  Bug: http://trac.libssh2.org/ticket/216
+  Patch by: "littlesavage"
+  
+  Fixes #216
+
+Guenter Knauf (19 Apr 2011)
+- Updated default (recommended) dependency versions.
+
+Daniel Stenberg (17 Apr 2011)
+- libssh2_session_block_directions: fix mistake
+  
+  The last LIBSSH2_SESSION_BLOCK_INBOUND should be
+  LIBSSH2_SESSION_BLOCK_OUTBOUND
+  
+  And I shortened the short description
+  
+  Reported by: "drswinghead"
+
+- msvcproj: added libs and debug stuff
+  
+  Added libraries needed to link whether using openssl dynamically or
+  statically
+  
+  Added LIBSSH2DEBUG define to debug versions to enable tracing
+  
+  URL: http://trac.libssh2.org/ticket/215
+  Patch by: Mark Smith
+
+- sftp_write: clean offsets on error
+  
+  When an error has occurred on FXP_WRITE, we must make sure that the
+  offset, sent offset and acked counter are reset properly.
+
+- example/.gitignore: ignore built binaries
+
+- sftp_write: flush the packetlist on error
+  
+  When an error occurs during write, flush the entire list of pending
+  outgoing SFTP packets.
+
+- keepalive: add first basic man pages
+  
+  Someone on IRC pointed out that we don't have these documented so I
+  wrote up a first set based on the information in the wiki:
+  http://trac.libssh2.org/wiki/KeepAlive
+
+- scp_write_nonblock.c: remove pointless check
+  
+  libssh2_channel_write() cannot return a value that is larger than the
+  input length value
+
+Mikhail Gusarov (9 Apr 2011)
+- s/\.NF/.nf/ to fix wrong macro name caught by man --warnings
+
+Daniel Stenberg (6 Apr 2011)
+- version: bump to 1.2.9_dev
+  
+  Also update the copyright year range to include 2011
+
+- configure: fix $VERSION
+  
+  Stop using the $VERSION variable as it seems to be magically used by
+  autoconfig itself and thus gets set to the value set in AC_INIT()
+  without us wanting that. $LIBSSH2VER is now the libssh2 version as
+  detected.
+  
+  Reported by: Paul Howarth
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2011-04/0008.shtml
+
+- maketgz: use git2news.pl by the correct name
+
+Version 1.2.8 (4 Apr 2011)
+
+Daniel Stenberg (4 Apr 2011)
+- RELEASE-NOTES: synced with fabf1a45ee
+
+- NEWS: auto-generated from git
+  
+  Starting now, the NEWS file is generated from git using the git2news.pl
+  script. This makes it always accurate and up-to-date, even for daily
+  snapshots etc.
+
+- sftp_write: handle FXP_WRITE errors
+  
+  When an sftp server returns an error back on write, make sure the
+  function bails out and returns the proper error.
+
+- configure: stop using the deprecated AM_INIT_AUTOMAKE syntax
+
+Alexander Lamaison (13 Mar 2011)
+- Support unlimited number of host names in a single line of the known_hosts file.
+  
+  Previously the code assumed either a single host name or a hostname,ip-address pair.  However, according to the spec [1], there can be any number of comma separated host names or IP addresses.
+  
+  [1] http://www.openbsd.org/cgi-bin/man.cgi?query=sshd&sektion=8
+
+Daniel Stenberg (26 Feb 2011)
+- libssh2_knownhost_readfile.3: clarify return value
+  
+  This function returns the number of parsed hosts on success, not just
+  zero as previously documented.
+
+Peter Stuge (26 Feb 2011)
+- Don't save allocated packet size until it has actually been allocated
+  
+  The allocated packet size is internal state which needs to match reality
+  in order to avoid problems. This commit fixes #211.
+
+Daniel Stenberg (21 Feb 2011)
+- [Alfred Gebert brought this change]
+
+  session_startup: manage server data before server identification
+  
+  Fix the bug that libssh2 could not connect if the sftp server
+  sends data before sending the version string.
+  
+  http://tools.ietf.org/html/rfc4253#section-4.2
+  
+  "The server MAY send other lines of data before sending the version
+  string.  Each line SHOULD be terminated by a Carriage Return and Line
+  Feed.  Such lines MUST NOT begin with "SSH-", and SHOULD be encoded
+  in ISO-10646 UTF-8 [RFC3629] (language is not specified).  Clients
+  MUST be able to process such lines."
+
+- [Alfred Gebert brought this change]
+
+  fullpacket: decompression only after init
+  
+  The buffer for the decompression (remote.comp_abstract) is initialised
+  in time when it is needed.  With this fix decompression is disabled when
+  the buffer (remote.comp_abstract) is not initialised.
+  
+  Bug: http://trac.libssh2.org/ticket/200
+
+- _libssh2_channel_read: store last error
+  
+  When the transport layer returns EAGAIN this function didn't call
+  _libssh2_error() which made the last_error not get set.
+
+- sftp_write: clarified the comment header
+
+- sftp_read: avoid wrapping counter to insanity
+  
+  As pointed out in bug #206, if a second invoke of libssh2_sftp_read()
+  would shrink the buffer size, libssh2 would go nuts and send out read
+  requests like crazy. This was due to an unsigned variable turning
+  "negative" by some wrong math, and that value would be the amount of
+  data attempt to pre-buffer!
+  
+  Bug: http://trac.libssh2.org/ticket/206
+
+- sftp_packet_read: use 32bit variables for 32bit data
+
+- libssh2_sftp_stat_ex.3: cleaned up, extended
+  
+  Removed the macros from it as they have their own man pages.
+  
+  Added the LIBSSH2_SFTP_ATTRIBUTES struct in here for easier reference.
+
+- sftp_readdir: return error if buffer is too small
+  
+  If asked to read data into a buffer and the buffer is too small to hold
+  the data, this function now returns an error instead of as previously
+  just copy as much as fits.
+
+- sftp_symlink: return error if receive buffer too small
+  
+  and clean up some variable type mismatches
+  
+  Discussion: http://www.libssh2.org/mail/libssh2-devel-archive-2011-01/0001.shtml
+
+- docs: clarify what happens with a too small buffer
+  
+  This flaw is subject to change, but I figured it might be valuable to
+  users of existing code to know how it works.
+
+- channel_request_pty_size: fix reqPTY_state
+  
+  The state variable isn't properly set so every other call to the
+  function fails!
+  
+  Bug: http://libssh2.org/mail/libssh2-devel-archive-2010-12/0096.shtml
+  Reported by: Steve Legg
+
+- data size: cleanup
+  
+  Fix 64bit warnings by using (s)size_t and dedicated uint32_t types more.
+
+- [Pierre Joye brought this change]
+
+  ssize_t: proper typedef with MSVC compilers
+  
+  As discussed on the mailing list, it was wrong for win64 and using the
+  VC-provided type is the safest approach instead of second- guessing
+  which one it should be.
+
+Guenter Knauf (22 Dec 2010)
+- Updated OpenSSL version.
+
+- Expanded tabs to spaces.
+
+Peter Stuge (21 Dec 2010)
+- [Joey Degges brought this change]
+
+  _libssh2_ntohu64: fix conversion from network bytes to uint64
+  
+  Cast individual bytes to uint64 to avoid overflow in arithmetic.
+
+Daniel Stenberg (20 Dec 2010)
+- libssh2_userauth_list: language fix
+  
+  "faily" is not a good English word, and I also cleaned up some other minor
+  mistakes
+
+- crypto: unify the generic functions
+  
+  Added crypto.h that is the unified header to include when using crypto
+  functionality. It should be the only header that needs to adapt to the
+  underlying crypto library in use. It provides the set of prototypes that
+  are library agnostic.
+
+- [Mark Smith brought this change]
+
+  userauth: derive publickey from private
+  
+  Pass a NULL pointer for the publickey parameter of
+  libssh2_userauth_publickey_fromfile and
+  libssh2_userauth_hostbased_fromfile functions.  In this case, the
+  functions recompute the public key from the private key file data.
+  
+  This is work done by Jean-Louis CHARTON
+  <Jean-Louis.CHARTON@oikialog.com>, then adapted by Mark Smith and
+  slightly edited further by me Daniel.
+  
+  WARNING: this does leave the feature NOT WORKING when libssh2 is built
+  to use libgcrypt instead of OpenSSL simply due to lack of
+  implementation.
+
+- ssh2_echo: Value stored to 'exitcode' is never read
+
+- _libssh2_packet_add: fix SSH_MSG_DEBUG weirdness
+  
+  I believe I may have caused this weird typo style error when I cleaned
+  up this function a while ago. Corrected now.
+
+- uint32: more longs converted to proper types
+  
+  I also moved the MAC struct over to the mac.h header file and made sure
+  that the users of that struct include that file.
+
+- SFTP: more types to uint32_t
+  
+  The 'num_names' field in the SSH_FXP_NAME response is an unsigned 32bit
+  value so we make sure to treat it like that.
+
+- SFTP: request_ids are uint32_t
+  
+  I went over the code and made sure we use uint32_t all over for the
+  request_id data. It is an unsigned 32bit value on the wire.
+
+- SFTP: store request_id separately in packets
+  
+  By using a new separate struct for incoming SFTP packets and not sharing
+  the generic packet struct, we can get rid of an unused field and add a
+  new one dedicated for holding the request_id for the incoming
+  package. As sftp_packet_ask() is called fairly often, a "mere" integer
+  comparison is MUCH faster than the previous memcmp() of (typically) 5
+  bytes.
+
+- libssh2_sftp_open_ex: man page extended and cleaned up
+  
+  I added the missing documentation for the 'flags' argument.
+
+- SFTP: unify the READ/WRITE chunk structs
+
+- SFTP: fix memory leaks
+  
+  Make sure that we cleanup remainders when the handle is closed and when
+  the subsystem is shutdown.
+  
+  Existing flaw: if a single handle sends packets that haven't been
+  replied to yet at the time when the handle is closed, those packets will
+  arrive later and end up in the generic packet brigade queue and they
+  will remain in there until flushed. They will use unnecessary memory,
+  make things slower and they will ruin the SFTP handling if the
+  request_id counter ever wraps (highly unlikely to every happen).
+
+- sftp_close_handle: packet list is generic
+  
+  Fix comment, simplify the loop logic
+
+- sftp_read: pipeline reads
+  
+  The SFTP read function now does transfers the same way the SFTP write
+  function was made to recently: it creates a list of many outgoing
+  FXP_READ packets that each asks for a small data chunk. The code then
+  tries to keep sending read request while collecting the acks for the
+  previous requests and returns the received data.
+
+- sftp_write: removed unused variable
+
+- _libssh2_channel_close: don't call transport read if disconnected
+  
+  The loop that waits for remote.close to get set may end up looping
+  forever since session->socket_state gets set to
+  LIBSSH2_SOCKET_DISCONNECTED by the packet_add() function called from the
+  transport_read() function and after having been set to
+  LIBSSH2_SOCKET_DISCONNECTED, the transport_read() function will only
+  return 0.
+  
+  Bug: http://trac.libssh2.org/ticket/198
+
+- libssh2_sftp_seek64: new man page
+  
+  Split off libssh2_sftp_seek64 from the libssh2_sftp_seek man page, and
+  mentioned that we consider the latter deprecated. Also added a mention
+  about the dangers of doing seek during writing or reading.
+
+- sftp_seek: fix
+  
+  The new SFTP write code caused a regression as the seek function no
+  longer worked as it didn't set the write position properly.
+  
+  It should be noted that seeking is STRONGLY PROHIBITED during upload, as
+  the upload magic uses two different offset positions and the multiple
+  outstanding packets etc make them sensitive to change in the midst of
+  operations.
+  
+  This functionality was just verified with the new example code
+  sftp_append. This bug was filed as bug #202:
+  
+  Bug: http://trac.libssh2.org/ticket/202
+
+- sftp_append: new example doing SFTP append
+
+- MAX_SFTP_OUTGOING_SIZE: 30000
+  
+  I ran SFTP upload tests against localhost. It showed that to make the
+  app reach really good speeds, I needed to do a little code tweak and
+  change MAX_SFTP_OUTGOING_SIZE from 4000 to 30000. The tests I did before
+  with the high latency tests didn't show any real difference whatever I
+  had that size set to.
+  
+  This number is the size in bytes that libssh2 cuts off the large input
+  buffer and sends off as an individual sftp packet.
+
+- sftp_write_sliding.c: new example
+  
+  This is an example that is very similar to sftp_write_nonblock.c, with
+  the exception that this uses
+  
+  1 - a larger upload buffer
+  
+  2 - a sliding buffer mechnism to allow the app to keep sending lots of
+  data to libssh2 without having to first drain the buffer.
+  
+  These are two key issues to make libssh2 SFTP uploads really perform
+  well at this point in time.
+
+- cpp: s/#elsif/#elif
+  
+  This looks like a typo as #elsif is not really C...
+
+- _libssh2_channel_write: revert channel_write() use
+  
+  The attempts made to have _libssh2_channel_write() accept larger pieces
+  of data and split up the data by itself into 32700 byte chunks and pass
+  them on to channel_write() in a loop as a way to do faster operations on
+  larger data blocks was a failed attempt.
+  
+  The reason why it is difficult:
+  
+  The API only allows EAGAIN or a length to be returned. When looping over
+  multiple blocks to get sent, one block can get sent and the next might
+  not. And yet: when transport_send() has returned EAGAIN we must not call
+  it again with new data until it has returned OK on the existing data it
+  is still working on. This makes it a mess and we do get a much easier
+  job by simply returning the bytes or EAGAIN at once, as in the EAGAIN
+  case we can assume that we will be called with the same arguments again
+  and transport_send() will be happy.
+  
+  Unfortunately, I think we take a small performance hit by not being able
+  to do this.
+
+- ssh2_echo: new example
+  
+  This is a new example snippet. The code is largely based on ssh2_exec,
+  and is written by Tommy Lindgren. I edited it into C90 compliance and to
+  conform to libssh2 indent style and some more.
+
+- send_existing: return after send_existing
+  
+  When a piece of data is sent from the send_existing() function we must
+  make the parent function return afterwards. Otherwise we risk that the
+  parent function tries to send more data and ends up getting an EGAIN for
+  that more data and since it can only return one return code it doesn't
+  return info for the successfully sent data.
+  
+  As this change is a regression I now added a larger comment explaining
+  why it has to work like this.
+
+- _libssh2_channel_write: count resent data as written
+  
+  In the logic that resends data that was kept for that purpose due to a
+  previous EAGAIN, the data was not counted as sent causing badness.
+
+Peter Stuge (13 Nov 2010)
+- Use fprintf(stderr, ) instead of write(2, ) for debugging
+
+- session/transport: Correctly handle when _libssh2_send() returns -EAGAIN
+
+- src/agent.c: Simplify _libssh2_send() error checking ever so slightly
+
+Daniel Stenberg (12 Nov 2010)
+- send/recv: use _libssh2_recv and _libssh2_send now
+  
+  Starting now, we unconditionally use the internal replacement functions
+  for send() and recv() - creatively named _libssh2_recv() and
+  _libssh2_send().
+  
+  On errors, these functions return the negative 'errno' value instead of
+  the traditional -1. This design allows systems that have no "natural"
+  errno support to not have to invent it. It also means that no code
+  outside of these two transfer functions should use the errno variable.
+
+- channel_write: move some logic to _libssh2_channel_write
+  
+  Some checks are better done in _libssh2_channel_write just once per
+  write instead of in channel_write() since the looping will call the
+  latter function multiple times per _libssh2_channel_write() invoke.
+
+- sftp_write: handle "left over" acked data
+  
+  The SFTP handle struct now buffers number of acked bytes that haven't
+  yet been returned. The way this is used is as following:
+  
+  1. sftp_write() gets called with a buffer of let say size 32000. We
+  split 32000 into 8 smaller packets and send them off one by one. One of
+  them gets acked before the function returns so 4000 is returned.
+  
+  2. sftp_write() gets called again a short while after the previous one,
+  now with a much smaller size passed in to the function. Lets say 8000.
+  In the mean-time, all of the remaining packets from the previous call
+  have been acked (7*4000 = 28000). This function then returns 8000 as all
+  data passed in are already sent and it can't return any more than what
+  it got passed in. But we have 28000 bytes acked. We now store the
+  remaining 20000 in the handle->u.file.acked struct field to add up in
+  the next call.
+  
+  3. sftp_write() gets called again, and now there's a backlogged 20000
+  bytes to return as fine and that will get skipped from the beginning
+  of the buffer that is passed in.
+
+- sftp_write: polished and simplified
+  
+  Removed unnecessary struct fields and state changes within the function.
+  
+  Made the loop that checks for ACKs only check chunks that were fully
+  sent.
+
+- SCP: on failure, show the numerical error reason
+  
+  By calling libssh2_session_last_errno()
+
+- SFTP: provide the numerical error reason on failure
+
+- SCP: clean up failure treatment
+  
+  When SCP send or recv fails, it gets a special message from the server
+  with a warning or error message included. We have no current API to
+  expose that message but the foundation is there. Removed unnecessary use
+  of session struct fields.
+
+- sftp_write: enlarge buffer to perform better
+
+- packets: code cleanup
+  
+  I added size checks in several places. I fixed the code flow to be easier
+  to read in some places.
+  
+  I removed unnecessary zeroing of structs. I removed unused struct fields.
+
+- LIBSSH2_CALLBACK_MACERROR: clarify return code use
+
+- _libssh2_userauth_publickey: avoid shadowing
+
+- packet: avoid shadowing global symbols
+
+- sftp_readdir: avoid shadowing
+
+- shadowing: don't shadow the global compress
+
+- _libssh2_packet_add: turn ifs into a single switch
+
+- _libssh2_packet_add: check SSH_MSG_GLOBAL_REQUEST packet
+
+- _libssh2_packet_add: SSH_MSG_DEBUG length checks
+  
+  Verify lengths before using them. Read always_display from the correct
+  index. Don't copy stuff around just to provide zero-termination of the
+  strings.
+
+- _libssh2_packet_add: SSH_MSG_IGNORE skip memmove
+  
+  There's no promise of a zero termination of the data in the callback so
+  no longer perform ugly operation in order to provide it.
+
+- _libssh2_packet_add: SSH_MSG_DISCONNECT length checks
+  
+  Verify lengths before trying to read data.
+
+- indent: break lines at 80 columns
+
+- SSH_MSG_CHANNEL_OPEN_FAILURE: used defined values
+  
+  We don't like magic numbers in the code. Now the acceptable failure
+  codes sent in the SSH_MSG_CHANNEL_OPEN_FAILURE message are added as
+  defined values in the private header file.
+
+- sftp_write: don't return EAGAIN if no EAGAIN was received
+  
+  This function now only returns EAGAIN if a lower layer actually returned
+  EAGAIN to it. If nothing was acked and no EAGAIN was received, it will
+  now instead return 0.
+
+- _libssh2_wait_socket: detect nothing-to-wait-for
+  
+  If _libssh2_wait_socket() gets called but there's no direction set to
+  wait for, this causes a "hang". This code now detects this situation,
+  set a 1 second timeout instead and outputs a debug output about it.
+
+- decomp: remove the free_dest argument
+  
+  Since the decompress function ALWAYS returns allocated memory we get a
+  lot simpler code by removing the ability to return data unallocated.
+
+- decomp: cleaned off old compression stuff
+  
+  I cleared off legacy code from when the compression and decompression
+  functions were a single unified function. Makes the code easier to read
+  too.
+
+- [TJ Saunders brought this change]
+
+  decomp: increase decompression buffer sizes
+
+- [TJ Saunders brought this change]
+
+  zlib: Add debug tracing of zlib errors
+
+- sftp_packet_read: handle partial reads of the length field
+  
+  SFTP packets come as [32 bit length][payload] and the code didn't
+  previously handle that the initial 32 bit field was read only partially
+  when it was read.
+
+- [Jasmeet Bagga brought this change]
+
+  kex_agree_hostkey: fix NULL pointer derefence
+  
+  While setting up the session, ssh tries to determine the type of
+  encryption method it can use for the session. This requires looking at
+  the keys offered by the remote host and comparing these with the methods
+  supported by libssh2 (rsa & dss). To do this there is an iteration over
+  the array containing the methods supported by libssh2.
+  
+  If there is no agreement on the type of encryption we come to the 3rd
+  entry of the hostkeyp array. Here hostkeyp is valid but *hostkep is
+  NULL. Thus when we dereference that in (*hostkeyp)->name there is a
+  crash
+
+- _libssh2_transport_send: remove dead assignment
+  
+  'data' isn't accessed beyond this point so there's no need to assign it.
+
+- scp_recv: remove dead assignment
+  
+  Instead of assigning a variable we won't read, we now use the more
+  explicit (void) prefix.
+
+- sftp_write: removed superfluous assignment
+
+- bugfix: avoid use of uninitialized value
+
+- sftp_packet_require: propagate error codes better
+  
+  There were some chances that they would cause -1 to get returned by
+  public functions and as we're hunting down all such occurances and since
+  the underlying functions do return valuable information the code now
+  passes back proper return codes better.
+
+- [Alfred Gebert brought this change]
+
+  fix memory leaks (two times cipher_data) for each sftp session
+
+- libssh2_userauth_authenticated: make it work as documented
+  
+  The man page clearly says it returns 1 for "already authenticated" but
+  the code said non-zero. I changed the code to use 1 now, as that is also
+  non-zero but it gets the benefit that it now matches the documentation.
+  
+  Using 1 instead of non-zero is better for two reasons:
+  
+  1. We have the opportunity to introduce other return codes in the future for
+     things like error and what not.
+  2. We don't expose the internal bitmask variable value.
+
+- userauth_keyboard_interactive: fix indent
+
+- [Alfred Gebert brought this change]
+
+  fix memory leak in userauth_keyboard_interactive()
+  
+  First I wanted to free the memory in session_free() but then
+  I had still memory leaks because in my test case the function
+  userauth_keyboard_interactive() is called twice. It is called
+  twice perhaps because the server has this authentication
+  methods available: publickey,gssapi-with-mic,keyboard-interactive
+  The keyboard-interactive method is successful.
+
+- dist: include sftp.h in dist archives
+
+Simon Josefsson (27 Oct 2010)
+- Update header to match new function prototype, see c48840ba88.
+
+Daniel Stenberg (26 Oct 2010)
+- bugfixes: the transport rearrange left some subtle flaws now gone
+
+- libssh2_userauth_publickey_fromfile_ex.3: cleaned up looks
+
+- libssh2_userauth_publickey: add man page
+  
+  I found an undocumented public function and we can't have it like
+  that. The description here is incomplete, but should serve as a template
+  to allow filling in...
+
+- libssh2_sftp_write.3: added blurb about the "write ahead"
+  
+  Documented the new SFTP write concept
+
+- sftp_close_handle: free any trailing write chunks
+
+- _libssh2_channel_write: fix warnings
+
+- SFTP: bufgix, move more sftp stuff to sftp.h
+  
+  The sftp_write function shouldn't assume that the buffer pointer will be
+  the same in subsequent calls, even if it assumes that the data already
+  passed in before haven't changed.
+  
+  The sftp structs are now moved to sftp.h (which I forgot to add before)
+
+- SFTP: use multiple outgoing packets when writing
+  
+  sftp_write was rewritten to split up outgoing data into multiple packets
+  and deal with the acks in a more asynchronous manner. This is meant to
+  help overcome latency and round-trip problems with the SFTP protocol.
+
+- TODO: implemented a lot of the ideas now
+
+- _libssh2_channel_write: removed 32500 size limit
+  
+  Neither _libssh2_channel_write nor sftp_write now have the 32500 size
+  limit anymore and instead the channel writing function now has its own
+  logic to send data in multiple calls until everything is sent.
+
+- send_existing: don't tell parent to return when drained
+  
+  That will just cause unnecessary code execution.
+
+- _libssh2_channel_write: general code cleanup
+  
+  simplified the function and removed some unused struct fields
+
+- _libssh2_transport_send: replaces _libssh2_transport_write
+  
+  The new function takes two data areas, combines them and sends them as a
+  single SSH packet. This allows several functions to allocate and copy
+  less data.
+  
+  I also found and fixed a mixed up use of the compression function
+  arguments that I introduced in my rewrite in a recent commit.
+
+- scp_write_nonblock: use select() instead of busyloop
+  
+  Make this example nicer by not busylooping.
+
+- send_existing: clear olen when the data is sent off
+
+- _libssh2_transport_write: allow 256 extra bytes around the packet
+
+- _libssh2_transport_write: remade to send without malloc
+
+- compress: compression disabled by default
+  
+  We now allow libssh2_session_flag() to enable compression with a new
+  flag and I added documentation for the previous LIBSSH2_FLAG_SIGPIPE
+  flag which I wasn't really aware of!
+
+- comp: split the compress function
+  
+  It is now made into two separate compress and decompress functions. In
+  preparation for upcoming further modficications.
+
+Dan Fandrich (20 Oct 2010)
+- Added header file to allow compiling in older environments
+
+Daniel Stenberg (20 Oct 2010)
+- TODO: add a possible new API for SFTP transfers
+
+- TODO: "New Transport API" added
+
+- TODO: add buffering plans
+
+Simon Josefsson (13 Oct 2010)
+- Mention libssh2_channel_get_exit_signal and give kudos.
+
+- [Tommy Lindgren brought this change]
+
+  Add libssh2_channel_get_exit_signal man page.
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+- [Tommy Lindgren brought this change]
+
+  Add libssh2_channel_get_exit_signal.
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+- Add libssh2_free man page and fix typo.
+
+- Add libssh2_free.
+
+Daniel Stenberg (11 Oct 2010)
+- scp_recv: improved treatment of channel_read() returning zero
+  
+  As a zero return code from channel_read() is not an error we must make
+  sure that the SCP functions deal with that properly. channel_read()
+  always returns 0 if the channel is EOFed already so we check for EOF
+  after 0-reads to be able to return error properly.
+
+- libssh2_session_methods.3: detail what can be asked for
+
+- compression: send zlib before none
+  
+  As the list of algorithms in a preferred order we should send zlib
+  before none to increase the chances that the server will let us do
+  compression.
+
+- compress: faster check, better return codes
+  
+  In the transport functions we avoid a strcmp() now and just check a
+  boolean instead.
+  
+  The compress/decompress function's return code is now acknowledged and
+  used as actual return code in case of failures.
+
+- libssh2_session_handshake: replaces libssh2_session_startup()
+  
+  The function libssh2_session_startup() is now considered deprecated due
+  to the portability issue with the socket argument.
+  libssh2_session_handshake() is the name of the replacement.
+
+- libssh2_socket_t: now externally visible
+  
+  In preparation for upcominig changes, the libssh2_socket_t type is now
+  typedef'ed in the public header.
+
+- _libssh2_transport_drain: removed
+  
+  This function proved not to be used nor useful.
+
+- _libssh2_channel_write: don't iterate over transport writes
+  
+  When a call to _libssh2_transport_write() succeeds, we must return from
+  _libssh2_channel_write() to allow the caller to provide the next chunk
+  of data.
+  
+  We cannot move on to send the next piece of data that may already have
+  been provided in this same function call, as we risk getting EAGAIN for
+  that and we can't return information both about sent data as well as
+  EAGAIN. So, by returning short now, the caller will call this function
+  again with new data to send.
+
+- _libssh2_transport_write: updated documentation blurb
+
+- _libssh2_transport_write: remove fprintf remainder
+  
+  Mistake from previous debugging
+
+- session: improved errors
+  
+  Replaced -1/SOCKET_NONE errors with appropriate error defines instead.
+  
+  Made the verbose trace output during banner receiving less annoying for
+  non-blocking sessions.
+
+- crypt_init: use correct error define
+
+- _libssh2_error: hide EAGAIN for non-blocking sessions
+  
+  In an attempt to make the trace output less cluttered for non-blocking
+  sessions the error function now avoids calling the debug function if the
+  error is the EAGAIN and the session is non-blocking.
+
+- agent: use better error defines
+
+- comp_method_zlib_init: use correct error defines
+
+- transport: better error codes
+  
+  LIBSSH2_SOCKET_NONE (-1) should no longer be used as error code as it is
+  (too) generic and we should instead use specific and dedicated error
+  codes to better describe the error.
+
+- channel: return code and _libssh2_error cleanup
+  
+  Made sure that all transport_write() call failures get _libssh2_error
+  called.
+
+- _libssh2_channel_write: limit to 32700 bytes
+  
+  The well known and used ssh server Dropbear has a maximum SSH packet
+  length at 32768 by default. Since the libssh2 design current have a
+  fixed one-to-one mapping from channel_write() to the packet size created
+  by transport_write() the previous limit of 32768 in the channel layer
+  caused the transport layer to create larger packets than 32768 at times
+  which Dropbear rejected forcibly (by closing the connection).
+  
+  The long term fix is of course to remove the hard relation between the
+  outgoing SSH packet size and what the input length argument is in the
+  transport_write() function call.
+
+- libssh.h: add more dedicated error codes
+
+- SCP: allow file names with bytes > 126
+  
+  When parsing the SCP protocol and verifying that the data looks like a
+  valid file name, byte values over 126 must not be consider illegal since
+  UTF-8 file names will use such codes.
+  
+  Reported by: Uli Zappe
+  Bug: http://www.libssh2.org/mail/libssh2-devel-archive-2010-08/0112.shtml
+
+Dan Fandrich (25 Aug 2010)
+- Document the three sftp stat constants
+
+Guenter Knauf (18 Aug 2010)
+- Fixed Win32 makefile which was now broken at resource build.
+
+- It is sufficient to pipe stderr to NUL to get rid of the nasty messages.
+
+- [Author: Guenter Knauf brought this change]
+
+  Removed Win32 ifdef completely for sys/uio.h.
+  
+  No idea why we had this ifdef at all but MSVC, MingW32, Watcom
+  and Borland all have no sys/uio.h header; so if there's another
+  Win32 compiler which needs it then it should be added explicitely
+  instead of this negative list.
+
+- New files should also be added to Makefile.am.
+  
+  Otherwise they will never be included with release and snapshot tarballs ...
+
+Daniel Stenberg (18 Aug 2010)
+- version: bump to 1.2.8_DEV
+
+Version 1.2.7 (17 Aug 2010)
+
+Daniel Stenberg (17 Aug 2010)
+- release: updated to hold 1.2.7 info
+
+Guenter Knauf (17 Aug 2010)
+- Use the new libssh2.rc file.
+
+- Added resource file for libssh2.dll (shamelessly stolen from libcurl).
+
+- Updated Win32 MSVC dependencies versions.
+
+- Added include for sys/select.h to get fd.set on some platforms.
+
+- Added Watcom makefile borrowed from libcurl.
+  
+  This makefile compiles already all files fine for static lib, but needs
+  final touch when I have OpenSSL fully working with shared libs and Watcom.
+
+- Added copyright define to libssh2.h and use it for binary builds.
+
+- Moved version defines up in order to include from .rc file.
+  
+  Blocked rest of header with ifndef so its possible to let
+  the rc compiler only use the version defines.
+
+- Some minor makefile tweaks.
+
+Daniel Stenberg (2 Aug 2010)
+- example: treat the libssh2_channel_read() return code properly
+  
+  A short read is not an error. Only negative values are errors!
+
+- libssh2_wait_socket: reset error code to "leak" EAGAIN less
+  
+  Since libssh2 often sets LIBSSH2_ERROR_EAGAIN internally before
+  _libssh2_wait_socket is called, we can decrease some amount of
+  confusion in user programs by resetting the error code in this function
+  to reduce the risk of EAGAIN being stored as error when a blocking
+  function returns.
+
+- _libssh2_wait_socket: poll needs milliseconds
+  
+  As reported on the mailing list, the code path using poll() should
+  multiple seconds with 1000 to get milliseconds, not divide!
+  
+  Reported by: Jan Van Boghout
+
+- typedef: make ssize_t get typedef without LIBSSH2_WIN32
+  
+  The condition around the ssize_t typedef depended on both LIBSSH2_WIN32
+  *and* _MSC_VER being defined when it should be enough to depend on
+  _MSC_VER only. It also makes it nicer so libssh2-using code builds fine
+  without having custom defines.
+
+- [John Little brought this change]
+
+  session_free: free more data to avoid memory leaks
+
+- channel_free: ignore problems with channel_close()
+  
+  As was pointed out in bug #182, we must not return failure from
+  _libssh2_channel_free() when _libssh2_channel_close() returns an error
+  that isn't EAGAIN. It can effectively cause the function to never go
+  through, like it did now in the case where the socket was actually
+  closed but socket_state still said LIBSSH2_SOCKET_CONNECTED.
+  
+  I consider this fix the right thing as it now also survives other
+  errors, even if making sure socket_state isn't lying is also a good
+  idea.
+
+- publickey_list_free: no return value from a void function
+  
+  Fixed a compiler warning I introduced previously when checking input
+  arguments more. I also added a check for the other pointer to avoid NULL
+  pointer dereferences.
+
+- [Lars Nordin brought this change]
+
+  openssl: make use of the EVP interface
+  
+  Make use of the EVP interface for the AES-funktion. Using this method
+  supports the use of different ENGINES in OpenSSL for the AES function
+  (and the direct call to the AES_encrypt should not be used according to
+  openssl.org)
+
+Peter Stuge (23 Jun 2010)
+- [Tor Arntsen brought this change]
+
+  Don't overflow MD5 server hostkey
+  
+  Use SHA_DIGEST_LENGTH and MD5_DIGEST_LENGTH in memcpy instead of hardcoded
+  values. An incorrect value was used for MD5.
+
+- Fix message length bugs in libssh2_debug()
+  
+  There was a buffer overflow waiting to happen when a debug message was
+  longer than 1536 bytes.
+  
+  Thanks to Daniel who spotted that there was a problem with the message
+  length passed to a trace handler also after commit
+  0f0652a3093111fc7dac0205fdcf8d02bf16e89f.
+
+- Make libssh2_debug() create a correctly terminated string
+  
+  Also use FILE *stderr rather than fd 2, which can very well be something
+  completely different.
+
+Daniel Stenberg (23 Jun 2010)
+- [TJ Saunders brought this change]
+
+  handshake: Compression enabled at the wrong time
+  
+  In KEXINIT messages, the client and server agree on, among other
+  things, whether to use compression. This method agreement occurs
+  in src/kex.c's kex_agree_methods() function. However, if
+  compression is enabled (either client->server, server->client, or
+  both), then the compression layer is initialized in
+  kex_agree_methods() -- before NEWKEYS has been received.
+  
+  Instead, the initialization of the compression layer should
+  happen after NEWKEYS has been received. This looks to occur
+  insrc/kex.c's diffie_hellman_sha1(), which even has the comment:
+  
+      /* The first key exchange has been performed,
+  
+          switch to active crypt/comp/mac mode */
+  
+  There, after NEWKEYS is received, the cipher and mac algorithms
+  are initialized, and that is where the compression should be
+  initialized as well.
+  
+  The current implementation fails if server->client compression is
+  enabled because most server implementations follow OpenSSH's
+  lead, where compression is initialized after NEWKEYS. Since the
+  server initializes compression after NEWKEYS, but libssh2
+  initializes compression after KEXINIT (i.e. before NEWKEYS), they
+  are out of sync.
+  
+  Reported in bug report #180
+
+- [TJ Saunders brought this change]
+
+  userauth_hostbased_fromfile: packet length too short
+  
+  The packet length calculated in src/userauth.c's
+  userauth_hostbased_fromfile() function is too short by 4 bytes;
+  it forgets to add four bytes for the length of the hostname.
+  This causes hostbased authentication to fail, since the server
+  will read junk data.
+  
+  verified against proftpd's mod_sftp module
+
+- _libssh2_userauth_publickey: reject method names longer than the data
+  
+  This functions get the method length by looking at the first 32
+  bit of data, and I now made it not accept method lengths that are
+  longer than the whole data set is, as given in the dedicated
+  function argument.
+  
+  This was detected when the function was given bogus public key
+  data as an ascii string, which caused the first 32bits to create
+  a HUGE number.
+
+- NULL resistance: make more public functions survive NULL pointer input
+  
+  Sending in NULL as the primary pointer is now dealt with by more
+  public functions. I also narrowed the userauth.c code somewhat to
+  stay within 80 columns better.
+
+- agent: make libssh2_agent_userauth() work blocking properly
+  
+  previously it would always work in a non-blocking manner
+
+Peter Stuge (17 Jun 2010)
+- Fix underscore typo for 64-bit printf format specifiers on Windows
+  
+  Commit 49ddf447ff4bd80285f926eac0115f4e595f9425 was missing underscores.
+
+Daniel Stenberg (16 Jun 2010)
+- libssh2_session_callback_set: extended the man page
+
+- [John brought this change]
+
+  LIBSSH2_DEBUG: macro uses incorrect function variable
+  
+  The LIBSSH2_DEBUG macro, defined in libssh2_priv.h, incorrectly uses the
+  function variable ssh_msg_disconnect when it should use ssh_msg_debug.
+  
+  This shows that the LIBSSH2_CALLBACK_DEBUG callback never has worked...
+
+- warning: fix a compiler warning 'pointer differs in signedness'
+  
+  As reported in bug #177
+
+- portability: introduce LIBSSH2_INT64_T_FORMAT for 64bit printf()s
+  
+  As pointed out in bug #177, some of the Windows compilers use
+  %I64 to output 64 bit variables with the printf family.
+
+- debug: avoid sending NULL to sprintf %s
+  
+  Via the _libssh2_debug() macro/function. Pointed out by john in bug report
+
+- sftp docs: show macro on macro page, only function on function page
+  
+  The individual man pages for macros now show the full convenience
+  macro as defined, and then the man page for the actual function
+  only shows the function.
+
+- code police: make the code use less than 80 columns
+
+- libssh2_channel_write_ex: remove macros, added wording on buffer size
+
+- libssh2_sftp_write: document buffer size and changed some ordering
+
+- libssh2_channel_write_stderr: show how the macro is defined
+
+- libssh2_channel_write: show how the macro is defined
+
+- SFTP: limit write() to not produce overly large packets
+  
+  sftp_write() now limits how much data it gets at a time even more
+  than before. Since this function creates a complete outgoing
+  packet based on what gets passed to it, it is crucial that it
+  doesn't create too large packets.
+  
+  With this method, there's also no longer any problem to use very
+  large buffers in your application and feed that to libssh2. I've
+  done numerous tests now with uploading data over SFTP using 100K
+  buffers and I've had no problems with that.
+
+- scp_write_nonblock: add transfer time info
+  
+  Using the same timing logic and output format as
+  sftp_write_nonblock allows us to very easily run benchmarks on
+  SCP vs SFTP uploads using libssh2.
+
+- sftp_write_nonblock: select() on socket, use *BIG* buffer, time transfer
+  
+  The select() is just to make it nicer so that it doesn't
+  crazy-loop on EAGAIN. The buffer size thing is mostly to verify
+  that this really work as supposed.
+  
+  Transfer timing is just a minor thing, but it can just as well be
+  there and help us time and work on performance easier using out
+  of the box examples.
+
+- agent: use _libssh2_error() when returning errors
+  
+  As pointed out in bug report #173, this module basically never
+  used _libssh2_error() which made it work inconstently with other
+  parts of the libssh2 code base. This is my first take at making
+  this code more in line with the rest.
+
+- inputchecks: make lots of API functions check for NULL pointers
+  
+  If an application accidentally provides a NULL handle pointer to
+  the channel or sftp public functions, they now return an error
+  instead of segfaulting.
+
+- libssh2_channel_eof: clarify that it returns negative on errors
+
+- SFTP: keep the sftp error code as 32 bit
+  
+  'last_errno' holds to the error code from the SFTP protocol and
+  since that is 32 bits on the wire there's no point in using a
+  long for this internally which is larger on some platforms.
+
+- agent: make the code better deal with unexpected code flows
+  
+  agent->ops gets initialized by the libssh2_agent_connect() call
+  but we need to make sure that we don't segfault even if a bad
+  sequence of function calls is used.
+
+Alexander Lamaison (10 Jun 2010)
+- Better handling of invalid key files.
+  
+  Passing an invalid public key to libssh2_userauth_publickey_fromfile_ex
+  triggered an assertion.  Replaced this with a runtime check that rejects
+  obviously invalid key data.
+
+Daniel Stenberg (10 Jun 2010)
+- version: we start working on 1.2.7 now
+
+Version 1.2.6 (10 Jun 2010)
+
+Daniel Stenberg (10 Jun 2010)
+- NEWS: add the 1.2.6 release details
+
+- RELEASE-NOTES: 1.2.6 details added
+
+Guenter Knauf (10 Jun 2010)
+- fixed libssh2.dsw to use the generated libssh2.dsp; removed old *.dsp files.
+
+- moved MSVC strdup define to libssh2_config.h which we include already.
+
+- added missing source files to src/NMakefile.
+
+Daniel Stenberg (8 Jun 2010)
+- libssh2_poll: refer to poll(3) and select(3) instead
+
+- example: fix strdup() for MSVC compiles
+  
+  MSVC has a _strdup() that we better use. This was reported in bug
+
+- SFTP: fail init SFTP if session isn't authenticated
+  
+  Alexander Lamaison filed bug #172
+  (http://trac.libssh2.org/ticket/172), and pointed out that SFTP
+  init would do bad if the session isn't yet authenticated at the
+  time of the call, so we now check for this situation and returns
+  an error if detected. Calling sftp_init() at this point is bad
+  usage to start with.
+
+- direct_tcpip: bring back inclusion of libssh2_config.h
+  
+  In order to increase portability of this example, I'm bringing
+  the inclusion of libssh2_config.h back, and I also added an
+  require that header for this example to compile.
+  
+  I also made all code lines fit within 80 columns.
+
+Guenter Knauf (3 Jun 2010)
+- cast away a warning.
+
+- moved CRT_SECURE_NO_DEPRECATE define up so its defined before the winsock headers are included.
+
+- fixed platform detection for MingW32 test makefile.
+
+- MingW32 has gettimeofday() implemented, so proper ifdef this function here.
+
+- removed MSVC ifdef since seems we can use __int64 still with latest headers.
+
+- changed copyright notice for MinW32 and NetWare binaries.
+
+- cleaned up MSVC ifdefs which where spreaded over 3 places.
+
+- added uint8_t typedef for NetWare CLIB platform.
+
+- if the function declaration gets changed the header should be changed too.
+
+- this is MSVC specific and doesnt apply for all Win32 compilers;
+  the uint8_t typedef clashes with MingW32 headers.
+
+- updated MingW32 makefiles for latest dependency lib versions.
+
+- updated NetWare makefiles for latest dependency lib versions.
+
+Dan Fandrich (30 May 2010)
+- Fixed compiling with libgcrypt
+  
+  A change of parameter types from unsigned long to size_t was
+  missed in the prototype in libgcrypt.h
+
+Daniel Stenberg (28 May 2010)
+- statvfs: use libssh2_sftp_statvfs only, no "_ex"
+  
+  As the long-term goal is to get rid of the extensive set of
+  macros from the API we can just as well start small by not adding
+  new macros when we add new functions. Therefore we let the
+  function be libssh2_sftp_statvfs() plainly without using an _ex
+  suffix.
+  
+  I also made it use size_t instead of unsigned int for the string
+  length as that too is a long-term goal for the API.
+
+- [Grubsky Grigory brought this change]
+
+  DSP: output lib name typo
+
+- [Grubsky Grigory brought this change]
+
+  win32: provide a uint8_t typedef for better building on windows
+
+- agent: win32: fix bad _libssh2_store_str call
+  
+  As pointed out by Grubsky Grigory <g.grubsky@securitycode.ru>, I
+  made a mistake when I added the _libssh2_store_str() call before
+  and I made a slightly different patch than what he suggested.
+  Based purely on taste.
+
+Peter Stuge (24 May 2010)
+- [Joey Degges brought this change]
+
+  Add libssh2_sftp_statvfs() and libssh2_sftp_fstatvfs()
+  
+  These can be used to get file system statistics from servers that
+  support the statvfs@openssh.com and fstatvfs@openssh.com extensions.
+
+Alexander Lamaison (22 May 2010)
+- [Jose Baars brought this change]
+
+  VMS specific: make sure final release can be installed over daily build
+
+- [Jose Baars brought this change]
+
+  VMS: small improvement to the man2help utilities
+
+Peter Stuge (22 May 2010)
+- [Joey Degges brought this change]
+
+  libssh2_exit and libssh2_sftp_readdir man page fixes
+
+Daniel Stenberg (21 May 2010)
+- spelling: s/sue/use
+
+Alexander Lamaison (21 May 2010)
+- Change magic port number for generic knownhost check.
+  
+  libssh2_knownhost_checkp took 0 as a magic port number that indicated
+  a 'generic' check should be performed.  However, 0 is a valid port
+  number in its own right so this commit changes the magic value to any
+  negative int.
+
+Mikhail Gusarov (5 May 2010)
+- Add re-discovered copyright holders to COPYING
+
+- Restoring copyright statements from pre-git era
+  
+  Eli Fant has contributed fragmenting SFTP requests
+
+- Restoring my copyright statements from pre-git era
+  
+  keyboard_interactive, 'exit-status' information packet, non-atomic read/write
+  under FreeBSD, multi-channel operation bugfixes.
+
+Daniel Stenberg (3 May 2010)
+- pedantic: make the code C90 clean
+
+Peter Stuge (3 May 2010)
+- Do proper keyboard-interactive user dialog in the sftp.c example
+
+Daniel Stenberg (3 May 2010)
+- added to tarball: libssh2_knownhost_checkp.3
+
+- knownhost: support [host]:port in knownhost file
+  
+  OpenSSH has ways to add hosts to the knownhosts file that include
+  a specific port number which makes the key associated with only
+  that specific host+port pair. libssh2 previously did not support
+  this, and I was forced to add a new function to the API to
+  properly expose this ability to applications:
+  libssh2_knownhost_checkp()
+  
+  To *add* such hosts to the knownhosts file, you make sure to pass
+  on the host name in that manner to the libssh2_knownhost_addc()
+  function.
+
+- init/exit: mention these were added in 1.2.5
+
+- libssh2_knownhost_check docs: correct the prototype
+
+- examples: avoid use of uninitialized variable 'sock'
+
+- KEX: stop pretending we negotiate language
+  
+  There was some stub-like parts of an implementation for
+  implementing kex language negotiation that caused clang-analyzer
+  to warn and as it did nothing I've now removed the dead code.
+
+- Uninitialized argument
+
+- sftpdir: removed dead assignment
+
+- Makefile.am: include the VMS-specific config header as well
+
+- [Jose Baars brought this change]
+
+  Add VMS specific libssh2_config.h
+
+- fix Value stored to 's' is never read warning
+  
+  and moved variable declaration of s to be more local
+
+- kexinit: simplify the code and avoid scan-build warning
+  
+  Previously it would say "Value stored to 's' is never read" due
+  fourth increment of 's'.
+
+Alexander Lamaison (28 Apr 2010)
+- Removed unecessary brackets.
+
+- Changed sftp_attrsize macro to a static function.
+
+Daniel Stenberg (28 Apr 2010)
+- release: include the VMS-specific files
+
+- sftp_attrsize: protect the macro argument with proper parentheses
+
+- ssh2_agent: avoid using 'session' uninitialized on failures
+
+- examples: remove assignments of variable rc that's never used
+
+- publickey_init: remove useless variable increment
+
+- hostkey_method_ssh_rsa_init: remove useless variable increment
+
+- packet_x11_open: removed useless variable increment
+  
+  and made the declaration of a variable more local
+
+- packet_queue_listener: removed useless variable increment
+  
+  and made the declaration of a variable more local
+
+- sftp_read: move a read_responses array to where its used
+  
+  I find that this increases readability since the array is used
+  only in the function call just immediately below and nowhere
+  else.
+
+- sftp_readdir: turn a small array static const and move it
+
+- sftp_attrsize: converted function to a macro
+  
+  This way, the macro can evaluate a static number at compile time
+  for two out of four uses, and it probably runs faster for the
+  other two cases too.
+
+- sftp_open: deal with short channel_write calls
+  
+  This was an old TODO that just wasn't done before. If
+  channel_write returns short, that is not an error.
+
+- sftp_open: clean up, better check of input data
+  
+  The clang-analyzer report made it look into this function and
+  I've went through it to remove a potential use of an
+  uninitialized variable and I also added some validation of input
+  data received from the server.
+  
+  In general, lots of more code in this file need to validate the
+  input before assuming it is correct: there are servers out there
+  that have bugs or just have another idea of how to do the SFTP
+  protocol.
+
+- bugfix: avoid using the socket if it failed to create one
+
+- bugfix: potential use of NULL pointer
+
+- libssh2_userauth_password_ex: clarify errors somewhat
+  
+  The errors mentioned in this man page are possible return codes
+  but not necessarily the only return codes that this can return.
+  
+  Also reformatted the typ prototypes somewhat.
+
+- examples: fixed and made them more similar
+  
+  The channel read/write functions can return 0 in legitimate cases
+  without it being an error, and we need to loop properly if they
+  return short.
+
+- [Jose Baars brought this change]
+
+  VMS port of libssh2; changes in the libssh2 common code
+
+- Makefile: added the two news headers userauth.h and session.h
+
+- cleanup: prefer the internal functions
+  
+  To get the blocking vs non-blocking to work as smooth as possible
+  and behave better internally, we avoid using the external
+  interfaces when calling functions internally.
+  
+  Renamed a few internal functions to use _libssh2 prefix when not
+  being private within a file, and removed the libssh2_ for one
+  that was private within the file.
+
+- session_free: remove dead code
+
+- libssh2_publickey_init: fixed to work better non-blocking
+  
+  This was triggered by a clang-analyzer complaint that turned out
+  to be valid, and it made me dig deeper and fix some generic non-
+  blocking problems I disovered in the code.
+  
+  While cleaning this up, I moved session-specific stuff over to a
+  new session.h header from the libssh2_priv.h header.
+
+- channel: reduce duplicated free and returns
+  
+  Simplified the code by trying to free data and return on a single
+  spot.
+
+- channel: make variables more local
+  
+  By making 'data' and 'data_len' more local in several places in
+  this file it will be easier to spot how they are used and we'll
+  get less risks to accidentally do bad things with them.
+
+Mikhail Gusarov (24 Apr 2010)
+- Fix typos in manpages, catched by Lintian
+
+Daniel Stenberg (24 Apr 2010)
+- channel_request_pty: simplify the code
+  
+  clang-analyzer pointed out how 'data' could be accessed as a NULL
+  pointer if the wrong state was set, and while I don't see that
+  happen in real-life the code flow is easier to read and follow by
+  moving the LIBSSH2_FREE() call into the block that is supposed to
+  deal with the data pointer anyway.
+
+- libssh2_channel_process_startup: simplify the code
+  
+  clang-analyzer pointed out how 'data' could be accessed as a NULL
+  pointer if the wrong state was set, and while I don't see that
+  happen in real-life the code flow is easier to read and follow by
+  moving the LIBSSH2_FREE() call into the block that is supposed to
+  deal with the data pointer anyway.
+
+- sftp_close_handle: add precation to not access NULL pointer
+  
+  clang-analyzer pointed this out as a "Pass-by-value argument in
+  function call is undefined" but while I can't see exactly how
+  this can ever happen in reality I think a little check for safety
+  isn't such a bad thing here.
+
+- scp_write_nonblock: Value stored to 'nread' is never read
+
+- scp_write: Value stored to 'ptr' is never read
+
+- scp_write_nonblock: Value stored to 'ptr' is never read
+
+- sftp_mkdir: less silly output but show failures
+
+- [Jose Baars brought this change]
+
+  VMS port of libssh2 including VMS specific build procedures
+
+- two variable types changes, made lines less than 80 columns
+  
+  The two variable type changes are only to match type variable
+  fields actually read from the binary protocol.
+
+- remove check for negative padding_length
+  
+  It was silly, since it is read as an unsigned char...
+
+- hostkey_method_ssh_dss_init: Value stored to 's' is never read
+
+- libssh2_banner_set: avoid unnecessary increment and explain code
+
+- agent_transact_unix: remove unused variable
+
+- remove two unnecessary increments
+
+- more code converted to use _libssh2_store_*()
+
+- libssh2_publickey_list_fetch: removed unused variables
+
+- libssh2_publickey_init: remove unused variables
+
+- libssh2_scp_send64: added to API to provide large file transfers
+  
+  The previously existing libssh2_scp_send_ex() function has no way
+  to send files that are larger than 'size_t' which on 32bit
+  systems mean 4GB. This new API uses a libssh2_int64_t type and
+  should thus on most modern systems be able to send enormous
+  files.
+
+- sftp_init: remove unused variables and assignments
+
+- libssh2_knownhost_check: Value stored to 'keylen' is never read
+
+- hostkey: fix compiler warning
+
+- remove unused variable
+
+- data types: convert more to use size_t and uint32_t
+
+- channel: variable type cleanups
+
+- cleanups: better binary packet gen, size_t fixes and PACKET_* removal
+  
+  I'll introduce a new internal function set named
+  
+   _libssh2_store_u32
+   _libssh2_store_u64
+   _libssh2_store_str
+  
+  That can be used all through the library to build binary outgoing
+  packets.  Using these instead of the current approach removes
+  hundreds of lines from the library while at the same time greatly
+  enhances readability. I've not yet fully converted everything to
+  use these functions.
+  
+  I've converted LOTS of 'unsigned long' to 'size_t' where
+  data/string lengths are dealt with internally. This is The Right
+  Thing and it will help us make the transition to our
+  size_t-polished API later on as well.
+  
+  I'm removing the PACKET_* error codes. They were originally
+  introduced as a set of separate error codes from the transport
+  layer, but having its own set of errors turned out to be very
+  awkward and they were then converted into a set of #defines that
+  simply maps them to the global libssh2 error codes instead. Now,
+  I'l take the next logical step and simply replace the PACKET_*
+  defines with the actual LIBSSH2_ERROR_* defines. It will increase
+  readability and decrease confusion.
+  
+  I also separated packet stuff into its own packet.h header file.
+
+- clarified the return code
+
+- rename libssh2_error to the correct _libssh2_error
+  
+  We reserve ^libssh2_ for public symbols and we use _libssh2 as
+  prefix for internal ones. I fixed the intendation of all these
+  edits with emacs afterwards, which then changed it slightly more
+  than just _libssh2_error() expressions but I didn't see any
+  obvious problems.
+
+- data type cleanup: made lots of code use size_t etc
+  
+  A lot of code used 'unsigned long' and the likes when it should
+  rather just use plain 'int' or use size_t for data lengths.
+
+- wait_socket: make c89 compliant and use two fd_sets for select()
+
+- sftp_readdir: always zero terminate, detail the return code
+  
+  I also added a description for the 'longentry' field which was
+  previously undocumented!
+
+- sftp_readdir: simplified and bugfixed
+  
+  This function no longer has any special purpose code for the
+  single entry case, as it was pointless.
+  
+  The previous code would overflow the buffers with an off-by-one
+  in case the file name or longentry data fields received from the
+  server were exactly as long as the buffer provided to
+  libssh2_sftp_readdir_ex.
+  
+  We now make sure that libssh2_sftp_readdir_ex() ALWAYS zero
+  terminate the buffers it fills in.
+  
+  The function no longer calls the libssh2_* function again, but
+  properly uses the internal sftp_* instead.
+
+- channel/transport: we now drain the outgoing send buffer when we ignore EAGAIN
+  
+  When we ignore the EAGAIN from the transport layer within channel_write, we
+  now drain the outgoing transport layer buffer so that remainders in that
+  won't cause any problems in the next invoke of _libssh2_transport_write()
+
+- channel_write: if data has been sent, don't return EAGAIN
+  
+  When sending data in a loop, we must not return EAGAIN if we
+  managed to send data in an earlier round. This was reported in
+  bug #126 => http://libssh2.stuge.se/ticket/126
+
+Simon Josefsson (14 Apr 2010)
+- Fix OpenSSL AES-128-CTR detection.
+  
+  Patch from Paul Howarth <paul@city-fan.org>.
+
+Daniel Stenberg (13 Apr 2010)
+- version in header file now says 1.2.6-DEV
+
+- 1.2.6: clean the RELEASE-NOTES for next release round
+
+- NEWS: add the stuff from the version 1.2.5 RELEASE-NOTES
+
+Version 1.2.5 (13 Apr 2010)
+
+Daniel Stenberg (13 Apr 2010)
+- channel_close: no longer wait for the SSH_MSG_CHANNEL_CLOSE message
+  
+  As the packet may simply not arrive we cannot have the close
+  function wait for it unconditionally.
+
+- less code duplication in the poll vs select code flows
+  
+  libssh2_keepalive_send and libssh2_session_block_directions are
+  now used outside of the #ifdef blocks.
+
+- make it C90 compliant
+
+- updated with all changes and bugs since 1.2.4
+
+- Added LIBSSH2_SFTP_S_IS***() macros and updated docs
+  
+  libssh2_sftp_fstat_ex.3 is now extended quite a lot to describe a
+  lot of the struct and the bits it uses and how to test for them.
+
+- sftp_init() deal with _libssh2_channel_write() returns short
+  
+  When _libssh2_channel_write() is asked to send off 9 bytes, the
+  code needs to deal with the situation where less than 9 bytes
+  were sent off and prepare to send the remaining piece at a later
+  time.
+
+- handle a NULL password as if it was ""
+  
+  libssh2_userauth_publickey_fromfile_ex() takes a "passphrase"
+  but didn't deal with it being set to NULL.
+
+- Reduce used window sizes by factor 10
+  
+  As reported in bug report #166 http://libssh2.stuge.se/ticket/166
+  by 'ptjm', the maximum window size must be less crazy for libssh2
+  to do better with more server implementations. I did not do any
+  testing to see how this changes raw SCP performance, but the
+  maximum window size is still almost 4MB. This also has the upside
+  that libssh2 will use less memory.
+
+Peter Stuge (28 Mar 2010)
+- Correctly clear blocking flag after sending multipart packet
+  
+  commit 7317edab61d2179febc38a2c2c4da0b951d74cbc cleared the outbound
+  blocking bit when send_existing() returned PACKET_NONE and *ret=0, as
+  opposed to before even calling send_existing(), but because *ret=1 when
+  sending parts 2..n of an existing packet, the bit would only be cleared
+  when calling libssh2_transport_write() for a new packet.
+  
+  Clear the direction flag after the final part of a packet has been sent.
+
+Daniel Stenberg (24 Mar 2010)
+- Added man page for libssh2_knownhost_addc()
+  
+  Added mention in libssh2_knownhost_add() docs that
+  libssh2_knownhost_addc() is the preferred function now.
+
+- at next soname bump remove libssh2_knownhost_add()
+
+- ignore TAGS ("make tags" makes them)
+
+- fix memory leak
+  
+  we must not assign the pointer a NULL since it keeps allocated
+  data and at least parts of an error string
+
+- fixed the pattern for avoiding the poll check
+  
+  added some comments about known problems with poll on darwin
+
+- avoid checking for poll on some systems
+  
+  darwin and interix are known to have broken poll implementations
+  so we skip the check on those and thus have them use select
+  unconditionally
+
+- ignore libssh2.dsp
+
+Simon Josefsson (23 Mar 2010)
+- Fix logic in "on-the-fly" crypto init.
+
+- Make sure keepalive is working even when poll is used.
+
+- [Paul Querna brought this change]
+
+  Use poll when available on blocking API.
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+Peter Stuge (20 Mar 2010)
+- Fix speling
+
+Daniel Stenberg (19 Mar 2010)
+- fix NULL dereference when window adjusting a non-existing channel
+  
+  Suyog Jadhav pointed out that when receiving a window adjust to
+  a channel not found, the code would reference a NULL pointer.
+  Now it will instead output a message about that fact.
+
+Simon Josefsson (19 Mar 2010)
+- Fix build problem.
+
+- Eat our own dog food, call libssh2_init and libssh2_exit in the examples.
+
+- Fix init/exit logic.  Add self-test of it.
+
+Daniel Stenberg (19 Mar 2010)
+- fix typo
+
+Simon Josefsson (19 Mar 2010)
+- Add man page for libssh2_init and libssh2_exit.  Fix libssh2_exit prototype.
+
+- Shorten constant a bit.  More documentation.
+
+- Fix namespace pollution.
+
+- Add global init/exit points, to do crypto initialization in one place.
+  
+  By Lars Nordin.
+
+Daniel Stenberg (14 Mar 2010)
+- libssh2 is released under the Modifed BSD license, not GPL
+
+Alexander Lamaison (14 Mar 2010)
+- Add libssh2_knownhost_addc to handle comments.
+  
+  Comments in known_hosts file were not handle properly.  They were parsed as
+  part of the key causing key matching to return a mismatch if the entry had a
+  comment.  This adds a new API function that takes an optional comment and
+  changes libssh2_knownhost_readline to parse the comment as pass it to the
+  new function.
+  
+  Fixes #164.
+
+- Fix gettimeofday to compile with Visual C++ 6.
+  
+  Reported by Steven Van Ingelgem.
+
+Simon Josefsson (10 Mar 2010)
+- Add.
+
+- keepalive.c: Fix libssh2_error usage.
+
+- Fix typo in last commit.
+
+- Tidy up build option notice.
+
+- Add entry about keep alive stuff.
+
+- Add keep-alive support.
+
+Alexander Lamaison (7 Mar 2010)
+- Untabify.
+
+- Fix memory leak in libssh2_knownhost_add.
+
+Daniel Stenberg (6 Mar 2010)
+- change 'int' to 'libssh2_socket_t' in the public API for sockets
+
+- reduce code duplication and return underlying error better
+
+- acknowledge when _libssh2_packet_requirev() returns error
+  
+  when _libssh2_packet_requirev() returns an error when waiting for
+  SSH_MSG_USERAUTH_SUCCESS or SSH_MSG_USERAUTH_FAILURE, it is an
+  error and it should be treated as such
+
+- wrap long lines
+
+- polished the phrasing in two error strings
+
+- silence picky compiler warnings
+
+- silence picky compiler warnings
+
+- removed libssh2_error()'s forth argument
+  
+  libssh2_error() no longer allocates a string and only accepts a const
+  error string. I also made a lot of functions use the construct of
+  return libssh2_error(...) instead of having one call to
+  libssh2_error() and then a separate return call. In several of those
+  cases I then also changed the former -1 return code to a more
+  detailed one - something that I think will not change behaviors
+  anywhere but it's worth keeping an eye open for any such.
+
+- repaired --enable-debug
+
+Simon Josefsson (1 Mar 2010)
+- Make ./configure output a summary of build options.
+
+Daniel Stenberg (1 Mar 2010)
+- let the err_msg in the session struct be const too
+
+Simon Josefsson (1 Mar 2010)
+- Revert #ifdef change that pulled in AES-CTR code when explicitly disabled.
+
+Daniel Stenberg (1 Mar 2010)
+- fix #ifdefs
+
+- make function match the new proto
+
+Simon Josefsson (1 Mar 2010)
+- Improve AES-CTR check.
+
+Daniel Stenberg (1 Mar 2010)
+- use const to silence a bazillion warnings
+
+Simon Josefsson (1 Mar 2010)
+- Use AES-CTR from OpenSSL when available.
+  
+  Reported by Lars Nordin <Lars.Nordin@SDlabs.se>.
+
+- Make it possible to disable DSA.
+  
+  Patch from Lars Nordin <Lars.Nordin@SDlabs.se>.
+
+Peter Stuge (1 Mar 2010)
+- Send and receive channel EOF before sending SSH_MSG_CHANNEL_CLOSE
+  
+  Sending SSH_MSG_CHANNEL_CLOSE without channel EOF is explicitly allowed
+  in RFC 4254, but some non-conforming servers will hang or time out when
+  the channel is closed before EOF.
+  
+  Other common clients send and receive EOF before closing, there are no
+  drawbacks, and some servers need it to work correctly.
+
+Alexander Lamaison (26 Feb 2010)
+- Style improvements to knownhost error handling.
+  
+  Made improvements as suggested by Peter Stuge: http://www.libssh2.org/mail/libssh2-devel-archive-2010-02/0161.shtml.
+
+- Call libssh2_error for every knownhost API failure.
+  
+  The libssh2 API calls should set the last error code and a message when
+  returning a failure by calling libssh2_error.  This changeset adds these
+  calls to the libssh2_knownhost_* API as well as libssh2_base64_decode.
+  
+  This change also makes libssh2_error into a function rather than a macro.
+  Its implementation is moved to misc.c.  This function returns the error
+  code passed to it allowing callers to return the error value directly
+  without duplicating the error code.
+
+- Fix LIBSSH2_ALLOC checks.
+  
+  These appear to be cut-and paste errors where the wrong variable is checked
+  for NULLness after calling LIBSSH2_ALLOC.
+
+Simon Josefsson (23 Feb 2010)
+- Silence compiler warning.
+
+- Make it portable; test uses = for string comparison (not ==).  Indent.
+
+Alexander Lamaison (22 Feb 2010)
+- libssh2_knownhost_del: fix write to freed memory.
+  
+  When removing a known host, libssh2_knownhost_del would remove the node from the linked list, free its memory and then overwrite the struct parameter (which indicated which node to remove) with 0.  However, this struct is actually allocated within the just-freed node meaning we're writing to freed memory.  This made Windows very upset.
+  
+  The fix is simply to overwrite the struct first before freeing the memory.
+
+Daniel Stenberg (21 Feb 2010)
+- show more verbose error when SCP send fails
+
+- libssh2_socket_t is done, a library-free function is needed
+
+- clarify that this frees all data associated with a session
+
+- improved error handling
+
+- add missing libssh2_error() calls
+  
+  To make sure the public API is functional and that the
+  BLOCK_ADJUST_ERRNO() macro works correctly we MUST make sure to
+  call libssh2_error() when we return errors.
+
+- fix memory leak in userauth_keyboard_interactive()
+  
+  Mr anonymous in bug #125 pointed out that the userauth_keyboard_interactive()
+  function does in fact assign the same pointer a second time to a new allocated
+  buffer without properly freeing the previous one, which caused a memory leak.
+
+- added missing error codes
+  
+  To allow the libssh2_session_last_error() function to work as
+  documented, userauth_password() now better makes sure to call
+  libssh2_error() everywhere before it returns error.
+  
+  Pointed out by mr anonymous in bug #128
+
+Peter Stuge (16 Feb 2010)
+- Fix resource and memory leaks in examples as reported by cppcheck
+  
+  Thanks to Ettl Martin for the report and patch. This fixes #132
+
+Daniel Stenberg (15 Feb 2010)
+- mention the new man pages for macros
+
+- added man pages for API macros
+  
+  all #defined macros in the public headers are considered to be part
+  of the API and I've generated individual man pages for each of them
+  to A) make it easier to figure out what each function/macro actually
+  is for so that automated lookups work better and for B) make sure we
+  have all public functions document (both macros and functions) to
+  make it easier for us to work away from all the macros in a future
+  release.
+
+- Committed the patch by Yoichi Iwaki in bug #2929647
+  
+  Committed the patch by Yoichi Iwaki in bug #2929647, which fixed a memory
+  leak when an 'outbuf' was still allocated when a session was freed.
+
+- free "outbuf" when killing a session
+  
+  Fix memoary leak: if there was an "output" still allocated when a
+  session was torn down it needs to be freed in session_free()
+  
+  Patch by Yoichi Iwaki in bug #2929647
+
+- the working version name is now 1.2.5_DEV
+
+Version 1.2.4 (13 Feb 2010)
+
+Daniel Stenberg (13 Feb 2010)
+- updated info for 1.2.4
+
+Dan Fandrich (10 Feb 2010)
+- Allow compiling with OpenSSL when AES isn't available.
+
+Peter Stuge (9 Feb 2010)
+- [Dave McCaldon brought this change]
+
+  Fix Tru64 socklen_t compile issue with example/direct_tcpip.c
+  
+  Building libssh2-1.2.3 on Tru64 fails at line 48 and 166 because socklen_t
+  isn't defined on Tru64 unless _POSIX_PII_SOCKET is defined.
+  
+  This patch updates configure.ac to add -D_POSIX_PII_SOCKET when building
+  on Tru64 platform(s).
+
+- [Dave McCaldon brought this change]
+
+  Resolve compile issues on Solaris x64 and UltraSPARC
+  
+  Solaris builds of libssh2-1.2.3 failed on both x64 and UltraSPARC
+  platforms because of two problems:
+  
+  1) src/agent.c:145 sun is a reserved word when using the SUNWspro compiler
+  2) example/direct_tcpip.c:84 INADDR_NONE is not defined
+
+Daniel Stenberg (3 Feb 2010)
+- towards 1.2.4 now
+
+Version 1.2.3 (3 Feb 2010)
+
+Daniel Stenberg (3 Feb 2010)
+- Version 1.2.3 (February 3, 2010)
+
+- fix building out of source tree by proving better include path
+  
+  when building out of source tree, we provide -I$(top_builddir)/example
+  since the libssh2_config.h gets generated in that dir
+
+Peter Stuge (1 Feb 2010)
+- [Sofian Brabez brought this change]
+
+  Replace : in hexdump with "  " (two spaces)
+
+- Detect when the forwarded connection is closed in example/direct_tcpip.c
+
+- Fix example/direct_tcpip.c to work also on WIN32
+  
+  read() and write() are no good for WIN32 sockets, use recv() and send().
+
+- Ignore libssh2_config.h.in and stamp-h2 in example/ and remove .cvsignore
+
+- Simplify WIN32 ifdefs in example/direct_tcpip.c to allow standalone compile
+
+- Always #define INVALID_SOCKET -1 in libssh2_priv.h when not on win32
+  
+  Fix broken builds since commit abd9bd0bbe631efeada1f54552c70b54e1c490c1
+  for all non-win32 platforms.
+
+- Include hmac-md5 and hmac-md5-96 only if crypto backend supports MD5
+
+- Use LIBSSH2_HOSTKEY_HASH_SHA1 instead of _MD5 in examples and tests
+  
+  MD5 support is optional and may not always be available, while SHA1 is both
+  required and recommended.
+
+- Update mailing list address in configure.ac to @cool.haxx.se
+
+- Make example/direct_tcpip.c compile for win32
+  
+  One warning from FD_SET() remains, it is also in some other examples.
+
+- Correctly check for an invalid socket in session_startup()
+
+- Small documentation fix after Dave's _USERAUTH_FAILURE improvement
+
+- [Dave McCaldon brought this change]
+
+  Handle SSH_MSG_USERAUTH_FAILURE for password and kbd-int authentication
+  
+  Neither libssh2_userauth_password_ex() nor
+  libssh2_userauth_keyboard_interactive_ex() would return a login failure
+  error if the server responded with a SSH_MSG_USERAUTH_FAILURE, instead
+  you would see whatever previous error had occurred, typically
+  LIBSSH2_ERROR_EAGAIN.
+  
+  This patch changes error code -18 to LIBSSH2_ERROR_AUTHENTICATION_FAILED
+  and makes LIBSSH2_ERROR_PUBLICKEY_UNRECOGNIZED an alias for
+  LIBSSH2_ERROR_AUTHENTICATION_FAILED.  In addition, new logic in
+  userauth_password() properly handles SSH_MSG_USERAUTH_FAILURE and both
+  this function and userauth_keyboard_interactive() now properly return
+  LIBSSH2_ERROR_AUTHENTICATION_FAILED.
+
+Simon Josefsson (28 Jan 2010)
+- Fix.
+
+- Also deal with GLOBAL_REQUEST keep-alives.
+
+- Make OpenSSH-style keepalive work against libssh2 clients.
+
+Daniel Stenberg (27 Jan 2010)
+- clarified
+
+Peter Stuge (26 Jan 2010)
+- [Dave McCaldon brought this change]
+
+  Fix trace context lookup in libssh2_debug()
+  
+  The trace context is actually a bitmask so that tracing output can be
+  controlled by setting a bitmask using libssh2_trace().  However, the logic
+  in libssh2_debug() that converted the context to a string was using the
+  context value as an array index.  Because the code used a bounds check on
+  the array, there was never a danger of a crash, but you would certainly
+  either get the wrong string, or "unknown".
+  
+  This patch adds a lookup that iterates over the context strings and uses
+  it's index to check for the corresponding bit in the context.
+
+- Fix typo in RELEASE-NOTES
+
+Daniel Stenberg (20 Jan 2010)
+- updated for 1.2.3 with all the stuff I found in the log
+
+- ignore more generated files
+
+- [Dave McCaldon brought this change]
+
+  Pass user context through libssh2_trace_sethandler() to callback
+  
+  The libssh2_trace_sethandler() call allows the user to handle the output of libssh2 rather than having it written to stderr.  This patch updates libssh2_trace_sethandler() to allow a user-defined void* context value to be passed back to the output handler.
+
+- [Dave McCaldon brought this change]
+
+  Add libssh2_trace_sethandler() to the API (even more)
+
+- [Dave McCaldon brought this change]
+
+  Add libssh2_trace_sethandler() to the API
+
+- cleanup includes
+  
+  We now produce a local libssh2_config.h file in this dir for the
+  examples to use so I cleaned up the include path at the same time.
+
+- generate a libssh2_config.h in the example dir
+  
+  buildconf copies the template to example/ and configure makes sure
+  to generate a proper file from it and the direct_tcpip.c example
+  is the first one to use it - to make sure it builds fine on more
+  paltforms
+
+Simon Josefsson (13 Jan 2010)
+- Remove redundant #includes and reorder sys/types.h include.
+
+Daniel Stenberg (10 Jan 2010)
+- avoid a free(NULL)
+
+Simon Josefsson (7 Jan 2010)
+- Make it simpler to get more debug info.
+
+Daiki Ueno (1 Jan 2010)
+- Simplify the commit 63457dfa using type cast from size_t * to ulong *.
+
+Alexander Lamaison (30 Dec 2009)
+- Fixed memory leak in userauth_publickey().
+  
+  userauth_publickey_fromfile() reads the key from a
+  file using file_read_publickey() which returns two
+  allocated strings, the decoded key and the key
+  method (such as "ssh-dss").  The latter can be
+  derived from the former but returning both avoids a
+  later allocation while doing so.
+  
+  Older versions of userauth_publickey_fromfile() used
+  this method string directly but when
+  userauth_publickey() was factored out of
+  userauth_publickey_fromfile() it derived the method
+  from the key itself.  This resulted in the method
+  being allocated twice.
+  
+  This fix, which maintains the optimisation that
+  avoids an extra allocation, changes
+  userauth_publickey() so it doesn't allocate and
+  derive the method when userauth_pblc_method already
+  has a value.
+  
+  Signed-off-by: Alexander Lamaison <awl03@doc.ic.ac.uk>
+
+Daiki Ueno (25 Dec 2009)
+- Fix the return value description of libssh2_knownhost_free().
+
+- Fix compiler warnings for size_t pointers on 32-bit Windows.
+
+- Define INVALID_SOCKET and use it instead of SOCKET_BAD.
+  
+  Revert the part of previous commit that defines SOCKET_BAD library wide.
+
+- Use libssh2_socket_t in the ssh-agent stuff.
+  Define a portability macro SOCKET_BAD which means "invalid socket".
+
+- Mark/unmark connection to Pageant is open/close.
+
+- Add test to check if the socket is connected.
+
+Peter Stuge (24 Dec 2009)
+- Add libssh2.pc to top-level .gitignore
+
+- Fix publickey authentication regression
+  
+  Commit 70b199f47659a74b8778c528beccf893843e5ecb introduced a parsing
+  bug in file_read_publickey() which made the algorithm name contain an
+  extra trailing space character, breaking all publickey authentication.
+
+- Add a direct-tcpip example which shows local port forwarding
+
+- Add session parameter and LIBSSH2_TRACE_SOCKET to libssh2_trace(3) man page
+
+- Add TODO: Expose error messages sent by the server
+
+Daiki Ueno (23 Dec 2009)
+- Fix doc comments.
+
+- Add man pages for ssh-agent API.
+
+- Don't request userauthlist after authentication.
+
+Simon Josefsson (21 Dec 2009)
+- Add.
+
+- [Daiki Ueno brought this change]
+
+  Add an example to use ssh-agent API.
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+- [Daiki Ueno brought this change]
+
+  Add ssh-agent API.
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+- [Daiki Ueno brought this change]
+
+  Add callback-based API for publickey auth.
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+- Move examples from example/simple to example/.
+
+- Move examples from example/simple to example/.
+
+Daniel Stenberg (17 Dec 2009)
+- _libssh2_list_insert() fixed to work
+  
+  While this is code not currently in use, it is part of the generic linked
+  list code and since I found the error I thought I'd better fix it since we
+  might bring in this function into the code one day.
+
+Simon Josefsson (16 Dec 2009)
+- Silence compiler warnings.
+  
+  Based on patch by Kamil Dudka <kdudka@redhat.com> in
+  <http://www.mail-archive.com/libssh2-devel@cool.haxx.se/msg00796.html>.
+
+- [Kamil Dudka brought this change]
+
+  libgcrypt: simplify code of _libssh2_dsa_sha1_sign
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+- [Kamil Dudka brought this change]
+
+  libgcrypt: follow-up for ssh-dss padding fix
+  
+  Signed-off-by: Simon Josefsson <simon@josefsson.org>
+
+Dan Fandrich (15 Dec 2009)
+- Check for the right environment variable in the test app
+
+Simon Josefsson (14 Dec 2009)
+- Silence warning about unused function parameter.
+  
+  Reported by Steven Van Ingelgem <steven@vaningelgem.be>.
+
+Daniel Stenberg (10 Dec 2009)
+- avoid returning data to memory already freed
+  
+  In case of failure we must make sure that the data we return
+  doesn't point to a memory area already freed. Reported anonymously
+  in the bug report #2910103.
+
+Peter Stuge (8 Dec 2009)
+- Use LIBSSH2_TRACE_* internally and remove redundant LIBSSH2_DBG_*
+
+- Add LIBSSH2_TRACE_SOCKET context for tracing send() and recv()
+  
+  Helpful in debugging the -39 errors.
+
+- Another transport layer fix for bogus -39 (LIBSSH2_ERROR_BAD_USE) errors
+  
+  Commit 683aa0f6b52fb1014873c961709102b5006372fc made send_existing() send
+  more than just the second part of a packet when the kernel did not accept
+  the full packet, but the function still overlooked the SSH protocol
+  overhead in each packet, often 48 bytes.
+  
+  If only the last few bytes of a packet remained, then the packet would
+  erroneously be considered completely sent, and the next call to write
+  more data in the session would return a -39 error.
+
+Daniel Stenberg (6 Dec 2009)
+- move local variable to be more localized
+
+- fixed some indent mistakes
+
+Peter Stuge (6 Dec 2009)
+- Fix padding in ssh-dss signature blob encoding
+  
+  DSA signatures consist of two 160-bit integers called r and s. In ssh-dss
+  signature blobs r and s are stored directly after each other in binary
+  representation, making up a 320-bit (40 byte) string. (See RFC4253 p14.)
+  
+  The crypto wrappers in libssh2 would either pack r and s incorrectly, or
+  fail, when at least one integer was small enough to be stored in 19 bytes
+  or less.
+  
+  The patch ensures that r and s are always stored as two 160 bit numbers.
+
+- Don't always clear write direction blocking flag
+  
+  When libssh2_transport_write() is called to continue sending a
+  partially sent packet the write direction flag must not be cleared
+  until the previous packet has been completely sent, or the app would
+  hang if the packet still isn't sent completely, since select() gets
+  called by the internal blocking emulation layer in libssh2 but would
+  then not be watching the socket for writability.
+  
+  Clear the flag only once processing of previous packet data is
+  complete and a new packet is about to be prepared.
+
+Alexander Lamaison (24 Nov 2009)
+- Detabify.
+
+- [Daniel Stenberg brought this change]
+
+  Fixed memory leak in sftp_fstat().
+
+Simon Josefsson (17 Nov 2009)
+- Mark date of 1.2.2 release.
+
+- Merge branch 'master' of ssh://git.stuge.se/var/lib/git/libssh2
+
+Version 1.2.2 (16 Nov 2009)
+
+Daniel Stenberg (16 Nov 2009)
+- prepared for 1.2.2
+
+Simon Josefsson (16 Nov 2009)
+- Improve NEWS items.
+
+- Support AES-Counter ciphers.
+
+- Silence compiler warning.
+  
+  Reported by Steven Van Ingelgem <steven@vaningelgem.be>
+  in <http://thread.gmane.org/gmane.network.ssh.libssh2.devel/2566>.
+
+- Mention libssh2-style.el.
+
+- Use memmove instead of memcpy on overlapping memory areas.
+  
+  Reported by Bob Alexander <balexander@expressor-software.com> in
+  <http://thread.gmane.org/gmane.network.ssh.libssh2.devel/2530>.
+
+- Add.
+
+- Protect against crash on too small SSH_MSG_IGNORE packets.
+  
+  Reported by Bob Alexander <balexander@expressor-software.com>
+  in <http://thread.gmane.org/gmane.network.ssh.libssh2.devel/2530>.
+
+- add copyright line
+
+- support arcfour128 cipher per RFC 4345
+
+Daniel Stenberg (21 Oct 2009)
+- [Cristian Rodríguez brought this change]
+
+  add support for GCC visibility features
+
+Simon Josefsson (19 Oct 2009)
+- less hard coding of cipher mode in libgcrypt backend
+
+Daniel Stenberg (18 Oct 2009)
+- [Juzna brought this change]
+
+  libssh2_channel_forward_accept() and listening fixes
+  
+  The forward accepting was not done right before, and the
+  packet_queue_listener function didn't assign a necessary
+  variable. All fixed by Juzna. I (Daniel) modified the
+  forward_accept() change somewhat.
+
+- added man page for libssh2_knownhost_free
+
+- more CVS => DEV conversions
+
+- remove references to "CVS"
+
+- we are on the 1.2.2 track nowadays
+
+Peter Stuge (17 Oct 2009)
+- Ensure that win32/libssh2.dsp will be generated with CRLF line endings
+  
+  First, win32/msvcproj.{head,foot} are now committed with CRLF line endings,
+  and .gitattributes specifies that these should not be changed on checkout or
+  commit. These are win32 files so it makes sense to store them with native
+  line endings.
+  
+  Second, the rules for generating libssh2.dsp and libssh2.vcproj are changed
+  so that the full file contents passes through awk, which strips all CR and
+  then prints each line with one CRLF line ending. Stripping CR is important
+  to avoid CRCRLF in case the input already comes with CRLF.
+
+Dan Fandrich (29 Sep 2009)
+- Make sure permissions on the private host key file is tight enough that
+  sshd doesn't complain. Quote $srcdir to try to cope with embedded spaces.
+
+Peter Stuge (30 Sep 2009)
+- Clarify the scp_write examples slightly and use an octal mask for the mode
+
+Version 1.2.1 (29 Sep 2009)
+
+Daniel Stenberg (29 Sep 2009)
+- 1.2.1 preparations
+
+- remove ChangeLog and win32/libssh2.dsp only at make distclean
+
+Simon Josefsson (23 Sep 2009)
+- Fix shell usage.
+
+Daniel Stenberg (22 Sep 2009)
+- clarify that the paths are the remote ones
+
+- let hpux systems build with _REENTRANT defined as well
+
+- updated to match reality
+  
+  I went over the commit log and added what I believe is all notable
+  changes and bugfixes since the 1.2 release
+
+Peter Stuge (20 Sep 2009)
+- Fix scp examples to loop correctly over libssh2_channel_write()
+
+- Fix transport layer bug causing invalid -39 (LIBSSH2_ERROR_BAD_USE) errors
+  
+  The channel layer sends packets using the transport layer, possibly
+  calling _libssh2_transport_write() many times for each packet.
+  
+  The transport layer uses the send_existing() helper to send out any
+  remaining parts of previous packets before a new packet is started.
+  
+  The bug made send_existing() consider the entire packet sent as soon as it
+  successfully sent the second part of a packet, even if the packet was not
+  completely done yet.
+
+Daniel Stenberg (19 Sep 2009)
+- [Neil Gierman brought this change]
+
+  Added gettimeofday() function for win32
+  
+  Neil Gierman's patch adds a gettimeofday() function for win32
+  for the libssh2_trace() functionality. The code originates from
+  cygwin and was put in the public domain by the author
+  Danny Smith <dannysmith@users.sourceforge.net>
+
+- libssh2_channel_read_ex() must return 0 when closed
+  
+  If the channel is already at EOF or even closed at the end of the
+  libssh2_channel_read_ex() function and there's no data to return,
+  we need to signal that back. We may have gotten that info while
+  draining the incoming transport layer until EAGAIN so we must not
+  be fooled by that return code.
+
+Dan Fandrich (16 Sep 2009)
+- Ignore tags file
+
+- Some platforms need sys/socket.h included before netinet/in.h.
+  Fixed an unused variable compiler warning.
+
+Daniel Stenberg (16 Sep 2009)
+- libssh2_channel_wait_closed() could hang
+  
+  libssh2_channel_wait_closed() had a bad loop waiting for the
+  channel to close, as it could easily miss the info and then if
+  the socket would be silent from that moment the funtion would
+  hang if in blocking-mode or just return EAGAIN wrongly to the
+  app. The drain-transport loop now correctly checks if the close
+  has arrived.
+
+- make libssh2_scp_send/recv do blocking mode correctly
+  
+  Somehow I had completely missed to make the libssh2_scp_send/recv
+  functions support the blocking mode the correct way so when I
+  cleaned up things the other day blocking mode broke for them...
+  Fixed now.
+
+Guenter Knauf (8 Sep 2009)
+- changed NetWare test makefile static link order
+
+- removed conditional sources from Makefile.inc
+  added ifdef blocks to libgcrypt.c, pem.c, openssl.c
+
+Simon Josefsson (7 Sep 2009)
+- Fix compilation errors.
+
+Guenter Knauf (6 Sep 2009)
+- some more NetWare build fixes.
+
+- some more NetWare makefile fixes.
+
+- added sys/select.h include to samples for fd_set on NetWare.
+
+- accept CFLAGS from environment.
+
+- some more .cvsignore / .gitignore fixes.
+
+- renamed .cvsignore to .gitignore.
+
+- changed conditional into make language.
+
+- changed NetWare and MingW32 makefile to use Makefile.inc.
+
+Daniel Stenberg (2 Sep 2009)
+- CVS leftovers removed
+
+- libssh2_version() exists since 1.1
+
+Hacki (2 Sep 2009)
+- added knownhost.c to makefiles.
+
+Alexander Lamaison (2 Sep 2009)
+- Pass private-key to OpenSSL as a filename with BIO_new_file().
+  
+  This keeps all FILE* handling on the OpenSSL side of the DLL boundary avoiding crashes on Windows while removing the need for libssh2 to read the private key file into memory.  This is now done by OpenSSL which is likely to do a better job of it.
+
+Daniel Stenberg (1 Sep 2009)
+- generate and install libssh2.pc
+  
+  oh these are necessary libssh2.pc changes too
+
+- first take at producing and installing a pkg-config file
+
+- renamed to .ac
+
+- renamed to the modern name "configure.ac"
+
+- always braces and else and brace on the same line removed
+  
+  I don't follow those particular guidelines myself so I think I'd
+  rather remove them here and keep my style than the opposite. As
+  I am the most frequent writer of code for the moment.
+
+- _libssh2_channel_write() only sends the 32K first bytes
+  
+  In theory we could split larger buffers into several smaller
+  packets to pass to transport_write(), but for now we instead only
+  deal with the first 32K in this call and assume the app will call
+  this function again with the rest!  The 32K size is a
+  conservative limit based on the text in RFC4253 section 6.1.
+
+- document _libssh2_channel_write's return code
+
+- s/libssh2_channel_write_ex/_libssh2_channel_write internally
+
+- call libssh2_error() when transport_write() returns EAGAIN
+  
+  _libssh2_channel_write() should never return error without
+  libssh2_error() getting called
+
+- clarify that zero can be returned without meaning error
+
+- remove debug leftovers
+
+- channel_read() was changed to _libssh2_channel_read() as lots of
+  internal code was changed to use that instead of wrongly using
+  libssh2_channel_read_ex(). Some files now need to include
+  channel.h to get this proto.
+  
+  channel_read() calls libssh2_error() properly on transport_read()
+  failures
+  
+  channel_read() was adjusted to not "invent" EAGAIN return code in
+  case the transport_read() didn't return it
+  
+  channel_close() now returns 0 or error code, as
+  documented. Previously it would return number of bytes read in
+  the last read, which was confusing (and useless).
+
+- changed all return EAGAIN to return the variable instead
+  
+  I made this change just to easier grep for "return .*EAGAIN" cases
+  as they should be very rare or done wrongly. Already worked to find
+  a flaw, marked with "TODO FIXME THIS IS WRONG" in channel.c. I also
+  fixed a few cases to become more general returns now when we have
+  more unified return codes internally.
+
+- _libssh2_channel_write() must not invent EAGAIN situations
+  
+  it is important that only the transport layer can generate EAGAIN
+  error codes so that we limit where we need to set direction bits
+  and more. When the local window is too small to send data we simply
+  stop trying to send and (risk) returning zero in
+  _libssh2_channel_write()
+
+- error code cleanup
+
+- remove all libssh2pack_t leftovers
+
+- removed the libssh2pack_t type
+  
+  and a minor _libssh2_transport_read() simplification
+
+- fix return codes, shortened a very long function name
+
+- remove use of libssh2_channel_receive_window_adjust
+  
+  _libssh2_channel_receive_window_adjust is the new replacement that
+  is both the correct internal version instead of the external API one,
+  and it has the return code flaw fixed. I also fixed more return
+  codes to pass long the correct error found.
+
+- more proper return codes, added a missing libssh2_error() call
+
+- clear socket_block_directions bits before send/recv
+  
+  These two places are the only places where send and recv are called
+  outside of transport.c so make sure they clear/set the bits correctly.
+
+- simplified fullpacket, clarified _libssh2_transport_write() comment
+
+- cleaned up _libssh2_packet_add()
+  
+  removed some code duplication, changed a few return -1 to return
+  error codes instead and added a missing libssh2_error() invoke
+
+- convert return -1 instances to return [proper error code]
+
+- simplify code by removing code duplication
+
+- fix several return -1 to return a proper error code
+  
+  On many places in the code there have been laziness return -1
+  statements lying around that should be fixed to return sensible
+  error codes. Here's a take at fixing a few offenders.
+
+- change transport to use unified error codes
+  
+  I added three new public error codes, and then modified the return
+  codes we use in the transport layer to use the generic error codes
+  so that there won't be any risk of internal confusions due to
+  different error code sets.
+
+- changes from int to libssh2_socket_t for sokcets
+  
+  modified two functions to use libssh2_socket_t instead of int
+  when referring to a socket descriptor
+
+- introducing libssh2_socket_t type and fixed iovec for windows
+  
+  Steven Van Ingelgem introduces libssh2_socket_t as a generic socket
+  type to use internally to avoid compiler warnings and mistakes. Also,
+  the private struct iovec declaration for windows is now made to look
+  like the POSIX struct does.
+
+- linked list changes and minor bug fixes
+
+- linked list code is now converted to new functions
+
+- remove superfluous braces and re-indent somewhat
+
+- move over lots of code to the _libssh2_list_* functions
+  
+  and I fixed a few minor bugs at the same time
+
+- converted listeners to the linked list functions
+
+- moved the handling of SFTP handles to new linked list code
+  
+  Each SFTP file handle is now handled by the "mother-struct"
+  using the generic linked list functions. The goal is to move
+  all custom linked list code to use this set of functions.
+  
+  I also moved the list declarations to the misc.h where they
+  belong and made misc.h no longer include libssh2_priv.h itself
+  since now libssh2_priv.h needs misc.h...
+  
+  In misc.c I added a #if 0'ed _libssh2_list_insert() function
+  because I ended up writing one, and I believe we may need it here
+  too once we move over more stuff to use the _libssh2_list* family.
+
+- correct the comment for _libssh2_list_add()
+  
+  it adds the new node to the _end_ of the list
+
+Alexander Lamaison (16 Aug 2009)
+- [Steven Van Ingelgem brought this change]
+
+  Suppress signed/unsigned comparison warning.
+
+Daniel Stenberg (11 Aug 2009)
+- added contributors from the 1.2 release notes
+
+Simon Josefsson (11 Aug 2009)
+- Need to use $(EXEEXT) on programs in TESTS to fix mingw cross-compiles.
+
+Daniel Stenberg (10 Aug 2009)
+- start working on 1.2.1
+
+Version 1.2 (10 Aug 2009)
+
+Daniel Stenberg (10 Aug 2009)
+- Version 1.2 (August 10, 2009)
+
+- revert parts of the b95fe985af3c80a2babcaaaf7da69a15b1237c49 commit
+  
+  Alexander Lamaison tracked down that my previous commit broke SFTP
+  reads in some aspects. The reversion now gets back to always recv()
+  until EAGAIN is returned so that the code no longer treats a short
+  read as an indication that it is "enough for now".
+  
+  The bad commit in particular had another independent change included,
+  which is to clear the direction-bits first in the transport read
+  and write functions, but this reversion does not revert that change.
+  Clearing those bits first is a good thing.
+
+- Fix some nroff formatting
+  
+  Patch by Sofian Brabez
+
+Alexander Lamaison (2 Aug 2009)
+- Replaced calls to OpenSSL FILE-pointer functions.
+  
+  Passing a FILE* argument across a DLL boundary causes problems on Windows.  Instead the keys are read into memory by libssh2 and passed to the OpenSSL functions as BIO* arguments.
+
+Daniel Stenberg (31 Jul 2009)
+- Add missing names
+  
+  I went over the NEWS and git log outputs and added all mentioned
+  contributors through the project's history. I want us to make an
+  effort to give credit to everyone who contributes, big or small.
+
+- fix the C99 variadic macro use for _libssh2_debug()
+  
+  George Neill pointed out that the C99 vararg marcro use was
+  wrong, and I edited his suggested patch slightly and unified
+  both prec99-GCC and C99 into the same macro.
+
+- Include RELEASE-NOTES in the release package
+
+- Release notes for the pending release
+  
+  I hope to maintain this file during development so that we also add
+  changes and bugfixes to it when we change things. Makes the daily
+  snapshots better and makes less of a hurdle when the release day
+  comes.
+
+- bad debugdump() causes SIGSEGV, partial sends not done right
+  
+  The anonymous bug report #2822910 pointed out that debugdump() was
+  stupidly called within the send_existing() function. At closer
+  inspection was the report not only right, but it also revealed
+  another problem to me: when the _libssh2_send() function returns
+  after sending only a part of the buffer, it would then misbehave.
+  This probably is very rare though, which must be the reason we
+  haven't seen a bigger problem with this.
+
+Simon Josefsson (28 Jul 2009)
+- Silcen compiler warnings.
+
+Daniel Stenberg (27 Jul 2009)
+- added two new issues to fix: socket type and better windowing
+  
+  * make sure the windowing code adapts better to slow situations so that it
+    doesn't then use as much memory as today
+  
+  * Introduce a 'libssh2_socket_t' type for sockets in internal code
+
+- remove superfluous check for large packets
+  
+  as we're already doing the correct check further down anyway there's no point
+  in doing the (wrong) check further up as well. Paul Veldkamp pointed this out.
+
+Simon Josefsson (22 Jul 2009)
+- Fix make distcheck problems.
+
+Daniel Stenberg (18 Jul 2009)
+- parts of the previous VS project files commit
+
+- From: Neil Gierman <ngierman@roadrunn.com>
+  
+  Makefile changes to generate MSVS project files
+  
+  - I integrated the libssh2_lib.dsp and libssh2_dll.dsp into a single
+  libssh2.dsp with different targets for lib vs dll
+  - Since I run Visual Studio 2008 with VC++9 I did not do vcproj files since
+  I would have newer vc8proj.head|foot than what others will be running
+  - My patch only has changes to Makefile.am's. I noticed that Makefile.in's
+  are included in the daily snapshots but they should be generated from the
+  .am's
+  - The 3 new files are msvcproj.head and msvcproj.foot for the beginning and
+  ending of the dsp file, and a new Makefile.inc that will have the source and
+  header file names. NOTE: All new source files will need to be added to
+  Makefile.inc and NOT Makefile.am now.
+  - I moved the win32 dir before the include dir
+  - I modified the dsw file so it points to the new libssh2.dsp project file
+
+- From: Alexander Lamaison <swish@lammy.co.uk>
+  Make the public headers includable on their own
+
+- From: Steven Van Ingelgem <steven@vaningelgem.be>
+  check first for libtoolize, and then for glibtoolize
+  
+  Mac OS X (and others?) needs this
+
+- Fix knownhost checking of non-hashed hosts
+  
+  From: Ben Kibbey <bjk@luxsci.net>
+
+- Fix the functionality again with hashed host names again.
+  
+  The breakage came with commit 8b46528c0476af50a43b6e619f2db318a0cad194.
+
+- [Peter Stuge brought this change]
+
+  Update mailing list URL to new address
+
+- const'ify two arguments to libssh2_knownhost_check()
+
+- Fix compiler warnings appearing with VS2008. Based on Steven Van Ingelgem's
+  patch in #2787839 with a bunch of additional edits by yours truly.
+
+- Applied Francois Dupoux's extra checks for weird packet or padding length in
+  incoming packets. We really need to bail out this way on weird input.
+  bug report #2814613
+
+- Mark McPherson posted bug report #2815836 pointing out that the custom memory
+  functions were not given the correct data as argument. This is now fixed even
+  if I personally don't quite grasp why abstract is passed as a pointer to
+  pointer all over libssh2...
+
+- Ben Kibbey added a type parameter to the libssh2_session_hostkey() function,
+  which hasn't yet been in a public release so changing the API is fine!
+
+- Guenter Knauf fixed this example to build on win32
+
+- corrected (again)
+
+- clarify
+
+- Neil Gierman pointed out in bug report #2809163 that these two files cannot
+  include the public libssh2.h header as it breaks the compile on window. I'll
+  adapt to this now, but in the long run I think we should rather fix the
+  includes so that we _can_ include the public headers properly.
+
+- fixed the length check in knownhost_writeline() since <= is actually good
+  enough when the size includes the trailing zero
+
+- After a mention from Ben Kibbey we now let knownhost_writeline() return the
+  length of the actual data it returns, excluding the trailing zero. I also
+  updated the man page for libssh2_knownhost_writeline() accordingly.
+
+- empty line removed
+
+- Ben Kibbey fixed the hostline() when parsing lines using only one hostname
+
+- Merge branch 'master' of ssh://bagder@git.stuge.se/var/lib/git/libssh2
+
+- Provide a libssh2_scp_send() API for files larger than 4GB (32bit size)
+
+- Olivier Hervieu provided this x11 forwarding example. This is the version
+  after my initial cleanup that I posted to the list on May 26th 2009. It still
+  has a few ugly spots that should be cleaned up, but until then it's will at
+  least be found in the repo. For this reason I don't add this to the makefile.
+
+- New man page for libssh2_session_hostkey(3). We probably need to improve this
+  to also return the type of the key.
+
+- Add check for and use of the _REENTRANT define for Solaris so that libssh2
+  is then properly thread-safe on that OS. These autuconf macros are straight
+  from the cURL project and were mostly written by Yang Tse. They were only
+  very slightly edited by me when imported to here.
+
+- [Tor Arntsen brought this change]
+
+  Ignore generated files
+
+- use the correct #if condition for strtoll(), pointed out in bug report
+
+- define the HAVE_LIBSSH2_KNOWNHOST_API to the version number 1.1.1 to make apps
+  know that when this define exists, the API exists. And the version number can
+  be used for run-time checks. 1.1.1 is not likely to be the release version as
+  I think we'll go with 1.2 instead but 1.1.1 OR LATER should still work.
+
+- libssh2_knownhost_add() got an additional argument: 'store' so that an
+  application can get a pointer back to the internal representation of the host
+  it just added. Useful for example when the app wants to add a host, and then
+  convert that exact same host to a line for storing in a known host file.
+  'store' can also be set to NULL to simple not care.
+
+- Added a call to libssh2_knownhost_writefile()
+  
+  Updated to the slightly modified libssh2_knownhost_check() proto
+
+- "struct libssh2_knownhost" is now part of the internal struct for each known
+  host so we now only return pointers to structs instead of having the app
+  allocate a full struct
+  
+  I moved the private struct definition into knownhosts.c instead of exposing it
+  wider in libssh2_priv.h
+  
+  I thus modified the proto for two functions that previously used 'struct
+  libssh2_knownhost *' to receive data.
+
+- when a host is added, we must make sure the app also provides a key *type* even
+  though we don't use the type in this function
+
+- Added man pages for the two newest members of the knownhosts API family:
+  libssh2_knownhost_readline() and libssh2_knownhost_writeline()
+
+- introducing libssh2_knownhost_writeline() and some cleanups to use more
+  defined error codes instead of the simplified -1 previously used a little too
+  much here
+
+- I think *readline() makes a better name
+
+- clarify that the key "string" needs to be zero terminated too
+
+- introducing libssh2_knownhost_read() that makes libssh2 read a single given
+  line
+  const'ified a few args to libssh2_knownhost_add() as well
+
+- fix a warning for a comparison mixing signed and unsigned types
+
+- After review/feedback/discussions on the mailing list. Rename two functions:
+  
+  s/libssh2_knownhost_parsefile/libssh2_knownhost_readfile
+  s/libssh2_knownhost_dumpfile/libssh2_knownhost_writefile
+
+- define removed
+
+- LIBSSH2_KNOWNHOST_TYPE_DEFAULT is not a good idea, scrap it
+
+- Added the initial man pages for the 7 new functions for known host handling
+
+- first shot at implementing libssh2_knownhost_dumpfile() and some minor
+  cleanups
+
+- introducing libssh2_knownhost_get() to the public API
+
+- clarified a comment
+
+- slighty better behavior and comments
+
+- remove include since we don't use struct iovec in this file
+
+- These examples no longer need to explictly set the socket to non-blocking state
+  as libssh2 itself will always do that by itself.
+
+- add myself as copyright owner
+
+- mention conversion of code to the new linked list code
+
+- remove #if 0'ed code
+
+- clarify the fix, as it wasn't a leak
+
+- spell fix a comment
+
+- Added some clarifying comments on how the 'sftpInit_sftp' and
+  'sftpInit_channel' struct fields within the session struct are used. And made
+  sure to clear them both correctly when sftp_init() returns instead of at
+  shutdown time, as it must not touch them at shutdown time. This should make it
+  possible to properly make more than one SFTP handle.
+
+- no need for LIBSSH2_ERROR_MEMORY when LIBSSH2_ERROR_ALLOC already exist!
+  added my own copyright line too now
+
+- use LIBSSH2_ERROR_ALLOC instead of introducing a new error code
+
+- clear session->sftpInit_sftp unconditionally
+
+- Fix my recent session->sftpInit_sftp fix which wasn't correct. The memory area
+  does not need to be freed (it already gets freed) but clearing the pointer is
+  a good idea. And it should be done _after_ the channel_free() call.
+
+- add an assert to help debugging
+
+- Without CVS we must not use cvs tools to generate the changelog. I'm not
+  confident enough with git to attempt to make one so I'll just make a dummy for
+  now.
+
+-  - Anonymous bug report #2795816 revealed that libssh2_sftp_shutdown() did not
+     properly free/cleanup the SFTP handle so libssh2 leaked memory and caused
+     an assert() on subsequent libssh2_sftp_init() calls on the same session.
+
+- Fix _libssh2_channel_write(): fixed the write loop to also read from the
+  transport layer better, to avoid draining the window size when sending large
+  packets. I also fixed the return code for it to return the number of bytes
+  handled in this single invoke (and not the cumulative amount).
+
+- First, only try to send max packet size *4 to channel write, as trying to send
+  much larger packages only cause internal problems and much larger allocations.
+  
+  Also fix sftp_write() when _libssh2_channel_write() returns that a packet was
+  only partially sent as that is not an error.
+  
+  Fixed a few error messages to more accurately point out the problem
+
+- If recv() returns something less than the full buffer we know we're done for
+  now, so skip looping and doing another read that then simply will cause an
+  EAGAIN as it may trick the user into believing things that aren't true.
+
+daniel (14 May 2009)
+- remove the old style as it makes little sense to mention here anymore
+
+Daniel Stenberg (12 May 2009)
+- typo
+
+- comment typo and some indent fixes
+
+- Partial fix based on the patch and discussions in #2788319
+
+- clear the passed in struct when the entry has been removed to help prevent
+  mistakes due to re-use
+
+- use a better example file name for the known_hosts file
+
+- split out the knownhost code from hostkey.c into its own separate source file
+  now: knownhost.c
+
+- this was never supposed to be added for real
+
+- My knownhost work as of right now. It works at least partly. More tests and
+  tweaks will come.
+
+- get host, user, password and command from the command line
+
+- Added ssh2_exec as a new example, showing how to run a command remotely with
+  libssh2
+
+- bug #2785173 pointed out that we really must call _libssh2_transport_read()
+  in loops until it returns < 0 when we call it, as if we just call it once we
+  may drain the socket for data and then leave unused in-memory data that we
+  won't detect because the socket is back to idle...
+
+-   Markus posted a bug report about a bad 0-return from libssh2_channel_read:
+    http://libssh2.haxx.se/mail/libssh2-devel-archive-2009-04/0076.shtml
+  
+    And it was indeed a bad loop that terminated too early due to a receveived
+    close packet.
+
+- remove pointless sleeps
+
+- edited
+
+-   libssh2_poll() and libssh2_poll_channel_read() are now considered and
+    documented deprecated and they will be removed at next soname bump. It also
+    saves us from fixing some rather quirky bugs in libssh2_poll()...
+
+Guenter Knauf (9 Apr 2009)
+- some minor Makefile tweaks; mainly for crosscompiling.
+
+Daniel Stenberg (6 Apr 2009)
+- Jussi Mononen pointed out we used an unsigned variable to store negative
+  values in, when a plain int is much better anyway since it matches the return
+  type.
+
+- and we're now on the 1.1.1 track
+
+- release 1.1
+
+- Sofian Brabez removed duplicate calls to libssh2_session_set_blocking()
+
+- Uh, it is important that we don't set the local state 'local.close' to TRUE
+  until _after_ we're done as otherwise we might not get called again properly
+  to clean the entire thing since the close state is checked in
+  libssh2_channel_free
+
+- Removed the trace output that said "May block until packet of type..." since
+  it simply wasn't true for non-blocking operations.
+
+- made sure the SFTP code makes more use of internal non-blocking functions
+  instead of the external API entries
+
+- Fixed the memory leak in in libssh2_userauth_hostbased_fromfile_ex() that
+  Jean-Louis Charton found. Additional minor indent and comment edits.
+
+- indent changes and removed libssh2_ prefix from static function
+
+Yang Tse (28 Mar 2009)
+- include libssh2_priv.h instead of libssh2.h in order to get
+  LIBSSH2_API properly defined on LIBSSH2_WIN32 build targets
+
+Daniel Stenberg (27 Mar 2009)
+- Additional non-blocking fixes.
+
+- Me and my long fingers couldn't resist "merging" these statements in a previous
+  commit but of course that broke functionality and this is a revert of that
+  change.
+
+- Dump to stderr simply because the other tracing functions in misc.c already
+  use stderr and mixing output "channels" causes too much confusion for me!
+
+- fixed sftp_shutdown() for the blockiness and fixed libssh2_channel_close()
+  to work properly non-blocking
+
+- Fixed the order of the check in the BLOCK_ADJUST() macro so that it also works
+  for libssh2_session_free()
+
+- kill warnings
+
+- Fix the BLOCK_ADJUST_ERRNO() macro to behave properly in blocking mode.
+
+Simon Josefsson (27 Mar 2009)
+- Add AC_CONFIG_MACRO_DIR to avoid warnings with libtool v2.2.x.
+
+Daniel Stenberg (27 Mar 2009)
+- fix comments, moved to htonu64 function to sftp.c and made it static
+
+- More cleaning up converting libssh2_ to _libssh2_ for internal functions and
+  removing libssh2_ from static functions. Added mac.h.
+
+- comp.c only as a single _libssh2_ function, no external one
+
+- * Renamed the functions in src/transport.c to be _libssh2_transport_ prefixed
+    and introduced a transport.h header.
+  
+  * Fixed the blocking mode to only change behavior not the actual underlying
+    socket mode so we now always work with non-blocking sockets. This also
+    introduces a new rule of thumb in libssh2 code: we don't call the
+    external function calls internally. We use the internal (non-blocking)
+    ones!
+  
+  * libssh2_channel_receive_window_adjust2 was added and
+    libssh2_channel_receive_window_adjust is now deprecated
+  
+  * Introduced "local" header files with prototypes etc for different parts
+    instead of cramming everything into libssh2_priv.h. channel.h is the
+    first.
+
+- avoid some busy-looping
+
+- one function to remove, one proto to correct
+
+- Updated comments and removed "libssh2_" prefixes from static functions
+
+- added basic docs
+
+- quite possibly one of the most pointless functions in the libssh2 API...a
+
+- ENOTCONN obviously doesn't exist in win32 so don't try to map that
+
+- [no comment]
+
+- EEK revert the part of the previous commit that was just my non-functional
+  attempts to make things work with blocking sockets.
+
+- I cut out the poll_socket argument from the protos for_libssh2_packet_askv()
+  and _libssh2_packet_ask() since they are internal and nothing in the code base
+  uses that functionality == simplicity with no drawbacks!
+
+- pass in unsigned ints for u32 values and not longs
+
+- - (Mar 19 2009) Daniel Stenberg: based on a patch by "E L" we now use errno
+    properly after recv() and send() calls (that internally are now known as
+    _libssh2_recv() and _libssh2_send()) so that the API and more works fine on
+    windows too!
+
+- I'm upgrading myself!
+
+Simon Josefsson (17 Mar 2009)
+- Add StrictModes=no to work around cygwin problem.
+  Reported by Yang Tse <yangsita@gmail.com>.
+
+- Add UsePrivilegeSeparation=no for cygwin.
+  Reported by Yang Tse <yangsita@gmail.com>
+
+Daniel Stenberg (17 Mar 2009)
+- re-indented for clarity
+
+- re-indented _libssh2_channel_packet_data_len() somewhat to make the huge
+  condition somewhat easier on the eye
+
+- A cleanup effort: libssh2_ prefixes only on external APIs. Use _libssh2_ prefix
+  for library-wide internal functions. Don't use any of those on static functions.
+  I also did some comments and whitespace changes.
+
+- bump packet default size to 32768
+
+- Refer to the exact symbol name, which also is the exact file name of the man
+  page file.
+
+Simon Josefsson (17 Mar 2009)
+- Use libtool -export-symbols-regex to reduce numer of exported symbols.
+
+Daniel Stenberg (16 Mar 2009)
+- cleanup round
+
+- Added (templates for) the 13 missing man pages
+
+- two more renaming of man pages to the actual function name
+
+- rename the man page to use the same name as the actual function
+
+- mention the basic changes in my previous few commits
+
+- Patch from bug report #1960894 by "Heiner" applied, and edited by me. It makes
+  SCP recv and send deal with file names containing spaces (and other
+  shell-special letters) by quoting them before they are passed to the remote
+  server.
+
+- fixed some wrong comments and did a minor code edit and some further
+  whitespace changes
+
+- added three more public functions I found lacking man pages
+
+- fix a compiler warning
+
+- simplified how the "scp" command line is created in the libssh2_scp_recv()
+  function
+
+- Simplified libssh2_channel_read_ex() and made it send window adjustments less
+  frequent, use a few less struct fields in the channel struct and improved
+  reading from the network with libssh2_packet_read(). I also modified the
+  windowing algorithm and now use a much larger window. This greatly enhances
+  SSH/SCP performance. I also increased the size of the buffer the transport
+  layer uses from 4k to 16K.
+
+- oops, use %06d for the microseconds!
+
+- re-indented and other whitespace edits
+
+- improved trace logs with time stamps
+
+- fixed to work quite similar to the sftp_nonblock example so that it waits
+  for the socket correctly and measures the transfer speed fine
+
+- Cleanups, that do seem to have boosted SFTP download performance up to 300% in
+  some tests:
+  
+    * cut off "_ex" from several internal function names
+  
+    * corrected some log outputs
+  
+    * simplified libssh2_channel_read_ex() and made it much faster in the process
+  
+    * cut out {{{ and }}} comments that were incorrect anyway
+  
+    * fixed sftp_packet_ask() to return the correct packet by using memcmp() and
+      not strncmp()
+  
+    * fixed mkdir()'s wait for packet to use the correct request_id - it
+      semi-worked previously because strncmp() in sftp_packet_ask() made it
+      match far too easily.
+  
+    * took away the polling functionality from sftp_packet_ask() since it wasn't
+      used
+
+- improved non-blocking behavior for some of the initing stuff before the actual
+  data transfer begins
+
+- wait for socket action accordingly, and do some measurements on the transfer
+  to make this better to use for speed tests
+
+- - (Mar 7 2009) Olivier Hervieu pointed out a flaw in the
+    libssh2_channel_x11_req_ex() function that made it produce a crappy random
+    chunk of data. Peter Stuge improved the fix to not do out-of-boundary
+    writes. I (Daniel Stenberg) replaced the snprintf() with a plain sprintf()
+    since the size argument wasn't adding anything anyway.
+
+Guenter Knauf (6 Mar 2009)
+- some minor Makefile tweaks.
+
+Daniel Stenberg (23 Feb 2009)
+- - Added libssh2_version()
+
+- - (Feb 20 2009) libssh2_channel_direct_tcpip_ex() bug #1902169 fixed, which
+    caused it to fail when called a second time.
+
+Mikhail Gusarov (17 Feb 2009)
+- Fixed dash-as-minus warning in libssh2_base64_decode.3 manpage
+
+- Fixed syntax error in libssh2_banner_set.3 manpage
+
+Simon Josefsson (16 Feb 2009)
+- Bump ABI revision from 1.0.0 to 1.0.1 due to code changes.
+
+- Fix typo.
+
+- Add date for v1.0 release.
+
+Daniel Stenberg (12 Feb 2009)
+- - (Feb 12 2009) Romain Bondue extended Markus Moeller fix from Feb 8, based on
+    a previous (uncommitted) patch by Erik Brossler. It improves
+    libssh2_channel_write_ex in blocking situations when the socket is set non-
+    blocking.
+
+- Markus Moeller fixed a flaw in libssh2_channel_write_ex() that would occur
+  on EAGAIN situations.
+
+- I want to remove all those macros from the official API at next soname bump
+
+- fixed compiler warnings, and stripped off "libssh2_" from static functions
+  as that makes shorter function names and then making the code look fine within
+  80 columns is easier!
+
+- made the three public headers use (mostly) lines shorter than 80 columns as
+  HACKING says - it makes them much more readable to my old tired eyes...
+
+- we're actually working on the 1.0.1 version now (or should it be 1.1?)
+
+- Added 'TODO' file (again) with some fresh things I could think of right now
+
+- Added libssh2_trace man page
+
+- libssh2_base64_decode is deprecated and subject for removal in a future
+  version (like on the next soname bump)
+
+- wrote up a first libssh2_base64_decode man page, added a few missing man
+  pages to the tarball
+
+- based on Heiner Steven's report, fix the name and description of these man
+  pages!
+
+- briefly mention my recent sftp-related fixes
+
+- mention web site and mailing list, as I think they're not mentioned anywhere
+  else in the package!
+
+- removed obviously superfluous comments
+
+- use a single >>32 instead of "(value / 65536) / 65536", just make sure that
+  the shift is done on a 64bit type
+
+- remove unused #ifndef, and two whitespace changes
+
+- style/indent changes only to enforce < 80 column lines more strict
+
+- libssh2_sftp_seek64() it is now for the 64bit seek function too as the seek2
+  name has never been used in a release and it makes the naming consistent
+
+- 0.19 is now 1.0
+
+- Based on Alexander Lamaison's patch, there's now a new
+  function called libssh2_sftp_tell64() that returns the 64 bit file offset,
+  as the existing libssh2_sftp_tell() only returns a size_t.
+
+- first conversion of a malloc => buffer in the sftp handle struct
+
+- helper script for emacs users to get the code style done libssh2-style
+  automatically
+
+- - Markus Moeller fixed the issue also reported by Alexander Lamaison which
+    caused SFTP reads with large buffers to fail.
+
+Simon Josefsson (17 Dec 2008)
+- Sshd is slow to start on some systems.
+
+Daniel Stenberg (17 Dec 2008)
+- Avoid one malloc by putting the entire handle buffer in the handle struct
+  at once, use a define for the maximum size length of the handle instead of
+  '256' in the code.
+
+- removed some more libssh2_ prefixes from private functions
+  
+  Made the libssh2_sftp_open_ex() deal with servers that first responds with
+  STATUS OK and then sends the actual HANDLE. It seems openssh does this at
+  times and it screwed things up. To me it seems like a spec violation...
+
+- removed unused code, intended the code somewhat
+
+- Nothing used libssh2_sftp_packet_read's flush argument anymore so I removed
+  it and simplified the code somewhat thanks to that. I then renamed the function
+  to sftp_packet_read() only since it is private in this file anyway.
+
+- renamed libssh2_sftp_packet_requirev to plain sftp_packet_requirev since it
+  is private in this file only and a shorter name is nicer
+  
+  Removed a "flush" of the data in sftp_packet_requirev() that now seems to have
+  made SFTP operations a lot more reliable. It didn't make much sense to have it
+  there but if someone can present a reason for one I figure we should carefully
+  investigate one and only do it conditionally where/when needed.
+
+- Clarify that this is only fine to use after an actual SFTP protocol error
+  return code.
+
+Simon Josefsson (27 Nov 2008)
+- Support EXEEXT in self-test.
+
+- Cygwin needs -lcrypto for -lssl.
+  Reported by "Yang Tse" <yangsita@gmail.com>.
+
+Daniel Stenberg (27 Nov 2008)
+- oops, add missing file
+
+Yang Tse (26 Nov 2008)
+- fix again cygwin build failure unreleased regression
+
+Dan Fandrich (25 Nov 2008)
+- Fixed a potential use of an uninitialized variable, the result of which lead
+  to an unneeded but harmless realloc.
+  Reduced the scope of some automatic variables.
+
+- Fixed some typos in log messages
+
+Daniel Stenberg (24 Nov 2008)
+- - Vlad Grachov brought the new function called
+    libssh2_session_block_directions() which returns a bitmask for what
+    directions the connection blocks. It is to be used applications that use
+    non-blocking sockets and when a libssh2 function returns
+    LIBSSH2_ERROR_EAGAIN this function can be used to figure out in which
+    direction the socket would block and thus it can wait for the socket to
+    again be ready for communication in that direction before it calls libssh2
+    again.
+
+Simon Josefsson (21 Nov 2008)
+- Add a more realistic self-test of libssh2.
+
+- Ignore coverage/.
+
+- Add rules to generate a code coverage report.
+
+- Use AM_CPPFLAGS instead of deprecated INCLUDES.
+
+- Add self-test of base64 decode.
+
+- Add gcov files.
+
+Dan Fandrich (21 Nov 2008)
+- Use only C89-style comments
+
+- Check LIBSSH2_HMAC_RIPEMD consistently
+
+Simon Josefsson (20 Nov 2008)
+- Fix compiler warnings.
+
+- Move pem.c to libgcrypt section, it is not needed for OpenSSL.
+
+- Drop pkg-config test, not needed now.
+
+- Rewrite OpenSSL+libz detection logic.
+
+- Add more.
+
+Daniel Stenberg (11 Nov 2008)
+- fix the include path to also point out the build dir's src/ dir for the cases
+  where we build the lot outside of the source dir
+
+- avoid duplicate function declarations on windows
+
+- WINSOCK_VERSION is no longer used (Richard W.M. Jones fixed)
+
+- Richard W.M. Jones' 5 patches that enables libssh2 to get cross-compiled with
+  mingw
+
+Paul Thomas (9 Nov 2008)
+- Fixes a problem that the last code change apparently didn't fix. Verified
+  that this works correctly with another user.
+
+- Fixed an issue with a patch that I submitted where the channel_read_ex()
+  could get stuck in a busy read loop.
+
+Yang Tse (25 Oct 2008)
+- fix cygwin build failure unreleased regression
+
+Paul Thomas (3 Oct 2008)
+- Reformatted the code, updated line endings to match original file,
+  fixed the build problem, removed tabs and replaced with spaces
+   and removed C89 unfriendly comments.
+
+Daniel Stenberg (2 Oct 2008)
+- mention libssh2_channel_request_pty_size_ex()
+
+- two new committers!
+
+Paul Thomas (2 Oct 2008)
+- This fix addresses bug# 2141548. Channel reads would fail despite
+  libssh2_poll() detecting that there was data ready to be read on
+  the socket. This is seen when small amounts of data are ready to
+  be read, typically 1-4 chars worth.
+
+- Committed changes to add in support for pty resizing. Credit for this
+  patch goes to Vincent Jaulin.
+
+- Fixed an issue with the libssh2_poll_channel_read function not
+  reading both normal and extended data when a non-zero value
+  is passed in as the 2nd parameter. This now matches the functionallity
+  described in the documentation.
+
+Daniel Stenberg (30 Sep 2008)
+- Carlo Bramini fixed the build for msys+mingw. Bug #1943976.
+
+- Carlo Bramini's fixes for the nonblocking examples for msys/mingw
+
+- Neil Gierman provided improved Visual Studio 2008 code in bug #1946268
+
+- - Bug #1862727 fixed libssh2_poll() to work on windows (by defining HAVE_SELECT).
+
+- - Based on bug #1815692, we introduce libssh2_sftp_seek2() that allows seeking
+    beyond the 2GB margin even on 32bit machines.
+
+- - Based on a patch in bug #1878059 by Steven Ayre libssh2 now parses >2GB file
+    sizes when downloading SCP files.

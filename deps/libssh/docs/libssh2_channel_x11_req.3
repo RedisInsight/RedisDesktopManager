@@ -1,0 +1,17 @@
+.TH libssh2_channel_x11_req 3 "20 Feb 2010" "libssh2 1.2.4" "libssh2 manual"
+.SH NAME
+libssh2_channel_x11_req - convenience macro for \fIlibssh2_channel_x11_req_ex(3)\fP calls
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int libssh2_channel_x11_req(LIBSSH2_CHANNEL *channel, int screen_number);
+
+.SH DESCRIPTION
+This is a macro defined in a public libssh2 header file that is using the
+underlying function \fIlibssh2_channel_x11_req_ex(3)\fP.
+.SH RETURN VALUE
+See \fIlibssh2_channel_x11_req_ex(3)\fP
+.SH ERRORS
+See \fIlibssh2_channel_x11_req_ex(3)\fP
+.SH SEE ALSO
+.BR libssh2_channel_x11_req_ex(3)

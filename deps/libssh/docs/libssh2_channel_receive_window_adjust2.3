@@ -1,0 +1,27 @@
+.TH libssh2_channel_receive_window_adjust2 3 "26 Mar 2009" "libssh2 1.1" "libssh2 manual"
+.SH NAME
+libssh2_channel_receive_window_adjust2 - adjust the channel window
+.SH SYNOPSIS
+#include <libssh2.h>
+
+int
+libssh2_channel_receive_window_adjust2(LIBSSH2_CHANNEL * channel,
+                                       unsigned long adjustment,
+                                       unsigned char force,
+                                       unsigned int *window);
+
+.SH DESCRIPTION
+Adjust the receive window for a channel by adjustment bytes. If the amount to
+be adjusted is less than LIBSSH2_CHANNEL_MINADJUST and force is 0 the
+adjustment amount will be queued for a later packet.
+
+This function stores the new size of the receive window (as understood by
+remote end) in the variable 'window' points to.
+.SH RETURN VALUE
+Return 0 on success and a negative value on error. If used in non-blocking
+mode it will return LIBSSH2_ERROR_EAGAIN when it would otherwise block.
+.SH ERRORS
+.SH AVAILABILITY
+Added in libssh2 1.1 since the previous API has deficiencies.
+.SH SEE ALSO
+.BR libssh2_channel_window_read_ex(3)

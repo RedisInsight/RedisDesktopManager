@@ -1,0 +1,20 @@
+.TH libssh2_sftp_tell 3 "1 Jun 2007" "libssh2 0.15" "libssh2 manual"
+.SH NAME
+libssh2_sftp_tell - get the current read/write position indicator for a file
+.SH SYNOPSIS
+#include <libssh2.h>
+#include <libssh2_sftp.h>
+
+size_t 
+libssh2_sftp_tell(LIBSSH2_SFTP_HANDLE *handle);
+
+.SH DESCRIPTION
+\fIhandle\fP - SFTP File Handle as returned by \fBlibssh2_sftp_open_ex(3)\fP.
+
+Returns the current offset of the file handle's internal pointer. Note that
+this is now deprecated. Use the newer \fBlibssh2_sftp_tell64(3)\fP instead!
+.SH RETURN VALUE
+Current offset from beginning of file in bytes.
+.SH SEE ALSO
+.BR libssh2_sftp_open_ex(3),
+.BR libssh2_sftp_tell64(3)
