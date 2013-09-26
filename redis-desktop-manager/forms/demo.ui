@@ -205,7 +205,7 @@
            <property name="minimumSize">
             <size>
              <width>560</width>
-             <height>220</height>
+             <height>240</height>
             </size>
            </property>
            <widget class="QLabel" name="applicationInfoLabel">
@@ -301,7 +301,7 @@
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>180</y>
+              <y>210</y>
               <width>531</width>
               <height>21</height>
              </rect>
@@ -344,6 +344,34 @@
              <string/>
             </property>
             <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="thanksLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>180</y>
+              <width>531</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;&lt;span style=&quot;color:green;&quot;&gt;Alexander Arshinov&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;&lt;span style=&quot; color:green;&quot;&gt;Dmitriy Savchenko&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;</string>
+            </property>
+            <property name="scaledContents">
+             <bool>true</bool>
+            </property>
+            <property name="wordWrap">
              <bool>true</bool>
             </property>
             <property name="openExternalLinks">
