@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -99,8 +99,13 @@ unix:!mac {
 }
 
 target.path = /usr/share/redis-desktop-manager/bin
-target.files = $$DESTDIR/rdm qt.conf
+target.files = $$DESTDIR/rdm qt.conf rdm.png
 INSTALLS += target
+
+deskicon.path = /usr/share/applications
+deskicon.files = rdm.desktop
+INSTALLS += deskicon
+
 data.path = /usr/share/redis-desktop-manager/lib
 data.files = lib/*
 INSTALLS += data
