@@ -1,5 +1,5 @@
 #!/bin/sh
-
+QTDIR=/usr/local/Qt-5.1.1
 USER=$(whoami)
 HOME_DIR=/home/$USER/
 
@@ -47,16 +47,16 @@ mkdir $DEPS_LIB
 #qt libs
 mkdir $DEPS_LIB/plugins
 mkdir $DEPS_LIB/plugins/platforms
-sudo cp -Rf /usr/lib/i386-linux-gnu/qt5/plugins/platforms/lib* $DEPS_LIB/plugins/platforms  
-cp -Rf /usr/lib/i386-linux-gnu/libQt5Xml.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libQt5Widgets.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libQt5Network.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libQt5Gui.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libQt5Core.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libQt5DBus.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libqgsttools_p.s* $DEPS_LIB
+sudo cp -Rf $QTDIR/plugins/platforms/lib* $DEPS_LIB/plugins/platforms  
+cp -Rf $QTDIR/lib/libQt5Xml.s* $DEPS_LIB
+cp -Rf $QTDIR/lib/libQt5Widgets.s* $DEPS_LIB
+cp -Rf $QTDIR/lib/libQt5Network.s* $DEPS_LIB
+cp -Rf $QTDIR/lib/libQt5Gui.s* $DEPS_LIB
+cp -Rf $QTDIR/lib/libQt5Core.s* $DEPS_LIB
+cp -Rf $QTDIR/lib/libQt5DBus.s* $DEPS_LIB
+#cp -Rf $QTDIR/lib/libqgsttools_p.s* $DEPS_LIB
 cp -Rf /usr/lib/i386-linux-gnu/libxcb* $DEPS_LIB
-cp -Rf /usr/lib/libicu* $DEPS_LIB
+#cp -Rf /usr/lib/libicu* $DEPS_LIB
 
 
 #external libs

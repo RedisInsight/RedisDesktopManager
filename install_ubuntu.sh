@@ -1,20 +1,20 @@
 #!/bin/sh
 
-#sudo apt-get update 
-#sudo apt-get install git python perl libssl0.9.8 -y
-#sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y 
+sudo apt-get update 
+sudo apt-get install git python perl libssl0.9.8 -y
+sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y 
 sudo apt-get install libatspi-dev -y
 sudo apt-get install libdbus-1-dev -y
 
 #setup build env
-#sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
-#        dh-make diff patch gnupg fakeroot lintian pbuilder -y
+sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
+        dh-make diff patch gnupg fakeroot lintian pbuilder -y
 
 cd /home/vagrant
 
 echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
 
-#sudo pbuilder create
+sudo pbuilder create
 
 #get and build qt
 
@@ -35,5 +35,7 @@ cd ./qt-everywhere-opensource-src-5.1.1
 
 sudo ./configure -opensource -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -dbus-linked -nomake examples -no-javascript-jit -nomake tests -confirm-license
 
-sudo make -j 2
+sudo make
 sudo make install
+
+export PATH=$PATH:/usr/local/Qt-5.1.1/bin
