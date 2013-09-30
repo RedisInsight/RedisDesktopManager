@@ -14,7 +14,7 @@ class RedisServerItem :  public QStandardItem
 public:	
 	RedisServerItem(RedisConnectionAbstract * c);
 
-	void loadDatabases();	
+	bool loadDatabases();	
 
 	void reload();
 

@@ -10,15 +10,15 @@ RedisServerItem::RedisServerItem(RedisConnectionAbstract * c)
 	setEditable(false);
 }
 
-void RedisServerItem::loadDatabases()
+bool RedisServerItem::loadDatabases()
 {		
-	if (isDbInfoLoaded) return;
+	if (isDbInfoLoaded) return true;
 
 	if (!connection->isConnected() && !connection->connect()) {
 		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
 		// TODO: set error icon		
 
-		return;
+		return false;
 	}
 
 	setBusyIcon();
@@ -34,7 +34,7 @@ void RedisServerItem::loadDatabases()
 			setText(QString("%1 (error:%2)").arg(connection->config.name).arg(error));
 		}
 		setNormalIcon();
-		return;
+		return false;
 	}
 
 	QMap<QString, int>::const_iterator db = databases.constBegin();
@@ -50,6 +50,8 @@ void RedisServerItem::loadDatabases()
 	setNormalIcon();
 
 	isDbInfoLoaded = true;
+
+	return true;
 }
 
 void RedisServerItem::reload()

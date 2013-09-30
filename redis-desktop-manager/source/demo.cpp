@@ -118,10 +118,12 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
 				loadingInProgress = true;
-				server->loadDatabases();
+				bool connected = server->loadDatabases();
 				loadingInProgress = false;
 				
-				//TODO : create new tab with server info
+				if (!connected) {
+					QMessageBox::warning(this, "Can't connect to server", "Can't connect to server. Check connection settings");
+				}				
 			}
 			break;
 		case RedisServerDbItem::TYPE:
