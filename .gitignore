@@ -25,3 +25,4 @@ build-redis*
 redis-desktop-manager/Makefile*
 build/redis*
 redis-desktop-manager/connections.xml
+*.deb
