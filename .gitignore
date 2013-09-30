@@ -26,3 +26,14 @@ redis-desktop-manager/Makefile*
 build/redis*
 redis-desktop-manager/connections.xml
 *.deb
+deps/libssh/example/.deps/*
+deps/libssh/example/.*
+deps/libssh/example/*
+deps/libssh/config.status
+deps/libssh/docs/Makefile
+deps/libssh/libssh2.pc
+deps/libssh/libtool
+deps/libssh/Makefile
+deps/libssh/src/.*
+deps/libssh/*.lo
+deps/libssh/src/**.o
