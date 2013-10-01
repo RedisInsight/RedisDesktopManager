@@ -47,20 +47,20 @@ mkdir $DEPS_LIB
 #qt libs
 mkdir $DEPS_LIB/plugins
 mkdir $DEPS_LIB/plugins/platforms
+mkdir $DEPS_LIB/fonts
 sudo cp -Rf $QTDIR/plugins/platforms/lib* $DEPS_LIB/plugins/platforms  
-cp -Rf $QTDIR/lib/libQt5Xml.s* $DEPS_LIB
-cp -Rf $QTDIR/lib/libQt5Widgets.s* $DEPS_LIB
-cp -Rf $QTDIR/lib/libQt5Network.s* $DEPS_LIB
-cp -Rf $QTDIR/lib/libQt5Gui.s* $DEPS_LIB
-cp -Rf $QTDIR/lib/libQt5Core.s* $DEPS_LIB
-cp -Rf $QTDIR/lib/libQt5DBus.s* $DEPS_LIB
-#cp -Rf $QTDIR/lib/libqgsttools_p.s* $DEPS_LIB
-cp -Rf /usr/lib/i386-linux-gnu/libxcb* $DEPS_LIB
-#cp -Rf /usr/lib/libicu* $DEPS_LIB
-
+sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts  
+cp -aR $QTDIR/lib/libQt5Xml.so.5.1.1 $DEPS_LIB/libQt5Xml.so.5
+cp -aR $QTDIR/lib/libQt5Widgets.so.5.1.1 $DEPS_LIB/libQt5Widgets.so.5
+cp -aR $QTDIR/lib/libQt5Network.so.5.1.1 $DEPS_LIB/libQt5Network.so.5
+cp -aR $QTDIR/lib/libQt5Gui.so.5.1.1 $DEPS_LIB/libQt5Gui.so.5
+cp -aR $QTDIR/lib/libQt5Core.so.5.1.1 $DEPS_LIB/libQt5Core.so.5
+cp -aR $QTDIR/lib/libQt5DBus.s* $DEPS_LIB
+cp -aR /usr/lib/i386-linux-gnu/libxcb*.s* $DEPS_LIB
 
 #external libs
-cp -Rf /usr/local/lib/libssh2.s* $DEPS_LIB
+cp -aR /usr/local/lib/libssh2.s* $DEPS_LIB
+
 
 echo 
 echo ===========================

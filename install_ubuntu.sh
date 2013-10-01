@@ -1,7 +1,8 @@
 #!/bin/sh
 
 sudo apt-get update 
-sudo apt-get install git python perl libssl0.9.8 -y
+sudo apt-get install git python perl -y
+sudo apt-get install libssl0.9.8 -y
 sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y 
 sudo apt-get install libatspi-dev -y
 sudo apt-get install libdbus-1-dev -y
