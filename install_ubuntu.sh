@@ -6,6 +6,7 @@ sudo apt-get install libssl0.9.8 -y
 sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y 
 sudo apt-get install libatspi-dev -y
 sudo apt-get install libdbus-1-dev -y
+sudo apt-get install libxext-dev -y
 
 #setup build env
 sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
@@ -34,7 +35,7 @@ fi
 
 cd ./qt-everywhere-opensource-src-5.1.1
 
-sudo ./configure -opensource -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -dbus-linked -nomake examples -no-javascript-jit -nomake tests -confirm-license
+sudo ./configure -opensource -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -dbus-linked -openssl-linked -nomake examples -no-javascript-jit -nomake tests -confirm-license
 
 sudo make
 sudo make install
