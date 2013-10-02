@@ -37,3 +37,10 @@ deps/libssh/Makefile
 deps/libssh/src/.*
 deps/libssh/*.lo
 deps/libssh/src/**.o
+deps/libssh/*.lo
+deps/libssh/*/*.*o
+deps/libssh/*/*.la
+deps/libssh/tests/*
+deps/libssh/src/libssh2_config.h
+deps/libssh/src/Makefile
+deps/libssh/src/stamp-h1
