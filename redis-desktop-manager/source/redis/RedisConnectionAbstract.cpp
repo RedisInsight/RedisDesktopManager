@@ -26,7 +26,7 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 
 	QStringList keyspaceInfo = result.toString().split("\r\n", QString::SkipEmptyParts);
 
-	QRegExp getDbAndKeysCount("(db\\d):keys=(\\d+),expires=(\\d+)");
+	QRegExp getDbAndKeysCount("(db\\d+):keys=(\\d+),expires=(\\d+)");
 
 	for (QString line : keyspaceInfo) {
 
