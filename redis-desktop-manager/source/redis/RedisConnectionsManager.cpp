@@ -55,6 +55,8 @@ void RedisConnectionsManager::UpdateConnection(RedisConnectionAbstract * old, Re
 {
 	connections.removeOne(old);
 	connections.push_back(newConnection);
+
+	connectionSettingsChanged = true;
 }
 
 void RedisConnectionsManager::LoadConnectionsConfigFromFile(QString config)
