@@ -10,6 +10,7 @@
 #include "RedisConnection.h"
 #include "RedisConnectionsManager.h"
 #include "RedisConnectionsModel.h"
+#include "KeysFilter.h"
 
 class RedisKeyItem;
 class Updater;
@@ -27,6 +28,7 @@ private:
 	bool loadingInProgress;
 	Ui::demoClass ui;		
 	Updater * updater;
+	KeysFilter * filterModel;
 
 	void loadKeyTab(RedisKeyItem *);
     QString getConfigPath(const QString&);

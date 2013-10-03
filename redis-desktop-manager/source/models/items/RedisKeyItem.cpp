@@ -98,3 +98,8 @@ QString RedisKeyItem::getFullText()
 
 	return QString("%1:%2>%3").arg(connection).arg(dbIndexString).arg(this->text());
 }
+
+QString RedisKeyItem::getFullName()
+{
+	return fullName;
+}

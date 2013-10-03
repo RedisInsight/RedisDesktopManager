@@ -12,6 +12,7 @@
 #include "listViewTab.h"
 #include "zsetViewTab.h"
 #include "Updater.h"
+#include "KeysFilter.h"
 
 Main::Main(QWidget *parent)
 	: QMainWindow(parent), loadingInProgress(false)
@@ -31,10 +32,16 @@ Main::Main(QWidget *parent)
 
 	//connection manager
 	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));
-	ui.serversTreeView->setModel(connections);
+	filterModel = new KeysFilter(nullptr);
+	filterModel->setSourceModel(connections);
+
+	ui.serversTreeView->setModel(filterModel);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 	ui.serversTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	ui.serversTreeView->header()->setStretchLastSection(false);
+
+	//todo remove this
+	//filterModel->filter(QRegExp("^stat.+"));
 
 	//setup context menu
 	ui.serversTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -109,7 +116,9 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 		return;
 	}
 
-	QStandardItem * item = connections->itemFromIndex(index);
+	QStandardItem * item = connections->itemFromIndex(
+		filterModel->mapToSource(index)
+		);
 
 	int type = item->type();
 	switch (type)
