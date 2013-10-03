@@ -38,6 +38,8 @@ private:
 		void OnTreeViewContextMenu(const QPoint &);
 		void OnReloadServerInTree();
 		void OnNewUpdateAvailable(QString &);
+		void OnRemoveConnectionFromTree();
+		void OnEditConnection();
 };
 
 #endif // DEMO_H

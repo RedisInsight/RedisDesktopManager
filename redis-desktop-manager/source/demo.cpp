@@ -97,8 +97,6 @@ QString Main::getConfigPath(const QString& configFile)
 void Main::OnAddConnectionClick()
 {
 	connection * connectionDialog = new connection(this);
-	connectionDialog->setWindowFlags(Qt::Tool);		
-	connectionDialog->setModal(true);
 	connectionDialog->exec();
 	delete connectionDialog;
 }
@@ -220,6 +218,9 @@ void Main::OnTreeViewContextMenu(const QPoint &point)
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
 		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
+		menu->addSeparator();
+		menu->addAction("Edit", this, SLOT(OnEditConnection()));
+		menu->addAction("Delete", this, SLOT(OnRemoveConnectionFromTree()));
 		menu->exec(QCursor::pos());
 	}
 }
@@ -237,9 +238,62 @@ void Main::OnReloadServerInTree()
 		if (item->type() == RedisServerItem::TYPE) {
 			RedisServerItem * server = (RedisServerItem *) item;
 
-			server->reload();
+			server->reload();			
 		}
 	}
+}
+
+void Main::OnRemoveConnectionFromTree()
+{
+	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+
+	if (selected.size() == 0) 
+		return;
+
+	for (auto index : selected) {
+		QStandardItem * item = connections->itemFromIndex(index);	
+
+		if (item->type() == RedisServerItem::TYPE) {
+
+			QMessageBox::StandardButton reply;
+
+			reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
+				QMessageBox::Yes|QMessageBox::No);
+
+			if (reply == QMessageBox::Yes) {
+
+				RedisServerItem * server = (RedisServerItem *) item;
+
+				connections->RemoveConnection(server);
+
+			}
+		}
+	}
+
+}
+
+void Main::OnEditConnection()
+{
+	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+
+	if (selected.size() == 0) 
+		return;
+
+	for (auto index : selected) {
+		QStandardItem * item = connections->itemFromIndex(index);	
+
+		if (item->type() == RedisServerItem::TYPE) {
+
+			RedisServerItem * server = (RedisServerItem *) item;
+
+			connection * connectionDialog = new connection(this, server);
+			connectionDialog->exec();
+			delete connectionDialog;
+
+			server->unload();
+		}
+	}
+
 }
 
 void Main::OnNewUpdateAvailable(QString &url)

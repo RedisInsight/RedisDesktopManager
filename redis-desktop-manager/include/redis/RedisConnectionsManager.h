@@ -5,6 +5,7 @@
 #include "RedisConnectionAbstract.h"
 
 class TestRedisConnectionsManager;
+class RedisServerItem;
 
 class RedisConnectionsManager : public QStandardItemModel
 {
@@ -15,6 +16,8 @@ public:
 	~RedisConnectionsManager(void);
 
 	void AddConnection(RedisConnectionAbstract *);
+	void UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection);
+	bool RemoveConnection(RedisServerItem *);
 
 private:
 	QString configPath;

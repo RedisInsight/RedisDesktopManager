@@ -34,6 +34,29 @@ void RedisConnectionsManager::AddConnection(RedisConnectionAbstract * c)
 	connectionSettingsChanged = true;
 }
 
+bool RedisConnectionsManager::RemoveConnection(RedisServerItem * c)
+{
+	if (c == nullptr) {
+		return false;
+	}
+
+	bool removedFromContainer = connections.removeOne(c->getConnection());
+
+	bool removedFromModel = this->removeRow(c->row());
+
+	//mark settings as unsaved
+	if (removedFromContainer && removedFromModel) 
+		connectionSettingsChanged = true;
+
+	return removedFromContainer && removedFromModel;
+}
+
+void RedisConnectionsManager::UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection) 
+{
+	connections.removeOne(old);
+	connections.push_back(newConnection);
+}
+
 void RedisConnectionsManager::LoadConnectionsConfigFromFile(QString config)
 {
 	QFile conf(config);
