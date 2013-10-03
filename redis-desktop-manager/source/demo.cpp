@@ -1,5 +1,6 @@
 #include <QMenu>
 #include <QtNetwork>
+#include <QFileDialog>
 
 #include "demo.h"
 #include "connection.h"
@@ -19,6 +20,7 @@ Main::Main(QWidget *parent)
 
 	// connect slots to signals
 	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
+	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
 
 	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
 			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
@@ -301,4 +303,18 @@ void Main::OnNewUpdateAvailable(QString &url)
 	ui.newUpdateAvailableLabel->setText(QString("<div style=\"font-size: 13px;\">New update available: %1</div>").arg(url));
 }
 
+void Main::OnImportConnectionsClick()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files (*.xml)"));
+
+	if (fileName.isEmpty()) {
+		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
+	}
+
+	if (connections->ImportConnections(fileName)) {
+		QMessageBox::information(this, "Connections imported", "Connections imported from connections file");
+	} else {
+		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
+	}
+}
 

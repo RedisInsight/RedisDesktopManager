@@ -9,5 +9,7 @@
     <file alias="key.png">../images/key.png</file>
     <file alias="help.png">../images/help.png</file>
     <file alias="alert.png">../images/alert.png</file>
+    <file alias="add.png">../images/add.png</file>
+    <file alias="import.png">../images/import.png</file>
     </qresource>
 </RCC>

@@ -40,6 +40,7 @@ private:
 		void OnNewUpdateAvailable(QString &);
 		void OnRemoveConnectionFromTree();
 		void OnEditConnection();
+		void OnImportConnectionsClick();
 };
 
 #endif // DEMO_H

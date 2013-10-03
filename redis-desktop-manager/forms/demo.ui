@@ -123,8 +123,23 @@
           <property name="text">
            <string>Add connection</string>
           </property>
+          <property name="icon">
+           <iconset resource="../Resources/demo.qrc">
+            <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+          </property>
           <property name="flat">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbImportConnections">
+          <property name="text">
+           <string>Import connections</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../Resources/demo.qrc">
+            <normaloff>:/images/import.png</normaloff>:/images/import.png</iconset>
           </property>
          </widget>
         </item>

@@ -59,11 +59,23 @@ void RedisConnectionsManager::UpdateConnection(RedisConnectionAbstract * old, Re
 	connectionSettingsChanged = true;
 }
 
-void RedisConnectionsManager::LoadConnectionsConfigFromFile(QString config)
+bool RedisConnectionsManager::ImportConnections(QString &path)
+{
+	if (LoadConnectionsConfigFromFile(path)) {
+		connectionSettingsChanged = true;
+		return true;
+	}
+
+	return false;
+}
+
+
+bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config)
 {
 	QFile conf(config);
 	
-	if (!conf.open(QIODevice::ReadOnly)) return;	
+	if (!conf.open(QIODevice::ReadOnly)) 
+		return false;	
 	
 	QDomDocument xmlConf;
 
@@ -96,7 +108,7 @@ void RedisConnectionsManager::LoadConnectionsConfigFromFile(QString config)
 
 	connectionSettingsChanged = false;	
 
-	return;
+	return true;
 }
 
 void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)

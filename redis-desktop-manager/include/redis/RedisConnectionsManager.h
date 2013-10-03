@@ -19,13 +19,15 @@ public:
 	void UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection);
 	bool RemoveConnection(RedisServerItem *);
 
+	bool ImportConnections(QString &);
+
 private:
 	QString configPath;
 	QList<RedisConnectionAbstract *> connections;
 	bool connectionSettingsChanged;
 
 protected:
-	void LoadConnectionsConfigFromFile(QString);
+	bool LoadConnectionsConfigFromFile(QString&);
 	void SaveConnectionsConfigToFile(QString);
 	void loadKeys(RedisConnectionAbstract *);
 };
