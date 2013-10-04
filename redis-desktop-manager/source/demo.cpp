@@ -33,7 +33,7 @@ void Main::initConnectionsTreeView()
 	filterModel->setSourceModel(connections);
 
 	//todo remove this
-	//filterModel->filter(QRegExp("^stat.+"));
+	filterModel->filter(QRegExp("^stat.+"));
 
 	ui.serversTreeView->setModel(filterModel);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -154,6 +154,7 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
 				loadingInProgress = true;
 				db->loadKeys();
+				filterModel->updateFilter();
 				loadingInProgress = false;
 			}			
 			break;
@@ -267,7 +268,8 @@ void Main::OnReloadServerInTree()
 		if (item->type() == RedisServerItem::TYPE) {
 			RedisServerItem * server = (RedisServerItem *) item;
 
-			server->reload();			
+			server->reload();
+			filterModel->updateFilter();
 		}
 	}
 }

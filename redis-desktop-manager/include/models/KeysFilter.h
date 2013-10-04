@@ -2,6 +2,7 @@
 #define KEYSFILTER_H
 
 #include <QSortFilterProxyModel>
+#include <QStandardItem>
 
 class KeysFilter : public QSortFilterProxyModel
 {
@@ -11,12 +12,18 @@ public:
 	KeysFilter(QObject *parent);
 	~KeysFilter();
 
-	void filter(QRegExp&);
+	void filter(const QRegExp&);
+
+	void updateFilter();
 
 protected:
 	bool filterAcceptsRow(int, const QModelIndex &) const;
-	void hideEmptyNamespaces(QModelIndex&);
+	void hideEmptyNamespaces();
+	void hideEmptyNamespacesWalker(QStandardItem * parent);
 private:
+	QHash<int, int> * cache;
+	bool cacheBuilded;
+
 	
 };
 
