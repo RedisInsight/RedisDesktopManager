@@ -33,6 +33,11 @@ private:
 	void loadKeyTab(RedisKeyItem *);
     QString getConfigPath(const QString&);
 
+	void initFormButtons();
+	void initConnectionsTreeView();
+	void initTabs();
+	void initUpdater();
+
 	private slots:
 		void OnAddConnectionClick();
 		void OnConnectionTreeClick(const QModelIndex & index);

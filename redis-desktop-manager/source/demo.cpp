@@ -19,45 +19,59 @@ Main::Main(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	// connect slots to signals
-	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
-	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
+	initConnectionsTreeView();
+	initFormButtons();	
+	initTabs();	
+	initUpdater();
+}
 
-	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
-			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
-
-	//tabWidget setup
-	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
-	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); //hide tabButton for first tab
-
+void Main::initConnectionsTreeView()
+{
 	//connection manager
 	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));
 	filterModel = new KeysFilter(nullptr);
 	filterModel->setSourceModel(connections);
+
+	//todo remove this
+	//filterModel->filter(QRegExp("^stat.+"));
 
 	ui.serversTreeView->setModel(filterModel);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 	ui.serversTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	ui.serversTreeView->header()->setStretchLastSection(false);
 
-	//todo remove this
-	//filterModel->filter(QRegExp("^stat.+"));
+	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
+			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
 
 	//setup context menu
 	ui.serversTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(ui.serversTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
 			this, SLOT(OnTreeViewContextMenu(const QPoint &)));
+}
 
-	//Updater
+void Main::initFormButtons()
+{
+	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
+	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
+}
+
+void Main::initTabs()
+{
+	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
+
+	//hide close button for first tab
+	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); 
+}
+
+void Main::initUpdater()
+{
 	//set current version
 	ui.currentVersionLabel->setText(
 		ui.currentVersionLabel->text() + QApplication::applicationVersion()
 		);
 
 	updater = new Updater();
-	connect(updater, SIGNAL(updateUrlRetrived(QString &)),
-		this, SLOT(OnNewUpdateAvailable(QString &)));
-
+	connect(updater, SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
 }
 
 Main::~Main()
@@ -220,7 +234,9 @@ void Main::loadKeyTab(RedisKeyItem * key)
 
 void Main::OnTreeViewContextMenu(const QPoint &point)
 {
-	QStandardItem *item = connections->itemFromIndex(ui.serversTreeView->indexAt(point));	
+	QStandardItem *item = connections->itemFromIndex(
+		filterModel->mapToSource(ui.serversTreeView->indexAt(point))
+		);	
 
 	if (!item)	return;
 
@@ -244,7 +260,9 @@ void Main::OnReloadServerInTree()
 		return;
 
 	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(index);	
+		QStandardItem * item = connections->itemFromIndex(
+			filterModel->mapToSource(index)
+			);	
 
 		if (item->type() == RedisServerItem::TYPE) {
 			RedisServerItem * server = (RedisServerItem *) item;
@@ -262,7 +280,9 @@ void Main::OnRemoveConnectionFromTree()
 		return;
 
 	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(index);	
+		QStandardItem * item = connections->itemFromIndex(
+			filterModel->mapToSource(index)
+			);	
 
 		if (item->type() == RedisServerItem::TYPE) {
 
@@ -291,7 +311,9 @@ void Main::OnEditConnection()
 		return;
 
 	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(index);	
+		QStandardItem * item = connections->itemFromIndex(
+			filterModel->mapToSource(index)
+			);	
 
 		if (item->type() == RedisServerItem::TYPE) {
 
