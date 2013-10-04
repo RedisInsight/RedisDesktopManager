@@ -6,7 +6,7 @@
 KeysFilter::KeysFilter(QObject *parent)
 	: QSortFilterProxyModel(parent), cacheBuilded(false)
 {
-	cache = new QHash<int, int>();
+	cache = new QHash<QStandardItem *, int>();
 }
 
 KeysFilter::~KeysFilter()
@@ -82,7 +82,7 @@ bool KeysFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent
 		return true;
 	}
 
-	QStandardItem * currItem = parent->child(sourceRow);
+	QStandardItem * currItem = parent->child(sourceRow);	
 
 	if (currItem != nullptr && currItem->type() == RedisKeyItem::TYPE) {
 
@@ -91,20 +91,20 @@ bool KeysFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent
 		bool result = key->getFullName().contains(filterRegExp());
 
 		if (!cacheBuilded && !result) {
-			if (cache->contains(sourceParent.row())) {
-				int count = 1 + cache->value(sourceParent.row());
-				cache->insert(sourceParent.row(), count);
+			if (cache->contains(parent)) {
+				int count = 1 + cache->value(parent);
+				cache->insert(parent, count);
 			} else {
-				cache->insert(sourceParent.row(), 1);
+				cache->insert(parent, 1);
 			}		
 		}
 
 		return result;
 	} else if (currItem != nullptr 
 		&& currItem->type() == RedisKeyNamespace::TYPE
-		&& cacheBuilded) {
+		&& cacheBuilded) {			
 
-			if (cache->contains(sourceRow) && cache->value(sourceRow) == currItem->rowCount()) {
+			if (cache->contains(currItem) && cache->value(currItem) == currItem->rowCount()) {
 				return false;
 			}
 

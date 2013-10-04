@@ -21,7 +21,7 @@ protected:
 	void hideEmptyNamespaces();
 	void hideEmptyNamespacesWalker(QStandardItem * parent);
 private:
-	QHash<int, int> * cache;
+	QHash<QStandardItem *, int> * cache;
 	bool cacheBuilded;
 
 	
