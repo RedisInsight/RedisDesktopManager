@@ -21,14 +21,17 @@ public:
 
 	bool ImportConnections(QString &);
 
+	void setFilter(QRegExp &);
+	void updateFilter();
+
 private:
 	QString configPath;
 	QList<RedisConnectionAbstract *> connections;
 	bool connectionSettingsChanged;
+	QRegExp * filter;
 
 protected:
 	bool LoadConnectionsConfigFromFile(QString&);
 	void SaveConnectionsConfigToFile(QString);
-	void loadKeys(RedisConnectionAbstract *);
 };
 

@@ -7,7 +7,8 @@
 #include "RedisServerItem.h"
 
 RedisConnectionsManager::RedisConnectionsManager(QString config)
-	: configPath(config), connectionSettingsChanged(false), QStandardItemModel(nullptr)
+	: configPath(config), connectionSettingsChanged(false), 
+	filter(nullptr), QStandardItemModel(nullptr)
 {
 	if (!config.isEmpty() && QFile::exists(config)) {
 		LoadConnectionsConfigFromFile(config);
