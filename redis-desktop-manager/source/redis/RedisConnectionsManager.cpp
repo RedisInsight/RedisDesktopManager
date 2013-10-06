@@ -136,7 +136,7 @@ void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 	return;
 }
 
-void RedisConnectionsManager::loadKeys(RedisConnectionAbstract * connection)
+/*void RedisConnectionsManager::loadKeys(RedisConnectionAbstract * connection)
 {
 	if (!connection->isConnected()) {
 		connection->connect();
@@ -169,4 +169,4 @@ void RedisConnectionsManager::loadKeys(RedisConnectionAbstract * connection)
 	for (QString key : keys) {
 		rootItem->appendRow(new QStandardItem(key));
 	}
-}
+}*/

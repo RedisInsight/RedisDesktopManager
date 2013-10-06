@@ -12,7 +12,6 @@
 #include "listViewTab.h"
 #include "zsetViewTab.h"
 #include "Updater.h"
-#include "KeysFilter.h"
 
 Main::Main(QWidget *parent)
 	: QMainWindow(parent), loadingInProgress(false)
@@ -29,13 +28,8 @@ void Main::initConnectionsTreeView()
 {
 	//connection manager
 	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));
-	filterModel = new KeysFilter(nullptr);
-	filterModel->setSourceModel(connections);
 
-	//todo remove this
-	filterModel->filter(QRegExp("^stat.+"));
-
-	ui.serversTreeView->setModel(filterModel);
+	ui.serversTreeView->setModel(connections);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 	ui.serversTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	ui.serversTreeView->header()->setStretchLastSection(false);
@@ -130,9 +124,7 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 		return;
 	}
 
-	QStandardItem * item = connections->itemFromIndex(
-		filterModel->mapToSource(index)
-		);
+	QStandardItem * item = connections->itemFromIndex(index);
 
 	int type = item->type();
 	switch (type)
@@ -154,7 +146,6 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
 				loadingInProgress = true;
 				db->loadKeys();
-				filterModel->updateFilter();
 				loadingInProgress = false;
 			}			
 			break;
@@ -236,7 +227,7 @@ void Main::loadKeyTab(RedisKeyItem * key)
 void Main::OnTreeViewContextMenu(const QPoint &point)
 {
 	QStandardItem *item = connections->itemFromIndex(
-		filterModel->mapToSource(ui.serversTreeView->indexAt(point))
+		ui.serversTreeView->indexAt(point)
 		);	
 
 	if (!item)	return;
@@ -261,15 +252,12 @@ void Main::OnReloadServerInTree()
 		return;
 
 	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(
-			filterModel->mapToSource(index)
-			);	
+		QStandardItem * item = connections->itemFromIndex(index);	
 
 		if (item->type() == RedisServerItem::TYPE) {
 			RedisServerItem * server = (RedisServerItem *) item;
 
 			server->reload();
-			filterModel->updateFilter();
 		}
 	}
 }
@@ -283,7 +271,7 @@ void Main::OnRemoveConnectionFromTree()
 
 	for (auto index : selected) {
 		QStandardItem * item = connections->itemFromIndex(
-			filterModel->mapToSource(index)
+			index
 			);	
 
 		if (item->type() == RedisServerItem::TYPE) {
@@ -314,7 +302,7 @@ void Main::OnEditConnection()
 
 	for (auto index : selected) {
 		QStandardItem * item = connections->itemFromIndex(
-			filterModel->mapToSource(index)
+			index
 			);	
 
 		if (item->type() == RedisServerItem::TYPE) {
