@@ -22,12 +22,13 @@ Main::Main(QWidget *parent)
 	initFormButtons();	
 	initTabs();	
 	initUpdater();
+	initFilter();
 }
 
 void Main::initConnectionsTreeView()
 {
 	//connection manager
-	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));
+	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));	
 
 	ui.serversTreeView->setModel(connections);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -66,6 +67,12 @@ void Main::initUpdater()
 
 	updater = new Updater();
 	connect(updater, SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
+}
+
+void Main::initFilter()
+{
+	connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
+	connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
 }
 
 Main::~Main()
@@ -134,6 +141,7 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 				RedisServerItem * server = (RedisServerItem *)item;
 				loadingInProgress = true;
 				bool connected = server->loadDatabases();
+				connections->updateFilter();
 				loadingInProgress = false;
 				
 				if (!connected) {
@@ -337,5 +345,26 @@ void Main::OnImportConnectionsClick()
 	} else {
 		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
 	}
+}
+
+void Main::OnSetFilter()
+{
+	QRegExp filter(ui.leKeySearchPattern->text());
+
+	if (filter.isEmpty() || !filter.isValid()) {
+		ui.leKeySearchPattern->setStyleSheet("border: 2px dashed red;");
+		return;
+	}
+
+	connections->setFilter(filter);
+
+	ui.leKeySearchPattern->setStyleSheet("border: 1px solid green; background-color: #FFFF99;");
+
+}
+
+void Main::OnClearFilter()
+{
+	connections->resetFilter();
+	ui.leKeySearchPattern->setStyleSheet("");
 }
 

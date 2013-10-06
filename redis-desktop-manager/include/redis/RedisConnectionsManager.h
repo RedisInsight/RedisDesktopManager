@@ -18,20 +18,20 @@ public:
 	void AddConnection(RedisConnectionAbstract *);
 	void UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection);
 	bool RemoveConnection(RedisServerItem *);
-
 	bool ImportConnections(QString &);
 
 	void setFilter(QRegExp &);
 	void updateFilter();
+	void resetFilter();
 
 private:
 	QString configPath;
 	QList<RedisConnectionAbstract *> connections;
 	bool connectionSettingsChanged;
-	QRegExp * filter;
+	QRegExp filter;
 
 protected:
-	bool LoadConnectionsConfigFromFile(QString&);
+	bool LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile = false);
 	void SaveConnectionsConfigToFile(QString);
 };
 

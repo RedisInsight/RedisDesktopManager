@@ -32,28 +32,58 @@ void RedisServerDbItem::loadKeys()
 {
 	if (isKeysLoaded) return;
 
+	setBusyIcon();
+
 	if (!server->connection->isConnected() 
 		&& !server->connection->connect()) {
+			setNormalIcon();
 			return;
-	}
-
-	setBusyIcon();
+	}	
 
 	server->connection->selectDb(dbIndex);
 
-	QStringList rawKeys =  server->connection->getKeys();
+	rawKeys = server->connection->getKeys();
 
 	if (rawKeys.size() == 0) {
 		setNormalIcon();
 		return;
 	}
 
-	for (QString rawKey : rawKeys) {
-		renderNamaspacedKey(this, rawKey, rawKey);
-	}
+	renderKeys(rawKeys);
 
 	setNormalIcon();
 	isKeysLoaded = true;
+}
+
+void RedisServerDbItem::setFilter(QRegExp &pattern)
+{
+	filter = pattern;
+
+	removeRows(0, rowCount());
+
+	renderKeys(rawKeys);
+}
+
+void RedisServerDbItem::resetFilter()
+{
+	filter.setPattern("");
+
+	removeRows(0, rowCount());
+
+	renderKeys(rawKeys);
+}
+
+void RedisServerDbItem::renderKeys(QStringList &rawKeys)
+{
+	for (QString rawKey : rawKeys) {
+
+		//if filter enabled - skip keys
+		if (!filter.isEmpty() && !rawKey.contains(filter)) {
+			continue;
+		}
+
+		renderNamaspacedKey(this, rawKey, rawKey);
+	}
 }
 
 void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem, 

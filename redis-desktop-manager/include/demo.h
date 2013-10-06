@@ -34,6 +34,7 @@ private:
 	void initConnectionsTreeView();
 	void initTabs();
 	void initUpdater();
+	void initFilter();
 
 	private slots:
 		void OnAddConnectionClick();
@@ -45,6 +46,8 @@ private:
 		void OnRemoveConnectionFromTree();
 		void OnEditConnection();
 		void OnImportConnectionsClick();
+		void OnSetFilter();
+		void OnClearFilter();
 };
 
 #endif // DEMO_H
