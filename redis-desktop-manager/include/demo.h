@@ -9,7 +9,6 @@
 #include "ui_demo.h"
 #include "RedisConnection.h"
 #include "RedisConnectionsManager.h"
-#include "RedisConnectionsModel.h"
 
 class RedisKeyItem;
 class Updater;
@@ -31,6 +30,12 @@ private:
 	void loadKeyTab(RedisKeyItem *);
     QString getConfigPath(const QString&);
 
+	void initFormButtons();
+	void initConnectionsTreeView();
+	void initTabs();
+	void initUpdater();
+	void initFilter();
+
 	private slots:
 		void OnAddConnectionClick();
 		void OnConnectionTreeClick(const QModelIndex & index);
@@ -38,6 +43,11 @@ private:
 		void OnTreeViewContextMenu(const QPoint &);
 		void OnReloadServerInTree();
 		void OnNewUpdateAvailable(QString &);
+		void OnRemoveConnectionFromTree();
+		void OnEditConnection();
+		void OnImportConnectionsClick();
+		void OnSetFilter();
+		void OnClearFilter();
 };
 
 #endif // DEMO_H

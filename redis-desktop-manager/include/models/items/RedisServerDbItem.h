@@ -10,7 +10,10 @@ class RedisServerDbItem : public QStandardItem
 public:
 	RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent);	
 
-	void loadKeys();	
+	void loadKeys();
+
+	void setFilter(QRegExp &);
+	void resetFilter();
 
 	int virtual type() const;
 
@@ -27,6 +30,10 @@ private:
 	bool isKeysLoaded;
 	int dbIndex;
 
+	QStringList rawKeys;
+	QRegExp filter;
+
+	void renderKeys(QStringList &);
 	void renderNamaspacedKey(QStandardItem * currItem, QString notProcessedKeyPart, QString fullKey);
 
 	void setNormalIcon();

@@ -7,9 +7,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>846</width>
-    <height>531</height>
+    <width>931</width>
+    <height>574</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>2</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -70,12 +76,87 @@
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="1">
+           <widget class="QPushButton" name="pbFindFilter">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Find</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLineEdit" name="leKeySearchPattern">
+            <property name="toolTip">
+             <string>&lt;p&gt;&lt;b&gt;Key search supports regular expressions:&lt;/b&gt;&lt;/p&gt;
+
+&lt;pre&gt;
+. 	Any character except newline.
+\. 	A period (and so on for \*, \(, \\, etc.)
+^ 	The start of the string.
+$ 	The end of the string.
+\d,\w,\s 	A digit, word character [A-Za-z0-9_], or whitespace.
+\D,\W,\S 	Anything except a digit, word character, or whitespace.
+[abc] 	Character a, b, or c.
+[a-z] 	a through z.
+[^abc] 	Any character except a, b, or c.
+aa|bb 	Either aa or bb.
+? 	Zero or one of the preceding element.
+* 	Zero or more of the preceding element.
++ 	One or more of the preceding element.
+{n} 	Exactly n of the preceding element.
+{n,} 	n or more of the preceding element.
+{m,n} 	Between m and n of the preceding element.
+??,*?,+?,
+{n}?, etc. 	Same as above, but as few as possible.
+(expr) 	Capture expr for use with \1, etc.
+(?:expr) 	Non-capturing group.
+(?=expr) 	Followed by expr.
+(?!expr) 	Not followed by expr.
+&lt;/pre&gt;
+</string>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>key search...</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="pbClearFilter">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Clear</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QTreeView" name="serversTreeView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
@@ -123,8 +204,29 @@
           <property name="text">
            <string>Add connection</string>
           </property>
+          <property name="icon">
+           <iconset resource="../Resources/demo.qrc">
+            <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+          </property>
           <property name="flat">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbImportConnections">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Import connections</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../Resources/demo.qrc">
+            <normaloff>:/images/import.png</normaloff>:/images/import.png</iconset>
           </property>
          </widget>
         </item>
@@ -133,7 +235,7 @@
       <widget class="QTabWidget" name="tabWidget">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>2</horstretch>
+         <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -239,9 +341,13 @@
              <enum>QFrame::NoFrame</enum>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body style=&quot;width:100%&quot;&gt;&lt;div&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/redisBigIcon.png&quot;/&gt;&lt;div style=&quot; font-size:23pt; margin-left: 150px; margin-top:30px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot; font-weight:600; margin-left: 151px; display: inline-block; padding-left:53px;&quot;&gt;Cross-platform GUI application for managing Redis  &lt;/div&gt;
-&lt;div  style=&quot; margin-left: 151px; margin-top: 15px; display: inline-block; padding-left:53px;&quot;&gt;&lt;a style=&quot;font-size: 13px; color: red; font-weight:  800;&quot; href=&quot;https://github.com/uglide/RedisDesktopManager/issues&quot;&gt;Report issue&lt;/a&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;
+
+&lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
+&lt;body style=&quot;width:100%&quot;&gt;&lt;div&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/redisBigIcon.png&quot;/&gt;&lt;div style=&quot; font-size:23pt; margin-left: 150px; margin-top:22px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot;margin-left: 151px; display: inline-block; padding-left:53px; font-size: 11px; line-height: 21px&quot;&gt;&lt;b&gt;Cross-platform GUI application for managing Redis.&lt;/b&gt; &lt;br /&gt; Developed by - &lt;a href=&quot;http://glide.name/?rdm&quot;&gt;Igor Malinovskiy&lt;/a&gt; &lt;/div&gt;
+&lt;div  style=&quot; margin-left: 151px; margin-top: 15px; display: inline-block; padding-left:53px; line-height: 15px; &quot;&gt;&lt;a style=&quot;font-size: 13px; color: red;&quot; href=&quot;https://github.com/uglide/RedisDesktopManager/issues&quot;&gt;&lt;img  src=&quot;:/images/alert.png&quot; /&gt;&amp;nbsp;Report issue&lt;/a&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a style=&quot;font-size: 13px; color: green; &quot; href=&quot;https://github.com/uglide/RedisDesktopManager/wiki&quot;&gt;&lt;img  src=&quot;:/images/help.png&quot; /&gt;&amp;nbsp;Documentation&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="textFormat">
              <enum>Qt::RichText</enum>
@@ -253,38 +359,13 @@
              <bool>true</bool>
             </property>
            </widget>
-           <widget class="QLabel" name="authorLabel">
-            <property name="geometry">
-             <rect>
-              <x>350</x>
-              <y>160</y>
-              <width>181</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>&lt;style&gt;a {color: red;}&lt;/style&gt;Developed by &lt;a href=&quot;http://glide.name/?rdm&quot;&gt;Igor Malinovskiy&lt;/a&gt;</string>
-            </property>
-            <property name="openExternalLinks">
-             <bool>true</bool>
-            </property>
-            <property name="textInteractionFlags">
-             <set>Qt::TextBrowserInteraction</set>
-            </property>
-           </widget>
            <widget class="QLabel" name="currentVersionLabel">
             <property name="geometry">
              <rect>
-              <x>20</x>
-              <y>160</y>
-              <width>185</width>
-              <height>16</height>
+              <x>400</x>
+              <y>100</y>
+              <width>171</width>
+              <height>41</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -294,14 +375,14 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Current version: </string>
+             <string>&lt;b&gt;version&lt;/b&gt;&amp;nbsp;</string>
             </property>
            </widget>
            <widget class="QLabel" name="thirdPartyToolsLabel">
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>210</y>
+              <y>200</y>
               <width>531</width>
               <height>21</height>
              </rect>
@@ -313,7 +394,9 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10px; font-weight:600;&quot;&gt;Third Party Libs and Images:&lt;/span&gt;&lt;a href=&quot;http://qt-project.org/&quot;&gt;&lt;span style=&quot; font-size:10px; text-decoration: underline; color:#808080;&quot;&gt; QT (GPL License)&lt;/span&gt;&lt;/a&gt;; &lt;a href=&quot;http://libqxt.org/&quot;&gt;&lt;span style=&quot; font-size:10px; text-decoration: underline; color:#808080;&quot;&gt;Qxt (GPL License)&lt;/span&gt;&lt;/a&gt; , &lt;a href=&quot;http://www.libssh2.org&quot;&gt;&lt;span style=&quot; font-size:10px; text-decoration: underline; color:#808080;&quot;&gt;libssh2 (BSD License)&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;http://www.carlosprioglio.com/&quot;&gt;&lt;span style=&quot; font-size:10px; text-decoration: underline; color:#808080;&quot;&gt;Redis Logo&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;style&gt;a {color: #808080; text-decoration: none}&lt;/style&gt;
+&lt;p&gt;&lt;span style=&quot; font-size:10px; font-weight:600;&quot;&gt;Third Party Libs and Images:&lt;/span&gt;&lt;a href=&quot;http://qt-project.org/&quot;&gt; QT (GPL License)&lt;/a&gt;; &lt;a href=&quot;http://libqxt.org/&quot;&gt;Qxt (GPL License)&lt;/a&gt; , &lt;a href=&quot;http://www.libssh2.org&quot;&gt;libssh2 (BSD License)&lt;/a&gt;, &lt;a href=&quot;http://www.carlosprioglio.com/&quot;&gt;Redis Logo&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -331,7 +414,7 @@
               <x>20</x>
               <y>130</y>
               <width>511</width>
-              <height>20</height>
+              <height>21</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -354,7 +437,7 @@
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>180</y>
+              <y>170</y>
               <width>531</width>
               <height>21</height>
              </rect>
@@ -366,7 +449,8 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;&lt;span style=&quot;color:green;&quot;&gt;Alexander Arshinov&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;&lt;span style=&quot; color:green;&quot;&gt;Dmitriy Savchenko&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;</string>
+             <string>&lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
+&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander Arshinov&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy Savchenko&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Yevgeniy  Dyachenko&lt;/a&gt;&lt;/p&gt;</string>
             </property>
             <property name="scaledContents">
              <bool>true</bool>

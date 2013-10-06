@@ -11,12 +11,15 @@ class connection : public QDialog
 	Q_OBJECT
 
 public:
-	connection(QWidget *parent = 0);
+	connection(QWidget *parent = 0, RedisServerItem * c = 0);
 	~connection();
 
 private:
 	Ui::connectionDialog ui;
 	Main * mainForm;
+	RedisServerItem * server;
+
+	bool inEditMode;
 
 	bool isFormDataValid();
 	bool isConnectionSettingsValid();
@@ -24,6 +27,8 @@ private:
 	bool isSshTunnelUsed();
 
 	RedisConnectionConfig getConectionConfigFromFormData();
+
+	void loadValuesFromConnection(RedisConnectionAbstract *);
 
 	private slots:
 		void OnOkButtonClick();

@@ -21,6 +21,8 @@ public:
 
 	QString getFullText();
 
+	QString getFullName();
+
 	int virtual type() const;	
 
 	void setBusyIcon();

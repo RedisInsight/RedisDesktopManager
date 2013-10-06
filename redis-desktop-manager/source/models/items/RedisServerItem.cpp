@@ -6,22 +6,32 @@ RedisServerItem::RedisServerItem(RedisConnectionAbstract * c)
 	: connection(c), isDbInfoLoaded(false)
 {						
 	setOfflineIcon();
-	setText(connection->config.name);
+	getItemNameFromConnection();
 	setEditable(false);
 }
 
-void RedisServerItem::loadDatabases()
+void RedisServerItem::getItemNameFromConnection()
+{
+	setText(connection->config.name);
+}
+
+void RedisServerItem::setConnection(RedisConnectionAbstract * c)
+{
+	connection = c;
+}
+
+bool RedisServerItem::loadDatabases()
 {		
-	if (isDbInfoLoaded) return;
+	if (isDbInfoLoaded) return true;
+
+	setBusyIcon();
 
 	if (!connection->isConnected() && !connection->connect()) {
 		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
 		// TODO: set error icon		
-
-		return;
+		setOfflineIcon();
+		return false;
 	}
-
-	setBusyIcon();
 
 	RedisConnectionAbstract::RedisDatabases databases = connection->getDatabases();
 
@@ -34,7 +44,7 @@ void RedisServerItem::loadDatabases()
 			setText(QString("%1 (error:%2)").arg(connection->config.name).arg(error));
 		}
 		setNormalIcon();
-		return;
+		return false;
 	}
 
 	QMap<QString, int>::const_iterator db = databases.constBegin();
@@ -50,15 +60,29 @@ void RedisServerItem::loadDatabases()
 	setNormalIcon();
 
 	isDbInfoLoaded = true;
+
+	return true;
+}
+
+RedisConnectionAbstract * RedisServerItem::getConnection()
+{
+	return connection;
 }
 
 void RedisServerItem::reload()
+{
+	unload();
+
+	loadDatabases();
+}
+
+void RedisServerItem::unload()
 {
 	removeRows(0, rowCount());
 
 	isDbInfoLoaded = false;
 
-	loadDatabases();
+	getItemNameFromConnection();
 }
 
 

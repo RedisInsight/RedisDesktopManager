@@ -5,6 +5,7 @@
 #include "RedisServerDbItem.h"
 
 class RedisKeyItem;
+class RedisConnectionsManager;
 
 class RedisServerItem :  public QStandardItem
 {
@@ -14,9 +15,13 @@ class RedisServerItem :  public QStandardItem
 public:	
 	RedisServerItem(RedisConnectionAbstract * c);
 
-	void loadDatabases();	
+	bool loadDatabases();	
 
 	void reload();
+	void unload();
+
+	RedisConnectionAbstract * getConnection();
+	void setConnection(RedisConnectionAbstract * c);
 
 	int virtual type() const;
 	
@@ -29,5 +34,6 @@ private:
 	void setBusyIcon();
 	void setOfflineIcon();
 	void setNormalIcon();
+	void getItemNameFromConnection();
 };
 

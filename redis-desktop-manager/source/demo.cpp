@@ -1,5 +1,6 @@
 #include <QMenu>
 #include <QtNetwork>
+#include <QFileDialog>
 
 #include "demo.h"
 #include "connection.h"
@@ -17,38 +18,61 @@ Main::Main(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	// connect slots to signals
-	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
+	initConnectionsTreeView();
+	initFormButtons();	
+	initTabs();	
+	initUpdater();
+	initFilter();
+}
 
-	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
-			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
-
-	//tabWidget setup
-	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
-	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); //hide tabButton for first tab
-
+void Main::initConnectionsTreeView()
+{
 	//connection manager
-	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));
+	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));	
+
 	ui.serversTreeView->setModel(connections);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 	ui.serversTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	ui.serversTreeView->header()->setStretchLastSection(false);
 
+	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
+			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
+
 	//setup context menu
 	ui.serversTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(ui.serversTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
 			this, SLOT(OnTreeViewContextMenu(const QPoint &)));
+}
 
-	//Updater
+void Main::initFormButtons()
+{
+	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
+	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
+}
+
+void Main::initTabs()
+{
+	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
+
+	//hide close button for first tab
+	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); 
+}
+
+void Main::initUpdater()
+{
 	//set current version
 	ui.currentVersionLabel->setText(
 		ui.currentVersionLabel->text() + QApplication::applicationVersion()
 		);
 
 	updater = new Updater();
-	connect(updater, SIGNAL(updateUrlRetrived(QString &)),
-		this, SLOT(OnNewUpdateAvailable(QString &)));
+	connect(updater, SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
+}
 
+void Main::initFilter()
+{
+	connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
+	connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
 }
 
 Main::~Main()
@@ -97,8 +121,6 @@ QString Main::getConfigPath(const QString& configFile)
 void Main::OnAddConnectionClick()
 {
 	connection * connectionDialog = new connection(this);
-	connectionDialog->setWindowFlags(Qt::Tool);		
-	connectionDialog->setModal(true);
 	connectionDialog->exec();
 	delete connectionDialog;
 }
@@ -118,10 +140,13 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
 				loadingInProgress = true;
-				server->loadDatabases();
+				bool connected = server->loadDatabases();
+				connections->updateFilter();
 				loadingInProgress = false;
 				
-				//TODO : create new tab with server info
+				if (!connected) {
+					QMessageBox::warning(this, "Can't connect to server", "Can't connect to server. Check connection settings");
+				}				
 			}
 			break;
 		case RedisServerDbItem::TYPE:
@@ -209,7 +234,9 @@ void Main::loadKeyTab(RedisKeyItem * key)
 
 void Main::OnTreeViewContextMenu(const QPoint &point)
 {
-	QStandardItem *item = connections->itemFromIndex(ui.serversTreeView->indexAt(point));	
+	QStandardItem *item = connections->itemFromIndex(
+		ui.serversTreeView->indexAt(point)
+		);	
 
 	if (!item)	return;
 
@@ -218,6 +245,9 @@ void Main::OnTreeViewContextMenu(const QPoint &point)
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
 		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
+		menu->addSeparator();
+		menu->addAction("Edit", this, SLOT(OnEditConnection()));
+		menu->addAction("Delete", this, SLOT(OnRemoveConnectionFromTree()));
 		menu->exec(QCursor::pos());
 	}
 }
@@ -240,9 +270,101 @@ void Main::OnReloadServerInTree()
 	}
 }
 
+void Main::OnRemoveConnectionFromTree()
+{
+	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+
+	if (selected.size() == 0) 
+		return;
+
+	for (auto index : selected) {
+		QStandardItem * item = connections->itemFromIndex(
+			index
+			);	
+
+		if (item->type() == RedisServerItem::TYPE) {
+
+			QMessageBox::StandardButton reply;
+
+			reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
+				QMessageBox::Yes|QMessageBox::No);
+
+			if (reply == QMessageBox::Yes) {
+
+				RedisServerItem * server = (RedisServerItem *) item;
+
+				connections->RemoveConnection(server);
+
+			}
+		}
+	}
+
+}
+
+void Main::OnEditConnection()
+{
+	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+
+	if (selected.size() == 0) 
+		return;
+
+	for (auto index : selected) {
+		QStandardItem * item = connections->itemFromIndex(
+			index
+			);	
+
+		if (item->type() == RedisServerItem::TYPE) {
+
+			RedisServerItem * server = (RedisServerItem *) item;
+
+			connection * connectionDialog = new connection(this, server);
+			connectionDialog->exec();
+			delete connectionDialog;
+
+			server->unload();
+		}
+	}
+
+}
+
 void Main::OnNewUpdateAvailable(QString &url)
 {
 	ui.newUpdateAvailableLabel->setText(QString("<div style=\"font-size: 13px;\">New update available: %1</div>").arg(url));
 }
 
+void Main::OnImportConnectionsClick()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files (*.xml)"));
+
+	if (fileName.isEmpty()) {
+		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
+	}
+
+	if (connections->ImportConnections(fileName)) {
+		QMessageBox::information(this, "Connections imported", "Connections imported from connections file");
+	} else {
+		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
+	}
+}
+
+void Main::OnSetFilter()
+{
+	QRegExp filter(ui.leKeySearchPattern->text());
+
+	if (filter.isEmpty() || !filter.isValid()) {
+		ui.leKeySearchPattern->setStyleSheet("border: 2px dashed red;");
+		return;
+	}
+
+	connections->setFilter(filter);
+
+	ui.leKeySearchPattern->setStyleSheet("border: 1px solid green; background-color: #FFFF99;");
+
+}
+
+void Main::OnClearFilter()
+{
+	connections->resetFilter();
+	ui.leKeySearchPattern->setStyleSheet("");
+}
 

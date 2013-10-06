@@ -89,12 +89,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_demo.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionsModel.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionsModel.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_qxtsshchannel.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -179,9 +173,6 @@
     <ClCompile Include="source\models\ListKeyModel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\RedisConnectionsModel.cpp">
-      <Filter>Source Files\models</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\SortedSetKeyModel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
@@ -240,9 +231,6 @@
     </CustomBuild>
     <CustomBuild Include="include\demo.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\models\RedisConnectionsModel.h">
-      <Filter>Header Files\models</Filter>
     </CustomBuild>
     <CustomBuild Include="include\network\qxtsshchannel.h">
       <Filter>Header Files\network</Filter>

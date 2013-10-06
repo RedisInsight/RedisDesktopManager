@@ -11,9 +11,9 @@ class RedisConnectionConfig
 public:
 	// redis connection parameters
 	QString name;
-	const QString host;
+	QString host;
 	QString auth;
-	const int port;
+	int port;
 
 	// ssh tunnel connection parameters
 	QString sshHost;
@@ -28,6 +28,20 @@ public:
 	RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
 		: host(host), port(port), name(name), sshPort(DEFAULT_SSH_PORT)
 	{};
+
+	RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
+	{
+		if (this != &other) {
+			name = other.name;
+			host = other.host;
+			auth = other.auth;
+			port = other.port;
+
+			setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
+		}
+
+		return *this;
+	}
 
 	void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT);
 	

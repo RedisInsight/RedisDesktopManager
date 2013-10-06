@@ -5,6 +5,7 @@
 #include "RedisConnectionAbstract.h"
 
 class TestRedisConnectionsManager;
+class RedisServerItem;
 
 class RedisConnectionsManager : public QStandardItemModel
 {
@@ -15,15 +16,22 @@ public:
 	~RedisConnectionsManager(void);
 
 	void AddConnection(RedisConnectionAbstract *);
+	void UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection);
+	bool RemoveConnection(RedisServerItem *);
+	bool ImportConnections(QString &);
+
+	void setFilter(QRegExp &);
+	void updateFilter();
+	void resetFilter();
 
 private:
 	QString configPath;
 	QList<RedisConnectionAbstract *> connections;
 	bool connectionSettingsChanged;
+	QRegExp filter;
 
 protected:
-	void LoadConnectionsConfigFromFile(QString);
+	bool LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile = false);
 	void SaveConnectionsConfigToFile(QString);
-	void loadKeys(RedisConnectionAbstract *);
 };
 
