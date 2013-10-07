@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml dbus
+QT       += core gui network xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,8 +32,7 @@ SOURCES += \
     source/network/qxtsshprocess.cpp \
     source/network/qxtsshclient.cpp \
     source/network/qxtsshchannel.cpp \
-    source/models/SortedSetKeyModel.cpp \
-    source/models/RedisConnectionsModel.cpp \
+    source/models/SortedSetKeyModel.cpp \    
     source/models/ListKeyModel.cpp \
     source/models/HashKeyModel.cpp \
     source/models/items/RedisServerItem.cpp \
@@ -63,7 +62,6 @@ HEADERS  += \
     include/network/qxtsshchannel.h \
     include/network/qxtnetwork.h \
     include/models/SortedSetKeyModel.h \
-    include/models/RedisConnectionsModel.h \
     include/models/ListKeyModel.h \
     include/models/HashKeyModel.h \
     include/models/items/RedisServerItem.h \
@@ -79,8 +77,8 @@ MOC_DIR = $$DESTDIR/.moc
 RCC_DIR = $$DESTDIR/.qrc
 UI_DIR = $$DESTDIR/.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../deps/libs/win32/debug/ -llibssh2
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../deps/libs/win32/debug/ -llibssh2
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
 else:unix: LIBS += /usr/local/lib/libssh2.so
 
 win32:CONFIG(release, debug|release): LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
@@ -90,8 +88,8 @@ else:win32:CONFIG(debug, debug|release): LIBS += -lws2_32 -lkernel32 -luser32 -l
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/debug/libssh2.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/debug/libssh2.lib
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
 else:unix: PRE_TARGETDEPS += /usr/local/lib/libssh2.so
 
 unix:!mac {
