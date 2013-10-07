@@ -450,7 +450,7 @@ aa|bb 	Either aa or bb.
             </property>
             <property name="text">
              <string>&lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
-&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander Arshinov&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy Savchenko&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Yevgeniy  Dyachenko&lt;/a&gt;&lt;/p&gt;</string>
+&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander Arshinov&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy Savchenko&lt;/a&gt;, &lt;a href=&quot;https://github.com/Dyachenko&quot;&gt;Yevgeniy  Dyachenko&lt;/a&gt;&lt;/p&gt;</string>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
