@@ -113,8 +113,6 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 
 void RedisConnectionOverSsh::OnAuthRequired(QList<QxtSshClient::AuthenticationMethod> authMethods)
 {
-	int size = authMethods.size();
-
 }
 
 QString RedisConnectionOverSsh::getLastError()
@@ -141,7 +139,7 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 	QByteArray byteArray = formattedCommand.toUtf8();
 	const char* cString = byteArray.constData();
 
-	int result = socket->write(cString, byteArray.size());
+    socket->write(cString, byteArray.size());
 
 	//wait for ready read
 	syncTimer.start(config.executeTimeout);
