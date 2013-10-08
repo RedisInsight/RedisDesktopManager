@@ -13,10 +13,10 @@ before_script:
 script: 
   - qmake -qt=qt5 -v
   - qmake -qt=qt5
-  - make
+  - make -s
   - cd ./../tests/
   - qmake
-  - make
+  - make -s
   - ./../bin/tests/tests -platform minimal -txt
 services:
   - redis-server
