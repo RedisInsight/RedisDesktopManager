@@ -14,6 +14,10 @@ script:
   - qmake -qt=qt5 -v
   - qmake -qt=qt5
   - make
+  - cd ./../tests/
+  - qmake
+  - make
+  - ./../bin/tests/tests -platform minimal -xunitxml
 notifications:
   recipients:
     - u.glide@gmail.com
