@@ -17,7 +17,9 @@ script:
   - cd ./../tests/
   - qmake
   - make
-  - ./../bin/tests/tests -platform minimal -xunitxml
+  - ./../bin/tests/tests -platform minimal -txt
+services:
+  - redis-server
 notifications:
   recipients:
     - u.glide@gmail.com

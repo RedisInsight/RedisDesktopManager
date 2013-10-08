@@ -10,8 +10,10 @@ int main(int argc, char *argv[])
 {
 	QApplication app( argc, argv );
 
-	QTest::qExec(new TestRedisConnection, argc, argv);
-	QTest::qExec(new TestRedisConnectionsManager, argc, argv);
+    if (QTest::qExec(new TestRedisConnection, argc, argv) != 0 ||
+        QTest::qExec(new TestRedisConnectionsManager, argc, argv) != 0) {
+        return 1;
+    }
 
 	return 0;
 }
