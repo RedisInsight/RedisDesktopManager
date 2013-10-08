@@ -44,3 +44,4 @@ deps/libssh/tests/*
 deps/libssh/src/libssh2_config.h
 deps/libssh/src/Makefile
 deps/libssh/src/stamp-h1
+build-tests-*/*
