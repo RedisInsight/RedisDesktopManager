@@ -6,8 +6,15 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+  #ubuntu 12 debug
+  config.vm.define "ubu12debug" , primary: true do |ubu12debug|
+    ubu12debug.vm.box = "precise32"
+    ubu12debug.vm.box_url = "http://files.vagrantup.com/precise32.box"
+    ubu12debug.vm.provision :shell, :path => "install_ubuntu-debug.sh"
+  end 
+
   #ubuntu 12
-  config.vm.define "ubu12" , primary: true do |ubu12|
+  config.vm.define "ubu12" do |ubu12|
     ubu12.vm.box = "precise32"
     ubu12.vm.box_url = "http://files.vagrantup.com/precise32.box"
     ubu12.vm.provision :shell, :path => "install_ubuntu.sh"
