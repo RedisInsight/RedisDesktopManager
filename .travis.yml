@@ -8,7 +8,7 @@ before_install:
 - sudo apt-get install libssl1.0.0 -y -qq
 before_script:
 - cd ./redis-desktop-manager
-- chmod -x configure
+- sudo chmod 777 configure
 - ./configure
 script: 
   - qmake -qt=qt5 -v
