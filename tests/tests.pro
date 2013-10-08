@@ -27,8 +27,8 @@ HEADERS  += \
     $$SRC_DIR/include/models/*.h \
     $$SRC_DIR/include/models/items/*.h
 
-release: DESTDIR = ./../bin/tests/release
-debug:   DESTDIR = ./../bin/tests/debug
+release: DESTDIR = ./../bin/tests
+debug:   DESTDIR = ./../bin/tests
 
 OBJECTS_DIR = $$DESTDIR/.obj
 MOC_DIR = $$DESTDIR/.moc

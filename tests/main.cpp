@@ -13,9 +13,6 @@ int main(int argc, char *argv[])
 	QTest::qExec(new TestRedisConnection, argc, argv);
 	QTest::qExec(new TestRedisConnectionsManager, argc, argv);
 
-	std::cin.get();
-	std::cin.get();
-
 	return 0;
 }
 
