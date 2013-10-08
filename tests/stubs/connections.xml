@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<connections>
+ <connection host="127.0.0.1" name="local" port="6379"/>
+</connections>

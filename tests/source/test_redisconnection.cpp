@@ -155,7 +155,4 @@ void TestRedisConnection::isMultiBulkReplyValid()
 	QCOMPARE(actualOnInvalid4, false);
 }
 
-#include "moc_test_redisconnection.cpp"
-
-
 
