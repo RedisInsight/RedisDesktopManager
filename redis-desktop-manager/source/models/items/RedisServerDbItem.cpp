@@ -4,7 +4,7 @@
 #include "RedisKeyNamespace.h"
 
 RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent) 
-	: server(parent), isKeysLoaded(false), dbIndex(0)
+	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name)
 {	
 	setNormalIcon();
 	setText(QString("%1 (%2)").arg(name).arg(keysCount));
@@ -43,10 +43,19 @@ void RedisServerDbItem::loadKeys()
 	server->connection->selectDb(dbIndex);
 
 	rawKeys = server->connection->getKeys();
+	int resultSize = rawKeys.size();
 
-	if (rawKeys.size() == 0) {
+	if (resultSize == 0) {
 		setNormalIcon();
 		return;
+	}
+
+	if (resultSize != keysCount) {
+		setText(QString("%1 (Loaded %2 of %3. Error - %4)")
+			.arg(name)
+			.arg(resultSize)
+			.arg(keysCount)
+			.arg(server->connection->getLastError()));
 	}
 
 	renderKeys(rawKeys);

@@ -29,6 +29,8 @@ private:
 	RedisServerItem * server;
 	bool isKeysLoaded;
 	int dbIndex;
+	unsigned int keysCount;
+	QString name;
 
 	QStringList rawKeys;
 	QRegExp filter;

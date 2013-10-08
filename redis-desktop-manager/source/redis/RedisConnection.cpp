@@ -89,15 +89,10 @@ QVariant RedisConnection::execute(QString command)
 			
 			// TODO: move config.executeTimeout to config options - user probably want to increase this value for unstable connections			
 
-			if (waitForData(5) && socket->canReadLine()) continue;			
-
-			if (waitForData(50) && socket->canReadLine()) continue;			
-
-			if (waitForData(100) && socket->canReadLine()) continue;
-
-			if (waitForData(config.executeTimeout) && socket->canReadLine()) continue;
-
-			break;
+			if (!socket->waitForReadyRead(config.executeTimeout)) 
+			{
+				break;
+			}
 		}
 
 	}	
