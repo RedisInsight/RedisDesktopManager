@@ -1,5 +1,5 @@
 #include "test_redisconnection.h"
-#include "redisconnection.h"
+#include "RedisConnection.h"
 #include "RedisConnectionConfig.h"
 #include <QtTest/QtTest>
 
