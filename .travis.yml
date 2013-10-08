@@ -1,0 +1,20 @@
+language: cpp
+compiler:
+  - gcc
+  - g++
+before_install:
+- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+- sudo apt-get update -qq
+- sudo apt-get install ubuntu-sdk -y -qq
+- sudo apt-get install libssl1.0.0 -y -qq
+- cd ./redis-desktop-manager
+script: 
+  - qmake -qt=qt5 -v
+  - qmake -qt=qt5
+  - make
+notifications:
+  recipients:
+    - u.glide@gmail.com
+  email:
+    on_success: change
+    on_failure: always
