@@ -1,15 +1,15 @@
 language: cpp
 compiler:
   - gcc
-  - g++
 before_install:
 - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
 - sudo apt-get update -qq
 - sudo apt-get install ubuntu-sdk -y -qq
 - sudo apt-get install libssl1.0.0 -y -qq
+before_script:
 - cd ./redis-desktop-manager
+- sudo ./configure
 script: 
-  - sudo ./configure
   - qmake -qt=qt5 -v
   - qmake -qt=qt5
   - make
