@@ -1,4 +1,4 @@
-[RedisDesktopManager](http://redisdesktop.com "Redis Desktop Manager Offical Site") : 
+[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
 ===================
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
