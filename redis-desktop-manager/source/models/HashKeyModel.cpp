@@ -7,7 +7,7 @@ HashKeyModel::HashKeyModel(QStringList values)
 	int size = values.size();
 
 	setRowCount(size / 2);
-	setColumnCount(size / 2);
+	setColumnCount(2);
 
 	for (int i = 0, row = 0; i < size; ++i, ++row) {
 
