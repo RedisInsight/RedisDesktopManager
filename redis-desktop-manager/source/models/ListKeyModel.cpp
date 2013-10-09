@@ -7,6 +7,7 @@ ListKeyModel::ListKeyModel(QStringList values)
 	int size = values.size();
 
 	setRowCount(size);
+	setColumnCount(1);
 
 	for (int i = 0, row = 0; i < size; ++i, ++row) {
 

@@ -33,9 +33,6 @@ bool RedisConnectionOverSsh::connect()
 	//set password
 	sshClient.setPassphrase(config.sshPassword);	
 
-    #ifdef Q_OS_LINUX
-    #endif
-
 	//connect to ssh server
 	syncTimer.start(config.connectionTimeout);
 	sshClient.connectToHost(config.sshUser, config.sshHost, config.sshPort);
@@ -62,6 +59,10 @@ bool RedisConnectionOverSsh::connect()
 	if (!socketConnected && !syncTimer.isActive()) {
 		socketConnected = false;
 		return socketConnected;
+	}
+
+	if (config.useAuth()) {
+		execute(QString("AUTH %1").arg(config.auth));
 	}
 
 	return socketConnected;	
@@ -112,10 +113,7 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 
 void RedisConnectionOverSsh::OnAuthRequired(QList<QxtSshClient::AuthenticationMethod> authMethods)
 {
-	int size = authMethods.size();
-
 }
-
 
 QString RedisConnectionOverSsh::getLastError()
 {
@@ -141,7 +139,7 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 	QByteArray byteArray = formattedCommand.toUtf8();
 	const char* cString = byteArray.constData();
 
-	int result = socket->write(cString, byteArray.size());
+    socket->write(cString, byteArray.size());
 
 	//wait for ready read
 	syncTimer.start(config.executeTimeout);

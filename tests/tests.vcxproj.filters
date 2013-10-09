@@ -32,14 +32,14 @@
     <Filter Include="Header Files\tests">
       <UniqueIdentifier>{1d452b65-7e01-482e-9b32-6373c2cb4252}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\source">
-      <UniqueIdentifier>{19549d6b-da1b-43cb-89ab-e8681b1ca58d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\tests">
       <UniqueIdentifier>{d99ddcaf-7e5f-4fca-a05f-141c1343b157}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\source">
+      <UniqueIdentifier>{bb76383b-8c56-43ef-828f-2b84e708b6f4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\source">
-      <UniqueIdentifier>{4b7c9dc7-cc9a-41f6-b6ce-919c68447a37}</UniqueIdentifier>
+      <UniqueIdentifier>{3b95f7fe-cca2-4bcb-ba25-4ea991ab335a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,15 +48,6 @@
     </CustomBuild>
     <CustomBuild Include="include\test_redisconnectionsmanager.h">
       <Filter>Header Files\tests</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\connection.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\demo.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\models\RedisConnectionsModel.h">
-      <Filter>Header Files\source</Filter>
     </CustomBuild>
     <CustomBuild Include="..\redis-desktop-manager\include\network\qxtsshchannel.h">
       <Filter>Header Files\source</Filter>
@@ -76,21 +67,6 @@
     <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnectionOverSsh.h">
       <Filter>Header Files\source</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\updater\Updater.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\widgets\hashViewTab.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\widgets\listViewTab.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\widgets\stringViewTab.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\widgets\zsetViewTab.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_test_redisconnection.cpp">
@@ -105,23 +81,14 @@
     <ClCompile Include="GeneratedFiles\Release\moc_test_redisconnectionsmanager.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_connection.cpp">
-      <Filter>Generated Files\Debug</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_connection.cpp">
-      <Filter>Generated Files\Release</Filter>
+    <ClCompile Include="source\test_redisconnection.cpp">
+      <Filter>Source Files\tests</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_demo.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_demo.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionsModel.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionsModel.cpp">
-      <Filter>Generated Files\Release</Filter>
+    <ClCompile Include="source\test_redisconnectionsmanager.cpp">
+      <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_qxtsshchannel.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -159,72 +126,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_Updater.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_Updater.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_listViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_listViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_zsetViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_zsetViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\connection.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\demo.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\main.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\HashKeyModel.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\ListKeyModel.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\RedisConnectionsModel.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\SortedSetKeyModel.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisKeyItem.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisKeyNamespace.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisServerDbItem.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisServerItem.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
     <ClCompile Include="..\redis-desktop-manager\source\network\qxtsshchannel.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
@@ -252,44 +153,20 @@
     <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionsManager.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\updater\Updater.cpp">
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisKeyItem.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\widgets\hashViewTab.cpp">
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisKeyNamespace.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\widgets\listViewTab.cpp">
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisServerDbItem.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\widgets\stringViewTab.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\widgets\zsetViewTab.cpp">
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisServerItem.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\redis-desktop-manager\include\models\HashKeyModel.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\models\ListKeyModel.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\models\SortedSetKeyModel.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisKeyItem.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisKeyNamespace.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisServerDbItem.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisServerItem.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtnetwork.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
@@ -309,6 +186,18 @@
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\redis\RedisException.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisKeyItem.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisKeyNamespace.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisServerDbItem.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisServerItem.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
   </ItemGroup>

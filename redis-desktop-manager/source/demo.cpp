@@ -34,6 +34,7 @@ void Main::initConnectionsTreeView()
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 	ui.serversTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	ui.serversTreeView->header()->setStretchLastSection(false);
+	ui.serversTreeView->setUniformRowHeights(true);
 
 	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
 			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));

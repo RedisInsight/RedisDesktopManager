@@ -1,5 +1,5 @@
 #include "test_redisconnection.h"
-#include "redisconnection.h"
+#include "RedisConnection.h"
 #include "RedisConnectionConfig.h"
 #include <QtTest/QtTest>
 
@@ -154,8 +154,5 @@ void TestRedisConnection::isMultiBulkReplyValid()
 	QCOMPARE(actualOnInvalid3, false);
 	QCOMPARE(actualOnInvalid4, false);
 }
-
-#include "moc_test_redisconnection.cpp"
-
 
 

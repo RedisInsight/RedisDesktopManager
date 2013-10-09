@@ -4,4 +4,7 @@ chmod -R 777 libssh
 cd ./libssh
 sh ./configure  --with-openssl --with-libz
 make
-make install
+sudo make install
+
+sudo bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/libssh2.conf'
+sudo ldconfig

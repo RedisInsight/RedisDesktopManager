@@ -41,6 +41,7 @@ void connection::loadValuesFromConnection(RedisConnectionAbstract * c)
 	ui.nameEdit->setText(config->name);
 	ui.hostEdit->setText(config->host);
 	ui.portSpinBox->setValue(config->port);
+	ui.authEdit->setText(config->auth);
 
 	if (config->useSshTunnel()) {
 		ui.useSshTunnel->setCheckState(Qt::Checked);

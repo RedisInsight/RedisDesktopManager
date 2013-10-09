@@ -6,10 +6,11 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 
 	QVariant rawDbCount = execute("config get databases");
 
-	if (rawDbCount.isNull()) 
-		return availableDatabeses;
-
 	QStringList dbInfo = rawDbCount.toStringList();
+
+	if (rawDbCount.isNull() || dbInfo.size() != 2) 
+		return availableDatabeses;
+	
 	int dbCount = dbInfo.at(1).toInt();
 
 	// build db list

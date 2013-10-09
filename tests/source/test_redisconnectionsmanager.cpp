@@ -6,7 +6,7 @@ void TestRedisConnectionsManager::LoadConnectionsConfigFromFile()
 {
 	//given
 	// xml fixture test-config.xml
-	QString configTestFile = "test-config.xml";
+	QString configTestFile = "./stubs//connections.xml";
 
 	//when loads connections
 	RedisConnectionsManager testManager(configTestFile);	
@@ -15,5 +15,3 @@ void TestRedisConnectionsManager::LoadConnectionsConfigFromFile()
 	QCOMPARE(testManager.connections.size(), 1);
 
 }
-
-#include "moc_test_redisconnectionsmanager.cpp"
