@@ -383,6 +383,9 @@
     <Image Include="images\key.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="rdm.png" />
+    <Image Include="images\redis-desktop-manager.ico" />
+    <Image Include="Resources\redis.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="redis-desktop-manager.rc" />
