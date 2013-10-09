@@ -11,15 +11,6 @@ class TestRedisConnection : public QObject
 
 private slots:
 
-	// unit tests
-	void parseResponse();
-	void parseResponse_data();
-	
-	void prepareCommand();	
-	void isIntResponseValid();
-	void isBulkReplyValid();
-	void isMultiBulkReplyValid();
-
 	// functional tests
 	void connect();
 	void execute();

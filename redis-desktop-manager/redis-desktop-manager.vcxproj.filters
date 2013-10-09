@@ -224,6 +224,12 @@
     <ClCompile Include="GeneratedFiles\qrc_demo.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\redis\Response.cpp">
+      <Filter>Source Files\redis</Filter>
+    </ClCompile>
+    <ClCompile Include="source\redis\Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -347,6 +353,12 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\redis\Response.h">
+      <Filter>Header Files\redis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\redis\Command.h">
+      <Filter>Header Files\redis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

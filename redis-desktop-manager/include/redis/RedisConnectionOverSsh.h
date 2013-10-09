@@ -30,6 +30,8 @@ private:
 	QTimer syncTimer;
 	bool socketConnected;
 
+	bool waitForData(int ms);	
+
 	protected slots:
 		void OnSshConnectionError(QxtSshClient::Error);
 		void OnSshConnected();

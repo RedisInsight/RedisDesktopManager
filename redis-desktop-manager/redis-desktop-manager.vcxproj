@@ -109,11 +109,13 @@
     <ClCompile Include="source\network\qxtsshclient.cpp" />
     <ClCompile Include="source\network\qxtsshprocess.cpp" />
     <ClCompile Include="source\network\qxtsshtcpsocket.cpp" />
+    <ClCompile Include="source\redis\Command.cpp" />
     <ClCompile Include="source\redis\redisconnection.cpp" />
     <ClCompile Include="source\redis\RedisConnectionAbstract.cpp" />
     <ClCompile Include="source\redis\RedisConnectionConfig.cpp" />
     <ClCompile Include="source\redis\RedisConnectionOverSsh.cpp" />
     <ClCompile Include="source\redis\RedisConnectionsManager.cpp" />
+    <ClCompile Include="source\redis\Response.cpp" />
     <ClCompile Include="source\updater\Updater.cpp" />
     <ClCompile Include="source\widgets\hashViewTab.cpp" />
     <ClCompile Include="source\widgets\listViewTab.cpp" />
@@ -159,11 +161,13 @@
     <ClInclude Include="include\models\ListKeyModel.h" />
     <ClInclude Include="include\models\SortedSetKeyModel.h" />
     <ClInclude Include="include\network\qxtsshchannel_p.h" />
+    <ClInclude Include="include\redis\Command.h" />
     <ClInclude Include="include\redis\redisconnection.h" />
     <ClInclude Include="include\redis\RedisConnectionAbstract.h" />
     <ClInclude Include="include\redis\RedisConnectionConfig.h" />
     <ClInclude Include="include\redis\RedisConnectionsManager.h" />
     <ClInclude Include="include\redis\RedisException.h" />
+    <ClInclude Include="include\redis\Response.h" />
     <ClInclude Include="resource.h" />
     <CustomBuild Include="include\widgets\zsetViewTab.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
