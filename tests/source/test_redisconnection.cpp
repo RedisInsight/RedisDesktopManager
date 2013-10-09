@@ -29,6 +29,12 @@ void TestRedisConnection::parseResponse_data()
 	QTest::newRow("Bulk")		<< "$6\r\nfoobar\r\n"					<< QVariant("foobar");
 	QTest::newRow("Null Bulk")	<< "$-1\r\n"							<< QVariant();
 	QTest::newRow("Multi Bulk")	<< "*3\r\n:1\r\n:2\r\n$6\r\nfoobar\r\n"	<< QVariant(QStringList() << "1" << "2" << "foobar");
+	QTest::newRow("Multi Bulk with empty item")	
+		<< "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$0\r\n\r\n$3\r\nurl\r\n$5\r\nnourl\r\n"
+		<< QVariant(QStringList() << "app_id" << "0" << "keyword" << "" << "url" << "nourl");
+	QTest::newRow("Multi Bulk with \\r\\n in item")	
+		<< "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$0\r\n\r\n$3\r\nurl\r\n$5\r\nn\r\nrl\r\n"
+		<< QVariant(QStringList() << "app_id" << "0" << "keyword" << "" << "url" << "n\r\nrl");
 }
 
 

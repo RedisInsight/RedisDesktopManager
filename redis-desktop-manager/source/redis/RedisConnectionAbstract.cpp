@@ -95,14 +95,12 @@ QVariant RedisConnectionAbstract::parseResponse(QString response)
 	switch (t) {
 
 	case Status:
-	case Error:
-		response = getStringResponse(response);
-		parsedResponse = QVariant(response);
+	case Error:		
+		parsedResponse = QVariant(getStringResponse(response));
 		break;
 
-	case Integer:
-		response = getStringResponse(response);
-		parsedResponse = QVariant(response.toInt());
+	case Integer:		
+		parsedResponse = QVariant(getStringResponse(response).toInt());
 		break;
 
 	case Bulk:
@@ -117,35 +115,8 @@ QVariant RedisConnectionAbstract::parseResponse(QString response)
 		}
 		break;
 
-	case MultiBulk:
-		{
-			QStringList parts = response.split("\r\n", QString::SkipEmptyParts, Qt::CaseInsensitive);
-			int responseSize = getSizeOfBulkReply(parts.at(0));
-
-			if (responseSize > 0) 
-			{						
-				QStringList parsedResult;
-
-				// skip first string with length
-				for (int i=1; i < parts.size(); ++i) 
-				{
-					QString item = parts.at(i);											
-
-					if (getResponseType(item) == Integer) {
-						parsedResult << item.mid(1);
-					} else if (getResponseType(item) == Bulk) {
-						continue;
-					} else {
-						parsedResult << item;
-					}
-				}
-
-				parsedResponse = QVariant(parsedResult);
-
-			} else if (responseSize == 0) { //empty multi-bulk reply
-				parsedResponse = QVariant(QStringList());
-			}
-		}
+	case MultiBulk: 
+		parsedResponse = QVariant(parseMultiBulk(response));		
 		break;
 	}
 
@@ -153,10 +124,65 @@ QVariant RedisConnectionAbstract::parseResponse(QString response)
 	return parsedResponse;
 }	
 
-RedisConnectionAbstract::ResponseType RedisConnectionAbstract::getResponseType(QString r) 
-{
-	QChar typeChar = r.at(0);
+QStringList RedisConnectionAbstract::parseMultiBulk(QString response)
+{	
+	int endOfFirstLine = response.indexOf("\r\n");
+	int responseSize=response.mid(1, endOfFirstLine-1).toInt();			
 
+	if (responseSize == 0) 
+	{	
+		return QStringList();
+	}
+
+	QStringList parsedResult; QString item; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
+
+	for (int currPos = endOfFirstLine + 2, respStringSize = response.size(); currPos < respStringSize;) 
+	{
+		type = getResponseType(response.at(currPos));
+
+		firstPosOfEndl = response.indexOf("\r\n", currPos);
+		firstItemLen = firstPosOfEndl - currPos-1;
+
+		if (type == Integer) 
+		{											
+			parsedResult << response.mid(currPos+1, firstItemLen);
+
+			currPos = firstPosOfEndl + 2;
+			continue;
+		} 
+
+		if (type == Bulk) 
+		{						
+			bulkLen = response.mid(currPos+1, firstItemLen).toInt();
+
+			if (bulkLen == 0) 
+			{
+				parsedResult << "";
+				currPos = firstPosOfEndl + 4;
+			} else {
+				parsedResult << response.mid(firstPosOfEndl+2, bulkLen);
+				currPos = firstPosOfEndl + bulkLen + 4;
+			}
+
+			continue;
+		} 
+
+		if (type == MultiBulk) 
+		{
+			throw RedisException("Recursive parsing of MultiBulk replies not supported");
+		}
+	}			
+
+	return parsedResult;
+}
+
+RedisConnectionAbstract::ResponseType RedisConnectionAbstract::getResponseType(QString r) 
+{	
+	return getResponseType(r.at(0));
+}
+
+RedisConnectionAbstract::ResponseType RedisConnectionAbstract::getResponseType(const QChar typeChar) 
+{	
 	if (typeChar == '+') return Status; 
 	if (typeChar == '-') return Error;
 	if (typeChar == ':') return Integer;

@@ -45,9 +45,11 @@ protected:
 	/** @see http://redis.io/topics/protocol for more info **/	
 	QString prepareCommand(QString command);
 
-	QVariant parseResponse(QString response);	
+	QVariant parseResponse(QString response);
+	QStringList parseMultiBulk(QString response);
 
-	ResponseType getResponseType(QString r);	
+	ResponseType getResponseType(QString);	
+	ResponseType getResponseType(const QChar);
 
 	QString getStringResponse(QString response);
 
