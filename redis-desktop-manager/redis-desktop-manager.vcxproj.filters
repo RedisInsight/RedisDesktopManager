@@ -345,6 +345,9 @@
     <ClInclude Include="GeneratedFiles\ui_zsetViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\redis_small_icon.png">
@@ -368,5 +371,8 @@
     <Image Include="images\key.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="redis-desktop-manager.rc" />
   </ItemGroup>
 </Project>
