@@ -143,12 +143,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				RedisServerItem * server = (RedisServerItem *)item;
 				loadingInProgress = true;
 				bool connected = server->loadDatabases();
-				connections->updateFilter();
-				
-				serverInfoViewTab * tab = new serverInfoViewTab(server->text(), server->getInfo());
-				QString serverName = server->text();
-				addTab(serverName, tab);
-
+				connections->updateFilter();		
 				loadingInProgress = false;
 				
 				if (!connected) {
@@ -260,6 +255,9 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
+		menu->addAction("Console", this, SLOT(OnConsoleOpen()));
+		menu->addSeparator();
+		menu->addAction("Server info", this, SLOT(OnServerInfoOpen()));
 		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
 		menu->addSeparator();
 		menu->addAction("Edit", this, SLOT(OnEditConnection()));
@@ -270,77 +268,50 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
 void MainWin::OnReloadServerInTree()
 {
-	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
 
-	if (selected.size() == 0) 
-		return;
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
 
-	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(index);	
-
-		if (item->type() == RedisServerItem::TYPE) {
-			RedisServerItem * server = (RedisServerItem *) item;
-
-			server->reload();
-		}
-	}
+	RedisServerItem * server = (RedisServerItem *) item;
+	server->reload();
 }
 
 void MainWin::OnRemoveConnectionFromTree()
 {
-	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
 
-	if (selected.size() == 0) 
-		return;
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
 
-	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(
-			index
-			);	
+	QMessageBox::StandardButton reply;
 
-		if (item->type() == RedisServerItem::TYPE) {
+	reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
+		QMessageBox::Yes|QMessageBox::No);
 
-			QMessageBox::StandardButton reply;
+	if (reply == QMessageBox::Yes) {
 
-			reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
-				QMessageBox::Yes|QMessageBox::No);
+		RedisServerItem * server = (RedisServerItem *) item;
 
-			if (reply == QMessageBox::Yes) {
+		connections->RemoveConnection(server);
 
-				RedisServerItem * server = (RedisServerItem *) item;
-
-				connections->RemoveConnection(server);
-
-			}
-		}
 	}
-
 }
 
 void MainWin::OnEditConnection()
 {
-	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
 
-	if (selected.size() == 0) 
-		return;
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
 
-	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(
-			index
-			);	
+	RedisServerItem * server = (RedisServerItem *) item;
 
-		if (item->type() == RedisServerItem::TYPE) {
+	connection * connectionDialog = new connection(this, server);
+	connectionDialog->exec();
+	delete connectionDialog;
 
-			RedisServerItem * server = (RedisServerItem *) item;
-
-			connection * connectionDialog = new connection(this, server);
-			connectionDialog->exec();
-			delete connectionDialog;
-
-			server->unload();
-		}
-	}
-
+	server->unload();
 }
 
 void MainWin::OnNewUpdateAvailable(QString &url)
@@ -384,3 +355,61 @@ void MainWin::OnClearFilter()
 	ui.leKeySearchPattern->setStyleSheet("");
 }
 
+void MainWin::OnServerInfoOpen()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
+
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
+
+	RedisServerItem * server = (RedisServerItem *) item;
+
+	QStringList info = server->getInfo();
+
+	if (info.isEmpty()) 
+		return;
+
+	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
+	QString serverName = server->text();
+	addTab(serverName, tab);	
+}
+
+void MainWin::OnConsoleOpen()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
+
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
+
+	RedisServerItem * server = (RedisServerItem *) item;
+
+/*
+	QStringList info = server->getInfo();
+
+	if (info.isEmpty()) 
+		return;
+
+	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
+	QString serverName = server->text();
+	addTab(serverName, tab);*/	
+}
+
+QStandardItem * MainWin::getSelectedItemInConnectionsTree()
+{
+	QModelIndexList selected = ui.serversTreeView
+									->selectionModel()
+									->selectedIndexes();
+
+	if (selected.size() < 1) 
+		return nullptr;
+
+	QModelIndex index = selected.at(0);
+
+	if (index.isValid()) {			
+		QStandardItem * item = connections->itemFromIndex(index);	
+
+		return item;
+	}
+
+	return nullptr;
+}

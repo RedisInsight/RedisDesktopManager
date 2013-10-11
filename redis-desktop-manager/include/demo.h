@@ -41,6 +41,8 @@ private:
 	void initUpdater();
 	void initFilter();
 
+	QStandardItem * getSelectedItemInConnectionsTree();
+
 	private slots:
 		void OnAddConnectionClick();
 		void OnConnectionTreeClick(const QModelIndex & index);
@@ -53,6 +55,8 @@ private:
 		void OnImportConnectionsClick();
 		void OnSetFilter();
 		void OnClearFilter();
+		void OnServerInfoOpen();
+		void OnConsoleOpen();
 };
 
 #endif // DEMO_H
