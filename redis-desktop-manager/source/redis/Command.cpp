@@ -1,4 +1,4 @@
-#include "..\..\include\redis\Command.h"
+#include "Command.h"
 
 
 QString Command::getFormatted(QString command)
