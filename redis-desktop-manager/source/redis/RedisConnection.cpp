@@ -71,7 +71,7 @@ QVariant RedisConnection::execute(QString command)
 	/*
 	 *	Get response
 	 */	
-	Response response;
+	Response response; QByteArray res;
 	unsigned int lastBytesAvailable = 0, currBytesAvailable = 0;
 
 	while(!response.isValid()) {
@@ -85,7 +85,8 @@ QVariant RedisConnection::execute(QString command)
 
 		if (!socket->atEnd()) 
 		{
-			response.appendToSource(socket->readAll());	
+			res = socket->readAll();
+			response.appendToSource(res);	
 
 		} else {
 			

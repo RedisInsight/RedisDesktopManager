@@ -26,7 +26,7 @@ public:
 	static const int executeTimeout = 30000;
 
 	RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
-		: host(host), port(port), name(name), sshPort(DEFAULT_SSH_PORT)
+		: name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT)
 	{};
 
 	RedisConnectionConfig & operator = (RedisConnectionConfig & other) 

@@ -59,6 +59,8 @@ QVariant Response::getValue()
 	case MultiBulk: 
 		parsedResponse = QVariant(parseMultiBulk(responseString));		
 		break;
+	case Unknown:
+		break;
 	}
 
 	return parsedResponse;

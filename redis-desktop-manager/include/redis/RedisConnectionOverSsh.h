@@ -36,7 +36,5 @@ private:
 		void OnSshConnectionError(QxtSshClient::Error);
 		void OnSshConnected();
 		void OnSocketReadyRead();
-		void OnAuthRequired(QList<QxtSshClient::AuthenticationMethod>);
-
 };
 

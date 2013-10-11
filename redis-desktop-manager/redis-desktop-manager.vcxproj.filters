@@ -228,7 +228,7 @@
       <Filter>Source Files\redis</Filter>
     </ClCompile>
     <ClCompile Include="source\redis\Command.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\redis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

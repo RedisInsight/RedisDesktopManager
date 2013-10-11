@@ -16,11 +16,6 @@ RedisConnectionOverSsh::RedisConnectionOverSsh(const RedisConnectionConfig &c)
 		&sshClient, SIGNAL(error(QxtSshClient::Error)), 
 		this, SLOT(OnSshConnectionError(QxtSshClient::Error))
 		);
-
-	QObject::connect(
-		&sshClient, SIGNAL(authenticationRequired(QList<QxtSshClient::AuthenticationMethod>)), 
-		this, SLOT(OnAuthRequired(QList<QxtSshClient::AuthenticationMethod>))
-		);
 }
 
 RedisConnectionOverSsh::~RedisConnectionOverSsh(void)
@@ -113,9 +108,6 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 
 }
 
-void RedisConnectionOverSsh::OnAuthRequired(QList<QxtSshClient::AuthenticationMethod> authMethods)
-{
-}
 
 QString RedisConnectionOverSsh::getLastError()
 {
