@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
 	QApplication app( argc, argv );
 
 	int allTestsResult = 
-		QTest::qExec(new TestRedisConnection, argc, argv) +
 		QTest::qExec(new TestCommand, argc, argv) +
 		QTest::qExec(new TestResponse, argc, argv) +
+		QTest::qExec(new TestRedisConnection, argc, argv) +		
 		QTest::qExec(new TestRedisConnectionsManager, argc, argv);
 
     if (allTestsResult != 0 ) {

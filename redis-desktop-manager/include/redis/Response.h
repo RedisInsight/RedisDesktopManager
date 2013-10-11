@@ -10,6 +10,7 @@ class Response
 
 public:
 	Response();
+	Response(QString &);
 	~Response(void);
 
 	QVariant getValue();
@@ -37,11 +38,16 @@ private:
 	QVariant parseBulk(QString response);
 	QStringList parseMultiBulk(QString response);
 	QString getStringResponse(QString response);
-	int getSizeOfBulkReply(QString mb);	
+
+	int getSizeOfBulkReply(QString&, int);	
 
 	//validations
-	bool isIntReplyValid(QString r);
-	bool isBulkReplyValid(QString r);
-	bool isMultiBulkReplyValid(QString r);	
+	bool isReplyValid(QString&);
+
+	/** checks general validation rules **/
+	bool isReplyGeneralyValid(QString& );
+	bool isIntReplyValid(QString&);
+	bool isBulkReplyValid(QString&);
+	bool isMultiBulkReplyValid(QString&);	
 };
 

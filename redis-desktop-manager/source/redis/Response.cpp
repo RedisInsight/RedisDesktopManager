@@ -6,6 +6,10 @@ Response::Response()
 {
 }
 
+Response::Response(QString & src)
+	: responseString(src)
+{
+}
 
 Response::~Response(void)
 {
@@ -69,7 +73,7 @@ QVariant Response::getValue()
 QVariant Response::parseBulk(QString response)
 {
 	int endOfFirstLine = response.indexOf("\r\n");
-	int responseSize=response.mid(1, endOfFirstLine-1).toInt();
+	int responseSize = getSizeOfBulkReply(response, endOfFirstLine);	
 
 	if (responseSize != -1) {
 		return QVariant(response.mid(endOfFirstLine + 2, responseSize));		
@@ -81,17 +85,17 @@ QVariant Response::parseBulk(QString response)
 QStringList Response::parseMultiBulk(QString response)
 {	
 	int endOfFirstLine = response.indexOf("\r\n");
-	int responseSize=response.mid(1, endOfFirstLine-1).toInt();			
+	int responseSize = getSizeOfBulkReply(response, endOfFirstLine);			
 
 	if (responseSize == 0) 
 	{	
 		return QStringList();
 	}
 
-	QStringList parsedResult; QString item; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
+	QStringList parsedResult; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
 
 	for (int currPos = endOfFirstLine + 2, respStringSize = response.size(); currPos < respStringSize;) 
-	{
+	{		
 		type = getResponseType(response.at(currPos));
 
 		firstPosOfEndl = response.indexOf("\r\n", currPos);
@@ -153,116 +157,102 @@ QString Response::getStringResponse(QString response)
 
 bool Response::isValid()
 {
+	QString reply = responseString;
 
-	if (responseString.isEmpty())
+	return isReplyValid(reply);
+}
+
+bool Response::isReplyValid(QString & responseString)
+{
+	if (responseString.isEmpty()) 
+	{
 		return false;
+	}
 
 	ResponseType type = getResponseType(responseString);
 
 	switch (type)
 	{
-	case Status:
-	case Error:
-	case Integer:				
-		return isIntReplyValid(responseString);				
+		case Status:
+		case Error:		
+		case Unknown:
+		default:
+			return isReplyGeneralyValid(responseString);				
 
-	case Bulk:  
-		return isBulkReplyValid(responseString);		
+		case Integer:
+			return isReplyGeneralyValid(responseString) 
+				&& isIntReplyValid(responseString);
 
-	case MultiBulk:
-		return isMultiBulkReplyValid(responseString);
+		case Bulk:  
+			return isReplyGeneralyValid(responseString) 
+				&& isBulkReplyValid(responseString);		
 
-	default: // ignore info responses
-		return true;			
-	}		
+		case MultiBulk:
+			return isReplyGeneralyValid(responseString) 
+				&& isMultiBulkReplyValid(responseString);	
+	}	
 }
 
-bool Response::isIntReplyValid(QString r)
+bool Response::isReplyGeneralyValid(QString& r)
 {
 	return r.endsWith("\r\n");
 }
 
-bool Response::isBulkReplyValid(QString r)
+bool Response::isIntReplyValid(QString& r)
 {
-	if (!r.endsWith("\r\n"))
-		return false;				
-
 	int endOfFirstLine = r.indexOf("\r\n");
-	int responseSize=r.mid(1, endOfFirstLine-1).toInt();
+
+	//skip curr item in reply
+	r = r.mid(endOfFirstLine+2);
+
+	return true;
+}
+
+bool Response::isBulkReplyValid(QString& r)
+{			
+	int endOfFirstLine = r.indexOf("\r\n");
+	int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
 
 	if (responseSize == -1) {
+		r = r.mid(endOfFirstLine+2); //skip curr item in reply
 		return true;
 	}
 
 	int actualSizeOfResponse = r.mid(endOfFirstLine+2).size() - 2;
 
-	if (actualSizeOfResponse != responseSize) {
+	r = r.mid(endOfFirstLine + responseSize + 4); //skip curr item in reply
+
+	// we need not strict check for using this method for validation multi-bulk items
+	if (actualSizeOfResponse < responseSize) {
 		return false;
 	}
 
 	return true;
 }
 
-int Response::getSizeOfBulkReply(QString mb) 
-{
-	return mb.mid(1).toInt();		
-}
 
-bool Response::isMultiBulkReplyValid(QString r) 
-{
-	if (!r.endsWith("\r\n"))
-		return false;
 
-	QStringList parts = r.split("\r\n", QString::SkipEmptyParts, Qt::CaseInsensitive);
-	int responseSize = getSizeOfBulkReply(parts.at(0));
+bool Response::isMultiBulkReplyValid(QString& r) 
+{	
+	int endOfFirstLine = r.indexOf("\r\n");
+	int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
 
 	if (responseSize <= 0) {
 		return true;
 	}
+		
+	int itemsCount = 0;	
 
-	// count items count
-	// skip first string with length
-	int itemsCount = 0;
-	for (int i=1; i < parts.size(); ++i) 
-	{
-		QString item = parts.at(i);											
-		ResponseType type = getResponseType(item);
+	r = r.mid(endOfFirstLine + 2);
 
-		switch (type)
-		{			
-		case Response::Integer:
-
-			if (!isIntReplyValid(QString("%1\r\n").arg(item))) return false;
-
-			itemsCount++;
-
-			break;
-
-		case Response::Bulk:
-
-			if (getSizeOfBulkReply(item) <= 0) {
-				itemsCount++;
-			} else {
-
-				int leftLines = parts.size() - 1 - i;
-
-				if (leftLines == 0) return false;
-
-				QString bulk = QString("%1\r\n%2\r\n").arg(item).arg(parts.at(i+1));						
-
-				if (!isBulkReplyValid(bulk)) {
-					return false;
-				} else {
-					itemsCount++;
-					i++;
-				}
-			}
-
-			break;
-
-		default:
+	while (!r.isEmpty()) 
+	{		
+		if (!isReplyValid(r)) 
+		{
 			return false;
 		}
+		
+		itemsCount++;
 	}
 
 	if (itemsCount != responseSize) {
@@ -270,4 +260,13 @@ bool Response::isMultiBulkReplyValid(QString r)
 	}
 
 	return true;	
+}
+
+int Response::getSizeOfBulkReply(QString& reply, int endOfFirstLine = -1) 
+{
+	if (endOfFirstLine == -1) {
+		endOfFirstLine = reply.indexOf("\r\n");
+	}
+
+	return reply.mid(1, endOfFirstLine-1).toInt();		
 }

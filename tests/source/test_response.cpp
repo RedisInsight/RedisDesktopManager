@@ -4,7 +4,7 @@
 #include <QtCore>
 #include <QTest>
 
-void TestResponse::parseResponse()
+void TestResponse::getValue()
 {
 	//given 
 	Response test;
@@ -20,7 +20,7 @@ void TestResponse::parseResponse()
 	QCOMPARE(actualResult, validResult);
 }
 
-void TestResponse::parseResponse_data()
+void TestResponse::getValue_data()
 {
 	QTest::addColumn<QString>("testResponse");
 	QTest::addColumn<QVariant>("validResult");
@@ -40,66 +40,50 @@ void TestResponse::parseResponse_data()
 }
 
 
-void TestResponse::isIntResponseValid()
+void TestResponse::isValid()
 {
-	//given
-	Response test;
+	//given	
+	QFETCH(QString, testResponse);
+	QFETCH(bool, validResult);
+
+	Response test(testResponse);	
 
 	//when
-	bool actualOnValid = test.isIntReplyValid(":10000\r\n");
-	bool actualOnInvalid = test.isIntReplyValid(":99\n");
-	bool actualOnInvalid2 = test.isIntReplyValid(":");
-	bool actualOnInvalid3 = test.isIntReplyValid("");
+	bool actualOnValid = test.isValid();
 
 	//then
-	QCOMPARE(actualOnValid, true);
-	QCOMPARE(actualOnInvalid, false);
-	QCOMPARE(actualOnInvalid2, false);
-	QCOMPARE(actualOnInvalid3, false);
+	QCOMPARE(actualOnValid, validResult);
 }
 
-void TestResponse::isBulkReplyValid()
+
+void TestResponse::isValid_data()
 {
-	//given
-	Response test;
+	QTest::addColumn<QString>("testResponse");
+	QTest::addColumn<bool>("validResult");
 
-	//when
-	bool actualOnValid = test.isBulkReplyValid("$6\r\nfoobar\r\n");
-	bool actualOnValid2 = test.isBulkReplyValid("$-1\r\n");
-	bool actualOnValid3 = test.isBulkReplyValid("$12\r\n# Keyspace\r\n\r\n");
-	bool actualOnInvalid = test.isBulkReplyValid("$1\r\n");
-	bool actualOnInvalid2 = test.isBulkReplyValid("$5\r\n\r\n");
-	bool actualOnInvalid3 = test.isBulkReplyValid("$5\r\nhell\r\n");
-	bool actualOnInvalid4 = test.isBulkReplyValid("$5\r\n");
+	//test int
+	QTest::newRow("Int valid")		<< ":10000\r\n" << true;
+	QTest::newRow("Int invalid")	<< ":99\n"		<< false;
+	QTest::newRow("Int invalid")	<< ":"			<< false;
+	QTest::newRow("Int invalid")	<< ""			<< false;
 
-	//then
-	QCOMPARE(actualOnValid, true);
-	QCOMPARE(actualOnValid2, true);
-	QCOMPARE(actualOnValid3, true);
-	QCOMPARE(actualOnInvalid, false);
-	QCOMPARE(actualOnInvalid2, false);
-	QCOMPARE(actualOnInvalid3, false);
-	QCOMPARE(actualOnInvalid4, false);
-}
+	//test bulk
+	QTest::newRow("Bulk valid")		<< "$6\r\nfoobar\r\n"			<< true;
+	QTest::newRow("Bulk valid")		<< "$-1\r\n"					<< true;
+	QTest::newRow("Bulk valid")		<< "$12\r\n# Keyspace\r\n\r\n"  << true;	
+	QTest::newRow("Bulk invalid")	<< "$1\r\n"						<< false;
+	QTest::newRow("Bulk invalid")	<< "$5\r\n\r\n"					<< false;
+	QTest::newRow("Bulk invalid")	<< "$5\r\nhell\r\n"				<< false;
+	QTest::newRow("Bulk invalid")	<< "$5\r\n"						<< false;
 
-void TestResponse::isMultiBulkReplyValid()
-{
-	//given
-	Response test;
+	//test multi bulk
+	QTest::newRow("Multi Bulk valid")
+		<< "*5\r\n:1\r\n:2\r\n:3\r\n:4\r\n$6\r\nfoobar\r\n"	<< true;
+	QTest::newRow("Multi Bulk valid")
+		<< "*4\r\n$3\r\nfoo\r\n$3\r\nbar\r\n$5\r\nHello\r\n$5\r\nWorld\r\n"	<< true;
 
-	//when
-	bool actualOnValid = test.isMultiBulkReplyValid("*5\r\n:1\r\n:2\r\n:3\r\n:4\r\n$6\r\nfoobar\r\n");
-	bool actualOnValid2 = test.isMultiBulkReplyValid("*4\r\n$3\r\nfoo\r\n$3\r\nbar\r\n$5\r\nHello\r\n$5\r\nWorld\r\n");
-	bool actualOnInvalid = test.isMultiBulkReplyValid("");
-	bool actualOnInvalid2 = test.isMultiBulkReplyValid("*5\r\n");
-	bool actualOnInvalid3 = test.isMultiBulkReplyValid("*5\r\n:1\r\n");
-	bool actualOnInvalid4 = test.isMultiBulkReplyValid("*2\r\n:1\r\n$6\r\nHello\r\n");
+	QTest::newRow("Multi Bulk invalid") << "*5\r\n"						<< false;
+	QTest::newRow("Multi Bulk invalid") << "*5\r\n:1\r\n"				<< false;
+	QTest::newRow("Multi Bulk invalid") << "*2\r\n:1\r\n$6\r\nHello\r\n"<< false;
 
-	//then
-	QCOMPARE(actualOnValid, true);
-	QCOMPARE(actualOnValid2, true);
-	QCOMPARE(actualOnInvalid, false);
-	QCOMPARE(actualOnInvalid2, false);
-	QCOMPARE(actualOnInvalid3, false);
-	QCOMPARE(actualOnInvalid4, false);
 }

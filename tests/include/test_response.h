@@ -8,12 +8,11 @@ class TestResponse: public QObject
 
 private slots:
 	//parsing tests
-	void parseResponse();
-	void parseResponse_data();
+	void getValue();
+	void getValue_data();
 
 	//validation tests
-	void isIntResponseValid();
-	void isBulkReplyValid();
-	void isMultiBulkReplyValid();
+	void isValid();
+	void isValid_data();	
 };
 
