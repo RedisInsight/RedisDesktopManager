@@ -28,6 +28,11 @@ private:
 	Updater * updater;
 
 	void loadKeyTab(RedisKeyItem *);
+	void addTab(QString&, QWidget*);
+
+	/** @return >=0 if exist **/
+	int getTabIndex(QString&);
+
     QString getConfigPath(const QString&);
 
 	void initFormButtons();

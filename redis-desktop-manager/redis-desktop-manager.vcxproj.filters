@@ -230,6 +230,15 @@
     <ClCompile Include="source\redis\Command.cpp">
       <Filter>Source Files\redis</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\serverInfoViewTab.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_serverInfoViewTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_serverInfoViewTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -291,6 +300,12 @@
     </CustomBuild>
     <CustomBuild Include="Resources\demo.qrc">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="serverInfoViewTab.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\serverInfoViewTab.h">
+      <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="include\redis\Command.h">
       <Filter>Header Files\redis</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

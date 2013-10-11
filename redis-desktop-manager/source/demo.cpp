@@ -12,6 +12,7 @@
 #include "listViewTab.h"
 #include "zsetViewTab.h"
 #include "Updater.h"
+#include "serverInfoViewTab.h"
 
 MainWin::MainWin(QWidget *parent)
 	: QMainWindow(parent), loadingInProgress(false)
@@ -143,6 +144,10 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				loadingInProgress = true;
 				bool connected = server->loadDatabases();
 				connections->updateFilter();
+				
+				serverInfoViewTab * tab = new serverInfoViewTab(server->text(), server->getInfo());
+				addTab(server->text(), tab);
+
 				loadingInProgress = false;
 				
 				if (!connected) {
@@ -207,30 +212,39 @@ void MainWin::loadKeyTab(RedisKeyItem * key)
 	}
 
 	if (viewTab != nullptr) {
-
-		//find opened tab with same key
-		bool isTabReplaced = false;
-		int insertedTabIndex = 0;
+					
 		QString keyFullName = key->getFullText();
 
-		for (int i = 0; i < ui.tabWidget->count(); ++i)
-		{
-			if (keyFullName == ui.tabWidget->tabText(i)) {
-				OnTabClose(i);
-				ui.tabWidget->insertTab(i, viewTab, keyFullName);
-				insertedTabIndex = i;				
-				break;
-			}
-		}
-
-		if (!isTabReplaced) {
-			insertedTabIndex = ui.tabWidget->addTab(viewTab, keyFullName);			
-		}
-
-		ui.tabWidget->setCurrentIndex(insertedTabIndex);
+		addTab(keyFullName, viewTab);
 	}
 
 	key->setNormalIcon();
+}
+
+int MainWin::getTabIndex(QString& name)
+{
+	for (int i = 0; i < ui.tabWidget->count(); ++i)
+	{
+		if (name == ui.tabWidget->tabText(i)) {
+			return i;							
+		}
+	}
+
+	return -1;
+}
+
+void MainWin::addTab(QString& tabName, QWidget* tab)
+{
+	//find opened tab with same key		
+	int currIndexOnTab = getTabIndex(tabName);
+
+	if (currIndexOnTab > -1) { // tab exist - close old tab
+		OnTabClose(currIndexOnTab);
+	}
+		
+	ui.tabWidget->setCurrentIndex(
+		ui.tabWidget->addTab(tab, tabName)
+	);
 }
 
 void MainWin::OnTreeViewContextMenu(const QPoint &point)

@@ -16,6 +16,7 @@ public:
 	RedisServerItem(RedisConnectionAbstract * c);
 
 	bool loadDatabases();	
+	QStringList getInfo();
 
 	void reload();
 	void unload();

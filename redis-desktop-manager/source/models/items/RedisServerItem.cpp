@@ -64,6 +64,17 @@ bool RedisServerItem::loadDatabases()
 	return true;
 }
 
+QStringList RedisServerItem::getInfo()
+{
+	QVariant info = connection->execute("INFO");
+
+	if (info.isNull()) {
+		return QStringList();
+	}
+
+	return info.toString().split("\r\n");
+}
+
 RedisConnectionAbstract * RedisServerItem::getConnection()
 {
 	return connection;
