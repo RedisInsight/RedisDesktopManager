@@ -16,7 +16,8 @@ CONFIG += c++11 release
 
 SOURCES += \
     $$PWD/source/main.cpp \
-    $$PWD/source/*.cpp \
+    $$PWD/source/demo.cpp \
+    $$PWD/source/connection.cpp \
     $$PWD/source/widgets/*.cpp \
     $$PWD/source/updater/Updater.cpp \
     $$PWD/source/redis/*.cpp \
