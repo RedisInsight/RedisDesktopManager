@@ -89,12 +89,7 @@ INCLUDEPATH += $$PWD/source \
     $$PWD/include/widgets \
 
 FORMS += \
-    forms/zsetViewTab.ui \
-    forms/stringViewTab.ui \
-    forms/listViewTab.ui \
-    forms/hashViewTab.ui \
-    forms/demo.ui \
-    forms/connection.ui
+    $$PWD/forms/*.ui \
 
 RESOURCES += \
     Resources/demo.qrc

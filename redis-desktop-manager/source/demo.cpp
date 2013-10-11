@@ -146,7 +146,8 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				connections->updateFilter();
 				
 				serverInfoViewTab * tab = new serverInfoViewTab(server->text(), server->getInfo());
-				addTab(server->text(), tab);
+				QString serverName = server->text();
+				addTab(serverName, tab);
 
 				loadingInProgress = false;
 				

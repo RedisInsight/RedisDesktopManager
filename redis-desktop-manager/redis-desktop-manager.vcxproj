@@ -420,7 +420,7 @@
     <ResourceCompile Include="redis-desktop-manager.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="serverInfoViewTab.ui">
+    <CustomBuild Include="forms/serverInfoViewTab.ui">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
