@@ -13,7 +13,7 @@
 #include "zsetViewTab.h"
 #include "Updater.h"
 
-Main::Main(QWidget *parent)
+MainWin::MainWin(QWidget *parent)
 	: QMainWindow(parent), loadingInProgress(false)
 {
 	ui.setupUi(this);
@@ -25,7 +25,13 @@ Main::Main(QWidget *parent)
 	initFilter();
 }
 
-void Main::initConnectionsTreeView()
+MainWin::~MainWin()
+{	
+	delete connections;
+	delete updater;
+}
+
+void MainWin::initConnectionsTreeView()
 {
 	//connection manager
 	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));	
@@ -45,13 +51,13 @@ void Main::initConnectionsTreeView()
 			this, SLOT(OnTreeViewContextMenu(const QPoint &)));
 }
 
-void Main::initFormButtons()
+void MainWin::initFormButtons()
 {
 	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
 	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
 }
 
-void Main::initTabs()
+void MainWin::initTabs()
 {
 	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
 
@@ -59,7 +65,7 @@ void Main::initTabs()
 	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); 
 }
 
-void Main::initUpdater()
+void MainWin::initUpdater()
 {
 	//set current version
 	ui.currentVersionLabel->setText(
@@ -70,19 +76,13 @@ void Main::initUpdater()
 	connect(updater, SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
 }
 
-void Main::initFilter()
+void MainWin::initFilter()
 {
 	connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
 	connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
 }
 
-Main::~Main()
-{	
-	delete connections;
-	delete updater;
-}
-
-QString Main::getConfigPath(const QString& configFile)
+QString MainWin::getConfigPath(const QString& configFile)
 {
 	/*
 	 * Check current directory
@@ -119,14 +119,14 @@ QString Main::getConfigPath(const QString& configFile)
 }
 
 
-void Main::OnAddConnectionClick()
+void MainWin::OnAddConnectionClick()
 {
 	connection * connectionDialog = new connection(this);
 	connectionDialog->exec();
 	delete connectionDialog;
 }
 
-void Main::OnConnectionTreeClick(const QModelIndex & index)
+void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 {
 	if (loadingInProgress) {
 		return;
@@ -170,7 +170,7 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 	}
 }
 
-void Main::OnTabClose(int index)
+void MainWin::OnTabClose(int index)
 {
 	QWidget * w = ui.tabWidget->widget(index);
 
@@ -179,7 +179,7 @@ void Main::OnTabClose(int index)
 	delete w;
 }
 
-void Main::loadKeyTab(RedisKeyItem * key)
+void MainWin::loadKeyTab(RedisKeyItem * key)
 {	
 	key->setBusyIcon();
 	RedisKeyItem::Type type = key->getKeyType();
@@ -233,7 +233,7 @@ void Main::loadKeyTab(RedisKeyItem * key)
 	key->setNormalIcon();
 }
 
-void Main::OnTreeViewContextMenu(const QPoint &point)
+void MainWin::OnTreeViewContextMenu(const QPoint &point)
 {
 	QStandardItem *item = connections->itemFromIndex(
 		ui.serversTreeView->indexAt(point)
@@ -253,7 +253,7 @@ void Main::OnTreeViewContextMenu(const QPoint &point)
 	}
 }
 
-void Main::OnReloadServerInTree()
+void MainWin::OnReloadServerInTree()
 {
 	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
 
@@ -271,7 +271,7 @@ void Main::OnReloadServerInTree()
 	}
 }
 
-void Main::OnRemoveConnectionFromTree()
+void MainWin::OnRemoveConnectionFromTree()
 {
 	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
 
@@ -302,7 +302,7 @@ void Main::OnRemoveConnectionFromTree()
 
 }
 
-void Main::OnEditConnection()
+void MainWin::OnEditConnection()
 {
 	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
 
@@ -328,12 +328,12 @@ void Main::OnEditConnection()
 
 }
 
-void Main::OnNewUpdateAvailable(QString &url)
+void MainWin::OnNewUpdateAvailable(QString &url)
 {
 	ui.newUpdateAvailableLabel->setText(QString("<div style=\"font-size: 13px;\">New update available: %1</div>").arg(url));
 }
 
-void Main::OnImportConnectionsClick()
+void MainWin::OnImportConnectionsClick()
 {
 	QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files (*.xml)"));
 
@@ -348,7 +348,7 @@ void Main::OnImportConnectionsClick()
 	}
 }
 
-void Main::OnSetFilter()
+void MainWin::OnSetFilter()
 {
 	QRegExp filter(ui.leKeySearchPattern->text());
 
@@ -363,7 +363,7 @@ void Main::OnSetFilter()
 
 }
 
-void Main::OnClearFilter()
+void MainWin::OnClearFilter()
 {
 	connections->resetFilter();
 	ui.leKeySearchPattern->setStyleSheet("");

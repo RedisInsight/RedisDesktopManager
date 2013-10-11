@@ -16,7 +16,7 @@ public:
 
 private:
 	Ui::connectionDialog ui;
-	Main * mainForm;
+	MainWin * mainForm;
 	RedisServerItem * server;
 
 	bool inEditMode;

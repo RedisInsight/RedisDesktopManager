@@ -14,7 +14,7 @@ connection::connection(QWidget *parent, RedisServerItem * srv)
 	this->setModal(true);
 
 	if (parent) {
-		mainForm = qobject_cast<Main *>(parent);
+		mainForm = qobject_cast<MainWin *>(parent);
 	}
 
 	// connect slots to signals

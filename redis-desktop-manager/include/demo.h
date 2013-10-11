@@ -13,15 +13,15 @@
 class RedisKeyItem;
 class Updater;
 
-class Main : public QMainWindow
+class MainWin : public QMainWindow
 {
 	Q_OBJECT
 
 public:
 	RedisConnectionsManager * connections;
 
-	Main(QWidget *parent = 0);
-	~Main();	
+	MainWin(QWidget *parent = 0);
+	~MainWin();	
 private:
 	bool loadingInProgress;
 	Ui::demoClass ui;		
