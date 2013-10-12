@@ -13,6 +13,7 @@
 #include "zsetViewTab.h"
 #include "Updater.h"
 #include "serverInfoViewTab.h"
+#include "consoleTab.h"
 
 MainWin::MainWin(QWidget *parent)
 	: QMainWindow(parent), loadingInProgress(false)
@@ -382,6 +383,12 @@ void MainWin::OnConsoleOpen()
 		return;	
 
 	RedisServerItem * server = (RedisServerItem *) item;
+	consoleTab * tab = new consoleTab(server->getConnection()->config);
+
+
+	QString serverName = server->text();
+
+	addTab(serverName, tab);
 
 /*
 	QStringList info = server->getInfo();
