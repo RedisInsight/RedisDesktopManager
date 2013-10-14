@@ -256,8 +256,8 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
-		//menu->addAction("Console", this, SLOT(OnConsoleOpen()));
-		//menu->addSeparator();
+		menu->addAction("Console", this, SLOT(OnConsoleOpen()));
+		menu->addSeparator();
 		menu->addAction("Server info", this, SLOT(OnServerInfoOpen()));
 		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
 		menu->addSeparator();

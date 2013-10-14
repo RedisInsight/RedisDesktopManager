@@ -4,6 +4,7 @@
 #include <QTextBlock>
 
 #include "RedisConnectionConfig.h"
+#include "ConsoleConnectionWrapper.h"
 
 consoleTab::consoleTab(RedisConnectionConfig& config)
 {
@@ -18,11 +19,17 @@ consoleTab::consoleTab(RedisConnectionConfig& config)
 	historyPos = 0;
 	insertPrompt(false);
 	isLocked = false;
+
+	connection = new ConsoleConnectionWrapper(config, *this);
+
+	connect(this, SIGNAL(onCommand(QString)), connection, SLOT(executeCommand(QString)));
 }
 
 
 consoleTab::~consoleTab(void)
 {
+	//connectionThread.quit();
+	///connectionThread.wait();
 }
 
 void consoleTab::keyPressEvent(QKeyEvent *event)
