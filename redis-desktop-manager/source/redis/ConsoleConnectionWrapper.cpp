@@ -47,10 +47,10 @@ void ConsoleConnectionWrapper::executeCommand(QString cmd)
 	if (result.isNull()) 
 	{
 		printableResult = "NULL";
-	} else if (result.type() == QVariant::String || result.type() == QVariant::Int) {
-		printableResult = result.toString();
 	} else if (result.type() == QVariant::StringList) {
 		printableResult = result.toStringList().join("\r\n");
+	} else {
+		printableResult = result.toString();
 	}
 	
 	consoleView.output(printableResult);
