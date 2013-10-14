@@ -270,3 +270,15 @@ int Response::getSizeOfBulkReply(QString& reply, int endOfFirstLine = -1)
 
 	return reply.mid(1, endOfFirstLine-1).toInt();		
 }
+
+QString Response::valueToString(QVariant& value)
+{
+	if (value.isNull()) 
+	{
+		return "NULL";
+	} else if (value.type() == QVariant::StringList) {
+		return value.toStringList().join("\r\n");
+	} 
+
+	return value.toString();
+}

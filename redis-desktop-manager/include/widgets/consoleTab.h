@@ -19,6 +19,7 @@ public:
 	consoleTab(RedisConnectionConfig&);
 	~consoleTab(void);
 	void output(QString);
+	void setPrompt(QString);
 	void scrollDown();
 
 protected:

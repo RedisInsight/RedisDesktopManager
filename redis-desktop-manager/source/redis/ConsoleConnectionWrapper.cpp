@@ -4,6 +4,7 @@
 #include "RedisConnection.h"
 #include "RedisConnectionOverSsh.h"
 #include "consoleTab.h"
+#include "Response.h"
 
 ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisConnectionConfig &config, consoleTab &view)
 	: consoleView(view) , connectionValid(false)
@@ -24,7 +25,8 @@ ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisConnectionConfig &config
 	}
 
 	connectionValid = true;
-	consoleView.output("Connected.");
+	consoleView.setPrompt(QString("%1:0>").arg(config.name));
+	consoleView.output("Connected.");	
 }
 
 void ConsoleConnectionWrapper::executeCommand(QString cmd)
@@ -42,16 +44,19 @@ void ConsoleConnectionWrapper::executeCommand(QString cmd)
 	}
 
 	QVariant result = connection->execute(cmd);
-	QString printableResult;
-
-	if (result.isNull()) 
-	{
-		printableResult = "NULL";
-	} else if (result.type() == QVariant::StringList) {
-		printableResult = result.toStringList().join("\r\n");
-	} else {
-		printableResult = result.toString();
-	}
 	
-	consoleView.output(printableResult);
+	QRegExp selectDbRegex("^( )*select( )+(\\d)+");
+
+	bool isSelectCommand = selectDbRegex.indexIn(cmd) > -1;
+
+	if (isSelectCommand) 
+	{		
+		consoleView.setPrompt(
+			QString("%1:%2>")
+				.arg(connection->config.name)
+				.arg(selectDbRegex.cap(3))
+			);
+	}
+
+	consoleView.output(Response::valueToString(result));
 }

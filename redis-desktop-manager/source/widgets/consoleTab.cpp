@@ -7,9 +7,7 @@
 #include "ConsoleConnectionWrapper.h"
 
 consoleTab::consoleTab(RedisConnectionConfig& config)
-{
-	prompt += config.name + ">";
-
+{	
 	QPalette p = palette();
 	p.setColor(QPalette::Base, QColor(57, 57, 57));
 	p.setColor(QPalette::Text, QColor(238, 238, 238));
@@ -32,6 +30,11 @@ consoleTab::~consoleTab(void)
 	///connectionThread.wait();
 }
 
+void consoleTab::setPrompt(QString str)
+{
+	prompt = str;
+}
+
 void consoleTab::keyPressEvent(QKeyEvent *event)
 {
 	if(isLocked)
@@ -43,6 +46,7 @@ void consoleTab::keyPressEvent(QKeyEvent *event)
 		&& event->modifiers() == Qt::NoModifier
 		&& textCursor().positionInBlock() > prompt.length())
 		QPlainTextEdit::keyPressEvent(event);
+
 	if(event->key() == Qt::Key_Return && event->modifiers() == Qt::NoModifier)
 		onEnter();
 	if(event->key() == Qt::Key_Up && event->modifiers() == Qt::NoModifier)
