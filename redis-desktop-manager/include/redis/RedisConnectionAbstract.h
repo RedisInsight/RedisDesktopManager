@@ -34,29 +34,9 @@ public:
 	void selectDb(int dbIndex);
 
 	QStringList getKeys(QString pattern = "*");
+
 protected:
 	bool connected;
-	
-	enum ResponseType 
-	{
-		Status, Error, Integer, Bulk, MultiBulk, Unknown			
-	};
 
-	/** @see http://redis.io/topics/protocol for more info **/	
-	QString prepareCommand(QString command);
-
-	QVariant parseResponse(QString response);	
-
-	ResponseType getResponseType(QString r);	
-
-	QString getStringResponse(QString response);
-
-	bool isFullResponseRecieved(QString r);
-	bool isIntReplyValid(QString r);
-	bool isBulkReplyValid(QString r);
-	bool isMultiBulkReplyValid(QString r);	
-	bool waitForData(int ms);
-
-	int getSizeOfBulkReply(QString mb);		
 };
 

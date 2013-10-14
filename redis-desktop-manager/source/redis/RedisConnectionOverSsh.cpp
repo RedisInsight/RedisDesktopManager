@@ -1,4 +1,6 @@
 #include "RedisConnectionOverSsh.h"
+#include "Command.h"
+#include "Response.h"
 
 #define MAX_BUFFER_SIZE 536870999 //redis response limit
 
@@ -13,11 +15,6 @@ RedisConnectionOverSsh::RedisConnectionOverSsh(const RedisConnectionConfig &c)
 	QObject::connect(
 		&sshClient, SIGNAL(error(QxtSshClient::Error)), 
 		this, SLOT(OnSshConnectionError(QxtSshClient::Error))
-		);
-
-	QObject::connect(
-		&sshClient, SIGNAL(authenticationRequired(QList<QxtSshClient::AuthenticationMethod>)), 
-		this, SLOT(OnAuthRequired(QList<QxtSshClient::AuthenticationMethod>))
 		);
 }
 
@@ -111,9 +108,6 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 
 }
 
-void RedisConnectionOverSsh::OnAuthRequired(QList<QxtSshClient::AuthenticationMethod> authMethods)
-{
-}
 
 QString RedisConnectionOverSsh::getLastError()
 {
@@ -131,7 +125,7 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 		return QVariant();
 	}
 
-	QString formattedCommand = prepareCommand(command);
+	QString formattedCommand = Command::getFormatted(command);
 
 	/*
 	 *	Send command
@@ -152,44 +146,39 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 	/*
 	 *	Get response
 	 */	
-	QString response("");		
-	bool firstLimit = true, secondLimit = true, thirdLimit = true, lastLimit = true;	
+	Response response;	QByteArray availableData;	
+	int currExecutionTime = 0; bool dataReaded = false;
 
-	while(!isFullResponseRecieved(response)) {
+	while(!response.isValid()) {
 
-		QByteArray availableData = socket->read(MAX_BUFFER_SIZE);
+		availableData = socket->read(MAX_BUFFER_SIZE);
 
-		int currBytesAvailable = availableData.size();
-
-		if (currBytesAvailable > 0) 
+		if (availableData.size() > 0) 
 		{
-			response.append(availableData);	
+			response.appendToSource(availableData);	
 
 		} else {						
 
-			if (firstLimit && waitForData(5)) 
+			while (currExecutionTime <= config.executeTimeout) 
 			{
-				firstLimit = false;
-				continue;			
+				waitForData(5);
+				currExecutionTime +=5;
+
+				availableData = socket->read(MAX_BUFFER_SIZE);
+
+				if (availableData.size() > 0) 
+				{
+					response.appendToSource(availableData);
+					currExecutionTime = 0;
+					dataReaded = true;
+
+					break;
+				}
 			}
 
-			if (secondLimit && waitForData(50)) 
-			{
-				secondLimit = false;
-				continue;			
-			}
-
-			if (thirdLimit && waitForData(100)) 
-			{
-				thirdLimit = false;
-				continue;			
-			}
-
-			// TODO: move config.executeTimeout to config options - user probably want to increase this value for unstable connections			
-			if (lastLimit && waitForData(config.executeTimeout)) 
-			{
-				lastLimit = false;
-				continue;			
+			if (dataReaded) {
+				dataReaded = false;
+				continue;
 			}
 
 			break;
@@ -197,5 +186,21 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 
 	}	
 
-	return parseResponse(response);
+	return response.getValue();
+}
+
+bool RedisConnectionOverSsh::waitForData(int ms)
+{
+	//wait for data
+	QEventLoop loop;
+	QTimer timeoutTimer;
+
+	//configure sync objects
+	timeoutTimer.setSingleShot(true);
+	QObject::connect(&timeoutTimer, SIGNAL(timeout()), &loop, SLOT(quit()));
+
+	timeoutTimer.start(ms); 
+	loop.exec();
+
+	return true;
 }

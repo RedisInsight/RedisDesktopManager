@@ -1,4 +1,6 @@
 #include "RedisConnection.h"
+#include "Command.h"
+#include "Response.h"
 
 RedisConnection::RedisConnection(const RedisConnectionConfig & c) 
 	: RedisConnectionAbstract(c)
@@ -46,7 +48,7 @@ QVariant RedisConnection::execute(QString command)
 		return QVariant();
 	}
 
-	QString formattedCommand = prepareCommand(command);
+	QString formattedCommand = Command::getFormatted(command);
 
 	/*
 	 *	Send command
@@ -69,10 +71,10 @@ QVariant RedisConnection::execute(QString command)
 	/*
 	 *	Get response
 	 */	
-	QString response("");		
+	Response response; QByteArray res;
 	unsigned int lastBytesAvailable = 0, currBytesAvailable = 0;
 
-	while(!isFullResponseRecieved(response)) {
+	while(!response.isValid()) {
 		
 		currBytesAvailable= socket->bytesAvailable();
 
@@ -83,7 +85,8 @@ QVariant RedisConnection::execute(QString command)
 
 		if (!socket->atEnd()) 
 		{
-			response.append(socket->readAll());	
+			res = socket->readAll();
+			response.appendToSource(res);	
 
 		} else {
 			
@@ -97,7 +100,7 @@ QVariant RedisConnection::execute(QString command)
 
 	}	
 
-	return parseResponse(response);
+	return response.getValue();
 }
 
 

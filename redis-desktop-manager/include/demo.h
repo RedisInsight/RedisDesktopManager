@@ -13,21 +13,26 @@
 class RedisKeyItem;
 class Updater;
 
-class Main : public QMainWindow
+class MainWin : public QMainWindow
 {
 	Q_OBJECT
 
 public:
 	RedisConnectionsManager * connections;
 
-	Main(QWidget *parent = 0);
-	~Main();	
+	MainWin(QWidget *parent = 0);
+	~MainWin();	
 private:
 	bool loadingInProgress;
 	Ui::demoClass ui;		
 	Updater * updater;
 
 	void loadKeyTab(RedisKeyItem *);
+	void addTab(QString&, QWidget*);
+
+	/** @return >=0 if exist **/
+	int getTabIndex(QString&);
+
     QString getConfigPath(const QString&);
 
 	void initFormButtons();
@@ -35,6 +40,8 @@ private:
 	void initTabs();
 	void initUpdater();
 	void initFilter();
+
+	QStandardItem * getSelectedItemInConnectionsTree();
 
 	private slots:
 		void OnAddConnectionClick();
@@ -48,6 +55,8 @@ private:
 		void OnImportConnectionsClick();
 		void OnSetFilter();
 		void OnClearFilter();
+		void OnServerInfoOpen();
+		void OnConsoleOpen();
 };
 
 #endif // DEMO_H

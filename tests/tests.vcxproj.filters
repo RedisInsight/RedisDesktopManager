@@ -67,6 +67,12 @@
     <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnectionOverSsh.h">
       <Filter>Header Files\source</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\test_command.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\test_response.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_test_redisconnection.cpp">
@@ -165,6 +171,30 @@
     <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisServerItem.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\redis\Command.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\redis\Response.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_test_command.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_test_command.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test_command.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_test_response.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_test_response.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test_response.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtnetwork.h">
@@ -198,6 +228,12 @@
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\models\items\RedisServerItem.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\redis\Command.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\redis\Response.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
   </ItemGroup>

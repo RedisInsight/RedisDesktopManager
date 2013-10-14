@@ -64,6 +64,24 @@ bool RedisServerItem::loadDatabases()
 	return true;
 }
 
+QStringList RedisServerItem::getInfo()
+{
+	if (!connection->isConnected() && !connection->connect()) {
+		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
+		// TODO: set error icon		
+		setOfflineIcon();
+		return QStringList();
+	}
+
+	QVariant info = connection->execute("INFO");
+
+	if (info.isNull()) {
+		return QStringList();
+	}
+
+	return info.toString().split("\r\n");
+}
+
 RedisConnectionAbstract * RedisServerItem::getConnection()
 {
 	return connection;

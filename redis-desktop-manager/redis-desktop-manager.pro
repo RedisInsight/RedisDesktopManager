@@ -15,59 +15,24 @@ CONFIG -= debug
 CONFIG += c++11 release
 
 SOURCES += \
-    source/main.cpp \
-    source/demo.cpp \
-    source/connection.cpp \
-    source/widgets/zsetViewTab.cpp \
-    source/widgets/stringViewTab.cpp \
-    source/widgets/listViewTab.cpp \
-    source/widgets/hashViewTab.cpp \
-    source/updater/Updater.cpp \
-    source/redis/RedisConnectionsManager.cpp \
-    source/redis/RedisConnectionOverSsh.cpp \
-    source/redis/RedisConnectionConfig.cpp \
-    source/redis/RedisConnectionAbstract.cpp \
-    source/redis/RedisConnection.cpp \
-    source/network/qxtsshtcpsocket.cpp \
-    source/network/qxtsshprocess.cpp \
-    source/network/qxtsshclient.cpp \
-    source/network/qxtsshchannel.cpp \
-    source/models/SortedSetKeyModel.cpp \    
-    source/models/ListKeyModel.cpp \
-    source/models/HashKeyModel.cpp \
-    source/models/items/RedisServerItem.cpp \
-    source/models/items/RedisServerDbItem.cpp \
-    source/models/items/RedisKeyNamespace.cpp \
-    source/models/items/RedisKeyItem.cpp
+    $$PWD/source/main.cpp \
+    $$PWD/source/demo.cpp \
+    $$PWD/source/connection.cpp \
+    $$PWD/source/widgets/*.cpp \
+    $$PWD/source/updater/Updater.cpp \
+    $$PWD/source/redis/*.cpp \
+    $$PWD/source/network/*.cpp \
+    $$PWD/source/models/*.cpp \
+    $$PWD/source/models/items/*.cpp \
 
 HEADERS  += \
-    include/demo.h \
-    include/connection.h \
-    include/widgets/zsetViewTab.h \
-    include/widgets/stringViewTab.h \
-    include/widgets/listViewTab.h \
-    include/widgets/hashViewTab.h \
-    include/updater/Updater.h \
-    include/redis/RedisException.h \
-    include/redis/RedisConnectionsManager.h \
-    include/redis/RedisConnectionOverSsh.h \
-    include/redis/RedisConnectionConfig.h \
-    include/redis/RedisConnectionAbstract.h \
-    include/redis/RedisConnection.h \
-    include/network/qxtsshtcpsocket.h \
-    include/network/qxtsshprocess.h \
-    include/network/qxtsshclient_p.h \
-    include/network/qxtsshclient.h \
-    include/network/qxtsshchannel_p.h \
-    include/network/qxtsshchannel.h \
-    include/network/qxtnetwork.h \
-    include/models/SortedSetKeyModel.h \
-    include/models/ListKeyModel.h \
-    include/models/HashKeyModel.h \
-    include/models/items/RedisServerItem.h \
-    include/models/items/RedisServerDbItem.h \
-    include/models/items/RedisKeyNamespace.h \
-    include/models/items/RedisKeyItem.h
+    $$PWD/include/*.h \
+    $$PWD/include/widgets/*.h \
+    $$PWD/include/updater/Updater.h \
+    $$PWD/include/redis/*.h \
+    $$PWD/include/network/*.h \
+    $$PWD/include/models/*.h \
+    $$PWD/include/models/items/*.h \
 
 release: DESTDIR = ./../bin/linux/release
 debug:   DESTDIR = ./../bin/linux/debug
@@ -124,12 +89,7 @@ INCLUDEPATH += $$PWD/source \
     $$PWD/include/widgets \
 
 FORMS += \
-    forms/zsetViewTab.ui \
-    forms/stringViewTab.ui \
-    forms/listViewTab.ui \
-    forms/hashViewTab.ui \
-    forms/demo.ui \
-    forms/connection.ui
+    $$PWD/forms/*.ui \
 
 RESOURCES += \
     Resources/demo.qrc

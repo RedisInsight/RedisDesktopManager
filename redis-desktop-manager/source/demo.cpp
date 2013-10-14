@@ -12,8 +12,10 @@
 #include "listViewTab.h"
 #include "zsetViewTab.h"
 #include "Updater.h"
+#include "serverInfoViewTab.h"
+#include "consoleTab.h"
 
-Main::Main(QWidget *parent)
+MainWin::MainWin(QWidget *parent)
 	: QMainWindow(parent), loadingInProgress(false)
 {
 	ui.setupUi(this);
@@ -25,7 +27,13 @@ Main::Main(QWidget *parent)
 	initFilter();
 }
 
-void Main::initConnectionsTreeView()
+MainWin::~MainWin()
+{	
+	delete connections;
+	delete updater;
+}
+
+void MainWin::initConnectionsTreeView()
 {
 	//connection manager
 	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));	
@@ -45,13 +53,13 @@ void Main::initConnectionsTreeView()
 			this, SLOT(OnTreeViewContextMenu(const QPoint &)));
 }
 
-void Main::initFormButtons()
+void MainWin::initFormButtons()
 {
 	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
 	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
 }
 
-void Main::initTabs()
+void MainWin::initTabs()
 {
 	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
 
@@ -59,7 +67,7 @@ void Main::initTabs()
 	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); 
 }
 
-void Main::initUpdater()
+void MainWin::initUpdater()
 {
 	//set current version
 	ui.currentVersionLabel->setText(
@@ -70,19 +78,13 @@ void Main::initUpdater()
 	connect(updater, SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
 }
 
-void Main::initFilter()
+void MainWin::initFilter()
 {
 	connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
 	connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
 }
 
-Main::~Main()
-{	
-	delete connections;
-	delete updater;
-}
-
-QString Main::getConfigPath(const QString& configFile)
+QString MainWin::getConfigPath(const QString& configFile)
 {
 	/*
 	 * Check current directory
@@ -119,14 +121,14 @@ QString Main::getConfigPath(const QString& configFile)
 }
 
 
-void Main::OnAddConnectionClick()
+void MainWin::OnAddConnectionClick()
 {
 	connection * connectionDialog = new connection(this);
 	connectionDialog->exec();
 	delete connectionDialog;
 }
 
-void Main::OnConnectionTreeClick(const QModelIndex & index)
+void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 {
 	if (loadingInProgress) {
 		return;
@@ -142,7 +144,7 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 				RedisServerItem * server = (RedisServerItem *)item;
 				loadingInProgress = true;
 				bool connected = server->loadDatabases();
-				connections->updateFilter();
+				connections->updateFilter();		
 				loadingInProgress = false;
 				
 				if (!connected) {
@@ -170,7 +172,7 @@ void Main::OnConnectionTreeClick(const QModelIndex & index)
 	}
 }
 
-void Main::OnTabClose(int index)
+void MainWin::OnTabClose(int index)
 {
 	QWidget * w = ui.tabWidget->widget(index);
 
@@ -179,7 +181,7 @@ void Main::OnTabClose(int index)
 	delete w;
 }
 
-void Main::loadKeyTab(RedisKeyItem * key)
+void MainWin::loadKeyTab(RedisKeyItem * key)
 {	
 	key->setBusyIcon();
 	RedisKeyItem::Type type = key->getKeyType();
@@ -207,33 +209,42 @@ void Main::loadKeyTab(RedisKeyItem * key)
 	}
 
 	if (viewTab != nullptr) {
-
-		//find opened tab with same key
-		bool isTabReplaced = false;
-		int insertedTabIndex = 0;
+					
 		QString keyFullName = key->getFullText();
 
-		for (int i = 0; i < ui.tabWidget->count(); ++i)
-		{
-			if (keyFullName == ui.tabWidget->tabText(i)) {
-				OnTabClose(i);
-				ui.tabWidget->insertTab(i, viewTab, keyFullName);
-				insertedTabIndex = i;				
-				break;
-			}
-		}
-
-		if (!isTabReplaced) {
-			insertedTabIndex = ui.tabWidget->addTab(viewTab, keyFullName);			
-		}
-
-		ui.tabWidget->setCurrentIndex(insertedTabIndex);
+		addTab(keyFullName, viewTab);
 	}
 
 	key->setNormalIcon();
 }
 
-void Main::OnTreeViewContextMenu(const QPoint &point)
+int MainWin::getTabIndex(QString& name)
+{
+	for (int i = 0; i < ui.tabWidget->count(); ++i)
+	{
+		if (name == ui.tabWidget->tabText(i)) {
+			return i;							
+		}
+	}
+
+	return -1;
+}
+
+void MainWin::addTab(QString& tabName, QWidget* tab)
+{
+	//find opened tab with same key		
+	int currIndexOnTab = getTabIndex(tabName);
+
+	if (currIndexOnTab > -1) { // tab exist - close old tab
+		OnTabClose(currIndexOnTab);
+	}
+		
+	ui.tabWidget->setCurrentIndex(
+		ui.tabWidget->addTab(tab, tabName)
+	);
+}
+
+void MainWin::OnTreeViewContextMenu(const QPoint &point)
 {
 	QStandardItem *item = connections->itemFromIndex(
 		ui.serversTreeView->indexAt(point)
@@ -245,6 +256,9 @@ void Main::OnTreeViewContextMenu(const QPoint &point)
 
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
+		//menu->addAction("Console", this, SLOT(OnConsoleOpen()));
+		//menu->addSeparator();
+		menu->addAction("Server info", this, SLOT(OnServerInfoOpen()));
 		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
 		menu->addSeparator();
 		menu->addAction("Edit", this, SLOT(OnEditConnection()));
@@ -253,87 +267,60 @@ void Main::OnTreeViewContextMenu(const QPoint &point)
 	}
 }
 
-void Main::OnReloadServerInTree()
+void MainWin::OnReloadServerInTree()
 {
-	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
 
-	if (selected.size() == 0) 
-		return;
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
 
-	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(index);	
+	RedisServerItem * server = (RedisServerItem *) item;
+	server->reload();
+}
 
-		if (item->type() == RedisServerItem::TYPE) {
-			RedisServerItem * server = (RedisServerItem *) item;
+void MainWin::OnRemoveConnectionFromTree()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
 
-			server->reload();
-		}
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
+
+	QMessageBox::StandardButton reply;
+
+	reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
+		QMessageBox::Yes|QMessageBox::No);
+
+	if (reply == QMessageBox::Yes) {
+
+		RedisServerItem * server = (RedisServerItem *) item;
+
+		connections->RemoveConnection(server);
+
 	}
 }
 
-void Main::OnRemoveConnectionFromTree()
+void MainWin::OnEditConnection()
 {
-	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
 
-	if (selected.size() == 0) 
-		return;
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
 
-	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(
-			index
-			);	
+	RedisServerItem * server = (RedisServerItem *) item;
 
-		if (item->type() == RedisServerItem::TYPE) {
+	connection * connectionDialog = new connection(this, server);
+	connectionDialog->exec();
+	delete connectionDialog;
 
-			QMessageBox::StandardButton reply;
-
-			reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
-				QMessageBox::Yes|QMessageBox::No);
-
-			if (reply == QMessageBox::Yes) {
-
-				RedisServerItem * server = (RedisServerItem *) item;
-
-				connections->RemoveConnection(server);
-
-			}
-		}
-	}
-
+	server->unload();
 }
 
-void Main::OnEditConnection()
-{
-	QModelIndexList selected = ui.serversTreeView->selectionModel()->selectedIndexes();
-
-	if (selected.size() == 0) 
-		return;
-
-	for (auto index : selected) {
-		QStandardItem * item = connections->itemFromIndex(
-			index
-			);	
-
-		if (item->type() == RedisServerItem::TYPE) {
-
-			RedisServerItem * server = (RedisServerItem *) item;
-
-			connection * connectionDialog = new connection(this, server);
-			connectionDialog->exec();
-			delete connectionDialog;
-
-			server->unload();
-		}
-	}
-
-}
-
-void Main::OnNewUpdateAvailable(QString &url)
+void MainWin::OnNewUpdateAvailable(QString &url)
 {
 	ui.newUpdateAvailableLabel->setText(QString("<div style=\"font-size: 13px;\">New update available: %1</div>").arg(url));
 }
 
-void Main::OnImportConnectionsClick()
+void MainWin::OnImportConnectionsClick()
 {
 	QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files (*.xml)"));
 
@@ -348,7 +335,7 @@ void Main::OnImportConnectionsClick()
 	}
 }
 
-void Main::OnSetFilter()
+void MainWin::OnSetFilter()
 {
 	QRegExp filter(ui.leKeySearchPattern->text());
 
@@ -363,9 +350,73 @@ void Main::OnSetFilter()
 
 }
 
-void Main::OnClearFilter()
+void MainWin::OnClearFilter()
 {
 	connections->resetFilter();
 	ui.leKeySearchPattern->setStyleSheet("");
 }
 
+void MainWin::OnServerInfoOpen()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
+
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
+
+	RedisServerItem * server = (RedisServerItem *) item;
+
+	QStringList info = server->getInfo();
+
+	if (info.isEmpty()) 
+		return;
+
+	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
+	QString serverName = server->text();
+	addTab(serverName, tab);	
+}
+
+void MainWin::OnConsoleOpen()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
+
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
+
+	RedisServerItem * server = (RedisServerItem *) item;
+	consoleTab * tab = new consoleTab(server->getConnection()->config);
+
+
+	QString serverName = server->text();
+
+	addTab(serverName, tab);
+
+/*
+	QStringList info = server->getInfo();
+
+	if (info.isEmpty()) 
+		return;
+
+	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
+	QString serverName = server->text();
+	addTab(serverName, tab);*/	
+}
+
+QStandardItem * MainWin::getSelectedItemInConnectionsTree()
+{
+	QModelIndexList selected = ui.serversTreeView
+									->selectionModel()
+									->selectedIndexes();
+
+	if (selected.size() < 1) 
+		return nullptr;
+
+	QModelIndex index = selected.at(0);
+
+	if (index.isValid()) {			
+		QStandardItem * item = connections->itemFromIndex(index);	
+
+		return item;
+	}
+
+	return nullptr;
+}
