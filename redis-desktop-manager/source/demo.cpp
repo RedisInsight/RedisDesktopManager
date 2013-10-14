@@ -256,13 +256,13 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
-		menu->addAction("Console", this, SLOT(OnConsoleOpen()));
+		menu->addAction(QIcon(":/images/terminal.png"), "Console", this, SLOT(OnConsoleOpen()));
 		menu->addSeparator();
-		menu->addAction("Server info", this, SLOT(OnServerInfoOpen()));
-		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
+		menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
+		menu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
 		menu->addSeparator();
-		menu->addAction("Edit", this, SLOT(OnEditConnection()));
-		menu->addAction("Delete", this, SLOT(OnRemoveConnectionFromTree()));
+		menu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
+		menu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
 		menu->exec(QCursor::pos());
 	}
 }
