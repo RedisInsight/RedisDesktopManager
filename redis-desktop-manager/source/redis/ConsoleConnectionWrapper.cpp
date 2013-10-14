@@ -1,4 +1,4 @@
-#include "..\..\include\redis\ConsoleConnectionWrapper.h"
+#include "ConsoleConnectionWrapper.h"
 
 #include "RedisConnectionAbstract.h"
 #include "RedisConnection.h"
