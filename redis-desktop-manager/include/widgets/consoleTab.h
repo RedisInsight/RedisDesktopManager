@@ -9,15 +9,17 @@
 #include <QPlainTextEdit>
 
 class RedisConnectionConfig;
+class ConsoleConnectionWrapper;
 
 class consoleTab: public QPlainTextEdit
 {
 	Q_OBJECT
 
 public:
-	consoleTab(RedisConnectionConfig &);
+	consoleTab(RedisConnectionConfig&);
 	~consoleTab(void);
 	void output(QString);
+	void setPrompt(QString);
 	void scrollDown();
 
 protected:
@@ -30,6 +32,8 @@ private:
 	bool isLocked;
 	QStringList *history;
 	int historyPos;
+	ConsoleConnectionWrapper * connection;
+	//QThread connectionThread;
 
 	void onEnter();
 	void insertPrompt(bool insertNewBlock = true);

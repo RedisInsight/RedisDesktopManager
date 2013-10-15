@@ -28,7 +28,7 @@ private:
 	Updater * updater;
 
 	void loadKeyTab(RedisKeyItem *);
-	void addTab(QString&, QWidget*);
+	void addTab(QString&, QWidget*, QString icon = QString());
 
 	/** @return >=0 if exist **/
 	int getTabIndex(QString&);

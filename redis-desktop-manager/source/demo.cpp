@@ -230,7 +230,7 @@ int MainWin::getTabIndex(QString& name)
 	return -1;
 }
 
-void MainWin::addTab(QString& tabName, QWidget* tab)
+void MainWin::addTab(QString& tabName, QWidget* tab, QString icon)
 {
 	//find opened tab with same key		
 	int currIndexOnTab = getTabIndex(tabName);
@@ -239,9 +239,15 @@ void MainWin::addTab(QString& tabName, QWidget* tab)
 		OnTabClose(currIndexOnTab);
 	}
 		
-	ui.tabWidget->setCurrentIndex(
-		ui.tabWidget->addTab(tab, tabName)
-	);
+	int currIndex;
+
+	if (icon.isEmpty()) {
+		currIndex = ui.tabWidget->addTab(tab, tabName);
+	} else {
+		currIndex = ui.tabWidget->addTab(tab, QIcon(icon), tabName);
+	}
+
+	ui.tabWidget->setCurrentIndex(currIndex);
 }
 
 void MainWin::OnTreeViewContextMenu(const QPoint &point)
@@ -256,13 +262,13 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
 	if (type == RedisServerItem::TYPE) {
 		QMenu *menu = new QMenu();
-		//menu->addAction("Console", this, SLOT(OnConsoleOpen()));
-		//menu->addSeparator();
-		menu->addAction("Server info", this, SLOT(OnServerInfoOpen()));
-		menu->addAction("Reload", this, SLOT(OnReloadServerInTree()));
+		menu->addAction(QIcon(":/images/terminal.png"), "Console", this, SLOT(OnConsoleOpen()));
 		menu->addSeparator();
-		menu->addAction("Edit", this, SLOT(OnEditConnection()));
-		menu->addAction("Delete", this, SLOT(OnRemoveConnectionFromTree()));
+		menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
+		menu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
+		menu->addSeparator();
+		menu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
+		menu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
 		menu->exec(QCursor::pos());
 	}
 }
@@ -372,7 +378,7 @@ void MainWin::OnServerInfoOpen()
 
 	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
 	QString serverName = server->text();
-	addTab(serverName, tab);	
+	addTab(serverName, tab, ":/images/serverinfo.png");	
 }
 
 void MainWin::OnConsoleOpen()
@@ -388,17 +394,7 @@ void MainWin::OnConsoleOpen()
 
 	QString serverName = server->text();
 
-	addTab(serverName, tab);
-
-/*
-	QStringList info = server->getInfo();
-
-	if (info.isEmpty()) 
-		return;
-
-	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
-	QString serverName = server->text();
-	addTab(serverName, tab);*/	
+	addTab(serverName, tab, ":/images/terminal.png");
 }
 
 QStandardItem * MainWin::getSelectedItemInConnectionsTree()

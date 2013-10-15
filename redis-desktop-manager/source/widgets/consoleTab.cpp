@@ -4,10 +4,11 @@
 #include <QTextBlock>
 
 #include "RedisConnectionConfig.h"
+#include "ConsoleConnectionWrapper.h"
 
 consoleTab::consoleTab(RedisConnectionConfig& config)
-{
-	prompt += config.name + ">";
+{	
+	appendHtml("<span style='color: orange;'>List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR</span>");
 
 	QPalette p = palette();
 	p.setColor(QPalette::Base, QColor(57, 57, 57));
@@ -18,11 +19,22 @@ consoleTab::consoleTab(RedisConnectionConfig& config)
 	historyPos = 0;
 	insertPrompt(false);
 	isLocked = false;
+
+	connection = new ConsoleConnectionWrapper(config, *this);
+
+	connect(this, SIGNAL(onCommand(QString)), connection, SLOT(executeCommand(QString)));	
 }
 
 
 consoleTab::~consoleTab(void)
 {
+	//connectionThread.quit();
+	///connectionThread.wait();
+}
+
+void consoleTab::setPrompt(QString str)
+{
+	prompt = str;
 }
 
 void consoleTab::keyPressEvent(QKeyEvent *event)
@@ -36,6 +48,7 @@ void consoleTab::keyPressEvent(QKeyEvent *event)
 		&& event->modifiers() == Qt::NoModifier
 		&& textCursor().positionInBlock() > prompt.length())
 		QPlainTextEdit::keyPressEvent(event);
+
 	if(event->key() == Qt::Key_Return && event->modifiers() == Qt::NoModifier)
 		onEnter();
 	if(event->key() == Qt::Key_Up && event->modifiers() == Qt::NoModifier)
