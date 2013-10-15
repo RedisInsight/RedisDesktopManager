@@ -18,7 +18,7 @@ SOURCES += \
     $$SRC_DIR/source/network/*.cpp \
     $$SRC_DIR/source/models/*.cpp \
     $$SRC_DIR/source/models/items/*.cpp \
-    $$SRC_DIR/source/widgets/*.cpp \
+    $$SRC_DIR/source/widgets/consoleTab.cpp \
 
 HEADERS  += \
     $$PWD/include/*.h \
@@ -27,7 +27,7 @@ HEADERS  += \
     $$SRC_DIR/include/network/*.h \
     $$SRC_DIR/include/models/*.h \
     $$SRC_DIR/include/models/items/*.h \
-    $$SRC_DIR/include/widgets/*.h \
+    $$SRC_DIR/include/widgets/consoleTab.h \
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
