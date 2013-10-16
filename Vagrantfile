@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #debian 7 x86
   config.vm.define "debi7_32" do |debi7_32|
     debi7_32.vm.box = "debi7_i386"
-    debi7_32.vm.box_url = "https://s3-eu-west-1.amazonaws.com/ffuenf-vagrant-boxes/debian/debian-7.1.0-amd64.box"
+    debi7_32.vm.box_url = "http://redisdesktop.com/vagrant/debi7_i386.box"
     debi7_32.vm.provision :shell, :path => "install_debi7.sh"
   end 
 
