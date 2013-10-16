@@ -29,7 +29,7 @@
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Add Connection</string>
+   <string>Connection</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -261,6 +261,20 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>nameEdit</tabstop>
+  <tabstop>hostEdit</tabstop>
+  <tabstop>portSpinBox</tabstop>
+  <tabstop>authEdit</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>useSshTunnel</tabstop>
+  <tabstop>sshHost</tabstop>
+  <tabstop>sshPort</tabstop>
+  <tabstop>sshUser</tabstop>
+  <tabstop>sshPass</tabstop>
+  <tabstop>tabs</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

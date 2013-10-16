@@ -28,7 +28,7 @@ private:
 	Updater * updater;
 
 	void loadKeyTab(RedisKeyItem *);
-	void addTab(QString&, QWidget*);
+	void addTab(QString&, QWidget*, QString icon = QString());
 
 	/** @return >=0 if exist **/
 	int getTabIndex(QString&);
@@ -40,6 +40,8 @@ private:
 	void initTabs();
 	void initUpdater();
 	void initFilter();
+
+	QStandardItem * getSelectedItemInConnectionsTree();
 
 	private slots:
 		void OnAddConnectionClick();
@@ -53,6 +55,8 @@ private:
 		void OnImportConnectionsClick();
 		void OnSetFilter();
 		void OnClearFilter();
+		void OnServerInfoOpen();
+		void OnConsoleOpen();
 };
 
 #endif // DEMO_H

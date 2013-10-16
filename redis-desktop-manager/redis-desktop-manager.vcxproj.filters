@@ -239,6 +239,24 @@
     <ClCompile Include="GeneratedFiles\Release\moc_serverInfoViewTab.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_consoleTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_consoleTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ConsoleConnectionWrapper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ConsoleConnectionWrapper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\redis\ConsoleConnectionWrapper.cpp">
+      <Filter>Source Files\redis</Filter>
+    </ClCompile>
+    <ClCompile Include="source\widgets\consoleTab.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -301,10 +319,16 @@
     <CustomBuild Include="Resources\demo.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="serverInfoViewTab.ui">
+    <CustomBuild Include="include\widgets\serverInfoViewTab.h">
+      <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms/serverInfoViewTab.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\widgets\serverInfoViewTab.h">
+    <CustomBuild Include="include\redis\ConsoleConnectionWrapper.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\consoleTab.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>

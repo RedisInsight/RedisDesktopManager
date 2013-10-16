@@ -21,6 +21,8 @@ public:
 	void appendToSource(QString&);
 	void appendToSource(QByteArray&);
 
+	static QString valueToString(QVariant&);
+
 private:
 
 	QString responseString;
