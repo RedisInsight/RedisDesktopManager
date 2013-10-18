@@ -63,8 +63,12 @@ void MainWin::initTabs()
 {
 	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
 
+    #ifndef Q_OS_DARWIN
 	//hide close button for first tab
-	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); 
+    // on Mac Os this code crash application to segfault
+    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide();
+
+    #endif
 }
 
 void MainWin::initUpdater()
