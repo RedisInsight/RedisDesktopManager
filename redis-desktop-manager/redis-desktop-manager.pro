@@ -63,6 +63,9 @@ unix {
     mac { # os x 10.8
         LIBS += /usr/local/lib/libssh2.dylib
         PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
+
+        QMAKE_INFO_PLIST = rdm.plist
+        ICON = rdm.icns
     }
     else { # ubuntu & debian
         LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
@@ -109,6 +112,7 @@ RESOURCES += \
     Resources/demo.qrc
 
 OTHER_FILES += \
-    qt.conf
+    qt.conf \
+    rdm.plist
 
 
