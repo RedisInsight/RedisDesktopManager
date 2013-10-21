@@ -7,6 +7,7 @@ TEMPLATE = app
 
 CONFIG -= debug
 CONFIG += c++11 release
+CONFIG-=app_bundle
 
 SRC_DIR = $$PWD/../redis-desktop-manager//
 
