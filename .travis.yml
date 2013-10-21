@@ -7,9 +7,11 @@ before_install:
 - brew link qt5 --force
 - brew install openssl
 - brew install libssh2
+before_script:
+- cd ./redis-desktop-manager
 script: 
-  - qmake -qt=qt5 -v
-  - qmake -qt=qt5
+  - qmake -v
+  - qmake 
   - make clean
   - make -s
   - cd ./../tests/
