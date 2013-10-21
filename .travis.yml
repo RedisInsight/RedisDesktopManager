@@ -1,12 +1,11 @@
 language: objective-c
 compiler:
-  - gcc
-  - clang
+- clang
 before_install:
-- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-- sudo apt-get update -qq
-- sudo apt-get install ubuntu-sdk -y -qq
-- sudo apt-get install libssl1.0.0 -y -qq
+- sudo brew update
+- sudo brew install qt
+- sudo brew install openssl
+
 before_script:
 - cd ./redis-desktop-manager
 - sudo chmod 777 configure
