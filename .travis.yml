@@ -2,9 +2,9 @@ language: objective-c
 compiler:
 - clang
 before_install:
-- sudo brew update
-- sudo brew install qt
-- sudo brew install openssl
+- brew update
+- brew install qt
+- brew install openssl
 
 before_script:
 - cd ./redis-desktop-manager
