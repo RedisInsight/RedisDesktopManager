@@ -2,12 +2,14 @@
 <!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
 <plist version="0.9">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>Redis Desktop Manager</string>
         <key>CFBundleIconFile</key>
         <string>rdm.icns</string>
+	<key>CFBundleVersion</key>
+	<string>0.5.0</string>
         <key>NSPrincipalClass</key>
         <string>NSApplication</string>
-        <key>CFBundleIconFile</key>
-        <string></string>
         <key>CFBundlePackageType</key>
         <string>APPL</string>
         <key>CFBundleGetInfoString</key>
@@ -15,7 +17,7 @@
         <key>CFBundleSignature</key>
         <string>????</string>
         <key>CFBundleExecutable</key>
-        <string>RedisDesktopManager</string>
+        <string>rdm</string>
         <key>CFBundleIdentifier</key>
         <string>com.redisdesktop.rdm</string>
         <key>NOTE</key>
