@@ -5,6 +5,7 @@ before_install:
 - brew update
 - brew install qt5
 - brew link qt5 --force
+- brew link libpng --force
 - brew install openssl
 - brew install libssh2
 - brew install redis
