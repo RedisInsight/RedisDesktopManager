@@ -5,11 +5,7 @@ before_install:
 - brew update
 - brew install qt
 - brew install openssl
-
-before_script:
-- cd ./redis-desktop-manager
-- sudo chmod 777 configure
-- ./configure
+- brew install libssh2
 script: 
   - qmake -qt=qt5 -v
   - qmake -qt=qt5
