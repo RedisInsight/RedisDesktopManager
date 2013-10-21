@@ -3,7 +3,7 @@ compiler:
 - clang
 before_install:
 - brew update
-- brew install qt
+- brew install qt5
 - brew install openssl
 - brew install libssh2
 script: 
