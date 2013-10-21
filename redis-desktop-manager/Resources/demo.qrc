@@ -16,5 +16,6 @@
       <file alias="refreshdb.png">../images/refreshdb.png</file>
       <file alias="editdb.png">../images/editdb.png</file>
       <file alias="delete.png">../images/delete.png</file>
+      <file alias="rdm.ico">../Resources/redis.ico</file>
     </qresource>
 </RCC>

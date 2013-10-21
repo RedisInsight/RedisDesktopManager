@@ -60,11 +60,11 @@ win32 {
 }
 
 unix {
-    mac { # os x 10.8
+    macx { # os x 10.8
         LIBS += /usr/local/lib/libssh2.dylib
         PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
 
-        QMAKE_INFO_PLIST = rdm.plist
+        QMAKE_INFO_PLIST = Info.plist
         ICON = rdm.icns
     }
     else { # ubuntu & debian
@@ -113,6 +113,6 @@ RESOURCES += \
 
 OTHER_FILES += \
     qt.conf \
-    rdm.plist
+    Info.plist
 
 
