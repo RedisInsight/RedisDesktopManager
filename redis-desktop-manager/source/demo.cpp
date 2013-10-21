@@ -327,7 +327,8 @@ void MainWin::OnEditConnection()
 
 void MainWin::OnNewUpdateAvailable(QString &url)
 {
-	ui.newUpdateAvailableLabel->setText(QString("<div style=\"font-size: 13px;\">New update available: %1</div>").arg(url));
+	QMessageBox::information(this, "New update available", 
+		QString("Please download new version of Redis Desktop Manager: %1").arg(url));
 }
 
 void MainWin::OnImportConnectionsClick()
