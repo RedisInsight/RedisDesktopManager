@@ -63,8 +63,12 @@ void MainWin::initTabs()
 {
 	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
 
+    #ifndef Q_OS_DARWIN
 	//hide close button for first tab
-	ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide(); 
+    // on Mac Os this code crash application to segfault
+    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide();
+
+    #endif
 }
 
 void MainWin::initUpdater()
@@ -323,7 +327,8 @@ void MainWin::OnEditConnection()
 
 void MainWin::OnNewUpdateAvailable(QString &url)
 {
-	ui.newUpdateAvailableLabel->setText(QString("<div style=\"font-size: 13px;\">New update available: %1</div>").arg(url));
+	QMessageBox::information(this, "New update available", 
+		QString("Please download new version of Redis Desktop Manager: %1").arg(url));
 }
 
 void MainWin::OnImportConnectionsClick()

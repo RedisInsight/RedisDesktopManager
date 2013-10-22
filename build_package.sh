@@ -21,8 +21,8 @@ echo ===========================
 echo copy source dir :
 
 BUILD_DIR=$HOME_DIR/redis-desktop-manager-$TAG
-rm -fR $BUILD_DIR
-rm -f $HOME_DIR/redis-desktop*
+rm -fR $BUILD_DIR/*
+rm -fR $HOME_DIR/redis-desktop*
 mkdir $BUILD_DIR
 
 cp -Rf /vagrant/redis-desktop-manager/* $BUILD_DIR

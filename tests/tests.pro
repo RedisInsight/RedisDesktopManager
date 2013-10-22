@@ -7,6 +7,7 @@ TEMPLATE = app
 
 CONFIG -= debug
 CONFIG += c++11 release
+CONFIG-=app_bundle
 
 SRC_DIR = $$PWD/../redis-desktop-manager//
 
@@ -37,25 +38,35 @@ MOC_DIR = $$DESTDIR/.moc
 RCC_DIR = $$DESTDIR/.qrc
 UI_DIR = $$DESTDIR/.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-else:unix: LIBS += /usr/local/lib/libssh2.so
+win32 {
 
-win32:CONFIG(release, debug|release): LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
-else:win32:CONFIG(debug, debug|release): LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
+    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 
+    CONFIG(release, debug|release) {
+        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+    }
+
+    else: CONFIG(debug, debug|release) {
+        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+    }
+}
+
+unix {
+    macx { # os x 10.8
+        LIBS += /usr/local/lib/libssh2.dylib
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
+    }
+    else { # ubuntu & debian
+        LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
+        LIBS += /usr/local/lib/libssh2.so
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.so
+    }
+}
 
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
-
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-else:unix: PRE_TARGETDEPS += /usr/local/lib/libssh2.so
-
-unix:!mac {
- LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
-}
-
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \
