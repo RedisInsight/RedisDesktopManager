@@ -18,10 +18,14 @@ Updater::Updater()
 	#ifdef Q_OS_LINUX
 		platform = "linux"; 
 	#endif
+
+	#ifdef Q_OS_MACX
+		platform = "osx"; 
+	#endif
 	
 	QUrl updateUrl(
-		QString("http://%1/get-update.php?version=%2&platform=%3")
-			.arg("glide.name/projects/redis-desktop-manager")
+		QString("http://%1/get-update?version=%2&platform=%3")
+			.arg("redisdesktop.com")
 			.arg(QCoreApplication::applicationVersion())
 			.arg(platform)
 		);

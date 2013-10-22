@@ -133,7 +133,7 @@ aa|bb 	Either aa or bb.
            <widget class="QPushButton" name="pbClearFilter">
             <property name="maximumSize">
              <size>
-              <width>50</width>
+              <width>60</width>
               <height>16777215</height>
              </size>
             </property>
@@ -195,6 +195,12 @@ aa|bb 	Either aa or bb.
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -215,6 +221,12 @@ aa|bb 	Either aa or bb.
         </item>
         <item>
          <widget class="QPushButton" name="pbImportConnections">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -241,7 +253,7 @@ aa|bb 	Either aa or bb.
        </property>
        <property name="minimumSize">
         <size>
-         <width>550</width>
+         <width>580</width>
          <height>0</height>
         </size>
        </property>
@@ -306,7 +318,7 @@ aa|bb 	Either aa or bb.
            </property>
            <property name="minimumSize">
             <size>
-             <width>560</width>
+             <width>580</width>
              <height>240</height>
             </size>
            </property>
@@ -362,8 +374,8 @@ aa|bb 	Either aa or bb.
            <widget class="QLabel" name="currentVersionLabel">
             <property name="geometry">
              <rect>
-              <x>400</x>
-              <y>100</y>
+              <x>170</x>
+              <y>130</y>
               <width>171</width>
               <height>41</height>
              </rect>
@@ -395,13 +407,38 @@ aa|bb 	Either aa or bb.
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;style&gt;a {color: #808080; text-decoration: none}&lt;/style&gt;
+&lt;style&gt;a {color: #808080; text-decoration: none; font-size: 10px}&lt;/style&gt;
 &lt;p&gt;&lt;span style=&quot; font-size:10px; font-weight:600;&quot;&gt;Third Party Libs and Images:&lt;/span&gt;&lt;a href=&quot;http://qt-project.org/&quot;&gt; QT (GPL License)&lt;/a&gt;; &lt;a href=&quot;http://libqxt.org/&quot;&gt;Qxt (GPL License)&lt;/a&gt; , &lt;a href=&quot;http://www.libssh2.org&quot;&gt;libssh2 (BSD License)&lt;/a&gt;, &lt;a href=&quot;http://www.carlosprioglio.com/&quot;&gt;Redis Logo&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
             </property>
             <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="newUpdateAvailableLabel">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>150</y>
+              <width>511</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="scaledContents">
              <bool>true</bool>
             </property>
             <property name="openExternalLinks">

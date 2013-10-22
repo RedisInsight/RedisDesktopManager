@@ -1,19 +1,21 @@
 language: objective-c
 compiler:
-  - gcc
-  - clang
+- clang
 before_install:
-- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-- sudo apt-get update -qq
-- sudo apt-get install ubuntu-sdk -y -qq
-- sudo apt-get install libssl1.0.0 -y -qq
+- brew update
+- brew install qt5
+- brew link qt5 --force
+- brew install libpng
+- brew link libpng --force
+- brew install openssl
+- brew install libssh2
+- brew install redis
 before_script:
+- redis-server --daemonize yes
 - cd ./redis-desktop-manager
-- sudo chmod 777 configure
-- ./configure
 script: 
-  - qmake -qt=qt5 -v
-  - qmake -qt=qt5
+  - qmake -v
+  - qmake 
   - make clean
   - make -s
   - cd ./../tests/
