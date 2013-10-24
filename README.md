@@ -13,6 +13,10 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 - Ubuntu 12 and 13
 - Debian 7
 
+**Supported Redis versions**
+
+- Redis 2.6
+- Redis 2.8
 
 ## Install & Run ##
 
