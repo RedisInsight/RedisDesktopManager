@@ -270,6 +270,7 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 		menu->addSeparator();
 		menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
 		menu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
+		menu->addAction(QIcon(":/images/redisIcon_offline.png"), "Disconnect", this, SLOT(OnDisconnectFromServer()));
 		menu->addSeparator();
 		menu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
 		menu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
@@ -286,6 +287,17 @@ void MainWin::OnReloadServerInTree()
 
 	RedisServerItem * server = (RedisServerItem *) item;
 	server->reload();
+}
+
+void MainWin::OnDisconnectFromServer()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
+
+	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
+		return;	
+
+	RedisServerItem * server = (RedisServerItem *) item;
+	server->unload();
 }
 
 void MainWin::OnRemoveConnectionFromTree()
