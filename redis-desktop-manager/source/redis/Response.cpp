@@ -198,13 +198,40 @@ bool Response::isReplyGeneralyValid(QString& r)
 	return r.endsWith("\r\n");
 }
 
+int Response::getPosOfNextItem(QString &r, int startPos = 0)
+{
+	if (startPos >= r.size()) {
+		return -1;
+	}
+
+	ResponseType type = getResponseType(r.at(startPos));
+
+	int endOfFirstLine = r.indexOf("\r\n", startPos);
+
+	int responseSize;
+
+	switch (type)
+	{	
+	case Integer:
+		return endOfFirstLine+2;
+
+	case Bulk:  		
+		responseSize = getSizeOfBulkReply(r, endOfFirstLine, startPos);
+
+		if (responseSize == -1) {
+			return endOfFirstLine+2;
+		} else {
+			return endOfFirstLine+responseSize+4;
+		}
+		break;
+	default:
+		return -1;
+	}
+
+}
+
 bool Response::isIntReplyValid(QString& r)
 {
-	int endOfFirstLine = r.indexOf("\r\n");
-
-	//skip curr item in reply
-	r = r.mid(endOfFirstLine+2);
-
 	return true;
 }
 
@@ -214,13 +241,10 @@ bool Response::isBulkReplyValid(QString& r)
 	int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
 
 	if (responseSize == -1) {
-		r = r.mid(endOfFirstLine+2); //skip curr item in reply
 		return true;
 	}
 
-	int actualSizeOfResponse = r.mid(endOfFirstLine+2).size() - 2;
-
-	r = r.mid(endOfFirstLine + responseSize + 4); //skip curr item in reply
+	int actualSizeOfResponse = r.size() - endOfFirstLine - 4;
 
 	// we need not strict check for using this method for validation multi-bulk items
 	if (actualSizeOfResponse < responseSize) {
@@ -229,8 +253,6 @@ bool Response::isBulkReplyValid(QString& r)
 
 	return true;
 }
-
-
 
 bool Response::isMultiBulkReplyValid(QString& r) 
 {	
@@ -241,34 +263,35 @@ bool Response::isMultiBulkReplyValid(QString& r)
 		return true;
 	}
 		
-	int itemsCount = 0;	
+	int itemsCount = 0;		
 
-	r = r.mid(endOfFirstLine + 2);
+	int currPos = endOfFirstLine + 2;
+	int lastValidPos = 0;
 
-	while (!r.isEmpty()) 
-	{		
-		if (!isReplyValid(r)) 
-		{
-			return false;
+	do {
+		currPos = getPosOfNextItem(r, currPos);
+
+		if (currPos != -1) {
+			lastValidPos = currPos;
 		}
-		
-		itemsCount++;
-	}
 
-	if (itemsCount != responseSize) {
+	} while (currPos != -1 && ++itemsCount);
+
+
+	if (itemsCount != responseSize || (lastValidPos != r.size())) {
 		return false;
 	}
 
 	return true;	
 }
 
-int Response::getSizeOfBulkReply(QString& reply, int endOfFirstLine = -1) 
+int Response::getSizeOfBulkReply(QString& reply, int endOfFirstLine, int beginFrom) 
 {
 	if (endOfFirstLine == -1) {
-		endOfFirstLine = reply.indexOf("\r\n");
+		endOfFirstLine = reply.indexOf("\r\n", beginFrom);
 	}
 
-	return reply.mid(1, endOfFirstLine-1).toInt();		
+	return reply.mid(beginFrom + 1, endOfFirstLine-1-beginFrom).toInt();		
 }
 
 QString Response::valueToString(QVariant& value)
