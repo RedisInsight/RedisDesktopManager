@@ -8,10 +8,20 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 
 	QStringList dbInfo = rawDbCount.toStringList();
 
-	if (rawDbCount.isNull() || dbInfo.size() != 2) 
-		return availableDatabeses;
-	
-	int dbCount = dbInfo.at(1).toInt();
+	int dbCount = 0;
+
+	//redis >=2.6 & config commands allowed by configuration
+	if (dbInfo.size() == 2) {
+		dbCount = dbInfo.at(1).toInt();		
+	} else { //cloud & legacy redis versions
+
+		QString scanningResp;
+
+		do {			
+			scanningResp = execute(QString("select %1").arg(dbCount)).toString();	
+
+		} while (scanningResp == "OK" && ++dbCount);
+	}	
 
 	// build db list
 	for (int dbIndex = 0; dbIndex < dbCount; ++dbIndex)
