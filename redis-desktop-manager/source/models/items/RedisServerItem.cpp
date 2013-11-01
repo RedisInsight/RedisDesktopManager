@@ -101,6 +101,8 @@ void RedisServerItem::unload()
 	isDbInfoLoaded = false;
 
 	getItemNameFromConnection();
+
+	setOfflineIcon();
 }
 
 

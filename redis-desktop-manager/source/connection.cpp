@@ -19,7 +19,7 @@ connection::connection(QWidget *parent, RedisServerItem * srv)
 
 	// connect slots to signals
 	connect(ui.okButton, SIGNAL(clicked()), SLOT(OnOkButtonClick()));
-	connect(ui.okButton, SIGNAL(pressed()), SLOT(OnOkButtonClick()));
+	connect(ui.okButton, SIGNAL(pressed()), SLOT(clicked()));
 
 	//edit mode
 	if (srv != nullptr) {	
