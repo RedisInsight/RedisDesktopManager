@@ -319,7 +319,7 @@ aa|bb 	Either aa or bb.
            <property name="minimumSize">
             <size>
              <width>580</width>
-             <height>240</height>
+             <height>255</height>
             </size>
            </property>
            <widget class="QLabel" name="applicationInfoLabel">
@@ -394,7 +394,7 @@ aa|bb 	Either aa or bb.
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>200</y>
+              <y>210</y>
               <width>531</width>
               <height>21</height>
              </rect>
@@ -451,7 +451,7 @@ aa|bb 	Either aa or bb.
               <x>20</x>
               <y>170</y>
               <width>531</width>
-              <height>21</height>
+              <height>31</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -462,7 +462,12 @@ aa|bb 	Either aa or bb.
             </property>
             <property name="text">
              <string>&lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
-&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander Arshinov&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy Savchenko&lt;/a&gt;, &lt;a href=&quot;https://github.com/Dyachenko&quot;&gt;Yevgeniy  Dyachenko&lt;/a&gt;&lt;/p&gt;</string>
+&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander Arshinov&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy Savchenko&lt;/a&gt;, 
+&lt;a href=&quot;https://github.com/Dyachenko&quot;&gt;Yevgeniy  Dyachenko&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/AntonShevchuk&quot;&gt;Anton Shevchuk&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/leonko&quot;&gt;Leonid Batizhevsky&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/mrThe&quot;&gt;mrThe&lt;/a&gt;
+&lt;/p&gt;</string>
             </property>
             <property name="scaledContents">
              <bool>true</bool>

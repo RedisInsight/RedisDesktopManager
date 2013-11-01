@@ -49,6 +49,7 @@ private:
 		void OnTabClose(int index);
 		void OnTreeViewContextMenu(const QPoint &);
 		void OnReloadServerInTree();
+		void OnDisconnectFromServer();
 		void OnNewUpdateAvailable(QString &);
 		void OnRemoveConnectionFromTree();
 		void OnEditConnection();

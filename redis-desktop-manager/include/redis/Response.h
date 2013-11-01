@@ -41,7 +41,7 @@ private:
 	QStringList parseMultiBulk(QString response);
 	QString getStringResponse(QString response);
 
-	int getSizeOfBulkReply(QString&, int);	
+	int getSizeOfBulkReply(QString& reply, int endOfFirstLine = -1, int beginFrom = 0);	
 
 	//validations
 	bool isReplyValid(QString&);
@@ -51,5 +51,7 @@ private:
 	bool isIntReplyValid(QString&);
 	bool isBulkReplyValid(QString&);
 	bool isMultiBulkReplyValid(QString&);	
+
+	int getPosOfNextItem(QString &, int);
 };
 
