@@ -451,7 +451,7 @@ aa|bb 	Either aa or bb.
               <x>20</x>
               <y>170</y>
               <width>531</width>
-              <height>31</height>
+              <height>41</height>
              </rect>
             </property>
             <property name="sizePolicy">
