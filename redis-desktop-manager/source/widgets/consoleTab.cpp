@@ -9,6 +9,7 @@
 consoleTab::consoleTab(RedisConnectionConfig& config)
 {	
 	appendHtml("<span style='color: orange;'>List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR</span>");
+	appendHtml("Connecting ...");
 
 	QPalette p = palette();
 	p.setColor(QPalette::Base, QColor(57, 57, 57));
