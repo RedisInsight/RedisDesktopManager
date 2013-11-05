@@ -20,16 +20,23 @@ consoleTab::consoleTab(RedisConnectionConfig& config)
 	insertPrompt(false);
 	isLocked = false;
 
-	connection = new ConsoleConnectionWrapper(config, *this);
+	connection = new ConsoleConnectionWrapper(config);
+	connection->moveToThread(&connectionThread);
 
+	connect(&connectionThread, &QThread::finished, connection, &QObject::deleteLater);
 	connect(this, SIGNAL(onCommand(QString)), connection, SLOT(executeCommand(QString)));	
+	connect(connection, SIGNAL(changePrompt(QString)), this, SLOT(setPrompt(QString)));
+	connect(connection, SIGNAL(addOutput(QString)), this, SLOT(output(QString)));
+	connect(&connectionThread, SIGNAL(started()), connection, SLOT(init()));
+	
+	connectionThread.start();
 }
 
 
 consoleTab::~consoleTab(void)
 {
-	//connectionThread.quit();
-	///connectionThread.wait();
+	connectionThread.quit();
+	connectionThread.wait();
 }
 
 void consoleTab::setPrompt(QString str)
