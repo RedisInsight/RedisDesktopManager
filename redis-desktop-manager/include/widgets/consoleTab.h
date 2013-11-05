@@ -1,12 +1,8 @@
 #pragma once
 
-/**
-	Based on Console Qt widget from RedisConsole 
-	https://github.com/ptrofimov/RedisConsole
-	author Petr Trofimov (petrofimov@yandex.ru)
-**/
 
 #include <QPlainTextEdit>
+#include <QThread>
 
 class RedisConnectionConfig;
 class ConsoleConnectionWrapper;
@@ -18,9 +14,11 @@ class consoleTab: public QPlainTextEdit
 public:
 	consoleTab(RedisConnectionConfig&);
 	~consoleTab(void);
-	void output(QString);
-	void setPrompt(QString);
 	void scrollDown();
+
+public slots:
+	void output(QString);
+	void setPrompt(QString);	
 
 protected:
 	void keyPressEvent(QKeyEvent *);
@@ -33,7 +31,7 @@ private:
 	QStringList *history;
 	int historyPos;
 	ConsoleConnectionWrapper * connection;
-	//QThread connectionThread;
+	QThread connectionThread;
 
 	void onEnter();
 	void insertPrompt(bool insertNewBlock = true);

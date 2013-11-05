@@ -151,8 +151,9 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				connections->updateFilter();		
 				loadingInProgress = false;
 				
-				if (!connected) {
-					QMessageBox::warning(this, "Can't connect to server", "Can't connect to server. Check connection settings");
+				if (!connected) {					
+					QMessageBox::warning(this, "Can't connect to server", 
+						QString("Check connection settings \nError: %1").arg(server->getConnection()->getLastError()));
 				}				
 			}
 			break;
