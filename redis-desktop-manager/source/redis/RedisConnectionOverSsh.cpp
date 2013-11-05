@@ -112,7 +112,7 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 QString RedisConnectionOverSsh::getLastError()
 {
 	if (socket == NULL) {
-		return QString("Error with ssh connection");
+		return QString("SSH connection error");
 	}
 
 	return socket->errorString();

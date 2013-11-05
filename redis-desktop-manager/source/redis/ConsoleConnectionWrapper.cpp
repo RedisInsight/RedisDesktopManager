@@ -6,40 +6,45 @@
 #include "consoleTab.h"
 #include "Response.h"
 
-ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisConnectionConfig &config, consoleTab &view)
-	: consoleView(view) , connectionValid(false)
+ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisConnectionConfig &config)
+	: config(config), connectionValid(false)
+{
+}
+
+void ConsoleConnectionWrapper::init()
 {
 	if (config.isNull()) 
 	{
-		consoleView.output("Invalid config. Can't create connection.");
+		emit addOutput("Invalid config. Can't create connection.");		
 		return;
 	} 
 
 	connection =  (config.useSshTunnel()) ? (RedisConnectionAbstract *) new RedisConnectionOverSsh(config) 
-										  : (RedisConnectionAbstract *) new RedisConnection(config);
+		: (RedisConnectionAbstract *) new RedisConnection(config);
 
 	if (!connection->connect()) 
 	{
-		consoleView.output("Invalid config. Can't create connection.");
+		emit addOutput("Invalid config. Can't create connection.");	
 		return;
 	}
 
 	connectionValid = true;
-	consoleView.setPrompt(QString("%1:0>").arg(config.name));
-	consoleView.output("Connected.");	
+
+	emit changePrompt(QString("%1:0>").arg(config.name));
+	emit addOutput("Connected.");	
 }
 
 void ConsoleConnectionWrapper::executeCommand(QString cmd)
 {
 	if (!connectionValid) 
 	{
-		consoleView.output("Invalid config. Can't create connection.");
+		emit addOutput("Invalid config. Can't create connection.");
 		return;
 	}
 
 	if (!connection->isConnected() && !connection->connect()) 
 	{
-		consoleView.output("Connection error. Check network connection");
+		emit addOutput("Connection error. Check network connection");
 		return;
 	}
 
@@ -51,12 +56,12 @@ void ConsoleConnectionWrapper::executeCommand(QString cmd)
 
 	if (isSelectCommand) 
 	{		
-		consoleView.setPrompt(
+		emit changePrompt(
 			QString("%1:%2>")
 				.arg(connection->config.name)
 				.arg(selectDbRegex.cap(3))
 			);
 	}
 
-	consoleView.output(Response::valueToString(result));
+	addOutput(Response::valueToString(result));
 }
