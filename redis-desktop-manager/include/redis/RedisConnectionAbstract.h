@@ -8,8 +8,10 @@
 
 class TestRedisConnection;
 
-class RedisConnectionAbstract
+class RedisConnectionAbstract : public QObject
 {
+	Q_OBJECT
+
 	friend class TestRedisConnection;
 
 public:

@@ -64,14 +64,17 @@
     <CustomBuild Include="..\redis-desktop-manager\include\network\qxtsshtcpsocket.h">
       <Filter>Header Files\source</Filter>
     </CustomBuild>
-    <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnectionOverSsh.h">
-      <Filter>Header Files\source</Filter>
-    </CustomBuild>
     <CustomBuild Include="include\test_command.h">
       <Filter>Header Files\tests</Filter>
     </CustomBuild>
     <CustomBuild Include="include\test_response.h">
       <Filter>Header Files\tests</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnectionAbstract.h">
+      <Filter>Header Files\source</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnectionOverSsh.h">
+      <Filter>Header Files\source</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -126,12 +129,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_qxtsshtcpsocket.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="..\redis-desktop-manager\source\network\qxtsshchannel.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
@@ -147,13 +144,7 @@
     <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnection.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionAbstract.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
     <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionConfig.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionOverSsh.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
     <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionsManager.cpp">
@@ -195,6 +186,24 @@
     <ClCompile Include="source\test_response.cpp">
       <Filter>Source Files\tests</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionAbstract.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionOverSsh.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtnetwork.h">
@@ -204,9 +213,6 @@
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\redis\RedisConnection.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\redis\RedisConnectionAbstract.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\redis\RedisConnectionConfig.h">

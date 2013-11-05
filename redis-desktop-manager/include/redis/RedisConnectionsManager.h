@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore>
+#include <QThread>
 #include <QStandardItemModel>
 #include "RedisConnectionAbstract.h"
 
@@ -25,6 +26,8 @@ public:
 	void resetFilter();
 
 private:
+	QThread connectionsThread;
+
 	QString configPath;
 	QList<RedisConnectionAbstract *> connections;
 	bool connectionSettingsChanged;

@@ -200,7 +200,7 @@ void MainWin::loadKeyTab(RedisKeyItem * key)
 		break;
 
 	case RedisKeyItem::Hash:		
-		viewTab = new hashViewTab(key->text(), key->getValue().toStringList());			
+		viewTab = new hashViewTab(key);			
 		break;
 
 	case RedisKeyItem::List:		

@@ -4,12 +4,15 @@
 #include <QWidget>
 #include "ui_hashViewTab.h"
 
+
+class RedisKeyItem;
+
 class hashViewTab : public QWidget
 {
 	Q_OBJECT
 
 public:
-	hashViewTab(QString keyName, QStringList keyValue);
+	hashViewTab(RedisKeyItem * key);
 
 private:
 	Ui::hashViewTab ui;

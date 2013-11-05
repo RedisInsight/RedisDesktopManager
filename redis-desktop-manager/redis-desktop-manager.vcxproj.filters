@@ -119,12 +119,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_qxtsshtcpsocket.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Updater.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -257,6 +251,18 @@
     <ClCompile Include="source\widgets\consoleTab.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -331,6 +337,9 @@
     <CustomBuild Include="include\widgets\consoleTab.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\redis\RedisConnectionAbstract.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\HashKeyModel.h">
@@ -358,9 +367,6 @@
       <Filter>Header Files\network</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\redisconnection.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\RedisConnectionAbstract.h">
       <Filter>Header Files\redis</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\RedisConnectionConfig.h">

@@ -5,7 +5,7 @@
 #include "qxtsshclient.h"
 #include "RedisConnectionAbstract.h"
 
-class RedisConnectionOverSsh : public QObject, public RedisConnectionAbstract
+class RedisConnectionOverSsh : public RedisConnectionAbstract
 {
 	Q_OBJECT
 
