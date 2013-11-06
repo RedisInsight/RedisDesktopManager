@@ -79,11 +79,11 @@ void connection::OnOkButtonClick()
 				newConnection = new RedisConnection(conf);
 			}
 			
-			server->setConnection(newConnection);
-
+			server->setConnection(newConnection);	
 			mainForm->connections->UpdateConnection(connection, newConnection);
-		}		
-		
+		} else {
+			mainForm->connections->UpdateConnection(connection, connection);
+		}				
 	} else {
 		 
 		if (conf.useSshTunnel()) {
