@@ -158,9 +158,6 @@
     <ClCompile Include="source\models\items\RedisServerDbItem.cpp">
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\items\RedisServerItem.cpp">
-      <Filter>Source Files\models\items</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\HashKeyModel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
@@ -269,6 +266,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_redisconnection.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisServerItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisServerItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\RedisServerItem.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -349,6 +355,12 @@
     <CustomBuild Include="include\redis\redisconnection.h">
       <Filter>Header Files\redis</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisServerDbItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisServerItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\HashKeyModel.h">
@@ -364,12 +376,6 @@
       <Filter>Header Files\models\Items</Filter>
     </ClInclude>
     <ClInclude Include="include\models\items\RedisKeyNamespace.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisServerDbItem.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisServerItem.h">
       <Filter>Header Files\models\Items</Filter>
     </ClInclude>
     <ClInclude Include="include\network\qxtsshchannel_p.h">

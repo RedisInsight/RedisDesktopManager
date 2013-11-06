@@ -1,13 +1,14 @@
 #include "RedisServerItem.h"
 
-
-
 RedisServerItem::RedisServerItem(RedisConnectionAbstract * c) 
 	: connection(c), isDbInfoLoaded(false)
 {						
 	setOfflineIcon();
 	getItemNameFromConnection();
 	setEditable(false);
+	
+	connect(c, SIGNAL(databesesLoaded(RedisConnectionAbstract::RedisDatabases)),
+		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
 }
 
 void RedisServerItem::getItemNameFromConnection()
@@ -20,31 +21,33 @@ void RedisServerItem::setConnection(RedisConnectionAbstract * c)
 	connection = c;
 }
 
-bool RedisServerItem::loadDatabases()
+void RedisServerItem::runDatabaseLoading()
 {		
-	if (isDbInfoLoaded) return true;
+	if (isDbInfoLoaded) return;
 
 	setBusyIcon();
 
 	if (!connection->isConnected() && !connection->connect()) {
-		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
-		// TODO: set error icon		
 		setOfflineIcon();
-		return false;
+		emit error(QString("Error occurred on database load: %1").arg(connection->getLastError()));
+		return;
 	}
 
-	RedisConnectionAbstract::RedisDatabases databases = connection->getDatabases();
+	connection->getDatabases();
+}
 
+void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases databases)
+{
 	if (databases.size() == 0) 
 	{
-		QString error = connection->getLastError();
+		QString errorMsg = connection->getLastError();
 
-		if (!error.isEmpty()) {
-			// TODO: set error icon
-			setText(QString("%1 (error:%2)").arg(connection->config.name).arg(error));
+		if (!errorMsg.isEmpty()) {		
+			emit error(QString("Error occurred on database load: %1").arg(errorMsg));
 		}
+
 		setNormalIcon();
-		return false;
+		return;
 	}
 
 	QMap<QString, int>::const_iterator db = databases.constBegin();
@@ -60,8 +63,6 @@ bool RedisServerItem::loadDatabases()
 	setNormalIcon();
 
 	isDbInfoLoaded = true;
-
-	return true;
 }
 
 QStringList RedisServerItem::getInfo()
@@ -91,7 +92,7 @@ void RedisServerItem::reload()
 {
 	unload();
 
-	loadDatabases();
+	runDatabaseLoading();
 }
 
 void RedisServerItem::unload()

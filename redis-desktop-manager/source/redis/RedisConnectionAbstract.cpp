@@ -7,7 +7,7 @@ RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c
 	QObject::connect(&executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
 };
 
-RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
+void RedisConnectionAbstract::getDatabases()
 {
 	RedisDatabases availableDatabeses;
 
@@ -39,8 +39,10 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 	//	Get keys count		
 	QVariant result = execute("INFO keyspace");
 
-	if (result.isNull()) 
-		return availableDatabeses;
+	if (result.isNull()) {
+		emit databesesLoaded(availableDatabeses);
+		return;
+	}
 
 	QStringList keyspaceInfo = result.toString().split("\r\n", QString::SkipEmptyParts);
 
@@ -62,7 +64,8 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 		availableDatabeses[dbName] = keysCount;
 	}
 
-	return availableDatabeses;
+	emit databesesLoaded(availableDatabeses);
+	return;
 } 
 
 void RedisConnectionAbstract::selectDb(int dbIndex)

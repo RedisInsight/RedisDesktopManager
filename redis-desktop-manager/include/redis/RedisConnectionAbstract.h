@@ -35,7 +35,7 @@ public:
 	 * Get list of databases with keys counters 
 	 **/
 	typedef QMap <QString, int> RedisDatabases;
-	RedisDatabases getDatabases();
+	void getDatabases();
 
 	/** 
 	 * Select db 
@@ -51,6 +51,7 @@ public:
 
 signals:
 	void responseResived(Response &);
+	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
 
 protected:
 	bool connected;

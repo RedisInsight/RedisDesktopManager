@@ -7,15 +7,17 @@
 class RedisKeyItem;
 class RedisConnectionsManager;
 
-class RedisServerItem :  public QStandardItem
+class RedisServerItem : public QObject, public QStandardItem
 {
+	Q_OBJECT
+
 	friend class RedisServerDbItem;
 	friend class RedisKeyItem;
 
 public:	
 	RedisServerItem(RedisConnectionAbstract * c);
 
-	bool loadDatabases();	
+	void runDatabaseLoading();	
 	QStringList getInfo();
 
 	void reload();
@@ -36,5 +38,11 @@ private:
 	void setOfflineIcon();
 	void setNormalIcon();
 	void getItemNameFromConnection();
+
+private slots:
+	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
+
+signals:
+	void error(QString);
 };
 
