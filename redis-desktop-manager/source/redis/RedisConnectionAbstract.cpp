@@ -1,5 +1,12 @@
 #include "RedisConnectionAbstract.h"
 
+RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c) 
+	: config(c), connected(false), commandRunning(false)   
+{
+	executionTimer.setSingleShot(true);
+	QObject::connect(&executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
+};
+
 RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 {
 	RedisDatabases availableDatabeses;
@@ -77,5 +84,24 @@ bool RedisConnectionAbstract::isConnected()
 	return connected;
 }
 
+void RedisConnectionAbstract::sendResponse()
+{
+	executionTimer.stop();
+	emit responseResived(resp);
 
+	commandRunning = false;	
+}
 
+Response RedisConnectionAbstract::getLastResponse()
+{
+	return resp;
+}
+
+void RedisConnectionAbstract::executionTimeout()
+{
+	if (!commandRunning) {
+		return;
+	}
+
+	return sendResponse();	
+}

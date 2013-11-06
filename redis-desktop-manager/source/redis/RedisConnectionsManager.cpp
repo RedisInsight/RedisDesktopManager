@@ -14,8 +14,6 @@ RedisConnectionsManager::RedisConnectionsManager(QString config)
 	if (!config.isEmpty() && QFile::exists(config)) {
 		LoadConnectionsConfigFromFile(config);
 	}
-
-	connectionsThread.start();
 }
 
 
@@ -30,8 +28,6 @@ void RedisConnectionsManager::AddConnection(RedisConnectionAbstract * c)
 {
 	//add connection to internal container
 	connections.push_back(c);
-	c->moveToThread(&connectionsThread);
-	connect(&connectionsThread, &QThread::finished, c, &QObject::deleteLater);
 
 	//add connection to view container	
 	appendRow(new RedisServerItem(c));

@@ -18,6 +18,9 @@ public:
 
 	void setSource(QString&);
 	QString source();
+
+	void clear();
+
 	void appendToSource(QString&);
 	void appendToSource(QByteArray&);
 

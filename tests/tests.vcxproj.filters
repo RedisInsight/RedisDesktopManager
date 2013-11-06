@@ -76,6 +76,9 @@
     <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnectionOverSsh.h">
       <Filter>Header Files\source</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\redis\RedisConnection.h">
+      <Filter>Header Files\source</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_test_redisconnection.cpp">
@@ -141,9 +144,6 @@
     <ClCompile Include="..\redis-desktop-manager\source\network\qxtsshtcpsocket.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
-    <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnection.cpp">
-      <Filter>Source Files\source</Filter>
-    </ClCompile>
     <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionConfig.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
@@ -204,15 +204,21 @@
     <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnectionOverSsh.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnection.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnection.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\redis\RedisConnection.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtnetwork.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtsshchannel_p.h">
-      <Filter>Header Files\source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\redis-desktop-manager\include\redis\RedisConnection.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\redis\RedisConnectionConfig.h">

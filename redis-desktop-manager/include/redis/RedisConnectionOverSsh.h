@@ -14,8 +14,12 @@ public:
 	~RedisConnectionOverSsh();
 
 	bool connect();
+
 	QString getLastError();
+
 	QVariant execute(QString);
+
+	void runCommand(const QString &cmd);
 
 	bool isConnected()
 	{

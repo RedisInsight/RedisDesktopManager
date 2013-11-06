@@ -263,6 +263,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_redisconnection.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_redisconnection.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -340,6 +346,9 @@
     <CustomBuild Include="include\redis\RedisConnectionAbstract.h">
       <Filter>Header Files\redis</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\redis\redisconnection.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\HashKeyModel.h">
@@ -365,9 +374,6 @@
     </ClInclude>
     <ClInclude Include="include\network\qxtsshchannel_p.h">
       <Filter>Header Files\network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\redisconnection.h">
-      <Filter>Header Files\redis</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\RedisConnectionConfig.h">
       <Filter>Header Files\redis</Filter>

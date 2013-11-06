@@ -14,7 +14,8 @@ private slots:
 	// functional tests
 	void connect();
 	void execute();
-	void getDatabases();		
+	void getDatabases();
+	void runCommand();
 };
 
 #endif // TEST_REDISCONNECTION_H

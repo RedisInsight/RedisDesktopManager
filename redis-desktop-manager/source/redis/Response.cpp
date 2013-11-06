@@ -20,6 +20,11 @@ void Response::setSource(QString& str)
 	responseString = str;
 }
 
+void Response::clear()
+{
+	responseString.clear();
+}
+
 QString Response::source()
 {
 	return responseString;
