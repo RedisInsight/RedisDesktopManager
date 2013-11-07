@@ -395,7 +395,7 @@ void MainWin::OnServerInfoOpen()
 		return;
 
 	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
-	QString serverName = server->text();
+	QString serverName = QString("Info: %1").arg(server->text());
 	addTab(serverName, tab, ":/images/serverinfo.png");	
 }
 
