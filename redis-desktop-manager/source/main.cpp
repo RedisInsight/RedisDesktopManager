@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 
 	QApplication::setApplicationName("Redis Desktop Manager");
-	QApplication::setApplicationVersion("0.5.2");	
+	QApplication::setApplicationVersion("0.6.0-dev");	
 	QApplication::setOrganizationDomain("redisdesktop.com");
 
 	MainWin w;

@@ -74,8 +74,8 @@ void MainWin::initTabs()
 void MainWin::initUpdater()
 {
 	//set current version
-	ui.currentVersionLabel->setText(
-		ui.currentVersionLabel->text() + QApplication::applicationVersion()
+	ui.applicationInfoLabel->setText(
+		ui.applicationInfoLabel->text().replace("%VERSION%", QApplication::applicationVersion())
 		);
 
 	updater = new Updater();

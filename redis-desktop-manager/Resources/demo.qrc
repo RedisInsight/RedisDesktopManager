@@ -2,6 +2,11 @@
     <qresource prefix="/images" >
 	    <file alias="redisIcon.png">../images/redis_small_icon.png</file>
       <file alias="redisBigIcon.png">../images/redis_big_icon.png</file>
+      <file alias="logo.png">../images/logo.png</file>
+      <file alias="twi.png">../images/twi.png</file>
+      <file alias="github.png">../images/github.png</file>
+      <file alias="ok.png">../images/ok.png</file>
+      <file alias="clear.png">../images/clear.png</file>
       <file alias="redisIcon_offline.png">../images/redis_small_icon_offline.png</file>
       <file alias="wait.png">../images/wait.png</file>
       <file alias="db.png">../images/db.png</file>    

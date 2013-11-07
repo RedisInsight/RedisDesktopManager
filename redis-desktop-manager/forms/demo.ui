@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>931</width>
-    <height>574</height>
+    <width>920</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,8 +19,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>500</height>
+    <width>920</width>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -33,8 +33,11 @@
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
   </property>
-  <property name="unifiedTitleAndToolBarOnMac">
+  <property name="dockNestingEnabled">
    <bool>false</bool>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -75,23 +78,31 @@
       </property>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>2</number>
+        </property>
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="1">
-           <widget class="QPushButton" name="pbFindFilter">
-            <property name="maximumSize">
-             <size>
-              <width>50</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Find</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0">
            <widget class="QLineEdit" name="leKeySearchPattern">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="toolTip">
              <string>&lt;p&gt;&lt;b&gt;Key search supports regular expressions:&lt;/b&gt;&lt;/p&gt;
 
@@ -129,16 +140,73 @@ aa|bb 	Either aa or bb.
             </property>
            </widget>
           </item>
+          <item row="0" column="1">
+           <widget class="QToolButton" name="pbFindFilter">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Find</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resources/demo.qrc">
+              <normaloff>:/images/ok.png</normaloff>:/images/ok.png</iconset>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="2">
-           <widget class="QPushButton" name="pbClearFilter">
+           <widget class="QToolButton" name="pbClearFilter">
+            <property name="minimumSize">
+             <size>
+              <width>35</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
               <width>60</width>
-              <height>16777215</height>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>25</height>
              </size>
             </property>
             <property name="text">
              <string>Clear</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resources/demo.qrc">
+              <normaloff>:/images/clear.png</normaloff>:/images/clear.png</iconset>
             </property>
            </widget>
           </item>
@@ -190,7 +258,7 @@ aa|bb 	Either aa or bb.
         <item>
          <widget class="QPushButton" name="pbAddServer">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -198,7 +266,7 @@ aa|bb 	Either aa or bb.
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>40</height>
+            <height>33</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -214,9 +282,6 @@ aa|bb 	Either aa or bb.
            <iconset resource="../Resources/demo.qrc">
             <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
           </property>
-          <property name="flat">
-           <bool>false</bool>
-          </property>
          </widget>
         </item>
         <item>
@@ -224,7 +289,7 @@ aa|bb 	Either aa or bb.
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>40</height>
+            <height>33</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -322,163 +387,109 @@ aa|bb 	Either aa or bb.
              <height>255</height>
             </size>
            </property>
-           <widget class="QLabel" name="applicationInfoLabel">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>-20</y>
-              <width>521</width>
-              <height>168</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>0</width>
-              <height>150</height>
-             </size>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="applicationInfoLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>170</height>
+               </size>
+              </property>
+              <property name="baseSize">
+               <size>
+                <width>0</width>
+                <height>170</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;
 
 &lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
-&lt;body style=&quot;width:100%&quot;&gt;&lt;div&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/redisBigIcon.png&quot;/&gt;&lt;div style=&quot; font-size:23pt; margin-left: 150px; margin-top:22px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot;margin-left: 151px; display: inline-block; padding-left:53px; font-size: 11px; line-height: 21px&quot;&gt;&lt;b&gt;Cross-platform GUI application for managing Redis.&lt;/b&gt; &lt;br /&gt; Developed by - &lt;a href=&quot;http://glide.name/?rdm&quot;&gt;Igor Malinovskiy&lt;/a&gt; &lt;/div&gt;
-&lt;div  style=&quot; margin-left: 151px; margin-top: 15px; display: inline-block; padding-left:53px; line-height: 15px; &quot;&gt;&lt;a style=&quot;font-size: 13px; color: red;&quot; href=&quot;https://github.com/uglide/RedisDesktopManager/issues&quot;&gt;&lt;img  src=&quot;:/images/alert.png&quot; /&gt;&amp;nbsp;Report issue&lt;/a&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a style=&quot;font-size: 13px; color: green; &quot; href=&quot;https://github.com/uglide/RedisDesktopManager/wiki&quot;&gt;&lt;img  src=&quot;:/images/help.png&quot; /&gt;&amp;nbsp;Documentation&lt;/a&gt;&lt;/div&gt;
+&lt;body style=&quot;width:100%;&quot;&gt;&lt;div style=&quot;font-size:20pt; padding-top:10px;&quot;&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/logo.png&quot;/&gt;&lt;div style=&quot; font-size:24pt; margin-left: 100px; margin-top:2px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot;margin-left: 100px; display: inline-block; padding-left:53px; font-size: 11px; line-height: 21px&quot;&gt;&lt;b&gt;Cross-platform GUI application for managing Redis.&lt;/b&gt; &lt;br /&gt;&lt;b&gt;Version&lt;/b&gt; %VERSION% &amp;nbsp;&amp;nbsp;&amp;nbsp; Developed by - &lt;a href=&quot;http://glide.name/?rdm&quot;&gt;Igor Malinovskiy&lt;/a&gt; &lt;/div&gt;
+
+&lt;div style=&quot;font-size: 10px&quot;&gt;Third Party Libs and Images:&lt;a href=&quot;http://qt-project.org/&quot;&gt; QT (GPL License)&lt;/a&gt;; &lt;a href=&quot;http://libqxt.org/&quot;&gt;Qxt (GPL License)&lt;/a&gt; , &lt;a href=&quot;http://www.libssh2.org&quot;&gt;libssh2 (BSD License)&lt;/a&gt;, &lt;a href=&quot;http://www.carlosprioglio.com/&quot;&gt;Redis Logo&lt;/a&gt;&lt;/div&gt;
+
+&lt;div style=&quot;font-size: 10px;&quot;&gt;Thanks to:&amp;nbsp;&amp;nbsp;
+&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander&amp;nbsp;Arshinov&lt;/a&gt;, 
+&lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy&amp;nbsp;Savchenko&lt;/a&gt;, 
+&lt;a href=&quot;https://github.com/Dyachenko&quot;&gt;Yevgeniy&amp;nbsp;Dyachenko&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/AntonShevchuk&quot;&gt;Anton&amp;nbsp;Shevchuk&lt;/a&gt;, &lt;br /&gt;
+&lt;a href=&quot;https://github.com/leonko&quot;&gt;Leonid&amp;nbsp;Batizhevsky&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/mrThe&quot;&gt;mrThe&lt;/a&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;&lt;div style=&quot;clear: both;&quot;&gt;
+&lt;hr style=&quot;border-top: 1px solid darkgrey; height: 5px; width: 100%;&quot; /&gt;
+&lt;div  style=&quot; margin-left: 15px; vertical-align: bottom; font-size: 13px;&quot;&gt;
+&lt;a style=&quot; color: red;&quot; href=&quot;https://github.com/uglide/RedisDesktopManager/issues&quot;&gt;&lt;img  src=&quot;:/images/alert.png&quot; /&gt;&amp;nbsp;Report issue&lt;/a&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+&lt;a style=&quot;color: green; &quot; href=&quot;https://github.com/uglide/RedisDesktopManager/wiki&quot;&gt;&lt;img  src=&quot;:/images/help.png&quot; /&gt;&amp;nbsp;Documentation&lt;/a&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a style=&quot;font-size: 13px; &quot; href=&quot;https://twitter.com/RedisDesktop&quot;&gt;&lt;img  src=&quot;:/images/twi.png&quot; /&gt;&amp;nbsp;Follow @RedisDesktop&lt;/a&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a style=&quot;font-size: 13px; &quot; href=&quot;https://github.com/uglide/RedisDesktopManager/stargazers&quot;&gt;&lt;img  src=&quot;:/images/github.png&quot; /&gt;&amp;nbsp;Star!&lt;/a&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="textFormat">
-             <enum>Qt::RichText</enum>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="openExternalLinks">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLabel" name="currentVersionLabel">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>130</y>
-              <width>171</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>&lt;b&gt;version&lt;/b&gt;&amp;nbsp;</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="thirdPartyToolsLabel">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>210</y>
-              <width>531</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
-&lt;style&gt;a {color: #808080; text-decoration: none; font-size: 10px}&lt;/style&gt;
-&lt;p&gt;&lt;span style=&quot; font-size:10px; font-weight:600;&quot;&gt;Third Party Libs and Images:&lt;/span&gt;&lt;a href=&quot;http://qt-project.org/&quot;&gt; QT (GPL License)&lt;/a&gt;; &lt;a href=&quot;http://libqxt.org/&quot;&gt;Qxt (GPL License)&lt;/a&gt; , &lt;a href=&quot;http://www.libssh2.org&quot;&gt;libssh2 (BSD License)&lt;/a&gt;, &lt;a href=&quot;http://www.carlosprioglio.com/&quot;&gt;Redis Logo&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-            <property name="openExternalLinks">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLabel" name="newUpdateAvailableLabel">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>150</y>
-              <width>511</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="openExternalLinks">
-             <bool>true</bool>
-            </property>
-           </widget>
-           <widget class="QLabel" name="thanksLabel">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>170</y>
-              <width>531</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>&lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
-&lt;p&gt;&lt;b&gt;Thanks to:&amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;a href=&quot;https://github.com/stalker-druid/&quot;&gt;Alexander Arshinov&lt;/a&gt;, &lt;a href=&quot;https://github.com/loginwashere&quot;&gt;Dmitriy Savchenko&lt;/a&gt;, 
-&lt;a href=&quot;https://github.com/Dyachenko&quot;&gt;Yevgeniy  Dyachenko&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/AntonShevchuk&quot;&gt;Anton Shevchuk&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/leonko&quot;&gt;Leonid Batizhevsky&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/mrThe&quot;&gt;mrThe&lt;/a&gt;
-&lt;/p&gt;</string>
-            </property>
-            <property name="scaledContents">
-             <bool>true</bool>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-            <property name="openExternalLinks">
-             <bool>true</bool>
-            </property>
-           </widget>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::RichText</enum>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="openExternalLinks">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Minimum</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
