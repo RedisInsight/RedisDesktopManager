@@ -15,7 +15,7 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 		dbIndex = getDbIndex.cap(1).toInt();
 	}
 
-	setEditable(false);
+	setEditable(false);	
 }
 
 void RedisServerDbItem::setCurrent()
@@ -40,14 +40,25 @@ void RedisServerDbItem::loadKeys()
 		setNormalIcon();
 		server->error(QString("Can not load keys: %1").arg(connection->getLastError()));
 		return;
-	}	
+	}		
+
+	//wait for signal from connection	
+	connect(server->connection, SIGNAL(keysLoaded(QStringList&)), this, SLOT(keysLoaded(QStringList&)));
 
 	connection->selectDb(dbIndex);
+	connection->getKeys();
+}
 
-	rawKeys = connection->getKeys();
+void RedisServerDbItem::keysLoaded(QStringList& keys)
+{
+	server->connection->disconnect(this);
+
+	rawKeys = keys;
+
 	int resultSize = rawKeys.size();
 
 	if (resultSize == 0) {
+		server->unlockUI();
 		setNormalIcon();
 		return;
 	}
@@ -56,13 +67,14 @@ void RedisServerDbItem::loadKeys()
 		server->error(QString("Loaded keys: %2 of %3. Error - %4 <br /> Check <a href='https://github.com/uglide/RedisDesktopManager/wiki/Known-issues'>documentation</a>")
 			.arg(resultSize)
 			.arg(keysCount)
-			.arg(connection->getLastError()));
+			.arg(server->connection->getLastError()));
 	}
 
 	renderKeys(rawKeys);
 
 	setNormalIcon();
-	isKeysLoaded = true;
+	isKeysLoaded = true;	
+	server->unlockUI();
 }
 
 void RedisServerDbItem::setFilter(QRegExp &pattern)

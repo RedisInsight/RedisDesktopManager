@@ -33,6 +33,7 @@ public:
 
 	/** 
 	 * Get list of databases with keys counters 
+	 * @emit databesesLoaded
 	 **/
 	typedef QMap <QString, int> RedisDatabases;
 	void getDatabases();
@@ -46,18 +47,21 @@ public:
 	/** 
 	 * Get keys list from db
 	 * see http://redis.io/commands/keys
+	 *  @emit keysLoaded
 	 **/	
-	QStringList getKeys(QString pattern = "*");	
+	void getKeys(QString pattern = "*");	
 
 signals:
 	void responseResived(Response &);
 	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
+	void keysLoaded(QStringList&);
 
 protected:
 	bool connected;
 	QTimer executionTimer;
 	Response resp;
 	bool commandRunning;
+	bool keysLoadingRunning;
 	QString runningCommand;
 
 protected slots:

@@ -35,6 +35,7 @@ void RedisConnectionsManager::AddConnection(RedisConnectionAbstract * c)
 	QObject::connect(item, SIGNAL(databasesLoaded()), this, SLOT(updateFilter()));
 	MainWin * errorViewForm = (MainWin *) parent();
 	QObject::connect(item, SIGNAL(error(QString)), errorViewForm, SLOT(OnError(QString)));
+	QObject::connect(item, SIGNAL(unlockUI()), errorViewForm, SLOT(OnUIUnlock()));
 
 	appendRow(item);
 

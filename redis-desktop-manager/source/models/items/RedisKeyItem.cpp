@@ -94,7 +94,7 @@ QString RedisKeyItem::getFullText()
 {
 	int dbIndex = db->getDbIndex();
 	QString dbIndexString = QString::number(dbIndex);
-	QString connection = db->parent()->text();
+	QString connection = db->server->connection->config.name;
 
 	return QString("%1:%2>%3").arg(connection).arg(dbIndexString).arg(this->text());
 }

@@ -1,7 +1,7 @@
 #include "RedisConnectionAbstract.h"
 
 RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c) 
-	: config(c), connected(false), commandRunning(false)   
+	: config(c), connected(false), commandRunning(false), keysLoadingRunning(false)  
 {
 	executionTimer.setSingleShot(true);
 	QObject::connect(&executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
@@ -73,13 +73,10 @@ void RedisConnectionAbstract::selectDb(int dbIndex)
 	execute(QString("select %1").arg(dbIndex));
 }
 
-QStringList RedisConnectionAbstract::getKeys(QString pattern)
+void RedisConnectionAbstract::getKeys(QString pattern)
 {		 
-	QVariant rawKeys = execute(QString("keys %1").arg(pattern));
-
-	if (rawKeys.isNull()) return QStringList();
-
-	return rawKeys.toStringList();
+	keysLoadingRunning = true;
+	runCommand(QString("keys %1").arg(pattern));	
 }
 
 bool RedisConnectionAbstract::isConnected()
@@ -89,10 +86,18 @@ bool RedisConnectionAbstract::isConnected()
 
 void RedisConnectionAbstract::sendResponse()
 {
-	executionTimer.stop();
-	emit responseResived(resp);
+	executionTimer.stop();	
+	commandRunning = false;
 
-	commandRunning = false;	
+	if (keysLoadingRunning) {		
+		keysLoadingRunning = false;
+		QStringList keys = resp.getValue().toStringList();
+
+		emit keysLoaded(keys);
+		return;
+	}
+
+	emit responseResived(resp);
 }
 
 Response RedisConnectionAbstract::getLastResponse()

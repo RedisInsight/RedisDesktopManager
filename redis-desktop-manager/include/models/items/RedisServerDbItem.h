@@ -4,8 +4,10 @@
 class RedisServerItem;
 class RedisKeyItem;
 
-class RedisServerDbItem : public QStandardItem
+class RedisServerDbItem : public QObject, public QStandardItem
 {
+	Q_OBJECT
+
 	friend class RedisKeyItem;
 public:
 	RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent);	
@@ -40,5 +42,8 @@ private:
 
 	void setNormalIcon();
 	void setBusyIcon();
+
+private slots:
+	void keysLoaded(QStringList&);
 };
 

@@ -383,7 +383,7 @@ aa|bb 	Either aa or bb.
            </property>
            <property name="minimumSize">
             <size>
-             <width>580</width>
+             <width>570</width>
              <height>255</height>
             </size>
            </property>
@@ -412,16 +412,22 @@ aa|bb 	Either aa or bb.
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>190</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>170</height>
+                <height>190</height>
                </size>
               </property>
               <property name="baseSize">
                <size>
                 <width>0</width>
-                <height>170</height>
+                <height>190</height>
                </size>
               </property>
               <property name="layoutDirection">
@@ -466,7 +472,10 @@ aa|bb 	Either aa or bb.
                <enum>Qt::RichText</enum>
               </property>
               <property name="scaledContents">
-               <bool>true</bool>
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
               </property>
               <property name="openExternalLinks">
                <bool>true</bool>

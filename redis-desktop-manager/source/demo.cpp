@@ -16,7 +16,7 @@
 #include "consoleTab.h"
 
 MainWin::MainWin(QWidget *parent)
-	: QMainWindow(parent), loadingInProgress(false)
+	: QMainWindow(parent), treeViewUILocked(false)
 {
 	ui.setupUi(this);
 
@@ -134,11 +134,12 @@ void MainWin::OnAddConnectionClick()
 
 void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 {
-	if (loadingInProgress) {
+	if (treeViewUILocked) {
 		return;
 	}
 
 	QStandardItem * item = connections->itemFromIndex(index);
+	
 
 	int type = item->type();
 	switch (type)
@@ -146,25 +147,23 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 		case RedisServerItem::TYPE:
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
-
 				server->runDatabaseLoading();									
 			}
 			break;
 		case RedisServerDbItem::TYPE:
 			{
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
-				loadingInProgress = true;
-				db->loadKeys();
-				loadingInProgress = false;
+				treeViewUILocked = true;
+				connections->blockSignals(true);
+				db->loadKeys();				
 			}			
 			break;
 
 		case RedisKeyItem::TYPE:	
-			loadingInProgress = true;
+			treeViewUILocked = true;
 			loadKeyTab((RedisKeyItem *)item);		
-			loadingInProgress = false;
+			treeViewUILocked = false;
 			break;
-
 		default:
 			break;
 	}
@@ -431,4 +430,13 @@ QStandardItem * MainWin::getSelectedItemInConnectionsTree()
 void MainWin::OnError(QString msg)
 {
 	QMessageBox::warning(this, "Error", msg);
+}
+
+void MainWin::OnUIUnlock()
+{
+	treeViewUILocked = false;
+	connections->blockSignals(false);
+	//ui.serversTreeView->setModel(new QStandardItemModel());
+	//ui.serversTreeView->setModel(connections);
+	ui.serversTreeView->doItemsLayout();
 }

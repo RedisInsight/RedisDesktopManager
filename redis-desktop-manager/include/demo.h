@@ -23,7 +23,7 @@ public:
 	MainWin(QWidget *parent = 0);
 	~MainWin();	
 private:
-	bool loadingInProgress;
+	bool treeViewUILocked;
 	Ui::demoClass ui;		
 	Updater * updater;
 
@@ -59,6 +59,7 @@ private:
 		void OnServerInfoOpen();
 		void OnConsoleOpen();
 		void OnError(QString);
+		void OnUIUnlock();
 };
 
 #endif // DEMO_H

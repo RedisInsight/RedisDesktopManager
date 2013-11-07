@@ -79,7 +79,7 @@ QVariant RedisConnection::execute(QString command)
 
 	while(!response.isValid()) {	
 
-		if (socket->bytesAvailable() > 0 && !socket->atEnd()) 
+		if (socket->bytesAvailable() > 0) 
 		{
 			res = socket->readAll();
 			response.appendToSource(res);	
@@ -123,19 +123,18 @@ void RedisConnection::runCommand(const QString &command)
 void RedisConnection::readyRead()
 {
 	// ignore signals if running blocking version
-	if (!commandRunning) {
+	if (!commandRunning || socket->bytesAvailable() <= 0) {
 		return;
 	}
-
-	if (socket->bytesAvailable() > 0 && !socket->atEnd()) 
-	{
-		executionTimer.start(config.executeTimeout); //restart execution timer
-		readingBuffer = socket->readAll();
-		resp.appendToSource(readingBuffer);	
-	}
+	
+	executionTimer.stop();
+	readingBuffer = socket->readAll();
+	resp.appendToSource(readingBuffer);		
 
 	if (resp.isValid()) {
 		return sendResponse();	
+	} else {
+		executionTimer.start(config.executeTimeout); //restart execution timer
 	}
 }
 
