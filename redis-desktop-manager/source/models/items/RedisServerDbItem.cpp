@@ -34,15 +34,17 @@ void RedisServerDbItem::loadKeys()
 
 	setBusyIcon();
 
-	if (!server->connection->isConnected() 
-		&& !server->connection->connect()) {
-			setNormalIcon();
-			return;
+	RedisConnectionAbstract * connection = server->connection;
+
+	if (!connection->isConnected() && !connection->connect()) {
+		setNormalIcon();
+		server->error(QString("Can not load keys: %1").arg(connection->getLastError()));
+		return;
 	}	
 
-	server->connection->selectDb(dbIndex);
+	connection->selectDb(dbIndex);
 
-	rawKeys = server->connection->getKeys();
+	rawKeys = connection->getKeys();
 	int resultSize = rawKeys.size();
 
 	if (resultSize == 0) {
@@ -51,11 +53,10 @@ void RedisServerDbItem::loadKeys()
 	}
 
 	if (resultSize != keysCount) {
-		setText(QString("%1 (Loaded %2 of %3. Error - %4)")
-			.arg(name)
+		server->error(QString("Loaded keys: %2 of %3. Error - %4 <br /> Check <a href='https://github.com/uglide/RedisDesktopManager/wiki/Known-issues'>documentation</a>")
 			.arg(resultSize)
 			.arg(keysCount)
-			.arg(server->connection->getLastError()));
+			.arg(connection->getLastError()));
 	}
 
 	renderKeys(rawKeys);

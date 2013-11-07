@@ -36,7 +36,7 @@ MainWin::~MainWin()
 void MainWin::initConnectionsTreeView()
 {
 	//connection manager
-	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));	
+	connections = new RedisConnectionsManager(getConfigPath("connections.xml"), this);
 
 	ui.serversTreeView->setModel(connections);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -146,15 +146,8 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 		case RedisServerItem::TYPE:
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
-				//loadingInProgress = true;
-				server->runDatabaseLoading();
-				//connections->updateFilter();		
-				//loadingInProgress = false;
-				
-				/*if (!connected) {					
-					QMessageBox::warning(this, "Can't connect to server", 
-						QString("Check connection settings \nError: %1").arg(server->getConnection()->getLastError()));
-				}*/				
+
+				server->runDatabaseLoading();									
 			}
 			break;
 		case RedisServerDbItem::TYPE:
@@ -433,4 +426,9 @@ QStandardItem * MainWin::getSelectedItemInConnectionsTree()
 	}
 
 	return nullptr;
+}
+
+void MainWin::OnError(QString msg)
+{
+	QMessageBox::warning(this, "Error", msg);
 }

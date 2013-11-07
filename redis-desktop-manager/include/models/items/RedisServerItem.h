@@ -44,5 +44,6 @@ private slots:
 
 signals:
 	void error(QString);
+	void databasesLoaded();
 };
 

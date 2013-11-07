@@ -10,10 +10,12 @@ class RedisServerItem;
 
 class RedisConnectionsManager : public QStandardItemModel
 {
+	Q_OBJECT
+
 	friend class TestRedisConnectionsManager;
 
 public:
-	RedisConnectionsManager(QString);
+	RedisConnectionsManager(QString, QObject *);
 	~RedisConnectionsManager(void);
 
 	void AddConnection(RedisConnectionAbstract *);
@@ -22,7 +24,6 @@ public:
 	bool ImportConnections(QString &);
 
 	void setFilter(QRegExp &);
-	void updateFilter();
 	void resetFilter();
 
 private:
@@ -36,5 +37,8 @@ private:
 protected:
 	bool LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile = false);
 	void SaveConnectionsConfigToFile(QString);
+
+protected slots:
+	void updateFilter();
 };
 

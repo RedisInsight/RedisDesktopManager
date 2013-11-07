@@ -275,6 +275,12 @@
     <ClCompile Include="source\models\items\RedisServerItem.cpp">
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionsManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionsManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -361,6 +367,9 @@
     <CustomBuild Include="include\models\items\RedisServerItem.h">
       <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\redis\RedisConnectionsManager.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\HashKeyModel.h">
@@ -382,9 +391,6 @@
       <Filter>Header Files\network</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\RedisConnectionConfig.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\RedisConnectionsManager.h">
       <Filter>Header Files\redis</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\RedisException.h">

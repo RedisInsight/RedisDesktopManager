@@ -63,6 +63,8 @@ void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases
 	setNormalIcon();
 
 	isDbInfoLoaded = true;
+
+	emit databasesLoaded();
 }
 
 QStringList RedisServerItem::getInfo()

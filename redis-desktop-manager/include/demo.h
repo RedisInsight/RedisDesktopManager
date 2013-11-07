@@ -58,6 +58,7 @@ private:
 		void OnClearFilter();
 		void OnServerInfoOpen();
 		void OnConsoleOpen();
+		void OnError(QString);
 };
 
 #endif // DEMO_H

@@ -6,10 +6,11 @@
 #include "RedisConnection.h"
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
+#include "demo.h"
 
-RedisConnectionsManager::RedisConnectionsManager(QString config)
+RedisConnectionsManager::RedisConnectionsManager(QString config, QObject * parent = nullptr)
 	: configPath(config), connectionSettingsChanged(false), 
-	 QStandardItemModel(nullptr)
+	 QStandardItemModel(parent)
 {
 	if (!config.isEmpty() && QFile::exists(config)) {
 		LoadConnectionsConfigFromFile(config);
@@ -30,10 +31,15 @@ void RedisConnectionsManager::AddConnection(RedisConnectionAbstract * c)
 	connections.push_back(c);
 
 	//add connection to view container	
-	appendRow(new RedisServerItem(c));
+	RedisServerItem * item = new RedisServerItem(c);
+	QObject::connect(item, SIGNAL(databasesLoaded()), this, SLOT(updateFilter()));
+	MainWin * errorViewForm = (MainWin *) parent();
+	QObject::connect(item, SIGNAL(error(QString)), errorViewForm, SLOT(OnError(QString)));
+
+	appendRow(item);
 
 	//mark settings as unsaved
-	connectionSettingsChanged = true;
+	connectionSettingsChanged = true;	
 }
 
 bool RedisConnectionsManager::RemoveConnection(RedisServerItem * c)
@@ -158,6 +164,10 @@ void RedisConnectionsManager::resetFilter()
 
 void RedisConnectionsManager::updateFilter()
 {
+	if (filter.isEmpty()) {
+		return;
+	}
+
 	int rowsCount, childRowsCount;
 	RedisServerDbItem * db;
 	QStandardItem * element;
