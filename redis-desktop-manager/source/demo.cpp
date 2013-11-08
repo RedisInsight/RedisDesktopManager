@@ -8,7 +8,7 @@
 #include "RedisServerDbItem.h"
 #include "RedisKeyItem.h"
 #include "stringViewTab.h"
-#include "hashViewTab.h"
+#include "valueViewTab.h"
 #include "listViewTab.h"
 #include "zsetViewTab.h"
 #include "Updater.h"
@@ -181,39 +181,34 @@ void MainWin::OnTabClose(int index)
 
 void MainWin::loadKeyTab(RedisKeyItem * key)
 {	
-	//key->setBusyIcon();
-	RedisKeyItem::Type type = key->getKeyType();
+	QWidget * viewTab = new valueViewTab(key);
 
-	QWidget * viewTab = nullptr;
+// 	switch (type)
+// 	{
+// 	case RedisKeyItem::String:		
+// 		viewTab = new stringViewTab(key->text(), key->getValue().toString());					
+// 		break;
+// 
+// 	case RedisKeyItem::Hash:		
+// 		viewTab = new valueViewTab(key);			
+// 		break;
+// 
+// 	case RedisKeyItem::List:		
+// 	case RedisKeyItem::Set:
+// 		viewTab = new listViewTab(key->text(), key->getValue().toStringList());	
+// 		break;
+// 
+// 	case RedisKeyItem::ZSet:
+// 		viewTab = new zsetViewTab(key->text(), key->getValue().toStringList());
+// 		break;	
+// 	}
 
-	switch (type)
-	{
-	case RedisKeyItem::String:		
-		viewTab = new stringViewTab(key->text(), key->getValue().toString());					
-		break;
-
-	case RedisKeyItem::Hash:		
-		viewTab = new hashViewTab(key);			
-		break;
-
-	case RedisKeyItem::List:		
-	case RedisKeyItem::Set:
-		viewTab = new listViewTab(key->text(), key->getValue().toStringList());	
-		break;
-
-	case RedisKeyItem::ZSet:
-		viewTab = new zsetViewTab(key->text(), key->getValue().toStringList());
-		break;	
-	}
-
-	if (viewTab != nullptr) {
-					
+	if (viewTab != nullptr) {					
 		QString keyFullName = key->getFullText();
 
 		addTab(keyFullName, viewTab);
 	}
-
-	//key->setNormalIcon();
+	
 }
 
 int MainWin::getTabIndex(QString& name)
