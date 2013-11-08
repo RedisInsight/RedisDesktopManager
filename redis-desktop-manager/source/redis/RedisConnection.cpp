@@ -99,8 +99,12 @@ QVariant RedisConnection::execute(QString command)
 	return response.getValue();
 }
 
-void RedisConnection::runCommand(const QString &command)
+void RedisConnection::runCommand(const QString &command, int db = -1)
 {
+	if (db > 0) {
+		selectDb(db);
+	}
+
 	resp.clear();
 	commandRunning = true;
 	runningCommand = command;

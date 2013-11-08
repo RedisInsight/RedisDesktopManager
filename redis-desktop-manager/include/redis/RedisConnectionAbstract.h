@@ -27,7 +27,7 @@ public:
 	virtual QString getLastError() = 0;
 	virtual QVariant execute(QString) = 0;
 	virtual bool isConnected();
-	virtual void runCommand(const QString &cmd) = 0;
+	virtual void runCommand(const QString &cmd, int db) = 0;
 	virtual Response getLastResponse();	
 	virtual void sendResponse();
 
@@ -52,7 +52,7 @@ public:
 	void getKeys(QString pattern = "*");	
 
 signals:
-	void responseResived(Response &);
+	void responseResived(QVariant &);
 	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
 	void keysLoaded(QStringList&);
 

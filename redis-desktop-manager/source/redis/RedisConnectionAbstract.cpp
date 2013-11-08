@@ -76,7 +76,7 @@ void RedisConnectionAbstract::selectDb(int dbIndex)
 void RedisConnectionAbstract::getKeys(QString pattern)
 {		 
 	keysLoadingRunning = true;
-	runCommand(QString("keys %1").arg(pattern));	
+	runCommand(QString("keys %1").arg(pattern), -1);	
 }
 
 bool RedisConnectionAbstract::isConnected()
@@ -97,7 +97,7 @@ void RedisConnectionAbstract::sendResponse()
 		return;
 	}
 
-	emit responseResived(resp);
+	emit responseResived(resp.getValue());
 }
 
 Response RedisConnectionAbstract::getLastResponse()

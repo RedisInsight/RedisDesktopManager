@@ -14,10 +14,23 @@
    <string>hashViewTab</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
+   <item row="1" column="1">
+    <widget class="QTableView" name="keyValue">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="wordWrap">
+      <bool>false</bool>
+     </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>220</number>
+     </attribute>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Key</string>
+      <string>Value</string>
      </property>
     </widget>
    </item>
@@ -31,18 +44,11 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Value</string>
+      <string>Key</string>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QTableView" name="keyValue">
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>220</number>
-     </attribute>
     </widget>
    </item>
   </layout>

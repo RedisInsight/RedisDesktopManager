@@ -5,6 +5,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QFrame>
+#include <QMovie>
 
 #include "ui_demo.h"
 #include "RedisConnection.h"
@@ -27,8 +28,8 @@ private:
 	Ui::demoClass ui;		
 	Updater * updater;
 	QElapsedTimer performanceTimer;
+	QMovie loader;
 
-	void loadKeyTab(RedisKeyItem *);
 	void addTab(QString&, QWidget*, QString icon = QString());
 
 	/** @return >=0 if exist **/

@@ -19,7 +19,7 @@ public:
 
 	QVariant execute(QString);
 
-	void runCommand(const QString &cmd);
+	void runCommand(const QString &cmd, int db);
 
 	bool isConnected()
 	{

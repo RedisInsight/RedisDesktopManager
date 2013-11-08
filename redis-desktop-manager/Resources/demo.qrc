@@ -22,5 +22,6 @@
       <file alias="editdb.png">../images/editdb.png</file>
       <file alias="delete.png">../images/delete.png</file>
       <file alias="rdm.ico">../Resources/redis.ico</file>
+      <file alias="loader.gif">../images/loader.gif</file>
     </qresource>
 </RCC>

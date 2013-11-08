@@ -37,7 +37,7 @@ RedisKeyItem::Type RedisKeyItem::getKeyType()
 	return keyType;
 }
 
-QVariant RedisKeyItem::getValue()
+void RedisKeyItem::getValue()
 {
 	if (keyType == Empty) {
 		getKeyType();
@@ -47,30 +47,40 @@ QVariant RedisKeyItem::getValue()
 
 	auto connection = db->server->connection;
 
+	QString command;
+
 	switch (keyType)
 	{
 	case RedisKeyItem::String:
-
-		return connection->execute(QString("get %1").arg(fullName));
+		command = QString("get %1").arg(fullName);
+		break;
 		
-	case RedisKeyItem::Hash:
-		
-		return connection->execute(QString("hgetall %1").arg(fullName));
+	case RedisKeyItem::Hash:		
+		command = QString("hgetall %1").arg(fullName);
+		break;
 
 	case RedisKeyItem::List:
-		return connection->execute(QString("LRANGE %1 0 -1").arg(fullName));		
+		command = QString("LRANGE %1 0 -1").arg(fullName);		
+		break;
 
 	case RedisKeyItem::Set:
-		return connection->execute(QString("SMEMBERS %1").arg(fullName));				
+		command = QString("SMEMBERS %1").arg(fullName);				
+		break;
 
 	case RedisKeyItem::ZSet:		
-		return connection->execute(QString("ZRANGE %1 0 -1 WITHSCORES").arg(fullName));
-
-	case RedisKeyItem::None:
-	case RedisKeyItem::Empty:
-	default:
-		return QVariant();
+		command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(fullName);
+		break;
 	}	
+
+	if (command.isEmpty()) {
+		emit valueLoaded(QVariant());
+		return;
+	} else {
+		connect(connection, SIGNAL(responseResived(QVariant&)),
+			this, SIGNAL(valueLoaded(QVariant&)));
+
+		connection->runCommand(command, db->getDbIndex());
+	}
 }
 
 int RedisKeyItem::type() const

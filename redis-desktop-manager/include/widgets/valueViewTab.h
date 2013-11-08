@@ -43,6 +43,9 @@ protected:
 		ui->keyValue->setVisible(true);
 	}
 
+protected slots:
+	void valueLoaded(QVariant&);
+	//void error(QString&);
 };
 
 

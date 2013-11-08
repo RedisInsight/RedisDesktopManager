@@ -5,8 +5,11 @@
 
 class RedisServerDbItem;
 
-class RedisKeyItem : public QStandardItem
+class RedisKeyItem : public QObject, public QStandardItem
 {
+
+	Q_OBJECT
+
 public:
 
 	enum Type {String, Hash, List, Set, ZSet, None, Empty};
@@ -17,13 +20,16 @@ public:
 
 	Type getKeyType();
 
-	QVariant getValue();
+	void getValue();
 
 	QString getFullText();
 
 	QString getFullName();
 
 	int virtual type() const;	
+
+signals:
+	void valueLoaded(QVariant&);
 
 private:
 	Type keyType;

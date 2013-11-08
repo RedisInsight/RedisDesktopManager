@@ -125,24 +125,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Updater.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_listViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_listViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_zsetViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_zsetViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\items\RedisKeyItem.cpp">
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
@@ -190,15 +172,6 @@
     </ClCompile>
     <ClCompile Include="source\redis\RedisConnectionsManager.cpp">
       <Filter>Source Files\redis</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\listViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\stringViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\zsetViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
     </ClCompile>
     <ClCompile Include="source\connection.cpp">
       <Filter>Source Files</Filter>
@@ -287,6 +260,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_valueViewTab.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisKeyItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisKeyItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -316,15 +295,6 @@
     <CustomBuild Include="include\updater\Updater.h">
       <Filter>Header Files\updater</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\widgets\listViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\stringViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\zsetViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
     <CustomBuild Include="forms\connection.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
@@ -332,9 +302,6 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="forms\hashViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\listViewTab.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="forms\stringViewTab.ui">
@@ -376,8 +343,11 @@
     <CustomBuild Include="include\widgets\valueViewTab.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="qwert.ui">
+    <CustomBuild Include="forms\listViewTab.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisKeyItem.h">
+      <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -389,9 +359,6 @@
     </ClInclude>
     <ClInclude Include="include\models\SortedSetKeyModel.h">
       <Filter>Header Files\models</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisKeyItem.h">
-      <Filter>Header Files\models\Items</Filter>
     </ClInclude>
     <ClInclude Include="include\models\items\RedisKeyNamespace.h">
       <Filter>Header Files\models\Items</Filter>
@@ -414,9 +381,6 @@
     <ClInclude Include="GeneratedFiles\ui_hashViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_listViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_stringViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -435,7 +399,7 @@
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_qwert.h">
+    <ClInclude Include="GeneratedFiles\ui_listViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

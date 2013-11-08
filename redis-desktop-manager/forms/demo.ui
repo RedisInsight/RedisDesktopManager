@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
-    <height>550</height>
+    <width>1036</width>
+    <height>618</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,6 +29,9 @@
   <property name="windowIcon">
    <iconset resource="../Resources/demo.qrc">
     <normaloff>:/images/redisBigIcon.png</normaloff>:/images/redisBigIcon.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font-family: tahoma, arial, ubuntu, sans-serif;</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -55,11 +58,29 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QGridLayout" name="gridLayout_3">
     <property name="sizeConstraint">
      <enum>QLayout::SetNoConstraint</enum>
     </property>
-    <item>
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="horizontalSpacing">
+     <number>5</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
      <widget class="QSplitter" name="splitter">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -232,6 +253,9 @@ aa|bb 	Either aa or bb.
             <height>16777215</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">font-family: monospaced;</string>
+          </property>
           <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOn</enum>
           </property>
@@ -256,56 +280,60 @@ aa|bb 	Either aa or bb.
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pbAddServer">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>33</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Add connection</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../Resources/demo.qrc">
-            <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pbImportConnections">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>33</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Import connections</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../Resources/demo.qrc">
-            <normaloff>:/images/import.png</normaloff>:/images/import.png</iconset>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="pbAddServer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>33</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Add connection</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resources/demo.qrc">
+              <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="pbImportConnections">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Import/Export</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resources/demo.qrc">
+              <normaloff>:/images/rdm.ico</normaloff>:/images/rdm.ico</iconset>
+            </property>
+            <property name="popupMode">
+             <enum>QToolButton::MenuButtonPopup</enum>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -324,6 +352,9 @@ aa|bb 	Either aa or bb.
        </property>
        <property name="autoFillBackground">
         <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="tabPosition">
         <enum>QTabWidget::North</enum>
@@ -508,6 +539,7 @@ aa|bb 	Either aa or bb.
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources>
   <include location="../Resources/demo.qrc"/>
