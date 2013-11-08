@@ -3,12 +3,9 @@
 #include "RedisServerDbItem.h"
 
 RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
-	: db(db), fullName(name), keyType(Empty)
+	: QStandardItem(icon, name), db(db), fullName(name), keyType(Empty)
 {
-	//setNormalIcon();
-	setText(name);
 	setEditable(false);
-	setIcon(icon);
 }
 
 RedisKeyItem::Type RedisKeyItem::getKeyType()

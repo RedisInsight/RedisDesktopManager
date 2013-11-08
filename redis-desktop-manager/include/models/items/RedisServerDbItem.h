@@ -38,6 +38,7 @@ private:
 	QRegExp filter;
 
 	QIcon keyIcon;
+	QIcon namespaceIcon;
 
 	void renderKeys(QStringList &);
 	void renderNamaspacedKey(QStandardItem * currItem, QString notProcessedKeyPart, QString fullKey);

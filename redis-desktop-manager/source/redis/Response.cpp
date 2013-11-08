@@ -101,6 +101,8 @@ QStringList Response::parseMultiBulk(QString response)
 
 	QStringList parsedResult; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
 
+	parsedResult.reserve(responseSize+5);
+
 	for (int currPos = endOfFirstLine + 2, respStringSize = response.size(); currPos < respStringSize;) 
 	{		
 		type = getResponseType(response.at(currPos));
@@ -117,7 +119,7 @@ QStringList Response::parseMultiBulk(QString response)
 		} 
 
 		if (type == Bulk) 
-		{						
+		{									
 			bulkLen = response.mid(currPos+1, firstItemLen).toInt();
 
 			if (bulkLen == 0) 

@@ -125,12 +125,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Updater.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_listViewTab.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -196,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="source\redis\RedisConnectionsManager.cpp">
       <Filter>Source Files\redis</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\hashViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
     </ClCompile>
     <ClCompile Include="source\widgets\listViewTab.cpp">
       <Filter>Source Files\widgets</Filter>
@@ -287,6 +278,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_RedisServerDbItem.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\valueViewTab.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_valueViewTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_valueViewTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -315,9 +315,6 @@
     </CustomBuild>
     <CustomBuild Include="include\updater\Updater.h">
       <Filter>Header Files\updater</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\hashViewTab.h">
-      <Filter>Header Files\widgets</Filter>
     </CustomBuild>
     <CustomBuild Include="include\widgets\listViewTab.h">
       <Filter>Header Files\widgets</Filter>
@@ -376,6 +373,12 @@
     <CustomBuild Include="include\redis\RedisConnectionsManager.h">
       <Filter>Header Files\redis</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\widgets\valueViewTab.h">
+      <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qwert.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\HashKeyModel.h">
@@ -430,6 +433,9 @@
       <Filter>Header Files\redis</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_qwert.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

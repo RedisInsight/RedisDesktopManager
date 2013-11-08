@@ -2,9 +2,11 @@
 #include "RedisServerItem.h"
 #include "RedisKeyItem.h"
 #include "RedisKeyNamespace.h"
+#include <QStandardItem>
 
 RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent) 
-	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name), keyIcon(":/images/key.png")
+	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name), 
+	  keyIcon(":/images/key.png"), namespaceIcon(":/images/namespace.png")
 {	
 	setNormalIcon();
 	setText(QString("%1 (%2)").arg(name).arg(keysCount));
@@ -135,7 +137,7 @@ void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem,
 	}
 
 	if (namespaceItem == nullptr) {
-		namespaceItem = new RedisKeyNamespace(firstNamespaceName);
+		namespaceItem = new RedisKeyNamespace(firstNamespaceName, namespaceIcon);
 		currItem->appendRow(namespaceItem);
 	}
 
