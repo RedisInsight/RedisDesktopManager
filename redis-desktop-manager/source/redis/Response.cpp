@@ -2,7 +2,7 @@
 #include "RedisException.h"
 
 Response::Response()
-	: responseString("")
+	: responseString(""), lastValidPos(0), itemsCount(0)
 {
 }
 
@@ -23,6 +23,8 @@ void Response::setSource(QString& str)
 void Response::clear()
 {
 	responseString.clear();
+	lastValidPos = 0;
+	itemsCount = 0;
 }
 
 QString Response::source()
@@ -276,24 +278,25 @@ bool Response::isMultiBulkReplyValid(const QString& r)
 	}
 
 	//detailed validation
-
-	int itemsCount = 0;		
-
-	int currPos = endOfFirstLine + 2;
-	int lastValidPos = 0;
+	int currPos = (lastValidPos > 0) ? lastValidPos : endOfFirstLine + 2;
+	int lastPos = 0;
 
 	do {
 
 		currPos = getPosOfNextItem(r, currPos);
 
 		if (currPos != -1) {
+			lastPos = currPos;
+		}
+
+		if (currPos != -1 && currPos != responseStringSize) {
 			lastValidPos = currPos;
 		}
 
 	} while (currPos != -1 && ++itemsCount);
 
 
-	if (itemsCount != responseSize || (lastValidPos != responseStringSize)) {
+	if (itemsCount < responseSize || (lastPos != responseStringSize)) {
 		return false;
 	}
 

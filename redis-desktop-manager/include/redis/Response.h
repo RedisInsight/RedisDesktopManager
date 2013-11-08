@@ -36,6 +36,10 @@ private:
 		Status, Error, Integer, Bulk, MultiBulk, Unknown			
 	};
 
+	//cache previous validation markers
+	int lastValidPos;
+	int itemsCount;
+
 	ResponseType getResponseType(QString);	
 	ResponseType getResponseType(const QChar);
 

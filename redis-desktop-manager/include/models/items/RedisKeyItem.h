@@ -13,7 +13,7 @@ public:
 
 	const static int TYPE = 2200;
 
-	RedisKeyItem(QString name, RedisServerDbItem * db);		
+	RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);		
 
 	Type getKeyType();
 
@@ -25,8 +25,6 @@ public:
 
 	int virtual type() const;	
 
-	void setBusyIcon();
-	void setNormalIcon();
 private:
 	Type keyType;
 	QString fullName;

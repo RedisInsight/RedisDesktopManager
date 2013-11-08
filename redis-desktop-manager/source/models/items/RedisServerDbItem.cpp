@@ -4,7 +4,7 @@
 #include "RedisKeyNamespace.h"
 
 RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent) 
-	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name)
+	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name), keyIcon(":/images/key.png")
 {	
 	setNormalIcon();
 	setText(QString("%1 (%2)").arg(name).arg(keysCount));
@@ -112,7 +112,7 @@ void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem,
 											QString notProcessedKeyPart, QString fullKey)
 {
 	if (!notProcessedKeyPart.contains(":")) {
-		QStandardItem * newKey = new RedisKeyItem(fullKey, this);
+		QStandardItem * newKey = new RedisKeyItem(fullKey, this, keyIcon);
 		currItem->appendRow(newKey);	
 		return;
 	}

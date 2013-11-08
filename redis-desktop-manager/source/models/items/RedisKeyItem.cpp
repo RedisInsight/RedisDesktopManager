@@ -2,12 +2,13 @@
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 
-RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db)
+RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
 	: db(db), fullName(name), keyType(Empty)
 {
-	setNormalIcon();
+	//setNormalIcon();
 	setText(name);
 	setEditable(false);
+	setIcon(icon);
 }
 
 RedisKeyItem::Type RedisKeyItem::getKeyType()
@@ -78,16 +79,6 @@ QVariant RedisKeyItem::getValue()
 int RedisKeyItem::type() const
 {
 	return TYPE;
-}
-
-void RedisKeyItem::setBusyIcon()
-{
-	setIcon(QIcon(":/images/wait.png"));
-}
-
-void RedisKeyItem::setNormalIcon()
-{
-	setIcon(QIcon(":/images/key.png"));
 }
 
 QString RedisKeyItem::getFullText() 

@@ -26,6 +26,7 @@ private:
 	bool treeViewUILocked;
 	Ui::demoClass ui;		
 	Updater * updater;
+	QElapsedTimer performanceTimer;
 
 	void loadKeyTab(RedisKeyItem *);
 	void addTab(QString&, QWidget*, QString icon = QString());

@@ -37,6 +37,8 @@ private:
 	QStringList rawKeys;
 	QRegExp filter;
 
+	QIcon keyIcon;
+
 	void renderKeys(QStringList &);
 	void renderNamaspacedKey(QStandardItem * currItem, QString notProcessedKeyPart, QString fullKey);
 

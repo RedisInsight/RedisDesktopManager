@@ -152,6 +152,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 			break;
 		case RedisServerDbItem::TYPE:
 			{
+				performanceTimer.start();
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
 				treeViewUILocked = true;
 				connections->blockSignals(true);
@@ -180,7 +181,7 @@ void MainWin::OnTabClose(int index)
 
 void MainWin::loadKeyTab(RedisKeyItem * key)
 {	
-	key->setBusyIcon();
+	//key->setBusyIcon();
 	RedisKeyItem::Type type = key->getKeyType();
 
 	QWidget * viewTab = nullptr;
@@ -212,7 +213,7 @@ void MainWin::loadKeyTab(RedisKeyItem * key)
 		addTab(keyFullName, viewTab);
 	}
 
-	key->setNormalIcon();
+	//key->setNormalIcon();
 }
 
 int MainWin::getTabIndex(QString& name)
@@ -439,4 +440,7 @@ void MainWin::OnUIUnlock()
 	//ui.serversTreeView->setModel(new QStandardItemModel());
 	//ui.serversTreeView->setModel(connections);
 	ui.serversTreeView->doItemsLayout();
+
+	qDebug() << "The slow operation took" << performanceTimer.elapsed() << "milliseconds";
+	performanceTimer.invalidate();
 }
