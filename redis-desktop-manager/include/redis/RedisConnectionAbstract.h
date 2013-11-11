@@ -49,13 +49,6 @@ public:
 	 */
 	void selectDb(int dbIndex);
 
-	/** 
-	 * Get keys list from db
-	 * see http://redis.io/commands/keys
-	 *  @emit keysLoaded
-	 **/	
-	void getKeys(QString pattern = "*");	
-
 	static RedisConnectionAbstract * createConnection(const RedisConnectionConfig & c);
 
 public slots:
@@ -66,14 +59,12 @@ public slots:
 signals:
 	void responseResived(QVariant &, QObject *);
 	void databesesLoaded(RedisConnectionAbstract::RedisDatabases&);
-	void keysLoaded(QStringList&);
 
 protected:
 	bool connected;
 	QTimer executionTimer;
 	Response resp;
 	bool commandRunning;
-	bool keysLoadingRunning;
 	Command runningCommand;
 	QQueue<Command> commands;
 
