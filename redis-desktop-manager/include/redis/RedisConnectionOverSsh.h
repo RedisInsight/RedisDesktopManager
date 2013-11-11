@@ -5,6 +5,8 @@
 #include "qxtsshclient.h"
 #include "RedisConnectionAbstract.h"
 
+class Command;
+
 class RedisConnectionOverSsh : public RedisConnectionAbstract
 {
 	Q_OBJECT
@@ -19,7 +21,7 @@ public:
 
 	QVariant execute(QString);
 
-	void runCommand(const QString &cmd, int db);
+	void runCommand(const Command&);
 
 	bool isConnected()
 	{

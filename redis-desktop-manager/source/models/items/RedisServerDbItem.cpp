@@ -20,42 +20,34 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 	setEditable(false);	
 }
 
-void RedisServerDbItem::setCurrent()
-{
-	if (!server->connection->isConnected() 
-		&& !server->connection->connect()) {
-			return;
-	}
-
-	server->connection->selectDb(dbIndex);
-}
-
 void RedisServerDbItem::loadKeys()
 {
 	if (isKeysLoaded) return;
 
 	setBusyIcon();
 
-	RedisConnectionAbstract * connection = server->connection;
 
-	if (!connection->isConnected() && !connection->connect()) {
-		setNormalIcon();
-		server->error(QString("Can not load keys: %1").arg(connection->getLastError()));
-		return;
-	}		
+// 	if (!connection->isConnected() && !connection->connect()) {
+// 		setNormalIcon();
+// 		server->error(QString("Can not load keys: %1").arg(connection->getLastError()));
+// 		return;
+// 	}		
 
 	//wait for signal from connection	
-	connect(server->connection, SIGNAL(keysLoaded(QStringList&)), this, SLOT(keysLoaded(QStringList&)));
-
-	connection->selectDb(dbIndex);
-	connection->getKeys();
+	connect(server->connection, SIGNAL(responseResieved(QVariant &, QObject *)), this, SLOT(keysLoaded(QVariant &, QObject *)));
+	
+	server->connection->addCommand(Command("keys *", this, dbIndex));
 }
 
-void RedisServerDbItem::keysLoaded(QStringList& keys)
+void RedisServerDbItem::keysLoaded(QVariant &keys, QObject *owner)
 {
+	if (owner != this) {
+		return;
+	}
+
 	server->connection->disconnect(this);
 
-	rawKeys = keys;
+	rawKeys = keys.toStringList();
 
 	int resultSize = rawKeys.size();
 

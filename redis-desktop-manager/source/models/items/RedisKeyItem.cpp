@@ -10,40 +10,42 @@ RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & i
 
 RedisKeyItem::Type RedisKeyItem::getKeyType()
 {
-	db->setCurrent();
+// 	db->setCurrent();
+// 
+// 	auto connection = db->server->connection;
+// 	QVariant result = connection->execute( QString("type %1").arg(fullName));
+// 
+// 	QString t = result.toString();
+// 
+// 	keyType = None;
+// 
+// 	if (t == "string")
+// 		keyType = String;
+// 
+// 	if (t == "hash") 
+// 		keyType = Hash;
+// 
+// 	if (t == "list")
+// 		keyType = List;
+// 
+// 	if (t == "set") 
+// 		keyType = Set;
+// 
+// 	if (t == "zset") 
+// 		keyType = ZSet;
+// 
+// 	return keyType;
 
-	auto connection = db->server->connection;
-	QVariant result = connection->execute( QString("type %1").arg(fullName));
-
-	QString t = result.toString();
-
-	keyType = None;
-
-	if (t == "string")
-		keyType = String;
-
-	if (t == "hash") 
-		keyType = Hash;
-
-	if (t == "list")
-		keyType = List;
-
-	if (t == "set") 
-		keyType = Set;
-
-	if (t == "zset") 
-		keyType = ZSet;
-
-	return keyType;
+	return keyType = String;
 }
 
 void RedisKeyItem::getValue()
 {
-	if (keyType == Empty) {
-		getKeyType();
-	}
+// 	if (keyType == Empty) {
+// 		getKeyType();
+// 	}
 
-	db->setCurrent();
+	keyType = String; //todo: fix it
 
 	auto connection = db->server->connection;
 
@@ -76,10 +78,10 @@ void RedisKeyItem::getValue()
 		emit valueLoaded(QVariant());
 		return;
 	} else {
-		connect(connection, SIGNAL(responseResived(QVariant&)),
-			this, SIGNAL(valueLoaded(QVariant&)));
+		connect(connection, SIGNAL(responseResived(QVariant&, QObject*)),
+			this, SIGNAL(valueLoaded(QVariant&, QObject*)));
 
-		connection->runCommand(command, db->getDbIndex());
+		connection->addCommand(Command(command, this, db->getDbIndex()));
 	}
 }
 
@@ -92,7 +94,7 @@ QString RedisKeyItem::getFullText()
 {
 	int dbIndex = db->getDbIndex();
 	QString dbIndexString = QString::number(dbIndex);
-	QString connection = db->server->connection->config.name;
+	QString connection = db->server->connection->getConfig().name;
 
 	return QString("%1:%2>%3").arg(connection).arg(dbIndexString).arg(this->text());
 }
@@ -100,4 +102,13 @@ QString RedisKeyItem::getFullText()
 QString RedisKeyItem::getFullName()
 {
 	return fullName;
+}
+
+void RedisKeyItem::loadedValue(QVariant& value, QObject *sender)
+{
+	if (sender != this) {
+		return;
+	}
+
+	emit valueLoaded(value);
 }

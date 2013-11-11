@@ -20,7 +20,7 @@
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <property name="wordWrap">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>220</number>

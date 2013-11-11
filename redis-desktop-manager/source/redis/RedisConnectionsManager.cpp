@@ -25,7 +25,7 @@ RedisConnectionsManager::~RedisConnectionsManager(void)
 	}
 }
 
-void RedisConnectionsManager::AddConnection(RedisConnectionAbstract * c)
+void RedisConnectionsManager::AddConnection(ConnectionBridge * c)
 {
 	//add connection to internal container
 	connections.push_back(c);
@@ -58,14 +58,6 @@ bool RedisConnectionsManager::RemoveConnection(RedisServerItem * c)
 		connectionSettingsChanged = true;
 
 	return removedFromContainer && removedFromModel;
-}
-
-void RedisConnectionsManager::UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection) 
-{
-	connections.removeOne(old);
-	connections.push_back(newConnection);
-
-	connectionSettingsChanged = true;
 }
 
 bool RedisConnectionsManager::ImportConnections(QString &path)
@@ -101,15 +93,7 @@ bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, boo
 
 			if (conf.isNull()) continue;
 
-			RedisConnectionAbstract * c;
-
-			if (conf.useSshTunnel()) {
-				c = new RedisConnectionOverSsh(conf);
-			} else {
-				c = new RedisConnection(conf);
-			}
-
-			AddConnection(c);
+			AddConnection(new ConnectionBridge(conf));
 		}		
 	}
 	conf.close();
@@ -131,8 +115,8 @@ void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 
 	config.appendChild(connectionsItem);
 
-	for (RedisConnectionAbstract * c : connections) {
-		connectionsItem.appendChild(c->config.toXml(config));
+	for (ConnectionBridge * c : connections) {
+		connectionsItem.appendChild(c->getConfig().toXml(config));
 	}
 
 	QFile confFile(configPath);

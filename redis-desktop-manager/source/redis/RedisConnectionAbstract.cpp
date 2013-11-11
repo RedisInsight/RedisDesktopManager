@@ -1,4 +1,7 @@
 #include "RedisConnectionAbstract.h"
+#include "RedisConnection.h"
+#include "RedisConnectionOverSsh.h"
+
 
 RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c) 
 	: config(c), connected(false), commandRunning(false), keysLoadingRunning(false)  
@@ -6,6 +9,18 @@ RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c
 	executionTimer.setSingleShot(true);
 	QObject::connect(&executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
 };
+
+RedisConnectionAbstract * RedisConnectionAbstract::createConnection(const RedisConnectionConfig & c)
+{	
+	if (c.useSshTunnel()) {
+		return new RedisConnectionOverSsh(c);
+	}
+	else { 
+		return new RedisConnection(c); 
+	}
+
+	return nullptr;
+}
 
 void RedisConnectionAbstract::getDatabases()
 {
@@ -65,7 +80,6 @@ void RedisConnectionAbstract::getDatabases()
 	}
 
 	emit databesesLoaded(availableDatabeses);
-	return;
 } 
 
 void RedisConnectionAbstract::selectDb(int dbIndex)
@@ -75,8 +89,9 @@ void RedisConnectionAbstract::selectDb(int dbIndex)
 
 void RedisConnectionAbstract::getKeys(QString pattern)
 {		 
+
 	keysLoadingRunning = true;
-	runCommand(QString("keys %1").arg(pattern), -1);	
+	runCommand(Command(QString("keys %1").arg(pattern), this));	
 }
 
 bool RedisConnectionAbstract::isConnected()
@@ -84,10 +99,25 @@ bool RedisConnectionAbstract::isConnected()
 	return connected;
 }
 
+void RedisConnectionAbstract::processCommandQueue()
+{
+	if (commandRunning || commands.isEmpty()) {
+		return;
+	}
+
+	runCommand(commands.dequeue());
+}
+
+void RedisConnectionAbstract::addCommand(const Command& cmd)
+{
+	commands.enqueue(cmd);
+
+	processCommandQueue();
+}
+
 void RedisConnectionAbstract::sendResponse()
 {
 	executionTimer.stop();	
-	commandRunning = false;
 
 	if (keysLoadingRunning) {		
 		keysLoadingRunning = false;
@@ -95,9 +125,13 @@ void RedisConnectionAbstract::sendResponse()
 
 		emit keysLoaded(keys);
 		return;
-	}
+	}	
 
-	emit responseResived(resp.getValue());
+	emit responseResived(resp.getValue(), runningCommand.getOwner());
+
+	commandRunning = false;
+
+	processCommandQueue();
 }
 
 Response RedisConnectionAbstract::getLastResponse()

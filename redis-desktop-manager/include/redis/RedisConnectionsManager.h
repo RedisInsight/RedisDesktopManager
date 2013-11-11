@@ -4,6 +4,7 @@
 #include <QThread>
 #include <QStandardItemModel>
 #include "RedisConnectionAbstract.h"
+#include "ConnectionBridge.h"
 
 class TestRedisConnectionsManager;
 class RedisServerItem;
@@ -18,8 +19,7 @@ public:
 	RedisConnectionsManager(QString, QObject *);
 	~RedisConnectionsManager(void);
 
-	void AddConnection(RedisConnectionAbstract *);
-	void UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection);
+	void AddConnection(ConnectionBridge *);	
 	bool RemoveConnection(RedisServerItem *);
 	bool ImportConnections(QString &);
 
@@ -30,7 +30,7 @@ private:
 	QThread connectionsThread;
 
 	QString configPath;
-	QList<RedisConnectionAbstract *> connections;
+	QList<ConnectionBridge *> connections;
 	bool connectionSettingsChanged;
 	QRegExp filter;
 

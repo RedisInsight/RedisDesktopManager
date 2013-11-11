@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QStandardItem>
-#include "RedisConnectionAbstract.h"
+#include "ConnectionBridge.h"
 #include "RedisServerDbItem.h"
 
 class RedisKeyItem;
@@ -15,7 +15,7 @@ class RedisServerItem : public QObject, public QStandardItem
 	friend class RedisKeyItem;
 
 public:	
-	RedisServerItem(RedisConnectionAbstract * c);
+	RedisServerItem(ConnectionBridge * c);
 
 	void runDatabaseLoading();	
 	QStringList getInfo();
@@ -23,15 +23,15 @@ public:
 	void reload();
 	void unload();
 
-	RedisConnectionAbstract * getConnection();
-	void setConnection(RedisConnectionAbstract * c);
+	ConnectionBridge * getConnection();
+	void setConnection(ConnectionBridge * c);
 
 	int virtual type() const;
 	
 	const static int TYPE = 2000;
 
 private:	
-	RedisConnectionAbstract * connection;
+	ConnectionBridge * connection;
 	bool isDbInfoLoaded;
 
 	void setBusyIcon();
@@ -40,7 +40,7 @@ private:
 	void getItemNameFromConnection();
 
 private slots:
-	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
+	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases&);
 
 signals:
 	void error(QString);

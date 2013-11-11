@@ -35,6 +35,9 @@ private:
 	Type keyType;
 	QString fullName;
 	RedisServerDbItem * db;
+
+private slots:
+	void loadedValue(QVariant&, QObject *);
 };
 
 #endif // REDISKEYITEM_H

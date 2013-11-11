@@ -4,12 +4,7 @@
 
 RedisConnection::RedisConnection(const RedisConnectionConfig & c) 
 	: RedisConnectionAbstract(c)
-{
-	socket = new QTcpSocket();
-
-	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-	QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));	
-	
+{	
 }
 
 RedisConnection::~RedisConnection()
@@ -24,6 +19,13 @@ RedisConnection::~RedisConnection()
 
 bool RedisConnection::connect()
 {
+	if (socket == nullptr) {
+		socket = new QTcpSocket();
+
+		QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+		QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));	
+	}
+
 	socket->connectToHost(config.host, config.port);
 
 	if (socket->waitForConnected(config.connectionTimeout)) 
@@ -99,10 +101,11 @@ QVariant RedisConnection::execute(QString command)
 	return response.getValue();
 }
 
-void RedisConnection::runCommand(const QString &command, int db = -1)
+
+void RedisConnection::runCommand(const Command &command)
 {
-	if (db > 0) {
-		selectDb(db);
+	if (command.hasDbIndex()) {
+		selectDb(command.getDbIndex());
 	}
 
 	resp.clear();
@@ -114,7 +117,7 @@ void RedisConnection::runCommand(const QString &command, int db = -1)
 		return sendResponse();
 	}
 
-	QString formattedCommand = Command::getFormatted(command);
+	QString formattedCommand = command.getFormattedString();
 
 	/*
 	 *	Send command

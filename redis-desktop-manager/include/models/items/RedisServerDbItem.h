@@ -21,8 +21,6 @@ public:
 
 	const static int TYPE = 2100;
 
-	void setCurrent();
-
 	int getDbIndex() const;
 
     bool operator<(const QStandardItem & other) const;
@@ -47,6 +45,6 @@ private:
 	void setBusyIcon();
 
 private slots:
-	void keysLoaded(QStringList&);
+	void keysLoaded(QVariant &, QObject *);
 };
 

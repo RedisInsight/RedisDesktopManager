@@ -189,7 +189,7 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 	return response.getValue();
 }
 
-void RedisConnectionOverSsh::runCommand(const QString &cmd, int db)
+void RedisConnectionOverSsh::runCommand(const Command &cmd)
 {
 	//todo: implement this
 }

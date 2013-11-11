@@ -5,8 +5,10 @@
 #include <QTcpSocket>
 #include "RedisConnectionAbstract.h"
 #include "Response.h"
+#include <QQueue>
 
 class Test_RedisConnection;
+class Command;
 
 class RedisConnection : public RedisConnectionAbstract
 {	
@@ -22,17 +24,19 @@ public:
 	
 	QString getLastError();
 
-	QVariant execute(QString);
-	
-	void runCommand(const QString &cmd, int db);
+	QVariant execute(QString);	
 
-private:		
+	void runCommand(const Command &cmd);
+
+private:
 	QTcpSocket * socket;	
 	QByteArray readingBuffer;	
 
 private slots:
 	void readyRead();
 	void error(QAbstractSocket::SocketError error);	
+
+
 };
 
 #endif // REDISCONNECTION_H

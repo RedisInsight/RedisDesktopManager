@@ -1,8 +1,7 @@
 #include <QtWidgets/QMessageBox>
 
 #include "connection.h"
-#include "RedisConnection.h"
-#include "RedisConnectionOverSsh.h"
+#include "ConnectionBridge.h"
 #include "RedisServerItem.h"
 
 connection::connection(QWidget *parent, RedisServerItem * srv)
@@ -33,11 +32,11 @@ connection::~connection()
 
 }
 
-void connection::loadValuesFromConnection(RedisConnectionAbstract * c)
+void connection::loadValuesFromConnection(ConnectionBridge * c)
 {
 	inEditMode = true;
 
-	RedisConnectionConfig * config =  &(c->config);
+	RedisConnectionConfig * config =  &(c->getConfig());
 
 	ui.nameEdit->setText(config->name);
 	ui.hostEdit->setText(config->host);
@@ -59,38 +58,19 @@ void connection::OnOkButtonClick()
 
 	RedisConnectionConfig conf = getConectionConfigFromFormData();
 
-	RedisConnectionAbstract * connection;
+	ConnectionBridge * connection;
 
 	if (inEditMode) {
 
 		connection = server->getConnection();
 
-		bool connectionTypeChanged = connection->config.useSshTunnel() != conf.useSshTunnel();
+		bool connectionTypeChanged = connection->getConfig().useSshTunnel() != conf.useSshTunnel();
 
-		connection->config = conf;	
+		connection->setConnectionConfig(conf);	
+		
+	} else {		
 
-		if (connectionTypeChanged) {
-
-			RedisConnectionAbstract * newConnection;
-
-			if (conf.useSshTunnel()) {
-				newConnection = new RedisConnectionOverSsh(conf);
-			} else {
-				newConnection = new RedisConnection(conf);
-			}
-			
-			server->setConnection(newConnection);	
-			mainForm->connections->UpdateConnection(connection, newConnection);
-		} else {
-			mainForm->connections->UpdateConnection(connection, connection);
-		}				
-	} else {
-		 
-		if (conf.useSshTunnel()) {
-			connection = new RedisConnectionOverSsh(conf);
-		} else {
-			connection = new RedisConnection(conf);
-		}
+		connection = new ConnectionBridge(conf);
 
 		mainForm->connections->AddConnection(connection);			
 	}	

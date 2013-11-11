@@ -1,11 +1,13 @@
 #pragma once
 
+#include <QObject>
+#include <QQueue>
+#include <QMap>
+
 #include "RedisConnectionConfig.h"
 #include "RedisException.h"
 #include "Response.h"
-#include <QtCore>
-#include <QMap>
-#include <QList>
+#include "Command.h"
 
 class TestRedisConnection;
 
@@ -24,19 +26,22 @@ public:
 	/** Interface for all connection classes **/
 
 	virtual bool connect() = 0;
+
 	virtual QString getLastError() = 0;
+
 	virtual QVariant execute(QString) = 0;
+
 	virtual bool isConnected();
-	virtual void runCommand(const QString &cmd, int db) = 0;
+
+	virtual void runCommand(const Command &cmd) = 0;
+
 	virtual Response getLastResponse();	
-	virtual void sendResponse();
 
 	/** 
 	 * Get list of databases with keys counters 
 	 * @emit databesesLoaded
 	 **/
 	typedef QMap <QString, int> RedisDatabases;
-	void getDatabases();
 
 	/** 
 	 * Select db 
@@ -51,9 +56,16 @@ public:
 	 **/	
 	void getKeys(QString pattern = "*");	
 
+	static RedisConnectionAbstract * createConnection(const RedisConnectionConfig & c);
+
+public slots:
+	void init();
+	void addCommand(const Command&);
+	void getDatabases();
+
 signals:
-	void responseResived(QVariant &);
-	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
+	void responseResived(QVariant &, QObject *);
+	void databesesLoaded(RedisConnectionAbstract::RedisDatabases&);
 	void keysLoaded(QStringList&);
 
 protected:
@@ -62,7 +74,11 @@ protected:
 	Response resp;
 	bool commandRunning;
 	bool keysLoadingRunning;
-	QString runningCommand;
+	Command runningCommand;
+	QQueue<Command> commands;
+
+	virtual void sendResponse();
+	void processCommandQueue();
 
 protected slots:
 	void executionTimeout();
