@@ -6,7 +6,7 @@
 #include "ValueTabView.h"
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: key(key), ui(nullptr)
+	: key(key), ui(nullptr), model(nullptr)
 {	
 	ui = new ValueTabView();
 
@@ -66,7 +66,13 @@ QStandardItemModel * ValueTab::getModelForKey(RedisKeyItem::Type t, const QVaria
 
 ValueTab::~ValueTab()
 {
-	delete ui;
+	if (ui != nullptr) {
+		delete ui;
+	}
+
+	if (model != nullptr) {
+		delete model;
+	}
 }
 
 
