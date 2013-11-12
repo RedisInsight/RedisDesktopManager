@@ -98,8 +98,9 @@ void RedisServerDbItem::renderKeys(QStringList &rawKeys)
 			continue;
 		}
 
-		renderNamaspacedKey(this, rawKey, rawKey);
+		renderNamaspacedKey(this, rawKey, rawKey);		
 	}
+	this->sortChildren(0);
 }
 
 void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem, 
@@ -134,6 +135,8 @@ void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem,
 	}
 
 	renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1), fullKey);	
+
+	namespaceItem->sortChildren(0);
 }
 
 void RedisServerDbItem::setBusyIcon()
