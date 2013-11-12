@@ -1,5 +1,5 @@
 #include "ValueTabView.h"
-
+#include "FastItemDelegate.h"
 
 void ValueTabView::init(QWidget * baseController, ValueTabView::Type t)
 {
@@ -65,10 +65,8 @@ void ValueTabView::setModel(QAbstractItemModel * model)
 		return;
 	}
 
+	keyValue->setItemDelegate(new FastItemDelegate);
 	keyValue->setModel(model);
-	keyValue->setVisible(false);
-	keyValue->resizeRowsToContents();
-	keyValue->setVisible(true);
 }
 
 void ValueTabView::setPlainValue(QString &value)
