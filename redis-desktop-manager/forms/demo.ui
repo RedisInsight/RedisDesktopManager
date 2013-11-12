@@ -319,7 +319,7 @@ aa|bb 	Either aa or bb.
              </size>
             </property>
             <property name="text">
-             <string>Import/Export</string>
+             <string>Import</string>
             </property>
             <property name="icon">
              <iconset resource="../Resources/demo.qrc">
