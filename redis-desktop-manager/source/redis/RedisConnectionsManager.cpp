@@ -149,10 +149,6 @@ void RedisConnectionsManager::resetFilter()
 
 void RedisConnectionsManager::updateFilter()
 {
-	if (filter.isEmpty()) {
-		return;
-	}
-
 	int rowsCount, childRowsCount;
 	RedisServerDbItem * db;
 	QStandardItem * element;
