@@ -70,6 +70,7 @@ protected:
 	virtual void init();
 
 	virtual void sendResponse();
+
 	void processCommandQueue();
 
 protected slots:

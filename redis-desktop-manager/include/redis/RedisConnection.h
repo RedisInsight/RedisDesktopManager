@@ -39,7 +39,6 @@ private slots:
 	void readyRead();
 	void error(QAbstractSocket::SocketError error);	
 
-
 };
 
 #endif // REDISCONNECTION_H

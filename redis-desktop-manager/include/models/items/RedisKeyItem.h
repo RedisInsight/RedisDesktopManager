@@ -30,6 +30,7 @@ public:
 
 signals:
 	void valueLoaded(const QVariant&, QObject *);
+	void keyTypeLoaded();
 
 private:
 	Type keyType;
@@ -38,6 +39,7 @@ private:
 
 private slots:
 	void loadedValue(const QVariant&, QObject *);
+	void loadedType(const QVariant&, QObject *);
 };
 
 #endif // REDISKEYITEM_H

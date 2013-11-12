@@ -10,42 +10,31 @@ RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & i
 
 RedisKeyItem::Type RedisKeyItem::getKeyType()
 {
-// 	db->setCurrent();
-// 
-// 	auto connection = db->server->connection;
-// 	QVariant result = connection->execute( QString("type %1").arg(fullName));
-// 
-// 	QString t = result.toString();
-// 
-// 	keyType = None;
-// 
-// 	if (t == "string")
-// 		keyType = String;
-// 
-// 	if (t == "hash") 
-// 		keyType = Hash;
-// 
-// 	if (t == "list")
-// 		keyType = List;
-// 
-// 	if (t == "set") 
-// 		keyType = Set;
-// 
-// 	if (t == "zset") 
-// 		keyType = ZSet;
-// 
-// 	return keyType;
+	if (keyType != Empty) {
+		return keyType;
+	}
 
-	return keyType = String;
+	QEventLoop loop;
+	QTimer timer;
+
+	timer.setSingleShot(true);
+	connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+	connect(this, SIGNAL(keyTypeLoaded()), &loop, SLOT(quit()));
+	connect(db->server->connection, SIGNAL(responseResieved(const QVariant&, QObject *)),
+		this, SLOT(loadedType(const QVariant&, QObject*)));
+
+	timer.start(db->server->connection->getConfig().executeTimeout);
+	db->server->connection->addCommand(Command(QString("type %1").arg(fullName), this, db->getDbIndex()));
+	loop.exec();
+
+	return keyType;
 }
 
 void RedisKeyItem::getValue()
 {
-// 	if (keyType == Empty) {
-// 		getKeyType();
-// 	}
-
-	keyType = String; //todo: fix it
+ 	if (keyType == Empty) {
+ 		getKeyType();
+ 	}
 
 	auto connection = db->server->connection;
 
@@ -110,5 +99,39 @@ void RedisKeyItem::loadedValue(const QVariant& value, QObject *sender)
 		return;
 	}
 
+	db->server->connection->disconnect(this);
+
 	emit valueLoaded(value, this);
+}
+
+void RedisKeyItem::loadedType(const QVariant& result, QObject * owner)
+{
+	if (owner != this) {
+		return;
+	}
+
+	db->server->connection->disconnect(this);
+
+	QString t = result.toString();
+	 
+	keyType = None;
+	 
+	if (t == "string")
+		keyType = String;
+
+	if (t == "hash") 
+		keyType = Hash;
+	
+	if (t == "list")
+		keyType = List;
+	
+	if (t == "set") 
+		keyType = Set;
+
+	if (t == "zset") 
+		keyType = ZSet;
+
+	emit keyTypeLoaded();
+
+	return;
 }

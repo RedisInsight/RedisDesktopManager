@@ -38,7 +38,6 @@ private:
 	RedisConnectionAbstract * worker;
 	bool isInitialized;
 
-
 	void stopWorker();	
 };
 
