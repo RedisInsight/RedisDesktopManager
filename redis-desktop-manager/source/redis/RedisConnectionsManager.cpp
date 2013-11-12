@@ -142,8 +142,7 @@ void RedisConnectionsManager::setFilter(QRegExp & pattern)
 
 void RedisConnectionsManager::resetFilter()
 {
-	filter = QRegExp("");
-
+	filter.setPattern("");
 	updateFilter();
 }
 

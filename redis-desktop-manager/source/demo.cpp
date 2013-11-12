@@ -72,7 +72,7 @@ void MainWin::initTabs()
     #ifndef Q_OS_DARWIN
 	//hide close button for first tab
     // on Mac Os this code crash application to segfault
-    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide();
+    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->setFixedWidth(0);
 
     #endif
 }
@@ -170,7 +170,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 		case RedisKeyItem::TYPE:	
 			{
 				RedisKeyItem * key = (RedisKeyItem *)item;
-				QWidget * viewTab = new valueViewTab(key);
+				QWidget * viewTab = new ValueTab(key);
 				
 				QString keyFullName = key->getFullText();
 				loader.start();

@@ -3,51 +3,31 @@
 
 #include <QWidget>
 #include <QStandardItemModel>
-#include "ui_hashViewTab.h"
-#include "ui_listViewTab.h"
-#include "ui_stringViewTab.h"
-#include "ui_zsetViewTab.h"
 #include "RedisKeyItem.h"
 
-class valueViewTab : public QWidget
+class ValueTabView;
+
+class ValueTab : public QWidget
 {
 	Q_OBJECT
 
 public:
-	valueViewTab(RedisKeyItem * key);
-	~valueViewTab();
+	ValueTab(RedisKeyItem * key);
+	~ValueTab();
 
-protected:
-	void init();
+protected:	
 	RedisKeyItem * key;
 	RedisKeyItem::Type type;
 	QStandardItemModel * model;
+	ValueTabView * ui;
 
-	Ui::stringViewTab * uiString;
-	Ui::hashViewTab * uiHash;
-	Ui::listViewTab * uiList;
-	Ui::zsetViewTab * uiZSet;
+	void init();
 
-	template < class T >
-	inline void initUI(T * ui, QString keyName)
-	{
-		ui->setupUi(this);	
-		ui->keyName->setText(keyName);
-	}
-
-	template< class T >
-	void initValueView(T * ui,  QStandardItemModel * model) {
-		ui->keyValue->setModel(model);
-		ui->keyValue->setVisible(false);
-		ui->keyValue->resizeRowsToContents();
-		ui->keyValue->setVisible(true);
-	}
+	QStandardItemModel * getModelForKey(RedisKeyItem::Type, const QVariant&);
 
 protected slots:
 	void valueLoaded(const QVariant&, QObject *);
 	//void error(QString&);
 };
-
-
 
 #endif // HASHVIEWTAB_H

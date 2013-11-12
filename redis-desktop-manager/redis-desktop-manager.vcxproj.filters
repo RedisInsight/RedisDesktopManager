@@ -275,6 +275,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ConnectionBridge.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\ValueTabView.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -310,23 +313,11 @@
     <CustomBuild Include="forms\demo.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="forms\hashViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\stringViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\zsetViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Resources\demo.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
     <CustomBuild Include="include\widgets\serverInfoViewTab.h">
       <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms/serverInfoViewTab.ui">
-      <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="include\redis\ConsoleConnectionWrapper.h">
       <Filter>Header Files\redis</Filter>
@@ -352,14 +343,14 @@
     <CustomBuild Include="include\widgets\valueViewTab.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="forms\listViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="include\models\items\RedisKeyItem.h">
       <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
     <CustomBuild Include="include\redis\ConnectionBridge.h">
       <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms\serverInfoViewTab.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -390,15 +381,6 @@
     <ClInclude Include="GeneratedFiles\ui_demo.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_hashViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_stringViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_zsetViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -408,10 +390,10 @@
     <ClInclude Include="include\redis\Command.h">
       <Filter>Header Files\redis</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
-      <Filter>Generated Files</Filter>
+    <ClInclude Include="ValueTabView.h">
+      <Filter>Header Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_listViewTab.h">
+    <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

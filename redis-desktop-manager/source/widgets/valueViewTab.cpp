@@ -3,12 +3,13 @@
 #include "RedisKeyItem.h"
 #include "ListKeyModel.h"
 #include "SortedSetKeyModel.h"
+#include "ValueTabView.h"
 
-
-valueViewTab::valueViewTab(RedisKeyItem * key)	
-	: key(key), uiString(nullptr), uiHash(nullptr), 
-	  uiList(nullptr), uiZSet(nullptr)
+ValueTab::ValueTab(RedisKeyItem * key)	
+	: key(key), ui(nullptr)
 {	
+	ui = new ValueTabView();
+
 	init();
 
 	connect(key, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));
@@ -16,86 +17,56 @@ valueViewTab::valueViewTab(RedisKeyItem * key)
 	key->getValue();
 }
 
-void valueViewTab::init()
+void ValueTab::init()
 {
-	type = key->getKeyType();	
+	type = key->getKeyType();		
 
-	switch (type)
-	{
-	case RedisKeyItem::String:	
-		uiString = new Ui::stringViewTab;
-		initUI(uiString, key->text());	
-		break;
+	if (type == RedisKeyItem::String) {
+		ui->init(this, ValueTabView::PlainBased);
+	} else {
+		ui->init(this);
+	}	
 
-	case RedisKeyItem::Hash:
-		uiHash = new Ui::hashViewTab;
-		initUI(uiHash, key->text());
-		break;
-
-	case RedisKeyItem::List:		
-	case RedisKeyItem::Set:
-		uiList = new Ui::listViewTab;
-		initUI(uiList, key->text());
-		break;
-
-	case RedisKeyItem::ZSet:
-		uiZSet = new Ui::zsetViewTab;
-		initUI(uiZSet, key->text());
-		break;	
-	}
+	ui->keyName->setText(key->text());	
 }
 
-void valueViewTab::valueLoaded(const QVariant& value, QObject * owner)
+void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 {
 	if (owner != key) {
 		return;
 	}
 
-	switch (type)
-	{
-	case RedisKeyItem::String:	
-		uiString->keyValue->setPlainText(value.toString());
-		return;		
-
-	case RedisKeyItem::Hash:
-		model = new HashKeyModel(value.toStringList());
-		initValueView(uiHash, model);
-		return;		
-
-	case RedisKeyItem::List:		
-	case RedisKeyItem::Set:
-		model = new ListKeyModel(value.toStringList());
-		initValueView(uiList, model);
-		return;
-
-	case RedisKeyItem::ZSet:		
-		model = new SortedSetKeyModel(value.toStringList());
-		initValueView(uiZSet, model);
-		return;	
+	if (type == RedisKeyItem::String) {
+		ui->setPlainValue(value.toString());
+	} else {
+		model = getModelForKey(type, value);
+		ui->setModel(model);
 	}
+
 }
 
-valueViewTab::~valueViewTab()
+QStandardItemModel * ValueTab::getModelForKey(RedisKeyItem::Type t, const QVariant& val)
 {
 	switch (type)
 	{
-	case RedisKeyItem::String:						
-		delete uiString; 		
-		break;
-
 	case RedisKeyItem::Hash:		
-		delete uiHash;		
-		break;
+		return new HashKeyModel(val.toStringList());		
 
 	case RedisKeyItem::List:		
 	case RedisKeyItem::Set:
-		delete uiList;
-		break;
+		return new ListKeyModel(val.toStringList());
 
-	case RedisKeyItem::ZSet:
-		delete uiZSet;
-		break;	
+	case RedisKeyItem::ZSet:		
+		return new SortedSetKeyModel(val.toStringList());
 	}
+
+	return nullptr;
+}
+
+
+ValueTab::~ValueTab()
+{
+	delete ui;
 }
 
 
