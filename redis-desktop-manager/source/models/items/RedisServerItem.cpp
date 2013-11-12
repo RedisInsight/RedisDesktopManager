@@ -8,8 +8,8 @@ RedisServerItem::RedisServerItem(ConnectionBridge * c)
 	getItemNameFromConnection();
 	setEditable(false);
 	
-	connect(c, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases&)),
-		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases&)));
+	connect(c, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),
+		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
 }
 
 void RedisServerItem::getItemNameFromConnection()
@@ -38,7 +38,7 @@ void RedisServerItem::runDatabaseLoading()
 	connection->loadDatabasesList();
 }
 
-void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases & databases)
+void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases databases)
 {
 	if (databases.size() == 0) 
 	{

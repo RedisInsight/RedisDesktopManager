@@ -11,7 +11,7 @@ valueViewTab::valueViewTab(RedisKeyItem * key)
 {	
 	init();
 
-	connect(key, SIGNAL(valueLoaded(QVariant&)), this, SLOT(valueLoaded(QVariant&)));
+	connect(key, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));
 
 	key->getValue();
 }
@@ -45,8 +45,12 @@ void valueViewTab::init()
 	}
 }
 
-void valueViewTab::valueLoaded(QVariant& value)
+void valueViewTab::valueLoaded(const QVariant& value, QObject * owner)
 {
+	if (owner != key) {
+		return;
+	}
+
 	switch (type)
 	{
 	case RedisKeyItem::String:	

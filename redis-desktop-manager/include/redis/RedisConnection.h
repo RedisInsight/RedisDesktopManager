@@ -28,6 +28,9 @@ public:
 
 	void runCommand(const Command &cmd);
 
+protected:
+	void init();
+
 private:
 	QTcpSocket * socket;	
 	QByteArray readingBuffer;	

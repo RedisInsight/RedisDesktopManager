@@ -29,7 +29,7 @@ public:
 	int virtual type() const;	
 
 signals:
-	void valueLoaded(QVariant&);
+	void valueLoaded(const QVariant&, QObject *);
 
 private:
 	Type keyType;
@@ -37,7 +37,7 @@ private:
 	RedisServerDbItem * db;
 
 private slots:
-	void loadedValue(QVariant&, QObject *);
+	void loadedValue(const QVariant&, QObject *);
 };
 
 #endif // REDISKEYITEM_H

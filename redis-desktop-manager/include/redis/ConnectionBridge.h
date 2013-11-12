@@ -25,10 +25,10 @@ public:
 	void setConnectionConfig(RedisConnectionConfig&);
 
 signals:
-	void responseResieved(QVariant &, QObject *);
+	void responseResieved(const QVariant&, QObject *);
 	void addCommandToWorker(const Command &);
 	void loadDatabasesList();
-	void dbListLoaded(RedisConnectionAbstract::RedisDatabases&);
+	void dbListLoaded(RedisConnectionAbstract::RedisDatabases);
 
 protected:
 	RedisConnectionConfig config;

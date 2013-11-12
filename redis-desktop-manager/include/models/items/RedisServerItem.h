@@ -40,7 +40,7 @@ private:
 	void getItemNameFromConnection();
 
 private slots:
-	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases&);
+	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
 
 signals:
 	void error(QString);

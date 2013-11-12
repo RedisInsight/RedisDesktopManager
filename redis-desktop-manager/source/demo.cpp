@@ -28,6 +28,9 @@ MainWin::MainWin(QWidget *parent)
 	loaderLabel->setFixedWidth(50);	
 	loaderLabel->setMovie(&loader);
 	statusBar()->addPermanentWidget(loaderLabel, 30);	
+
+	qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
+	qRegisterMetaType<Command>("Command");
 }
 
 MainWin::~MainWin()

@@ -22,11 +22,11 @@ void ConnectionBridge::initWorker()
 
 	//connect worker & bridge signals and slots
 	connect(this, SIGNAL(addCommandToWorker(const Command &)), worker, SLOT(addCommand(const Command&)));
-	connect(worker, SIGNAL(responseResived(QVariant &, QObject *)), this, SIGNAL(responseResieved(QVariant &, QObject *)));
+	connect(worker, SIGNAL(responseResived(const QVariant &, QObject *)), this, SIGNAL(responseResieved(const QVariant &, QObject *)));
 
 	connect(this, SIGNAL(loadDatabasesList()), worker, SLOT(getDatabases()));
-	connect(worker, SIGNAL(databesesLoaded(RedisConnectionAbstract::RedisDatabases&)),
-		this, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases&)));
+	connect(worker, SIGNAL(databesesLoaded(RedisConnectionAbstract::RedisDatabases)),
+		this, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)));
 
 	//start worker thread
 	workerThread->start();

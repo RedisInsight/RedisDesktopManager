@@ -45,6 +45,6 @@ private:
 	void setBusyIcon();
 
 private slots:
-	void keysLoaded(QVariant &, QObject *);
+	void keysLoaded(const QVariant &, QObject *);
 };
 

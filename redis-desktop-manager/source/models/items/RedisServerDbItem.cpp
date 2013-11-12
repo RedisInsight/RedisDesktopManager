@@ -34,12 +34,12 @@ void RedisServerDbItem::loadKeys()
 // 	}		
 
 	//wait for signal from connection	
-	connect(server->connection, SIGNAL(responseResieved(QVariant &, QObject *)), this, SLOT(keysLoaded(QVariant &, QObject *)));
+	connect(server->connection, SIGNAL(responseResieved(const QVariant &, QObject *)), this, SLOT(keysLoaded(const QVariant &, QObject *)));
 	
 	server->connection->addCommand(Command("keys *", this, dbIndex));
 }
 
-void RedisServerDbItem::keysLoaded(QVariant &keys, QObject *owner)
+void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
 {
 	if (owner != this) {
 		return;

@@ -44,7 +44,7 @@ protected:
 	}
 
 protected slots:
-	void valueLoaded(QVariant&);
+	void valueLoaded(const QVariant&, QObject *);
 	//void error(QString&);
 };
 

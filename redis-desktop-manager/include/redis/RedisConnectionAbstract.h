@@ -41,7 +41,7 @@ public:
 	 * Get list of databases with keys counters 
 	 * @emit databesesLoaded
 	 **/
-	typedef QMap <QString, int> RedisDatabases;
+	typedef QMap <QString, int> RedisDatabases;	
 
 	/** 
 	 * Select db 
@@ -52,21 +52,22 @@ public:
 	static RedisConnectionAbstract * createConnection(const RedisConnectionConfig & c);
 
 public slots:
-	void init();
 	void addCommand(const Command&);
 	void getDatabases();
 
 signals:
-	void responseResived(QVariant &, QObject *);
-	void databesesLoaded(RedisConnectionAbstract::RedisDatabases&);
+	void responseResived(const QVariant &, QObject *);
+	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
 
 protected:
 	bool connected;
-	QTimer executionTimer;
+	QTimer * executionTimer;
 	Response resp;
 	bool commandRunning;
 	Command runningCommand;
 	QQueue<Command> commands;
+
+	virtual void init();
 
 	virtual void sendResponse();
 	void processCommandQueue();
@@ -75,3 +76,4 @@ protected slots:
 	void executionTimeout();
 };
 
+Q_DECLARE_METATYPE(RedisConnectionAbstract::RedisDatabases)

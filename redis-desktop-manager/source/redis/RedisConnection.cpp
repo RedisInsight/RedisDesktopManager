@@ -3,8 +3,23 @@
 
 
 RedisConnection::RedisConnection(const RedisConnectionConfig & c) 
-	: RedisConnectionAbstract(c)
+	: RedisConnectionAbstract(c), socket(nullptr)
 {	
+}
+
+
+void RedisConnection::init()
+{
+	if (socket != nullptr) {
+		return;
+	}
+
+	RedisConnectionAbstract::init();
+
+	socket = new QTcpSocket();
+
+	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+	QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));	
 }
 
 RedisConnection::~RedisConnection()
@@ -19,12 +34,7 @@ RedisConnection::~RedisConnection()
 
 bool RedisConnection::connect()
 {
-	if (socket == nullptr) {
-		socket = new QTcpSocket();
-
-		QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-		QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));	
-	}
+	init();
 
 	socket->connectToHost(config.host, config.port);
 
@@ -111,7 +121,7 @@ void RedisConnection::runCommand(const Command &command)
 	resp.clear();
 	commandRunning = true;
 	runningCommand = command;
-	executionTimer.start(config.executeTimeout);
+	executionTimer->start(config.executeTimeout);
 
 	if (command.isEmpty()) {
 		return sendResponse();
@@ -134,14 +144,14 @@ void RedisConnection::readyRead()
 		return;
 	}
 	
-	executionTimer.stop();
+	executionTimer->stop();
 	readingBuffer = socket->readAll();
 	resp.appendToSource(readingBuffer);		
 
 	if (resp.isValid()) {
 		return sendResponse();	
 	} else {
-		executionTimer.start(config.executeTimeout); //restart execution timer
+		executionTimer->start(config.executeTimeout); //restart execution timer
 	}
 }
 

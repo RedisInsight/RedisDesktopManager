@@ -6,9 +6,14 @@
 RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c) 
 	: config(c), connected(false), commandRunning(false) 
 {
-	executionTimer.setSingleShot(true);
-	QObject::connect(&executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
 };
+
+void RedisConnectionAbstract::init()
+{
+	executionTimer = new QTimer;
+	executionTimer->setSingleShot(true);
+	QObject::connect(executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
+}
 
 RedisConnectionAbstract * RedisConnectionAbstract::createConnection(const RedisConnectionConfig & c)
 {	
@@ -24,6 +29,10 @@ RedisConnectionAbstract * RedisConnectionAbstract::createConnection(const RedisC
 
 void RedisConnectionAbstract::getDatabases()
 {
+	if (!isConnected() && !connect()) {
+		return;
+	}
+
 	RedisDatabases availableDatabeses;
 
 	QVariant rawDbCount = execute("config get databases");
@@ -110,7 +119,7 @@ void RedisConnectionAbstract::addCommand(const Command& cmd)
 
 void RedisConnectionAbstract::sendResponse()
 {
-	executionTimer.stop();	
+	executionTimer->stop();	
 
 	emit responseResived(resp.getValue(), runningCommand.getOwner());
 

@@ -75,11 +75,11 @@ void RedisKeyItem::getValue()
 	}	
 
 	if (command.isEmpty()) {
-		emit valueLoaded(QVariant());
+		emit valueLoaded(QVariant(), this);
 		return;
 	} else {
-		connect(connection, SIGNAL(responseResived(QVariant&, QObject*)),
-			this, SIGNAL(valueLoaded(QVariant&, QObject*)));
+		connect(connection, SIGNAL(responseResieved(const QVariant&, QObject *)),
+			this, SIGNAL(valueLoaded(const QVariant&, QObject*)));
 
 		connection->addCommand(Command(command, this, db->getDbIndex()));
 	}
@@ -104,11 +104,11 @@ QString RedisKeyItem::getFullName()
 	return fullName;
 }
 
-void RedisKeyItem::loadedValue(QVariant& value, QObject *sender)
+void RedisKeyItem::loadedValue(const QVariant& value, QObject *sender)
 {
 	if (sender != this) {
 		return;
 	}
 
-	emit valueLoaded(value);
+	emit valueLoaded(value, this);
 }
