@@ -153,6 +153,7 @@
     <ClCompile Include="source\models\items\RedisServerDbItem.cpp" />
     <ClCompile Include="source\models\items\RedisServerItem.cpp" />
     <ClCompile Include="source\models\ListKeyModel.cpp" />
+    <ClCompile Include="source\models\PaginatedModel.cpp" />
     <ClCompile Include="source\models\SortedSetKeyModel.cpp" />
     <ClCompile Include="source\network\qxtsshchannel.cpp" />
     <ClCompile Include="source\network\qxtsshclient.cpp" />
@@ -212,6 +213,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(SolutionDir)\deps\libssh\include" "-I.\source\models"</Command>
     </CustomBuild>
     <ClInclude Include="include\models\HashKeyModel.h" />
+    <ClInclude Include="include\models\PaginatedModel.h" />
     <ClInclude Include="ValueTabView.h" />
     <CustomBuild Include="include\models\items\RedisKeyItem.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

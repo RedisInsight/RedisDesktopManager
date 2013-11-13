@@ -36,6 +36,9 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 		return;
 	}
 
+	ui->loader->stop();
+	ui->loaderLabel->hide();
+
 	if (type == RedisKeyItem::String) {
 		ui->setPlainValue(value.toString());
 	} else {

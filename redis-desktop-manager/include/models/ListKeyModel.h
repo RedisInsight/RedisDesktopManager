@@ -2,11 +2,15 @@
 #define LISTKEYMODEL_H
 
 #include <QStandardItemModel>
+#include "PaginatedModel.h"
 
-class ListKeyModel : public QStandardItemModel
+
+class ListKeyModel : public QStandardItemModel, public PaginatedModel
 {
 public:
-	ListKeyModel(QStringList values);
+	ListKeyModel(QStringList& values);
+
+	void setCurrentPage(int page);
 };
 
 #endif // LISTKEYMODEL_H

@@ -287,6 +287,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_FastItemDelegate.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\models\PaginatedModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\PaginatedModel.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

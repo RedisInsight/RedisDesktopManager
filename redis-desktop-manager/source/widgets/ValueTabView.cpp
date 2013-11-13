@@ -20,6 +20,12 @@ void ValueTabView::initLayout()
 	gridLayout->setSpacing(6);
 	gridLayout->setContentsMargins(11, 11, 11, 11);
 	gridLayout->setObjectName(QStringLiteral("gridLayout"));
+
+	loader = new QMovie(":/images/loader.gif");
+	loaderLabel = new QLabel;
+	gridLayout->addWidget(loaderLabel, 0, 3, 1, 1);
+	loaderLabel->setMovie(loader);
+	loader->start();
 }
 
 void ValueTabView::initKeyName()
@@ -47,6 +53,8 @@ void ValueTabView::initKeyValue()
 		keyValue->horizontalHeader()->setDefaultSectionSize(220);
 		gridLayout->addWidget(keyValue, 1, 1, 1, 1);
 
+		initPagination();
+
 	} else {
 
 		keyValuePlain = new QPlainTextEdit(controller);
@@ -58,6 +66,30 @@ void ValueTabView::initKeyValue()
 	keyValueLabel->setText("Value:");
 	gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
 }
+
+void ValueTabView::initPagination()
+{
+	paginationGrid = new QGridLayout(controller);
+
+	previousPage = new QPushButton();
+	previousPage->setText("<");
+	previousPage->setEnabled(false);
+
+	nextPage = new QPushButton();
+	nextPage->setText(">");
+	nextPage->setEnabled(false);
+
+	pagination = new QLabel;
+	pagination->setText("Page <b>1</b> of <b>1</b>");
+	pagination->setAlignment(Qt::AlignCenter);
+
+	paginationGrid->addWidget(previousPage, 0, 0, 1, 1);
+	paginationGrid->addWidget(pagination, 0, 1, 1, 1);
+	paginationGrid->addWidget(nextPage, 0, 2, 1, 1);
+
+	gridLayout->addLayout(paginationGrid, 3, 1, 1, 1);
+}
+
 
 void ValueTabView::setModel(QAbstractItemModel * model)
 {

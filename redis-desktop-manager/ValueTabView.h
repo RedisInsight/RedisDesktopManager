@@ -11,6 +11,8 @@
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QPlainTextEdit>
+#include <QMovie>
+#include <QPushButton>
 
 class ValueTabView
 {
@@ -21,6 +23,13 @@ public:
 	QPlainTextEdit *keyValuePlain;
 	QLabel *keyNameLabel;	
 	QLabel *keyValueLabel;
+	QLabel *loaderLabel;
+	QMovie *loader;
+
+	QGridLayout * paginationGrid;
+	QPushButton * previousPage;
+	QPushButton * nextPage;
+	QLabel * pagination;
 
 	enum Type { ModelBased, PlainBased };
 
@@ -41,5 +50,7 @@ protected:
 	void initKeyName();
 
 	void initKeyValue();
+
+	void initPagination();
 };
 

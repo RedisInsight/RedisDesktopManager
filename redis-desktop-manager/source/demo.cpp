@@ -24,10 +24,10 @@ MainWin::MainWin(QWidget *parent)
 	initUpdater();
 	initFilter();
 
-	QLabel * loaderLabel = new QLabel;
-	loaderLabel->setFixedWidth(50);	
-	loaderLabel->setMovie(&loader);
-	statusBar()->addPermanentWidget(loaderLabel, 30);	
+// 	QLabel * loaderLabel = new QLabel;
+// 	loaderLabel->setFixedWidth(50);	
+// 	loaderLabel->setMovie(&loader);
+// 	statusBar()->addPermanentWidget(loaderLabel, 30);
 
 	qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
 	qRegisterMetaType<Command>("Command");
