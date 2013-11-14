@@ -14,7 +14,7 @@
 #include "consoleTab.h"
 
 MainWin::MainWin(QWidget *parent)
-	: QMainWindow(parent), treeViewUILocked(false), loader(":/images/loader.gif")
+	: QMainWindow(parent), treeViewUILocked(false)
 {
 	ui.setupUi(this);
 
@@ -23,11 +23,6 @@ MainWin::MainWin(QWidget *parent)
 	initTabs();	
 	initUpdater();
 	initFilter();
-
-// 	QLabel * loaderLabel = new QLabel;
-// 	loaderLabel->setFixedWidth(50);	
-// 	loaderLabel->setMovie(&loader);
-// 	statusBar()->addPermanentWidget(loaderLabel, 30);
 
 	qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
 	qRegisterMetaType<Command>("Command");
@@ -160,8 +155,6 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 			{
 				performanceTimer.start();
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
-				treeViewUILocked = true;
-				loader.start();
 				connections->blockSignals(true);
 				db->loadKeys();				
 			}			
@@ -173,7 +166,6 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				QWidget * viewTab = new ValueTab(key);
 				
 				QString keyFullName = key->getFullText();
-				loader.start();
 				addTab(keyFullName, viewTab);
 			}
 			break;
@@ -414,5 +406,4 @@ void MainWin::OnUIUnlock()
 
 	statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
 	performanceTimer.invalidate();
-	loader.stop();
 }

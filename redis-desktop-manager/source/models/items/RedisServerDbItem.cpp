@@ -24,17 +24,12 @@ void RedisServerDbItem::loadKeys()
 {
 	if (isKeysLoaded) return;
 
-	setBusyIcon();
-
-
-// 	if (!connection->isConnected() && !connection->connect()) {
-// 		setNormalIcon();
-// 		server->error(QString("Can not load keys: %1").arg(connection->getLastError()));
-// 		return;
-// 	}		
+	setBusyIcon();	
 
 	//wait for signal from connection	
-	connect(server->connection, SIGNAL(responseResieved(const QVariant &, QObject *)), this, SLOT(keysLoaded(const QVariant &, QObject *)));
+	connect(server->connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+	connect(server->connection, SIGNAL(responseResieved(const QVariant &, QObject *)),
+		this, SLOT(keysLoaded(const QVariant &, QObject *)));
 	
 	server->connection->addCommand(Command("keys *", this, dbIndex));
 }
@@ -69,6 +64,17 @@ void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
 	setNormalIcon();
 	isKeysLoaded = true;	
 	server->unlockUI();
+}
+
+void RedisServerDbItem::proccessError(QString srcError)
+{
+	server->connection->disconnect(this);
+	setNormalIcon();
+
+	QString message = QString("Can not load keys. %1")
+		.arg(srcError);
+
+	emit server->error(message);
 }
 
 void RedisServerDbItem::setFilter(QRegExp &pattern)

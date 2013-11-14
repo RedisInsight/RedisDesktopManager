@@ -2,7 +2,7 @@
 #define HASHVIEWTAB_H
 
 #include <QWidget>
-#include <QStandardItemModel>
+#include "PaginatedModel.h"
 #include "RedisKeyItem.h"
 
 class ValueTabView;
@@ -18,15 +18,20 @@ public:
 protected:	
 	RedisKeyItem * key;
 	RedisKeyItem::Type type;
-	QStandardItemModel * model;
+	PaginatedModel * model;
 	ValueTabView * ui;
 
 	void init();
 
-	QStandardItemModel * getModelForKey(RedisKeyItem::Type, const QVariant&);
+	void initPagination();
+
+	PaginatedModel * getModelForKey(RedisKeyItem::Type, const QVariant&);	
 
 protected slots:
 	void valueLoaded(const QVariant&, QObject *);
+	void loadNextPage();
+	void loadPreviousPage();
+
 	//void error(QString&);
 };
 

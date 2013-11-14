@@ -28,7 +28,6 @@ private:
 	Ui::demoClass ui;		
 	Updater * updater;
 	QElapsedTimer performanceTimer;
-	QMovie loader;
 
 	void addTab(QString&, QWidget*, QString icon = QString());
 

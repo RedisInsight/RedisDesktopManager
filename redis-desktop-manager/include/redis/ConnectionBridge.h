@@ -29,6 +29,7 @@ signals:
 	void addCommandToWorker(const Command &);
 	void loadDatabasesList();
 	void dbListLoaded(RedisConnectionAbstract::RedisDatabases);
+	void error(QString);
 
 protected:
 	RedisConnectionConfig config;

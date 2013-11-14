@@ -7,9 +7,6 @@ RedisServerItem::RedisServerItem(ConnectionBridge * c)
 	setOfflineIcon();
 	getItemNameFromConnection();
 	setEditable(false);
-	
-	connect(c, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),
-		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
 }
 
 void RedisServerItem::getItemNameFromConnection()
@@ -28,11 +25,9 @@ void RedisServerItem::runDatabaseLoading()
 
 	setBusyIcon();
 
-// 	if (!connection->isConnected() && !connection->connect()) {
-// 		setOfflineIcon();
-// 		emit error(QString("Error occurred on database load: %1").arg(connection->getLastError()));
-// 		return;
-// 	}
+	connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+	connect(connection, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),
+		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
 
 	connection->initWorker();
 	connection->loadDatabasesList();
@@ -42,15 +37,11 @@ void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases
 {
 	if (databases.size() == 0) 
 	{
-// 		QString errorMsg = connection->getLastError();
-// 
-// 		if (!errorMsg.isEmpty()) {		
-// 			emit error(QString("Error occurred on database load: %1").arg(errorMsg));
-// 		}
-
 		setNormalIcon();
 		return;
 	}
+
+	connection->disconnect(this);
 
 	QMap<QString, int>::const_iterator db = databases.constBegin();
 
@@ -71,6 +62,8 @@ void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases
 
 QStringList RedisServerItem::getInfo()
 {
+	connection->initWorker();
+
 // 	if (!connection->isConnected() && !connection->connect()) {
 // 		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
 // 		// TODO: set error icon		
@@ -87,6 +80,18 @@ QStringList RedisServerItem::getInfo()
 // 	return info.toString().split("\r\n");
 
 	return QStringList();
+}
+
+void RedisServerItem::proccessError(QString srcError)
+{
+	connection->disconnect(this);
+	setOfflineIcon();
+
+	QString message = QString("Can not load database %1. %2")
+		.arg(text())
+		.arg(srcError);
+
+	emit error(message);
 }
 
 ConnectionBridge * RedisServerItem::getConnection()
@@ -111,7 +116,6 @@ void RedisServerItem::unload()
 
 	setOfflineIcon();
 }
-
 
 void RedisServerItem::setBusyIcon()
 {

@@ -1,7 +1,7 @@
 #include "ListKeyModel.h"
 
 ListKeyModel::ListKeyModel(QStringList& values)
-	: QStandardItemModel(nullptr), PaginatedModel(values) 
+	: PaginatedModel(values) 
 {
 	QStringList labels("Value");	
 	setHorizontalHeaderLabels(labels);
@@ -15,6 +15,8 @@ void ListKeyModel::setCurrentPage(int page)
 	if (page == currentPage) {
 		return;
 	}
+
+	clear();
 
 	currentPage = page;
 

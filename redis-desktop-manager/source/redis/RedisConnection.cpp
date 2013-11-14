@@ -158,13 +158,17 @@ void RedisConnection::readyRead()
 void RedisConnection::error(QAbstractSocket::SocketError error)
 {
 	// ignore signals if running blocking version
-	if (!commandRunning) {
+	if (!commandRunning && connected) {
 		return;
 	}
 
 	if (error == QAbstractSocket::UnknownSocketError && connect()) {
 		return runCommand(runningCommand);
 	}
+
+	emit errorOccurred(
+		QString("Connection error: %1").arg(socket->errorString())
+		);
 
 	return sendResponse();	
 }

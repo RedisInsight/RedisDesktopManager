@@ -1,7 +1,7 @@
 #include "SortedSetKeyModel.h"
 
 SortedSetKeyModel::SortedSetKeyModel(QStringList& values)
-	: QStandardItemModel(nullptr), PaginatedModel(values) 
+	: PaginatedModel(values) 
 {
 	QStringList labels;
 	labels << "Value" << "Score";
@@ -16,6 +16,8 @@ void SortedSetKeyModel::setCurrentPage(int page)
 	if (page == currentPage) {
 		return;
 	}
+
+	clear();
 
 	currentPage = page;
 
@@ -33,4 +35,9 @@ void SortedSetKeyModel::setCurrentPage(int page)
 		setItem(row, 0, key);
 		setItem(row, 1, value);
 	}
+}
+
+int SortedSetKeyModel::itemsCount()
+{
+	return rawData.size() / 2;
 }

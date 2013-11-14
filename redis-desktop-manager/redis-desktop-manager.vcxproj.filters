@@ -278,9 +278,6 @@
     <ClCompile Include="source\widgets\ValueTabView.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\FastItemDelegate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_FastItemDelegate.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -288,7 +285,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="source\models\PaginatedModel.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\FastItemDelegate.cpp">
+      <Filter>Source Files\models\items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,7 +365,7 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="include\models\FastItemDelegate.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -412,7 +412,7 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="include\models\PaginatedModel.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

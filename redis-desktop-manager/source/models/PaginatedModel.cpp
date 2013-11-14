@@ -15,3 +15,14 @@ int PaginatedModel::itemsCount()
 {
 	return rawData.size();
 }
+
+int PaginatedModel::getPagesCount()
+{
+	int pages = itemsCount() / itemsOnPageLimit;
+
+	if (itemsCount() % itemsOnPageLimit > 0) {
+		pages++;
+	}
+
+	return pages;
+}

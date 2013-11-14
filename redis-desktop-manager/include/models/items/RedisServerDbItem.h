@@ -46,5 +46,6 @@ private:
 
 private slots:
 	void keysLoaded(const QVariant &, QObject *);
+	void proccessError(QString srcError);
 };
 

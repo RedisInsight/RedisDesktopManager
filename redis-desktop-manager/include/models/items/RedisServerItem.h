@@ -41,6 +41,7 @@ private:
 
 private slots:
 	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
+	void proccessError(QString);
 
 signals:
 	void error(QString);

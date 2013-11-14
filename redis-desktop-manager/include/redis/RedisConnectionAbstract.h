@@ -58,6 +58,7 @@ public slots:
 signals:
 	void responseResived(const QVariant &, QObject *);
 	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
+	void errorOccurred(QString);
 
 protected:
 	bool connected;
