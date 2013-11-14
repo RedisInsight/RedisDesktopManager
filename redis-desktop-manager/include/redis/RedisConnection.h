@@ -32,8 +32,7 @@ protected:
 	void init();
 
 private:
-	QTcpSocket * socket;	
-	QByteArray readingBuffer;	
+	QTcpSocket * socket;		
 
 private slots:
 	void readyRead();

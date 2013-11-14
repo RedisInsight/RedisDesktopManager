@@ -28,12 +28,16 @@ public:
 		return connected && socketConnected;
 	}
 
+protected:
+
+	void init();
+
 private: 
 	QxtSshTcpSocket * socket;
-	QxtSshClient sshClient;
+	QxtSshClient * sshClient;
 	bool isHostKeyAlreadyAdded;
-	QEventLoop syncLoop;
-	QTimer syncTimer;
+	QEventLoop * syncLoop;
+	QTimer * syncTimer;
 	bool socketConnected;
 
 	bool waitForData(int ms);	

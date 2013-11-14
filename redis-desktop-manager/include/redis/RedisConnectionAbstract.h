@@ -64,6 +64,7 @@ protected:
 	bool connected;
 	QTimer * executionTimer;
 	Response resp;
+	QByteArray readingBuffer;
 	bool commandRunning;
 	Command runningCommand;
 	QQueue<Command> commands;

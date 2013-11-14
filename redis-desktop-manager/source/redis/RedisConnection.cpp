@@ -7,7 +7,6 @@ RedisConnection::RedisConnection(const RedisConnectionConfig & c)
 {	
 }
 
-
 void RedisConnection::init()
 {
 	if (socket != nullptr) {
