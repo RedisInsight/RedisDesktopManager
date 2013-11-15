@@ -14,7 +14,6 @@ private slots:
 	// functional tests
 	void connect();
 	void execute();
-	void getDatabases();
 	void runCommand();
 };
 

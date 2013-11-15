@@ -2,6 +2,7 @@
 #include "RedisConnection.h"
 #include "RedisConnectionConfig.h"
 #include "Response.h"
+#include "Command.h"
 #include <QtTest/QtTest>
 
 void TestRedisConnection::connect()
@@ -38,6 +39,7 @@ void TestRedisConnection::runCommand()
 	RedisConnection conn(conf);	
 	QEventLoop loop;
 	QTimer timer;
+	Command cmd(QString("ECHO TEST"), nullptr);
 
 	//when
 	conn.connect();
@@ -47,30 +49,13 @@ void TestRedisConnection::runCommand()
 	QObject::connect(&conn, SIGNAL(responseResived(Response &)), &loop, SLOT(quit()));
 
 	timer.start(5000);
-	conn.runCommand("ECHO TEST");
+	conn.runCommand(cmd);
 	loop.exec();
 
 	QVariant actualResult = conn.getLastResponse().getValue();
 
 	//then
 	QCOMPARE(actualResult, QVariant("TEST"));
-}
-
-
-void TestRedisConnection::getDatabases()
-{
-	QFAIL("refactor test");
-
-	//given
-	RedisConnectionConfig conf("127.0.0.1");
-	RedisConnection conn(conf);	
-
-	//when 
-	conn.connect();
-	//QMap <QString, int> actualServers = conn.getDatabases();
-
-	//then
-	//QCOMPARE(actualServers.size(), 100); // default db count for redis 2.6
 }
 
 

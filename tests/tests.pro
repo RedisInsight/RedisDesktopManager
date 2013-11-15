@@ -84,6 +84,12 @@ INCLUDEPATH += $$PWD/source \
     $$SRC_DIR/include/updater \
     $$SRC_DIR/include/widgets \
 
+FORMS += \
+    $$SRC_DIR/forms/*.ui \
+
+RESOURCES += \
+    $$SRC_DIR/Resources/demo.qrc
+
 
 OTHER_FILES += \
     stubs/connections.xml
