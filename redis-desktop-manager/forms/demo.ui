@@ -311,11 +311,17 @@ aa|bb 	Either aa or bb.
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="pbImportConnections">
+           <widget class="QPushButton" name="pbImportConnections">
             <property name="minimumSize">
              <size>
               <width>0</width>
               <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>16777215</height>
              </size>
             </property>
             <property name="text">
@@ -324,12 +330,6 @@ aa|bb 	Either aa or bb.
             <property name="icon">
              <iconset resource="../Resources/demo.qrc">
               <normaloff>:/images/rdm.ico</normaloff>:/images/rdm.ico</iconset>
-            </property>
-            <property name="popupMode">
-             <enum>QToolButton::MenuButtonPopup</enum>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
