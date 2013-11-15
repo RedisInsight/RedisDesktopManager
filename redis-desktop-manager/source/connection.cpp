@@ -64,8 +64,6 @@ void connection::OnOkButtonClick()
 
 		connection = server->getConnection();
 
-		bool connectionTypeChanged = connection->getConfig().useSshTunnel() != conf.useSshTunnel();
-
 		connection->setConnectionConfig(conf);	
 		
 	} else {		

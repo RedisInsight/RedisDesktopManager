@@ -239,7 +239,7 @@ int Response::getPosOfNextItem(const QString &r, int startPos = 0)
 
 bool Response::isIntReplyValid(const QString& r)
 {
-	return true;
+    return !r.isEmpty();
 }
 
 bool Response::isBulkReplyValid(const QString& r)
@@ -311,7 +311,6 @@ int Response::getSizeOfBulkReply(const QString& reply, int endOfFirstLine, int b
 		endOfFirstLine = reply.indexOf("\r\n", beginFrom);
 	}
 
-	int size = 0;
 	QString strRepresentaton;
 	
 	for (int pos = beginFrom + 1; pos < endOfFirstLine; pos++) {

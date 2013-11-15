@@ -51,7 +51,7 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 
 PaginatedModel * ValueTab::getModelForKey(RedisKeyItem::Type t, const QVariant& val)
 {
-	switch (type)
+    switch (t)
 	{
 	case RedisKeyItem::Hash:		
 		return new HashKeyModel(val.toStringList());		

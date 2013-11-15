@@ -405,14 +405,14 @@
     <ClInclude Include="include\redis\Command.h">
       <Filter>Header Files\redis</Filter>
     </ClInclude>
-    <ClInclude Include="ValueTabView.h">
-      <Filter>Header Files\widgets</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="include\models\PaginatedModel.h">
       <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\widgets\ValueTabView.h">
+      <Filter>Header Files\widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
