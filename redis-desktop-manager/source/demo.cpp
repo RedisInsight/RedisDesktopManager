@@ -365,8 +365,9 @@ void MainWin::OnConsoleOpen()
 		return;	
 
 	RedisServerItem * server = (RedisServerItem *) item;
-	consoleTab * tab = new consoleTab(server->getConnection()->getConfig());
+    RedisConnectionConfig config = server->getConnection()->getConfig();
 
+    consoleTab * tab = new consoleTab(config);
 
 	QString serverName = server->text();
 

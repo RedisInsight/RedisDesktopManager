@@ -40,7 +40,8 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 	ui->loaderLabel->hide();
 
 	if (type == RedisKeyItem::String) {
-		ui->setPlainValue(value.toString());
+        QString rawValue = value.toString();
+        ui->setPlainValue(rawValue);
 	} else {
 		model = getModelForKey(type, value);
 		ui->setModel(model);
@@ -51,17 +52,19 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 
 PaginatedModel * ValueTab::getModelForKey(RedisKeyItem::Type t, const QVariant& val)
 {
+    QStringList rawValue = val.toStringList();
+
     switch (t)
 	{
 	case RedisKeyItem::Hash:		
-		return new HashKeyModel(val.toStringList());		
+        return new HashKeyModel(rawValue);
 
 	case RedisKeyItem::List:		
 	case RedisKeyItem::Set:
-		return new ListKeyModel(val.toStringList());
+        return new ListKeyModel(rawValue);
 
 	case RedisKeyItem::ZSet:		
-		return new SortedSetKeyModel(val.toStringList());
+        return new SortedSetKeyModel(rawValue);
 	}
 
 	return nullptr;

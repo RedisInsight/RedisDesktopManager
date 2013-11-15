@@ -36,19 +36,19 @@ void connection::loadValuesFromConnection(ConnectionBridge * c)
 {
 	inEditMode = true;
 
-	RedisConnectionConfig * config =  &(c->getConfig());
+    RedisConnectionConfig config = c->getConfig();
 
-	ui.nameEdit->setText(config->name);
-	ui.hostEdit->setText(config->host);
-	ui.portSpinBox->setValue(config->port);
-	ui.authEdit->setText(config->auth);
+    ui.nameEdit->setText(config.name);
+    ui.hostEdit->setText(config.host);
+    ui.portSpinBox->setValue(config.port);
+    ui.authEdit->setText(config.auth);
 
-	if (config->useSshTunnel()) {
+    if (config.useSshTunnel()) {
 		ui.useSshTunnel->setCheckState(Qt::Checked);
-		ui.sshHost->setText(config->sshHost);
-		ui.sshUser->setText(config->sshUser);
-		ui.sshPass->setText(config->sshPassword);
-		ui.sshPort->setValue(config->sshPort);
+        ui.sshHost->setText(config.sshHost);
+        ui.sshUser->setText(config.sshUser);
+        ui.sshPass->setText(config.sshPassword);
+        ui.sshPort->setValue(config.sshPort);
 	}
 }
 
