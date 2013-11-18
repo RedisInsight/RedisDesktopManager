@@ -2,18 +2,33 @@
 #include "Command.h"
 #include "Response.h"
 
-#define MAX_BUFFER_SIZE 536870999 //redis response limit
+#define MAX_BUFFER_SIZE 536800 //response part limit
 
 RedisConnectionOverSsh::RedisConnectionOverSsh(const RedisConnectionConfig &c)
-	: RedisConnectionAbstract(c),  socket(nullptr), isHostKeyAlreadyAdded(false), socketConnected(false)
+	: RedisConnectionAbstract(c),  socket(nullptr), sshClient(nullptr), isHostKeyAlreadyAdded(false), socketConnected(false)
 {
-	syncTimer.setSingleShot(true);
 
-	QObject::connect(&syncTimer, SIGNAL(timeout()), &syncLoop, SLOT(quit()));
-	QObject::connect(&sshClient, SIGNAL(connected()), this, SLOT(OnSshConnected())); 
+}
+
+void RedisConnectionOverSsh::init()
+{
+	if (sshClient != nullptr) {
+		return;
+	}
+
+	RedisConnectionAbstract::init();
+
+	sshClient = new QxtSshClient;
+	syncLoop = new QEventLoop;
+	syncTimer = new QTimer;
+
+	syncTimer->setSingleShot(true);
+
+	QObject::connect(syncTimer, SIGNAL(timeout()), syncLoop, SLOT(quit()));
+	QObject::connect(sshClient, SIGNAL(connected()), this, SLOT(OnSshConnected())); 
 
 	QObject::connect(
-		&sshClient, SIGNAL(error(QxtSshClient::Error)), 
+		sshClient, SIGNAL(error(QxtSshClient::Error)), 
 		this, SLOT(OnSshConnectionError(QxtSshClient::Error))
 		);
 }
@@ -22,26 +37,31 @@ RedisConnectionOverSsh::~RedisConnectionOverSsh(void)
 {
 	if (socket != nullptr) {
 		delete socket;
+		delete syncLoop;
+		delete syncTimer;
+		delete sshClient;
 	}
 }
 
 bool RedisConnectionOverSsh::connect() 
 {
+	init();
+
 	//set password
-	sshClient.setPassphrase(config.sshPassword);	
+	sshClient->setPassphrase(config.sshPassword);	
 
 	//connect to ssh server
-	syncTimer.start(config.connectionTimeout);
-	sshClient.connectToHost(config.sshUser, config.sshHost, config.sshPort);
-	syncLoop.exec();
+	syncTimer->start(config.connectionTimeout);
+	sshClient->connectToHost(config.sshUser, config.sshHost, config.sshPort);
+	syncLoop->exec();
 
-	if (!connected && !syncTimer.isActive()) {
+	if (!connected && !syncTimer->isActive()) {
 		connected = false;
 		return connected;
 	}
 
 	//connect to redis 
-	socket = sshClient.openTcpSocket(config.host, config.port);
+	socket = sshClient->openTcpSocket(config.host, config.port);
 
 	if (socket == NULL) {
 		socketConnected = false;
@@ -50,10 +70,10 @@ bool RedisConnectionOverSsh::connect()
 
 	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(OnSocketReadyRead())); 
 
-	syncTimer.start(config.connectionTimeout);
-	syncLoop.exec();
+	syncTimer->start(config.connectionTimeout);
+	syncLoop->exec();
 
-	if (!socketConnected && !syncTimer.isActive()) {
+	if (!socketConnected && !syncTimer->isActive()) {
 		socketConnected = false;
 		return socketConnected;
 	}
@@ -68,20 +88,20 @@ bool RedisConnectionOverSsh::connect()
 void RedisConnectionOverSsh::OnSshConnectionError(QxtSshClient::Error error)
 {
 	if (QxtSshClient::HostKeyUnknownError == error) {
-		QxtSshKey hostKey = sshClient.hostKey();
+		QxtSshKey hostKey = sshClient->hostKey();
 
-        sshClient.addKnownHost(config.sshHost, hostKey);
+        sshClient->addKnownHost(config.sshHost, hostKey);
 
-        sshClient.resetState();
+        sshClient->resetState();
 
-		sshClient.connectToHost(config.sshUser, config.sshHost, config.sshPort);
+		sshClient->connectToHost(config.sshUser, config.sshHost, config.sshPort);
 
 		isHostKeyAlreadyAdded = true;
 		return;
 	}
 
-	if (syncLoop.isRunning()) {
-		syncLoop.exit();
+	if (syncLoop->isRunning()) {
+		syncLoop->exit();
 	}
 
 }
@@ -90,8 +110,8 @@ void RedisConnectionOverSsh::OnSshConnected()
 {
 	connected = true;
 
-	if (syncLoop.isRunning()) {
-		syncLoop.exit();
+	if (syncLoop->isRunning()) {
+		syncLoop->exit();
 	}
 }
 
@@ -102,10 +122,29 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 		socketConnected = true;			
 	}	
 
-	if (syncLoop.isRunning()) {
-		syncLoop.exit();
+	if (syncLoop->isRunning()) {
+		syncLoop->exit();
 	}
 
+	// ignore signals if running blocking version
+	if (!commandRunning) {
+		return;
+	}
+	
+	readingBuffer = socket->read(MAX_BUFFER_SIZE);
+
+	if (readingBuffer.size() == 0) {
+		return;
+	}
+
+	executionTimer->stop();
+	resp.appendToSource(readingBuffer);		
+
+	if (resp.isValid()) {
+		return sendResponse();	
+	} else {
+		executionTimer->start(config.executeTimeout); //restart execution timer
+	}
 }
 
 
@@ -136,10 +175,10 @@ QVariant RedisConnectionOverSsh::execute(QString command)
     socket->write(cString, byteArray.size());
 
 	//wait for ready read
-	syncTimer.start(config.executeTimeout);
-	syncLoop.exec();
+	syncTimer->start(config.executeTimeout);
+	syncLoop->exec();
 
-	if (!syncTimer.isActive()) {
+	if (!syncTimer->isActive()) {
 		return QVariant();
 	}
 
@@ -187,6 +226,33 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 	}	
 
 	return response.getValue();
+}
+
+void RedisConnectionOverSsh::runCommand(const Command &command)
+{
+	//todo: implement this
+	if (command.hasDbIndex()) {
+		selectDb(command.getDbIndex());
+	}
+
+	resp.clear();
+	commandRunning = true;
+	runningCommand = command;
+	executionTimer->start(config.executeTimeout);
+
+	if (command.isEmpty()) {
+		return sendResponse();
+	}
+
+	QString formattedCommand = command.getFormattedString();
+
+	/*
+	 *	Send command
+	 */
+	QByteArray byteArray = formattedCommand.toUtf8();
+	const char* cString = byteArray.constData();
+
+	socket->write(cString, byteArray.size());
 }
 
 bool RedisConnectionOverSsh::waitForData(int ms)

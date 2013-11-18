@@ -119,40 +119,10 @@
     <ClCompile Include="GeneratedFiles\Release\moc_qxtsshtcpsocket.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Updater.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_Updater.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_listViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_listViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_zsetViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_zsetViewTab.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="source\models\items\RedisKeyItem.cpp">
@@ -162,9 +132,6 @@
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
     <ClCompile Include="source\models\items\RedisServerDbItem.cpp">
-      <Filter>Source Files\models\items</Filter>
-    </ClCompile>
-    <ClCompile Include="source\models\items\RedisServerItem.cpp">
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
     <ClCompile Include="source\models\HashKeyModel.cpp">
@@ -206,18 +173,6 @@
     <ClCompile Include="source\redis\RedisConnectionsManager.cpp">
       <Filter>Source Files\redis</Filter>
     </ClCompile>
-    <ClCompile Include="source\widgets\hashViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\listViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\stringViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\zsetViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="source\connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -257,6 +212,87 @@
     <ClCompile Include="source\widgets\consoleTab.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_redisconnection.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_redisconnection.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisServerItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisServerItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\RedisServerItem.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionsManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionsManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisServerDbItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisServerDbItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\widgets\valueViewTab.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_valueViewTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_valueViewTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisKeyItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisKeyItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\redis\ConnectionBridge.cpp">
+      <Filter>Source Files\redis</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ConnectionBridge.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ConnectionBridge.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\widgets\ValueTabView.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FastItemDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FastItemDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\PaginatedModel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\FastItemDelegate.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\ItemWithNaturalSort.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -286,34 +322,10 @@
     <CustomBuild Include="include\updater\Updater.h">
       <Filter>Header Files\updater</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\widgets\hashViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\listViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\stringViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\zsetViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
     <CustomBuild Include="forms\connection.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="forms\demo.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\hashViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\listViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\stringViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\zsetViewTab.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Resources\demo.qrc">
@@ -322,14 +334,41 @@
     <CustomBuild Include="include\widgets\serverInfoViewTab.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="forms/serverInfoViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="include\redis\ConsoleConnectionWrapper.h">
       <Filter>Header Files\redis</Filter>
     </CustomBuild>
     <CustomBuild Include="include\widgets\consoleTab.h">
       <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\RedisConnectionAbstract.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\redisconnection.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisServerDbItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisServerItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\RedisConnectionsManager.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\valueViewTab.h">
+      <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisKeyItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\ConnectionBridge.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms\serverInfoViewTab.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\FastItemDelegate.h">
+      <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -342,31 +381,13 @@
     <ClInclude Include="include\models\SortedSetKeyModel.h">
       <Filter>Header Files\models</Filter>
     </ClInclude>
-    <ClInclude Include="include\models\items\RedisKeyItem.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
     <ClInclude Include="include\models\items\RedisKeyNamespace.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisServerDbItem.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisServerItem.h">
       <Filter>Header Files\models\Items</Filter>
     </ClInclude>
     <ClInclude Include="include\network\qxtsshchannel_p.h">
       <Filter>Header Files\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\redis\redisconnection.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\RedisConnectionAbstract.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
     <ClInclude Include="include\redis\RedisConnectionConfig.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\RedisConnectionsManager.h">
       <Filter>Header Files\redis</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\RedisException.h">
@@ -376,18 +397,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_demo.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_hashViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_listViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_stringViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_zsetViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -401,6 +410,15 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\PaginatedModel.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\widgets\ValueTabView.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\items\ItemWithNaturalSort.h">
+      <Filter>Header Files\models\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

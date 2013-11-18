@@ -1,22 +1,20 @@
 #include <QMenu>
 #include <QtNetwork>
 #include <QFileDialog>
+#include <QStatusBar>
 
 #include "demo.h"
 #include "connection.h"
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 #include "RedisKeyItem.h"
-#include "stringViewTab.h"
-#include "hashViewTab.h"
-#include "listViewTab.h"
-#include "zsetViewTab.h"
+#include "valueViewTab.h"
 #include "Updater.h"
 #include "serverInfoViewTab.h"
 #include "consoleTab.h"
 
 MainWin::MainWin(QWidget *parent)
-	: QMainWindow(parent), loadingInProgress(false)
+	: QMainWindow(parent), treeViewUILocked(false)
 {
 	ui.setupUi(this);
 
@@ -25,6 +23,9 @@ MainWin::MainWin(QWidget *parent)
 	initTabs();	
 	initUpdater();
 	initFilter();
+
+	qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
+	qRegisterMetaType<Command>("Command");
 }
 
 MainWin::~MainWin()
@@ -36,7 +37,7 @@ MainWin::~MainWin()
 void MainWin::initConnectionsTreeView()
 {
 	//connection manager
-	connections = new RedisConnectionsManager(getConfigPath("connections.xml"));	
+	connections = new RedisConnectionsManager(getConfigPath("connections.xml"), this);
 
 	ui.serversTreeView->setModel(connections);
 	ui.serversTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -66,7 +67,7 @@ void MainWin::initTabs()
     #ifndef Q_OS_DARWIN
 	//hide close button for first tab
     // on Mac Os this code crash application to segfault
-    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->hide();
+    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->setFixedWidth(0);
 
     #endif
 }
@@ -74,8 +75,8 @@ void MainWin::initTabs()
 void MainWin::initUpdater()
 {
 	//set current version
-	ui.currentVersionLabel->setText(
-		ui.currentVersionLabel->text() + QApplication::applicationVersion()
+	ui.applicationInfoLabel->setText(
+		ui.applicationInfoLabel->text().replace("%VERSION%", QApplication::applicationVersion())
 		);
 
 	updater = new Updater();
@@ -134,45 +135,39 @@ void MainWin::OnAddConnectionClick()
 
 void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 {
-	if (loadingInProgress) {
-		return;
-	}
+	if (treeViewUILocked) 
+		return;	
 
-	QStandardItem * item = connections->itemFromIndex(index);
+	QStandardItem * item = connections->itemFromIndex(index);	
 
 	int type = item->type();
+
 	switch (type)
 	{
 		case RedisServerItem::TYPE:
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
-				loadingInProgress = true;
-				bool connected = server->loadDatabases();
-				connections->updateFilter();		
-				loadingInProgress = false;
-				
-				if (!connected) {					
-					QMessageBox::warning(this, "Can't connect to server", 
-						QString("Check connection settings \nError: %1").arg(server->getConnection()->getLastError()));
-				}				
+				server->runDatabaseLoading();									
 			}
 			break;
+
 		case RedisServerDbItem::TYPE:
 			{
+				performanceTimer.start();
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
-				loadingInProgress = true;
-				db->loadKeys();
-				loadingInProgress = false;
+				connections->blockSignals(true);
+				db->loadKeys();				
 			}			
 			break;
 
 		case RedisKeyItem::TYPE:	
-			loadingInProgress = true;
-			loadKeyTab((RedisKeyItem *)item);		
-			loadingInProgress = false;
-			break;
-
-		default:
+			{
+				RedisKeyItem * key = (RedisKeyItem *)item;
+				QWidget * viewTab = new ValueTab(key);
+				
+				QString keyFullName = key->getFullText();
+				addTab(keyFullName, viewTab);
+			}
 			break;
 	}
 }
@@ -184,43 +179,6 @@ void MainWin::OnTabClose(int index)
 	ui.tabWidget->removeTab(index);
 
 	delete w;
-}
-
-void MainWin::loadKeyTab(RedisKeyItem * key)
-{	
-	key->setBusyIcon();
-	RedisKeyItem::Type type = key->getKeyType();
-
-	QWidget * viewTab = nullptr;
-
-	switch (type)
-	{
-	case RedisKeyItem::String:		
-		viewTab = new stringViewTab(key->text(), key->getValue().toString());					
-		break;
-
-	case RedisKeyItem::Hash:		
-		viewTab = new hashViewTab(key->text(), key->getValue().toStringList());			
-		break;
-
-	case RedisKeyItem::List:		
-	case RedisKeyItem::Set:
-		viewTab = new listViewTab(key->text(), key->getValue().toStringList());	
-		break;
-
-	case RedisKeyItem::ZSet:
-		viewTab = new zsetViewTab(key->text(), key->getValue().toStringList());
-		break;	
-	}
-
-	if (viewTab != nullptr) {
-					
-		QString keyFullName = key->getFullText();
-
-		addTab(keyFullName, viewTab);
-	}
-
-	key->setNormalIcon();
 }
 
 int MainWin::getTabIndex(QString& name)
@@ -266,10 +224,11 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 	int type = item->type();
 
 	if (type == RedisServerItem::TYPE) {
+		//todo : subclass QMenu
 		QMenu *menu = new QMenu();
 		menu->addAction(QIcon(":/images/terminal.png"), "Console", this, SLOT(OnConsoleOpen()));
 		menu->addSeparator();
-		menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
+		//menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
 		menu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
 		menu->addAction(QIcon(":/images/redisIcon_offline.png"), "Disconnect", this, SLOT(OnDisconnectFromServer()));
 		menu->addSeparator();
@@ -318,7 +277,6 @@ void MainWin::OnRemoveConnectionFromTree()
 		RedisServerItem * server = (RedisServerItem *) item;
 
 		connections->RemoveConnection(server);
-
 	}
 }
 
@@ -395,7 +353,7 @@ void MainWin::OnServerInfoOpen()
 		return;
 
 	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
-	QString serverName = server->text();
+	QString serverName = QString("Info: %1").arg(server->text());
 	addTab(serverName, tab, ":/images/serverinfo.png");	
 }
 
@@ -407,8 +365,9 @@ void MainWin::OnConsoleOpen()
 		return;	
 
 	RedisServerItem * server = (RedisServerItem *) item;
-	consoleTab * tab = new consoleTab(server->getConnection()->config);
+    RedisConnectionConfig config = server->getConnection()->getConfig();
 
+    consoleTab * tab = new consoleTab(config);
 
 	QString serverName = server->text();
 
@@ -433,4 +392,19 @@ QStandardItem * MainWin::getSelectedItemInConnectionsTree()
 	}
 
 	return nullptr;
+}
+
+void MainWin::OnError(QString msg)
+{
+	QMessageBox::warning(this, "Error", msg);
+}
+
+void MainWin::OnUIUnlock()
+{
+	treeViewUILocked = false;
+	connections->blockSignals(false);	
+	ui.serversTreeView->doItemsLayout();
+
+	statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
+	performanceTimer.invalidate();
 }

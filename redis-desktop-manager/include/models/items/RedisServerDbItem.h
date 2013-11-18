@@ -4,8 +4,10 @@
 class RedisServerItem;
 class RedisKeyItem;
 
-class RedisServerDbItem : public QStandardItem
+class RedisServerDbItem : public QObject, public QStandardItem
 {
+	Q_OBJECT
+
 	friend class RedisKeyItem;
 public:
 	RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent);	
@@ -18,8 +20,6 @@ public:
 	int virtual type() const;
 
 	const static int TYPE = 2100;
-
-	void setCurrent();
 
 	int getDbIndex() const;
 
@@ -35,10 +35,17 @@ private:
 	QStringList rawKeys;
 	QRegExp filter;
 
+	QIcon keyIcon;
+	QIcon namespaceIcon;
+
 	void renderKeys(QStringList &);
 	void renderNamaspacedKey(QStandardItem * currItem, QString notProcessedKeyPart, QString fullKey);
 
 	void setNormalIcon();
 	void setBusyIcon();
+
+private slots:
+	void keysLoaded(const QVariant &, QObject *);
+	void proccessError(QString srcError);
 };
 

@@ -1,7 +1,38 @@
 #include "RedisConnectionAbstract.h"
+#include "RedisConnection.h"
+#include "RedisConnectionOverSsh.h"
 
-RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
+
+RedisConnectionAbstract::RedisConnectionAbstract(const RedisConnectionConfig & c) 
+	: config(c), connected(false), commandRunning(false) 
 {
+};
+
+void RedisConnectionAbstract::init()
+{
+	executionTimer = new QTimer;
+	executionTimer->setSingleShot(true);
+	QObject::connect(executionTimer, SIGNAL(timeout()), this, SLOT(executionTimeout()));
+}
+
+RedisConnectionAbstract * RedisConnectionAbstract::createConnection(const RedisConnectionConfig & c)
+{	
+	if (c.useSshTunnel()) {
+		return new RedisConnectionOverSsh(c);
+	}
+	else { 
+		return new RedisConnection(c); 
+	}
+
+	return nullptr;
+}
+
+void RedisConnectionAbstract::getDatabases()
+{
+	if (!isConnected() && !connect()) {
+		return;
+	}
+
 	RedisDatabases availableDatabeses;
 
 	QVariant rawDbCount = execute("config get databases");
@@ -32,8 +63,10 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 	//	Get keys count		
 	QVariant result = execute("INFO keyspace");
 
-	if (result.isNull()) 
-		return availableDatabeses;
+	if (result.isNull()) {
+		emit databesesLoaded(availableDatabeses);
+		return;
+	}
 
 	QStringList keyspaceInfo = result.toString().split("\r\n", QString::SkipEmptyParts);
 
@@ -55,7 +88,7 @@ RedisConnectionAbstract::RedisDatabases RedisConnectionAbstract::getDatabases()
 		availableDatabeses[dbName] = keysCount;
 	}
 
-	return availableDatabeses;
+	emit databesesLoaded(availableDatabeses);
 } 
 
 void RedisConnectionAbstract::selectDb(int dbIndex)
@@ -63,19 +96,48 @@ void RedisConnectionAbstract::selectDb(int dbIndex)
 	execute(QString("select %1").arg(dbIndex));
 }
 
-QStringList RedisConnectionAbstract::getKeys(QString pattern)
-{		 
-	QVariant rawKeys = execute(QString("keys %1").arg(pattern));
-
-	if (rawKeys.isNull()) return QStringList();
-
-	return rawKeys.toStringList();
-}
-
 bool RedisConnectionAbstract::isConnected()
 {
 	return connected;
 }
 
+void RedisConnectionAbstract::processCommandQueue()
+{
+	if (commandRunning || commands.isEmpty()) {
+		return;
+	}
 
+	runCommand(commands.dequeue());
+}
 
+void RedisConnectionAbstract::addCommand(const Command& cmd)
+{
+	commands.enqueue(cmd);
+
+	processCommandQueue();
+}
+
+void RedisConnectionAbstract::sendResponse()
+{
+	executionTimer->stop();	
+
+	emit responseResived(resp.getValue(), runningCommand.getOwner());
+
+	commandRunning = false;
+
+	processCommandQueue();
+}
+
+Response RedisConnectionAbstract::getLastResponse()
+{
+	return resp;
+}
+
+void RedisConnectionAbstract::executionTimeout()
+{
+	if (!commandRunning) {
+		return;
+	}
+
+	return sendResponse();	
+}

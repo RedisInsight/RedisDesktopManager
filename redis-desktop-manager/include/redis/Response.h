@@ -18,6 +18,9 @@ public:
 
 	void setSource(QString&);
 	QString source();
+
+	void clear();
+
 	void appendToSource(QString&);
 	void appendToSource(QByteArray&);
 
@@ -33,6 +36,10 @@ private:
 		Status, Error, Integer, Bulk, MultiBulk, Unknown			
 	};
 
+	//cache previous validation markers
+	int lastValidPos;
+	int itemsCount;
+
 	ResponseType getResponseType(QString);	
 	ResponseType getResponseType(const QChar);
 
@@ -41,17 +48,17 @@ private:
 	QStringList parseMultiBulk(QString response);
 	QString getStringResponse(QString response);
 
-	int getSizeOfBulkReply(QString& reply, int endOfFirstLine = -1, int beginFrom = 0);	
+	int getSizeOfBulkReply(const QString& reply, int endOfFirstLine = -1, int beginFrom = 0);	
 
 	//validations
-	bool isReplyValid(QString&);
+	bool isReplyValid(const QString&);
 
 	/** checks general validation rules **/
-	bool isReplyGeneralyValid(QString& );
-	bool isIntReplyValid(QString&);
-	bool isBulkReplyValid(QString&);
-	bool isMultiBulkReplyValid(QString&);	
+	bool isReplyGeneralyValid(const QString& );
+	bool isIntReplyValid(const QString&);
+	bool isBulkReplyValid(const QString&);
+	bool isMultiBulkReplyValid(const QString&);	
 
-	int getPosOfNextItem(QString &, int);
+	int getPosOfNextItem(const QString &, int);
 };
 

@@ -1,15 +1,15 @@
 #ifndef REDISKEYNAMESPACE_H
 #define REDISKEYNAMESPACE_H
 
-#include <QStandardItem>
+#include "ItemWithNaturalSort.h"
 
-class RedisKeyNamespace : public QStandardItem
+class RedisKeyNamespace : public ItemWithNaturalSort
 {
 public:
 
 	const static int TYPE = 2300;
 
-	RedisKeyNamespace(QString name);		
+	RedisKeyNamespace(QString name, QIcon & icon);		
 
 	int virtual type() const
 	{

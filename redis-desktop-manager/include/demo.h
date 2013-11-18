@@ -5,6 +5,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QFrame>
+#include <QMovie>
 
 #include "ui_demo.h"
 #include "RedisConnection.h"
@@ -23,11 +24,11 @@ public:
 	MainWin(QWidget *parent = 0);
 	~MainWin();	
 private:
-	bool loadingInProgress;
+	bool treeViewUILocked;
 	Ui::demoClass ui;		
 	Updater * updater;
+	QElapsedTimer performanceTimer;
 
-	void loadKeyTab(RedisKeyItem *);
 	void addTab(QString&, QWidget*, QString icon = QString());
 
 	/** @return >=0 if exist **/
@@ -58,6 +59,8 @@ private:
 		void OnClearFilter();
 		void OnServerInfoOpen();
 		void OnConsoleOpen();
+		void OnError(QString);
+		void OnUIUnlock();
 };
 
 #endif // DEMO_H

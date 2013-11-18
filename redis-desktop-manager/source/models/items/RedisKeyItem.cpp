@@ -2,77 +2,76 @@
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 
-RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db)
-	: db(db), fullName(name), keyType(Empty)
+RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
+	: ItemWithNaturalSort(icon, name), db(db), fullName(name), keyType(Empty)
 {
-	setNormalIcon();
-	setText(name);
 	setEditable(false);
 }
 
 RedisKeyItem::Type RedisKeyItem::getKeyType()
 {
-	db->setCurrent();
+	if (keyType != Empty) {
+		return keyType;
+	}
 
-	auto connection = db->server->connection;
-	QVariant result = connection->execute( QString("type %1").arg(fullName));
+	QEventLoop loop;
+	QTimer timer;
 
-	QString t = result.toString();
+	timer.setSingleShot(true);
+	connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
+	connect(this, SIGNAL(keyTypeLoaded()), &loop, SLOT(quit()));
+	connect(db->server->connection, SIGNAL(responseResieved(const QVariant&, QObject *)),
+		this, SLOT(loadedType(const QVariant&, QObject*)));
 
-	keyType = None;
-
-	if (t == "string")
-		keyType = String;
-
-	if (t == "hash") 
-		keyType = Hash;
-
-	if (t == "list")
-		keyType = List;
-
-	if (t == "set") 
-		keyType = Set;
-
-	if (t == "zset") 
-		keyType = ZSet;
+	timer.start(db->server->connection->getConfig().executeTimeout);
+	db->server->connection->addCommand(Command(QString("type %1").arg(fullName), this, db->getDbIndex()));
+	loop.exec();
 
 	return keyType;
 }
 
-QVariant RedisKeyItem::getValue()
+void RedisKeyItem::getValue()
 {
-	if (keyType == Empty) {
-		getKeyType();
-	}
-
-	db->setCurrent();
+ 	if (keyType == Empty) {
+ 		getKeyType();
+ 	}
 
 	auto connection = db->server->connection;
+
+	QString command;
 
 	switch (keyType)
 	{
 	case RedisKeyItem::String:
-
-		return connection->execute(QString("get %1").arg(fullName));
+		command = QString("get %1").arg(fullName);
+		break;
 		
-	case RedisKeyItem::Hash:
-		
-		return connection->execute(QString("hgetall %1").arg(fullName));
+	case RedisKeyItem::Hash:		
+		command = QString("hgetall %1").arg(fullName);
+		break;
 
 	case RedisKeyItem::List:
-		return connection->execute(QString("LRANGE %1 0 -1").arg(fullName));		
+		command = QString("LRANGE %1 0 -1").arg(fullName);		
+		break;
 
 	case RedisKeyItem::Set:
-		return connection->execute(QString("SMEMBERS %1").arg(fullName));				
+		command = QString("SMEMBERS %1").arg(fullName);				
+		break;
 
 	case RedisKeyItem::ZSet:		
-		return connection->execute(QString("ZRANGE %1 0 -1 WITHSCORES").arg(fullName));
-
-	case RedisKeyItem::None:
-	case RedisKeyItem::Empty:
-	default:
-		return QVariant();
+		command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(fullName);
+		break;
 	}	
+
+	if (command.isEmpty()) {
+		emit valueLoaded(QVariant(), this);
+		return;
+	} else {
+		connect(connection, SIGNAL(responseResieved(const QVariant&, QObject *)),
+			this, SIGNAL(valueLoaded(const QVariant&, QObject*)));
+
+		connection->addCommand(Command(command, this, db->getDbIndex()));
+	}
 }
 
 int RedisKeyItem::type() const
@@ -80,21 +79,11 @@ int RedisKeyItem::type() const
 	return TYPE;
 }
 
-void RedisKeyItem::setBusyIcon()
-{
-	setIcon(QIcon(":/images/wait.png"));
-}
-
-void RedisKeyItem::setNormalIcon()
-{
-	setIcon(QIcon(":/images/key.png"));
-}
-
 QString RedisKeyItem::getFullText() 
 {
 	int dbIndex = db->getDbIndex();
 	QString dbIndexString = QString::number(dbIndex);
-	QString connection = db->parent()->text();
+	QString connection = db->server->connection->getConfig().name;
 
 	return QString("%1:%2>%3").arg(connection).arg(dbIndexString).arg(this->text());
 }
@@ -102,4 +91,47 @@ QString RedisKeyItem::getFullText()
 QString RedisKeyItem::getFullName()
 {
 	return fullName;
+}
+
+void RedisKeyItem::loadedValue(const QVariant& value, QObject *sender)
+{
+	if (sender != this) {
+		return;
+	}
+
+	db->server->connection->disconnect(this);
+
+	emit valueLoaded(value, this);
+}
+
+void RedisKeyItem::loadedType(const QVariant& result, QObject * owner)
+{
+	if (owner != this) {
+		return;
+	}
+
+	db->server->connection->disconnect(this);
+
+	QString t = result.toString();
+	 
+	keyType = None;
+	 
+	if (t == "string")
+		keyType = String;
+
+	if (t == "hash") 
+		keyType = Hash;
+	
+	if (t == "list")
+		keyType = List;
+	
+	if (t == "set") 
+		keyType = Set;
+
+	if (t == "zset") 
+		keyType = ZSet;
+
+	emit keyTypeLoaded();
+
+	return;
 }

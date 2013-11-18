@@ -1,8 +1,7 @@
 #include "RedisServerItem.h"
+#include "RedisConnectionConfig.h"
 
-
-
-RedisServerItem::RedisServerItem(RedisConnectionAbstract * c) 
+RedisServerItem::RedisServerItem(ConnectionBridge * c) 
 	: connection(c), isDbInfoLoaded(false)
 {						
 	setOfflineIcon();
@@ -12,40 +11,37 @@ RedisServerItem::RedisServerItem(RedisConnectionAbstract * c)
 
 void RedisServerItem::getItemNameFromConnection()
 {
-	setText(connection->config.name);
+	setText(connection->getConfig().name);
 }
 
-void RedisServerItem::setConnection(RedisConnectionAbstract * c)
+void RedisServerItem::setConnection(ConnectionBridge * c)
 {
 	connection = c;
 }
 
-bool RedisServerItem::loadDatabases()
+void RedisServerItem::runDatabaseLoading()
 {		
-	if (isDbInfoLoaded) return true;
+	if (isDbInfoLoaded) return;
 
 	setBusyIcon();
 
-	if (!connection->isConnected() && !connection->connect()) {
-		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
-		// TODO: set error icon		
-		setOfflineIcon();
-		return false;
-	}
+	connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+	connect(connection, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),
+		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
 
-	RedisConnectionAbstract::RedisDatabases databases = connection->getDatabases();
+	connection->initWorker();
+	connection->loadDatabasesList();
+}
 
+void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases databases)
+{
 	if (databases.size() == 0) 
 	{
-		QString error = connection->getLastError();
-
-		if (!error.isEmpty()) {
-			// TODO: set error icon
-			setText(QString("%1 (error:%2)").arg(connection->config.name).arg(error));
-		}
 		setNormalIcon();
-		return false;
+		return;
 	}
+
+	connection->disconnect(this);
 
 	QMap<QString, int>::const_iterator db = databases.constBegin();
 
@@ -61,28 +57,44 @@ bool RedisServerItem::loadDatabases()
 
 	isDbInfoLoaded = true;
 
-	return true;
+	emit databasesLoaded();
 }
 
 QStringList RedisServerItem::getInfo()
 {
-	if (!connection->isConnected() && !connection->connect()) {
-		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
-		// TODO: set error icon		
-		setOfflineIcon();
-		return QStringList();
-	}
+	connection->initWorker();
 
-	QVariant info = connection->execute("INFO");
+// 	if (!connection->isConnected() && !connection->connect()) {
+// 		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
+// 		// TODO: set error icon		
+// 		setOfflineIcon();
+// 		return QStringList();
+// 	}
+// 
+// 	QVariant info = connection->execute("INFO");
+// 
+// 	if (info.isNull()) {
+// 		return QStringList();
+// 	}
+// 
+// 	return info.toString().split("\r\n");
 
-	if (info.isNull()) {
-		return QStringList();
-	}
-
-	return info.toString().split("\r\n");
+	return QStringList();
 }
 
-RedisConnectionAbstract * RedisServerItem::getConnection()
+void RedisServerItem::proccessError(QString srcError)
+{
+	connection->disconnect(this);
+	setOfflineIcon();
+
+	QString message = QString("Can not load database %1. %2")
+		.arg(text())
+		.arg(srcError);
+
+	emit error(message);
+}
+
+ConnectionBridge * RedisServerItem::getConnection()
 {
 	return connection;
 }
@@ -91,7 +103,7 @@ void RedisServerItem::reload()
 {
 	unload();
 
-	loadDatabases();
+	runDatabaseLoading();
 }
 
 void RedisServerItem::unload()
@@ -104,7 +116,6 @@ void RedisServerItem::unload()
 
 	setOfflineIcon();
 }
-
 
 void RedisServerItem::setBusyIcon()
 {

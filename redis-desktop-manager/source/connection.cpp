@@ -1,8 +1,7 @@
 #include <QtWidgets/QMessageBox>
 
 #include "connection.h"
-#include "RedisConnection.h"
-#include "RedisConnectionOverSsh.h"
+#include "ConnectionBridge.h"
 #include "RedisServerItem.h"
 
 connection::connection(QWidget *parent, RedisServerItem * srv)
@@ -33,23 +32,23 @@ connection::~connection()
 
 }
 
-void connection::loadValuesFromConnection(RedisConnectionAbstract * c)
+void connection::loadValuesFromConnection(ConnectionBridge * c)
 {
 	inEditMode = true;
 
-	RedisConnectionConfig * config =  &(c->config);
+    RedisConnectionConfig config = c->getConfig();
 
-	ui.nameEdit->setText(config->name);
-	ui.hostEdit->setText(config->host);
-	ui.portSpinBox->setValue(config->port);
-	ui.authEdit->setText(config->auth);
+    ui.nameEdit->setText(config.name);
+    ui.hostEdit->setText(config.host);
+    ui.portSpinBox->setValue(config.port);
+    ui.authEdit->setText(config.auth);
 
-	if (config->useSshTunnel()) {
+    if (config.useSshTunnel()) {
 		ui.useSshTunnel->setCheckState(Qt::Checked);
-		ui.sshHost->setText(config->sshHost);
-		ui.sshUser->setText(config->sshUser);
-		ui.sshPass->setText(config->sshPassword);
-		ui.sshPort->setValue(config->sshPort);
+        ui.sshHost->setText(config.sshHost);
+        ui.sshUser->setText(config.sshUser);
+        ui.sshPass->setText(config.sshPassword);
+        ui.sshPort->setValue(config.sshPort);
 	}
 }
 
@@ -59,38 +58,17 @@ void connection::OnOkButtonClick()
 
 	RedisConnectionConfig conf = getConectionConfigFromFormData();
 
-	RedisConnectionAbstract * connection;
+	ConnectionBridge * connection;
 
 	if (inEditMode) {
 
 		connection = server->getConnection();
 
-		bool connectionTypeChanged = connection->config.useSshTunnel() != conf.useSshTunnel();
-
-		connection->config = conf;	
-
-		if (connectionTypeChanged) {
-
-			RedisConnectionAbstract * newConnection;
-
-			if (conf.useSshTunnel()) {
-				newConnection = new RedisConnectionOverSsh(conf);
-			} else {
-				newConnection = new RedisConnection(conf);
-			}
-			
-			server->setConnection(newConnection);
-
-			mainForm->connections->UpdateConnection(connection, newConnection);
-		}		
+		connection->setConnectionConfig(conf);	
 		
-	} else {
-		 
-		if (conf.useSshTunnel()) {
-			connection = new RedisConnectionOverSsh(conf);
-		} else {
-			connection = new RedisConnection(conf);
-		}
+	} else {		
+
+		connection = new ConnectionBridge(conf);
 
 		mainForm->connections->AddConnection(connection);			
 	}	

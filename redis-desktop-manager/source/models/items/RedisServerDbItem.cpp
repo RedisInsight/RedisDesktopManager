@@ -2,9 +2,11 @@
 #include "RedisServerItem.h"
 #include "RedisKeyItem.h"
 #include "RedisKeyNamespace.h"
+#include <QStandardItem>
 
 RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent) 
-	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name)
+	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name), 
+	  keyIcon(":/images/key.png"), namespaceIcon(":/images/namespace.png")
 {	
 	setNormalIcon();
 	setText(QString("%1 (%2)").arg(name).arg(keysCount));
@@ -15,44 +17,43 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 		dbIndex = getDbIndex.cap(1).toInt();
 	}
 
-	setEditable(false);
-}
-
-void RedisServerDbItem::setCurrent()
-{
-	if (!server->connection->isConnected() 
-		&& !server->connection->connect()) {
-			return;
-	}
-
-	server->connection->selectDb(dbIndex);
+	setEditable(false);	
 }
 
 void RedisServerDbItem::loadKeys()
 {
 	if (isKeysLoaded) return;
 
-	setBusyIcon();
+	setBusyIcon();	
 
-	if (!server->connection->isConnected() 
-		&& !server->connection->connect()) {
-			setNormalIcon();
-			return;
-	}	
+	//wait for signal from connection	
+	connect(server->connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+	connect(server->connection, SIGNAL(responseResieved(const QVariant &, QObject *)),
+		this, SLOT(keysLoaded(const QVariant &, QObject *)));
+	
+	server->connection->addCommand(Command("keys *", this, dbIndex));
+}
 
-	server->connection->selectDb(dbIndex);
+void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
+{
+	if (owner != this) {
+		return;
+	}
 
-	rawKeys = server->connection->getKeys();
+	server->connection->disconnect(this);
+
+	rawKeys = keys.toStringList();
+
 	int resultSize = rawKeys.size();
 
 	if (resultSize == 0) {
+		server->unlockUI();
 		setNormalIcon();
 		return;
 	}
 
 	if (resultSize != keysCount) {
-		setText(QString("%1 (Loaded %2 of %3. Error - %4)")
-			.arg(name)
+		server->error(QString("Loaded keys: %2 of %3. Error - %4 <br /> Check <a href='https://github.com/uglide/RedisDesktopManager/wiki/Known-issues'>documentation</a>")
 			.arg(resultSize)
 			.arg(keysCount)
 			.arg(server->connection->getLastError()));
@@ -61,7 +62,19 @@ void RedisServerDbItem::loadKeys()
 	renderKeys(rawKeys);
 
 	setNormalIcon();
-	isKeysLoaded = true;
+	isKeysLoaded = true;	
+	server->unlockUI();
+}
+
+void RedisServerDbItem::proccessError(QString srcError)
+{
+	server->connection->disconnect(this);
+	setNormalIcon();
+
+	QString message = QString("Can not load keys. %1")
+		.arg(srcError);
+
+	emit server->error(message);
 }
 
 void RedisServerDbItem::setFilter(QRegExp &pattern)
@@ -91,15 +104,16 @@ void RedisServerDbItem::renderKeys(QStringList &rawKeys)
 			continue;
 		}
 
-		renderNamaspacedKey(this, rawKey, rawKey);
+		renderNamaspacedKey(this, rawKey, rawKey);		
 	}
+	this->sortChildren(0);
 }
 
 void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem, 
 											QString notProcessedKeyPart, QString fullKey)
 {
 	if (!notProcessedKeyPart.contains(":")) {
-		QStandardItem * newKey = new RedisKeyItem(fullKey, this);
+		QStandardItem * newKey = new RedisKeyItem(fullKey, this, keyIcon);
 		currItem->appendRow(newKey);	
 		return;
 	}
@@ -122,11 +136,13 @@ void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem,
 	}
 
 	if (namespaceItem == nullptr) {
-		namespaceItem = new RedisKeyNamespace(firstNamespaceName);
+		namespaceItem = new RedisKeyNamespace(firstNamespaceName, namespaceIcon);
 		currItem->appendRow(namespaceItem);
 	}
 
 	renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1), fullKey);	
+
+	namespaceItem->sortChildren(0);
 }
 
 void RedisServerDbItem::setBusyIcon()
@@ -146,13 +162,11 @@ int RedisServerDbItem::type() const
 
 bool RedisServerDbItem::operator<(const QStandardItem & other) const
 {
-	if (other.type() == TYPE) {
-		const RedisServerDbItem * another = dynamic_cast<const RedisServerDbItem *>(&other);
+ 	if (other.type() == TYPE) {
+		const RedisServerDbItem * another = dynamic_cast<const RedisServerDbItem *>(&other); 
+ 	}	
 
-		return dbIndex < another->getDbIndex();
-	}	
-
-	return this->text() < other.text();
+ 	return this->text() < other.text();
 }
 
 int RedisServerDbItem::getDbIndex() const
