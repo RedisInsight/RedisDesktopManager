@@ -22,6 +22,7 @@ public:
 	void AddConnection(ConnectionBridge *);	
 	bool RemoveConnection(RedisServerItem *);
 	bool ImportConnections(QString &);
+	bool SaveConnectionsConfigToFile(QString);
 
 	void setFilter(QRegExp &);
 	void resetFilter();
@@ -35,8 +36,7 @@ private:
 	QRegExp filter;
 
 protected:
-	bool LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile = false);
-	void SaveConnectionsConfigToFile(QString);
+	bool LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile = false);	
 
 protected slots:
 	void updateFilter();

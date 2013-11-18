@@ -19,6 +19,8 @@ MainWin::MainWin(QWidget *parent)
 	ui.setupUi(this);
 
 	initConnectionsTreeView();
+	initServerMenu();
+	initConnectionsMenu();
 	initFormButtons();	
 	initTabs();	
 	initUpdater();
@@ -52,6 +54,29 @@ void MainWin::initConnectionsTreeView()
 	ui.serversTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(ui.serversTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
 			this, SLOT(OnTreeViewContextMenu(const QPoint &)));
+}
+
+void MainWin::initServerMenu()
+{
+	serverMenu = new QMenu();
+	serverMenu->addAction(QIcon(":/images/terminal.png"), "Console", this, SLOT(OnConsoleOpen()));
+	serverMenu->addSeparator();
+	//menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
+	serverMenu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
+	serverMenu->addAction(QIcon(":/images/redisIcon_offline.png"), "Disconnect", this, SLOT(OnDisconnectFromServer()));
+	serverMenu->addSeparator();
+	serverMenu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
+	serverMenu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
+}
+
+void MainWin::initConnectionsMenu()
+{
+	connectionsMenu = new QMenu();
+	connectionsMenu->addAction(QIcon(":/images/import.png"), "Import Connections", this, SLOT(OnImportConnectionsClick()));
+	connectionsMenu->addAction(QIcon(":/images/export.png"), "Export Connections", this, SLOT(OnExportConnectionsClick()));
+	connectionsMenu->addSeparator();	
+
+	ui.pbImportConnections->setMenu(connectionsMenu);
 }
 
 void MainWin::initFormButtons()
@@ -224,17 +249,7 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 	int type = item->type();
 
 	if (type == RedisServerItem::TYPE) {
-		//todo : subclass QMenu
-		QMenu *menu = new QMenu();
-		menu->addAction(QIcon(":/images/terminal.png"), "Console", this, SLOT(OnConsoleOpen()));
-		menu->addSeparator();
-		//menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
-		menu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
-		menu->addAction(QIcon(":/images/redisIcon_offline.png"), "Disconnect", this, SLOT(OnDisconnectFromServer()));
-		menu->addSeparator();
-		menu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
-		menu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
-		menu->exec(QCursor::pos());
+		serverMenu->exec(QCursor::pos());
 	}
 }
 
@@ -308,12 +323,29 @@ void MainWin::OnImportConnectionsClick()
 
 	if (fileName.isEmpty()) {
 		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
+		return;
 	}
 
 	if (connections->ImportConnections(fileName)) {
 		QMessageBox::information(this, "Connections imported", "Connections imported from connections file");
 	} else {
 		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
+	}
+}
+
+void MainWin::OnExportConnectionsClick()
+{
+	QString fileName = QFileDialog::getSaveFileName(this, "Export Connections to xml", "", tr("Xml Files (*.xml)"));
+
+	if (fileName.isEmpty()) {
+		QMessageBox::warning(this, "Can't export connections", "Select valid file name for export");
+		return;
+	}
+
+	if (connections->SaveConnectionsConfigToFile(fileName)) {
+		QMessageBox::information(this, "Connections exported", "Connections exported in selected file");
+	} else {
+		QMessageBox::warning(this, "Can't export connections", "Select valid file name for export");
 	}
 }
 

@@ -104,7 +104,7 @@ bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, boo
 	return true;
 }
 
-void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
+bool RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 {
 	QDomDocument config;
 
@@ -119,14 +119,15 @@ void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 		connectionsItem.appendChild(c->getConfig().toXml(config));
 	}
 
-	QFile confFile(configPath);
+	QFile confFile(pathToFile);
 
 	if (confFile.open(QIODevice::WriteOnly)) {
 		QTextStream(&confFile) << config.toString();
 		confFile.close();
+		return true;
 	}
 
-	return;
+	return false;
 }
 
 void RedisConnectionsManager::setFilter(QRegExp & pattern)

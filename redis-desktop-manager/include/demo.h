@@ -28,6 +28,8 @@ private:
 	Ui::demoClass ui;		
 	Updater * updater;
 	QElapsedTimer performanceTimer;
+	QMenu * serverMenu;
+	QMenu * connectionsMenu;
 
 	void addTab(QString&, QWidget*, QString icon = QString());
 
@@ -38,6 +40,8 @@ private:
 
 	void initFormButtons();
 	void initConnectionsTreeView();
+	void initServerMenu();
+	void initConnectionsMenu();
 	void initTabs();
 	void initUpdater();
 	void initFilter();
@@ -55,6 +59,7 @@ private:
 		void OnRemoveConnectionFromTree();
 		void OnEditConnection();
 		void OnImportConnectionsClick();
+		void OnExportConnectionsClick();
 		void OnSetFilter();
 		void OnClearFilter();
 		void OnServerInfoOpen();
