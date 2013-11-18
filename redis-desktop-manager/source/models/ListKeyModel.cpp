@@ -3,9 +3,6 @@
 ListKeyModel::ListKeyModel(QStringList& values)
 	: PaginatedModel(values) 
 {
-	QStringList labels("Value");	
-	setHorizontalHeaderLabels(labels);
-
 	setColumnCount(1);
 	setCurrentPage(1);
 }
@@ -17,6 +14,9 @@ void ListKeyModel::setCurrentPage(int page)
 	}
 
 	clear();
+
+	QStringList labels("Value");	
+	setHorizontalHeaderLabels(labels);
 
 	currentPage = page;
 

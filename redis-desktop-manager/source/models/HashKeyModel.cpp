@@ -4,10 +4,6 @@
 HashKeyModel::HashKeyModel(QStringList& values)
 	: PaginatedModel(values)
 {
-	QStringList labels;
-	labels << "Hash Key" << "Hash Value";
-	setHorizontalHeaderLabels(labels);
-
 	setColumnCount(2);
 	setCurrentPage(1);
 }
@@ -20,6 +16,10 @@ void HashKeyModel::setCurrentPage(int page)
 	}
 
 	clear();
+
+	QStringList labels;
+	labels << "Hash Key" << "Hash Value";
+	setHorizontalHeaderLabels(labels);
 
 	currentPage = page;
 

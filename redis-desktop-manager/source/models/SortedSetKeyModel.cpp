@@ -3,10 +3,6 @@
 SortedSetKeyModel::SortedSetKeyModel(QStringList& values)
 	: PaginatedModel(values) 
 {
-	QStringList labels;
-	labels << "Value" << "Score";
-	setHorizontalHeaderLabels(labels);
-
 	setColumnCount(2);
 	setCurrentPage(1);
 }
@@ -18,6 +14,10 @@ void SortedSetKeyModel::setCurrentPage(int page)
 	}
 
 	clear();
+
+	QStringList labels;
+	labels << "Value" << "Score";
+	setHorizontalHeaderLabels(labels);
 
 	currentPage = page;
 
