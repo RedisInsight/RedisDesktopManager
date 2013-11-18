@@ -68,7 +68,7 @@ RedisConnectionConfig ConnectionBridge::getConfig()
 
 void ConnectionBridge::stopWorker()
 {
-	if (workerThread->isRunning()) {
+	if (isInitialized && workerThread->isRunning()) {
 		workerThread->quit();
 		workerThread->wait();
 
