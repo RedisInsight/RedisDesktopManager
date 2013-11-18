@@ -1,13 +1,13 @@
 #pragma once
 
-#include <QStandardItem>
+#include "ItemWithNaturalSort.h"
 #include "ConnectionBridge.h"
 #include "RedisServerDbItem.h"
 
 class RedisKeyItem;
 class RedisConnectionsManager;
 
-class RedisServerItem : public QObject, public QStandardItem
+class RedisServerItem : public QObject, public ItemWithNaturalSort
 {
 	Q_OBJECT
 

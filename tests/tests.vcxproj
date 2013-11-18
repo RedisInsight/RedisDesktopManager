@@ -27,6 +27,7 @@
     <ClCompile Include="..\redis-desktop-manager\source\demo.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\models\FastItemDelegate.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\models\HashKeyModel.cpp" />
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\ItemWithNaturalSort.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisKeyItem.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisKeyNamespace.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\models\items\RedisServerDbItem.cpp" />
@@ -322,6 +323,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(SolutionDir)\redis-desktop-manager\include\models\items" "-I$(SolutionDir)\redis-desktop-manager\include\models" "-I$(SolutionDir)\redis-desktop-manager\include\network" "-I$(SolutionDir)\redis-desktop-manager\include\redis" "-I$(SolutionDir)\redis-desktop-manager\include\updater" "-I$(SolutionDir)\redis-desktop-manager\include\widgets" "-I$(SolutionDir)\redis-desktop-manager\include" "-I$(ProjectDir)\include" "-I$(ProjectDir)\source"</Command>
     </CustomBuild>
     <ClInclude Include="..\redis-desktop-manager\include\models\HashKeyModel.h" />
+    <ClInclude Include="..\redis-desktop-manager\include\models\items\ItemWithNaturalSort.h" />
     <ClInclude Include="..\redis-desktop-manager\include\models\ListKeyModel.h" />
     <ClInclude Include="..\redis-desktop-manager\include\models\PaginatedModel.h" />
     <ClInclude Include="..\redis-desktop-manager\include\models\SortedSetKeyModel.h" />

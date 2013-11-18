@@ -290,6 +290,9 @@
     <ClCompile Include="source\models\FastItemDelegate.cpp">
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
+    <ClCompile Include="source\models\items\ItemWithNaturalSort.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -413,6 +416,9 @@
     </ClInclude>
     <ClInclude Include="include\widgets\ValueTabView.h">
       <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\items\ItemWithNaturalSort.h">
+      <Filter>Header Files\models\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

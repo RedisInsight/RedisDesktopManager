@@ -3,7 +3,7 @@
 #include "RedisServerDbItem.h"
 
 RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
-	: QStandardItem(icon, name), db(db), fullName(name), keyType(Empty)
+	: ItemWithNaturalSort(icon, name), db(db), fullName(name), keyType(Empty)
 {
 	setEditable(false);
 }

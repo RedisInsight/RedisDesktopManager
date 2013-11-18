@@ -386,6 +386,9 @@
     <ClCompile Include="..\redis-desktop-manager\source\models\PaginatedModel.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\ItemWithNaturalSort.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtnetwork.h">
@@ -431,6 +434,9 @@
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\models\SortedSetKeyModel.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\items\ItemWithNaturalSort.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
   </ItemGroup>

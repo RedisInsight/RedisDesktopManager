@@ -1,13 +1,12 @@
 #ifndef REDISKEYITEM_H
 #define REDISKEYITEM_H
 
-#include <QStandardItem>
+#include "ItemWithNaturalSort.h"
 
 class RedisServerDbItem;
 
-class RedisKeyItem : public QObject, public QStandardItem
+class RedisKeyItem : public QObject, public ItemWithNaturalSort
 {
-
 	Q_OBJECT
 
 public:
