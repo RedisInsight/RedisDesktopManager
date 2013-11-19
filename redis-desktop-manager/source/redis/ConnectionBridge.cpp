@@ -29,6 +29,7 @@ void ConnectionBridge::initWorker()
 		this, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)));
 
 	connect(worker, SIGNAL(errorOccurred(QString)),this, SIGNAL(error(QString)));
+	connect(worker, SIGNAL(operationProgress(int, QObject *)),this, SIGNAL(operationProgress(int, QObject *)));
 
 	//start worker thread
 	workerThread->start();

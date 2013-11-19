@@ -26,6 +26,8 @@ public:
 
 	static QString valueToString(QVariant&);
 
+	int getLoadedItemsCount();
+
 private:
 
 	QString responseString;

@@ -56,6 +56,7 @@ bool RedisConnectionOverSsh::connect()
 	syncLoop->exec();
 
 	if (!connected && !syncTimer->isActive()) {
+		emit errorOccurred(QString("SSH connection timeout, check connection settings"));
 		connected = false;
 		return connected;
 	}
@@ -75,6 +76,7 @@ bool RedisConnectionOverSsh::connect()
 
 	if (!socketConnected && !syncTimer->isActive()) {
 		socketConnected = false;
+		emit errorOccurred(QString("SSH connection established, but redis connection error occurred"));
 		return socketConnected;
 	}
 
@@ -87,7 +89,7 @@ bool RedisConnectionOverSsh::connect()
 
 void RedisConnectionOverSsh::OnSshConnectionError(QxtSshClient::Error error)
 {
-	if (QxtSshClient::HostKeyUnknownError == error) {
+	if (!isHostKeyAlreadyAdded && QxtSshClient::HostKeyUnknownError == error) {
 		QxtSshKey hostKey = sshClient->hostKey();
 
         sshClient->addKnownHost(config.sshHost, hostKey);
@@ -104,6 +106,40 @@ void RedisConnectionOverSsh::OnSshConnectionError(QxtSshClient::Error error)
 		syncLoop->exit();
 	}
 
+	QString errorMessage; 
+
+	switch (error) {
+
+		case QxtSshClient::AuthenticationError:
+			errorMessage = "Authentication Error";
+			break;
+		case QxtSshClient::HostKeyUnknownError:
+			errorMessage = "Host Key Unknown Error";
+			break;
+		case QxtSshClient::HostKeyInvalidError:
+			errorMessage = "HostKey Invalid";
+			break;
+		case QxtSshClient::HostKeyMismatchError:
+			errorMessage = "HostKey Mismatch";
+			break;
+		case QxtSshClient::ConnectionRefusedError:
+			errorMessage = "Connection Refused";
+			break;
+		case QxtSshClient::UnexpectedShutdownError:
+			errorMessage = "Unexpected Shutdown";
+			break;
+		case QxtSshClient::HostNotFoundError:
+			errorMessage = "Host Not Found";
+			break;
+		case QxtSshClient::SocketError:
+			errorMessage = "Socket Error";
+			break;
+		case QxtSshClient::UnknownError:
+			errorMessage = "Unknown Error";
+			break;
+	}
+
+	emit errorOccurred(QString("SSH Connection error: %1").arg(errorMessage));
 }
 
 void RedisConnectionOverSsh::OnSshConnected()
@@ -143,6 +179,7 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
 	if (resp.isValid()) {
 		return sendResponse();	
 	} else {
+		emit operationProgress(resp.getLoadedItemsCount(), runningCommand.getOwner());
 		executionTimer->start(config.executeTimeout); //restart execution timer
 	}
 }

@@ -150,6 +150,7 @@ void RedisConnection::readyRead()
 	if (resp.isValid()) {
 		return sendResponse();	
 	} else {
+		emit operationProgress(resp.getLoadedItemsCount(), runningCommand.getOwner());
 		executionTimer->start(config.executeTimeout); //restart execution timer
 	}
 }

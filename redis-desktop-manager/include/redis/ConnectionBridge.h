@@ -30,6 +30,7 @@ signals:
 	void loadDatabasesList();
 	void dbListLoaded(RedisConnectionAbstract::RedisDatabases);
 	void error(QString);
+	void operationProgress(int percents, QObject *);
 
 protected:
 	RedisConnectionConfig config;

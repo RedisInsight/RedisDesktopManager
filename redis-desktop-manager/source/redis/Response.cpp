@@ -331,3 +331,8 @@ QString Response::valueToString(QVariant& value)
 
 	return value.toString();
 }
+
+int Response::getLoadedItemsCount()
+{
+	return itemsCount;
+}

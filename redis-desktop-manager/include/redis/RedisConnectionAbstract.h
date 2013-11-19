@@ -57,6 +57,7 @@ public slots:
 
 signals:
 	void responseResived(const QVariant &, QObject *);
+	void operationProgress(int percents, QObject *);
 	void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
 	void errorOccurred(QString);
 
