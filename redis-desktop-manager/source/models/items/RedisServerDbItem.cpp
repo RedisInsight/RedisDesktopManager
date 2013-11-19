@@ -92,8 +92,6 @@ void RedisServerDbItem::setFilter(QRegExp &pattern)
 	removeRows(0, rowCount());
 
 	renderKeys(rawKeys);
-
-	keysPool = nullptr;
 }
 
 void RedisServerDbItem::resetFilter()
@@ -110,6 +108,7 @@ void RedisServerDbItem::renderKeys(QStringList &rawKeys)
 	if (rawKeys.size() == 0) 
 		return;
 
+	keysLoadingResult = QFuture<QList<QStandardItem *>>();
 	keysLoadingResult = QtConcurrent::run(KeysTreeRenderer::renderKeys, this, rawKeys, filter, iconStorage);
 
 	keysLoadingWatcher.setFuture(keysLoadingResult);

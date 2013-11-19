@@ -359,16 +359,20 @@ void MainWin::OnSetFilter()
 		return;
 	}
 
+	performanceTimer.start();
+
 	connections->setFilter(filter);
 
 	ui.leKeySearchPattern->setStyleSheet("border: 1px solid green; background-color: #FFFF99;");
-
+	ui.pbClearFilter->setEnabled(true);
 }
 
 void MainWin::OnClearFilter()
 {
+	performanceTimer.start();
 	connections->resetFilter();
 	ui.leKeySearchPattern->setStyleSheet("");
+	ui.pbClearFilter->setEnabled(false);
 }
 
 void MainWin::OnServerInfoOpen()
