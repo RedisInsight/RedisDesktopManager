@@ -66,6 +66,7 @@ private:
 		void OnConsoleOpen();
 		void OnError(QString);
 		void OnUIUnlock();
+		void OnStatusMessage(QString);
 };
 
 #endif // DEMO_H

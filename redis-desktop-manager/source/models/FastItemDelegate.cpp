@@ -5,6 +5,5 @@ void FastItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 {
 	painter->setPen(Qt::black);
 	painter->drawText(option.rect, option.displayAlignment, index.data().toString());
-	painter->restore();
 }
 

@@ -260,12 +260,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_valueViewTab.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisKeyItem.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisKeyItem.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="source\redis\ConnectionBridge.cpp">
       <Filter>Source Files\redis</Filter>
     </ClCompile>
@@ -292,6 +286,24 @@
     </ClCompile>
     <ClCompile Include="source\models\items\ItemWithNaturalSort.cpp">
       <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KeyModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KeyModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\KeyModel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\KeysTreeRenderer.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -368,6 +380,12 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="include\models\FastItemDelegate.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\KeyModel.h">
+      <Filter>Header Files\models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\KeysTreeRenderer.h">
       <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
   </ItemGroup>

@@ -69,7 +69,7 @@ void ValueTabView::initKeyValue()
 
 void ValueTabView::initPagination()
 {
-	paginationGrid = new QGridLayout(controller);
+	paginationGrid = new QGridLayout();
 
 	previousPage = new QPushButton();
 	previousPage->setText("<");

@@ -9,7 +9,7 @@ public:
 
 	const static int TYPE = 2300;
 
-	RedisKeyNamespace(QString name, QIcon & icon);		
+	RedisKeyNamespace(QString name, const QIcon & icon);		
 
 	int virtual type() const
 	{

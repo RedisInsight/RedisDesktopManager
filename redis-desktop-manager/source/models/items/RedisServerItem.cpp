@@ -87,7 +87,7 @@ void RedisServerItem::proccessError(QString srcError)
 	connection->disconnect(this);
 	setOfflineIcon();
 
-	QString message = QString("Can not load database %1. %2")
+	QString message = QString("Can not connect to server %1. Error: %2")
 		.arg(text())
 		.arg(srcError);
 

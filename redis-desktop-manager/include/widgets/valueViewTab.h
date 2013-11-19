@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "PaginatedModel.h"
 #include "RedisKeyItem.h"
+#include "KeyModel.h"
 
 class ValueTabView;
 
@@ -16,8 +17,8 @@ public:
 	~ValueTab();
 
 protected:	
-	RedisKeyItem * key;
-	RedisKeyItem::Type type;
+	KeyModel * keyModel;
+	KeyModel::Type type;
 	PaginatedModel * model;
 	ValueTabView * ui;
 
@@ -25,7 +26,7 @@ protected:
 
 	void initPagination();
 
-	PaginatedModel * getModelForKey(RedisKeyItem::Type, const QVariant&);	
+	PaginatedModel * getModelForKey(KeyModel::Type, const QVariant&);	
 
 protected slots:
 	void valueLoaded(const QVariant&, QObject *);

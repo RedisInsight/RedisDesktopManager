@@ -45,6 +45,7 @@ private slots:
 
 signals:
 	void error(QString);
+	void statusMessage(QString);
 	void databasesLoaded();
 	void unlockUI();
 };

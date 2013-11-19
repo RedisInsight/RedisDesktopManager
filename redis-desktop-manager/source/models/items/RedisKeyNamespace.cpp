@@ -1,6 +1,6 @@
 #include "RedisKeyNamespace.h"
 
-RedisKeyNamespace::RedisKeyNamespace(QString name, QIcon & icon)
+RedisKeyNamespace::RedisKeyNamespace(QString name, const QIcon & icon)
 	: ItemWithNaturalSort(icon, name)
 
 {

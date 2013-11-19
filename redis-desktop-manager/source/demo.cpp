@@ -181,6 +181,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				performanceTimer.start();
 				RedisServerDbItem * db = (RedisServerDbItem *)item;
 				connections->blockSignals(true);
+				statusBar()->showMessage(QString("Loading keys ..."));
 				db->loadKeys();				
 			}			
 			break;
@@ -190,7 +191,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				RedisKeyItem * key = (RedisKeyItem *)item;
 				QWidget * viewTab = new ValueTab(key);
 				
-				QString keyFullName = key->getFullText();
+				QString keyFullName = key->getTabLabelText();
 				addTab(keyFullName, viewTab);
 			}
 			break;
@@ -439,4 +440,9 @@ void MainWin::OnUIUnlock()
 
 	statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
 	performanceTimer.invalidate();
+}
+
+void MainWin::OnStatusMessage(QString message)
+{
+	statusBar()->showMessage(message);
 }

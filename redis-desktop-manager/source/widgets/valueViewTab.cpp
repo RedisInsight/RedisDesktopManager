@@ -6,40 +6,40 @@
 #include "ValueTabView.h"
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: key(key), ui(nullptr), model(nullptr)
+	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr)
 {	
 	ui = new ValueTabView();
 
 	init();
 
-	connect(key, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));
+	connect(keyModel, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));
 
-	key->getValue();
+	keyModel->getValue();
 }
 
 void ValueTab::init()
 {
-	type = key->getKeyType();		
+	type = keyModel->getKeyType();		
 
-	if (type == RedisKeyItem::String) {
+	if (type == KeyModel::String) {
 		ui->init(this, ValueTabView::PlainBased);
 	} else {
 		ui->init(this);
 	}	
 
-	ui->keyName->setText(key->text());	
+	ui->keyName->setText(keyModel->getKeyName());	
 }
 
 void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 {
-	if (owner != key) {
+	if (owner != keyModel) {
 		return;
 	}
 
 	ui->loader->stop();
 	ui->loaderLabel->hide();
 
-	if (type == RedisKeyItem::String) {
+	if (type == KeyModel::String) {
         QString rawValue = value.toString();
         ui->setPlainValue(rawValue);
 	} else {
@@ -50,20 +50,20 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 
 }
 
-PaginatedModel * ValueTab::getModelForKey(RedisKeyItem::Type t, const QVariant& val)
+PaginatedModel * ValueTab::getModelForKey(KeyModel::Type t, const QVariant& val)
 {
     QStringList rawValue = val.toStringList();
 
     switch (t)
 	{
-	case RedisKeyItem::Hash:		
+	case KeyModel::Hash:		
         return new HashKeyModel(rawValue);
 
-	case RedisKeyItem::List:		
-	case RedisKeyItem::Set:
+	case KeyModel::List:		
+	case KeyModel::Set:
         return new ListKeyModel(rawValue);
 
-	case RedisKeyItem::ZSet:		
+	case KeyModel::ZSet:		
         return new SortedSetKeyModel(rawValue);
 	}
 

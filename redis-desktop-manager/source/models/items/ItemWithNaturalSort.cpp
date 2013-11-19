@@ -18,7 +18,7 @@ ItemWithNaturalSort::ItemWithNaturalSort(const QIcon & icon, const QString & tex
 **/
 
 static int
-compare_left(QString::iterator a,  QString::iterator b)
+compare_left(QString::const_iterator a,  QString::const_iterator b)
 {
      /* Compare two left-aligned numbers: the first to have a
         different value wins. */
@@ -39,7 +39,7 @@ compare_left(QString::iterator a,  QString::iterator b)
 }
 
 static int
-compare_right(QString::iterator a,  QString::iterator b)
+compare_right(QString::const_iterator a,  QString::const_iterator b)
 {
      int bias = 0;
      
@@ -69,12 +69,9 @@ compare_right(QString::iterator a,  QString::iterator b)
 }
 
 
-bool ItemWithNaturalSort::operator<(const QStandardItem & second) const
+bool ItemWithNaturalSort::lessThan(const QString &a, const QString &b)
 {
-	QString a = text();
-	QString b = second.text();
-
-    int ai, bi;
+	int ai, bi;
     QChar ca, cb;
     int fractional, result;
          
@@ -116,4 +113,13 @@ bool ItemWithNaturalSort::operator<(const QStandardItem & second) const
 
 		++ai; ++bi;
     }
+}
+
+
+bool ItemWithNaturalSort::operator<(const QStandardItem & second) const
+{
+	QString a = text();
+	QString b = second.text();
+
+	return lessThan(a, b);
 }
