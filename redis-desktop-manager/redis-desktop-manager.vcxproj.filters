@@ -305,6 +305,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_KeysTreeRenderer.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\ConnectionTreeView.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -387,6 +396,9 @@
     </CustomBuild>
     <CustomBuild Include="include\models\items\KeysTreeRenderer.h">
       <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\ConnectionTreeView.h">
+      <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,7 @@ MainWin::MainWin(QWidget *parent)
 
 	initConnectionsTreeView();
 	initServerMenu();
+	initKeyMenu();
 	initConnectionsMenu();
 	initFormButtons();	
 	initTabs();	
@@ -49,6 +50,8 @@ void MainWin::initConnectionsTreeView()
 
 	connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
 			this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
+	connect(ui.serversTreeView, SIGNAL(wheelClicked(const QModelIndex&)), 
+		this, SLOT(OnConnectionTreeWheelClick(const QModelIndex&)));
 
 	//setup context menu
 	ui.serversTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -67,6 +70,12 @@ void MainWin::initServerMenu()
 	serverMenu->addSeparator();
 	serverMenu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
 	serverMenu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
+}
+
+void MainWin::initKeyMenu()
+{
+	keyMenu = new QMenu();
+	keyMenu->addAction("Open key value in new tab", this, SLOT(OnKeyOpenInNewTab()));
 }
 
 void MainWin::initConnectionsMenu()
@@ -187,14 +196,30 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 			break;
 
 		case RedisKeyItem::TYPE:	
-			{
-				RedisKeyItem * key = (RedisKeyItem *)item;
-				QWidget * viewTab = new ValueTab(key);
-				
-				QString keyFullName = key->getTabLabelText();
-				addTab(keyFullName, viewTab);
-			}
+			openKeyTab((RedisKeyItem *)item);	
 			break;
+	}
+}
+
+void MainWin::openKeyTab(RedisKeyItem * key, bool inNewTab)
+{
+	QWidget * viewTab = new ValueTab(key);
+
+	QString keyFullName = key->getTabLabelText();
+
+	if (inNewTab) {
+		addTab(keyFullName, viewTab, QString(), true);
+	} else {
+		addTab(keyFullName, viewTab);
+	}
+}
+
+void MainWin::OnConnectionTreeWheelClick(const QModelIndex & index)
+{
+	QStandardItem * item = connections->itemFromIndex(index);	
+
+	if (item->type() == RedisKeyItem::TYPE) {
+		openKeyTab((RedisKeyItem *)item, true);
 	}
 }
 
@@ -233,11 +258,13 @@ void MainWin::closeCurrentTabWithValue()
 	}
 }
 
-void MainWin::addTab(QString& tabName, QWidget* tab, QString icon)
+void MainWin::addTab(QString& tabName, QWidget* tab, QString icon, bool forceOpenInNewTab)
 {		
 	int currIndex;
 
-	closeCurrentTabWithValue();
+	if (!forceOpenInNewTab) {
+		closeCurrentTabWithValue();
+	}
 
 	if (icon.isEmpty()) {
 		currIndex = ui.tabWidget->addTab(tab, tabName);
@@ -260,6 +287,8 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
 	if (type == RedisServerItem::TYPE) {
 		serverMenu->exec(QCursor::pos());
+	} else if (type == RedisKeyItem::TYPE) {
+		keyMenu->exec(QCursor::pos());
 	}
 }
 
@@ -418,6 +447,16 @@ void MainWin::OnConsoleOpen()
 	QString serverName = server->text();
 
 	addTab(serverName, tab, ":/images/terminal.png");
+}
+
+void MainWin::OnKeyOpenInNewTab()
+{
+	QStandardItem * item = getSelectedItemInConnectionsTree();	
+
+	if (item == nullptr || item->type() != RedisKeyItem::TYPE) 
+		return;	
+
+	openKeyTab((RedisKeyItem *)item, true);
 }
 
 QStandardItem * MainWin::getSelectedItemInConnectionsTree()

@@ -243,7 +243,7 @@ aa|bb 	Either aa or bb.
          </layout>
         </item>
         <item>
-         <widget class="QTreeView" name="serversTreeView">
+         <widget class="ConnectionTreeView" name="serversTreeView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -559,6 +559,13 @@ aa|bb 	Either aa or bb.
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ConnectionTreeView</class>
+   <extends>QTreeView</extends>
+   <header>ConnectionTreeView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Resources/demo.qrc"/>
  </resources>

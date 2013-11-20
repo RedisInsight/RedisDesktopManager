@@ -29,11 +29,14 @@ private:
 	Updater * updater;
 	QElapsedTimer performanceTimer;
 	QMenu * serverMenu;
+	QMenu * keyMenu;
 	QMenu * connectionsMenu;
 
-	void addTab(QString&, QWidget*, QString icon = QString());
+	void addTab(QString&, QWidget*, QString icon = QString(), bool forceOpenInNewTab = false);
 
 	void closeCurrentTabWithValue();
+
+	void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 
 	/** @return >=0 if exist **/
 	int getTabIndex(QString&);
@@ -43,6 +46,7 @@ private:
 	void initFormButtons();
 	void initConnectionsTreeView();
 	void initServerMenu();
+	void initKeyMenu();
 	void initConnectionsMenu();
 	void initTabs();
 	void initUpdater();
@@ -53,6 +57,7 @@ private:
 	private slots:
 		void OnAddConnectionClick();
 		void OnConnectionTreeClick(const QModelIndex & index);
+		void OnConnectionTreeWheelClick(const QModelIndex & index);
 		void OnTabClose(int index);
 		void OnTreeViewContextMenu(const QPoint &);
 		void OnReloadServerInTree();
@@ -69,6 +74,7 @@ private:
 		void OnError(QString);
 		void OnUIUnlock();
 		void OnStatusMessage(QString);
+		void OnKeyOpenInNewTab();
 };
 
 #endif // DEMO_H
