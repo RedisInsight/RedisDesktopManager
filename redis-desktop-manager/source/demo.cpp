@@ -361,7 +361,6 @@ void MainWin::OnImportConnectionsClick()
 	QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files (*.xml)"));
 
 	if (fileName.isEmpty()) {
-		QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
 		return;
 	}
 
@@ -377,7 +376,6 @@ void MainWin::OnExportConnectionsClick()
 	QString fileName = QFileDialog::getSaveFileName(this, "Export Connections to xml", "", tr("Xml Files (*.xml)"));
 
 	if (fileName.isEmpty()) {
-		QMessageBox::warning(this, "Can't export connections", "Select valid file name for export");
 		return;
 	}
 
