@@ -83,18 +83,57 @@ bool connection::isFormDataValid()
 
 bool connection::isConnectionSettingsValid()
 {
-	return !ui.nameEdit->text().isEmpty()
+	ui.nameEdit->setStyleSheet("");
+	ui.hostEdit->setStyleSheet("");
+
+	bool isValid = !ui.nameEdit->text().isEmpty()
 		&& !ui.hostEdit->text().isEmpty()
 		&& ui.portSpinBox->value() > 0;
+
+	if (isValid) {
+		return true;
+	} 
+
+	if (ui.nameEdit->text().isEmpty()) {
+		ui.nameEdit->setStyleSheet("border: 1px solid red;");
+	}
+
+	if (ui.hostEdit->text().isEmpty()) {
+		ui.hostEdit->setStyleSheet("border: 1px solid red;");
+	}
+
+	return false;
 }
 
 bool connection::isSshSettingsValid()
 {
-	return !isSshTunnelUsed() 
-		|| (!ui.sshHost->text().isEmpty()  
+	ui.sshHost->setStyleSheet("");
+	ui.sshUser->setStyleSheet("");
+	ui.sshPass->setStyleSheet("");
+
+	bool isSSHUsed = isSshTunnelUsed();
+	bool isValid =  !ui.sshHost->text().isEmpty()  
 			&& !ui.sshUser->text().isEmpty() 
 			&& !ui.sshPass->text().isEmpty() 
-			&& ui.sshPort->value() > 0);
+			&& ui.sshPort->value() > 0;
+
+	if (isSSHUsed && isValid) {
+		return true;
+	}
+
+	if (ui.sshHost->text().isEmpty()) {
+		ui.sshHost->setStyleSheet("border: 1px solid red;");
+	}
+
+	if (ui.sshUser->text().isEmpty()) {
+		ui.sshUser->setStyleSheet("border: 1px solid red;");
+	}
+
+	if (ui.sshPass->text().isEmpty()) {
+		ui.sshPass->setStyleSheet("border: 1px solid red;");
+	}
+
+	return false;
 }
 
 bool connection::isSshTunnelUsed()
@@ -104,7 +143,7 @@ bool connection::isSshTunnelUsed()
 
 RedisConnectionConfig connection::getConectionConfigFromFormData()
 {	
-	RedisConnectionConfig conf(ui.hostEdit->text(),ui.nameEdit->text(), ui.portSpinBox->value());
+	RedisConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
 
 	if (!ui.authEdit->text().isEmpty()) {
 		conf.auth = ui.authEdit->text();
@@ -112,9 +151,9 @@ RedisConnectionConfig connection::getConectionConfigFromFormData()
 
 	if (isSshTunnelUsed()) {
 		conf.setSshTunnelSettings(
-			ui.sshHost->text(), 
-			ui.sshUser->text(), 
-			ui.sshPass->text(), 
+			ui.sshHost->text().trimmed(), 
+			ui.sshUser->text().trimmed(), 
+			ui.sshPass->text().trimmed(), 
 			ui.sshPort->value()
 			);
 	}
