@@ -1,10 +1,9 @@
 #include "ValueTabView.h"
 #include "FastItemDelegate.h"
 
-void ValueTabView::init(QWidget * baseController, ValueTabView::Type t)
+void ValueTabView::init(QWidget * baseController)
 {
 	controller = baseController;
-	viewType = t;
 
 	initLayout();
 
@@ -43,9 +42,9 @@ void ValueTabView::initKeyName()
 	gridLayout->addWidget(keyNameLabel, 0, 0, 1, 1);
 }
 
-void ValueTabView::initKeyValue()
+void ValueTabView::initKeyValue(ValueTabView::Type t)
 {
-	if (viewType == ModelBased) {
+	if (t == ModelBased) {
 
 		keyValue = new QTableView(controller);
 		keyValue->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -80,7 +79,6 @@ void ValueTabView::initPagination()
 	nextPage->setEnabled(false);
 
 	pagination = new QLabel;
-	pagination->setText("Page <b>1</b> of <b>1</b>");
 	pagination->setAlignment(Qt::AlignCenter);
 
 	paginationGrid->addWidget(previousPage, 0, 0, 1, 1);
@@ -108,9 +106,4 @@ void ValueTabView::setPlainValue(QString &value)
 	}
 
 	keyValuePlain->setPlainText(value);
-}
-
-ValueTabView::Type ValueTabView::getType()
-{
-	return viewType;
 }

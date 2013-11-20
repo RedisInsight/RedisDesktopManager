@@ -46,8 +46,8 @@ private:
 	ResponseType getResponseType(const QChar);
 
 	//parsers
-	QVariant parseBulk(QString response);
-	QStringList parseMultiBulk(QString response);
+	QVariant parseBulk(const QString& response);
+	QStringList parseMultiBulk(const QString& response);
 	QString getStringResponse(QString response);
 
 	int getSizeOfBulkReply(const QString& reply, int endOfFirstLine = -1, int beginFrom = 0);	

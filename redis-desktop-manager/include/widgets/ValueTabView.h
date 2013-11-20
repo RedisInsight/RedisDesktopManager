@@ -33,7 +33,9 @@ public:
 
 	enum Type { ModelBased, PlainBased };
 
-	void init(QWidget * baseController, ValueTabView::Type t = ModelBased);
+	void init(QWidget * baseController);
+
+	void initKeyValue(ValueTabView::Type t = ModelBased);
 
 	void setModel(QAbstractItemModel * model);
 
@@ -43,13 +45,10 @@ public:
 
 protected:
 	QWidget * controller;
-	ValueTabView::Type viewType;
 
 	void initLayout();
 
-	void initKeyName();
-
-	void initKeyValue();
+	void initKeyName();	
 
 	void initPagination();
 };

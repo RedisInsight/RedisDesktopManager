@@ -5,29 +5,32 @@
 #include "SortedSetKeyModel.h"
 #include "ValueTabView.h"
 
+#include <QtConcurrent>
+
 ValueTab::ValueTab(RedisKeyItem * key)	
 	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr)
 {	
 	ui = new ValueTabView();
+	ui->init(this);
+	ui->keyName->setText(keyModel->getKeyName());	
 
-	init();
+	connect(keyModel, SIGNAL(keyTypeLoaded(KeyModel::Type)), this, SLOT(keyTypeLoaded(KeyModel::Type)));
+	connect(keyModel, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));	
 
-	connect(keyModel, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));
-
-	keyModel->getValue();
+	keyModel->getKeyType();	
 }
 
-void ValueTab::init()
+void ValueTab::keyTypeLoaded(KeyModel::Type t)
 {
-	type = keyModel->getKeyType();		
+	type = t;
 
 	if (type == KeyModel::String) {
-		ui->init(this, ValueTabView::PlainBased);
+		ui->initKeyValue(ValueTabView::PlainBased);
 	} else {
-		ui->init(this);
-	}	
+		ui->initKeyValue(ValueTabView::ModelBased);
+	}
 
-	ui->keyName->setText(keyModel->getKeyName());	
+	keyModel->getValue();
 }
 
 void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
@@ -48,6 +51,7 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 		initPagination();
 	}
 
+	setObjectName("valueTabReady");
 }
 
 PaginatedModel * ValueTab::getModelForKey(KeyModel::Type t, const QVariant& val)
@@ -78,9 +82,9 @@ void ValueTab::initPagination()
 	}
 
 	int pagesCount = model->getPagesCount();
+	ui->pagination->setText(QString("Page <b>1</b> of <b>%1</b>").arg(pagesCount));
 
-	if (pagesCount > 1) {
-		ui->pagination->setText(QString("Page <b>1</b> of <b>%1</b>").arg(pagesCount));
+	if (pagesCount > 1) {		
 		ui->nextPage->setEnabled(true);
 
 		connect(ui->nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
@@ -137,15 +141,39 @@ void ValueTab::loadPreviousPage()
 
 ValueTab::~ValueTab()
 {
+	QElapsedTimer timer;
+
+	timer.start();
+
 	if (ui != nullptr) {
 		delete ui;
 	}
 
 	if (model != nullptr) {
-		delete model;
+
+		model->disconnect();
+
+		QtConcurrent::run(delayedDeallocator, model);
+
+		model = nullptr;		
 	}
+
+	keyModel->disconnect(this);
+
+	qDebug() << QString("GUI free memory %1").arg(timer.elapsed());
 }
 
+
+void ValueTab::delayedDeallocator(QObject *object)
+{
+	QElapsedTimer timer;
+
+	timer.start();
+
+	delete object;
+
+	qDebug() << QString("Async free memory %1").arg(timer.elapsed());
+}
 
 
 

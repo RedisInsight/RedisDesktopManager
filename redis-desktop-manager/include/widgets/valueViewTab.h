@@ -16,19 +16,20 @@ public:
 	ValueTab(RedisKeyItem * key);
 	~ValueTab();
 
+	static void delayedDeallocator(QObject *);
+
 protected:	
 	KeyModel * keyModel;
 	KeyModel::Type type;
 	PaginatedModel * model;
 	ValueTabView * ui;
 
-	void init();
-
 	void initPagination();
 
 	PaginatedModel * getModelForKey(KeyModel::Type, const QVariant&);	
 
 protected slots:
+	void keyTypeLoaded(KeyModel::Type);
 	void valueLoaded(const QVariant&, QObject *);
 	void loadNextPage();
 	void loadPreviousPage();

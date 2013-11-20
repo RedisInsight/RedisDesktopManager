@@ -219,16 +219,25 @@ int MainWin::getTabIndex(QString& name)
 	return -1;
 }
 
-void MainWin::addTab(QString& tabName, QWidget* tab, QString icon)
+void MainWin::closeCurrentTabWithValue()
 {
-	//find opened tab with same key		
-	int currIndexOnTab = getTabIndex(tabName);
+	int currIndex = ui.tabWidget->currentIndex();
 
-	if (currIndexOnTab > -1) { // tab exist - close old tab
-		OnTabClose(currIndexOnTab);
+	if (currIndex == -1) 
+		return;
+	
+	QWidget * w = ui.tabWidget->widget(currIndex);
+
+	if (w->objectName() == "valueTabReady") {
+		OnTabClose(currIndex);
 	}
-		
+}
+
+void MainWin::addTab(QString& tabName, QWidget* tab, QString icon)
+{		
 	int currIndex;
+
+	closeCurrentTabWithValue();
 
 	if (icon.isEmpty()) {
 		currIndex = ui.tabWidget->addTab(tab, tabName);

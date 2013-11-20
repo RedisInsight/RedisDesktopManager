@@ -14,7 +14,7 @@ public:
 
 	enum Type {String, Hash, List, Set, ZSet, None, Empty};
 
-	Type getKeyType();
+	void getKeyType();
 
 	void getValue();
 
@@ -22,7 +22,7 @@ public:
 
 signals:
 	void valueLoaded(const QVariant&, QObject *);
-	void keyTypeLoaded();
+	void keyTypeLoaded(KeyModel::Type);
 
 private slots:
 	void loadedValue(const QVariant&, QObject *);

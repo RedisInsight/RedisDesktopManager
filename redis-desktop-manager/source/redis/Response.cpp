@@ -77,7 +77,7 @@ QVariant Response::getValue()
 	return parsedResponse;
 }	
 
-QVariant Response::parseBulk(QString response)
+QVariant Response::parseBulk(const QString& response)
 {
 	int endOfFirstLine = response.indexOf("\r\n");
 	int responseSize = getSizeOfBulkReply(response, endOfFirstLine);	
@@ -89,7 +89,7 @@ QVariant Response::parseBulk(QString response)
 	return QVariant();
 }
 
-QStringList Response::parseMultiBulk(QString response)
+QStringList Response::parseMultiBulk(const QString& response)
 {	
 	int endOfFirstLine = response.indexOf("\r\n");
 	int responseSize = getSizeOfBulkReply(response, endOfFirstLine);			

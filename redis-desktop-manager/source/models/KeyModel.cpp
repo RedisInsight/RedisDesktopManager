@@ -13,6 +13,9 @@ KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
 
 KeyModel::~KeyModel(void)
 {
+	if (db != nullptr) {
+		db->disconnect(this);
+	}
 }
 
 QString KeyModel::getKeyName()
@@ -20,26 +23,17 @@ QString KeyModel::getKeyName()
 	return keyName;
 }
 
-KeyModel::Type KeyModel::getKeyType()
+void KeyModel::getKeyType()
 {
 	if (keyType != Empty) {
-		return keyType;
+		emit keyTypeLoaded(keyType);
+		return;
 	}
 
-	QEventLoop loop;
-	QTimer timer;
-
-	timer.setSingleShot(true);
-	connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-	connect(this, SIGNAL(keyTypeLoaded()), &loop, SLOT(quit()));
 	connect(db, SIGNAL(responseResieved(const QVariant&, QObject *)),
 		this, SLOT(loadedType(const QVariant&, QObject*)));
 
-	timer.start(db->getConfig().executeTimeout);
 	db->addCommand(Command(QString("type %1").arg(keyName), this, dbIndex));
-	loop.exec();
-
-	return keyType;
 }
 
 void KeyModel::getValue()
@@ -122,7 +116,7 @@ void KeyModel::loadedType(const QVariant& result, QObject * owner)
 	if (t == "zset") 
 		keyType = ZSet;
 
-	emit keyTypeLoaded();
+	emit keyTypeLoaded(keyType);
 
 	return;
 }

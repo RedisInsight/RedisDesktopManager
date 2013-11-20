@@ -33,6 +33,8 @@ private:
 
 	void addTab(QString&, QWidget*, QString icon = QString());
 
+	void closeCurrentTabWithValue();
+
 	/** @return >=0 if exist **/
 	int getTabIndex(QString&);
 
