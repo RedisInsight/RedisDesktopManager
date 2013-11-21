@@ -6,11 +6,11 @@
 #include "ValueTabView.h"
 
 #include <QtConcurrent>
-#include <json\json.h>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
 	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr), 
-	  currentFormatter(ValueViewFormatters::Plain), currentCell(nullptr)
+	  currentFormatter(AbstractFormatter::FormatterType::Plain), 
+	  currentCell(nullptr), formatter(AbstractFormatter::getFormatter())
 {	
 	ui = new ValueTabView();
 	ui->init(this);
@@ -148,53 +148,30 @@ void ValueTab::loadPreviousPage()
 
 void ValueTab::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)
 {
-	ui->singleValue->clear();
+	ui->singleValue->clear();	
 
-	QString value = model->itemFromIndex(current)->text();	
+	formatter->setRawValue(model->itemFromIndex(current)->text());
 
-	switch (currentFormatter)
-	{
-	
-	case ValueViewFormatters::Json:
-		value = jsonValueFormatter(value);
-		break;
-	case ValueViewFormatters::PHPSerializer:
-		//todo : implement this
-		break;
-	case ValueViewFormatters::XML:
-		//todo : implement this
-		break;
-	case ValueViewFormatters::Plain:
-	default:
-		break;		
-	}
-
-	ui->singleValue->appendPlainText(value);
+	ui->singleValue->appendPlainText(formatter->getFormatted());
 
 	currentCell = &current;
 }
 
 void ValueTab::currentFormatterChanged(int index)
 {
-	currentFormatter = (ValueViewFormatters)index;
+	AbstractFormatter::FormatterType newFormatterType = (AbstractFormatter::FormatterType)index;
+
+	if (newFormatterType == currentFormatter) 
+		return;
+
+	currentFormatter = newFormatterType;
+	delete formatter;
+
+	formatter = AbstractFormatter::getFormatter(newFormatterType);
+
 	onSelectedItemChanged(*currentCell, *currentCell);
 }
 
-QString ValueTab::jsonValueFormatter(const QString& plainValue)
-{
-	Json::Value root;   
-	Json::Reader reader;
-	bool parsingSuccessful = reader.parse( plainValue.toStdString(), root );
-
-	if (!parsingSuccessful)
-	{
-		return QString("Invalid JSON");
-	}
-
-	Json::StyledWriter writer;		
-
-	return QString::fromStdString(writer.write(root));
-}
 
 ValueTab::~ValueTab()
 {

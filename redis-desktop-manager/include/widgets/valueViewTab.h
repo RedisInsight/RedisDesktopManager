@@ -5,6 +5,7 @@
 #include "PaginatedModel.h"
 #include "RedisKeyItem.h"
 #include "KeyModel.h"
+#include "AbstractFormatter.h"
 
 class ValueTabView;
 
@@ -24,12 +25,8 @@ protected:
 	PaginatedModel * model;
 	ValueTabView * ui;
 
-	enum ValueViewFormatters
-	{
-		Plain = 0, Json = 1, PHPSerializer = 2, XML = 3
-	};
-
-	ValueViewFormatters currentFormatter;
+	AbstractFormatter::FormatterType currentFormatter;
+	AbstractFormatter * formatter;
 
 	const QModelIndex * currentCell;
 

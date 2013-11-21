@@ -69,6 +69,12 @@
     <Filter Include="Source Files\updater">
       <UniqueIdentifier>{987cc7e7-61f7-4b0e-8d7e-a44c0a355d86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\models\value-view-formatters">
+      <UniqueIdentifier>{2739bcf2-5093-452f-880d-600723713758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\models\value-view-formatters">
+      <UniqueIdentifier>{6058accc-94c5-47ff-a269-cb40f6a42d0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\demo.cpp">
@@ -314,6 +320,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ConnectionTreeView.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\PlainFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\AbstractFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\JsonFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\PHPSerializeFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -449,6 +467,18 @@
     </ClInclude>
     <ClInclude Include="include\models\items\ItemWithNaturalSort.h">
       <Filter>Header Files\models\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\AbstractFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\PHPSerializeFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

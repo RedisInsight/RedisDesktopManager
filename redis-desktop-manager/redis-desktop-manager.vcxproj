@@ -170,6 +170,10 @@
     <ClCompile Include="source\models\ListKeyModel.cpp" />
     <ClCompile Include="source\models\PaginatedModel.cpp" />
     <ClCompile Include="source\models\SortedSetKeyModel.cpp" />
+    <ClCompile Include="source\models\value-view-formatters\AbstractFormatter.cpp" />
+    <ClCompile Include="source\models\value-view-formatters\JsonFormatter.cpp" />
+    <ClCompile Include="source\models\value-view-formatters\PHPSerializeFormatter.cpp" />
+    <ClCompile Include="source\models\value-view-formatters\PlainFormatter.cpp" />
     <ClCompile Include="source\network\qxtsshchannel.cpp" />
     <ClCompile Include="source\network\qxtsshclient.cpp" />
     <ClCompile Include="source\network\qxtsshprocess.cpp" />
@@ -288,6 +292,10 @@
     </CustomBuild>
     <ClInclude Include="include\models\ListKeyModel.h" />
     <ClInclude Include="include\models\SortedSetKeyModel.h" />
+    <ClInclude Include="include\models\value-view-formatters\AbstractFormatter.h" />
+    <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h" />
+    <ClInclude Include="include\models\value-view-formatters\PHPSerializeFormatter.h" />
+    <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h" />
     <ClInclude Include="include\network\qxtsshchannel_p.h" />
     <ClInclude Include="include\redis\Command.h" />
     <CustomBuild Include="include\redis\ConsoleConnectionWrapper.h">
@@ -570,8 +578,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\models;$(ProjectDir)\include\models\items;$(ProjectDir)\include\network;$(ProjectDir)\include\redis;$(ProjectDir)\include\updater;$(ProjectDir)\include\widgets;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)\source;$(ProjectDir)\source\models;$(ProjectDir)\source\models\items;$(ProjectDir)\source\network;$(ProjectDir)\source\redis;$(ProjectDir)\source\updater;$(ProjectDir)\source\widgets;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\models;$(ProjectDir)\include\models\value-view-formatters;$(ProjectDir)\include\models\items;$(ProjectDir)\include\network;$(ProjectDir)\include\redis;$(ProjectDir)\include\updater;$(ProjectDir)\include\widgets;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)\source;$(ProjectDir)\source\models;$(ProjectDir)\source\models\value-view-formatters;$(ProjectDir)\source\models\items;$(ProjectDir)\source\network;$(ProjectDir)\source\redis;$(ProjectDir)\source\updater;$(ProjectDir)\source\widgets;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
