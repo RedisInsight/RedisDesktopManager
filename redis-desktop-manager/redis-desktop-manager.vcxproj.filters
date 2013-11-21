@@ -474,10 +474,10 @@
     <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\models\value-view-formatters\PHPSerializeFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
     </ClInclude>
   </ItemGroup>
@@ -503,11 +503,16 @@
     <Image Include="images\key.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="rdm.png" />
-    <Image Include="images\redis-desktop-manager.ico" />
-    <Image Include="Resources\redis.ico" />
+    <Image Include="Resources\redis.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="rdm.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="redis-desktop-manager.rc" />
+    <ResourceCompile Include="redis-desktop-manager.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

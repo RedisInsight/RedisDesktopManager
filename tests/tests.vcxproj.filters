@@ -132,6 +132,18 @@
     <CustomBuild Include="..\redis-desktop-manager\include\models\FastItemDelegate.h">
       <Filter>Header Files\source</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\models\KeyModel.h">
+      <Filter>Header Files\source</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\widgets\ConnectionTreeView.h">
+      <Filter>Header Files\source</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\models\items\KeysTreeRenderer.h">
+      <Filter>Header Files\source</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\test_valueformatters.h">
+      <Filter>Header Files\tests</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_test_redisconnection.cpp">
@@ -389,6 +401,54 @@
     <ClCompile Include="..\redis-desktop-manager\source\models\items\ItemWithNaturalSort.cpp">
       <Filter>Source Files\source</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KeyModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KeyModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\KeyModel.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\widgets\ConnectionTreeView.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\value-view-formatters\AbstractFormatter.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\value-view-formatters\JsonFormatter.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\value-view-formatters\PHPSerializeFormatter.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\value-view-formatters\PlainFormatter.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\models\items\KeysTreeRenderer.cpp">
+      <Filter>Source Files\source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\test_valueformatters.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_test_valueformatters.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_test_valueformatters.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\redis-desktop-manager\include\network\qxtnetwork.h">
@@ -437,6 +497,18 @@
       <Filter>Header Files\source</Filter>
     </ClInclude>
     <ClInclude Include="..\redis-desktop-manager\include\models\items\ItemWithNaturalSort.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\value-view-formatters\AbstractFormatter.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\value-view-formatters\JsonFormatter.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\value-view-formatters\PHPSerializeFormatter.h">
+      <Filter>Header Files\source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\redis-desktop-manager\include\models\value-view-formatters\PlainFormatter.h">
       <Filter>Header Files\source</Filter>
     </ClInclude>
   </ItemGroup>
