@@ -6,9 +6,11 @@
 #include "ValueTabView.h"
 
 #include <QtConcurrent>
+#include <json\json.h>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr)
+	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr), 
+	  currentFormatter(ValueViewFormatters::Plain), currentCell(nullptr)
 {	
 	ui = new ValueTabView();
 	ui->init(this);
@@ -16,6 +18,8 @@ ValueTab::ValueTab(RedisKeyItem * key)
 
 	connect(keyModel, SIGNAL(keyTypeLoaded(KeyModel::Type)), this, SLOT(keyTypeLoaded(KeyModel::Type)));
 	connect(keyModel, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));	
+	connect(ui->singleValueFormatterType, SIGNAL(currentIndexChanged(int)), 
+		this, SLOT(currentFormatterChanged(int)));
 
 	keyModel->getKeyType();	
 }
@@ -49,6 +53,9 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 		model = getModelForKey(type, value);
 		ui->setModel(model);
 		initPagination();
+
+		connect(ui->keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
+			this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
 	}
 
 	setObjectName("valueTabReady");
@@ -139,12 +146,58 @@ void ValueTab::loadPreviousPage()
 		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
 }
 
+void ValueTab::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)
+{
+	ui->singleValue->clear();
+
+	QString value = model->itemFromIndex(current)->text();	
+
+	switch (currentFormatter)
+	{
+	
+	case ValueViewFormatters::Json:
+		value = jsonValueFormatter(value);
+		break;
+	case ValueViewFormatters::PHPSerializer:
+		//todo : implement this
+		break;
+	case ValueViewFormatters::XML:
+		//todo : implement this
+		break;
+	case ValueViewFormatters::Plain:
+	default:
+		break;		
+	}
+
+	ui->singleValue->appendPlainText(value);
+
+	currentCell = &current;
+}
+
+void ValueTab::currentFormatterChanged(int index)
+{
+	currentFormatter = (ValueViewFormatters)index;
+	onSelectedItemChanged(*currentCell, *currentCell);
+}
+
+QString ValueTab::jsonValueFormatter(const QString& plainValue)
+{
+	Json::Value root;   
+	Json::Reader reader;
+	bool parsingSuccessful = reader.parse( plainValue.toStdString(), root );
+
+	if (!parsingSuccessful)
+	{
+		return QString("Invalid JSON");
+	}
+
+	Json::StyledWriter writer;		
+
+	return QString::fromStdString(writer.write(root));
+}
+
 ValueTab::~ValueTab()
 {
-	QElapsedTimer timer;
-
-	timer.start();
-
 	if (ui != nullptr) {
 		delete ui;
 	}
@@ -159,20 +212,12 @@ ValueTab::~ValueTab()
 	}
 
 	keyModel->disconnect(this);
-
-	qDebug() << QString("GUI free memory %1").arg(timer.elapsed());
 }
 
 
 void ValueTab::delayedDeallocator(QObject *object)
 {
-	QElapsedTimer timer;
-
-	timer.start();
-
 	delete object;
-
-	qDebug() << QString("Async free memory %1").arg(timer.elapsed());
 }
 
 

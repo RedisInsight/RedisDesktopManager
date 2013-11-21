@@ -13,6 +13,9 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QMovie>
 #include <QPushButton>
+#include <QSplitter>
+#include <QComboBox>
+#include <QGroupBox>
 
 class ValueTabView
 {
@@ -20,6 +23,10 @@ public:
 	QGridLayout *gridLayout;
 	QLineEdit *keyName;
 	QTableView *keyValue;
+	QPlainTextEdit *singleValue;
+	QGroupBox *singleValueGroup;
+	QComboBox * singleValueFormatterType;
+	QSplitter *splitter;
 	QPlainTextEdit *keyValuePlain;
 	QLabel *keyNameLabel;	
 	QLabel *keyValueLabel;

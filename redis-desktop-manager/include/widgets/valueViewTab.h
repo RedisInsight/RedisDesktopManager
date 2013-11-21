@@ -24,6 +24,17 @@ protected:
 	PaginatedModel * model;
 	ValueTabView * ui;
 
+	enum ValueViewFormatters
+	{
+		Plain = 0, Json = 1, PHPSerializer = 2, XML = 3
+	};
+
+	ValueViewFormatters currentFormatter;
+
+	const QModelIndex * currentCell;
+
+	QString jsonValueFormatter(const QString&);
+
 	void initPagination();
 
 	PaginatedModel * getModelForKey(KeyModel::Type, const QVariant&);	
@@ -33,6 +44,8 @@ protected slots:
 	void valueLoaded(const QVariant&, QObject *);
 	void loadNextPage();
 	void loadPreviousPage();
+	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
+	void currentFormatterChanged(int);
 
 	//void error(QString&);
 };

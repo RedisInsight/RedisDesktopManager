@@ -9,7 +9,10 @@ void ValueTabView::init(QWidget * baseController)
 
 	initKeyName();
 
-	initKeyValue();
+	singleValueFormatterType = new QComboBox;
+	singleValueFormatterType->insertItem(0, "Plain text");
+	singleValueFormatterType->insertItem(1, "JSON");
+	singleValueFormatterType->setCurrentIndex(0);
 }
 
 void ValueTabView::initLayout()
@@ -50,7 +53,30 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 		keyValue->setEditTriggers(QAbstractItemView::NoEditTriggers);
 		keyValue->setWordWrap(true);
 		keyValue->horizontalHeader()->setDefaultSectionSize(220);
-		gridLayout->addWidget(keyValue, 1, 1, 1, 1);
+
+		singleValue = new QPlainTextEdit;
+		singleValue->appendPlainText("Select table cell");
+		singleValue->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+		singleValue->setReadOnly(true);
+
+		QLabel * formatterLabel = new QLabel;
+		formatterLabel->setText("Value formatter:");
+
+		singleValueGroup = new QGroupBox("View Value:");
+
+		QGridLayout *grid = new QGridLayout;
+		grid->addWidget(formatterLabel, 0, 0, 1, 1);	
+		grid->addWidget(singleValueFormatterType, 0, 1, 1, 1);	
+		grid->addWidget(singleValue, 1, 0, 1, 2);	
+		
+		singleValueGroup->setLayout(grid);
+
+		splitter = new QSplitter();
+		splitter->setOrientation(Qt::Vertical);
+		splitter->addWidget(keyValue);
+		splitter->addWidget(singleValueGroup);
+
+		gridLayout->addWidget(splitter, 1, 1, 1, 1);
 
 		initPagination();
 
