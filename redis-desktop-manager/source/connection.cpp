@@ -65,6 +65,7 @@ void connection::OnOkButtonClick()
 		connection = server->getConnection();
 
 		connection->setConnectionConfig(conf);	
+		mainForm->connections->connectionChanged();
 		
 	} else {		
 

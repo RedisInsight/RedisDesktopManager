@@ -170,3 +170,7 @@ void RedisConnectionsManager::updateFilter()
 	}
 }
 
+void RedisConnectionsManager::connectionChanged()
+{
+	SaveConnectionsConfigToFile(configPath);
+}

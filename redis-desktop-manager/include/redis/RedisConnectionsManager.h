@@ -27,6 +27,8 @@ public:
 	void setFilter(QRegExp &);
 	void resetFilter();
 
+	void connectionChanged();
+
 private:
 	QThread connectionsThread;
 
