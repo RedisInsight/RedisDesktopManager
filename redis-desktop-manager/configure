@@ -3,15 +3,15 @@ cd ./../deps/
 chmod -R 777 libssh
 chmod -R 777 json-cpp
 cd ./libssh
-#sh ./configure  --with-openssl --with-libz
-#make
-#sudo make install
+sh ./configure  --with-openssl --with-libz
+make
+sudo make install
 
-#sudo bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/libssh2.conf'
-#sudo ldconfig
+sudo bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/libssh2.conf'
+sudo ldconfig
 
-cd ./../json-cpp/
+cd ./../jsoncpp/
 scons platform=linux-gcc
-sudo cp ./buildscons/linux-gcc-4.6/src/lib_json/libjson_linux-gcc-4.6_libmt.a /usr/local/lib/libjsoncpp.a
-sudo cp ./buildscons/linux-gcc-4.6/src/lib_json/libjson_linux-gcc-4.6_libmt.so /usr/local/lib/libjsoncpp.so
+sudo cp ./buildscons/linux-gcc/src/lib_json/libjson_linux-gcc_libmt.a /usr/local/lib/libjsoncpp.a
+sudo cp ./buildscons/linux-gcc/src/lib_json/libjson_linux-gcc_libmt.so /usr/local/lib/libjsoncpp.so
 
