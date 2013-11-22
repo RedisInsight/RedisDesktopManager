@@ -96,13 +96,14 @@ QString PHPSerializeFormatter::parseString(const QString &rawValue)
 	return rawValue.mid(valueStartsFrom, rawValue.size() - valueStartsFrom - 1);
 }
 
-QString PHPSerializeFormatter::parseArray(const QString &rawValue)
+QString PHPSerializeFormatter::parseArray(const QString &rawValue, int whiteSpaceSize)
 {
 	QString key;
 	ValueType type;
 	QString value;
 	QString result;
-	QStringList parsedResult;	
+	QStringList parsedResult;
+	QString whitespace = QString(" ").repeated(whiteSpaceSize);
 
 	int pos = 0;
 
@@ -123,21 +124,33 @@ QString PHPSerializeFormatter::parseArray(const QString &rawValue)
 			break;
 		
 		if (type == Array) {
-			value = parseArray(arrayItemWithValueRegex.cap(Value));
+
+			value = parseArray(arrayItemWithValueRegex.cap(Value), 
+				whiteSpaceSize + whiteSpaceDefaultSize);
+
 		} else if (type == Boolean) {
+
 			value = (value == "1") ? "true" : "false";
+
 		} else if (type == Object) {
+
 			value = QString("Object:%1").arg(value);
+
 		} else {
+
 			value = arrayItemWithValueRegex.cap(Value);
+
 		}
 
-		result = QString("   [%1] => %2").arg(key).arg(value);
+		result = QString("%1[%2] => %3")
+			.arg(whitespace).arg(key).arg(value);
 
 		parsedResult << result;		
 	}	
 
-	return QString("array(\n%1\n)").arg(parsedResult.join(",\n"));
+	return QString("array(\n%1\n%2)")
+		.arg(parsedResult.join(",\n"))
+		.arg(QString(" ").repeated(whiteSpaceSize-whiteSpaceDefaultSize));
 }
 
 QString PHPSerializeFormatter::parseObject(const QString &rawValue)

@@ -26,7 +26,9 @@ private:
 		Key = 1, TypeChar = 2, Value = 4
 	};
 
-	static const int captionsCount = 4;	
+	static const int captionsCount = 4;
+
+	static const int whiteSpaceDefaultSize = 3;
 
 	ValueType getType(const QString &);
 
@@ -38,7 +40,7 @@ private:
 
 	QRegExp arrayItemWithValueRegex;
 
-	QString parseArray(const QString &);
+	QString parseArray(const QString &, int whiteSpaceSize = whiteSpaceDefaultSize);
 
 	QString parseObject(const QString &);
 
