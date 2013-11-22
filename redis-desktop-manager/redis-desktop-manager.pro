@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,6 +25,7 @@ SOURCES += \
     $$PWD/source/network/*.cpp \
     $$PWD/source/models/*.cpp \
     $$PWD/source/models/items/*.cpp \
+    $$PWD/source/models/value-view-formatters/*.cpp \
 
 HEADERS  += \
     $$PWD/include/*.h \
@@ -34,6 +35,7 @@ HEADERS  += \
     $$PWD/include/network/*.h \
     $$PWD/include/models/*.h \
     $$PWD/include/models/items/*.h \
+    $$PWD/include/models/value-view-formatters/*.h \
 
 
 release: DESTDIR = ./../bin/linux/release
@@ -51,11 +53,17 @@ win32 {
     CONFIG(release, debug|release) {
         LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
         PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+
+        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncpp
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncpp.lib
     }
 
     else: CONFIG(debug, debug|release) {
         LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
         PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+
+        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncppd
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncppd.lib
     }
 }
 
@@ -90,6 +98,9 @@ unix {
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
+INCLUDEPATH += $$PWD/../deps/json-cpp/include
+DEPENDPATH += $$PWD/../deps/json-cpp/include
+
 INCLUDEPATH += $$PWD/source \
     $$PWD/source/models \
     $$PWD/source/models/items \
@@ -100,6 +111,7 @@ INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \
     $$PWD/include/models \
     $$PWD/include/models/items \
+    $$PWD/include/models/value-view-formatters \
     $$PWD/include/network \
     $$PWD/include/redis \
     $$PWD/include/updater \
