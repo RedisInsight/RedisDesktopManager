@@ -8,14 +8,14 @@ PHPSerializeFormatter::PHPSerializeFormatter()
 	arrayItemWithValueRegex.setPatternSyntax(QRegExp::RegExp2);
 
 	arrayItemWithValueRegex.setPattern("[is]:*[\\d]*:(\\d+|\".+\");" //array key - integer or string		
-		"(s|i|d|b|a|O):" //value type
+		"(s|i|d|b|a|O|R|r|N):{0,1}" //value type
 		"(\\d+:)*"		// [string length] - skip
 		"("		
  		"\".+\""					// value - string
-		"|[0-9\\.]+"				// value - int, double or bool
+		"|[0-9\\.]+"				// value - int, double, bool or repeat block
 		"|\\{.*\\}"					// value - array
 		"|\".+\":\\d+:\\{.+\\}"		// value - object	
-		")"
+		")*"
 		";*" // simple types ends with ";"
 		); 
 
@@ -63,6 +63,8 @@ PHPSerializeFormatter::ValueType PHPSerializeFormatter::getType(const QChar &typ
 		case 'd': return Double;
 		case 's': return String;
 		case 'a': return Array;
+		case 'r':
+		case 'R': return RepeatBlock;
 		case 'O':
 		case 'o': return Object;
 		default: return Invalid; 
@@ -112,8 +114,10 @@ QString PHPSerializeFormatter::parseArray(const QString &rawValue, int whiteSpac
 		pos += arrayItemWithValueRegex.matchedLength();
 
 		//qDebug() << "Cap count: " << arrayItemWithValueRegex.captureCount() << "texts \n" << arrayItemWithValueRegex.capturedTexts().join('\n');
+
 		if (arrayItemWithValueRegex.captureCount() < captionsCount 
-			|| arrayItemWithValueRegex.cap(Value).isEmpty())  {			
+			|| (arrayItemWithValueRegex.cap(Value).isEmpty() 
+			    && arrayItemWithValueRegex.cap(TypeChar).at(0) != 'N'))  {			
 			break;
 		}
 
@@ -132,9 +136,17 @@ QString PHPSerializeFormatter::parseArray(const QString &rawValue, int whiteSpac
 
 			value = (value == "1") ? "true" : "false";
 
+		} else if (type == Null) {
+
+			value = "NULL";
+
+		} else if (type == RepeatBlock) {
+
+			value = QString("[Repeat block:%1] *** Not fully supported yet ***").arg(value);
+
 		} else if (type == Object) {
 
-			value = QString("Object:%1").arg(value);
+			value = parseObject(QString("O:0:%1").arg(arrayItemWithValueRegex.cap(Value)));
 
 		} else {
 
@@ -155,7 +167,7 @@ QString PHPSerializeFormatter::parseArray(const QString &rawValue, int whiteSpac
 
 QString PHPSerializeFormatter::parseObject(const QString &rawValue)
 {
-	QRegExp getObjectClass("O:\\d+:\"(.+)\"");
+	QRegExp getObjectClass("O:\\d+:\"(.+)\":\\d+:\\{");
 
 	if (getObjectClass.indexIn(rawValue) == -1) {
 		return "Invalid serialized string";

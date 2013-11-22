@@ -15,7 +15,7 @@ public:
 private:
 
 	enum ValueType {
-		Invalid, Null, Integer, Double, Boolean, String, Array, Object
+		Invalid, Null, Integer, Double, Boolean, String, Array, Object, RepeatBlock
 	};
 
 	// Regex captions map:
