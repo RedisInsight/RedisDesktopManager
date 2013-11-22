@@ -12,7 +12,6 @@ void ValueTabView::init(QWidget * baseController)
 	singleValueFormatterType = new QComboBox;
 	singleValueFormatterType->insertItem(0, "Plain text");
 	singleValueFormatterType->insertItem(1, "JSON");
-	singleValueFormatterType->insertItem(2, "PHP-Serializer (experimental)");
 	singleValueFormatterType->setCurrentIndex(0);
 
 	formatterLabel = new QLabel;
