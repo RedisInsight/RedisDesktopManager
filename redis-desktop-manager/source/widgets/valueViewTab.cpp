@@ -47,8 +47,8 @@ void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
 	ui->loaderLabel->hide();
 
 	if (type == KeyModel::String) {
-        QString rawValue = value.toString();
-        ui->setPlainValue(rawValue);
+        rawStringValue = value.toString();
+        ui->setPlainValue(rawStringValue);
 	} else {
 		model = getModelForKey(type, value);
 		ui->setModel(model);
@@ -169,7 +169,15 @@ void ValueTab::currentFormatterChanged(int index)
 
 	formatter = AbstractFormatter::getFormatter(newFormatterType);
 
-	onSelectedItemChanged(*currentCell, *currentCell);
+	if (type == KeyModel::String) {		
+		ui->keyValuePlain->clear();
+		formatter->setRawValue(rawStringValue);
+		ui->keyValuePlain->appendPlainText(
+			formatter->getFormatted()
+		);
+	} else {
+		onSelectedItemChanged(*currentCell, *currentCell);
+	}	
 }
 
 

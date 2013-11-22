@@ -45,6 +45,9 @@ protected slots:
 	void currentFormatterChanged(int);
 
 	//void error(QString&);
+
+private:
+	QString rawStringValue;
 };
 
 #endif // HASHVIEWTAB_H

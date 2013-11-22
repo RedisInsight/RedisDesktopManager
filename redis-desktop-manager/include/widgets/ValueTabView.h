@@ -32,6 +32,7 @@ public:
 	QLabel *keyValueLabel;
 	QLabel *loaderLabel;
 	QMovie *loader;
+	QLabel * formatterLabel;
 
 	QGridLayout * paginationGrid;
 	QPushButton * previousPage;

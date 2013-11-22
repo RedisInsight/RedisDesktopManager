@@ -12,7 +12,11 @@ void ValueTabView::init(QWidget * baseController)
 	singleValueFormatterType = new QComboBox;
 	singleValueFormatterType->insertItem(0, "Plain text");
 	singleValueFormatterType->insertItem(1, "JSON");
+	singleValueFormatterType->insertItem(2, "PHP-Serializer (experimental)");
 	singleValueFormatterType->setCurrentIndex(0);
+
+	formatterLabel = new QLabel;
+	formatterLabel->setText("Value formatter:");
 }
 
 void ValueTabView::initLayout()
@@ -59,8 +63,6 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 		singleValue->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 		singleValue->setReadOnly(true);
 
-		QLabel * formatterLabel = new QLabel;
-		formatterLabel->setText("Value formatter:");
 
 		singleValueGroup = new QGroupBox("View Value:");
 
@@ -84,7 +86,8 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 
 		keyValuePlain = new QPlainTextEdit(controller);
 		keyValuePlain->setReadOnly(true);
-		gridLayout->addWidget(keyValuePlain, 1, 1, 1, 1);
+		gridLayout->addWidget(singleValueFormatterType, 1, 1, 1, 1);
+		gridLayout->addWidget(keyValuePlain, 2, 1, 1, 1);
 	}
 
 	keyValueLabel = new QLabel(controller);
