@@ -67,9 +67,11 @@ unix {
         PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
     }
     else { # ubuntu & debian
-        LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
-        LIBS += /usr/local/lib/libssh2.so
+        LIBS += -Wl,-rpath /usr/local/lib/
+        LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
+
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so
+        PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
     }
 }
 

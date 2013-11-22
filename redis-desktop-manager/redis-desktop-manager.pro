@@ -76,10 +76,11 @@ unix {
         ICON = rdm.icns
     }
     else { # ubuntu & debian
-        LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
-        LIBS += /usr/local/lib/libssh2.so
-        PRE_TARGETDEPS += /usr/local/lib/libssh2.so
+        LIBS += -Wl,-rpath /usr/local/lib/
+        LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
 
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.so        
+        PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
 
         target.path = /usr/share/redis-desktop-manager/bin
         target.files = $$DESTDIR/rdm qt.conf rdm.png
@@ -98,6 +99,8 @@ unix {
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
+INCLUDEPATH += $$PWD/../deps/json-cpp/include
+DEPENDPATH += $$PWD/../deps/json-cpp/include
 INCLUDEPATH += $$PWD/../deps/json-cpp/include
 DEPENDPATH += $$PWD/../deps/json-cpp/include
 

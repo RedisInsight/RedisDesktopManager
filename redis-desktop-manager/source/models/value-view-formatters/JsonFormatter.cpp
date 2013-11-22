@@ -1,6 +1,6 @@
 #include "JsonFormatter.h"
 
-#include <json\json.h>
+#include <json/json.h>
 
 QString JsonFormatter::getFormatted()
 {
