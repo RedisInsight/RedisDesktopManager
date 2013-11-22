@@ -181,6 +181,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 		case RedisServerItem::TYPE:
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
+
 				server->runDatabaseLoading();									
 			}
 			break;
@@ -286,6 +287,12 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 	int type = item->type();
 
 	if (type == RedisServerItem::TYPE) {
+
+		if (((RedisServerItem*)item)->isLocked()) {
+			QMessageBox::warning(this, "Warning", "Connecting to server. Please Keep patience.");
+			return;
+		}
+
 		serverMenu->exec(QCursor::pos());
 	} else if (type == RedisKeyItem::TYPE) {
 		keyMenu->exec(QCursor::pos());

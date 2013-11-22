@@ -28,6 +28,9 @@ public:
 		return connected && socketConnected;
 	}
 
+public slots:
+	void disconnect();
+
 protected:
 
 	void init();

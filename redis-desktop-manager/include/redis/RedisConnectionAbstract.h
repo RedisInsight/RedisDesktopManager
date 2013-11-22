@@ -27,6 +27,8 @@ public:
 
 	virtual bool connect() = 0;
 
+	virtual void disconnect() = 0;
+
 	virtual QString getLastError() = 0;
 
 	virtual QVariant execute(QString) = 0;

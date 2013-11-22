@@ -31,6 +31,9 @@ void ConnectionBridge::initWorker()
 	connect(worker, SIGNAL(errorOccurred(QString)),this, SIGNAL(error(QString)));
 	connect(worker, SIGNAL(operationProgress(int, QObject *)),this, SIGNAL(operationProgress(int, QObject *)));
 
+	connect(workerThread, SIGNAL(quit()) , worker, SLOT(disconnect()));
+	connect(workerThread, SIGNAL(terminate()) , worker, SLOT(disconnect()));
+
 	//start worker thread
 	workerThread->start();
 }
@@ -72,6 +75,7 @@ void ConnectionBridge::stopWorker()
 	if (isInitialized && workerThread->isRunning()) {
 		workerThread->quit();
 		workerThread->wait();
+		delete workerThread;
 
 		isInitialized = false;
 	}

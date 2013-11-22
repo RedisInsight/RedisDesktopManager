@@ -17,8 +17,8 @@ connection::connection(QWidget *parent, RedisServerItem * srv)
 	}
 
 	// connect slots to signals
-	connect(ui.okButton, SIGNAL(clicked()), SLOT(OnOkButtonClick()));
-	connect(ui.okButton, SIGNAL(pressed()), SLOT(clicked()));
+	connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));
+	connect(ui.okButton, SIGNAL(pressed()), this,  SLOT(clicked()));
 
 	//edit mode
 	if (srv != nullptr) {	
@@ -112,13 +112,16 @@ bool connection::isSshSettingsValid()
 	ui.sshUser->setStyleSheet("");
 	ui.sshPass->setStyleSheet("");
 
-	bool isSSHUsed = isSshTunnelUsed();
+	if (!isSshTunnelUsed()) {
+		return true;
+	}
+
 	bool isValid =  !ui.sshHost->text().isEmpty()  
 			&& !ui.sshUser->text().isEmpty() 
 			&& !ui.sshPass->text().isEmpty() 
 			&& ui.sshPort->value() > 0;
 
-	if (isSSHUsed && isValid) {
+	if (isValid) {
 		return true;
 	}
 
@@ -139,6 +142,7 @@ bool connection::isSshSettingsValid()
 
 bool connection::isSshTunnelUsed()
 {
+	qDebug() << "check state" << (ui.useSshTunnel->checkState() == Qt::Checked);
 	return ui.useSshTunnel->checkState() == Qt::Checked;
 }
 

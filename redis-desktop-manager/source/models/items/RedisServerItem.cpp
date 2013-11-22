@@ -2,7 +2,7 @@
 #include "RedisConnectionConfig.h"
 
 RedisServerItem::RedisServerItem(ConnectionBridge * c) 
-	: connection(c), isDbInfoLoaded(false)
+	: connection(c), isDbInfoLoaded(false), locked(false)
 {						
 	setOfflineIcon();
 	getItemNameFromConnection();
@@ -21,7 +21,7 @@ void RedisServerItem::setConnection(ConnectionBridge * c)
 
 void RedisServerItem::runDatabaseLoading()
 {		
-	if (isDbInfoLoaded) return;
+	if (isDbInfoLoaded || locked) return;
 
 	setBusyIcon();
 
@@ -119,11 +119,13 @@ void RedisServerItem::unload()
 
 void RedisServerItem::setBusyIcon()
 {
+	locked = true;
 	setIcon(QIcon(":/images/wait.png"));
 }
 
 void RedisServerItem::setNormalIcon()
 {
+	locked = false;
 	setIcon(QIcon(":/images/redisIcon.png"));
 }
 
@@ -135,4 +137,9 @@ void RedisServerItem::setOfflineIcon()
 int RedisServerItem::type() const
 {
 	return TYPE;
+}
+
+bool RedisServerItem::isLocked()
+{
+	return locked;
 }

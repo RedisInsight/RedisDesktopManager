@@ -23,11 +23,7 @@ void RedisConnection::init()
 
 RedisConnection::~RedisConnection()
 {
-	if (connected) {
-		socket->disconnectFromHost();
-	}
 
-	delete socket;
 }
 
 
@@ -49,6 +45,16 @@ bool RedisConnection::connect()
 	}
 
 	return connected;
+}
+
+void RedisConnection::disconnect()
+{
+	if (socket == nullptr)
+		return;
+
+	socket->disconnectFromHost();
+
+	delete socket;
 }
 
 

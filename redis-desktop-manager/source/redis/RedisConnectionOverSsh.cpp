@@ -35,12 +35,6 @@ void RedisConnectionOverSsh::init()
 
 RedisConnectionOverSsh::~RedisConnectionOverSsh(void)
 {
-	if (socket != nullptr) {
-		delete socket;
-		delete syncLoop;
-		delete syncTimer;
-		delete sshClient;
-	}
 }
 
 bool RedisConnectionOverSsh::connect() 
@@ -85,6 +79,17 @@ bool RedisConnectionOverSsh::connect()
 	}
 
 	return socketConnected;	
+}
+
+void RedisConnectionOverSsh::disconnect()
+{
+	if (socket == nullptr)
+		return;
+
+	delete socket;
+	delete syncLoop;
+	delete syncTimer;
+	delete sshClient;	
 }
 
 void RedisConnectionOverSsh::OnSshConnectionError(QxtSshClient::Error error)

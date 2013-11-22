@@ -26,6 +26,8 @@ public:
 	ConnectionBridge * getConnection();
 	void setConnection(ConnectionBridge * c);
 
+	bool isLocked();
+
 	int virtual type() const;
 	
 	const static int TYPE = 2000;
@@ -33,6 +35,7 @@ public:
 private:	
 	ConnectionBridge * connection;
 	bool isDbInfoLoaded;
+	bool locked;
 
 	void setBusyIcon();
 	void setOfflineIcon();

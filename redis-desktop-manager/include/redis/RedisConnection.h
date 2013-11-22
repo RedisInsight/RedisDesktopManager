@@ -28,6 +28,9 @@ public:
 
 	void runCommand(const Command &cmd);
 
+public slots:
+	void disconnect();
+
 protected:
 	void init();
 
