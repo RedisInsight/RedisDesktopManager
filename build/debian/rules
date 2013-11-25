@@ -12,9 +12,8 @@ build-stamp:
 	dh_testdir
 
 	# Add here commands to compile the package.
-	#qmake-qt4 -config release
 	qmake
-	make
+	make -s
 
 	touch build-stamp
 

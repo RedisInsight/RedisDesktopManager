@@ -8,6 +8,8 @@
 
 consoleTab::consoleTab(RedisConnectionConfig& config)
 {	
+	setObjectName("consoleTab");
+
 	appendHtml("<span style='color: orange;'>List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR</span>");
 	appendHtml("Connecting ...");
 

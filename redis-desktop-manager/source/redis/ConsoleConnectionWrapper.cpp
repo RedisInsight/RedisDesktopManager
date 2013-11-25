@@ -63,5 +63,5 @@ void ConsoleConnectionWrapper::executeCommand(QString cmd)
 			);
 	}
 
-	addOutput(Response::valueToString(result));
+	emit addOutput(Response::valueToString(result));
 }

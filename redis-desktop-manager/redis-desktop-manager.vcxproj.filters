@@ -69,6 +69,12 @@
     <Filter Include="Source Files\updater">
       <UniqueIdentifier>{987cc7e7-61f7-4b0e-8d7e-a44c0a355d86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\models\value-view-formatters">
+      <UniqueIdentifier>{2739bcf2-5093-452f-880d-600723713758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\models\value-view-formatters">
+      <UniqueIdentifier>{6058accc-94c5-47ff-a269-cb40f6a42d0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\demo.cpp">
@@ -119,40 +125,10 @@
     <ClCompile Include="GeneratedFiles\Release\moc_qxtsshtcpsocket.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Updater.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_Updater.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_hashViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_listViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_listViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_stringViewTab.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_zsetViewTab.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_zsetViewTab.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="source\models\items\RedisKeyItem.cpp">
@@ -162,9 +138,6 @@
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
     <ClCompile Include="source\models\items\RedisServerDbItem.cpp">
-      <Filter>Source Files\models\items</Filter>
-    </ClCompile>
-    <ClCompile Include="source\models\items\RedisServerItem.cpp">
       <Filter>Source Files\models\items</Filter>
     </ClCompile>
     <ClCompile Include="source\models\HashKeyModel.cpp">
@@ -206,18 +179,6 @@
     <ClCompile Include="source\redis\RedisConnectionsManager.cpp">
       <Filter>Source Files\redis</Filter>
     </ClCompile>
-    <ClCompile Include="source\widgets\hashViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\listViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\stringViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="source\widgets\zsetViewTab.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="source\connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -257,6 +218,120 @@
     <ClCompile Include="source\widgets\consoleTab.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionAbstract.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionOverSsh.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_redisconnection.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_redisconnection.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisServerItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisServerItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\RedisServerItem.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisConnectionsManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisConnectionsManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RedisServerDbItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RedisServerDbItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\widgets\valueViewTab.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_valueViewTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_valueViewTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\redis\ConnectionBridge.cpp">
+      <Filter>Source Files\redis</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ConnectionBridge.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ConnectionBridge.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\widgets\ValueTabView.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FastItemDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FastItemDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\PaginatedModel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\FastItemDelegate.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\ItemWithNaturalSort.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KeyModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KeyModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\KeyModel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\items\KeysTreeRenderer.cpp">
+      <Filter>Source Files\models\items</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\widgets\ConnectionTreeView.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\PlainFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\AbstractFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\JsonFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\PHPSerializeFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -286,34 +361,10 @@
     <CustomBuild Include="include\updater\Updater.h">
       <Filter>Header Files\updater</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\widgets\hashViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\listViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\stringViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\widgets\zsetViewTab.h">
-      <Filter>Header Files\widgets</Filter>
-    </CustomBuild>
     <CustomBuild Include="forms\connection.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="forms\demo.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\hashViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\listViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\stringViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="forms\zsetViewTab.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Resources\demo.qrc">
@@ -322,13 +373,49 @@
     <CustomBuild Include="include\widgets\serverInfoViewTab.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
-    <CustomBuild Include="forms/serverInfoViewTab.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="include\redis\ConsoleConnectionWrapper.h">
       <Filter>Header Files\redis</Filter>
     </CustomBuild>
     <CustomBuild Include="include\widgets\consoleTab.h">
+      <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\RedisConnectionAbstract.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\redisconnection.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisServerDbItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisServerItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\RedisConnectionsManager.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\valueViewTab.h">
+      <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\RedisKeyItem.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\redis\ConnectionBridge.h">
+      <Filter>Header Files\redis</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms\serverInfoViewTab.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\FastItemDelegate.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\KeyModel.h">
+      <Filter>Header Files\models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\models\items\KeysTreeRenderer.h">
+      <Filter>Header Files\models\Items</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\ConnectionTreeView.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -342,31 +429,13 @@
     <ClInclude Include="include\models\SortedSetKeyModel.h">
       <Filter>Header Files\models</Filter>
     </ClInclude>
-    <ClInclude Include="include\models\items\RedisKeyItem.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
     <ClInclude Include="include\models\items\RedisKeyNamespace.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisServerDbItem.h">
-      <Filter>Header Files\models\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\items\RedisServerItem.h">
       <Filter>Header Files\models\Items</Filter>
     </ClInclude>
     <ClInclude Include="include\network\qxtsshchannel_p.h">
       <Filter>Header Files\network</Filter>
     </ClInclude>
-    <ClInclude Include="include\redis\redisconnection.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\RedisConnectionAbstract.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
     <ClInclude Include="include\redis\RedisConnectionConfig.h">
-      <Filter>Header Files\redis</Filter>
-    </ClInclude>
-    <ClInclude Include="include\redis\RedisConnectionsManager.h">
       <Filter>Header Files\redis</Filter>
     </ClInclude>
     <ClInclude Include="include\redis\RedisException.h">
@@ -376,18 +445,6 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_demo.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_hashViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_listViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_stringViewTab.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_zsetViewTab.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -401,6 +458,27 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\PaginatedModel.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\widgets\ValueTabView.h">
+      <Filter>Header Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\items\ItemWithNaturalSort.h">
+      <Filter>Header Files\models\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\AbstractFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\PHPSerializeFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -425,11 +503,16 @@
     <Image Include="images\key.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="rdm.png" />
-    <Image Include="images\redis-desktop-manager.ico" />
-    <Image Include="Resources\redis.ico" />
+    <Image Include="Resources\redis.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="rdm.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="redis-desktop-manager.rc" />
+    <ResourceCompile Include="redis-desktop-manager.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,47 @@
 #include "Command.h"
 
+Command::Command()
+	: owner(nullptr), commandString(""), dbIndex(-1)
+{
+	
+}
 
-QString Command::getFormatted(QString command)
+Command::Command(const QString& cmdString, QObject * owner, int db)
+	: owner(owner), commandString(cmdString), dbIndex(db)
+{
+}
+
+bool Command::hasDbIndex() const
+{
+	return dbIndex >= 0;
+}
+
+int Command::getDbIndex() const
+{
+	return dbIndex;
+}
+
+QString Command::getFormattedString() const
+{
+	return Command::getFormatted(commandString);
+}
+
+QString Command::getRawString() const
+{
+	return commandString;
+}
+
+bool Command::isEmpty() const
+{
+	return commandString.isEmpty();
+}
+
+QObject * Command::getOwner()
+{
+	return owner;
+}
+
+QString Command::getFormatted(const QString& command)
 {
 	QStringList parts = command.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
 
