@@ -119,7 +119,7 @@ Reader::parse( const std::string &document,
    return parse( begin, end, root, collectComments );
 }
 
-
+#ifndef __APPLE__
 bool
 Reader::parse( std::istream& sin,
                Value &root,
@@ -136,6 +136,7 @@ Reader::parse( std::istream& sin,
    std::getline(sin, doc, (char)EOF);
    return parse( doc, root, collectComments );
 }
+#endif
 
 bool 
 Reader::parse( const char *beginDoc, const char *endDoc, 
@@ -897,8 +898,8 @@ Reader::getFormattedErrorMessages() const
    }
    return formattedMessage;
 }
-
-
+    
+#ifndef __APPLE__
 std::istream& operator>>( std::istream &sin, Value &root )
 {
     Json::Reader reader;
@@ -913,6 +914,6 @@ std::istream& operator>>( std::istream &sin, Value &root )
     }
     return sin;
 }
-
+#endif
 
 } // namespace Json
