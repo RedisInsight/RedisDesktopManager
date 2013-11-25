@@ -78,8 +78,8 @@ unix {
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
-INCLUDEPATH += $$PWD/../deps/json-cpp/include
-DEPENDPATH += $$PWD/../deps/json-cpp/include
+INCLUDEPATH += $$PWD/../deps/jsoncpp/include
+DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \

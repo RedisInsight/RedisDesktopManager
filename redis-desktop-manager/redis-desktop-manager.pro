@@ -101,8 +101,6 @@ DEPENDPATH += $$PWD/../deps/libssh/include
 
 INCLUDEPATH += $$PWD/../deps/jsoncpp/include
 DEPENDPATH += $$PWD/../deps/jsoncpp/include
-INCLUDEPATH += $$PWD/../deps/jsoncpp/include
-DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/source/models \
