@@ -69,8 +69,8 @@ win32 {
 
 unix {
     macx { # os x 10.8
-        LIBS += /usr/local/lib/libssh2.dylib
-        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
+        LIBS += /usr/local/lib/libssh2.dylib /usr/local/lib/libjsoncpp.a
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib /usr/local/lib/libjsoncpp.a
 
         QMAKE_INFO_PLIST = Info.plist
         ICON = rdm.icns
@@ -99,10 +99,10 @@ unix {
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
-INCLUDEPATH += $$PWD/../deps/json-cpp/include
-DEPENDPATH += $$PWD/../deps/json-cpp/include
-INCLUDEPATH += $$PWD/../deps/json-cpp/include
-DEPENDPATH += $$PWD/../deps/json-cpp/include
+INCLUDEPATH += $$PWD/../deps/jsoncpp/include
+DEPENDPATH += $$PWD/../deps/jsoncpp/include
+INCLUDEPATH += $$PWD/../deps/jsoncpp/include
+DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/source/models \
