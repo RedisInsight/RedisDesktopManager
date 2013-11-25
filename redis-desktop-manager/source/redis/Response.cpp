@@ -7,7 +7,7 @@ Response::Response()
 }
 
 Response::Response(QString & src)
-	: responseString(src)
+    : responseString(src), lastValidPos(0), itemsCount(0)
 {
 }
 
