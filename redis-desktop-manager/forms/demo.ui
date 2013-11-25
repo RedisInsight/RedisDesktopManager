@@ -290,51 +290,31 @@ aa|bb 	Either aa or bb.
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="pbAddServer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>33</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Add connection</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../Resources/demo.qrc">
-              <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
-            </property>
-           </widget>
-          </item>
+          <property name="spacing">
+           <number>2</number>
+          </property>
           <item>
            <widget class="QToolButton" name="pbImportConnections">
             <property name="minimumSize">
              <size>
-              <width>0</width>
+              <width>145</width>
               <height>35</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
-              <height>16777215</height>
+              <width>145</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>145</width>
+              <height>35</height>
              </size>
             </property>
             <property name="text">
-             <string>Import</string>
+             <string>Manage Connections</string>
             </property>
             <property name="icon">
              <iconset resource="../Resources/demo.qrc">
@@ -344,10 +324,56 @@ aa|bb 	Either aa or bb.
              <enum>QToolButton::InstantPopup</enum>
             </property>
             <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonIconOnly</enum>
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
             <property name="autoRaise">
              <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="pbAddServer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>135</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>135</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">padding-left: 50px;
+
+</string>
+            </property>
+            <property name="text">
+             <string>Add New Connection</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../Resources/demo.qrc">
+              <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
            </widget>
           </item>
