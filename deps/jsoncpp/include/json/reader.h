@@ -67,9 +67,11 @@ namespace Json {
 
       /// \brief Parse from input stream.
       /// \see Json::operator>>(std::istream&, Json::Value&).
+      #ifndef __APPLE__
       bool parse( std::istream &is,
                   Value &root,
                   bool collectComments = true );
+      #endif
 
       /** \brief Returns a user friendly string that list errors in the parsed document.
        * \return Formatted error message with the list of errors with their location in 
