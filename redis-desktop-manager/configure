@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 cd ./../deps/
 chmod -R 777 libssh
 chmod -R 777 jsoncpp
 
+unamestr=$(uname)
 
 if [[ "$unamestr" == 'Linux' ]]; then
 
