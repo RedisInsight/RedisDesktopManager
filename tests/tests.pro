@@ -1,4 +1,4 @@
-QT       += core gui network xml testlib
+QT       += core gui network xml testlib concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,6 +19,7 @@ SOURCES += \
     $$SRC_DIR/source/network/*.cpp \
     $$SRC_DIR/source/models/*.cpp \
     $$SRC_DIR/source/models/items/*.cpp \
+    $$SRC_DIR/source/models/value-view-formatters/*.cpp \
     $$SRC_DIR/source/widgets/consoleTab.cpp \
 
 HEADERS  += \
@@ -28,6 +29,7 @@ HEADERS  += \
     $$SRC_DIR/include/network/*.h \
     $$SRC_DIR/include/models/*.h \
     $$SRC_DIR/include/models/items/*.h \
+    $$SRC_DIR/include/models/value-view-formatters/*.h \
     $$SRC_DIR/include/widgets/consoleTab.h \
 
 release: DESTDIR = ./../bin/tests
@@ -45,11 +47,17 @@ win32 {
     CONFIG(release, debug|release) {
         LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
         PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+
+        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncpp
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncpp.lib
     }
 
     else: CONFIG(debug, debug|release) {
         LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
         PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+
+        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncppd
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncppd.lib
     }
 }
 
@@ -59,14 +67,19 @@ unix {
         PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
     }
     else { # ubuntu & debian
-        LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
-        LIBS += /usr/local/lib/libssh2.so
+        LIBS += -Wl,-rpath /usr/local/lib/
+        LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
+
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so
+        PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
     }
 }
 
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
+
+INCLUDEPATH += $$PWD/../deps/jsoncpp/include
+DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \
@@ -79,10 +92,17 @@ INCLUDEPATH += $$PWD/source \
     $$SRC_DIR/"include" \
     $$SRC_DIR/include/models \
     $$SRC_DIR/include/models/items \
+    $$SRC_DIR/include/models/value-view-formatters \
     $$SRC_DIR/include/network \
     $$SRC_DIR/include/redis \
     $$SRC_DIR/include/updater \
     $$SRC_DIR/include/widgets \
+
+FORMS += \
+    $$SRC_DIR/forms/*.ui \
+
+RESOURCES += \
+    $$SRC_DIR/Resources/demo.qrc
 
 
 OTHER_FILES += \

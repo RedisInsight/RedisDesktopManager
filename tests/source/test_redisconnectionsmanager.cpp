@@ -9,7 +9,7 @@ void TestRedisConnectionsManager::LoadConnectionsConfigFromFile()
 	QString configTestFile = "./stubs//connections.xml";
 
 	//when loads connections
-	RedisConnectionsManager testManager(configTestFile);	
+	RedisConnectionsManager testManager(configTestFile, nullptr);	
 
 	//then
 	QCOMPARE(testManager.connections.size(), 1);

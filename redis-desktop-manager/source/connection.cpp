@@ -1,8 +1,7 @@
 #include <QtWidgets/QMessageBox>
 
 #include "connection.h"
-#include "RedisConnection.h"
-#include "RedisConnectionOverSsh.h"
+#include "ConnectionBridge.h"
 #include "RedisServerItem.h"
 
 connection::connection(QWidget *parent, RedisServerItem * srv)
@@ -18,8 +17,8 @@ connection::connection(QWidget *parent, RedisServerItem * srv)
 	}
 
 	// connect slots to signals
-	connect(ui.okButton, SIGNAL(clicked()), SLOT(OnOkButtonClick()));
-	connect(ui.okButton, SIGNAL(pressed()), SLOT(clicked()));
+	connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));
+	connect(ui.okButton, SIGNAL(pressed()), this,  SLOT(clicked()));
 
 	//edit mode
 	if (srv != nullptr) {	
@@ -33,23 +32,23 @@ connection::~connection()
 
 }
 
-void connection::loadValuesFromConnection(RedisConnectionAbstract * c)
+void connection::loadValuesFromConnection(ConnectionBridge * c)
 {
 	inEditMode = true;
 
-	RedisConnectionConfig * config =  &(c->config);
+    RedisConnectionConfig config = c->getConfig();
 
-	ui.nameEdit->setText(config->name);
-	ui.hostEdit->setText(config->host);
-	ui.portSpinBox->setValue(config->port);
-	ui.authEdit->setText(config->auth);
+    ui.nameEdit->setText(config.name);
+    ui.hostEdit->setText(config.host);
+    ui.portSpinBox->setValue(config.port);
+    ui.authEdit->setText(config.auth);
 
-	if (config->useSshTunnel()) {
+    if (config.useSshTunnel()) {
 		ui.useSshTunnel->setCheckState(Qt::Checked);
-		ui.sshHost->setText(config->sshHost);
-		ui.sshUser->setText(config->sshUser);
-		ui.sshPass->setText(config->sshPassword);
-		ui.sshPort->setValue(config->sshPort);
+        ui.sshHost->setText(config.sshHost);
+        ui.sshUser->setText(config.sshUser);
+        ui.sshPass->setText(config.sshPassword);
+        ui.sshPort->setValue(config.sshPort);
 	}
 }
 
@@ -59,38 +58,18 @@ void connection::OnOkButtonClick()
 
 	RedisConnectionConfig conf = getConectionConfigFromFormData();
 
-	RedisConnectionAbstract * connection;
+	ConnectionBridge * connection;
 
 	if (inEditMode) {
 
 		connection = server->getConnection();
 
-		bool connectionTypeChanged = connection->config.useSshTunnel() != conf.useSshTunnel();
-
-		connection->config = conf;	
-
-		if (connectionTypeChanged) {
-
-			RedisConnectionAbstract * newConnection;
-
-			if (conf.useSshTunnel()) {
-				newConnection = new RedisConnectionOverSsh(conf);
-			} else {
-				newConnection = new RedisConnection(conf);
-			}
-			
-			server->setConnection(newConnection);
-
-			mainForm->connections->UpdateConnection(connection, newConnection);
-		}		
+		connection->setConnectionConfig(conf);	
+		mainForm->connections->connectionChanged();
 		
-	} else {
-		 
-		if (conf.useSshTunnel()) {
-			connection = new RedisConnectionOverSsh(conf);
-		} else {
-			connection = new RedisConnection(conf);
-		}
+	} else {		
+
+		connection = new ConnectionBridge(conf);
 
 		mainForm->connections->AddConnection(connection);			
 	}	
@@ -105,28 +84,71 @@ bool connection::isFormDataValid()
 
 bool connection::isConnectionSettingsValid()
 {
-	return !ui.nameEdit->text().isEmpty()
+	ui.nameEdit->setStyleSheet("");
+	ui.hostEdit->setStyleSheet("");
+
+	bool isValid = !ui.nameEdit->text().isEmpty()
 		&& !ui.hostEdit->text().isEmpty()
 		&& ui.portSpinBox->value() > 0;
+
+	if (isValid) {
+		return true;
+	} 
+
+	if (ui.nameEdit->text().isEmpty()) {
+		ui.nameEdit->setStyleSheet("border: 1px solid red;");
+	}
+
+	if (ui.hostEdit->text().isEmpty()) {
+		ui.hostEdit->setStyleSheet("border: 1px solid red;");
+	}
+
+	return false;
 }
 
 bool connection::isSshSettingsValid()
 {
-	return !isSshTunnelUsed() 
-		|| (!ui.sshHost->text().isEmpty()  
+	ui.sshHost->setStyleSheet("");
+	ui.sshUser->setStyleSheet("");
+	ui.sshPass->setStyleSheet("");
+
+	if (!isSshTunnelUsed()) {
+		return true;
+	}
+
+	bool isValid =  !ui.sshHost->text().isEmpty()  
 			&& !ui.sshUser->text().isEmpty() 
 			&& !ui.sshPass->text().isEmpty() 
-			&& ui.sshPort->value() > 0);
+			&& ui.sshPort->value() > 0;
+
+	if (isValid) {
+		return true;
+	}
+
+	if (ui.sshHost->text().isEmpty()) {
+		ui.sshHost->setStyleSheet("border: 1px solid red;");
+	}
+
+	if (ui.sshUser->text().isEmpty()) {
+		ui.sshUser->setStyleSheet("border: 1px solid red;");
+	}
+
+	if (ui.sshPass->text().isEmpty()) {
+		ui.sshPass->setStyleSheet("border: 1px solid red;");
+	}
+
+	return false;
 }
 
 bool connection::isSshTunnelUsed()
 {
+	qDebug() << "check state" << (ui.useSshTunnel->checkState() == Qt::Checked);
 	return ui.useSshTunnel->checkState() == Qt::Checked;
 }
 
 RedisConnectionConfig connection::getConectionConfigFromFormData()
 {	
-	RedisConnectionConfig conf(ui.hostEdit->text(),ui.nameEdit->text(), ui.portSpinBox->value());
+	RedisConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
 
 	if (!ui.authEdit->text().isEmpty()) {
 		conf.auth = ui.authEdit->text();
@@ -134,9 +156,9 @@ RedisConnectionConfig connection::getConectionConfigFromFormData()
 
 	if (isSshTunnelUsed()) {
 		conf.setSshTunnelSettings(
-			ui.sshHost->text(), 
-			ui.sshUser->text(), 
-			ui.sshPass->text(), 
+			ui.sshHost->text().trimmed(), 
+			ui.sshUser->text().trimmed(), 
+			ui.sshPass->text().trimmed(), 
 			ui.sshPort->value()
 			);
 	}

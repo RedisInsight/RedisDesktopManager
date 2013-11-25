@@ -28,7 +28,7 @@ private:
 
 	RedisConnectionConfig getConectionConfigFromFormData();
 
-	void loadValuesFromConnection(RedisConnectionAbstract *);
+	void loadValuesFromConnection(ConnectionBridge *);
 
 	private slots:
 		void OnOkButtonClick();

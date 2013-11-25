@@ -1,10 +1,15 @@
+
 #include "RedisServerDbItem.h"
+
 #include "RedisServerItem.h"
 #include "RedisKeyItem.h"
 #include "RedisKeyNamespace.h"
+#include "ItemWithNaturalSort.h"
+#include "KeysTreeRenderer.h"
 
 RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent) 
-	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name)
+	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name), 
+	  currentKeysPoolPosition(0), iconStorage(QIcon(":/images/key.png"), QIcon(":/images/namespace.png"))
 {	
 	setNormalIcon();
 	setText(QString("%1 (%2)").arg(name).arg(keysCount));
@@ -15,53 +20,69 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 		dbIndex = getDbIndex.cap(1).toInt();
 	}
 
-	setEditable(false);
-}
+	setEditable(false);	
 
-void RedisServerDbItem::setCurrent()
-{
-	if (!server->connection->isConnected() 
-		&& !server->connection->connect()) {
-			return;
-	}
 
-	server->connection->selectDb(dbIndex);
+	connect(&keysLoadingWatcher, SIGNAL(finished()), this, SLOT(keysLoadingFinished()));
 }
 
 void RedisServerDbItem::loadKeys()
 {
 	if (isKeysLoaded) return;
 
-	setBusyIcon();
+	setBusyIcon();	
 
-	if (!server->connection->isConnected() 
-		&& !server->connection->connect()) {
-			setNormalIcon();
-			return;
-	}	
+	//wait for signal from connection	
+	connect(server->connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+	connect(server->connection, SIGNAL(responseResieved(const QVariant &, QObject *)),
+		this, SLOT(keysLoaded(const QVariant &, QObject *)));
+	connect(server->connection, SIGNAL(operationProgress(int, QObject *)), 
+		this, SLOT(keysLoadingStatusChanged(int, QObject *)));
+	
+	server->connection->addCommand(Command("keys *", this, dbIndex));
+}
 
-	server->connection->selectDb(dbIndex);
+void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
+{
+	if (owner != this) {
+		return;
+	}
 
-	rawKeys = server->connection->getKeys();
+	server->connection->disconnect(this);
+
+	rawKeys = keys.toStringList();
+
 	int resultSize = rawKeys.size();
 
 	if (resultSize == 0) {
+		server->unlockUI();
 		setNormalIcon();
 		return;
 	}
 
-	if (resultSize != keysCount) {
-		setText(QString("%1 (Loaded %2 of %3. Error - %4)")
-			.arg(name)
+	if (resultSize < keysCount) {
+		server->error(QString("Loaded keys: %2 of %3. Error - %4 <br /> Check <a href='https://github.com/uglide/RedisDesktopManager/wiki/Known-issues'>documentation</a>")
 			.arg(resultSize)
 			.arg(keysCount)
 			.arg(server->connection->getLastError()));
 	}
 
+
 	renderKeys(rawKeys);
 
 	setNormalIcon();
-	isKeysLoaded = true;
+	isKeysLoaded = true;	
+}
+
+void RedisServerDbItem::proccessError(QString srcError)
+{
+	server->connection->disconnect(this);
+	setNormalIcon();
+
+	QString message = QString("Can not load keys. %1")
+		.arg(srcError);
+
+	emit server->error(message);
 }
 
 void RedisServerDbItem::setFilter(QRegExp &pattern)
@@ -84,49 +105,15 @@ void RedisServerDbItem::resetFilter()
 
 void RedisServerDbItem::renderKeys(QStringList &rawKeys)
 {
-	for (QString rawKey : rawKeys) {
-
-		//if filter enabled - skip keys
-		if (!filter.isEmpty() && !rawKey.contains(filter)) {
-			continue;
-		}
-
-		renderNamaspacedKey(this, rawKey, rawKey);
-	}
-}
-
-void RedisServerDbItem::renderNamaspacedKey(QStandardItem * currItem, 
-											QString notProcessedKeyPart, QString fullKey)
-{
-	if (!notProcessedKeyPart.contains(":")) {
-		QStandardItem * newKey = new RedisKeyItem(fullKey, this);
-		currItem->appendRow(newKey);	
+	if (rawKeys.size() == 0) 
 		return;
-	}
 
-	int indexOfNaspaceSeparator = notProcessedKeyPart.indexOf(":");
+	keysLoadingResult = QFuture<QList<QStandardItem *>>();
+	keysLoadingResult = QtConcurrent::run(KeysTreeRenderer::renderKeys, this, rawKeys, filter, iconStorage);
 
-	QString firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
+	keysLoadingWatcher.setFuture(keysLoadingResult);
 
-	QStandardItem * namespaceItem = nullptr;
-
-	for (int i=0; i < currItem->rowCount(); ++i)
-	{
-		QStandardItem * child = currItem->child(i);
-
-		if (child->type() == RedisKeyNamespace::TYPE 
-			&& child->text() == firstNamespaceName) {
-				namespaceItem = child;
-				break;
-		}
-	}
-
-	if (namespaceItem == nullptr) {
-		namespaceItem = new RedisKeyNamespace(firstNamespaceName);
-		currItem->appendRow(namespaceItem);
-	}
-
-	renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1), fullKey);	
+	server->statusMessage(QString("Keys rendering ..."));
 }
 
 void RedisServerDbItem::setBusyIcon()
@@ -146,16 +133,35 @@ int RedisServerDbItem::type() const
 
 bool RedisServerDbItem::operator<(const QStandardItem & other) const
 {
-	if (other.type() == TYPE) {
-		const RedisServerDbItem * another = dynamic_cast<const RedisServerDbItem *>(&other);
+ 	if (other.type() == TYPE) {
+		const RedisServerDbItem * another = dynamic_cast<const RedisServerDbItem *>(&other); 
+ 	}	
 
-		return dbIndex < another->getDbIndex();
-	}	
-
-	return this->text() < other.text();
+ 	return this->text() < other.text();
 }
 
 int RedisServerDbItem::getDbIndex() const
 {
 	return dbIndex;
+}
+
+void RedisServerDbItem::keysLoadingStatusChanged(int progressValue, QObject * owner)
+{
+	if (owner != this) {
+		return;
+	}
+	server->statusMessage(
+		QString("Downloading keys list from database: %1 / %2 ").arg(progressValue).arg(keysCount)
+		);
+}
+
+void RedisServerDbItem::keysLoadingFinished()
+{
+	appendRows(keysLoadingResult.result());
+	server->statusMessage(QString("Keys rendering done"));
+	server->unlockUI();
+}
+
+RedisServerDbItem::~RedisServerDbItem()
+{
 }

@@ -1,25 +1,36 @@
 #include "RedisConnection.h"
 #include "Command.h"
-#include "Response.h"
+
 
 RedisConnection::RedisConnection(const RedisConnectionConfig & c) 
-	: RedisConnectionAbstract(c)
+	: RedisConnectionAbstract(c), socket(nullptr)
+{	
+}
+
+void RedisConnection::init()
 {
+	if (socket != nullptr) {
+		return;
+	}
+
+	RedisConnectionAbstract::init();
+
 	socket = new QTcpSocket();
+
+	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+	QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));	
 }
 
 RedisConnection::~RedisConnection()
 {
-	if (connected) {
-		socket->disconnectFromHost();
-	}
 
-	delete socket;
 }
 
 
 bool RedisConnection::connect()
 {
+	init();
+
 	socket->connectToHost(config.host, config.port);
 
 	if (socket->waitForConnected(config.connectionTimeout)) 
@@ -34,6 +45,16 @@ bool RedisConnection::connect()
 	}
 
 	return connected;
+}
+
+void RedisConnection::disconnect()
+{
+	if (socket == nullptr)
+		return;
+
+	socket->disconnectFromHost();
+
+	delete socket;
 }
 
 
@@ -75,7 +96,7 @@ QVariant RedisConnection::execute(QString command)
 
 	while(!response.isValid()) {	
 
-		if (socket->bytesAvailable() > 0 && !socket->atEnd()) 
+		if (socket->bytesAvailable() > 0) 
 		{
 			res = socket->readAll();
 			response.appendToSource(res);	
@@ -96,4 +117,64 @@ QVariant RedisConnection::execute(QString command)
 }
 
 
+void RedisConnection::runCommand(const Command &command)
+{
+	if (command.hasDbIndex()) {
+		selectDb(command.getDbIndex());
+	}
 
+	resp.clear();
+	commandRunning = true;
+	runningCommand = command;
+	executionTimer->start(config.executeTimeout);
+
+	if (command.isEmpty()) {
+		return sendResponse();
+	}
+
+	QString formattedCommand = command.getFormattedString();
+
+	/*
+	 *	Send command
+	 */
+	QTextStream out(socket);
+	out << formattedCommand;
+	out.flush();
+}
+
+void RedisConnection::readyRead()
+{
+	// ignore signals if running blocking version
+	if (!commandRunning || socket->bytesAvailable() <= 0) {
+		return;
+	}
+	
+	executionTimer->stop();
+	readingBuffer = socket->readAll();
+	resp.appendToSource(readingBuffer);		
+
+	if (resp.isValid()) {
+		return sendResponse();	
+	} else {
+		emit operationProgress(resp.getLoadedItemsCount(), runningCommand.getOwner());
+		executionTimer->start(config.executeTimeout); //restart execution timer
+	}
+}
+
+void RedisConnection::error(QAbstractSocket::SocketError error)
+{
+	// ignore signals if running blocking version
+	if (!commandRunning && connected) {
+		return;
+	}
+
+	if (error == QAbstractSocket::UnknownSocketError && connect()) {
+		return runCommand(runningCommand);
+	}
+
+	emit errorOccurred(
+		QString("Connection error: %1").arg(socket->errorString())
+		);
+
+	return sendResponse();	
+}

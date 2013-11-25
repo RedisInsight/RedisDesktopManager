@@ -1,0 +1,143 @@
+New in SVN
+----------
+
+ *  Updated the type system's behavior, in order to better support backwards
+    compatibility with code that was written before 64-bit integer support was
+    introduced. Here's how it works now:
+
+     *  isInt, isInt64, isUInt, and isUInt64 return true if and only if the
+        value can be exactly represented as that type. In particular, a value
+        constructed with a double like 17.0 will now return true for all of
+        these methods.
+
+     *  isDouble and isFloat now return true for all numeric values, since all
+        numeric values can be converted to a double or float without
+        truncation. Note however that the conversion may not be exact -- for
+        example, doubles cannot exactly represent all integers above 2^53 + 1.
+
+     *  isBool, isNull, isString, isArray, and isObject now return true if and
+        only if the value is of that type.
+
+     *  isConvertibleTo(fooValue) indicates that it is safe to call asFoo.
+        (For each type foo, isFoo always implies isConvertibleTo(fooValue).)
+        asFoo returns an approximate or exact representation as appropriate.
+        For example, a double value may be truncated when asInt is called.
+
+     *  For backwards compatibility with old code, isConvertibleTo(intValue)
+        may return false even if type() == intValue. This is because the value
+        may have been constructed with a 64-bit integer larger than maxInt,
+        and calling asInt() would cause an exception. If you're writing new
+        code, use isInt64 to find out whether the value is exactly
+        representable using an Int64, or asDouble() combined with minInt64 and
+        maxInt64 to figure out whether it is approximately representable.
+
+
+  New in JsonCpp 0.6.0:
+  ---------------------
+
+* Compilation
+
+  - LD_LIBRARY_PATH and LIBRARY_PATH environment variables are now 
+    propagated to the build environment as this is required for some 
+    compiler installation.
+
+  - Added support for Microsoft Visual Studio 2008 (bug #2930462): 
+    The platform "msvc90" has been added.
+
+    Notes: you need to setup the environment by running vcvars32.bat 
+    (e.g. MSVC 2008 command prompt in start menu) before running scons.
+    
+  - Added support for amalgamated source and header generation (a la sqlite).
+    Refer to README.txt section "Generating amalgamated source and header"
+    for detail.
+    
+* Value
+
+  - Removed experimental ValueAllocator, it caused static 
+    initialization/destruction order issues (bug #2934500). 
+    The DefaultValueAllocator has been inlined in code.
+    
+  - Added support for 64 bits integer:
+  
+    Types Json::Int64 and Json::UInt64 have been added. They are aliased
+	to 64 bits integers on system that support them (based on __int64 on 
+	Microsoft Visual Studio platform, and long long on other platforms).
+	
+	Types Json::LargestInt and Json::LargestUInt have been added. They are
+	aliased to the largest integer type supported: 
+	either Json::Int/Json::UInt or Json::Int64/Json::UInt64 respectively.
+	
+	Json::Value::asInt() and Json::Value::asUInt() still returns plain
+	"int" based types, but asserts if an attempt is made to retrieve
+	a 64 bits value that can not represented as the return type.
+	
+	Json::Value::asInt64() and Json::Value::asUInt64() have been added
+	to obtain the 64 bits integer value.
+	
+	Json::Value::asLargestInt() and Json::Value::asLargestUInt() returns
+	the integer as a LargestInt/LargestUInt respectively. Those functions
+	functions are typically used when implementing writer.
+	
+	The reader attempts to read number as 64 bits integer, and fall back
+	to reading a double if the number is not in the range of 64 bits 
+	integer.
+    
+    Warning: Json::Value::asInt() and Json::Value::asUInt() now returns
+    long long. This changes break code that was passing the return value
+    to *printf() function.
+  
+    Support for 64 bits integer can be disabled by defining the macro 
+	JSON_NO_INT64 (uncomment it in json/config.h for example), though
+	it should have no impact on existing usage.
+    
+  - The type Json::ArrayIndex is used for indexes of a JSON value array. It
+    is an unsigned int (typically 32 bits).
+	
+  - Array index can be passed as int to operator[], allowing use of literal:
+    Json::Value array;
+	array.append( 1234 );
+	int value = array[0].asInt();  // did not compile previously
+
+  - Added float Json::Value::asFloat() to obtain a floating point value as a
+    float (avoid lost of precision warning caused by used of asDouble() 
+    to initialize a float).
+
+* Reader
+
+  - Renamed Reader::getFormatedErrorMessages() to getFormattedErrorMessages.
+    Bug #3023708 (Formatted has 2 't'). The old member function is deprecated
+    but still present for backward compatibility.
+    
+* Tests
+
+  - Added test to ensure that the escape sequence "\/" is corrected handled 
+    by the parser.
+
+* Bug fixes
+
+  - Bug #3139677: JSON [1 2 3] was incorrectly parsed as [1, 3]. Error is now 
+    correctly detected.
+    
+  - Bug #3139678: stack buffer overflow when parsing a double with a
+    length of 32 characters.
+	
+  - Fixed Value::operator <= implementation (had the semantic of operator >=).
+    Found when adding unit tests for comparison operators.
+    
+  - Value::compare() is now const and has an actual implementation with
+    unit tests.
+
+  - Bug #2407932: strpbrk() can fail for NULL pointer.
+
+  - Bug #3306345: Fixed minor typo in Path::resolve().
+
+  - Bug #3314841/#3306896: errors in amalgamate.py
+
+  - Fixed some Coverity warnings and line-endings.
+    
+* License
+  
+  - See file LICENSE for details. Basically JsonCpp is now licensed under 
+    MIT license, or public domain if desired and recognized in your jurisdiction.
+    Thanks to Stephan G. Beal [http://wanderinghorse.net/home/stephan/]) who
+	helped figuring out the solution to the public domain issue.
