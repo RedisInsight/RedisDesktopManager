@@ -13,6 +13,8 @@ before_install:
 before_script:
 - redis-server --daemonize yes
 - cd ./redis-desktop-manager
+- sudo chmod 777 configure
+- sudo sh ./configure
 script: 
   - qmake -v
   - qmake 
