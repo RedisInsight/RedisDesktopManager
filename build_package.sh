@@ -24,8 +24,10 @@ BUILD_DIR=$HOME_DIR/redis-desktop-manager-$TAG
 rm -fR $BUILD_DIR/*
 rm -fR $HOME_DIR/redis-desktop*
 mkdir $BUILD_DIR
+mkdir $HOME_DIR/deps
 
 cp -Rf /vagrant/redis-desktop-manager/* $BUILD_DIR
+cp -Rf /vagrant/deps/* $HOME_DIR/deps
 mkdir $BUILD_DIR/debian 
 cp -Rf /vagrant/build/debian/* $BUILD_DIR/debian  
 echo ===========================
