@@ -76,7 +76,7 @@ unix {
         ICON = rdm.icns
     }
     else { # ubuntu & debian
-        LIBS += -Wl,-rpath /usr/local/lib/
+        LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
         LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
 
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so        

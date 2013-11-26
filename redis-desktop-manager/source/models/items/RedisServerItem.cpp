@@ -86,6 +86,7 @@ void RedisServerItem::proccessError(QString srcError)
 {
 	connection->disconnect(this);
 	setOfflineIcon();
+	locked = false;
 
 	QString message = QString("Can not connect to server %1. Error: %2")
 		.arg(text())
