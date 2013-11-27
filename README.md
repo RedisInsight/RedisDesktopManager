@@ -1,10 +1,7 @@
-[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
-===================
-Ubuntu: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager) 
-Mac OS X: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=osx)](https://travis-ci.org/uglide/RedisDesktopManager)
-
+##[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
+![](http://redisdesktop.com/img/features/all.png)
 
 **Supported platforms**
 
@@ -19,6 +16,10 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 - Redis 2.4
 - Redis 2.6
 - Redis 2.8+
+
+### Build status
+Ubuntu: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager) 
+Mac OS X: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=osx)](https://travis-ci.org/uglide/RedisDesktopManager)
 
 ## Install & Run ##
 
