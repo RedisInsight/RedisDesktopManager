@@ -74,6 +74,13 @@ unix {
 
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so
         PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
+
+
+        #code coverage
+        CONFIG += debug
+        QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+        QMAKE_LDFLAGS += -fprofile-arcs -ftest-coverage
+        LIBS += -lgcov
     }
 }
 

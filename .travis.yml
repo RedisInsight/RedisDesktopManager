@@ -6,6 +6,7 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install ubuntu-sdk -y -qq
 - sudo apt-get install libssl1.0.0 -y -qq
+- sudo pip install cpp-coveralls --use-mirrors
 before_script:
 - cd ./redis-desktop-manager
 - sudo chmod 777 configure
@@ -20,6 +21,8 @@ script:
   - make clean
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
+after_success:
+  - coveralls --exclude deps --exclude tests
 services:
   - redis-server
 notifications:
