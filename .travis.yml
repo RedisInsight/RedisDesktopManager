@@ -23,7 +23,7 @@ script:
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
   - cd ./../
-  - coveralls --build-root './bin/tests/obj/'  --exclude deps --exclude tests
+  - coveralls --root './redis-desktop-manager/' --build-root './bin/tests/obj/'  --exclude deps --exclude tests
 services:
   - redis-server
 notifications:
