@@ -22,7 +22,8 @@ script:
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
-  - coveralls --exclude deps --exclude tests
+  - cd ./../
+  - coveralls --build-root ./bin/tests/.obj/  --exclude deps --exclude tests
 services:
   - redis-server
 notifications:
