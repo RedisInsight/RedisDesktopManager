@@ -163,7 +163,9 @@ QString MainWin::getConfigPath(const QString& configFile)
 void MainWin::OnAddConnectionClick()
 {
 	connection * connectionDialog = new connection(this);
+	connectionDialog->setWindowState(Qt::WindowActive);
 	connectionDialog->exec();
+
 	delete connectionDialog;
 }
 
