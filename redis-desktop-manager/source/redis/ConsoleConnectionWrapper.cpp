@@ -30,11 +30,11 @@ void ConsoleConnectionWrapper::init()
 
 	connectionValid = true;
 
-	emit changePrompt(QString("%1:0>").arg(config.name));
-	emit addOutput("Connected.");	
+	emit addOutput("Connected.\n");
+	emit changePrompt(QString("%1:0>").arg(config.name));	
 }
 
-void ConsoleConnectionWrapper::executeCommand(QString cmd)
+void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
 {
 	if (!connectionValid) 
 	{

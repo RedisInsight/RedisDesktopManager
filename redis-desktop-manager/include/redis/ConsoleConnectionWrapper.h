@@ -14,11 +14,11 @@ public:
 
 	public slots:
 		void init();
-		void executeCommand(QString);
+		void executeCommand(const QString &);
 
 	signals:
-		void changePrompt(QString);
-		void addOutput(QString);
+		void changePrompt(const QString &);
+		void addOutput(const QString &);
 
 private:
 	RedisConnectionAbstract * connection;

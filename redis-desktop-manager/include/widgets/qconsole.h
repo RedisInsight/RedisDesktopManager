@@ -102,9 +102,6 @@ public:
 		QConsole(QWidget *parent = NULL, const QString &welcomeText = "");
 		//set the prompt of the console
 		void setPrompt(const QString &prompt, bool display = true);
-		//execCommand(QString) executes the command and displays back its result
-		bool execCommand(const QString &command, bool writeCommand = true,
-										 bool showPrompt = true, QString *result = NULL);
 
 		//clear & reset the console (useful sometimes)
 		void clear();
@@ -138,6 +135,8 @@ public:
 		// @}
 
 		void correctPathName(QString& pathName);
+
+		enum ResultType {Error, Partial, Complete};
 
 private:
 		void dropEvent( QDropEvent * event);
@@ -190,14 +189,15 @@ protected:
 		//execute a validated command (should be reimplemented and called at the end)
 		//the return value of the function is the string result
 		//res must hold back the return value of the command (0: passed; else: error)
-		virtual QString interpretCommand(const QString &command, int *res);
+		virtual QString addCommandToHistory(const QString &command);
+
 		//give suggestions to autocomplete a command (should be reimplemented)
 		//the return value of the function is the string list of all suggestions
 		//the returned prefix is useful to complete "sub-commands"
 		virtual QStringList suggestCommand(const QString &cmd, QString &prefix);
 
 
-public Q_SLOTS:
+public slots:
 		//Contextual menu slots
 		void cut();
 		//void paste();
@@ -205,9 +205,12 @@ public Q_SLOTS:
 		//displays the prompt
 		void displayPrompt();
 
-Q_SIGNALS:
+		void printCommandExecutionResults(const QString &, ResultType t = ResultType::Complete);
+
+signals:
 		//Signal emitted after that a command is executed
-		void commandExecuted(const QString &command);
+		void commandAddedToHistory(const QString &command);
+		void execCommand(const QString &command);
 
 private:
 		void handleTabKeyPress();
@@ -216,6 +219,7 @@ private:
 		void handleUpKeyPress();
 		void handleDownKeyPress();
 		void setHome(bool);
+		void pExecCommand(const QString &command);
 };
 
 #endif

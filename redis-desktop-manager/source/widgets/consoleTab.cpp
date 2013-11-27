@@ -7,34 +7,30 @@
 #include "ConsoleConnectionWrapper.h"
 
 consoleTab::consoleTab(RedisConnectionConfig& config)
+	: QConsole(nullptr, "<span style='color: orange;'>"
+						"List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR"
+						"</span> <br /> Connecting ...")
 {	
 	setObjectName("consoleTab");
 
-	appendHtml("<span style='color: orange;'>List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR</span>");
-	appendHtml("Connecting ...");
-
-	QPalette p = palette();
-	p.setColor(QPalette::Base, QColor(57, 57, 57));
-	p.setColor(QPalette::Text, QColor(238, 238, 238));
-	setPalette(p);
-
-	history = new QStringList;
-	historyPos = 0;
-	insertPrompt(false);
-	isLocked = false;
+ 	QPalette p = palette();
+ 	p.setColor(QPalette::Base, QColor(57, 57, 57));
+ 	p.setColor(QPalette::Text, QColor(238, 238, 238));
+ 	setPalette(p);
+	
+	setCmdColor(Qt::yellow);
 
 	connection = new ConsoleConnectionWrapper(config);
 	connection->moveToThread(&connectionThread);
 
 	connect(&connectionThread, &QThread::finished, connection, &QObject::deleteLater);
-	connect(this, SIGNAL(onCommand(QString)), connection, SLOT(executeCommand(QString)));	
-	connect(connection, SIGNAL(changePrompt(QString)), this, SLOT(setPrompt(QString)));
-	connect(connection, SIGNAL(addOutput(QString)), this, SLOT(output(QString)));
+	connect(this, SIGNAL(execCommand(const QString &)), connection, SLOT(executeCommand(const QString&)));	
+	connect(connection, SIGNAL(changePrompt(const QString &)), this, SLOT(setPrompt(const QString &)));
+	connect(connection, SIGNAL(addOutput(const QString&)), this, SLOT(printCommandExecutionResults(const QString&)));
 	connect(&connectionThread, SIGNAL(started()), connection, SLOT(init()));
 	
 	connectionThread.start();
 }
-
 
 consoleTab::~consoleTab(void)
 {
@@ -42,114 +38,7 @@ consoleTab::~consoleTab(void)
 	connectionThread.wait();
 }
 
-void consoleTab::setPrompt(QString str)
+void consoleTab::setPrompt(const QString & str)
 {
-	prompt = str;
-}
-
-void consoleTab::keyPressEvent(QKeyEvent *event)
-{
-	if(isLocked)
-		return;
-	if(event->key() >= 0x20 && event->key() <= 0x7e
-		&& (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier))
-		QPlainTextEdit::keyPressEvent(event);
-	if(event->key() == Qt::Key_Backspace
-		&& event->modifiers() == Qt::NoModifier
-		&& textCursor().positionInBlock() > prompt.length())
-		QPlainTextEdit::keyPressEvent(event);
-
-	if(event->key() == Qt::Key_Return && event->modifiers() == Qt::NoModifier)
-		onEnter();
-	if(event->key() == Qt::Key_Up && event->modifiers() == Qt::NoModifier)
-		historyBack();
-	if(event->key() == Qt::Key_Down && event->modifiers() == Qt::NoModifier)
-		historyForward();
-	QString cmd = textCursor().block().text().mid(prompt.length());
-	emit onChange(cmd);
-}
-
-void consoleTab::mousePressEvent(QMouseEvent *)
-{
-	setFocus();
-}
-
-void consoleTab::mouseDoubleClickEvent(QMouseEvent *){}
-
-void consoleTab::contextMenuEvent(QContextMenuEvent *){}
-
-void consoleTab::onEnter()
-{
-	if(textCursor().positionInBlock() == prompt.length())
-	{
-		insertPrompt();
-		return;
-	}
-	QString cmd = textCursor().block().text().mid(prompt.length());
-	isLocked = true;
-	historyAdd(cmd);
-	emit onCommand(cmd);
-}
-
-void consoleTab::output(QString s)
-{
-	textCursor().insertBlock();
-	QTextCharFormat format;
-	format.setForeground(Qt::white);
-	textCursor().setBlockCharFormat(format);
-	textCursor().insertText(s);
-	insertPrompt();
-	isLocked = false;
-}
-
-void consoleTab::insertPrompt(bool insertNewBlock)
-{
-	if(insertNewBlock)
-		textCursor().insertBlock();
-	QTextCharFormat format;
-	format.setForeground(Qt::green);
-	textCursor().setBlockCharFormat(format);
-	textCursor().insertText(prompt);
-	scrollDown();
-}
-
-void consoleTab::scrollDown()
-{
-	QScrollBar *vbar = verticalScrollBar();
-	vbar->setValue(vbar->maximum());
-}
-
-void consoleTab::historyAdd(QString cmd)
-{
-	history->append(cmd);
-	historyPos = history->length();
-}
-
-void consoleTab::historyBack()
-{
-	if(!historyPos)
-		return;
-	QTextCursor cursor = textCursor();
-	cursor.movePosition(QTextCursor::StartOfBlock);
-	cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-	cursor.removeSelectedText();
-	cursor.insertText(prompt + history->at(historyPos-1));
-	setTextCursor(cursor);
-	historyPos--;
-}
-
-void consoleTab::historyForward()
-{
-	if(historyPos == history->length())
-		return;
-	QTextCursor cursor = textCursor();
-	cursor.movePosition(QTextCursor::StartOfBlock);
-	cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-	cursor.removeSelectedText();
-	if(historyPos == history->length() - 1)
-		cursor.insertText(prompt);
-	else
-		cursor.insertText(prompt + history->at(historyPos + 1));
-	setTextCursor(cursor);
-	historyPos++;
+	QConsole::setPrompt(str);
 }

@@ -199,14 +199,6 @@ void QConsole::clear()
 void QConsole::reset(const QString &welcomeText)
 {
 		clear();
-		//set the style of the QTextEdit
-#ifdef __APPLE__
-		setCurrentFont(QFont("Monaco"));
-#else
-		QFont f;
-		f.setFamily("Courier");
-		setCurrentFont(f);
-#endif
 
 		append(welcomeText);
 		append("");
@@ -214,16 +206,15 @@ void QConsole::reset(const QString &welcomeText)
 		//init attributes
 		historyIndex = 0;
 		history.clear();
-		recordedScript.clear();}
+		recordedScript.clear();
+}
 
 //QConsole constructor (init the QTextEdit & the attributes)
 QConsole::QConsole(QWidget *parent, const QString &welcomeText)
 		: QTextEdit(parent), errColor_(Qt::red),
-		outColor_(Qt::blue), completionColor(Qt::darkGreen),
+		outColor_(Qt::white), completionColor(Qt::darkGreen),
 		promptLength(0), promptParagraph(0)
 {
-	QPalette palette = QApplication::palette();
-	setCmdColor(palette.text().color());
 
 	//Disable undo/redo
 	setUndoRedoEnabled(false);
@@ -238,7 +229,8 @@ QConsole::QConsole(QWidget *parent, const QString &welcomeText)
 	//resets the console
 	reset(welcomeText);
 		const int tabwidth = QFontMetrics(currentFont()).width('a') * 4;
-		setTabStopWidth(tabwidth);}
+		setTabStopWidth(tabwidth);
+}
 
 //Sets the prompt and cache the prompt length to optimize the processing speed
 void QConsole::setPrompt(const QString &newPrompt, bool display)
@@ -322,7 +314,7 @@ void QConsole::handleReturnKeyPress()
 	QString command = getCurrentCommand();
 	//execute the command and get back its text result and its return value
 	if (isCommandComplete(command))
-		execCommand(command, false);
+		pExecCommand(command);
 	else
 	{
 		append("");
@@ -591,58 +583,48 @@ bool QConsole::isSelectionInEditionZone()
 
 //Basically, puts the command into the history list
 //And emits a signal (should be called by reimplementations)
-QString QConsole::interpretCommand(const QString &command, int *res)
+QString QConsole::addCommandToHistory(const QString &command)
 {
-		//Add the command to the recordedScript list
-	if (!*res)
-		recordedScript.append(command);
+	//Add the command to the recordedScript list
+	recordedScript.append(command);
 	//update the history and its index
 	QString modifiedCommand = command;
 	modifiedCommand.replace("\n", "\\n");
 	history.append(modifiedCommand);
 	historyIndex = history.size();
 	//emit the commandExecuted signal
-	Q_EMIT commandExecuted(modifiedCommand);
+	Q_EMIT commandAddedToHistory(modifiedCommand);
 	return "";
 }
 
-//execCommand(QString) executes the command and displays back its result
-bool QConsole::execCommand(const QString &command, bool writeCommand,
-													 bool showPrompt, QString *result)
+//pExecCommand(QString) executes the command and displays back its result
+void QConsole::pExecCommand(const QString &command)
 {
-		QString modifiedCommand = command;
-		correctPathName(modifiedCommand);
-		//Display the prompt with the command first
-		if (writeCommand)
-		{
-				if (getCurrentCommand() != "")
-				{
-						append("");
-						displayPrompt();
-				}
-				textCursor().insertText(modifiedCommand);
-		}
-		//execute the command and get back its text result and its return value
-		int res = 0;
-		QString strRes = interpretCommand(modifiedCommand, &res);
-		//According to the return value, display the result either in red or in blue
-		if (res == 0)
-				setTextColor(outColor_);
-		else
-				setTextColor(errColor_);
+	addCommandToHistory(command);		
 
-		if(result){
-				*result = strRes;
-		}
-		if (!(strRes.isEmpty() || strRes.endsWith("\n")))
-			strRes.append("\n");
-		append(strRes);
-		moveCursor(QTextCursor::End);
-		//Display the prompt again
-		if (showPrompt)
-			displayPrompt();
-		return !res;
+	emit execCommand(command); 
 }
+
+void QConsole::printCommandExecutionResults(const QString &result, ResultType type)
+{
+	//According to the return value, display the result either in red or in blue
+	if (type == ResultType::Error)
+		setTextColor(errColor_);
+	else
+		setTextColor(outColor_);	
+
+	append(result);
+
+	if (!result.endsWith("\n"))
+		append("\n");
+
+	moveCursor(QTextCursor::End);
+
+	//Display the prompt again
+	if (type == ResultType::Complete)
+		displayPrompt();
+}	
+
 
 
 //Change paste behaviour

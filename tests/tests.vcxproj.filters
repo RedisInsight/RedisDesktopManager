@@ -144,6 +144,9 @@
     <CustomBuild Include="include\test_valueformatters.h">
       <Filter>Header Files\tests</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\widgets\qconsole.h">
+      <Filter>Header Files\source</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_test_redisconnection.cpp">
@@ -448,6 +451,15 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_test_valueformatters.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qconsole.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qconsole.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="..\redis-desktop-manager\source\widgets\qconsole.cpp">
+      <Filter>Source Files\source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
