@@ -21,6 +21,7 @@ SOURCES += \
     $$SRC_DIR/source/models/items/*.cpp \
     $$SRC_DIR/source/models/value-view-formatters/*.cpp \
     $$SRC_DIR/source/widgets/consoleTab.cpp \
+    $$SRC_DIR/source/widgets/qconsole.cpp \
 
 HEADERS  += \
     $$PWD/include/*.h \
@@ -31,6 +32,7 @@ HEADERS  += \
     $$SRC_DIR/include/models/items/*.h \
     $$SRC_DIR/include/models/value-view-formatters/*.h \
     $$SRC_DIR/include/widgets/consoleTab.h \
+    $$SRC_DIR/include/widgets/qconsole.h \
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
