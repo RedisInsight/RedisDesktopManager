@@ -213,6 +213,8 @@ signals:
 		void execCommand(const QString &command);
 
 private:
+		bool isLocked;
+
 		void handleTabKeyPress();
 		void handleReturnKeyPress();
 		bool handleBackspaceKeyPress();

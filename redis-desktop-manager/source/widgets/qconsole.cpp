@@ -213,7 +213,7 @@ void QConsole::reset(const QString &welcomeText)
 QConsole::QConsole(QWidget *parent, const QString &welcomeText)
 		: QTextEdit(parent), errColor_(Qt::red),
 		outColor_(Qt::white), completionColor(Qt::darkGreen),
-		promptLength(0), promptParagraph(0)
+		promptLength(0), promptParagraph(0), isLocked(false)
 {
 
 	//Disable undo/redo
@@ -385,6 +385,9 @@ void QConsole::setHome(bool select)
 //Reimplemented key press event
 void QConsole::keyPressEvent( QKeyEvent *e )
 {
+	if (isLocked) 
+		return;
+
 	//If the user wants to copy or cut outside
 	//the editing area we perform a copy
 	if(textCursor().hasSelection())
@@ -600,6 +603,8 @@ QString QConsole::addCommandToHistory(const QString &command)
 //pExecCommand(QString) executes the command and displays back its result
 void QConsole::pExecCommand(const QString &command)
 {
+	isLocked = true;
+
 	addCommandToHistory(command);		
 
 	emit execCommand(command); 
@@ -621,8 +626,10 @@ void QConsole::printCommandExecutionResults(const QString &result, ResultType ty
 	moveCursor(QTextCursor::End);
 
 	//Display the prompt again
-	if (type == ResultType::Complete)
+	if (type == ResultType::Complete || type == ResultType::Error) {
+		isLocked = false;
 		displayPrompt();
+	}
 }	
 
 
@@ -693,6 +700,9 @@ void QConsole::dragMoveEvent( QDragMoveEvent * event)
 
 void QConsole::contextMenuEvent ( QContextMenuEvent * event)
 {
+	if (isLocked)
+		return;
+
 		QMenu *menu = new QMenu(this);
 
 		QAction *undo = new QAction(tr("Undo"), this);
