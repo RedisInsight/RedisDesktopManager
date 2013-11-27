@@ -57,6 +57,7 @@
     <ClCompile Include="..\redis-desktop-manager\source\updater\Updater.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\widgets\ConnectionTreeView.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\widgets\consoleTab.cpp" />
+    <ClCompile Include="..\redis-desktop-manager\source\widgets\qconsole.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\widgets\serverInfoViewTab.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\widgets\ValueTabView.cpp" />
     <ClCompile Include="..\redis-desktop-manager\source\widgets\valueViewTab.cpp" />
@@ -85,6 +86,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_KeysTreeRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qconsole.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_qxtsshchannel.cpp">
@@ -172,6 +176,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_KeysTreeRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qconsole.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_qxtsshchannel.cpp">
@@ -402,6 +409,16 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ConnectionTreeView.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB  "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(SolutionDir)\redis-desktop-manager\include\models\items" "-I$(SolutionDir)\redis-desktop-manager\include\models" "-I$(SolutionDir)\redis-desktop-manager\include\network" "-I$(SolutionDir)\redis-desktop-manager\include\redis" "-I$(SolutionDir)\redis-desktop-manager\include\updater" "-I$(SolutionDir)\redis-desktop-manager\include\widgets" "-I$(SolutionDir)\redis-desktop-manager\include" "-I$(ProjectDir)\include" "-I$(ProjectDir)\source" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\jsoncpp\include" "-I$(SolutionDir)\deps\libssh\include"</Command>
+    </CustomBuild>
+    <CustomBuild Include="..\redis-desktop-manager\include\widgets\qconsole.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing qconsole.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(SolutionDir)\deps\libssh\include" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\jsoncpp\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing qconsole.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_TESTLIB_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(SolutionDir)\redis-desktop-manager\include\models\items" "-I$(SolutionDir)\redis-desktop-manager\include\models" "-I$(SolutionDir)\redis-desktop-manager\include\network" "-I$(SolutionDir)\redis-desktop-manager\include\redis" "-I$(SolutionDir)\redis-desktop-manager\include\updater" "-I$(SolutionDir)\redis-desktop-manager\include\widgets" "-I$(SolutionDir)\redis-desktop-manager\include" "-I$(ProjectDir)\include" "-I$(ProjectDir)\source" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\jsoncpp\include" "-I$(SolutionDir)\deps\libssh\include"</Command>
     </CustomBuild>
     <ClInclude Include="..\redis-desktop-manager\include\widgets\ValueTabView.h" />
     <CustomBuild Include="..\redis-desktop-manager\include\widgets\valueViewTab.h">

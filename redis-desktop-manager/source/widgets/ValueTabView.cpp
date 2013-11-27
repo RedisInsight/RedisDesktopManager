@@ -15,7 +15,7 @@ void ValueTabView::init(QWidget * baseController)
 	singleValueFormatterType->setCurrentIndex(0);
 
 	formatterLabel = new QLabel;
-	formatterLabel->setText("Value formatter:");
+	formatterLabel->setText("View value as:");
 }
 
 void ValueTabView::initLayout()
@@ -63,7 +63,7 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 		singleValue->setReadOnly(true);
 
 
-		singleValueGroup = new QGroupBox("View Value:");
+		singleValueGroup = new QGroupBox("Value:");
 
 		QGridLayout *grid = new QGridLayout;
 		grid->addWidget(formatterLabel, 0, 0, 1, 1);	
@@ -87,11 +87,11 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 		keyValuePlain->setReadOnly(true);
 		gridLayout->addWidget(singleValueFormatterType, 1, 1, 1, 1);
 		gridLayout->addWidget(keyValuePlain, 2, 1, 1, 1);
-	}
 
-	keyValueLabel = new QLabel(controller);
-	keyValueLabel->setText("Value:");
-	gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
+		keyValueLabel = new QLabel(controller);
+		keyValueLabel->setText("Value:");
+		gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
+	}
 }
 
 void ValueTabView::initPagination()

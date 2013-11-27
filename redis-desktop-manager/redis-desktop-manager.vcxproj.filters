@@ -332,6 +332,15 @@
     <ClCompile Include="source\models\value-view-formatters\PHPSerializeFormatter.cpp">
       <Filter>Source Files\models\value-view-formatters</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\qconsole.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qconsole.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qconsole.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -416,6 +425,9 @@
       <Filter>Header Files\models\Items</Filter>
     </CustomBuild>
     <CustomBuild Include="include\widgets\ConnectionTreeView.h">
+      <Filter>Header Files\widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\qconsole.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>

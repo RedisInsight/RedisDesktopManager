@@ -38,6 +38,9 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_KeysTreeRenderer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qconsole.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_qxtsshchannel.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -111,6 +114,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_KeysTreeRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qconsole.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_qxtsshchannel.cpp">
@@ -190,6 +196,7 @@
     <ClCompile Include="source\updater\Updater.cpp" />
     <ClCompile Include="source\widgets\ConnectionTreeView.cpp" />
     <ClCompile Include="source\widgets\consoleTab.cpp" />
+    <ClCompile Include="source\widgets\qconsole.cpp" />
     <ClCompile Include="source\widgets\ValueTabView.cpp" />
     <ClCompile Include="source\widgets\valueViewTab.cpp" />
     <ClCompile Include="source\widgets\serverInfoViewTab.cpp" />
@@ -380,6 +387,16 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ConnectionTreeView.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB  "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\json-cpp\include" "-I$(SolutionDir)\deps\libssh\include"</Command>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\qconsole.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing qconsole.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\jsoncpp\include" "-I$(SolutionDir)\deps\libssh\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing qconsole.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\jsoncpp\include" "-I$(SolutionDir)\deps\libssh\include"</Command>
     </CustomBuild>
     <ClInclude Include="include\widgets\ValueTabView.h" />
     <ClInclude Include="resource.h" />

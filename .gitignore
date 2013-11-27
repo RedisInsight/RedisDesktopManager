@@ -46,3 +46,7 @@ deps/libssh/src/Makefile
 deps/libssh/src/stamp-h1
 build-tests-*/*
 tests/Makefile
+deps/jsoncpp/buildscons/*
+deps/jsoncpp/dist/*
+deps/jsoncpp/libs/*
+redis-desktop-manager*.gz
