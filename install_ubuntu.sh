@@ -13,7 +13,7 @@ sudo apt-get install scons -y
 sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
         dh-make diff patch gnupg fakeroot lintian pbuilder -y
 
-cd /home/vagrant
+cd ~
 
 echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
 
