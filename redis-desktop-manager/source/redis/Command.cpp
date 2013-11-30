@@ -11,6 +11,22 @@ Command::Command(const QString& cmdString, QObject * owner, int db)
 {
 }
 
+Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
+	: owner(owner), commandString(cmdString), dbIndex(db), callBackMethod(invokeMethod)
+{
+
+}
+
+bool Command::hasCallback()
+{
+	return !callBackMethod.isEmpty();
+}
+
+QString Command::getCallbackName()
+{
+	return callBackMethod;
+}
+
 bool Command::hasDbIndex() const
 {
 	return dbIndex >= 0;

@@ -4,11 +4,13 @@
 #include <QTimer>
 #include <QVariant>
 
+#include "RedisKeyItem.h"
 #include "Command.h"
+#include "ConnectionBridge.h"
 
-KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: db(db), keyName(keyName), dbIndex(dbIndex), keyType(Empty)
-{
+KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex, RedisKeyItem * key)
+	: key(key), db(db), keyName(keyName), dbIndex(dbIndex), keyType(Empty), keyTypeString("empty")
+{	
 }
 
 KeyModel::~KeyModel(void)
@@ -30,10 +32,9 @@ void KeyModel::getKeyType()
 		return;
 	}
 
-	connect(db, SIGNAL(responseResieved(const QVariant&, QObject *)),
-		this, SLOT(loadedType(const QVariant&, QObject*)));
-
-	db->addCommand(Command(QString("type %1").arg(keyName), this, dbIndex));
+	db->addCommand(
+		Command(QString("type %1").arg(keyName), this, CALLMETHOD("loadedType"), dbIndex)
+		);
 }
 
 void KeyModel::getValue()
@@ -71,35 +72,21 @@ void KeyModel::getValue()
 		emit valueLoaded(QVariant(), this);
 		return;
 	} else {
-		connect(db, SIGNAL(responseResieved(const QVariant&, QObject *)),
-			this, SIGNAL(valueLoaded(const QVariant&, QObject*)));
-
-		db->addCommand(Command(command, this, dbIndex));
+		db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 	}
 }
 
-void KeyModel::loadedValue(const QVariant& value, QObject *sender)
+void KeyModel::loadedValue(const QVariant& value)
 {
-	if (sender != this) {
-		return;
-	}
-
-	db->disconnect(this);
-
 	emit valueLoaded(value, this);
 }
 
-void KeyModel::loadedType(const QVariant& result, QObject * owner)
+void KeyModel::loadedType(const QVariant& result)
 {
-	if (owner != this) {
-		return;
-	}
-
-	db->disconnect(this);
-
 	QString t = result.toString();
 
 	keyType = None;
+	keyTypeString = t;
 
 	if (t == "string")
 		keyType = String;
@@ -119,4 +106,25 @@ void KeyModel::loadedType(const QVariant& result, QObject * owner)
 	emit keyTypeLoaded(keyType);
 
 	return;
+}
+
+void KeyModel::renameKey(const QString& newKeyName)
+{	
+	QString renameCommand = QString("RENAME %1 %2")
+								.arg(keyName)
+								.arg(newKeyName);
+	
+	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));	
+
+	key->setText(newKeyName);
+}
+
+void KeyModel::loadedRenameStatus(const QVariant& result)
+{
+	emit keyRenamed();	
+}
+
+QString KeyModel::getKeyTypeString()
+{
+	return keyTypeString;
 }

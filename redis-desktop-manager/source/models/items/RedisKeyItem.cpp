@@ -41,5 +41,5 @@ KeyModel * RedisKeyItem::getKeyModel()
 {
 	int dbIndex = db->getDbIndex();
 	QString keyName = text();
-	return new KeyModel(db->server->connection, keyName, dbIndex);
+	return new KeyModel(db->server->connection, keyName, dbIndex, this);
 }

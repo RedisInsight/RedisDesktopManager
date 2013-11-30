@@ -43,6 +43,8 @@ protected slots:
 	void loadPreviousPage();
 	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
 	void currentFormatterChanged(int);
+	void renameKey();
+	void deleteKey();
 
 	//void error(QString&);
 

@@ -30,9 +30,13 @@ public:
 	QPlainTextEdit *keyValuePlain;
 	QLabel *keyNameLabel;	
 	QLabel *keyValueLabel;
+	QLabel *keyTypeLabelValue;
 	QLabel *loaderLabel;
 	QMovie *loader;
 	QLabel * formatterLabel;
+
+	QPushButton * renameKey;
+	QPushButton * deleteKey;
 
 	QGridLayout * paginationGrid;
 	QPushButton * previousPage;

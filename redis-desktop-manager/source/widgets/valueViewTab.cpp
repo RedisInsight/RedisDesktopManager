@@ -21,6 +21,8 @@ ValueTab::ValueTab(RedisKeyItem * key)
 	connect(ui->singleValueFormatterType, SIGNAL(currentIndexChanged(int)), 
 		this, SLOT(currentFormatterChanged(int)));
 
+	connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
+
 	keyModel->getKeyType();	
 }
 
@@ -33,6 +35,9 @@ void ValueTab::keyTypeLoaded(KeyModel::Type t)
 	} else {
 		ui->initKeyValue(ValueTabView::ModelBased);
 	}
+
+	ui->keyTypeLabelValue->setText(ui->keyTypeLabelValue->text() 
+		+ keyModel->getKeyTypeString().toUpper());
 
 	keyModel->getValue();
 }
@@ -178,6 +183,18 @@ void ValueTab::currentFormatterChanged(int index)
 	} else {
 		onSelectedItemChanged(*currentCell, *currentCell);
 	}	
+}
+
+void ValueTab::renameKey()
+{
+	//todo implement this
+	keyModel->renameKey(ui->keyName->text());
+}
+
+void ValueTab::deleteKey()
+{
+	//todo implement this
+
 }
 
 

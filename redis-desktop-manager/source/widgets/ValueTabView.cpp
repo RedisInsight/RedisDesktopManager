@@ -35,17 +35,29 @@ void ValueTabView::initLayout()
 
 void ValueTabView::initKeyName()
 {
-	keyName = new QLineEdit(controller);
-	keyName->setObjectName(QStringLiteral("keyName"));
-	keyName->setEnabled(true);
-	keyName->setReadOnly(true);
-
-	gridLayout->addWidget(keyName, 0, 1, 1, 1);
-
 	keyNameLabel = new QLabel(controller);
-	keyNameLabel->setText("Key:");
-
+	keyNameLabel->setText(" Key:");
 	gridLayout->addWidget(keyNameLabel, 0, 0, 1, 1);
+
+	keyName = new QLineEdit(controller);		
+
+	keyTypeLabelValue = new QLabel(controller);
+	keyTypeLabelValue->setText("Type: ");
+
+	renameKey = new QPushButton;
+	renameKey->setText("Rename");	
+
+	deleteKey = new QPushButton;
+	deleteKey->setText("Delete");
+	deleteKey->setStyleSheet("color: darkred; font-weight: 800;");
+
+	QGridLayout *grid = new QGridLayout;			
+	grid->addWidget(keyName, 0, 1, 1, 1);	
+	grid->addWidget(keyTypeLabelValue, 0, 2, 1, 1);	
+	grid->addWidget(renameKey, 0, 3, 1, 1);	
+	grid->addWidget(deleteKey, 0, 4, 1, 1);	
+
+	gridLayout->addLayout(grid, 0, 1, 1, 1);
 }
 
 void ValueTabView::initKeyValue(ValueTabView::Type t)
@@ -77,7 +89,7 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 		splitter->addWidget(keyValue);
 		splitter->addWidget(singleValueGroup);
 
-		gridLayout->addWidget(splitter, 1, 1, 1, 1);
+		gridLayout->addWidget(splitter, 1, 0, 1, 2);
 
 		initPagination();
 
@@ -113,7 +125,7 @@ void ValueTabView::initPagination()
 	paginationGrid->addWidget(pagination, 0, 1, 1, 1);
 	paginationGrid->addWidget(nextPage, 0, 2, 1, 1);
 
-	gridLayout->addLayout(paginationGrid, 3, 1, 1, 1);
+	gridLayout->addLayout(paginationGrid, 2, 0, 1, 2);
 }
 
 
