@@ -17,7 +17,7 @@ public:
 		void executeCommand(const QString &);
 
 	signals:
-		void changePrompt(const QString &);
+		void changePrompt(const QString &, bool);
 		void addOutput(const QString &);
 
 private:

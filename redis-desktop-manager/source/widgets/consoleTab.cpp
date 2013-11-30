@@ -25,7 +25,7 @@ consoleTab::consoleTab(RedisConnectionConfig& config)
 
 	connect(&connectionThread, &QThread::finished, connection, &QObject::deleteLater);
 	connect(this, SIGNAL(execCommand(const QString &)), connection, SLOT(executeCommand(const QString&)));	
-	connect(connection, SIGNAL(changePrompt(const QString &)), this, SLOT(setPrompt(const QString &)));
+	connect(connection, SIGNAL(changePrompt(const QString &, bool)), this, SLOT(setPrompt(const QString &, bool)));
 	connect(connection, SIGNAL(addOutput(const QString&)), this, SLOT(printCommandExecutionResults(const QString&)));
 	connect(&connectionThread, SIGNAL(started()), connection, SLOT(init()));
 	
@@ -38,7 +38,7 @@ consoleTab::~consoleTab(void)
 	connectionThread.wait();
 }
 
-void consoleTab::setPrompt(const QString & str)
+void consoleTab::setPrompt(const QString & str, bool display)
 {
-	QConsole::setPrompt(str);
+	QConsole::setPrompt(str, display);
 }

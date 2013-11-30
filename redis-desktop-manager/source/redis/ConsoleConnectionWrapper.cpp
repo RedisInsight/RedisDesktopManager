@@ -31,7 +31,7 @@ void ConsoleConnectionWrapper::init()
 	connectionValid = true;
 
 	emit addOutput("Connected.\n");
-	emit changePrompt(QString("%1:0>").arg(config.name));	
+	emit changePrompt(QString("%1:0>").arg(config.name), true);	
 }
 
 void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
@@ -59,7 +59,8 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
 		emit changePrompt(
 			QString("%1:%2>")
 				.arg(connection->config.name)
-				.arg(selectDbRegex.cap(3))
+				.arg(selectDbRegex.cap(3)),
+				false
 			);
 	}
 

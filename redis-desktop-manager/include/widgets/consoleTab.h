@@ -16,7 +16,7 @@ public:
 	~consoleTab(void);	
 
 public slots:
-	void setPrompt(const QString &);	
+	void setPrompt(const QString &, bool);	
 
 private:	
 	ConsoleConnectionWrapper * connection;
