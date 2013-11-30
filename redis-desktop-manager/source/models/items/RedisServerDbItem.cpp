@@ -40,6 +40,8 @@ void RedisServerDbItem::loadKeys()
 		this, SLOT(keysLoadingStatusChanged(int, QObject *)));
 	
 	server->connection->addCommand(Command("keys *", this, dbIndex));
+
+	server->locked = true;
 }
 
 void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
@@ -47,6 +49,8 @@ void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
 	if (owner != this) {
 		return;
 	}
+
+	server->locked = false;
 
 	server->connection->disconnect(this);
 
