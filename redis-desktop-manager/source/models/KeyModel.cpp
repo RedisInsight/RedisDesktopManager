@@ -25,7 +25,7 @@ QString KeyModel::getKeyName()
 	return keyName;
 }
 
-void KeyModel::getValue()
+void KeyModel::loadValue()
 {
 	QString command;
 

@@ -35,7 +35,7 @@ void ValueTab::keyTypeLoaded(const QVariant & type)
 		ui->keyTypeLabelValue->text()  + t.toUpper()
 		);
 
-	keyModel->getValue();
+	keyModel->loadValue();
 }
 
 void ValueTab::valueLoaded(const QVariant& value)

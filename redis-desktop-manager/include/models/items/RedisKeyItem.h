@@ -25,7 +25,7 @@ public:
 
 	int virtual type() const;
 
-	KeyModel * getKeyModel();
+	KeyModel * getKeyModel(const QString&);
 
 	Command getTypeCommand();
 

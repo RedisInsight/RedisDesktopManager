@@ -38,10 +38,27 @@ QString RedisKeyItem::getTabLabelText()
 	return QString("%1:%2>%3").arg(connection).arg(dbIndexString).arg(this->text());
 }
 
-KeyModel * RedisKeyItem::getKeyModel()
+KeyModel * RedisKeyItem::getKeyModel(const QString & type)
 {
 	int dbIndex = db->getDbIndex();
 	QString keyName = text();
+
+	if (type == "string")
+		keyType = String;
+
+	if (type == "hash") 
+		keyType = Hash;
+
+	if (type == "list")
+		keyType = List;
+
+	if (type == "set") 
+		keyType = Set;
+
+	if (type == "zset") 
+		keyType = ZSet;
+
+
 	return new KeyModel(db->server->connection, keyName, dbIndex);
 }
 
