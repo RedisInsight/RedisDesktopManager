@@ -326,9 +326,6 @@
     <ClCompile Include="source\models\value-view-formatters\AbstractFormatter.cpp">
       <Filter>Source Files\models\value-view-formatters</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\value-view-formatters\JsonFormatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\value-view-formatters\PHPSerializeFormatter.cpp">
       <Filter>Source Files\models\value-view-formatters</Filter>
     </ClCompile>
@@ -340,6 +337,15 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_qconsole.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\value-view-formatters\JsonFormatter.cpp">
+      <Filter>Source Files\models\value-view-formatters</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\SetKeyModel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\StringKeyModel.cpp">
+      <Filter>Source Files\models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -483,13 +489,19 @@
     <ClInclude Include="include\models\value-view-formatters\AbstractFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
     </ClInclude>
-    <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\models\value-view-formatters\PHPSerializeFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
     </ClInclude>
     <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h">
+      <Filter>Header Files\models\value-view-formatters</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\SetKeyModel.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\StringKeyModel.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
     </ClInclude>
   </ItemGroup>
