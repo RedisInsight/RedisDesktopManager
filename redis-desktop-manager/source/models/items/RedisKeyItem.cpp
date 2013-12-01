@@ -2,6 +2,7 @@
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 #include "KeyModel.h"
+#include "Command.h"
 
 RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
 	: ItemWithNaturalSort(icon, name), db(db)
@@ -41,5 +42,15 @@ KeyModel * RedisKeyItem::getKeyModel()
 {
 	int dbIndex = db->getDbIndex();
 	QString keyName = text();
-	return new KeyModel(db->server->connection, keyName, dbIndex, this);
+	return new KeyModel(db->server->connection, keyName, dbIndex);
+}
+
+Command RedisKeyItem::getTypeCommand()
+{
+	return Command(QString("type %1").arg(text()), nullptr, db->getDbIndex());
+}
+
+ConnectionBridge * RedisKeyItem::getConnection()
+{
+	return db->server->connection;
 }

@@ -4,50 +4,42 @@
 #include "ListKeyModel.h"
 #include "SortedSetKeyModel.h"
 #include "ValueTabView.h"
+#include "Command.h"
+#include "ConnectionBridge.h"
 
 #include <QtConcurrent>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr), 
+	: key(key), ui(nullptr), model(nullptr), 
 	  currentFormatter(AbstractFormatter::FormatterType::Plain), 
 	  currentCell(nullptr), formatter(AbstractFormatter::getFormatter())
 {	
-	ui = new ValueTabView();
-	ui->init(this);
-	ui->keyName->setText(keyModel->getKeyName());	
+	ui = new ValueTabView(key->text(), this);	
 
-	connect(keyModel, SIGNAL(keyTypeLoaded(KeyModel::Type)), this, SLOT(keyTypeLoaded(KeyModel::Type)));
-	connect(keyModel, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));	
+	Command typeCmd = key->getTypeCommand();
+	typeCmd.setOwner(this);
+	typeCmd.setCallBackName("keyTypeLoaded");
+
+	key->getConnection()->addCommand(typeCmd);
+
+	/** Connect View SIGNALS to Controller SLOTS **/
 	connect(ui->singleValueFormatterType, SIGNAL(currentIndexChanged(int)), 
-		this, SLOT(currentFormatterChanged(int)));
-
+			this, SLOT(currentFormatterChanged(int)));
 	connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
-
-	keyModel->getKeyType();	
 }
 
-void ValueTab::keyTypeLoaded(KeyModel::Type t)
+void ValueTab::keyTypeLoaded(const QVariant & type)
 {
-	type = t;
-
-	if (type == KeyModel::String) {
-		ui->initKeyValue(ValueTabView::PlainBased);
-	} else {
-		ui->initKeyValue(ValueTabView::ModelBased);
-	}
-
-	ui->keyTypeLabelValue->setText(ui->keyTypeLabelValue->text() 
-		+ keyModel->getKeyTypeString().toUpper());
+	QString t = type.toString();
+	ui->keyTypeLabelValue->setText(
+		ui->keyTypeLabelValue->text()  + t.toUpper()
+		);
 
 	keyModel->getValue();
 }
 
-void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
+void ValueTab::valueLoaded(const QVariant& value)
 {
-	if (owner != keyModel) {
-		return;
-	}
-
 	ui->loader->stop();
 	ui->loaderLabel->hide();
 
@@ -187,7 +179,6 @@ void ValueTab::currentFormatterChanged(int index)
 
 void ValueTab::renameKey()
 {
-	//todo implement this
 	keyModel->renameKey(ui->keyName->text());
 }
 

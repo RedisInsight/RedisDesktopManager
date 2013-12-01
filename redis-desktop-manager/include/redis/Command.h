@@ -25,12 +25,14 @@ public:
 	QString getRawString() const;
 	
 	QObject * getOwner();
+	void setOwner(QObject *);
 
 	static QString getFormatted(const QString&);
 
 	bool hasCallback();
 
 	QString getCallbackName();
+	void setCallBackName(const QString &);
 
 private:
 	QObject * owner;

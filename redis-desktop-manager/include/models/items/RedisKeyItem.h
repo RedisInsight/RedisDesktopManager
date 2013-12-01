@@ -5,15 +5,21 @@
 
 class RedisServerDbItem;
 class KeyModel;
+class Command;
+class ConnectionBridge;
 
 class RedisKeyItem : public ItemWithNaturalSort
 {
 
 public:
+
 	const static int TYPE = 2200;
 
 	RedisKeyItem();
-	RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);		
+
+	RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);
+
+	void init(QString name, RedisServerDbItem * db, const QIcon &);
 
 	QString getTabLabelText();
 
@@ -21,7 +27,9 @@ public:
 
 	KeyModel * getKeyModel();
 
-	void init(QString name, RedisServerDbItem * db, const QIcon &);
+	Command getTypeCommand();
+
+	ConnectionBridge * getConnection();
 
 private:	
 	RedisServerDbItem * db;	

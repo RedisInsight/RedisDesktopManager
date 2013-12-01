@@ -20,6 +20,9 @@
 class ValueTabView
 {
 public:
+
+	ValueTabView(const QString& name, QWidget * parent);
+
 	QGridLayout *gridLayout;
 	QLineEdit *keyName;
 	QTableView *keyValue;
@@ -44,8 +47,6 @@ public:
 	QLabel * pagination;
 
 	enum Type { ModelBased, PlainBased };
-
-	void init(QWidget * baseController);
 
 	void initKeyValue(ValueTabView::Type t = ModelBased);
 

@@ -27,6 +27,11 @@ QString Command::getCallbackName()
 	return callBackMethod;
 }
 
+void Command::setCallBackName(const QString & name)
+{
+	callBackMethod = name;
+}
+
 bool Command::hasDbIndex() const
 {
 	return dbIndex >= 0;
@@ -55,6 +60,11 @@ bool Command::isEmpty() const
 QObject * Command::getOwner()
 {
 	return owner;
+}
+
+void Command::setOwner(QObject * o)
+{
+	owner = o;
 }
 
 QString Command::getFormatted(const QString& command)

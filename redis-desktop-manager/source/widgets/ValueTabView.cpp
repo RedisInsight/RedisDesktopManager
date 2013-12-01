@@ -1,13 +1,13 @@
 #include "ValueTabView.h"
 #include "FastItemDelegate.h"
 
-void ValueTabView::init(QWidget * baseController)
-{
-	controller = baseController;
-
+ValueTabView::ValueTabView(const QString& name, QWidget * parent)
+	: controller(parent)
+{	
 	initLayout();
 
 	initKeyName();
+	keyName->setText(name);
 
 	singleValueFormatterType = new QComboBox;
 	singleValueFormatterType->insertItem(0, "Plain text");

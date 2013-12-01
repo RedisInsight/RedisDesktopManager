@@ -20,6 +20,7 @@ public:
 	static void delayedDeallocator(QObject *);
 
 protected:	
+	RedisKeyItem * key;
 	KeyModel * keyModel;
 	KeyModel::Type type;
 	PaginatedModel * model;
@@ -37,14 +38,18 @@ protected:
 	PaginatedModel * getModelForKey(KeyModel::Type, const QVariant&);	
 
 protected slots:
-	void keyTypeLoaded(KeyModel::Type);
-	void valueLoaded(const QVariant&, QObject *);
+	void keyTypeLoaded(const QVariant & type);
+	void valueLoaded(const QVariant&);
 	void loadNextPage();
 	void loadPreviousPage();
 	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
 	void currentFormatterChanged(int);
-	void renameKey();
+
 	void deleteKey();
+
+	void renameKey();
+	//void onKeyRenamed();
+	//void onKeyRenameError();
 
 	//void error(QString&);
 

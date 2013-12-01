@@ -8,8 +8,8 @@
 #include "Command.h"
 #include "ConnectionBridge.h"
 
-KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex, RedisKeyItem * key)
-	: key(key), db(db), keyName(keyName), dbIndex(dbIndex), keyType(Empty), keyTypeString("empty")
+KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: db(db), keyName(keyName), dbIndex(dbIndex), keyType(Empty), keyTypeString("empty")
 {	
 }
 
@@ -25,24 +25,8 @@ QString KeyModel::getKeyName()
 	return keyName;
 }
 
-void KeyModel::getKeyType()
-{
-	if (keyType != Empty) {
-		emit keyTypeLoaded(keyType);
-		return;
-	}
-
-	db->addCommand(
-		Command(QString("type %1").arg(keyName), this, CALLMETHOD("loadedType"), dbIndex)
-		);
-}
-
 void KeyModel::getValue()
 {
-	if (keyType == Empty) {
-		getKeyType();
-	}
-
 	QString command;
 
 	switch (keyType)
@@ -69,7 +53,7 @@ void KeyModel::getValue()
 	}	
 
 	if (command.isEmpty()) {
-		emit valueLoaded(QVariant(), this);
+		emit valueLoaded(QVariant());
 		return;
 	} else {
 		db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
@@ -78,7 +62,7 @@ void KeyModel::getValue()
 
 void KeyModel::loadedValue(const QVariant& value)
 {
-	emit valueLoaded(value, this);
+	emit valueLoaded(value);
 }
 
 void KeyModel::loadedType(const QVariant& result)
@@ -114,14 +98,17 @@ void KeyModel::renameKey(const QString& newKeyName)
 								.arg(keyName)
 								.arg(newKeyName);
 	
-	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));	
-
-	key->setText(newKeyName);
+	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));
 }
 
 void KeyModel::loadedRenameStatus(const QVariant& result)
 {
-	emit keyRenamed();	
+	QString resultString = (result.isNull()) ? "" : result.toString();
+
+	if (resultString.at(0) != 'O')
+		emit keyRenameError(resultString);
+	else 
+		emit keyRenamed();	
 }
 
 QString KeyModel::getKeyTypeString()

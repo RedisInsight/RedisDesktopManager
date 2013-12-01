@@ -1,9 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <QHash>
 
-class RedisKeyItem;
 class ConnectionBridge;
 
 class KeyModel : public QObject
@@ -11,12 +9,10 @@ class KeyModel : public QObject
 	Q_OBJECT
 
 public:
-	KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex, RedisKeyItem * key);
+	KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 	~KeyModel(void);
 
 	enum Type {String = 0, Hash = 1, List = 2, Set = 3, ZSet = 4, None = 5, Empty = 5};	
-
-	void getKeyType();
 
 	QString getKeyTypeString();
 
@@ -24,16 +20,15 @@ public:
 
 	QString getKeyName();
 
-	static QString TypeToString(Type t);
-
 	void renameKey(const QString&);
 
 //	void deleteKey();
 
 signals:
-	void valueLoaded(const QVariant&, QObject *);
+	void valueLoaded(const QVariant&);
 	void keyTypeLoaded(KeyModel::Type);
 	void keyRenamed();
+	void keyRenameError(const QString&);
 
 private slots:
 	void loadedValue(const QVariant&);
@@ -41,7 +36,6 @@ private slots:
 	void loadedRenameStatus(const QVariant&);
 
 private:
-	RedisKeyItem * key;
 	Type keyType;
 	QString keyTypeString;
 	QString keyName;
