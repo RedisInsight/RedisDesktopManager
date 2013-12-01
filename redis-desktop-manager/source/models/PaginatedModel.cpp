@@ -1,8 +1,8 @@
 #include "PaginatedModel.h"
 
 
-PaginatedModel::PaginatedModel(QStringList& values)
-	: rawData(values), currentPage(0)
+PaginatedModel::PaginatedModel()
+	: currentPage(0)
 {
 }
 

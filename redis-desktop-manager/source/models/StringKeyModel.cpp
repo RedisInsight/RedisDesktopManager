@@ -1,11 +1,14 @@
-#include "..\..\include\models\StringKeyModel.h"
+#include "StringKeyModel.h"
 
-
-StringKeyModel::StringKeyModel(void)
+StringKeyModel::StringKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: KeyModel(db, keyName, dbIndex)
 {
 }
 
-
-StringKeyModel::~StringKeyModel(void)
+void StringKeyModel::loadValue()
 {
+	QString command = QString("get %1").arg(keyName);
+
+	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
+

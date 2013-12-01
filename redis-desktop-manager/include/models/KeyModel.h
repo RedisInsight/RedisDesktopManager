@@ -1,18 +1,15 @@
 #pragma once
 
-#include <QObject>
+#include <QStandardItemModel>
+#include "ConnectionBridge.h"
+#include "Command.h"
 
-class ConnectionBridge;
-
-class KeyModel : public QObject
+class KeyModel : public QStandardItemModel
 {
 	Q_OBJECT
 
 public:
-	KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
-	~KeyModel(void);	
-
-	QString getKeyTypeString();
+	KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);	
 
 	virtual void loadValue() = 0;
 
@@ -20,18 +17,23 @@ public:
 
 	void renameKey(const QString&);
 
-//	void deleteKey();
+	const static int DEFAULT_TYPE = 1;
 
-signals:
-	void valueLoaded(const QVariant&);	
+	inline virtual int type()
+	{
+		return DEFAULT_TYPE;
+	}
+
+signals:	
+	void valueLoaded();
 	void keyRenamed();
 	void keyRenameError(const QString&);
 
-private slots:
+protected slots:
 	void loadedValue(const QVariant&);		
 	void loadedRenameStatus(const QVariant&);
 
-private:	
+protected:	
 	QString keyName;
 	int dbIndex;
 	ConnectionBridge * db;

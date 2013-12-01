@@ -1,10 +1,17 @@
 #include "SortedSetKeyModel.h"
 
-SortedSetKeyModel::SortedSetKeyModel(QStringList& values)
-	: PaginatedModel(values) 
+SortedSetKeyModel::SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: KeyModel(db, keyName, dbIndex), PaginatedModel()
 {
 	setColumnCount(2);
-	setCurrentPage(1);
+}
+
+
+void SortedSetKeyModel::loadValue()
+{
+	QString command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(keyName);
+
+	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
 void SortedSetKeyModel::setCurrentPage(int page)

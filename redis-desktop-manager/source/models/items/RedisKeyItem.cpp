@@ -3,6 +3,12 @@
 #include "RedisServerDbItem.h"
 #include "KeyModel.h"
 #include "Command.h"
+#include "StringKeyModel.h"
+#include "HashKeyModel.h"
+#include "ListKeyModel.h"
+#include "SetKeyModel.h"
+#include "SortedSetKeyModel.h"
+
 
 RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
 	: ItemWithNaturalSort(icon, name), db(db)
@@ -44,22 +50,17 @@ KeyModel * RedisKeyItem::getKeyModel(const QString & type)
 	QString keyName = text();
 
 	if (type == "string")
-		keyType = String;
+		return new StringKeyModel(db->server->connection, keyName, dbIndex);
+	else if (type == "hash") 
+		return new HashKeyModel(db->server->connection, keyName, dbIndex);
+	else if (type == "list")	
+		return new ListKeyModel(db->server->connection, keyName, dbIndex);	
+	else if (type == "set") 	
+		return new SetKeyModel(db->server->connection, keyName, dbIndex);		
+	else if (type == "zset") 
+		return new SortedSetKeyModel(db->server->connection, keyName, dbIndex);		
 
-	if (type == "hash") 
-		keyType = Hash;
-
-	if (type == "list")
-		keyType = List;
-
-	if (type == "set") 
-		keyType = Set;
-
-	if (type == "zset") 
-		keyType = ZSet;
-
-
-	return new KeyModel(db->server->connection, keyName, dbIndex);
+	return nullptr;
 }
 
 Command RedisKeyItem::getTypeCommand()

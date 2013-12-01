@@ -1,8 +1,15 @@
 #pragma once
-class SetKeyModel
+
+#include "KeyModel.h"
+#include "PaginatedModel.h"
+
+class SetKeyModel : public KeyModel, public PaginatedModel
 {
 public:
-	SetKeyModel(void);
-	~SetKeyModel(void);
+	SetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+
+	void setCurrentPage(int page);
+
+	void loadValue();
 };
 

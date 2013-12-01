@@ -1,5 +1,6 @@
 #include "ValueTabView.h"
 #include "FastItemDelegate.h"
+#include "KeyModel.h"
 
 ValueTabView::ValueTabView(const QString& name, QWidget * parent)
 	: controller(parent)
@@ -9,6 +10,11 @@ ValueTabView::ValueTabView(const QString& name, QWidget * parent)
 	initKeyName();
 	keyName->setText(name);
 
+	initFormatter();
+}
+
+void ValueTabView::initFormatter()
+{
 	singleValueFormatterType = new QComboBox;
 	singleValueFormatterType->insertItem(0, "Plain text");
 	singleValueFormatterType->insertItem(1, "JSON");
@@ -60,9 +66,12 @@ void ValueTabView::initKeyName()
 	gridLayout->addLayout(grid, 0, 1, 1, 1);
 }
 
-void ValueTabView::initKeyValue(ValueTabView::Type t)
+void ValueTabView::initKeyValue(KeyModel * model)
 {
-	if (t == ModelBased) {
+	loader->stop();
+	loaderLabel->hide();
+
+	if (model->type() == KeyModel::DEFAULT_TYPE) {
 
 		keyValue = new QTableView(controller);
 		keyValue->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -91,6 +100,9 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 
 		gridLayout->addWidget(splitter, 1, 0, 1, 2);
 
+		keyValue->setItemDelegate(new FastItemDelegate);
+		keyValue->setModel(model);
+
 		initPagination();
 
 	} else {
@@ -103,6 +115,9 @@ void ValueTabView::initKeyValue(ValueTabView::Type t)
 		keyValueLabel = new QLabel(controller);
 		keyValueLabel->setText("Value:");
 		gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
+
+		// TODO: fix it
+		//keyValuePlain->setPlainText(value);
 	}
 }
 
@@ -126,24 +141,4 @@ void ValueTabView::initPagination()
 	paginationGrid->addWidget(nextPage, 0, 2, 1, 1);
 
 	gridLayout->addLayout(paginationGrid, 2, 0, 1, 2);
-}
-
-
-void ValueTabView::setModel(QAbstractItemModel * model)
-{
-	if (keyValue == nullptr) {
-		return;
-	}
-
-	keyValue->setItemDelegate(new FastItemDelegate);
-	keyValue->setModel(model);
-}
-
-void ValueTabView::setPlainValue(QString &value)
-{
-	if (keyValuePlain == nullptr) {
-		return;
-	}
-
-	keyValuePlain->setPlainText(value);
 }

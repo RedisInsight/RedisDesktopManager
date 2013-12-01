@@ -1,11 +1,17 @@
 #include "HashKeyModel.h"
 #include <QStandardItem>
 
-HashKeyModel::HashKeyModel(QStringList& values)
-	: PaginatedModel(values)
+HashKeyModel::HashKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: KeyModel(db, keyName, dbIndex), PaginatedModel()
 {
 	setColumnCount(2);
-	setCurrentPage(1);
+}
+
+void HashKeyModel::loadValue()
+{
+	QString command = QString("hgetall %1").arg(keyName);
+
+	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
 

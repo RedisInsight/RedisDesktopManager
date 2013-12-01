@@ -1,14 +1,17 @@
 #ifndef LISTKEYMODEL_H
 #define LISTKEYMODEL_H
 
+#include "KeyModel.h"
 #include "PaginatedModel.h"
 
-class ListKeyModel : public PaginatedModel
+class ListKeyModel : public KeyModel, public PaginatedModel
 {
 public:
-	ListKeyModel(QStringList& values);
+	ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
 	void setCurrentPage(int page);
+
+	void loadValue();
 };
 
 #endif // LISTKEYMODEL_H

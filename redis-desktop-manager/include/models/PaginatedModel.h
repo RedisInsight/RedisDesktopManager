@@ -1,12 +1,11 @@
 #pragma once
 
 #include <QStringList>
-#include <QStandardItemModel>
 
-class PaginatedModel : public QStandardItemModel
+class PaginatedModel
 {
 public:
-	PaginatedModel(QStringList&);
+	PaginatedModel();
 
 	virtual int getCurrentPage();
 

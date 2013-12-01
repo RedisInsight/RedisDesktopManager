@@ -1,16 +1,21 @@
 #ifndef HASHKEYMODEL_H
 #define HASHKEYMODEL_H
 
+#include "KeyModel.h"
 #include "PaginatedModel.h"
 
-class HashKeyModel : public PaginatedModel
+class HashKeyModel : public KeyModel, public PaginatedModel
 {
+	Q_OBJECT
+
 public:
-	HashKeyModel(QStringList& values);
+	HashKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
 	void setCurrentPage(int);
 
 	int itemsCount();
+
+	void loadValue();
 
 };
 

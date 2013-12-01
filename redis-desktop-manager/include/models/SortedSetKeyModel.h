@@ -1,16 +1,19 @@
 #ifndef SORTEDSETKEYMODEL_H
 #define SORTEDSETKEYMODEL_H
 
+#include "KeyModel.h"
 #include "PaginatedModel.h"
 
-class SortedSetKeyModel : public PaginatedModel
+class SortedSetKeyModel : public KeyModel, public PaginatedModel
 {
 public:
-	SortedSetKeyModel(QStringList& values);
+	SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
 	void setCurrentPage(int page);
 
 	int itemsCount();
+
+	void loadValue();
 };
 
 #endif // SORTEDSETKEYMODEL_H

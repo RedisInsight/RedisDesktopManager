@@ -10,8 +10,7 @@
 #include <QtConcurrent>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: key(key), ui(nullptr), model(nullptr), 
-	  currentFormatter(AbstractFormatter::FormatterType::Plain), 
+	: key(key), ui(nullptr), currentFormatter(AbstractFormatter::FormatterType::Plain), 
 	  currentCell(nullptr), formatter(AbstractFormatter::getFormatter())
 {	
 	ui = new ValueTabView(key->text(), this);	
@@ -35,55 +34,31 @@ void ValueTab::keyTypeLoaded(const QVariant & type)
 		ui->keyTypeLabelValue->text()  + t.toUpper()
 		);
 
+	keyModel = key->getKeyModel(t);
+
+	if (keyModel == nullptr) {
+		emit error("Can not load key value");
+		return;
+	}
+
+	connect(keyModel, SIGNAL(valueLoaded()), this, SLOT(valueLoaded()));
+
 	keyModel->loadValue();
 }
 
-void ValueTab::valueLoaded(const QVariant& value)
+void ValueTab::valueLoaded()
 {
-	ui->loader->stop();
-	ui->loaderLabel->hide();
-
-	if (type == KeyModel::String) {
-        rawStringValue = value.toString();
-        ui->setPlainValue(rawStringValue);
-	} else {
-		model = getModelForKey(type, value);
-		ui->setModel(model);
-		initPagination();
-
-		connect(ui->keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
-			this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
-	}
+	ui->initKeyValue(keyModel);
 
 	setObjectName("valueTabReady");
 }
 
-PaginatedModel * ValueTab::getModelForKey(KeyModel::Type t, const QVariant& val)
-{
-    QStringList rawValue = val.toStringList();
-
-    switch (t)
-	{
-	case KeyModel::Hash:		
-        return new HashKeyModel(rawValue);
-
-	case KeyModel::List:		
-	case KeyModel::Set:
-        return new ListKeyModel(rawValue);
-
-	case KeyModel::ZSet:		
-        return new SortedSetKeyModel(rawValue);
-	}
-
-	return nullptr;
-}
-
-
 void ValueTab::initPagination()
 {
-	if (model == nullptr) {
-		return;
-	}
+	connect(ui->keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
+		this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
+
+	PaginatedModel * model = (PaginatedModel *) keyModel;
 
 	int pagesCount = model->getPagesCount();
 	ui->pagination->setText(QString("Page <b>1</b> of <b>%1</b>").arg(pagesCount));
@@ -99,6 +74,8 @@ void ValueTab::initPagination()
 
 void ValueTab::loadNextPage()
 {
+	PaginatedModel * model = (PaginatedModel *) keyModel;
+
 	int currentPage = model->getCurrentPage();
 	int totalPages = model->getPagesCount();
 
@@ -122,6 +99,7 @@ void ValueTab::loadNextPage()
 
 void ValueTab::loadPreviousPage()
 {
+	PaginatedModel * model = (PaginatedModel *) keyModel;
 	int currentPage = model->getCurrentPage();
 	int totalPages = model->getPagesCount();
 
@@ -147,7 +125,7 @@ void ValueTab::onSelectedItemChanged(const QModelIndex & current, const QModelIn
 {
 	ui->singleValue->clear();	
 
-	formatter->setRawValue(model->itemFromIndex(current)->text());
+	formatter->setRawValue(keyModel->itemFromIndex(current)->text());
 
 	ui->singleValue->appendPlainText(formatter->getFormatted());
 
@@ -166,15 +144,17 @@ void ValueTab::currentFormatterChanged(int index)
 
 	formatter = AbstractFormatter::getFormatter(newFormatterType);
 
-	if (type == KeyModel::String) {		
-		ui->keyValuePlain->clear();
-		formatter->setRawValue(rawStringValue);
-		ui->keyValuePlain->appendPlainText(
-			formatter->getFormatted()
-		);
-	} else {
-		onSelectedItemChanged(*currentCell, *currentCell);
-	}	
+	//TODO: fix it
+
+// 	if (type == KeyModel::String) {		
+// 		ui->keyValuePlain->clear();
+// 		formatter->setRawValue(rawStringValue);
+// 		ui->keyValuePlain->appendPlainText(
+// 			formatter->getFormatted()
+// 		);
+// 	} else {
+// 		onSelectedItemChanged(*currentCell, *currentCell);
+// 	}	
 }
 
 void ValueTab::renameKey()
@@ -185,28 +165,19 @@ void ValueTab::renameKey()
 void ValueTab::deleteKey()
 {
 	//todo implement this
-
 }
-
 
 ValueTab::~ValueTab()
 {
-	if (ui != nullptr) {
-		delete ui;
+	if (keyModel != nullptr) {
+
+		keyModel->disconnect();
+
+		QtConcurrent::run(delayedDeallocator, keyModel);
+
+		keyModel = nullptr;		
 	}
-
-	if (model != nullptr) {
-
-		model->disconnect();
-
-		QtConcurrent::run(delayedDeallocator, model);
-
-		model = nullptr;		
-	}
-
-	keyModel->disconnect(this);
 }
-
 
 void ValueTab::delayedDeallocator(QObject *object)
 {

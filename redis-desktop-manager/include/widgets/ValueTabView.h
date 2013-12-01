@@ -17,6 +17,8 @@
 #include <QComboBox>
 #include <QGroupBox>
 
+class KeyModel;
+
 class ValueTabView
 {
 public:
@@ -46,15 +48,7 @@ public:
 	QPushButton * nextPage;
 	QLabel * pagination;
 
-	enum Type { ModelBased, PlainBased };
-
-	void initKeyValue(ValueTabView::Type t = ModelBased);
-
-	void setModel(QAbstractItemModel * model);
-
-	void setPlainValue(QString &);
-
-	ValueTabView::Type getType();
+	void initKeyValue(KeyModel *);
 
 protected:
 	QWidget * controller;
@@ -64,5 +58,7 @@ protected:
 	void initKeyName();	
 
 	void initPagination();
+
+	void initFormatter();
 };
 

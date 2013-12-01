@@ -1,10 +1,16 @@
 #include "ListKeyModel.h"
 
-ListKeyModel::ListKeyModel(QStringList& values)
-	: PaginatedModel(values) 
+ListKeyModel::ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: KeyModel(db, keyName, dbIndex), PaginatedModel()
 {
 	setColumnCount(1);
-	setCurrentPage(1);
+}
+
+void ListKeyModel::loadValue()
+{
+	QString command = QString("LRANGE %1 0 -1").arg(keyName);
+
+	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
 void ListKeyModel::setCurrentPage(int page)
