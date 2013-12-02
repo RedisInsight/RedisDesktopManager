@@ -1,9 +1,11 @@
 #include "PaginatedModel.h"
 
+#include <QtConcurrent>
 
 PaginatedModel::PaginatedModel()
 	: currentPage(0)
 {
+	rawData = new QStringList;
 }
 
 int PaginatedModel::getCurrentPage()
@@ -13,7 +15,7 @@ int PaginatedModel::getCurrentPage()
 
 int PaginatedModel::itemsCount()
 {
-	return rawData.size();
+	return rawData->size();
 }
 
 int PaginatedModel::getPagesCount()
@@ -25,4 +27,17 @@ int PaginatedModel::getPagesCount()
 	}
 
 	return pages;
+}
+
+PaginatedModel::~PaginatedModel()
+{
+	if (rawData == nullptr)
+		return;
+
+	QtConcurrent::run(delayedDeallocator, rawData);	
+}
+
+void PaginatedModel::delayedDeallocator(QStringList *object)
+{
+	delete object;
 }

@@ -14,6 +14,11 @@ void HashKeyModel::loadValue()
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
+void HashKeyModel::initModel(const QVariant & value)
+{
+	*rawData = value.toStringList();
+	setCurrentPage(1);
+}
 
 void HashKeyModel::setCurrentPage(int page)
 {
@@ -29,7 +34,7 @@ void HashKeyModel::setCurrentPage(int page)
 
 	currentPage = page;
 
-	int size = rawData.size();
+	int size = rawData->size();
 
 	setRowCount( (itemsOnPageLimit > size / 2)? size / 2 : itemsOnPageLimit);
 	
@@ -38,8 +43,8 @@ void HashKeyModel::setCurrentPage(int page)
 
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-		QStandardItem * key = new QStandardItem(rawData.at(i));
-		QStandardItem * value = new QStandardItem(rawData.at(++i));
+		QStandardItem * key = new QStandardItem(rawData->at(i));
+		QStandardItem * value = new QStandardItem(rawData->at(++i));
 		setItem(row, 0, key);
 		setItem(row, 1, value);
 	}
@@ -47,5 +52,5 @@ void HashKeyModel::setCurrentPage(int page)
 
 int HashKeyModel::itemsCount()
 {
-	return rawData.size() / 2;
+	return rawData->size() / 2;
 }

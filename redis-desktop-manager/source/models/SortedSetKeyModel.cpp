@@ -6,12 +6,17 @@ SortedSetKeyModel::SortedSetKeyModel(ConnectionBridge * db, const QString &keyNa
 	setColumnCount(2);
 }
 
-
 void SortedSetKeyModel::loadValue()
 {
 	QString command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(keyName);
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+}
+
+void SortedSetKeyModel::initModel(const QVariant & value)
+{
+	*rawData = value.toStringList();
+	setCurrentPage(1);
 }
 
 void SortedSetKeyModel::setCurrentPage(int page)
@@ -28,7 +33,7 @@ void SortedSetKeyModel::setCurrentPage(int page)
 
 	currentPage = page;
 
-	int size = rawData.size();
+	int size = rawData->size();
 
 	setRowCount( (itemsOnPageLimit  > size / 2)? size / 2 : itemsOnPageLimit);
 
@@ -37,8 +42,8 @@ void SortedSetKeyModel::setCurrentPage(int page)
 
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-		QStandardItem * key = new QStandardItem(rawData.at(i));
-		QStandardItem * value = new QStandardItem(rawData.at(++i));
+		QStandardItem * key = new QStandardItem(rawData->at(i));
+		QStandardItem * value = new QStandardItem(rawData->at(++i));
 		setItem(row, 0, key);
 		setItem(row, 1, value);
 	}
@@ -46,5 +51,5 @@ void SortedSetKeyModel::setCurrentPage(int page)
 
 int SortedSetKeyModel::itemsCount()
 {
-	return rawData.size() / 2;
+	return rawData->size() / 2;
 }

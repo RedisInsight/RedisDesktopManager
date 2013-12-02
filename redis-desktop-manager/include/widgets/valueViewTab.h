@@ -15,10 +15,6 @@ class ValueTab : public QWidget
 public:
 	ValueTab(RedisKeyItem * key);
 
-	~ValueTab();
-
-	static void delayedDeallocator(QObject *);
-
 protected:	
 	RedisKeyItem * key;
 
@@ -44,8 +40,9 @@ protected slots:
 	void renameKey();
 
 	//void onKeyRenamed();
-	//void onKeyRenameError();
+	//void onKeyRenameError();	
 
+signals:
 	void error(const QString&);
 };
 

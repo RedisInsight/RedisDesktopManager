@@ -13,6 +13,12 @@ void ListKeyModel::loadValue()
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
+void ListKeyModel::initModel(const QVariant & value)
+{
+	*rawData = value.toStringList();
+	setCurrentPage(1);
+}
+
 void ListKeyModel::setCurrentPage(int page)
 {
 	if (page == currentPage) {
@@ -26,7 +32,7 @@ void ListKeyModel::setCurrentPage(int page)
 
 	currentPage = page;
 
-	int size = rawData.size();
+	int size = rawData->size();
 
 	setRowCount( (itemsOnPageLimit > size)? size : itemsOnPageLimit);
 
@@ -35,7 +41,7 @@ void ListKeyModel::setCurrentPage(int page)
 
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-		QStandardItem * value = new QStandardItem(rawData.at(i));
+		QStandardItem * value = new QStandardItem(rawData->at(i));
 		setItem(row, 0, value);
 	}
 }

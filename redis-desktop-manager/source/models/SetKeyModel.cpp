@@ -12,3 +12,15 @@ void SetKeyModel::loadValue()
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
+
+void SetKeyModel::initModel(const QVariant & value)
+{
+	*rawData = value.toStringList();
+	setCurrentPage(1);
+}
+
+void SetKeyModel::setCurrentPage(int page)
+{
+	//todo implement this
+
+}

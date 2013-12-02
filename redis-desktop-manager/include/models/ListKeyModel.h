@@ -12,6 +12,10 @@ public:
 	void setCurrentPage(int page);
 
 	void loadValue();
+
+protected:
+	void initModel(const QVariant &);
+
 };
 
 #endif // LISTKEYMODEL_H

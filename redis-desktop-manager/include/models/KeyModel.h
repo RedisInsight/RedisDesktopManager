@@ -17,12 +17,16 @@ public:
 
 	void renameKey(const QString&);
 
-	const static int DEFAULT_TYPE = 1;
+	const static int KEY_MODEL_TYPE = 1;
 
-	inline virtual int type()
+	inline virtual int getKeyModelType()
 	{
-		return DEFAULT_TYPE;
+		return KEY_MODEL_TYPE;
 	}
+
+	void blockEvents();
+	void unblockEvents();
+	bool event(QEvent * e);
 
 signals:	
 	void valueLoaded();
@@ -37,5 +41,8 @@ protected:
 	QString keyName;
 	int dbIndex;
 	ConnectionBridge * db;
+	bool eventsBlocked;
+
+	virtual void initModel(const QVariant &) = 0;
 };
 

@@ -5,7 +5,7 @@
 #include "ConnectionBridge.h"
 
 KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: db(db), keyName(keyName), dbIndex(dbIndex)
+	: db(db), keyName(keyName), dbIndex(dbIndex), eventsBlocked(false)
 {	
 }
 
@@ -16,6 +16,8 @@ QString KeyModel::getKeyName()
 
 void KeyModel::loadedValue(const QVariant& value)
 {
+	initModel(value);
+
 	emit valueLoaded();
 }
 
@@ -36,4 +38,20 @@ void KeyModel::loadedRenameStatus(const QVariant& result)
 		emit keyRenameError(resultString);
 	else 
 		emit keyRenamed();	
+}
+
+void KeyModel::blockEvents()
+{
+	eventsBlocked = true;
+}
+void KeyModel::unblockEvents()
+{
+	eventsBlocked = false;
+}
+bool KeyModel::event(QEvent * e)
+{
+	if (eventsBlocked)
+		return true;
+
+	return QStandardItemModel::event(e);
 }

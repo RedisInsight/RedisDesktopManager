@@ -7,8 +7,6 @@
 #include "Command.h"
 #include "ConnectionBridge.h"
 
-#include <QtConcurrent>
-
 ValueTab::ValueTab(RedisKeyItem * key)	
 	: key(key), ui(nullptr), currentFormatter(AbstractFormatter::FormatterType::Plain), 
 	  currentCell(nullptr), formatter(AbstractFormatter::getFormatter())
@@ -50,6 +48,9 @@ void ValueTab::valueLoaded()
 {
 	ui->initKeyValue(keyModel);
 
+	if (keyModel->getKeyModelType() == KeyModel::KEY_MODEL_TYPE)
+		initPagination();
+
 	setObjectName("valueTabReady");
 }
 
@@ -58,6 +59,7 @@ void ValueTab::initPagination()
 	connect(ui->keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
 		this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
 
+	keyModel->blockEvents();
 	PaginatedModel * model = (PaginatedModel *) keyModel;
 
 	int pagesCount = model->getPagesCount();
@@ -69,7 +71,7 @@ void ValueTab::initPagination()
 		connect(ui->nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
 		connect(ui->previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
 	}
-
+	keyModel->unblockEvents();
 }
 
 void ValueTab::loadNextPage()
@@ -166,23 +168,5 @@ void ValueTab::deleteKey()
 {
 	//todo implement this
 }
-
-ValueTab::~ValueTab()
-{
-	if (keyModel != nullptr) {
-
-		keyModel->disconnect();
-
-		QtConcurrent::run(delayedDeallocator, keyModel);
-
-		keyModel = nullptr;		
-	}
-}
-
-void ValueTab::delayedDeallocator(QObject *object)
-{
-	delete object;
-}
-
 
 

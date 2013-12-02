@@ -7,6 +7,8 @@ class PaginatedModel
 public:
 	PaginatedModel();
 
+	virtual ~PaginatedModel();
+
 	virtual int getCurrentPage();
 
 	virtual void setCurrentPage(int) = 0;
@@ -16,8 +18,10 @@ public:
 	virtual int getPagesCount();
 
 protected:
-	QStringList rawData;
+	QStringList * rawData;
 	int currentPage;
 	static const int itemsOnPageLimit = 500;
+
+	static void delayedDeallocator(QStringList *);
 };
 

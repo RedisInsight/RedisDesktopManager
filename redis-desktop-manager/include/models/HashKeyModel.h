@@ -17,6 +17,9 @@ public:
 
 	void loadValue();
 
+protected:
+	void initModel(const QVariant &);
+
 };
 
 #endif // HASHKEYMODEL_H

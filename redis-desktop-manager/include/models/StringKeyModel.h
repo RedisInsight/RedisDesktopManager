@@ -12,10 +12,14 @@ public:
 
 	void loadValue();
 
-signals:
-	void valueLoaded(const QVariant&);
-	void keyRenamed();
-	void keyRenameError(const QString&);
+	QString getValue();
+
+	static const int KEY_MODEL_TYPE = 2;
+
+protected:
+	QString plainData;
+
+	void initModel(const QVariant &);
 
 };
 

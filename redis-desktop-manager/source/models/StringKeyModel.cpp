@@ -12,3 +12,12 @@ void StringKeyModel::loadValue()
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
+QString StringKeyModel::getValue()
+{
+	return plainData;
+}
+
+void StringKeyModel::initModel(const QVariant &value)
+{
+	plainData = value.toString();
+}

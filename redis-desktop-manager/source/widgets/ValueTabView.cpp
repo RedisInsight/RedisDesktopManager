@@ -1,6 +1,7 @@
 #include "ValueTabView.h"
 #include "FastItemDelegate.h"
 #include "KeyModel.h"
+#include "StringKeyModel.h"
 
 ValueTabView::ValueTabView(const QString& name, QWidget * parent)
 	: controller(parent)
@@ -71,7 +72,7 @@ void ValueTabView::initKeyValue(KeyModel * model)
 	loader->stop();
 	loaderLabel->hide();
 
-	if (model->type() == KeyModel::DEFAULT_TYPE) {
+	if (model->getKeyModelType() == KeyModel::KEY_MODEL_TYPE) {
 
 		keyValue = new QTableView(controller);
 		keyValue->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -105,7 +106,7 @@ void ValueTabView::initKeyValue(KeyModel * model)
 
 		initPagination();
 
-	} else {
+	} else if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {
 
 		keyValuePlain = new QPlainTextEdit(controller);
 		keyValuePlain->setReadOnly(true);
@@ -115,9 +116,9 @@ void ValueTabView::initKeyValue(KeyModel * model)
 		keyValueLabel = new QLabel(controller);
 		keyValueLabel->setText("Value:");
 		gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
-
-		// TODO: fix it
-		//keyValuePlain->setPlainText(value);
+		
+		StringKeyModel * stringModel = (StringKeyModel *) model;
+		keyValuePlain->setPlainText(stringModel->getValue());
 	}
 }
 
