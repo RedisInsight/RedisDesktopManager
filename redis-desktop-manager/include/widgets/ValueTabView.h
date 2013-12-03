@@ -28,26 +28,10 @@ class ValueTabView : public QObject
 public:
 	ValueTabView(const QString& name, QWidget * parent);
 
-	QGridLayout *gridLayout;
 	QLineEdit *keyName;
-	QTableView *keyValue;
-	QPlainTextEdit *singleValue;
-	QGroupBox *singleValueGroup;
-	QComboBox * singleValueFormatterType;
-	QSplitter *splitter;
-	QPlainTextEdit *keyValuePlain;
-	QLabel *keyNameLabel;	
-	QLabel *keyValueLabel;
 	QLabel *keyTypeLabelValue;
-	QLabel *loaderLabel;
-	QMovie *loader;
-	QLabel * formatterLabel;
 	QPushButton * renameKey;
 	QPushButton * deleteKey;
-	QGridLayout * paginationGrid;
-	QPushButton * previousPage;
-	QPushButton * nextPage;
-	QLabel * pagination;
 
 	void initKeyValue(KeyModel *);
 
@@ -56,7 +40,24 @@ protected:
 	KeyModel * model;
 	PaginatedModel * paginatedModel;
 	AbstractFormatter * formatter;
-	const QModelIndex * currentCell;	
+	const QModelIndex * currentCell;
+
+	// UI items
+	QTableView *keyValue;
+	QPlainTextEdit *singleValue;
+	QGroupBox *singleValueGroup;
+	QComboBox * singleValueFormatterType;
+	QSplitter *splitter;
+	QLabel *keyNameLabel;	
+	QLabel *keyValueLabel;
+	QLabel *loaderLabel;
+	QMovie *loader;
+	QLabel * formatterLabel;
+	QGridLayout * paginationGrid;
+	QPushButton * previousPage;
+	QPushButton * nextPage;
+	QLabel * pagination;
+	QGridLayout *gridLayout;
 
 	void initLayout();
 

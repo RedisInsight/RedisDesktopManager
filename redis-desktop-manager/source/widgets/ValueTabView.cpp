@@ -90,8 +90,6 @@ void ValueTabView::initKeyValue(KeyModel * model)
 		singleValue = new QPlainTextEdit;
 		singleValue->appendPlainText("Select table cell");
 		singleValue->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-		singleValue->setReadOnly(true);
-
 
 		singleValueGroup = new QGroupBox("Value:");
 
@@ -116,17 +114,16 @@ void ValueTabView::initKeyValue(KeyModel * model)
 
 	} else if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {
 
-		keyValuePlain = new QPlainTextEdit(controller);
-		keyValuePlain->setReadOnly(true);
+		singleValue = new QPlainTextEdit(controller);		
 		gridLayout->addWidget(singleValueFormatterType, 1, 1, 1, 1);
-		gridLayout->addWidget(keyValuePlain, 2, 1, 1, 1);
+		gridLayout->addWidget(singleValue, 2, 1, 1, 1);
 
 		keyValueLabel = new QLabel(controller);
 		keyValueLabel->setText("Value:");
 		gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
 		
 		StringKeyModel * stringModel = (StringKeyModel *) model;
-		keyValuePlain->setPlainText(stringModel->getValue());
+		singleValue->setPlainText(stringModel->getValue());
 	}
 }
 
@@ -233,9 +230,9 @@ void ValueTabView::currentFormatterChanged(int index)
 	formatter = AbstractFormatter::getFormatter(newFormatterType);
 
 	if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {		
-		keyValuePlain->clear();
+		singleValue->clear();
 		formatter->setRawValue(((StringKeyModel*)model)->getValue());		
-		keyValuePlain->appendPlainText(
+		singleValue->appendPlainText(
 			formatter->getFormatted()
 		);
 	} else {
