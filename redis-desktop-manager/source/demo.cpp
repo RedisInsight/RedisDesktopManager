@@ -184,7 +184,9 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
 
-				server->runDatabaseLoading();									
+				server->runDatabaseLoading();
+				
+				ui.serversTreeView->setExpanded(index, true);
 			}
 			break;
 
@@ -195,6 +197,8 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				connections->blockSignals(true);
 				statusBar()->showMessage(QString("Loading keys ..."));
 				db->loadKeys();				
+
+				ui.serversTreeView->setExpanded(index, true);
 			}			
 			break;
 
