@@ -4,7 +4,7 @@
 #include "KeyModel.h"
 #include "PaginatedModel.h"
 
-class SortedSetKeyModel : public KeyModel, public PaginatedModel
+class SortedSetKeyModel : public PaginatedModel
 {
 public:
 	SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);

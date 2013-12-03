@@ -39,19 +39,3 @@ void KeyModel::loadedRenameStatus(const QVariant& result)
 	else 
 		emit keyRenamed();	
 }
-
-void KeyModel::blockEvents()
-{
-	eventsBlocked = true;
-}
-void KeyModel::unblockEvents()
-{
-	eventsBlocked = false;
-}
-bool KeyModel::event(QEvent * e)
-{
-	if (eventsBlocked)
-		return true;
-
-	return QStandardItemModel::event(e);
-}

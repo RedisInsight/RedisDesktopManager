@@ -4,7 +4,7 @@
 #include "KeyModel.h"
 #include "PaginatedModel.h"
 
-class HashKeyModel : public KeyModel, public PaginatedModel
+class HashKeyModel : public PaginatedModel
 {
 	Q_OBJECT
 

@@ -359,6 +359,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_KeyModel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PaginatedModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PaginatedModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -454,6 +460,9 @@
     <CustomBuild Include="include\models\HashKeyModel.h">
       <Filter>Header Files\models</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\models\PaginatedModel.h">
+      <Filter>Header Files\models</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\ListKeyModel.h">
@@ -491,9 +500,6 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\PaginatedModel.h">
-      <Filter>Header Files\models</Filter>
     </ClInclude>
     <ClInclude Include="include\widgets\ValueTabView.h">
       <Filter>Header Files\widgets</Filter>

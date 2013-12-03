@@ -1,7 +1,7 @@
 #include "SortedSetKeyModel.h"
 
 SortedSetKeyModel::SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: KeyModel(db, keyName, dbIndex), PaginatedModel()
+	: PaginatedModel(db, keyName, dbIndex)
 {
 	setColumnCount(2);
 }

@@ -2,8 +2,8 @@
 
 #include <QtConcurrent>
 
-PaginatedModel::PaginatedModel()
-	: currentPage(0)
+PaginatedModel::PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: KeyModel(db, keyName, dbIndex), currentPage(0)
 {
 	rawData = new QStringList;
 }

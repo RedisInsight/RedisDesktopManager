@@ -24,10 +24,6 @@ public:
 		return KEY_MODEL_TYPE;
 	}
 
-	void blockEvents();
-	void unblockEvents();
-	bool event(QEvent * e);
-
 signals:	
 	void valueLoaded();
 	void keyRenamed();

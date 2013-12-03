@@ -59,7 +59,6 @@ void ValueTab::initPagination()
 	connect(ui->keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
 		this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
 
-	keyModel->blockEvents();
 	PaginatedModel * model = (PaginatedModel *) keyModel;
 
 	int pagesCount = model->getPagesCount();
@@ -71,7 +70,6 @@ void ValueTab::initPagination()
 		connect(ui->nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
 		connect(ui->previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
 	}
-	keyModel->unblockEvents();
 }
 
 void ValueTab::loadNextPage()

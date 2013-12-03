@@ -1,7 +1,7 @@
 #include "ListKeyModel.h"
 
 ListKeyModel::ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: KeyModel(db, keyName, dbIndex), PaginatedModel()
+	: PaginatedModel(db, keyName, dbIndex)
 {
 	setColumnCount(1);
 }

@@ -1,11 +1,14 @@
 #pragma once
 
 #include <QStringList>
+#include "KeyModel.h"
 
-class PaginatedModel
+class PaginatedModel : public KeyModel
 {
+	Q_OBJECT
+
 public:
-	PaginatedModel();
+	PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
 	virtual ~PaginatedModel();
 
