@@ -28,6 +28,8 @@ public:
 
 	int getLoadedItemsCount();
 
+	bool isErrorMessage() const;
+
 private:
 
 	QString responseString;
@@ -42,8 +44,8 @@ private:
 	int lastValidPos;
 	int itemsCount;
 
-	ResponseType getResponseType(QString);	
-	ResponseType getResponseType(const QChar);
+	ResponseType getResponseType(const QString&) const;	
+	ResponseType getResponseType(const QChar) const;
 
 	//parsers
 	QVariant parseBulk(const QString& response);
@@ -63,4 +65,3 @@ private:
 
 	int getPosOfNextItem(const QString &, int);
 };
-

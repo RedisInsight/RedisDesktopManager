@@ -127,7 +127,7 @@ void RedisConnectionAbstract::sendResponse()
 
 		QMetaObject::invokeMethod(
 			runningCommand.getOwner(), callbackName.toUtf8().constData(),  
-			Qt::AutoConnection, Q_ARG(QVariant, resp.getValue())
+			Qt::AutoConnection, Q_ARG(Response, resp)
 			);
 
 	} else {

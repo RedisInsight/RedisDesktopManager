@@ -6,6 +6,7 @@
 #include "KeyModel.h"
 
 class ValueTabView;
+class Response;
 
 class ValueTab : public QWidget
 {
@@ -23,7 +24,7 @@ protected:
 	ValueTabView * ui;
 
 protected slots:
-	void keyTypeLoaded(const QVariant & type);
+	void keyTypeLoaded(Response type);
 
 	void valueLoaded();
 
@@ -31,11 +32,13 @@ protected slots:
 
 	void renameKey();
 
-	//void onKeyRenamed();
-	//void onKeyRenameError();	
+	void keyRenamed();
+
+	void keyDeleted();
 
 signals:
 	void error(const QString&);
+	void keyDeleted(QWidget *, RedisKeyItem *);
 };
 
 #endif // HASHVIEWTAB_H

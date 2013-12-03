@@ -20,11 +20,12 @@ ValueTab::ValueTab(RedisKeyItem * key)
 
 	/** Connect View SIGNALS to Controller SLOTS **/
 	connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
+	connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
 }
 
-void ValueTab::keyTypeLoaded(const QVariant & type)
+void ValueTab::keyTypeLoaded(Response type)
 {
-	QString t = type.toString();
+	QString t = type.getValue().toString();
 	ui->keyTypeLabelValue->setText(
 		ui->keyTypeLabelValue->text()  + t.toUpper()
 		);
@@ -37,6 +38,10 @@ void ValueTab::keyTypeLoaded(const QVariant & type)
 	}
 
 	connect(keyModel, SIGNAL(valueLoaded()), this, SLOT(valueLoaded()));
+	connect(keyModel, SIGNAL(keyRenameError(const QString&)), this, SIGNAL(error(const QString&)));
+	connect(keyModel, SIGNAL(keyRenamed()), this, SLOT(keyRenamed()));
+	connect(keyModel, SIGNAL(keyDeleteError(const QString&)), this, SIGNAL(error(const QString&)));
+	connect(keyModel, SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
 
 	keyModel->loadValue();
 }
@@ -51,11 +56,24 @@ void ValueTab::valueLoaded()
 void ValueTab::renameKey()
 {
 	keyModel->renameKey(ui->keyName->text());
+	ui->renameKey->setEnabled(false);
+}
+
+void ValueTab::keyRenamed()
+{
+	key->setText(ui->keyName->text());
+	ui->renameKey->setEnabled(true);
 }
 
 void ValueTab::deleteKey()
 {
-	//todo implement this
+	keyModel->deleteKey();
+}
+
+void ValueTab::keyDeleted()
+{
+	key->remove();
+	emit keyDeleted(this, key);
 }
 
 ValueTab::~ValueTab()

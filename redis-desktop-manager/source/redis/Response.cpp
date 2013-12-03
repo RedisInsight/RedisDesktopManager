@@ -143,12 +143,12 @@ QStringList Response::parseMultiBulk(const QString& response)
 	return parsedResult;
 }
 
-Response::ResponseType Response::getResponseType(QString r) 
+Response::ResponseType Response::getResponseType(const QString & r) const
 {	
 	return getResponseType(r.at(0));
 }
 
-Response::ResponseType Response::getResponseType(const QChar typeChar) 
+Response::ResponseType Response::getResponseType(const QChar typeChar) const
 {	
 	if (typeChar == '+') return Status; 
 	if (typeChar == '-') return Error;
@@ -335,4 +335,11 @@ QString Response::valueToString(QVariant& value)
 int Response::getLoadedItemsCount()
 {
 	return itemsCount;
+}
+
+bool Response::isErrorMessage() const
+{
+	return getResponseType(responseString) == Status
+		&& responseString.startsWith("ERR");
+
 }

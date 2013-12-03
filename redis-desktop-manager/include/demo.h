@@ -75,6 +75,7 @@ private:
 		void OnUIUnlock();
 		void OnStatusMessage(QString);
 		void OnKeyOpenInNewTab();
+		void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
 };
 
 #endif // DEMO_H

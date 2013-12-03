@@ -72,3 +72,8 @@ ConnectionBridge * RedisKeyItem::getConnection()
 {
 	return db->server->connection;
 }
+
+void RedisKeyItem::remove()
+{
+	db->removeRow(this->row());
+}

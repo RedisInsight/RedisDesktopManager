@@ -14,9 +14,9 @@ QString KeyModel::getKeyName()
 	return keyName;
 }
 
-void KeyModel::loadedValue(const QVariant& value)
+void KeyModel::loadedValue(Response value)
 {
-	initModel(value);
+	initModel(value.getValue());
 
 	emit valueLoaded();
 }
@@ -30,14 +30,31 @@ void KeyModel::renameKey(const QString& newKeyName)
 	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));
 }
 
-void KeyModel::loadedRenameStatus(const QVariant& result)
+void KeyModel::loadedRenameStatus(Response result)
 {
-	QString resultString = (result.isNull()) ? "" : result.toString();
-
-	if (resultString.at(0) != 'O')
-		emit keyRenameError(resultString);
+	if (result.isErrorMessage()) 
+		emit keyRenameError(result.getValue().toString());
 	else 
 		emit keyRenamed();	
+}
+
+void KeyModel::deleteKey()
+{
+	QString renameCommand = QString("DEL %1")
+		.arg(keyName);
+
+	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
+}
+
+
+void KeyModel::loadedDeleteStatus(Response result)
+{
+	if (result.isErrorMessage()) 
+	{
+		emit keyDeleteError(result.getValue().toString());
+	}
+	else 
+		emit keyDeleted();	
 }
 
 KeyModel::~KeyModel()

@@ -31,6 +31,8 @@ public:
 
 	ConnectionBridge * getConnection();
 
+	void remove();
+
 private:	
 	RedisServerDbItem * db;	
 };

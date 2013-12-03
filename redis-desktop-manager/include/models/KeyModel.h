@@ -18,6 +18,8 @@ public:
 
 	void renameKey(const QString&);
 
+	void deleteKey();
+
 	const static int KEY_MODEL_TYPE = 1;
 
 	inline virtual int getKeyModelType()
@@ -29,10 +31,13 @@ signals:
 	void valueLoaded();
 	void keyRenamed();
 	void keyRenameError(const QString&);
+	void keyDeleted();
+	void keyDeleteError(const QString&);
 
 protected slots:
-	void loadedValue(const QVariant&);		
-	void loadedRenameStatus(const QVariant&);
+	void loadedValue(Response);		
+	void loadedRenameStatus(Response);
+	void loadedDeleteStatus(Response);
 
 protected:	
 	QString keyName;
@@ -42,4 +47,5 @@ protected:
 
 	virtual void initModel(const QVariant &) = 0;
 };
+
 

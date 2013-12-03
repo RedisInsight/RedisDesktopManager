@@ -28,7 +28,8 @@ MainWin::MainWin(QWidget *parent)
 	initFilter();
 
 	qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
-	qRegisterMetaType<Command>("Command");
+	qRegisterMetaType<Command>("Command");	
+	qRegisterMetaType<Response>("Response");	
 }
 
 MainWin::~MainWin()
@@ -211,6 +212,12 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 void MainWin::openKeyTab(RedisKeyItem * key, bool inNewTab)
 {
 	QWidget * viewTab = new ValueTab(key);
+
+	connect(viewTab, SIGNAL(keyDeleted(QWidget *, RedisKeyItem *)), 
+		this, SLOT(OnKeyDeleted(QWidget *, RedisKeyItem *)));
+
+	connect(viewTab, SIGNAL(error(const QString &)), 
+		this, SLOT(OnError(const QString &)));
 
 	QString keyFullName = key->getTabLabelText();
 
@@ -508,4 +515,27 @@ void MainWin::OnUIUnlock()
 void MainWin::OnStatusMessage(QString message)
 {
 	statusBar()->showMessage(message);
+}
+
+void MainWin::OnKeyDeleted(QWidget * tab, RedisKeyItem * key)
+{
+	if (tab == nullptr || key == nullptr) 
+		return;
+
+	int widgetsCount = ui.tabWidget->count();
+	int widgetIndex = -1;
+
+	for (int currentWidget = 0; currentWidget < widgetsCount; currentWidget++)
+	{
+		if (tab == ui.tabWidget->widget(currentWidget)) {
+			widgetIndex = currentWidget;
+			break;
+		}
+	}	
+
+	if (widgetIndex == -1) {
+		return;
+	}
+
+	OnTabClose(widgetIndex);	
 }
