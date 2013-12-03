@@ -14,9 +14,6 @@ public:
 	int itemsCount();
 
 	void loadValue();
-
-protected:
-	void initModel(const QVariant &);
 };
 
 #endif // SORTEDSETKEYMODEL_H

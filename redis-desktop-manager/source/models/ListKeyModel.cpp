@@ -13,12 +13,6 @@ void ListKeyModel::loadValue()
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
-void ListKeyModel::initModel(const QVariant & value)
-{
-	*rawData = value.toStringList();
-	setCurrentPage(1);
-}
-
 void ListKeyModel::setCurrentPage(int page)
 {
 	if (page == currentPage) {

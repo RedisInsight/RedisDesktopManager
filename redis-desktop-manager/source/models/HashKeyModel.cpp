@@ -14,12 +14,6 @@ void HashKeyModel::loadValue()
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
-void HashKeyModel::initModel(const QVariant & value)
-{
-	*rawData = value.toStringList();
-	setCurrentPage(1);
-}
-
 void HashKeyModel::setCurrentPage(int page)
 {
 	if (page == currentPage) {

@@ -371,6 +371,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ValueTabView.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\crashhandler\CrashHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -527,6 +530,9 @@
     </ClInclude>
     <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
+    </ClInclude>
+    <ClInclude Include="include\crashhandler\CrashHandler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

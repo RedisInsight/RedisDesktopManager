@@ -58,4 +58,14 @@ void ValueTab::deleteKey()
 	//todo implement this
 }
 
+ValueTab::~ValueTab()
+{
+	delete ui;
+
+	keyModel->disconnect();	
+
+	PaginatedModel::delayedDeallocator(keyModel);
+	keyModel = nullptr;
+}
+
 

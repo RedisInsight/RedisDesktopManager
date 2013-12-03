@@ -5,7 +5,7 @@
 #include "ConnectionBridge.h"
 
 KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: db(db), keyName(keyName), dbIndex(dbIndex), eventsBlocked(false)
+	: db(db), keyName(keyName), dbIndex(dbIndex)
 {	
 }
 
@@ -38,4 +38,8 @@ void KeyModel::loadedRenameStatus(const QVariant& result)
 		emit keyRenameError(resultString);
 	else 
 		emit keyRenamed();	
+}
+
+KeyModel::~KeyModel()
+{
 }

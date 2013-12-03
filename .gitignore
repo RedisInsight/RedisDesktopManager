@@ -54,3 +54,5 @@ build/cpp-coveralls/*
 build/requests/*
 .svn/
 deps/gyp*
+*.vsp
+*.psess
