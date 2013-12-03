@@ -13,12 +13,6 @@ void SortedSetKeyModel::loadValue()
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
-void SortedSetKeyModel::initModel(const QVariant & value)
-{
-	*rawData = value.toStringList();
-	setCurrentPage(1);
-}
-
 void SortedSetKeyModel::setCurrentPage(int page)
 {
 	if (page == currentPage) {

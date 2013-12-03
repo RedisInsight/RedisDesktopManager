@@ -10,6 +10,7 @@ class KeyModel : public QStandardItemModel
 
 public:
 	KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);	
+	virtual ~KeyModel();	
 
 	virtual void loadValue() = 0;
 

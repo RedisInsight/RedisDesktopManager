@@ -164,10 +164,8 @@ void ValueTabView::initPagination()
 
 		connect(nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
 		connect(previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
-
 	}
 }
-
 
 void ValueTabView::loadNextPage()
 {

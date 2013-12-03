@@ -1,0 +1,39 @@
+Operating system: Windows NT
+                  5.1.2600 Service Pack 2
+CPU: x86
+     GenuineIntel family 6 model 13 stepping 8
+     1 CPU
+
+Crash reason:  EXCEPTION_ACCESS_VIOLATION_WRITE
+Crash address: 0x45
+
+Thread 0 (crashed)
+ 0  test_app.exe!`anonymous namespace'::CrashFunction [test_app.cc : 58 + 0x3]
+    eip = 0x0040429e   esp = 0x0012fe84   ebp = 0x0012fe88   ebx = 0x7c80abc1
+    esi = 0x00000002   edi = 0x00000a28   eax = 0x00000045   ecx = 0x0012fe94
+    edx = 0x0042bc58   efl = 0x00010246
+    Found by: given as instruction pointer in context
+ 1  test_app.exe!main [test_app.cc : 65 + 0x5]
+    eip = 0x00404200   esp = 0x0012fe90   ebp = 0x0012ff70
+    Found by: call frame info
+ 2  test_app.exe!__tmainCRTStartup [crt0.c : 327 + 0x12]
+    eip = 0x004053ec   esp = 0x0012ff78   ebp = 0x0012ffc0
+    Found by: call frame info
+ 3  kernel32.dll!BaseProcessStart + 0x23
+    eip = 0x7c816fd7   esp = 0x0012ffc8   ebp = 0x0012fff0
+    Found by: call frame info
+
+Loaded modules:
+0x00400000 - 0x0042cfff  test_app.exe  ???  (main)
+0x59a60000 - 0x59b00fff  dbghelp.dll  5.1.2600.2180
+0x76390000 - 0x763acfff  imm32.dll  5.1.2600.2180
+0x76bf0000 - 0x76bfafff  psapi.dll  5.1.2600.2180
+0x774e0000 - 0x7761cfff  ole32.dll  5.1.2600.2726
+0x77c00000 - 0x77c07fff  version.dll  5.1.2600.2180
+0x77c10000 - 0x77c67fff  msvcrt.dll  7.0.2600.2180
+0x77d40000 - 0x77dcffff  user32.dll  5.1.2600.2622
+0x77dd0000 - 0x77e6afff  advapi32.dll  5.1.2600.2180
+0x77e70000 - 0x77f00fff  rpcrt4.dll  5.1.2600.2180
+0x77f10000 - 0x77f56fff  gdi32.dll  5.1.2600.2818
+0x7c800000 - 0x7c8f3fff  kernel32.dll  5.1.2600.2945
+0x7c900000 - 0x7c9affff  ntdll.dll  5.1.2600.2180

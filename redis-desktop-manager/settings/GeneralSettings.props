@@ -4,8 +4,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_PropertySheetDisplayName>GeneralProjectSettings</_PropertySheetDisplayName>
-    <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\widgets;$(ProjectDir)\include\updater;$(ProjectDir)\include\redis;$(ProjectDir)\include\network;$(ProjectDir)\include\models\items;$(ProjectDir)\include\models\value-view-formatters;$(ProjectDir)\include\models;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)\source;$(ProjectDir)\source\models;$(ProjectDir)\source\models\value-view-formatters;$(ProjectDir)\source\models\items;$(ProjectDir)\source\network;$(ProjectDir)\source\redis;$(ProjectDir)\source\updater;$(ProjectDir)\source\widgets;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)\include;$(ProjectDir)\include\crashhandler;$(ProjectDir)\include\widgets;$(ProjectDir)\include\updater;$(ProjectDir)\include\redis;$(ProjectDir)\include\network;$(ProjectDir)\include\models\items;$(ProjectDir)\include\models\value-view-formatters;$(ProjectDir)\include\models;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)\source;$(ProjectDir)\source\crashhandler;$(ProjectDir)\source\models;$(ProjectDir)\source\models\value-view-formatters;$(ProjectDir)\source\models\items;$(ProjectDir)\source\network;$(ProjectDir)\source\redis;$(ProjectDir)\source\updater;$(ProjectDir)\source\widgets;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

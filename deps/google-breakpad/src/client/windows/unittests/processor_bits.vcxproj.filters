@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..">
+      <UniqueIdentifier>{739DB09A-CC57-A953-A6CF-F64FA08E4FA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\common">
+      <UniqueIdentifier>{2F5FD094-EF52-77F7-7AA8-4327A01BF747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\..\..\processor">
+      <UniqueIdentifier>{AC3CD890-FA21-F3A3-7E5C-3A75591F9D28}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="client_tests.gyp"/>
+    <ClCompile Include="..\..\..\common\string_conversion.cc">
+      <Filter>..\..\..\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\processor\logging.cc">
+      <Filter>..\..\..\processor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\processor\minidump.cc">
+      <Filter>..\..\..\processor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\processor\basic_code_modules.cc">
+      <Filter>..\..\..\processor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\processor\pathname_stripper.cc">
+      <Filter>..\..\..\processor</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

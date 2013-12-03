@@ -16,6 +16,11 @@ public:
 
 	static const int KEY_MODEL_TYPE = 2;
 
+	inline int getKeyModelType()
+	{
+		return StringKeyModel::KEY_MODEL_TYPE;
+	}
+
 protected:
 	QString plainData;
 

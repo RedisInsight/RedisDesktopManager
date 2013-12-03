@@ -13,9 +13,6 @@ public:
 
 	void loadValue();
 
-protected:
-	void initModel(const QVariant &);
-
 };
 
 #endif // LISTKEYMODEL_H

@@ -13,6 +13,7 @@ class ValueTab : public QWidget
 
 public:
 	ValueTab(RedisKeyItem * key);
+	~ValueTab();
 
 protected:	
 	RedisKeyItem * key;
