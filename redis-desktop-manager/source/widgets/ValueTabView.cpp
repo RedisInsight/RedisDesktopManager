@@ -2,9 +2,12 @@
 #include "FastItemDelegate.h"
 #include "KeyModel.h"
 #include "StringKeyModel.h"
+#include "PaginatedModel.h"
+#include "AbstractFormatter.h"
 
 ValueTabView::ValueTabView(const QString& name, QWidget * parent)
-	: controller(parent)
+	: controller(parent), formatter(AbstractFormatter::getFormatter()),
+	  currentCell(nullptr)
 {	
 	initLayout();
 
@@ -23,6 +26,9 @@ void ValueTabView::initFormatter()
 
 	formatterLabel = new QLabel;
 	formatterLabel->setText("View value as:");
+
+	connect(singleValueFormatterType, SIGNAL(currentIndexChanged(int)), 
+		this, SLOT(currentFormatterChanged(int)));
 }
 
 void ValueTabView::initLayout()
@@ -71,6 +77,8 @@ void ValueTabView::initKeyValue(KeyModel * model)
 {
 	loader->stop();
 	loaderLabel->hide();
+
+	this->model = model;
 
 	if (model->getKeyModelType() == KeyModel::KEY_MODEL_TYPE) {
 
@@ -142,4 +150,97 @@ void ValueTabView::initPagination()
 	paginationGrid->addWidget(nextPage, 0, 2, 1, 1);
 
 	gridLayout->addLayout(paginationGrid, 2, 0, 1, 2);
+
+	connect(keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
+		this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
+
+	paginatedModel = (PaginatedModel *) keyValue->model();
+
+	int pagesCount = paginatedModel->getPagesCount();
+	pagination->setText(QString("Page <b>1</b> of <b>%1</b>").arg(pagesCount));
+
+	if (pagesCount > 1) {		
+		nextPage->setEnabled(true);
+
+		connect(nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
+		connect(previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
+
+	}
+}
+
+
+void ValueTabView::loadNextPage()
+{
+	int currentPage = paginatedModel->getCurrentPage();
+	int totalPages = paginatedModel->getPagesCount();
+
+	if (currentPage == totalPages) {
+		return;
+	}
+
+	paginatedModel->setCurrentPage(++currentPage);
+
+	if (currentPage == totalPages) {
+		nextPage->setEnabled(false);
+	}
+
+	if (currentPage == 2) {
+		previousPage->setEnabled(true);
+	}
+
+	pagination->setText(
+		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
+}
+
+void ValueTabView::loadPreviousPage()
+{
+	int currentPage = paginatedModel->getCurrentPage();
+	int totalPages = paginatedModel->getPagesCount();
+
+	if (currentPage == 1) {
+		return;
+	}
+
+	paginatedModel->setCurrentPage(--currentPage);
+
+	if (currentPage == totalPages - 1) {
+		nextPage->setEnabled(true);
+	}
+
+	if (currentPage == 1) {
+		previousPage->setEnabled(false);
+	}
+
+	pagination->setText(
+		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
+}
+
+void ValueTabView::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)
+{
+	singleValue->clear();	
+
+	formatter->setRawValue(model->itemFromIndex(current)->text());
+
+	singleValue->appendPlainText(formatter->getFormatted());
+
+	currentCell = &current;
+}
+
+void ValueTabView::currentFormatterChanged(int index)
+{
+	AbstractFormatter::FormatterType newFormatterType = (AbstractFormatter::FormatterType)index;
+
+	delete formatter;
+
+	formatter = AbstractFormatter::getFormatter(newFormatterType);
+
+	if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {		
+		keyValuePlain->clear();
+		formatter->setRawValue(((StringKeyModel*)model)->getValue());		
+		keyValuePlain->appendPlainText(
+			formatter->getFormatted()
+		);
+	} else {
+		onSelectedItemChanged(*currentCell, *currentCell);
+	}	
 }

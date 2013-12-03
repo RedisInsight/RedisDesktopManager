@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QtCore/QVariant>
+#include <QtCore>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
@@ -18,11 +18,14 @@
 #include <QGroupBox>
 
 class KeyModel;
+class PaginatedModel;
+class AbstractFormatter;
 
-class ValueTabView
+class ValueTabView : public QObject
 {
-public:
+	Q_OBJECT
 
+public:
 	ValueTabView(const QString& name, QWidget * parent);
 
 	QGridLayout *gridLayout;
@@ -39,10 +42,8 @@ public:
 	QLabel *loaderLabel;
 	QMovie *loader;
 	QLabel * formatterLabel;
-
 	QPushButton * renameKey;
 	QPushButton * deleteKey;
-
 	QGridLayout * paginationGrid;
 	QPushButton * previousPage;
 	QPushButton * nextPage;
@@ -52,6 +53,10 @@ public:
 
 protected:
 	QWidget * controller;
+	KeyModel * model;
+	PaginatedModel * paginatedModel;
+	AbstractFormatter * formatter;
+	const QModelIndex * currentCell;	
 
 	void initLayout();
 
@@ -60,5 +65,11 @@ protected:
 	void initPagination();
 
 	void initFormatter();
+
+protected slots:
+	void loadNextPage();
+	void loadPreviousPage();
+	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
+	void currentFormatterChanged(int index);
 };
 
