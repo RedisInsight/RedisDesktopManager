@@ -319,7 +319,7 @@ void MainWin::OnReloadServerInTree()
 	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
 		return;	
 
-	RedisServerItem * server = (RedisServerItem *) item;
+	RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
 	server->reload();
 }
 
@@ -479,6 +479,9 @@ void MainWin::OnKeyOpenInNewTab()
 
 QStandardItem * MainWin::getSelectedItemInConnectionsTree()
 {
+	if (!ui.serversTreeView->selectionModel()->hasSelection())
+		return nullptr;
+
 	QModelIndexList selected = ui.serversTreeView
 									->selectionModel()
 									->selectedIndexes();
