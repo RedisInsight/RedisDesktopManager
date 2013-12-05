@@ -14,14 +14,25 @@ class ValueTab : public QWidget
 
 public:
 	ValueTab(RedisKeyItem * key);
-	~ValueTab();
+
+	bool close();
 
 protected:	
+	~ValueTab();
+
 	RedisKeyItem * key;
 
 	KeyModel * keyModel;
 
 	ValueTabView * ui;
+
+	bool tabMustBeDestroyed;
+
+	bool operationInProgress;
+
+	void destroy();
+
+	bool event(QEvent * e);
 
 protected slots:
 	void keyTypeLoaded(Response type);

@@ -124,11 +124,12 @@ void RedisConnectionAbstract::sendResponse()
 	if (runningCommand.hasCallback()) {
 		
 		QString callbackName = runningCommand.getCallbackName();
-
+		
 		QMetaObject::invokeMethod(
 			runningCommand.getOwner(), callbackName.toUtf8().constData(),  
 			Qt::AutoConnection, Q_ARG(Response, resp)
 			);
+		
 
 	} else {
 		emit responseResived(resp.getValue(), runningCommand.getOwner());

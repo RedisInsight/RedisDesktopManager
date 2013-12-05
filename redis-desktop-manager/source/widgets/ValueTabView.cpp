@@ -64,12 +64,16 @@ void ValueTabView::initKeyName()
 	deleteKey->setText("Delete");
 	deleteKey->setStyleSheet("color: darkred; font-weight: 800;");
 
-	QGridLayout *grid = new QGridLayout;			
+	renameKey->setEnabled(false);
+	deleteKey->setEnabled(false);
+	keyName->setEnabled(false);
+
+	QGridLayout *grid = new QGridLayout;
+	
 	grid->addWidget(keyName, 0, 1, 1, 1);	
 	grid->addWidget(keyTypeLabelValue, 0, 2, 1, 1);	
 	grid->addWidget(renameKey, 0, 3, 1, 1);	
 	grid->addWidget(deleteKey, 0, 4, 1, 1);	
-
 	gridLayout->addLayout(grid, 0, 1, 1, 1);
 }
 
@@ -86,6 +90,10 @@ void ValueTabView::initKeyValue(KeyModel * model)
 	saveValue->setFixedHeight(35);
 	saveValue->setFixedWidth(150);
 	connect(saveValue, SIGNAL(clicked()), this, SLOT(valueUpdate()));
+
+	renameKey->setEnabled(true);
+	deleteKey->setEnabled(true);
+	keyName->setEnabled(true);
 
 	singleValue = new QPlainTextEdit(controller);
 

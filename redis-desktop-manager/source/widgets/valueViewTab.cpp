@@ -9,7 +9,7 @@
 #include <QMessageBox>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: key(key), ui(nullptr)
+	: key(key), ui(nullptr), tabMustBeDestroyed(false), operationInProgress(true)
 {	
 	ui = new ValueTabView(key->text(), this);	
 
@@ -28,8 +28,33 @@ ValueTab::ValueTab(RedisKeyItem * key)
 	connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));
 }
 
+bool ValueTab::close()
+{
+	tabMustBeDestroyed = true;
+
+	if (!operationInProgress)
+		delete this;
+
+	return true;
+}
+
+void ValueTab::destroy()
+{
+	delete this;
+}
+
+bool ValueTab::event(QEvent * e)
+{
+	return QWidget::event(e);
+}
+
 void ValueTab::keyTypeLoaded(Response type)
 {
+	operationInProgress = false;
+
+	if (tabMustBeDestroyed)
+		return destroy();
+
 	QString t = type.getValue().toString();
 	ui->keyTypeLabelValue->setText(
 		ui->keyTypeLabelValue->text()  + t.toUpper()
@@ -38,7 +63,7 @@ void ValueTab::keyTypeLoaded(Response type)
 	keyModel = key->getKeyModel(t);
 
 	if (keyModel == nullptr) {
-		emit error("Can not load key value");
+		emit error("Can not load key value. Key was removed or redis-server went away.");		
 		return;
 	}
 
@@ -50,11 +75,17 @@ void ValueTab::keyTypeLoaded(Response type)
 	connect(keyModel, SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
 	connect(keyModel, SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
 
+	operationInProgress = true;
 	keyModel->loadValue();
 }
 
 void ValueTab::valueLoaded()
 {
+	operationInProgress = false;
+
+	if (tabMustBeDestroyed)
+		return destroy();
+
 	ui->initKeyValue(keyModel);
 
 	setObjectName("valueTabReady");
