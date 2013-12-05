@@ -13,6 +13,7 @@ public:
 	Command();
 	Command(const QString& cmdString, QObject * owner, int db = -1);
 	Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db = -1);
+	Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db = -1);
 
 	bool isEmpty() const;
 
@@ -27,6 +28,8 @@ public:
 	QObject * getOwner();
 	void setOwner(QObject *);
 
+	static QString getFormatted(const QStringList&);
+
 	static QString getFormatted(const QString&);
 
 	bool hasCallback();
@@ -37,7 +40,9 @@ public:
 private:
 	QObject * owner;
 	QString callBackMethod;
-	QString commandString;
+	QStringList commandWithArguments;
 	int dbIndex;
+
+	QStringList splitCommandString(const QString &);
 };
 

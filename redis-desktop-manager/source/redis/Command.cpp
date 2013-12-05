@@ -1,20 +1,32 @@
 #include "Command.h"
 
 Command::Command()
-	: owner(nullptr), commandString(""), dbIndex(-1)
+	: owner(nullptr), commandWithArguments(""), dbIndex(-1)
 {
 	
 }
 
 Command::Command(const QString& cmdString, QObject * owner, int db)
-	: owner(owner), commandString(cmdString), dbIndex(db)
+	: owner(owner), commandWithArguments(splitCommandString(cmdString)), dbIndex(db)
 {
 }
 
 Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
-	: owner(owner), commandString(cmdString), dbIndex(db), callBackMethod(invokeMethod)
+	: owner(owner), commandWithArguments(splitCommandString(cmdString)), dbIndex(db), callBackMethod(invokeMethod)
 {
 
+}
+
+Command::Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db)
+	: owner(owner), commandWithArguments(cmd), dbIndex(db), callBackMethod(invokeMethod)
+{
+
+}
+
+QStringList Command::splitCommandString(const QString &cmd)
+{
+	//todo implement normal parsing
+	return cmd.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
 }
 
 bool Command::hasCallback()
@@ -44,17 +56,17 @@ int Command::getDbIndex() const
 
 QString Command::getFormattedString() const
 {
-	return Command::getFormatted(commandString);
+	return Command::getFormatted(commandWithArguments);
 }
 
 QString Command::getRawString() const
 {
-	return commandString;
+	return commandWithArguments.join(' ');
 }
 
 bool Command::isEmpty() const
 {
-	return commandString.isEmpty();
+	return commandWithArguments.isEmpty();
 }
 
 QObject * Command::getOwner()
@@ -75,6 +87,19 @@ QString Command::getFormatted(const QString& command)
 	formattedCmd.append(QString("%1\r\n").arg(parts.length()));
 
 	for (QString part : parts) {
+		formattedCmd.append(QString("$%1\r\n%2\r\n")
+			.arg(QString("%1").arg(part.length()), part));
+	}
+
+	return formattedCmd;
+}
+
+QString Command::getFormatted(const QStringList& command)
+{
+	QString formattedCmd("*");
+	formattedCmd.append(QString("%1\r\n").arg(command.length()));
+
+	for (QString part : command) {
 		formattedCmd.append(QString("$%1\r\n%2\r\n")
 			.arg(QString("%1").arg(part.length()), part));
 	}

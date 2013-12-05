@@ -80,8 +80,8 @@ void ValueTab::deleteKey()
 void ValueTab::keyDeleted()
 {
 	key->remove();
-	emit keyDeleted(this, key);
 	ui->hideLoader();
+	emit keyDeleted(this, key);	
 }
 
 void ValueTab::updateValue(const QString& value, const QModelIndex *cellIndex)

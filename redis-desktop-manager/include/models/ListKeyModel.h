@@ -6,6 +6,8 @@
 
 class ListKeyModel : public PaginatedModel
 {
+	Q_OBJECT
+
 public:
 	ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
@@ -14,6 +16,9 @@ public:
 	void loadValue();
 
 	void updateValue(const QString& value, const QModelIndex *cellIndex);
+
+protected slots:
+	void loadedUpdateStatus(Response);
 };
 
 #endif // LISTKEYMODEL_H
