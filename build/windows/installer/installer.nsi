@@ -1,21 +1,29 @@
 
 Name "Redis Desktop Manager"
 
+BrandingText "Open source GUI management tool for Redis"
+
 RequestExecutionLevel admin
+
+SetCompress force
+SetCompressor /SOLID /FINAL lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(Name)"
 !define VERSION 0.7.0
 !define COMPANY "Igor Malinovskiy"
 !define URL redisdesltop.com
+!define APP_EXE "redis-desktop-manager.exe"
 
 # MUI Symbol Definitions
 !define MUI_ICON "..\..\..\redis-desktop-manager\Resources\redis.ico"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_FINISHPAGE_RUN $INSTDIR\redis-desktop-manager.exe
 !define MUI_UNICON "..\..\..\redis-desktop-manager\Resources\redis.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP ".\images\main.bmp"
 
 # Included files
+!include "nsProcess.nsh"
 !include Sections.nsh
 !include MUI2.nsh
 
@@ -30,6 +38,7 @@ Var StartMenuGroup
 !insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES
+
 
 # Installer languages
 !insertmacro MUI_LANGUAGE English
@@ -51,11 +60,14 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright ""
 InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails show
 
+
 # Installer sections
 Section -Main SEC0000
+    ${nsProcess::KillProcess} "${APP_EXE}" $R4
+
     SetOutPath $INSTDIR
     SetOverwrite on
-    File ..\..\..\Win32\Release\redis-desktop-manager.exe
+    File ..\..\..\Win32\Release\${APP_EXE}
     File /r resources\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
@@ -65,6 +77,12 @@ Section -post SEC0001
     SetOutPath $INSTDIR
     WriteUninstaller $INSTDIR\uninstall.exe
     SetOutPath $SMPROGRAMS\$StartMenuGroup
+    
+    CreateShortCut "$DESKTOP\RedisDesktopManager.lnk" "$INSTDIR\${APP_EXE}" ""
+    
+    IfSilent 0 +2
+        Exec "$INSTDIR\${APP_EXE}"
+    
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
@@ -92,6 +110,7 @@ done${UNSECTION_ID}:
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
     Delete /REBOOTOK $INSTDIR\*
+    Delete /REBOOTOK $INSTDIR\platforms\*
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
