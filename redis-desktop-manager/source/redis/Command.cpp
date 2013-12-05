@@ -11,6 +11,11 @@ Command::Command(const QString& cmdString, QObject * owner, int db)
 {
 }
 
+Command::Command(const QStringList& cmd, QObject * owner, int db)
+	: owner(owner), commandWithArguments(cmd), dbIndex(db)
+{
+}
+
 Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
 	: owner(owner), commandWithArguments(splitCommandString(cmdString)), dbIndex(db), callBackMethod(invokeMethod)
 {

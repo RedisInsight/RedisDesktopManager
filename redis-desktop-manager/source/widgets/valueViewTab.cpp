@@ -6,6 +6,7 @@
 #include "ValueTabView.h"
 #include "Command.h"
 #include "ConnectionBridge.h"
+#include <QMessageBox>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
 	: key(key), ui(nullptr)
@@ -23,6 +24,8 @@ ValueTab::ValueTab(RedisKeyItem * key)
 	connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
 	connect(ui, SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
 		this, SLOT(updateValue(const QString&, const QModelIndex *)));
+
+	connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));
 }
 
 void ValueTab::keyTypeLoaded(Response type)
@@ -105,4 +108,9 @@ ValueTab::~ValueTab()
 	keyModel = nullptr;
 }
 
+
+void ValueTab::errorOccurred(const QString& message)
+{
+	QMessageBox::warning(this, "Error occurred", message);
+}
 

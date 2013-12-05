@@ -164,7 +164,11 @@ void ValueTabView::initPagination()
 	paginatedModel = (PaginatedModel *) keyValue->model();
 
 	int pagesCount = paginatedModel->getPagesCount();
-	pagination->setText(QString("Page <b>1</b> of <b>%1</b>").arg(pagesCount));
+	pagination->setText(
+		QString("Page <b>1</b> of <b>%1</b> (Items: %2)")
+			.arg(pagesCount)
+			.arg(paginatedModel->itemsCount())
+			);
 
 	if (pagesCount > 1) {		
 		nextPage->setEnabled(true);
@@ -194,7 +198,11 @@ void ValueTabView::loadNextPage()
 	}
 
 	pagination->setText(
-		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
+		QString("Page <b>%1</b> of <b>%2</b> (Items: %3)")
+			.arg(currentPage)
+			.arg(totalPages)
+			.arg(paginatedModel->itemsCount())
+			);
 }
 
 void ValueTabView::loadPreviousPage()
@@ -217,7 +225,11 @@ void ValueTabView::loadPreviousPage()
 	}
 
 	pagination->setText(
-		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
+		QString("Page <b>%1</b> of <b>%2</b> (Items: %3)")
+			.arg(currentPage)
+			.arg(totalPages)
+			.arg(paginatedModel->itemsCount())
+			);
 }
 
 void ValueTabView::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)
@@ -243,7 +255,7 @@ void ValueTabView::currentFormatterChanged(int index)
 		singleValue->clear();
 		formatter->setRawValue(((StringKeyModel*)model)->getValue());		
 		singleValue->appendPlainText(formatter->getFormatted());
-	} else {
+	} else if (currentCell != nullptr) {
 		onSelectedItemChanged(*currentCell, *currentCell);
 	}	
 }

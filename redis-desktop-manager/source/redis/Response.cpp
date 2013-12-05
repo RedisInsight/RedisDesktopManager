@@ -339,7 +339,7 @@ int Response::getLoadedItemsCount()
 
 bool Response::isErrorMessage() const
 {
-	return getResponseType(responseString) == Status
+	return getResponseType(responseString) == Error
 		&& responseString.startsWith("-ERR");
 
 }

@@ -386,6 +386,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ListKeyModel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SortedSetKeyModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SortedSetKeyModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -493,11 +499,11 @@
     <CustomBuild Include="include\models\ListKeyModel.h">
       <Filter>Header Files\models</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\models\SortedSetKeyModel.h">
+      <Filter>Header Files\models</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\models\SortedSetKeyModel.h">
-      <Filter>Header Files\models</Filter>
-    </ClInclude>
     <ClInclude Include="include\models\items\RedisKeyNamespace.h">
       <Filter>Header Files\models\Items</Filter>
     </ClInclude>

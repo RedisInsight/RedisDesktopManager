@@ -55,5 +55,56 @@ int HashKeyModel::itemsCount()
 
 void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
 {
+	QStandardItem * currentItem = itemFromIndex(*cellIndex);	
 
+	QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
+
+	if (itemType == "key") 
+	{
+		QStringList removeCmd;
+		removeCmd << "HDEL"
+				  << keyName
+				  << currentItem->text();		
+
+		db->addCommand(Command(removeCmd, this, dbIndex));
+
+		QStandardItem * valueItem = item(currentItem->row(), 1);
+
+		QStringList addCmd;
+
+		addCmd << "HSET"
+			   << keyName
+			   << value
+			   << valueItem->text();
+
+
+		db->addCommand(Command(addCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+
+	} else if (itemType == "value") {
+
+		QStandardItem * keyItem = item(currentItem->row(), 0);
+
+		QStringList setCmd;
+
+		setCmd << "HSET"
+			<< keyName
+			<< keyItem->text()
+			<< value;
+
+		db->addCommand(Command(setCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+	}
+
+	currentItem->setText(value);
+}
+
+void HashKeyModel::loadedUpdateStatus(Response result)
+{
+	if (result.isErrorMessage()) 
+	{
+		emit valueUpdateError(result.getValue().toString());
+	}
+	else 
+	{
+		emit valueUpdated();	
+	}
 }
