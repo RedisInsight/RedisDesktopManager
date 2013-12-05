@@ -5,11 +5,11 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\deps\jsoncpp\include;$(SolutionDir)\deps\libssh\include;$(SolutionDir)\deps\google-breakpad\src\client\windows\handler\;$(SolutionDir)\deps\google-breakpad\src\common\windows\;$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation\;$(SolutionDir)\deps\google-breakpad\src\client\windows\common\;$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common\;$(SolutionDir)\deps\google-breakpad\src\processor;$(SolutionDir)\deps\google-breakpad\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\deps\libssh\include;$(SolutionDir)\deps\google-breakpad\src\client\windows\handler\;$(SolutionDir)\deps\google-breakpad\src\common\windows\;$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation\;$(SolutionDir)\deps\google-breakpad\src\client\windows\common\;$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common\;$(SolutionDir)\deps\google-breakpad\src\processor;$(SolutionDir)\deps\google-breakpad\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\deps\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>qtmaind.lib;ws2_32.lib;$(Configuration)/libssh2.lib;$(Configuration)/jsoncpp.lib;$(Configuration)/exception_handler.lib;$(Configuration)/crash_generation_client.lib;$(Configuration)/common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;ws2_32.lib;$(Configuration)/libssh2.lib;$(Configuration)/exception_handler.lib;$(Configuration)/crash_generation_client.lib;$(Configuration)/common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

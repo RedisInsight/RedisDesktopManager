@@ -1,7 +1,6 @@
 #!/bin/bash
 cd ./../deps/
 chmod -R 777 libssh
-chmod -R 777 jsoncpp
 
 unamestr=$(uname)
 
@@ -16,17 +15,9 @@ sudo make install
 sudo bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/libssh2.conf'
 sudo ldconfig
 
-#build jsoncpp via scons on linux
-cd ./../jsoncpp/
-scons platform=linux-gcc
-sudo cp ./buildscons/linux-gcc/src/lib_json/libjson_linux-gcc_libmt.a /usr/local/lib/libjsoncpp.a
-
 else
 
-#build jsoncpp via makefile on OSX
-cd ./jsoncpp/makefiles/clang-static/jsoncpp.gyp
-make
-sudo cp ./out/default/libjsoncpp.a /usr/local/lib/libjsoncpp.a
+#no deps :)
 
 fi
 
