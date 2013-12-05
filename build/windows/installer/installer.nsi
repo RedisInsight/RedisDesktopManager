@@ -10,7 +10,6 @@ SetCompressor /SOLID /FINAL lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(Name)"
-!define VERSION 0.7.0
 !define COMPANY "Igor Malinovskiy"
 !define URL redisdesltop.com
 !define APP_EXE "redis-desktop-manager.exe"

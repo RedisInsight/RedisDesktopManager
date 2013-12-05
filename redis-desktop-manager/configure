@@ -15,9 +15,8 @@ sudo make install
 sudo bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/libssh2.conf'
 sudo ldconfig
 
-else
-
-#no deps :)
+cd ./../google-breakpad
+./configure && make
 
 fi
 
