@@ -14,6 +14,8 @@ public:
 	int itemsCount();
 
 	void loadValue();
+
+	void updateValue(const QString& value, const QModelIndex *cellIndex);
 };
 
 #endif // SORTEDSETKEYMODEL_H

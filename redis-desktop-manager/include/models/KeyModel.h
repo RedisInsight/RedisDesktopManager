@@ -20,7 +20,11 @@ public:
 
 	void deleteKey();
 
+	virtual void updateValue(const QString& value, const QModelIndex *cellIndex) = 0;
+
 	const static int KEY_MODEL_TYPE = 1;
+
+	const static int KEY_VALUE_TYPE_ROLE = 7000;
 
 	inline virtual int getKeyModelType()
 	{
@@ -33,6 +37,8 @@ signals:
 	void keyRenameError(const QString&);
 	void keyDeleted();
 	void keyDeleteError(const QString&);
+	void valueUpdated();
+	void valueUpdateError(const QString&);
 
 protected slots:
 	void loadedValue(Response);		

@@ -36,6 +36,13 @@ void ListKeyModel::setCurrentPage(int page)
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
 		QStandardItem * value = new QStandardItem(rawData->at(i));
+		value->setData(QVariant("value"), KeyModel::KEY_VALUE_TYPE_ROLE);
+
 		setItem(row, 0, value);
 	}
+}
+
+void ListKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+{
+
 }

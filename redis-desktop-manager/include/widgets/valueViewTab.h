@@ -36,6 +36,10 @@ protected slots:
 
 	void keyDeleted();
 
+	void updateValue(const QString&, const QModelIndex *);
+
+	void valueUpdated();
+
 signals:
 	void error(const QString&);
 	void keyDeleted(QWidget *, RedisKeyItem *);

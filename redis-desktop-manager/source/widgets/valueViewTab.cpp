@@ -21,6 +21,8 @@ ValueTab::ValueTab(RedisKeyItem * key)
 	/** Connect View SIGNALS to Controller SLOTS **/
 	connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
 	connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
+	connect(ui, SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
+		this, SLOT(updateValue(const QString&, const QModelIndex *)));
 }
 
 void ValueTab::keyTypeLoaded(Response type)
@@ -42,6 +44,8 @@ void ValueTab::keyTypeLoaded(Response type)
 	connect(keyModel, SIGNAL(keyRenamed()), this, SLOT(keyRenamed()));
 	connect(keyModel, SIGNAL(keyDeleteError(const QString&)), this, SIGNAL(error(const QString&)));
 	connect(keyModel, SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
+	connect(keyModel, SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
+	connect(keyModel, SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
 
 	keyModel->loadValue();
 }
@@ -55,25 +59,40 @@ void ValueTab::valueLoaded()
 
 void ValueTab::renameKey()
 {
-	keyModel->renameKey(ui->keyName->text());
+	ui->showLoader();
 	ui->renameKey->setEnabled(false);
+	keyModel->renameKey(ui->keyName->text());	
 }
 
 void ValueTab::keyRenamed()
 {
 	key->setText(ui->keyName->text());
 	ui->renameKey->setEnabled(true);
+	ui->hideLoader();
 }
 
 void ValueTab::deleteKey()
 {
-	keyModel->deleteKey();
+	ui->showLoader();
+	keyModel->deleteKey();	
 }
 
 void ValueTab::keyDeleted()
 {
 	key->remove();
 	emit keyDeleted(this, key);
+	ui->hideLoader();
+}
+
+void ValueTab::updateValue(const QString& value, const QModelIndex *cellIndex)
+{
+	ui->showLoader();
+	keyModel->updateValue(value, cellIndex);
+}
+
+void ValueTab::valueUpdated()
+{
+	ui->hideLoader();
 }
 
 ValueTab::~ValueTab()

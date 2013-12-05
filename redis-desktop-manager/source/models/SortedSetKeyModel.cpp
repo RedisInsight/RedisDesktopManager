@@ -37,7 +37,11 @@ void SortedSetKeyModel::setCurrentPage(int page)
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
 		QStandardItem * key = new QStandardItem(rawData->at(i));
+		key->setData(QVariant("key"), KeyModel::KEY_VALUE_TYPE_ROLE);
+
 		QStandardItem * value = new QStandardItem(rawData->at(++i));
+		value->setData(QVariant("value"), KeyModel::KEY_VALUE_TYPE_ROLE);
+
 		setItem(row, 0, key);
 		setItem(row, 1, value);
 	}
@@ -46,4 +50,9 @@ void SortedSetKeyModel::setCurrentPage(int page)
 int SortedSetKeyModel::itemsCount()
 {
 	return rawData->size() / 2;
+}
+
+void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+{
+
 }

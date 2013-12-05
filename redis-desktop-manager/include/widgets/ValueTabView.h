@@ -35,6 +35,11 @@ public:
 
 	void initKeyValue(KeyModel *);
 
+	const QModelIndex * getCurrentCell();
+
+	void showLoader();
+	void hideLoader();
+
 protected:
 	QWidget * controller;
 	KeyModel * model;
@@ -58,6 +63,7 @@ protected:
 	QPushButton * nextPage;
 	QLabel * pagination;
 	QGridLayout *gridLayout;
+	QPushButton * saveValue;
 
 	void initLayout();
 
@@ -72,5 +78,9 @@ protected slots:
 	void loadPreviousPage();
 	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
 	void currentFormatterChanged(int index);
+	void valueUpdate();
+
+signals:
+	void saveChangedValue(const QString& value, const QModelIndex * currCell);
 };
 

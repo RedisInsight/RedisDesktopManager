@@ -13,6 +13,7 @@ public:
 
 	void loadValue();
 
+	void updateValue(const QString& value, const QModelIndex *cellIndex);
 };
 
 #endif // LISTKEYMODEL_H

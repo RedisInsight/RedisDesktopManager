@@ -80,6 +80,15 @@ void ValueTabView::initKeyValue(KeyModel * model)
 
 	this->model = model;
 
+	saveValue = new QPushButton;
+	saveValue->setText("Save value");
+	saveValue->setStyleSheet("color: green; font-weight: 800;");
+	saveValue->setFixedHeight(35);
+	saveValue->setFixedWidth(150);
+	connect(saveValue, SIGNAL(clicked()), this, SLOT(valueUpdate()));
+
+	singleValue = new QPlainTextEdit(controller);
+
 	if (model->getKeyModelType() == KeyModel::KEY_MODEL_TYPE) {
 
 		keyValue = new QTableView(controller);
@@ -87,7 +96,7 @@ void ValueTabView::initKeyValue(KeyModel * model)
 		keyValue->setWordWrap(true);
 		keyValue->horizontalHeader()->setDefaultSectionSize(220);
 
-		singleValue = new QPlainTextEdit;
+		
 		singleValue->appendPlainText("Select table cell");
 		singleValue->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
@@ -97,6 +106,7 @@ void ValueTabView::initKeyValue(KeyModel * model)
 		grid->addWidget(formatterLabel, 0, 0, 1, 1);	
 		grid->addWidget(singleValueFormatterType, 0, 1, 1, 1);	
 		grid->addWidget(singleValue, 1, 0, 1, 2);	
+		grid->addWidget(saveValue, 2, 1, 1, 1);	
 		
 		singleValueGroup->setLayout(grid);
 
@@ -113,10 +123,10 @@ void ValueTabView::initKeyValue(KeyModel * model)
 		initPagination();
 
 	} else if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {
-
-		singleValue = new QPlainTextEdit(controller);		
+			
 		gridLayout->addWidget(singleValueFormatterType, 1, 1, 1, 1);
 		gridLayout->addWidget(singleValue, 2, 1, 1, 1);
+		gridLayout->addWidget(saveValue, 3, 1, 1, 1);
 
 		keyValueLabel = new QLabel(controller);
 		keyValueLabel->setText("Value:");
@@ -232,10 +242,33 @@ void ValueTabView::currentFormatterChanged(int index)
 	if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {		
 		singleValue->clear();
 		formatter->setRawValue(((StringKeyModel*)model)->getValue());		
-		singleValue->appendPlainText(
-			formatter->getFormatted()
-		);
+		singleValue->appendPlainText(formatter->getFormatted());
 	} else {
 		onSelectedItemChanged(*currentCell, *currentCell);
 	}	
+}
+
+void ValueTabView::valueUpdate()
+{
+	if (currentCell == nullptr && model->getKeyModelType() != StringKeyModel::KEY_MODEL_TYPE)
+		return;
+
+	emit saveChangedValue(singleValue->toPlainText(), currentCell);
+}
+
+const QModelIndex * ValueTabView::getCurrentCell()
+{
+	return currentCell;
+}
+
+void ValueTabView::showLoader()
+{
+	loaderLabel->show();
+	loader->start();
+}
+
+void ValueTabView::hideLoader()
+{
+	loader->stop();
+	loaderLabel->hide();
 }

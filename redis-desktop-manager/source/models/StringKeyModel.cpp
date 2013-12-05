@@ -21,3 +21,22 @@ void StringKeyModel::initModel(const QVariant &value)
 {
 	plainData = value.toString();
 }
+
+void StringKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+{
+	QString updateCommand = QString("SET %1 %2")
+		.arg(keyName)
+		.arg(value);
+
+	db->addCommand(Command(updateCommand, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+}
+
+void StringKeyModel::loadedUpdateStatus(Response result)
+{
+	if (result.isErrorMessage()) 
+	{
+		emit valueUpdateError(result.getValue().toString());
+	}
+	else 
+		emit valueUpdated();	
+}

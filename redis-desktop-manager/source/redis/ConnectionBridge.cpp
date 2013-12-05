@@ -3,7 +3,7 @@
 
 
 ConnectionBridge::ConnectionBridge(const RedisConnectionConfig & c)
-	: isInitialized(false), config(c)
+	: workerThread(nullptr), worker(nullptr), isInitialized(false), config(c)
 {
 	//create worker connection by factory method
 	worker = RedisConnectionAbstract::createConnection(c);
@@ -55,9 +55,7 @@ void ConnectionBridge::setConnectionConfig(RedisConnectionConfig& newConf)
 {
 	config = newConf;
 
-	stopWorker();
-
-	delete worker;
+	stopWorker();	
 
 	worker = RedisConnectionAbstract::createConnection(config);
 
@@ -75,6 +73,7 @@ void ConnectionBridge::stopWorker()
 		workerThread->quit();
 		workerThread->wait();
 		delete workerThread;
+		delete worker;
 
 		isInitialized = false;
 	}
@@ -83,6 +82,4 @@ void ConnectionBridge::stopWorker()
 ConnectionBridge::~ConnectionBridge(void)
 {
 	stopWorker();
-
-	delete workerThread;
 }

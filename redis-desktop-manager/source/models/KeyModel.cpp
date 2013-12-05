@@ -46,7 +46,6 @@ void KeyModel::deleteKey()
 	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
 }
 
-
 void KeyModel::loadedDeleteStatus(Response result)
 {
 	if (result.isErrorMessage()) 
@@ -56,6 +55,7 @@ void KeyModel::loadedDeleteStatus(Response result)
 	else 
 		emit keyDeleted();	
 }
+
 
 KeyModel::~KeyModel()
 {

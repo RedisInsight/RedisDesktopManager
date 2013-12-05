@@ -374,6 +374,12 @@
     <ClCompile Include="source\crashhandler\CrashHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SetKeyModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SetKeyModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -475,6 +481,9 @@
     <CustomBuild Include="include\widgets\ValueTabView.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\models\SetKeyModel.h">
+      <Filter>Header Files\models</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\ListKeyModel.h">
@@ -524,9 +533,6 @@
     </ClInclude>
     <ClInclude Include="include\models\value-view-formatters\JsonFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
-    </ClInclude>
-    <ClInclude Include="include\models\SetKeyModel.h">
-      <Filter>Header Files\models</Filter>
     </ClInclude>
     <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h">
       <Filter>Header Files\models\value-view-formatters</Filter>
