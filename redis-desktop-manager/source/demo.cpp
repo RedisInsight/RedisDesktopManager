@@ -239,11 +239,11 @@ void MainWin::OnConnectionTreeWheelClick(const QModelIndex & index)
 
 void MainWin::OnTabClose(int index)
 {
-	QWidget * w = ui.tabWidget->widget(index);
+	ValueTab * w = qobject_cast<ValueTab *> (ui.tabWidget->widget(index));
 
 	ui.tabWidget->removeTab(index);
 
-	delete w;
+	w->close();
 }
 
 int MainWin::getTabIndex(QString& name)

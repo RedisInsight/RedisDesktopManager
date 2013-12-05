@@ -49,17 +49,11 @@ win32 {
     CONFIG(release, debug|release) {
         LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
         PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-
-        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncpp
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncpp.lib
     }
 
     else: CONFIG(debug, debug|release) {
         LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
         PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-
-        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncppd
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncppd.lib
     }
 }
 
@@ -70,11 +64,9 @@ unix {
     }
     else { # ubuntu & debian
         LIBS += -Wl,-rpath /usr/local/lib/
-        LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
+        LIBS += /usr/local/lib/libssh2.so
 
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so
-        PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
-
 
         #code coverage
         CONFIG += debug
@@ -86,9 +78,6 @@ unix {
 
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
-
-INCLUDEPATH += $$PWD/../deps/jsoncpp/include
-DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \

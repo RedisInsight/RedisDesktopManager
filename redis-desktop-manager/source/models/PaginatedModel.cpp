@@ -4,7 +4,7 @@
 #include <QtConcurrent>
 
 PaginatedModel::PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: KeyModel(db, keyName, dbIndex), currentPage(0)
+	: KeyModel(db, keyName, dbIndex), currentPage(0), rawData(nullptr)
 {
 }
 

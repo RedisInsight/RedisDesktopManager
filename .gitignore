@@ -56,3 +56,4 @@ build/requests/*
 deps/gyp*
 *.vsp
 *.psess
+build/windows/installer/redis-desktop-manager*.exe

@@ -1,6 +1,7 @@
 #include "CrashHandler.h"
 #include "demo.h"
 #include <QApplication>
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {	
