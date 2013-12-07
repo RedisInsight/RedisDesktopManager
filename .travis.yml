@@ -7,6 +7,7 @@ before_install:
 - sudo apt-get install ubuntu-sdk -y -qq
 - sudo apt-get install libssl1.0.0 -y -qq
 - sudo pip install cpp-coveralls --use-mirrors
+- sudo ./vagrant-provision/build_automake.sh
 before_script:
 - cd ./redis-desktop-manager
 - sudo chmod 777 configure
