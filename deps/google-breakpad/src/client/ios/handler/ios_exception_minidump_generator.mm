@@ -48,11 +48,13 @@ const uintptr_t kExpectedFinalSp = 0;
 const int kExceptionType = EXC_SOFTWARE;
 const int kExceptionCode = MD_EXCEPTION_CODE_MAC_NS_EXCEPTION;
 
+#if defined(HAS_ARM_SUPPORT) || defined(HAS_ARM64_SUPPORT)
 // Append the given value to the sp position of the stack represented
 // by memory.
 void AppendToMemory(uint8_t *memory, uintptr_t sp, uintptr_t data) {
   memcpy(memory + sp, &data, sizeof(data));
 }
+#endif
 
 }  // namespace
 

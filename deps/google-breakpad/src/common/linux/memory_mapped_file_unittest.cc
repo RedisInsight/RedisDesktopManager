@@ -37,7 +37,6 @@
 #include <string>
 
 #include "breakpad_googletest_includes.h"
-#include "common/linux/eintr_wrapper.h"
 #include "common/linux/memory_mapped_file.h"
 #include "common/tests/auto_tempdir.h"
 #include "common/tests/file_utils.h"

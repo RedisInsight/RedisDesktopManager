@@ -1580,12 +1580,12 @@ void MinidumpContext::Print() {
     case MD_CONTEXT_ARM64: {
       const MDRawContextARM64* context_arm64 = GetContextARM64();
       printf("MDRawContextARM64\n");
-      printf("  context_flags       = 0x%llx\n",
+      printf("  context_flags       = 0x%" PRIx64 "\n",
              context_arm64->context_flags);
       for (unsigned int ireg_index = 0;
            ireg_index < MD_CONTEXT_ARM64_GPR_COUNT;
            ++ireg_index) {
-        printf("  iregs[%2d]            = 0x%llx\n",
+        printf("  iregs[%2d]            = 0x%" PRIx64 "\n",
                ireg_index, context_arm64->iregs[ireg_index]);
       }
       printf("  cpsr                = 0x%x\n", context_arm64->cpsr);
@@ -1596,7 +1596,7 @@ void MinidumpContext::Print() {
            freg_index < MD_FLOATINGSAVEAREA_ARM64_FPR_COUNT;
            ++freg_index) {
         uint128_struct fp_value = context_arm64->float_save.regs[freg_index];
-        printf("  float_save.regs[%2d]            = 0x%llx%llx\n",
+        printf("  float_save.regs[%2d]            = 0x%" PRIx64 "%" PRIx64 "\n",
                freg_index, fp_value.high, fp_value.low);
       }
       break;
