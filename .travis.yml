@@ -5,7 +5,10 @@ before_install:
 - sudo add-apt-repository --yes ppa:beineri/opt-qt511
 - sudo apt-get update -qq
 - sudo apt-get install qt51base qt51imageformats qt51tools qt51xmlpatterns qt51x11extras -y -qq
-- /opt/qt51/bin/qt51-env.sh
+- uname -m
+- export QTDIR=/opt/qt51
+- export PATH=$QTDIR/bin:$PATH
+- export LD_LIBRARY_PATH=$QTDIR/lib/:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
 - sudo pip install cpp-coveralls --use-mirrors
 - sudo sh ./vagrant-provision/build_automake.sh
