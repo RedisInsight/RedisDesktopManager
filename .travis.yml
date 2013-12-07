@@ -14,8 +14,8 @@ before_script:
 - sudo chmod 777 configure
 - ./configure
 script: 
-  - qmake -qt=qt5 -v
-  - qmake -qt=qt5
+  - qmake -v
+  - qmake
   - make clean
   - make -s
   - cd ./../tests/
