@@ -1,10 +1,16 @@
 #include "SortedSetKeyModel.h"
 
-SortedSetKeyModel::SortedSetKeyModel(QStringList& values)
-	: PaginatedModel(values) 
+SortedSetKeyModel::SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: PaginatedModel(db, keyName, dbIndex)
 {
 	setColumnCount(2);
-	setCurrentPage(1);
+}
+
+void SortedSetKeyModel::loadValue()
+{
+	QString command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(keyName);
+
+	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
 void SortedSetKeyModel::setCurrentPage(int page)
@@ -21,7 +27,7 @@ void SortedSetKeyModel::setCurrentPage(int page)
 
 	currentPage = page;
 
-	int size = rawData.size();
+	int size = rawData->size();
 
 	setRowCount( (itemsOnPageLimit  > size / 2)? size / 2 : itemsOnPageLimit);
 
@@ -30,8 +36,12 @@ void SortedSetKeyModel::setCurrentPage(int page)
 
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-		QStandardItem * key = new QStandardItem(rawData.at(i));
-		QStandardItem * value = new QStandardItem(rawData.at(++i));
+		QStandardItem * key = new QStandardItem(rawData->at(i));
+		key->setData(QVariant("member"), KeyModel::KEY_VALUE_TYPE_ROLE);
+
+		QStandardItem * value = new QStandardItem(rawData->at(++i));
+		value->setData(QVariant("score"), KeyModel::KEY_VALUE_TYPE_ROLE);
+
 		setItem(row, 0, key);
 		setItem(row, 1, value);
 	}
@@ -39,5 +49,68 @@ void SortedSetKeyModel::setCurrentPage(int page)
 
 int SortedSetKeyModel::itemsCount()
 {
-	return rawData.size() / 2;
+	return rawData->size() / 2;
+}
+
+void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+{
+	QStandardItem * currentItem = itemFromIndex(*cellIndex);	
+
+	QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
+
+	if (itemType == "member") 
+	{
+		QStringList removeCmd;
+		removeCmd << "ZREM"
+			<< keyName
+			<< currentItem->text();		
+
+		db->addCommand(Command(removeCmd, this, dbIndex));
+
+		QStandardItem * scoreItem = item(currentItem->row(), 1);
+
+		QStringList addCmd;
+
+		addCmd << "ZADD"
+			<< keyName
+			<< scoreItem->text()
+			<< value;
+
+		db->addCommand(Command(addCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+
+	} else if (itemType == "score") {
+
+		bool converted = false;
+		double changedScore = value.toDouble(&converted);
+
+		if (!converted) 
+			return;
+		
+		double currentScore = currentItem->text().toDouble();
+		double incr = changedScore - currentScore;
+
+		QStandardItem * memberItem = item(currentItem->row(), 0);
+
+		QStringList updateCmd;
+		updateCmd << "ZINCRBY"
+			<< keyName
+			<< QString::number(incr)
+			<< memberItem->text();		
+
+		db->addCommand(Command(updateCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+	}
+
+	currentItem->setText(value);
+}
+
+void SortedSetKeyModel::loadedUpdateStatus(Response result)
+{
+	if (result.isErrorMessage()) 
+	{
+		emit valueUpdateError(result.getValue().toString());
+	}
+	else 
+	{
+		emit valueUpdated();	
+	}
 }

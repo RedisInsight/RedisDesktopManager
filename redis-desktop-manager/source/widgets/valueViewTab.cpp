@@ -4,206 +4,144 @@
 #include "ListKeyModel.h"
 #include "SortedSetKeyModel.h"
 #include "ValueTabView.h"
-
-#include <QtConcurrent>
+#include "Command.h"
+#include "ConnectionBridge.h"
+#include <QMessageBox>
 
 ValueTab::ValueTab(RedisKeyItem * key)	
-	: keyModel(key->getKeyModel()), ui(nullptr), model(nullptr), 
-	  currentFormatter(AbstractFormatter::FormatterType::Plain), 
-	  currentCell(nullptr), formatter(AbstractFormatter::getFormatter())
+	: key(key), ui(nullptr), tabMustBeDestroyed(false), operationInProgress(true)
 {	
-	ui = new ValueTabView();
-	ui->init(this);
-	ui->keyName->setText(keyModel->getKeyName());	
+	ui = new ValueTabView(key->text(), this);	
 
-	connect(keyModel, SIGNAL(keyTypeLoaded(KeyModel::Type)), this, SLOT(keyTypeLoaded(KeyModel::Type)));
-	connect(keyModel, SIGNAL(valueLoaded(const QVariant&, QObject *)), this, SLOT(valueLoaded(const QVariant&, QObject *)));	
-	connect(ui->singleValueFormatterType, SIGNAL(currentIndexChanged(int)), 
-		this, SLOT(currentFormatterChanged(int)));
+	Command typeCmd = key->getTypeCommand();
+	typeCmd.setOwner(this);
+	typeCmd.setCallBackName("keyTypeLoaded");
 
-	keyModel->getKeyType();	
+	key->getConnection()->addCommand(typeCmd);
+
+	/** Connect View SIGNALS to Controller SLOTS **/
+	connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
+	connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
+	connect(ui, SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
+		this, SLOT(updateValue(const QString&, const QModelIndex *)));
+
+	connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));
 }
 
-void ValueTab::keyTypeLoaded(KeyModel::Type t)
+bool ValueTab::close()
 {
-	type = t;
+	tabMustBeDestroyed = true;
 
-	if (type == KeyModel::String) {
-		ui->initKeyValue(ValueTabView::PlainBased);
-	} else {
-		ui->initKeyValue(ValueTabView::ModelBased);
-	}
+	if (!operationInProgress)
+		delete this;
 
-	keyModel->getValue();
+	return true;
 }
 
-void ValueTab::valueLoaded(const QVariant& value, QObject * owner)
+void ValueTab::destroy()
 {
-	if (owner != keyModel) {
+	delete this;
+}
+
+bool ValueTab::event(QEvent * e)
+{
+	return QWidget::event(e);
+}
+
+void ValueTab::keyTypeLoaded(Response type)
+{
+	operationInProgress = false;
+
+	if (tabMustBeDestroyed)
+		return destroy();
+
+	QString t = type.getValue().toString();
+	ui->keyTypeLabelValue->setText(
+		ui->keyTypeLabelValue->text()  + t.toUpper()
+		);
+
+	keyModel = key->getKeyModel(t);
+
+	if (keyModel == nullptr) {
+		emit error("Can not load key value. Key was removed or redis-server went away.");		
 		return;
 	}
 
-	ui->loader->stop();
-	ui->loaderLabel->hide();
+	connect(keyModel, SIGNAL(valueLoaded()), this, SLOT(valueLoaded()));
+	connect(keyModel, SIGNAL(keyRenameError(const QString&)), this, SIGNAL(error(const QString&)));
+	connect(keyModel, SIGNAL(keyRenamed()), this, SLOT(keyRenamed()));
+	connect(keyModel, SIGNAL(keyDeleteError(const QString&)), this, SIGNAL(error(const QString&)));
+	connect(keyModel, SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
+	connect(keyModel, SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
+	connect(keyModel, SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
 
-	if (type == KeyModel::String) {
-        rawStringValue = value.toString();
-        ui->setPlainValue(rawStringValue);
-	} else {
-		model = getModelForKey(type, value);
-		ui->setModel(model);
-		initPagination();
+	operationInProgress = true;
+	keyModel->loadValue();
+}
 
-		connect(ui->keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
-			this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
-	}
+void ValueTab::valueLoaded()
+{
+	operationInProgress = false;
+
+	if (tabMustBeDestroyed)
+		return destroy();
+
+	ui->initKeyValue(keyModel);
 
 	setObjectName("valueTabReady");
 }
 
-PaginatedModel * ValueTab::getModelForKey(KeyModel::Type t, const QVariant& val)
+void ValueTab::renameKey()
 {
-    QStringList rawValue = val.toStringList();
-
-    switch (t)
-	{
-	case KeyModel::Hash:		
-        return new HashKeyModel(rawValue);
-
-	case KeyModel::List:		
-	case KeyModel::Set:
-        return new ListKeyModel(rawValue);
-
-	case KeyModel::ZSet:		
-        return new SortedSetKeyModel(rawValue);
-	}
-
-	return nullptr;
+	ui->showLoader();
+	ui->renameKey->setEnabled(false);
+	keyModel->renameKey(ui->keyName->text());	
 }
 
-
-void ValueTab::initPagination()
+void ValueTab::keyRenamed()
 {
-	if (model == nullptr) {
-		return;
-	}
-
-	int pagesCount = model->getPagesCount();
-	ui->pagination->setText(QString("Page <b>1</b> of <b>%1</b>").arg(pagesCount));
-
-	if (pagesCount > 1) {		
-		ui->nextPage->setEnabled(true);
-
-		connect(ui->nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
-		connect(ui->previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
-	}
-
+	key->setText(ui->keyName->text());
+	ui->renameKey->setEnabled(true);
+	ui->hideLoader();
 }
 
-void ValueTab::loadNextPage()
+void ValueTab::deleteKey()
 {
-	int currentPage = model->getCurrentPage();
-	int totalPages = model->getPagesCount();
-
-	if (currentPage == totalPages) {
-		return;
-	}
-
-	model->setCurrentPage(++currentPage);
-
-	if (currentPage == totalPages) {
-		ui->nextPage->setEnabled(false);
-	}
-
-	if (currentPage == 2) {
-		ui->previousPage->setEnabled(true);
-	}
-
-	ui->pagination->setText(
-		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
+	ui->showLoader();
+	keyModel->deleteKey();	
 }
 
-void ValueTab::loadPreviousPage()
+void ValueTab::keyDeleted()
 {
-	int currentPage = model->getCurrentPage();
-	int totalPages = model->getPagesCount();
-
-	if (currentPage == 1) {
-		return;
-	}
-
-	model->setCurrentPage(--currentPage);
-
-	if (currentPage == totalPages - 1) {
-		ui->nextPage->setEnabled(true);
-	}
-
-	if (currentPage == 1) {
-		ui->previousPage->setEnabled(false);
-	}
-
-	ui->pagination->setText(
-		QString("Page <b>%1</b> of <b>%2</b>").arg(currentPage).arg(totalPages));
+	key->remove();
+	ui->hideLoader();
+	emit keyDeleted(this, key);	
 }
 
-void ValueTab::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)
+void ValueTab::updateValue(const QString& value, const QModelIndex *cellIndex)
 {
-	ui->singleValue->clear();	
-
-	formatter->setRawValue(model->itemFromIndex(current)->text());
-
-	ui->singleValue->appendPlainText(formatter->getFormatted());
-
-	currentCell = &current;
+	ui->showLoader();
+	keyModel->updateValue(value, cellIndex);
 }
 
-void ValueTab::currentFormatterChanged(int index)
+void ValueTab::valueUpdated()
 {
-	AbstractFormatter::FormatterType newFormatterType = (AbstractFormatter::FormatterType)index;
-
-	if (newFormatterType == currentFormatter) 
-		return;
-
-	currentFormatter = newFormatterType;
-	delete formatter;
-
-	formatter = AbstractFormatter::getFormatter(newFormatterType);
-
-	if (type == KeyModel::String) {		
-		ui->keyValuePlain->clear();
-		formatter->setRawValue(rawStringValue);
-		ui->keyValuePlain->appendPlainText(
-			formatter->getFormatted()
-		);
-	} else {
-		onSelectedItemChanged(*currentCell, *currentCell);
-	}	
+	ui->hideLoader();
 }
-
 
 ValueTab::~ValueTab()
 {
-	if (ui != nullptr) {
-		delete ui;
-	}
+	delete ui;
 
-	if (model != nullptr) {
+	keyModel->disconnect();	
 
-		model->disconnect();
-
-		QtConcurrent::run(delayedDeallocator, model);
-
-		model = nullptr;		
-	}
-
-	keyModel->disconnect(this);
+	PaginatedModel::delayedDeallocator(keyModel);
+	keyModel = nullptr;
 }
 
 
-void ValueTab::delayedDeallocator(QObject *object)
+void ValueTab::errorOccurred(const QString& message)
 {
-	delete object;
+	QMessageBox::warning(this, "Error occurred", message);
 }
-
-
 

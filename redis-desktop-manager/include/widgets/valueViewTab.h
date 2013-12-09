@@ -2,12 +2,11 @@
 #define HASHVIEWTAB_H
 
 #include <QWidget>
-#include "PaginatedModel.h"
 #include "RedisKeyItem.h"
 #include "KeyModel.h"
-#include "AbstractFormatter.h"
 
 class ValueTabView;
+class Response;
 
 class ValueTab : public QWidget
 {
@@ -15,39 +14,48 @@ class ValueTab : public QWidget
 
 public:
 	ValueTab(RedisKeyItem * key);
-	~ValueTab();
 
-	static void delayedDeallocator(QObject *);
+	bool close();
 
 protected:	
+	~ValueTab();
+
+	RedisKeyItem * key;
+
 	KeyModel * keyModel;
-	KeyModel::Type type;
-	PaginatedModel * model;
+
 	ValueTabView * ui;
 
-	AbstractFormatter::FormatterType currentFormatter;
-	AbstractFormatter * formatter;
+	bool tabMustBeDestroyed;
 
-	const QModelIndex * currentCell;
+	bool operationInProgress;
 
-	QString jsonValueFormatter(const QString&);
+	void destroy();
 
-	void initPagination();
-
-	PaginatedModel * getModelForKey(KeyModel::Type, const QVariant&);	
+	bool event(QEvent * e);
 
 protected slots:
-	void keyTypeLoaded(KeyModel::Type);
-	void valueLoaded(const QVariant&, QObject *);
-	void loadNextPage();
-	void loadPreviousPage();
-	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
-	void currentFormatterChanged(int);
+	void keyTypeLoaded(Response type);
 
-	//void error(QString&);
+	void valueLoaded();
 
-private:
-	QString rawStringValue;
+	void deleteKey();
+
+	void renameKey();
+
+	void keyRenamed();
+
+	void keyDeleted();
+
+	void updateValue(const QString&, const QModelIndex *);
+
+	void valueUpdated();
+
+	void errorOccurred(const QString&);
+
+signals:
+	void error(const QString&);
+	void keyDeleted(QWidget *, RedisKeyItem *);
 };
 
 #endif // HASHVIEWTAB_H

@@ -1,19 +1,16 @@
 #include "JsonFormatter.h"
 
-#include <json/json.h>
+#include <QJsonDocument>
 
 QString JsonFormatter::getFormatted()
 {
-	Json::Value root;   
-	Json::Reader reader;
-	bool parsingSuccessful = reader.parse( rawValue.toStdString(), root );
+	QJsonParseError * parsingError = new QJsonParseError;
+	QJsonDocument document = QJsonDocument::fromJson(rawValue.toStdString().c_str(), parsingError);
 
-	if (!parsingSuccessful)
+	if (parsingError->error != QJsonParseError::NoError) 
 	{
 		return QString("Invalid JSON");
 	}
 
-	Json::StyledWriter writer;		
-
-	return QString::fromStdString(writer.write(root));
+	return QString(document.toJson(QJsonDocument::Indented));
 }

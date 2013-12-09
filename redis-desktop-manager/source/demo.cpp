@@ -28,7 +28,8 @@ MainWin::MainWin(QWidget *parent)
 	initFilter();
 
 	qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
-	qRegisterMetaType<Command>("Command");
+	qRegisterMetaType<Command>("Command");	
+	qRegisterMetaType<Response>("Response");	
 }
 
 MainWin::~MainWin()
@@ -184,7 +185,9 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 			{			
 				RedisServerItem * server = (RedisServerItem *)item;
 
-				server->runDatabaseLoading();									
+				server->runDatabaseLoading();
+				
+				ui.serversTreeView->setExpanded(index, true);
 			}
 			break;
 
@@ -195,6 +198,8 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 				connections->blockSignals(true);
 				statusBar()->showMessage(QString("Loading keys ..."));
 				db->loadKeys();				
+
+				ui.serversTreeView->setExpanded(index, true);
 			}			
 			break;
 
@@ -207,6 +212,12 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 void MainWin::openKeyTab(RedisKeyItem * key, bool inNewTab)
 {
 	QWidget * viewTab = new ValueTab(key);
+
+	connect(viewTab, SIGNAL(keyDeleted(QWidget *, RedisKeyItem *)), 
+		this, SLOT(OnKeyDeleted(QWidget *, RedisKeyItem *)));
+
+	connect(viewTab, SIGNAL(error(const QString &)), 
+		this, SLOT(OnError(const QString &)));
 
 	QString keyFullName = key->getTabLabelText();
 
@@ -228,11 +239,11 @@ void MainWin::OnConnectionTreeWheelClick(const QModelIndex & index)
 
 void MainWin::OnTabClose(int index)
 {
-	QWidget * w = ui.tabWidget->widget(index);
+	ValueTab * w = qobject_cast<ValueTab *> (ui.tabWidget->widget(index));
 
 	ui.tabWidget->removeTab(index);
 
-	delete w;
+	w->close();
 }
 
 int MainWin::getTabIndex(QString& name)
@@ -308,7 +319,7 @@ void MainWin::OnReloadServerInTree()
 	if (item == nullptr || item->type() != RedisServerItem::TYPE) 
 		return;	
 
-	RedisServerItem * server = (RedisServerItem *) item;
+	RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
 	server->reload();
 }
 
@@ -468,6 +479,9 @@ void MainWin::OnKeyOpenInNewTab()
 
 QStandardItem * MainWin::getSelectedItemInConnectionsTree()
 {
+	if (!ui.serversTreeView->selectionModel()->hasSelection())
+		return nullptr;
+
 	QModelIndexList selected = ui.serversTreeView
 									->selectionModel()
 									->selectedIndexes();
@@ -504,4 +518,27 @@ void MainWin::OnUIUnlock()
 void MainWin::OnStatusMessage(QString message)
 {
 	statusBar()->showMessage(message);
+}
+
+void MainWin::OnKeyDeleted(QWidget * tab, RedisKeyItem * key)
+{
+	if (tab == nullptr || key == nullptr) 
+		return;
+
+	int widgetsCount = ui.tabWidget->count();
+	int widgetIndex = -1;
+
+	for (int currentWidget = 0; currentWidget < widgetsCount; currentWidget++)
+	{
+		if (tab == ui.tabWidget->widget(currentWidget)) {
+			widgetIndex = currentWidget;
+			break;
+		}
+	}	
+
+	if (widgetIndex == -1) {
+		return;
+	}
+
+	OnTabClose(widgetIndex);	
 }

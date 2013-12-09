@@ -3,7 +3,7 @@
 
 
 ConnectionBridge::ConnectionBridge(const RedisConnectionConfig & c)
-	: isInitialized(false), config(c)
+	: workerThread(nullptr), worker(nullptr), isInitialized(false), config(c)
 {
 	//create worker connection by factory method
 	worker = RedisConnectionAbstract::createConnection(c);
@@ -31,8 +31,7 @@ void ConnectionBridge::initWorker()
 	connect(worker, SIGNAL(errorOccurred(QString)),this, SIGNAL(error(QString)));
 	connect(worker, SIGNAL(operationProgress(int, QObject *)),this, SIGNAL(operationProgress(int, QObject *)));
 
-	connect(workerThread, SIGNAL(quit()) , worker, SLOT(disconnect()));
-	connect(workerThread, SIGNAL(terminate()) , worker, SLOT(disconnect()));
+	connect(workerThread, SIGNAL(finished()) , worker, SLOT(disconnect()));
 
 	//start worker thread
 	workerThread->start();
@@ -56,9 +55,7 @@ void ConnectionBridge::setConnectionConfig(RedisConnectionConfig& newConf)
 {
 	config = newConf;
 
-	stopWorker();
-
-	delete worker;
+	stopWorker();	
 
 	worker = RedisConnectionAbstract::createConnection(config);
 
@@ -76,6 +73,7 @@ void ConnectionBridge::stopWorker()
 		workerThread->quit();
 		workerThread->wait();
 		delete workerThread;
+		delete worker;
 
 		isInitialized = false;
 	}
@@ -84,6 +82,4 @@ void ConnectionBridge::stopWorker()
 ConnectionBridge::~ConnectionBridge(void)
 {
 	stopWorker();
-
-	delete workerThread;
 }

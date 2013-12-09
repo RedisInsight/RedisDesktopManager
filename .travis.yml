@@ -2,18 +2,23 @@ language: cpp
 compiler:
   - gcc
 before_install:
-- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+- sudo add-apt-repository --yes ppa:beineri/opt-qt511
 - sudo apt-get update -qq
-- sudo apt-get install ubuntu-sdk -y -qq
+- sudo apt-get install qt51base qt51imageformats qt51tools qt51xmlpatterns qt51x11extras -y -qq
+- uname -m
+- export QTDIR=/opt/qt51
+- export PATH=$QTDIR/bin:$PATH
+- export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
 - sudo pip install cpp-coveralls --use-mirrors
+- sudo sh ./vagrant-provision/build_automake.sh
 before_script:
 - cd ./redis-desktop-manager
 - sudo chmod 777 configure
 - ./configure
 script: 
-  - qmake -qt=qt5 -v
-  - qmake -qt=qt5
+  - qmake -v
+  - qmake
   - make clean
   - make -s
   - cd ./../tests/

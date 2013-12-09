@@ -52,3 +52,8 @@ deps/jsoncpp/libs/*
 redis-desktop-manager*.gz
 build/cpp-coveralls/*
 build/requests/*
+.svn/
+deps/gyp*
+*.vsp
+*.psess
+build/windows/installer/redis-desktop-manager*.exe

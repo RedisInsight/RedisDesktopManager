@@ -2,6 +2,13 @@
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 #include "KeyModel.h"
+#include "Command.h"
+#include "StringKeyModel.h"
+#include "HashKeyModel.h"
+#include "ListKeyModel.h"
+#include "SetKeyModel.h"
+#include "SortedSetKeyModel.h"
+
 
 RedisKeyItem::RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon & icon)
 	: ItemWithNaturalSort(icon, name), db(db)
@@ -37,9 +44,36 @@ QString RedisKeyItem::getTabLabelText()
 	return QString("%1:%2>%3").arg(connection).arg(dbIndexString).arg(this->text());
 }
 
-KeyModel * RedisKeyItem::getKeyModel()
+KeyModel * RedisKeyItem::getKeyModel(const QString & type)
 {
 	int dbIndex = db->getDbIndex();
 	QString keyName = text();
-	return new KeyModel(db->server->connection, keyName, dbIndex);
+
+	if (type == "string")
+		return new StringKeyModel(db->server->connection, keyName, dbIndex);
+	else if (type == "hash") 
+		return new HashKeyModel(db->server->connection, keyName, dbIndex);
+	else if (type == "list")	
+		return new ListKeyModel(db->server->connection, keyName, dbIndex);	
+	else if (type == "set") 	
+		return new SetKeyModel(db->server->connection, keyName, dbIndex);		
+	else if (type == "zset") 
+		return new SortedSetKeyModel(db->server->connection, keyName, dbIndex);		
+
+	return nullptr;
+}
+
+Command RedisKeyItem::getTypeCommand()
+{
+	return Command(QString("type %1").arg(text()), nullptr, db->getDbIndex());
+}
+
+ConnectionBridge * RedisKeyItem::getConnection()
+{
+	return db->server->connection;
+}
+
+void RedisKeyItem::remove()
+{
+	db->removeRow(this->row());
 }

@@ -1,10 +1,16 @@
 #include "ListKeyModel.h"
 
-ListKeyModel::ListKeyModel(QStringList& values)
-	: PaginatedModel(values) 
+ListKeyModel::ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+	: PaginatedModel(db, keyName, dbIndex)
 {
 	setColumnCount(1);
-	setCurrentPage(1);
+}
+
+void ListKeyModel::loadValue()
+{
+	QString command = QString("LRANGE %1 0 -1").arg(keyName);
+
+	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
 void ListKeyModel::setCurrentPage(int page)
@@ -20,7 +26,7 @@ void ListKeyModel::setCurrentPage(int page)
 
 	currentPage = page;
 
-	int size = rawData.size();
+	int size = rawData->size();
 
 	setRowCount( (itemsOnPageLimit > size)? size : itemsOnPageLimit);
 
@@ -29,7 +35,33 @@ void ListKeyModel::setCurrentPage(int page)
 
 	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-		QStandardItem * value = new QStandardItem(rawData.at(i));
+		QStandardItem * value = new QStandardItem(rawData->at(i));
+		value->setData(QVariant(i), KeyModel::KEY_VALUE_TYPE_ROLE);
+
 		setItem(row, 0, value);
+	}
+}
+
+void ListKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+{
+	QStandardItem * item = itemFromIndex(*cellIndex);
+	item->setText(value);
+	int itemIndex = item->data(KeyModel::KEY_VALUE_TYPE_ROLE).toInt();
+
+	QStringList addNew; 
+	addNew << "LSET" << keyName << QString::number(itemIndex) << value;
+
+	db->addCommand(Command(addNew, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+}
+
+void ListKeyModel::loadedUpdateStatus(Response result)
+{
+	if (result.isErrorMessage()) 
+	{
+		emit valueUpdateError(result.getValue().toString());
+	}
+	else 
+	{
+		emit valueUpdated();	
 	}
 }
