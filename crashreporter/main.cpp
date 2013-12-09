@@ -26,7 +26,7 @@ int main( int argc, char* argv[] )
 	QApplication::setApplicationVersion( "1.0.0" );	
 	QApplication::setOrganizationDomain( "redisdesktop.com" );    
 
-    CrashReporter reporter( QUrl( "http://192.168.2.254/crash-report" ),  app.arguments() );
+    CrashReporter reporter( QUrl( "http://redisdesktop.com/crash-report" ),  app.arguments() );
     reporter.show();
 
     return app.exec();
