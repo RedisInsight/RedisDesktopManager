@@ -14,9 +14,6 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationVersion(RDM_VERSION);	
 	QApplication::setOrganizationDomain("redisdesktop.com");
 
-	QString * bugly = (QString *)798798789;
-	delete bugly; //crash
-
 	MainWin w;
 	w.show();
 	return a.exec();
