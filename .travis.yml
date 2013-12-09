@@ -8,7 +8,7 @@ before_install:
 - uname -m
 - export QTDIR=/opt/qt51
 - export PATH=$QTDIR/bin:$PATH
-- export LD_LIBRARY_PATH=$QTDIR/lib/:$LD_LIBRARY_PATH
+- export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
 - sudo pip install cpp-coveralls --use-mirrors
 - sudo sh ./vagrant-provision/build_automake.sh
