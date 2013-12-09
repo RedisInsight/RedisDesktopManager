@@ -552,6 +552,9 @@
     <ClInclude Include="include\crashhandler\CrashHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\redis_small_icon.png">

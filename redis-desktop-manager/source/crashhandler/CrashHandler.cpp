@@ -7,6 +7,10 @@
  
 #include "exception_handler.h"
 
+#ifndef WIN32
+#include <unistd.h>
+#endif
+
 class CrashHandlerPrivate
 {
 public:
@@ -50,6 +54,57 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     NO STACK USE, NO HEAP USE THERE !!!
     Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
+
+#ifdef WIN32
+	wchar_t command[MAX_PATH * 3 + 6];
+	wcscpy( command, L"crashreporter ");
+	wcscat( command, _dump_dir );
+	wcscat( command, L"\\" );
+	wcscat( command, _minidump_id );
+
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+
+	ZeroMemory( &si, sizeof( si ) );
+	si.cb = sizeof(si);
+	si.dwFlags = STARTF_USESHOWWINDOW;
+	si.wShowWindow = SW_SHOWNORMAL;
+	ZeroMemory( &pi, sizeof(pi) );
+
+	if ( CreateProcess( NULL, command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) )
+	{
+		CloseHandle( pi.hProcess );
+		CloseHandle( pi.hThread );
+		TerminateProcess( GetCurrentProcess(), 1 );
+	}
+#else
+
+#ifdef Q_OS_LINUX
+
+#else
+	pid_t pid = fork();
+	if ( pid == -1 ) // fork failed
+		return false;
+	if ( pid == 0 )
+	{
+		// we are the fork
+		execl( crashReporter,
+			crashReporter,
+			_dump_dir,
+			minidump_id,
+			minidump_id,
+			(char*) 0 );
+
+		// execl replaces this process, so no more code will be executed
+		// unless it failed. If it failed, then we should return false.
+		printf( "Error: Can't launch CrashReporter!\n" );
+		return false;
+	}
+#endif
+#endif
+
+
+
     return CrashHandlerPrivate::bReportCrashesToSystem ? success : true;
 }
  

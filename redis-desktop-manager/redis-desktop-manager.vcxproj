@@ -274,6 +274,7 @@
     <ClInclude Include="GeneratedFiles\ui_connection.h" />
     <ClInclude Include="GeneratedFiles\ui_demo.h" />
     <ClInclude Include="GeneratedFiles\ui_serverInfoViewTab.h" />
+    <ClInclude Include="version.h" />
     <CustomBuild Include="include\models\FastItemDelegate.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing FastItemDelegate.h...</Message>
