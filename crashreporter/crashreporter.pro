@@ -22,6 +22,8 @@ SOURCES += \
 HEADERS  += \
     $$PWD/*.h \
 
+FORMS += \
+    $$PWD/*.ui \
 
 release: DESTDIR = ./../bin/linux/release
 debug:   DESTDIR = ./../bin/linux/debug
@@ -39,8 +41,8 @@ unix:!macx {
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
 }
 
-INCLUDEPATH += $$PWD/../redis-desktop-managher
-DEPENDPATH += $$PWD/../redis-desktop-managher
+INCLUDEPATH += $$PWD/../redis-desktop-manager
+DEPENDPATH += $$PWD/../redis-desktop-manager
 
 
 

@@ -21,6 +21,9 @@ script:
   - qmake
   - make clean
   - make -s
+  - cd ./../crashreporter/
+  - qmake
+  - make
   - cd ./../tests/
   - qmake
   - make clean
