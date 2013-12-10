@@ -81,7 +81,9 @@ unix {
         LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
         LIBS += /usr/local/lib/libssh2.so  /usr/local/lib/libbreakpad.a /usr/local/lib/libbreakpad_client.a
 
-        PRE_TARGETDEPS += /usr/local/lib/libssh2.so /usr/local/lib/libbreakpad.a /usr/local/lib/libbreakpad_client.a
+        PRE_TARGETDEPS +=/usr/local/lib/libssh2.so \
+                         /usr/local/lib/libbreakpad.a \
+                         /usr/local/lib/libbreakpad_client.a \
 
         INCLUDEPATH += $$BREAKPADDIR/ \
             $$BREAKPADDIR/client/linux/handler/ \
@@ -108,7 +110,7 @@ unix {
             $$BREAKPADDIR/third_party/lss/ \
 
         target.path = /usr/share/redis-desktop-manager/bin
-        target.files = $$DESTDIR/rdm qt.conf rdm.png
+        target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter qt.conf rdm.png
         INSTALLS += target
 
         deskicon.path = /usr/share/applications
