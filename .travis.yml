@@ -10,7 +10,6 @@ before_install:
 - export PATH=$QTDIR/bin:$PATH
 - export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
-- sudo pip install cpp-coveralls --use-mirrors
 - sudo sh ./vagrant-provision/build_automake.sh
 before_script:
 - cd ./redis-desktop-manager
@@ -28,12 +27,9 @@ script:
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
-  - cd ./../
-  - mkdir allsource
-  - cd ./redis-desktop-manager
-  - find . -type f -name \*.h -exec cp \{\} ./../allsource \;
-  - find . -type f -name \*.cpp -exec cp \{\} ./../allsource \;
-  - cd ./../tests
+  - sudo pip install cpp-coveralls --use-mirrors
+  - cp -Rf ./../redis-desktop-manager/include ./
+  - cp -Rf ./../redis-desktop-manager/source ./
   - coveralls --build-root './../bin/tests/obj/'  --exclude deps
 services:
   - redis-server
