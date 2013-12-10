@@ -10,6 +10,7 @@ before_install:
 - export PATH=$QTDIR/bin:$PATH
 - export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
+- sudo apt-get install gdb -y -qq
 - sudo sh ./vagrant-provision/build_automake.sh
 before_script:
 - cd ./redis-desktop-manager

@@ -5,8 +5,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = tests
 TEMPLATE = app
 
-CONFIG -= debug
-CONFIG += c++11 release
+CONFIG += debug
+CONFIG += c++11
 CONFIG-=app_bundle
 
 SRC_DIR = $$PWD/../redis-desktop-manager//
@@ -69,7 +69,6 @@ unix {
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so
 
         #code coverage
-        CONFIG += debug
         QMAKE_CXXFLAGS += --coverage
         QMAKE_LDFLAGS += --coverage
         LIBS += -lgcov
