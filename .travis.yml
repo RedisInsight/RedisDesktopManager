@@ -10,12 +10,22 @@ before_install:
 - export PATH=$QTDIR/bin:$PATH
 - export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
-- sudo apt-get install gdb -y -qq
 - sudo sh ./vagrant-provision/build_automake.sh
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+- sudo apt-get update
+- sudo apt-get install gcc-4.7 -y -qq
+- sudo apt-get install g++-4.7 -y -qq
+- sudo apt-get install gdb -y -qq
+- sudo rm -f /usr/bin/gcc
+- sudo rm -f /usr/bin/g++
+- sudo rm -f /usr/bin/gcov
+- sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
+- sudo ln -s /usr/bin/g++-4.7 /usr/bin/g++
+- sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 before_script:
 - cd ./redis-desktop-manager
 - sudo chmod 777 configure
-- ./configure
+- ./configure > /dev/null
 script: 
   - qmake -v
   - qmake
@@ -29,9 +39,7 @@ script:
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
   - sudo pip install cpp-coveralls --use-mirrors
-  - cp -Rf ./../redis-desktop-manager/include ./
-  - cp -Rf ./../redis-desktop-manager/source ./
-  - coveralls --build-root './../bin/tests/obj/'  --exclude deps
+  - ./coverage.sh
 services:
   - redis-server
 notifications:
