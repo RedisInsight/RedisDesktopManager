@@ -42,29 +42,18 @@ public:
 
 private:
 	RedisServerItem * server;
-
 	bool isKeysLoaded;
-
 	int dbIndex;
-
 	unsigned int keysCount;
-
 	QString name;
-
-	QStringList rawKeys;
-
+    int currentKeysPoolPosition;
+    Icons iconStorage;
+    QStringList rawKeys;
 	QRegExp filter;
-
 	QFutureWatcher<QList<QStandardItem *>> keysLoadingWatcher;
 	QFuture<QList<QStandardItem *>> keysLoadingResult;
-
-	Icons iconStorage;	
-
 	RedisKeyItem * keysPool;
-
-	RedisKeyItem * originalKeyPool;
-
-	int currentKeysPoolPosition;
+	RedisKeyItem * originalKeyPool;	
 
 	void renderKeys(QStringList &);
 

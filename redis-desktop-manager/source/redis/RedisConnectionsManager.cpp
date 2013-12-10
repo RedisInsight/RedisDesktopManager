@@ -9,8 +9,7 @@
 #include "demo.h"
 
 RedisConnectionsManager::RedisConnectionsManager(QString config, QObject * parent = nullptr)
-	: configPath(config), connectionSettingsChanged(false), 
-	 QStandardItemModel(parent)
+    : QStandardItemModel(parent), configPath(config), connectionSettingsChanged(false)
 {
 	if (!config.isEmpty() && QFile::exists(config)) {
 		LoadConnectionsConfigFromFile(config);

@@ -40,9 +40,9 @@ public:
 
 private:
 	QObject * owner;
-	QString callBackMethod;
-	QStringList commandWithArguments;
+    QStringList commandWithArguments;
 	int dbIndex;
+    QString callBackMethod;
 
 	QStringList splitCommandString(const QString &);
 };

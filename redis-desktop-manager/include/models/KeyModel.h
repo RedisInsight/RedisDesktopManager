@@ -46,10 +46,9 @@ protected slots:
 	void loadedDeleteStatus(Response);
 
 protected:	
+    ConnectionBridge * db;
 	QString keyName;
-	int dbIndex;
-	ConnectionBridge * db;
-	bool eventsBlocked;
+	int dbIndex;	
 
 	virtual void initModel(const QVariant &) = 0;
 };

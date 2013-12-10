@@ -24,6 +24,8 @@ void StringKeyModel::initModel(const QVariant &value)
 
 void StringKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
 {
+    Q_UNUSED(cellIndex);
+
 	QString updateCommand = QString("SET %1 %2")
 		.arg(keyName)
 		.arg(value);

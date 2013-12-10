@@ -3,7 +3,7 @@
 
 
 ConnectionBridge::ConnectionBridge(const RedisConnectionConfig & c)
-	: workerThread(nullptr), worker(nullptr), isInitialized(false), config(c)
+    : config(c), workerThread(nullptr), worker(nullptr), isInitialized(false)
 {
 	//create worker connection by factory method
 	worker = RedisConnectionAbstract::createConnection(c);

@@ -30,11 +30,10 @@ public:
 	void connectionChanged();
 
 private:
+    QString configPath;
+    bool connectionSettingsChanged;
 	QThread connectionsThread;
-
-	QString configPath;
-	QList<ConnectionBridge *> connections;
-	bool connectionSettingsChanged;
+	QList<ConnectionBridge *> connections;	
 	QRegExp filter;
 
 protected:

@@ -57,13 +57,13 @@ win32 {
     LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 
     CONFIG(release, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+        LIBS += -L$$PWD/../deps/libs/win32/release/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/release/libssh2.lib
     }
 
     else: CONFIG(debug, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+        LIBS += -L$$PWD/../deps/libs/win32/debug/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/debug/libssh2.lib
     }
 }
 

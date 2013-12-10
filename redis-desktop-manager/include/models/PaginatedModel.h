@@ -21,12 +21,11 @@ public:
 	virtual int getPagesCount();
 	static void delayedDeallocator(QObject *);
 protected:
+    int currentPage;
 	QVector<QString> * rawData;
-	int currentPage;
+
 	static const int itemsOnPageLimit = 500;
 
-	void initModel(const QVariant &);
-
-	
+	void initModel(const QVariant &);	
 };
 

@@ -112,7 +112,9 @@ PopupCompleter::~PopupCompleter()
 
 void PopupCompleter::showEvent(QShowEvent *event)
 {
+        Q_UNUSED(event);
 		listWidget_->setFocus();
+
 }
 
 void PopupCompleter::onItemActivated(QListWidgetItem *event)

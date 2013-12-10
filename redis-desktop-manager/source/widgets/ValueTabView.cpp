@@ -242,6 +242,8 @@ void ValueTabView::loadPreviousPage()
 
 void ValueTabView::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)
 {
+    Q_UNUSED(previous);
+
 	singleValue->clear();	
 
 	formatter->setRawValue(model->itemFromIndex(current)->text());
