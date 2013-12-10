@@ -19,14 +19,12 @@ before_script:
 script: 
   - qmake -v
   - qmake
-  - make clean
   - make -s
   - cd ./../crashreporter/
   - qmake
-  - make
+  - make -s
   - cd ./../tests/
   - qmake
-  - make clean
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
