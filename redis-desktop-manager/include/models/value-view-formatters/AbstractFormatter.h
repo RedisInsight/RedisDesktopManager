@@ -6,6 +6,8 @@ class AbstractFormatter
 {
 public:
 
+	virtual ~AbstractFormatter() {};
+
 	virtual void setRawValue(const QString&);		
 
 	virtual QString getFormatted() = 0;
