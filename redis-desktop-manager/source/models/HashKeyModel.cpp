@@ -9,7 +9,8 @@ HashKeyModel::HashKeyModel(ConnectionBridge * db, const QString &keyName, int db
 
 void HashKeyModel::loadValue()
 {
-	QString command = QString("hgetall %1").arg(keyName);
+	QStringList command;
+	command << "hgetall" << keyName;
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }

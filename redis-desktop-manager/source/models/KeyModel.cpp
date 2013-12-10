@@ -23,9 +23,9 @@ void KeyModel::loadedValue(Response value)
 
 void KeyModel::renameKey(const QString& newKeyName)
 {	
-	QString renameCommand = QString("RENAME %1 %2")
-								.arg(keyName)
-								.arg(newKeyName);
+	QStringList renameCommand;
+
+	renameCommand << "RENAME" << keyName  << newKeyName;
 	
 	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));
 }
@@ -40,10 +40,11 @@ void KeyModel::loadedRenameStatus(Response result)
 
 void KeyModel::deleteKey()
 {
-	QString renameCommand = QString("DEL %1")
-		.arg(keyName);
+	QStringList deleteCommand;
+	
+	deleteCommand << "DEL" << keyName;
 
-	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
+	db->addCommand(Command(deleteCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
 }
 
 void KeyModel::loadedDeleteStatus(Response result)

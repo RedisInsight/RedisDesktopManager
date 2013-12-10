@@ -8,7 +8,9 @@ SortedSetKeyModel::SortedSetKeyModel(ConnectionBridge * db, const QString &keyNa
 
 void SortedSetKeyModel::loadValue()
 {
-	QString command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(keyName);
+	QStringList command;
+	
+	command << "ZRANGE" << keyName << "0" << "-1" << "WITHSCORES";
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }

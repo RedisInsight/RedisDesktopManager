@@ -8,7 +8,8 @@ ListKeyModel::ListKeyModel(ConnectionBridge * db, const QString &keyName, int db
 
 void ListKeyModel::loadValue()
 {
-	QString command = QString("LRANGE %1 0 -1").arg(keyName);
+	QStringList command;
+	command << "LRANGE" << keyName <<"0" << "-1";
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }

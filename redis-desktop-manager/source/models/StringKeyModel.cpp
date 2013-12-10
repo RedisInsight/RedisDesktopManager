@@ -7,7 +7,8 @@ StringKeyModel::StringKeyModel(ConnectionBridge * db, const QString &keyName, in
 
 void StringKeyModel::loadValue()
 {
-	QString command = QString("get %1").arg(keyName);
+	QStringList command;
+	command << "GET" << keyName;	
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
@@ -26,9 +27,8 @@ void StringKeyModel::updateValue(const QString& value, const QModelIndex *cellIn
 {
     Q_UNUSED(cellIndex);
 
-	QString updateCommand = QString("SET %1 %2")
-		.arg(keyName)
-		.arg(value);
+	QStringList updateCommand;
+	updateCommand << "SET" << keyName << value;	
 
 	db->addCommand(Command(updateCommand, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
 }

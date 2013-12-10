@@ -65,7 +65,10 @@ KeyModel * RedisKeyItem::getKeyModel(const QString & type)
 
 Command RedisKeyItem::getTypeCommand()
 {
-	return Command(QString("type %1").arg(text()), nullptr, db->getDbIndex());
+	QStringList typeCommand;
+	typeCommand << "TYPE" << text();
+
+	return Command(typeCommand, nullptr, db->getDbIndex());
 }
 
 ConnectionBridge * RedisKeyItem::getConnection()

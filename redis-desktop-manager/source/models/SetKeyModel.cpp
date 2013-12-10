@@ -7,7 +7,8 @@ SetKeyModel::SetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIn
 
 void SetKeyModel::loadValue()
 {
-	QString command = QString("SMEMBERS %1").arg(keyName);
+	QStringList command;
+	command << "SMEMBERS" << keyName;
 
 	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
