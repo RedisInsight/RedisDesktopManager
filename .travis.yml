@@ -37,6 +37,7 @@ script:
 after_success:
   - sudo pip install cpp-coveralls --use-mirrors
   - sudo sh ./coverage.sh
+  - coveralls --exclude-pattern '.*\.h' --no-gcov
 services:
   - redis-server
 notifications:
