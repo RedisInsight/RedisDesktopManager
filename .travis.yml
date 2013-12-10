@@ -3,6 +3,7 @@ compiler:
   - gcc
 before_install:
 - sudo add-apt-repository --yes ppa:beineri/opt-qt511
+- sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
 - sudo apt-get install qt51base qt51imageformats qt51tools qt51xmlpatterns qt51x11extras -y -qq
 - uname -m
@@ -11,11 +12,7 @@ before_install:
 - export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
 - sudo sh ./vagrant-provision/build_automake.sh
-- sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
-- sudo apt-get update
-- sudo apt-get install gcc-4.7 -y -qq
-- sudo apt-get install g++-4.7 -y -qq
-- sudo apt-get install gdb -y -qq
+- sudo apt-get install gcc-4.7 g++-4.7 gdb -y -qq
 - sudo rm -f /usr/bin/gcc
 - sudo rm -f /usr/bin/g++
 - sudo rm -f /usr/bin/gcov
