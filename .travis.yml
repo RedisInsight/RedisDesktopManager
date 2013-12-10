@@ -36,7 +36,7 @@ script:
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
   - sudo pip install cpp-coveralls --use-mirrors
-  - ./coverage.sh
+  - sudo sh ./coverage.sh
 services:
   - redis-server
 notifications:
