@@ -10,6 +10,18 @@ echo ===========================
 cd /vagrant
 pwd
 
+echo ===========================
+echo Build Crash Reporter :
+echo ===========================
+cd ./crashreporter
+qmake
+make clean
+make
+
+cd ./../
+
+cp ./bin/linux/release/crashreporter ~/bin/linux/release/
+
 echo   
 echo ===========================
 TAG=$(git describe --tags $(git rev-list --tags --max-count=1))

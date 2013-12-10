@@ -70,8 +70,8 @@ unix {
 
         #code coverage
         CONFIG += debug
-        QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-        QMAKE_LDFLAGS += -fprofile-arcs -ftest-coverage
+        QMAKE_CXXFLAGS += --coverage
+        QMAKE_LDFLAGS += --coverage
         LIBS += -lgcov
     }
 }

@@ -28,7 +28,12 @@ script:
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
-  - cd ./../redis-desktop-manager/
+  - cd ./../
+  - mkdir allsource
+  - cd ./redis-desktop-manager
+  - find . -type f -name \*.h -exec cp \{\} ./../allsource \;
+  - find . -type f -name \*.cpp -exec cp \{\} ./../allsource \;
+  - cd ./../tests
   - coveralls --build-root './../bin/tests/obj/'  --exclude deps
 services:
   - redis-server
