@@ -1,8 +1,10 @@
-#include "CrashHandler.h"
-#include "demo.h"
 #include <QApplication>
 #include <QStyleFactory>
+#include <QDir>
+
+#include "CrashHandler.h"
 #include "version.h"
+#include "demo.h"
 
 int main(int argc, char *argv[])
 {	

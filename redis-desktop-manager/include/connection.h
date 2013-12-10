@@ -3,8 +3,11 @@
 
 #include <QDialog>
 #include "ui_connection.h"
-#include "demo.h"
-#include "RedisConnectionConfig.h"
+
+class RedisServerItem;
+class RedisConnectionConfig;
+class MainWin;
+class ConnectionBridge;
 
 class connection : public QDialog
 {

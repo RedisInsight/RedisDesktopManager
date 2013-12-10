@@ -22,6 +22,11 @@ RedisKeyItem::RedisKeyItem()
 	setEditable(false);	
 }
 
+RedisServerDbItem * RedisKeyItem::getDbItem()
+{
+	return this->db;
+}
+
 void RedisKeyItem::init(QString name, RedisServerDbItem * db, const QIcon &icon)
 {
 	setText(name);

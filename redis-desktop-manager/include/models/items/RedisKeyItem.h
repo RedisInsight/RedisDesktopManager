@@ -9,8 +9,7 @@ class Command;
 class ConnectionBridge;
 
 class RedisKeyItem : public ItemWithNaturalSort
-{
-
+{	
 public:
 
 	const static int TYPE = 2200;
@@ -32,6 +31,8 @@ public:
 	ConnectionBridge * getConnection();
 
 	void remove();
+
+	RedisServerDbItem * getDbItem();
 
 private:	
 	RedisServerDbItem * db;	

@@ -2,16 +2,12 @@
 #define DEMO_H
 
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QDialog>
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QFrame>
-#include <QMovie>
-
+#include <QElapsedTimer>
 #include "ui_demo.h"
-#include "RedisConnection.h"
-#include "RedisConnectionsManager.h"
 
 class RedisKeyItem;
+class RedisServerItem;
+class RedisConnectionsManager;
 class Updater;
 
 class MainWin : public QMainWindow
@@ -32,27 +28,37 @@ private:
 	QMenu * keyMenu;
 	QMenu * connectionsMenu;
 
+	// TODO: move to custom tabWidget class
 	void addTab(QString&, QWidget*, QString icon = QString(), bool forceOpenInNewTab = false);
-
+	// todo: move to custom tabWidget class
 	void closeCurrentTabWithValue();
-
+	// todo: move to custom tabWidget class
+	void closeAllServerTabs(RedisServerItem *);
+	// todo: move to custom tabWidget class
 	void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 
+	// todo: move to custom tabWidget class
 	/** @return >=0 if exist **/
 	int getTabIndex(QString&);
 
+
+	// todo: move to custom Settings class
     QString getConfigPath(const QString&);
 
 	void initFormButtons();
 	void initConnectionsTreeView();
+
+
+	//todo combine in one method - initContextMenus()
 	void initServerMenu();
 	void initKeyMenu();
 	void initConnectionsMenu();
+	// end todo
+
+
 	void initTabs();
 	void initUpdater();
 	void initFilter();
-
-	QStandardItem * getSelectedItemInConnectionsTree();
 
 	private slots:
 		void OnAddConnectionClick();

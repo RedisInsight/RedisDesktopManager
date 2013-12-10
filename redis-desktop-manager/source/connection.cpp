@@ -1,8 +1,12 @@
+#include "connection.h"
+
 #include <QtWidgets/QMessageBox>
 
-#include "connection.h"
+#include "demo.h"
 #include "ConnectionBridge.h"
 #include "RedisServerItem.h"
+#include "RedisConnectionConfig.h"
+#include "RedisConnectionsManager.h"
 
 connection::connection(QWidget *parent, RedisServerItem * srv)
 	: QDialog(parent), inEditMode(false)
