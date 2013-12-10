@@ -31,7 +31,7 @@ after_success:
   - sudo pip install cpp-coveralls --use-mirrors
   - cp -Rf ./../redis-desktop-manager/include ./
   - cp -Rf ./../redis-desktop-manager/source ./
-  - coveralls --no-gcov --build-root './../bin/tests/obj/'  --exclude deps
+  - coveralls --build-root './../bin/tests/obj/'  --exclude deps
 services:
   - redis-server
 notifications:
