@@ -1,4 +1,4 @@
-##[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site") [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager) 
+##[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site") [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager) [![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.png?branch=master)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=master)
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
 ![](http://redisdesktop.com/img/features/all.png)
