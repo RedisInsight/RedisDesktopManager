@@ -295,7 +295,9 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 		ui.serversTreeView->indexAt(point)
 		);	
 
-	if (!item)	return;
+	QPoint currentPoint = QCursor::pos(); 
+
+	if (!item || currentPoint.isNull())	return;
 
 	int type = item->type();
 
@@ -306,9 +308,9 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 			return;
 		}
 
-		serverMenu->exec(QCursor::pos());
+		serverMenu->exec(currentPoint);
 	} else if (type == RedisKeyItem::TYPE) {
-		keyMenu->exec(QCursor::pos());
+		keyMenu->exec(currentPoint);
 	}
 }
 
