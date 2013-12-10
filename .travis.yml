@@ -28,8 +28,7 @@ script:
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
-  - cd ./../
-  - coveralls --root './redis-desktop-manager/' --build-root './bin/tests/obj/'  --exclude deps --exclude tests
+  - coveralls --build-root './bin/tests/obj/'  --exclude deps
 services:
   - redis-server
 notifications:
