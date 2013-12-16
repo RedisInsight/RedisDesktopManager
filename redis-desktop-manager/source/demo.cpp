@@ -27,7 +27,6 @@ MainWin::MainWin(QWidget *parent)
 	initKeyMenu();
 	initConnectionsMenu();
 	initFormButtons();	
-	initTabs();	
 	initUpdater();
 	initFilter();
 
@@ -95,17 +94,6 @@ void MainWin::initFormButtons()
 {
 	connect(ui.pbAddServer, SIGNAL(clicked()), SLOT(OnAddConnectionClick()));	
 	connect(ui.pbImportConnections, SIGNAL(clicked()), SLOT(OnImportConnectionsClick()));
-}
-
-void MainWin::initTabs()
-{
-	connect(ui.tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
-
-#ifndef Q_OS_DARWIN
-	//hide close button for first tab
-    // on Mac Os this code crash application
-    ui.tabWidget->tabBar()->tabButton(0, QTabBar::RightSide)->setFixedWidth(0);
-#endif
 }
 
 void MainWin::initUpdater()
@@ -205,27 +193,8 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 			break;
 
 		case RedisKeyItem::TYPE:	
-			openKeyTab((RedisKeyItem *)item);	
+			ui.tabWidget->openKeyTab((RedisKeyItem *)item);	
 			break;
-	}
-}
-
-void MainWin::openKeyTab(RedisKeyItem * key, bool inNewTab)
-{
-	QWidget * viewTab = new ValueTab(key);
-
-	connect(viewTab, SIGNAL(keyDeleted(QWidget *, RedisKeyItem *)), 
-		this, SLOT(OnKeyDeleted(QWidget *, RedisKeyItem *)));
-
-	connect(viewTab, SIGNAL(error(const QString &)), 
-		this, SLOT(OnError(const QString &)));
-
-	QString keyFullName = key->getTabLabelText();
-
-	if (inNewTab) {
-		addTab(keyFullName, viewTab, QString(), true);
-	} else {
-		addTab(keyFullName, viewTab);
 	}
 }
 
@@ -234,75 +203,8 @@ void MainWin::OnConnectionTreeWheelClick(const QModelIndex & index)
 	QStandardItem * item = connections->itemFromIndex(index);	
 
 	if (item->type() == RedisKeyItem::TYPE) {
-		openKeyTab((RedisKeyItem *)item, true);
+		ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
 	}
-}
-
-void MainWin::OnTabClose(int index)
-{
-	ValueTab * w = qobject_cast<ValueTab *> (ui.tabWidget->widget(index));
-
-	ui.tabWidget->removeTab(index);
-
-	w->close();
-}
-
-int MainWin::getTabIndex(QString& name)
-{
-	for (int i = 0; i < ui.tabWidget->count(); ++i)
-	{
-		if (name == ui.tabWidget->tabText(i)) {
-			return i;							
-		}
-	}
-
-	return -1;
-}
-
-void MainWin::closeCurrentTabWithValue()
-{
-	int currIndex = ui.tabWidget->currentIndex();
-
-	if (currIndex == -1) 
-		return;
-	
-	QWidget * w = ui.tabWidget->widget(currIndex);
-
-	if (w->objectName() == "valueTabReady") {
-		OnTabClose(currIndex);
-	}
-}
-
-void MainWin::closeAllServerTabs(RedisServerItem * server)
-{
-	unsigned int tabsCount = ui.tabWidget->count();
-
-	QString title;
-
-	for (int tabIndex = 0; tabIndex < tabsCount; tabIndex++)
-	{
-		title = ui.tabWidget->widget(tabIndex)->windowTitle();
-
-		//if (title.contains))
-
-	}
-}
-
-void MainWin::addTab(QString& tabName, QWidget* tab, QString icon, bool forceOpenInNewTab)
-{		
-	int currIndex;
-
-	if (!forceOpenInNewTab) {
-		closeCurrentTabWithValue();
-	}
-
-	if (icon.isEmpty()) {
-		currIndex = ui.tabWidget->addTab(tab, tabName);
-	} else {
-		currIndex = ui.tabWidget->addTab(tab, QIcon(icon), tabName);
-	}
-
-	ui.tabWidget->setCurrentIndex(currIndex);
 }
 
 
@@ -472,7 +374,7 @@ void MainWin::OnServerInfoOpen()
 
 	serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
 	QString serverName = QString("Info: %1").arg(server->text());
-	addTab(serverName, tab, ":/images/serverinfo.png");	
+	ui.tabWidget->addTab(serverName, tab, ":/images/serverinfo.png");	
 }
 
 void MainWin::OnConsoleOpen()
@@ -489,7 +391,7 @@ void MainWin::OnConsoleOpen()
 
 	QString serverName = server->text();
 
-	addTab(serverName, tab, ":/images/terminal.png");
+	ui.tabWidget->addTab(serverName, tab, ":/images/terminal.png");
 }
 
 void MainWin::OnKeyOpenInNewTab()
@@ -499,7 +401,7 @@ void MainWin::OnKeyOpenInNewTab()
 	if (item == nullptr || item->type() != RedisKeyItem::TYPE) 
 		return;	
 
-	openKeyTab((RedisKeyItem *)item, true);
+	ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
 }
 
 void MainWin::OnError(QString msg)
@@ -520,29 +422,4 @@ void MainWin::OnUIUnlock()
 void MainWin::OnStatusMessage(QString message)
 {
 	statusBar()->showMessage(message);
-}
-
-
-// TODO: move responsibility to ValueTab + RedisServerDbItem
-void MainWin::OnKeyDeleted(QWidget * tab, RedisKeyItem * key)
-{
-	if (tab == nullptr || key == nullptr) 
-		return;
-
-	int widgetsCount = ui.tabWidget->count();
-	int widgetIndex = -1;
-
-	for (int currentWidget = 0; currentWidget < widgetsCount; currentWidget++)
-	{
-		if (tab == ui.tabWidget->widget(currentWidget)) {
-			widgetIndex = currentWidget;
-			break;
-		}
-	}	
-
-	if (widgetIndex == -1) {
-		return;
-	}
-
-	OnTabClose(widgetIndex);	
 }

@@ -381,7 +381,7 @@ aa|bb 	Either aa or bb.
         </item>
        </layout>
       </widget>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="MainTabsWidget" name="tabWidget">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>1</horstretch>
@@ -590,6 +590,12 @@ aa|bb 	Either aa or bb.
    <class>ConnectionTreeView</class>
    <extends>QTreeView</extends>
    <header>ConnectionTreeView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MainTabsWidget</class>
+   <extends>QTabWidget</extends>
+   <header>MainTabsWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
