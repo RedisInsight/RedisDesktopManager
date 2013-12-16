@@ -77,9 +77,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -87,12 +84,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_connection.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_demo.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_demo.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_qxtsshchannel.cpp">
@@ -401,12 +392,21 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MainTabsWidget.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\ServerContextMenu.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="source\application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_application.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_application.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\demo.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="include\network\qxtsshchannel.h">
@@ -514,6 +514,9 @@
     <CustomBuild Include="include\widgets\MainTabsWidget.h">
       <Filter>Header Files\widgets</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\application.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\models\items\RedisKeyNamespace.h">
@@ -566,6 +569,12 @@
     </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Redis.h">
+      <Filter>Header Files\redis</Filter>
+    </ClInclude>
+    <ClInclude Include="include\widgets\ServerContextMenu.h">
+      <Filter>Header Files\widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QMessageBox>
 
-#include "demo.h"
+#include "application.h"
 #include "ConnectionBridge.h"
 #include "RedisServerItem.h"
 #include "RedisConnectionConfig.h"

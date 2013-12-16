@@ -31,14 +31,8 @@ private:
     QString getConfigPath(const QString&);
 
 	void initFormButtons();
-	void initConnectionsTreeView();
-
-	//todo combine in one method - initContextMenus()
-	void initServerMenu();
-	void initKeyMenu();
-	void initConnectionsMenu();
-	// end todo
-
+	void initConnectionsTreeView();	
+	void initContextMenus();	
 	void initUpdater();
 	void initFilter();
 

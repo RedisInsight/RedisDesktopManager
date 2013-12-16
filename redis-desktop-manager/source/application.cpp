@@ -1,21 +1,17 @@
-#include "demo.h"
+#include "application.h"
 #include <QMenu>
 #include <QFileDialog>
 #include <QStatusBar>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QDialog>
 #include <QMovie>
-
 #include "connection.h"
-#include "RedisServerItem.h"
-#include "RedisServerDbItem.h"
-#include "RedisKeyItem.h"
-#include "RedisConnectionsManager.h"
-#include "RedisConnection.h"
+#include "Redis.h"
 #include "valueViewTab.h"
 #include "Updater.h"
 #include "serverInfoViewTab.h"
 #include "consoleTab.h"
+#include "ServerContextMenu.h"
 
 MainWin::MainWin(QWidget *parent)
 	: QMainWindow(parent), treeViewUILocked(false)
@@ -23,9 +19,7 @@ MainWin::MainWin(QWidget *parent)
 	ui.setupUi(this);
 
 	initConnectionsTreeView();
-	initServerMenu();
-	initKeyMenu();
-	initConnectionsMenu();
+	initContextMenus();
 	initFormButtons();	
 	initUpdater();
 	initFilter();
@@ -58,29 +52,15 @@ void MainWin::initConnectionsTreeView()
 			this, SLOT(OnTreeViewContextMenu(const QPoint &)));
 }
 
-void MainWin::initServerMenu()
+void MainWin::initContextMenus()
 {
 	// TODO: move to custom QMenu class
-	serverMenu = new QMenu();
-	serverMenu->addAction(QIcon(":/images/terminal.png"), "Console", this, SLOT(OnConsoleOpen()));
-	serverMenu->addSeparator();
-	//menu->addAction(QIcon(":/images/serverinfo.png"), "Server info", this, SLOT(OnServerInfoOpen()));
-	serverMenu->addAction(QIcon(":/images/refreshdb.png"), "Reload", this, SLOT(OnReloadServerInTree()));
-	serverMenu->addAction(QIcon(":/images/redisIcon_offline.png"), "Disconnect", this, SLOT(OnDisconnectFromServer()));
-	serverMenu->addSeparator();
-	serverMenu->addAction(QIcon(":/images/editdb.png"), "Edit", this, SLOT(OnEditConnection()));
-	serverMenu->addAction(QIcon(":/images/delete.png"), "Delete", this, SLOT(OnRemoveConnectionFromTree()));
-}
+	serverMenu = new ServerContextMenu(this);
 
-void MainWin::initKeyMenu()
-{
 	// TODO: move to custom QMenu class
 	keyMenu = new QMenu();
 	keyMenu->addAction("Open key value in new tab", this, SLOT(OnKeyOpenInNewTab()));
-}
 
-void MainWin::initConnectionsMenu()
-{
 	// TODO: move to custom QMenu class
 	connectionsMenu = new QMenu();
 	connectionsMenu->addAction(QIcon(":/images/import.png"), "Import Connections", this, SLOT(OnImportConnectionsClick()));

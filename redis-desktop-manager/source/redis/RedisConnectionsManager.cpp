@@ -6,7 +6,7 @@
 #include "RedisConnection.h"
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
-#include "demo.h"
+#include "application.h"
 
 RedisConnectionsManager::RedisConnectionsManager(QString config, QObject * parent = nullptr)
     : QStandardItemModel(parent), configPath(config), connectionSettingsChanged(false)

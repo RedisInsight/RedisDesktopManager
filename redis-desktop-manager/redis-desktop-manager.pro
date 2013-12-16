@@ -19,7 +19,7 @@ QMAKE_CXXFLAGS += -std=gnu++0x #workaround for google breakpad
 
 SOURCES += \
     $$PWD/source/main.cpp \
-    $$PWD/source/demo.cpp \
+    $$PWD/source/application.cpp \
     $$PWD/source/connection.cpp \
     $$PWD/source/widgets/*.cpp \
     $$PWD/source/crashhandler/*.cpp \

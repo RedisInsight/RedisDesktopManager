@@ -4,7 +4,7 @@
 
 #include "CrashHandler.h"
 #include "version.h"
-#include "demo.h"
+#include "application.h"
 
 int main(int argc, char *argv[])
 {	
