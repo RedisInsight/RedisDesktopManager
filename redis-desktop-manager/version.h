@@ -1,3 +1,3 @@
 #ifndef RDM_VERSION
-	#define RDM_VERSION "0.6.3-dev"
+	#define RDM_VERSION "0.7.0-dev"
 #endif // !RDM_VERSION

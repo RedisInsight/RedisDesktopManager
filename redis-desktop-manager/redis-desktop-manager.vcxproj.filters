@@ -392,6 +392,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_SortedSetKeyModel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\MainTabsWidget.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MainTabsWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MainTabsWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -501,6 +510,9 @@
     </CustomBuild>
     <CustomBuild Include="include\models\SortedSetKeyModel.h">
       <Filter>Header Files\models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\MainTabsWidget.h">
+      <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
