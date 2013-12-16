@@ -38,7 +38,11 @@ public:
 
 		QIcon keyIcon;
 		QIcon namespaceIcon;
-	};
+	};	
+
+protected:
+	void decreaseKeyCounter();
+	void setDbText();
 
 private:
 	RedisServerItem * server;

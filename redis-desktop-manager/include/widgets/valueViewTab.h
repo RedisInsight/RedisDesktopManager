@@ -32,7 +32,7 @@ protected:
 
 	void destroy();
 
-	bool event(QEvent * e);
+	bool isOperationsAborted();
 
 protected slots:
 	void keyTypeLoaded(Response type);
@@ -52,6 +52,8 @@ protected slots:
 	void valueUpdated();
 
 	void errorOccurred(const QString&);
+
+	void OnClose();
 
 signals:
 	void error(const QString&);

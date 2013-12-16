@@ -13,6 +13,8 @@ ValueTab::ValueTab(RedisKeyItem * key)
 {	
 	ui = new ValueTabView(key->text(), this);	
 
+	connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
+
 	Command typeCmd = key->getTypeCommand();
 	typeCmd.setOwner(this);
 	typeCmd.setCallBackName("keyTypeLoaded");
@@ -25,7 +27,7 @@ ValueTab::ValueTab(RedisKeyItem * key)
 	connect(ui, SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
 		this, SLOT(updateValue(const QString&, const QModelIndex *)));
 
-	connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));
+	connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));	
 }
 
 bool ValueTab::close()
@@ -33,9 +35,14 @@ bool ValueTab::close()
 	tabMustBeDestroyed = true;
 
 	if (!operationInProgress)
-		delete this;
+		destroy();
 
 	return true;
+}
+
+void ValueTab::OnClose()
+{
+	close();
 }
 
 void ValueTab::destroy()
@@ -43,16 +50,16 @@ void ValueTab::destroy()
 	delete this;
 }
 
-bool ValueTab::event(QEvent * e)
-{
-	return QWidget::event(e);
-}
-
-void ValueTab::keyTypeLoaded(Response type)
+bool ValueTab::isOperationsAborted()
 {
 	operationInProgress = false;
 
-	if (tabMustBeDestroyed)
+	return tabMustBeDestroyed;
+}
+
+void ValueTab::keyTypeLoaded(Response type)
+{	
+	if (isOperationsAborted())
 		return destroy();
 
 	QString t = type.getValue().toString();
@@ -81,9 +88,7 @@ void ValueTab::keyTypeLoaded(Response type)
 
 void ValueTab::valueLoaded()
 {
-	operationInProgress = false;
-
-	if (tabMustBeDestroyed)
+	if (isOperationsAborted())
 		return destroy();
 
 	ui->initKeyValue(keyModel);
@@ -93,6 +98,7 @@ void ValueTab::valueLoaded()
 
 void ValueTab::renameKey()
 {
+	operationInProgress = true;
 	ui->showLoader();
 	ui->renameKey->setEnabled(false);
 	keyModel->renameKey(ui->keyName->text());	
@@ -100,6 +106,9 @@ void ValueTab::renameKey()
 
 void ValueTab::keyRenamed()
 {
+	if (isOperationsAborted())
+		return destroy();
+
 	key->setText(ui->keyName->text());
 	ui->renameKey->setEnabled(true);
 	ui->hideLoader();
@@ -107,12 +116,16 @@ void ValueTab::keyRenamed()
 
 void ValueTab::deleteKey()
 {
+	operationInProgress = true;
 	ui->showLoader();
 	keyModel->deleteKey();	
 }
 
 void ValueTab::keyDeleted()
 {
+	if (isOperationsAborted())
+		return destroy();
+
 	key->remove();
 	ui->hideLoader();
 	emit keyDeleted(this, key);	
@@ -120,12 +133,16 @@ void ValueTab::keyDeleted()
 
 void ValueTab::updateValue(const QString& value, const QModelIndex *cellIndex)
 {
+	operationInProgress = true;
 	ui->showLoader();
 	keyModel->updateValue(value, cellIndex);
 }
 
 void ValueTab::valueUpdated()
 {
+	if (isOperationsAborted())
+		return destroy();
+
 	ui->hideLoader();
 }
 

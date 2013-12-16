@@ -12,7 +12,8 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 	  currentKeysPoolPosition(0), iconStorage(QIcon(":/images/key.png"), QIcon(":/images/namespace.png"))
 {	
 	setNormalIcon();
-	setText(QString("%1 (%2)").arg(name).arg(keysCount));
+
+	setDbText();
 
 	QRegExp getDbIndex("(\\d+)");		
 
@@ -21,7 +22,6 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 	}
 
 	setEditable(false);	
-
 
 	connect(&keysLoadingWatcher, SIGNAL(finished()), this, SLOT(keysLoadingFinished()));
 }
@@ -164,6 +164,17 @@ void RedisServerDbItem::keysLoadingFinished()
 	appendRows(keysLoadingResult.result());
 	server->statusMessage(QString("Keys rendering done"));
 	server->unlockUI();
+}
+
+void RedisServerDbItem::decreaseKeyCounter()
+{
+	keysCount--;
+	setDbText();
+}
+
+void RedisServerDbItem::setDbText()
+{
+	setText(QString("%1 (%2)").arg(name).arg(keysCount));
 }
 
 RedisServerDbItem::~RedisServerDbItem()

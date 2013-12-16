@@ -83,5 +83,6 @@ ConnectionBridge * RedisKeyItem::getConnection()
 
 void RedisKeyItem::remove()
 {
+	db->decreaseKeyCounter();
 	db->removeRow(this->row());
 }
