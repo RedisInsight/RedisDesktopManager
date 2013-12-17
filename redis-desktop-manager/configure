@@ -20,6 +20,12 @@ cd ./../google-breakpad
 ./configure && make
 sudo make install
 
+else
+
+cd ./google-breakpad
+./configure && make
+sudo make install
+
 fi
 
 

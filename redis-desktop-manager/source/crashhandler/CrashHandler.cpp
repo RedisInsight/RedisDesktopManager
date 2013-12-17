@@ -101,10 +101,10 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 
 	const char * crashReporter = "crashreporter";
 
-	char command[MAX_PATH * 3 + 6];
+    char command[255* 3 + 6];
 	strcat(command, _dump_dir);
 	strcat(command, "/");
-	strcat(command, minidump_id);
+    strcat(command, _minidump_id);
 
 	pid_t pid = fork();
 	if ( pid == -1 ) // fork failed

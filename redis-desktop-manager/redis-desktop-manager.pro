@@ -13,7 +13,7 @@ TEMPLATE = app
 
 CONFIG -= debug
 CONFIG += release
-QMAKE_CXXFLAGS += -std=gnu++0x #workaround for google breakpad
+
 
 #CONFIG-=app_bundle
 
@@ -53,7 +53,7 @@ UI_DIR = $$DESTDIR/.ui
 BREAKPADDIR = $$PWD/../deps/google-breakpad/src
 
 win32 {
-
+    CONFIG += c++11
     LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 
     CONFIG(release, debug|release) {
@@ -69,15 +69,40 @@ win32 {
 
 unix {
     macx { # os x 10.8
+        CONFIG += c++11
+
         LIBS += /usr/local/lib/libssh2.dylib
-        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib
+        LIBS += /usr/local/lib/libbreakpad.a
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib /usr/local/lib/libbreakpad.a
 
         INCLUDEPATH += $$PWD/../deps/libssh/include
 
         QMAKE_INFO_PLIST = Info.plist
         ICON = rdm.icns
+
+        INCLUDEPATH += $$BREAKPADDIR/ \
+                        $$BREAKPADDIR/client/mac/handler/ \
+                        $$BREAKPADDIR/client/mac/ \
+                        $$BREAKPADDIR/client/ \
+                        $$BREAKPADDIR/client/mac/crash_generation/ \
+                        $$BREAKPADDIR/common/mac/ \
+                        $$BREAKPADDIR/common/linux/ \
+                        $$BREAKPADDIR/common/ \
+                        $$BREAKPADDIR/processor/ \
+                        $$BREAKPADDIR/google_breakpad/common/ \
+                        $$BREAKPADDIR/third_party/lss/ \
+
+        LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+        LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
+
+        #breakpad app need debug info inside binaries
+        QMAKE_CXXFLAGS+=-g
+
     }
     else { # ubuntu & debian
+
+        QMAKE_CXXFLAGS += -std=gnu++0x -g #workaround for google breakpad
+
         LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
         LIBS += /usr/local/lib/libssh2.so  /usr/local/lib/libbreakpad.a /usr/local/lib/libbreakpad_client.a
 
