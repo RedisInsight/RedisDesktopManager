@@ -79,11 +79,10 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 		CloseHandle( pi.hThread );
 		TerminateProcess( GetCurrentProcess(), 1 );
 	}
-#else
+#elif defined(Q_OS_LINUX)
 
-#ifdef Q_OS_LINUX
+	const char * crashReporter = "crashreporter";
 
-#else
 	pid_t pid = fork();
 	if ( pid == -1 ) // fork failed
 		return false;
@@ -92,20 +91,36 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 		// we are the fork
 		execl( crashReporter,
 			crashReporter,
-			_dump_dir,
-			minidump_id,
-			minidump_id,
+			md.path(),			
 			(char*) 0 );
 
-		// execl replaces this process, so no more code will be executed
-		// unless it failed. If it failed, then we should return false.
+		printf( "Error: Can't launch CrashReporter!\n" );
+		return false;
+	}
+#elif defined(Q_OS_MAC)
+
+	const char * crashReporter = "crashreporter";
+
+	char command[MAX_PATH * 3 + 6];
+	strcat(command, _dump_dir);
+	strcat(command, "/");
+	strcat(command, minidump_id);
+
+	pid_t pid = fork();
+	if ( pid == -1 ) // fork failed
+		return false;
+	if ( pid == 0 )
+	{
+		// we are the fork
+		execl( crashReporter,
+			crashReporter,
+			command,
+			(char*) 0 );
+
 		printf( "Error: Can't launch CrashReporter!\n" );
 		return false;
 	}
 #endif
-#endif
-
-
 
     return CrashHandlerPrivate::bReportCrashesToSystem ? success : true;
 }
