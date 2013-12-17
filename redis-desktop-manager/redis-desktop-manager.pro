@@ -100,6 +100,7 @@ unix {
 
         APP_DATA_FILES.files = $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
         APP_DATA_FILES.path = Contents/Frameworks
+        QMAKE_BUNDLE_DATA += APP_DATA_FILES
 
         CRASHREPORTER_APP.files = $$DESTDIR/crashreporter
         CRASHREPORTER_APP.path = Contents/MacOS
