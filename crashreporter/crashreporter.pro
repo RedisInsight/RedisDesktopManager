@@ -41,8 +41,9 @@ unix:!macx {
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
 }
 
+macx {
+    CONFIG-=app_bundle
+}
+
 INCLUDEPATH += $$PWD/../redis-desktop-manager
 DEPENDPATH += $$PWD/../redis-desktop-manager
-
-
-

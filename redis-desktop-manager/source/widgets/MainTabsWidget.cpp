@@ -117,11 +117,21 @@ void MainTabsWidget::closeCurrentTabWithValue()
 
 void MainTabsWidget::closeTab(unsigned int index)
 {
-	ValueTab * w = qobject_cast<ValueTab *> (widget(index));
+    QWidget * w = widget(index);
 
-	removeTab(index);
+        if (w->objectName() != "valueTab" || w->objectName() != "valueTabReady") {
 
-	w->close();
+            removeTab(index);
+
+            delete w;
+        } else {
+
+            ValueTab * tab = qobject_cast<ValueTab *> (widget(index));
+
+            removeTab(index);
+
+            tab->close();
+        }
 }
 
 void MainTabsWidget::OnTabClose(int index)

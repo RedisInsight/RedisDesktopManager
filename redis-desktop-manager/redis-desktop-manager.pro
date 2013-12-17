@@ -72,8 +72,8 @@ unix {
         CONFIG += c++11
 
         LIBS += /usr/local/lib/libssh2.dylib
-        LIBS += /usr/local/lib/libbreakpad.a
-        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib /usr/local/lib/libbreakpad.a
+        LIBS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework/Versions/A/Breakpad
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib  $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
 
         INCLUDEPATH += $$PWD/../deps/libssh/include
 
@@ -97,6 +97,13 @@ unix {
 
         #breakpad app need debug info inside binaries
         QMAKE_CXXFLAGS+=-g
+
+        APP_DATA_FILES.files = $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
+        APP_DATA_FILES.path = Contents/Frameworks
+
+        CRASHREPORTER_APP.files = $$DESTDIR/crashreporter
+        CRASHREPORTER_APP.path = Contents/MacOS
+        QMAKE_BUNDLE_DATA += CRASHREPORTER_APP
 
     }
     else { # ubuntu & debian

@@ -40,7 +40,7 @@
 
 extern bool gDebugLog;
 
-#define DEBUGLOG if (gDebugLog) fprintf
+#define DEBUGLOG fprintf
 
 // Types of mach messsages (message IDs)
 enum {

@@ -4,6 +4,7 @@
 #include <QtCore/QProcess>
 #include <QtCore/QCoreApplication>
 #include <QString>
+#include <QDebug>
  
 #include "exception_handler.h"
 
@@ -57,7 +58,7 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
 
-#ifdef WIN32
+#if defined(WIN32)
 	wchar_t command[MAX_PATH * 3 + 6];
 	wcscpy( command, L"crashreporter ");
 	wcscat( command, _dump_dir );
@@ -81,7 +82,7 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 	}
 #elif defined(Q_OS_LINUX)
 
-	const char * crashReporter = "crashreporter";
+    const char * crashReporter = "./crashreporter";
 
 	pid_t pid = fork();
 	if ( pid == -1 ) // fork failed
@@ -99,27 +100,28 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 	}
 #elif defined(Q_OS_MAC)
 
-	const char * crashReporter = "crashreporter";
+    const char * crashReporter = "./crashreporter";
 
     char command[255* 3 + 6];
-	strcat(command, _dump_dir);
+    strcpy(command, _dump_dir);
 	strcat(command, "/");
     strcat(command, _minidump_id);
 
-	pid_t pid = fork();
-	if ( pid == -1 ) // fork failed
-		return false;
-	if ( pid == 0 )
-	{
-		// we are the fork
-		execl( crashReporter,
-			crashReporter,
-			command,
-			(char*) 0 );
+    pid_t pid = fork();
+    if ( pid == -1 ) { // fork failed
+        return false;
+    }
 
-		printf( "Error: Can't launch CrashReporter!\n" );
-		return false;
-	}
+    if ( pid == 0 )
+    {
+        qDebug() << ":" << crashReporter << " - " << command << " - " << QDir::currentPath();
+
+        execl( crashReporter,
+            crashReporter,
+            command,
+            (char*) 0 );
+    }
+
 #endif
 
     return CrashHandlerPrivate::bReportCrashesToSystem ? success : true;

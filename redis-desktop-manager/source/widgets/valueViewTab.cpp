@@ -11,6 +11,8 @@
 ValueTab::ValueTab(RedisKeyItem * key)	
 	: key(key), ui(nullptr), tabMustBeDestroyed(false), operationInProgress(true)
 {	
+        setObjectName("valueTab");
+
 	ui = new ValueTabView(key->text(), this);	
 
 	connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
