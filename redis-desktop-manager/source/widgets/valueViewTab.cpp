@@ -161,6 +161,7 @@ ValueTab::~ValueTab()
 
 void ValueTab::errorOccurred(const QString& message)
 {
+	ui->hideLoader();
 	QMessageBox::warning(this, "Error occurred", message);
 }
 

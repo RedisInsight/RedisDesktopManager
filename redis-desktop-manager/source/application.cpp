@@ -96,24 +96,11 @@ void MainWin::initFilter()
 QString MainWin::getConfigPath(const QString& configFile)
 {
 	/*
-	 * Check current directory
-	 */
-	QFile testConfig(configFile);	
-	QFileInfo checkPermissions(configFile);
-
-	if (!testConfig.exists() && testConfig.open(QIODevice::WriteOnly))
-		testConfig.close();
-
-	if (checkPermissions.isWritable()) {
-		return configFile;
-	}
-
-	/*
 	 * Check home user directory
 	 */
 	QString fullHomePath = QString("%1/%2").arg(QDir::homePath()).arg(configFile);
-	testConfig.setFileName(fullHomePath);	
-	checkPermissions.setFile(fullHomePath);
+	QFile testConfig(fullHomePath);	
+	QFileInfo checkPermissions(fullHomePath);
 
 	if (!testConfig.exists() && testConfig.open(QIODevice::WriteOnly))
 		testConfig.close();
