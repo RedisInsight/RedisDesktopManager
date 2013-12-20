@@ -128,8 +128,7 @@ void MainWin::OnAddConnectionClick()
 
 void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 {
-	if (treeViewUILocked) 
-		return;	
+	if (treeViewUILocked || !index.isValid()) return;	
 
 	QStandardItem * item = connections->itemFromIndex(index);	
 
@@ -167,6 +166,8 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 
 void MainWin::OnConnectionTreeWheelClick(const QModelIndex & index)
 {
+	if (!index.isValid()) return;
+
 	QStandardItem * item = connections->itemFromIndex(index);	
 
 	if (item->type() == RedisKeyItem::TYPE) {
