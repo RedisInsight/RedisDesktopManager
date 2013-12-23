@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QElapsedTimer>
+#include <QScopedPointer>
 #include "ui_demo.h"
 
 class RedisKeyItem;
@@ -14,18 +15,18 @@ class MainWin : public QMainWindow
     Q_OBJECT
 
 public:
-    RedisConnectionsManager * connections;
+    QSharedPointer<RedisConnectionsManager> connections;
 
-    MainWin(QWidget *parent = 0);
-    ~MainWin();    
+    MainWin(QWidget *parent = 0); 
 private:
     bool treeViewUILocked;
-    Ui::demoClass ui;        
-    Updater * updater;
+    Ui::demoClass ui;            
     QElapsedTimer performanceTimer;
-    QMenu * serverMenu;
-    QMenu * keyMenu;
-    QMenu * connectionsMenu;
+
+    QSharedPointer<Updater> updater;
+    QSharedPointer<QMenu> serverMenu;
+    QSharedPointer<QMenu> keyMenu;
+    QSharedPointer<QMenu> connectionsMenu;
 
     // todo: move to custom Settings class
     QString getConfigPath(const QString&);

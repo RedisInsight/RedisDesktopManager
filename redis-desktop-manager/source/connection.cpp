@@ -8,7 +8,7 @@
 #include "RedisConnectionConfig.h"
 #include "RedisConnectionsManager.h"
 
-connection::connection(QWidget *parent, RedisServerItem * srv)
+ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     : QDialog(parent), inEditMode(false)
 {
     ui.setupUi(this);
@@ -31,12 +31,7 @@ connection::connection(QWidget *parent, RedisServerItem * srv)
     }
 }
 
-connection::~connection()
-{
-
-}
-
-void connection::loadValuesFromConnection(ConnectionBridge * c)
+void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
 {
     inEditMode = true;
 
@@ -56,37 +51,34 @@ void connection::loadValuesFromConnection(ConnectionBridge * c)
     }
 }
 
-void connection::OnOkButtonClick()
+void ConnectionWindow::OnOkButtonClick()
 {
-    if (!isFormDataValid()) return;    
+    if (!isFormDataValid()) 
+        return;    
 
     RedisConnectionConfig conf = getConectionConfigFromFormData();
 
     ConnectionBridge * connection;
 
     if (inEditMode) {
-
         connection = server->getConnection();
-
         connection->setConnectionConfig(conf);    
         mainForm->connections->connectionChanged();
         
     } else {        
-
         connection = new ConnectionBridge(conf);
-
         mainForm->connections->AddConnection(connection);            
     }    
     
     close();
 }
 
-bool connection::isFormDataValid()
+bool ConnectionWindow::isFormDataValid()
 {    
     return isConnectionSettingsValid() && isSshSettingsValid();
 }
 
-bool connection::isConnectionSettingsValid()
+bool ConnectionWindow::isConnectionSettingsValid()
 {
     ui.nameEdit->setStyleSheet("");
     ui.hostEdit->setStyleSheet("");
@@ -110,7 +102,7 @@ bool connection::isConnectionSettingsValid()
     return false;
 }
 
-bool connection::isSshSettingsValid()
+bool ConnectionWindow::isSshSettingsValid()
 {
     ui.sshHost->setStyleSheet("");
     ui.sshUser->setStyleSheet("");
@@ -144,13 +136,13 @@ bool connection::isSshSettingsValid()
     return false;
 }
 
-bool connection::isSshTunnelUsed()
+bool ConnectionWindow::isSshTunnelUsed()
 {
     qDebug() << "check state" << (ui.useSshTunnel->checkState() == Qt::Checked);
     return ui.useSshTunnel->checkState() == Qt::Checked;
 }
 
-RedisConnectionConfig connection::getConectionConfigFromFormData()
+RedisConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
     RedisConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
 
