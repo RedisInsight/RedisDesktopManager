@@ -9,17 +9,17 @@ class ConsoleConnectionWrapper;
 
 class consoleTab: public QConsole
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	consoleTab(RedisConnectionConfig&);
-	~consoleTab(void);	
+    consoleTab(RedisConnectionConfig&);
+    ~consoleTab(void);    
 
 public slots:
-	void setPrompt(const QString &, bool);	
+    void setPrompt(const QString &, bool);    
 
-private:	
-	ConsoleConnectionWrapper * connection;
-	QThread connectionThread;	
+private:    
+    ConsoleConnectionWrapper * connection;
+    QThread connectionThread;    
 };
 

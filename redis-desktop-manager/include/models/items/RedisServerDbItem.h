@@ -8,67 +8,67 @@ class RedisKeyItem;
 
 class RedisServerDbItem : public QObject, public QStandardItem
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	friend class RedisKeyItem;
+    friend class RedisKeyItem;
 public:
-	RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent);
-	~RedisServerDbItem();
+    RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent);
+    ~RedisServerDbItem();
 
-	void loadKeys();
+    void loadKeys();
 
-	void setFilter(QRegExp &);
-	void resetFilter();
+    void setFilter(QRegExp &);
+    void resetFilter();
 
-	int virtual type() const;
+    int virtual type() const;
 
-	const static int TYPE = 2100;
+    const static int TYPE = 2100;
 
-	int getDbIndex() const;
+    int getDbIndex() const;
 
     bool operator<(const QStandardItem & other) const;
 
-	struct Icons {
+    struct Icons {
 
-		Icons(QIcon k, QIcon n) 
-			: keyIcon(k), namespaceIcon(n)
-		{
-				
-		}
+        Icons(QIcon k, QIcon n) 
+            : keyIcon(k), namespaceIcon(n)
+        {
+                
+        }
 
-		QIcon keyIcon;
-		QIcon namespaceIcon;
-	};	
+        QIcon keyIcon;
+        QIcon namespaceIcon;
+    };    
 
 protected:
-	void decreaseKeyCounter();
-	void setDbText();
+    void decreaseKeyCounter();
+    void setDbText();
 
 private:
-	RedisServerItem * server;
-	bool isKeysLoaded;
-	int dbIndex;
-	unsigned int keysCount;
-	QString name;
+    RedisServerItem * server;
+    bool isKeysLoaded;
+    int dbIndex;
+    unsigned int keysCount;
+    QString name;
     int currentKeysPoolPosition;
     Icons iconStorage;
     QStringList rawKeys;
-	QRegExp filter;
-	QFutureWatcher<QList<QStandardItem *>> keysLoadingWatcher;
-	QFuture<QList<QStandardItem *>> keysLoadingResult;
-	RedisKeyItem * keysPool;
-	RedisKeyItem * originalKeyPool;	
+    QRegExp filter;
+    QFutureWatcher<QList<QStandardItem *>> keysLoadingWatcher;
+    QFuture<QList<QStandardItem *>> keysLoadingResult;
+    RedisKeyItem * keysPool;
+    RedisKeyItem * originalKeyPool;    
 
-	void renderKeys(QStringList &);
+    void renderKeys(QStringList &);
 
-	void setNormalIcon();
+    void setNormalIcon();
 
-	void setBusyIcon();
+    void setBusyIcon();
 
 private slots:
-	void keysLoaded(const QVariant &, QObject *);
-	void proccessError(QString srcError);
-	void keysLoadingStatusChanged(int progress, QObject *);
-	void keysLoadingFinished();
+    void keysLoaded(const QVariant &, QObject *);
+    void proccessError(QString srcError);
+    void keysLoadingStatusChanged(int progress, QObject *);
+    void keysLoadingFinished();
 };
 

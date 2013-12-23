@@ -5,18 +5,18 @@ class QStandardItem;
 
 class ConnectionTreeView : public QTreeView
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ConnectionTreeView(QWidget *);	
+    ConnectionTreeView(QWidget *);    
 
-	QStandardItem * getSelectedItem(int type = -1);
+    QStandardItem * getSelectedItem(int type = -1);
 
 protected:
-	void mousePressEvent(QMouseEvent * event);
+    void mousePressEvent(QMouseEvent * event);
 
 signals:
-	void wheelClicked(const QModelIndex & index);
+    void wheelClicked(const QModelIndex & index);
 
 };
 

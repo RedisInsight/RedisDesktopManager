@@ -4,55 +4,55 @@
 #include <QtConcurrent>
 
 PaginatedModel::PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: KeyModel(db, keyName, dbIndex), currentPage(0), rawData(nullptr)
+    : KeyModel(db, keyName, dbIndex), currentPage(0), rawData(nullptr)
 {
 }
 
 void PaginatedModel::initModel(const QVariant & val)
 {
-	rawData = new QVector<QString>;
+    rawData = new QVector<QString>;
 
-	if (val.canConvert<QStringList>())
-		*rawData = val.value<QStringList>().toVector();
-	
-	setCurrentPage(1);
+    if (val.canConvert<QStringList>())
+        *rawData = val.value<QStringList>().toVector();
+    
+    setCurrentPage(1);
 }
 
 int PaginatedModel::getCurrentPage()
 {
-	return currentPage;
+    return currentPage;
 }
 
 int PaginatedModel::itemsCount()
 {
-	return rawData->size();
+    return rawData->size();
 }
 
 int PaginatedModel::getPagesCount()
 {
-	int pages = itemsCount() / itemsOnPageLimit;
+    int pages = itemsCount() / itemsOnPageLimit;
 
-	if (itemsCount() % itemsOnPageLimit > 0) {
-		pages++;
-	}
+    if (itemsCount() % itemsOnPageLimit > 0) {
+        pages++;
+    }
 
-	return pages;
+    return pages;
 }
 
 PaginatedModel::~PaginatedModel()
 {
-	if (rawData == nullptr)
-		return;
+    if (rawData == nullptr)
+        return;
 
-	delete rawData;
+    delete rawData;
 }
 
 void PaginatedModel::delayedDeallocator(QObject *object)
 {
-	QElapsedTimer timer;
-	timer.start();
+    QElapsedTimer timer;
+    timer.start();
 
-	delete object;
+    delete object;
 
-	qDebug() << QString("Async free memory %1").arg(timer.elapsed());
+    qDebug() << QString("Async free memory %1").arg(timer.elapsed());
 }

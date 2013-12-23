@@ -5,7 +5,7 @@
 class ServerContextMenu : public QMenu
 {
 public:
-	ServerContextMenu(QWidget * parent);
-	
+    ServerContextMenu(QWidget * parent);
+    
 };
 

@@ -11,35 +11,35 @@ class Test_RedisConnection;
 class Command;
 
 class RedisConnection : public RedisConnectionAbstract
-{	
-	Q_OBJECT
+{    
+    Q_OBJECT
 
     friend class Test_RedisConnection;
 public:
-	RedisConnection(const RedisConnectionConfig &);
+    RedisConnection(const RedisConnectionConfig &);
 
-	~RedisConnection();
+    ~RedisConnection();
 
-	bool connect();
-	
-	QString getLastError();
+    bool connect();
+    
+    QString getLastError();
 
-	QVariant execute(QString);	
+    QVariant execute(QString);    
 
-	void runCommand(const Command &cmd);
+    void runCommand(const Command &cmd);
 
 public slots:
-	void disconnect();
+    void disconnect();
 
 protected:
-	void init();
+    void init();
 
 private:
-	QTcpSocket * socket;		
+    QTcpSocket * socket;        
 
 private slots:
-	void readyRead();
-	void error(QAbstractSocket::SocketError error);	
+    void readyRead();
+    void error(QAbstractSocket::SocketError error);    
 
 };
 

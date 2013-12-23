@@ -6,20 +6,20 @@ class AbstractFormatter
 {
 public:
 
-	virtual ~AbstractFormatter() {};
+    virtual ~AbstractFormatter() {};
 
-	virtual void setRawValue(const QString&);		
+    virtual void setRawValue(const QString&);        
 
-	virtual QString getFormatted() = 0;
+    virtual QString getFormatted() = 0;
 
-	enum FormatterType
-	{
-		Plain = 0, Json = 1, PHPSerializer = 2
-	};
+    enum FormatterType
+    {
+        Plain = 0, Json = 1, PHPSerializer = 2
+    };
 
-	static AbstractFormatter * getFormatter(FormatterType type = AbstractFormatter::Plain);	
+    static AbstractFormatter * getFormatter(FormatterType type = AbstractFormatter::Plain);    
 
 protected:
-	QString rawValue;
+    QString rawValue;
 };
 

@@ -7,32 +7,32 @@ class RedisKeyItem;
 
 class MainTabsWidget : public QTabWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MainTabsWidget(QWidget * parent = nullptr);
+    MainTabsWidget(QWidget * parent = nullptr);
 
-	int addTab(QString&, QWidget*, QString icon = QString(), bool forceOpenInNewTab = false);	
+    int addTab(QString&, QWidget*, QString icon = QString(), bool forceOpenInNewTab = false);    
 
-	int addTab(QWidget*, const QIcon&, const QString &);
+    int addTab(QWidget*, const QIcon&, const QString &);
 
-	int addTab(QWidget*, const QString &);
+    int addTab(QWidget*, const QString &);
 
-	void closeTab(unsigned int index);
-	
-	void closeAllServerTabs(RedisServerItem *);
-	
-	void openKeyTab(RedisKeyItem * key, bool inNewTab = false);	
+    void closeTab(unsigned int index);
+    
+    void closeAllServerTabs(RedisServerItem *);
+    
+    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);    
 
 protected:
-	void closeCurrentTabWithValue();
+    void closeCurrentTabWithValue();
 
-	/** @return >=0 if exist **/
-	int getTabIndex(QString&);	
+    /** @return >=0 if exist **/
+    int getTabIndex(QString&);    
 
 protected slots:
-	void OnTabClose(int i);
-	void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
+    void OnTabClose(int i);
+    void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
 
 
 };

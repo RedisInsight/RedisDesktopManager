@@ -5,44 +5,44 @@
 #include <QStandardItem>
 
 ConnectionTreeView::ConnectionTreeView(QWidget * parent)
-	: QTreeView(parent)
+    : QTreeView(parent)
 {
-	header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-	header()->setStretchLastSection(false);
-	setUniformRowHeights(true);
-	setContextMenuPolicy(Qt::CustomContextMenu);
+    header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    header()->setStretchLastSection(false);
+    setUniformRowHeights(true);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 void ConnectionTreeView::mousePressEvent(QMouseEvent * event)
 {
-	if (event->button() == Qt::MiddleButton) {			
-		emit wheelClicked(indexAt(event->pos()));
-	}
+    if (event->button() == Qt::MiddleButton) {            
+        emit wheelClicked(indexAt(event->pos()));
+    }
 
-	return QTreeView::mousePressEvent(event);
+    return QTreeView::mousePressEvent(event);
 }
 
 QStandardItem * ConnectionTreeView::getSelectedItem(int type)
 {
-	if (!selectionModel()->hasSelection())
-		return nullptr;
+    if (!selectionModel()->hasSelection())
+        return nullptr;
 
-	QModelIndexList selected = selectionModel()->selectedIndexes();
+    QModelIndexList selected = selectionModel()->selectedIndexes();
 
-	if (selected.size() < 1) 
-		return nullptr;
+    if (selected.size() < 1) 
+        return nullptr;
 
-	QModelIndex index = selected.at(0);
+    QModelIndex index = selected.at(0);
 
-	if (!index.isValid()) 
-		return nullptr;
+    if (!index.isValid()) 
+        return nullptr;
 
-	QStandardItem * item = ((QStandardItemModel *)model())->itemFromIndex(index);	
+    QStandardItem * item = ((QStandardItemModel *)model())->itemFromIndex(index);    
 
-	if (type != -1 && item->type() != type)
-		return nullptr;	
+    if (type != -1 && item->type() != type)
+        return nullptr;    
 
-	return item;		
+    return item;        
 }
 

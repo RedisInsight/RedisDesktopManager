@@ -8,38 +8,38 @@ class Command;
 
 class ConnectionBridge : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ConnectionBridge(const RedisConnectionConfig & c);
-	~ConnectionBridge(void);
+    ConnectionBridge(const RedisConnectionConfig & c);
+    ~ConnectionBridge(void);
 
-	void initWorker();
+    void initWorker();
 
-	void addCommand(const Command & cmd);
+    void addCommand(const Command & cmd);
 
-	QString getLastError();
+    QString getLastError();
 
-	RedisConnectionConfig getConfig();	
+    RedisConnectionConfig getConfig();    
 
-	void setConnectionConfig(RedisConnectionConfig&);
+    void setConnectionConfig(RedisConnectionConfig&);
 
 signals:
-	void responseResieved(const QVariant&, QObject *);
-	void addCommandToWorker(const Command &);
-	void loadDatabasesList();
-	void dbListLoaded(RedisConnectionAbstract::RedisDatabases);
-	void error(QString);
-	void operationProgress(int percents, QObject *);
+    void responseResieved(const QVariant&, QObject *);
+    void addCommandToWorker(const Command &);
+    void loadDatabasesList();
+    void dbListLoaded(RedisConnectionAbstract::RedisDatabases);
+    void error(QString);
+    void operationProgress(int percents, QObject *);
 
 protected:
-	RedisConnectionConfig config;
+    RedisConnectionConfig config;
 
 private:
-	QThread * workerThread;
-	RedisConnectionAbstract * worker;
-	bool isInitialized;
+    QThread * workerThread;
+    RedisConnectionAbstract * worker;
+    bool isInitialized;
 
-	void stopWorker();	
+    void stopWorker();    
 };
 

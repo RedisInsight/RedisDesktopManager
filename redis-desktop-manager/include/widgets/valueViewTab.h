@@ -10,54 +10,54 @@ class Response;
 
 class ValueTab : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ValueTab(RedisKeyItem * key);
+    ValueTab(RedisKeyItem * key);
 
-	bool close();
+    bool close();
 
-protected:	
-	~ValueTab();
+protected:    
+    ~ValueTab();
 
-	RedisKeyItem * key;
+    RedisKeyItem * key;
 
-	KeyModel * keyModel;
+    KeyModel * keyModel;
 
-	ValueTabView * ui;
+    ValueTabView * ui;
 
-	bool tabMustBeDestroyed;
+    bool tabMustBeDestroyed;
 
-	bool operationInProgress;
+    bool operationInProgress;
 
-	void destroy();
+    void destroy();
 
-	bool isOperationsAborted();
+    bool isOperationsAborted();
 
 protected slots:
-	void keyTypeLoaded(Response type);
+    void keyTypeLoaded(Response type);
 
-	void valueLoaded();
+    void valueLoaded();
 
-	void deleteKey();
+    void deleteKey();
 
-	void renameKey();
+    void renameKey();
 
-	void keyRenamed();
+    void keyRenamed();
 
-	void keyDeleted();
+    void keyDeleted();
 
-	void updateValue(const QString&, const QModelIndex *);
+    void updateValue(const QString&, const QModelIndex *);
 
-	void valueUpdated();
+    void valueUpdated();
 
-	void errorOccurred(const QString&);
+    void errorOccurred(const QString&);
 
-	void OnClose();
+    void OnClose();
 
 signals:
-	void error(const QString&);
-	void keyDeleted(QWidget *, RedisKeyItem *);
+    void error(const QString&);
+    void keyDeleted(QWidget *, RedisKeyItem *);
 };
 
 #endif // HASHVIEWTAB_H

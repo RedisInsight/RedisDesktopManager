@@ -6,22 +6,22 @@
 
 class HashKeyModel : public PaginatedModel
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	HashKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    HashKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
-	void setCurrentPage(int);
+    void setCurrentPage(int);
 
-	int itemsCount();
+    int itemsCount();
 
-	void loadValue();
+    void loadValue();
 
-	void updateValue(const QString& value, const QModelIndex *cellIndex);
+    void updateValue(const QString& value, const QModelIndex *cellIndex);
 
 
 protected slots:
-	void loadedUpdateStatus(Response);
+    void loadedUpdateStatus(Response);
 };
 
 #endif // HASHKEYMODEL_H

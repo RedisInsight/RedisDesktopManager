@@ -6,21 +6,21 @@
 
 class SortedSetKeyModel : public PaginatedModel
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
-	void setCurrentPage(int page);
+    void setCurrentPage(int page);
 
-	int itemsCount();
+    int itemsCount();
 
-	void loadValue();
+    void loadValue();
 
-	void updateValue(const QString& value, const QModelIndex *cellIndex);
+    void updateValue(const QString& value, const QModelIndex *cellIndex);
 
 protected slots:
-	void loadedUpdateStatus(Response);
+    void loadedUpdateStatus(Response);
 };
 
 #endif // SORTEDSETKEYMODEL_H

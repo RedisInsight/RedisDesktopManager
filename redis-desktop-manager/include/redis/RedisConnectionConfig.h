@@ -9,50 +9,50 @@
 class RedisConnectionConfig
 {
 public:
-	// redis connection parameters
-	QString name;
-	QString host;
-	QString auth;
-	int port;
+    // redis connection parameters
+    QString name;
+    QString host;
+    QString auth;
+    int port;
 
-	// ssh tunnel connection parameters
-	QString sshHost;
-	int sshPort;
-	QString sshUser;
-	QString sshPassword;
+    // ssh tunnel connection parameters
+    QString sshHost;
+    int sshPort;
+    QString sshUser;
+    QString sshPassword;
 
-	//timeouts 
-	static const int connectionTimeout = 30000;
-	static const int executeTimeout = 30000;
+    //timeouts 
+    static const int connectionTimeout = 30000;
+    static const int executeTimeout = 30000;
 
-	RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
-		: name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT)
-	{};
+    RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
+        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT)
+    {};
 
-	RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
-	{
-		if (this != &other) {
-			name = other.name;
-			host = other.host;
-			auth = other.auth;
-			port = other.port;
+    RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
+    {
+        if (this != &other) {
+            name = other.name;
+            host = other.host;
+            auth = other.auth;
+            port = other.port;
 
-			setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
-		}
+            setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
+        }
 
-		return *this;
-	}
+        return *this;
+    }
 
-	void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT);
-	
-	bool isNull();
-	bool useSshTunnel() const;
-	bool useAuth() const;
+    void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT);
+    
+    bool isNull();
+    bool useSshTunnel() const;
+    bool useAuth() const;
 
-	const QString& getName();
-	
-	QDomElement toXml(QDomDocument dom);	
+    const QString& getName();
+    
+    QDomElement toXml(QDomDocument dom);    
 
-	static RedisConnectionConfig createFromXml(QDomNode & connectionNode);
+    static RedisConnectionConfig createFromXml(QDomNode & connectionNode);
 };
 

@@ -4,11 +4,11 @@
 
 class RedisException : public std::runtime_error
 {
-	public:
+    public:
 
-		RedisException( const std::string & msg )  : runtime_error( msg ) 
-		{
+        RedisException( const std::string & msg )  : runtime_error( msg ) 
+        {
 
-		}
+        }
 };
 

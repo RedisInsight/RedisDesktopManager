@@ -1,6 +1,4 @@
-
 #include "RedisServerDbItem.h"
-
 #include "RedisServerItem.h"
 #include "RedisKeyItem.h"
 #include "RedisKeyNamespace.h"
@@ -11,9 +9,9 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
 	: server(parent), isKeysLoaded(false), dbIndex(0), keysCount(keysCount), name(name), 
 	  currentKeysPoolPosition(0), iconStorage(QIcon(":/images/key.png"), QIcon(":/images/namespace.png"))
 {	
-	setNormalIcon();
+    setNormalIcon();
 
-	setDbText();
+    setDbText();
 
 	QRegExp getDbIndex("(\\d+)");		
 

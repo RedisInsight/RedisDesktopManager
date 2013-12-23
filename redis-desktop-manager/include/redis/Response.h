@@ -6,62 +6,62 @@ class TestResponse;
 
 class Response
 {
-	friend class TestResponse;
+    friend class TestResponse;
 
 public:
-	Response();
-	Response(QString &);
-	~Response(void);
+    Response();
+    Response(QString &);
+    ~Response(void);
 
-	QVariant getValue();
-	bool isValid();	
+    QVariant getValue();
+    bool isValid();    
 
-	void setSource(QString&);
-	QString source();
+    void setSource(QString&);
+    QString source();
 
-	void clear();
+    void clear();
 
-	void appendToSource(QString&);
-	void appendToSource(QByteArray&);
+    void appendToSource(QString&);
+    void appendToSource(QByteArray&);
 
-	static QString valueToString(QVariant&);
+    static QString valueToString(QVariant&);
 
-	int getLoadedItemsCount();
+    int getLoadedItemsCount();
 
-	bool isErrorMessage() const;
+    bool isErrorMessage() const;
 
 private:
 
-	QString responseString;
+    QString responseString;
 
-	//type
-	enum ResponseType 
-	{
-		Status, Error, Integer, Bulk, MultiBulk, Unknown			
-	};
+    //type
+    enum ResponseType 
+    {
+        Status, Error, Integer, Bulk, MultiBulk, Unknown            
+    };
 
-	//cache previous validation markers
-	int lastValidPos;
-	int itemsCount;
+    //cache previous validation markers
+    int lastValidPos;
+    int itemsCount;
 
-	ResponseType getResponseType(const QString&) const;	
-	ResponseType getResponseType(const QChar) const;
+    ResponseType getResponseType(const QString&) const;    
+    ResponseType getResponseType(const QChar) const;
 
-	//parsers
-	QVariant parseBulk(const QString& response);
-	QStringList parseMultiBulk(const QString& response);
-	QString getStringResponse(QString response);
+    //parsers
+    QVariant parseBulk(const QString& response);
+    QStringList parseMultiBulk(const QString& response);
+    QString getStringResponse(QString response);
 
-	int getSizeOfBulkReply(const QString& reply, int endOfFirstLine = -1, int beginFrom = 0);	
+    int getSizeOfBulkReply(const QString& reply, int endOfFirstLine = -1, int beginFrom = 0);    
 
-	//validations
-	bool isReplyValid(const QString&);
+    //validations
+    bool isReplyValid(const QString&);
 
-	/** checks general validation rules **/
-	bool isReplyGeneralyValid(const QString& );
-	bool isIntReplyValid(const QString&);
-	bool isBulkReplyValid(const QString&);
-	bool isMultiBulkReplyValid(const QString&);	
+    /** checks general validation rules **/
+    bool isReplyGeneralyValid(const QString& );
+    bool isIntReplyValid(const QString&);
+    bool isBulkReplyValid(const QString&);
+    bool isMultiBulkReplyValid(const QString&);    
 
-	int getPosOfNextItem(const QString &, int);
+    int getPosOfNextItem(const QString &, int);
 };

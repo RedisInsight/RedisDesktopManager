@@ -5,56 +5,56 @@
 #include "ConnectionBridge.h"
 
 KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: db(db), keyName(keyName), dbIndex(dbIndex)
-{	
+    : db(db), keyName(keyName), dbIndex(dbIndex)
+{    
 }
 
 QString KeyModel::getKeyName()
 {
-	return keyName;
+    return keyName;
 }
 
 void KeyModel::loadedValue(Response value)
 {
-	initModel(value.getValue());
+    initModel(value.getValue());
 
-	emit valueLoaded();
+    emit valueLoaded();
 }
 
 void KeyModel::renameKey(const QString& newKeyName)
-{	
-	QStringList renameCommand;
+{    
+    QStringList renameCommand;
 
-	renameCommand << "RENAME" << keyName  << newKeyName;
-	
-	db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));
+    renameCommand << "RENAME" << keyName  << newKeyName;
+    
+    db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));
 }
 
 void KeyModel::loadedRenameStatus(Response result)
 {
-	if (result.isErrorMessage()) 
-		emit keyRenameError(result.getValue().toString());
-	else 
-		emit keyRenamed();	
+    if (result.isErrorMessage()) 
+        emit keyRenameError(result.getValue().toString());
+    else 
+        emit keyRenamed();    
 }
 
 void KeyModel::deleteKey()
 {
-	QStringList deleteCommand;
-	
-	deleteCommand << "DEL" << keyName;
+    QStringList deleteCommand;
+    
+    deleteCommand << "DEL" << keyName;
 
-	db->addCommand(Command(deleteCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
+    db->addCommand(Command(deleteCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
 }
 
 void KeyModel::loadedDeleteStatus(Response result)
 {
-	if (result.isErrorMessage()) 
-	{
-		emit keyDeleteError(result.getValue().toString());
-	}
-	else 
-		emit keyDeleted();	
+    if (result.isErrorMessage()) 
+    {
+        emit keyDeleteError(result.getValue().toString());
+    }
+    else 
+        emit keyDeleted();    
 }
 
 

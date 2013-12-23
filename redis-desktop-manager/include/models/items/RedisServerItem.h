@@ -9,47 +9,47 @@ class RedisConnectionsManager;
 
 class RedisServerItem : public QObject, public ItemWithNaturalSort
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	friend class RedisServerDbItem;
-	friend class RedisKeyItem;
+    friend class RedisServerDbItem;
+    friend class RedisKeyItem;
 
-public:	
-	RedisServerItem(ConnectionBridge * c);
+public:    
+    RedisServerItem(ConnectionBridge * c);
 
-	void runDatabaseLoading();	
-	QStringList getInfo();
+    void runDatabaseLoading();    
+    QStringList getInfo();
 
-	void reload();
-	void unload();
+    void reload();
+    void unload();
 
-	ConnectionBridge * getConnection();
-	void setConnection(ConnectionBridge * c);
+    ConnectionBridge * getConnection();
+    void setConnection(ConnectionBridge * c);
 
-	bool isLocked();
+    bool isLocked();
 
-	int virtual type() const;
-	
-	const static int TYPE = 2000;
+    int virtual type() const;
+    
+    const static int TYPE = 2000;
 
-private:	
-	ConnectionBridge * connection;
-	bool isDbInfoLoaded;
-	bool locked;
+private:    
+    ConnectionBridge * connection;
+    bool isDbInfoLoaded;
+    bool locked;
 
-	void setBusyIcon();
-	void setOfflineIcon();
-	void setNormalIcon();
-	void getItemNameFromConnection();
+    void setBusyIcon();
+    void setOfflineIcon();
+    void setNormalIcon();
+    void getItemNameFromConnection();
 
 private slots:
-	void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
-	void proccessError(QString);
+    void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
+    void proccessError(QString);
 
 signals:
-	void error(QString);
-	void statusMessage(QString);
-	void databasesLoaded();
-	void unlockUI();
+    void error(QString);
+    void statusMessage(QString);
+    void databasesLoaded();
+    void unlockUI();
 };
 

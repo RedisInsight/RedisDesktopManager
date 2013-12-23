@@ -4,6 +4,6 @@
 class JsonFormatter : public AbstractFormatter
 {
 public:
-	QString getFormatted();
+    QString getFormatted();
 };
 

@@ -5,27 +5,27 @@
 
 class PaginatedModel : public KeyModel
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
-	virtual ~PaginatedModel();
+    virtual ~PaginatedModel();
 
-	virtual int getCurrentPage();
+    virtual int getCurrentPage();
 
-	virtual void setCurrentPage(int) = 0;
+    virtual void setCurrentPage(int) = 0;
 
-	virtual int itemsCount();
+    virtual int itemsCount();
 
-	virtual int getPagesCount();
-	static void delayedDeallocator(QObject *);
+    virtual int getPagesCount();
+    static void delayedDeallocator(QObject *);
 protected:
     int currentPage;
-	QVector<QString> * rawData;
+    QVector<QString> * rawData;
 
-	static const int itemsOnPageLimit = 500;
+    static const int itemsOnPageLimit = 500;
 
-	void initModel(const QVariant &);	
+    void initModel(const QVariant &);    
 };
 

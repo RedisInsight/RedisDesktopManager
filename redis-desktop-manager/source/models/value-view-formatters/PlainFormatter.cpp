@@ -3,6 +3,6 @@
 
 QString PlainFormatter::getFormatted()
 {
-	return rawValue;
+    return rawValue;
 }
 

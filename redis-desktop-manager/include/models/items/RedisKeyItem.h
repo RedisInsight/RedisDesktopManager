@@ -9,33 +9,33 @@ class Command;
 class ConnectionBridge;
 
 class RedisKeyItem : public ItemWithNaturalSort
-{	
+{    
 public:
 
-	const static int TYPE = 2200;
+    const static int TYPE = 2200;
 
-	RedisKeyItem();
+    RedisKeyItem();
 
-	RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);
+    RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);
 
-	void init(QString name, RedisServerDbItem * db, const QIcon &);
+    void init(QString name, RedisServerDbItem * db, const QIcon &);
 
-	QString getTabLabelText();
+    QString getTabLabelText();
 
-	int virtual type() const;
+    int virtual type() const;
 
-	KeyModel * getKeyModel(const QString&);
+    KeyModel * getKeyModel(const QString&);
 
-	Command getTypeCommand();
+    Command getTypeCommand();
 
-	ConnectionBridge * getConnection();
+    ConnectionBridge * getConnection();
 
-	void remove();
+    void remove();
 
-	RedisServerDbItem * getDbItem();
+    RedisServerDbItem * getDbItem();
 
-private:	
-	RedisServerDbItem * db;	
+private:    
+    RedisServerDbItem * db;    
 };
 
 #endif // REDISKEYITEM_H

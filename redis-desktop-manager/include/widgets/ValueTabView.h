@@ -23,64 +23,64 @@ class AbstractFormatter;
 
 class ValueTabView : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ValueTabView(const QString& name, QWidget * parent);
+    ValueTabView(const QString& name, QWidget * parent);
 
-	QLineEdit *keyName;
-	QLabel *keyTypeLabelValue;
-	QPushButton * renameKey;
-	QPushButton * deleteKey;
+    QLineEdit *keyName;
+    QLabel *keyTypeLabelValue;
+    QPushButton * renameKey;
+    QPushButton * deleteKey;
 
-	void initKeyValue(KeyModel *);
+    void initKeyValue(KeyModel *);
 
-	const QModelIndex * getCurrentCell();
+    const QModelIndex * getCurrentCell();
 
-	void showLoader();
-	void hideLoader();
+    void showLoader();
+    void hideLoader();
 
 protected:
-	QWidget * controller;
-	KeyModel * model;
-	PaginatedModel * paginatedModel;
-	AbstractFormatter * formatter;
-	const QModelIndex * currentCell;
+    QWidget * controller;
+    KeyModel * model;
+    PaginatedModel * paginatedModel;
+    AbstractFormatter * formatter;
+    const QModelIndex * currentCell;
 
-	// UI items
-	QTableView *keyValue;
-	QPlainTextEdit *singleValue;
-	QGroupBox *singleValueGroup;
-	QComboBox * singleValueFormatterType;
-	QSplitter *splitter;
-	QLabel *keyNameLabel;	
-	QLabel *keyValueLabel;
-	QLabel *loaderLabel;
-	QMovie *loader;
-	QLabel * formatterLabel;
-	QGridLayout * paginationGrid;
-	QPushButton * previousPage;
-	QPushButton * nextPage;
-	QLabel * pagination;
-	QGridLayout *gridLayout;
-	QPushButton * saveValue;
+    // UI items
+    QTableView *keyValue;
+    QPlainTextEdit *singleValue;
+    QGroupBox *singleValueGroup;
+    QComboBox * singleValueFormatterType;
+    QSplitter *splitter;
+    QLabel *keyNameLabel;    
+    QLabel *keyValueLabel;
+    QLabel *loaderLabel;
+    QMovie *loader;
+    QLabel * formatterLabel;
+    QGridLayout * paginationGrid;
+    QPushButton * previousPage;
+    QPushButton * nextPage;
+    QLabel * pagination;
+    QGridLayout *gridLayout;
+    QPushButton * saveValue;
 
-	void initLayout();
+    void initLayout();
 
-	void initKeyName();	
+    void initKeyName();    
 
-	void initPagination();
+    void initPagination();
 
-	void initFormatter();
+    void initFormatter();
 
 protected slots:
-	void loadNextPage();
-	void loadPreviousPage();
-	void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
-	void currentFormatterChanged(int index);
-	void valueUpdate();
+    void loadNextPage();
+    void loadPreviousPage();
+    void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
+    void currentFormatterChanged(int index);
+    void valueUpdate();
 
 signals:
-	void saveChangedValue(const QString& value, const QModelIndex * currCell);
+    void saveChangedValue(const QString& value, const QModelIndex * currCell);
 };
 

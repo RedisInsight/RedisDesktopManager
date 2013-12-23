@@ -5,6 +5,6 @@
 class PlainFormatter : public AbstractFormatter
 {
 public:
-	QString getFormatted();	
+    QString getFormatted();    
 };
 

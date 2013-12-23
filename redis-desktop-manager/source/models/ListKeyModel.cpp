@@ -1,68 +1,68 @@
 #include "ListKeyModel.h"
 
 ListKeyModel::ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: PaginatedModel(db, keyName, dbIndex)
+    : PaginatedModel(db, keyName, dbIndex)
 {
-	setColumnCount(1);
+    setColumnCount(1);
 }
 
 void ListKeyModel::loadValue()
 {
-	QStringList command;
-	command << "LRANGE" << keyName <<"0" << "-1";
+    QStringList command;
+    command << "LRANGE" << keyName <<"0" << "-1";
 
-	db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+    db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
 }
 
 void ListKeyModel::setCurrentPage(int page)
 {
-	if (page == currentPage) {
-		return;
-	}
+    if (page == currentPage) {
+        return;
+    }
 
-	clear();
+    clear();
 
-	QStringList labels("Value");	
-	setHorizontalHeaderLabels(labels);
+    QStringList labels("Value");    
+    setHorizontalHeaderLabels(labels);
 
-	currentPage = page;
+    currentPage = page;
 
-	int size = rawData->size();
+    int size = rawData->size();
 
-	setRowCount( (itemsOnPageLimit > size)? size : itemsOnPageLimit);
+    setRowCount( (itemsOnPageLimit > size)? size : itemsOnPageLimit);
 
-	int startShiftPosition = itemsOnPageLimit * (currentPage - 1);
-	int limit = startShiftPosition  + itemsOnPageLimit;
+    int startShiftPosition = itemsOnPageLimit * (currentPage - 1);
+    int limit = startShiftPosition  + itemsOnPageLimit;
 
-	for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
+    for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-		QStandardItem * value = new QStandardItem(rawData->at(i));
-		value->setData(QVariant(i), KeyModel::KEY_VALUE_TYPE_ROLE);
+        QStandardItem * value = new QStandardItem(rawData->at(i));
+        value->setData(QVariant(i), KeyModel::KEY_VALUE_TYPE_ROLE);
 
-		setItem(row, 0, value);
-	}
+        setItem(row, 0, value);
+    }
 }
 
 void ListKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
 {
-	QStandardItem * item = itemFromIndex(*cellIndex);
-	item->setText(value);
-	int itemIndex = item->data(KeyModel::KEY_VALUE_TYPE_ROLE).toInt();
+    QStandardItem * item = itemFromIndex(*cellIndex);
+    item->setText(value);
+    int itemIndex = item->data(KeyModel::KEY_VALUE_TYPE_ROLE).toInt();
 
-	QStringList addNew; 
-	addNew << "LSET" << keyName << QString::number(itemIndex) << value;
+    QStringList addNew; 
+    addNew << "LSET" << keyName << QString::number(itemIndex) << value;
 
-	db->addCommand(Command(addNew, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+    db->addCommand(Command(addNew, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
 }
 
 void ListKeyModel::loadedUpdateStatus(Response result)
 {
-	if (result.isErrorMessage()) 
-	{
-		emit valueUpdateError(result.getValue().toString());
-	}
-	else 
-	{
-		emit valueUpdated();	
-	}
+    if (result.isErrorMessage()) 
+    {
+        emit valueUpdateError(result.getValue().toString());
+    }
+    else 
+    {
+        emit valueUpdated();    
+    }
 }
