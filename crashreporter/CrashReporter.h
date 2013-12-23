@@ -23,12 +23,12 @@ public:
 private:
     Ui::CrashReporter ui;
 
-	QString m_minidump;
+    QString m_minidump;
     QNetworkRequest* m_request;
     QNetworkReply* m_reply;
     QUrl m_url;
 
-	QString getPlatformInformation();
+    QString getPlatformInformation();
 
 public slots:
     void send();

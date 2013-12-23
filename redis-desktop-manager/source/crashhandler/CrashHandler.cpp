@@ -59,52 +59,52 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     */
 
 #if defined(WIN32)
-	wchar_t command[MAX_PATH * 3 + 6];
-	wcscpy( command, L"crashreporter ");
-	wcscat( command, _dump_dir );
-	wcscat( command, L"\\" );
-	wcscat( command, _minidump_id );
+    wchar_t command[MAX_PATH * 3 + 6];
+    wcscpy( command, L"crashreporter ");
+    wcscat( command, _dump_dir );
+    wcscat( command, L"\\" );
+    wcscat( command, _minidump_id );
 
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
 
-	ZeroMemory( &si, sizeof( si ) );
-	si.cb = sizeof(si);
-	si.dwFlags = STARTF_USESHOWWINDOW;
-	si.wShowWindow = SW_SHOWNORMAL;
-	ZeroMemory( &pi, sizeof(pi) );
+    ZeroMemory( &si, sizeof( si ) );
+    si.cb = sizeof(si);
+    si.dwFlags = STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_SHOWNORMAL;
+    ZeroMemory( &pi, sizeof(pi) );
 
-	if ( CreateProcess( NULL, command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) )
-	{
-		CloseHandle( pi.hProcess );
-		CloseHandle( pi.hThread );
-		TerminateProcess( GetCurrentProcess(), 1 );
-	}
+    if ( CreateProcess( NULL, command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) )
+    {
+        CloseHandle( pi.hProcess );
+        CloseHandle( pi.hThread );
+        TerminateProcess( GetCurrentProcess(), 1 );
+    }
 #elif defined(Q_OS_LINUX)
 
     const char * crashReporter = "./crashreporter";
 
-	pid_t pid = fork();
-	if ( pid == -1 ) // fork failed
-		return false;
-	if ( pid == 0 )
-	{
-		// we are the fork
-		execl( crashReporter,
-			crashReporter,
-			md.path(),			
-			(char*) 0 );
+    pid_t pid = fork();
+    if ( pid == -1 ) // fork failed
+        return false;
+    if ( pid == 0 )
+    {
+        // we are the fork
+        execl( crashReporter,
+            crashReporter,
+            md.path(),            
+            (char*) 0 );
 
-		printf( "Error: Can't launch CrashReporter!\n" );
-		return false;
-	}
+        printf( "Error: Can't launch CrashReporter!\n" );
+        return false;
+    }
 #elif defined(Q_OS_MAC)
 
     const char * crashReporter = "./crashreporter";
 
     char command[255* 3 + 6];
     strcpy(command, _dump_dir);
-	strcat(command, "/");
+    strcat(command, "/");
     strcat(command, _minidump_id);
 
     pid_t pid = fork();

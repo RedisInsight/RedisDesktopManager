@@ -29,9 +29,9 @@ CrashReporter::CrashReporter( const QUrl& url, const QStringList& args )
 
     m_minidump = args.value( 1 ) + ".dmp";
 
-	setFixedSize( size() );
+    setFixedSize( size() );
 
-	QTimer::singleShot( 1, this, SLOT( send() ) );
+    QTimer::singleShot( 1, this, SLOT( send() ) );
 }
 
 CrashReporter::~CrashReporter()
@@ -60,7 +60,7 @@ CrashReporter::send()
 
     pairs << Pair( "product", "RDM" )
           << Pair( "platform",  getPlatformInformation().toUtf8() )
-		  << Pair( "version",  RDM_VERSION );
+          << Pair( "version",  RDM_VERSION );
 
     foreach ( Pair const pair, pairs )
     {
@@ -78,7 +78,7 @@ CrashReporter::send()
     body += "\r\n";
     body += contents( m_minidump );
     body += "\r\n";
-	body += "--rboundary\r\n";
+    body += "--rboundary\r\n";
 
     QNetworkAccessManager* nam = new QNetworkAccessManager( this );
     m_request->setHeader( QNetworkRequest::ContentTypeHeader, "multipart/form-data; boundary=rboundary" );
@@ -91,23 +91,23 @@ CrashReporter::send()
 QString 
 CrashReporter::getPlatformInformation()
 {
-	//todo: collect more info
+    //todo: collect more info
 
-	QString platform;
+    QString platform;
 
 #ifdef Q_OS_LINUX
-	platform = "Linux";
+    platform = "Linux";
 #endif
 
-#ifdef Q_OS_MAC	
-	platform = "MacOS";
+#ifdef Q_OS_MAC    
+    platform = "MacOS";
 #endif
 
-#ifdef Q_OS_WIN	
-	platform = "Windows";
+#ifdef Q_OS_WIN    
+    platform = "Windows";
 #endif
 
-	return platform;
+    return platform;
 }
 
 
@@ -136,19 +136,19 @@ CrashReporter::onDone()
 
     if ( ( m_reply->error() != QNetworkReply::NoError ) || !response.startsWith( "http" ) )
     {
-		QMessageBox::warning(this, "Server Error", response);
+        QMessageBox::warning(this, "Server Error", response);
         onFail( m_reply->error(), m_reply->errorString() );
     }
     else {
-		QMessageBox::warning(
-			this, "Issue Created!", 
-			QString(
-				"Issue created, please add more info about crash in comments "
-				"<br /><a href='%1'>%1</a>").arg(response)
-			);
+        QMessageBox::warning(
+            this, "Issue Created!", 
+            QString(
+                "Issue created, please add more info about crash in comments "
+                "<br /><a href='%1'>%1</a>").arg(response)
+            );
         ui.progressLabel->setText( tr( "Sent! <b>Many thanks</b>." ) );
-		QFile::remove(m_minidump);
-	}
+        QFile::remove(m_minidump);
+    }
 }
 
 

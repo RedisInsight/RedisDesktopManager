@@ -11,20 +11,20 @@
 
 int main( int argc, char* argv[] )
 {
-	QApplication app( argc, argv );
+    QApplication app( argc, argv );
 
-	if ( argc != 2 )
-	{
-		QMessageBox msgBox;
-		msgBox.setWindowTitle("RedisDesktopManager Crash Reporter");
-		msgBox.setText("<b>Usage:</b> <br /> crashReporter <i>dumpFileName</i>\n");
-		msgBox.exec();
-		return 1;
-	}
+    if ( argc != 2 )
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("RedisDesktopManager Crash Reporter");
+        msgBox.setText("<b>Usage:</b> <br /> crashReporter <i>dumpFileName</i>\n");
+        msgBox.exec();
+        return 1;
+    }
 
-	QApplication::setApplicationName( "RedisDesktopManager Crash Reporter");
-	QApplication::setApplicationVersion( "1.0.0" );	
-	QApplication::setOrganizationDomain( "redisdesktop.com" );    
+    QApplication::setApplicationName( "RedisDesktopManager Crash Reporter");
+    QApplication::setApplicationVersion( "1.0.0" );    
+    QApplication::setOrganizationDomain( "redisdesktop.com" );    
 
     CrashReporter reporter( QUrl( "http://redisdesktop.com/crash-report" ),  app.arguments() );
     reporter.show();

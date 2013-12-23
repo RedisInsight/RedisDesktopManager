@@ -3,22 +3,22 @@
 
 
 RedisConnection::RedisConnection(const RedisConnectionConfig & c) 
-	: RedisConnectionAbstract(c), socket(nullptr)
-{	
+    : RedisConnectionAbstract(c), socket(nullptr)
+{    
 }
 
 void RedisConnection::init()
 {
-	if (socket != nullptr) {
-		return;
-	}
+    if (socket != nullptr) {
+        return;
+    }
 
-	RedisConnectionAbstract::init();
+    RedisConnectionAbstract::init();
 
-	socket = new QTcpSocket();
+    socket = new QTcpSocket();
 
-	QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-	QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));	
+    QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));    
 }
 
 RedisConnection::~RedisConnection()
@@ -29,152 +29,152 @@ RedisConnection::~RedisConnection()
 
 bool RedisConnection::connect()
 {
-	init();
+    init();
 
-	socket->connectToHost(config.host, config.port);
+    socket->connectToHost(config.host, config.port);
 
-	if (socket->waitForConnected(config.connectionTimeout)) 
-	{
-		connected = true;
+    if (socket->waitForConnected(config.connectionTimeout)) 
+    {
+        connected = true;
 
-		if (config.useAuth()) {
-			execute(QString("AUTH %1").arg(config.auth));
-		}
-	} else {
-		connected = false;
-	}
+        if (config.useAuth()) {
+            execute(QString("AUTH %1").arg(config.auth));
+        }
+    } else {
+        connected = false;
+    }
 
-	return connected;
+    return connected;
 }
 
 void RedisConnection::disconnect()
 {
-	if (socket == nullptr)
-		return;
+    if (socket == nullptr)
+        return;
 
-	socket->disconnectFromHost();
+    socket->disconnectFromHost();
 
-	delete socket;
+    delete socket;
 }
 
 
 QString RedisConnection::getLastError()
 {
-	return socket->errorString();
+    return socket->errorString();
 }
 
 QVariant RedisConnection::execute(QString command)
-{		
-	if (command.isEmpty()) {
-		return QVariant();
-	}
+{        
+    if (command.isEmpty()) {
+        return QVariant();
+    }
 
-	QString formattedCommand = Command::getFormatted(command);
+    QString formattedCommand = Command::getFormatted(command);
 
-	/*
-	 *	Send command
-	 */
-	QTextStream out(socket);
-	out << formattedCommand;
-	out.flush();
+    /*
+     *    Send command
+     */
+    QTextStream out(socket);
+    out << formattedCommand;
+    out.flush();
 
-	if (!socket->waitForReadyRead(config.executeTimeout)) {
+    if (!socket->waitForReadyRead(config.executeTimeout)) {
 
-		QAbstractSocket::SocketError error = socket->error();
+        QAbstractSocket::SocketError error = socket->error();
 
-		if (error == QAbstractSocket::UnknownSocketError && connect()) {
-			return execute(command);
-		}
+        if (error == QAbstractSocket::UnknownSocketError && connect()) {
+            return execute(command);
+        }
 
-		return QVariant();
-	}
+        return QVariant();
+    }
 
-	/*
-	 *	Get response
-	 */	
-	Response response; QByteArray res;
+    /*
+     *    Get response
+     */    
+    Response response; QByteArray res;
 
-	while(!response.isValid()) {	
+    while(!response.isValid()) {    
 
-		if (socket->bytesAvailable() > 0) 
-		{
-			res = socket->readAll();
-			response.appendToSource(res);	
+        if (socket->bytesAvailable() > 0) 
+        {
+            res = socket->readAll();
+            response.appendToSource(res);    
 
-		} else {
-			
-			// TODO: move config.executeTimeout to config options - user probably want to increase this value for unstable connections			
+        } else {
+            
+            // TODO: move config.executeTimeout to config options - user probably want to increase this value for unstable connections            
 
-			if (!socket->waitForReadyRead(config.executeTimeout)) 
-			{
-				break;
-			}
-		}
+            if (!socket->waitForReadyRead(config.executeTimeout)) 
+            {
+                break;
+            }
+        }
 
-	}	
+    }    
 
-	return response.getValue();
+    return response.getValue();
 }
 
 
 void RedisConnection::runCommand(const Command &command)
 {
-	if (command.hasDbIndex()) {
-		selectDb(command.getDbIndex());
-	}
+    if (command.hasDbIndex()) {
+        selectDb(command.getDbIndex());
+    }
 
-	resp.clear();
-	commandRunning = true;
-	runningCommand = command;
-	executionTimer->start(config.executeTimeout);
+    resp.clear();
+    commandRunning = true;
+    runningCommand = command;
+    executionTimer->start(config.executeTimeout);
 
-	if (command.isEmpty()) {
-		return sendResponse();
-	}
+    if (command.isEmpty()) {
+        return sendResponse();
+    }
 
-	QString formattedCommand = command.getFormattedString();
+    QString formattedCommand = command.getFormattedString();
 
-	/*
-	 *	Send command
-	 */
-	QTextStream out(socket);
-	out << formattedCommand;
-	out.flush();
+    /*
+     *    Send command
+     */
+    QTextStream out(socket);
+    out << formattedCommand;
+    out.flush();
 }
 
 void RedisConnection::readyRead()
 {
-	// ignore signals if running blocking version
-	if (!commandRunning || socket->bytesAvailable() <= 0) {
-		return;
-	}
-	
-	executionTimer->stop();
-	readingBuffer = socket->readAll();
-	resp.appendToSource(readingBuffer);		
+    // ignore signals if running blocking version
+    if (!commandRunning || socket->bytesAvailable() <= 0) {
+        return;
+    }
+    
+    executionTimer->stop();
+    readingBuffer = socket->readAll();
+    resp.appendToSource(readingBuffer);        
 
-	if (resp.isValid()) {
-		return sendResponse();	
-	} else {
-		emit operationProgress(resp.getLoadedItemsCount(), runningCommand.getOwner());
-		executionTimer->start(config.executeTimeout); //restart execution timer
-	}
+    if (resp.isValid()) {
+        return sendResponse();    
+    } else {
+        emit operationProgress(resp.getLoadedItemsCount(), runningCommand.getOwner());
+        executionTimer->start(config.executeTimeout); //restart execution timer
+    }
 }
 
 void RedisConnection::error(QAbstractSocket::SocketError error)
 {
-	// ignore signals if running blocking version
-	if (!commandRunning && connected) {
-		return;
-	}
+    // ignore signals if running blocking version
+    if (!commandRunning && connected) {
+        return;
+    }
 
-	if (error == QAbstractSocket::UnknownSocketError && connect()) {
-		return runCommand(runningCommand);
-	}
+    if (error == QAbstractSocket::UnknownSocketError && connect()) {
+        return runCommand(runningCommand);
+    }
 
-	emit errorOccurred(
-		QString("Connection error: %1").arg(socket->errorString())
-		);
+    emit errorOccurred(
+        QString("Connection error: %1").arg(socket->errorString())
+        );
 
-	return sendResponse();	
+    return sendResponse();    
 }
