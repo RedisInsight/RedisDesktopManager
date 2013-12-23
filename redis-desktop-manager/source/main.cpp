@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {	
-        CrashHandler::instance()->Init(QDir::homePath());
+	CrashHandler::instance()->Init(QDir::homePath());
 
 	QApplication a(argc, argv);
 
