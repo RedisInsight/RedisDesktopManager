@@ -21,7 +21,8 @@ void RedisServerItem::setConnection(ConnectionBridge * c)
 
 void RedisServerItem::runDatabaseLoading()
 {        
-    if (isDbInfoLoaded || locked) return;
+    if (isDbInfoLoaded || locked) 
+        return;
 
     setBusyIcon();
 
@@ -58,6 +59,7 @@ void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases
     isDbInfoLoaded = true;
 
     emit databasesLoaded();
+    emit unlockUI();
 }
 
 QStringList RedisServerItem::getInfo()
@@ -102,13 +104,17 @@ ConnectionBridge * RedisServerItem::getConnection()
 
 void RedisServerItem::reload()
 {
+    blockSignals(true);
     unload();
+    blockSignals(false);
 
-    runDatabaseLoading();
+    runDatabaseLoading();    
 }
 
 void RedisServerItem::unload()
 {
+    setBusyIcon();
+
     removeRows(0, rowCount());
 
     isDbInfoLoaded = false;
@@ -116,6 +122,8 @@ void RedisServerItem::unload()
     getItemNameFromConnection();
 
     setOfflineIcon();
+
+    emit unlockUI();
 }
 
 void RedisServerItem::setBusyIcon()
@@ -132,6 +140,7 @@ void RedisServerItem::setNormalIcon()
 
 void RedisServerItem::setOfflineIcon()
 {
+    locked = false;
     setIcon(QIcon(":/images/redisIcon_offline.png"));
 }
 

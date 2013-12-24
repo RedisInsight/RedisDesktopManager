@@ -182,7 +182,7 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
     QPoint currentPoint = QCursor::pos(); 
 
-    if (!item || currentPoint.isNull())
+    if (!item || currentPoint.isNull() || treeViewUILocked)
         return;
 
     int type = item->type();
@@ -190,11 +190,15 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
     if (type == RedisServerItem::TYPE) {
 
         if (((RedisServerItem*)item)->isLocked()) {
-            QMessageBox::warning(ui.serversTreeView, "Warning", "Connecting to server. Please Keep patience.");
+            QMessageBox::warning(ui.serversTreeView, "Warning", "Performing operations. Please Keep patience.");
             return;
         }
 
-        serverMenu->exec(currentPoint);
+        QAction * action = serverMenu->exec(currentPoint);
+
+        if (action != nullptr) {
+            treeViewUILocked = true;
+        }
     } else if (type == RedisKeyItem::TYPE) {
         keyMenu->exec(currentPoint);
     }
@@ -255,9 +259,8 @@ void MainWin::OnEditConnection()
 
     RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
 
-    ConnectionWindow * connectionDialog = new ConnectionWindow(this, server);
+    QScopedPointer<ConnectionWindow> connectionDialog( new ConnectionWindow(this, server) );
     connectionDialog->exec();
-    delete connectionDialog;
 
     server->unload();
 }
@@ -380,8 +383,10 @@ void MainWin::OnUIUnlock()
     connections->blockSignals(false);    
     ui.serversTreeView->doItemsLayout();
 
-    statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
-    performanceTimer.invalidate();
+    if (performanceTimer.isValid()) {
+        statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
+        performanceTimer.invalidate();
+    }
 }
 
 void MainWin::OnStatusMessage(QString message)
