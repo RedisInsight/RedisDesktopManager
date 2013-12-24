@@ -28,7 +28,9 @@ MainWin::MainWin(QWidget *parent)
     
     qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
     qRegisterMetaType<Command>("Command");    
-    qRegisterMetaType<Response>("Response");    
+    qRegisterMetaType<Response>("Response");  
+
+    performanceTimer.invalidate();
 }
 
 void MainWin::initConnectionsTreeView()
@@ -196,9 +198,9 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
         QAction * action = serverMenu->exec(currentPoint);
 
-        if (action != nullptr) {
+        if (action != nullptr && action->text() == "Reload")
             treeViewUILocked = true;
-        }
+        
     } else if (type == RedisKeyItem::TYPE) {
         keyMenu->exec(currentPoint);
     }
@@ -247,6 +249,7 @@ void MainWin::OnRemoveConnectionFromTree()
         RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
 
         connections->RemoveConnection(server);
+        treeViewUILocked = false;
     }
 }
 
@@ -258,11 +261,12 @@ void MainWin::OnEditConnection()
         return;    
 
     RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
+    
+    server->unload();
+    treeViewUILocked = false;
 
     QScopedPointer<ConnectionWindow> connectionDialog( new ConnectionWindow(this, server) );
-    connectionDialog->exec();
-
-    server->unload();
+    connectionDialog->exec();    
 }
 
 void MainWin::OnNewUpdateAvailable(QString &url)
