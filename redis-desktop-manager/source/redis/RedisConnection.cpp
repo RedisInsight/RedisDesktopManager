@@ -68,15 +68,11 @@ QVariant RedisConnection::execute(QString command)
     if (command.isEmpty()) {
         return QVariant();
     }
-
-    QString formattedCommand = Command::getFormatted(command);
-
-    /*
-     *    Send command
-     */
-    QTextStream out(socket);
-    out << formattedCommand;
-    out.flush();
+    
+    // Send command
+    QByteArray cmd = Command::getByteRepresentation(command);
+    socket->write(cmd);
+    socket->flush();    
 
     if (!socket->waitForReadyRead(config.executeTimeout)) {
 
@@ -130,16 +126,12 @@ void RedisConnection::runCommand(const Command &command)
 
     if (command.isEmpty()) {
         return sendResponse();
-    }
+    }    
 
-    QString formattedCommand = command.getFormattedString();
-
-    /*
-     *    Send command
-     */
-    QTextStream out(socket);
-    out << formattedCommand;
-    out.flush();
+    // Send command
+    QByteArray cmd = command.getByteRepresentation();
+    socket->write(cmd);
+    socket->flush();  
 }
 
 void RedisConnection::readyRead()

@@ -59,11 +59,6 @@ int Command::getDbIndex() const
     return dbIndex;
 }
 
-QString Command::getFormattedString() const
-{
-    return Command::getFormatted(commandWithArguments);
-}
-
 QString Command::getRawString() const
 {
     return commandWithArguments.join(' ');
@@ -84,31 +79,33 @@ void Command::setOwner(QObject * o)
     owner = o;
 }
 
-QString Command::getFormatted(const QString& command)
+QByteArray Command::getByteRepresentation(const QString& command)
 {
-    QStringList parts = command.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
+   QStringList parts = command.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
 
-    QString formattedCmd("*");
-    formattedCmd.append(QString("%1\r\n").arg(parts.length()));
-
-    for (QString part : parts) {
-        formattedCmd.append(QString("$%1\r\n%2\r\n")
-            .arg(QString("%1").arg(part.length()), part));
-    }
-
-    return formattedCmd;
+   return Command::getByteRepresentation(parts);
 }
 
-QString Command::getFormatted(const QStringList& command)
+QByteArray Command::getByteRepresentation(const QStringList& command)
 {
-    QString formattedCmd("*");
-    formattedCmd.append(QString("%1\r\n").arg(command.length()));
+    QByteArray result;
+    result.append(QString("*%1\r\n").arg(command.length()));
+
+    QByteArray partArray;
 
     for (QString part : command) {
-        formattedCmd.append(QString("$%1\r\n%2\r\n")
-            .arg(QString("%1").arg(part.length()), part));
+        partArray = part.toUtf8();
+        result.append("$");
+        result.append(QString::number(partArray.size()));
+        result.append("\r\n");
+        result.append(partArray);
+        result.append("\r\n");
     }
 
-    return formattedCmd;
+    return result;
 }
 
+QByteArray Command::getByteRepresentation() const
+{
+    return Command::getByteRepresentation(commandWithArguments);
+}

@@ -206,12 +206,10 @@ QVariant RedisConnectionOverSsh::execute(QString command)
         return QVariant();
     }
 
-    QString formattedCommand = Command::getFormatted(command);
-
     /*
      *    Send command
      */
-    QByteArray byteArray = formattedCommand.toUtf8();
+    QByteArray byteArray = Command::getByteRepresentation(command);
     const char* cString = byteArray.constData();
 
     socket->write(cString, byteArray.size());
@@ -283,14 +281,12 @@ void RedisConnectionOverSsh::runCommand(const Command &command)
 
     if (command.isEmpty()) {
         return sendResponse();
-    }
-
-    QString formattedCommand = command.getFormattedString();
+    }    
 
     /*
      *    Send command
      */
-    QByteArray byteArray = formattedCommand.toUtf8();
+    QByteArray byteArray = command.getByteRepresentation();
     const char* cString = byteArray.constData();
 
     socket->write(cString, byteArray.size());

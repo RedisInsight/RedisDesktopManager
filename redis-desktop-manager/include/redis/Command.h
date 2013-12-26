@@ -22,16 +22,14 @@ public:
     int getDbIndex() const;
 
     /** @see http://redis.io/topics/protocol for more info **/    
-    QString getFormattedString() const;
+    QByteArray getByteRepresentation() const;
+    static QByteArray getByteRepresentation(const QStringList&);
+    static QByteArray getByteRepresentation(const QString&);
 
     QString getRawString() const;
     
     QObject * getOwner();
     void setOwner(QObject *);
-
-    static QString getFormatted(const QStringList&);
-
-    static QString getFormatted(const QString&);
 
     bool hasCallback();
 
