@@ -110,16 +110,12 @@ QStringList Response::parseMultiBulk(const QString& response)
         firstPosOfEndl = response.indexOf("\r\n", currPos);
         firstItemLen = firstPosOfEndl - currPos-1;
 
-        if (type == Integer) 
-        {                                            
+        if (type == Integer) {                                            
             parsedResult << response.mid(currPos+1, firstItemLen);
 
             currPos = firstPosOfEndl + 2;
             continue;
-        } 
-
-        if (type == Bulk) 
-        {                                    
+        } else if (type == Bulk) {                                    
             bulkLen = response.mid(currPos+1, firstItemLen).toInt();
 
             if (bulkLen == 0) 
@@ -132,11 +128,10 @@ QStringList Response::parseMultiBulk(const QString& response)
             }
 
             continue;
-        } 
-
-        if (type == MultiBulk) 
-        {
+        } else if (type == MultiBulk) {        
             throw RedisException("Recursive parsing of MultiBulk replies not supported");
+        } else {
+            break;
         }
     }            
 
