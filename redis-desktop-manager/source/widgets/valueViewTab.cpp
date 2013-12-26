@@ -9,11 +9,18 @@
 #include <QMessageBox>
 
 ValueTab::ValueTab(RedisKeyItem * key)    
-    : key(key), ui(nullptr), tabMustBeDestroyed(false), operationInProgress(true)
+    : key(key), ui(nullptr), isInitialized(false),
+      tabMustBeDestroyed(false), operationInProgress(true)
 {    
-        setObjectName("valueTab");
+    setObjectName("valueTab");
 
-    ui = new ValueTabView(key->text(), this);    
+    if (key == nullptr
+            || key->getDbItem() == nullptr
+            || key->getConnection() == nullptr) {
+        return;
+    }
+
+    ui = QSharedPointer<ValueTabView>(new ValueTabView(key->text(), this));
 
     connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
 
@@ -26,10 +33,12 @@ ValueTab::ValueTab(RedisKeyItem * key)
     /** Connect View SIGNALS to Controller SLOTS **/
     connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
     connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
-    connect(ui, SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
+    connect(ui.data(), SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
         this, SLOT(updateValue(const QString&, const QModelIndex *)));
 
     connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));    
+
+    isInitialized = true;
 }
 
 bool ValueTab::close()
@@ -69,20 +78,20 @@ void ValueTab::keyTypeLoaded(Response type)
         ui->keyTypeLabelValue->text()  + t.toUpper()
         );
 
-    keyModel = key->getKeyModel(t);
+    keyModel = QSharedPointer<KeyModel>(key->getKeyModel(t));
 
-    if (keyModel == nullptr) {
+    if (keyModel.isNull()) {
         emit error("Can not load key value. Key was removed or redis-server went away.");        
         return;
     }
 
-    connect(keyModel, SIGNAL(valueLoaded()), this, SLOT(valueLoaded()));
-    connect(keyModel, SIGNAL(keyRenameError(const QString&)), this, SIGNAL(error(const QString&)));
-    connect(keyModel, SIGNAL(keyRenamed()), this, SLOT(keyRenamed()));
-    connect(keyModel, SIGNAL(keyDeleteError(const QString&)), this, SIGNAL(error(const QString&)));
-    connect(keyModel, SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
-    connect(keyModel, SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
-    connect(keyModel, SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
+    connect(keyModel.data(), SIGNAL(valueLoaded()), this, SLOT(valueLoaded()));
+    connect(keyModel.data(), SIGNAL(keyRenameError(const QString&)), this, SIGNAL(error(const QString&)));
+    connect(keyModel.data(), SIGNAL(keyRenamed()), this, SLOT(keyRenamed()));
+    connect(keyModel.data(), SIGNAL(keyDeleteError(const QString&)), this, SIGNAL(error(const QString&)));
+    connect(keyModel.data(), SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
+    connect(keyModel.data(), SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
+    connect(keyModel.data(), SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
 
     operationInProgress = true;
     keyModel->loadValue();
@@ -93,7 +102,7 @@ void ValueTab::valueLoaded()
     if (isOperationsAborted())
         return destroy();
 
-    ui->initKeyValue(keyModel);
+    ui->initKeyValue(keyModel.data());
 
     setObjectName("valueTabReady");
 }
@@ -150,14 +159,9 @@ void ValueTab::valueUpdated()
 
 ValueTab::~ValueTab()
 {
-    delete ui;
-
+    this->disconnect();
     keyModel->disconnect();    
-
-    PaginatedModel::delayedDeallocator(keyModel);
-    keyModel = nullptr;
 }
-
 
 void ValueTab::errorOccurred(const QString& message)
 {

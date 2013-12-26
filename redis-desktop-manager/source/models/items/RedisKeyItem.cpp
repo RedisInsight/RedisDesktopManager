@@ -78,6 +78,9 @@ Command RedisKeyItem::getTypeCommand()
 
 ConnectionBridge * RedisKeyItem::getConnection()
 {
+    if (db == nullptr)
+        return nullptr;
+
     return db->server->connection;
 }
 

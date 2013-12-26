@@ -1,7 +1,7 @@
-#ifndef HASHVIEWTAB_H
-#define HASHVIEWTAB_H
+#pragma once
 
 #include <QWidget>
+#include <QSharedPointer>
 #include "RedisKeyItem.h"
 #include "KeyModel.h"
 
@@ -18,17 +18,19 @@ public:
     bool close();
 
 protected:    
-    ~ValueTab();
+    RedisKeyItem * key; //we don't control this object
 
-    RedisKeyItem * key;
+    QSharedPointer<KeyModel> keyModel;
 
-    KeyModel * keyModel;
+    QSharedPointer<ValueTabView> ui;
 
-    ValueTabView * ui;
+    bool isInitialized;
 
     bool tabMustBeDestroyed;
 
     bool operationInProgress;
+
+    ~ValueTab();
 
     void destroy();
 
@@ -59,5 +61,3 @@ signals:
     void error(const QString&);
     void keyDeleted(QWidget *, RedisKeyItem *);
 };
-
-#endif // HASHVIEWTAB_H

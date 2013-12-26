@@ -20,8 +20,7 @@ SOURCES += \
     $$SRC_DIR/source/models/*.cpp \
     $$SRC_DIR/source/models/items/*.cpp \
     $$SRC_DIR/source/models/value-view-formatters/*.cpp \
-    $$SRC_DIR/source/widgets/consoleTab.cpp \
-    $$SRC_DIR/source/widgets/qconsole.cpp \
+    $$SRC_DIR/source/widgets/*.cpp \
 
 HEADERS  += \
     $$PWD/include/*.h \
@@ -31,8 +30,7 @@ HEADERS  += \
     $$SRC_DIR/include/models/*.h \
     $$SRC_DIR/include/models/items/*.h \
     $$SRC_DIR/include/models/value-view-formatters/*.h \
-    $$SRC_DIR/include/widgets/consoleTab.h \
-    $$SRC_DIR/include/widgets/qconsole.h \
+    $$SRC_DIR/include/widgets/*.h \
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
@@ -47,13 +45,13 @@ win32 {
     LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 
     CONFIG(release, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+        LIBS += -L$$PWD/../deps/libs/win32/release/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/release/libssh2.lib
     }
 
     else: CONFIG(debug, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+        LIBS += -L$$PWD/../deps/libs/win32/debug/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/debug/libssh2.lib
     }
 }
 
