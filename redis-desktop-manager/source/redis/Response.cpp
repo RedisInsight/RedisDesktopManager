@@ -2,12 +2,12 @@
 #include "RedisException.h"
 
 Response::Response()
-    : responseString(""), lastValidPos(0), itemsCount(0)
+    : responseSource(""), lastValidPos(0), itemsCount(0)
 {
 }
 
-Response::Response(QString & src)
-    : responseString(src), lastValidPos(0), itemsCount(0)
+Response::Response(const QByteArray & src)
+    : responseSource(src), lastValidPos(0), itemsCount(0)
 {
 }
 
@@ -15,40 +15,40 @@ Response::~Response(void)
 {
 }
 
-void Response::setSource(QString& str)
+void Response::setSource(const QByteArray& src)
 {
-    responseString = str;
+    responseSource = src;
 }
 
 void Response::clear()
 {
-    responseString.clear();
+    responseSource.clear();
     lastValidPos = 0;
     itemsCount = 0;
 }
 
-QString Response::source()
+QByteArray Response::source()
 {
-    return responseString;
+    return responseSource;
 }
 
 void Response::appendToSource(QString& src)
 {
-    responseString.append(src);
+    responseSource.append(src);
 }
 
 void Response::appendToSource(QByteArray& src)
 {
-    responseString.append(src);
+    responseSource.append(src);
 }
 
 QVariant Response::getValue()
 {
-    if (responseString.isEmpty()) {
+    if (responseSource.isEmpty()) {
         return QVariant();
     }
 
-    ResponseType t = getResponseType(responseString);
+    ResponseType t = getResponseType(responseSource);
 
     QVariant  parsedResponse;
 
@@ -56,19 +56,19 @@ QVariant Response::getValue()
 
     case Status:
     case Error:        
-        parsedResponse = QVariant(getStringResponse(responseString));
+        parsedResponse = QVariant(getStringResponse(responseSource));
         break;
 
     case Integer:        
-        parsedResponse = QVariant(getStringResponse(responseString).toInt());
+        parsedResponse = QVariant(getStringResponse(responseSource).toInt());
         break;
 
     case Bulk:
-        parsedResponse = parseBulk(responseString);
+        parsedResponse = QVariant(parseBulk(responseSource));
         break;
 
     case MultiBulk: 
-        parsedResponse = QVariant(parseMultiBulk(responseString));        
+        parsedResponse = QVariant(parseMultiBulk(responseSource));        
         break;
     case Unknown:
         break;
@@ -77,19 +77,19 @@ QVariant Response::getValue()
     return parsedResponse;
 }    
 
-QVariant Response::parseBulk(const QString& response)
+QString Response::parseBulk(const QByteArray& response)
 {
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);    
 
     if (responseSize != -1) {
-        return QVariant(response.mid(endOfFirstLine + 2, responseSize));        
+        return response.mid(endOfFirstLine + 2, responseSize);        
     }
 
-    return QVariant();
+    return "";
 }
 
-QStringList Response::parseMultiBulk(const QString& response)
+QStringList Response::parseMultiBulk(const QByteArray& response)
 {    
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);            
@@ -138,12 +138,12 @@ QStringList Response::parseMultiBulk(const QString& response)
     return parsedResult;
 }
 
-Response::ResponseType Response::getResponseType(const QString & r) const
+Response::ResponseType Response::getResponseType(const QByteArray & r) const
 {    
     return getResponseType(r.at(0));
 }
 
-Response::ResponseType Response::getResponseType(const QChar typeChar) const
+Response::ResponseType Response::getResponseType(const char typeChar) const
 {    
     if (typeChar == '+') return Status; 
     if (typeChar == '-') return Error;
@@ -154,17 +154,17 @@ Response::ResponseType Response::getResponseType(const QChar typeChar) const
     return Unknown;
 }
 
-QString Response::getStringResponse(QString response)
+QString Response::getStringResponse(const QByteArray& response)
 {
-    return     response.mid(1, response.length() - 3);
+    return response.mid(1, response.length() - 3);
 }
 
 bool Response::isValid()
 {
-    return isReplyValid(responseString);
+    return isReplyValid(responseSource);
 }
 
-bool Response::isReplyValid(const QString & responseString)
+bool Response::isReplyValid(const QByteArray & responseString)
 {
     if (responseString.isEmpty()) 
     {
@@ -195,12 +195,12 @@ bool Response::isReplyValid(const QString & responseString)
     }    
 }
 
-bool Response::isReplyGeneralyValid(const QString& r)
+bool Response::isReplyGeneralyValid(const QByteArray& r)
 {
     return r.endsWith("\r\n");
 }
 
-int Response::getPosOfNextItem(const QString &r, int startPos = 0)
+int Response::getPosOfNextItem(const QByteArray &r, int startPos = 0)
 {
     if (startPos >= r.size()) {
         return -1;
@@ -232,12 +232,12 @@ int Response::getPosOfNextItem(const QString &r, int startPos = 0)
 
 }
 
-bool Response::isIntReplyValid(const QString& r)
+bool Response::isIntReplyValid(const QByteArray& r)
 {
     return !r.isEmpty();
 }
 
-bool Response::isBulkReplyValid(const QString& r)
+bool Response::isBulkReplyValid(const QByteArray& r)
 {            
     int endOfFirstLine = r.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
@@ -256,7 +256,7 @@ bool Response::isBulkReplyValid(const QString& r)
     return true;
 }
 
-bool Response::isMultiBulkReplyValid(const QString& r) 
+bool Response::isMultiBulkReplyValid(const QByteArray& r) 
 {    
     int endOfFirstLine = r.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
@@ -300,7 +300,7 @@ bool Response::isMultiBulkReplyValid(const QString& r)
     return true;    
 }
 
-int Response::getSizeOfBulkReply(const QString& reply, int endOfFirstLine, int beginFrom) 
+int Response::getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine, int beginFrom) 
 {
     if (endOfFirstLine == -1) {
         endOfFirstLine = reply.indexOf("\r\n", beginFrom);
@@ -334,7 +334,7 @@ int Response::getLoadedItemsCount()
 
 bool Response::isErrorMessage() const
 {
-    return getResponseType(responseString) == Error
-        && responseString.startsWith("-ERR");
+    return getResponseType(responseSource) == Error
+        && responseSource.startsWith("-ERR");
 
 }

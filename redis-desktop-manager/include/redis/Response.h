@@ -10,14 +10,14 @@ class Response
 
 public:
     Response();
-    Response(QString &);
+    Response(const QByteArray &);
     ~Response(void);
 
     QVariant getValue();
     bool isValid();    
 
-    void setSource(QString&);
-    QString source();
+    void setSource(const QByteArray&);
+    QByteArray source();
 
     void clear();
 
@@ -32,7 +32,7 @@ public:
 
 private:
 
-    QString responseString;
+    QByteArray responseSource;
 
     //type
     enum ResponseType 
@@ -44,24 +44,24 @@ private:
     int lastValidPos;
     int itemsCount;
 
-    ResponseType getResponseType(const QString&) const;    
-    ResponseType getResponseType(const QChar) const;
+    ResponseType getResponseType(const QByteArray&) const;    
+    ResponseType getResponseType(const char) const;
 
     //parsers
-    QVariant parseBulk(const QString& response);
-    QStringList parseMultiBulk(const QString& response);
-    QString getStringResponse(QString response);
+    QString parseBulk(const QByteArray& response);
+    QStringList parseMultiBulk(const QByteArray& response);
+    QString getStringResponse(const QByteArray& response);
 
-    int getSizeOfBulkReply(const QString& reply, int endOfFirstLine = -1, int beginFrom = 0);    
+    int getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine = -1, int beginFrom = 0);    
 
     //validations
-    bool isReplyValid(const QString&);
+    bool isReplyValid(const QByteArray&);
 
     /** checks general validation rules **/
-    bool isReplyGeneralyValid(const QString& );
-    bool isIntReplyValid(const QString&);
-    bool isBulkReplyValid(const QString&);
-    bool isMultiBulkReplyValid(const QString&);    
+    bool isReplyGeneralyValid(const QByteArray& );
+    bool isIntReplyValid(const QByteArray&);
+    bool isBulkReplyValid(const QByteArray&);
+    bool isMultiBulkReplyValid(const QByteArray&);    
 
-    int getPosOfNextItem(const QString &, int);
+    int getPosOfNextItem(const QByteArray &, int);
 };
