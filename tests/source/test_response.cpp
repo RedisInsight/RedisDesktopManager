@@ -37,6 +37,11 @@ void TestResponse::getValue_data()
 	QTest::newRow("Multi Bulk with \\r\\n in item")	
 		<< "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$0\r\n\r\n$3\r\nurl\r\n$5\r\nn\r\nrl\r\n"
 		<< QVariant(QStringList() << "app_id" << "0" << "keyword" << "" << "url" << "n\r\nrl");
+
+    QTest::newRow("Multi Bulk with unicode item")
+        << "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$6\r\n快樂\r\n$3\r\nurl\r\n$3\r\nnourl\r\n"
+        << QVariant(QStringList() << "app_id" << "0" << "keyword" << "快樂" << "url" << "nourl");
+
 }
 
 
