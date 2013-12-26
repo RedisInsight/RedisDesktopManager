@@ -404,6 +404,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_application.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="source\widgets\BaseTab.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BaseTab.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BaseTab.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="include\connection.h">
@@ -516,6 +525,9 @@
     </CustomBuild>
     <CustomBuild Include="include\application.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\widgets\BaseTab.h">
+      <Filter>Header Files\widgets</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

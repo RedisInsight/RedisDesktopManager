@@ -19,7 +19,6 @@ public:
     virtual int itemsCount();
 
     virtual int getPagesCount();
-    static void delayedDeallocator(QObject *);
 protected:
     int currentPage;
     QVector<QString> * rawData;

@@ -2,18 +2,19 @@
 
 
 #include "qconsole.h"
+#include "BaseTab.h"
 #include <QThread>
 
 class RedisConnectionConfig;
 class ConsoleConnectionWrapper;
 
-class consoleTab: public QConsole
+class ConsoleTab: public QConsole
 {
     Q_OBJECT
 
 public:
-    consoleTab(RedisConnectionConfig&);
-    ~consoleTab(void);    
+    ConsoleTab(RedisConnectionConfig&);
+    ~ConsoleTab(void);    
 
 public slots:
     void setPrompt(const QString &, bool);    

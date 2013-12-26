@@ -1,27 +1,25 @@
 #pragma once
 
-#include <QWidget>
 #include <QSharedPointer>
 #include "RedisKeyItem.h"
 #include "KeyModel.h"
+#include "BaseTab.h"
 
 class ValueTabView;
 class Response;
 
-class ValueTab : public QWidget
+class ValueTab : public BaseTab
 {
     Q_OBJECT
 
 public:
     ValueTab(RedisKeyItem * key);
 
-    bool close();
+    void close();
 
 protected:    
     RedisKeyItem * key; //we don't control this object
-
     QSharedPointer<KeyModel> keyModel;
-
     QSharedPointer<ValueTabView> ui;
 
     bool isInitialized;
@@ -36,25 +34,18 @@ protected:
 
     bool isOperationsAborted();
 
+    bool shouldBeReplaced();
+
 protected slots:
     void keyTypeLoaded(Response type);
-
     void valueLoaded();
-
     void deleteKey();
-
     void renameKey();
-
     void keyRenamed();
-
     void keyDeleted();
-
     void updateValue(const QString&, const QModelIndex *);
-
     void valueUpdated();
-
     void errorOccurred(const QString&);
-
     void OnClose();
 
 signals:

@@ -98,30 +98,18 @@ void MainTabsWidget::closeCurrentTabWithValue()
     if (currIndex == -1) 
         return;
 
-    QWidget * w = widget(currIndex);
+    BaseTab * tab = qobject_cast<BaseTab *> (widget(currIndex));
 
-    if (w->objectName() == "valueTabReady") {
+    if (tab->shouldBeReplaced()) {
         closeTab(currIndex);
     }
 }
 
 void MainTabsWidget::closeTab(unsigned int index)
 {
-    QWidget * w = widget(index);
-
-        if (w->objectName() != "valueTab" || w->objectName() != "valueTabReady") {
-
-            removeTab(index);
-
-            delete w;
-        } else {
-
-            ValueTab * tab = qobject_cast<ValueTab *> (widget(index));
-
-            removeTab(index);
-
-            tab->close();
-        }
+    BaseTab * tab = qobject_cast<BaseTab *> (widget(index));
+    removeTab(index);
+    tab->close();
 }
 
 void MainTabsWidget::OnTabClose(int index)

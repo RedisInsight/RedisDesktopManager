@@ -272,7 +272,6 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 
 void RedisConnectionOverSsh::runCommand(const Command &command)
 {
-    //todo: implement this
     if (command.hasDbIndex()) {
         selectDb(command.getDbIndex());
     }

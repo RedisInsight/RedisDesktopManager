@@ -46,13 +46,3 @@ PaginatedModel::~PaginatedModel()
 
     delete rawData;
 }
-
-void PaginatedModel::delayedDeallocator(QObject *object)
-{
-    QElapsedTimer timer;
-    timer.start();
-
-    delete object;
-
-    qDebug() << QString("Async free memory %1").arg(timer.elapsed());
-}

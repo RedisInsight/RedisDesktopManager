@@ -52,7 +52,6 @@ void MainWin::initConnectionsTreeView()
 
 void MainWin::initContextMenus()
 {
-    // TODO: move to custom QMenu class
     serverMenu = QSharedPointer<ServerContextMenu>(new ServerContextMenu(this));
 
     // TODO: move to custom QMenu class
@@ -359,11 +358,19 @@ void MainWin::OnConsoleOpen()
     RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
     RedisConnectionConfig config = server->getConnection()->getConfig();
 
-    consoleTab * tab = new consoleTab(config);
+    BaseTab * tab = new BaseTab();
+    ConsoleTab * console = new ConsoleTab(config);
+    console->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, tab);
+    layout->setMargin(0);
+    layout->addWidget(console);
+    tab->setLayout(layout);
+    tab->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    console->setParent(tab);    
 
     QString serverName = server->text();
 
-    ui.tabWidget->addTab(serverName, tab, ":/images/terminal.png");
+    ui.tabWidget->addTab(serverName, tab, ":/images/terminal.png", true);
 }
 
 void MainWin::OnKeyOpenInNewTab()

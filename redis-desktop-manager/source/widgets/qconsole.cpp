@@ -29,8 +29,6 @@ QSize PopupListWidget::sizeHint() const
         const int vOffset = top + bottom;
         const int hOffset = left + right;
 
-
-
         bool vScrollOn = false;
         int height = 0;
         int width = 0;

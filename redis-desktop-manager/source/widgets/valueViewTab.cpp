@@ -41,14 +41,12 @@ ValueTab::ValueTab(RedisKeyItem * key)
     isInitialized = true;
 }
 
-bool ValueTab::close()
+void ValueTab::close()
 {
     tabMustBeDestroyed = true;
 
     if (!operationInProgress)
         destroy();
-
-    return true;
 }
 
 void ValueTab::OnClose()
@@ -66,6 +64,11 @@ bool ValueTab::isOperationsAborted()
     operationInProgress = false;
 
     return tabMustBeDestroyed;
+}
+
+bool ValueTab::shouldBeReplaced()
+{
+    return !operationInProgress;
 }
 
 void ValueTab::keyTypeLoaded(Response type)

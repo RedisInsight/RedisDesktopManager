@@ -6,7 +6,7 @@
 #include "RedisConnectionConfig.h"
 #include "ConsoleConnectionWrapper.h"
 
-consoleTab::consoleTab(RedisConnectionConfig& config)
+ConsoleTab::ConsoleTab(RedisConnectionConfig& config)
     : QConsole(nullptr, "<span style='color: orange;'>"
                         "List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR"
                         "</span> <br /> Connecting ...")
@@ -32,13 +32,13 @@ consoleTab::consoleTab(RedisConnectionConfig& config)
     connectionThread.start();
 }
 
-consoleTab::~consoleTab(void)
+ConsoleTab::~ConsoleTab(void)
 {
     connectionThread.quit();
     connectionThread.wait();
 }
 
-void consoleTab::setPrompt(const QString & str, bool display)
+void ConsoleTab::setPrompt(const QString & str, bool display)
 {
     QConsole::setPrompt(str, display);
 }

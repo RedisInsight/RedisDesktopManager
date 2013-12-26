@@ -424,7 +424,7 @@ aa|bb 	Either aa or bb.
        <property name="movable">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="rdmTab">
+       <widget class="BaseTab" name="rdmTab">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>2</horstretch>
@@ -589,6 +589,12 @@ aa|bb 	Either aa or bb.
    <class>MainTabsWidget</class>
    <extends>QTabWidget</extends>
    <header>MainTabsWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BaseTab</class>
+   <extends>QWidget</extends>
+   <header>BaseTab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
