@@ -86,7 +86,7 @@ QString Response::parseBulk(const QByteArray& response)
         return response.mid(endOfFirstLine + 2, responseSize);        
     }
 
-    return "";
+    return QString();
 }
 
 QStringList Response::parseMultiBulk(const QByteArray& response)

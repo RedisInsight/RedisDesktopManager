@@ -8,13 +8,20 @@ void TestResponse::getValue()
 {
 	//given 
 	Response test;
-	QFETCH(QString, testResponse);
+    QFETCH(QString, testResponse);
 	QFETCH(QVariant, validResult);
 
-	test.setSource(testResponse);
+    test.setSource(testResponse.toUtf8());
 
 	//when
 	QVariant actualResult = test.getValue();
+
+    if (actualResult.type() == QMetaType::QStringList) {
+        QString str = actualResult.toStringList().join("\n");
+
+        str;
+    }
+
 
 	//then
 	QCOMPARE(actualResult, validResult);
@@ -22,14 +29,14 @@ void TestResponse::getValue()
 
 void TestResponse::getValue_data()
 {
-	QTest::addColumn<QString>("testResponse");
+    QTest::addColumn<QString>("testResponse");
 	QTest::addColumn<QVariant>("validResult");
 
-	QTest::newRow("Status")		<< "+OK\r\n"							<< QVariant(QString("OK"));	
-	QTest::newRow("Error")		<< "-ERR unknown command 'foobar'\r\n"	<< QVariant(QString("ERR unknown command 'foobar'"));	
-	QTest::newRow("Integer")	<< ":99998\r\n"							<< QVariant(99998);	
+    QTest::newRow("Status")		<< "+OK\r\n"                            << QVariant(QString("OK"));
+    QTest::newRow("Error")		<< "-ERR unknown command 'foobar'\r\n"	<< QVariant(QString("ERR unknown command 'foobar'"));
+    QTest::newRow("Integer")	<< ":99998\r\n"                         << QVariant(99998);
 	QTest::newRow("Bulk")		<< "$6\r\nfoobar\r\n"					<< QVariant("foobar");
-	QTest::newRow("Null Bulk")	<< "$-1\r\n"							<< QVariant();
+    QTest::newRow("Null Bulk")	<< "$-1\r\n"							<< QVariant(QString());
 	QTest::newRow("Multi Bulk")	<< "*3\r\n:1\r\n:2\r\n$6\r\nfoobar\r\n"	<< QVariant(QStringList() << "1" << "2" << "foobar");
 	QTest::newRow("Multi Bulk with empty item")	
 		<< "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$0\r\n\r\n$3\r\nurl\r\n$5\r\nnourl\r\n"
@@ -39,8 +46,8 @@ void TestResponse::getValue_data()
 		<< QVariant(QStringList() << "app_id" << "0" << "keyword" << "" << "url" << "n\r\nrl");
 
     QTest::newRow("Multi Bulk with unicode item")
-        << "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$6\r\n快樂\r\n$3\r\nurl\r\n$3\r\nnourl\r\n"
-        << QVariant(QStringList() << "app_id" << "0" << "keyword" << "快樂" << "url" << "nourl");
+        << "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$6\r\n快樂\r\n"
+        << QVariant(QStringList() << "app_id" << "0" << "keyword" << "快樂");
 
 }
 
@@ -48,10 +55,10 @@ void TestResponse::getValue_data()
 void TestResponse::isValid()
 {
 	//given	
-	QFETCH(QString, testResponse);
+    QFETCH(QString, testResponse);
 	QFETCH(bool, validResult);
 
-	Response test(testResponse);	
+    Response test(testResponse.toUtf8());
 
 	//when
 	bool actualOnValid = test.isValid();
@@ -63,7 +70,7 @@ void TestResponse::isValid()
 
 void TestResponse::isValid_data()
 {
-	QTest::addColumn<QString>("testResponse");
+    QTest::addColumn<QString>("testResponse");
 	QTest::addColumn<bool>("validResult");
 
 	//test int
