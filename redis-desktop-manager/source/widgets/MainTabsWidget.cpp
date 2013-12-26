@@ -128,20 +128,3 @@ void MainTabsWidget::OnTabClose(int index)
 {
     closeTab((unsigned int)index);
 }
-
-void MainTabsWidget::closeAllServerTabs(RedisServerItem * server)
-{
-    unsigned int tabsCount = count();
-
-    QString title;
-
-    for (int tabIndex = 0; tabIndex < tabsCount; tabIndex++)
-    {
-        title = widget(tabIndex)->windowTitle();
-
-        //if (title.contains))
-
-
-        //todo implement this
-    }
-}

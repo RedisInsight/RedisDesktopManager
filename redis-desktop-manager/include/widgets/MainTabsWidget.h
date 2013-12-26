@@ -20,8 +20,6 @@ public:
 
     void closeTab(unsigned int index);
     
-    void closeAllServerTabs(RedisServerItem *);
-    
     void openKeyTab(RedisKeyItem * key, bool inNewTab = false);    
 
 protected:
@@ -33,7 +31,5 @@ protected:
 protected slots:
     void OnTabClose(int i);
     void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
-
-
 };
 
