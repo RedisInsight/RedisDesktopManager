@@ -10,16 +10,6 @@ MainTabsWidget::MainTabsWidget(QWidget * parent)
 
 int MainTabsWidget::addTab(QWidget*w, const QIcon&i, const QString &label)
 {
-#ifndef Q_OS_DARWIN
-    //hide close button for first tab
-    // on Mac Os this code crash application
-    if (count() == 0) {
-        int currentIndex = QTabWidget::addTab(w, i, label);
-        tabBar()->tabButton(0, QTabBar::RightSide)->setFixedWidth(0);
-        return currentIndex;
-    }
-#endif
-
     return QTabWidget::addTab(w, i, label);
 }
 
