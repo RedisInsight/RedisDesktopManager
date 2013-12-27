@@ -34,7 +34,7 @@ void RedisConnectionOverSsh::init()
 }
 
 RedisConnectionOverSsh::~RedisConnectionOverSsh(void)
-{
+{    
 }
 
 bool RedisConnectionOverSsh::connect() 
@@ -56,16 +56,14 @@ bool RedisConnectionOverSsh::connect()
     }
 
     //connect to redis 
-    socket = QSharedPointer<QxtSshTcpSocket>(
-            sshClient->openTcpSocket(config.host, config.port)
-        );
+    socket = sshClient->openTcpSocket(config.host, config.port);
 
     if (socket == NULL) {
         socketConnected = false;
         return socketConnected;
     }
 
-    QObject::connect(socket.data(), SIGNAL(readyRead()), this, SLOT(OnSocketReadyRead())); 
+    QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(OnSocketReadyRead())); 
 
     syncTimer->start(config.connectionTimeout);
     syncLoop->exec();
@@ -85,11 +83,12 @@ bool RedisConnectionOverSsh::connect()
 
 void RedisConnectionOverSsh::disconnect()
 {
-    if (socket.isNull())
+    if (sshClient.isNull())
         return;
 
-    socket->disconnect();
     sshClient->disconnectFromHost();
+
+    connected = false;
 }
 
 void RedisConnectionOverSsh::OnSshConnectionError(QxtSshClient::Error error)

@@ -32,11 +32,10 @@ public slots:
     void disconnect();
 
 protected:
-
     void init();
 
 private: 
-    QSharedPointer<QxtSshTcpSocket> socket;
+    QxtSshTcpSocket * socket; // owner of this object is sshClient
     QSharedPointer<QxtSshClient> sshClient;    
     QSharedPointer<QEventLoop> syncLoop;
     QSharedPointer<QTimer> syncTimer;

@@ -22,8 +22,7 @@ void RedisConnection::init()
 }
 
 RedisConnection::~RedisConnection()
-{
-
+{    
 }
 
 bool RedisConnection::connect()
@@ -52,6 +51,8 @@ void RedisConnection::disconnect()
         return;
 
     socket->disconnectFromHost();
+
+    connected = false;
 }
 
 QString RedisConnection::getLastError()
