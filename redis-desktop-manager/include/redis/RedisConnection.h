@@ -35,7 +35,7 @@ protected:
     void init();
 
 private:
-    QTcpSocket * socket;        
+    QSharedPointer<QTcpSocket> socket;        
 
 private slots:
     void readyRead();

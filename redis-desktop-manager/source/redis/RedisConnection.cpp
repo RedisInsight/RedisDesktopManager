@@ -15,17 +15,16 @@ void RedisConnection::init()
 
     RedisConnectionAbstract::init();
 
-    socket = new QTcpSocket();
+    socket = QSharedPointer<QTcpSocket>(new QTcpSocket());
 
-    QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    QObject::connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));    
+    QObject::connect(socket.data(), SIGNAL(readyRead()), this, SLOT(readyRead()));
+    QObject::connect(socket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));    
 }
 
 RedisConnection::~RedisConnection()
 {
 
 }
-
 
 bool RedisConnection::connect()
 {
@@ -49,14 +48,11 @@ bool RedisConnection::connect()
 
 void RedisConnection::disconnect()
 {
-    if (socket == nullptr)
+    if (socket.isNull())
         return;
 
     socket->disconnectFromHost();
-
-    delete socket;
 }
-
 
 QString RedisConnection::getLastError()
 {

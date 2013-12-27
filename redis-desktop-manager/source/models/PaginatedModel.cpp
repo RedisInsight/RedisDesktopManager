@@ -1,7 +1,4 @@
 #include "PaginatedModel.h"
-#include <chrono>
-#include <thread>
-#include <QtConcurrent>
 
 PaginatedModel::PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
     : KeyModel(db, keyName, dbIndex), currentPage(0), rawData(nullptr)
@@ -10,7 +7,7 @@ PaginatedModel::PaginatedModel(ConnectionBridge * db, const QString &keyName, in
 
 void PaginatedModel::initModel(const QVariant & val)
 {
-    rawData = new QVector<QString>;
+    rawData = QSharedPointer<QVector<QString>>(new QVector<QString>);
 
     if (val.canConvert<QStringList>())
         *rawData = val.value<QStringList>().toVector();
@@ -41,8 +38,4 @@ int PaginatedModel::getPagesCount()
 
 PaginatedModel::~PaginatedModel()
 {
-    if (rawData == nullptr)
-        return;
-
-    delete rawData;
 }

@@ -36,11 +36,12 @@ protected:
     void init();
 
 private: 
-    QxtSshTcpSocket * socket;
-    QxtSshClient * sshClient;
+    QSharedPointer<QxtSshTcpSocket> socket;
+    QSharedPointer<QxtSshClient> sshClient;    
+    QSharedPointer<QEventLoop> syncLoop;
+    QSharedPointer<QTimer> syncTimer;
+
     bool isHostKeyAlreadyAdded;
-    QEventLoop * syncLoop;
-    QTimer * syncTimer;
     bool socketConnected;
 
     bool waitForData(int ms);    

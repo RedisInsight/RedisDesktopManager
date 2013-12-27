@@ -21,7 +21,7 @@ public:
     virtual int getPagesCount();
 protected:
     int currentPage;
-    QVector<QString> * rawData;
+    QSharedPointer<QVector<QString>> rawData;
 
     static const int itemsOnPageLimit = 500;
 

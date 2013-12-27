@@ -5,30 +5,30 @@
 #define MAX_BUFFER_SIZE 536800 //response part limit
 
 RedisConnectionOverSsh::RedisConnectionOverSsh(const RedisConnectionConfig &c)
-    : RedisConnectionAbstract(c),  socket(nullptr), sshClient(nullptr), isHostKeyAlreadyAdded(false), socketConnected(false)
+    : RedisConnectionAbstract(c),  isHostKeyAlreadyAdded(false), socketConnected(false)
 {
 
 }
 
 void RedisConnectionOverSsh::init()
 {
-    if (sshClient != nullptr) {
+    if (!sshClient.isNull()) {
         return;
     }
 
     RedisConnectionAbstract::init();
 
-    sshClient = new QxtSshClient;
-    syncLoop = new QEventLoop;
-    syncTimer = new QTimer;
+    sshClient = QSharedPointer<QxtSshClient>(new QxtSshClient);
+    syncLoop = QSharedPointer<QEventLoop>(new QEventLoop);
+    syncTimer = QSharedPointer<QTimer>(new QTimer);
 
     syncTimer->setSingleShot(true);
 
-    QObject::connect(syncTimer, SIGNAL(timeout()), syncLoop, SLOT(quit()));
-    QObject::connect(sshClient, SIGNAL(connected()), this, SLOT(OnSshConnected())); 
+    QObject::connect(syncTimer.data(), SIGNAL(timeout()), syncLoop.data(), SLOT(quit()));
+    QObject::connect(sshClient.data(), SIGNAL(connected()), this, SLOT(OnSshConnected())); 
 
     QObject::connect(
-        sshClient, SIGNAL(error(QxtSshClient::Error)), 
+        sshClient.data(), SIGNAL(error(QxtSshClient::Error)), 
         this, SLOT(OnSshConnectionError(QxtSshClient::Error))
         );
 }
@@ -56,14 +56,16 @@ bool RedisConnectionOverSsh::connect()
     }
 
     //connect to redis 
-    socket = sshClient->openTcpSocket(config.host, config.port);
+    socket = QSharedPointer<QxtSshTcpSocket>(
+            sshClient->openTcpSocket(config.host, config.port)
+        );
 
     if (socket == NULL) {
         socketConnected = false;
         return socketConnected;
     }
 
-    QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(OnSocketReadyRead())); 
+    QObject::connect(socket.data(), SIGNAL(readyRead()), this, SLOT(OnSocketReadyRead())); 
 
     syncTimer->start(config.connectionTimeout);
     syncLoop->exec();
@@ -83,13 +85,11 @@ bool RedisConnectionOverSsh::connect()
 
 void RedisConnectionOverSsh::disconnect()
 {
-    if (socket == nullptr)
+    if (socket.isNull())
         return;
 
-    delete socket;
-    delete syncLoop;
-    delete syncTimer;
-    delete sshClient;    
+    socket->disconnect();
+    sshClient->disconnectFromHost();
 }
 
 void RedisConnectionOverSsh::OnSshConnectionError(QxtSshClient::Error error)
