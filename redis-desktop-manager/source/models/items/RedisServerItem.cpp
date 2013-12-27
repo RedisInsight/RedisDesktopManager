@@ -25,6 +25,7 @@ void RedisServerItem::runDatabaseLoading()
         return;
 
     setBusyIcon();
+    getItemNameFromConnection();
 
     connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
     connect(connection, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),

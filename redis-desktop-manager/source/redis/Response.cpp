@@ -52,26 +52,31 @@ QVariant Response::getValue()
 
     QVariant  parsedResponse;
 
-    switch (t) {
+    try {
 
-    case Status:
-    case Error:        
-        parsedResponse = QVariant(getStringResponse(responseSource));
-        break;
+        switch (t) {
+        case Status:
+        case Error:        
+            parsedResponse = QVariant(getStringResponse(responseSource));
+            break;
 
-    case Integer:        
-        parsedResponse = QVariant(getStringResponse(responseSource).toInt());
-        break;
+        case Integer:        
+            parsedResponse = QVariant(getStringResponse(responseSource).toInt());
+            break;
 
-    case Bulk:
-        parsedResponse = QVariant(parseBulk(responseSource));
-        break;
+        case Bulk:
+            parsedResponse = QVariant(parseBulk(responseSource));
+            break;
 
-    case MultiBulk: 
-        parsedResponse = QVariant(parseMultiBulk(responseSource));        
-        break;
-    case Unknown:
-        break;
+        case MultiBulk:         
+            parsedResponse = QVariant(parseMultiBulk(responseSource));        
+            break;
+        case Unknown:
+            break;
+        }
+
+    } catch (RedisException &e) {
+        parsedResponse = QVariant(QStringList() << e.what());
     }
 
     return parsedResponse;
@@ -128,7 +133,7 @@ QStringList Response::parseMultiBulk(const QByteArray& response)
             }
 
             continue;
-        } else if (type == MultiBulk) {        
+        } else if (type == MultiBulk) {               
             throw RedisException("Recursive parsing of MultiBulk replies not supported");
         } else {
             break;
