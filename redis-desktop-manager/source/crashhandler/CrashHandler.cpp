@@ -5,12 +5,15 @@
 #include <QtCore/QCoreApplication>
 #include <QString>
 #include <QDebug>
+#include <QFileInfo>
  
 #include "exception_handler.h"
 
 #ifndef WIN32
 #include <unistd.h>
 #endif
+
+#define CRASHANDLER_MAX_PATH 2000
 
 class CrashHandlerPrivate
 {
@@ -28,11 +31,13 @@ public:
     void InitCrashHandler(const QString& dumpPath);
     static google_breakpad::ExceptionHandler* pHandler;
     static bool bReportCrashesToSystem;
+    
 };
  
 google_breakpad::ExceptionHandler* CrashHandlerPrivate::pHandler = NULL;
 bool CrashHandlerPrivate::bReportCrashesToSystem = false;
- 
+char crashReporterPath[CRASHANDLER_MAX_PATH];
+
 /************************************************************************/
 /* DumpCallback                                                         */
 /************************************************************************/
@@ -59,8 +64,10 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     */
 
 #if defined(WIN32)
-    wchar_t command[MAX_PATH * 3 + 6];
-    wcscpy( command, L"crashreporter ");
+    wchar_t command[CRASHANDLER_MAX_PATH];
+
+    mbstowcs( command, crashReporterPath, strlen(crashReporterPath) );
+    wcscat( command, L" ");
     wcscat( command, _dump_dir );
     wcscat( command, L"\\" );
     wcscat( command, _minidump_id );
@@ -82,16 +89,14 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     }
 #elif defined(Q_OS_LINUX)
 
-    const char * crashReporter = "./crashreporter";
-
     pid_t pid = fork();
     if ( pid == -1 ) // fork failed
         return false;
     if ( pid == 0 )
     {
         // we are the fork
-        execl( crashReporter,
-            crashReporter,
+        execl( crashReporterPath,
+            crashReporterPath,
             md.path(),            
             (char*) 0 );
 
@@ -100,9 +105,7 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     }
 #elif defined(Q_OS_MAC)
 
-    const char * crashReporter = "./crashreporter";
-
-    char command[255* 3 + 6];
+    char command[CRASHANDLER_MAX_PATH];
     strcpy(command, _dump_dir);
     strcat(command, "/");
     strcat(command, _minidump_id);
@@ -114,10 +117,8 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 
     if ( pid == 0 )
     {
-        qDebug() << ":" << crashReporter << " - " << command << " - " << QDir::currentPath();
-
-        execl( crashReporter,
-            crashReporter,
+        execl( crashReporterPath,
+            crashReporterPath,
             command,
             (char*) 0 );
     }
@@ -131,6 +132,14 @@ void CrashHandlerPrivate::InitCrashHandler(const QString& dumpPath)
 {
     if ( pHandler != NULL )
         return;
+
+    const char * appPath = QCoreApplication::applicationDirPath().toStdString().c_str();
+
+    if (strlen( appPath ) == 0)
+        strcpy(crashReporterPath, ".");
+    else
+        strcpy(crashReporterPath, appPath);
+    strcat(crashReporterPath, "/crashreporter");
  
 #if defined(Q_OS_WIN32)
     std::wstring pathAsStr = (const wchar_t*)dumpPath.utf16();
