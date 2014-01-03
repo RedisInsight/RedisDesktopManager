@@ -8,9 +8,13 @@ public:
 
     virtual ~AbstractFormatter() {};
 
-    virtual void setRawValue(const QString&);        
+    virtual void setSource(const QString&);        
 
     virtual QString getFormatted() = 0;
+
+    virtual bool isValid() = 0;
+
+    virtual QString getRaw() = 0;
 
     enum FormatterType
     {

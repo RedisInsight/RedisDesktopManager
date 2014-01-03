@@ -3,6 +3,16 @@
 #include <QStringList>
 #include <QDebug>
 
+bool PHPSerializeFormatter::isValid()
+{
+    return true;
+}
+
+QString PHPSerializeFormatter::getRaw()
+{
+    return rawValue;
+}
+
 PHPSerializeFormatter::PHPSerializeFormatter()
 {
     arrayItemWithValueRegex.setPatternSyntax(QRegExp::RegExp2);

@@ -3,7 +3,7 @@
 #include "PHPSerializeFormatter.h"
 #include "JsonFormatter.h"
 
-void AbstractFormatter::setRawValue(const QString&r)
+void AbstractFormatter::setSource(const QString&r)
 {
     rawValue = r;
 }

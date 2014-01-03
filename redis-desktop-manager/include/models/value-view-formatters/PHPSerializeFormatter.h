@@ -12,6 +12,10 @@ public:
 
     virtual QString getFormatted();
 
+    bool isValid();
+
+    QString getRaw();
+
 private:
 
     enum ValueType {

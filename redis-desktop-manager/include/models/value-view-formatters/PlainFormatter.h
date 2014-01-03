@@ -6,5 +6,9 @@ class PlainFormatter : public AbstractFormatter
 {
 public:
     QString getFormatted();    
+
+    bool isValid();
+
+    QString getRaw();
 };
 

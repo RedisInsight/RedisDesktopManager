@@ -4,6 +4,7 @@
 #include "StringKeyModel.h"
 #include "PaginatedModel.h"
 #include "AbstractFormatter.h"
+#include <QMessageBox>
 
 ValueTabView::ValueTabView(const QString& name, QWidget * parent)
     : controller(parent), formatter(AbstractFormatter::getFormatter()),
@@ -246,7 +247,7 @@ void ValueTabView::onSelectedItemChanged(const QModelIndex & current, const QMod
 
     singleValue->clear();    
 
-    formatter->setRawValue(model->itemFromIndex(current)->text());
+    formatter->setSource(model->itemFromIndex(current)->text());
 
     singleValue->appendPlainText(formatter->getFormatted());
 
@@ -263,7 +264,7 @@ void ValueTabView::currentFormatterChanged(int index)
 
     if (model->getKeyModelType() == StringKeyModel::KEY_MODEL_TYPE) {        
         singleValue->clear();
-        formatter->setRawValue(((StringKeyModel*)model)->getValue());        
+        formatter->setSource(((StringKeyModel*)model)->getValue());        
         singleValue->appendPlainText(formatter->getFormatted());
     } else if (currentCell != nullptr) {
         onSelectedItemChanged(*currentCell, *currentCell);
@@ -275,7 +276,16 @@ void ValueTabView::valueUpdate()
     if (currentCell == nullptr && model->getKeyModelType() != StringKeyModel::KEY_MODEL_TYPE)
         return;
 
-    emit saveChangedValue(singleValue->toPlainText(), currentCell);
+    QString value = singleValue->toPlainText();
+
+    formatter->setSource(value);
+
+    if (!formatter->isValid()) {
+        QMessageBox::warning(controller, "Invalid value", "Check value format");
+        return;
+    }
+
+    emit saveChangedValue(formatter->getRaw(), currentCell);
 }
 
 const QModelIndex * ValueTabView::getCurrentCell()
