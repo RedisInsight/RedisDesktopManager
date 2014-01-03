@@ -7,10 +7,10 @@
 #include "application.h"
 
 int main(int argc, char *argv[])
-{    
-    CrashHandler::instance()->Init(QDir::homePath());
-
+{       
     QApplication a(argc, argv);
+
+    CrashHandler::instance()->Init(QDir::homePath());
 
     QApplication::setApplicationName("Redis Desktop Manager");
     QApplication::setApplicationVersion(RDM_VERSION);    
