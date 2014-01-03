@@ -31,6 +31,7 @@ SOURCES += \
     $$PWD/source/models/value-view-formatters/*.cpp \
 
 HEADERS  += \
+    $$PWD/version.h \
     $$PWD/include/*.h \
     $$PWD/include/widgets/*.h \
     $$PWD/include/crashhandler/*.h \
