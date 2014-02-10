@@ -53,7 +53,7 @@ void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
 
 void ConnectionWindow::OnOkButtonClick()
 {
-    if (!isFormDataValid()) 
+    if (!isFormDataValid() || mainForm->connections == nullptr) 
         return;    
 
     RedisConnectionConfig conf = getConectionConfigFromFormData();
