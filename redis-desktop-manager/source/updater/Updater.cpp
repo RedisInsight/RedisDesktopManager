@@ -4,7 +4,7 @@
 
 Updater::Updater()
 {
-    QNetworkAccessManager *manager = new QNetworkAccessManager();
+    manager = new QNetworkAccessManager();
 
     QObject::connect(manager, SIGNAL(finished(QNetworkReply*)),
         this, SLOT(requestFinished(QNetworkReply*)));
@@ -35,11 +35,13 @@ Updater::Updater()
 }
 Updater::~Updater()
 {
+    delete manager;
 }
 
 void Updater::requestFinished(QNetworkReply* response)
 {
-    if (response->error() != QNetworkReply::NoError)
+    if (response->error() != QNetworkReply::NoError
+        || response->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200)
     {
         return;            
     }
