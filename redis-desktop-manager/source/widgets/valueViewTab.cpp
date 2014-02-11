@@ -130,6 +130,14 @@ void ValueTab::keyRenamed()
 
 void ValueTab::deleteKey()
 {
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(this, "Confirm action", "Do you want delete this key?",
+        QMessageBox::Yes|QMessageBox::No);
+
+    if (reply != QMessageBox::Yes) 
+        return;
+
     operationInProgress = true;
     ui->showLoader();
     keyModel->deleteKey();    
