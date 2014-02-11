@@ -371,6 +371,8 @@ void MainWin::OnConsoleOpen()
     QString serverName = server->text();
 
     ui.tabWidget->addTab(serverName, tab, ":/images/terminal.png", true);
+
+    console->setFocus();
 }
 
 void MainWin::OnKeyOpenInNewTab()
