@@ -3,7 +3,8 @@
 #include "RedisKeyNamespace.h"
 
 
-QList<QStandardItem*> KeysTreeRenderer::renderKeys(RedisServerDbItem * db, QStringList rawKeys, const QRegExp & filter, const RedisServerDbItem::Icons & icons)
+QList<QStandardItem*> KeysTreeRenderer::renderKeys(RedisServerDbItem * db, QStringList rawKeys, const QRegExp & filter, 
+                                                   const RedisServerDbItem::Icons & icons, QString namespaceSeparator)
 {
     rawKeys.sort();
 
@@ -16,7 +17,7 @@ QList<QStandardItem*> KeysTreeRenderer::renderKeys(RedisServerDbItem * db, QStri
             continue;
         }
 
-        renderNamaspacedKey(result, nullptr, rawKey, rawKey, icons.namespaceIcon, icons.keyIcon, db);                        
+        renderNamaspacedKey(result, nullptr, rawKey, rawKey, icons.namespaceIcon, icons.keyIcon, db, namespaceSeparator);                        
     }    
 
     return result;
@@ -24,9 +25,9 @@ QList<QStandardItem*> KeysTreeRenderer::renderKeys(RedisServerDbItem * db, QStri
 
 void KeysTreeRenderer::renderNamaspacedKey(QList<QStandardItem*> & root, QStandardItem * currItem, 
                                             QString notProcessedKeyPart, QString fullKey, const QIcon & namespaceIcon, 
-                                            const QIcon & keyIcon, RedisServerDbItem * db)
+                                            const QIcon & keyIcon, RedisServerDbItem * db,  QString namespaceSeparator)
 {
-    if (!notProcessedKeyPart.contains(":")) {
+    if (!notProcessedKeyPart.contains(namespaceSeparator)) {
         RedisKeyItem * newKey = new RedisKeyItem();
         newKey->init(fullKey, db, keyIcon);    
 
@@ -38,7 +39,7 @@ void KeysTreeRenderer::renderNamaspacedKey(QList<QStandardItem*> & root, QStanda
         return;
     }
 
-    int indexOfNaspaceSeparator = notProcessedKeyPart.indexOf(":");
+    int indexOfNaspaceSeparator = notProcessedKeyPart.indexOf(namespaceSeparator);
 
     QString firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
 
@@ -80,5 +81,7 @@ void KeysTreeRenderer::renderNamaspacedKey(QList<QStandardItem*> & root, QStanda
         }
     }
 
-    renderNamaspacedKey(root, namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1), fullKey, namespaceIcon, keyIcon, db);        
+    renderNamaspacedKey(root, namespaceItem, 
+        notProcessedKeyPart.mid(indexOfNaspaceSeparator+1), 
+        fullKey, namespaceIcon, keyIcon, db, namespaceSeparator);        
 }

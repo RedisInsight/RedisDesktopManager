@@ -58,6 +58,11 @@ RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connection
         connectionConfig.auth = attr.namedItem("auth").nodeValue();
     }
 
+
+    if (attr.contains("namespaceSeparator")) {
+        connectionConfig.namespaceSeparator = attr.namedItem("namespaceSeparator").nodeValue();
+    }
+
     if (attr.contains("sshHost") 
         && attr.contains("sshUser")
         && attr.contains("sshPassword")) {
@@ -94,6 +99,12 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
         QDomAttr authAttr = dom.createAttribute("auth");
         authAttr.setValue(auth);
         xml.setAttributeNode(authAttr);
+    }
+
+    if (namespaceSeparator != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
+        QDomAttr nsAttr = dom.createAttribute("namespaceSeparator");
+        nsAttr.setValue(namespaceSeparator);
+        xml.setAttributeNode(nsAttr);
     }
 
     if (useSshTunnel()) {

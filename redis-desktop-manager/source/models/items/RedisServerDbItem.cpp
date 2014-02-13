@@ -111,7 +111,7 @@ void RedisServerDbItem::renderKeys(QStringList &rawKeys)
         return;
 
     keysLoadingResult = QFuture<QList<QStandardItem *>>();
-    keysLoadingResult = QtConcurrent::run(KeysTreeRenderer::renderKeys, this, rawKeys, filter, iconStorage);
+    keysLoadingResult = QtConcurrent::run(KeysTreeRenderer::renderKeys, this, rawKeys, filter, iconStorage, server->connection->getConfig().namespaceSeparator);
 
     keysLoadingWatcher.setFuture(keysLoadingResult);
 

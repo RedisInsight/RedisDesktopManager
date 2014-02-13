@@ -16,6 +16,8 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     this->setWindowFlags(Qt::Tool);        
     this->setModal(true);
 
+    ui.validationWarning->hide();
+
     if (parent) {
         mainForm = qobject_cast<MainWin *>(parent);
     }
@@ -23,11 +25,14 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     // connect slots to signals
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));
     connect(ui.okButton, SIGNAL(pressed()), this,  SLOT(clicked()));
+    connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this,  SLOT(OnShowPasswordCheckboxChanged(int)));    
 
     //edit mode
     if (srv != nullptr) {    
         server = srv;
         loadValuesFromConnection(srv->getConnection());
+    } else {
+        ui.namespaceSeparator->setText(QString(RedisConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
     }
 }
 
@@ -41,6 +46,7 @@ void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
     ui.hostEdit->setText(config.host);
     ui.portSpinBox->setValue(config.port);
     ui.authEdit->setText(config.auth);
+    ui.namespaceSeparator->setText(config.namespaceSeparator);
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
@@ -53,8 +59,12 @@ void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
 
 void ConnectionWindow::OnOkButtonClick()
 {
-    if (!isFormDataValid() || mainForm->connections == nullptr) 
+    ui.validationWarning->hide();
+
+    if (!isFormDataValid() || mainForm->connections == nullptr) { 
+        ui.validationWarning->show();
         return;    
+    }
 
     RedisConnectionConfig conf = getConectionConfigFromFormData();
 
@@ -73,9 +83,20 @@ void ConnectionWindow::OnOkButtonClick()
     close();
 }
 
+void ConnectionWindow::OnShowPasswordCheckboxChanged(int state)
+{
+    if (state == Qt::Unchecked) {
+        ui.sshPass->setEchoMode(QLineEdit::Password);
+    } else {
+        ui.sshPass->setEchoMode(QLineEdit::Normal);
+    }
+}
+
 bool ConnectionWindow::isFormDataValid()
 {    
-    return isConnectionSettingsValid() && isSshSettingsValid();
+    return isConnectionSettingsValid() 
+        && isSshSettingsValid()
+        && isAdvancedSettingsValid();
 }
 
 bool ConnectionWindow::isConnectionSettingsValid()
@@ -97,6 +118,23 @@ bool ConnectionWindow::isConnectionSettingsValid()
 
     if (ui.hostEdit->text().isEmpty()) {
         ui.hostEdit->setStyleSheet("border: 1px solid red;");
+    }
+
+    return false;
+}
+
+bool ConnectionWindow::isAdvancedSettingsValid()
+{
+    ui.namespaceSeparator->setStyleSheet("");
+
+    bool isValid = !ui.namespaceSeparator->text().isEmpty();
+
+    if (isValid) {
+        return true;
+    } 
+
+    if (ui.namespaceSeparator->text().isEmpty()) {
+        ui.namespaceSeparator->setStyleSheet("border: 1px solid red;");
     }
 
     return false;
@@ -145,6 +183,8 @@ bool ConnectionWindow::isSshTunnelUsed()
 RedisConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
     RedisConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
+
+    conf.namespaceSeparator = ui.namespaceSeparator->text();
 
     if (!ui.authEdit->text().isEmpty()) {
         conf.auth = ui.authEdit->text();

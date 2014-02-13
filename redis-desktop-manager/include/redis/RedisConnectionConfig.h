@@ -25,8 +25,11 @@ public:
     static const int connectionTimeout = 30000;
     static const int executeTimeout = 60000;
 
+    QString namespaceSeparator;    
+    static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
+
     RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
-        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT)
+        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
     {};
 
     RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
@@ -36,6 +39,7 @@ public:
             host = other.host;
             auth = other.auth;
             port = other.port;
+            namespaceSeparator = other.namespaceSeparator;
 
             setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
         }

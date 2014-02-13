@@ -24,10 +24,12 @@ private:
     bool isFormDataValid();
     bool isConnectionSettingsValid();
     bool isSshSettingsValid();
+    bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
     RedisConnectionConfig getConectionConfigFromFormData();
     void loadValuesFromConnection(ConnectionBridge *);
 
     private slots:
         void OnOkButtonClick();
+        void OnShowPasswordCheckboxChanged(int);
 };
