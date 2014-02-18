@@ -61,7 +61,7 @@ void RedisConnectionAbstract::getDatabases()
     }
 
     //    Get keys count        
-    QVariant result = execute("INFO keyspace");
+    QVariant result = execute("INFO");
 
     if (result.isNull()) {
         emit databesesLoaded(availableDatabeses);
