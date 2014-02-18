@@ -56,7 +56,8 @@ public:
     bool useSshTunnel() const;
     bool useAuth() const;
     
-    QDomElement toXml(QDomDocument dom);    
+    QDomElement toXml(QDomDocument dom);  
+    void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
 
     static RedisConnectionConfig createFromXml(QDomNode & connectionNode);
 };

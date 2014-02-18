@@ -41,18 +41,15 @@ RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connection
 
     QString name = attr.namedItem("name").nodeValue();
     QString host = attr.namedItem("host").nodeValue();
-    int port = DEFAULT_REDIS_PORT;
 
-    if (attr.contains("port")) {
-        port = attr.namedItem("port").nodeValue().toInt();
-    }
+    int port = attr.contains("port") ? 
+        attr.namedItem("port").nodeValue().toInt() : DEFAULT_REDIS_PORT;
 
     RedisConnectionConfig connectionConfig(host, name, port);
 
     if (attr.contains("auth")) {
         connectionConfig.auth = attr.namedItem("auth").nodeValue();
     }
-
 
     if (attr.contains("namespaceSeparator")) {
         connectionConfig.namespaceSeparator = attr.namedItem("namespaceSeparator").nodeValue();
@@ -78,47 +75,31 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
 {
     QDomElement xml = dom.createElement("connection");
 
-    QDomAttr nameAttr = dom.createAttribute("name");
-    nameAttr.setValue(name);
-    xml.setAttributeNode(nameAttr);
-
-    QDomAttr hostAttr = dom.createAttribute("host");
-    hostAttr.setValue(host);
-    xml.setAttributeNode(hostAttr);
-
-    QDomAttr portAttr = dom.createAttribute("port");
-    portAttr.setValue(QString("%1").arg(port));
-    xml.setAttributeNode(portAttr);
+    saveXmlAttribute(dom, xml, "name", name);    
+    saveXmlAttribute(dom, xml, "host", host);   
+    saveXmlAttribute(dom, xml, "port", QString("%1").arg(port));   
 
     if (useAuth()) {
-        QDomAttr authAttr = dom.createAttribute("auth");
-        authAttr.setValue(auth);
-        xml.setAttributeNode(authAttr);
+        saveXmlAttribute(dom, xml, "auth", auth); 
     }
 
     if (namespaceSeparator != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
-        QDomAttr nsAttr = dom.createAttribute("namespaceSeparator");
-        nsAttr.setValue(namespaceSeparator);
-        xml.setAttributeNode(nsAttr);
+        saveXmlAttribute(dom, xml, "namespaceSeparator", namespaceSeparator); 
     }
 
     if (useSshTunnel()) {
-        QDomAttr sshHostAttr = dom.createAttribute("sshHost");
-        sshHostAttr.setValue(sshHost);
-        xml.setAttributeNode(sshHostAttr);
-
-        QDomAttr sshUserAttr = dom.createAttribute("sshUser");
-        sshUserAttr.setValue(sshUser);
-        xml.setAttributeNode(sshUserAttr);
-
-        QDomAttr sshPassAttr = dom.createAttribute("sshPassword");
-        sshPassAttr.setValue(sshPassword);
-        xml.setAttributeNode(sshPassAttr);
-
-        QDomAttr sshPortAttr = dom.createAttribute("sshPort");
-        sshPortAttr.setValue(QString("%1").arg(sshPort));
-        xml.setAttributeNode(sshPortAttr);
+        saveXmlAttribute(dom, xml, "sshHost", sshHost); 
+        saveXmlAttribute(dom, xml, "sshUser", sshUser); 
+        saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
+        saveXmlAttribute(dom, xml, "sshPort", QString("%1").arg(sshPort)); 
     }
 
     return xml;
+}
+
+void RedisConnectionConfig::saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value)
+{
+    QDomAttr attr = document.createAttribute(name);
+    attr.setValue(value);
+    root.setAttributeNode(attr);
 }
