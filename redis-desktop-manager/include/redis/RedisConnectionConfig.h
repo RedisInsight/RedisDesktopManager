@@ -30,7 +30,7 @@ public:
     QString namespaceSeparator;    
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
 
-    RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
+    RedisConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
         : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR),
           connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS)
     {};
@@ -57,8 +57,13 @@ public:
     bool useAuth() const;
     
     QDomElement toXml(QDomDocument dom);  
+       
+    static RedisConnectionConfig createFromXml(QDomNode & connectionNode);    
+
+protected:
     void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
 
-    static RedisConnectionConfig createFromXml(QDomNode & connectionNode);
+    static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value);
+    static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value);
 };
 
