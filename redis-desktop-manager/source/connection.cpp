@@ -33,6 +33,8 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
         loadValuesFromConnection(srv->getConnection());
     } else {
         ui.namespaceSeparator->setText(QString(RedisConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+        ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+        ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
     }
 }
 
@@ -47,6 +49,8 @@ void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
     ui.portSpinBox->setValue(config.port);
     ui.authEdit->setText(config.auth);
     ui.namespaceSeparator->setText(config.namespaceSeparator);
+    ui.connectionTimeout->setValue(config.connectionTimeout / 1000);
+    ui.executionTimeout->setValue(config.executeTimeout / 1000);
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
@@ -185,6 +189,8 @@ RedisConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
     RedisConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
 
     conf.namespaceSeparator = ui.namespaceSeparator->text();
+    conf.connectionTimeout = ui.connectionTimeout->value() * 1000;
+    conf.executeTimeout = ui.executionTimeout->value() * 1000;
 
     if (!ui.authEdit->text().isEmpty()) {
         conf.auth = ui.authEdit->text();

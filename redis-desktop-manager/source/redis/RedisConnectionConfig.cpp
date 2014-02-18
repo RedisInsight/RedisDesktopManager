@@ -40,12 +40,16 @@ RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connection
     getValueFromXml(attr, "name", connectionConfig.name);
     getValueFromXml(attr, "host", connectionConfig.host);
     getValueFromXml(attr, "port", connectionConfig.port);    
-    getValueFromXml(attr, "auth", connectionConfig.auth);    
-    getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);    
+    getValueFromXml(attr, "auth", connectionConfig.auth);        
+
     getValueFromXml(attr, "sshHost", connectionConfig.sshHost);    
     getValueFromXml(attr, "sshUser", connectionConfig.sshUser);    
     getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);    
     getValueFromXml(attr, "sshPort", connectionConfig.sshPort);
+
+    getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
+    getValueFromXml(attr, "connectionTimeout", connectionConfig.connectionTimeout);   
+    getValueFromXml(attr, "executeTimeout", connectionConfig.executeTimeout);   
 
     return connectionConfig;
 }
@@ -66,7 +70,9 @@ bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const
 
     bool result = getValueFromXml(attr, name, val);
 
-    value = val.toInt();
+    if (result) {
+        value = val.toInt();
+    }    
 
     return result;
 }
@@ -77,7 +83,7 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
 
     saveXmlAttribute(dom, xml, "name", name);    
     saveXmlAttribute(dom, xml, "host", host);   
-    saveXmlAttribute(dom, xml, "port", QString("%1").arg(port));   
+    saveXmlAttribute(dom, xml, "port", QString::number(port));   
 
     if (useAuth()) {
         saveXmlAttribute(dom, xml, "auth", auth); 
@@ -87,11 +93,14 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
         saveXmlAttribute(dom, xml, "namespaceSeparator", namespaceSeparator); 
     }
 
+    saveXmlAttribute(dom, xml, "connectionTimeout", QString::number(connectionTimeout)); 
+    saveXmlAttribute(dom, xml, "executeTimeout", QString::number(executeTimeout)); 
+
     if (useSshTunnel()) {
         saveXmlAttribute(dom, xml, "sshHost", sshHost); 
         saveXmlAttribute(dom, xml, "sshUser", sshUser); 
         saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
-        saveXmlAttribute(dom, xml, "sshPort", QString("%1").arg(sshPort)); 
+        saveXmlAttribute(dom, xml, "sshPort", QString::number(sshPort)); 
     }
 
     return xml;

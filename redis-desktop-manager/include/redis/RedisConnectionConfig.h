@@ -43,6 +43,8 @@ public:
             auth = other.auth;
             port = other.port;
             namespaceSeparator = other.namespaceSeparator;
+            connectionTimeout = other.connectionTimeout;
+            executeTimeout = other.executeTimeout;
 
             setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
         }
