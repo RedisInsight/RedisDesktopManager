@@ -77,6 +77,8 @@ QVariant RedisConnection::execute(QString command)
 
         if (error == QAbstractSocket::UnknownSocketError && connect()) {
             return execute(command);
+        } else {
+            emit errorOccurred("Execution timeout exceeded");
         }
 
         return QVariant();

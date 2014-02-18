@@ -27,11 +27,6 @@ bool RedisConnectionConfig::useAuth() const
     return !(auth.isEmpty());
 }
 
-const QString& RedisConnectionConfig::getName()
-{
-    return name;
-}
-
 RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connectionNode) 
 {
     if (!connectionNode.hasAttributes()) {

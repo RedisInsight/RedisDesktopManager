@@ -91,9 +91,9 @@ void RedisConnectionAbstract::getDatabases()
     emit databesesLoaded(availableDatabeses);
 } 
 
-void RedisConnectionAbstract::selectDb(int dbIndex)
+bool RedisConnectionAbstract::selectDb(int dbIndex)
 {
-    execute(QString("select %1").arg(dbIndex));
+    return !execute(QString("select %1").arg(dbIndex)).isNull();
 }
 
 bool RedisConnectionAbstract::isConnected()

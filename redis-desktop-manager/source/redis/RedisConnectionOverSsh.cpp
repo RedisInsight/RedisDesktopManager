@@ -160,7 +160,7 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
     //on first emit
     if (!socketConnected) {
         socketConnected = true;            
-    }    
+    } 
 
     if (syncLoop->isRunning()) {
         syncLoop->exit();
@@ -169,7 +169,7 @@ void RedisConnectionOverSsh::OnSocketReadyRead()
     // ignore signals if running blocking version
     if (!commandRunning) {
         return;
-    }
+    }   
     
     readingBuffer = socket->read(MAX_BUFFER_SIZE);
 
@@ -218,6 +218,7 @@ QVariant RedisConnectionOverSsh::execute(QString command)
     syncLoop->exec();
 
     if (!syncTimer->isActive()) {
+        emit errorOccurred("Execution timeout exceeded");
         return QVariant();
     }
 
@@ -269,18 +270,15 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 
 void RedisConnectionOverSsh::runCommand(const Command &command)
 {
-    if (command.hasDbIndex()) {
-        selectDb(command.getDbIndex());
-    }
+    if (command.isEmpty()
+        || (command.hasDbIndex() && !selectDb(command.getDbIndex())) ) {
+        return sendResponse();
+    } 
 
     resp.clear();
     commandRunning = true;
     runningCommand = command;
-    executionTimer->start(config.executeTimeout);
-
-    if (command.isEmpty()) {
-        return sendResponse();
-    }    
+    executionTimer->start(config.executeTimeout);   
 
     /*
      *    Send command

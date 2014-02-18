@@ -49,7 +49,7 @@ public:
      * Select db 
      * see  http://redis.io/commands/select 
      */
-    void selectDb(int dbIndex);
+    bool selectDb(int dbIndex);
 
     static RedisConnectionAbstract * createConnection(const RedisConnectionConfig & c);
 

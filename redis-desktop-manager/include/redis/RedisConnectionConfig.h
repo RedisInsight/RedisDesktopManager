@@ -5,6 +5,7 @@
 
 #define DEFAULT_REDIS_PORT 6379
 #define DEFAULT_SSH_PORT 22
+#define DEFAULT_TIMEOUT_IN_MS 60000
 
 class RedisConnectionConfig
 {
@@ -22,14 +23,16 @@ public:
     QString sshPassword;
 
     //timeouts 
-    static const int connectionTimeout = 30000;
-    static const int executeTimeout = 60000;
+    int connectionTimeout;
+    int executeTimeout;
 
+    // other settings
     QString namespaceSeparator;    
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
 
     RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
-        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
+        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR),
+          connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS)
     {};
 
     RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
@@ -52,8 +55,6 @@ public:
     bool isNull();
     bool useSshTunnel() const;
     bool useAuth() const;
-
-    const QString& getName();
     
     QDomElement toXml(QDomDocument dom);    
 
