@@ -42,6 +42,11 @@ void Response::appendToSource(QByteArray& src)
     responseSource.append(src);
 }
 
+QString Response::toString()
+{
+    return responseSource.left(1500);
+}
+
 QVariant Response::getValue()
 {
     if (responseSource.isEmpty()) {

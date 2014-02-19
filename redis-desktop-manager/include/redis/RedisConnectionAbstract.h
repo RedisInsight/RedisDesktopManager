@@ -62,6 +62,7 @@ signals:
     void operationProgress(int percents, QObject *);
     void databesesLoaded(RedisConnectionAbstract::RedisDatabases);
     void errorOccurred(QString);
+    void log(QString);
 
 protected:
     bool connected;

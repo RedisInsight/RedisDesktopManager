@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>341</width>
-    <height>305</height>
+    <height>306</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -121,12 +121,15 @@
        <item row="3" column="1">
         <widget class="QLineEdit" name="sshUser"/>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Remote host</string>
+          <string>User</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="sshHost"/>
        </item>
        <item row="0" column="0" colspan="2">
         <widget class="QCheckBox" name="useSshTunnel">
@@ -134,9 +137,6 @@
           <string>Use SSH Tunnel</string>
          </property>
         </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="sshHost"/>
        </item>
        <item row="2" column="1">
         <widget class="QSpinBox" name="sshPort">
@@ -151,35 +151,40 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="sshPass">
-         <property name="inputMask">
-          <string/>
-         </property>
-         <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Remote host</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
+       <item row="4" column="1">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
           <string>Password</string>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>User</string>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QCheckBox" name="showPasswordCheckbox">
-         <property name="text">
-          <string>Show password</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="sshPass">
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="showPasswordCheckbox">
+            <property name="text">
+             <string>Show password</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -328,7 +333,6 @@
   <tabstop>sshHost</tabstop>
   <tabstop>sshPort</tabstop>
   <tabstop>sshUser</tabstop>
-  <tabstop>sshPass</tabstop>
   <tabstop>tabs</tabstop>
  </tabstops>
  <resources>

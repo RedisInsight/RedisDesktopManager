@@ -30,6 +30,8 @@ public:
 
     bool isErrorMessage() const;
 
+    QString toString();
+
 private:
 
     QByteArray responseSource;

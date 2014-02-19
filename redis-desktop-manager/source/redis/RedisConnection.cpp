@@ -32,15 +32,27 @@ bool RedisConnection::connect()
     socket->connectToHost(config.host, config.port);
 
     if (socket->waitForConnected(config.connectionTimeout)) 
-    {
-        connected = true;
-
+    {        
         if (config.useAuth()) {
             execute(QString("AUTH %1").arg(config.auth));
         }
+
+        connected = (execute("PING") == "PONG");
+
+        if (!connected)
+            emit errorOccurred("Redis server require password or password invalid");
+
     } else {
         connected = false;
-    }
+        emit errorOccurred("Connection timeout");
+    }    
+
+    if (connected) {
+        emit log(QString("%1 > connected").arg(config.name));
+    } else {
+        emit log(QString("%1 > connection failed").arg(config.name));
+        disconnect();
+    } 
 
     return connected;
 }
@@ -70,6 +82,8 @@ QVariant RedisConnection::execute(QString command)
     QByteArray cmd = Command::getByteRepresentation(command);
     socket->write(cmd);
     socket->flush();    
+
+    emit log(QString("%1 > [execute] %2").arg(config.name).arg(command));
 
     if (!socket->waitForReadyRead(config.executeTimeout)) {
 
@@ -102,11 +116,18 @@ QVariant RedisConnection::execute(QString command)
 
             if (!socket->waitForReadyRead(config.executeTimeout)) 
             {
+                emit log(QString("%1 > [execute] %2 -> response partially received. Execution timeout").arg(config.name).arg(command));
                 break;
             }
         }
 
     }    
+
+    emit log(
+        QString("%1 > [execute] %2 -> response received: \n %3")
+        .arg(config.name)
+        .arg(command)
+        .arg(response.toString()));
 
     return response.getValue();
 }
@@ -114,18 +135,17 @@ QVariant RedisConnection::execute(QString command)
 
 void RedisConnection::runCommand(const Command &command)
 {
-    if (command.hasDbIndex()) {
-        selectDb(command.getDbIndex());
-    }
+    emit log(QString("%1 > [runCommand] %2").arg(config.name).arg(command.getRawString()));
+
+    if (command.isEmpty()
+        || (command.hasDbIndex() && !selectDb(command.getDbIndex())) ) {
+            return sendResponse();
+    } 
 
     resp.clear();
     commandRunning = true;
     runningCommand = command;
-    executionTimer->start(config.executeTimeout);
-
-    if (command.isEmpty()) {
-        return sendResponse();
-    }    
+    executionTimer->start(config.executeTimeout);  
 
     // Send command
     QByteArray cmd = command.getByteRepresentation();

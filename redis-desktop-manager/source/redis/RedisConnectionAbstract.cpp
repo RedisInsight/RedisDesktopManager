@@ -135,6 +135,8 @@ void RedisConnectionAbstract::sendResponse()
         emit responseResived(resp.getValue(), runningCommand.getOwner());
     }
 
+    emit log(QString("%1 > [runCommand] %2 -> response recieved").arg(config.name).arg(runningCommand.getRawString()));
+
     commandRunning = false;
 
     processCommandQueue();

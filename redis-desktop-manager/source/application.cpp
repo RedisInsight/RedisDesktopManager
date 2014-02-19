@@ -25,6 +25,7 @@ MainWin::MainWin(QWidget *parent)
     initFormButtons();    
     initUpdater();
     initFilter();
+    initSystemConsole();
     
     qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
     qRegisterMetaType<Command>("Command");    
@@ -88,6 +89,21 @@ void MainWin::initFilter()
 {
     connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
     connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
+}
+
+void MainWin::initSystemConsole()
+{
+    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System console" );
+
+    connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
+
+    ui.systemConsole->hide();
+    ui.statusBar->addPermanentWidget(systemConsoleActivator);
+}
+
+void MainWin::OnConsoleStateChanged()
+{
+    ui.systemConsole->setVisible(!ui.systemConsole->isVisible());
 }
 
 QString MainWin::getConfigPath(const QString& configFile)
@@ -388,6 +404,11 @@ void MainWin::OnKeyOpenInNewTab()
 void MainWin::OnError(QString msg)
 {
     QMessageBox::warning(this, "Error", msg);
+}
+
+void MainWin::OnLogMessage(QString message)
+{
+    ui.systemConsole->appendPlainText(QString("[%1] %2").arg(QTime::currentTime().toString()).arg(message));
 }
 
 void MainWin::OnUIUnlock()

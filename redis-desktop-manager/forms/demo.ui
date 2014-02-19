@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>1036</width>
-    <height>618</height>
+    <height>671</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -59,9 +59,6 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <layout class="QGridLayout" name="gridLayout_3">
-    <property name="sizeConstraint">
-     <enum>QLayout::SetNoConstraint</enum>
-    </property>
     <property name="leftMargin">
      <number>3</number>
     </property>
@@ -72,60 +69,67 @@
      <number>3</number>
     </property>
     <property name="bottomMargin">
-     <number>0</number>
+     <number>3</number>
     </property>
-    <property name="horizontalSpacing">
-     <number>5</number>
-    </property>
-    <property name="verticalSpacing">
-     <number>0</number>
+    <property name="spacing">
+     <number>3</number>
     </property>
     <item row="0" column="0">
-     <widget class="QSplitter" name="splitter">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+     <widget class="QSplitter" name="splitter_2">
+      <property name="lineWidth">
+       <number>0</number>
       </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
-      <property name="opaqueResize">
-       <bool>true</bool>
+      <property name="handleWidth">
+       <number>1</number>
       </property>
-      <property name="childrenCollapsible">
-       <bool>false</bool>
-      </property>
-      <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>2</number>
-        </property>
-        <item>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="0" column="0">
-           <widget class="QLineEdit" name="leKeySearchPattern">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="sizeIncrement">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>&lt;p&gt;&lt;b&gt;Key search supports regular expressions:&lt;/b&gt;&lt;/p&gt;
+      <widget class="QSplitter" name="splitter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="opaqueResize">
+        <bool>true</bool>
+       </property>
+       <property name="childrenCollapsible">
+        <bool>false</bool>
+       </property>
+       <widget class="QWidget" name="layoutWidget">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLineEdit" name="leKeySearchPattern">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="sizeIncrement">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;p&gt;&lt;b&gt;Key search supports regular expressions:&lt;/b&gt;&lt;/p&gt;
 
 &lt;pre&gt;
 . 	Any character except newline.
@@ -152,370 +156,370 @@ aa|bb 	Either aa or bb.
 (?!expr) 	Not followed by expr.
 &lt;/pre&gt;
 </string>
-            </property>
-            <property name="inputMask">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>key search...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QToolButton" name="pbFindFilter">
-            <property name="minimumSize">
-             <size>
-              <width>35</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>50</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="sizeIncrement">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Apply filter</string>
-            </property>
-            <property name="text">
-             <string>Find</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../Resources/demo.qrc">
-              <normaloff>:/images/ok.png</normaloff>:/images/ok.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QToolButton" name="pbClearFilter">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>35</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>60</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="sizeIncrement">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Reset filter</string>
-            </property>
-            <property name="text">
-             <string>Clear</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../Resources/demo.qrc">
-              <normaloff>:/images/clear.png</normaloff>:/images/clear.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="ConnectionTreeView" name="serversTreeView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>8000</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font-family: monospaced;</string>
-          </property>
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOn</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOn</enum>
-          </property>
-          <property name="headerHidden">
-           <bool>true</bool>
-          </property>
-          <attribute name="headerVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="headerCascadingSectionResizes">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="headerDefaultSectionSize">
-           <number>300</number>
-          </attribute>
-          <attribute name="headerStretchLastSection">
-           <bool>false</bool>
-          </attribute>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <item>
-           <widget class="QToolButton" name="pbImportConnections">
-            <property name="minimumSize">
-             <size>
-              <width>145</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>145</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>145</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Manage Connections</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../Resources/demo.qrc">
-              <normaloff>:/images/menu.png</normaloff>:/images/menu.png</iconset>
-            </property>
-            <property name="popupMode">
-             <enum>QToolButton::InstantPopup</enum>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
-            </property>
-            <property name="autoRaise">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="pbAddServer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>135</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>135</width>
-              <height>35</height>
-             </size>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding-left: 50px;
-
-</string>
-            </property>
-            <property name="text">
-             <string>Add New Connection</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../Resources/demo.qrc">
-              <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="MainTabsWidget" name="tabWidget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>580</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="tabPosition">
-        <enum>QTabWidget::North</enum>
-       </property>
-       <property name="tabShape">
-        <enum>QTabWidget::Rounded</enum>
-       </property>
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <property name="elideMode">
-        <enum>Qt::ElideNone</enum>
-       </property>
-       <property name="usesScrollButtons">
-        <bool>true</bool>
-       </property>
-       <property name="documentMode">
-        <bool>false</bool>
-       </property>
-       <property name="tabsClosable">
-        <bool>true</bool>
-       </property>
-       <property name="movable">
-        <bool>true</bool>
-       </property>
-       <widget class="BaseTab" name="rdmTab">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>2</horstretch>
-          <verstretch>2</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>50000</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <attribute name="icon">
-         <iconset resource="../Resources/demo.qrc">
-          <normaloff>:/images/redisIcon.png</normaloff>:/images/redisIcon.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>Redis Desktop Manager</string>
-        </attribute>
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetNoConstraint</enum>
-         </property>
-         <item row="0" column="0">
-          <widget class="QWidget" name="applicationIntroWidget" native="true">
+             </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>key search...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QToolButton" name="pbFindFilter">
+             <property name="minimumSize">
+              <size>
+               <width>35</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="sizeIncrement">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Apply filter</string>
+             </property>
+             <property name="text">
+              <string>Find</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resources/demo.qrc">
+               <normaloff>:/images/ok.png</normaloff>:/images/ok.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QToolButton" name="pbClearFilter">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>35</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="sizeIncrement">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Reset filter</string>
+             </property>
+             <property name="text">
+              <string>Clear</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resources/demo.qrc">
+               <normaloff>:/images/clear.png</normaloff>:/images/clear.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="ConnectionTreeView" name="serversTreeView">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>570</width>
-             <height>255</height>
+             <width>300</width>
+             <height>0</height>
             </size>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="applicationInfoLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>190</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>190</height>
-               </size>
-              </property>
-              <property name="baseSize">
-               <size>
-                <width>0</width>
-                <height>190</height>
-               </size>
-              </property>
-              <property name="layoutDirection">
-               <enum>Qt::LeftToRight</enum>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::NoFrame</enum>
-              </property>
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;
+           <property name="maximumSize">
+            <size>
+             <width>8000</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font-family: monospaced;</string>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="headerHidden">
+            <bool>true</bool>
+           </property>
+           <attribute name="headerVisible">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="headerCascadingSectionResizes">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="headerDefaultSectionSize">
+            <number>300</number>
+           </attribute>
+           <attribute name="headerStretchLastSection">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QToolButton" name="pbImportConnections">
+             <property name="minimumSize">
+              <size>
+               <width>145</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>145</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>145</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Manage Connections</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resources/demo.qrc">
+               <normaloff>:/images/menu.png</normaloff>:/images/menu.png</iconset>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="pbAddServer">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>135</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>135</width>
+               <height>35</height>
+              </size>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">padding-left: 50px;
+
+</string>
+             </property>
+             <property name="text">
+              <string>Add New Connection</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resources/demo.qrc">
+               <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="MainTabsWidget" name="tabWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>580</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::North</enum>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="elideMode">
+         <enum>Qt::ElideNone</enum>
+        </property>
+        <property name="usesScrollButtons">
+         <bool>true</bool>
+        </property>
+        <property name="documentMode">
+         <bool>false</bool>
+        </property>
+        <property name="tabsClosable">
+         <bool>true</bool>
+        </property>
+        <property name="movable">
+         <bool>true</bool>
+        </property>
+        <widget class="BaseTab" name="rdmTab">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>2</horstretch>
+           <verstretch>2</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50000</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <attribute name="icon">
+          <iconset resource="../Resources/demo.qrc">
+           <normaloff>:/images/redisIcon.png</normaloff>:/images/redisIcon.png</iconset>
+         </attribute>
+         <attribute name="title">
+          <string>Redis Desktop Manager</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetNoConstraint</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QWidget" name="applicationIntroWidget" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>570</width>
+              <height>255</height>
+             </size>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="applicationInfoLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>190</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>190</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>190</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;
 
 &lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
 &lt;body style=&quot;width:100%;&quot;&gt;&lt;div style=&quot;font-size:20pt; padding-top:10px;&quot;&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/logo.png&quot;/&gt;&lt;div style=&quot; font-size:24pt; margin-left: 100px; margin-top:2px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot;margin-left: 100px; display: inline-block; padding-left:53px; font-size: 11px; line-height: 21px&quot;&gt;&lt;b&gt;Cross-platform GUI application for managing Redis.&lt;/b&gt; &lt;br /&gt;&lt;b&gt;Version&lt;/b&gt; %VERSION% &amp;nbsp;&amp;nbsp;&amp;nbsp; Developed by - &lt;a href=&quot;http://glide.name/?rdm&quot;&gt;Igor Malinovskiy&lt;/a&gt; &lt;/div&gt;
@@ -536,42 +540,93 @@ aa|bb 	Either aa or bb.
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="textFormat">
-               <enum>Qt::RichText</enum>
-              </property>
-              <property name="scaledContents">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-              </property>
-              <property name="openExternalLinks">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
+               </property>
+               <property name="textFormat">
+                <enum>Qt::RichText</enum>
+               </property>
+               <property name="scaledContents">
+                <bool>false</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
+      </widget>
+      <widget class="QPlainTextEdit" name="systemConsole">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="sizeIncrement">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
+       <property name="documentTitle">
+        <string>System console</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+       <property name="maximumBlockCount">
+        <number>100000</number>
+       </property>
       </widget>
      </widget>
     </item>

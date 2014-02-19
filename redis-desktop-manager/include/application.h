@@ -36,6 +36,7 @@ private:
     void initContextMenus();    
     void initUpdater();
     void initFilter();
+    void initSystemConsole();
 
     private slots:
         void OnAddConnectionClick();
@@ -54,7 +55,9 @@ private:
         void OnServerInfoOpen();
         void OnConsoleOpen();
         void OnError(QString);
+        void OnLogMessage(QString);
         void OnUIUnlock();
         void OnStatusMessage(QString);
         void OnKeyOpenInNewTab();
+        void OnConsoleStateChanged();
 };

@@ -60,6 +60,7 @@ bool RedisConnectionOverSsh::connect()
 
     if (socket == NULL) {
         socketConnected = false;
+        emit errorOccurred(QString("SSH connection established, but redis connection failed"));
         return socketConnected;
     }
 
@@ -70,12 +71,22 @@ bool RedisConnectionOverSsh::connect()
 
     if (!socketConnected && !syncTimer->isActive()) {
         socketConnected = false;
-        emit errorOccurred(QString("SSH connection established, but redis connection error occurred"));
+        emit errorOccurred(QString("SSH connection established, but redis connection failed"));
         return socketConnected;
     }
 
     if (config.useAuth()) {
         execute(QString("AUTH %1").arg(config.auth));
+    }
+
+    connected = (execute("PING") == "PONG");
+
+    if (connected) {
+        emit log(QString("%1 > connected").arg(config.name));
+    } else {
+        emit errorOccurred("Redis server require password or password invalid");
+        emit log(QString("%1 > connection failed").arg(config.name));
+        disconnect();
     }
 
     return socketConnected;    
@@ -213,6 +224,8 @@ QVariant RedisConnectionOverSsh::execute(QString command)
 
     socket->write(cString, byteArray.size());
 
+    emit log(QString("%1 > [execute] %2").arg(config.name).arg(command));
+
     //wait for ready read
     syncTimer->start(config.executeTimeout);
     syncLoop->exec();
@@ -260,16 +273,26 @@ QVariant RedisConnectionOverSsh::execute(QString command)
                 continue;
             }
 
+            emit log(QString("%1 > [execute] %2 -> response partially received. Execution timeout").arg(config.name).arg(command));
+
             break;
         }
 
     }    
+
+    emit log(
+        QString("%1 > [execute] %2 -> response received: \n %3")
+        .arg(config.name)
+        .arg(command)
+        .arg(response.toString()));
 
     return response.getValue();
 }
 
 void RedisConnectionOverSsh::runCommand(const Command &command)
 {
+    emit log(QString("%1 > [runCommand] %2").arg(config.name).arg(command.getRawString()));
+
     if (command.isEmpty()
         || (command.hasDbIndex() && !selectDb(command.getDbIndex())) ) {
         return sendResponse();
