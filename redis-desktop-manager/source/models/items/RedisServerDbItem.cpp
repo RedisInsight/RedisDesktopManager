@@ -24,9 +24,10 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
     connect(&keysLoadingWatcher, SIGNAL(finished()), this, SLOT(keysLoadingFinished()));
 }
 
-void RedisServerDbItem::loadKeys()
+bool RedisServerDbItem::loadKeys()
 {
-    if (isKeysLoaded) return;
+    if (isKeysLoaded) 
+        return false;
 
     setBusyIcon();    
 
@@ -40,6 +41,8 @@ void RedisServerDbItem::loadKeys()
     server->connection->addCommand(Command("keys *", this, dbIndex));
 
     server->locked = true;
+
+    return true;
 }
 
 void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)

@@ -15,7 +15,7 @@ public:
     RedisServerDbItem(QString name, int keysCount, RedisServerItem * parent);
     ~RedisServerDbItem();
 
-    void loadKeys();
+    bool loadKeys();
 
     void setFilter(QRegExp &);
     void resetFilter();

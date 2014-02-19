@@ -148,25 +148,28 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
     switch (type) {
     case RedisServerItem::TYPE:
     {            
-        RedisServerItem * server = (RedisServerItem *)item;
+        RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
         server->runDatabaseLoading();                
         ui.serversTreeView->setExpanded(index, true);
     }
     break;
 
     case RedisServerDbItem::TYPE:
-    {
-        performanceTimer.start();
-        RedisServerDbItem * db = (RedisServerDbItem *)item;
-        connections->blockSignals(true);
-        statusBar()->showMessage(QString("Loading keys ..."));
-        db->loadKeys();                
-        ui.serversTreeView->setExpanded(index, true);
+    {        
+        RedisServerDbItem * db = dynamic_cast<RedisServerDbItem *>(item);
+
+        if (db->loadKeys()) {
+            performanceTimer.start();
+            connections->blockSignals(true);
+            statusBar()->showMessage(QString("Loading keys ..."));
+            ui.serversTreeView->setExpanded(index, true);
+        }                
+                     
     }            
     break;
 
     case RedisKeyItem::TYPE:    
-        ui.tabWidget->openKeyTab((RedisKeyItem *)item);    
+        ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));    
         break;
     }
 }
