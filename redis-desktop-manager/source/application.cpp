@@ -216,7 +216,10 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
         QAction * action = serverMenu->exec(currentPoint);
 
-        if (action != nullptr && action->text() == "Reload")
+        if (action == nullptr)
+            return;
+            
+        if (action->text() == "Reload")
             treeViewUILocked = true;
         
     } else if (type == RedisKeyItem::TYPE) {
