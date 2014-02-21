@@ -29,6 +29,7 @@ protected:
     int getTabIndex(QString&);    
 
 protected slots:
+    void OnError(const QString &);
     void OnTabClose(int i);
     void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
 };

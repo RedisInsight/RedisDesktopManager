@@ -1,6 +1,7 @@
 #include "MainTabsWidget.h"
 #include <QTabBar>
-#include "valueViewTab.h"
+#include <QMessageBox>
+#include "valueTab.h"
 
 MainTabsWidget::MainTabsWidget(QWidget * parent)
     : QTabWidget(parent)
@@ -115,4 +116,9 @@ void MainTabsWidget::closeTab(unsigned int index)
 void MainTabsWidget::OnTabClose(int index)
 {
     closeTab((unsigned int)index);
+}
+
+void MainTabsWidget::OnError(const QString &error)
+{
+    QMessageBox::warning(this, "Error", error);
 }
