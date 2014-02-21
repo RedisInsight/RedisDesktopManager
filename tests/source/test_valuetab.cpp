@@ -1,5 +1,5 @@
 #include "test_valuetab.h"
-#include "valueViewTab.h"
+#include "valueTab.h"
 
 void TestValueTab::testCreationOfObject()
 {
