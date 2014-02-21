@@ -57,22 +57,22 @@ void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
 
     rawKeys = keys.toStringList();
 
-    int resultSize = rawKeys.size();
+    keysCount = rawKeys.size();
 
-    if (resultSize == 0) {
+    if (keysCount == 0) {
         server->unlockUI();
         setNormalIcon();
         return;
     }
 
-    if (resultSize < keysCount) {
+    if (keysCount < keysCount) {
         server->error(QString("Loaded keys: %2 of %3. Error - %4 <br /> Check <a href='https://github.com/uglide/RedisDesktopManager/wiki/Known-issues'>documentation</a>")
-            .arg(resultSize)
+            .arg(keysCount)
             .arg(keysCount)
             .arg(server->connection->getLastError()));
     }
 
-
+    setDbText();
     renderKeys(rawKeys);
 
     setNormalIcon();

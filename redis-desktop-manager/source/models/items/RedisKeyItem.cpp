@@ -1,4 +1,5 @@
 #include "RedisKeyItem.h"
+#include "RedisKeyNamespace.h"
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 #include "KeyModel.h"
@@ -78,7 +79,7 @@ Command RedisKeyItem::getTypeCommand()
 
 ConnectionBridge * RedisKeyItem::getConnection()
 {
-    if (db == nullptr)
+    if (db == nullptr || db->server == nullptr)
         return nullptr;
 
     return db->server->connection;
@@ -86,6 +87,8 @@ ConnectionBridge * RedisKeyItem::getConnection()
 
 void RedisKeyItem::remove()
 {
-    db->decreaseKeyCounter();
-    db->removeRow(this->row());
+    if (db != nullptr)
+        db->decreaseKeyCounter();
+
+    setEnabled(false); 
 }
