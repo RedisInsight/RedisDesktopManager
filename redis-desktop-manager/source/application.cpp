@@ -9,7 +9,7 @@
 
 #include "connection.h"
 #include "Redis.h"
-#include "valueViewTab.h"
+#include "valueTab.h"
 #include "Updater.h"
 #include "serverInfoViewTab.h"
 #include "consoleTab.h"
@@ -169,7 +169,10 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
     break;
 
     case RedisKeyItem::TYPE:    
-        ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));    
+
+        if (item->isEnabled())
+            ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));    
+
         break;
     }
 }
@@ -420,8 +423,11 @@ void MainWin::OnLogMessage(QString message)
 void MainWin::OnUIUnlock()
 {
     treeViewUILocked = false;
-    connections->blockSignals(false);    
-    ui.serversTreeView->doItemsLayout();
+
+    if (connections->signalsBlocked()) {
+        connections->blockSignals(false);    
+        ui.serversTreeView->doItemsLayout();
+    }
 
     if (performanceTimer.isValid()) {
         statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
