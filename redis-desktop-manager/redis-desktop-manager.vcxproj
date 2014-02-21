@@ -104,10 +104,10 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_Updater.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ValueTabView.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_valueTab.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_valueViewTab.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_ValueTabView.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_demo.cpp">
@@ -209,10 +209,10 @@
     <ClCompile Include="GeneratedFiles\Release\moc_Updater.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ValueTabView.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_valueTab.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_valueViewTab.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_ValueTabView.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="source\connection.cpp" />
@@ -258,7 +258,7 @@
     <ClCompile Include="source\widgets\qconsole.cpp" />
     <ClCompile Include="source\widgets\ServerContextMenu.cpp" />
     <ClCompile Include="source\widgets\ValueTabView.cpp" />
-    <ClCompile Include="source\widgets\valueViewTab.cpp" />
+    <ClCompile Include="source\widgets\valueTab.cpp" />
     <ClCompile Include="source\widgets\serverInfoViewTab.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -549,15 +549,15 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB  "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\libssh\include" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\handler" "-I$(SolutionDir)\deps\google-breakpad\src\common\windows" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\common" "-I$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common" "-I$(SolutionDir)\deps\google-breakpad\src\processor" "-I$(SolutionDir)\deps\google-breakpad\src"</Command>
     </CustomBuild>
     <ClInclude Include="resource.h" />
-    <CustomBuild Include="include\widgets\valueViewTab.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing valueViewTab.h...</Message>
+    <CustomBuild Include="include\widgets\valueTab.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing valueTab.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB  "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\libssh\include" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\handler" "-I$(SolutionDir)\deps\google-breakpad\src\common\windows" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\common" "-I$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common" "-I$(SolutionDir)\deps\google-breakpad\src\processor" "-I$(SolutionDir)\deps\google-breakpad\src"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing valueViewTab.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\libssh\include" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\handler" "-I$(SolutionDir)\deps\google-breakpad\src\common\windows" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\common" "-I$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common" "-I$(SolutionDir)\deps\google-breakpad\src\processor" "-I$(SolutionDir)\deps\google-breakpad\src"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing valueTab.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB  "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\libssh\include" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\handler" "-I$(SolutionDir)\deps\google-breakpad\src\common\windows" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\common" "-I$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common" "-I$(SolutionDir)\deps\google-breakpad\src\processor" "-I$(SolutionDir)\deps\google-breakpad\src"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DQT_XML_LIB -DQT_CONCURRENT_LIB "-I." "-I.\GeneratedFiles" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtConcurrent" "-I$(SolutionDir)\deps\libssh\include" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\handler" "-I$(SolutionDir)\deps\google-breakpad\src\common\windows" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\crash_generation" "-I$(SolutionDir)\deps\google-breakpad\src\client\windows\common" "-I$(SolutionDir)\deps\google-breakpad\src\google_breakpad\common" "-I$(SolutionDir)\deps\google-breakpad\src\processor" "-I$(SolutionDir)\deps\google-breakpad\src"</Command>
     </CustomBuild>
     <CustomBuild Include="include\updater\Updater.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
