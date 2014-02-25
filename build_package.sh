@@ -1,6 +1,8 @@
 #!/bin/sh
 QTDIR=/usr/local/Qt-5.1.1
 
+export PATH=$PATH:$QTDIR/bin
+
 echo ===========================
 echo build dir :
 echo ===========================
