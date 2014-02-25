@@ -1,7 +1,7 @@
 #!/bin/sh
 QTPATH=/Users/admin/Qt5.1.1/5.1.1/clang_64/bin
 
-export PATH=$PATH:$QTDIR
+export PATH=$PATH:$QTPATH
 
 echo ===========================
 TAG=$1
