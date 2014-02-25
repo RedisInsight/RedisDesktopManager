@@ -26,7 +26,7 @@ cd ./../
 
 BUNDLE_PATH=./bin/linux/release/ 
 BUILD_DIR=$BUNDLE_PATH/rdm.app/Contents/
-MAC_TOOL=$QTDIR/macdeployqt
+MAC_TOOL=$QTPATH/macdeployqt
 
 cp -f ./redis-desktop-manager/Info.plist $BUILD_DIR/
 cp -f ./redis-desktop-manager/rdm.icns $BUILD_DIR/Resources/
