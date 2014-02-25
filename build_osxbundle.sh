@@ -20,7 +20,7 @@ make -s
 echo ‘============== Build rdm ================’
 cd ./../redis-desktop-manager/
 pwd
-sudo sh ./configure
+sh ./configure
 qmake
 make -s clean
 make -s
