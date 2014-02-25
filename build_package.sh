@@ -19,8 +19,6 @@ make
 
 cd ./../
 
-cp ./bin/linux/release/crashreporter ./bin/linux/release/
-
 echo   
 echo ===========================
 TAG=$1
@@ -102,7 +100,12 @@ export DEBEMAIL DEBFULLNAME
 dpkg-buildpackage -b
 
 
-
+echo ==========================
+echo Clean
+echo ==========================
+rm -f redis-desktop-manager-*.gz
+rm -f redis-desktop-manager-*.tar
+rm -fR ./redis-desktop-manager-*/
 
 
 
