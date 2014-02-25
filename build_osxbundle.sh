@@ -8,6 +8,9 @@ TAG=$1
 echo Version: $TAG
 echo ===========================
 
+rm -fR ./bin/linux/release/*
+
+
 echo ‘============== Build crash reporter ================’
 cd ./crashreporter
 qmake
@@ -16,6 +19,7 @@ make -s
 
 echo ‘============== Build rdm ================’
 cd ./../redis-desktop-manager/
+pwd
 sudo sh ./configure
 qmake
 make -s clean
