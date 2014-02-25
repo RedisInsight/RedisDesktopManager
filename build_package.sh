@@ -21,9 +21,8 @@ cp ./bin/linux/release/crashreporter ./bin/linux/release/
 
 echo   
 echo ===========================
-TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-REVISION=$(git rev-parse --short HEAD)
-echo Last tag: $TAG Revision: $REVISION
+TAG=$1
+echo Last tag: $TAG
 echo ===========================
 
 echo   
