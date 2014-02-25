@@ -7,8 +7,8 @@
     #define CALLBACK_MACRO
 #endif
 
-class Command
-{
+class Command 
+{    
 public:
     Command();
     Command(const QString& cmdString, QObject * owner, int db = -1);
@@ -28,7 +28,7 @@ public:
 
     QString getRawString() const;
     
-    QObject * getOwner();
+    QObject * getOwner() const;
     void setOwner(QObject *);
 
     bool hasCallback();
@@ -36,12 +36,19 @@ public:
     QString getCallbackName();
     void setCallBackName(const QString &);
 
+    void cancel();
+    bool isCanceled();
+
 private:
     QObject * owner;
     QStringList commandWithArguments;
     int dbIndex;
     QString callBackMethod;
+    bool commandCanceled;
 
     QStringList splitCommandString(const QString &);
+
+private slots:
+    void cancelCommand();
 };
 

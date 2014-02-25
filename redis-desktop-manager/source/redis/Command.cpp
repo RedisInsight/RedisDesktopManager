@@ -1,29 +1,33 @@
 #include "Command.h"
 
 Command::Command()
-    : owner(nullptr), commandWithArguments(""), dbIndex(-1)
+    : owner(nullptr), commandWithArguments(""), dbIndex(-1), commandCanceled(false)
 {
     
 }
 
 Command::Command(const QString& cmdString, QObject * owner, int db)
-    : owner(owner), commandWithArguments(splitCommandString(cmdString)), dbIndex(db)
+    : owner(owner), commandWithArguments(splitCommandString(cmdString)), 
+    dbIndex(db), commandCanceled(false)
 {
 }
 
 Command::Command(const QStringList& cmd, QObject * owner, int db)
-    : owner(owner), commandWithArguments(cmd), dbIndex(db)
+    : owner(owner), commandWithArguments(cmd), 
+    dbIndex(db), commandCanceled(false)
 {
 }
 
 Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
-    : owner(owner), commandWithArguments(splitCommandString(cmdString)), dbIndex(db), callBackMethod(invokeMethod)
+    : owner(owner), commandWithArguments(splitCommandString(cmdString)), 
+    dbIndex(db), callBackMethod(invokeMethod), commandCanceled(false)
 {
 
 }
 
 Command::Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db)
-    : owner(owner), commandWithArguments(cmd), dbIndex(db), callBackMethod(invokeMethod)
+    : owner(owner), commandWithArguments(cmd), 
+    dbIndex(db), callBackMethod(invokeMethod), commandCanceled(false)
 {
 
 }
@@ -69,7 +73,7 @@ bool Command::isEmpty() const
     return commandWithArguments.isEmpty();
 }
 
-QObject * Command::getOwner()
+QObject * Command::getOwner() const
 {
     return owner;
 }
@@ -108,4 +112,14 @@ QByteArray Command::getByteRepresentation(const QStringList& command)
 QByteArray Command::getByteRepresentation() const
 {
     return Command::getByteRepresentation(commandWithArguments);
+}
+
+void Command::cancel()
+{
+    commandCanceled = true;
+}
+
+bool Command::isCanceled()
+{
+    return commandCanceled;
 }

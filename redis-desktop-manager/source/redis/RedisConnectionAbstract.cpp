@@ -112,17 +112,37 @@ void RedisConnectionAbstract::processCommandQueue()
 
 void RedisConnectionAbstract::addCommand(const Command& cmd)
 {
+    QObject::connect(
+        cmd.getOwner(), SIGNAL(destroyed(QObject *)), 
+        this, SLOT(cancelCommands(QObject *))
+        );
+
     commands.enqueue(cmd);
 
     processCommandQueue();
+}
+
+void RedisConnectionAbstract::cancelCommands(QObject * owner)
+{
+    QListIterator<Command> cmd(commands);
+
+    while (cmd.hasNext())
+    {
+        auto currentCommand = cmd.next();
+
+        if (currentCommand.getOwner() == owner) {
+            currentCommand.cancel();
+        }
+    }
+        
 }
 
 void RedisConnectionAbstract::sendResponse()
 {
     executionTimer->stop();    
 
-    if (runningCommand.hasCallback()) {
-        
+    if (runningCommand.hasCallback() && !runningCommand.isCanceled()) {
+                
         QString callbackName = runningCommand.getCallbackName();
         
         QMetaObject::invokeMethod(

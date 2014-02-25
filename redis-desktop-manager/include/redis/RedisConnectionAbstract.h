@@ -81,6 +81,7 @@ protected:
 
 protected slots:
     void executionTimeout();
+    void cancelCommands(QObject *);
 };
 
 Q_DECLARE_METATYPE(RedisConnectionAbstract::RedisDatabases)
