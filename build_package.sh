@@ -1,7 +1,9 @@
 #!/bin/sh
 QTDIR=/usr/local/Qt-5.1.1
 
-export PATH=$PATH:$QTDIR/bin
+export PATH=$QTDIR/bin:$PATH
+qmake -v
+which qmake
 
 echo ===========================
 echo build dir :
