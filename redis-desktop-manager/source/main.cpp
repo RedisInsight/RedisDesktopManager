@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <QDir>
+#include <QSettings>
 
 #include "CrashHandler.h"
 #include "version.h"
@@ -17,10 +18,17 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationDomain("redisdesktop.com");
     
 
-    #if defined(Q_OS_LINUX)
-    QFont defaultFont("Arial", 10);
+#if defined(Q_OS_LINUX)
+    QSettings settings;
+    QVariant fontName = settings.value("font/name", QVariant("Arial"));
+    QVariant fontSize = settings.value("font/size", QVariant(10));
+
+    QFont defaultFont(fontName.toString(), fontSize.toInt());
     QApplication::setFont(defaultFont);
-    #endif
+
+    settings.setValue("font/name", fontName);
+    settings.setValue("font/size", fontSize);
+#endif
 
     MainWin w;
     w.show();
