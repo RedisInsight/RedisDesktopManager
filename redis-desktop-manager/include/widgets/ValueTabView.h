@@ -35,6 +35,8 @@ public:
 
     void initKeyValue(KeyModel *);
 
+    void setKeyExpire(int);
+
     const QModelIndex * getCurrentCell();
 
     void showLoader();
@@ -55,6 +57,7 @@ protected:
     QSplitter *splitter;
     QLabel *keyNameLabel;    
     QLabel *keyValueLabel;
+    QLabel * keyExpireLabel;
     QLabel *loaderLabel;
     QMovie *loader;
     QLabel * formatterLabel;

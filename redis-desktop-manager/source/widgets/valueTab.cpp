@@ -95,9 +95,11 @@ void ValueTab::keyTypeLoaded(Response type)
     connect(keyModel.data(), SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
     connect(keyModel.data(), SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
     connect(keyModel.data(), SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
+    connect(keyModel.data(), SIGNAL(ttlLoaded(Response)), this, SLOT(ttlLoaded(Response)));
 
     operationInProgress = true;
     keyModel->loadValue();
+    keyModel->loadTTL();
 }
 
 void ValueTab::valueLoaded()
@@ -108,6 +110,17 @@ void ValueTab::valueLoaded()
     ui->initKeyValue(keyModel.data());
 
     setObjectName("valueTabReady");
+}
+
+void ValueTab::ttlLoaded(Response r)
+{
+    if (isOperationsAborted())
+        return destroy();
+
+    if (r.isErrorMessage())
+        return;
+
+    ui->setKeyExpire(r.getValue().toInt());
 }
 
 void ValueTab::renameKey()

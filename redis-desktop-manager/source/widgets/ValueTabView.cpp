@@ -58,6 +58,9 @@ void ValueTabView::initKeyName()
     keyTypeLabelValue = new QLabel(controller);
     keyTypeLabelValue->setText("Type: ");
 
+    keyExpireLabel = new QLabel(controller);
+    keyExpireLabel->setText("");
+
     renameKey = new QPushButton;
     renameKey->setText("Rename");    
 
@@ -73,9 +76,18 @@ void ValueTabView::initKeyName()
     
     grid->addWidget(keyName, 0, 1, 1, 1);    
     grid->addWidget(keyTypeLabelValue, 0, 2, 1, 1);    
-    grid->addWidget(renameKey, 0, 3, 1, 1);    
-    grid->addWidget(deleteKey, 0, 4, 1, 1);    
+    grid->addWidget(keyExpireLabel, 0, 3, 1, 1);  
+    grid->addWidget(renameKey, 0, 4, 1, 1);    
+    grid->addWidget(deleteKey, 0, 5, 1, 1);    
     gridLayout->addLayout(grid, 0, 1, 1, 1);
+}
+
+void ValueTabView::setKeyExpire(int ttl)
+{
+    if (ttl > 0) 
+        keyExpireLabel->setText(QString("TTL: %1 sec").arg(ttl));
+    else
+        keyExpireLabel->setText("TTL: -");
 }
 
 void ValueTabView::initKeyValue(KeyModel * model)

@@ -14,6 +14,8 @@ public:
 
     virtual void loadValue() = 0;
 
+    void loadTTL();
+
     QString getKeyName();
 
     void renameKey(const QString&);
@@ -33,6 +35,7 @@ public:
 
 signals:    
     void valueLoaded();
+    void ttlLoaded(Response);
     void keyRenamed();
     void keyRenameError(const QString&);
     void keyDeleted();
