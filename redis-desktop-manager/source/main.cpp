@@ -15,6 +15,12 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("Redis Desktop Manager");
     QApplication::setApplicationVersion(RDM_VERSION);    
     QApplication::setOrganizationDomain("redisdesktop.com");
+    
+
+    #if defined(Q_OS_LINUX)
+    QFont defaultFont("Arial");
+    QApplication::setFont(defaultFont);
+    #endif
 
     MainWin w;
     w.show();
