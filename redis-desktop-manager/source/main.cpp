@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 
 #if defined(Q_OS_LINUX)
     QSettings settings;
-    QVariant fontName = settings.value("font/name", QVariant("Helvetica"));
-    QVariant fontSize = settings.value("font/size", QVariant(10));
+    QVariant fontName = settings.value("font/name", QVariant("DejaVu Sans"));
+    QVariant fontSize = settings.value("font/size", QVariant(9));
 
     QFont defaultFont(fontName.toString(), fontSize.toInt());
     defaultFont.setStyleHint(QFont::SansSerif);
