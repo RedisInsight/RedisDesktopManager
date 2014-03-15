@@ -1,5 +1,10 @@
 #!/bin/sh
-QTDIR=/usr/local/Qt-5.1.1
+QTVER=5.1.1
+QTDIR=/usr/local/Qt-$QTVER
+
+export PATH=$QTDIR/bin:$PATH
+qmake -v
+which qmake
 
 echo ===========================
 echo build dir :
@@ -17,13 +22,10 @@ make
 
 cd ./../
 
-cp ./bin/linux/release/crashreporter ./bin/linux/release/
-
 echo   
 echo ===========================
-TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-REVISION=$(git rev-parse --short HEAD)
-echo Last tag: $TAG Revision: $REVISION
+TAG=$1
+echo Last tag: $TAG
 echo ===========================
 
 echo   
@@ -60,11 +62,12 @@ mkdir $DEPS_LIB/plugins/platforms
 mkdir $DEPS_LIB/fonts
 sudo cp -Rf $QTDIR/plugins/platforms/lib* $DEPS_LIB/plugins/platforms  
 sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts  
-cp -aR $QTDIR/lib/libQt5Xml.so.5.1.1 $DEPS_LIB/libQt5Xml.so.5
-cp -aR $QTDIR/lib/libQt5Widgets.so.5.1.1 $DEPS_LIB/libQt5Widgets.so.5
-cp -aR $QTDIR/lib/libQt5Network.so.5.1.1 $DEPS_LIB/libQt5Network.so.5
-cp -aR $QTDIR/lib/libQt5Gui.so.5.1.1 $DEPS_LIB/libQt5Gui.so.5
-cp -aR $QTDIR/lib/libQt5Core.so.5.1.1 $DEPS_LIB/libQt5Core.so.5
+cp -aR $QTDIR/lib/libQt5Xml.so.$QTVER $DEPS_LIB/libQt5Xml.so.5
+cp -aR $QTDIR/lib/libQt5Widgets.so.$QTVER $DEPS_LIB/libQt5Widgets.so.5
+cp -aR $QTDIR/lib/libQt5Network.so.$QTVER $DEPS_LIB/libQt5Network.so.5
+cp -aR $QTDIR/lib/libQt5Gui.so.$QTVER $DEPS_LIB/libQt5Gui.so.5
+cp -aR $QTDIR/lib/libQt5Core.so.$QTVER $DEPS_LIB/libQt5Core.so.5
+cp -aR $QTDIR/lib/libQt5Concurrent.so.$QTVER $DEPS_LIB/libQt5Concurrent.so.5
 cp -aR $QTDIR/lib/libQt5DBus.s* $DEPS_LIB
 cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
 
@@ -101,7 +104,12 @@ export DEBEMAIL DEBFULLNAME
 dpkg-buildpackage -b
 
 
-
+echo ==========================
+echo Clean
+echo ==========================
+rm -f redis-desktop-manager-*.gz
+rm -f redis-desktop-manager-*.tar
+rm -fR ./redis-desktop-manager-*/
 
 
 

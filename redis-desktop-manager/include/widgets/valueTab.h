@@ -39,6 +39,7 @@ protected:
 protected slots:
     void keyTypeLoaded(Response type);
     void valueLoaded();
+    void ttlLoaded(Response r);
     void deleteKey();
     void renameKey();
     void keyRenamed();

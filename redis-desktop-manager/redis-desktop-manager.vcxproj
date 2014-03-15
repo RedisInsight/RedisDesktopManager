@@ -309,6 +309,20 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
+    <CustomBuild Include="include\redis\Command.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="include\widgets\ServerContextMenu.h" />
     <ClInclude Include="Redis.h" />
     <ClInclude Include="version.h" />
@@ -444,7 +458,6 @@
     <ClInclude Include="include\models\value-view-formatters\PHPSerializeFormatter.h" />
     <ClInclude Include="include\models\value-view-formatters\PlainFormatter.h" />
     <ClInclude Include="include\network\qxtsshchannel_p.h" />
-    <ClInclude Include="include\redis\Command.h" />
     <CustomBuild Include="include\redis\ConsoleConnectionWrapper.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ConsoleConnectionWrapper.h...</Message>

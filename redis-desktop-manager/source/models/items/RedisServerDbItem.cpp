@@ -140,6 +140,8 @@ bool RedisServerDbItem::operator<(const QStandardItem & other) const
 {
      if (other.type() == TYPE) {
         const RedisServerDbItem * another = dynamic_cast<const RedisServerDbItem *>(&other); 
+
+        return this->dbIndex < another->getDbIndex();
      }    
 
      return this->text() < other.text();

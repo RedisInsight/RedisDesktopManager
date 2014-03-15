@@ -38,6 +38,15 @@ void KeyModel::loadedRenameStatus(Response result)
         emit keyRenamed();    
 }
 
+void KeyModel::loadTTL()
+{
+    QStringList ttlCommand;
+
+    ttlCommand << "TTL" << keyName;
+
+    db->addCommand(Command(ttlCommand, this, CALLMETHOD("ttlLoaded"), dbIndex));
+}
+
 void KeyModel::deleteKey()
 {
     QStringList deleteCommand;
@@ -56,7 +65,6 @@ void KeyModel::loadedDeleteStatus(Response result)
     else 
         emit keyDeleted();    
 }
-
 
 KeyModel::~KeyModel()
 {
