@@ -7,11 +7,12 @@ sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev 
 sudo apt-get install libatspi-dev -y
 sudo apt-get install libdbus-1-dev -y
 sudo apt-get install libxext-dev -y
-sudo apt-get install scons -y
+sudo apt-get install g++ -y
+sudo apt-get install automake -y
 
 #setup build env
 sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
-        dh-make diff patch gnupg fakeroot lintian pbuilder -y
+        dh-make diffutils patch gnupg fakeroot lintian pbuilder -y
 
 cd ~
 

@@ -2,28 +2,42 @@ language: cpp
 compiler:
   - gcc
 before_install:
-- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+- sudo add-apt-repository --yes ppa:beineri/opt-qt511
+- sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
-- sudo apt-get install ubuntu-sdk -y -qq
+- sudo apt-get install qt51base qt51imageformats qt51tools qt51xmlpatterns qt51x11extras -y -qq
+- uname -m
+- export QTDIR=/opt/qt51
+- export PATH=$QTDIR/bin:$PATH
+- export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
-- sudo pip install cpp-coveralls --use-mirrors
+- sudo sh ./vagrant-provision/build_automake.sh
+- sudo apt-get install gcc-4.7 g++-4.7 gdb -y -qq
+- sudo rm -f /usr/bin/gcc
+- sudo rm -f /usr/bin/g++
+- sudo rm -f /usr/bin/gcov
+- sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
+- sudo ln -s /usr/bin/g++-4.7 /usr/bin/g++
+- sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 before_script:
 - cd ./redis-desktop-manager
 - sudo chmod 777 configure
-- ./configure
+- ./configure > /dev/null
 script: 
-  - qmake -qt=qt5 -v
-  - qmake -qt=qt5
-  - make clean
+  - qmake -v
+  - qmake
+  - make -s
+  - cd ./../crashreporter/
+  - qmake
   - make -s
   - cd ./../tests/
   - qmake
-  - make clean
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
 after_success:
-  - cd ./../
-  - coveralls --root './redis-desktop-manager/' --build-root './bin/tests/obj/'  --exclude deps --exclude tests
+  - sudo pip install cpp-coveralls --use-mirrors
+  - sudo sh ./coverage.sh
+  - coveralls --exclude-pattern '.*\.h' --no-gcov
 services:
   - redis-server
 notifications:

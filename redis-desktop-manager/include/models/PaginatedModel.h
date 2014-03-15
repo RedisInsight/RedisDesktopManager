@@ -1,24 +1,30 @@
 #pragma once
 
 #include <QStringList>
-#include <QStandardItemModel>
+#include "KeyModel.h"
 
-class PaginatedModel : public QStandardItemModel
+class PaginatedModel : public KeyModel
 {
+    Q_OBJECT
+
 public:
-	PaginatedModel(QStringList&);
+    PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
 
-	virtual int getCurrentPage();
+    virtual ~PaginatedModel();
 
-	virtual void setCurrentPage(int) = 0;
+    virtual int getCurrentPage();
 
-	virtual int itemsCount();
+    virtual void setCurrentPage(int) = 0;
 
-	virtual int getPagesCount();
+    virtual int itemsCount();
 
+    virtual int getPagesCount();
 protected:
-	QStringList rawData;
-	int currentPage;
-	static const int itemsOnPageLimit = 500;
+    int currentPage;
+    QSharedPointer<QVector<QString>> rawData;
+
+    static const int itemsOnPageLimit = 500;
+
+    void initModel(const QVariant &);    
 };
 

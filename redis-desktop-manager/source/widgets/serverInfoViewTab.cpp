@@ -4,11 +4,11 @@
 
 serverInfoViewTab::serverInfoViewTab(QString serverName, QStringList info)
 {
-	ui.setupUi(this);
+    ui.setupUi(this);
 
-	ui.serverName->setText(serverName);
+    ui.serverName->setText(serverName);
 
-	QStringListModel *model = new QStringListModel(info);
+    QStringListModel *model = new QStringListModel(info);
 
-	ui.serverInfoView->setModel(model);
+    ui.serverInfoView->setModel(model);
 }

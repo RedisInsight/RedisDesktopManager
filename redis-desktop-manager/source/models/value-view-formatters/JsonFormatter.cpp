@@ -1,19 +1,43 @@
 #include "JsonFormatter.h"
 
-#include <json/json.h>
+#include <QScopedPointer>
+#include <QJsonDocument>
+
+JsonFormatter::JsonFormatter()
+    : valid(false)
+{
+}
+
+void JsonFormatter::setSource(const QString &src)
+{
+    rawValue = src;
+
+    QScopedPointer<QJsonParseError> parsingError(new QJsonParseError);
+    document = QJsonDocument::fromJson(rawValue.toStdString().c_str(), parsingError.data());
+    valid = (parsingError->error == QJsonParseError::NoError);
+}
 
 QString JsonFormatter::getFormatted()
 {
-	Json::Value root;   
-	Json::Reader reader;
-	bool parsingSuccessful = reader.parse( rawValue.toStdString(), root );
+    if (!isValid()) 
+    {
+        return QString("Invalid JSON");
+    }
 
-	if (!parsingSuccessful)
-	{
-		return QString("Invalid JSON");
-	}
+    return QString(document.toJson(QJsonDocument::Indented));
+}
 
-	Json::StyledWriter writer;		
+bool JsonFormatter::isValid()
+{
+    return valid;
+}
 
-	return QString::fromStdString(writer.write(root));
+QString JsonFormatter::getRaw()
+{
+    if (!isValid()) 
+    {
+        return QString("Invalid JSON");
+    }
+
+    return QString(document.toJson(QJsonDocument::Compact));
 }

@@ -7,22 +7,22 @@ class RedisConnectionAbstract;
 
 class ConsoleConnectionWrapper : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ConsoleConnectionWrapper(RedisConnectionConfig &);	
+    ConsoleConnectionWrapper(RedisConnectionConfig &);    
 
-	public slots:
-		void init();
-		void executeCommand(const QString &);
+    public slots:
+        void init();
+        void executeCommand(const QString &);
 
-	signals:
-		void changePrompt(const QString &, bool);
-		void addOutput(const QString &);
+    signals:
+        void changePrompt(const QString &, bool);
+        void addOutput(const QString &);
 
 private:
-	RedisConnectionAbstract * connection;
-	RedisConnectionConfig config;
-	bool connectionValid;	
+    RedisConnectionAbstract * connection;
+    RedisConnectionConfig config;
+    bool connectionValid;    
 };
 

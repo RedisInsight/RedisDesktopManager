@@ -6,12 +6,12 @@ class ItemWithNaturalSort : public QStandardItem
 {
 public:
 
-	ItemWithNaturalSort();
+    ItemWithNaturalSort();
 
-	ItemWithNaturalSort(const QIcon & icon, const QString & text);	
+    ItemWithNaturalSort(const QIcon & icon, const QString & text);    
 
-	bool operator<(const QStandardItem & second) const;
+    bool operator<(const QStandardItem & second) const;
 
-	static bool lessThan(const QString &s1, const QString &s2);
+    static bool lessThan(const QString &s1, const QString &s2);
 };
 

@@ -6,20 +6,20 @@
 
 class Updater : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	Updater();
-	~Updater();
+    Updater();
+    ~Updater();
 
 signals:
-	void updateUrlRetrived(QString &);
+    void updateUrlRetrived(QString &);
 
 private:
-	QNetworkAccessManager *manager;
+    QNetworkAccessManager *manager;
 
 private slots:
-	void requestFinished(QNetworkReply*);
+    void requestFinished(QNetworkReply*);
 
 };
 

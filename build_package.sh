@@ -1,35 +1,43 @@
 #!/bin/sh
 QTDIR=/usr/local/Qt-5.1.1
-USER=$(whoami)
-HOME_DIR=/home/$USER/
-
 
 echo ===========================
-echo Enter build dir :
+echo build dir :
 echo ===========================
-cd /vagrant
+SOURCE_DIR=`pwd`
 pwd
+
+echo ===========================
+echo Build Crash Reporter :
+echo ===========================
+cd ./crashreporter
+qmake
+make clean
+make
+
+cd ./../
+
+cp ./bin/linux/release/crashreporter ./bin/linux/release/
 
 echo   
 echo ===========================
 TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-echo Last tag: $TAG
+REVISION=$(git rev-parse --short HEAD)
+echo Last tag: $TAG Revision: $REVISION
 echo ===========================
 
 echo   
 echo ===========================
 echo copy source dir :
 
-BUILD_DIR=$HOME_DIR/redis-desktop-manager-$TAG
+BUILD_DIR=./redis-desktop-manager-$TAG
 rm -fR $BUILD_DIR/*
-rm -fR $HOME_DIR/redis-desktop*
 mkdir $BUILD_DIR
-mkdir $HOME_DIR/deps
 
-cp -Rf /vagrant/redis-desktop-manager/* $BUILD_DIR
-cp -Rf /vagrant/deps/* $HOME_DIR/deps
+cp -Rf ./redis-desktop-manager/* $BUILD_DIR
+chmod 755 $BUILD_DIR/configure
 mkdir $BUILD_DIR/debian 
-cp -Rf /vagrant/build/debian/* $BUILD_DIR/debian  
+cp -Rf ./build/debian/* $BUILD_DIR/debian  
 echo ===========================
 
 echo   
@@ -58,7 +66,7 @@ cp -aR $QTDIR/lib/libQt5Network.so.5.1.1 $DEPS_LIB/libQt5Network.so.5
 cp -aR $QTDIR/lib/libQt5Gui.so.5.1.1 $DEPS_LIB/libQt5Gui.so.5
 cp -aR $QTDIR/lib/libQt5Core.so.5.1.1 $DEPS_LIB/libQt5Core.so.5
 cp -aR $QTDIR/lib/libQt5DBus.s* $DEPS_LIB
-cp -aR /usr/lib/i386-linux-gnu/libxcb*.s* $DEPS_LIB
+cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
 
 #external libs
 cp -aR /usr/local/lib/libssh2.s* $DEPS_LIB
@@ -72,7 +80,7 @@ rm -fR $BUILD_DIR/Debug
 rm -fR $BUILD_DIR/Release
 rm -fR $BUILD_DIR/GeneratedFiles
 
-cd $HOME_DIR
+cd $SOURCE_DIR
 
 tar czvf redis-desktop-manager-$TAG.tar.gz $BUILD_DIR
 cp redis-desktop-manager-$TAG.tar.gz redis-desktop-manager_$TAG.orig.tar.gz
@@ -92,8 +100,6 @@ export DEBEMAIL DEBFULLNAME
 #debuild -uc -us
 dpkg-buildpackage -b
 
-cd $HOME_DIR
-cp *.deb /vagrant/
 
 
 

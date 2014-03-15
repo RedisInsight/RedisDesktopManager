@@ -9,10 +9,10 @@ void TestCommand::prepareCommand()
 	//Command class
 
 	//when
-	QVariant actualResult = Command::getFormatted("EXISTS testkey:test");
+    QByteArray actualResult = Command::getByteRepresentation("EXISTS testkey:test");
 
 	//then
-	QCOMPARE(actualResult, QVariant("*2\r\n$6\r\nEXISTS\r\n$12\r\ntestkey:test\r\n"));
+    QCOMPARE(actualResult, QByteArray("*2\r\n$6\r\nEXISTS\r\n$12\r\ntestkey:test\r\n"));
 }
 
 

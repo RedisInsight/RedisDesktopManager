@@ -8,12 +8,13 @@ sudo apt-get install libatspi-dev -y
 sudo apt-get install libdbus-1-dev -y
 sudo apt-get install libxext-dev -y
 sudo apt-get install g++ -y
+sudo apt-get install automake -y
 
 #setup build env
 sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
         dh-make diffutils patch gnupg fakeroot lintian pbuilder -y
 
-cd /home/vagrant
+cd $
 
 echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
 

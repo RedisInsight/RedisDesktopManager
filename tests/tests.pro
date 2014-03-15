@@ -5,8 +5,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = tests
 TEMPLATE = app
 
-CONFIG -= debug
-CONFIG += c++11 release
+CONFIG += debug
+CONFIG += c++11
 CONFIG-=app_bundle
 
 SRC_DIR = $$PWD/../redis-desktop-manager//
@@ -20,8 +20,7 @@ SOURCES += \
     $$SRC_DIR/source/models/*.cpp \
     $$SRC_DIR/source/models/items/*.cpp \
     $$SRC_DIR/source/models/value-view-formatters/*.cpp \
-    $$SRC_DIR/source/widgets/consoleTab.cpp \
-    $$SRC_DIR/source/widgets/qconsole.cpp \
+    $$SRC_DIR/source/widgets/*.cpp \
 
 HEADERS  += \
     $$PWD/include/*.h \
@@ -31,8 +30,7 @@ HEADERS  += \
     $$SRC_DIR/include/models/*.h \
     $$SRC_DIR/include/models/items/*.h \
     $$SRC_DIR/include/models/value-view-formatters/*.h \
-    $$SRC_DIR/include/widgets/consoleTab.h \
-    $$SRC_DIR/include/widgets/qconsole.h \
+    $$SRC_DIR/include/widgets/*.h \
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
@@ -47,19 +45,13 @@ win32 {
     LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 
     CONFIG(release, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-
-        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncpp
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncpp.lib
+        LIBS += -L$$PWD/../deps/libs/win32/release/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/release/libssh2.lib
     }
 
     else: CONFIG(debug, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-
-        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncppd
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncppd.lib
+        LIBS += -L$$PWD/../deps/libs/win32/debug/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/debug/libssh2.lib
     }
 }
 
@@ -70,25 +62,19 @@ unix {
     }
     else { # ubuntu & debian
         LIBS += -Wl,-rpath /usr/local/lib/
-        LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
+        LIBS += /usr/local/lib/libssh2.so
 
         PRE_TARGETDEPS += /usr/local/lib/libssh2.so
-        PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
-
 
         #code coverage
-        CONFIG += debug
-        QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
-        QMAKE_LDFLAGS += -fprofile-arcs -ftest-coverage
+        QMAKE_CXXFLAGS += --coverage
+        QMAKE_LDFLAGS += --coverage
         LIBS += -lgcov
     }
 }
 
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
-
-INCLUDEPATH += $$PWD/../deps/jsoncpp/include
-DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \

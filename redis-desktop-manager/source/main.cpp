@@ -1,16 +1,23 @@
-#include "demo.h"
 #include <QApplication>
+#include <QStyleFactory>
+#include <QDir>
+
+#include "CrashHandler.h"
+#include "version.h"
+#include "application.h"
 
 int main(int argc, char *argv[])
-{	
-	QApplication a(argc, argv);
+{       
+    QApplication a(argc, argv);
 
-	QApplication::setApplicationName("Redis Desktop Manager");
-	QApplication::setApplicationVersion("0.6.3-dev");	
-	QApplication::setOrganizationDomain("redisdesktop.com");
+    CrashHandler::instance()->Init(QDir::homePath());
 
-	MainWin w;
-	w.show();
-	return a.exec();
+    QApplication::setApplicationName("Redis Desktop Manager");
+    QApplication::setApplicationVersion(RDM_VERSION);    
+    QApplication::setOrganizationDomain("redisdesktop.com");
+
+    MainWin w;
+    w.show();
+    return a.exec();
 }
 

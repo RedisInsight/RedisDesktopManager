@@ -7,12 +7,12 @@
 
 class KeysTreeRenderer : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-     static QList<QStandardItem*> renderKeys(RedisServerDbItem *, QStringList, const QRegExp &, const RedisServerDbItem::Icons &);
+     static QList<QStandardItem*> renderKeys(RedisServerDbItem *, QStringList, const QRegExp &, const RedisServerDbItem::Icons &, QString namespaceSeparator);
 
      static void renderNamaspacedKey(QList<QStandardItem*> &, QStandardItem *,
-				QString, QString, const QIcon &, const QIcon &, RedisServerDbItem *);
+                QString, QString, const QIcon &, const QIcon &, RedisServerDbItem *, QString namespaceSeparator);
 };
 

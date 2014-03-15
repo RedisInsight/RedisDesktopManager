@@ -5,54 +5,67 @@
 
 #define DEFAULT_REDIS_PORT 6379
 #define DEFAULT_SSH_PORT 22
+#define DEFAULT_TIMEOUT_IN_MS 60000
 
 class RedisConnectionConfig
 {
 public:
-	// redis connection parameters
-	QString name;
-	QString host;
-	QString auth;
-	int port;
+    // redis connection parameters
+    QString name;
+    QString host;
+    QString auth;
+    int port;
 
-	// ssh tunnel connection parameters
-	QString sshHost;
-	int sshPort;
-	QString sshUser;
-	QString sshPassword;
+    // ssh tunnel connection parameters
+    QString sshHost;
+    int sshPort;
+    QString sshUser;
+    QString sshPassword;
 
-	//timeouts 
-	static const int connectionTimeout = 30000;
-	static const int executeTimeout = 30000;
+    //timeouts 
+    int connectionTimeout;
+    int executeTimeout;
 
-	RedisConnectionConfig(const QString & host, const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
-		: name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT)
-	{};
+    // other settings
+    QString namespaceSeparator;    
+    static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
 
-	RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
-	{
-		if (this != &other) {
-			name = other.name;
-			host = other.host;
-			auth = other.auth;
-			port = other.port;
+    RedisConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
+        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR),
+          connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS)
+    {};
 
-			setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
-		}
+    RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
+    {
+        if (this != &other) {
+            name = other.name;
+            host = other.host;
+            auth = other.auth;
+            port = other.port;
+            namespaceSeparator = other.namespaceSeparator;
+            connectionTimeout = other.connectionTimeout;
+            executeTimeout = other.executeTimeout;
 
-		return *this;
-	}
+            setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
+        }
 
-	void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT);
-	
-	bool isNull();
-	bool useSshTunnel() const;
-	bool useAuth() const;
+        return *this;
+    }
 
-	const QString& getName();
-	
-	QDomElement toXml(QDomDocument dom);	
+    void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT);
+    
+    bool isNull();
+    bool useSshTunnel() const;
+    bool useAuth() const;
+    
+    QDomElement toXml(QDomDocument dom);  
+       
+    static RedisConnectionConfig createFromXml(QDomNode & connectionNode);    
 
-	static RedisConnectionConfig createFromXml(QDomNode & connectionNode);
+protected:
+    void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
+
+    static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value);
+    static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value);
 };
 

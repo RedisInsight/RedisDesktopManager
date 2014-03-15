@@ -2,117 +2,113 @@
 
 void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port) 
 {
-	sshHost = host;
-	sshUser = user;
-	sshPassword = pass;
-	sshPort = port;
+    sshHost = host;
+    sshUser = user;
+    sshPassword = pass;
+    sshPort = port;
 }; 
 
 
 bool RedisConnectionConfig::isNull() 
 {
-	return host.isEmpty() || port <= 0 || name.isEmpty();
+    return host.isEmpty() || port <= 0 || name.isEmpty();
 }
 
 bool RedisConnectionConfig::useSshTunnel() const
 {
-	return !sshHost.isEmpty() 
-		&& !sshUser.isEmpty()
-		&& !sshPassword.isEmpty()
-		&& sshPort > 0;
+    return !sshHost.isEmpty() 
+        && !sshUser.isEmpty()
+        && !sshPassword.isEmpty()
+        && sshPort > 0;
 }
 
 bool RedisConnectionConfig::useAuth() const
 {
-	return !(auth.isEmpty());
-}
-
-const QString& RedisConnectionConfig::getName()
-{
-	return name;
+    return !(auth.isEmpty());
 }
 
 RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connectionNode) 
 {
-	if (!connectionNode.hasAttributes()) {
-		return RedisConnectionConfig("");
-	}
+    RedisConnectionConfig connectionConfig;
 
-	QDomNamedNodeMap attr = connectionNode.attributes();
+    if (!connectionNode.hasAttributes()) {
+        return connectionConfig;
+    }
 
-	if (!attr.contains("name") || !attr.contains("host")) {
-		return RedisConnectionConfig("");
-	}
+    QDomNamedNodeMap attr = connectionNode.attributes();
 
-	QString name = attr.namedItem("name").nodeValue();
-	QString host = attr.namedItem("host").nodeValue();
-	int port = DEFAULT_REDIS_PORT;
+    getValueFromXml(attr, "name", connectionConfig.name);
+    getValueFromXml(attr, "host", connectionConfig.host);
+    getValueFromXml(attr, "port", connectionConfig.port);    
+    getValueFromXml(attr, "auth", connectionConfig.auth);        
 
-	if (attr.contains("port")) {
-		port = attr.namedItem("port").nodeValue().toInt();
-	}
+    getValueFromXml(attr, "sshHost", connectionConfig.sshHost);    
+    getValueFromXml(attr, "sshUser", connectionConfig.sshUser);    
+    getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);    
+    getValueFromXml(attr, "sshPort", connectionConfig.sshPort);
 
-	RedisConnectionConfig connectionConfig(host, name, port);
+    getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
+    getValueFromXml(attr, "connectionTimeout", connectionConfig.connectionTimeout);   
+    getValueFromXml(attr, "executeTimeout", connectionConfig.executeTimeout);   
 
-	if (attr.contains("auth")) {
-		connectionConfig.auth = attr.namedItem("auth").nodeValue();
-	}
+    return connectionConfig;
+}
 
-	if (attr.contains("sshHost") 
-		&& attr.contains("sshUser")
-		&& attr.contains("sshPassword")) {
-			QString sshHost = attr.namedItem("sshHost").nodeValue();
-			QString sshUser = attr.namedItem("sshUser").nodeValue();
-			QString sshPassword = attr.namedItem("sshPassword").nodeValue();
+bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value)
+{
+    if (!attr.contains(name))
+        return false;
 
-			int sshPort = attr.contains("sshPort") ? 
-				attr.namedItem("sshPort").nodeValue().toInt() : DEFAULT_SSH_PORT;
+    value = attr.namedItem(name).nodeValue();
 
-			connectionConfig.setSshTunnelSettings(sshHost, sshUser, sshPassword, sshPort);
-	}
+    return true;
+}
 
-	return connectionConfig;
+bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value)
+{
+    QString val;
+
+    bool result = getValueFromXml(attr, name, val);
+
+    if (result) {
+        value = val.toInt();
+    }    
+
+    return result;
 }
 
 QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
 {
-	QDomElement xml = dom.createElement("connection");
+    QDomElement xml = dom.createElement("connection");
 
-	QDomAttr nameAttr = dom.createAttribute("name");
-	nameAttr.setValue(name);
-	xml.setAttributeNode(nameAttr);
+    saveXmlAttribute(dom, xml, "name", name);    
+    saveXmlAttribute(dom, xml, "host", host);   
+    saveXmlAttribute(dom, xml, "port", QString::number(port));   
 
-	QDomAttr hostAttr = dom.createAttribute("host");
-	hostAttr.setValue(host);
-	xml.setAttributeNode(hostAttr);
+    if (useAuth()) {
+        saveXmlAttribute(dom, xml, "auth", auth); 
+    }
 
-	QDomAttr portAttr = dom.createAttribute("port");
-	portAttr.setValue(QString("%1").arg(port));
-	xml.setAttributeNode(portAttr);
+    if (namespaceSeparator != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
+        saveXmlAttribute(dom, xml, "namespaceSeparator", namespaceSeparator); 
+    }
 
-	if (useAuth()) {
-		QDomAttr authAttr = dom.createAttribute("auth");
-		authAttr.setValue(auth);
-		xml.setAttributeNode(authAttr);
-	}
+    saveXmlAttribute(dom, xml, "connectionTimeout", QString::number(connectionTimeout)); 
+    saveXmlAttribute(dom, xml, "executeTimeout", QString::number(executeTimeout)); 
 
-	if (useSshTunnel()) {
-		QDomAttr sshHostAttr = dom.createAttribute("sshHost");
-		sshHostAttr.setValue(sshHost);
-		xml.setAttributeNode(sshHostAttr);
+    if (useSshTunnel()) {
+        saveXmlAttribute(dom, xml, "sshHost", sshHost); 
+        saveXmlAttribute(dom, xml, "sshUser", sshUser); 
+        saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
+        saveXmlAttribute(dom, xml, "sshPort", QString::number(sshPort)); 
+    }
 
-		QDomAttr sshUserAttr = dom.createAttribute("sshUser");
-		sshUserAttr.setValue(sshUser);
-		xml.setAttributeNode(sshUserAttr);
+    return xml;
+}
 
-		QDomAttr sshPassAttr = dom.createAttribute("sshPassword");
-		sshPassAttr.setValue(sshPassword);
-		xml.setAttributeNode(sshPassAttr);
-
-		QDomAttr sshPortAttr = dom.createAttribute("sshPort");
-		sshPortAttr.setValue(QString("%1").arg(sshPort));
-		xml.setAttributeNode(sshPortAttr);
-	}
-
-	return xml;
+void RedisConnectionConfig::saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value)
+{
+    QDomAttr attr = document.createAttribute(name);
+    attr.setValue(value);
+    root.setAttributeNode(attr);
 }

@@ -1,13 +1,13 @@
 #include "ItemWithNaturalSort.h"
 
 ItemWithNaturalSort::ItemWithNaturalSort()
-	: QStandardItem()
+    : QStandardItem()
 {
 
 }
 
 ItemWithNaturalSort::ItemWithNaturalSort(const QIcon & icon, const QString & text)
-	: QStandardItem(icon, text)
+    : QStandardItem(icon, text)
 {
 
 }
@@ -23,18 +23,18 @@ compare_left(QString::const_iterator a,  QString::const_iterator b)
      /* Compare two left-aligned numbers: the first to have a
         different value wins. */
      for (;; a++, b++) {
-		  if (!a->isDigit()  &&  !b->isDigit())
-			   return 0;
-		  else if (!a->isDigit())
-			   return -1;
-		  else if (!b->isDigit())
-			   return +1;
-		  else if (*a < *b)
-			   return -1;
-		  else if (*a > *b)
-			   return +1;
+          if (!a->isDigit()  &&  !b->isDigit())
+               return 0;
+          else if (!a->isDigit())
+               return -1;
+          else if (!b->isDigit())
+               return +1;
+          else if (*a < *b)
+               return -1;
+          else if (*a > *b)
+               return +1;
      }
-	  
+      
      return 0;
 }
 
@@ -44,82 +44,82 @@ compare_right(QString::const_iterator a,  QString::const_iterator b)
      int bias = 0;
      
      /* The longest run of digits wins.  That aside, the greatest
-	value wins, but we can't know that it will until we've scanned
-	both numbers to know that they have the same magnitude, so we
-	remember it in BIAS. */
+    value wins, but we can't know that it will until we've scanned
+    both numbers to know that they have the same magnitude, so we
+    remember it in BIAS. */
      for (;; a++, b++) {
-		  if (!a->isDigit()  &&  !b->isDigit())
-			   return bias;
-		  else if (!a->isDigit())
-			   return -1;
-		  else if (!b->isDigit())
-			   return +1;
-		  else if (*a < *b) {
-			   if (!bias)
-				bias = -1;
-		  } else if (*a > *b) {
-			   if (!bias)
-				bias = +1;
-		  } else {
-			   return bias;
-		  }		
-	}
+          if (!a->isDigit()  &&  !b->isDigit())
+               return bias;
+          else if (!a->isDigit())
+               return -1;
+          else if (!b->isDigit())
+               return +1;
+          else if (*a < *b) {
+               if (!bias)
+                bias = -1;
+          } else if (*a > *b) {
+               if (!bias)
+                bias = +1;
+          } else {
+               return bias;
+          }        
+    }
 
-	return 0;
+    return 0;
 }
 
 
 bool ItemWithNaturalSort::lessThan(const QString &a, const QString &b)
 {
-	int ai, bi;
+    int ai, bi;
     QChar ca, cb;
     int fractional, result;
          
     ai = bi = 0;
 
     while (true) {
-		ca = a[ai]; cb = b[bi];
+        ca = a[ai]; cb = b[bi];
 
-		/* skip over leading spaces or zeros */
-		while (ca.isSpace())
-			ca = a[++ai];
+        /* skip over leading spaces or zeros */
+        while (ca.isSpace())
+            ca = a[++ai];
 
-		while (cb.isSpace())
-			cb = b[++bi];
+        while (cb.isSpace())
+            cb = b[++bi];
 
-		/* process run of digits */
-		if (ca.isDigit()  &&  cb.isDigit()) {
-			fractional = (ca == '0' || cb == '0');
+        /* process run of digits */
+        if (ca.isDigit()  &&  cb.isDigit()) {
+            fractional = (ca == '0' || cb == '0');
 
-			if (fractional) {
-				if ((result = compare_left(a.begin()+ai, b.begin()+bi)) != 0)
-					return result;
-				} else {
-					if ((result = compare_right(a.begin()+ai, b.begin()+bi)) != 0)
-						return result;
-				}
-		}
+            if (fractional) {
+                if ((result = compare_left(a.begin()+ai, b.begin()+bi)) != 0)
+                    return result;
+                } else {
+                    if ((result = compare_right(a.begin()+ai, b.begin()+bi)) != 0)
+                        return result;
+                }
+        }
 
-		if (ca.isNull() && cb.isNull()) {
-			/* The strings compare the same.  Perhaps the caller
-					will want to call strcmp to break the tie. */
-			return false;
-		}
-	  
-		if (ca < cb)
-			return true;
-		else if (ca > cb)
-			return false;
+        if (ca.isNull() && cb.isNull()) {
+            /* The strings compare the same.  Perhaps the caller
+                    will want to call strcmp to break the tie. */
+            return false;
+        }
+      
+        if (ca < cb)
+            return true;
+        else if (ca > cb)
+            return false;
 
-		++ai; ++bi;
+        ++ai; ++bi;
     }
 }
 
 
 bool ItemWithNaturalSort::operator<(const QStandardItem & second) const
 {
-	QString a = text();
-	QString b = second.text();
+    QString a = text();
+    QString b = second.text();
 
-	return lessThan(a, b);
+    return lessThan(a, b);
 }

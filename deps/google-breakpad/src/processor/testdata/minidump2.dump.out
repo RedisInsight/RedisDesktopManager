@@ -1,0 +1,705 @@
+MDRawHeader
+  signature            = 0x504d444d
+  version              = 0x5128a793
+  stream_count         = 9
+  stream_directory_rva = 0x20
+  checksum             = 0x0
+  time_date_stamp      = 0x45d35f73 2007-02-14 19:13:55
+  flags                = 0x0
+
+mDirectory[0]
+MDRawDirectory
+  stream_type        = 3
+  location.data_size = 100
+  location.rva       = 0x184
+
+mDirectory[1]
+MDRawDirectory
+  stream_type        = 4
+  location.data_size = 1408
+  location.rva       = 0x1e8
+
+mDirectory[2]
+MDRawDirectory
+  stream_type        = 5
+  location.data_size = 52
+  location.rva       = 0x1505
+
+mDirectory[3]
+MDRawDirectory
+  stream_type        = 6
+  location.data_size = 168
+  location.rva       = 0xdc
+
+mDirectory[4]
+MDRawDirectory
+  stream_type        = 7
+  location.data_size = 56
+  location.rva       = 0x8c
+
+mDirectory[5]
+MDRawDirectory
+  stream_type        = 15
+  location.data_size = 24
+  location.rva       = 0xc4
+
+mDirectory[6]
+MDRawDirectory
+  stream_type        = 1197932545
+  location.data_size = 12
+  location.rva       = 0x14f9
+
+mDirectory[7]
+MDRawDirectory
+  stream_type        = 0
+  location.data_size = 0
+  location.rva       = 0x0
+
+mDirectory[8]
+MDRawDirectory
+  stream_type        = 0
+  location.data_size = 0
+  location.rva       = 0x0
+
+Streams:
+  stream type 0x0 at index 8
+  stream type 0x3 at index 0
+  stream type 0x4 at index 1
+  stream type 0x5 at index 2
+  stream type 0x6 at index 3
+  stream type 0x7 at index 4
+  stream type 0xf at index 5
+  stream type 0x47670001 at index 6
+
+MinidumpThreadList
+  thread_count = 2
+
+thread[0]
+MDRawThread
+  thread_id                   = 0xbf4
+  suspend_count               = 0
+  priority_class              = 0x0
+  priority                    = 0x0
+  teb                         = 0x7ffdf000
+  stack.start_of_memory_range = 0x12f31c
+  stack.memory.data_size      = 0xce4
+  stack.memory.rva            = 0x1639
+  thread_context.data_size    = 0x2cc
+  thread_context.rva          = 0xd94
+
+MDRawContextX86
+  context_flags                = 0x1003f
+  dr0                          = 0x0
+  dr1                          = 0x0
+  dr2                          = 0x0
+  dr3                          = 0x0
+  dr6                          = 0x0
+  dr7                          = 0x0
+  float_save.control_word      = 0xffff027f
+  float_save.status_word       = 0xffff0000
+  float_save.tag_word          = 0xffffffff
+  float_save.error_offset      = 0x0
+  float_save.error_selector    = 0x220000
+  float_save.data_offset       = 0x0
+  float_save.data_selector     = 0xffff0000
+  float_save.register_area[80] = 0x0000000018b72200000118b72200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  float_save.cr0_npx_state     = 0x0
+  gs                           = 0x0
+  fs                           = 0x3b
+  es                           = 0x23
+  ds                           = 0x23
+  edi                          = 0x0
+  esi                          = 0x7b8
+  ebx                          = 0x7c883780
+  edx                          = 0x7c97c0d8
+  ecx                          = 0x7c80b46e
+  eax                          = 0x400000
+  ebp                          = 0x12f384
+  eip                          = 0x7c90eb94
+  cs                           = 0x1b
+  eflags                       = 0x246
+  esp                          = 0x12f320
+  ss                           = 0x23
+  extended_registers[512]      = 0x7f0200000000220000000000000000000000000000000000801f0000ffff00000000000018b72200000100000000000018b72200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004509917c4e09917c38b622002400020024b42200020000009041917c0070fd7f0510907cccb22200000000009cb3220018ee907c7009917cc0e4977c6f3e917c623e917c08020000dcb62200b4b622001e000000000000000000000000000000000000002eb42200000000000f000000020000001e00200000fcfd7f2f63796764726976652f632f444f43554d457e312f4d4d454e544f7e312f4c4f43414c537e312f54656d7000000000000000000130b422000000004300000000000000001efcfd7f4509917c4e09917c5ad9000008b32200b4b62200
+
+Stack
+0x00000000c0e9907ccb25807cb8070000000000000000000034ff1200b0fe12008037887c140000000100000000000000000000001000000027e0907c2e39917c0050fd7f00f0fd7f000000000400000034f312006947c788d4f31200a89a837cf825807c0000000098f312003225807cb8070000ffffffff00000000e4f31200ff1d4000b8070000ffffffffa8fa12008037887c0e1c4000a8fa120000000000ff792a0f64f91200b01b400000004000b0fe12000040020070fa1200084042000000000080fa120080fa12004e30867ca8fa12000000000000000000000000000018000002100000e3ef907c0000000079d900000000000048f41200000014003207917c0500000078071400000014000000000020f412003207917ca05f140018ee907cfa00000074f61200000000009615917ceb06917cf00298000100000000000000384f14009615917ceb06917c7801140008000000404f14000000a659985f1400080000000000000018ee907c90fea700400698003815917c184f1400eb06917c00000000800000000000a65988f69f0090f51200a569917cf8f41200d95c878880f5120043ef907c480485000500000090f5120088fea700a8212400000000000000000080f512002469917cf8fbfd7fa821240008000000f500000000000000384d850078019800a8fa120004000000a05f140096d4917c00000000b0d4917c0000000008069800184f140000000000104f140000000000184f140000004000000000010040020063003a005c0074006500730074005f006100700070002e006500780065000000000000002f00000028000000184f1400780185007801140028000000000000000000140084f3120010000000d8f5120018ee907cf006917cffffffffeb06917ce619917c88e6a7003003000001030000ff1b917c0000980080e6a70080069800400698000000980080e6a70000000000000000000000000080e6a7000818000088e6a700d759927c78019800081800000210000000009800f8f31200280a0000dcf6120018ee907cf006917cffffffffeb06917c0859927c00009800080000005859927c00000000000001000000a659000000005a6202000010000068fe030001000000dffe03000000010000000100fffffe7f0100000001c0c27700008500000000002dc0c27700000000684aaf590000a659241a917c80c0977c0000000000000000cd5c927c0050fd7f0000a65900000100080000004550fd7f0000000000000000000000000050fd7fcd5c927c05000000d4f61200f45c927c80e4977c05000000010000000050fd7f18f712007009917cc0e4977c172e817cff2d817c000000000000a6590000a6590210000000f0fd7f05000000e8f612000806980064f81200a89a837c002e817cffffffffff2d817cc8242400dd8ea75901000000000000004cf712003608a9590000a65901000000000000000100000060f71200e407a9596cf7120000004000000000010040020063003a005c0074006500730074005f006100700070002e0065007800650000006d05917c905f140000000000440d020000000000604f14000c0000007801140000000000a04e1400d84d8700400687004509917c0800000000000000000000004000000078011400a8038700404f14000510907c000000000000000078011400980387000800000008000000c0e4977cd04d8700f835887c7801140010000000a0e7ae591600000030fd1200d39b917c44000000620000000000a65950e9ae59d8eaae59a80387000100000014040000000000000100000002000000f800a659c003870001000000780114009508917c0000a659091b917c020000000900000040000000a2fd12009cfd1200404f1400a2fd1200d04d8700640187000000000000000000d04d870010000000d84d8700384f1400a803870010000000c00300000000870074fb1200404f14006cfe120018ee907cf006917cffffffffeb06917ca09d400000008700000000000400000000000000ffffff3fc04d8700ccfd12009c4d400004000000fa19917cb84d870064018700c04d8700063440000400000018000000c04d870079d90000c0038700fa31400000000000c04d8700c04d87000000000001000000b0fe120082294000c04d87000000000000000000c04d870048fe12008cfe120000000000e224400040fe12008cfe1200c04d8700d84d8700b0fe12008600817c54fa1200d8f9120000000000160018005479420079d90000000000000757917c00000200a4f91200a4f91200a4f91200020000000200000000000000c4f912000000000079d9000014fb12004cfa120014fb1200005a917c00fa1200a0fb120001000000655a917ca405817c74c1977ce705817c00000000f4fd120098fb120000000000a0fb12000000000090fb12000000800070fa120000000000000000000000000016001800547942000000000001000000000000000000000000000000000000003308917ca89a837c0000807c0000807ce800807c2cfa12001fe2907c11fa877cffffffffe06f817c000000006cfa12001c0000000f000000e06f817c8fc60000f0f312000060817cc8fa1200a89a837c7039867cfffffffff0ff1200da36847ca8fa1200099b837cb0fa120000000000b0fa12000000000000000000000000009cfb1200b8fb1200d4fa1200bf37907c9cfb1200e0ff1200b8fb120070fb1200b0ff1200d837907ce0ff120084fb12008b37907c9cfb1200e0ff1200b8fb120070fb1200a89a837c010000009cfb1200e0ff12006078937c9cfb1200e0ff1200b8fb120070fb1200a89a837c280a00009cfb12000200000018ee907c9032917cffffffff8832917c3364917c68fb1200000087003207917c02000000dc31917c1232917c8132917c8832917c1e000000c01e2400080200003807917c54fb12003207917cc4fb120018ee907c9032917c0000130000d01200beb4800088fe1200faea907c00000000b8fb12009cfb1200b8fb1200050000c000000000000000009e4240000200000001000000450000003f0001000000000000000000000000000000000000000000000000007f02ffff0000ffffffffffff0000000000002200000000000000ffff0000000018b72200000118b7220000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003b0000002300000023000000280a000002000000c1ab807c58bc420094fe12004500000088fe12009e4240001b0000004602010084fe1200230000007f0200000000220000000000000000000000000000000000801f0000ffff00000000000018b72200000100000000000018b72200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004509917c4e09917c38b622002400020024b42200020000009041917c0070fd7f0510907cccb22200000000009cb3220018ee907c7009917cc0e4977c6f3e917c623e917c08020000dcb62200b4b622001e000000000000000000000000000000000000002eb42200000000000f000000020000001e00200000fcfd7f2f63796764726976652f632f444f43554d457e312f4d4d454e544f7e312f4c4f43414c537e312f54656d7000000000000000000130b422000000004300000000000000001efcfd7f4509917c4e09917c5ad9000008b32200b4b622004500000070ff120000424000b8278700dc31917c00000000004c870000000020040000000000000007000000000000004042400000000000000000002e000000000000000cff12007b434100010000000700000084434100004d87002e39917cffffffff24000000240000002700000000000000584d870004000000b1944000244c87002a0000002f000000c0fe1200004d8700584d87000000a659b0b9a859015d400015aa400000000000b4070000784e14000000000001000000f40b00000000000000000000bc070000b8070000f40b0000a8fa120000000000009c4000599c400094b240004f752a0fc0ff1200ec534000010000003039870050398700ff752a0f00002400a02024000050fd7f050000c00100000005000000000000000000240084ff1200acfa1200e0ff1200d06f4000a70b7a0f00000000f0ff1200d76f817c00002400a02024000050fd7f050000c0c8ff1200a8fa1200ffffffffa89a837ce06f817c0000000000000000000000004354400000000000
+
+thread[1]
+MDRawThread
+  thread_id                   = 0x11c0
+  suspend_count               = 0
+  priority_class              = 0x0
+  priority                    = 0x0
+  teb                         = 0x7ffde000
+  stack.start_of_memory_range = 0x97f6e8
+  stack.memory.data_size      = 0x918
+  stack.memory.rva            = 0x231d
+  thread_context.data_size    = 0x2cc
+  thread_context.rva          = 0x1060
+
+MDRawContextX86
+  context_flags                = 0x1003f
+  dr0                          = 0x0
+  dr1                          = 0x0
+  dr2                          = 0x0
+  dr3                          = 0x0
+  dr6                          = 0x0
+  dr7                          = 0x0
+  float_save.control_word      = 0xffff027f
+  float_save.status_word       = 0xffff0000
+  float_save.tag_word          = 0xffffffff
+  float_save.error_offset      = 0x0
+  float_save.error_selector    = 0x870000
+  float_save.data_offset       = 0x0
+  float_save.data_selector     = 0xffff0000
+  float_save.register_area[80] = 0x84fb120000001400320778071400000014000000f4fe1200a0fd120018eeb0fd12003815917c961534ff120034ff12000000e7712a0f2a0000005400ccfb120068514000584d540000002a000000f4fe
+  float_save.cr0_npx_state     = 0x0
+  gs                           = 0x0
+  fs                           = 0x3b
+  es                           = 0x23
+  ds                           = 0x23
+  edi                          = 0x145b00
+  esi                          = 0x145aa8
+  ebx                          = 0x145ad0
+  edx                          = 0x7c90eb94
+  ecx                          = 0x7
+  eax                          = 0xa80000
+  ebp                          = 0x97f6fc
+  eip                          = 0x7c90eb94
+  cs                           = 0x1b
+  eflags                       = 0x246
+  esp                          = 0x97f6ec
+  ss                           = 0x23
+  extended_registers[512]      = 0x7f0200000000870000000000000000000000000000000000801f0000ccfb120084fb1200000014003207917c050000007807140000001400000000005cfb1200f4fe1200a0fd120018ee907c2d020000b0fd12003815917c9615917ceb06917c34ff120034ff12000000000060000000e7712a0f2a0000005400000000000000ccfb120068514000584d870034fc1200540000002a000000f4fe1200f8fe12002c2f4000584d87005e00000034fc12005400000000000000b0fe1200f4fe1200c0fe12005f21400034fc12002a0000003b762a0f91214000303132330000870038393a3b3c3d3e3f4041424300000000070000003bd11e2340061400b858101e5e03e0652e005c00320033003100650064003100780114002d0066003300380034002d0000000000390034002d0062003800350038002d0031003000984e1400350065003000330065003000360035002e0064006d0070000000907c08000000ffffffff8832917cbeb4807c780114001d00f40b784e14000401000044fd120050fd1200c01e240078011400bdb9807ca04e14007c80c2770000000008fd120078011400ecfc1200f0fc1200e6b9807cffffffff7c80c27708fd12001c00000024fd1200e92a867c7c80c277b45a887c8037887c2d0200000080c2770000c17780000000005003000010000020000000780114005cff12001648847c091b917c
+
+Stack
+0x8000108020fa97009fd7907c0000000048f7970005000f0040061400000000004cf7970037b9807c00000000000000003103917c780114000000000061dc907cf1b8807c00000000ffffffff70f79700000000000000000054f797003082140001000000000000000200000000000000000000007cf7970020b9807c0e00000004000000006000000000a80078011400000000000882140092d5907c8b9b807c9c070000d0f89700780114009c07000038821400807f140020dea85910fa9700780114009807000088fb9700e07f14009c0700000000000078011400000000000882140000000000000000000000000078011400ba0300000000000000000000000000000000000000000000000000007801140000000000000000000000000000000000c0030000000000000000000000000000088214005c0057000600000078011400000000005c00730079007300740065006d0033000082140068011400000000000000000000821400d47f1400807f140070f8970061eea859e000a8000000a8001c4e000084f89700bdeea859e000a8000000a8001c4e0000a4f897005fefa8590000a8000000000006000000c4f89700e000a80060fe9700c8f897005abfa8590000a80000000000060000001c000000d47f1400807f1400380000006ce9907c88b9807cffffffff0000a80000000000807f140030fa97007fc3a859a0c4a859b0fb970060fe9700684f1400504500004c010400ca9610410000000000000000e0000e210b01070a00400000003a000000000000f1100000001000000000bf760000000000100000000200000500010005000100040000000000000000b00000000400009ba2000000001400285214000000000034fa97007801140034fa9700910e917c080614006d05917cc84d85005c4e8500684f140000000000b04800002852140078011400e00300003052140000000000000000000000000078011400c403000030821400380000000000000000000000000000000000000000000000000000003882140048050000780200003800000000100000ec000000b8470000400000000000000000000000000000000000140000000000807f140000000000000000000000000000000101a900000060fe9700dcff9700dcff97000050fd7f78fa970054fa9700ad9d917c8cfa9700c2066f7f0e000000000000001c01000078fa9700c84d850068fa970085ae807c78fc970024fc970083dba85978fc97008cfa9700800000008edba85914010000050000000100000096020000b8fc97003815917c9615917ceb06917c60fe970060fe9700c4fd9700d8fa9700000014003207917c21000000b80c14000000140030521400b0fa9700fffffffff4fc970018ee907c3807917cffffffff3207917cab06917ceb06917ccc4f140060fe9700684f1400e0004000e4fa9700a863917c74fb970018ee907c3808917cffffffff3308917c5b2c817c872c817c00000000f4fb9700000000000000000054fd970018ee907c4006140064fd97003815917c00e0fd7feb06917c684f140038821400780114000050fd7facfb970000000000000004000000000090fe97000000000018fb970050531400508b1400a89a837cffe9907cf60d817ca807000000000000ffe9907cf60d817c08000000000000000000000000000000585314003cfc97003882140000000000160e817cc4fd970060fe970058531400208f1400588b1400460f917c50531400208f1400780114003082140000000000b8fc970078011400b8fc9700910e917c080614006d05917c3882140060fe97000000000000000000960200003082140078011400ffe9907c38821400a807000000000000780114005853140058fc9700505314001000000000000000160e817c784e8500c4fd9700388214000000000024010000f00c00001000000044fc970000000000c7e2907ce721807cffffffffe8f69700388214001809000098fc9700acfc9700d2e2a859ffffffffe8f697003882140018090000c4fc97003882140060fe9700c4fd9700ccfc97004ee3a859ffffffffe8f69700000000003882140018090000e0fc9700f4fc970093b2a859ffffffffe8f69700000000003882140018090000c4fd970060fe9700a85a140078fd9700a5b3a85960fe9700c4fd9700684f1400e8f697000000000018090000000000000200000080fd9700c4fd970060fe970000000000f40b000000000000000000000000000000f0fd7f000000001cf3120000000000e40c000039160000cc020000940d00000000000000000000000000000000000002000000ac4f14006010000098fd97005eb7a8593916000000000000684f1400784e85000000000084ff9700d4fe97007bb9a85960fe9700c4fd9700684f14003849140084ff9700010000000000000008ff9700f40b0000090000000000000020000000200000006c0000008c000000380000001e000000c4000000dc000000a80000008401000064000000b801000030000000e801000080050000e8010000680700000000000068070000680700000000000005150000340000002915000039150000fc1600001d23000068070000600300008a070000c80a0000310a00002c130000f91400000c000000352c000000000000ffffffff5c0f0000c84d8500784e8500884e85000000000000000000000000004c010000fc39a6590000000002000000050000000100000000008500280a000001000001cc0200009c0000000b00000050000000040000000010000000000000000000000001000000000000000000000000000034ff970078baa859384914005c0f0000c84d850001000000884e8500684f140008ff970064ff970000000000a8070000b0fe1200f40b00009cfb120000000000b8fb12000000000000000000ae20140000000000884e8500784e8500c84d8500a8fa120011204000ffffffff5c0f0000a80700000000000078ff970064ff970000000000adbf807c2025807cecff97000100000084ff970003000000c0110000f40b0000f40b0000a8fa120000000000010067470c0000006cff9700bc070000ffffffff000000006c1a4000f40b000000fa12000000000000004000a09d4000b0fe120083b6807cb0fe120000004000a09d4000b0fe120000e0fd7f00069c86c0ff9700d8863f86ffffffffa89a837c90b6807c000000000000000000000000301a4000b0fe120000000000
+
+MinidumpModuleList
+  module_count = 13
+
+module[0]
+MDRawModule
+  base_of_image                   = 0x400000
+  size_of_image                   = 0x2d000
+  checksum                        = 0x0
+  time_date_stamp                 = 0x45d35f6c
+  module_name_rva                 = 0x78a
+  version_info.signature          = 0x0
+  version_info.struct_version     = 0x0
+  version_info.file_version       = 0x0:0x0
+  version_info.product_version    = 0x0:0x0
+  version_info.file_flags_mask    = 0x0
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x0
+  version_info.file_type          = 0x0
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 40
+  cv_record.rva                   = 0x132c
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "c:\test_app.exe"
+  (code_identifier)               = "45D35F6C2d000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 5a9832e5-2872-41c1-838e-d98914e9b7ff
+  (cv_record).age                 = 1
+  (cv_record).pdb_file_name       = "c:\test_app.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "c:\test_app.pdb"
+  (debug_identifier)              = "5A9832E5287241C1838ED98914E9B7FF1"
+  (version)                       = ""
+
+module[1]
+MDRawModule
+  base_of_image                   = 0x7c900000
+  size_of_image                   = 0xb0000
+  checksum                        = 0xaf2f7
+  time_date_stamp                 = 0x411096b4
+  module_name_rva                 = 0x7ae
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 34
+  cv_record.rva                   = 0x1354
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\ntdll.dll"
+  (code_identifier)               = "411096B4b0000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 36515fb5-d043-45e4-91f6-72fa2e2878c0
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "ntdll.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "ntdll.pdb"
+  (debug_identifier)              = "36515FB5D04345E491F672FA2E2878C02"
+  (version)                       = "5.1.2600.2180"
+
+module[2]
+MDRawModule
+  base_of_image                   = 0x7c800000
+  size_of_image                   = 0xf4000
+  checksum                        = 0xf724d
+  time_date_stamp                 = 0x44ab9a84
+  module_name_rva                 = 0x7ee
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280b81
+  version_info.product_version    = 0x50001:0xa280b81
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 37
+  cv_record.rva                   = 0x1376
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\kernel32.dll"
+  (code_identifier)               = "44AB9A84f4000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = bce8785c-57b4-4245-a669-896b6a19b954
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "kernel32.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "kernel32.pdb"
+  (debug_identifier)              = "BCE8785C57B44245A669896B6A19B9542"
+  (version)                       = "5.1.2600.2945"
+
+module[3]
+MDRawModule
+  base_of_image                   = 0x774e0000
+  size_of_image                   = 0x13d000
+  checksum                        = 0x13dc6b
+  time_date_stamp                 = 0x42e5be93
+  module_name_rva                 = 0x834
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280aa6
+  version_info.product_version    = 0x50001:0xa280aa6
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 34
+  cv_record.rva                   = 0x139b
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\ole32.dll"
+  (code_identifier)               = "42E5BE9313d000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 683b65b2-46f4-4187-96d2-ee6d4c55eb11
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "ole32.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "ole32.pdb"
+  (debug_identifier)              = "683B65B246F4418796D2EE6D4C55EB112"
+  (version)                       = "5.1.2600.2726"
+
+module[4]
+MDRawModule
+  base_of_image                   = 0x77dd0000
+  size_of_image                   = 0x9b000
+  checksum                        = 0xa0de4
+  time_date_stamp                 = 0x411096a7
+  module_name_rva                 = 0x874
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 37
+  cv_record.rva                   = 0x13bd
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\advapi32.dll"
+  (code_identifier)               = "411096A79b000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 455d6c5f-184d-45bb-b5c5-f30f82975114
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "advapi32.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "advapi32.pdb"
+  (debug_identifier)              = "455D6C5F184D45BBB5C5F30F829751142"
+  (version)                       = "5.1.2600.2180"
+
+module[5]
+MDRawModule
+  base_of_image                   = 0x77e70000
+  size_of_image                   = 0x91000
+  checksum                        = 0x9c482
+  time_date_stamp                 = 0x411096ae
+  module_name_rva                 = 0x8ba
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 35
+  cv_record.rva                   = 0x13e2
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\rpcrt4.dll"
+  (code_identifier)               = "411096AE91000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = bea45a72-1da1-41da-a3ba-86b3a2031153
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "rpcrt4.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "rpcrt4.pdb"
+  (debug_identifier)              = "BEA45A721DA141DAA3BA86B3A20311532"
+  (version)                       = "5.1.2600.2180"
+
+module[6]
+MDRawModule
+  base_of_image                   = 0x77f10000
+  size_of_image                   = 0x47000
+  checksum                        = 0x4d0d0
+  time_date_stamp                 = 0x43b34feb
+  module_name_rva                 = 0x8fc
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280b02
+  version_info.product_version    = 0x50001:0xa280b02
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 34
+  cv_record.rva                   = 0x1405
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\gdi32.dll"
+  (code_identifier)               = "43B34FEB47000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = c0ea66be-00a6-4bd7-aef7-9e443a91869c
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "gdi32.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "gdi32.pdb"
+  (debug_identifier)              = "C0EA66BE00A64BD7AEF79E443A91869C2"
+  (version)                       = "5.1.2600.2818"
+
+module[7]
+MDRawModule
+  base_of_image                   = 0x77d40000
+  size_of_image                   = 0x90000
+  checksum                        = 0x9505c
+  time_date_stamp                 = 0x42260159
+  module_name_rva                 = 0x93c
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280a3e
+  version_info.product_version    = 0x50001:0xa280a3e
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 35
+  cv_record.rva                   = 0x1427
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\user32.dll"
+  (code_identifier)               = "4226015990000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = ee2b714d-83a3-4c9d-8802-7621272f8326
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "user32.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "user32.pdb"
+  (debug_identifier)              = "EE2B714D83A34C9D88027621272F83262"
+  (version)                       = "5.1.2600.2622"
+
+module[8]
+MDRawModule
+  base_of_image                   = 0x77c10000
+  size_of_image                   = 0x58000
+  checksum                        = 0x57cd3
+  time_date_stamp                 = 0x41109752
+  module_name_rva                 = 0x97e
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x70000:0xa280884
+  version_info.product_version    = 0x60001:0x21be0884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x1
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 35
+  cv_record.rva                   = 0x144a
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\msvcrt.dll"
+  (code_identifier)               = "4110975258000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = a678f3c3-0ded-426b-8390-32b996987e38
+  (cv_record).age                 = 1
+  (cv_record).pdb_file_name       = "msvcrt.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "msvcrt.pdb"
+  (debug_identifier)              = "A678F3C30DED426B839032B996987E381"
+  (version)                       = "7.0.2600.2180"
+
+module[9]
+MDRawModule
+  base_of_image                   = 0x76390000
+  size_of_image                   = 0x1d000
+  checksum                        = 0x2a024
+  time_date_stamp                 = 0x411096ae
+  module_name_rva                 = 0x9c0
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 34
+  cv_record.rva                   = 0x146d
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\imm32.dll"
+  (code_identifier)               = "411096AE1d000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 2c17a49c-251b-4c8e-b9e2-ad13d7d9ea16
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "imm32.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "imm32.pdb"
+  (debug_identifier)              = "2C17A49C251B4C8EB9E2AD13D7D9EA162"
+  (version)                       = "5.1.2600.2180"
+
+module[10]
+MDRawModule
+  base_of_image                   = 0x59a60000
+  size_of_image                   = 0xa1000
+  checksum                        = 0xa8824
+  time_date_stamp                 = 0x4110969a
+  module_name_rva                 = 0xa00
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 36
+  cv_record.rva                   = 0x148f
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\dbghelp.dll"
+  (code_identifier)               = "4110969Aa1000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 39559573-e21b-46f2-8e28-6923be9e6a76
+  (cv_record).age                 = 1
+  (cv_record).pdb_file_name       = "dbghelp.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "dbghelp.pdb"
+  (debug_identifier)              = "39559573E21B46F28E286923BE9E6A761"
+  (version)                       = "5.1.2600.2180"
+
+module[11]
+MDRawModule
+  base_of_image                   = 0x77c00000
+  size_of_image                   = 0x8000
+  checksum                        = 0x11d78
+  time_date_stamp                 = 0x411096b7
+  module_name_rva                 = 0xa44
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 36
+  cv_record.rva                   = 0x14b3
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\version.dll"
+  (code_identifier)               = "411096B78000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = 180a90c4-0384-463e-82dd-c45b2c8ab76e
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "version.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "version.pdb"
+  (debug_identifier)              = "180A90C40384463E82DDC45B2C8AB76E2"
+  (version)                       = "5.1.2600.2180"
+
+module[12]
+MDRawModule
+  base_of_image                   = 0x76bf0000
+  size_of_image                   = 0xb000
+  checksum                        = 0xa29b
+  time_date_stamp                 = 0x411096ca
+  module_name_rva                 = 0xa88
+  version_info.signature          = 0xfeef04bd
+  version_info.struct_version     = 0x10000
+  version_info.file_version       = 0x50001:0xa280884
+  version_info.product_version    = 0x50001:0xa280884
+  version_info.file_flags_mask    = 0x3f
+  version_info.file_flags         = 0x0
+  version_info.file_os            = 0x40004
+  version_info.file_type          = 0x2
+  version_info.file_subtype       = 0x0
+  version_info.file_date          = 0x0:0x0
+  cv_record.data_size             = 34
+  cv_record.rva                   = 0x14d7
+  misc_record.data_size           = 0
+  misc_record.rva                 = 0x0
+  (code_file)                     = "C:\WINDOWS\system32\psapi.dll"
+  (code_identifier)               = "411096CAb000"
+  (cv_record).cv_signature        = 0x53445352
+  (cv_record).signature           = a5c3a1f9-689f-43d8-ad22-8a0929388970
+  (cv_record).age                 = 2
+  (cv_record).pdb_file_name       = "psapi.pdb"
+  (misc_record)                   = (null)
+  (debug_file)                    = "psapi.pdb"
+  (debug_identifier)              = "A5C3A1F9689F43D8AD228A09293889702"
+  (version)                       = "5.1.2600.2180"
+
+MinidumpMemoryList
+  region_count = 3
+
+region[0]
+MDMemoryDescriptor
+  start_of_memory_range = 0x7c90eb14
+  memory.data_size      = 0x100
+  memory.rva            = 0x1539
+Memory
+0xff83c4ec890424c744240401000000895c2408c74424100000000054e877000000c208009090909090558bec83ec508944240c64a1180000008b80a4010000890424c744240400000000c744240800000000c74424100000000054e8380000008b04248be55dc3908da424000000008d490090909090908bd40f349090909090c38da424000000008d64240090909090908d542408cd2ec3558bec9c81ecd00200008985dcfdffff898dd8fdffff8b45088b4d0489480c8d852cfdffff8988b80000008998a40000008990a800000089b0a000000089b89c0000008d4d0c8988c40000008b4d008988b40000008b4dfc8988c00000008c88bc0000008c989800
+
+region[1]
+MDMemoryDescriptor
+  start_of_memory_range = 0x12f31c
+  memory.data_size      = 0xce4
+  memory.rva            = 0x1639
+Memory
+0x00000000c0e9907ccb25807cb8070000000000000000000034ff1200b0fe12008037887c140000000100000000000000000000001000000027e0907c2e39917c0050fd7f00f0fd7f000000000400000034f312006947c788d4f31200a89a837cf825807c0000000098f312003225807cb8070000ffffffff00000000e4f31200ff1d4000b8070000ffffffffa8fa12008037887c0e1c4000a8fa120000000000ff792a0f64f91200b01b400000004000b0fe12000040020070fa1200084042000000000080fa120080fa12004e30867ca8fa12000000000000000000000000000018000002100000e3ef907c0000000079d900000000000048f41200000014003207917c0500000078071400000014000000000020f412003207917ca05f140018ee907cfa00000074f61200000000009615917ceb06917cf00298000100000000000000384f14009615917ceb06917c7801140008000000404f14000000a659985f1400080000000000000018ee907c90fea700400698003815917c184f1400eb06917c00000000800000000000a65988f69f0090f51200a569917cf8f41200d95c878880f5120043ef907c480485000500000090f5120088fea700a8212400000000000000000080f512002469917cf8fbfd7fa821240008000000f500000000000000384d850078019800a8fa120004000000a05f140096d4917c00000000b0d4917c0000000008069800184f140000000000104f140000000000184f140000004000000000010040020063003a005c0074006500730074005f006100700070002e006500780065000000000000002f00000028000000184f1400780185007801140028000000000000000000140084f3120010000000d8f5120018ee907cf006917cffffffffeb06917ce619917c88e6a7003003000001030000ff1b917c0000980080e6a70080069800400698000000980080e6a70000000000000000000000000080e6a7000818000088e6a700d759927c78019800081800000210000000009800f8f31200280a0000dcf6120018ee907cf006917cffffffffeb06917c0859927c00009800080000005859927c00000000000001000000a659000000005a6202000010000068fe030001000000dffe03000000010000000100fffffe7f0100000001c0c27700008500000000002dc0c27700000000684aaf590000a659241a917c80c0977c0000000000000000cd5c927c0050fd7f0000a65900000100080000004550fd7f0000000000000000000000000050fd7fcd5c927c05000000d4f61200f45c927c80e4977c05000000010000000050fd7f18f712007009917cc0e4977c172e817cff2d817c000000000000a6590000a6590210000000f0fd7f05000000e8f612000806980064f81200a89a837c002e817cffffffffff2d817cc8242400dd8ea75901000000000000004cf712003608a9590000a65901000000000000000100000060f71200e407a9596cf7120000004000000000010040020063003a005c0074006500730074005f006100700070002e0065007800650000006d05917c905f140000000000440d020000000000604f14000c0000007801140000000000a04e1400d84d8700400687004509917c0800000000000000000000004000000078011400a8038700404f14000510907c000000000000000078011400980387000800000008000000c0e4977cd04d8700f835887c7801140010000000a0e7ae591600000030fd1200d39b917c44000000620000000000a65950e9ae59d8eaae59a80387000100000014040000000000000100000002000000f800a659c003870001000000780114009508917c0000a659091b917c020000000900000040000000a2fd12009cfd1200404f1400a2fd1200d04d8700640187000000000000000000d04d870010000000d84d8700384f1400a803870010000000c00300000000870074fb1200404f14006cfe120018ee907cf006917cffffffffeb06917ca09d400000008700000000000400000000000000ffffff3fc04d8700ccfd12009c4d400004000000fa19917cb84d870064018700c04d8700063440000400000018000000c04d870079d90000c0038700fa31400000000000c04d8700c04d87000000000001000000b0fe120082294000c04d87000000000000000000c04d870048fe12008cfe120000000000e224400040fe12008cfe1200c04d8700d84d8700b0fe12008600817c54fa1200d8f9120000000000160018005479420079d90000000000000757917c00000200a4f91200a4f91200a4f91200020000000200000000000000c4f912000000000079d9000014fb12004cfa120014fb1200005a917c00fa1200a0fb120001000000655a917ca405817c74c1977ce705817c00000000f4fd120098fb120000000000a0fb12000000000090fb12000000800070fa120000000000000000000000000016001800547942000000000001000000000000000000000000000000000000003308917ca89a837c0000807c0000807ce800807c2cfa12001fe2907c11fa877cffffffffe06f817c000000006cfa12001c0000000f000000e06f817c8fc60000f0f312000060817cc8fa1200a89a837c7039867cfffffffff0ff1200da36847ca8fa1200099b837cb0fa120000000000b0fa12000000000000000000000000009cfb1200b8fb1200d4fa1200bf37907c9cfb1200e0ff1200b8fb120070fb1200b0ff1200d837907ce0ff120084fb12008b37907c9cfb1200e0ff1200b8fb120070fb1200a89a837c010000009cfb1200e0ff12006078937c9cfb1200e0ff1200b8fb120070fb1200a89a837c280a00009cfb12000200000018ee907c9032917cffffffff8832917c3364917c68fb1200000087003207917c02000000dc31917c1232917c8132917c8832917c1e000000c01e2400080200003807917c54fb12003207917cc4fb120018ee907c9032917c0000130000d01200beb4800088fe1200faea907c00000000b8fb12009cfb1200b8fb1200050000c000000000000000009e4240000200000001000000450000003f0001000000000000000000000000000000000000000000000000007f02ffff0000ffffffffffff0000000000002200000000000000ffff0000000018b72200000118b7220000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003b0000002300000023000000280a000002000000c1ab807c58bc420094fe12004500000088fe12009e4240001b0000004602010084fe1200230000007f0200000000220000000000000000000000000000000000801f0000ffff00000000000018b72200000100000000000018b72200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004509917c4e09917c38b622002400020024b42200020000009041917c0070fd7f0510907cccb22200000000009cb3220018ee907c7009917cc0e4977c6f3e917c623e917c08020000dcb62200b4b622001e000000000000000000000000000000000000002eb42200000000000f000000020000001e00200000fcfd7f2f63796764726976652f632f444f43554d457e312f4d4d454e544f7e312f4c4f43414c537e312f54656d7000000000000000000130b422000000004300000000000000001efcfd7f4509917c4e09917c5ad9000008b32200b4b622004500000070ff120000424000b8278700dc31917c00000000004c870000000020040000000000000007000000000000004042400000000000000000002e000000000000000cff12007b434100010000000700000084434100004d87002e39917cffffffff24000000240000002700000000000000584d870004000000b1944000244c87002a0000002f000000c0fe1200004d8700584d87000000a659b0b9a859015d400015aa400000000000b4070000784e14000000000001000000f40b00000000000000000000bc070000b8070000f40b0000a8fa120000000000009c4000599c400094b240004f752a0fc0ff1200ec534000010000003039870050398700ff752a0f00002400a02024000050fd7f050000c00100000005000000000000000000240084ff1200acfa1200e0ff1200d06f4000a70b7a0f00000000f0ff1200d76f817c00002400a02024000050fd7f050000c0c8ff1200a8fa1200ffffffffa89a837ce06f817c0000000000000000000000004354400000000000
+
+region[2]
+MDMemoryDescriptor
+  start_of_memory_range = 0x97f6e8
+  memory.data_size      = 0x918
+  memory.rva            = 0x231d
+Memory
+0x8000108020fa97009fd7907c0000000048f7970005000f0040061400000000004cf7970037b9807c00000000000000003103917c780114000000000061dc907cf1b8807c00000000ffffffff70f79700000000000000000054f797003082140001000000000000000200000000000000000000007cf7970020b9807c0e00000004000000006000000000a80078011400000000000882140092d5907c8b9b807c9c070000d0f89700780114009c07000038821400807f140020dea85910fa9700780114009807000088fb9700e07f14009c0700000000000078011400000000000882140000000000000000000000000078011400ba0300000000000000000000000000000000000000000000000000007801140000000000000000000000000000000000c0030000000000000000000000000000088214005c0057000600000078011400000000005c00730079007300740065006d0033000082140068011400000000000000000000821400d47f1400807f140070f8970061eea859e000a8000000a8001c4e000084f89700bdeea859e000a8000000a8001c4e0000a4f897005fefa8590000a8000000000006000000c4f89700e000a80060fe9700c8f897005abfa8590000a80000000000060000001c000000d47f1400807f1400380000006ce9907c88b9807cffffffff0000a80000000000807f140030fa97007fc3a859a0c4a859b0fb970060fe9700684f1400504500004c010400ca9610410000000000000000e0000e210b01070a00400000003a000000000000f1100000001000000000bf760000000000100000000200000500010005000100040000000000000000b00000000400009ba2000000001400285214000000000034fa97007801140034fa9700910e917c080614006d05917cc84d85005c4e8500684f140000000000b04800002852140078011400e00300003052140000000000000000000000000078011400c403000030821400380000000000000000000000000000000000000000000000000000003882140048050000780200003800000000100000ec000000b8470000400000000000000000000000000000000000140000000000807f140000000000000000000000000000000101a900000060fe9700dcff9700dcff97000050fd7f78fa970054fa9700ad9d917c8cfa9700c2066f7f0e000000000000001c01000078fa9700c84d850068fa970085ae807c78fc970024fc970083dba85978fc97008cfa9700800000008edba85914010000050000000100000096020000b8fc97003815917c9615917ceb06917c60fe970060fe9700c4fd9700d8fa9700000014003207917c21000000b80c14000000140030521400b0fa9700fffffffff4fc970018ee907c3807917cffffffff3207917cab06917ceb06917ccc4f140060fe9700684f1400e0004000e4fa9700a863917c74fb970018ee907c3808917cffffffff3308917c5b2c817c872c817c00000000f4fb9700000000000000000054fd970018ee907c4006140064fd97003815917c00e0fd7feb06917c684f140038821400780114000050fd7facfb970000000000000004000000000090fe97000000000018fb970050531400508b1400a89a837cffe9907cf60d817ca807000000000000ffe9907cf60d817c08000000000000000000000000000000585314003cfc97003882140000000000160e817cc4fd970060fe970058531400208f1400588b1400460f917c50531400208f1400780114003082140000000000b8fc970078011400b8fc9700910e917c080614006d05917c3882140060fe97000000000000000000960200003082140078011400ffe9907c38821400a807000000000000780114005853140058fc9700505314001000000000000000160e817c784e8500c4fd9700388214000000000024010000f00c00001000000044fc970000000000c7e2907ce721807cffffffffe8f69700388214001809000098fc9700acfc9700d2e2a859ffffffffe8f697003882140018090000c4fc97003882140060fe9700c4fd9700ccfc97004ee3a859ffffffffe8f69700000000003882140018090000e0fc9700f4fc970093b2a859ffffffffe8f69700000000003882140018090000c4fd970060fe9700a85a140078fd9700a5b3a85960fe9700c4fd9700684f1400e8f697000000000018090000000000000200000080fd9700c4fd970060fe970000000000f40b000000000000000000000000000000f0fd7f000000001cf3120000000000e40c000039160000cc020000940d00000000000000000000000000000000000002000000ac4f14006010000098fd97005eb7a8593916000000000000684f1400784e85000000000084ff9700d4fe97007bb9a85960fe9700c4fd9700684f14003849140084ff9700010000000000000008ff9700f40b0000090000000000000020000000200000006c0000008c000000380000001e000000c4000000dc000000a80000008401000064000000b801000030000000e801000080050000e8010000680700000000000068070000680700000000000005150000340000002915000039150000fc1600001d23000068070000600300008a070000c80a0000310a00002c130000f91400000c000000352c000000000000ffffffff5c0f0000c84d8500784e8500884e85000000000000000000000000004c010000fc39a6590000000002000000050000000100000000008500280a000001000001cc0200009c0000000b00000050000000040000000010000000000000000000000001000000000000000000000000000034ff970078baa859384914005c0f0000c84d850001000000884e8500684f140008ff970064ff970000000000a8070000b0fe1200f40b00009cfb120000000000b8fb12000000000000000000ae20140000000000884e8500784e8500c84d8500a8fa120011204000ffffffff5c0f0000a80700000000000078ff970064ff970000000000adbf807c2025807cecff97000100000084ff970003000000c0110000f40b0000f40b0000a8fa120000000000010067470c0000006cff9700bc070000ffffffff000000006c1a4000f40b000000fa12000000000000004000a09d4000b0fe120083b6807cb0fe120000004000a09d4000b0fe120000e0fd7f00069c86c0ff9700d8863f86ffffffffa89a837c90b6807c000000000000000000000000301a4000b0fe120000000000
+
+MDException
+  thread_id                                  = 0xbf4
+  exception_record.exception_code            = 0xc0000005
+  exception_record.exception_flags           = 0x0
+  exception_record.exception_record          = 0x0
+  exception_record.exception_address         = 0x40429e
+  exception_record.number_parameters         = 2
+  exception_record.exception_information[ 0] = 0x1
+  exception_record.exception_information[ 1] = 0x45
+  thread_context.data_size                   = 716
+  thread_context.rva                         = 0xac8
+
+MDRawContextX86
+  context_flags                = 0x1003f
+  dr0                          = 0x0
+  dr1                          = 0x0
+  dr2                          = 0x0
+  dr3                          = 0x0
+  dr6                          = 0x0
+  dr7                          = 0x0
+  float_save.control_word      = 0xffff027f
+  float_save.status_word       = 0xffff0000
+  float_save.tag_word          = 0xffffffff
+  float_save.error_offset      = 0x0
+  float_save.error_selector    = 0x220000
+  float_save.data_offset       = 0x0
+  float_save.data_selector     = 0xffff0000
+  float_save.register_area[80] = 0x0000000018b72200000118b72200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  float_save.cr0_npx_state     = 0x0
+  gs                           = 0x0
+  fs                           = 0x3b
+  es                           = 0x23
+  ds                           = 0x23
+  edi                          = 0xa28
+  esi                          = 0x2
+  ebx                          = 0x7c80abc1
+  edx                          = 0x42bc58
+  ecx                          = 0x12fe94
+  eax                          = 0x45
+  ebp                          = 0x12fe88
+  eip                          = 0x40429e
+  cs                           = 0x1b
+  eflags                       = 0x10246
+  esp                          = 0x12fe84
+  ss                           = 0x23
+  extended_registers[512]      = 0x7f0200000000220000000000000000000000000000000000801f0000ffff00000000000018b72200000100000000000018b72200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004509917c4e09917c38b622002400020024b42200020000009041917c0070fd7f0510907cccb22200000000009cb3220018ee907c7009917cc0e4977c6f3e917c623e917c08020000dcb62200b4b622001e000000000000000000000000000000000000002eb42200000000000f000000020000001e00200000fcfd7f2f63796764726976652f632f444f43554d457e312f4d4d454e544f7e312f4c4f43414c537e312f54656d7000000000000000000130b422000000004300000000000000001efcfd7f4509917c4e09917c5ad9000008b32200b4b62200
+
+MDRawSystemInfo
+  processor_architecture                     = 0
+  processor_level                            = 6
+  processor_revision                         = 0xd08
+  number_of_processors                       = 1
+  product_type                               = 1
+  major_version                              = 5
+  minor_version                              = 1
+  build_number                               = 2600
+  platform_id                                = 2
+  csd_version_rva                            = 0x768
+  suite_mask                                 = 0x100
+  cpu.x86_cpu_info.vendor_id[0]              = 0x756e6547
+  cpu.x86_cpu_info.vendor_id[1]              = 0x49656e69
+  cpu.x86_cpu_info.vendor_id[2]              = 0x6c65746e
+  cpu.x86_cpu_info.version_information       = 0x6d8
+  cpu.x86_cpu_info.feature_information       = 0xafe9fbff
+  cpu.x86_cpu_info.amd_extended_cpu_features = 0xffffffff
+  (csd_version)                              = "Service Pack 2"
+  (cpu_vendor)                               = "GenuineIntel"
+
+MDRawMiscInfo
+  size_of_info                 = 24
+  flags1                       = 0x3
+  process_id                   = 0xf5c
+  process_create_time          = 0x45d35f73
+  process_user_time            = 0x0
+  process_kernel_time          = 0x0
+
+MDRawBreakpadInfo
+  validity             = 0x3
+  dump_thread_id       = 0x11c0
+  requesting_thread_id = 0xbf4
+

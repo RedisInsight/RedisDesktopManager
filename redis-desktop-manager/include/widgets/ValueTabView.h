@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QtCore/QVariant>
+#include <QtCore>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
@@ -17,47 +17,70 @@
 #include <QComboBox>
 #include <QGroupBox>
 
-class ValueTabView
+class KeyModel;
+class PaginatedModel;
+class AbstractFormatter;
+
+class ValueTabView : public QObject
 {
+    Q_OBJECT
+
 public:
-	QGridLayout *gridLayout;
-	QLineEdit *keyName;
-	QTableView *keyValue;
-	QPlainTextEdit *singleValue;
-	QGroupBox *singleValueGroup;
-	QComboBox * singleValueFormatterType;
-	QSplitter *splitter;
-	QPlainTextEdit *keyValuePlain;
-	QLabel *keyNameLabel;	
-	QLabel *keyValueLabel;
-	QLabel *loaderLabel;
-	QMovie *loader;
-	QLabel * formatterLabel;
+    ValueTabView(const QString& name, QWidget * parent);
 
-	QGridLayout * paginationGrid;
-	QPushButton * previousPage;
-	QPushButton * nextPage;
-	QLabel * pagination;
+    QLineEdit *keyName;
+    QLabel *keyTypeLabelValue;
+    QPushButton * renameKey;
+    QPushButton * deleteKey;
 
-	enum Type { ModelBased, PlainBased };
+    void initKeyValue(KeyModel *);
 
-	void init(QWidget * baseController);
+    const QModelIndex * getCurrentCell();
 
-	void initKeyValue(ValueTabView::Type t = ModelBased);
-
-	void setModel(QAbstractItemModel * model);
-
-	void setPlainValue(QString &);
-
-	ValueTabView::Type getType();
+    void showLoader();
+    void hideLoader();
 
 protected:
-	QWidget * controller;
+    QWidget * controller;
+    KeyModel * model;
+    PaginatedModel * paginatedModel;
+    AbstractFormatter * formatter;
+    const QModelIndex * currentCell;
 
-	void initLayout();
+    // UI items
+    QTableView *keyValue;
+    QPlainTextEdit *singleValue;
+    QGroupBox *singleValueGroup;
+    QComboBox * singleValueFormatterType;
+    QSplitter *splitter;
+    QLabel *keyNameLabel;    
+    QLabel *keyValueLabel;
+    QLabel *loaderLabel;
+    QMovie *loader;
+    QLabel * formatterLabel;
+    QGridLayout * paginationGrid;
+    QPushButton * previousPage;
+    QPushButton * nextPage;
+    QLabel * pagination;
+    QGridLayout *gridLayout;
+    QPushButton * saveValue;
 
-	void initKeyName();	
+    void initLayout();
 
-	void initPagination();
+    void initKeyName();    
+
+    void initPagination();
+
+    void initFormatter();
+
+protected slots:
+    void loadNextPage();
+    void loadPreviousPage();
+    void onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous);
+    void currentFormatterChanged(int index);
+    void valueUpdate();
+
+signals:
+    void saveChangedValue(const QString& value, const QModelIndex * currCell);
 };
 
