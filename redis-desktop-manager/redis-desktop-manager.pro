@@ -15,30 +15,28 @@ TEMPLATE = app
 #CONFIG += release
 
 SOURCES += \
-    $$PWD/source/main.cpp \
-    $$PWD/source/application.cpp \
-    $$PWD/source/connection.cpp \
-    $$PWD/source/widgets/*.cpp \
-    $$PWD/source/crashhandler/*.cpp \
-    $$PWD/source/updater/Updater.cpp \
-    $$PWD/source/redis/*.cpp \
-    $$PWD/source/network/*.cpp \
-    $$PWD/source/models/*.cpp \
-    $$PWD/source/models/items/*.cpp \
-    $$PWD/source/models/value-view-formatters/*.cpp \
+    $$PWD/main.cpp \
+    $$PWD/dialogs/*.cpp \
+    $$PWD/core/*.cpp \
+    $$PWD/core/ssh/*.cpp \
+    $$PWD/widgets/*.cpp \
+    $$PWD/crashhandler/*.cpp \
+    $$PWD/updater/*.cpp \
+    $$PWD/models/*.cpp \
+    $$PWD/models/items/*.cpp \
+    $$PWD/models/value-view-formatters/*.cpp \
 
 HEADERS  += \
     $$PWD/version.h \
-    $$PWD/Redis.h \
-    $$PWD/include/*.h \
-    $$PWD/include/widgets/*.h \
-    $$PWD/include/crashhandler/*.h \
-    $$PWD/include/updater/Updater.h \
-    $$PWD/include/redis/*.h \
-    $$PWD/include/network/*.h \
-    $$PWD/include/models/*.h \
-    $$PWD/include/models/items/*.h \
-    $$PWD/include/models/value-view-formatters/*.h \
+    $$PWD/dialogs/*.h \
+    $$PWD/core/*.h \
+    $$PWD/core/ssh/*.h \
+    $$PWD/widgets/*.h \
+    $$PWD/crashhandler/*.h \
+    $$PWD/updater/*.h \
+    $$PWD/models/*.h \
+    $$PWD/models/items/*.h \
+    $$PWD/models/value-view-formatters/*.h \
 
 
 DEPSDIR = $$PWD/../deps/
@@ -175,22 +173,15 @@ INCLUDEPATH += $$DEPSDIR/libssh/include
 DEPENDPATH += $$DEPSDIR/libssh/include
 DEPENDPATH += $$BREAKPADDIR
 
-INCLUDEPATH += $$PWD/source \
-    $$PWD/source/models \
-    $$PWD/source/models/items \
-    $$PWD/source/network \
-    $$PWD/source/redis \
-    $$PWD/source/updater \
-    $$PWD/source/widgets \
-    $$PWD/"include" \
-    $$PWD/include/models \
-    $$PWD/include/models/items \
-    $$PWD/include/models/value-view-formatters \
-    $$PWD/include/network \
-    $$PWD/include/redis \
-    $$PWD/include/updater \
-    $$PWD/include/crashhandler \
-    $$PWD/include/widgets \
+INCLUDEPATH += $$PWD/dialogs \
+    $$PWD/core/ \
+    $$PWD/core/ssh/ \
+    $$PWD/widgets/ \
+    $$PWD/crashhandler/ \
+    $$PWD/updater/ \
+    $$PWD/models/ \
+    $$PWD/models/items/ \
+    $$PWD/models/value-view-formatters/ \
     $$PWD/resourses \
     $$PWD/ \
 
