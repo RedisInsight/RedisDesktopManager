@@ -1,11 +1,14 @@
 #include "RedisConnectionConfig.h"
 
-void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port) 
+void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port, 
+                                                 QString publicKey, QString privateKey) 
 {
     sshHost = host;
     sshUser = user;
     sshPassword = pass;
     sshPort = port;
+    sshPublicKey = publicKey;
+    sshPrivateKey = privateKey;
 }; 
 
 
@@ -44,8 +47,11 @@ RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connection
 
     getValueFromXml(attr, "sshHost", connectionConfig.sshHost);    
     getValueFromXml(attr, "sshUser", connectionConfig.sshUser);    
-    getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);    
+    getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);
     getValueFromXml(attr, "sshPort", connectionConfig.sshPort);
+
+    getValueFromXml(attr, "sshPublicKey", connectionConfig.sshPublicKey);
+    getValueFromXml(attr, "sshPrivateKey", connectionConfig.sshPrivateKey);
 
     getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
     getValueFromXml(attr, "connectionTimeout", connectionConfig.connectionTimeout);   
@@ -101,6 +107,9 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
         saveXmlAttribute(dom, xml, "sshUser", sshUser); 
         saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
         saveXmlAttribute(dom, xml, "sshPort", QString::number(sshPort)); 
+
+        saveXmlAttribute(dom, xml, "sshPrivateKey", sshPrivateKey); 
+        saveXmlAttribute(dom, xml, "sshPublicKey", sshPublicKey);
     }
 
     return xml;

@@ -21,6 +21,8 @@ public:
     int sshPort;
     QString sshUser;
     QString sshPassword;
+	QString sshPublicKey;
+	QString sshPrivateKey;	
 
     //timeouts 
     int connectionTimeout;
@@ -46,13 +48,17 @@ public:
             connectionTimeout = other.connectionTimeout;
             executeTimeout = other.executeTimeout;
 
-            setSshTunnelSettings(other.sshHost, other.sshUser, other.sshPassword, other.sshPort);
+            setSshTunnelSettings(
+                other.sshHost, other.sshUser, other.sshPassword, other.sshPort,
+                other.sshPublicKey, other.sshPublicKey
+                );
         }
 
         return *this;
     }
 
-    void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT);
+    void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT, 
+	                            QString sshPublicKey = "", QString sshPrivatekey = "");
     
     bool isNull();
     bool useSshTunnel() const;
