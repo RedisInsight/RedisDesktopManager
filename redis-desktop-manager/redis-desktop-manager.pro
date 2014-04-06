@@ -11,11 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = rdm
 TEMPLATE = app
 
-CONFIG -= debug
-CONFIG += release
-
-
-#CONFIG-=app_bundle
+#CONFIG -= debug
+#CONFIG += release
 
 SOURCES += \
     $$PWD/source/main.cpp \
@@ -32,6 +29,7 @@ SOURCES += \
 
 HEADERS  += \
     $$PWD/version.h \
+    $$PWD/Redis.h \
     $$PWD/include/*.h \
     $$PWD/include/widgets/*.h \
     $$PWD/include/crashhandler/*.h \
@@ -43,34 +41,41 @@ HEADERS  += \
     $$PWD/include/models/value-view-formatters/*.h \
 
 
-release: DESTDIR = ./../bin/linux/release
-debug:   DESTDIR = ./../bin/linux/debug
-
-OBJECTS_DIR = $$DESTDIR/.obj
-MOC_DIR = $$DESTDIR/.moc
-RCC_DIR = $$DESTDIR/.qrc
-UI_DIR = $$DESTDIR/.ui
-
-BREAKPADDIR = $$PWD/../deps/google-breakpad/src
+DEPSDIR = $$PWD/../deps/
+BREAKPADDIR = $$DEPSDIR/google-breakpad/src
 
 win32 {
     CONFIG += c++11
-    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
+
+    INCLUDEPATH += $$BREAKPADDIR\client\windows\handler\
+    INCLUDEPATH += $$BREAKPADDIR\common\windows\
+    INCLUDEPATH += $$BREAKPADDIR\client\windows\crash_generation
+    INCLUDEPATH += $$BREAKPADDIR\client\windows\common\
+    INCLUDEPATH += $$BREAKPADDIR\google_breakpad\common\
+    INCLUDEPATH += $$BREAKPADDIR\processor
+    INCLUDEPATH += $$BREAKPADDIR\
 
     CONFIG(release, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/release/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/release/libssh2.lib
+        WIN_DEPS_PATH = $$DEPSDIR/libs/win32/release/
+    } else: CONFIG(debug, debug|release) {
+        WIN_DEPS_PATH = $$DEPSDIR/libs/win32/debug/
     }
 
-    else: CONFIG(debug, debug|release) {
-        LIBS += -L$$PWD/../deps/libs/win32/debug/ -llibssh2
-        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/debug/libssh2.lib
-    }
+    message(Deps path: $$WIN_DEPS_PATH)
+
+    LIBS += -L$$WIN_DEPS_PATH -llibssh2
+    LIBS += -lcommon -lcrash_generation_client -lexception_handler -llibeay32 -lssleay32 -lzlib
+    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
+    PRE_TARGETDEPS += $$WIN_DEPS_PATH/libssh2.lib
+
+    release: DESTDIR = ./../bin/windows/release
+    debug:   DESTDIR = ./../bin/windows/debug
 }
 
 unix {
     macx { # os x 10.8
         CONFIG += c++11
+        #CONFIG-=app_bundle
 
         LIBS += /usr/local/lib/libssh2.dylib
         LIBS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework/Versions/A/Breakpad
@@ -155,10 +160,17 @@ unix {
         data.files = lib/*
         INSTALLS += data
     }
+
+    release: DESTDIR = ./../bin/linux/release
+    debug:   DESTDIR = ./../bin/linux/debug
+    OBJECTS_DIR = $$DESTDIR/.obj
+    MOC_DIR = $$DESTDIR/.moc
+    RCC_DIR = $$DESTDIR/.qrc
+    UI_DIR = $$DESTDIR/.ui
 }
 
-INCLUDEPATH += $$PWD/../deps/libssh/include
-DEPENDPATH += $$PWD/../deps/libssh/include
+INCLUDEPATH += $$DEPSDIR/libssh/include
+DEPENDPATH += $$DEPSDIR/libssh/include
 DEPENDPATH += $$BREAKPADDIR
 
 INCLUDEPATH += $$PWD/source \
@@ -177,6 +189,7 @@ INCLUDEPATH += $$PWD/source \
     $$PWD/include/updater \
     $$PWD/include/crashhandler \
     $$PWD/include/widgets \
+    $$PWD/ \
 
 FORMS += \
     $$PWD/forms/*.ui \
