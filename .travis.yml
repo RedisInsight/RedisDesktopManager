@@ -2,10 +2,10 @@ language: cpp
 compiler:
   - gcc
 before_install:
-- sudo add-apt-repository --yes ppa:beineri/opt-qt511
+- sudo add-apt-repository --yes ppa:beineri/opt-qt521
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
-- sudo apt-get install qt51base qt51imageformats qt51tools qt51xmlpatterns qt51x11extras -y -qq
+- sudo apt-get install qt52base qt52imageformats qt52tools qt52xmlpatterns -y -qq
 - uname -m
 - export QTDIR=/opt/qt51
 - export PATH=$QTDIR/bin:$PATH
