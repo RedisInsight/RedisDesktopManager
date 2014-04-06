@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml concurrent
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui network xml concurrent widgets
 
 TARGET = rdm
 TEMPLATE = app
