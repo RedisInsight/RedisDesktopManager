@@ -61,7 +61,7 @@ win32 {
         WIN_DEPS_PATH = $$DEPSDIR/libs/win32/debug/
     }
 
-    message(Deps path: $$WIN_DEPS_PATH)
+    #message(Deps path: $$WIN_DEPS_PATH)
 
     LIBS += -L$$WIN_DEPS_PATH -llibssh2
     LIBS += -lcommon -lcrash_generation_client -lexception_handler -llibeay32 -lssleay32 -lzlib
@@ -70,6 +70,8 @@ win32 {
 
     release: DESTDIR = ./../bin/windows/release
     debug:   DESTDIR = ./../bin/windows/debug
+
+    RC_FILE += $$PWD/resources/rdm.rc
 }
 
 unix {
@@ -83,7 +85,7 @@ unix {
 
         INCLUDEPATH += $$PWD/../deps/libssh/include
 
-        QMAKE_INFO_PLIST = Info.plist
+        QMAKE_INFO_PLIST =  $$PWD/resources/Info.plist
         ICON = rdm.icns
 
         INCLUDEPATH += $$BREAKPADDIR/ \
@@ -149,11 +151,11 @@ unix {
             $$BREAKPADDIR/third_party/lss/ \
 
         target.path = /usr/share/redis-desktop-manager/bin
-        target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter qt.conf rdm.png
+        target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter  $$PWD/resources/qt.conf  $$PWD/resources/rdm.png
         INSTALLS += target
 
         deskicon.path = /usr/share/applications
-        deskicon.files = rdm.desktop
+        deskicon.files =  $$PWD/resources/rdm.desktop
         INSTALLS += deskicon
 
         data.path = /usr/share/redis-desktop-manager/lib
@@ -189,13 +191,14 @@ INCLUDEPATH += $$PWD/source \
     $$PWD/include/updater \
     $$PWD/include/crashhandler \
     $$PWD/include/widgets \
+    $$PWD/resourses \
     $$PWD/ \
 
 FORMS += \
     $$PWD/forms/*.ui \
 
 RESOURCES += \
-    Resources/demo.qrc
+    $$PWD/resources/rdm.qrc
 
 OTHER_FILES += \
     qt.conf \
