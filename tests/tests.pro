@@ -1,6 +1,4 @@
-QT       += core gui network xml testlib concurrent
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui network xml testlib concurrent widgets
 
 TARGET = tests
 TEMPLATE = app
@@ -13,24 +11,26 @@ SRC_DIR = $$PWD/../redis-desktop-manager//
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/source/*.cpp \
-    $$SRC_DIR/source/updater/Updater.cpp \
-    $$SRC_DIR/source/redis/*.cpp \
-    $$SRC_DIR/source/network/*.cpp \
-    $$SRC_DIR/source/models/*.cpp \
-    $$SRC_DIR/source/models/items/*.cpp \
-    $$SRC_DIR/source/models/value-view-formatters/*.cpp \
-    $$SRC_DIR/source/widgets/*.cpp \
+    $$PWD/testcases/*.cpp \
+    $$SRC_DIR/dialogs/*.cpp \
+    $$SRC_DIR/core/*.cpp \
+    $$SRC_DIR/core/ssh/*.cpp \
+    $$SRC_DIR/widgets/*.cpp \
+    $$SRC_DIR/updater/*.cpp \
+    $$SRC_DIR/models/*.cpp \
+    $$SRC_DIR/models/items/*.cpp \
+    $$SRC_DIR/models/value-view-formatters/*.cpp \
 
 HEADERS  += \
-    $$PWD/include/*.h \
-    $$SRC_DIR/include/updater/Updater.h \
-    $$SRC_DIR/include/redis/*.h \
-    $$SRC_DIR/include/network/*.h \
-    $$SRC_DIR/include/models/*.h \
-    $$SRC_DIR/include/models/items/*.h \
-    $$SRC_DIR/include/models/value-view-formatters/*.h \
-    $$SRC_DIR/include/widgets/*.h \
+    $$PWD/testcases/*.h \
+    $$SRC_DIR/dialogs/*.h \
+    $$SRC_DIR/core/*.h \
+    $$SRC_DIR/core/ssh/*.h \
+    $$SRC_DIR/widgets/*.h \
+    $$SRC_DIR/updater/*.h \
+    $$SRC_DIR/models/*.h \
+    $$SRC_DIR/models/items/*.h \
+    $$SRC_DIR/models/value-view-formatters/*.h \
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
@@ -76,29 +76,21 @@ unix {
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
-INCLUDEPATH += $$PWD/source \
-    $$PWD/"include" \
-    $$SRC_DIR/source/models \
-    $$SRC_DIR/source/models/items \
-    $$SRC_DIR/source/network \
-    $$SRC_DIR/source/redis \
-    $$SRC_DIR/source/updater \
-    $$SRC_DIR/source/widgets \
-    $$SRC_DIR/"include" \
-    $$SRC_DIR/include/models \
-    $$SRC_DIR/include/models/items \
-    $$SRC_DIR/include/models/value-view-formatters \
-    $$SRC_DIR/include/network \
-    $$SRC_DIR/include/redis \
-    $$SRC_DIR/include/updater \
-    $$SRC_DIR/include/widgets \
+INCLUDEPATH += $$PWD/testcases \
+    $$SRC_DIR/models \
+    $$SRC_DIR/models/items \
+    $$SRC_DIR/models/value-view-formatters \
+    $$SRC_DIR/core \
+    $$SRC_DIR/core/ssh \
+    $$SRC_DIR/updater \
+    $$SRC_DIR/widgets \
+    $$SRC_DIR/dialogs \
 
 FORMS += \
     $$SRC_DIR/forms/*.ui \
 
 RESOURCES += \
-    $$SRC_DIR/Resources/demo.qrc
-
+    $$SRC_DIR/resources/rdm.qrc
 
 OTHER_FILES += \
     stubs/connections.xml
