@@ -12,13 +12,13 @@ SetCompressor /SOLID /FINAL lzma
 !define REGKEY "SOFTWARE\$(Name)"
 !define COMPANY "Igor Malinovskiy"
 !define URL redisdesltop.com
-!define APP_EXE "redis-desktop-manager.exe"
+!define APP_EXE "rdm.exe"
 
 # MUI Symbol Definitions
-!define MUI_ICON "..\..\..\redis-desktop-manager\Resources\redis.ico"
+!define MUI_ICON "..\..\..\redis-desktop-manager\resources\redis.ico"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
-!define MUI_FINISHPAGE_RUN $INSTDIR\redis-desktop-manager.exe
-!define MUI_UNICON "..\..\..\redis-desktop-manager\Resources\redis.ico"
+!define MUI_FINISHPAGE_RUN $INSTDIR\${APP_EXE}
+!define MUI_UNICON "..\..\..\redis-desktop-manager\resources\redis.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP ".\images\main.bmp"
 
 # Included files
@@ -66,9 +66,9 @@ Section -Main SEC0000
 
     SetOutPath $INSTDIR
     SetOverwrite on
-    File ..\..\..\Win32\Release\${APP_EXE}
+    File ..\..\..\bin\windows\release\${APP_EXE}
     File ..\..\..\Win32\Release\crashreporter.exe
-    File ..\..\..\Win32\Release\redis-desktop-manager.pdb
+    File ..\..\..\Win32\Release\rdm.pdb
     File /r resources\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
