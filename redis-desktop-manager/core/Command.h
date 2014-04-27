@@ -11,10 +11,10 @@ class Command
 {    
 public:
     Command();
-    Command(const QString& cmdString, QObject * owner, int db = -1);
+    Command(const QString& cmdString, QObject * owner = nullptr, int db = -1);
     Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db = -1);
     Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db = -1);
-    Command(const QStringList& cmd, QObject * owner, int db = -1);
+    Command(const QStringList& cmd, QObject * owner = nullptr, int db = -1);
 
     bool isEmpty() const;
 

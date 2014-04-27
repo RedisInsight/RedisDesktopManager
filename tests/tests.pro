@@ -20,6 +20,7 @@ SOURCES += \
     $$SRC_DIR/models/*.cpp \
     $$SRC_DIR/models/items/*.cpp \
     $$SRC_DIR/models/value-view-formatters/*.cpp \
+    ../redis-desktop-manager/core/abstractprotocol.cpp
 
 HEADERS  += \
     $$PWD/testcases/*.h \
@@ -31,6 +32,8 @@ HEADERS  += \
     $$SRC_DIR/models/*.h \
     $$SRC_DIR/models/items/*.h \
     $$SRC_DIR/models/value-view-formatters/*.h \
+    testcases/test_connection.h \
+    ../redis-desktop-manager/core/abstractprotocol.h
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests

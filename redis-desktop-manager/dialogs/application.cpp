@@ -93,7 +93,7 @@ void MainWin::initFilter()
 
 void MainWin::initSystemConsole()
 {
-    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System console" );
+    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log" );
 
     connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
 
