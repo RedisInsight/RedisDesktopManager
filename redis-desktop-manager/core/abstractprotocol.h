@@ -6,14 +6,18 @@
 
 namespace RedisClient {
 
-
 class AbstractProtocol
 {
-private:
-    AbstractProtocol(Connection * connection, AbstractTransporter * transporter);
 public:
-    QString version();
-    void getDatabases();
+    AbstractProtocol(Connection * connection);
+    bool auth();
+
+    /**
+     * List of databases with keys counters
+     * @emit databesesLoaded
+     **/
+    typedef QMap <QString, int> DatabaseList;
+    DatabaseList getDatabases();
 
     /**
      * Select db
@@ -21,11 +25,8 @@ public:
      */
     bool selectDb(int index);
 
-    /**
-     * List of databases with keys counters
-     * @emit databesesLoaded
-     **/
-    typedef QMap <QString, int> DatabaseList;
+protected:
+    Connection * m_connection;
 };
 
 }

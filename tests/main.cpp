@@ -9,12 +9,14 @@
 #include "test_response.h"
 #include "test_valueformatters.h"
 #include "test_valuetab.h"
+#include "test_connection.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication app( argc, argv );
 
 	int allTestsResult = 
+        QTest::qExec(new TestConnection, argc, argv) +
         QTest::qExec(new TestValueTab, argc, argv) +
 		QTest::qExec(new TestCommand, argc, argv) +
 		QTest::qExec(new TestResponse, argc, argv) +

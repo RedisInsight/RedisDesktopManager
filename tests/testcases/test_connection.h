@@ -17,19 +17,15 @@ private slots:
     {
         using namespace RedisClient;
 
-        Config config;
+        RedisConnectionConfig config("127.0.0.1");
         Connection connection(config, true);
-
-        if (!connection.isConnected()) {
-            qDebug() << "Error occured: " << connection.getLastError();
-            return;
-        }
 
         Command cmd("ping");
 
-        //sync execution
-        Response result = CommandExecutor::execute(connection, cmd);
+        connection.runCommand(cmd);
 
+        //sync execution
+        //Response result = CommandExecutor::execute(connection, cmd);
 
     }
 
