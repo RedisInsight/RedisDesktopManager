@@ -85,8 +85,33 @@ void Command::setOwner(QObject * o)
 
 QByteArray Command::getByteRepresentation(const QString& command)
 {
-   QStringList parts = command.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
-
+   QStringList parts = QStringList();
+   int i = 0;
+   bool inQuote = false;
+   QString part = QString();
+   while (i < command.length())
+   {
+       if(command.at(i).isSpace() && !inQuote)
+       {
+           if (part.length() > 0)
+               parts.append(part);
+           part = QString();
+       }
+       else if (command.at(i) == QChar('"'))
+       {
+           if (inQuote)
+               parts.append(part);
+           part = QString();
+           inQuote = !inQuote;
+       }
+       else
+       {
+           part.append(command.at(i));
+       }
+       ++i;
+   }
+   if (parts.length() < 1 || part.length() > 0)
+	   parts.append(part);
    return Command::getByteRepresentation(parts);
 }
 
