@@ -45,6 +45,9 @@ protected:
     QSharedPointer<AbstractProtocol> protocol;
     QSharedPointer<QThread> transporterThread;
     QSharedPointer<AbstractTransporter> transporter;    
+
+protected slots:
+    void connectionReady();
 };
 
 class ConnectionExeption : public std::runtime_error

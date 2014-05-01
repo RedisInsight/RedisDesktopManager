@@ -1,4 +1,4 @@
-#include "connection.h"
+#include "connect.h"
 
 #include <QtWidgets/QMessageBox>
 

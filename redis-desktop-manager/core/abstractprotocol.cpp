@@ -1,6 +1,30 @@
 #include "abstractprotocol.h"
 #include "commandexecutor.h"
 
+RedisClient::AbstractProtocol::AbstractProtocol(RedisClient::Connection *connection)
+    : m_connection(connection)
+{
+}
+
+bool RedisClient::AbstractProtocol::auth()
+{
+    //todo: implement this
+    // todo: emit signal about success connection to main Connection class
+    // todo: check is socket succesufully connected before run this method in main connection class
+
+
+    //if (config.useAuth()) {
+    //    execute(QString("AUTH %1").arg(config.auth));
+    //}
+
+    //connected = (execute("PING") == "PONG");
+
+   // if (!connected)
+   //     emit errorOccurred("Redis server require password or password invalid");
+
+    return true;
+}
+
 RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDatabases()
 {
     if (!m_connection->isConnected()) {

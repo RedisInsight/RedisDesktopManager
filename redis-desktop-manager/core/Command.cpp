@@ -38,7 +38,7 @@ QStringList Command::splitCommandString(const QString &cmd)
     return cmd.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
 }
 
-bool Command::hasCallback()
+bool Command::hasCallback() const
 {
     return !callBackMethod.isEmpty();
 }
@@ -144,7 +144,13 @@ void Command::cancel()
     commandCanceled = true;
 }
 
-bool Command::isCanceled()
+bool Command::isCanceled() const
 {
     return commandCanceled;
+}
+
+bool Command::isValid() const
+{
+    return !isCanceled() && !isEmpty()
+            && hasCallback() && getOwner() != nullptr;
 }

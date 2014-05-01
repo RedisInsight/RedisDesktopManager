@@ -5,9 +5,33 @@ RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *c
 {
     //connect signals & slots between connection & transporter
     connect(connection, SIGNAL(addCommandToWorker(const Command&)), this, SLOT(addCommand(const Command&)));
-    connect(this, SIGNAL(errorOccured(const QString&)), connection, SIGNAL(error(const QString&)));
+    connect(this, SIGNAL(errorOccurred(const QString&)), connection, SIGNAL(error(const QString&)));
     connect(this, SIGNAL(logEvent(const QString&)), connection, SIGNAL(log(const QString&)));
     connect(this, SIGNAL(operationProgress(int, QObject *)), connection, SIGNAL(operationProgress(int, QObject *)));
+}
+
+void RedisClient::AbstractTransporter::addCommand(const Command &cmd)
+{
+    connect(cmd.getOwner(), SIGNAL(destroyed(QObject *)),
+            this, SLOT(cancelCommands(QObject *))
+            );
+
+    commands.enqueue(cmd);
+    processCommandQueue();
+}
+
+void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
+{
+    QListIterator<Command> cmd(commands);
+
+    while (cmd.hasNext())
+    {
+        auto currentCommand = cmd.next();
+
+        if (currentCommand.getOwner() == owner) {
+            currentCommand.cancel();
+        }
+    }
 }
 
 void RedisClient::AbstractTransporter::sendResponse()

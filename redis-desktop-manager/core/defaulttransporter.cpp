@@ -20,22 +20,29 @@ void RedisClient::DefaultTransporter::init()
     connect(socket.data(), SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 
-    socket->connectToHost(m_connection->config.host, m_connection->config.port);
-
-    if (socket->waitForConnected(m_connection->config.connectionTimeout))
-    {
-        emit connected();
-        emit logEvent(QString("%1 > connected").arg(m_connection->config.name));
-    } else {
-        emit errorOccurred("Connection timeout");
-        emit logEvent(QString("%1 > connection failed").arg(m_connection->config.name));
-    }
+    connectToHost();
 }
 
 void RedisClient::DefaultTransporter::disconnect()
 {
     if (!socket.isNull())
         socket->disconnectFromHost();
+}
+
+bool RedisClient::DefaultTransporter::connectToHost()
+{
+    socket->connectToHost(m_connection->config.host, m_connection->config.port);
+
+    if (socket->waitForConnected(m_connection->config.connectionTimeout))
+    {
+        emit connected();
+        emit logEvent(QString("%1 > connected").arg(m_connection->config.name));
+        return true;
+    }
+
+    emit errorOccurred("Connection timeout");
+    emit logEvent(QString("%1 > connection failed").arg(m_connection->config.name));
+    return false;
 }
 
 void RedisClient::DefaultTransporter::runCommand(const Command &command)

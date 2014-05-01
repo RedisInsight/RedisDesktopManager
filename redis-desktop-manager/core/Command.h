@@ -31,13 +31,15 @@ public:
     QObject * getOwner() const;
     void setOwner(QObject *);
 
-    bool hasCallback();
+    bool hasCallback() const;
 
     QString getCallbackName();
     void setCallBackName(const QString &);
 
     void cancel();
-    bool isCanceled();
+    bool isCanceled() const;
+
+    bool isValid() const;
 
 private:
     QObject * owner;

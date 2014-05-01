@@ -10,6 +10,7 @@ class AbstractProtocol
 {
 public:
     AbstractProtocol(Connection * connection);
+
     bool auth();
 
     /**

@@ -39,6 +39,11 @@ void RedisClient::Connection::connect()
     protocol->auth();
 }
 
+bool RedisClient::Connection::isConnected()
+{
+    return m_connected;
+}
+
 void RedisClient::Connection::disconnect()
 {
     if (m_isTransporterInitialized && transporterThread->isRunning()) {
@@ -50,9 +55,24 @@ void RedisClient::Connection::disconnect()
 
 void RedisClient::Connection::runCommand(const Command &cmd)
 {
+    if (!cmd.isValid())
+        throw ConnectionExeption("Command is not valid");
+
     if (!m_isTransporterInitialized)
         throw ConnectionExeption("Try run command in not connected state");
 
     emit addCommandToWorker(cmd);
+}
+
+RedisClient::AbstractProtocol *RedisClient::Connection::operations()
+{
+    return protocol.data();
+}
+
+void RedisClient::Connection::connectionReady()
+{
+    // todo: create signal in operations::auth() method and connect to this signal
+    m_connected = true;
+    // todo: do another ready staff
 }
 
