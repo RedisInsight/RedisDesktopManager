@@ -23,14 +23,6 @@ SOURCES += \
     $$PWD/models/*.cpp \
     $$PWD/models/items/*.cpp \
     $$PWD/models/value-view-formatters/*.cpp \
-    core/connection.cpp \
-    core/commandexecutor.cpp \
-    core/config.cpp \
-    abstracttransporter.cpp \
-    core/abstracttransporter.cpp \
-    core/ssh/defaulttransporter.cpp \
-    core/sshtransporter.cpp \
-    core/defaultprotocol.cpp
 
 HEADERS  += \
     $$PWD/version.h \
@@ -43,14 +35,6 @@ HEADERS  += \
     $$PWD/models/*.h \
     $$PWD/models/items/*.h \
     $$PWD/models/value-view-formatters/*.h \
-    core/connection.h \
-    core/commandexecutor.h \
-    core/config.h \
-    abstracttransporter.h \
-    core/abstracttransporter.h \
-    core/ssh/defaulttransporter.h \
-    core/sshtransporter.h \
-    core/defaultprotocol.h
 
 
 DEPSDIR = $$PWD/../deps/

@@ -10,10 +10,15 @@
 #include "test_valueformatters.h"
 #include "test_valuetab.h"
 #include "test_connection.h"
+#include "abstractprotocol.h"
 
 int main(int argc, char *argv[])
 {
-	QApplication app( argc, argv );
+	QApplication app( argc, argv );   
+
+    qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
+    qRegisterMetaType<Command>("Command");
+    qRegisterMetaType<Response>("Response");
 
 	int allTestsResult = 
         QTest::qExec(new TestConnection, argc, argv);// +

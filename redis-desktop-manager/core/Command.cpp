@@ -32,10 +32,37 @@ Command::Command(const QStringList& cmd, QObject * owner, const QString& invokeM
 
 }
 
-QStringList Command::splitCommandString(const QString &cmd)
+QStringList Command::splitCommandString(const QString &command)
 {
-    //todo implement normal parsing
-    return cmd.split(" ", QString::SkipEmptyParts, Qt::CaseInsensitive);
+    QStringList parts = QStringList();
+    int i = 0;
+    bool inQuote = false;
+    QString part = QString();
+    while (i < command.length())
+    {
+        if(command.at(i).isSpace() && !inQuote)
+        {
+            if (part.length() > 0)
+                parts.append(part);
+            part = QString();
+        }
+        else if (command.at(i) == QChar('"'))
+        {
+            if (inQuote)
+                parts.append(part);
+            part = QString();
+            inQuote = !inQuote;
+        }
+        else
+        {
+            part.append(command.at(i));
+        }
+        ++i;
+    }
+    if (parts.length() < 1 || part.length() > 0)
+        parts.append(part);
+
+    return parts;
 }
 
 bool Command::hasCallback() const
@@ -83,46 +110,14 @@ void Command::setOwner(QObject * o)
     owner = o;
 }
 
-QByteArray Command::getByteRepresentation(const QString& command)
-{
-   QStringList parts = QStringList();
-   int i = 0;
-   bool inQuote = false;
-   QString part = QString();
-   while (i < command.length())
-   {
-       if(command.at(i).isSpace() && !inQuote)
-       {
-           if (part.length() > 0)
-               parts.append(part);
-           part = QString();
-       }
-       else if (command.at(i) == QChar('"'))
-       {
-           if (inQuote)
-               parts.append(part);
-           part = QString();
-           inQuote = !inQuote;
-       }
-       else
-       {
-           part.append(command.at(i));
-       }
-       ++i;
-   }
-   if (parts.length() < 1 || part.length() > 0)
-	   parts.append(part);
-   return Command::getByteRepresentation(parts);
-}
-
-QByteArray Command::getByteRepresentation(const QStringList& command)
+QByteArray Command::getByteRepresentation() const
 {
     QByteArray result;
-    result.append(QString("*%1\r\n").arg(command.length()));
+    result.append(QString("*%1\r\n").arg(commandWithArguments.length()));
 
     QByteArray partArray;
 
-    for (QString part : command) {
+    for (QString part : commandWithArguments) {
         partArray = part.toUtf8();
         result.append("$");
         result.append(QString::number(partArray.size()));
@@ -132,11 +127,6 @@ QByteArray Command::getByteRepresentation(const QStringList& command)
     }
 
     return result;
-}
-
-QByteArray Command::getByteRepresentation() const
-{
-    return Command::getByteRepresentation(commandWithArguments);
 }
 
 void Command::cancel()

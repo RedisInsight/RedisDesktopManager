@@ -18,14 +18,15 @@ class AbstractTransporter;
 
 class Connection : public QObject
 {
-    Q_OBJECT    
+    Q_OBJECT
+    friend class AbstractProtocol;
 public:
     Connection(const Config & c, bool autoConnect = false);    
     ~Connection();
 
     Config config;
 
-    void connect();
+    bool connect();
     bool isConnected();
     void disconnect();
     void runCommand(const Command &cmd);

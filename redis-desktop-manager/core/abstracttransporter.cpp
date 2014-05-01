@@ -1,7 +1,7 @@
 #include "abstracttransporter.h"
 
 RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *connection)
-    : m_isInitialized(false), m_connection(connection)
+    : m_isInitialized(false), m_isCommandRunning(false), m_connection(connection)
 {
     //connect signals & slots between connection & transporter
     connect(connection, SIGNAL(addCommandToWorker(const Command&)), this, SLOT(addCommand(const Command&)));

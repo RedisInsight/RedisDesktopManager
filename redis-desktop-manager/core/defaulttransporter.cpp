@@ -9,7 +9,7 @@ RedisClient::DefaultTransporter::DefaultTransporter(RedisClient::Connection *c)
 void RedisClient::DefaultTransporter::init()
 {
     if (!socket.isNull())
-        return;
+        return;    
 
     executionTimer = QSharedPointer<QTimer>(new QTimer);
     executionTimer->setSingleShot(true);

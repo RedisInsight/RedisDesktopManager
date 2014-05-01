@@ -23,8 +23,6 @@ public:
 
     /** @see http://redis.io/topics/protocol for more info **/    
     QByteArray getByteRepresentation() const;
-    static QByteArray getByteRepresentation(const QStringList&);
-    static QByteArray getByteRepresentation(const QString&);
 
     QString getRawString() const;
     
@@ -48,7 +46,7 @@ private:
     QString callBackMethod;
     bool commandCanceled;
 
-    QStringList splitCommandString(const QString &);
+    QStringList splitCommandString(const QString &);    
 
 private slots:
     void cancelCommand();

@@ -219,7 +219,7 @@ QVariant RedisConnectionOverSsh::execute(QString command)
     /*
      *    Send command
      */
-    QByteArray byteArray = Command::getByteRepresentation(command);
+    QByteArray byteArray = Command(command).getByteRepresentation();
     const char* cString = byteArray.constData();
 
     socket->write(cString, byteArray.size());

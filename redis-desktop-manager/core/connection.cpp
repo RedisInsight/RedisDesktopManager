@@ -4,14 +4,8 @@
 #include "sshtransporter.h"
 
 RedisClient::Connection::Connection(const Config &c, bool autoConnect)
-    : config(c)
+    : config(c), m_isTransporterInitialized(false), m_connected(false)
 {        
-    if (c.useSshTunnel()) {
-        //transporter = new QSharedPointer<AbstractTransporter>(new SshTransporter(this));
-    } else {
-       transporter = QSharedPointer<AbstractTransporter>(new DefaultTransporter(this));
-    }
-
     protocol = QSharedPointer<AbstractProtocol>(new DefaultProtocol(this));
 
     if (autoConnect)
@@ -24,19 +18,41 @@ RedisClient::Connection::~Connection()
         disconnect();
 }
 
-void RedisClient::Connection::connect()
+bool RedisClient::Connection::connect() // todo: add block/unblock parameter
 {
     if (m_isTransporterInitialized)
-        return;
+        return false;
+
+    if (config.useSshTunnel()) {
+        //transporter = new QSharedPointer<AbstractTransporter>(new SshTransporter(this));
+    } else {
+       transporter = QSharedPointer<AbstractTransporter>(new DefaultTransporter(this));
+    }
 
     // Create & run transporter
     transporterThread = QSharedPointer<QThread>(new QThread);
     transporter->moveToThread(transporterThread.data());
     QObject::connect(transporterThread.data(), SIGNAL(started()), transporter.data(), SLOT(init()));
     QObject::connect(transporterThread.data(), SIGNAL(finished()), transporter.data(), SLOT(disconnect()));
-    transporterThread->start();
+    QObject::connect(transporter.data(), SIGNAL(connected()), protocol.data(), SLOT(auth()));
 
-    protocol->auth();
+    //wait for data
+    QEventLoop loop;
+    QTimer timeoutTimer;
+
+    //configure sync objects
+    timeoutTimer.setSingleShot(true);
+    QObject::connect(&timeoutTimer, SIGNAL(timeout()), &loop, SLOT(quit()));
+    QObject::connect(transporter.data(), SIGNAL(errorOccurred(const QString&)), &loop, SLOT(quit()));
+    QObject::connect(protocol.data(), SIGNAL(errorOccurred(const QString&)), &loop, SLOT(quit()));
+    QObject::connect(protocol.data(), SIGNAL(authOk()), &loop, SLOT(quit()));
+
+    transporterThread->start();
+    m_isTransporterInitialized = true;
+    timeoutTimer.start(config.connectionTimeout);
+    loop.exec();
+
+    return m_connected;
 }
 
 bool RedisClient::Connection::isConnected()
@@ -49,7 +65,7 @@ void RedisClient::Connection::disconnect()
     if (m_isTransporterInitialized && transporterThread->isRunning()) {
         transporterThread->quit();
         transporterThread->wait();
-        m_isTransporterInitialized = false;
+        m_isTransporterInitialized = false;                
     }
 }
 
@@ -58,7 +74,7 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     if (!cmd.isValid())
         throw ConnectionExeption("Command is not valid");
 
-    if (!m_isTransporterInitialized)
+    if (!m_isTransporterInitialized || !m_connected)
         throw ConnectionExeption("Try run command in not connected state");
 
     emit addCommandToWorker(cmd);

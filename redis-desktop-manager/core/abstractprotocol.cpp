@@ -6,23 +6,26 @@ RedisClient::AbstractProtocol::AbstractProtocol(RedisClient::Connection *connect
 {
 }
 
-bool RedisClient::AbstractProtocol::auth()
-{
-    //todo: implement this
-    // todo: emit signal about success connection to main Connection class
+void RedisClient::AbstractProtocol::auth()
+{        
     // todo: check is socket succesufully connected before run this method in main connection class
 
+    m_connection->m_connected = true;
 
-    //if (config.useAuth()) {
-    //    execute(QString("AUTH %1").arg(config.auth));
-    //}
+    if (m_connection->config.useAuth()) {
+        Command authCmd(QStringList() << "auth" << m_connection->config.auth);
+        Response authResult = CommandExecutor::execute(m_connection, authCmd);
+    }
 
-    //connected = (execute("PING") == "PONG");
+    Command testCommand("ping");
+    Response testResult = CommandExecutor::execute(m_connection, testCommand);
 
-   // if (!connected)
-   //     emit errorOccurred("Redis server require password or password invalid");
+    m_connection->m_connected = (testResult.toString() == "+PONG\r\n");
 
-    return true;
+    if (m_connection->m_connected)
+        emit authOk();
+    else
+        emit errorOccurred("Redis server require password or password invalid");
 }
 
 RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDatabases()
@@ -77,7 +80,9 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
 
 bool RedisClient::AbstractProtocol::selectDb(int index)
 {
-    Command cmd(QString("select %1").arg(index));
+    QStringList commandParts;
+    commandParts << "select" << QString::number(index);
+    Command cmd(commandParts);
     Response result = CommandExecutor::execute(m_connection, cmd);
     return result.isOkMessage();
 }
