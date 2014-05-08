@@ -348,3 +348,9 @@ bool Response::isErrorMessage() const
         && responseSource.startsWith("-ERR");
 
 }
+
+bool Response::isOkMessage() const
+{
+    return getResponseType(responseSource) == Status
+            && responseSource.startsWith("+OK");
+}

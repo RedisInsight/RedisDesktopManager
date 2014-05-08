@@ -9,18 +9,25 @@
 #include "test_response.h"
 #include "test_valueformatters.h"
 #include "test_valuetab.h"
+#include "test_connection.h"
+#include "abstractprotocol.h"
 
 int main(int argc, char *argv[])
 {
-	QApplication app( argc, argv );
+	QApplication app( argc, argv );   
+
+    qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
+    qRegisterMetaType<Command>("Command");
+    qRegisterMetaType<Response>("Response");
 
 	int allTestsResult = 
-        QTest::qExec(new TestValueTab, argc, argv) +
-		QTest::qExec(new TestCommand, argc, argv) +
-		QTest::qExec(new TestResponse, argc, argv) +
-		QTest::qExec(new TestRedisConnection, argc, argv) +		
-		QTest::qExec(new TestRedisConnectionsManager, argc, argv) +
-		QTest::qExec(new TestValueFormatters, argc, argv);
+        QTest::qExec(new TestConnection, argc, argv);// +
+        //QTest::qExec(new TestValueTab, argc, argv) +
+        //QTest::qExec(new TestCommand, argc, argv) +
+//		QTest::qExec(new TestResponse, argc, argv) +
+//		QTest::qExec(new TestRedisConnection, argc, argv) +
+//		QTest::qExec(new TestRedisConnectionsManager, argc, argv) +
+//		QTest::qExec(new TestValueFormatters, argc, argv);
 
     if (allTestsResult != 0 ) {
 

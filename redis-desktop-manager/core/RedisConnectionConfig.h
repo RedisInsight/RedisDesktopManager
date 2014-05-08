@@ -24,38 +24,24 @@ public:
     QString sshPublicKeyPath;
     QString sshPrivateKeyPath;
 
+    enum class SshAuthType {
+        None, PlainPassword, PrivateKey
+    };
+
+    SshAuthType getSshAuthType();
+    bool isSshPasswordUsed();
+
     //timeouts 
     int connectionTimeout;
-    int executeTimeout;
+    int executeTimeout;    
 
     // other settings
     QString namespaceSeparator;    
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
 
-    RedisConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT) 
-        : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR),
-          connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS)
-    {}
+    RedisConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT);
 
-    RedisConnectionConfig & operator = (RedisConnectionConfig & other) 
-    {
-        if (this != &other) {
-            name = other.name;
-            host = other.host;
-            auth = other.auth;
-            port = other.port;
-            namespaceSeparator = other.namespaceSeparator;
-            connectionTimeout = other.connectionTimeout;
-            executeTimeout = other.executeTimeout;
-
-            setSshTunnelSettings(
-                other.sshHost, other.sshUser, other.sshPassword, other.sshPort,
-                other.sshPublicKeyPath, other.sshPublicKeyPath
-                );
-        }
-
-        return *this;
-    }
+    RedisConnectionConfig & operator = (RedisConnectionConfig & other);
 
     void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT, 
                                 QString sshPublicKeyPath = "", QString sshPrivatekey = "");
@@ -71,7 +57,9 @@ public:
        
     static RedisConnectionConfig createFromXml(QDomNode & connectionNode);    
 
-protected:
+protected:    
+    SshAuthType sshAuth;
+
     void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
 
     static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value);

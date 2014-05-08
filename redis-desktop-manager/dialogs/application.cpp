@@ -7,7 +7,7 @@
 #include <QtWidgets/QDialog>
 #include <QMovie>
 
-#include "connection.h"
+#include "connect.h"
 #include "Redis.h"
 #include "valueTab.h"
 #include "Updater.h"
@@ -93,7 +93,7 @@ void MainWin::initFilter()
 
 void MainWin::initSystemConsole()
 {
-    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System console" );
+    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log" );
 
     connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
 
@@ -240,7 +240,7 @@ void MainWin::OnReloadServerInTree()
     try {
         RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
         server->reload();
-    } catch (std::bad_cast &exception) {
+    } catch (std::bad_cast &) {
         QMessageBox::warning(this, "Error", "Error occurred on reloading connection");
     }
 }

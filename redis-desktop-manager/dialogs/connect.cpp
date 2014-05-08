@@ -1,4 +1,4 @@
-#include "connection.h"
+#include "connect.h"
 
 #include <QtWidgets/QMessageBox>
 
@@ -24,7 +24,7 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
 
     // connect slots to signals
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));
-    connect(ui.okButton, SIGNAL(pressed()), this,  SLOT(clicked()));
+    connect(ui.okButton, SIGNAL(pressed()), ui.okButton, SIGNAL(clicked()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this,  SLOT(OnShowPasswordCheckboxChanged(int)));    
 
     //edit mode

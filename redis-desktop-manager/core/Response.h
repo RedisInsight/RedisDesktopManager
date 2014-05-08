@@ -29,6 +29,7 @@ public:
     int getLoadedItemsCount();
 
     bool isErrorMessage() const;
+    bool isOkMessage() const;
 
     QString toString();
 

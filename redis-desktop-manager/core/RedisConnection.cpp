@@ -79,7 +79,7 @@ QVariant RedisConnection::execute(QString command)
     }
     
     // Send command
-    QByteArray cmd = Command::getByteRepresentation(command);
+    QByteArray cmd = Command(command).getByteRepresentation();
     socket->write(cmd);
     socket->flush();    
 

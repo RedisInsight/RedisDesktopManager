@@ -522,7 +522,7 @@ aa|bb 	Either aa or bb.
                 <string>&lt;html&gt;&lt;head/&gt;
 
 &lt;style&gt;a {color: darkblue; text-decoration: none}&lt;/style&gt;
-&lt;body style=&quot;width:100%;&quot;&gt;&lt;div style=&quot;font-size:20pt; padding-top:10px;&quot;&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/logo.png&quot;/&gt;&lt;div style=&quot; font-size:24pt; margin-left: 100px; margin-top:2px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot;margin-left: 100px; display: inline-block; padding-left:53px; font-size: 11px; line-height: 21px&quot;&gt;&lt;b&gt;Cross-platform GUI application for managing Redis.&lt;/b&gt; &lt;br /&gt;&lt;b&gt;Version&lt;/b&gt; %VERSION% &amp;nbsp;&amp;nbsp;&amp;nbsp; Developed by - &lt;a href=&quot;http://glide.name/?rdm&quot;&gt;Igor Malinovskiy&lt;/a&gt; &lt;/div&gt;
+&lt;body style=&quot;width:100%;&quot;&gt;&lt;div style=&quot;font-size:20pt; padding-top:10px;&quot;&gt;&lt;img style=&quot;float:left;&quot; src=&quot;:/images/logo.png&quot;/&gt;&lt;div style=&quot; font-size:24pt; margin-left: 100px; margin-top:2px; display: inline-block; padding-left:50px;&quot;&gt;Redis Desktop Manager&lt;/div&gt;&lt;div style=&quot;margin-left: 100px; display: inline-block; padding-left:53px; font-size: 11px; line-height: 21px&quot;&gt;&lt;b&gt;Cross-platform GUI application for managing Redis.&lt;/b&gt; &lt;br /&gt;&lt;b&gt;Version&lt;/b&gt; %VERSION% &amp;nbsp;&amp;nbsp;&amp;nbsp; Developed by - &lt;a href=&quot;http://careers.stackoverflow.com/igor.malinovskiy&quot;&gt;Igor Malinovskiy&lt;/a&gt; in &lt;a href=&quot;http://en.wikipedia.org/wiki/Ukraine&quot;&gt;&amp;nbsp;&lt;img src=&quot;:/images/ua.png&quot; /&gt;&amp;nbsp;Ukraine&lt;/a&gt;&lt;/div&gt;
 
 &lt;div style=&quot;font-size: 11px; margin: 10px 0;&quot;&gt;Many thanks to &lt;b&gt;&lt;a href=&quot;http://redisdesktop.com/#contributors&quot;&gt;Our amazing contributors&lt;/a&gt;&lt;/b&gt; and &lt;b&gt;&lt;a href=&quot;http://redisdesktop.com/community&quot;&gt;community&lt;/a&gt;&lt;/b&gt;
 &lt;div style=&quot;font-size: 10px&quot;&gt;Third Party Libs and Images:&lt;a href=&quot;http://qt-project.org/&quot;&gt; Qt5&lt;/a&gt;; &lt;a href=&quot;http://libqxt.org/&quot;&gt;Qxt&lt;/a&gt; , &lt;a href=&quot;http://www.libssh2.org&quot;&gt;libssh2&lt;/a&gt;, &lt;a href=&quot;http://code.google.com/p/google-breakpad/&quot;&gt;google breakpad&lt;/a&gt;, &lt;a href=&quot;https://github.com/uglide/QtConsole&quot;&gt;QtConsole&lt;/a&gt;, &lt;a href=&quot;http://www.carlosprioglio.com/&quot;&gt;Redis Logo&lt;/a&gt;&lt;/div&gt;
@@ -539,7 +539,7 @@ aa|bb 	Either aa or bb.
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a style=&quot;font-size: 13px; &quot; href=&quot;https://github.com/uglide/RedisDesktopManager/stargazers&quot;&gt;&lt;img  src=&quot;:/images/github.png&quot; /&gt;&amp;nbsp;Star!&lt;/a&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/body&gt;&lt;/html&gt; </string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>

@@ -11,8 +11,7 @@ SRC_DIR = $$PWD/../redis-desktop-manager//
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/testcases/*.cpp \
-    $$SRC_DIR/dialogs/*.cpp \
+    $$PWD/testcases/*.cpp \    
     $$SRC_DIR/core/*.cpp \
     $$SRC_DIR/core/ssh/*.cpp \
     $$SRC_DIR/widgets/*.cpp \
@@ -20,10 +19,10 @@ SOURCES += \
     $$SRC_DIR/models/*.cpp \
     $$SRC_DIR/models/items/*.cpp \
     $$SRC_DIR/models/value-view-formatters/*.cpp \
+    ../redis-desktop-manager/core/abstractprotocol.cpp
 
 HEADERS  += \
     $$PWD/testcases/*.h \
-    $$SRC_DIR/dialogs/*.h \
     $$SRC_DIR/core/*.h \
     $$SRC_DIR/core/ssh/*.h \
     $$SRC_DIR/widgets/*.h \
@@ -31,14 +30,11 @@ HEADERS  += \
     $$SRC_DIR/models/*.h \
     $$SRC_DIR/models/items/*.h \
     $$SRC_DIR/models/value-view-formatters/*.h \
+    testcases/test_connection.h \
+    ../redis-desktop-manager/core/abstractprotocol.h
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
-
-OBJECTS_DIR = $$DESTDIR/obj
-MOC_DIR = $$DESTDIR/.moc
-RCC_DIR = $$DESTDIR/.qrc
-UI_DIR = $$DESTDIR/.ui
 
 win32 {
 
