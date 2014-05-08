@@ -68,12 +68,12 @@ bool RedisConnectionConfig::useAuth() const
 QString RedisConnectionConfig::getSshPrivateKey()
 {
     if (sshPrivateKeyPath.isEmpty() || sshPublicKeyPath.isNull()
-            || !QFile.exists(sshPrivateKeyPath))
-        return QString;
+            || !QFile::exists(sshPrivateKeyPath))
+        return QString();
 
     QFile keyFile(sshPrivateKeyPath);
     if (!keyFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        return QString;
+        return QString();
 
     QTextStream in(&keyFile);
     QString keyString = in.readAll();
