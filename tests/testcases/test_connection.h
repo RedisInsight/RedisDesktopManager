@@ -15,6 +15,8 @@ private slots:
     void selectDatabase_data();
 
     void connectWithAuth();
+
+    void connectWithSshTunnel();
 };
 
 #endif // TEST_CONNECTION_H

@@ -20,7 +20,8 @@ void RedisClient::AbstractProtocol::auth()
     Command testCommand("ping");
     Response testResult = CommandExecutor::execute(m_connection, testCommand);
 
-    m_connection->m_connected = (testResult.toString() == "+PONG\r\n");
+    if (testResult.toString() == "+PONG\r\n")
+        m_connection->setConnectedState();
 
     if (m_connection->m_connected)
         emit authOk();

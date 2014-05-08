@@ -2,7 +2,11 @@
 
 Response RedisClient::CommandExecutor::execute(RedisClient::Connection *connection, Command &cmd)
 {
+    if (!connection->waitConnectedState(connection->config.executeTimeout))
+        throw ConnectionExeption("Can not execute command. Connection not established.");
+
     Executor syncObject(cmd);
+
     connection->runCommand(cmd);
     return syncObject.waitForResult(connection->config.executeTimeout);
 }

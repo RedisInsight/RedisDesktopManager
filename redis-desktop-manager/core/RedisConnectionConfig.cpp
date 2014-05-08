@@ -1,7 +1,42 @@
 #include "RedisConnectionConfig.h"
 
-void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port, 
-                                                 QString publicKey, QString privateKey) 
+RedisConnectionConfig::SshAuthType RedisConnectionConfig::getSshAuthType()
+{
+    return sshAuth;
+}
+
+bool RedisConnectionConfig::isSshPasswordUsed()
+{
+    return !sshPassword.isNull() && !sshPassword.isEmpty();
+}
+
+RedisConnectionConfig::RedisConnectionConfig(const QString &host, const QString &name, const int port)
+    : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), sshAuth(RedisConnectionConfig::SshAuthType::None),
+     connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
+{}
+
+RedisConnectionConfig &RedisConnectionConfig::operator =(RedisConnectionConfig &other)
+{
+    if (this != &other) {
+        name = other.name;
+        host = other.host;
+        auth = other.auth;
+        port = other.port;
+        namespaceSeparator = other.namespaceSeparator;
+        connectionTimeout = other.connectionTimeout;
+        executeTimeout = other.executeTimeout;
+
+        setSshTunnelSettings(
+                    other.sshHost, other.sshUser, other.sshPassword, other.sshPort,
+                    other.sshPublicKey, other.sshPublicKey
+                    );
+    }
+
+    return *this;
+}
+
+void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port,
+                                                 QString publicKey, QString privateKey)
 {
     sshHost = host;
     sshUser = user;
@@ -9,8 +44,7 @@ void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QSt
     sshPort = port;
     sshPublicKey = publicKey;
     sshPrivateKey = privateKey;
-}; 
-
+}
 
 bool RedisConnectionConfig::isNull() 
 {
@@ -19,10 +53,10 @@ bool RedisConnectionConfig::isNull()
 
 bool RedisConnectionConfig::useSshTunnel() const
 {
-    return !sshHost.isEmpty() 
-        && !sshUser.isEmpty()
-        && !sshPassword.isEmpty()
-        && sshPort > 0;
+    return !sshHost.isEmpty()
+            && !sshUser.isEmpty()
+            && !sshPassword.isEmpty()
+            && sshPort > 0;
 }
 
 bool RedisConnectionConfig::useAuth() const

@@ -57,7 +57,7 @@ void TestConnection::connectWithAuth()
     Connection connection(config, true);
 
     //when
-    Command cmd("config set requirepass test");
+    Command cmd("config set requirepass test"); // todo: find way to disable auth in redis
     CommandExecutor::execute(&connection, cmd);
     connection.disconnect();
     config.auth = "test";
@@ -70,4 +70,24 @@ void TestConnection::connectWithAuth()
     QCOMPARE(actualResult, true);
     QCOMPARE(actualCommandResult.toString(), QString("+PONG\r\n"));
 
+}
+
+void TestConnection::connectWithSshTunnel()
+{
+    using namespace RedisClient;
+
+    //given
+    RedisConnectionConfig config("192.168.252.10"); //todo: move all configuration options to separete file
+    config.sshHost = "127.0.0.1";
+    config.sshPort = 22;
+    config.sshPassword = "123";
+    config.sshUser = "admin";
+    config.connectionTimeout = 120000;
+    Connection connection(config, false);
+
+    //when
+    bool actualResult = connection.connect();
+
+    //then
+    QCOMPARE(actualResult, true);
 }

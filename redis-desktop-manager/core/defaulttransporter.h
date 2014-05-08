@@ -14,13 +14,14 @@ public:
 public slots:
     void init();
     void disconnect();
-protected:
-    QSharedPointer<QTcpSocket> socket;
+protected:    
     bool connectToHost();
     void runCommand(const Command &cmd);
-private slots:
+private slots:    
     void readyRead();
     void error(QAbstractSocket::SocketError error);
+private:
+    QSharedPointer<QTcpSocket> socket;
 };
 
 }

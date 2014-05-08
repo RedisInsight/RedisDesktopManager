@@ -31,6 +31,7 @@ public:
     void disconnect();
     void runCommand(const Command &cmd);
     AbstractProtocol * operations();
+    bool waitConnectedState(unsigned int);
 
 signals:    
     void addCommandToWorker(const Command&);
@@ -46,6 +47,10 @@ protected:
     QSharedPointer<AbstractProtocol> protocol;
     QSharedPointer<QThread> transporterThread;
     QSharedPointer<AbstractTransporter> transporter;    
+    QEventLoop m_loop;
+    QTimer m_timeoutTimer;
+
+    void setConnectedState();
 
 protected slots:
     void connectionReady();

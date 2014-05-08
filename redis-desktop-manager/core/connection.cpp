@@ -8,6 +8,9 @@ RedisClient::Connection::Connection(const Config &c, bool autoConnect)
 {        
     protocol = QSharedPointer<AbstractProtocol>(new DefaultProtocol(this));
 
+    m_timeoutTimer.setSingleShot(true);
+    QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), &m_loop, SLOT(quit()));
+
     if (autoConnect)
         connect();
 }
@@ -23,8 +26,9 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
     if (m_isTransporterInitialized)
         return false;
 
+    //todo : implement unix socket transporter
     if (config.useSshTunnel()) {
-        //transporter = new QSharedPointer<AbstractTransporter>(new SshTransporter(this));
+       transporter = QSharedPointer<AbstractTransporter>(new SshTransporter(this));
     } else {
        transporter = QSharedPointer<AbstractTransporter>(new DefaultTransporter(this));
     }
@@ -83,6 +87,27 @@ void RedisClient::Connection::runCommand(const Command &cmd)
 RedisClient::AbstractProtocol *RedisClient::Connection::operations()
 {
     return protocol.data();
+}
+
+bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
+{
+    if (isConnected())
+        return true;
+
+    m_timeoutTimer.start(timeoutInMs);
+    m_loop.exec();
+
+    return isConnected();
+}
+
+void RedisClient::Connection::setConnectedState()
+{
+    m_connected = true;
+
+    if (m_loop.isRunning())
+        m_loop.exit();
+
+    emit connected();
 }
 
 void RedisClient::Connection::connectionReady()
