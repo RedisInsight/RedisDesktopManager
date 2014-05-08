@@ -1,4 +1,5 @@
 #include "RedisConnectionConfig.h"
+#include <QFile>
 
 void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port, 
                                                  QString publicKey, QString privateKey) 
@@ -7,9 +8,9 @@ void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QSt
     sshUser = user;
     sshPassword = pass;
     sshPort = port;
-    sshPublicKey = publicKey;
-    sshPrivateKey = privateKey;
-}; 
+    sshPublicKeyPath = publicKey;
+    sshPrivateKeyPath = privateKey;
+}
 
 
 bool RedisConnectionConfig::isNull() 
@@ -28,6 +29,22 @@ bool RedisConnectionConfig::useSshTunnel() const
 bool RedisConnectionConfig::useAuth() const
 {
     return !(auth.isEmpty());
+}
+
+QString RedisConnectionConfig::getSshPrivateKey()
+{
+    if (sshPrivateKeyPath.isEmpty() || sshPublicKeyPath.isNull()
+            || !QFile.exists(sshPrivateKeyPath))
+        return QString;
+
+    QFile keyFile(sshPrivateKeyPath);
+    if (!keyFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QString;
+
+    QTextStream in(&keyFile);
+    QString keyString = in.readAll();
+
+    return keyString;
 }
 
 RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connectionNode) 
@@ -50,8 +67,8 @@ RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connection
     getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);
     getValueFromXml(attr, "sshPort", connectionConfig.sshPort);
 
-    getValueFromXml(attr, "sshPublicKey", connectionConfig.sshPublicKey);
-    getValueFromXml(attr, "sshPrivateKey", connectionConfig.sshPrivateKey);
+    getValueFromXml(attr, "sshPublicKey", connectionConfig.sshPublicKeyPath);
+    getValueFromXml(attr, "sshPrivateKey", connectionConfig.sshPrivateKeyPath);
 
     getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
     getValueFromXml(attr, "connectionTimeout", connectionConfig.connectionTimeout);   
@@ -108,8 +125,8 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
         saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
         saveXmlAttribute(dom, xml, "sshPort", QString::number(sshPort)); 
 
-        saveXmlAttribute(dom, xml, "sshPrivateKey", sshPrivateKey); 
-        saveXmlAttribute(dom, xml, "sshPublicKey", sshPublicKey);
+        saveXmlAttribute(dom, xml, "sshPrivateKey", sshPrivateKeyPath);
+        saveXmlAttribute(dom, xml, "sshPublicKey", sshPublicKeyPath);
     }
 
     return xml;

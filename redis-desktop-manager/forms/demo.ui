@@ -27,7 +27,7 @@
    <string>Redis Desktop Manager</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/demo.qrc">
+   <iconset resource="../resources/rdm.qrc">
     <normaloff>:/images/redisBigIcon.png</normaloff>:/images/redisBigIcon.png</iconset>
   </property>
   <property name="styleSheet">
@@ -198,7 +198,7 @@ aa|bb 	Either aa or bb.
               <string>Find</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/demo.qrc">
+              <iconset resource="../resources/rdm.qrc">
                <normaloff>:/images/ok.png</normaloff>:/images/ok.png</iconset>
              </property>
             </widget>
@@ -239,7 +239,7 @@ aa|bb 	Either aa or bb.
               <string>Clear</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/demo.qrc">
+              <iconset resource="../resources/rdm.qrc">
                <normaloff>:/images/clear.png</normaloff>:/images/clear.png</iconset>
              </property>
             </widget>
@@ -321,7 +321,7 @@ aa|bb 	Either aa or bb.
               <string>Manage Connections</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/demo.qrc">
+              <iconset resource="../resources/rdm.qrc">
                <normaloff>:/images/menu.png</normaloff>:/images/menu.png</iconset>
              </property>
              <property name="popupMode">
@@ -373,7 +373,7 @@ aa|bb 	Either aa or bb.
               <string>Add New Connection</string>
              </property>
              <property name="icon">
-              <iconset resource="../Resources/demo.qrc">
+              <iconset resource="../resources/rdm.qrc">
                <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
              </property>
              <property name="toolButtonStyle">
@@ -442,7 +442,7 @@ aa|bb 	Either aa or bb.
           </size>
          </property>
          <attribute name="icon">
-          <iconset resource="../Resources/demo.qrc">
+          <iconset resource="../resources/rdm.qrc">
            <normaloff>:/images/redisIcon.png</normaloff>:/images/redisIcon.png</iconset>
          </attribute>
          <attribute name="title">
@@ -654,7 +654,7 @@ aa|bb 	Either aa or bb.
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../Resources/demo.qrc"/>
+  <include location="../resources/rdm.qrc"/>
  </resources>
  <connections/>
 </ui>

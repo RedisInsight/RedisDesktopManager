@@ -58,6 +58,7 @@ void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
         ui.sshUser->setText(config.sshUser);
         ui.sshPass->setText(config.sshPassword);
         ui.sshPort->setValue(config.sshPort);
+        ui.privateKeyPath->setValue(config.sshPrivateKeyPath);
     }
 }
 
@@ -201,7 +202,8 @@ RedisConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
             ui.sshHost->text().trimmed(), 
             ui.sshUser->text().trimmed(), 
             ui.sshPass->text().trimmed(), 
-            ui.sshPort->value()
+            ui.sshPort->value(),
+            "", ui.privateKeyPath
             );
     }
 

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>341</width>
-    <height>306</height>
+    <height>339</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -34,8 +34,15 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="1" column="0">
+    <widget class="QLabel" name="validationWarning">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/images/alert.png&quot;/&gt; Invalid settings detected&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
       <number>0</number>
@@ -45,6 +52,12 @@
        <string>Connection Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="hostEdit"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="authEdit"/>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -65,19 +78,6 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="hostEdit"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="portLabel">
-         <property name="text">
-          <string>Port:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="1">
         <widget class="QSpinBox" name="portSpinBox">
          <property name="minimum">
@@ -91,6 +91,16 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="portLabel">
+         <property name="text">
+          <string>Port:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="authLabel">
          <property name="text">
@@ -100,9 +110,6 @@
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="authEdit"/>
        </item>
       </layout>
      </widget>
@@ -114,29 +121,57 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Remote port</string>
+          <string>Remote Port</string>
          </property>
         </widget>
        </item>
        <item row="3" column="1">
         <widget class="QLineEdit" name="sshUser"/>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="5" column="1">
+        <widget class="QGroupBox" name="sshPasswordGroup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Password</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QLineEdit" name="sshPass">
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="showPasswordCheckbox">
+            <property name="text">
+             <string>Show pass</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>User</string>
+          <string>Remote Host</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
         <widget class="QLineEdit" name="sshHost"/>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="useSshTunnel">
-         <property name="text">
-          <string>Use SSH Tunnel</string>
-         </property>
-        </widget>
        </item>
        <item row="2" column="1">
         <widget class="QSpinBox" name="sshPort">
@@ -151,36 +186,52 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
+       <item row="0" column="0" colspan="2">
+        <widget class="QCheckBox" name="useSshTunnel">
          <property name="text">
-          <string>Remote host</string>
+          <string>Use SSH Tunnel</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>User Name</string>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="sshKeysGroup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
-          <string>Password</string>
+          <string>Private Key</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLineEdit" name="sshPass">
-            <property name="inputMask">
-             <string/>
-            </property>
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="2">
+           <widget class="QPushButton" name="selectPrivateKeyPath">
+            <property name="text">
+             <string>Browse</string>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QCheckBox" name="showPasswordCheckbox">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="privateKeyPath"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>Show password</string>
+             <string>Key</string>
             </property>
            </widget>
           </item>
@@ -254,14 +305,7 @@
      </widget>
     </widget>
    </item>
-   <item>
-    <widget class="QLabel" name="validationWarning">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/images/alert.png&quot;/&gt; Invalid settings detected&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item>
+   <item row="2" column="0">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -335,9 +379,7 @@
   <tabstop>sshUser</tabstop>
   <tabstop>tabs</tabstop>
  </tabstops>
- <resources>
-  <include location="../Resources/demo.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>cancelButton</sender>
