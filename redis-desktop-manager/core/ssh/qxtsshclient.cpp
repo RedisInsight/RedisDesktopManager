@@ -510,7 +510,7 @@ void QxtSshClientPrivate::d_readyRead(){
         }else if(d_currentAuthTry==QxtSshClient::PublicKeyAuthentication){
             ret=libssh2_userauth_publickey_fromfile(d_session,
                                                        qPrintable(d_userName),
-                                                       qPrintable(d_publicKey),
+                                                       NULL, //qPrintable(d_publicKey),
                                                        qPrintable(d_privateKey),
                                                        qPrintable(d_passphrase));
         }
