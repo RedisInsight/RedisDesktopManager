@@ -11,6 +11,7 @@ class AbstractTransporter : public QObject
     Q_OBJECT
 public:
     AbstractTransporter(Connection * c);
+    virtual ~AbstractTransporter();
 
 signals:
     void errorOccurred(const QString&);

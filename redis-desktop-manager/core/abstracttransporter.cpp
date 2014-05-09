@@ -10,6 +10,19 @@ RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *c
     connect(this, SIGNAL(operationProgress(int, QObject *)), connection, SIGNAL(operationProgress(int, QObject *)));
 }
 
+RedisClient::AbstractTransporter::~AbstractTransporter()
+{
+    QListIterator<Command> cmd(commands);
+
+    while (cmd.hasNext())
+    {
+        auto currentCommand = cmd.next();
+
+        QObject::disconnect(currentCommand.getOwner(), SIGNAL(destroyed(QObject *)),
+                   this, SLOT(cancelCommands(QObject *)));
+    }
+}
+
 void RedisClient::AbstractTransporter::addCommand(const Command &cmd)
 {
     connect(cmd.getOwner(), SIGNAL(destroyed(QObject *)),
