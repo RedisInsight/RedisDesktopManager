@@ -4,12 +4,35 @@
 #include "test_connection.h"
 #include "abstractprotocol.h"
 
+using namespace RedisClient;
+
+void TestConnection::init()
+{
+    config = RedisConnectionConfig();
+    config.host = "127.0.0.1";
+    config.auth = "test";
+    config.connectionTimeout = 30000;
+}
+
+void TestConnection::setSshSettings(RedisConnectionConfig &c, bool usePass = true)
+{
+    if (usePass) {
+        c.sshHost = "192.168.2.161";
+        c.sshPort = 22;
+        c.sshPassword = "2424";
+        c.sshUser = "root";
+    } else {
+        c.sshHost = "192.168.2.161";
+        c.sshPort = 22;
+        c.sshUser = "glide";
+        c.sshPrivateKeyPath = "key.openssh";
+        c.connectionTimeout = 300000;
+    }
+}
+
 void TestConnection::connectToHostAndRunCommand()
 {
-    using namespace RedisClient;
-
     //given
-    RedisConnectionConfig config("127.0.0.1");
     Connection connection(config, true);
     Command cmd("ping");
 
@@ -18,15 +41,13 @@ void TestConnection::connectToHostAndRunCommand()
     Response actualResult = CommandExecutor::execute(&connection, cmd);
 
     //then
-    QCOMPARE(actualResult.toString(), QString("+PONG\r\n"));
+    QCOMPARE(connection.isConnected(), true);
+    QCOMPARE(actualResult.toString(), QString("+PONG\r\n"));    
 }
 
 void TestConnection::selectDatabase()
 {
-    using namespace RedisClient;
-
     //given
-    RedisConnectionConfig config("127.0.0.1");
     Connection connection(config, true);
     QFETCH(int, dbIndex);
     QFETCH(bool, validResult);
@@ -45,49 +66,112 @@ void TestConnection::selectDatabase_data()
 
     QTest::newRow("Valid db index") << 1 << true;
     QTest::newRow("InValid db index") << 10000 << false;
+}
 
+void TestConnection::runEmptyCommand()
+{
+    //given
+    Connection connection(config, true);
+    Command cmd;
+
+    //when
+    bool hasException = false;
+    try {
+        connection.runCommand(cmd);
+    } catch (ConnectionExeption&) {
+        hasException = true;
+    }
+
+    //then
+    QCOMPARE(hasException, true);
+}
+
+void TestConnection::runCommandWithoutConnection()
+{
+    //given
+    Connection connection(config, false);
+    Command cmd("PING"); //valid
+
+    //when
+    bool hasException = false;
+    try {
+        CommandExecutor::execute(&connection, cmd);
+    } catch (ConnectionExeption&) {
+        hasException = true;
+    }
+
+    //then
+    QCOMPARE(hasException, true);
 }
 
 void TestConnection::connectWithAuth()
-{
-    using namespace RedisClient;
-
+{   
     //given
-    RedisConnectionConfig config("127.0.0.1");
     Connection connection(config, true);
 
     //when
-    Command cmd("config set requirepass test"); // todo: find way to disable auth in redis
+    Command cmd("config set requirepass test");
     CommandExecutor::execute(&connection, cmd);
     connection.disconnect();
-    config.auth = "test";
-    connection.config = config;
-    bool actualResult = connection.connect();
+
+    bool actualConnectResult = connection.connect();
     Command testResultCmd("ping");
     Response actualCommandResult = CommandExecutor::execute(&connection, testResultCmd);
 
     //then
-    QCOMPARE(actualResult, true);
+    QCOMPARE(actualConnectResult, true);
     QCOMPARE(actualCommandResult.toString(), QString("+PONG\r\n"));
-
 }
 
-void TestConnection::connectWithSshTunnel()
+void TestConnection::connectWithSshTunnelPass()
 {
-    using namespace RedisClient;
+    #ifndef WIN32
+    QSKIP("This test requires ssh server")
+    #endif
 
     //given
-    RedisConnectionConfig config("192.168.252.10"); //todo: move all configuration options to separete file
-    config.sshHost = "127.0.0.1";
-    config.sshPort = 22;
-    config.sshPassword = "123";
-    config.sshUser = "admin";
-    config.connectionTimeout = 120000;
+    setSshSettings(config);
+
     Connection connection(config, false);
 
     //when
     bool actualResult = connection.connect();
 
     //then
+    QCOMPARE(connection.isConnected(), true);
     QCOMPARE(actualResult, true);
 }
+
+void TestConnection::connectWithSshTunnelKey()
+{
+    #ifndef WIN32
+    QSKIP("This test requires ssh server")
+    #endif
+
+    //given
+    setSshSettings(config, false);
+
+    Connection connection(config, false);
+
+    //when
+    bool actualResult = connection.connect();
+
+    //then
+    QCOMPARE(connection.isConnected(), true);
+    QCOMPARE(actualResult, true);
+}
+
+void TestConnection::connectAndDisconnect()
+{
+    //given
+    Connection connection(config, false);
+
+    //when
+    bool connectResult = connection.connect();
+    connection.disconnect();
+
+    //then
+    QCOMPARE(connectResult, true);
+    QCOMPARE(connection.isConnected(), false);
+}
+

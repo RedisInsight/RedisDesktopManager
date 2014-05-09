@@ -17,26 +17,30 @@ void RedisClient::SshTransporter::init()
 
     executionTimer = QSharedPointer<QTimer>(new QTimer);
     executionTimer->setSingleShot(true);
-    connect(executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));
-
+    connect(executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));    
 
     sshClient = QSharedPointer<QxtSshClient>(new QxtSshClient);
-    connect(sshClient.data(), SIGNAL(error(QxtSshClient::Error)),
-        this, SLOT(OnSshConnectionError(QxtSshClient::Error)));
+    connect(sshClient.data(), &QxtSshClient::error, this, &RedisClient::SshTransporter::OnSshConnectionError);
+    connect(sshClient.data(), &QxtSshClient::connected, this, &RedisClient::SshTransporter::OnSshConnected);
 
     syncLoop = QSharedPointer<QEventLoop>(new QEventLoop);
     syncTimer = QSharedPointer<QTimer>(new QTimer);
     syncTimer->setSingleShot(true);
 
     connect(syncTimer.data(), SIGNAL(timeout()), syncLoop.data(), SLOT(quit()));
-    connect(sshClient.data(), SIGNAL(connected()), this, SLOT(OnSshConnected()));
 
     connectToHost();
 }
 
 void RedisClient::SshTransporter::disconnect()
-{
+{    
+    if (sshClient.isNull())
+        return;
 
+    QObject::disconnect(socket, 0, 0, 0);
+    QObject::disconnect(sshClient.data(), 0, 0, 0);
+
+    sshClient->resetState();
 }
 
 bool RedisClient::SshTransporter::connectToHost()
@@ -46,9 +50,12 @@ bool RedisClient::SshTransporter::connectToHost()
     if (config.isSshPasswordUsed())
         sshClient->setPassphrase(config.sshPassword);
 
-    if (config.getSshAuthType() == RedisConnectionConfig::SshAuthType::PrivateKey) {
-        // todo: implent ssh auth via private key
-        // todo: use system ssh client if possible
+    if (!config.sshPrivateKeyPath.isEmpty()) {
+
+        QString privateKey = config.getSshPrivateKey();
+
+        if (!privateKey.isEmpty())
+            sshClient->setKeyFiles("", privateKey);
     }
 
     //connect to ssh server
@@ -70,7 +77,7 @@ bool RedisClient::SshTransporter::connectToHost()
         return false;
     }
 
-    connect(socket, SIGNAL(readyRead()), this, SLOT(OnSocketReadyRead()));
+    connect(socket, &QxtSshTcpSocket::readyRead, this, &RedisClient::SshTransporter::OnSocketReadyRead);
 
     m_lastConnectionOk = false;
     syncTimer->start(config.connectionTimeout);
@@ -164,6 +171,12 @@ void RedisClient::SshTransporter::OnSocketReadyRead()
         emit operationProgress(m_response.getLoadedItemsCount(), runningCommand.getOwner());
         executionTimer->start(m_connection->config.executeTimeout); //restart execution timer
     }
+}
+
+void RedisClient::SshTransporter::OnSshConnectionClose()
+{
+    if (syncLoop->isRunning())
+        syncLoop->exit();
 }
 
 QString RedisClient::SshTransporter::getErrorString(QxtSshClient::Error error)

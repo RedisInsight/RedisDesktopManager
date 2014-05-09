@@ -55,9 +55,9 @@ bool RedisConnectionConfig::isNull()
 bool RedisConnectionConfig::useSshTunnel() const
 {
     return !sshHost.isEmpty()
+            && sshPort > 0
             && !sshUser.isEmpty()
-            && !sshPassword.isEmpty()
-            && sshPort > 0;
+            && (!sshPassword.isEmpty() || !sshPrivateKeyPath.isEmpty());
 }
 
 bool RedisConnectionConfig::useAuth() const
@@ -67,18 +67,20 @@ bool RedisConnectionConfig::useAuth() const
 
 QString RedisConnectionConfig::getSshPrivateKey()
 {
-    if (sshPrivateKeyPath.isEmpty() || sshPublicKeyPath.isNull()
+    if (sshPrivateKeyPath.isEmpty()
             || !QFile::exists(sshPrivateKeyPath))
         return QString();
 
-    QFile keyFile(sshPrivateKeyPath);
-    if (!keyFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        return QString();
+    return sshPrivateKeyPath;
 
-    QTextStream in(&keyFile);
-    QString keyString = in.readAll();
+//    QFile keyFile();
+//    if (!keyFile.open(QIODevice::ReadOnly | QIODevice::Text))
+//        return QString();
 
-    return keyString;
+//    QTextStream in(&keyFile);
+//    QString keyString = in.readAll();
+
+//    return keyString;
 }
 
 RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connectionNode) 

@@ -3,20 +3,39 @@
 
 #include <QObject>
 #include <QtCore>
+#include "RedisConnectionConfig.h"
 
 class TestConnection : public QObject
 {
     Q_OBJECT
 
 private slots:
-    void connectToHostAndRunCommand();
+    void init();
 
+    /*
+     * connect() & disconnect() tests
+     */
+    void connectAndDisconnect();
+    void connectToHostAndRunCommand();
+    void connectWithAuth();
+    void connectWithSshTunnelPass();
+    void connectWithSshTunnelKey();
+
+    /*
+     * default protocol tests
+     */
     void selectDatabase();
     void selectDatabase_data();
 
-    void connectWithAuth();
+    /*
+     * dirty tests for runCommand()
+     */
+    void runEmptyCommand();
+    void runCommandWithoutConnection();
 
-    void connectWithSshTunnel();
+private:
+    RedisConnectionConfig config;
+    void setSshSettings(RedisConnectionConfig&, bool);
 };
 
 #endif // TEST_CONNECTION_H

@@ -71,6 +71,8 @@ void RedisClient::Connection::disconnect()
         transporterThread->wait();
         m_isTransporterInitialized = false;                
     }
+
+    m_connected = false;
 }
 
 void RedisClient::Connection::runCommand(const Command &cmd)
@@ -93,6 +95,9 @@ bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
 {
     if (isConnected())
         return true;
+
+    if (!m_isTransporterInitialized)
+        return false;
 
     m_timeoutTimer.start(timeoutInMs);
     m_loop.exec();
