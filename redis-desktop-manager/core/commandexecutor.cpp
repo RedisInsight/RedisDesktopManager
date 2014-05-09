@@ -1,4 +1,6 @@
 #include "commandexecutor.h"
+#include "connection.h"
+#include "Command.h"
 
 Response RedisClient::CommandExecutor::execute(RedisClient::Connection *connection, Command &cmd)
 {

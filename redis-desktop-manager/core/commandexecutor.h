@@ -2,11 +2,13 @@
 #define COMMANDEXECUTOR_H
 
 #include <QObject>
-#include "connection.h"
-#include "Command.h"
 #include "Response.h"
 
+class Command;
+
 namespace RedisClient {
+
+class Connection;
 
 class CommandExecutor
 {    
