@@ -10,7 +10,6 @@ RedisClient::AbstractProtocol::AbstractProtocol(RedisClient::Connection *connect
 void RedisClient::AbstractProtocol::auth()
 {        
     // todo: check is socket succesufully connected before run this method in main connection class
-
     m_connection->m_connected = true;
 
     if (m_connection->config.useAuth()) {
@@ -21,13 +20,13 @@ void RedisClient::AbstractProtocol::auth()
     Command testCommand("ping");
     Response testResult = CommandExecutor::execute(m_connection, testCommand);
 
-    if (testResult.toString() == "+PONG\r\n")
-        m_connection->setConnectedState();
-
-    if (m_connection->m_connected)
+    if (testResult.toString() == "+PONG\r\n") {
+        m_connection->setConnectedState();   
         emit authOk();
-    else
+    } else {
         emit errorOccurred("Redis server require password or password invalid");
+        m_connection->m_connected = false;
+    }
 }
 
 RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDatabases()

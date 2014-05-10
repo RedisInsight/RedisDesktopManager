@@ -168,7 +168,7 @@ void RedisClient::SshTransporter::OnSocketReadyRead()
     if (m_response.isValid()) {
         return sendResponse();
     } else {
-        emit operationProgress(m_response.getLoadedItemsCount(), runningCommand.getOwner());
+        sendProgressValue();
         executionTimer->start(m_connection->config.executeTimeout); //restart execution timer
     }
 }

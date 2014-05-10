@@ -19,7 +19,7 @@ signals:
     void errorOccurred(const QString&);
     void logEvent(const QString&);
     void connected();
-    void operationProgress(int percents, QObject *);
+    void commandAdded();
 
 public slots:
     virtual void init() = 0;
@@ -40,6 +40,7 @@ protected:
     virtual void runCommand(const Command &cmd) = 0;
     virtual void sendResponse();
     virtual void processCommandQueue();
+    void sendProgressValue();
 
 protected slots:
     void executionTimeout();

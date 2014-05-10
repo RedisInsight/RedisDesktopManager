@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
 	QApplication app( argc, argv );   
 
     qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
+    qRegisterMetaType<RedisClient::Command>("Command");
     qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
+    qRegisterMetaType<RedisClient::Response>("Response");
     qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
 
 	int allTestsResult = 

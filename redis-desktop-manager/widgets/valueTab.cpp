@@ -95,7 +95,7 @@ void ValueTab::keyTypeLoaded(RedisClient::Response type)
     connect(keyModel.data(), SIGNAL(keyDeleted()), this, SLOT(keyDeleted()));
     connect(keyModel.data(), SIGNAL(valueUpdateError(const QString&)), this, SIGNAL(error(const QString&)));
     connect(keyModel.data(), SIGNAL(valueUpdated()), this, SLOT(valueUpdated()));
-    connect(keyModel.data(), SIGNAL(ttlLoaded(Response)), this, SLOT(ttlLoaded(Response)));
+    connect(keyModel.data(), SIGNAL(ttlLoaded(RedisClient::Response)), this, SLOT(ttlLoaded(RedisClient::Response)));
 
     operationInProgress = true;
     keyModel->loadValue();

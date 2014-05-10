@@ -40,6 +40,7 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
     QObject::connect(transporterThread.data(), SIGNAL(started()), transporter.data(), SLOT(init()));
     QObject::connect(transporterThread.data(), SIGNAL(finished()), transporter.data(), SLOT(disconnect()));
     QObject::connect(transporter.data(), SIGNAL(connected()), protocol.data(), SLOT(auth()));
+    QObject::connect(transporter.data(), SIGNAL(commandAdded()), this, SLOT(commandAddedToTransporter()));
 
     //wait for data
     QEventLoop loop;
@@ -85,6 +86,8 @@ void RedisClient::Connection::runCommand(const Command &cmd)
         throw ConnectionExeption("Try run command in not connected state");
 
     emit addCommandToWorker(cmd);
+
+    m_loop.exec();
 }
 
 RedisClient::AbstractProtocol *RedisClient::Connection::operations()
@@ -111,6 +114,11 @@ RedisClient::ConnectionConfig RedisClient::Connection::getConfig() const
     return config;
 }
 
+void RedisClient::Connection::setConnectionConfig(RedisClient::ConnectionConfig &c)
+{
+    config = c;
+}
+
 void RedisClient::Connection::setConnectedState()
 {
     m_connected = true;
@@ -126,5 +134,11 @@ void RedisClient::Connection::connectionReady()
     // todo: create signal in operations::auth() method and connect to this signal
     m_connected = true;
     // todo: do another ready staff
+}
+
+void RedisClient::Connection::commandAddedToTransporter()
+{
+    if (m_loop.isRunning())
+        m_loop.exit();
 }
 

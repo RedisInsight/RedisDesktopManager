@@ -4,9 +4,12 @@
 #include "ui_connection.h"
 
 class RedisServerItem;
-class ConnectionConfig;
+
 class MainWin;
-class ConnectionBridge;
+namespace RedisClient {
+class ConnectionConfig;
+class Connection;
+}
 
 class ConnectionWindow : public QDialog
 {
@@ -26,8 +29,8 @@ private:
     bool isSshSettingsValid();
     bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
-    ConnectionConfig getConectionConfigFromFormData();
-    void loadValuesFromConnection(ConnectionBridge *);
+    RedisClient::ConnectionConfig getConectionConfigFromFormData();
+    void loadValuesFromConnection(RedisClient::Connection *);
 
     private slots:
         void OnOkButtonClick();

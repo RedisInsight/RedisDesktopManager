@@ -27,10 +27,10 @@ public:
     AbstractProtocol * operations();
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
+    void setConnectionConfig(ConnectionConfig&);
 
 signals:    
-    void addCommandToWorker(const Command&);
-    void operationProgress(int percents, QObject *);
+    void addCommandToWorker(const Command&);    
     void error(const QString&);
     void log(const QString&);
     void connected();
@@ -49,6 +49,7 @@ protected:
 
 protected slots:
     void connectionReady();
+    void commandAddedToTransporter();
 };
 
 }

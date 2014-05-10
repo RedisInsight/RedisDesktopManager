@@ -3,10 +3,10 @@
 #include <QtWidgets/QMessageBox>
 
 #include "application.h"
-#include "ConnectionBridge.h"
 #include "RedisServerItem.h"
-#include "RedisConnectionConfig.h"
-#include "RedisConnectionsManager.h"
+#include "connection.h"
+#include "connectionconfig.h"
+#include "connectionsmanager.h"
 
 ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     : QDialog(parent), inEditMode(false)
@@ -32,17 +32,17 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
         server = srv;
         loadValuesFromConnection(srv->getConnection());
     } else {
-        ui.namespaceSeparator->setText(QString(ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+        ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
         ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
         ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
     }
 }
 
-void ConnectionWindow::loadValuesFromConnection(ConnectionBridge * c)
+void ConnectionWindow::loadValuesFromConnection(RedisClient::Connection * c)
 {
     inEditMode = true;
 
-    ConnectionConfig config = c->getConfig();
+    RedisClient::ConnectionConfig config = c->getConfig();
 
     ui.nameEdit->setText(config.name);
     ui.hostEdit->setText(config.host);
@@ -71,9 +71,9 @@ void ConnectionWindow::OnOkButtonClick()
         return;    
     }
 
-    ConnectionConfig conf = getConectionConfigFromFormData();
+    RedisClient::ConnectionConfig conf = getConectionConfigFromFormData();
 
-    ConnectionBridge * connection;
+    RedisClient::Connection * connection;
 
     if (inEditMode) {
         connection = server->getConnection();
@@ -81,7 +81,7 @@ void ConnectionWindow::OnOkButtonClick()
         mainForm->connections->connectionChanged();
         
     } else {        
-        connection = new ConnectionBridge(conf);
+        connection = new RedisClient::Connection(conf, false);
         mainForm->connections->AddConnection(connection);            
     }    
     
@@ -185,9 +185,9 @@ bool ConnectionWindow::isSshTunnelUsed()
     return ui.useSshTunnel->checkState() == Qt::Checked;
 }
 
-ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
+RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
-    ConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
+    RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
 
     conf.namespaceSeparator = ui.namespaceSeparator->text();
     conf.connectionTimeout = ui.connectionTimeout->value() * 1000;

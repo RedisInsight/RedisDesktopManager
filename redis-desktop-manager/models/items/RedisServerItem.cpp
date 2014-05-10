@@ -7,6 +7,7 @@ RedisServerItem::RedisServerItem(RedisClient::Connection * c)
     setOfflineIcon();
     getItemNameFromConnection();
     setEditable(false);
+    connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
 }
 
 void RedisServerItem::getItemNameFromConnection()
@@ -17,6 +18,7 @@ void RedisServerItem::getItemNameFromConnection()
 void RedisServerItem::setConnection(RedisClient::Connection * c)
 {
     connection = c;
+    connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
 }
 
 void RedisServerItem::loadDatabaseList()
@@ -25,20 +27,20 @@ void RedisServerItem::loadDatabaseList()
         return;
 
     setBusyIcon();
-    getItemNameFromConnection();
+    getItemNameFromConnection();   
 
-    connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+    if (!connection->connect()) {
+        setOfflineIcon();
+        return;
+    }
 
-    connection->connect();
     auto databases = connection->operations()->getDatabases();
 
     if (databases.size() == 0)
     {
         setNormalIcon();
         return;
-    }
-
-    //connection->disconnect(this);
+    }   
 
     QMap<QString, int>::const_iterator db = databases.constBegin();
 
@@ -49,7 +51,6 @@ void RedisServerItem::loadDatabaseList()
     }
 
     sortChildren(0);
-
     setNormalIcon();
 
     isDbInfoLoaded = true;
@@ -128,12 +129,14 @@ void RedisServerItem::setBusyIcon()
 
 void RedisServerItem::setNormalIcon()
 {
+    emit unlockUI();
     locked = false;
     setIcon(QIcon(":/images/redisIcon.png"));
 }
 
 void RedisServerItem::setOfflineIcon()
 {
+    emit unlockUI();
     locked = false;
     setIcon(QIcon(":/images/redisIcon_offline.png"));
 }

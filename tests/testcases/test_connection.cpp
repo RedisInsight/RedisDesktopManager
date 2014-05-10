@@ -19,6 +19,7 @@ void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
 {
     c.sshHost = "192.168.252.10";
     c.sshPort = 22;
+    c.connectionTimeout = 10000;
 
     if (usePass) {   
         c.sshPassword = "123";
@@ -102,6 +103,23 @@ void TestConnection::runCommandWithoutConnection()
 
     //then
     QCOMPARE(hasException, true);
+}
+
+void TestConnection::runCommandAndDelete()
+{
+    //given
+    Connection connection(config, true);
+    Command cmd("ping");
+    QObject * owner = new QObject();
+    cmd.setCallBackName("fake");
+    cmd.setOwner(owner);
+
+    //when
+    connection.runCommand(cmd);
+    delete owner;
+
+    //then
+    //no errors
 }
 
 void TestConnection::connectWithAuth()

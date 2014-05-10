@@ -75,9 +75,19 @@ QString RedisClient::Command::getCallbackName()
     return callBackMethod;
 }
 
+QString RedisClient::Command::getProgressCallbackName()
+{
+    return progressMethod;
+}
+
 void RedisClient::Command::setCallBackName(const QString & name)
 {
     callBackMethod = name;
+}
+
+void RedisClient::Command::setProgressCallBackName(const QString &name)
+{
+    progressMethod = name;
 }
 
 bool RedisClient::Command::hasDbIndex() const

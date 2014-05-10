@@ -35,6 +35,7 @@ HEADERS  += \
     $$PWD/models/*.h \
     $$PWD/models/items/*.h \
     $$PWD/models/value-view-formatters/*.h \
+    core/core.h
 
 
 DEPSDIR = $$PWD/../deps/

@@ -17,11 +17,13 @@ public:
     QByteArray getByteRepresentation() const;
     QString    getRawString() const;
     QString    getCallbackName();
+    QString    getProgressCallbackName();
     int        getDbIndex() const;
     QObject *  getOwner() const;
 
     void setOwner(QObject *);      
     void setCallBackName(const QString &);
+    void setProgressCallBackName(const QString &);
 
     void cancel();
 
@@ -35,7 +37,8 @@ private:
     QObject * owner;
     QStringList commandWithArguments;
     int dbIndex;
-    QString callBackMethod;
+    QString callBackMethod; // method(Response)
+    QString progressMethod; // method(unsigned int)
     bool commandCanceled;
 
     QStringList splitCommandString(const QString &);    

@@ -22,6 +22,8 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
     setEditable(false);    
 
     connect(&keysLoadingWatcher, SIGNAL(finished()), this, SLOT(keysLoadingFinished()));
+    connect(server->connection, &RedisClient::Connection::error,
+            this, &RedisServerDbItem::proccessError);
 }
 
 bool RedisServerDbItem::loadKeys()
@@ -31,31 +33,23 @@ bool RedisServerDbItem::loadKeys()
 
     setBusyIcon();    
 
-    //wait for signal from connection    
-    connect(server->connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
-    connect(server->connection, SIGNAL(responseResieved(const QVariant &, QObject *)),
-        this, SLOT(keysLoaded(const QVariant &, QObject *)));
-    connect(server->connection, SIGNAL(operationProgress(int, QObject *)), 
-        this, SLOT(keysLoadingStatusChanged(int, QObject *)));
+    auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
+    keyCmd.setCallBackName("keysLoaded");
+    keyCmd.setProgressCallBackName("keysLoadingStatusChanged");
     
-    server->connection->runCommand(RedisClient::Command("keys *", this, dbIndex));
-
+    server->connection->runCommand(keyCmd);
     server->locked = true;
 
     return true;
 }
 
-void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
-{
-    if (owner != this) {
-        return;
-    }
-
+void RedisServerDbItem::keysLoaded(RedisClient::Response resp)
+{    
     server->locked = false;
 
-    //server->connection->disconnect(this);
+    QVariant value = resp.getValue();
 
-    rawKeys = keys.toStringList();
+    rawKeys = value.toStringList();
 
     keysCount = rawKeys.size();
 
@@ -153,11 +147,8 @@ int RedisServerDbItem::getDbIndex() const
     return dbIndex;
 }
 
-void RedisServerDbItem::keysLoadingStatusChanged(int progressValue, QObject * owner)
-{
-    if (owner != this) {
-        return;
-    }
+void RedisServerDbItem::keysLoadingStatusChanged(int progressValue)
+{    
     server->statusMessage(
         QString("Downloading keys list from database: %1 / %2 ").arg(progressValue).arg(keysCount)
         );

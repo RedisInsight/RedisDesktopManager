@@ -2,6 +2,7 @@
 
 #include <QStandardItem>
 #include <QtConcurrent>
+#include "response.h"
 
 class RedisServerItem;
 class RedisKeyItem;
@@ -66,9 +67,9 @@ private:
     void setBusyIcon();
 
 private slots:
-    void keysLoaded(const QVariant &, QObject *);
-    void proccessError(QString srcError);
-    void keysLoadingStatusChanged(int progress, QObject *);
+    void keysLoaded(RedisClient::Response response);
+    void proccessError(QString);
+    void keysLoadingStatusChanged(int);
     void keysLoadingFinished();
 };
 

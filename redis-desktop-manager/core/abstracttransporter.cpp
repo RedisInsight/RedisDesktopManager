@@ -6,8 +6,7 @@ RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *c
     //connect signals & slots between connection & transporter
     connect(connection, SIGNAL(addCommandToWorker(const Command&)), this, SLOT(addCommand(const Command&)));
     connect(this, SIGNAL(errorOccurred(const QString&)), connection, SIGNAL(error(const QString&)));
-    connect(this, SIGNAL(logEvent(const QString&)), connection, SIGNAL(log(const QString&)));
-    connect(this, SIGNAL(operationProgress(int, QObject *)), connection, SIGNAL(operationProgress(int, QObject *)));
+    connect(this, SIGNAL(logEvent(const QString&)), connection, SIGNAL(log(const QString&)));    
 }
 
 RedisClient::AbstractTransporter::~AbstractTransporter()
@@ -30,11 +29,15 @@ void RedisClient::AbstractTransporter::addCommand(const Command &cmd)
             );
 
     commands.enqueue(cmd);
+    emit commandAdded();
     processCommandQueue();
 }
 
 void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
 {
+    if (runningCommand.getOwner() == owner)
+        runningCommand.cancel();
+
     QListIterator<Command> cmd(commands);
 
     while (cmd.hasNext())
@@ -58,7 +61,7 @@ void RedisClient::AbstractTransporter::sendResponse()
 
     QMetaObject::invokeMethod(
         runningCommand.getOwner(), callbackName.toUtf8().constData(),
-        Qt::AutoConnection, Q_ARG(Response, m_response)
+        Qt::AutoConnection, Q_ARG(RedisClient::Response, m_response)
         );
 
     emit logEvent(QString("%1 > [runCommand] %2 -> response recieved").arg(m_connection->config.name).arg(runningCommand.getRawString()));
@@ -75,6 +78,19 @@ void RedisClient::AbstractTransporter::processCommandQueue()
     }
 
     runCommand(commands.dequeue());
+}
+
+void RedisClient::AbstractTransporter::sendProgressValue()
+{
+    QString callbackName = runningCommand.getProgressCallbackName();
+
+    if (callbackName.isNull() || callbackName.isEmpty())
+        return;
+
+    QMetaObject::invokeMethod(
+        runningCommand.getOwner(), callbackName.toUtf8().constData(),
+        Qt::AutoConnection, Q_ARG(int, m_response.getLoadedItemsCount())
+        );
 }
 
 void RedisClient::AbstractTransporter::executionTimeout()

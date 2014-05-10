@@ -6,9 +6,11 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QDialog>
 #include <QMovie>
-
+#include "core.h"
+#include "connectionsmanager.h"
+#include "RedisServerItem.h"
+#include "RedisServerDbItem.h"
 #include "connect.h"
-#include "Redis.h"
 #include "valueTab.h"
 #include "Updater.h"
 #include "serverInfoViewTab.h"
@@ -27,9 +29,11 @@ MainWin::MainWin(QWidget *parent)
     initFilter();
     initSystemConsole();
     
-    qRegisterMetaType<RedisConnectionAbstract::RedisDatabases>("RedisConnectionAbstract::RedisDatabases");
-    qRegisterMetaType<Command>("Command");    
-    qRegisterMetaType<Response>("Response");  
+    qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
+    qRegisterMetaType<RedisClient::Command>("Command");
+    qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
+    qRegisterMetaType<RedisClient::Response>("Response");
+    qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
 
     performanceTimer.invalidate();
 }
@@ -149,7 +153,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
     case RedisServerItem::TYPE:
     {            
         RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-        server->runDatabaseLoading();                
+        server->loadDatabaseList(); //todo: fix it
         ui.serversTreeView->setExpanded(index, true);
     }
     break;
@@ -381,7 +385,7 @@ void MainWin::OnConsoleOpen()
         return;    
 
     RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-    ConnectionConfig config = server->getConnection()->getConfig();
+    RedisClient::ConnectionConfig config = server->getConnection()->getConfig();
 
     BaseTab * tab = new BaseTab();
     ConsoleTab * console = new ConsoleTab(config);

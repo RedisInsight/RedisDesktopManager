@@ -150,7 +150,8 @@ QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
 
 RedisClient::Response::ResponseType RedisClient::Response::getResponseType(const QByteArray & r) const
 {    
-    return getResponseType(r.at(0));
+    const char typeChar = (r.length() == 0)? ' ' : r.at(0);
+    return getResponseType(typeChar);
 }
 
 RedisClient::Response::ResponseType RedisClient::Response::getResponseType(const char typeChar) const

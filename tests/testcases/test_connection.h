@@ -32,6 +32,7 @@ private slots:
      */
     void runEmptyCommand();
     void runCommandWithoutConnection();
+    void runCommandAndDelete();
 
 private:
     RedisClient::ConnectionConfig config;

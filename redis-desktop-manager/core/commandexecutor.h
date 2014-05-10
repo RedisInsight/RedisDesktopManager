@@ -20,7 +20,7 @@ class Executor : public QObject
     Q_OBJECT
     friend class CommandExecutor;
 private slots:
-    void responseReceiver(Response);    
+    void responseReceiver(RedisClient::Response);
 private:
     Executor(Command& cmd);
     Response waitForResult(unsigned int);
