@@ -37,7 +37,9 @@ void RedisClient::SshTransporter::disconnect()
     if (sshClient.isNull())
         return;
 
-    QObject::disconnect(socket, 0, 0, 0);
+    if (socket != nullptr)
+        QObject::disconnect(socket, 0, 0, 0);
+
     QObject::disconnect(sshClient.data(), 0, 0, 0);
 
     sshClient->resetState();
