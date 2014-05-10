@@ -14,8 +14,9 @@ class ConsoleConnectionWrapper : public QObject
 public:
     ConsoleConnectionWrapper(RedisClient::ConnectionConfig &);
 
-    public slots:
-        void init();
+    void init();
+
+    public slots:        
         void executeCommand(const QString &);
 
     signals:

@@ -25,6 +25,8 @@ ConsoleTab::ConsoleTab(RedisClient::ConnectionConfig& config)
     connect(this, SIGNAL(execCommand(const QString &)), connection.data(), SLOT(executeCommand(const QString&)));
     connect(connection.data(), SIGNAL(changePrompt(const QString &, bool)), this, SLOT(setPrompt(const QString &, bool)));
     connect(connection.data(), SIGNAL(addOutput(const QString&)), this, SLOT(printCommandExecutionResults(const QString&)));
+
+    connection->init();
 }
 
 ConsoleTab::~ConsoleTab(void)
