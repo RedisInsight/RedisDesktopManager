@@ -1,15 +1,16 @@
 #pragma once
 
 #include <QStandardItemModel>
-#include "ConnectionBridge.h"
-#include "Command.h"
+#include "connection.h"
+#include "command.h"
+#include "response.h"
 
 class KeyModel : public QStandardItemModel
 {
     Q_OBJECT
 
 public:
-    KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);    
+    KeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
     virtual ~KeyModel();    
 
     virtual void loadValue() = 0;
@@ -35,7 +36,7 @@ public:
 
 signals:    
     void valueLoaded();
-    void ttlLoaded(Response);
+    void ttlLoaded(RedisClient::Response);
     void keyRenamed();
     void keyRenameError(const QString&);
     void keyDeleted();
@@ -44,12 +45,12 @@ signals:
     void valueUpdateError(const QString&);
 
 protected slots:
-    void loadedValue(Response);        
-    void loadedRenameStatus(Response);
-    void loadedDeleteStatus(Response);
+    void loadedValue(RedisClient::Response);
+    void loadedRenameStatus(RedisClient::Response);
+    void loadedDeleteStatus(RedisClient::Response);
 
 protected:    
-    ConnectionBridge * db;
+    RedisClient::Connection * db;
     QString keyName;
     int dbIndex;    
 

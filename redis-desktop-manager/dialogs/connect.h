@@ -4,7 +4,7 @@
 #include "ui_connection.h"
 
 class RedisServerItem;
-class RedisConnectionConfig;
+class ConnectionConfig;
 class MainWin;
 class ConnectionBridge;
 
@@ -26,7 +26,7 @@ private:
     bool isSshSettingsValid();
     bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
-    RedisConnectionConfig getConectionConfigFromFormData();
+    ConnectionConfig getConectionConfigFromFormData();
     void loadValuesFromConnection(ConnectionBridge *);
 
     private slots:

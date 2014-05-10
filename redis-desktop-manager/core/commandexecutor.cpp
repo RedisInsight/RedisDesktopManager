@@ -1,8 +1,9 @@
 #include "commandexecutor.h"
 #include "connection.h"
-#include "Command.h"
+#include "command.h"
+#include "connectionexception.h"
 
-Response RedisClient::CommandExecutor::execute(RedisClient::Connection *connection, Command &cmd)
+RedisClient::Response RedisClient::CommandExecutor::execute(RedisClient::Connection *connection, RedisClient::Command &cmd)
 {
     if (!connection->waitConnectedState(connection->config.executeTimeout))
         throw ConnectionExeption("Can not execute command. Connection not established.");
@@ -13,7 +14,7 @@ Response RedisClient::CommandExecutor::execute(RedisClient::Connection *connecti
     return syncObject.waitForResult(connection->config.executeTimeout);
 }
 
-RedisClient::Executor::Executor(Command &cmd)
+RedisClient::Executor::Executor(RedisClient::Command &cmd)
 {
     cmd.setOwner(this);
     cmd.setCallBackName("responseReceiver");
@@ -21,7 +22,7 @@ RedisClient::Executor::Executor(Command &cmd)
     connect(&m_timeoutTimer, SIGNAL(timeout()), &m_loop, SLOT(quit()));
 }
 
-Response RedisClient::Executor::waitForResult(unsigned int timeoutInMs)
+RedisClient::Response RedisClient::Executor::waitForResult(unsigned int timeoutInMs)
 {
     m_timeoutTimer.start(timeoutInMs);
     m_loop.exec();

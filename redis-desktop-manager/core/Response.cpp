@@ -1,53 +1,53 @@
-#include "Response.h"
-#include "RedisException.h"
+#include "response.h"
+#include "responseexception.h"
 
-Response::Response()
+RedisClient::Response::Response()
     : responseSource(""), lastValidPos(0), itemsCount(0)
 {
 }
 
-Response::Response(const QByteArray & src)
+RedisClient::Response::Response(const QByteArray & src)
     : responseSource(src), lastValidPos(0), itemsCount(0)
 {
 }
 
-Response::~Response(void)
+RedisClient::Response::~Response(void)
 {
 }
 
-void Response::setSource(const QByteArray& src)
+void RedisClient::Response::setSource(const QByteArray& src)
 {
     responseSource = src;
 }
 
-void Response::clear()
+void RedisClient::Response::clear()
 {
     responseSource.clear();
     lastValidPos = 0;
     itemsCount = 0;
 }
 
-QByteArray Response::source()
+QByteArray RedisClient::Response::source()
 {
     return responseSource;
 }
 
-void Response::appendToSource(QString& src)
+void RedisClient::Response::appendToSource(QString& src)
 {
     responseSource.append(src);
 }
 
-void Response::appendToSource(QByteArray& src)
+void RedisClient::Response::appendToSource(QByteArray& src)
 {
     responseSource.append(src);
 }
 
-QString Response::toString()
+QString RedisClient::Response::toString()
 {
     return responseSource.left(1500);
 }
 
-QVariant Response::getValue()
+QVariant RedisClient::Response::getValue()
 {
     if (responseSource.isEmpty()) {
         return QVariant();
@@ -80,14 +80,14 @@ QVariant Response::getValue()
             break;
         }
 
-    } catch (RedisException &e) {
+    } catch (ResponseException &e) {
         parsedResponse = QVariant(QStringList() << e.what());
     }
 
     return parsedResponse;
 }    
 
-QString Response::parseBulk(const QByteArray& response)
+QString RedisClient::Response::parseBulk(const QByteArray& response)
 {
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);    
@@ -99,7 +99,7 @@ QString Response::parseBulk(const QByteArray& response)
     return QString();
 }
 
-QStringList Response::parseMultiBulk(const QByteArray& response)
+QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
 {    
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);            
@@ -139,7 +139,7 @@ QStringList Response::parseMultiBulk(const QByteArray& response)
 
             continue;
         } else if (type == MultiBulk) {               
-            throw RedisException("Recursive parsing of MultiBulk replies not supported");
+            throw ResponseException("Recursive parsing of MultiBulk replies not supported");
         } else {
             break;
         }
@@ -148,12 +148,12 @@ QStringList Response::parseMultiBulk(const QByteArray& response)
     return parsedResult;
 }
 
-Response::ResponseType Response::getResponseType(const QByteArray & r) const
+RedisClient::Response::ResponseType RedisClient::Response::getResponseType(const QByteArray & r) const
 {    
     return getResponseType(r.at(0));
 }
 
-Response::ResponseType Response::getResponseType(const char typeChar) const
+RedisClient::Response::ResponseType RedisClient::Response::getResponseType(const char typeChar) const
 {    
     if (typeChar == '+') return Status; 
     if (typeChar == '-') return Error;
@@ -164,17 +164,17 @@ Response::ResponseType Response::getResponseType(const char typeChar) const
     return Unknown;
 }
 
-QString Response::getStringResponse(const QByteArray& response)
+QString RedisClient::Response::getStringResponse(const QByteArray& response)
 {
     return response.mid(1, response.length() - 3);
 }
 
-bool Response::isValid()
+bool RedisClient::Response::isValid()
 {
     return isReplyValid(responseSource);
 }
 
-bool Response::isReplyValid(const QByteArray & responseString)
+bool RedisClient::Response::isReplyValid(const QByteArray & responseString)
 {
     if (responseString.isEmpty()) 
     {
@@ -205,12 +205,12 @@ bool Response::isReplyValid(const QByteArray & responseString)
     }    
 }
 
-bool Response::isReplyGeneralyValid(const QByteArray& r)
+bool RedisClient::Response::isReplyGeneralyValid(const QByteArray& r)
 {
     return r.endsWith("\r\n");
 }
 
-int Response::getPosOfNextItem(const QByteArray &r, int startPos = 0)
+int RedisClient::Response::getPosOfNextItem(const QByteArray &r, int startPos = 0)
 {
     if (startPos >= r.size()) {
         return -1;
@@ -242,12 +242,12 @@ int Response::getPosOfNextItem(const QByteArray &r, int startPos = 0)
 
 }
 
-bool Response::isIntReplyValid(const QByteArray& r)
+bool RedisClient::Response::isIntReplyValid(const QByteArray& r)
 {
     return !r.isEmpty();
 }
 
-bool Response::isBulkReplyValid(const QByteArray& r)
+bool RedisClient::Response::isBulkReplyValid(const QByteArray& r)
 {            
     int endOfFirstLine = r.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
@@ -266,7 +266,7 @@ bool Response::isBulkReplyValid(const QByteArray& r)
     return true;
 }
 
-bool Response::isMultiBulkReplyValid(const QByteArray& r) 
+bool RedisClient::Response::isMultiBulkReplyValid(const QByteArray& r)
 {    
     int endOfFirstLine = r.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
@@ -310,7 +310,7 @@ bool Response::isMultiBulkReplyValid(const QByteArray& r)
     return true;    
 }
 
-int Response::getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine, int beginFrom) 
+int RedisClient::Response::getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine, int beginFrom)
 {
     if (endOfFirstLine == -1) {
         endOfFirstLine = reply.indexOf("\r\n", beginFrom);
@@ -325,7 +325,7 @@ int Response::getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine, in
     return strRepresentaton.toInt();        
 }
 
-QString Response::valueToString(QVariant& value)
+QString RedisClient::Response::valueToHumanReadString(QVariant& value)
 {
     if (value.isNull()) 
     {
@@ -337,19 +337,19 @@ QString Response::valueToString(QVariant& value)
     return value.toString();
 }
 
-int Response::getLoadedItemsCount()
+int RedisClient::Response::getLoadedItemsCount()
 {
     return itemsCount;
 }
 
-bool Response::isErrorMessage() const
+bool RedisClient::Response::isErrorMessage() const
 {
     return getResponseType(responseSource) == Error
         && responseSource.startsWith("-ERR");
 
 }
 
-bool Response::isOkMessage() const
+bool RedisClient::Response::isOkMessage() const
 {
     return getResponseType(responseSource) == Status
             && responseSource.startsWith("+OK");

@@ -45,7 +45,7 @@ void RedisClient::SshTransporter::disconnect()
 
 bool RedisClient::SshTransporter::connectToHost()
 {
-    RedisConnectionConfig config = m_connection->config;
+    ConnectionConfig config = m_connection->config;
 
     if (config.isSshPasswordUsed())
         sshClient->setPassphrase(config.sshPassword);

@@ -1,22 +1,22 @@
-#include "RedisConnectionConfig.h"
+#include "connectionconfig.h"
 #include <QFile>
 
-RedisConnectionConfig::SshAuthType RedisConnectionConfig::getSshAuthType()
+RedisClient::ConnectionConfig::SshAuthType RedisClient::ConnectionConfig::getSshAuthType()
 {
     return sshAuth;
 }
 
-bool RedisConnectionConfig::isSshPasswordUsed()
+bool RedisClient::ConnectionConfig::isSshPasswordUsed()
 {
     return !sshPassword.isNull() && !sshPassword.isEmpty();
 }
 
-RedisConnectionConfig::RedisConnectionConfig(const QString &host, const QString &name, const int port)
-    : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), sshAuth(RedisConnectionConfig::SshAuthType::None),
+RedisClient::ConnectionConfig::ConnectionConfig(const QString &host, const QString &name, const int port)
+    : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), sshAuth(ConnectionConfig::SshAuthType::None),
      connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
 {}
 
-RedisConnectionConfig &RedisConnectionConfig::operator =(RedisConnectionConfig &other)
+RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(RedisClient::ConnectionConfig &other)
 {
     if (this != &other) {
         name = other.name;
@@ -36,7 +36,7 @@ RedisConnectionConfig &RedisConnectionConfig::operator =(RedisConnectionConfig &
     return *this;
 }
 
-void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port,
+void RedisClient::ConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port,
                                                  QString publicKey, QString privateKey)
 {
     sshHost = host;
@@ -47,12 +47,12 @@ void RedisConnectionConfig::setSshTunnelSettings(QString host, QString user, QSt
     sshPrivateKeyPath = privateKey;
 }
 
-bool RedisConnectionConfig::isNull() 
+bool RedisClient::ConnectionConfig::isNull()
 {
     return host.isEmpty() || port <= 0 || name.isEmpty();
 }
 
-bool RedisConnectionConfig::useSshTunnel() const
+bool RedisClient::ConnectionConfig::useSshTunnel() const
 {
     return !sshHost.isEmpty()
             && sshPort > 0
@@ -60,12 +60,12 @@ bool RedisConnectionConfig::useSshTunnel() const
             && (!sshPassword.isEmpty() || !sshPrivateKeyPath.isEmpty());
 }
 
-bool RedisConnectionConfig::useAuth() const
+bool RedisClient::ConnectionConfig::useAuth() const
 {
     return !(auth.isEmpty());
 }
 
-QString RedisConnectionConfig::getSshPrivateKey()
+QString RedisClient::ConnectionConfig::getSshPrivateKey()
 {
     if (sshPrivateKeyPath.isEmpty()
             || !QFile::exists(sshPrivateKeyPath))
@@ -83,9 +83,9 @@ QString RedisConnectionConfig::getSshPrivateKey()
 //    return keyString;
 }
 
-RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connectionNode) 
+RedisClient::ConnectionConfig RedisClient::ConnectionConfig::createFromXml(QDomNode & connectionNode)
 {
-    RedisConnectionConfig connectionConfig;
+    ConnectionConfig connectionConfig;
 
     if (!connectionNode.hasAttributes()) {
         return connectionConfig;
@@ -113,7 +113,7 @@ RedisConnectionConfig RedisConnectionConfig::createFromXml(QDomNode & connection
     return connectionConfig;
 }
 
-bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value)
+bool RedisClient::ConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value)
 {
     if (!attr.contains(name))
         return false;
@@ -123,7 +123,7 @@ bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const
     return true;
 }
 
-bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value)
+bool RedisClient::ConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value)
 {
     QString val;
 
@@ -136,7 +136,7 @@ bool RedisConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const
     return result;
 }
 
-QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
+QDomElement RedisClient::ConnectionConfig::toXml(QDomDocument dom)
 {
     QDomElement xml = dom.createElement("connection");
 
@@ -168,7 +168,7 @@ QDomElement RedisConnectionConfig::toXml(QDomDocument dom)
     return xml;
 }
 
-void RedisConnectionConfig::saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value)
+void RedisClient::ConnectionConfig::saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value)
 {
     QDomAttr attr = document.createAttribute(name);
     attr.setValue(value);

@@ -3,7 +3,7 @@
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 #include "KeyModel.h"
-#include "Command.h"
+#include "command.h"
 #include "StringKeyModel.h"
 #include "HashKeyModel.h"
 #include "ListKeyModel.h"
@@ -68,16 +68,15 @@ KeyModel * RedisKeyItem::getKeyModel(const QString & type)
 
     return nullptr;
 }
-
-Command RedisKeyItem::getTypeCommand()
+RedisClient::Command RedisKeyItem::getTypeCommand()
 {
     QStringList typeCommand;
     typeCommand << "TYPE" << text();
 
-    return Command(typeCommand, nullptr, db->getDbIndex());
+    return RedisClient::Command(typeCommand, nullptr, db->getDbIndex());
 }
 
-ConnectionBridge * RedisKeyItem::getConnection()
+RedisClient::Connection * RedisKeyItem::getConnection()
 {
     if (db == nullptr || db->server == nullptr)
         return nullptr;

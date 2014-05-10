@@ -9,7 +9,7 @@ class HashKeyModel : public PaginatedModel
     Q_OBJECT
 
 public:
-    HashKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    HashKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
 
     void setCurrentPage(int);
 
@@ -21,7 +21,7 @@ public:
 
 
 protected slots:
-    void loadedUpdateStatus(Response);
+    void loadedUpdateStatus(RedisClient::Response);
 };
 
 #endif // HASHKEYMODEL_H

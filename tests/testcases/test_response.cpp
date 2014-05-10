@@ -1,8 +1,9 @@
 #include "test_response.h"
-#include "Response.h"
-
+#include "response.h"
 #include <QtCore>
 #include <QTest>
+
+using namespace RedisClient;
 
 void TestResponse::getValue()
 {
@@ -15,13 +16,6 @@ void TestResponse::getValue()
 
 	//when
 	QVariant actualResult = test.getValue();
-
-    if (actualResult.type() == QMetaType::QStringList) {
-        QString str = actualResult.toStringList().join("\n");
-
-        str;
-    }
-
 
 	//then
 	QCOMPARE(actualResult, validResult);

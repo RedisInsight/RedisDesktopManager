@@ -1,12 +1,10 @@
-#include "ConsoleConnectionWrapper.h"
+#include "consoleconnectionwrapper.h"
+#include "connection.h"
+#include "response.h"
+#include "command.h"
+#include "commandexecutor.h"
 
-#include "RedisConnectionAbstract.h"
-#include "RedisConnection.h"
-#include "RedisConnectionOverSsh.h"
-#include "consoleTab.h"
-#include "Response.h"
-
-ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisConnectionConfig &config)
+ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisClient::ConnectionConfig &config)
     : config(config), connectionValid(false)
 {
 }
@@ -19,8 +17,7 @@ void ConsoleConnectionWrapper::init()
         return;
     } 
 
-    connection =  (config.useSshTunnel()) ? (RedisConnectionAbstract *) new RedisConnectionOverSsh(config) 
-        : (RedisConnectionAbstract *) new RedisConnection(config);
+    connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(config, false));
 
     if (!connection->connect()) 
     {
@@ -48,7 +45,9 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
         return;
     }
 
-    QVariant result = connection->execute(cmd);
+    using namespace RedisClient;
+
+    Response result = CommandExecutor::execute(connection.data(), Command(cmd));
     
     QRegExp selectDbRegex("^( )*select( )+(\\d)+");
 
@@ -64,5 +63,5 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
             );
     }
 
-    emit addOutput(Response::valueToString(result));
+    emit addOutput(RedisClient::Response::valueToHumanReadString(result.getValue()));
 }

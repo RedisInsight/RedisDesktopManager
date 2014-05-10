@@ -3,10 +3,10 @@
 #include <QScrollBar>
 #include <QTextBlock>
 
-#include "RedisConnectionConfig.h"
-#include "ConsoleConnectionWrapper.h"
+#include "connectionconfig.h"
+#include "consoleconnectionwrapper.h"
 
-ConsoleTab::ConsoleTab(RedisConnectionConfig& config)
+ConsoleTab::ConsoleTab(RedisClient::ConnectionConfig& config)
     : QConsole(nullptr, "<span style='color: orange;'>"
                         "List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR"
                         "</span> <br /> Connecting ...")
@@ -20,23 +20,15 @@ ConsoleTab::ConsoleTab(RedisConnectionConfig& config)
     
     setCmdColor(Qt::yellow);
 
-    connection = new ConsoleConnectionWrapper(config);
-    connection->moveToThread(&connectionThread);
+    connection = QSharedPointer<ConsoleConnectionWrapper>(new ConsoleConnectionWrapper(config));
 
-    connect(&connectionThread, &QThread::finished, connection, &QObject::deleteLater);
-    connect(this, SIGNAL(execCommand(const QString &)), connection, SLOT(executeCommand(const QString&)));    
-    connect(connection, SIGNAL(changePrompt(const QString &, bool)), this, SLOT(setPrompt(const QString &, bool)));
-    connect(connection, SIGNAL(addOutput(const QString&)), this, SLOT(printCommandExecutionResults(const QString&)));
-    connect(&connectionThread, SIGNAL(started()), connection, SLOT(init()));
-    connect(&connectionThread, SIGNAL(finished()), connection, SLOT(disconnect()));
-    
-    connectionThread.start();
+    connect(this, SIGNAL(execCommand(const QString &)), connection.data(), SLOT(executeCommand(const QString&)));
+    connect(connection.data(), SIGNAL(changePrompt(const QString &, bool)), this, SLOT(setPrompt(const QString &, bool)));
+    connect(connection.data(), SIGNAL(addOutput(const QString&)), this, SLOT(printCommandExecutionResults(const QString&)));
 }
 
 ConsoleTab::~ConsoleTab(void)
-{
-    connectionThread.quit();
-    connectionThread.wait(30000);
+{    
 }
 
 void ConsoleTab::setPrompt(const QString & str, bool display)

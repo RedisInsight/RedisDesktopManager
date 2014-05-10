@@ -1,6 +1,6 @@
 #include "SetKeyModel.h"
 
-SetKeyModel::SetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+SetKeyModel::SetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : ListKeyModel(db, keyName, dbIndex)
 {
 }
@@ -10,7 +10,7 @@ void SetKeyModel::loadValue()
     QStringList command;
     command << "SMEMBERS" << keyName;
 
-    db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
 }
 
 void SetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
@@ -23,16 +23,16 @@ void SetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex
         .arg(keyName)
         .arg(oldValue);
 
-    db->addCommand(Command(deleteOld, this, dbIndex));
+    db->runCommand(RedisClient::Command(deleteOld, this, dbIndex));
 
     QString addNew = QString("SADD %1 %2")
         .arg(keyName)
         .arg(value);
 
-    db->addCommand(Command(addNew, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+    db->runCommand(RedisClient::Command(addNew, this, "loadedUpdateStatus", dbIndex));
 }
 
-void SetKeyModel::loadedUpdateStatus(Response result)
+void SetKeyModel::loadedUpdateStatus(RedisClient::Response result)
 {
     if (result.isErrorMessage()) 
     {

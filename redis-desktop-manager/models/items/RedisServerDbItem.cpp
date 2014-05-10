@@ -38,7 +38,7 @@ bool RedisServerDbItem::loadKeys()
     connect(server->connection, SIGNAL(operationProgress(int, QObject *)), 
         this, SLOT(keysLoadingStatusChanged(int, QObject *)));
     
-    server->connection->addCommand(Command("keys *", this, dbIndex));
+    server->connection->runCommand(RedisClient::Command("keys *", this, dbIndex));
 
     server->locked = true;
 
@@ -53,7 +53,7 @@ void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
 
     server->locked = false;
 
-    server->connection->disconnect(this);
+    //server->connection->disconnect(this);
 
     rawKeys = keys.toStringList();
 
@@ -69,7 +69,8 @@ void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
         server->error(QString("Loaded keys: %2 of %3. Error - %4 <br /> Check <a href='https://github.com/uglide/RedisDesktopManager/wiki/Known-issues'>documentation</a>")
             .arg(keysCount)
             .arg(keysCount)
-            .arg(server->connection->getLastError()));
+            .arg(/*server->connection->getLastError())*/ "err"
+                 ));
     }
 
     setDbText();
@@ -81,7 +82,7 @@ void RedisServerDbItem::keysLoaded(const QVariant &keys, QObject *owner)
 
 void RedisServerDbItem::proccessError(QString srcError)
 {
-    server->connection->disconnect(this);
+    //server->connection->disconnect(this);
     setNormalIcon();
 
     QString message = QString("Can not load keys. %1")

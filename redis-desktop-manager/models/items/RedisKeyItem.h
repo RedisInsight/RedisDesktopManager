@@ -5,8 +5,11 @@
 
 class RedisServerDbItem;
 class KeyModel;
+
+namespace RedisClient {
 class Command;
-class ConnectionBridge;
+class Connection;
+}
 
 class RedisKeyItem : public ItemWithNaturalSort
 {    
@@ -26,9 +29,9 @@ public:
 
     KeyModel * getKeyModel(const QString&);
 
-    Command getTypeCommand();
+    RedisClient::Command getTypeCommand();
 
-    ConnectionBridge * getConnection();
+    RedisClient::Connection * getConnection();
 
     void remove();
 

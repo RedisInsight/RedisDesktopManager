@@ -2,10 +2,7 @@
 
 #include <QtCore>
 
-#ifndef CALLBACK_MACRO
-    #define CALLMETHOD(x) x  //just syntax sugar for clarify purpose of string 
-    #define CALLBACK_MACRO
-#endif
+namespace RedisClient {
 
 class Command 
 {    
@@ -14,30 +11,25 @@ public:
     Command(const QString& cmdString, QObject * owner = nullptr, int db = -1);
     Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db = -1);
     Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db = -1);
-    Command(const QStringList& cmd, QObject * owner = nullptr, int db = -1);
-
-    bool isEmpty() const;
-
-    bool hasDbIndex() const;
-    int getDbIndex() const;
+    Command(const QStringList& cmd, QObject * owner = nullptr, int db = -1);           
 
     /** @see http://redis.io/topics/protocol for more info **/    
     QByteArray getByteRepresentation() const;
+    QString    getRawString() const;
+    QString    getCallbackName();
+    int        getDbIndex() const;
+    QObject *  getOwner() const;
 
-    QString getRawString() const;
-    
-    QObject * getOwner() const;
-    void setOwner(QObject *);
-
-    bool hasCallback() const;
-
-    QString getCallbackName();
+    void setOwner(QObject *);      
     void setCallBackName(const QString &);
 
     void cancel();
-    bool isCanceled() const;
 
+    bool isCanceled() const;
     bool isValid() const;
+    bool hasCallback() const;
+    bool isEmpty() const;
+    bool hasDbIndex() const;
 
 private:
     QObject * owner;
@@ -52,3 +44,4 @@ private slots:
     void cancelCommand();
 };
 
+}

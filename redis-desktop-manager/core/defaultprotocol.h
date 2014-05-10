@@ -9,9 +9,7 @@ class DefaultProtocol : public AbstractProtocol
 {
 public:
     DefaultProtocol(Connection * connection);
-
 };
-
 }
 
 #endif // DEFAULTPROTOCOL_H

@@ -3,13 +3,14 @@
 
 #include "KeyModel.h"
 #include "PaginatedModel.h"
+#include "response.h"
 
 class ListKeyModel : public PaginatedModel
 {
     Q_OBJECT
 
 public:
-    ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    ListKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
 
     void setCurrentPage(int page);
 
@@ -18,7 +19,7 @@ public:
     void updateValue(const QString& value, const QModelIndex *cellIndex);
 
 protected slots:
-    void loadedUpdateStatus(Response);
+    void loadedUpdateStatus(RedisClient::Response);
 };
 
 #endif // LISTKEYMODEL_H

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ItemWithNaturalSort.h"
-#include "ConnectionBridge.h"
+#include "connection.h"
+#include "defaultprotocol.h"
 #include "RedisServerDbItem.h"
 
 class RedisKeyItem;
@@ -15,16 +16,16 @@ class RedisServerItem : public QObject, public ItemWithNaturalSort
     friend class RedisKeyItem;
 
 public:    
-    RedisServerItem(ConnectionBridge * c);
+    RedisServerItem(RedisClient::Connection * c);
 
-    void runDatabaseLoading();    
+    void loadDatabaseList();
     QStringList getInfo();
 
     void reload();
     void unload();
 
-    ConnectionBridge * getConnection();
-    void setConnection(ConnectionBridge * c);
+    RedisClient::Connection * getConnection();
+    void setConnection(RedisClient::Connection * c);
 
     bool isLocked();
 
@@ -33,7 +34,7 @@ public:
     const static int TYPE = 2000;
 
 private:    
-    ConnectionBridge * connection;
+    RedisClient::Connection * connection;
     bool isDbInfoLoaded;
     bool locked;
 
@@ -42,8 +43,7 @@ private:
     void setNormalIcon();
     void getItemNameFromConnection();
 
-private slots:
-    void databaseDataLoaded(RedisConnectionAbstract::RedisDatabases);
+private slots:    
     void proccessError(QString);
 
 signals:

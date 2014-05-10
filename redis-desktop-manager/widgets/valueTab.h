@@ -6,7 +6,10 @@
 #include "BaseTab.h"
 
 class ValueTabView;
+
+namespace RedisClient {
 class Response;
+}
 
 class ValueTab : public BaseTab
 {
@@ -37,9 +40,9 @@ protected:
     bool shouldBeReplaced();
 
 protected slots:
-    void keyTypeLoaded(Response type);
+    void keyTypeLoaded(RedisClient::Response type);
     void valueLoaded();
-    void ttlLoaded(Response r);
+    void ttlLoaded(RedisClient::Response r);
     void deleteKey();
     void renameKey();
     void keyRenamed();

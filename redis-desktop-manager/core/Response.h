@@ -4,6 +4,7 @@
 
 class TestResponse;
 
+namespace RedisClient {
 class Response
 {
     friend class TestResponse;
@@ -24,7 +25,7 @@ public:
     void appendToSource(QString&);
     void appendToSource(QByteArray&);
 
-    static QString valueToString(QVariant&);
+    static QString valueToHumanReadString(QVariant&);
 
     int getLoadedItemsCount();
 
@@ -68,3 +69,4 @@ private:
 
     int getPosOfNextItem(const QByteArray &, int);
 };
+}

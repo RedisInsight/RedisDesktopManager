@@ -3,8 +3,7 @@
 #include <QtCore>
 #include <QThread>
 #include <QStandardItemModel>
-#include "RedisConnectionAbstract.h"
-#include "ConnectionBridge.h"
+#include "connection.h"
 
 class TestRedisConnectionsManager;
 class RedisServerItem;
@@ -19,7 +18,7 @@ public:
     RedisConnectionsManager(QString, QObject *);
     ~RedisConnectionsManager(void);
 
-    void AddConnection(ConnectionBridge *);    
+    void AddConnection(RedisClient::Connection *);
     bool RemoveConnection(RedisServerItem *);
     bool ImportConnections(QString &);
     bool SaveConnectionsConfigToFile(QString);
@@ -33,7 +32,7 @@ private:
     QString configPath;
     bool connectionSettingsChanged;
     QThread connectionsThread;
-    QList<ConnectionBridge *> connections;    
+    QList<RedisClient::Connection *> connections;
     QRegExp filter;
 
 protected:

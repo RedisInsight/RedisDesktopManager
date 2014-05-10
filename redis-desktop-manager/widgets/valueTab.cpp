@@ -4,8 +4,8 @@
 #include "ListKeyModel.h"
 #include "SortedSetKeyModel.h"
 #include "ValueTabView.h"
-#include "Command.h"
-#include "ConnectionBridge.h"
+#include "command.h"
+#include "response.h"
 #include <QMessageBox>
 
 ValueTab::ValueTab(RedisKeyItem * key)    
@@ -24,11 +24,11 @@ ValueTab::ValueTab(RedisKeyItem * key)
 
     connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
 
-    Command typeCmd = key->getTypeCommand();
+    RedisClient::Command typeCmd = key->getTypeCommand();
     typeCmd.setOwner(this);
     typeCmd.setCallBackName("keyTypeLoaded");
 
-    key->getConnection()->addCommand(typeCmd);
+    key->getConnection()->runCommand(typeCmd);
 
     /** Connect View SIGNALS to Controller SLOTS **/
     connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
@@ -71,7 +71,7 @@ bool ValueTab::shouldBeReplaced()
     return !operationInProgress;
 }
 
-void ValueTab::keyTypeLoaded(Response type)
+void ValueTab::keyTypeLoaded(RedisClient::Response type)
 {    
     if (isOperationsAborted())
         return destroy();
@@ -112,7 +112,7 @@ void ValueTab::valueLoaded()
     setObjectName("valueTabReady");
 }
 
-void ValueTab::ttlLoaded(Response r)
+void ValueTab::ttlLoaded(RedisClient::Response r)
 {
     if (isOperationsAborted())
         return destroy();

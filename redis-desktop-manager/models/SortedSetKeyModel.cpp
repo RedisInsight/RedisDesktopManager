@@ -1,6 +1,6 @@
 #include "SortedSetKeyModel.h"
 
-SortedSetKeyModel::SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+SortedSetKeyModel::SortedSetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : PaginatedModel(db, keyName, dbIndex)
 {
     setColumnCount(2);
@@ -12,7 +12,7 @@ void SortedSetKeyModel::loadValue()
     
     command << "ZRANGE" << keyName << "0" << "-1" << "WITHSCORES";
 
-    db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
 }
 
 void SortedSetKeyModel::setCurrentPage(int page)
@@ -67,7 +67,7 @@ void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cel
             << keyName
             << currentItem->text();        
 
-        db->addCommand(Command(removeCmd, this, dbIndex));
+        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
 
         QStandardItem * scoreItem = item(currentItem->row(), 1);
 
@@ -78,7 +78,7 @@ void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cel
             << scoreItem->text()
             << value;
 
-        db->addCommand(Command(addCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
 
     } else if (itemType == "score") {
 
@@ -99,13 +99,13 @@ void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cel
             << QString::number(incr)
             << memberItem->text();        
 
-        db->addCommand(Command(updateCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+        db->runCommand(RedisClient::Command(updateCmd, this, "loadedUpdateStatus", dbIndex));
     }
 
     currentItem->setText(value);
 }
 
-void SortedSetKeyModel::loadedUpdateStatus(Response result)
+void SortedSetKeyModel::loadedUpdateStatus(RedisClient::Response result)
 {
     if (result.isErrorMessage()) 
     {

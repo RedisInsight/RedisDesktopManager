@@ -1,7 +1,7 @@
 #include "HashKeyModel.h"
 #include <QStandardItem>
 
-HashKeyModel::HashKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+HashKeyModel::HashKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : PaginatedModel(db, keyName, dbIndex)
 {
     setColumnCount(2);
@@ -12,7 +12,7 @@ void HashKeyModel::loadValue()
     QStringList command;
     command << "hgetall" << keyName;
 
-    db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
 }
 
 void HashKeyModel::setCurrentPage(int page)
@@ -67,7 +67,7 @@ void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellInde
                   << keyName
                   << currentItem->text();        
 
-        db->addCommand(Command(removeCmd, this, dbIndex));
+        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
 
         QStandardItem * valueItem = item(currentItem->row(), 1);
 
@@ -79,7 +79,7 @@ void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellInde
                << valueItem->text();
 
 
-        db->addCommand(Command(addCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
 
     } else if (itemType == "value") {
 
@@ -92,13 +92,13 @@ void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellInde
             << keyItem->text()
             << value;
 
-        db->addCommand(Command(setCmd, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+        db->runCommand(RedisClient::Command(setCmd, this, "loadedUpdateStatus", dbIndex));
     }
 
     currentItem->setText(value);
 }
 
-void HashKeyModel::loadedUpdateStatus(Response result)
+void HashKeyModel::loadedUpdateStatus(RedisClient::Response result)
 {
     if (result.isErrorMessage()) 
     {

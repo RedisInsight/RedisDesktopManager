@@ -1,6 +1,6 @@
 #include "ListKeyModel.h"
 
-ListKeyModel::ListKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+ListKeyModel::ListKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : PaginatedModel(db, keyName, dbIndex)
 {
     setColumnCount(1);
@@ -11,7 +11,7 @@ void ListKeyModel::loadValue()
     QStringList command;
     command << "LRANGE" << keyName <<"0" << "-1";
 
-    db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
 }
 
 void ListKeyModel::setCurrentPage(int page)
@@ -52,10 +52,10 @@ void ListKeyModel::updateValue(const QString& value, const QModelIndex *cellInde
     QStringList addNew; 
     addNew << "LSET" << keyName << QString::number(itemIndex) << value;
 
-    db->addCommand(Command(addNew, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+    db->runCommand(RedisClient::Command(addNew, this, "loadedUpdateStatus", dbIndex));
 }
 
-void ListKeyModel::loadedUpdateStatus(Response result)
+void ListKeyModel::loadedUpdateStatus(RedisClient::Response result)
 {
     if (result.isErrorMessage()) 
     {

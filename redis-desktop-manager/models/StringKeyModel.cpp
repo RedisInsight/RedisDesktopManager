@@ -1,6 +1,6 @@
 #include "StringKeyModel.h"
 
-StringKeyModel::StringKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
+StringKeyModel::StringKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : KeyModel(db, keyName, dbIndex)
 {
 }
@@ -10,7 +10,7 @@ void StringKeyModel::loadValue()
     QStringList command;
     command << "GET" << keyName;    
 
-    db->addCommand(Command(command, this, CALLMETHOD("loadedValue"), dbIndex));
+    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
 }
 
 QString StringKeyModel::getValue()
@@ -30,10 +30,10 @@ void StringKeyModel::updateValue(const QString& value, const QModelIndex *cellIn
     QStringList updateCommand;
     updateCommand << "SET" << keyName << value;    
 
-    db->addCommand(Command(updateCommand, this, CALLMETHOD("loadedUpdateStatus"), dbIndex));
+    db->runCommand(RedisClient::Command(updateCommand, this, "loadedUpdateStatus", dbIndex));
 }
 
-void StringKeyModel::loadedUpdateStatus(Response result)
+void StringKeyModel::loadedUpdateStatus(RedisClient::Response result)
 {
     if (result.isErrorMessage()) 
     {

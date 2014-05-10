@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtCore>
-#include "RedisConnectionConfig.h"
+#include "connectionconfig.h"
 
 class TestConnection : public QObject
 {
@@ -34,8 +34,8 @@ private slots:
     void runCommandWithoutConnection();
 
 private:
-    RedisConnectionConfig config;
-    void setSshSettings(RedisConnectionConfig&, bool);
+    RedisClient::ConnectionConfig config;
+    void setSshSettings(RedisClient::ConnectionConfig&, bool);
 };
 
 #endif // TEST_CONNECTION_H

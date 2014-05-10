@@ -1,26 +1,20 @@
 #pragma once
-
-
 #include "qconsole.h"
-#include "BaseTab.h"
-#include <QThread>
 
-class RedisConnectionConfig;
+namespace RedisClient{
+class ConnectionConfig;
+}
 class ConsoleConnectionWrapper;
 
 class ConsoleTab: public QConsole
 {
     Q_OBJECT
-
 public:
-    ConsoleTab(RedisConnectionConfig&);
+    ConsoleTab(RedisClient::ConnectionConfig&);
     ~ConsoleTab(void);    
-
 public slots:
     void setPrompt(const QString &, bool);    
-
 private:    
-    ConsoleConnectionWrapper * connection;
-    QThread connectionThread;    
+    QSharedPointer<ConsoleConnectionWrapper> connection;
 };
 

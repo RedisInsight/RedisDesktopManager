@@ -1,16 +1,18 @@
 #pragma once
 
 #include <QObject>
-#include "RedisConnectionConfig.h"
+#include <connectionconfig.h>
 
-class RedisConnectionAbstract;
+namespace RedisClient {
+class Connection;
+}
 
 class ConsoleConnectionWrapper : public QObject
 {
     Q_OBJECT
 
 public:
-    ConsoleConnectionWrapper(RedisConnectionConfig &);    
+    ConsoleConnectionWrapper(RedisClient::ConnectionConfig &);
 
     public slots:
         void init();
@@ -21,8 +23,8 @@ public:
         void addOutput(const QString &);
 
 private:
-    RedisConnectionAbstract * connection;
-    RedisConnectionConfig config;
+    QSharedPointer<RedisClient::Connection> connection;
+    RedisClient::ConnectionConfig config;
     bool connectionValid;    
 };
 

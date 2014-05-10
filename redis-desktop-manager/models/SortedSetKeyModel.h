@@ -9,7 +9,7 @@ class SortedSetKeyModel : public PaginatedModel
     Q_OBJECT
 
 public:
-    SortedSetKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    SortedSetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
 
     void setCurrentPage(int page);
 
@@ -20,7 +20,7 @@ public:
     void updateValue(const QString& value, const QModelIndex *cellIndex);
 
 protected slots:
-    void loadedUpdateStatus(Response);
+    void loadedUpdateStatus(RedisClient::Response);
 };
 
 #endif // SORTEDSETKEYMODEL_H

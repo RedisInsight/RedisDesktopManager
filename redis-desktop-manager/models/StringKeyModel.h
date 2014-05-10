@@ -8,7 +8,7 @@ class StringKeyModel : public KeyModel
     Q_OBJECT
 
 public:
-    StringKeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    StringKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
 
     void loadValue();
 
@@ -29,7 +29,7 @@ protected:
     void initModel(const QVariant &);
 
 protected slots:
-    void loadedUpdateStatus(Response);
+    void loadedUpdateStatus(RedisClient::Response);
 
 };
 

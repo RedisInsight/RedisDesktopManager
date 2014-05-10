@@ -1,5 +1,6 @@
 #include "abstractprotocol.h"
 #include "commandexecutor.h"
+#include "connectionexception.h"
 
 RedisClient::AbstractProtocol::AbstractProtocol(RedisClient::Connection *connection)
     : m_connection(connection)

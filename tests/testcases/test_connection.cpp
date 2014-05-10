@@ -3,29 +3,29 @@
 #include "commandexecutor.h"
 #include "test_connection.h"
 #include "abstractprotocol.h"
+#include "connectionexception.h"
 
 using namespace RedisClient;
 
 void TestConnection::init()
 {
-    config = RedisConnectionConfig();
+    config = ConnectionConfig();
     config.host = "127.0.0.1";
     config.auth = "test";
     config.connectionTimeout = 30000;
 }
 
-void TestConnection::setSshSettings(RedisConnectionConfig &c, bool usePass = true)
+void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
 {
-    if (usePass) {
-        c.sshHost = "192.168.2.161";
-        c.sshPort = 22;
-        c.sshPassword = "2424";
-        c.sshUser = "root";
+    c.sshHost = "192.168.252.10";
+    c.sshPort = 22;
+
+    if (usePass) {   
+        c.sshPassword = "123";
+        c.sshUser = "admin";
     } else {
-        c.sshHost = "192.168.2.161";
-        c.sshPort = 22;
-        c.sshUser = "glide";
-        c.sshPrivateKeyPath = "key.openssh";
+        c.sshUser = "admin";
+        c.sshPrivateKeyPath = "D:\\ssh-keys\\private";
         c.connectionTimeout = 300000;
     }
 }

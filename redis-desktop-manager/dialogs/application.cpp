@@ -381,7 +381,7 @@ void MainWin::OnConsoleOpen()
         return;    
 
     RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-    RedisConnectionConfig config = server->getConnection()->getConfig();
+    ConnectionConfig config = server->getConnection()->getConfig();
 
     BaseTab * tab = new BaseTab();
     ConsoleTab * console = new ConsoleTab(config);

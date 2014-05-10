@@ -2,29 +2,23 @@
 #define CONNECTION_H
 
 #include <QObject>
-#include <QQueue>
-#include <QMap>
-#include <stdexcept>
-#include "config.h"
-#include "Command.h"
-#include "Response.h"
-#include "RedisConnectionConfig.h"
+#include "connectionconfig.h"
 
 namespace RedisClient {
 
-typedef RedisConnectionConfig Config;
 class AbstractProtocol;
 class AbstractTransporter;
+class Command;
 
 class Connection : public QObject
 {
     Q_OBJECT
     friend class AbstractProtocol;
 public:
-    Connection(const Config & c, bool autoConnect = false);    
+    Connection(const ConnectionConfig & c, bool autoConnect = false);
     ~Connection();
 
-    Config config;
+    ConnectionConfig config;
 
     bool connect();
     bool isConnected();
@@ -32,6 +26,7 @@ public:
     void runCommand(const Command &cmd);
     AbstractProtocol * operations();
     bool waitConnectedState(unsigned int);
+    ConnectionConfig getConfig() const;
 
 signals:    
     void addCommandToWorker(const Command&);
@@ -54,15 +49,6 @@ protected:
 
 protected slots:
     void connectionReady();
-};
-
-class ConnectionExeption : public std::runtime_error
-{
-public:
-    ConnectionExeption(const QString &err)
-        : std::runtime_error(err.toStdString())
-    {
-    }
 };
 
 }

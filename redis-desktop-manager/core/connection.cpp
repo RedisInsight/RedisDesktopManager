@@ -2,8 +2,9 @@
 #include "defaulttransporter.h"
 #include "defaultprotocol.h"
 #include "sshtransporter.h"
+#include "connectionexception.h"
 
-RedisClient::Connection::Connection(const Config &c, bool autoConnect)
+RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
     : config(c), m_isTransporterInitialized(false), m_connected(false)
 {        
     protocol = QSharedPointer<AbstractProtocol>(new DefaultProtocol(this));
@@ -103,6 +104,11 @@ bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
     m_loop.exec();
 
     return isConnected();
+}
+
+RedisClient::ConnectionConfig RedisClient::Connection::getConfig() const
+{
+    return config;
 }
 
 void RedisClient::Connection::setConnectedState()

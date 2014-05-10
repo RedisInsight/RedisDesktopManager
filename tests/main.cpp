@@ -3,7 +3,6 @@
 
 //tests
 #include <iostream>
-#include "test_redisconnection.h"
 #include "test_redisconnectionsmanager.h"
 #include "test_command.h"
 #include "test_response.h"
@@ -17,8 +16,8 @@ int main(int argc, char *argv[])
 	QApplication app( argc, argv );   
 
     qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
-    qRegisterMetaType<Command>("Command");
-    qRegisterMetaType<Response>("Response");
+    qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
+    qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
 
 	int allTestsResult = 
         QTest::qExec(new TestConnection, argc, argv);// +

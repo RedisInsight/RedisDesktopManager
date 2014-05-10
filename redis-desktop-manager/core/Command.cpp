@@ -1,38 +1,38 @@
-#include "Command.h"
+#include "command.h"
 
-Command::Command()
+RedisClient::Command::Command()
     : owner(nullptr), commandWithArguments(""), dbIndex(-1), commandCanceled(false)
 {
     
 }
 
-Command::Command(const QString& cmdString, QObject * owner, int db)
+RedisClient::Command::Command(const QString& cmdString, QObject * owner, int db)
     : owner(owner), commandWithArguments(splitCommandString(cmdString)), 
     dbIndex(db), commandCanceled(false)
 {
 }
 
-Command::Command(const QStringList& cmd, QObject * owner, int db)
+RedisClient::Command::Command(const QStringList& cmd, QObject * owner, int db)
     : owner(owner), commandWithArguments(cmd), 
     dbIndex(db), commandCanceled(false)
 {
 }
 
-Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
+RedisClient::Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
     : owner(owner), commandWithArguments(splitCommandString(cmdString)), 
     dbIndex(db), callBackMethod(invokeMethod), commandCanceled(false)
 {
 
 }
 
-Command::Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db)
+RedisClient::Command::Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db)
     : owner(owner), commandWithArguments(cmd), 
     dbIndex(db), callBackMethod(invokeMethod), commandCanceled(false)
 {
 
 }
 
-QStringList Command::splitCommandString(const QString &command)
+QStringList RedisClient::Command::splitCommandString(const QString &command)
 {
     QStringList parts = QStringList();
     int i = 0;
@@ -65,52 +65,52 @@ QStringList Command::splitCommandString(const QString &command)
     return parts;
 }
 
-bool Command::hasCallback() const
+bool RedisClient::Command::hasCallback() const
 {
     return !callBackMethod.isEmpty();
 }
 
-QString Command::getCallbackName()
+QString RedisClient::Command::getCallbackName()
 {
     return callBackMethod;
 }
 
-void Command::setCallBackName(const QString & name)
+void RedisClient::Command::setCallBackName(const QString & name)
 {
     callBackMethod = name;
 }
 
-bool Command::hasDbIndex() const
+bool RedisClient::Command::hasDbIndex() const
 {
     return dbIndex >= 0;
 }
 
-int Command::getDbIndex() const
+int RedisClient::Command::getDbIndex() const
 {
     return dbIndex;
 }
 
-QString Command::getRawString() const
+QString RedisClient::Command::getRawString() const
 {
     return commandWithArguments.join(' ');
 }
 
-bool Command::isEmpty() const
+bool RedisClient::Command::isEmpty() const
 {
     return commandWithArguments.isEmpty();
 }
 
-QObject * Command::getOwner() const
+QObject * RedisClient::Command::getOwner() const
 {
     return owner;
 }
 
-void Command::setOwner(QObject * o)
+void RedisClient::Command::setOwner(QObject * o)
 {
     owner = o;
 }
 
-QByteArray Command::getByteRepresentation() const
+QByteArray RedisClient::Command::getByteRepresentation() const
 {
     QByteArray result;
     result.append(QString("*%1\r\n").arg(commandWithArguments.length()));
@@ -129,17 +129,17 @@ QByteArray Command::getByteRepresentation() const
     return result;
 }
 
-void Command::cancel()
+void RedisClient::Command::cancel()
 {
     commandCanceled = true;
 }
 
-bool Command::isCanceled() const
+bool RedisClient::Command::isCanceled() const
 {
     return commandCanceled;
 }
 
-bool Command::isValid() const
+bool RedisClient::Command::isValid() const
 {
     return !isCanceled() && !isEmpty()
             && hasCallback() && getOwner() != nullptr;

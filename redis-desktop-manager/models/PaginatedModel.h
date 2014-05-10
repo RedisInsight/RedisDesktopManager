@@ -8,7 +8,7 @@ class PaginatedModel : public KeyModel
     Q_OBJECT
 
 public:
-    PaginatedModel(ConnectionBridge * db, const QString &keyName, int dbIndex);
+    PaginatedModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
 
     virtual ~PaginatedModel();
 

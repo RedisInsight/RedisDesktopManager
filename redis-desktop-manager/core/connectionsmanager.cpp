@@ -1,9 +1,7 @@
 #include <QtXml>
-
-#include "RedisConnectionsManager.h"
-#include "RedisConnectionConfig.h"
-#include "RedisConnectionOverSsh.h"
-#include "RedisConnection.h"
+#include "connectionsmanager.h"
+#include "connectionconfig.h"
+#include "connection.h"
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
 #include "application.h"
@@ -24,7 +22,7 @@ RedisConnectionsManager::~RedisConnectionsManager(void)
     }
 }
 
-void RedisConnectionsManager::AddConnection(ConnectionBridge * c)
+void RedisConnectionsManager::AddConnection(RedisClient::Connection * c)
 {
     //add connection to internal container
     connections.push_back(c);
@@ -90,11 +88,11 @@ bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, boo
 
             if (connection.nodeName() != "connection") continue;
 
-            RedisConnectionConfig conf = RedisConnectionConfig::createFromXml(connection);
+            RedisClient::ConnectionConfig conf = RedisClient::ConnectionConfig::createFromXml(connection);
 
             if (conf.isNull()) continue;
 
-            AddConnection(new ConnectionBridge(conf));
+            AddConnection(new RedisClient::Connection(conf, false));
         }        
     }
     conf.close();
@@ -116,7 +114,7 @@ bool RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 
     config.appendChild(connectionsItem);
 
-    for (ConnectionBridge * c : connections) {
+    for (RedisClient::Connection * c : connections) {
         connectionsItem.appendChild(c->getConfig().toXml(config));
     }
 

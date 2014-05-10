@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "connection.h"
+#include "command.h"
+#include "response.h"
 
 namespace RedisClient {
 
