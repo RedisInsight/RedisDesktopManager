@@ -95,6 +95,22 @@ bool RedisClient::Command::hasDbIndex() const
     return dbIndex >= 0;
 }
 
+bool RedisClient::Command::isSelectCommand(int *dbIndex = nullptr) const
+{
+    if (commandWithArguments.length() < 2)
+        return false;
+
+    if (commandWithArguments.at(0).toLower() == "select") {
+
+        if (dbIndex != nullptr)
+            *dbIndex = commandWithArguments.at(0).toInt();
+
+        return true;
+    }
+
+    return false;
+}
+
 int RedisClient::Command::getDbIndex() const
 {
     return dbIndex;

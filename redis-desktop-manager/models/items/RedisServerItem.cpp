@@ -62,22 +62,12 @@ void RedisServerItem::loadDatabaseList()
 
 QStringList RedisServerItem::getInfo()
 {
-//     if (!connection->isConnected() && !connection->connect()) {
-//         // TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
-//         // TODO: set error icon        
-//         setOfflineIcon();
-//         return QStringList();
-//     }
-// 
-//     QVariant info = connection->execute("INFO");
-// 
-//     if (info.isNull()) {
-//         return QStringList();
-//     }
-// 
-//     return info.toString().split("\r\n");
+    if (!connection->connect()) {
+        setOfflineIcon();
+        return QStringList();
+    }
 
-    return QStringList();
+    return connection->operations()->getInfo();
 }
 
 void RedisServerItem::proccessError(QString srcError)
@@ -85,7 +75,7 @@ void RedisServerItem::proccessError(QString srcError)
     setOfflineIcon();
     locked = false;
 
-    QString message = QString("Can not connect to server %1. Error: %2")
+    QString message = QString("Connection Error (%1): %2")
         .arg(text())
         .arg(srcError);
 

@@ -1,7 +1,8 @@
 #include "connect.h"
 
 #include <QtWidgets/QMessageBox>
-
+#include <QFileDialog>
+#include <QFile>
 #include "application.h"
 #include "RedisServerItem.h"
 #include "connection.h"
@@ -25,7 +26,10 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     // connect slots to signals
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));
     connect(ui.okButton, SIGNAL(pressed()), ui.okButton, SIGNAL(clicked()));
-    connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this,  SLOT(OnShowPasswordCheckboxChanged(int)));    
+    connect(ui.okButton, SIGNAL(pressed()), ui.okButton, SIGNAL(clicked()));
+    connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
+    connect(ui.selectPrivateKeyPath, SIGNAL(clicked()), this,  SLOT(OnBrowseSshKeyClick()));
+    connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
 
     //edit mode
     if (srv != nullptr) {    
@@ -59,6 +63,17 @@ void ConnectionWindow::loadValuesFromConnection(RedisClient::Connection * c)
         ui.sshPass->setText(config.sshPassword);
         ui.sshPort->setValue(config.sshPort);
         ui.privateKeyPath->setText(config.sshPrivateKeyPath);
+
+        ui.sshKeysGroup->setChecked(false);
+        ui.sshPasswordGroup->setChecked(false);
+
+        if (!ui.sshPass->text().isEmpty()) {
+            ui.sshPasswordGroup->setChecked(true);
+        }
+
+        if (!ui.privateKeyPath->text().isEmpty()) {
+            ui.sshKeysGroup->setChecked(true);
+        }
     }
 }
 
@@ -95,6 +110,42 @@ void ConnectionWindow::OnShowPasswordCheckboxChanged(int state)
     } else {
         ui.sshPass->setEchoMode(QLineEdit::Normal);
     }
+}
+
+void ConnectionWindow::OnBrowseSshKeyClick()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Select private key file", "", tr("All Files (*.*)"));
+
+    if (fileName.isEmpty()) {
+        return;
+    }
+
+    ui.privateKeyPath->setText(fileName);
+}
+
+void ConnectionWindow::OnTestConnectionButtonClick()
+{
+    ui.validationWarning->hide();
+
+    if (!isFormDataValid()) {
+        ui.validationWarning->show();
+        return;
+    }
+
+    ui.testConnectionButton->setIcon(QIcon(":/images/wait.png"));
+
+    RedisClient::ConnectionConfig config = getConectionConfigFromFormData();
+    config.connectionTimeout = 8000;
+
+    RedisClient::Connection testConnection(config, false);
+
+    if (testConnection.connect()) {
+        QMessageBox::information(this, "Successful connection", "Successful connection to redis-server");
+    } else {
+        QMessageBox::warning(this, "Can't connect to redis-server", "Can't connect to redis-server");
+    }
+
+    ui.testConnectionButton->setIcon(QIcon());
 }
 
 bool ConnectionWindow::isFormDataValid()
@@ -150,6 +201,7 @@ bool ConnectionWindow::isSshSettingsValid()
     ui.sshHost->setStyleSheet("");
     ui.sshUser->setStyleSheet("");
     ui.sshPass->setStyleSheet("");
+    ui.privateKeyPath->setStyleSheet("");
 
     if (!isSshTunnelUsed()) {
         return true;
@@ -157,7 +209,12 @@ bool ConnectionWindow::isSshSettingsValid()
 
     bool isValid =  !ui.sshHost->text().isEmpty()  
             && !ui.sshUser->text().isEmpty() 
-            && !ui.sshPass->text().isEmpty() 
+            && !(ui.sshPass->text().isEmpty() && ui.privateKeyPath->text().isEmpty())
+            && (
+                (ui.sshPasswordGroup->isChecked() && !ui.sshPass->text().isEmpty())
+                ||
+                (ui.sshKeysGroup->isChecked() && !ui.privateKeyPath->text().isEmpty() && QFile::exists(ui.privateKeyPath->text()))
+                )
             && ui.sshPort->value() > 0;
 
     if (isValid) {
@@ -172,16 +229,25 @@ bool ConnectionWindow::isSshSettingsValid()
         ui.sshUser->setStyleSheet("border: 1px solid red;");
     }
 
-    if (ui.sshPass->text().isEmpty()) {
+    if (ui.sshPasswordGroup->isChecked() && ui.sshPass->text().isEmpty()) {
         ui.sshPass->setStyleSheet("border: 1px solid red;");
     }
+
+    if (ui.sshKeysGroup->isChecked() && ui.privateKeyPath->text().isEmpty()) {
+        ui.privateKeyPath->setStyleSheet("border: 1px solid red;");
+    }
+
+    if (!ui.sshPasswordGroup->isChecked() && !ui.sshKeysGroup->isChecked()) {
+        ui.sshPass->setStyleSheet("border: 1px solid red;");
+        ui.privateKeyPath->setStyleSheet("border: 1px solid red;");
+    }
+
 
     return false;
 }
 
 bool ConnectionWindow::isSshTunnelUsed()
 {
-    qDebug() << "check state" << (ui.useSshTunnel->checkState() == Qt::Checked);
     return ui.useSshTunnel->checkState() == Qt::Checked;
 }
 
@@ -201,11 +267,12 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
         conf.setSshTunnelSettings(
             ui.sshHost->text().trimmed(), 
             ui.sshUser->text().trimmed(), 
-            ui.sshPass->text().trimmed(), 
+            (ui.sshPasswordGroup->isChecked()? ui.sshPass->text().trimmed() : ""),
             ui.sshPort->value(),
-            "", ui.privateKeyPath->text().trimmed()
+            (ui.sshKeysGroup->isChecked() ? ui.privateKeyPath->text().trimmed() : "")
             );
     }
 
     return conf;
 }
+

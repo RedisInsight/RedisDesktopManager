@@ -81,9 +81,28 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
 
 bool RedisClient::AbstractProtocol::selectDb(int index)
 {
+    if (m_connection->m_dbNumber == index)
+        return true;
+
+    m_connection->m_dbNumber = index;
     QStringList commandParts;
     commandParts << "select" << QString::number(index);
     Command cmd(commandParts);
     Response result = CommandExecutor::execute(m_connection, cmd);
     return result.isOkMessage();
+}
+
+QStringList RedisClient::AbstractProtocol::getInfo()
+{
+    if (!m_connection->isConnected()) {
+        throw ConnectionExeption("Connect to host before use operations");
+    }
+
+    Response info = CommandExecutor::execute(m_connection, Command("info"));
+
+    if (info.isErrorMessage())
+        return QStringList();
+
+    return info.getValue().toStringList();
+
 }

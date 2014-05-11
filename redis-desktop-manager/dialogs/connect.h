@@ -35,4 +35,6 @@ private:
     private slots:
         void OnOkButtonClick();
         void OnShowPasswordCheckboxChanged(int);
+        void OnBrowseSshKeyClick();
+        void OnTestConnectionButtonClick();
 };

@@ -43,7 +43,9 @@ protected:
     QSharedPointer<QThread> transporterThread;
     QSharedPointer<AbstractTransporter> transporter;    
     QEventLoop m_loop;
+    QEventLoop m_cmdLoop;
     QTimer m_timeoutTimer;
+    unsigned int m_dbNumber;
 
     void setConnectedState();
 

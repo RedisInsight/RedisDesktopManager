@@ -26,6 +26,11 @@ public:
      */
     bool selectDb(int index);
 
+    /**
+     * Execute info command
+     */
+    QStringList getInfo();
+
 public slots:
     void auth();
 

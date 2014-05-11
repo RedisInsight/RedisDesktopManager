@@ -68,7 +68,6 @@ private:
 
 private slots:
     void keysLoaded(RedisClient::Response response);
-    void proccessError(QString);
     void keysLoadingStatusChanged(int);
     void keysLoadingFinished();
 };

@@ -153,7 +153,7 @@ void MainWin::OnConnectionTreeClick(const QModelIndex & index)
     case RedisServerItem::TYPE:
     {            
         RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-        server->loadDatabaseList(); //todo: fix it
+        server->loadDatabaseList();
         ui.serversTreeView->setExpanded(index, true);
     }
     break;

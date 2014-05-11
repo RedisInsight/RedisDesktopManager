@@ -1,19 +1,14 @@
 #include "connectionconfig.h"
 #include <QFile>
 
-RedisClient::ConnectionConfig::SshAuthType RedisClient::ConnectionConfig::getSshAuthType()
-{
-    return sshAuth;
-}
-
 bool RedisClient::ConnectionConfig::isSshPasswordUsed()
 {
     return !sshPassword.isNull() && !sshPassword.isEmpty();
 }
 
 RedisClient::ConnectionConfig::ConnectionConfig(const QString &host, const QString &name, const int port)
-    : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), sshAuth(ConnectionConfig::SshAuthType::None),
-     connectionTimeout(DEFAULT_TIMEOUT_IN_MS), executeTimeout(DEFAULT_TIMEOUT_IN_MS), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
+    : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), connectionTimeout(DEFAULT_TIMEOUT_IN_MS),
+      executeTimeout(DEFAULT_TIMEOUT_IN_MS), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
 {}
 
 RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(RedisClient::ConnectionConfig &other)
@@ -28,8 +23,8 @@ RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(RedisCl
         executeTimeout = other.executeTimeout;
 
         setSshTunnelSettings(
-                    other.sshHost, other.sshUser, other.sshPassword, other.sshPort,
-                    other.sshPublicKeyPath, other.sshPublicKeyPath
+                    other.sshHost, other.sshUser, other.sshPassword,
+                    other.sshPort, other.sshPrivateKeyPath
                     );
     }
 

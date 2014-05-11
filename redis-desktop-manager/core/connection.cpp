@@ -5,7 +5,7 @@
 #include "connectionexception.h"
 
 RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
-    : config(c), m_isTransporterInitialized(false), m_connected(false)
+    : config(c), m_isTransporterInitialized(false), m_connected(false), m_dbNumber(-1)
 {        
     protocol = QSharedPointer<AbstractProtocol>(new DefaultProtocol(this));
 
@@ -26,6 +26,9 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
 {
     if (m_isTransporterInitialized)
         return false;
+
+    if (isConnected())
+        return true;
 
     //todo : implement unix socket transporter
     if (config.useSshTunnel()) {
@@ -87,7 +90,8 @@ void RedisClient::Connection::runCommand(const Command &cmd)
 
     emit addCommandToWorker(cmd);
 
-    m_loop.exec();
+    if (!m_cmdLoop.isRunning())
+        m_cmdLoop.exec();
 }
 
 RedisClient::AbstractProtocol *RedisClient::Connection::operations()
@@ -138,7 +142,7 @@ void RedisClient::Connection::connectionReady()
 
 void RedisClient::Connection::commandAddedToTransporter()
 {
-    if (m_loop.isRunning())
-        m_loop.exit();
+    if (m_cmdLoop.isRunning())
+        m_cmdLoop.exit();
 }
 

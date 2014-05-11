@@ -22,8 +22,6 @@ RedisServerDbItem::RedisServerDbItem(QString name, int keysCount, RedisServerIte
     setEditable(false);    
 
     connect(&keysLoadingWatcher, SIGNAL(finished()), this, SLOT(keysLoadingFinished()));
-    connect(server->connection, &RedisClient::Connection::error,
-            this, &RedisServerDbItem::proccessError);
 }
 
 bool RedisServerDbItem::loadKeys()
@@ -72,17 +70,6 @@ void RedisServerDbItem::keysLoaded(RedisClient::Response resp)
 
     setNormalIcon();
     isKeysLoaded = true;    
-}
-
-void RedisServerDbItem::proccessError(QString srcError)
-{
-    //server->connection->disconnect(this);
-    setNormalIcon();
-
-    QString message = QString("Can not load keys. %1")
-        .arg(srcError);
-
-    emit server->error(message);
 }
 
 void RedisServerDbItem::setFilter(QRegExp &pattern)

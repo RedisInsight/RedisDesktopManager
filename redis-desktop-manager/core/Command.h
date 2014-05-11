@@ -32,6 +32,7 @@ public:
     bool hasCallback() const;
     bool isEmpty() const;
     bool hasDbIndex() const;
+    bool isSelectCommand(int *dbIndex) const;
 
 private:
     QObject * owner;

@@ -40,7 +40,7 @@ public:
     ConnectionConfig & operator = (ConnectionConfig & other);
 
     void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT, 
-                                QString sshPublicKeyPath = "", QString sshPrivatekey = "");
+                                QString sshPrivatekey = "");
     
     bool isNull();
     bool useSshTunnel() const;

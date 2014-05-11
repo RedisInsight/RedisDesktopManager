@@ -47,18 +47,17 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
 
     using namespace RedisClient;
 
-    Response result = CommandExecutor::execute(connection.data(), Command(cmd));
+    Command command(cmd);
+    Response result = CommandExecutor::execute(connection.data(), command);
     
-    QRegExp selectDbRegex("^( )*select( )+(\\d)+");
+    int dbIndex = 0;
 
-    bool isSelectCommand = selectDbRegex.indexIn(cmd) > -1;
-
-    if (isSelectCommand) 
+    if (command.isSelectCommand(&dbIndex))
     {        
         emit changePrompt(
             QString("%1:%2>")
                 .arg(connection->config.name)
-                .arg(selectDbRegex.cap(3)),
+                .arg(dbIndex),
                 false
             );
     }

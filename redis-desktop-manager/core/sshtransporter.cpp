@@ -67,7 +67,8 @@ bool RedisClient::SshTransporter::connectToHost()
     syncLoop->exec();
 
     if (!m_lastConnectionOk) {
-        emit errorOccurred("SSH connection timeout, check connection settings");
+        if (!syncTimer->isActive())
+            emit errorOccurred("SSH connection timeout, check connection settings");
         return false;
     }
 
