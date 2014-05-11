@@ -36,14 +36,12 @@ RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(RedisCl
     return *this;
 }
 
-void RedisClient::ConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port,
-                                                 QString publicKey, QString privateKey)
+void RedisClient::ConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port, QString privateKey)
 {
     sshHost = host;
     sshUser = user;
     sshPassword = pass;
-    sshPort = port;
-    sshPublicKeyPath = publicKey;
+    sshPort = port;    
     sshPrivateKeyPath = privateKey;
 }
 
@@ -72,15 +70,6 @@ QString RedisClient::ConnectionConfig::getSshPrivateKey()
         return QString();
 
     return sshPrivateKeyPath;
-
-//    QFile keyFile();
-//    if (!keyFile.open(QIODevice::ReadOnly | QIODevice::Text))
-//        return QString();
-
-//    QTextStream in(&keyFile);
-//    QString keyString = in.readAll();
-
-//    return keyString;
 }
 
 RedisClient::ConnectionConfig RedisClient::ConnectionConfig::createFromXml(QDomNode & connectionNode)
@@ -101,9 +90,7 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::createFromXml(QDomN
     getValueFromXml(attr, "sshHost", connectionConfig.sshHost);    
     getValueFromXml(attr, "sshUser", connectionConfig.sshUser);    
     getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);
-    getValueFromXml(attr, "sshPort", connectionConfig.sshPort);
-
-    getValueFromXml(attr, "sshPublicKey", connectionConfig.sshPublicKeyPath);
+    getValueFromXml(attr, "sshPort", connectionConfig.sshPort);    
     getValueFromXml(attr, "sshPrivateKey", connectionConfig.sshPrivateKeyPath);
 
     getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
@@ -160,9 +147,7 @@ QDomElement RedisClient::ConnectionConfig::toXml(QDomDocument dom)
         saveXmlAttribute(dom, xml, "sshUser", sshUser); 
         saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
         saveXmlAttribute(dom, xml, "sshPort", QString::number(sshPort)); 
-
-        saveXmlAttribute(dom, xml, "sshPrivateKey", sshPrivateKeyPath);
-        saveXmlAttribute(dom, xml, "sshPublicKey", sshPublicKeyPath);
+        saveXmlAttribute(dom, xml, "sshPrivateKey", sshPrivateKeyPath);        
     }
 
     return xml;

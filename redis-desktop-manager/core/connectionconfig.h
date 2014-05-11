@@ -22,15 +22,9 @@ public:
     QString sshHost;
     int sshPort;
     QString sshUser;
-    QString sshPassword;
-    QString sshPublicKeyPath;
-    QString sshPrivateKeyPath;
+    QString sshPassword;    
+    QString sshPrivateKeyPath;    
 
-    enum class SshAuthType {
-        None, PlainPassword, PrivateKey
-    };
-
-    SshAuthType getSshAuthType();
     bool isSshPasswordUsed();
 
     //timeouts 
@@ -52,24 +46,17 @@ public:
     bool useSshTunnel() const;
     bool useAuth() const;
     
-    QString getSshPrivateKey();
-    QString getSshPublicKey();
+    QString getSshPrivateKey();    
 
     QDomElement toXml(QDomDocument dom);  
        
     static ConnectionConfig createFromXml(QDomNode & connectionNode);
 
-protected:    
-    SshAuthType sshAuth;
-
+protected:        
     void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
 
     static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value);
     static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value);
-
-private:
-    QString m_publicKey;
-    QString m_privateKey;
 };
 
 }
