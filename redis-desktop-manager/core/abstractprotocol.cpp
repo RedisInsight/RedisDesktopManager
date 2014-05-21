@@ -39,7 +39,8 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
     Response scanningResp;
 
     do {
-        scanningResp = CommandExecutor::execute(m_connection, Command(QString("select %1").arg(dbCount)));
+        Command cmd(QString("select %1").arg(dbCount));
+        scanningResp = CommandExecutor::execute(m_connection, cmd);
     } while (scanningResp.isOkMessage() && ++dbCount);
 
     // build db list
@@ -50,7 +51,8 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
     }
 
     //  Get keys count
-    Response result = CommandExecutor::execute(m_connection, Command("info"));
+    Command cmd("info");
+    Response result = CommandExecutor::execute(m_connection, cmd);
 
     if (result.isErrorMessage()) {
         return availableDatabeses;
@@ -98,7 +100,8 @@ QStringList RedisClient::AbstractProtocol::getInfo()
         throw ConnectionExeption("Connect to host before use operations");
     }
 
-    Response info = CommandExecutor::execute(m_connection, Command("info"));
+    Command cmd("info");
+    Response info = CommandExecutor::execute(m_connection, cmd);
 
     if (info.isErrorMessage())
         return QStringList();

@@ -61,6 +61,6 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
                 false
             );
     }
-
-    emit addOutput(RedisClient::Response::valueToHumanReadString(result.getValue()));
+    QVariant value = result.getValue();
+    emit addOutput(RedisClient::Response::valueToHumanReadString(value));
 }

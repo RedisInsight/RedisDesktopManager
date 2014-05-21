@@ -44,6 +44,9 @@ BREAKPADDIR = $$DEPSDIR/google-breakpad/src
 win32 {
     CONFIG += c++11
 
+    FORMS += \
+        $$PWD/forms/*.ui \
+
     INCLUDEPATH += $$BREAKPADDIR\client\windows\handler\
     INCLUDEPATH += $$BREAKPADDIR\common\windows\
     INCLUDEPATH += $$BREAKPADDIR\client\windows\crash_generation
@@ -73,8 +76,17 @@ win32 {
 
 unix {
     macx { # os x 10.8
+
+        FORMS += \
+            $$PWD/forms/demo.ui \
+            $$PWD/forms/serverInfoViewTab.ui \
+            $$PWD/forms/osx/connection.ui \
+
         CONFIG += c++11
-        #CONFIG-=app_bundle
+
+        debug {
+                CONFIG-=app_bundle
+        }
 
         LIBS += /usr/local/lib/libssh2.dylib
         LIBS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework/Versions/A/Breakpad
@@ -83,7 +95,7 @@ unix {
         INCLUDEPATH += $$PWD/../deps/libssh/include
 
         QMAKE_INFO_PLIST =  $$PWD/resources/Info.plist
-        ICON = rdm.icns
+        ICON = $$PWD/resources/rdm.icns
 
         INCLUDEPATH += $$BREAKPADDIR/ \
                         $$BREAKPADDIR/client/mac/handler/ \
@@ -113,6 +125,9 @@ unix {
 
     }
     else { # ubuntu & debian
+
+        FORMS += \
+            $$PWD/forms/*.ui \
 
         QMAKE_CXXFLAGS += -std=gnu++0x -g #workaround for google breakpad
 
@@ -183,9 +198,6 @@ INCLUDEPATH += $$PWD/dialogs \
     $$PWD/models/value-view-formatters/ \
     $$PWD/resourses \
     $$PWD/ \
-
-FORMS += \
-    $$PWD/forms/*.ui \
 
 RESOURCES += \
     $$PWD/resources/rdm.qrc
