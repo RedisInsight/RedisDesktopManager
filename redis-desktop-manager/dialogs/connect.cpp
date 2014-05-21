@@ -24,12 +24,10 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     }
 
     // connect slots to signals
-    connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));
-    connect(ui.okButton, SIGNAL(pressed()), ui.okButton, SIGNAL(clicked()));
-    connect(ui.okButton, SIGNAL(pressed()), ui.okButton, SIGNAL(clicked()));
-    connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
+    connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));        
     connect(ui.selectPrivateKeyPath, SIGNAL(clicked()), this,  SLOT(OnBrowseSshKeyClick()));
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
+    connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
     //edit mode
     if (srv != nullptr) {    
