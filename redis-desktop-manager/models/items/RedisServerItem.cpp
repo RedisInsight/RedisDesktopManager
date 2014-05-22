@@ -107,8 +107,6 @@ void RedisServerItem::unload()
     getItemNameFromConnection();
 
     setOfflineIcon();
-
-    emit unlockUI();
 }
 
 void RedisServerItem::setBusyIcon()

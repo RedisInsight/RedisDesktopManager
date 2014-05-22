@@ -18,7 +18,7 @@
 #include "ServerContextMenu.h"
 
 MainWin::MainWin(QWidget *parent)
-    : QMainWindow(parent), treeViewUILocked(false)
+    : QMainWindow(parent), m_treeViewUILocked(false)
 {
     ui.setupUi(this);
 
@@ -105,6 +105,17 @@ void MainWin::initSystemConsole()
     ui.statusBar->addPermanentWidget(systemConsoleActivator);
 }
 
+void MainWin::lockUi()
+{
+    qDebug() << "ui locked";
+    m_treeViewUILocked = true;
+}
+
+bool MainWin::isUiLocked()
+{
+    return m_treeViewUILocked;
+}
+
 void MainWin::OnConsoleStateChanged()
 {
     ui.systemConsole->setVisible(!ui.systemConsole->isVisible());
@@ -145,8 +156,12 @@ void MainWin::OnAddConnectionClick()
 
 void MainWin::OnConnectionTreeClick(const QModelIndex & index)
 {
-    if (treeViewUILocked || !index.isValid()) 
+    if (isUiLocked() || !index.isValid()) {
+
+        qDebug() << "UI Locked" << isUiLocked();
+
         return;    
+    }
 
     QStandardItem * item = connections->itemFromIndex(index);    
 
@@ -212,7 +227,7 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
 
     QPoint currentPoint = QCursor::pos(); 
 
-    if (!item || currentPoint.isNull() || treeViewUILocked)
+    if (!item || currentPoint.isNull() || isUiLocked())
         return;
 
     int type = item->type();
@@ -227,10 +242,7 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
         QAction * action = serverMenu->exec(currentPoint);
 
         if (action == nullptr)
-            return;
-            
-        if (action->text() == "Reload")
-            treeViewUILocked = true;
+            return;           
         
     } else if (type == RedisKeyItem::TYPE) {
         keyMenu->exec(currentPoint);
@@ -246,6 +258,7 @@ void MainWin::OnReloadServerInTree()
 
     try {
         RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
+        lockUi();
         server->reload();
     } catch (std::bad_cast &) {
         QMessageBox::warning(this, "Error", "Error occurred on reloading connection");
@@ -280,7 +293,7 @@ void MainWin::OnRemoveConnectionFromTree()
         RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
 
         connections->RemoveConnection(server);
-        treeViewUILocked = false;
+        UnlockUi();
     }
 }
 
@@ -294,7 +307,7 @@ void MainWin::OnEditConnection()
     RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
     
     server->unload();
-    treeViewUILocked = false;
+    UnlockUi();
 
     QScopedPointer<ConnectionWindow> connectionDialog( new ConnectionWindow(this, server) );
     connectionDialog->exec();    
@@ -427,9 +440,10 @@ void MainWin::OnLogMessage(QString message)
     ui.systemConsole->appendPlainText(QString("[%1] %2").arg(QTime::currentTime().toString()).arg(message));
 }
 
-void MainWin::OnUIUnlock()
+void MainWin::UnlockUi()
 {
-    treeViewUILocked = false;
+    qDebug() << "ui unlocked";
+    m_treeViewUILocked = false;
 
     if (connections->signalsBlocked()) {
         connections->blockSignals(false);    
