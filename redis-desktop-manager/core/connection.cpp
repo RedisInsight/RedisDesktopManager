@@ -24,11 +24,11 @@ RedisClient::Connection::~Connection()
 
 bool RedisClient::Connection::connect() // todo: add block/unblock parameter
 {
-    if (m_isTransporterInitialized)
-        return false;
-
     if (isConnected())
         return true;
+
+    if (m_isTransporterInitialized)
+        return false;
 
     //todo : implement unix socket transporter
     if (config.useSshTunnel()) {

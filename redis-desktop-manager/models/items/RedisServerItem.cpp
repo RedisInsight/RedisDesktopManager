@@ -88,21 +88,25 @@ RedisClient::Connection * RedisServerItem::getConnection()
 }
 
 void RedisServerItem::reload()
-{
-    blockSignals(true);
-    unload();
-    blockSignals(false);
-
+{    
+    unload();   
     loadDatabaseList();
 }
 
 void RedisServerItem::unload()
 {
+    if (!isDbInfoLoaded)
+        return;
+
     setBusyIcon();
 
+    blockSignals(true);
     removeRows(0, rowCount());
+    blockSignals(false);
 
     isDbInfoLoaded = false;
+
+    connection->disconnect();
 
     getItemNameFromConnection();
 
