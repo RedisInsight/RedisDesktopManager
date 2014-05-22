@@ -128,8 +128,11 @@ QString MainWin::getConfigPath(const QString& configFile)
     
     QMessageBox::warning(this, 
         "Current directory is not writable",
-        "Program can't save connections file to current dir. Please change permissions or restart this program with administrative privileges"
+        QString("Program can't save connections file to settings dir(%1)."
+                "Please change permissions or restart this program "
+                " with administrative privileges").arg(fullHomePath)
         );
+
     exit(1);
 }
 
