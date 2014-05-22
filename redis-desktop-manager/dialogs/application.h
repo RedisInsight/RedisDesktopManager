@@ -28,9 +28,6 @@ private:
     QSharedPointer<QMenu> keyMenu;
     QSharedPointer<QMenu> connectionsMenu;
 
-    // todo: move to custom Settings class
-    QString getConfigPath(const QString&);
-
     void initFormButtons();
     void initConnectionsTreeView();    
     void initContextMenus();    

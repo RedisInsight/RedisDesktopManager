@@ -20,6 +20,7 @@ SOURCES += \
     $$PWD/widgets/*.cpp \
     $$PWD/crashhandler/*.cpp \
     $$PWD/updater/*.cpp \
+    $$PWD/utils/*.cpp \
     $$PWD/models/*.cpp \
     $$PWD/models/items/*.cpp \
     $$PWD/models/value-view-formatters/*.cpp \
@@ -32,6 +33,7 @@ HEADERS  += \
     $$PWD/widgets/*.h \
     $$PWD/crashhandler/*.h \
     $$PWD/updater/*.h \
+    $$PWD/utils/*.h \
     $$PWD/models/*.h \
     $$PWD/models/items/*.h \
     $$PWD/models/value-view-formatters/*.h \

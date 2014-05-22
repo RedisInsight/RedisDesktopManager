@@ -16,6 +16,7 @@
 #include "serverInfoViewTab.h"
 #include "consoleTab.h"
 #include "ServerContextMenu.h"
+#include "utils/configmanager.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent), m_treeViewUILocked(false)
@@ -41,7 +42,20 @@ MainWin::MainWin(QWidget *parent)
 void MainWin::initConnectionsTreeView()
 {
     //connection manager
-    connections = QSharedPointer<RedisConnectionsManager>(new RedisConnectionsManager(getConfigPath("connections.xml"), this));
+    QString config = ConfigManager::getApplicationConfigPath("connections.xml");
+
+    if (config.isNull()) {
+        QMessageBox::warning(this,
+            "Settings directory is not writable",
+            QString("Program can't save connections file to settings dir."
+                    "Please change permissions or restart this program "
+                    " with administrative privileges")
+            );
+
+        exit(1);
+    }
+
+    connections = QSharedPointer<RedisConnectionsManager>(new RedisConnectionsManager(config, this));
 
     ui.serversTreeView->setModel(connections.data());
 
@@ -119,32 +133,6 @@ bool MainWin::isUiLocked()
 void MainWin::OnConsoleStateChanged()
 {
     ui.systemConsole->setVisible(!ui.systemConsole->isVisible());
-}
-
-QString MainWin::getConfigPath(const QString& configFile)
-{
-    /*
-     * Check home user directory
-     */
-    QString fullHomePath = QString("%1/%2").arg(QDir::homePath()).arg(configFile);
-    QFile testConfig(fullHomePath);    
-    QFileInfo checkPermissions(fullHomePath);
-
-    if (!testConfig.exists() && testConfig.open(QIODevice::WriteOnly))
-        testConfig.close();
-
-    if (checkPermissions.isWritable()) {
-        return fullHomePath;
-    }
-    
-    QMessageBox::warning(this, 
-        "Current directory is not writable",
-        QString("Program can't save connections file to settings dir(%1)."
-                "Please change permissions or restart this program "
-                " with administrative privileges").arg(fullHomePath)
-        );
-
-    exit(1);
 }
 
 void MainWin::OnAddConnectionClick()
