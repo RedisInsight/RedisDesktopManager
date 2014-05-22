@@ -61,6 +61,9 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
     timeoutTimer.start(config.connectionTimeout);
     loop.exec();
 
+    if (!m_connected)
+        disconnect();
+
     return m_connected;
 }
 
