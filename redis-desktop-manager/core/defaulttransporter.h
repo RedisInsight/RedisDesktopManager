@@ -22,6 +22,7 @@ private slots:
     void error(QAbstractSocket::SocketError error);
 private:
     QSharedPointer<QTcpSocket> socket;
+    bool m_errorOccurred;
 };
 
 }

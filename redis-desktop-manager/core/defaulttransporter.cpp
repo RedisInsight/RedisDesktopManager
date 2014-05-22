@@ -2,7 +2,7 @@
 #include "abstractprotocol.h"
 
 RedisClient::DefaultTransporter::DefaultTransporter(RedisClient::Connection *c)
-    : RedisClient::AbstractTransporter(c), socket(nullptr)
+    : RedisClient::AbstractTransporter(c), socket(nullptr), m_errorOccurred(false)
 {
 }
 
@@ -31,6 +31,8 @@ void RedisClient::DefaultTransporter::disconnect()
 
 bool RedisClient::DefaultTransporter::connectToHost()
 {
+    m_errorOccurred = false;
+
     socket->connectToHost(m_connection->config.host, m_connection->config.port);
 
     if (socket->waitForConnected(m_connection->config.connectionTimeout))
@@ -40,7 +42,9 @@ bool RedisClient::DefaultTransporter::connectToHost()
         return true;
     }
 
-    emit errorOccurred("Connection timeout");
+    if (!m_errorOccurred)
+        emit errorOccurred("Connection timeout");
+
     emit logEvent(QString("%1 > connection failed").arg(m_connection->config.name));
     return false;
 }
@@ -93,6 +97,8 @@ void RedisClient::DefaultTransporter::error(QAbstractSocket::SocketError error)
     if (error == QAbstractSocket::UnknownSocketError && connectToHost()) {
         return runCommand(runningCommand);
     }
+
+    m_errorOccurred = true;
 
     emit errorOccurred(
         QString("Connection error: %1").arg(socket->errorString())
