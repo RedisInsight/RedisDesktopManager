@@ -5,12 +5,28 @@
 
 QString ConfigManager::getApplicationConfigPath(const QString &configFile)
 {
-    QString fullHomePath = QString("%1/%2").arg(QDir::homePath()).arg(configFile);
+#ifdef Q_OS_MACX
+    QString libraryDir = "/Library/Application Support/rdm/";
+    QDir libraryPath(libraryDir);
+    libraryPath.mkpath("/Library/Application Support/rdm/");
 
-    if (!chechPath(fullHomePath))
+    QString configDir;
+
+    if (libraryPath.exists()) {
+        configDir = libraryDir;
+    } else {
+        configDir = QDir::homePath();
+    }
+#else
+    QString configDir = QDir::homePath();
+#endif
+
+    QString configPath = QString("%1/%2").arg(configDir).arg(configFile);
+
+    if (!chechPath(configPath))
         return QString();
 
-    return fullHomePath;
+    return configPath;
 }
 
 
