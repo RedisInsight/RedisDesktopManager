@@ -6,13 +6,27 @@
 QString ConfigManager::getApplicationConfigPath(const QString &configFile)
 {
 #ifdef Q_OS_MACX
-    QString libraryDir = "/Library/Application Support/rdm/";
+    QString libraryDir = QDir::toNativeSeparators(QString("%1/%2")
+                                                  .arg(QDir::homePath())
+                                                  .arg("/Library/Preferences/rdm/"));
     QDir libraryPath(libraryDir);
-    libraryPath.mkpath("/Library/Application Support/rdm/");
+    if (libraryPath.mkpath(libraryDir))
+        qDebug() << "Config Dir created";
 
     QString configDir;
 
     if (libraryPath.exists()) {
+
+        //config migration
+        QString homeConfig = QString("%1/%2").arg(QDir::homePath()).arg(configFile);
+        QString destConfig = QString("%1/%2").arg(libraryDir).arg(configFile);
+
+        if (QFile::exists(homeConfig)
+                && QFile::copy(homeConfig, destConfig)
+                && QFile::remove(homeConfig)) {
+            qDebug() << "Old config moved to new dir";
+        }
+
         configDir = libraryDir;
     } else {
         configDir = QDir::homePath();
