@@ -2,7 +2,7 @@
 #include "abstractprotocol.h"
 
 RedisClient::DefaultTransporter::DefaultTransporter(RedisClient::Connection *c)
-    : RedisClient::AbstractTransporter(c), socket(nullptr), m_errorOccurred(false)
+    : RedisClient::AbstractTransporter(c), socket(nullptr), m_errorOccurred(false), m_reconnectRequired(false)
 {
 }
 
@@ -19,14 +19,17 @@ void RedisClient::DefaultTransporter::init()
 
     connect(socket.data(), SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+    connect(socket.data(), SIGNAL(disconnected()), this, SLOT(reconnect()));
 
     connectToHost();
 }
 
 void RedisClient::DefaultTransporter::disconnect()
 {
-    if (!socket.isNull())
-        socket->disconnectFromHost();
+    if (socket.isNull())
+        return;
+
+    socket->disconnectFromHost();
 }
 
 bool RedisClient::DefaultTransporter::connectToHost()
@@ -94,6 +97,11 @@ void RedisClient::DefaultTransporter::readyRead()
 
 void RedisClient::DefaultTransporter::error(QAbstractSocket::SocketError error)
 {
+    if (error == QAbstractSocket::RemoteHostClosedError) {
+        m_reconnectRequired = true;
+        return;
+    }
+
     if (error == QAbstractSocket::UnknownSocketError && connectToHost()) {
         return runCommand(runningCommand);
     }
@@ -105,4 +113,18 @@ void RedisClient::DefaultTransporter::error(QAbstractSocket::SocketError error)
         );
 
     return sendResponse();
+}
+
+void RedisClient::DefaultTransporter::stateChanged(QAbstractSocket::SocketState socketState)
+{
+    qDebug() << "socket state changed:" <<socketState;
+}
+
+void RedisClient::DefaultTransporter::reconnect()
+{
+    if (!m_reconnectRequired)
+        return;
+
+    qDebug() << "Reconnect";
+    connectToHost();
 }

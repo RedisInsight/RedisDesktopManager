@@ -20,9 +20,12 @@ protected:
 private slots:    
     void readyRead();
     void error(QAbstractSocket::SocketError error);
+    void stateChanged(QAbstractSocket::SocketState socketState);
+    void reconnect();
 private:
     QSharedPointer<QTcpSocket> socket;
     bool m_errorOccurred;
+    bool m_reconnectRequired;
 };
 
 }
