@@ -31,7 +31,7 @@
     <normaloff>:/images/redisBigIcon.png</normaloff>:/images/redisBigIcon.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">font-family: tahoma, arial, ubuntu, sans-serif;</string>
+   <string notr="true">font-family: open-sans, ubuntu, sans-serif;</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -256,7 +256,7 @@ aa|bb 	Either aa or bb.
            </property>
            <property name="minimumSize">
             <size>
-             <width>300</width>
+             <width>330</width>
              <height>0</height>
             </size>
            </property>
@@ -299,15 +299,21 @@ aa|bb 	Either aa or bb.
            </property>
            <item>
             <widget class="QToolButton" name="pbImportConnections">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
-               <width>145</width>
+               <width>130</width>
                <height>35</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>145</width>
+               <width>190</width>
                <height>35</height>
               </size>
              </property>
@@ -316,6 +322,12 @@ aa|bb 	Either aa or bb.
                <width>145</width>
                <height>35</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>open-sans,ubuntu,sans-serif</family>
+               <pointsize>10</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>Import / Export</string>
@@ -338,15 +350,15 @@ aa|bb 	Either aa or bb.
            <item>
             <widget class="QToolButton" name="pbAddServer">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>135</width>
-               <height>35</height>
+               <width>160</width>
+               <height>34</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -357,9 +369,15 @@ aa|bb 	Either aa or bb.
              </property>
              <property name="baseSize">
               <size>
-               <width>135</width>
+               <width>160</width>
                <height>35</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>open-sans,ubuntu,sans-serif</family>
+               <pointsize>10</pointsize>
+              </font>
              </property>
              <property name="layoutDirection">
               <enum>Qt::LeftToRight</enum>
