@@ -17,19 +17,9 @@ int main(int argc, char *argv[])
     QApplication::setApplicationVersion(RDM_VERSION);    
     QApplication::setOrganizationDomain("redisdesktop.com");
     
-
-#if defined(Q_OS_LINUX)
-    QSettings settings;
-    QVariant fontName = settings.value("font/name", QVariant("DejaVu Sans"));
-    QVariant fontSize = settings.value("font/size", QVariant(9));
-
-    QFont defaultFont(fontName.toString(), fontSize.toInt());
-    defaultFont.setStyleHint(QFont::SansSerif);
+    QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttf");
+    QFont defaultFont("OpenSans", 10);
     QApplication::setFont(defaultFont);
-
-    settings.setValue("font/name", fontName);
-    settings.setValue("font/size", fontSize);
-#endif
 
     MainWin w;
     w.show();
