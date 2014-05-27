@@ -5,9 +5,9 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 
 **Supported platforms**
 
-- Windows Xp, Vista, 7, 8, 8.1
+- Windows Vista, 7, 8, 8.1
 - Mac OS X 10.9+
-- Ubuntu 12 and 13
+- Ubuntu 12 and 14
 - Debian 7
 
 **Supported Redis versions** : 2.4, 2.6, 2.8+
