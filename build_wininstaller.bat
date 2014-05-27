@@ -1,16 +1,34 @@
 @echo off
 
+set QTDIR=D:\Qt\5.3\msvc2012_opengl\bin\
+
 echo =======================================================================
 echo Setup Compiler environment
 echo =======================================================================
-
+if not defined DevEnvDir (
 call "C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
+)
 
 echo =======================================================================
 echo Build project
 echo =======================================================================
-set msbuildemitsolution=1
-msbuild RDM.sln /t:Rebuild /property:Configuration=Release
+echo Build Crash Reporter :
+cd ./crashreporter
+%QTDIR%/qmake -v
+%QTDIR%/qmake CONFIG+=release
+nmake clean
+nmake
+
+cd ./../
+
+echo Build Application :
+cd ./redis-desktop-manager
+%QTDIR%/qmake -v
+%QTDIR%/qmake CONFIG+=release
+nmake clean
+nmake
+
+cd ./../
 
 echo =======================================================================
 echo Build installer

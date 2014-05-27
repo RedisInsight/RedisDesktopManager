@@ -25,8 +25,13 @@ HEADERS  += \
 FORMS += \
     $$PWD/*.ui \
 
-release: DESTDIR = ./../bin/linux/release
-debug:   DESTDIR = ./../bin/linux/debug
+windows {
+    release: DESTDIR = ./../bin/windows/release
+    debug:   DESTDIR = ./../bin/windows/debug
+} else {
+    release: DESTDIR = ./../bin/linux/release
+    debug:   DESTDIR = ./../bin/linux/debug
+}
 
 OBJECTS_DIR = $$DESTDIR/.obj
 MOC_DIR = $$DESTDIR/.moc

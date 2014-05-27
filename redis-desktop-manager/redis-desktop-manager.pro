@@ -43,7 +43,7 @@ HEADERS  += \
 DEPSDIR = $$PWD/../deps/
 BREAKPADDIR = $$DEPSDIR/google-breakpad/src
 
-win32 {
+win32-msvc* {
     CONFIG += c++11
 
     FORMS += \
@@ -66,7 +66,12 @@ win32 {
     #message(Deps path: $$WIN_DEPS_PATH)
 
     LIBS += -L$$WIN_DEPS_PATH -llibssh2
-    LIBS += -lcommon -lcrash_generation_client -lexception_handler -llibeay32 -lssleay32 -lzlib
+    LIBS += -lcommon -lcrash_generation_client -lexception_handler
+
+    CONFIG(debug, debug|release) {
+        LIBS += -llibeay32 -lssleay32 -lzlib
+    }
+
     LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
     PRE_TARGETDEPS += $$WIN_DEPS_PATH/libssh2.lib
 
@@ -74,6 +79,13 @@ win32 {
     debug:   DESTDIR = ./../bin/windows/debug
 
     RC_FILE += $$PWD/resources/rdm.rc
+
+    QMAKE_CXXFLAGS += /MP
+    QMAKE_LFLAGS_RELEASE += /MAP
+    QMAKE_CFLAGS_RELEASE += /Zi
+    QMAKE_LFLAGS_RELEASE += /debug /opt:ref
+
+    message("Windows build")
 }
 
 unix {
