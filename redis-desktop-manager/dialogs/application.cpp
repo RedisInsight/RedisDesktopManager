@@ -17,26 +17,25 @@
 #include "consoleTab.h"
 #include "ServerContextMenu.h"
 #include "utils/configmanager.h"
+#include "dialogs/quickstartdialog.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent), m_treeViewUILocked(false)
 {
     ui.setupUi(this);
-
-    initConnectionsTreeView();
-    initContextMenus();
-    initFormButtons();    
-    initUpdater();
-    initFilter();
-    initSystemConsole();
-    
+    performanceTimer.invalidate();
     qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
     qRegisterMetaType<RedisClient::Command>("Command");
     qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
     qRegisterMetaType<RedisClient::Response>("Response");
     qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
 
-    performanceTimer.invalidate();
+    initConnectionsTreeView();
+    initContextMenus();
+    initFormButtons();    
+    initUpdater();
+    initFilter();
+    initSystemConsole();      
 }
 
 void MainWin::initConnectionsTreeView()
@@ -56,6 +55,10 @@ void MainWin::initConnectionsTreeView()
     }
 
     connections = QSharedPointer<RedisConnectionsManager>(new RedisConnectionsManager(config, this));
+
+    if (connections->count() == 0) {
+        QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));
+    }
 
     ui.serversTreeView->setModel(connections.data());
 
@@ -111,12 +114,21 @@ void MainWin::initFilter()
 
 void MainWin::initSystemConsole()
 {
-    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log" );
+    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log", this);
+    systemConsoleActivator->setFlat(true);
+    systemConsoleActivator->setStyleSheet("border: 0px; margin: 0 5px; font-size: 11px;");
 
     connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
 
     ui.systemConsole->hide();
     ui.statusBar->addPermanentWidget(systemConsoleActivator);
+}
+
+void MainWin::showQuickStartDialog()
+{
+    QScopedPointer<QuickStartDialog> dialog(new QuickStartDialog(this));
+    dialog->setWindowState(Qt::WindowActive);
+    dialog->exec();
 }
 
 void MainWin::lockUi()

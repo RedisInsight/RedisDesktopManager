@@ -28,6 +28,8 @@ public:
 
     void connectionChanged();
 
+    int count();
+
 private:
     QString configPath;
     bool connectionSettingsChanged;

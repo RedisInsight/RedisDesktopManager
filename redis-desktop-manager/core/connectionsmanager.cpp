@@ -172,3 +172,8 @@ void RedisConnectionsManager::connectionChanged()
 {
     SaveConnectionsConfigToFile(configPath);
 }
+
+int RedisConnectionsManager::count()
+{
+    return connections.length();
+}

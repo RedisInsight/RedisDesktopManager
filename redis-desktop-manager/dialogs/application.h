@@ -35,6 +35,7 @@ private:
     void initFilter();
     void initSystemConsole();
 
+
     void lockUi();
     bool isUiLocked();
 
@@ -60,6 +61,8 @@ private slots:
     void OnStatusMessage(QString);
     void OnKeyOpenInNewTab();
     void OnConsoleStateChanged();
+
+    void showQuickStartDialog();
 
 public slots:
       void UnlockUi();

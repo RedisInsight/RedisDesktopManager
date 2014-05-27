@@ -202,7 +202,8 @@ INCLUDEPATH += $$PWD/dialogs \
     $$PWD/ \
 
 RESOURCES += \
-    $$PWD/resources/rdm.qrc
+    $$PWD/resources/rdm.qrc \
+    $$PWD/resources/fonts.qrc
 
 OTHER_FILES += \
     qt.conf \
