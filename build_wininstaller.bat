@@ -38,4 +38,5 @@ echo =======================================================================
 echo =======================================================================
 echo Copy installer
 echo =======================================================================
+del /F /Q .\\releases\\*.exe
 cp ./build/windows/installer/redis-desktop-manager-%1.exe .\\releases\\redis-desktop-manager-%1.exe
