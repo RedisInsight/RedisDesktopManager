@@ -37,7 +37,7 @@ HEADERS  += \
     $$PWD/models/*.h \
     $$PWD/models/items/*.h \
     $$PWD/models/value-view-formatters/*.h \
-    core/core.h
+    $$PWD/core/core.h
 
 
 DEPSDIR = $$PWD/../deps/
@@ -76,10 +76,9 @@ win32-msvc* {
     PRE_TARGETDEPS += $$WIN_DEPS_PATH/libssh2.lib
 
     release: DESTDIR = ./../bin/windows/release
-    debug:   DESTDIR = ./../bin/windows/debug
+    debug:   DESTDIR = ./../bin/windows/debug    
 
     RC_FILE += $$PWD/resources/rdm.rc
-
     QMAKE_CXXFLAGS += /MP
     QMAKE_LFLAGS_RELEASE += /MAP
     QMAKE_CFLAGS_RELEASE += /Zi
