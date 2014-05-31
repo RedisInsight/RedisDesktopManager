@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>354</height>
+    <width>402</width>
+    <height>391</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -66,7 +66,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="elideMode">
       <enum>Qt::ElideRight</enum>
@@ -308,7 +308,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>Command execution timeout (sec)</string>
+          <string>Execution timeout (sec)</string>
          </property>
         </widget>
        </item>
@@ -325,13 +325,20 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>TextLabel</string>
+          <string>Default Value Format</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="defaultValueFormat">
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+         <property name="modelColumn">
+          <number>0</number>
          </property>
         </widget>
        </item>

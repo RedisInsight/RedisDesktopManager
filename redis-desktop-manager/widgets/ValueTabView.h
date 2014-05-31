@@ -16,6 +16,7 @@
 #include <QSplitter>
 #include <QComboBox>
 #include <QGroupBox>
+#include "RedisKeyItem.h"
 
 class KeyModel;
 class PaginatedModel;
@@ -26,7 +27,7 @@ class ValueTabView : public QObject
     Q_OBJECT
 
 public:
-    ValueTabView(const QString& name, QWidget * parent);
+    ValueTabView(RedisKeyItem * key, const QString& name, QWidget * parent);
 
     QLineEdit *keyName;
     QLabel *keyTypeLabelValue;
@@ -74,7 +75,7 @@ protected:
 
     void initPagination();
 
-    void initFormatter();
+    void initFormatter(const QString&);
 
 protected slots:
     void loadNextPage();

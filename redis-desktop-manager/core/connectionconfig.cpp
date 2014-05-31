@@ -21,6 +21,7 @@ RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(RedisCl
         namespaceSeparator = other.namespaceSeparator;
         connectionTimeout = other.connectionTimeout;
         executeTimeout = other.executeTimeout;
+        defaultValueFormat = other.defaultValueFormat;
 
         setSshTunnelSettings(
                     other.sshHost, other.sshUser, other.sshPassword,
@@ -91,6 +92,7 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::createFromXml(QDomN
     getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
     getValueFromXml(attr, "connectionTimeout", connectionConfig.connectionTimeout);   
     getValueFromXml(attr, "executeTimeout", connectionConfig.executeTimeout);   
+    getValueFromXml(attr, "defaultValueFormat", connectionConfig.defaultValueFormat);
 
     return connectionConfig;
 }
@@ -132,6 +134,10 @@ QDomElement RedisClient::ConnectionConfig::toXml(QDomDocument dom)
 
     if (namespaceSeparator != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
         saveXmlAttribute(dom, xml, "namespaceSeparator", namespaceSeparator); 
+    }
+
+    if (!defaultValueFormat.isEmpty()) {
+        saveXmlAttribute(dom, xml, "defaultValueFormat", defaultValueFormat);
     }
 
     saveXmlAttribute(dom, xml, "connectionTimeout", QString::number(connectionTimeout)); 
