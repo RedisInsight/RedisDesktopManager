@@ -4,7 +4,11 @@
 #define MAX_BUFFER_SIZE 536800 //response part limit
 
 RedisClient::SshTransporter::SshTransporter(RedisClient::Connection *c)
-    : RedisClient::AbstractTransporter(c), isHostKeyAlreadyAdded(false), m_lastConnectionOk(false), socket(nullptr)
+    :
+      RedisClient::AbstractTransporter(c),
+      socket(nullptr),
+      isHostKeyAlreadyAdded(false),
+      m_lastConnectionOk(false)
 {
 
 }

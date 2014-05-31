@@ -45,7 +45,7 @@ protected:
     QEventLoop m_loop;
     QEventLoop m_cmdLoop;
     QTimer m_timeoutTimer;
-    unsigned int m_dbNumber;
+    int m_dbNumber;
 
     void setConnectedState();
 

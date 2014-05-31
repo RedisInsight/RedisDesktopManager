@@ -42,7 +42,7 @@ void RedisServerItem::loadDatabaseList()
         return;
     }   
 
-    QMap<QString, int>::const_iterator db = databases.constBegin();
+    QHash<QString, int>::const_iterator db = databases.constBegin();
 
     while (db != databases.constEnd()) {
         QStandardItem * newDb = new RedisServerDbItem(db.key(), db.value(), this);

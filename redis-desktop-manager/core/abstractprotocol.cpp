@@ -35,47 +35,50 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
         throw ConnectionExeption("Connect to host before use operations");
     }
 
-    int dbCount = 0;
-    Response scanningResp;
+    //  Get keys count
+    Command cmd("info");
+    Response result = CommandExecutor::execute(m_connection, cmd);
 
+    DatabaseList availableDatabeses;
+
+    if (result.isErrorMessage()) {
+        return availableDatabeses;
+    }
+
+    // Parse keyspace info
+    QString keyspaceInfo = result.toString();
+    QRegExp getDbAndKeysCount("(db\\d+):keys=(\\d+),expires=(\\d+)");
+    int pos = 0;
+    QString dbName;
+    int keysCount;
+
+    while ((pos = getDbAndKeysCount.indexIn(keyspaceInfo, pos)) != -1) {
+
+        dbName = getDbAndKeysCount.cap(1);
+        keysCount = getDbAndKeysCount.cap(2).toInt();
+        availableDatabeses.insert(dbName, keysCount);
+
+        pos += getDbAndKeysCount.matchedLength();
+    }
+
+    int dbCount = (dbName.isEmpty())? 0 : dbName.remove(0,2).toInt();
+
+    //detect more db
+    Response scanningResp;
     do {
         Command cmd(QString("select %1").arg(dbCount));
         scanningResp = CommandExecutor::execute(m_connection, cmd);
     } while (scanningResp.isOkMessage() && ++dbCount);
 
     // build db list
-    DatabaseList availableDatabeses;
     for (int dbIndex = 0; dbIndex < dbCount; ++dbIndex)
     {
-        availableDatabeses.insert(QString("db%1").arg(dbIndex), 0);
-    }
+        dbName = QString("db%1").arg(dbIndex);
 
-    //  Get keys count
-    Command cmd("info");
-    Response result = CommandExecutor::execute(m_connection, cmd);
-
-    if (result.isErrorMessage()) {
-        return availableDatabeses;
-    }
-
-    QStringList keyspaceInfo = result.toString().split("\r\n", QString::SkipEmptyParts);
-
-    QRegExp getDbAndKeysCount("(db\\d+):keys=(\\d+),expires=(\\d+)");
-
-    for (QString line : keyspaceInfo) {
-
-        if (!line.contains(':')) // skip header
+        if (availableDatabeses.contains(dbName))
             continue;
 
-        int pos = getDbAndKeysCount.indexIn(line);
-
-        if (pos == -1) //skip "bad" lines
-            continue;
-
-        QString dbName = getDbAndKeysCount.cap(1);
-        int keysCount = getDbAndKeysCount.cap(2).toInt();
-
-        availableDatabeses[dbName] = keysCount;
+        availableDatabeses.insert(dbName, 0);
     }
 
     return availableDatabeses;
