@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
-    <height>354</height>
+    <width>402</width>
+    <height>391</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -30,6 +30,12 @@
     <width>3410</width>
     <height>2230</height>
    </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Open Sans</family>
+    <pointsize>10</pointsize>
+   </font>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::DefaultContextMenu</enum>
@@ -302,7 +308,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>Command execution timeout (sec)</string>
+          <string>Execution timeout (sec)</string>
          </property>
         </widget>
        </item>
@@ -316,6 +322,23 @@
          </property>
          <property name="maximum">
           <number>1000000000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Default Value Format</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="defaultValueFormat">
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+         <property name="modelColumn">
+          <number>0</number>
          </property>
         </widget>
        </item>

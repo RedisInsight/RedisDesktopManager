@@ -110,6 +110,8 @@ void MainWin::initFilter()
 {
     connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
     connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
+    connect(ui.leKeySearchPattern, SIGNAL(returnPressed()), ui.pbFindFilter,
+            SIGNAL(clicked()), Qt::UniqueConnection);
 }
 
 void MainWin::initSystemConsole()

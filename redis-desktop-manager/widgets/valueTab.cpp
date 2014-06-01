@@ -20,7 +20,7 @@ ValueTab::ValueTab(RedisKeyItem * key)
         return;
     }
 
-    ui = QSharedPointer<ValueTabView>(new ValueTabView(key->text(), this));
+    ui = QSharedPointer<ValueTabView>(new ValueTabView(key, key->text(), this));
 
     connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
 
@@ -28,7 +28,7 @@ ValueTab::ValueTab(RedisKeyItem * key)
     typeCmd.setOwner(this);
     typeCmd.setCallBackName("keyTypeLoaded");
 
-    key->getConnection()->runCommand(typeCmd);
+    key->getConnection()->runCommand(typeCmd);        
 
     /** Connect View SIGNALS to Controller SLOTS **/
     connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));

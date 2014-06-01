@@ -17,7 +17,7 @@ public:
      * List of databases with keys counters
      * @emit databesesLoaded
      **/
-    typedef QMap <QString, int> DatabaseList;
+    typedef QHash <QString, int> DatabaseList;
     DatabaseList getDatabases();
 
     /**

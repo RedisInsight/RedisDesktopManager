@@ -34,6 +34,7 @@ public:
     // other settings
     QString namespaceSeparator;    
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
+    QString defaultValueFormat;
 
     ConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT);
 

@@ -6,8 +6,8 @@
 #include "AbstractFormatter.h"
 #include <QMessageBox>
 
-ValueTabView::ValueTabView(const QString& name, QWidget * parent)
-    : controller(parent), formatter(AbstractFormatter::getFormatter()),
+ValueTabView::ValueTabView(RedisKeyItem * key, const QString& name, QWidget * parent)
+    : controller(parent),
       currentCell(nullptr)
 {    
     initLayout();
@@ -15,15 +15,22 @@ ValueTabView::ValueTabView(const QString& name, QWidget * parent)
     initKeyName();
     keyName->setText(name);
 
-    initFormatter();
+    initFormatter(key->getConnection()->config.defaultValueFormat);
 }
 
-void ValueTabView::initFormatter()
+void ValueTabView::initFormatter(const QString &formatter)
 {
     singleValueFormatterType = new QComboBox;
     singleValueFormatterType->insertItem(0, "Plain text");
     singleValueFormatterType->insertItem(1, "JSON");
-    singleValueFormatterType->setCurrentIndex(0);
+
+    if (formatter == "json") {
+        this->formatter = AbstractFormatter::getFormatter(AbstractFormatter::Json);
+        singleValueFormatterType->setCurrentIndex(1);
+    } else {
+        this->formatter = AbstractFormatter::getFormatter();
+        singleValueFormatterType->setCurrentIndex(0);
+    }
 
     formatterLabel = new QLabel;
     formatterLabel->setText("View value as:");
@@ -154,7 +161,8 @@ void ValueTabView::initKeyValue(KeyModel * model)
         gridLayout->addWidget(keyValueLabel, 1, 0, 1, 1);
         
         StringKeyModel * stringModel = (StringKeyModel *) model;
-        singleValue->setPlainText(stringModel->getValue());
+        formatter->setSource(stringModel->getValue());
+        singleValue->setPlainText(formatter->getFormatted());
     }
 }
 

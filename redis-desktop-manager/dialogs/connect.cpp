@@ -29,6 +29,10 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
+    // todo: load available formatters from factory
+    ui.defaultValueFormat->insertItem(0,"Plain text");
+    ui.defaultValueFormat->insertItem(1,"JSON");
+
     //edit mode
     if (srv != nullptr) {    
         server = srv;
@@ -36,7 +40,7 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     } else {
         ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
         ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
-        ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+        ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);        
     }
 }
 
@@ -53,6 +57,12 @@ void ConnectionWindow::loadValuesFromConnection(RedisClient::Connection * c)
     ui.namespaceSeparator->setText(config.namespaceSeparator);
     ui.connectionTimeout->setValue(config.connectionTimeout / 1000);
     ui.executionTimeout->setValue(config.executeTimeout / 1000);
+
+    if (config.defaultValueFormat == "json") {
+        ui.defaultValueFormat->setCurrentIndex(1);
+    } else {
+        ui.defaultValueFormat->setCurrentIndex(0);
+    }
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
@@ -260,6 +270,9 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
     if (!ui.authEdit->text().isEmpty()) {
         conf.auth = ui.authEdit->text();
     }
+
+    if (ui.defaultValueFormat->currentIndex() == 1)
+        conf.defaultValueFormat = "json";
 
     if (isSshTunnelUsed()) {
         conf.setSshTunnelSettings(
