@@ -1,5 +1,5 @@
 #!/bin/sh
-QTPATH=/Users/admin/Qt5.1.1/5.1.1/clang_64/bin
+QTPATH=/Users/admin/Qt/5.3/clang_64/bin
 
 export PATH=$PATH:$QTPATH
 
@@ -32,8 +32,8 @@ BUNDLE_PATH=./bin/linux/release/
 BUILD_DIR=$BUNDLE_PATH/rdm.app/Contents/
 MAC_TOOL=$QTPATH/macdeployqt
 
-cp -f ./redis-desktop-manager/Info.plist $BUILD_DIR/
-cp -f ./redis-desktop-manager/rdm.icns $BUILD_DIR/Resources/
+cp -f ./redis-desktop-manager/resources/Info.plist $BUILD_DIR/
+cp -f ./redis-desktop-manager/resources/rdm.icns $BUILD_DIR/Resources/
 
 cd $BUNDLE_PATH
 
