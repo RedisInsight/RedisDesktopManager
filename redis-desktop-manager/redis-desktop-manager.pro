@@ -91,9 +91,7 @@ unix {
     macx { # os x 10.8
 
         FORMS += \
-            $$PWD/forms/demo.ui \
-            $$PWD/forms/serverInfoViewTab.ui \
-            $$PWD/forms/osx/connection.ui \
+            $$PWD/forms/*.ui \
 
         CONFIG += c++11
 
