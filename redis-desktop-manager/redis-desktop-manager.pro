@@ -9,9 +9,6 @@ QT += core gui network xml concurrent widgets
 TARGET = rdm
 TEMPLATE = app
 
-#CONFIG -= debug
-#CONFIG += release
-
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/dialogs/*.cpp \
@@ -88,12 +85,14 @@ win32-msvc* {
 }
 
 unix {
+
     macx { # os x 10.8
 
         FORMS += \
             $$PWD/forms/*.ui \
 
-        CONFIG += c++11
+        CONFIG += c++11 release
+        CONFIG -= debug
 
         debug {
                 CONFIG-=app_bundle
@@ -129,6 +128,9 @@ unix {
         APP_DATA_FILES.files = $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
         APP_DATA_FILES.path = Contents/Frameworks
         QMAKE_BUNDLE_DATA += APP_DATA_FILES
+
+        release: DESTDIR = ./../bin/linux/release
+        debug:   DESTDIR = ./../bin/linux/debug
 
         CRASHREPORTER_APP.files = $$DESTDIR/crashreporter
         CRASHREPORTER_APP.path = Contents/MacOS
@@ -184,14 +186,15 @@ unix {
         data.path = /usr/share/redis-desktop-manager/lib
         data.files = lib/*
         INSTALLS += data
+
+        release: DESTDIR = ./../bin/linux/release
+        debug:   DESTDIR = ./../bin/linux/debug
     }
 
-    release: DESTDIR = ./../bin/linux/release
-    debug:   DESTDIR = ./../bin/linux/debug
-    OBJECTS_DIR = $$DESTDIR/.obj
-    MOC_DIR = $$DESTDIR/.moc
-    RCC_DIR = $$DESTDIR/.qrc
-    UI_DIR = $$DESTDIR/.ui
+    OBJECTS_DIR = $$DESTDIR/obj
+    MOC_DIR = $$DESTDIR/obj
+    RCC_DIR = $$DESTDIR/obj
+    UI_DIR = $$DESTDIR/obj
 }
 
 INCLUDEPATH += $$DEPSDIR/libssh/include

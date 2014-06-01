@@ -13,9 +13,9 @@ rm -fR ./bin/linux/release/*
 
 echo ‘============== Build crash reporter ================’
 cd ./crashreporter
-qmake
+qmake “CONFIG+=release CONFIG-=debug”
 make -s clean
-make -s
+make -s -j 2
 
 echo ‘============== Build rdm ================’
 cd ./../redis-desktop-manager/
@@ -23,7 +23,7 @@ pwd
 sh ./configure
 qmake
 make -s clean
-make -s
+make -s -j 2
 
 echo ‘============== Create release bundle ================’
 cd ./../
