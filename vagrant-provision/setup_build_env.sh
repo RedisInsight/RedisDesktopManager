@@ -1,9 +1,11 @@
 #!/bin/sh
 QT_VERSION=5.3.0
 QT_INSTALLER_NAME=qt-everywhere-opensource-src-$QT_VERSION
+QTDIR=/usr/local/Qt-$QTVER
 QT_DOWNLOAD=http://download.qt-project.org/official_releases/qt/5.3/5.3.0/single/qt-everywhere-opensource-src-5.3.0.tar.gz
 
 sudo apt-get update 
+sudo apt-get upgrade
 sudo apt-get install git python perl -y
 sudo apt-get install libssl-dev -y
 sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y 
@@ -22,26 +24,30 @@ echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
 
 sudo pbuilder create
 
-#get and build qt
-QTBUILD_DIR=`pwd`/qt
-mkdir $QTBUILD_DIR
+if [! -d $QTDIR]; then
+  echo 'Qt not found. Install'
 
-INSTALL_ARC=$QTBUILD_DIR/$QT_INSTALLER_NAME.tar.gz
-echo $INSTALL_ARC
-cd $QTBUILD_DIR
+  #get and build qt
+  QTBUILD_DIR=`pwd`/qt
+  mkdir $QTBUILD_DIR
 
-if [ ! -f $INSTALL_ARC ]
-then
-   wget $QT_DOWNLOAD		
+  INSTALL_ARC=$QTBUILD_DIR/$QT_INSTALLER_NAME.tar.gz
+  echo $INSTALL_ARC
+  cd $QTBUILD_DIR
+
+  if [ ! -f $INSTALL_ARC ]
+  then
+    wget $QT_DOWNLOAD		
+  fi
+
+  rm -fR ./$QT_INSTALLER_NAME
+  tar -xvf $INSTALL_ARC
+  cd ./$QT_INSTALLER_NAME
+
+  sudo ./configure -opensource -release -static  -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -openssl-linked -nomake examples -nomake tests -v -skip webkit -skip multimedia -skip declarative -confirm-license
+
+  sudo make
+  sudo make install
+
+  export PATH=$PATH:/usr/local/$QT_VERSION/bin
 fi
-
-rm -fR ./$QT_INSTALLER_NAME
-tar -xvf $INSTALL_ARC
-cd ./$QT_INSTALLER_NAME
-
-sudo ./configure -opensource -release -static  -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -openssl-linked -nomake examples -nomake tests -v -skip webkit -skip multimedia -skip declarative -confirm-license
-
-sudo make
-sudo make install
-
-export PATH=$PATH:/usr/local/$QT_VERSION/bin
