@@ -1,7 +1,7 @@
 #!/bin/sh
 QT_VERSION=5.3.0
 QT_INSTALLER_NAME=qt-everywhere-opensource-src-$QT_VERSION
-QTDIR=/usr/local/Qt-$QTVER
+QTDIR=/usr/local/Qt-$QT_VERSION
 QT_DOWNLOAD=http://download.qt-project.org/official_releases/qt/5.3/5.3.0/single/qt-everywhere-opensource-src-5.3.0.tar.gz
 
 sudo apt-get update 
@@ -13,21 +13,16 @@ sudo apt-get install libatspi-dev -y
 sudo apt-get install libxext-dev -y
 sudo apt-get install g++ -y
 sudo apt-get install automake -y
-
-#setup build env
 sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
         dh-make diffutils patch gnupg fakeroot lintian pbuilder -y
 
-cd $
+echo '====================================='
+echo "Qt Dir: $QTDIR"
 
-echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
+if [ ! -d "$QTDIR" ]; then #get and build qt
 
-sudo pbuilder create
-
-if [! -d $QTDIR]; then
   echo 'Qt not found. Install'
-
-  #get and build qt
+  
   QTBUILD_DIR=`pwd`/qt
   mkdir $QTBUILD_DIR
 
@@ -50,4 +45,8 @@ if [! -d $QTDIR]; then
   sudo make install
 
   export PATH=$PATH:/usr/local/$QT_VERSION/bin
+
+  #setup build env
+  echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
+  sudo pbuilder create
 fi
