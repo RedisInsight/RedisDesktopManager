@@ -1,11 +1,13 @@
 #!/bin/sh
+QT_VERSION=5.3.0
+QT_INSTALLER_NAME=qt-everywhere-opensource-src-$QT_VERSION
+QT_DOWNLOAD=http://download.qt-project.org/official_releases/qt/5.3/5.3.0/single/qt-everywhere-opensource-src-5.3.0.tar.gz
 
 sudo apt-get update 
 sudo apt-get install git python perl -y
 sudo apt-get install libssl-dev -y
 sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y 
 sudo apt-get install libatspi-dev -y
-sudo apt-get install libdbus-1-dev -y
 sudo apt-get install libxext-dev -y
 sudo apt-get install g++ -y
 sudo apt-get install automake -y
@@ -21,28 +23,25 @@ echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
 sudo pbuilder create
 
 #get and build qt
-
 QTBUILD_DIR=`pwd`/qt
-INSTALL_ARC=$QTBUILD_DIR/qt-everywhere-opensource-src-5.1.1.tar.gz
-
 mkdir $QTBUILD_DIR
+
+INSTALL_ARC=$QTBUILD_DIR/$QT_INSTALLER_NAME.tar.gz
 echo $INSTALL_ARC
 cd $QTBUILD_DIR
 
 if [ ! -f $INSTALL_ARC ]
 then
-	wget http://redisdesktop.com/vagrant/qt-everywhere-opensource-src-5.1.1.tar.gz		
+   wget $QT_DOWNLOAD		
 fi
 
-rm -fR ./qt-everywhere-opensource-src-5.1.1
-
+rm -fR ./$QT_INSTALLER_NAME
 tar -xvf $INSTALL_ARC
+cd ./$QT_INSTALLER_NAME
 
-cd ./qt-everywhere-opensource-src-5.1.1
-
-sudo ./configure -opensource -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -dbus-linked -openssl-linked -nomake examples -no-javascript-jit -nomake tests -v -confirm-license
+sudo ./configure -opensource -release -static  -qt-libpng -qt-libjpeg -qt-xcb -qt-xkbcommon -no-kms -no-opengl -openssl-linked -nomake examples -nomake tests -v -skip webkit -skip multimedia -skip declarative -confirm-license
 
 sudo make
 sudo make install
 
-export PATH=$PATH:/usr/local/Qt-5.1.1/bin
+export PATH=$PATH:/usr/local/$QT_VERSION/bin
