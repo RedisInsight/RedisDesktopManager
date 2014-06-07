@@ -139,7 +139,8 @@ unix {
     }
     else { # ubuntu & debian
 
-        CONFIG += static
+        CONFIG += static release
+        CONFIG -= debug
 
         FORMS += \
             $$PWD/forms/*.ui \

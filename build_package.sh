@@ -1,5 +1,5 @@
 #!/bin/sh
-QTVER=5.1.1
+QTVER=5.3.0
 QTDIR=/usr/local/Qt-$QTVER
 
 export PATH=$QTDIR/bin:$PATH
@@ -37,7 +37,7 @@ rm -fR $BUILD_DIR/*
 mkdir $BUILD_DIR
 
 cp -Rf ./redis-desktop-manager/* $BUILD_DIR
-chmod 755 $BUILD_DIR/configure
+chmod +x $BUILD_DIR/configure
 mkdir $BUILD_DIR/debian 
 cp -Rf ./build/debian/* $BUILD_DIR/debian  
 echo ===========================
@@ -56,23 +56,9 @@ DEPS_LIB=$BUILD_DIR/lib
 
 mkdir $DEPS_LIB
 
-#qt libs
-mkdir $DEPS_LIB/plugins
-mkdir $DEPS_LIB/plugins/platforms
-mkdir $DEPS_LIB/fonts
-sudo cp -Rf $QTDIR/plugins/platforms/lib* $DEPS_LIB/plugins/platforms  
-sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts  
-cp -aR $QTDIR/lib/libQt5Xml.so.$QTVER $DEPS_LIB/libQt5Xml.so.5
-cp -aR $QTDIR/lib/libQt5Widgets.so.$QTVER $DEPS_LIB/libQt5Widgets.so.5
-cp -aR $QTDIR/lib/libQt5Network.so.$QTVER $DEPS_LIB/libQt5Network.so.5
-cp -aR $QTDIR/lib/libQt5Gui.so.$QTVER $DEPS_LIB/libQt5Gui.so.5
-cp -aR $QTDIR/lib/libQt5Core.so.$QTVER $DEPS_LIB/libQt5Core.so.5
-cp -aR $QTDIR/lib/libQt5Concurrent.so.$QTVER $DEPS_LIB/libQt5Concurrent.so.5
-cp -aR $QTDIR/lib/libQt5DBus.s* $DEPS_LIB
-cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
-
 #external libs
-cp -aR /usr/local/lib/libssh2.s* $DEPS_LIB
+cp -aR /usr/lib/i386-linux-gnu/libxcb*.s* $DEPS_LIB
+cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
 
 
 echo 
