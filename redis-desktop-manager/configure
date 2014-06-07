@@ -13,10 +13,16 @@ sh ./configure  --with-openssl --with-libz
 make
 sudo make install
 
-sudo bash -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/libssh2.conf'
-sudo ldconfig
+cd ./../
 
-cd ./../google-breakpad
+if ! type "aclocal-1.14" > /dev/null; then
+cd ./../vagrant-provision
+chmod +x build_automake.sh
+./build_automake.sh
+cd ./../deps
+fi
+
+cd ./google-breakpad
 ./configure && make
 sudo make install
 

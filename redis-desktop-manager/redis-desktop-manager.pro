@@ -139,15 +139,20 @@ unix {
     }
     else { # ubuntu & debian
 
+        CONFIG += static
+
         FORMS += \
             $$PWD/forms/*.ui \
 
         QMAKE_CXXFLAGS += -std=gnu++0x -g #workaround for google breakpad
+        QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
         LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
-        LIBS += /usr/local/lib/libssh2.so  /usr/local/lib/libbreakpad.a /usr/local/lib/libbreakpad_client.a
+        LIBS += /usr/local/lib/libssh2.a \
+                /usr/local/lib/libbreakpad.a \
+                /usr/local/lib/libbreakpad_client.a \
 
-        PRE_TARGETDEPS +=/usr/local/lib/libssh2.so \
+        PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
                          /usr/local/lib/libbreakpad.a \
                          /usr/local/lib/libbreakpad_client.a \
 
