@@ -1,7 +1,5 @@
 #!/bin/sh
 
-cd ~/
-
 echo 'Install CI Build Agent'
 CI_SERVER=$1
 echo "CI: server = $CI_SERVER"
