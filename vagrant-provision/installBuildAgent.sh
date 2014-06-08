@@ -6,15 +6,17 @@ echo "CI: server = $CI_SERVER"
 
 
 echo '# Download build agent files'
+mkdir buildAgent
+cd buildAgent
 wget -v http://$CI_SERVER/update/buildAgent.zip
-unzip -f buildAgent.zip -d buildAgent
+unzip buildAgent.zip
 rm -f buildAgent.zip
 
 echo '# Install JDK'
 sudo apt-get install default-jdk -y
 
 echo '# Update build agent options & run'
-cd ./buildAgent/conf
+cd ./conf
 cp buildAgent.dist.properties buildAgent.properties
 sed -i -e "s,localhost:8111,$CI_SERVER,g" buildAgent.properties
 cd ./../bin
