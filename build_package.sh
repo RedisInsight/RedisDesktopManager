@@ -72,6 +72,7 @@ DEPS_LIB=$BUILD_DIR/lib
 mkdir $DEPS_LIB
 
 #external libs
+sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts
 cp -aR /usr/lib/i386-linux-gnu/libxcb*.s* $DEPS_LIB
 cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
 
@@ -121,7 +122,7 @@ PACKAGESUFIX=$TAG"_"$PLATFORM
 FILENAME="redis-desktop-manager_"$PACKAGESUFIX".deb"
 NEW_FILE="redis-desktop-manager_"$BUILDERNAME"_"$PACKAGESUFIX".deb"
 
-echo "######## New : $NEW_FILE"
+echo "# New Package Name : $NEW_FILE"
 
 cp $FILENAME $NEW_FILE
 
