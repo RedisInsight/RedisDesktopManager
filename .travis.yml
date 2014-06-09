@@ -21,8 +21,8 @@ before_install:
 - sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 before_script:
 - cd ./redis-desktop-manager
-- sudo chmod 777 configure
-- ./configure > /dev/null
+- sudo chmod +x configure
+- ./configure
 script: 
   - qmake -v
   - qmake
@@ -45,4 +45,4 @@ notifications:
     - u.glide@gmail.com
   email:
     on_success: change
-    on_failure: always
+    on_failure: change
