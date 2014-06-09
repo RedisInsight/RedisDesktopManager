@@ -3,15 +3,19 @@ QTVER=5.3.0
 QTDIR=/usr/local/Qt-$QTVER
 
 export PATH=$QTDIR/bin:$PATH
+echo ===========================
+echo '# Used Qt:'
 qmake -v
 which qmake
 
-echo ===========================
-echo build dir :
-echo ===========================
+TAG=$1
+echo "# Package version: $TAG"
+
+echo '# Build dir:'
 SOURCE_DIR=`pwd`
 pwd
 
+echo
 echo ===========================
 echo Build Crash Reporter :
 echo ===========================
@@ -22,11 +26,15 @@ make
 
 cd ./../
 
-echo   
+echo
 echo ===========================
-TAG=$1
-echo Last tag: $TAG
+echo Build Dependencies :
 echo ===========================
+cd ./redis-desktop-manager
+chmod +x ./configure
+./configure
+
+cd ./../
 
 echo   
 echo ===========================
