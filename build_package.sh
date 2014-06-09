@@ -108,6 +108,7 @@ echo
 echo ===========================
 echo rename package
 echo ===========================
+cd $SOURCE_DIR
 PLATFORM=$(uname -m)
 
 BUILDERNAME=$(lsb_release -si)$(lsb_release -sr)
