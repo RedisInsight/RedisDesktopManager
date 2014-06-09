@@ -7,24 +7,27 @@ unamestr=$(uname)
 
 if [[ "$unamestr" == 'Linux' ]]; then
 
-#build libsssh only on linux
-cd ./libssh
-sh ./configure  --with-openssl --with-libz
-make
-sudo make install
+    if [ ! -f "/usr/local/lib/libssh2.a" ]; then 
+        cd ./libssh
+        sh ./configure  --with-openssl --with-libz
+        make
+        sudo make install
+        cd ./../
+    fi
 
-cd ./../
+    if [ ! -f "/usr/local/lib/libbreakpad.a" ]; then
 
-if ! type "aclocal-1.14" > /dev/null; then
-cd ./../vagrant-provision
-chmod +x build_automake.sh
-./build_automake.sh
-cd ./../deps
-fi
+        if ! type "aclocal-1.14" > /dev/null; then
+            cd ./../vagrant-provision
+            chmod +x build_automake.sh
+            ./build_automake.sh
+            cd ./../deps
+        fi
 
-cd ./google-breakpad
-./configure && make
-sudo make install
+        cd ./google-breakpad
+        ./configure && make
+        sudo make install
+    fi
 
 else
 
