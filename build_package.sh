@@ -70,6 +70,7 @@ echo ===========================
 DEPS_LIB=$BUILD_DIR/lib
 
 mkdir $DEPS_LIB
+mkdir $DEPS_LIB/fonts
 
 #external libs
 sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts
