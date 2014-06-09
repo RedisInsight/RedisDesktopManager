@@ -15,6 +15,13 @@ echo '# Build dir:'
 SOURCE_DIR=`pwd`
 pwd
 
+echo ==========================
+echo Clean
+echo ==========================
+rm -f redis-desktop-manager-*.gz
+rm -f redis-desktop-manager-*.tar
+rm -fR ./redis-desktop-manager-*/
+
 echo
 echo ===========================
 echo Build Crash Reporter :
@@ -97,13 +104,6 @@ export DEBEMAIL DEBFULLNAME
 #debuild -uc -us
 dpkg-buildpackage -b
 
-
-echo ==========================
-echo Clean
-echo ==========================
-rm -f redis-desktop-manager-*.gz
-rm -f redis-desktop-manager-*.tar
-rm -fR ./redis-desktop-manager-*/
 
 
 

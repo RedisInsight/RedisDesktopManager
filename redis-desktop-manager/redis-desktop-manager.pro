@@ -181,6 +181,9 @@ unix {
             $$BREAKPADDIR/processor/ \
             $$BREAKPADDIR/third_party/lss/ \
 
+        release: DESTDIR = ./../bin/linux/release
+        debug:   DESTDIR = ./../bin/linux/debug
+
         target.path = /usr/share/redis-desktop-manager/bin
         target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter  $$PWD/resources/qt.conf  $$PWD/resources/rdm.png
         INSTALLS += target
@@ -192,9 +195,6 @@ unix {
         data.path = /usr/share/redis-desktop-manager/lib
         data.files = lib/*
         INSTALLS += data
-
-        release: DESTDIR = ./../bin/linux/release
-        debug:   DESTDIR = ./../bin/linux/debug
     }
 
     OBJECTS_DIR = $$DESTDIR/obj
