@@ -10,6 +10,6 @@ Vcs-Git: git@github.com:uglide/RedisDesktopManager.git
 
 Package: redis-desktop-manager
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libssl1.0.0, libx11-6, libstdc++6 
+Depends:  libssl (=1.0.0), libcrypto(=1.0.0), libx11 (>=6), libxau (>=6), libm (>=6), libz (>=1), libc (>=6), libstdc++ (>=6)
 Description: Redis GUI Management Tool
   Redis Crossplatform GUI Management Tool
