@@ -104,8 +104,25 @@ export DEBEMAIL DEBFULLNAME
 #debuild -uc -us
 dpkg-buildpackage -b
 
+echo 
+echo ===========================
+echo rename package
+echo ===========================
+PLATFORM=$(uname -m)
 
+BUILDERNAME=$(lsb_release -si)$(lsb_release -sr)
 
+if [ "$PLATFORM" != 'x86_64' ]; then
+    PLATFORM='i386'
+fi
+PACKAGESUFIX=$TAG"_"$PLATFORM
 
+FILENAME="redis-desktop-manager_"$PACKAGESUFIX".deb"
+NEW_FILE="redis-desktop-manager_"$BUILDERNAME"_"$PACKAGESUFIX".deb"
 
+echo "######## New : $NEW_FILE"
+
+cp $FILENAME $NEW_FILE
+
+rm -f $FILENAME
 
