@@ -7,18 +7,11 @@
 BREAKPADDIR = $$PWD/breakpad/src
 
 INCLUDEPATH += $$PWD/libssh2/include
+INCLUDEPATH += $$BREAKPADDIR\
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR
 
 win32-msvc* {
-    INCLUDEPATH += $$BREAKPADDIR\client\windows\handler\
-    INCLUDEPATH += $$BREAKPADDIR\common\windows\
-    INCLUDEPATH += $$BREAKPADDIR\client\windows\crash_generation
-    INCLUDEPATH += $$BREAKPADDIR\client\windows\common\
-    INCLUDEPATH += $$BREAKPADDIR\google_breakpad\common\
-    INCLUDEPATH += $$BREAKPADDIR\processor
-    INCLUDEPATH += $$BREAKPADDIR\
-
     CONFIG(release, debug|release) {
         WIN_DEPS_PATH = $$PWD/libs/win32/release/
     } else: CONFIG(debug, debug|release) {
@@ -26,13 +19,25 @@ win32-msvc* {
     }
 
     LIBS += -L$$WIN_DEPS_PATH -llibssh2
-    LIBS += -lcommon -lcrash_generation_client -lexception_handler
 
     CONFIG(debug, debug|release) {
         LIBS += -llibeay32 -lssleay32 -lzlib
     }
 
     PRE_TARGETDEPS += $$WIN_DEPS_PATH/libssh2.lib
+
+    HEADERS += $$BREAKPADDIR/common/windows/string_utils-inl.h
+    HEADERS += $$BREAKPADDIR/common/windows/guid_string.h
+    HEADERS += $$BREAKPADDIR/client/windows/handler/exception_handler.h
+    HEADERS += $$BREAKPADDIR/client/windows/common/ipc_protocol.h
+    HEADERS += $$BREAKPADDIR/google_breakpad/common/minidump_format.h
+    HEADERS += $$BREAKPADDIR/google_breakpad/common/breakpad_types.h
+    HEADERS += $$BREAKPADDIR/client/windows/crash_generation/crash_generation_client.h
+    HEADERS += $$BREAKPADDIR/common/scoped_ptr.h
+    SOURCES += $$BREAKPADDIR/client/windows/handler/exception_handler.cc
+    SOURCES += $$BREAKPADDIR/common/windows/string_utils.cc
+    SOURCES += $$BREAKPADDIR/common/windows/guid_string.cc
+    SOURCES += $$BREAKPADDIR/client/windows/crash_generation/crash_generation_client.cc
 
     QMAKE_CXXFLAGS += /MP
     QMAKE_LFLAGS_RELEASE += /MAP
@@ -49,19 +54,6 @@ unix:macx { # OSX
     LIBS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework/Versions/A/Breakpad
     LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
     LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
-
-    INCLUDEPATH += $$PWD/libssh/include
-    INCLUDEPATH += $$BREAKPADDIR/ \
-                    $$BREAKPADDIR/client/mac/handler/ \
-                    $$BREAKPADDIR/client/mac/ \
-                    $$BREAKPADDIR/client/ \
-                    $$BREAKPADDIR/client/mac/crash_generation/ \
-                    $$BREAKPADDIR/common/mac/ \
-                    $$BREAKPADDIR/common/linux/ \
-                    $$BREAKPADDIR/common/ \
-                    $$BREAKPADDIR/processor/ \
-                    $$BREAKPADDIR/google_breakpad/common/ \
-                    $$BREAKPADDIR/third_party/lss/ \
 
     #breakpad app need debug info inside binaries
     QMAKE_CXXFLAGS+=-g
