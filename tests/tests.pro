@@ -7,7 +7,7 @@ CONFIG += debug
 CONFIG += c++11
 CONFIG-=app_bundle
 
-SRC_DIR = $$PWD/../redis-desktop-manager//
+SRC_DIR = $$PWD/../src//
 
 SOURCES += \
     $$PWD/main.cpp \
@@ -19,7 +19,7 @@ SOURCES += \
     $$SRC_DIR/models/*.cpp \
     $$SRC_DIR/models/items/*.cpp \
     $$SRC_DIR/models/value-view-formatters/*.cpp \
-    ../redis-desktop-manager/core/abstractprotocol.cpp
+    $$SRC_DIR/core/abstractprotocol.cpp
 
 HEADERS  += \
     $$PWD/testcases/*.h \
@@ -31,7 +31,7 @@ HEADERS  += \
     $$SRC_DIR/models/items/*.h \
     $$SRC_DIR/models/value-view-formatters/*.h \
     testcases/test_connection.h \
-    ../redis-desktop-manager/core/abstractprotocol.h
+    $$SRC_DIR/core/abstractprotocol.h
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
@@ -69,8 +69,8 @@ unix {
     }
 }
 
-INCLUDEPATH += $$PWD/../deps/libssh/include
-DEPENDPATH += $$PWD/../deps/libssh/include
+INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
+DEPENDPATH += $$PWD/../3rdparty/libssh2/include
 
 INCLUDEPATH += $$PWD/testcases \
     $$SRC_DIR/models \
