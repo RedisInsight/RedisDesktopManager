@@ -78,34 +78,58 @@ unix:!macx { # ubuntu & debian
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
     LIBS += /usr/local/lib/libssh2.a \
-            /usr/local/lib/libbreakpad.a \
-            /usr/local/lib/libbreakpad_client.a \
 
     PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
-                     /usr/local/lib/libbreakpad.a \
-                     /usr/local/lib/libbreakpad_client.a \
 
-    INCLUDEPATH += $$BREAKPADDIR/ \
-        $$BREAKPADDIR/client/linux/handler/ \
-        $$BREAKPADDIR/client/linux/crash_generation/ \
-        $$BREAKPADDIR/client/linux/minidump_writer/ \
-        $$BREAKPADDIR/client/linux/log/ \
-        $$BREAKPADDIR/client/ \
-        $$BREAKPADDIR/common/linux/ \
-        $$BREAKPADDIR/common/ \
-        $$BREAKPADDIR/google_breakpad/common/ \
-        $$BREAKPADDIR/processor/ \
-        $$BREAKPADDIR/third_party/lss/ \
+    HEADERS += $$BREAKPADDIR/client/linux/minidump_writer/cpu_set.h \
+          $$BREAKPADDIR/client/linux/minidump_writer/proc_cpuinfo_reader.h \
+          $$BREAKPADDIR/client/linux/handler/exception_handler.h \
+          $$BREAKPADDIR/client/linux/crash_generation/crash_generation_client.h \
+          $$BREAKPADDIR/client/linux/handler/minidump_descriptor.h \
+          $$BREAKPADDIR/client/linux/minidump_writer/minidump_writer.h \
+          $$BREAKPADDIR/client/linux/minidump_writer/line_reader.h \
+          $$BREAKPADDIR/client/linux/minidump_writer/linux_dumper.h \
+          $$BREAKPADDIR/client/linux/minidump_writer/linux_ptrace_dumper.h \
+          $$BREAKPADDIR/client/linux/minidump_writer/directory_reader.h \
+          $$BREAKPADDIR/client/linux/log/log.h \
+          $$BREAKPADDIR/client/minidump_file_writer-inl.h \
+          $$BREAKPADDIR/client/minidump_file_writer.h \
+          $$BREAKPADDIR/common/linux/linux_libc_support.h \
+          $$BREAKPADDIR/common/linux/eintr_wrapper.h \
+          $$BREAKPADDIR/common/linux/ignore_ret.h \
+          $$BREAKPADDIR/common/linux/file_id.h \
+          $$BREAKPADDIR/common/linux/memory_mapped_file.h \
+          $$BREAKPADDIR/common/linux/safe_readlink.h \
+          $$BREAKPADDIR/common/linux/guid_creator.h \
+          $$BREAKPADDIR/common/linux/elfutils.h \
+          $$BREAKPADDIR/common/linux/elfutils-inl.h \
+          $$BREAKPADDIR/common/linux/elf_gnu_compat.h \
+          $$BREAKPADDIR/common/using_std_string.h \
+          $$BREAKPADDIR/common/memory.h \
+          $$BREAKPADDIR/common/basictypes.h \
+          $$BREAKPADDIR/common/memory_range.h \
+          $$BREAKPADDIR/common/string_conversion.h \
+          $$BREAKPADDIR/common/convert_UTF.h \
+          $$BREAKPADDIR/google_breakpad/common/minidump_format.h \
+          $$BREAKPADDIR/google_breakpad/common/minidump_size.h \
+          $$BREAKPADDIR/google_breakpad/common/breakpad_types.h \
+          $$BREAKPADDIR/common/scoped_ptr.h \
+          $$BREAKPADDIR/third_party/lss/linux_syscall_support.h
 
-    DEPENDPATH += $$BREAKPADDIR/ \
-        $$BREAKPADDIR/client/linux/handler/ \
-        $$BREAKPADDIR/client/linux/crash_generation/ \
-        $$BREAKPADDIR/client/linux/minidump_writer/ \
-        $$BREAKPADDIR/client/linux/log/ \
-        $$BREAKPADDIR/client/ \
-        $$BREAKPADDIR/common/linux/ \
-        $$BREAKPADDIR/common/ \
-        $$BREAKPADDIR/google_breakpad/common/ \
-        $$BREAKPADDIR/processor/ \
-        $$BREAKPADDIR/third_party/lss/ \
+    SOURCES += $$BREAKPADDIR/client/linux/crash_generation/crash_generation_client.cc \
+         $$BREAKPADDIR/client/linux/handler/exception_handler.cc \
+         $$BREAKPADDIR/client/linux/handler/minidump_descriptor.cc \
+         $$BREAKPADDIR/client/linux/minidump_writer/minidump_writer.cc \
+         $$BREAKPADDIR/client/linux/minidump_writer/linux_dumper.cc \
+         $$BREAKPADDIR/client/linux/minidump_writer/linux_ptrace_dumper.cc \
+         $$BREAKPADDIR/client/linux/log/log.cc \
+         $$BREAKPADDIR/client/minidump_file_writer.cc \
+         $$BREAKPADDIR/common/linux/linux_libc_support.cc \
+         $$BREAKPADDIR/common/linux/file_id.cc \
+         $$BREAKPADDIR/common/linux/memory_mapped_file.cc \
+         $$BREAKPADDIR/common/linux/safe_readlink.cc \
+         $$BREAKPADDIR/common/linux/guid_creator.cc \
+         $$BREAKPADDIR/common/linux/elfutils.cc \
+         $$BREAKPADDIR/common/string_conversion.cc \
+         $$BREAKPADDIR/common/convert_UTF.c
 }
