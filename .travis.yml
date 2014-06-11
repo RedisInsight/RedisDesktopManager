@@ -22,7 +22,7 @@ before_install:
 before_script:
 - cd ./src
 - sudo chmod +x configure
-- ./configure
+- sudo ./configure
 script: 
   - qmake -v
   - qmake
