@@ -11,7 +11,7 @@
 #include "client/linux/handler/exception_handler.h"
 #elif defined(Q_OS_WIN32)
 #include "client/windows/handler/exception_handler.h"
-#elif definded(Q_OS_MAC)
+#elif defined(Q_OS_MAC)
 #include <exception_handler.h>
 #endif
 
