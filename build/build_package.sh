@@ -12,6 +12,7 @@ TAG=$1
 echo "# Package version: $TAG"
 
 echo '# Build dir:'
+cd ./../
 SOURCE_DIR=`pwd`
 pwd
 
@@ -26,18 +27,18 @@ echo
 echo ===========================
 echo Build Crash Reporter :
 echo ===========================
-cd ./crashreporter
-qmake
+cd ./3rdparty/crashreporter
+qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release DEFINES+=RDM_VERSION="\\\"$1\\\""
 make clean
 make
 
-cd ./../
+cd $SOURCE_DIR
 
 echo
 echo ===========================
 echo Build Dependencies :
 echo ===========================
-cd ./redis-desktop-manager
+cd ./src
 chmod +x ./configure
 ./configure
 
@@ -51,7 +52,7 @@ BUILD_DIR=./redis-desktop-manager-$TAG
 rm -fR $BUILD_DIR/*
 mkdir $BUILD_DIR
 
-cp -Rf ./redis-desktop-manager/* $BUILD_DIR
+cp -Rf ./src/* $BUILD_DIR
 chmod +x $BUILD_DIR/configure
 mkdir $BUILD_DIR/debian 
 cp -Rf ./build/debian/* $BUILD_DIR/debian  
@@ -115,9 +116,12 @@ PLATFORM=$(uname -m)
 
 BUILDERNAME=$(lsb_release -si)$(lsb_release -sr)
 
-if [ "$PLATFORM" != 'x86_64' ]; then
+if [ "$PLATFORM" == 'x86_64' ]; then
+    PLATFORM='amd64'
+else 
     PLATFORM='i386'
 fi
+
 PACKAGESUFIX=$TAG"_"$PLATFORM
 
 FILENAME="redis-desktop-manager_"$PACKAGESUFIX".deb"
