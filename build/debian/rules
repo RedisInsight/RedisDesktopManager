@@ -10,11 +10,8 @@
 build: build-stamp
 build-stamp:
 	dh_testdir
-
-	# Add here commands to compile the package.
 	qmake
-	make -s
-
+	make
 	touch build-stamp
 
 clean:
