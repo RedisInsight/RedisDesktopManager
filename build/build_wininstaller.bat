@@ -1,5 +1,7 @@
 @echo off
 
+cd ./../
+set SRCDIR=%cd%
 set QTDIR=D:\Qt\5.3\msvc2012_opengl\bin\
 
 echo =======================================================================
@@ -13,16 +15,17 @@ echo =======================================================================
 echo Build project
 echo =======================================================================
 echo Build Crash Reporter :
-cd ./crashreporter
+cd ./3rdparty/crashreporter
 %QTDIR%/qmake -v
-%QTDIR%/qmake CONFIG+=release
+%QTDIR%/qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release DEFINES+=RDM_VERSION="\\\"%1\\\""
 nmake clean
 nmake
 
-cd ./../
+
+cd %SRCDIR%
 
 echo Build Application :
-cd ./redis-desktop-manager
+cd ./src
 %QTDIR%/qmake -v
 %QTDIR%/qmake CONFIG+=release
 nmake clean
