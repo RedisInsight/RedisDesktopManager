@@ -1,13 +1,12 @@
 #!/bin/bash
 cd ./../3rdparty/
-chmod -R 755 libssh2
-chmod -R 755 breakpad
 
 unamestr=$(uname)
 
 if [[ "$unamestr" == 'Linux' ]]; then
 
     if [ ! -f "/usr/local/lib/libssh2.a" ]; then 
+	chmod -R 755 libssh2
         cd ./libssh2
         sh ./configure  --with-openssl --with-libz
         make
@@ -15,22 +14,8 @@ if [[ "$unamestr" == 'Linux' ]]; then
         cd ./../
     fi
 
-    if [ ! -f "/usr/local/lib/libbreakpad.a" ]; then
-
-        if ! type "aclocal-1.14" > /dev/null; then
-            cd ./../build
-            chmod +x build_automake.sh
-            ./build_automake.sh
-            cd ./../3rdparty
-        fi
-
-        cd ./breakpad
-        ./configure && make
-        sudo make install
-    fi
-
 else
-
+chmod -R 755 breakpad
 cd ./breakpad/
 xcodebuild -sdk macosx10.9 -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
 

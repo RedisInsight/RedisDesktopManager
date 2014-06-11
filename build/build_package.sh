@@ -116,10 +116,10 @@ PLATFORM=$(uname -m)
 
 BUILDERNAME=$(lsb_release -si)$(lsb_release -sr)
 
-if [ "$PLATFORM" == 'x86_64' ]; then
-    PLATFORM='amd64'
-else 
+if [ "$PLATFORM" != 'x86_64' ]; then
     PLATFORM='i386'
+else 
+    PLATFORM='amd64'
 fi
 
 PACKAGESUFIX=$TAG"_"$PLATFORM
