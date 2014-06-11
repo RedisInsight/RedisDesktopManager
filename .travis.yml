@@ -11,7 +11,7 @@ before_install:
 - export PATH=$QTDIR/bin:$PATH
 - export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
 - sudo apt-get install libssl1.0.0 -y -qq
-- sudo sh ./vagrant-provision/build_automake.sh
+- sudo sh ./build/build_automake.sh
 - sudo apt-get install gcc-4.7 g++-4.7 gdb -y -qq
 - sudo rm -f /usr/bin/gcc
 - sudo rm -f /usr/bin/g++
@@ -20,14 +20,11 @@ before_install:
 - sudo ln -s /usr/bin/g++-4.7 /usr/bin/g++
 - sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 before_script:
-- cd ./redis-desktop-manager
+- cd ./src
 - sudo chmod +x configure
 - ./configure
 script: 
   - qmake -v
-  - qmake
-  - make -s
-  - cd ./../crashreporter/
   - qmake
   - make -s
   - cd ./../tests/
