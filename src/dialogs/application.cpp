@@ -237,7 +237,7 @@ void MainWin::OnTreeViewContextMenu(const QPoint &point)
     if (type == RedisServerItem::TYPE) {
 
         if (((RedisServerItem*)item)->isLocked()) {
-            QMessageBox::warning(ui.serversTreeView, "Warning", "Performing operations. Please Keep patience.");
+            QMessageBox::warning(ui.serversTreeView, "Warning", "Performing operations. Please be patient.");
             return;
         }
 
