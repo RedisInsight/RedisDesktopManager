@@ -33,6 +33,11 @@ void ConsoleConnectionWrapper::init()
 
 void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
 {
+    if (cmd == "segfault") { //crash
+        delete reinterpret_cast<QString*>(0xFEE1DEAD);
+        return;
+    }
+
     if (!connectionValid) 
     {
         emit addOutput("Invalid config. Can't create connection.");

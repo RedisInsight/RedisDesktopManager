@@ -18,6 +18,7 @@
 #ifndef WIN32
 #include <unistd.h>
 #endif
+#include <wchar.h>
 
 #define CRASHANDLER_MAX_PATH 2000
 
@@ -42,7 +43,8 @@ public:
  
 google_breakpad::ExceptionHandler* CrashHandlerPrivate::pHandler = NULL;
 bool CrashHandlerPrivate::bReportCrashesToSystem = false;
-char crashReporterPath[CRASHANDLER_MAX_PATH];
+wchar_t crashReporterPath[CRASHANDLER_MAX_PATH];
+wchar_t applicationPath[CRASHANDLER_MAX_PATH];
 
 /************************************************************************/
 /* DumpCallback                                                         */
@@ -69,14 +71,14 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
 
-#if defined(WIN32)
-    wchar_t command[CRASHANDLER_MAX_PATH];
-
-    mbstowcs( command, crashReporterPath, strlen(crashReporterPath) );
-    wcscat( command, L" ");
-    wcscat( command, _dump_dir );
-    wcscat( command, L"\\" );
-    wcscat( command, _minidump_id );
+#if defined(WIN32)    
+    wcscat( crashReporterPath, L" ");
+    wcscat( crashReporterPath, _dump_dir );
+    wcscat( crashReporterPath, L"\\" );
+    wcscat( crashReporterPath, _minidump_id );
+    wcscat( crashReporterPath, L".dmp" );
+    wcscat( crashReporterPath, L" ");
+    wcscat( crashReporterPath, applicationPath );
 
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
@@ -87,7 +89,7 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     si.wShowWindow = SW_SHOWNORMAL;
     ZeroMemory( &pi, sizeof(pi) );
 
-    if ( CreateProcess( NULL, command, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) )
+    if ( CreateProcess( NULL, crashReporterPath, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) )
     {
         CloseHandle( pi.hProcess );
         CloseHandle( pi.hThread );
@@ -139,13 +141,12 @@ void CrashHandlerPrivate::InitCrashHandler(const QString& dumpPath)
     if ( pHandler != NULL )
         return;
 
-    const char * appPath = QCoreApplication::applicationDirPath().toStdString().c_str();
+    QString appPath = QCoreApplication::applicationFilePath();
+    wcscpy(applicationPath, appPath.toStdWString().c_str());
 
-    if (strlen( appPath ) == 0)
-        strcpy(crashReporterPath, ".");
-    else
-        strcpy(crashReporterPath, appPath);
-    strcat(crashReporterPath, "/crashreporter");
+    QString appDir = (QCoreApplication::applicationDirPath().isEmpty())? "." : QCoreApplication::applicationDirPath();
+    QString crashReporterFullPath = QString("%1%2").arg(appDir).arg("/crashreporter");
+    wcscpy(crashReporterPath, crashReporterFullPath.toStdWString().c_str());
  
 #if defined(Q_OS_WIN32)
     std::wstring pathAsStr = (const wchar_t*)dumpPath.utf16();
