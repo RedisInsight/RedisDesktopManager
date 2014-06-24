@@ -12,7 +12,7 @@
 #elif defined(Q_OS_WIN32)
 #include "client/windows/handler/exception_handler.h"
 #elif defined(Q_OS_MAC)
-#include <exception_handler.h>
+#include "client/mac/handler/exception_handler.h"
 #endif
 
 #ifndef WIN32
@@ -111,6 +111,7 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     strcpy(command, _dump_dir);
     strcat(command, "/");
     strcat(command, _minidump_id);
+    strcat(command, ".dmp");
 #endif
 
     pid_t pid = fork();
