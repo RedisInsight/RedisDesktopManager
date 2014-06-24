@@ -95,7 +95,23 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
         CloseHandle( pi.hThread );
         TerminateProcess( GetCurrentProcess(), 1 );
     }
-#elif defined(Q_OS_LINUX)
+#else // OSX & LINUX
+
+   char reporterPath[CRASHANDLER_MAX_PATH];
+   wcstombs(reporterPath, crashReporterPath, CRASHANDLER_MAX_PATH);
+
+   char aPath[CRASHANDLER_MAX_PATH];
+   wcstombs(aPath, applicationPath, CRASHANDLER_MAX_PATH);
+
+   char command[CRASHANDLER_MAX_PATH];
+
+#if defined(Q_OS_LINUX)
+   strcpy(command, md.path());
+#elif defined(Q_OS_MAC)
+    strcpy(command, _dump_dir);
+    strcat(command, "/");
+    strcat(command, _minidump_id);
+#endif
 
     pid_t pid = fork();
     if ( pid == -1 ) // fork failed
@@ -103,34 +119,15 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     if ( pid == 0 )
     {
         // we are the fork
-        execl( crashReporterPath,
-            crashReporterPath,
-            md.path(),            
+        execl( reporterPath,
+            reporterPath,
+            command,
+            aPath,
             (char*) 0 );
 
         printf( "Error: Can't launch CrashReporter!\n" );
         return false;
     }
-#elif defined(Q_OS_MAC)
-
-    char command[CRASHANDLER_MAX_PATH];
-    strcpy(command, _dump_dir);
-    strcat(command, "/");
-    strcat(command, _minidump_id);
-
-    pid_t pid = fork();
-    if ( pid == -1 ) { // fork failed
-        return false;
-    }
-
-    if ( pid == 0 )
-    {
-        execl( crashReporterPath,
-            crashReporterPath,
-            command,
-            (char*) 0 );
-    }
-
 #endif
 
     return CrashHandlerPrivate::bReportCrashesToSystem ? success : true;
