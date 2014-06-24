@@ -1,7 +1,8 @@
 #!/bin/sh
 QTPATH=/Users/admin/Qt/5.3/clang_64/bin
-
 export PATH=$PATH:$QTPATH
+
+SOURCE_DIR=`pwd`
 
 echo ===========================
 TAG=$1
