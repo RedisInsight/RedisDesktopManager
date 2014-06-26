@@ -7,7 +7,7 @@
 	<key>CFBundleIconFile</key>
 	<string>rdm.icns</string>
 	<key>CFBundleVersion</key>
-	<string>0.5.0</string>
+	<string>0.0.0</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSHighResolutionCapable</key>

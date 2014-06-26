@@ -20,6 +20,13 @@ make -s -j 2
 echo '============== Build rdm ================'
 cd ./../../src/
 pwd
+
+echo ===========================
+echo replace tag in Info.plist:
+cp resources/Info.plist.sample resources/Info.plist
+sed -i “s/0.0.0/$TAG/g” resources/Info.plist
+echo ===========================
+
 sh ./configure
 qmake
 make -s clean
@@ -37,5 +44,5 @@ cp -f ./src/resources/rdm.icns $BUILD_DIR/Resources/
 
 cd $BUNDLE_PATH
 
-$MAC_TOOL rdm.app -dmg 
+$MAC_TOOL rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter
 cp rdm.dmg redis-desktop-manager-$TAG.dmg
