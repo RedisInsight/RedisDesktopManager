@@ -6,6 +6,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QDialog>
 #include <QMovie>
+#include <QDesktopWidget>
 #include "core.h"
 #include "connectionsmanager.h"
 #include "RedisServerItem.h"
@@ -29,6 +30,10 @@ MainWin::MainWin(QWidget *parent)
     qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
     qRegisterMetaType<RedisClient::Response>("Response");
     qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
+
+    QDesktopWidget* desktop = QApplication::desktop();
+    QRect scr = desktop->screenGeometry();
+    move(scr.center() - rect().center());
 
     initConnectionsTreeView();
     initContextMenus();
@@ -152,7 +157,11 @@ void MainWin::OnConsoleStateChanged()
 void MainWin::OnAddConnectionClick()
 {
     QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(this));    
+    connectionDialog->setModal(true);
     connectionDialog->setWindowState(Qt::WindowActive);
+#ifdef Q_OS_LINUX
+    connectionDialog->move(this->width()/2 + connectionDialog->width() / 3, this->height()/2);
+#endif
     connectionDialog->exec();    
 }
 
@@ -312,6 +321,11 @@ void MainWin::OnEditConnection()
     UnlockUi();
 
     QScopedPointer<ConnectionWindow> connectionDialog( new ConnectionWindow(this, server) );
+    connectionDialog->setModal(true);
+    connectionDialog->setWindowState(Qt::WindowActive);
+#ifdef Q_OS_LINUX
+    connectionDialog->move(this->width()/2 + connectionDialog->width() / 3, this->height()/2);
+#endif
     connectionDialog->exec();    
 }
 
