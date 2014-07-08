@@ -17,7 +17,7 @@ echo =======================================================================
 echo Build Crash Reporter :
 cd ./3rdparty/crashreporter
 %QTDIR%/qmake -v
-%QTDIR%/qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release DEFINES+=RDM_VERSION="\\\"%1\\\""
+%QTDIR%/qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release DEFINES-=RDM_VERSION  DEFINES+=RDM_VERSION="\\\"%1\\\""
 nmake clean
 nmake
 
@@ -27,7 +27,7 @@ cd %SRCDIR%
 echo Build Application :
 cd ./src
 %QTDIR%/qmake -v
-%QTDIR%/qmake CONFIG+=release
+%QTDIR%/qmake CONFIG+=release DEFINES-=RDM_VERSION  DEFINES+=RDM_VERSION="\\\"%1\\\""
 nmake clean
 nmake
 
