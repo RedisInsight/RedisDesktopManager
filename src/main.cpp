@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     CrashHandler::instance()->Init(QDir::homePath());
 
     QApplication::setApplicationName("Redis Desktop Manager");
-    QApplication::setApplicationVersion(RDM_VERSION);    
+    QApplication::setApplicationVersion(QByteArray(RDM_VERSION));
     QApplication::setOrganizationDomain("redisdesktop.com");
     
     QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttf");
