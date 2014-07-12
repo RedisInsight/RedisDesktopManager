@@ -72,13 +72,14 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     */
 
 #if defined(WIN32)    
-    wcscat( crashReporterPath, L" ");
-    wcscat( crashReporterPath, _dump_dir );
-    wcscat( crashReporterPath, L"\\" );
-    wcscat( crashReporterPath, _minidump_id );
-    wcscat( crashReporterPath, L".dmp" );
-    wcscat( crashReporterPath, L" ");
-    wcscat( crashReporterPath, applicationPath );
+    wcscat_s( crashReporterPath, L" \"");
+    wcscat_s( crashReporterPath, _dump_dir );
+    wcscat_s( crashReporterPath, L"\\" );
+    wcscat_s( crashReporterPath, _minidump_id );
+    wcscat_s( crashReporterPath, L".dmp\"" );
+    wcscat_s( crashReporterPath, L" \"");
+    wcscat_s( crashReporterPath, applicationPath );
+    wcscat_s( crashReporterPath, L"\"");
 
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
