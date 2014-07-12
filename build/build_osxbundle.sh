@@ -24,7 +24,7 @@ echo ============================
 echo Build Crash Reporter :
 cd ./3rdparty/crashreporter
 qmake -v
-qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release DEFINES+=RDM_VERSION="\\\"$1\\\""
+qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release
 make -s clean
 make -s -j 2
 
