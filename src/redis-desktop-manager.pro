@@ -49,7 +49,7 @@ win32-msvc* {
     RC_FILE += $$PWD/resources/rdm.rc
 
     release: DESTDIR = ./../bin/windows/release
-    debug:   DESTDIR = ./../bin/windows/debug        
+    debug:   DESTDIR = ./../bin/windows/debug
 }
 
 unix:macx { # OSX

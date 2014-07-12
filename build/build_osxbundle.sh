@@ -1,38 +1,53 @@
 #!/bin/sh
+
+echo ============================
+echo Set version $1
+echo ============================
+TAG=$1
+python ./build/set_version.py %1 > ./src/version.h
+python ./build/set_version.py %1 > ./3rdparty/crashreporter/src/version.h
+echo DONE
+
+echo ============================
+echo Setup Build Environment
+echo ============================
 QTPATH=/Users/admin/Qt/5.3/clang_64/bin
 export PATH=$PATH:$QTPATH
-
 SOURCE_DIR=`pwd`
-
-echo ===========================
-TAG=$1
-echo Version: $TAG
-echo ===========================
-
 rm -fR ./bin/linux/release/*
+echo DONE
 
-echo '============== Build crash reporter ================'
+
+echo ============================
+echo Build project
+echo ============================
+echo Build Crash Reporter :
 cd ./3rdparty/crashreporter
+qmake -v
 qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release DEFINES+=RDM_VERSION="\\\"$1\\\""
 make -s clean
 make -s -j 2
 
-echo '============== Build rdm ================'
+echo ===========================
+echo Build Application :
+set -e
 cd ./../../src/
 pwd
 
-echo ===========================
-echo replace tag in Info.plist:
+#replace tag in Info.plist:
 cp resources/Info.plist.sample resources/Info.plist
 sed -i “s/0.0.0/$TAG/g” resources/Info.plist
-echo ===========================
 
 sh ./configure
 qmake
 make -s clean
 make -s -j 2
 
-echo ‘============== Create release bundle ================’
+echo DONE
+
+echo ============================
+echo Create release bundle
+echo ============================
 cd ./../
 
 BUNDLE_PATH=./bin/linux/release/ 

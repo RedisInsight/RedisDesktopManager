@@ -1,20 +1,24 @@
 #!/bin/sh
+
+echo ============================
+echo Set version $1
+echo ============================
+TAG=$1
+python ./build/set_version.py %1 > ./src/version.h
+python ./build/set_version.py %1 > ./3rdparty/crashreporter/src/version.h
+echo DONE
+
+echo ============================
+echo Setup Build Environment
+echo ============================
 QTVER=5.3.0
 QTDIR=/usr/local/Qt-$QTVER
-
 export PATH=$QTDIR/bin:$PATH
-echo ===========================
 echo '# Used Qt:'
 qmake -v
 which qmake
-
-TAG=$1
-echo "# Package version: $TAG"
-
-echo '# Build dir:'
 cd ./../
 SOURCE_DIR=`pwd`
-pwd
 
 echo ==========================
 echo Clean
@@ -28,7 +32,7 @@ echo ===========================
 echo Build Crash Reporter :
 echo ===========================
 cd ./3rdparty/crashreporter
-qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release DEFINES+=RDM_VERSION="\\\"$1\\\""
+qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release
 make clean
 make
 
