@@ -27,12 +27,11 @@ qmake -v
 qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release
 make -s clean
 make -s -j 2
+cd $SOURCE_DIR
 
 echo ===========================
 echo Build Application :
-set -e
-cd ./../../src/
-pwd
+cd ./src
 
 #replace tag in Info.plist:
 cp resources/Info.plist.sample resources/Info.plist
