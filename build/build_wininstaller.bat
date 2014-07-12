@@ -50,6 +50,13 @@ if %errorlevel% neq 0 (
 cd ./../
 
 echo ============================
+echo Export debug symbols
+echo ============================
+cd ./bin/windows/release
+%SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
+cd %SRCDIR%
+
+echo ============================
 echo Build installer
 echo ============================
 "C:\\Program Files (x86)\\NSIS\\Unicode\\makensis.exe" /V1 /DVERSION=%1  ./build/windows/installer/installer.nsi
