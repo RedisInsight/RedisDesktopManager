@@ -36,7 +36,7 @@ pwd
 
 #replace tag in Info.plist:
 cp resources/Info.plist.sample resources/Info.plist
-sed -i “s/0.0.0/$TAG/g” resources/Info.plist
+sed -i "s/0.0.0/$TAG/g" resources/Info.plist
 
 sh ./configure
 qmake
