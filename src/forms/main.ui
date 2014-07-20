@@ -247,7 +247,7 @@ aa|bb 	Either aa or bb.
           </layout>
          </item>
          <item>
-          <widget class="ConnectionTreeView" name="serversTreeView">
+          <widget class="ConnectionsTree::TreeView" name="serversTreeView">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -654,9 +654,9 @@ aa|bb 	Either aa or bb.
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ConnectionTreeView</class>
+   <class>ConnectionsTree::TreeView</class>
    <extends>QTreeView</extends>
-   <header>ConnectionTreeView.h</header>
+   <header>treeview.h</header>
   </customwidget>
   <customwidget>
    <class>MainTabsWidget</class>

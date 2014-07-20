@@ -16,7 +16,6 @@
 #include "Updater.h"
 #include "serverInfoViewTab.h"
 #include "consoleTab.h"
-#include "ServerContextMenu.h"
 #include "utils/configmanager.h"
 #include "dialogs/quickstartdialog.h"
 
@@ -67,24 +66,18 @@ void MainWin::initConnectionsTreeView()
 
     ui.serversTreeView->setModel(connections.data());
 
-    connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
-            this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
-    connect(ui.serversTreeView, SIGNAL(wheelClicked(const QModelIndex&)), 
-        this, SLOT(OnConnectionTreeWheelClick(const QModelIndex&)));
+//    connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
+//            this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
+//    connect(ui.serversTreeView, SIGNAL(wheelClicked(const QModelIndex&)), 
+//        this, SLOT(OnConnectionTreeWheelClick(const QModelIndex&)));
 
-    //setup context menu    
-    connect(ui.serversTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-            this, SLOT(OnTreeViewContextMenu(const QPoint &)));
+//    //setup context menu    
+//    connect(ui.serversTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
+//            this, SLOT(OnTreeViewContextMenu(const QPoint &)));
 }
 
 void MainWin::initContextMenus()
 {
-    serverMenu = QSharedPointer<ServerContextMenu>(new ServerContextMenu(this));
-
-    // TODO: move to custom QMenu class
-    keyMenu = QSharedPointer<QMenu>(new QMenu());
-    keyMenu->addAction("Open key value in new tab", this, SLOT(OnKeyOpenInNewTab()));
-
     // TODO: move to custom QMenu class
     connectionsMenu = QSharedPointer<QMenu>(new QMenu());
     connectionsMenu->addAction(QIcon(":/images/import.png"), "Import Connections", this, SLOT(OnImportConnectionsClick()));
@@ -138,17 +131,6 @@ void MainWin::showQuickStartDialog()
     dialog->exec();
 }
 
-void MainWin::lockUi()
-{
-    qDebug() << "ui locked";
-    m_treeViewUILocked = true;
-}
-
-bool MainWin::isUiLocked()
-{
-    return m_treeViewUILocked;
-}
-
 void MainWin::OnConsoleStateChanged()
 {
     ui.systemConsole->setVisible(!ui.systemConsole->isVisible());
@@ -157,170 +139,6 @@ void MainWin::OnConsoleStateChanged()
 void MainWin::OnAddConnectionClick()
 {
     QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(this));    
-    connectionDialog->setModal(true);
-    connectionDialog->setWindowState(Qt::WindowActive);
-#ifdef Q_OS_LINUX
-    connectionDialog->move(this->width()/2 + connectionDialog->width() / 3, this->height()/2);
-#endif
-    connectionDialog->exec();    
-}
-
-void MainWin::OnConnectionTreeClick(const QModelIndex & index)
-{
-    if (isUiLocked() || !index.isValid()) {
-
-        qDebug() << "UI Locked" << isUiLocked();
-
-        return;    
-    }
-
-    QStandardItem * item = connections->itemFromIndex(index);    
-
-    int type = item->type();
-
-    switch (type) {
-    case RedisServerItem::TYPE:
-    {            
-        RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-        server->loadDatabaseList();
-        ui.serversTreeView->setExpanded(index, true);
-    }
-    break;
-
-    case RedisServerDbItem::TYPE:
-    {        
-        RedisServerDbItem * db = dynamic_cast<RedisServerDbItem *>(item);
-
-        if (db->loadKeys()) {
-            performanceTimer.start();
-            connections->blockSignals(true);
-            statusBar()->showMessage(QString("Loading keys ..."));
-            ui.serversTreeView->setExpanded(index, true);
-        }                
-                     
-    }            
-    break;
-
-    case RedisKeyItem::TYPE:    
-
-        if (item->isEnabled())
-            ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));    
-
-        break;
-    }
-}
-
-void MainWin::OnConnectionTreeWheelClick(const QModelIndex & index)
-{
-    if (!index.isValid())
-        return;
-
-    QStandardItem * item = connections->itemFromIndex(index);    
-
-    if (item->type() == RedisKeyItem::TYPE) {
-        ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
-    }
-}
-
-
-// todo: move responsibility to ConnectionTreeView
-// ConnectionTreeView::setItemsContextMenu( QHash( int => QMenu ) )
-// and this method will be internal
-
-void MainWin::OnTreeViewContextMenu(const QPoint &point)
-{
-    if (point.isNull()) 
-        return;
-
-    QStandardItem *item = connections->itemFromIndex(
-        ui.serversTreeView->indexAt(point)
-        );    
-
-    QPoint currentPoint = QCursor::pos(); 
-
-    if (!item || currentPoint.isNull() || isUiLocked())
-        return;
-
-    int type = item->type();
-
-    if (type == RedisServerItem::TYPE) {
-
-        if (((RedisServerItem*)item)->isLocked()) {
-            QMessageBox::warning(ui.serversTreeView, "Warning", "Performing operations. Please be patient.");
-            return;
-        }
-
-        QAction * action = serverMenu->exec(currentPoint);
-
-        if (action == nullptr)
-            return;           
-        
-    } else if (type == RedisKeyItem::TYPE) {
-        keyMenu->exec(currentPoint);
-    }
-}
-
-void MainWin::OnReloadServerInTree()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);
-
-    if (item == nullptr) 
-        return;    
-
-    try {
-        RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-        lockUi();
-        server->reload();
-    } catch (std::bad_cast &) {
-        QMessageBox::warning(this, "Error", "Error occurred on reloading connection");
-    }
-}
-
-void MainWin::OnDisconnectFromServer()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);    
-
-    if (item == nullptr) 
-        return;    
-
-    RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-    server->unload();
-}
-
-void MainWin::OnRemoveConnectionFromTree()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);
-
-    if (item == nullptr) 
-        return;    
-
-    QMessageBox::StandardButton reply;
-
-    reply = QMessageBox::question(this, "Confirm action", "Do you really want delete connection?",
-        QMessageBox::Yes|QMessageBox::No);
-
-    if (reply == QMessageBox::Yes) {
-
-        RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-
-        connections->RemoveConnection(server);
-        UnlockUi();
-    }
-}
-
-void MainWin::OnEditConnection()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);    
-
-    if (item == nullptr) 
-        return;    
-
-    RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-    
-    server->unload();
-    UnlockUi();
-
-    QScopedPointer<ConnectionWindow> connectionDialog( new ConnectionWindow(this, server) );
     connectionDialog->setModal(true);
     connectionDialog->setWindowState(Qt::WindowActive);
 #ifdef Q_OS_LINUX
@@ -390,62 +208,6 @@ void MainWin::OnClearFilter()
     ui.pbClearFilter->setEnabled(false);
 }
 
-void MainWin::OnServerInfoOpen()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);    
-
-    if (item == nullptr) 
-        return;    
-
-    RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-
-    QStringList info = server->getInfo();
-
-    if (info.isEmpty()) 
-        return;
-
-    serverInfoViewTab * tab = new serverInfoViewTab(server->text(), info);
-    QString serverName = QString("Info: %1").arg(server->text());
-    ui.tabWidget->addTab(serverName, tab, ":/images/serverinfo.png");    
-}
-
-void MainWin::OnConsoleOpen()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);    
-
-    if (item == nullptr) 
-        return;    
-
-    RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-    RedisClient::ConnectionConfig config = server->getConnection()->getConfig();
-
-    BaseTab * tab = new BaseTab();
-    ConsoleTab * console = new ConsoleTab(config);
-    console->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, tab);
-    layout->setMargin(0);
-    layout->addWidget(console);
-    tab->setLayout(layout);
-    tab->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    console->setParent(tab);    
-
-    QString serverName = server->text();
-
-    ui.tabWidget->addTab(serverName, tab, ":/images/terminal.png", true);
-
-    console->setFocus();
-}
-
-void MainWin::OnKeyOpenInNewTab()
-{
-    QStandardItem * item = ui.serversTreeView->getSelectedItem();    
-
-    if (item == nullptr || item->type() != RedisKeyItem::TYPE) 
-        return;    
-
-    ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
-}
-
 void MainWin::OnError(QString msg)
 {
     QMessageBox::warning(this, "Error", msg);
@@ -454,22 +216,6 @@ void MainWin::OnError(QString msg)
 void MainWin::OnLogMessage(QString message)
 {
     ui.systemConsole->appendPlainText(QString("[%1] %2").arg(QTime::currentTime().toString()).arg(message));
-}
-
-void MainWin::UnlockUi()
-{
-    qDebug() << "ui unlocked";
-    m_treeViewUILocked = false;
-
-    if (connections->signalsBlocked()) {
-        connections->blockSignals(false);    
-        ui.serversTreeView->doItemsLayout();
-    }
-
-    if (performanceTimer.isValid()) {
-        statusBar()->showMessage(QString("Keys loaded in: %1 ms").arg(performanceTimer.elapsed()));
-        performanceTimer.invalidate();
-    }
 }
 
 void MainWin::OnStatusMessage(QString message)

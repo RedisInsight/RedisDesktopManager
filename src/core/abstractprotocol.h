@@ -11,14 +11,7 @@ class AbstractProtocol : public QObject
 {
     Q_OBJECT
 public:
-    AbstractProtocol(Connection * connection);    
-
-    /**
-     * List of databases with keys counters
-     * @emit databesesLoaded
-     **/
-    typedef QHash <QString, int> DatabaseList;
-    DatabaseList getDatabases();
+    AbstractProtocol(Connection * connection);
 
     /**
      * Select db

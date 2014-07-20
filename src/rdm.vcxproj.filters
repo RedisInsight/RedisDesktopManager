@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="models\value-view-formatters\AbstractFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\BaseTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\ConnectionTreeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crashhandler\CrashHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\FastItemDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\HashKeyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\items\ItemWithNaturalSort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\value-view-formatters\JsonFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\KeyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\items\KeysTreeRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\ListKeyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\MainTabsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\value-view-formatters\PHPSerializeFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\PaginatedModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\value-view-formatters\PlainFormatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\items\RedisKeyItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\items\RedisKeyNamespace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\items\RedisServerDbItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\items\RedisServerItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\ServerContextMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\SetKeyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\SortedSetKeyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\StringKeyModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="updater\Updater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\ValueTabView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\abstractprotocol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\abstracttransporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\commandexecutor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\configmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\connect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\connection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\connectionconfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\connectionsmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\consoleTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\consoleconnectionwrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdparty\breakpad\src\client\windows\crash_generation\crash_generation_client.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\defaultprotocol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\defaulttransporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdparty\breakpad\src\client\windows\handler\exception_handler.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdparty\breakpad\src\common\windows\guid_string.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\qconsole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs\quickstartdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ssh\qxtsshchannel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ssh\qxtsshclient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ssh\qxtsshprocess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\ssh\qxtsshtcpsocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\response.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\serverInfoViewTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\sshtransporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdparty\breakpad\src\common\windows\string_utils.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\valueTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="models\value-view-formatters\AbstractFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="widgets\BaseTab.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="widgets\ConnectionTreeView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="crashhandler\CrashHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="models\FastItemDelegate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="models\HashKeyModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="models\items\ItemWithNaturalSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models\value-view-formatters\JsonFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="models\KeyModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="models\items\KeysTreeRenderer.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="models\ListKeyModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="widgets\MainTabsWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="models\value-view-formatters\PHPSerializeFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="models\PaginatedModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="models\value-view-formatters\PlainFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models\items\RedisKeyItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models\items\RedisKeyNamespace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="models\items\RedisServerDbItem.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="models\items\RedisServerItem.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="widgets\ServerContextMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="models\SetKeyModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="models\SortedSetKeyModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="models\StringKeyModel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="updater\Updater.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="widgets\ValueTabView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\abstractprotocol.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\abstracttransporter.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dialogs\application.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="..\3rdparty\breakpad\src\google_breakpad\common\breakpad_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="core\commandexecutor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="utils\configmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="dialogs\connect.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\connection.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="core\connectionconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\connectionexception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="core\connectionsmanager.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="widgets\consoleTab.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\consoleconnectionwrapper.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="core\core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\breakpad\src\client\windows\crash_generation\crash_generation_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\defaultprotocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="core\defaulttransporter.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="..\3rdparty\breakpad\src\client\windows\handler\exception_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\breakpad\src\common\windows\guid_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\breakpad\src\client\windows\common\ipc_protocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\breakpad\src\google_breakpad\common\minidump_format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="widgets\qconsole.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dialogs\quickstartdialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="core\ssh\qxtnetwork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="core\ssh\qxtsshchannel.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="core\ssh\qxtsshchannel_p.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="core\ssh\qxtsshclient.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\ssh\qxtsshclient_p.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\ssh\qxtsshprocess.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="core\ssh\qxtsshtcpsocket.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="core\response.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\responseexception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\breakpad\src\common\scoped_ptr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="widgets\serverInfoViewTab.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="core\sshtransporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\breakpad\src\common\windows\string_utils-inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="widgets\valueTab.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_BaseTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_BaseTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_ConnectionTreeView.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_FastItemDelegate.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_FastItemDelegate.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_HashKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_HashKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_KeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_KeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_KeysTreeRenderer.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_ListKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_ListKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_MainTabsWidget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_MainTabsWidget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_PaginatedModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_PaginatedModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_RedisServerDbItem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_RedisServerDbItem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_RedisServerItem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_RedisServerItem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_SetKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_SetKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_SortedSetKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_SortedSetKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_StringKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_StringKeyModel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_Updater.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_Updater.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_ValueTabView.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_ValueTabView.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_abstractprotocol.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_abstractprotocol.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_abstracttransporter.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_abstracttransporter.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_application.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_application.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_commandexecutor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_commandexecutor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_connect.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_connect.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_connection.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_connection.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_connectionsmanager.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_connectionsmanager.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_consoleTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_consoleTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_consoleconnectionwrapper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_consoleconnectionwrapper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_defaulttransporter.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_defaulttransporter.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_qconsole.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_qconsole.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_quickstartdialog.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_quickstartdialog.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_qxtsshchannel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_qxtsshchannel.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_qxtsshclient.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_qxtsshclient.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_qxtsshclient_p.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_qxtsshclient_p.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_qxtsshprocess.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_qxtsshprocess.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_qxtsshtcpsocket.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_qxtsshtcpsocket.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_serverInfoViewTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_serverInfoViewTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\moc_valueTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\moc_valueTab.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\qrc_fonts.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\qrc_fonts.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\debug\obj\qrc_rdm.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bin\windows\release\obj\qrc_rdm.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <CustomBuild Include="..\bin\windows\debug\obj\rdm.res">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\bin\windows\release\obj\rdm.res">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="ui_connection.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_demo.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_quickstartdialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_serverInfoViewTab.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="forms\connection.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms\demo.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms\quickstartdialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="forms\serverInfoViewTab.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\fonts\OpenSans-Regular.ttf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\add.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\alert.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\clear.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\db.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\delete.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\editdb.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\export.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <CustomBuild Include="resources\fonts.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <None Include="resources\images\github.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\help.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\import.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\key.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\loader.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\logo.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\menu.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\namespace.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\ok.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <CustomBuild Include="resources\rdm.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <None Include="resources\redis.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\redis_big_icon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\redis_small_icon.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\redis_small_icon_offline.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\refreshdb.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\serverinfo.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\terminal.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\twi.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\ua.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\images\wait.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D:\projects\cpp\redisdesktopmanager\src\resources\rdm.rc" />
+  </ItemGroup>
+</Project>

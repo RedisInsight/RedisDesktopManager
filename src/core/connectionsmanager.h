@@ -22,18 +22,15 @@ public:
     bool RemoveConnection(RedisServerItem *);
     bool ImportConnections(QString &);
     bool SaveConnectionsConfigToFile(QString);
-
     void setFilter(QRegExp &);
     void resetFilter();
-
     void connectionChanged();
-
     int count();
 
 private:
     QString configPath;
     bool connectionSettingsChanged;
-    QThread connectionsThread;
+
     QList<RedisClient::Connection *> connections;
     QRegExp filter;
 

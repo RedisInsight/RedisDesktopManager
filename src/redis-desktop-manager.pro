@@ -12,6 +12,8 @@ TEMPLATE = app
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/dialogs/*.cpp \
+    $$PWD/connections-tree/*.cpp \
+    $$PWD/connections-tree/items/*.cpp \
     $$PWD/core/*.cpp \
     $$PWD/core/ssh/*.cpp \
     $$PWD/widgets/*.cpp \
@@ -25,6 +27,8 @@ SOURCES += \
 HEADERS  += \
     $$PWD/version.h \
     $$PWD/dialogs/*.h \
+    $$PWD/connections-tree/*.h \
+    $$PWD/connections-tree/items/*.h \
     $$PWD/core/*.h \
     $$PWD/core/ssh/*.h \
     $$PWD/widgets/*.h \
@@ -105,6 +109,7 @@ RCC_DIR = $$DESTDIR/obj
 INCLUDEPATH += $$PWD/dialogs \
     $$PWD/core/ \
     $$PWD/core/ssh/ \
+    $$PWD/connections-tree/ \
     $$PWD/widgets/ \
     $$PWD/crashhandler/ \
     $$PWD/updater/ \
