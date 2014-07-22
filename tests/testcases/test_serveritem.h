@@ -12,6 +12,8 @@ public:
 private slots:
 
     void testLoad();
+    void testUnload();
+    void testReload();
 
 };
 

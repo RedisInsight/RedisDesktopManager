@@ -8,8 +8,11 @@
 
 using namespace ConnectionsTree;
 
-ServerItem::ServerItem(QSharedPointer<Operations> operations)
-    : m_operations(operations)
+ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations)
+    : m_name(name),
+      m_locked(false),
+      m_databaseListLoaded(false),
+      m_operations(operations)
 {
 }
 
@@ -27,7 +30,7 @@ bool ServerItem::onClick(QWeakPointer<ParentView>, QWeakPointer<QTabWidget>)
 QIcon ServerItem::getIcon() const
 {
     if (m_locked)    return IconProxy::instance()->get(":/images/wait.png");
-    if (m_connected) return IconProxy::instance()->get(":/images/redisIcon.png");
+    if (m_databaseListLoaded) return IconProxy::instance()->get(":/images/redisIcon.png");
     return IconProxy::instance()->get(":/images/redisIcon_offline.png");
 }
 
@@ -54,43 +57,26 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(QWeakPointer<TreeItem::ParentVi
 {
     QSharedPointer<QMenu> menu(new QMenu());
 
-    /*
     //console action
     QAction* console = new QAction(QIcon(":/images/terminal.png"), "Console", menu.data());
-    QObject::connect(console, &QAction::triggered, this, [this]() {
+    QObject::connect(console, &QAction::triggered, this, [this, treeView, tabs]() {
 
-//        QStandardItem * item = ui.serversTreeView->getSelectedItem(RedisServerItem::TYPE);
+        QSharedPointer<TreeItem::ParentView> tree = treeView.toStrongRef();
+        QSharedPointer<QTabWidget> tabsView = tabs.toStrongRef();
 
-//        if (item == nullptr)
-//            return;
+        if (!tree || !tabsView)
+            return;
 
-//        RedisServerItem * server = dynamic_cast<RedisServerItem *>(item);
-//        RedisClient::ConnectionConfig config = server->getConnection()->getConfig();
-
-//        BaseTab * tab = new BaseTab();
-//        ConsoleTab * console = new ConsoleTab(config);
-//        console->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-//        QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, tab);
-//        layout->setMargin(0);
-//        layout->addWidget(console);
-//        tab->setLayout(layout);
-//        tab->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-//        console->setParent(tab);
-
-//        QString serverName = server->text();
-
-//        ui.tabWidget->addTab(serverName, tab, ":/images/terminal.png", true);
-
-//        console->setFocus();
-
-
+        //TBD: implement this
 
     });
     menu->addAction(console);
     menu->addSeparator();
 
+    //TBD: implement context menu actions
+
     //reload action
-    QAction* reload = new QAction(QIcon(":/images/refreshdb.png"), "Reload", menu.data());
+   /* QAction* reload = new QAction(QIcon(":/images/refreshdb.png"), "Reload", menu.data());
     QObject::connect(reload, &QAction::triggered, this, [this] {
 
 
@@ -143,6 +129,11 @@ bool ServerItem::isLocked() const
     return m_locked;
 }
 
+bool ServerItem::isDatabaseListLoaded() const
+{
+    return m_databaseListLoaded;
+}
+
 void ServerItem::load()
 {
     m_locked = true;
@@ -172,6 +163,7 @@ void ServerItem::load()
         m_locked = false;
         m_databaseListLoaded = true;
 
+        emit databaseListLoaded();
     };
 
     m_operations->getDatabases(callback);

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QHash>
+#include <QSharedPointer>
 #include <functional>
 
 namespace ConnectionsTree {
@@ -11,12 +12,30 @@ namespace ConnectionsTree {
     {
     public:
 
+        class ConsoleOperations {
+        public:
+
+        };
+
         /**
          * List of databases with keys counters
          * @emit databesesLoaded
          **/
         typedef QHash <QString, int> DatabaseList;
         virtual void getDatabases(std::function<void(DatabaseList)>) = 0;
+
+        /**
+         * @brief getDatabaseKeys
+         * @param dbIndex
+         */
+        typedef QStringList RawKeysList;
+        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>);
+
+        /**
+         * @brief getConsoleOperations
+         * @return QSharedPointer<ConsoleOperations>
+         */
+        virtual QSharedPointer<ConsoleOperations> getConsoleOperations();
 
         /**
          * Cancel all operations & close connection

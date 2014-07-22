@@ -16,3 +16,8 @@ bool DatabaseItem::onClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabW
 
     return true;
 }
+
+void DatabaseItem::loadKeys()
+{
+   // m_opera
+}

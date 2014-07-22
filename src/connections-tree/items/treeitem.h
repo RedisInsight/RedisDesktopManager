@@ -36,6 +36,8 @@ public:
     virtual QSharedPointer<QMenu> getContextMenu(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs) = 0;
 
     virtual bool isLocked() const = 0;
+
+    virtual ~TreeItem() {}
 };
 
 }

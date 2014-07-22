@@ -4,13 +4,16 @@
 #include "treeitem.h"
 #include "connections-tree/operations.h"
 #include <QList>
+#include <QObject>
 
 namespace ConnectionsTree {
 
-    class ServerItem : public TreeItem
+    class ServerItem : public QObject, public TreeItem
     {
+        Q_OBJECT
+
     public:
-        ServerItem(QSharedPointer<Operations> operations);
+        ServerItem(const QString& name, QSharedPointer<Operations> operations);
 
         QString getDisplayName() const;
         QIcon getIcon() const;
@@ -24,20 +27,21 @@ namespace ConnectionsTree {
         QSharedPointer<QMenu> getContextMenu(QWeakPointer<TreeItem::ParentView> treeView, QWeakPointer<QTabWidget> tabs);
 
         bool isLocked() const;
+        bool isDatabaseListLoaded() const;
 
         void load();
         void unload();
         void reload();
 
+    signals:
+        void databaseListLoaded();
+
     private:
-        bool m_locked;
-        bool m_connected;
+        QString m_name;
+        bool m_locked;        
         bool m_databaseListLoaded;
         QSharedPointer<Operations> m_operations;
-        QList<QSharedPointer<TreeItem>> m_databases;
-
-        QString m_name;
-
+        QList<QSharedPointer<TreeItem>> m_databases;        
     };
 }
 
