@@ -9,6 +9,8 @@ namespace ConnectionsTree {
     {
     public:
         NamespaceItem();
+
+        void append(QSharedPointer<TreeItem> item);
     };
 
 }
