@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AbstractFormatter.h"
+#include "abstractformatter.h"
 
 class PlainFormatter : public AbstractFormatter
 {

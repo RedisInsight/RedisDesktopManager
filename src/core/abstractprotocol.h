@@ -2,12 +2,14 @@
 #define ABSTRACTPROTOCOL_H
 
 #include <QObject>
+#include <QSharedPointer>
 #include "connection.h"
 #include "abstracttransporter.h"
+#include "connections-tree/operations.h"
 
 namespace RedisClient {
 
-class AbstractProtocol : public QObject
+class AbstractProtocol : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT
 public:
@@ -23,6 +25,24 @@ public:
      * Execute info command
      */
     QStringList getInfo();
+
+
+    /**
+     * @brief getDatabases
+     */
+    void getDatabases(std::function<void(DatabaseList)>) override;
+
+    /**
+     * @brief getDatabaseKeys
+     * @param dbIndex
+     */
+    void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>) override;
+
+    QSharedPointer<ConsoleOperations> getConsoleOperations() override;
+
+    void disconnect() override;
+
+    QString getNamespaceSeparator() override;
 
 public slots:
     void auth();

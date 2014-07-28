@@ -1,22 +1,20 @@
-#include "ValueTabView.h"
-#include "FastItemDelegate.h"
-#include "KeyModel.h"
-#include "StringKeyModel.h"
-#include "PaginatedModel.h"
-#include "AbstractFormatter.h"
+#include "valuetabview.h"
+#include "models/keymodel.h"
+#include "models/stringkeymodel.h"
+#include "models/value-view-formatters/abstractformatter.h"
 #include <QMessageBox>
 
-ValueTabView::ValueTabView(RedisKeyItem * key, const QString& name, QWidget * parent)
-    : controller(parent),
-      currentCell(nullptr)
-{    
-    initLayout();
+//ValueTabView::ValueTabView(RedisKeyItem * key, const QString& name, QWidget * parent)
+//    : controller(parent),
+//      currentCell(nullptr)
+//{
+//    initLayout();
 
-    initKeyName();
-    keyName->setText(name);
+//    initKeyName();
+//    keyName->setText(name);
 
-    initFormatter(key->getConnection()->config.defaultValueFormat);
-}
+//    initFormatter(key->getConnection()->config.defaultValueFormat);
+//}
 
 void ValueTabView::initFormatter(const QString &formatter)
 {
@@ -145,7 +143,7 @@ void ValueTabView::initKeyValue(KeyModel * model)
 
         gridLayout->addWidget(splitter, 1, 0, 1, 2);
 
-        keyValue->setItemDelegate(new FastItemDelegate);
+        //keyValue->setItemDelegate(new FastItemDelegate);
         keyValue->setModel(model);
 
         initPagination();
@@ -168,97 +166,97 @@ void ValueTabView::initKeyValue(KeyModel * model)
 
 void ValueTabView::initPagination()
 {
-    paginationGrid = new QGridLayout();
+//    paginationGrid = new QGridLayout();
 
-    previousPage = new QPushButton();
-    previousPage->setText("<");
-    previousPage->setEnabled(false);
+//    previousPage = new QPushButton();
+//    previousPage->setText("<");
+//    previousPage->setEnabled(false);
 
-    nextPage = new QPushButton();
-    nextPage->setText(">");
-    nextPage->setEnabled(false);
+//    nextPage = new QPushButton();
+//    nextPage->setText(">");
+//    nextPage->setEnabled(false);
 
-    pagination = new QLabel;
-    pagination->setAlignment(Qt::AlignCenter);
+//    pagination = new QLabel;
+//    pagination->setAlignment(Qt::AlignCenter);
 
-    paginationGrid->addWidget(previousPage, 0, 0, 1, 1);
-    paginationGrid->addWidget(pagination, 0, 1, 1, 1);
-    paginationGrid->addWidget(nextPage, 0, 2, 1, 1);
+//    paginationGrid->addWidget(previousPage, 0, 0, 1, 1);
+//    paginationGrid->addWidget(pagination, 0, 1, 1, 1);
+//    paginationGrid->addWidget(nextPage, 0, 2, 1, 1);
 
-    gridLayout->addLayout(paginationGrid, 2, 0, 1, 2);
+//    gridLayout->addLayout(paginationGrid, 2, 0, 1, 2);
 
-    connect(keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), 
-        this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
+//    connect(keyValue->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
+//        this, SLOT(onSelectedItemChanged(const QModelIndex &, const QModelIndex &)));
 
-    paginatedModel = (PaginatedModel *) keyValue->model();
+//    paginatedModel = (PaginatedModel *) keyValue->model();
 
-    int pagesCount = paginatedModel->getPagesCount();
-    pagination->setText(
-        QString("Page <b>1</b> of <b>%1</b> (Items: %2)")
-            .arg(pagesCount)
-            .arg(paginatedModel->itemsCount())
-            );
+//    int pagesCount = paginatedModel->getPagesCount();
+//    pagination->setText(
+//        QString("Page <b>1</b> of <b>%1</b> (Items: %2)")
+//            .arg(pagesCount)
+//            .arg(paginatedModel->itemsCount())
+//            );
 
-    if (pagesCount > 1) {        
-        nextPage->setEnabled(true);
+//    if (pagesCount > 1) {
+//        nextPage->setEnabled(true);
 
-        connect(nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
-        connect(previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
-    }
+//        connect(nextPage, SIGNAL(clicked()), this, SLOT(loadNextPage()));
+//        connect(previousPage, SIGNAL(clicked()), this, SLOT(loadPreviousPage()));
+//    }
 }
 
 void ValueTabView::loadNextPage()
 {
-    int currentPage = paginatedModel->getCurrentPage();
-    int totalPages = paginatedModel->getPagesCount();
+//    int currentPage = paginatedModel->getCurrentPage();
+//    int totalPages = paginatedModel->getPagesCount();
 
-    if (currentPage == totalPages) {
-        return;
-    }
+//    if (currentPage == totalPages) {
+//        return;
+//    }
 
-    paginatedModel->setCurrentPage(++currentPage);
+//    paginatedModel->setCurrentPage(++currentPage);
 
-    if (currentPage == totalPages) {
-        nextPage->setEnabled(false);
-    }
+//    if (currentPage == totalPages) {
+//        nextPage->setEnabled(false);
+//    }
 
-    if (currentPage == 2) {
-        previousPage->setEnabled(true);
-    }
+//    if (currentPage == 2) {
+//        previousPage->setEnabled(true);
+//    }
 
-    pagination->setText(
-        QString("Page <b>%1</b> of <b>%2</b> (Items: %3)")
-            .arg(currentPage)
-            .arg(totalPages)
-            .arg(paginatedModel->itemsCount())
-            );
+//    pagination->setText(
+//        QString("Page <b>%1</b> of <b>%2</b> (Items: %3)")
+//            .arg(currentPage)
+//            .arg(totalPages)
+//            .arg(paginatedModel->itemsCount())
+//            );
 }
 
 void ValueTabView::loadPreviousPage()
 {
-    int currentPage = paginatedModel->getCurrentPage();
-    int totalPages = paginatedModel->getPagesCount();
+//    int currentPage = paginatedModel->getCurrentPage();
+//    int totalPages = paginatedModel->getPagesCount();
 
-    if (currentPage == 1) {
-        return;
-    }
+//    if (currentPage == 1) {
+//        return;
+//    }
 
-    paginatedModel->setCurrentPage(--currentPage);
+//    paginatedModel->setCurrentPage(--currentPage);
 
-    if (currentPage == totalPages - 1) {
-        nextPage->setEnabled(true);
-    }
+//    if (currentPage == totalPages - 1) {
+//        nextPage->setEnabled(true);
+//    }
 
-    if (currentPage == 1) {
-        previousPage->setEnabled(false);
-    }
+//    if (currentPage == 1) {
+//        previousPage->setEnabled(false);
+//    }
 
-    pagination->setText(
-        QString("Page <b>%1</b> of <b>%2</b> (Items: %3)")
-            .arg(currentPage)
-            .arg(totalPages)
-            .arg(paginatedModel->itemsCount())
-            );
+//    pagination->setText(
+//        QString("Page <b>%1</b> of <b>%2</b> (Items: %3)")
+//            .arg(currentPage)
+//            .arg(totalPages)
+//            .arg(paginatedModel->itemsCount())
+//            );
 }
 
 void ValueTabView::onSelectedItemChanged(const QModelIndex & current, const QModelIndex & previous)

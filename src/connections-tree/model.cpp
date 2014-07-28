@@ -59,12 +59,12 @@ QModelIndex Model::parent(const QModelIndex &index) const
         return QModelIndex();
 
     const TreeItem *childItem = static_cast<const TreeItem*>(index.internalPointer());
-    QSharedPointer<TreeItem> parentItem = childItem->parent();
+    const TreeItem* parentItem = childItem->parent();
 
-    if (parentItem.isNull())
+    if (parentItem == nullptr)
         return QModelIndex();
 
-    return createIndex(/*parentItem->row()*/0, 0, parentItem.data());
+    return createIndex(/*parentItem->row()*/0, 0, (void*)parentItem);
 }
 
 int Model::rowCount(const QModelIndex &parent) const
@@ -78,4 +78,9 @@ int Model::rowCount(const QModelIndex &parent) const
     const TreeItem *parentItem = static_cast<TreeItem*>(parent.internalPointer());
 
     return parentItem->childCount();
+}
+
+QSharedPointer<TreeItem> Model::getItemFromIndex(const QModelIndex &) const
+{
+    return QSharedPointer<TreeItem>();
 }

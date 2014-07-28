@@ -29,7 +29,7 @@ void RedisClient::AbstractProtocol::auth()
     }
 }
 
-RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDatabases()
+void RedisClient::AbstractProtocol::getDatabases(std::function<void(DatabaseList)> callback)
 {
     if (!m_connection->isConnected()) {
         throw ConnectionExeption("Connect to host before use operations");
@@ -42,7 +42,7 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
     DatabaseList availableDatabeses;
 
     if (result.isErrorMessage()) {
-        return availableDatabeses;
+        return callback(availableDatabeses);
     }
 
     // Parse keyspace info
@@ -81,7 +81,27 @@ RedisClient::AbstractProtocol::DatabaseList RedisClient::AbstractProtocol::getDa
         availableDatabeses.insert(dbName, 0);
     }
 
-    return availableDatabeses;
+    return callback(availableDatabeses);
+}
+
+void RedisClient::AbstractProtocol::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)>)
+{
+
+}
+
+QSharedPointer<ConnectionsTree::Operations::ConsoleOperations> RedisClient::AbstractProtocol::getConsoleOperations()
+{
+    return QSharedPointer<ConnectionsTree::Operations::ConsoleOperations>();
+}
+
+void RedisClient::AbstractProtocol::disconnect()
+{
+
+}
+
+QString RedisClient::AbstractProtocol::getNamespaceSeparator()
+{
+    return QString();
 }
 
 bool RedisClient::AbstractProtocol::selectDb(int index)

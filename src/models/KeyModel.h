@@ -1,9 +1,9 @@
 #pragma once
 
 #include <QStandardItemModel>
-#include "connection.h"
-#include "command.h"
-#include "response.h"
+#include "core/connection.h"
+#include "core/command.h"
+#include "core/response.h"
 
 class KeyModel : public QStandardItemModel
 {

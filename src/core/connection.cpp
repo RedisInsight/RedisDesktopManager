@@ -97,9 +97,9 @@ void RedisClient::Connection::runCommand(const Command &cmd)
         m_cmdLoop.exec();
 }
 
-RedisClient::AbstractProtocol *RedisClient::Connection::operations()
+QSharedPointer<RedisClient::AbstractProtocol> RedisClient::Connection::operations()
 {
-    return protocol.data();
+    return protocol;
 }
 
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)

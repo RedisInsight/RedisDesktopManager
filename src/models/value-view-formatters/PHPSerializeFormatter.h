@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QRegExp>
-#include "AbstractFormatter.h"
+#include "abstractformatter.h"
 
 class PHPSerializeFormatter : public AbstractFormatter
 {

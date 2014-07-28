@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <connectionconfig.h>
+#include "core/connectionconfig.h"
 
 namespace RedisClient {
 class Connection;

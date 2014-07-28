@@ -7,24 +7,25 @@
 #include <QtWidgets/QDialog>
 #include <QMovie>
 #include <QDesktopWidget>
-#include "core.h"
-#include "connectionsmanager.h"
-#include "RedisServerItem.h"
-#include "RedisServerDbItem.h"
-#include "connect.h"
-#include "valueTab.h"
-#include "Updater.h"
-#include "serverInfoViewTab.h"
-#include "consoleTab.h"
-#include "utils/configmanager.h"
+
+#include "core/core.h"
+#include "models/connectionsmanager.h"
+
+#include "dialogs/connect.h"
 #include "dialogs/quickstartdialog.h"
 
+#include "widgets/valueTab.h"
+#include "widgets/consoletab.h"
+
+#include "updater/updater.h"
+#include "utils/configmanager.h"
+
+
 MainWin::MainWin(QWidget *parent)
-    : QMainWindow(parent), m_treeViewUILocked(false)
+    : QMainWindow(parent)
 {
     ui.setupUi(this);
-    performanceTimer.invalidate();
-    qRegisterMetaType<RedisClient::AbstractProtocol::DatabaseList>("RedisClient::AbstractProtocol::DatabaseList");
+
     qRegisterMetaType<RedisClient::Command>("Command");
     qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
     qRegisterMetaType<RedisClient::Response>("Response");
@@ -58,22 +59,13 @@ void MainWin::initConnectionsTreeView()
         exit(1);
     }
 
-    connections = QSharedPointer<RedisConnectionsManager>(new RedisConnectionsManager(config, this));
+    connections = QSharedPointer<RedisConnectionsManager>(new RedisConnectionsManager(config));
 
-    if (connections->count() == 0) {
+    if (connections->size() == 0) {
         QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));
     }
 
     ui.serversTreeView->setModel(connections.data());
-
-//    connect(ui.serversTreeView, SIGNAL(clicked(const QModelIndex&)), 
-//            this, SLOT(OnConnectionTreeClick(const QModelIndex&)));
-//    connect(ui.serversTreeView, SIGNAL(wheelClicked(const QModelIndex&)), 
-//        this, SLOT(OnConnectionTreeWheelClick(const QModelIndex&)));
-
-//    //setup context menu    
-//    connect(ui.serversTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-//            this, SLOT(OnTreeViewContextMenu(const QPoint &)));
 }
 
 void MainWin::initContextMenus()
@@ -192,9 +184,7 @@ void MainWin::OnSetFilter()
         return;
     }
 
-    performanceTimer.start();
-
-    connections->setFilter(filter);
+    //connections->setFilter(filter);
 
     ui.leKeySearchPattern->setStyleSheet("border: 1px solid green; background-color: #FFFF99;");
     ui.pbClearFilter->setEnabled(true);
@@ -202,23 +192,7 @@ void MainWin::OnSetFilter()
 
 void MainWin::OnClearFilter()
 {
-    performanceTimer.start();
-    connections->resetFilter();
+    //connections->resetFilter();
     ui.leKeySearchPattern->setStyleSheet("");
     ui.pbClearFilter->setEnabled(false);
-}
-
-void MainWin::OnError(QString msg)
-{
-    QMessageBox::warning(this, "Error", msg);
-}
-
-void MainWin::OnLogMessage(QString message)
-{
-    ui.systemConsole->appendPlainText(QString("[%1] %2").arg(QTime::currentTime().toString()).arg(message));
-}
-
-void MainWin::OnStatusMessage(QString message)
-{
-    statusBar()->showMessage(message);
 }

@@ -1,11 +1,10 @@
 #ifndef LISTKEYMODEL_H
 #define LISTKEYMODEL_H
 
-#include "KeyModel.h"
-#include "PaginatedModel.h"
-#include "response.h"
+#include "keymodel.h"
+#include "core/response.h"
 
-class ListKeyModel : public PaginatedModel
+class ListKeyModel : public KeyModel
 {
     Q_OBJECT
 

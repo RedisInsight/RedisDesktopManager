@@ -12,5 +12,18 @@ public:
         callback(databases);
     }
 
+    RawKeysList keys;
+    virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)> callback) {
+        callback(keys);
+    }
+
+    virtual QSharedPointer<ConsoleOperations> getConsoleOperations()
+    {
+        return QSharedPointer<ConsoleOperations>();
+    }
+
+    QString namespaceSeparator = ":";
+    QString getNamespaceSeparator() { return namespaceSeparator; }
+
     void disconnect() {}
 };

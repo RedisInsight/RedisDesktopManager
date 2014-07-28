@@ -2,12 +2,13 @@
 #include <QTreeView>
 #include <QSharedPointer>
 
+#include "connections-tree/items/treeitem.h"
+
 namespace ConnectionsTree {
 
-    class Model;
-    class TreeItem;
+    class Model;    
 
-    class TreeView : public QTreeView
+    class TreeView : public QTreeView, public TreeItem::ParentView
     {
         Q_OBJECT
 
@@ -16,6 +17,8 @@ namespace ConnectionsTree {
 
         void setModel(Model *model);
         const Model* model() const;
+
+        QWidget* getParentWidget() override;
 
     protected:
         void mousePressEvent(QMouseEvent * event);

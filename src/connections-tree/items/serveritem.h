@@ -14,19 +14,20 @@ namespace ConnectionsTree {
 
     public:
         ServerItem(const QString& name, QSharedPointer<Operations> operations);
+        ~ServerItem();
 
-        QString getDisplayName() const;
-        QIcon getIcon() const;
-        QList<QSharedPointer<TreeItem>> getAllChilds() const;
-        uint childCount() const;
-        QSharedPointer<TreeItem> child(int row) const;
-        QSharedPointer<TreeItem> parent() const {return QSharedPointer<TreeItem>();}
+        QString getDisplayName() const override;
+        QIcon getIcon() const override;
+        QList<QSharedPointer<TreeItem>> getAllChilds() const override;
+        uint childCount() const override;
+        QSharedPointer<TreeItem> child(int row) const override;
+        const TreeItem* parent() const override;
 
-        bool onClick(QWeakPointer<TreeItem::ParentView> treeView, QWeakPointer<QTabWidget> tabs);
-        void onWheelClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs) {}
-        QSharedPointer<QMenu> getContextMenu(QWeakPointer<TreeItem::ParentView> treeView, QWeakPointer<QTabWidget> tabs);
+        bool onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+        void onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override {}
+        QSharedPointer<QMenu> getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
 
-        bool isLocked() const;
+        bool isLocked() const override;
         bool isDatabaseListLoaded() const;
 
         void load();
@@ -35,6 +36,8 @@ namespace ConnectionsTree {
 
     signals:
         void databaseListLoaded();
+        void editActionRequested();
+        void deleteActionRequested();
 
     private:
         QString m_name;

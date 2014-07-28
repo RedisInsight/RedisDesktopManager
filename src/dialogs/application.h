@@ -1,12 +1,10 @@
 #pragma  once
 
-#include <QtWidgets/QMainWindow>
-#include <QElapsedTimer>
-#include <QScopedPointer>
-#include "ui_demo.h"
+#include <QMainWindow>
+#include <QMenu>
+#include <QSharedPointer>
+#include "ui_main.h"
 
-class RedisKeyItem;
-class RedisServerItem;
 class RedisConnectionsManager;
 class Updater;
 
@@ -18,14 +16,10 @@ public:
     QSharedPointer<RedisConnectionsManager> connections;
 
     MainWin(QWidget *parent = 0); 
-private:
-    bool m_treeViewUILocked;
-    Ui::demoClass ui;            
-    QElapsedTimer performanceTimer;
+private:    
+    Ui::demoClass ui;                
 
-    QSharedPointer<Updater> updater;
-    QSharedPointer<QMenu> serverMenu;
-    QSharedPointer<QMenu> keyMenu;
+    QSharedPointer<Updater> updater;    
     QSharedPointer<QMenu> connectionsMenu;
 
     void initFormButtons();
@@ -35,35 +29,14 @@ private:
     void initFilter();
     void initSystemConsole();
 
-
-    void lockUi();
-    bool isUiLocked();
-
 private slots:
     void OnAddConnectionClick();
-    void OnConnectionTreeClick(const QModelIndex & index);
-    void OnConnectionTreeWheelClick(const QModelIndex & index);
-    void OnTreeViewContextMenu(const QPoint &);
-    void OnReloadServerInTree();
-    void OnDisconnectFromServer();
-    void OnNewUpdateAvailable(QString &);
-    void OnRemoveConnectionFromTree();
-    void OnEditConnection();
+    void OnNewUpdateAvailable(QString &);        
     void OnImportConnectionsClick();
     void OnExportConnectionsClick();
     void OnSetFilter();
-    void OnClearFilter();
-    void OnServerInfoOpen();
-    void OnConsoleOpen();
-    void OnError(QString);
-    void OnLogMessage(QString);
-
-    void OnStatusMessage(QString);
-    void OnKeyOpenInNewTab();
+    void OnClearFilter();   
     void OnConsoleStateChanged();
-
     void showQuickStartDialog();
 
-public slots:
-      void UnlockUi();
 };

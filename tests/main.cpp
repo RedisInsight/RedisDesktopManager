@@ -10,6 +10,7 @@
 //#include "test_valuetab.h"
 //#include "test_connection.h"
 #include "test_serveritem.h"
+#include "test_databaseitem.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +23,8 @@ int main(int argc, char *argv[])
 //    qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
 
 	int allTestsResult = 
-         QTest::qExec(new TestServerItem, argc, argv);// +
+         QTest::qExec(new TestServerItem, argc, argv)
+            + QTest::qExec(new TestDatabaseItem, argc, argv);
         //QTest::qExec(new TestConnection, argc, argv);// +
         //QTest::qExec(new TestValueTab, argc, argv) +
         //QTest::qExec(new TestCommand, argc, argv) +

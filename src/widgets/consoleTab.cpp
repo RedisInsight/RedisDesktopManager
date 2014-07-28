@@ -3,8 +3,8 @@
 #include <QScrollBar>
 #include <QTextBlock>
 
-#include "connectionconfig.h"
-#include "consoleconnectionwrapper.h"
+#include "core/connectionconfig.h"
+#include "core/consoleconnectionwrapper.h"
 
 ConsoleTab::ConsoleTab(RedisClient::ConnectionConfig& config)
     : QConsole(nullptr, "<span style='color: orange;'>"

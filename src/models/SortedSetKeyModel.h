@@ -1,10 +1,9 @@
 #ifndef SORTEDSETKEYMODEL_H
 #define SORTEDSETKEYMODEL_H
 
-#include "KeyModel.h"
-#include "PaginatedModel.h"
+#include "keymodel.h"
 
-class SortedSetKeyModel : public PaginatedModel
+class SortedSetKeyModel : public KeyModel
 {
     Q_OBJECT
 

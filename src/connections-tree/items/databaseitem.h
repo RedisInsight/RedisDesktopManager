@@ -9,24 +9,53 @@ namespace ConnectionsTree {
 
 class NamespaceItem;
 
-class DatabaseItem : public TreeItem
+class DatabaseItem : public QObject, public TreeItem
 {
+    Q_OBJECT
+
 public:
-    DatabaseItem(const QString& displayName, unsigned int index, int keysCount, QSharedPointer<Operations> operations);
+    DatabaseItem(const QString& displayName, unsigned int index, int keysCount, QSharedPointer<Operations> operations, const TreeItem *parent);
 
+    QString getDisplayName() const override;
+    QIcon getIcon() const override;
+    QList<QSharedPointer<TreeItem>> getAllChilds() const override;
+    uint childCount() const override;
+    QSharedPointer<TreeItem> child(int row) const override;
+    const TreeItem* parent() const override;
 
-    QString getDisplayName() const;
-    QIcon getIcon() const;
-    QList<QSharedPointer<TreeItem>> getAllChilds() const;
-    uint childCount() const;
-    QSharedPointer<TreeItem> child(int row) const;
-    QSharedPointer<TreeItem> parent() const;
+    bool onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+    void onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+    QSharedPointer<QMenu> getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
 
-    bool onClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs);
-    void onWheelClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs);
-    QSharedPointer<QMenu> getContextMenu(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs);
+    bool isLocked() const override {return false;}
 
-    bool isLocked() const {return false;}
+    void loadKeys();
+
+signals:
+    void keysLoaded();
+
+protected slots:
+    void onKeysRendered();
+
+private:
+    class KeysTreeRenderer
+    {
+    public:        
+
+        QList<QSharedPointer<TreeItem>> renderKeys(QSharedPointer<Operations> operations,
+                                                   Operations::RawKeysList keys,
+                                                   QRegExp filter,
+                                                   QString namespaceSeparator);
+
+    private:                  
+         void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
+                                  const QString& notProcessedKeyPart,
+                                  const QString& fullKey,
+                                  QSharedPointer<Operations> operations,
+                                  const QString& namespaceSeparator,
+                                  QList<QSharedPointer<TreeItem>>& m_result
+                                  );
+    };
 
 private:
     QString m_name;
@@ -35,24 +64,8 @@ private:
     bool m_locked;
     QSharedPointer<Operations> m_operations;
     QList<QSharedPointer<TreeItem>> m_keys;
-
-    class KeysTreeRenderer
-    {
-    public:
-        QList<QSharedPointer<TreeItem>> renderKeys(QSharedPointer<Operations> operations,
-                                                   const Operations::RawKeysList& keys,
-                                                   const QRegExp& filter,
-                                                   const QString& namespaceSeparator);
-
-    private:
-         QSharedPointer<Operations> m_operations;
-         QList<QSharedPointer<TreeItem> >  m_result;
-         QString m_namespaceSeparator;
-
-         void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
-                                  const QString& notProcessedKeyPart,
-                                  const QString& fullKey);
-    };
+    QFutureWatcher<QList<QSharedPointer<TreeItem>>> m_keysLoadingWatcher;
+    KeysTreeRenderer m_keysRenderer;
 };
 
 }

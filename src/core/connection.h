@@ -24,7 +24,7 @@ public:
     bool isConnected();
     void disconnect();
     void runCommand(const Command &cmd);
-    AbstractProtocol * operations();
+    QSharedPointer<AbstractProtocol> operations();
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
     void setConnectionConfig(ConnectionConfig&);

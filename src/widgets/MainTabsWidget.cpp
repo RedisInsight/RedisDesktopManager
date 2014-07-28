@@ -1,4 +1,4 @@
-#include "MainTabsWidget.h"
+#include "maintabswidget.h"
 #include <QTabBar>
 #include <QMessageBox>
 #include "valueTab.h"
@@ -38,47 +38,47 @@ int MainTabsWidget::addTab(QString& tabName, QWidget* tab, QString icon, bool fo
     return currIndex;
 }
 
-void MainTabsWidget::openKeyTab(RedisKeyItem * key, bool inNewTab)
-{
-    QWidget * viewTab = new ValueTab(key);
+//void MainTabsWidget::openKeyTab(RedisKeyItem * key, bool inNewTab)
+//{
+//    QWidget * viewTab = new ValueTab(key);
 
-    connect(viewTab, SIGNAL(keyDeleted(QWidget *, RedisKeyItem *)), 
-        this, SLOT(OnKeyDeleted(QWidget *, RedisKeyItem *)));
+//    connect(viewTab, SIGNAL(keyDeleted(QWidget *, RedisKeyItem *)),
+//        this, SLOT(OnKeyDeleted(QWidget *, RedisKeyItem *)));
 
-    connect(viewTab, SIGNAL(error(const QString &)), 
-        this, SLOT(OnError(const QString &)));
+//    connect(viewTab, SIGNAL(error(const QString &)),
+//        this, SLOT(OnError(const QString &)));
 
-    QString keyFullName = key->getTabLabelText();
+//    QString keyFullName = key->getTabLabelText();
 
-    if (inNewTab) {
-        addTab(keyFullName, viewTab, QString(), true);
-    } else {
-        addTab(keyFullName, viewTab);
-    }
-}
+//    if (inNewTab) {
+//        addTab(keyFullName, viewTab, QString(), true);
+//    } else {
+//        addTab(keyFullName, viewTab);
+//    }
+//}
 
-void MainTabsWidget::OnKeyDeleted(QWidget * tab, RedisKeyItem * key)
-{
-    if (tab == nullptr || key == nullptr) 
-        return;
+//void MainTabsWidget::OnKeyDeleted(QWidget * tab, RedisKeyItem * key)
+//{
+//    if (tab == nullptr || key == nullptr)
+//        return;
 
-    int widgetsCount = count();
-    int widgetIndex = -1;
+//    int widgetsCount = count();
+//    int widgetIndex = -1;
 
-    for (int currentWidget = 0; currentWidget < widgetsCount; currentWidget++)
-    {
-        if (tab == widget(currentWidget)) {
-            widgetIndex = currentWidget;
-            break;
-        }
-    }    
+//    for (int currentWidget = 0; currentWidget < widgetsCount; currentWidget++)
+//    {
+//        if (tab == widget(currentWidget)) {
+//            widgetIndex = currentWidget;
+//            break;
+//        }
+//    }
 
-    if (widgetIndex == -1) {
-        return;
-    }
+//    if (widgetIndex == -1) {
+//        return;
+//    }
 
-    closeTab(widgetIndex);    
-}
+//    closeTab(widgetIndex);
+//}
 
 int MainTabsWidget::getTabIndex(QString& name)
 {

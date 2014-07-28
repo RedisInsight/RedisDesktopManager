@@ -1,7 +1,7 @@
 #include "ListKeyModel.h"
 
 ListKeyModel::ListKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
-    : PaginatedModel(db, keyName, dbIndex)
+    : KeyModel(db, keyName, dbIndex)
 {
     setColumnCount(1);
 }
@@ -16,31 +16,31 @@ void ListKeyModel::loadValue()
 
 void ListKeyModel::setCurrentPage(int page)
 {
-    if (page == currentPage) {
-        return;
-    }
+//    if (page == currentPage) {
+//        return;
+//    }
 
-    clear();
+//    clear();
 
-    QStringList labels("Value");    
-    setHorizontalHeaderLabels(labels);
+//    QStringList labels("Value");
+//    setHorizontalHeaderLabels(labels);
 
-    currentPage = page;
+//    currentPage = page;
 
-    int size = rawData->size();
+//    int size = rawData->size();
 
-    setRowCount( (itemsOnPageLimit > size)? size : itemsOnPageLimit);
+//    setRowCount( (itemsOnPageLimit > size)? size : itemsOnPageLimit);
 
-    int startShiftPosition = itemsOnPageLimit * (currentPage - 1);
-    int limit = startShiftPosition  + itemsOnPageLimit;
+//    int startShiftPosition = itemsOnPageLimit * (currentPage - 1);
+//    int limit = startShiftPosition  + itemsOnPageLimit;
 
-    for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
+//    for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
 
-        QStandardItem * value = new QStandardItem(rawData->at(i));
-        value->setData(QVariant(i), KeyModel::KEY_VALUE_TYPE_ROLE);
+//        QStandardItem * value = new QStandardItem(rawData->at(i));
+//        value->setData(QVariant(i), KeyModel::KEY_VALUE_TYPE_ROLE);
 
-        setItem(row, 0, value);
-    }
+//        setItem(row, 0, value);
+//    }
 }
 
 void ListKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)

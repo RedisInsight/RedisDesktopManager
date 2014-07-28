@@ -2,17 +2,34 @@
 #define KEYITEM_H
 
 #include "treeitem.h"
+#include "connections-tree/operations.h"
 
 namespace ConnectionsTree {
 
     class KeyItem : public TreeItem
     {
     public:
-        KeyItem();
+        KeyItem(const QString& fullPath, QSharedPointer<Operations> operations, const TreeItem* parent);
 
-        bool onClick(QWeakPointer<QWidget> treeView, QWeakPointer<QTabWidget> tabs);
-        void onWheelClick(QWeakPointer<QWidget> treeView, QWeakPointer<QTabWidget> tabs);
-        QSharedPointer<QMenu> getContextMenu(QWeakPointer<QWidget> treeView, QWeakPointer<QTabWidget> tabs);
+        QString getDisplayName() const override;
+        QIcon getIcon() const override;
+        QList<QSharedPointer<TreeItem>> getAllChilds() const override;
+        uint childCount() const override;
+        QSharedPointer<TreeItem> child(int row) const override;
+        const TreeItem* parent() const override;
+
+        bool onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+        void onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+        QSharedPointer<QMenu> getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+
+        bool isLocked() const override;
+
+    private:
+        QString m_fullPath;
+        QSharedPointer<Operations> m_operations;
+        const TreeItem* m_parent;
+        bool m_locked;
+
     };
 
 }

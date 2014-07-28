@@ -4,12 +4,11 @@
 #include <QFileDialog>
 #include <QFile>
 #include "application.h"
-#include "RedisServerItem.h"
-#include "connection.h"
-#include "connectionconfig.h"
-#include "connectionsmanager.h"
+#include "core/connection.h"
+#include "core/connectionconfig.h"
+#include "models/connectionsmanager.h"
 
-ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
+ConnectionWindow::ConnectionWindow(QWidget *parent/*, RedisServerItem * srv*/)
     : QDialog(parent), inEditMode(false)
 {
     ui.setupUi(this);
@@ -34,14 +33,14 @@ ConnectionWindow::ConnectionWindow(QWidget *parent, RedisServerItem * srv)
     ui.defaultValueFormat->insertItem(1,"JSON");
 
     //edit mode
-    if (srv != nullptr) {    
-        server = srv;
-        loadValuesFromConnection(srv->getConnection());
-    } else {
-        ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
-        ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
-        ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);        
-    }
+//    if (srv != nullptr) {
+//        server = srv;
+//        //loadValuesFromConnection(srv->getConnection());
+//    } else {
+//        ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+//        ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+//        ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+//    }
 }
 
 void ConnectionWindow::loadValuesFromConnection(RedisClient::Connection * c)
@@ -98,15 +97,15 @@ void ConnectionWindow::OnOkButtonClick()
 
     RedisClient::Connection * connection;
 
-    if (inEditMode) {
-        connection = server->getConnection();
-        connection->setConnectionConfig(conf);    
-        mainForm->connections->connectionChanged();
+//    if (inEditMode) {
+//        connection = server->getConnection();
+//        connection->setConnectionConfig(conf);
+//        mainForm->connections->connectionChanged();
         
-    } else {        
-        connection = new RedisClient::Connection(conf, false);
-        mainForm->connections->AddConnection(connection);            
-    }    
+//    } else {
+//        connection = new RedisClient::Connection(conf, false);
+//        mainForm->connections->AddConnection(connection);
+//    }
     
     close();
 }

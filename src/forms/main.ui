@@ -656,18 +656,18 @@ aa|bb 	Either aa or bb.
   <customwidget>
    <class>ConnectionsTree::TreeView</class>
    <extends>QTreeView</extends>
-   <header>treeview.h</header>
+   <header>connections-tree/treeview.h</header>
   </customwidget>
   <customwidget>
    <class>MainTabsWidget</class>
    <extends>QTabWidget</extends>
-   <header>MainTabsWidget.h</header>
+   <header>widgets/maintabswidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>BaseTab</class>
    <extends>QWidget</extends>
-   <header>BaseTab.h</header>
+   <header>widgets/basetab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

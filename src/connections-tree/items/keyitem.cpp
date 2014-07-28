@@ -3,29 +3,70 @@
 
 using namespace ConnectionsTree;
 
-KeyItem::KeyItem()
+KeyItem::KeyItem(const QString& fullPath, QSharedPointer<Operations> operations, const TreeItem* parent)
+    : m_fullPath(fullPath),
+      m_operations(operations),
+      m_parent(parent),
+      m_locked(false)
 {
 }
 
-bool KeyItem::onClick(QWeakPointer<QWidget> treeView, QWeakPointer<QTabWidget> tabs)
+QString KeyItem::getDisplayName() const
 {
-//    if (item->isEnabled())
+    return m_fullPath;
+}
+
+QIcon KeyItem::getIcon() const
+{
+    return QIcon(); // TBD
+}
+
+QList<QSharedPointer<TreeItem>> KeyItem::getAllChilds() const
+{
+    return QList<QSharedPointer<TreeItem>>();
+}
+
+uint KeyItem::childCount() const
+{
+    return (uint)0;
+}
+
+QSharedPointer<TreeItem> KeyItem::child(int row) const
+{
+    Q_UNUSED(row);
+
+    return QSharedPointer<TreeItem>();
+}
+
+const TreeItem *KeyItem::parent() const
+{
+    return m_parent;
+}
+
+bool KeyItem::onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+{
+    //    if (item->isEnabled())
 //        ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));
 
     return false;
 }
 
-void KeyItem::onWheelClick(QWeakPointer<QWidget> treeView, QWeakPointer<QTabWidget> tabs)
+void KeyItem::onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
 {
 //     ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
 }
 
-QSharedPointer<QMenu> KeyItem::getContextMenu(QWeakPointer<QWidget> treeView, QWeakPointer<QTabWidget> tabs)
+QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
 {
     QSharedPointer<QMenu> menu(new QMenu());
     //menu->addAction("Open key value in new tab", this, SLOT(OnKeyOpenInNewTab()));
 
     return menu;
+}
+
+bool KeyItem::isLocked() const
+{
+    return m_locked;
 }
 
 //void MainWin::OnKeyOpenInNewTab()

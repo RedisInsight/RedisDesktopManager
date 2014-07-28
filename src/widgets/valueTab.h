@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QSharedPointer>
-#include "RedisKeyItem.h"
-#include "KeyModel.h"
+//#include "RedisKeyItem.h"
+#include "models/keymodel.h"
 #include "BaseTab.h"
 
 class ValueTabView;
@@ -16,12 +16,12 @@ class ValueTab : public BaseTab
     Q_OBJECT
 
 public:
-    ValueTab(RedisKeyItem * key);
+//    ValueTab(RedisKeyItem * key);
 
     void close();
 
 protected:    
-    RedisKeyItem * key; //we don't control this object
+//    RedisKeyItem * key; //we don't control this object
     QSharedPointer<KeyModel> keyModel;
     QSharedPointer<ValueTabView> ui;
 
@@ -54,5 +54,5 @@ protected slots:
 
 signals:
     void error(const QString&);
-    void keyDeleted(QWidget *, RedisKeyItem *);
+//    void keyDeleted(QWidget *, RedisKeyItem *);
 };

@@ -1,18 +1,23 @@
 #include "databaseitem.h"
 #include "namespaceitem.h"
 #include "keyitem.h"
-#include "KeysTreeRenderer.h"
 #include <typeinfo>
+#include <functional>
 
 using namespace ConnectionsTree;
 
-DatabaseItem::DatabaseItem(const QString& displayName, unsigned int index, int keysCount, QSharedPointer<Operations> operations)
+DatabaseItem::DatabaseItem(const QString& displayName,
+                           unsigned int index, int keysCount,
+                           QSharedPointer<Operations> operations,
+                           const TreeItem* parent)
     : m_name(displayName),
       m_index(index),
       m_keysCount(keysCount),
       m_locked(false),
       m_operations(operations)
-{
+{    
+    QObject::connect(&m_keysLoadingWatcher, SIGNAL(finished()), // &QFutureWatcherBase::finished,
+                     this, SLOT(onKeysRendered()));
 }
 
 QString DatabaseItem::getDisplayName() const
@@ -27,24 +32,28 @@ QIcon DatabaseItem::getIcon() const
 
 QList<QSharedPointer<TreeItem> > DatabaseItem::getAllChilds() const
 {
-    return QList<QSharedPointer<TreeItem>>();
+    return m_keys;
 }
 
 uint DatabaseItem::childCount() const
 {
-    return 0;
+    return m_keys.size();
 }
 
 QSharedPointer<TreeItem> DatabaseItem::child(int row) const
 {
+    if (0 <= row && row < childCount())
+        return m_keys.at(row);
+
     return QSharedPointer<TreeItem>();
 }
 
-QSharedPointer<TreeItem> DatabaseItem::parent() const {
-    return QSharedPointer<TreeItem>();
+const TreeItem *DatabaseItem::parent() const
+{
+    return nullptr;
 }
 
-bool DatabaseItem::onClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs)
+bool DatabaseItem::onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
 {
     Q_UNUSED(treeView);
     Q_UNUSED(tabs);
@@ -54,13 +63,13 @@ bool DatabaseItem::onClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabW
     return true;
 }
 
-void DatabaseItem::onWheelClick(QWeakPointer<TreeItem::ParentView> treeView, QWeakPointer<QTabWidget> tabs)
+void DatabaseItem::onWheelClick(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
 {
     Q_UNUSED(treeView);
     Q_UNUSED(tabs);
 }
 
-QSharedPointer<QMenu> DatabaseItem::getContextMenu(QWeakPointer<TreeItem::ParentView> treeView, QWeakPointer<QTabWidget> tabs)
+QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
 {
     return QSharedPointer<QMenu>();
 }
@@ -76,35 +85,48 @@ void DatabaseItem::loadKeys()
         if (rawKeys.size() == 0) {
             m_locked = false;
             return;
-        }
+        }        
 
-        keysLoadingResult = QtConcurrent::run(KeysTreeRenderer::renderKeys, this, rawKeys, filter, iconStorage, server->connection->getConfig().namespaceSeparator);
+        QRegExp filter;
+        QString separator(m_operations->getNamespaceSeparator());        
 
-        keysLoadingWatcher.setFuture(keysLoadingResult);
+        QFuture<QList<QSharedPointer<TreeItem>>> keysLoadingResult =
+                QtConcurrent::run(&m_keysRenderer,
+                                  &KeysTreeRenderer::renderKeys,
+                                  m_operations, rawKeys, filter, separator);
+
+        m_keysLoadingWatcher.setFuture(keysLoadingResult);
 
     });
 }
 
+void DatabaseItem::onKeysRendered()
+{
+    m_keys = m_keysLoadingWatcher.result();
+    emit keysLoaded();
+}
+
 QList<QSharedPointer<TreeItem> >
 DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
-                                           const Operations::RawKeysList &rawKeys,
-                                           const QRegExp &filter,
-                                           const QString &namespaceSeparator)
+                                           Operations::RawKeysList keys,
+                                           QRegExp filter,
+                                           QString namespaceSeparator)
 {
-    rawKeys.sort();
+    //init
+    keys.sort();
+    QList<QSharedPointer<TreeItem>> result;
 
-    m_operations = operations;
-    m_result.clear();
-    m_namespaceSeparator = namespaceSeparator;
-
-    for (QString rawKey : rawKeys) {
+    //render
+    for (QString rawKey : keys) {
 
         //if filter enabled - skip keys
         if (!filter.isEmpty() && !rawKey.contains(filter)) {
             continue;
         }
 
-        renderNamaspacedKey(QSharedPointer<TreeItem>(), rawKey, rawKey, m_namespaceSeparator);
+        renderNamaspacedKey(QSharedPointer<NamespaceItem>(),
+                            rawKey, rawKey, operations,
+                            namespaceSeparator, result);
     }
 
     return result;
@@ -112,24 +134,27 @@ DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations
 
 void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
                                                          const QString &notProcessedKeyPart,
-                                                         const QString &fullKey)
+                                                         const QString &fullKey,
+                                                         QSharedPointer<Operations> m_operations,
+                                                         const QString& m_namespaceSeparator,
+                                                         QList<QSharedPointer<TreeItem>>& m_result)
 {
     if (!notProcessedKeyPart.contains(m_namespaceSeparator)) {
 
-        QSharedPointer<KeyItem> newKey((new KeyItem(fullKey, m_operations)));
+        QSharedPointer<KeyItem> newKey((new KeyItem(fullKey, m_operations, currItem.data())));
 
-        if (currItem.isNull()) root.push_back(newKey);
+        if (currItem.isNull()) m_result.push_back(newKey);
         else currItem->append(newKey);
 
         return;
     }
 
-    int indexOfNaspaceSeparator = notProcessedKeyPart.indexOf(namespaceSeparator);
+    int indexOfNaspaceSeparator = notProcessedKeyPart.indexOf(m_namespaceSeparator);
 
     QString firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
 
     QSharedPointer<NamespaceItem> namespaceItem;
-    int size = (currItem.isNull())? root.size() : currItem->childCount();
+    int size = (currItem.isNull())? m_result.size() : currItem->childCount();
 
     for (int i=0; i < size; ++i)
     {
@@ -138,18 +163,20 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
         if (child->getDisplayName() == firstNamespaceName
                 && typeid(NamespaceItem)==typeid(*child)) {
 
-                namespaceItem = child;
+                namespaceItem =  qSharedPointerCast<NamespaceItem>(child);// QSharedPointer<NamespaceItem>(dynamic_cast<NamespaceItem*>(child.data()));
                 break;
         }
     }
 
 
     if (namespaceItem.isNull()) {
-        namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(firstNamespaceName));
+        namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(firstNamespaceName, m_operations, currItem.data()));
 
         if (currItem.isNull()) m_result.push_back(namespaceItem);
-        else currItem->appendRow(namespaceItem);
+        else currItem->append(namespaceItem);
     }
 
-    renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1), fullKey);
+    renderNamaspacedKey(namespaceItem,
+                        notProcessedKeyPart.mid(indexOfNaspaceSeparator+1),
+                        fullKey, m_operations, m_namespaceSeparator, m_result);
 }

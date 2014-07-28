@@ -1,45 +1,44 @@
 #include "valueTab.h"
-#include "HashKeyModel.h"
-#include "RedisKeyItem.h"
-#include "ListKeyModel.h"
-#include "SortedSetKeyModel.h"
+#include "models/HashKeyModel.h"
+#include "models/ListKeyModel.h"
+#include "models/SortedSetKeyModel.h"
 #include "ValueTabView.h"
-#include "command.h"
-#include "response.h"
+#include "core/command.h"
+#include "core/response.h"
 #include <QMessageBox>
 
-ValueTab::ValueTab(RedisKeyItem * key)    
-    : key(key), ui(nullptr), isInitialized(false),
-      tabMustBeDestroyed(false), operationInProgress(true)
-{    
-    setObjectName("valueTab");
+//ValueTab::ValueTab(RedisKeyItem * key)
+//    : key(key), ui(nullptr), isInitialized(false),
+//      tabMustBeDestroyed(false), operationInProgress(true)
+//{
+//    setObjectName("valueTab");
 
-    if (key == nullptr
-            || key->getDbItem() == nullptr
-            || key->getConnection() == nullptr) {
-        return;
-    }
+//    if (key == nullptr
+//            || key->getDbItem() == nullptr
+//            || key->getConnection() == nullptr) {
+//        return;
+//    }
 
-    ui = QSharedPointer<ValueTabView>(new ValueTabView(key, key->text(), this));
+//    ui = QSharedPointer<ValueTabView>(new ValueTabView(key, key->text(), this));
 
-    connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
+//    connect((QObject *)key->getDbItem(), SIGNAL(destroyed(QObject *)), this, SLOT(OnClose()));
 
-    RedisClient::Command typeCmd = key->getTypeCommand();
-    typeCmd.setOwner(this);
-    typeCmd.setCallBackName("keyTypeLoaded");
+//    RedisClient::Command typeCmd = key->getTypeCommand();
+//    typeCmd.setOwner(this);
+//    typeCmd.setCallBackName("keyTypeLoaded");
 
-    key->getConnection()->runCommand(typeCmd);        
+//    key->getConnection()->runCommand(typeCmd);
 
-    /** Connect View SIGNALS to Controller SLOTS **/
-    connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
-    connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
-    connect(ui.data(), SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
-        this, SLOT(updateValue(const QString&, const QModelIndex *)));
+//    /** Connect View SIGNALS to Controller SLOTS **/
+//    connect(ui->renameKey, SIGNAL(clicked()), this, SLOT(renameKey()));
+//    connect(ui->deleteKey, SIGNAL(clicked()), this, SLOT(deleteKey()));
+//    connect(ui.data(), SIGNAL(saveChangedValue(const QString&, const QModelIndex *)),
+//        this, SLOT(updateValue(const QString&, const QModelIndex *)));
 
-    connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));    
+//    connect(this, SIGNAL(error(const QString&)), this, SLOT(errorOccurred(const QString&)));
 
-    isInitialized = true;
-}
+//    isInitialized = true;
+//}
 
 void ValueTab::close()
 {
@@ -81,7 +80,7 @@ void ValueTab::keyTypeLoaded(RedisClient::Response type)
         ui->keyTypeLabelValue->text()  + t.toUpper()
         );
 
-    keyModel = QSharedPointer<KeyModel>(key->getKeyModel(t));
+//    keyModel = QSharedPointer<KeyModel>(key->getKeyModel(t));
 
     if (keyModel.isNull()) {
         emit error("Can not load key value. Key was removed or redis-server went away.");        
@@ -136,7 +135,7 @@ void ValueTab::keyRenamed()
     if (isOperationsAborted())
         return destroy();
 
-    key->setText(ui->keyName->text());
+//    key->setText(ui->keyName->text());
     ui->renameKey->setEnabled(true);
     ui->hideLoader();
 }
@@ -158,12 +157,12 @@ void ValueTab::deleteKey()
 
 void ValueTab::keyDeleted()
 {
-    if (isOperationsAborted())
-        return destroy();
+//    if (isOperationsAborted())
+//        return destroy();
 
-    key->remove();
-    ui->hideLoader();
-    emit keyDeleted(this, key);    
+//    key->remove();
+//    ui->hideLoader();
+//    emit keyDeleted(this, key);
 }
 
 void ValueTab::updateValue(const QString& value, const QModelIndex *cellIndex)

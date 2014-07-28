@@ -4,6 +4,7 @@
 #include <QString>
 #include <QHash>
 #include <QSharedPointer>
+#include <QStringList>
 #include <functional>
 
 namespace ConnectionsTree {
@@ -29,19 +30,28 @@ namespace ConnectionsTree {
          * @param dbIndex
          */
         typedef QStringList RawKeysList;
-        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>);
+        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>) = 0;
 
         /**
          * @brief getConsoleOperations
          * @return QSharedPointer<ConsoleOperations>
          */
-        virtual QSharedPointer<ConsoleOperations> getConsoleOperations();
+        virtual QSharedPointer<ConsoleOperations> getConsoleOperations() = 0;
 
         /**
          * Cancel all operations & close connection
          * @brief disconnect
          */
         virtual void disconnect() = 0;
+
+        /**
+         * @brief getNamespaceSeparator
+         * @return
+         */
+        virtual QString getNamespaceSeparator() = 0;
+
+
+        virtual ~Operations() {}
 
     };
 }

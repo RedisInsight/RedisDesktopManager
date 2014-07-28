@@ -1,6 +1,7 @@
 #ifndef TREEITEM_H
 #define TREEITEM_H
 
+#define QT_SHAREDPOINTER_TRACK_POINTERS
 #include <QSharedPointer>
 #include <QWeakPointer>
 #include <QString>
@@ -18,8 +19,7 @@ public:
 
     class ParentView {
 
-    public:
-        virtual void removeCurrentItem() = 0;
+    public:        
         virtual QWidget* getParentWidget() = 0;
 
     };
@@ -29,11 +29,11 @@ public:
     virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
     virtual uint childCount() const = 0;
     virtual QSharedPointer<TreeItem> child(int row) const = 0;
-    virtual QSharedPointer<TreeItem> parent() const = 0;
+    virtual const TreeItem* parent() const = 0;
 
-    virtual bool onClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs) = 0;
-    virtual void onWheelClick(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs) = 0;
-    virtual QSharedPointer<QMenu> getContextMenu(QWeakPointer<ParentView> treeView, QWeakPointer<QTabWidget> tabs) = 0;
+    virtual bool onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) = 0;
+    virtual void onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) = 0;
+    virtual QSharedPointer<QMenu> getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs) = 0;
 
     virtual bool isLocked() const = 0;
 

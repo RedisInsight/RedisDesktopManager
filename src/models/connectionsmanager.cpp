@@ -1,0 +1,121 @@
+#include <QtXml>
+#include "connections-tree/items/serveritem.h"
+#include "connectionsmanager.h"
+#include "core/connectionconfig.h"
+#include "core/abstractprotocol.h"
+
+RedisConnectionsManager::RedisConnectionsManager(QString config)
+    : configPath(config), connectionSettingsChanged(false)
+{
+    if (!config.isEmpty() && QFile::exists(config)) {
+        LoadConnectionsConfigFromFile(config);
+    }
+}
+
+
+RedisConnectionsManager::~RedisConnectionsManager(void)
+{
+    if (connectionSettingsChanged) {
+        SaveConnectionsConfigToFile(configPath);
+    }
+}
+
+void RedisConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> connection)
+{
+    //add connection to internal container
+    connections.push_back(connection);
+
+    //add connection to view container
+    using namespace ConnectionsTree;
+
+    QSharedPointer<RedisClient::AbstractProtocol> protocol = connection->operations();
+
+    auto serverItem = QSharedPointer<ServerItem>(
+                new ServerItem(connection->getConfig().name,
+                               protocol.dynamicCast<ConnectionsTree::Operations>())
+                );
+
+    int insertIndex = m_treeItems.size();
+
+    emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+    m_treeItems.push_back(serverItem);
+
+    //mark settings as unsaved
+    connectionSettingsChanged = true;    
+}
+
+
+bool RedisConnectionsManager::ImportConnections(QString &path)
+{
+    if (LoadConnectionsConfigFromFile(path, true)) {
+        return true;
+    }
+
+    return false;
+}
+
+
+bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile)
+{
+    QFile conf(config);
+    
+    if (!conf.open(QIODevice::ReadOnly)) 
+        return false;    
+    
+    QDomDocument xmlConf;
+
+    if (xmlConf.setContent(&conf)) {
+
+        QDomNodeList connectionsList = xmlConf.elementsByTagName("connection");
+        
+        for (int i = 0; i < connectionsList.size(); ++i) {
+
+            QDomNode connection = connectionsList.at(i);
+
+            if (connection.nodeName() != "connection") continue;
+
+            RedisClient::ConnectionConfig conf = RedisClient::ConnectionConfig::createFromXml(connection);
+
+            if (conf.isNull()) continue;
+
+            AddConnection(QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(conf, false)));
+        }        
+    }
+    conf.close();
+
+    if (!saveChangesToFile)
+        connectionSettingsChanged = false;    
+
+    return true;
+}
+
+bool RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
+{
+    QDomDocument config;
+
+    QDomProcessingInstruction xmlProcessingInstruction = config.createProcessingInstruction("xml", "version=\"1.0\"");
+    config.appendChild(xmlProcessingInstruction);
+
+    QDomElement connectionsItem = config.createElement("connections");
+
+    config.appendChild(connectionsItem);
+
+    for (auto c : connections) {
+        connectionsItem.appendChild(c->getConfig().toXml(config));
+    }
+
+    QFile confFile(pathToFile);
+
+    if (confFile.open(QIODevice::WriteOnly)) {
+        QTextStream(&confFile) << config.toString();
+        confFile.close();
+        return true;
+    }
+
+    return false;
+}
+
+int RedisConnectionsManager::size()
+{
+    return connections.length();
+}

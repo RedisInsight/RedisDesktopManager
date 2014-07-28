@@ -7,6 +7,11 @@
 BREAKPADDIR = $$PWD/breakpad/src
 
 INCLUDEPATH += $$PWD/libssh2/include
+
+INCLUDEPATH += $$PWD/qtconsole/include
+HEADERS += $$PWD/qtconsole/include/qconsole.h
+SOURCES += $$PWD/qtconsole/src/qconsole.cpp
+
 INCLUDEPATH += $$BREAKPADDIR\
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR

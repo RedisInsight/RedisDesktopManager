@@ -1,10 +1,9 @@
 #ifndef HASHKEYMODEL_H
 #define HASHKEYMODEL_H
 
-#include "KeyModel.h"
-#include "PaginatedModel.h"
+#include "keymodel.h"
 
-class HashKeyModel : public PaginatedModel
+class HashKeyModel : public KeyModel
 {
     Q_OBJECT
 

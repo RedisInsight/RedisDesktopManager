@@ -43,8 +43,8 @@ void TreeView::processContextMenu(const QPoint& point)
         return;
 
     item->getContextMenu(
-                QWeakPointer<TreeItem::ParentView>(this),
-                QWeakPointer<QWidget>()
+                *static_cast<TreeItem::ParentView* const>(this),
+                QWeakPointer<QTabWidget>()
                 )->exec(point);
 }
 
@@ -55,8 +55,8 @@ void TreeView::processClick(const QModelIndex& index)
     if (item.isNull())
         return;
 
-    if (item->onClick(QWeakPointer<TreeItem::ParentView>(this),
-                      QWeakPointer<QWidget>())) {
+    if (item->onClick(*static_cast<TreeItem::ParentView*>(this),
+                      QWeakPointer<QTabWidget>())) {
         setExpanded(index, true);
     }
 }
@@ -68,8 +68,8 @@ void TreeView::processWheelClick(const QModelIndex& index)
     if (item.isNull())
         return;
 
-    item->onWheelClick(QWeakPointer<TreeItem::ParentView>(this),
-                       QWeakPointer<QWidget>());
+    item->onWheelClick(*static_cast<TreeItem::ParentView*>(this),
+                       QWeakPointer<QTabWidget>());
 }
 
 
@@ -81,6 +81,11 @@ void TreeView::setModel(Model *model)
 const Model *TreeView::model() const
 {
     return qobject_cast<Model*>(QTreeView::model());
+}
+
+QWidget *TreeView::getParentWidget()
+{
+    return dynamic_cast<QWidget*>(this);
 }
 
 QSharedPointer<TreeItem> TreeView::preProcessEvent(const QModelIndex &index)

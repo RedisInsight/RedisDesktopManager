@@ -3,8 +3,6 @@
 #include <QDialog>
 #include "ui_connection.h"
 
-class RedisServerItem;
-
 class MainWin;
 namespace RedisClient {
 class ConnectionConfig;
@@ -16,12 +14,12 @@ class ConnectionWindow : public QDialog
     Q_OBJECT
 
 public:
-    ConnectionWindow(QWidget *parent = 0, RedisServerItem * c = nullptr);
+    ConnectionWindow(QWidget *parent = 0/*, RedisServerItem * c = nullptr*/);
 
 private:
     Ui::connectionDialog ui;
     MainWin * mainForm;
-    RedisServerItem * server;
+    //RedisServerItem * server;
     bool inEditMode;
 
     bool isFormDataValid();

@@ -9,9 +9,8 @@ class TestDatabaseItem : public QObject
 public:
     explicit TestDatabaseItem(QObject *parent = 0);
 
-signals:
-
-public slots:
+private slots:
+    void testLoadKeys();
 
 };
 

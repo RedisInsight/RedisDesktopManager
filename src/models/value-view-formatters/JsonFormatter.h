@@ -1,6 +1,6 @@
 #pragma once
 #include <QJsonDocument>
-#include "AbstractFormatter.h"
+#include "abstractformatter.h"
 
 class JsonFormatter : public AbstractFormatter
 {

@@ -2,9 +2,6 @@
 
 #include <QTabWidget>
 
-class RedisServerItem;
-class RedisKeyItem;
-
 class MainTabsWidget : public QTabWidget
 {
     Q_OBJECT
@@ -20,7 +17,7 @@ public:
 
     void closeTab(unsigned int index);
     
-    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);    
+//    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 
 protected:
     void closeCurrentTabWithValue();
@@ -31,6 +28,6 @@ protected:
 protected slots:
     void OnError(const QString &);
     void OnTabClose(int i);
-    void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
+    //void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
 };
 
