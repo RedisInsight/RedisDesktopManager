@@ -16,7 +16,8 @@ INCLUDEPATH += $$BREAKPADDIR\
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR
 
-win32-msvc* {
+#win32-msvc* {
+win32* {
     CONFIG(release, debug|release) {
         WIN_DEPS_PATH = $$PWD/libs/win32/release/
     } else: CONFIG(debug, debug|release) {
@@ -44,10 +45,13 @@ win32-msvc* {
     SOURCES += $$BREAKPADDIR/common/windows/guid_string.cc
     SOURCES += $$BREAKPADDIR/client/windows/crash_generation/crash_generation_client.cc
 
+
+win32-msvc* {
     QMAKE_CXXFLAGS += /MP
     QMAKE_LFLAGS_RELEASE += /MAP
     QMAKE_CFLAGS_RELEASE += /Zi
     QMAKE_LFLAGS_RELEASE += /debug /opt:ref
+}
 }
 
 unix:macx { # OSX
