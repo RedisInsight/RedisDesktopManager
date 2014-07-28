@@ -90,6 +90,17 @@ void RedisClient::Command::setProgressCallBackName(const QString &name)
     progressMethod = name;
 }
 
+void RedisClient::Command::setCallBack(QObject *context, std::function<void (RedisClient::Response)> callback)
+{
+    owner = context;
+    m_callback = callback;
+}
+
+std::function<void (RedisClient::Response)> RedisClient::Command::getCallBack()
+{
+    return m_callback;
+}
+
 bool RedisClient::Command::hasDbIndex() const
 {
     return dbIndex >= 0;
@@ -168,5 +179,5 @@ bool RedisClient::Command::isCanceled() const
 bool RedisClient::Command::isValid() const
 {
     return !isCanceled() && !isEmpty()
-            && hasCallback() && getOwner() != nullptr;
+            /*&& hasCallback()*/ && getOwner() != nullptr;
 }

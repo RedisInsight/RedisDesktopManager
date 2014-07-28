@@ -38,8 +38,7 @@ MainWin::MainWin(QWidget *parent)
     initConnectionsTreeView();
     initContextMenus();
     initFormButtons();    
-    initUpdater();
-    initFilter();
+    initUpdater();    
     initSystemConsole();      
 }
 
@@ -94,14 +93,6 @@ void MainWin::initUpdater()
 
     updater = QSharedPointer<Updater>(new Updater());
     connect(updater.data(), SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
-}
-
-void MainWin::initFilter()
-{
-    connect(ui.pbFindFilter, SIGNAL(clicked()), SLOT(OnSetFilter()));
-    connect(ui.pbClearFilter, SIGNAL(clicked()), SLOT(OnClearFilter()));
-    connect(ui.leKeySearchPattern, SIGNAL(returnPressed()), ui.pbFindFilter,
-            SIGNAL(clicked()), Qt::UniqueConnection);
 }
 
 void MainWin::initSystemConsole()
@@ -173,26 +164,4 @@ void MainWin::OnExportConnectionsClick()
     } else {
         QMessageBox::warning(this, "Can't export connections", "Select valid file name for export");
     }
-}
-
-void MainWin::OnSetFilter()
-{
-    QRegExp filter(ui.leKeySearchPattern->text());
-
-    if (filter.isEmpty() || !filter.isValid()) {
-        ui.leKeySearchPattern->setStyleSheet("border: 2px dashed red;");
-        return;
-    }
-
-    //connections->setFilter(filter);
-
-    ui.leKeySearchPattern->setStyleSheet("border: 1px solid green; background-color: #FFFF99;");
-    ui.pbClearFilter->setEnabled(true);
-}
-
-void MainWin::OnClearFilter()
-{
-    //connections->resetFilter();
-    ui.leKeySearchPattern->setStyleSheet("");
-    ui.pbClearFilter->setEnabled(false);
 }

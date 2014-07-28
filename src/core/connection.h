@@ -44,6 +44,7 @@ protected:
     QSharedPointer<AbstractTransporter> transporter;    
     QEventLoop m_loop;
     QEventLoop m_cmdLoop;
+    QMutex m_addLock;
     QTimer m_timeoutTimer;
     int m_dbNumber;
 

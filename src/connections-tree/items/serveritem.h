@@ -8,12 +8,14 @@
 
 namespace ConnectionsTree {
 
+    class Model;
+
     class ServerItem : public QObject, public TreeItem
     {
         Q_OBJECT
 
     public:
-        ServerItem(const QString& name, QSharedPointer<Operations> operations);
+        ServerItem(const QString& name, QSharedPointer<Operations> operations, const Model& model);
         ~ServerItem();
 
         QString getDisplayName() const override;
@@ -38,13 +40,18 @@ namespace ConnectionsTree {
         void databaseListLoaded();
         void editActionRequested();
         void deleteActionRequested();
+        void keysLoadedInDatabase(unsigned int dbIndex);
+
+        /*signals:
+    void keysLoaded(unsigned int dbIndex);*/
 
     private:
         QString m_name;
         bool m_locked;        
         bool m_databaseListLoaded;
         QSharedPointer<Operations> m_operations;
-        QList<QSharedPointer<TreeItem>> m_databases;        
+        QList<QSharedPointer<TreeItem>> m_databases;
+        const Model& m_model;
     };
 }
 

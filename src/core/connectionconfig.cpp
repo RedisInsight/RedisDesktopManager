@@ -97,6 +97,11 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::createFromXml(QDomN
     return connectionConfig;
 }
 
+QStringList RedisClient::ConnectionConfig::allowedNamespaces()
+{
+    return QStringList() << "*";
+}
+
 bool RedisClient::ConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value)
 {
     if (!attr.contains(name))

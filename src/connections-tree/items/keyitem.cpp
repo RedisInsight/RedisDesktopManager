@@ -1,4 +1,5 @@
 #include "keyitem.h"
+#include "connections-tree/iconproxy.h"
 #include <QMenu>
 
 using namespace ConnectionsTree;
@@ -18,7 +19,7 @@ QString KeyItem::getDisplayName() const
 
 QIcon KeyItem::getIcon() const
 {
-    return QIcon(); // TBD
+    return IconProxy::instance()->get(":/images/key.png");
 }
 
 QList<QSharedPointer<TreeItem>> KeyItem::getAllChilds() const

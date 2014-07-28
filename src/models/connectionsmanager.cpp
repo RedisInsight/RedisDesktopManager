@@ -30,15 +30,13 @@ void RedisConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connecti
 
     QSharedPointer<RedisClient::AbstractProtocol> protocol = connection->operations();
 
-    auto serverItem = QSharedPointer<ServerItem>(
+    QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
                 new ServerItem(connection->getConfig().name,
-                               protocol.dynamicCast<ConnectionsTree::Operations>())
+                               protocol.dynamicCast<ConnectionsTree::Operations>(),
+                               static_cast<ConnectionsTree::Model>(this))
                 );
 
-    int insertIndex = m_treeItems.size();
-
-    emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
-    m_treeItems.push_back(serverItem);
+    addRootItem(serverItem);
 
     //mark settings as unsaved
     connectionSettingsChanged = true;    

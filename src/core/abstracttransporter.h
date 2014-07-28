@@ -2,11 +2,14 @@
 #define ABSTRACTTRANSPORTER_H
 
 #include <QObject>
+#include <functional>
 #include "connection.h"
 #include "command.h"
 #include "response.h"
 
 namespace RedisClient {
+
+class Response;
 
 class AbstractTransporter : public QObject
 {
@@ -45,5 +48,25 @@ protected:
 protected slots:
     void executionTimeout();
 };
+
+class ResponseEmitter : public QObject {
+    Q_OBJECT
+public:
+    ResponseEmitter(const Response& r)
+        : m_response(r){}
+
+    void sendResponse(QObject* owner, std::function<void(Response)> callback)
+    {
+        QObject::connect(this, &ResponseEmitter::response, owner, callback, Qt::AutoConnection);
+
+        emit response(m_response);
+    }
+
+signals:
+    void response(Response);
+private:
+    const Response& m_response;
+};
+
 }
 #endif // ABSTRACTTRANSPORTER_H

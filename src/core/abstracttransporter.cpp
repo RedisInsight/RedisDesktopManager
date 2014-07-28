@@ -57,12 +57,22 @@ void RedisClient::AbstractTransporter::sendResponse()
     if (runningCommand.isCanceled())
         return;
 
-    QString callbackName = runningCommand.getCallbackName();
 
-    QMetaObject::invokeMethod(
-        runningCommand.getOwner(), callbackName.toUtf8().constData(),
-        Qt::AutoConnection, Q_ARG(RedisClient::Response, m_response)
-        );
+    auto callback = runningCommand.getCallBack();
+
+    if (callback) { // New API
+
+        ResponseEmitter emiter(m_response);
+        emiter.sendResponse(runningCommand.getOwner(), callback);
+
+    } else { // legacy API
+        QString callbackName = runningCommand.getCallbackName();
+
+        QMetaObject::invokeMethod(
+            runningCommand.getOwner(), callbackName.toUtf8().constData(),
+            Qt::AutoConnection, Q_ARG(RedisClient::Response, m_response)
+            );
+    }
 
     emit logEvent(QString("%1 > [runCommand] %2 -> response recieved").arg(m_connection->config.name).arg(runningCommand.getRawString()));
 

@@ -1,18 +1,22 @@
 #include "serveritem.h"
 #include "connections-tree/iconproxy.h"
 #include "databaseitem.h"
+#include "core/connectionexception.h"
 #include <QAction>
 #include <QMenu>
 #include <QMessageBox>
 #include <functional>
+#include <QCollator>
+#include <algorithm>
 
 using namespace ConnectionsTree;
 
-ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations)
+ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations, const Model& model)
     : m_name(name),
       m_locked(false),
       m_databaseListLoaded(false),
-      m_operations(operations)
+      m_operations(operations),
+      m_model(model)
 {
 }
 
@@ -25,9 +29,18 @@ QString ServerItem::getDisplayName() const
     return m_name;
 }
 
-bool ServerItem::onClick(TreeItem::ParentView&, QWeakPointer<QTabWidget>)
+bool ServerItem::onClick(TreeItem::ParentView& view, QWeakPointer<QTabWidget>)
 {
-    load();
+    if (m_databaseListLoaded)
+        return false;
+
+    try {
+        load();
+    } catch (RedisClient::ConnectionExeption& exception) {
+        QMessageBox::warning(view.getParentWidget(), "Server error", exception.what());
+        m_locked = false;
+    }
+
     return true;
 }
 
@@ -54,7 +67,7 @@ QSharedPointer<TreeItem> ServerItem::child(int row) const
         return m_databases.at(row);
     }
 
-    QSharedPointer<TreeItem>();
+    return QSharedPointer<TreeItem>();
 }
 
 const TreeItem *ServerItem::parent() const {return nullptr; }
@@ -91,10 +104,7 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView,
 
     //edit action
     QAction* edit = new QAction(QIcon(":/images/editdb.png"), "Edit", menu.data());
-    QObject::connect(edit, &QAction::triggered, this, [this] {
-        unload();
-        emit editActionRequested();
-    });
+    QObject::connect(edit, &QAction::triggered, this, [this] { unload(); emit editActionRequested(); });
     menu->addAction(edit);
 
     //delete action
@@ -138,19 +148,30 @@ void ServerItem::load()
             return;
         }
 
-        QHash<QString, int>::const_iterator db = databases.constBegin();
+        Operations::DatabaseList::const_iterator db = databases.constBegin();
         unsigned int index = 0;
 
         while (db != databases.constEnd()) {
 
-            m_databases.push_back(
-                        QSharedPointer<TreeItem>(
-                            new DatabaseItem(db.key(), index, db.value(), m_operations, this)
-                            )
-                        );
+            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, this)));
+
+            QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
+                             this, SIGNAL(keysLoadedInDatabase(unsigned int)));
+
+            m_databases.push_back(database);
             ++db;
             ++index;
         }
+
+        std::sort(m_databases.begin(), m_databases.end(), [](QSharedPointer<TreeItem> left, QSharedPointer<TreeItem> right) {
+            QString leftName = left->getDisplayName();
+            QString rightName = right->getDisplayName();
+
+            QCollator collator;
+            collator.setNumericMode(true);
+
+            return collator.compare(leftName, rightName) == -1? true : false;
+        });
 
         m_locked = false;
         m_databaseListLoaded = true;

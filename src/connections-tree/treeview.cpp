@@ -37,23 +37,25 @@ void TreeView::processContextMenu(const QPoint& point)
     if (point.isNull() || QCursor::pos().isNull())
         return;
 
-    QSharedPointer<TreeItem> item = preProcessEvent(indexAt(point));
+    TreeItem* item = preProcessEvent(indexAt(point));
 
-    if (item.isNull())
+    if (item == nullptr)
         return;
+
 
     item->getContextMenu(
                 *static_cast<TreeItem::ParentView* const>(this),
                 QWeakPointer<QTabWidget>()
-                )->exec(point);
+                )->exec(mapToGlobal(point));
 }
 
 void TreeView::processClick(const QModelIndex& index)
 {
-    QSharedPointer<TreeItem> item = preProcessEvent(index);
+    TreeItem* item = preProcessEvent(index);
 
-    if (item.isNull())
+    if (item == nullptr)
         return;
+
 
     if (item->onClick(*static_cast<TreeItem::ParentView*>(this),
                       QWeakPointer<QTabWidget>())) {
@@ -63,9 +65,9 @@ void TreeView::processClick(const QModelIndex& index)
 
 void TreeView::processWheelClick(const QModelIndex& index)
 {
-    QSharedPointer<TreeItem> item = preProcessEvent(index);
+    TreeItem* item = preProcessEvent(index);
 
-    if (item.isNull())
+    if (item == nullptr)
         return;
 
     item->onWheelClick(*static_cast<TreeItem::ParentView*>(this),
@@ -88,15 +90,15 @@ QWidget *TreeView::getParentWidget()
     return dynamic_cast<QWidget*>(this);
 }
 
-QSharedPointer<TreeItem> TreeView::preProcessEvent(const QModelIndex &index)
+TreeItem* TreeView::preProcessEvent(const QModelIndex &index)
 {
     if (!index.isValid())
-        return QSharedPointer<TreeItem>();
+        return nullptr;
 
-    QSharedPointer<TreeItem> item = model()->getItemFromIndex(index);
+    TreeItem* item = model()->getItemFromIndex(index);
 
-    if (item->isLocked())
-        return QSharedPointer<TreeItem>();
+    if (item == nullptr || item->isLocked())
+        return nullptr;
 
     return item;
 }

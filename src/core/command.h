@@ -1,8 +1,11 @@
 #pragma once
 
 #include <QtCore>
+#include <functional>
 
 namespace RedisClient {
+
+class Response;
 
 class Command 
 {    
@@ -22,8 +25,12 @@ public:
     QObject *  getOwner() const;
 
     void setOwner(QObject *);      
-    void setCallBackName(const QString &);
+    void setCallBackName(const QString &);        
     void setProgressCallBackName(const QString &);
+
+    /** New callback API **/
+    void setCallBack(QObject* context, std::function<void(Response)> callback);
+    std::function<void(Response)> getCallBack();
 
     void cancel();
 
@@ -41,6 +48,7 @@ private:
     QString callBackMethod; // method(Response)
     QString progressMethod; // method(unsigned int)
     bool commandCanceled;
+    std::function<void(Response)> m_callback;
 
     QStringList splitCommandString(const QString &);    
 

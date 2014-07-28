@@ -31,8 +31,8 @@ void RedisClient::AbstractProtocol::auth()
 
 void RedisClient::AbstractProtocol::getDatabases(std::function<void(DatabaseList)> callback)
 {
-    if (!m_connection->isConnected()) {
-        throw ConnectionExeption("Connect to host before use operations");
+    if (!m_connection->isConnected() && !m_connection->connect()) {
+        throw ConnectionExeption("Cannot connect to host");
     }
 
     //  Get keys count
@@ -84,9 +84,16 @@ void RedisClient::AbstractProtocol::getDatabases(std::function<void(DatabaseList
     return callback(availableDatabeses);
 }
 
-void RedisClient::AbstractProtocol::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)>)
+void RedisClient::AbstractProtocol::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
 {
+    auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
 
+    keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
+        qDebug() << "Keys response";
+        callback(r.getValue().toStringList());
+    });
+
+    m_connection->runCommand(keyCmd);
 }
 
 QSharedPointer<ConnectionsTree::Operations::ConsoleOperations> RedisClient::AbstractProtocol::getConsoleOperations()
@@ -101,7 +108,7 @@ void RedisClient::AbstractProtocol::disconnect()
 
 QString RedisClient::AbstractProtocol::getNamespaceSeparator()
 {
-    return QString();
+    return m_connection->config.namespaceSeparator;
 }
 
 bool RedisClient::AbstractProtocol::selectDb(int index)

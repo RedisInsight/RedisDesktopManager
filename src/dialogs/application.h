@@ -25,17 +25,14 @@ private:
     void initFormButtons();
     void initConnectionsTreeView();    
     void initContextMenus();    
-    void initUpdater();
-    void initFilter();
+    void initUpdater();    
     void initSystemConsole();
 
 private slots:
     void OnAddConnectionClick();
     void OnNewUpdateAvailable(QString &);        
     void OnImportConnectionsClick();
-    void OnExportConnectionsClick();
-    void OnSetFilter();
-    void OnClearFilter();   
+    void OnExportConnectionsClick();    
     void OnConsoleStateChanged();
     void showQuickStartDialog();
 

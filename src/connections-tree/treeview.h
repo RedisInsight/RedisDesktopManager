@@ -29,7 +29,7 @@ namespace ConnectionsTree {
         void processContextMenu(const QPoint &);
 
     private:
-        QSharedPointer<TreeItem> preProcessEvent(const QModelIndex& index);
+        TreeItem *preProcessEvent(const QModelIndex& index);
 
     signals:
         void wheelClicked(const QModelIndex & index);

@@ -53,6 +53,8 @@ public:
        
     static ConnectionConfig createFromXml(QDomNode & connectionNode);
 
+    QStringList allowedNamespaces();
+
 protected:        
     void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
 

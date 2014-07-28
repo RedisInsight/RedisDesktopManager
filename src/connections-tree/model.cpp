@@ -1,5 +1,6 @@
 #include "model.h"
-
+#include "items/serveritem.h"
+#include <QDebug>
 using namespace ConnectionsTree;
 
 Model::Model(QObject *parent) :
@@ -64,7 +65,7 @@ QModelIndex Model::parent(const QModelIndex &index) const
     if (parentItem == nullptr)
         return QModelIndex();
 
-    return createIndex(/*parentItem->row()*/0, 0, (void*)parentItem);
+    return createIndex(/*parentItem->row()*/3, 0, (void*)parentItem);
 }
 
 int Model::rowCount(const QModelIndex &parent) const
@@ -80,7 +81,42 @@ int Model::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-QSharedPointer<TreeItem> Model::getItemFromIndex(const QModelIndex &) const
+TreeItem* Model::getItemFromIndex(const QModelIndex &index) const
 {
-    return QSharedPointer<TreeItem>();
+    if (index.internalPointer() != nullptr)
+        return static_cast<TreeItem*>(index.internalPointer());
+
+    return nullptr;
+}
+
+void Model::addRootItem(QSharedPointer<ServerItem> item)
+{
+    if (item.isNull())
+        return;
+
+    int insertIndex = m_treeItems.size();
+
+    emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);    
+
+    m_treeItems.push_back(item);
+
+    QModelIndex itemIndex = index(insertIndex, 0, QModelIndex());
+
+    connect(item.data(), &ServerItem::databaseListLoaded,
+            this, [this, itemIndex, item]()
+    {
+        emit beginInsertRows(itemIndex, 0, item->childCount()-1);
+        qDebug() << "database list loaded";
+        emit endInsertRows();
+    });
+
+    connect(item.data(), &ServerItem::keysLoadedInDatabase,
+            this, [this, itemIndex, item](unsigned int dbIndex)
+    {
+        emit beginInsertRows(itemIndex, 0, item->child(dbIndex)->childCount());
+        qDebug() << "key list loaded";
+        emit endInsertRows();
+    });
+
+    emit endInsertRows();
 }

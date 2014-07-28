@@ -22,7 +22,7 @@ namespace ConnectionsTree {
          * List of databases with keys counters
          * @emit databesesLoaded
          **/
-        typedef QHash <QString, int> DatabaseList;
+        typedef QMap <QString, int> DatabaseList;
         virtual void getDatabases(std::function<void(DatabaseList)>) = 0;
 
         /**

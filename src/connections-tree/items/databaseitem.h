@@ -32,7 +32,7 @@ public:
     void loadKeys();
 
 signals:
-    void keysLoaded();
+    void keysLoaded(unsigned int dbIndex);
 
 protected slots:
     void onKeysRendered();
@@ -45,7 +45,8 @@ private:
         QList<QSharedPointer<TreeItem>> renderKeys(QSharedPointer<Operations> operations,
                                                    Operations::RawKeysList keys,
                                                    QRegExp filter,
-                                                   QString namespaceSeparator);
+                                                   QString namespaceSeparator,
+                                                   const DatabaseItem*);
 
     private:                  
          void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
@@ -53,7 +54,8 @@ private:
                                   const QString& fullKey,
                                   QSharedPointer<Operations> operations,
                                   const QString& namespaceSeparator,
-                                  QList<QSharedPointer<TreeItem>>& m_result
+                                  QList<QSharedPointer<TreeItem>>& m_result,
+                                  const DatabaseItem*
                                   );
     };
 
@@ -66,6 +68,7 @@ private:
     QList<QSharedPointer<TreeItem>> m_keys;
     QFutureWatcher<QList<QSharedPointer<TreeItem>>> m_keysLoadingWatcher;
     KeysTreeRenderer m_keysRenderer;
+    const TreeItem* m_parent;
 };
 
 }

@@ -91,10 +91,9 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     if (!m_isTransporterInitialized || !m_connected)
         throw ConnectionExeption("Try run command in not connected state");
 
-    emit addCommandToWorker(cmd);
+    m_addLock.lock();
 
-    if (!m_cmdLoop.isRunning())
-        m_cmdLoop.exec();
+    emit addCommandToWorker(cmd);
 }
 
 QSharedPointer<RedisClient::AbstractProtocol> RedisClient::Connection::operations()
@@ -145,7 +144,7 @@ void RedisClient::Connection::connectionReady()
 
 void RedisClient::Connection::commandAddedToTransporter()
 {
-    if (m_cmdLoop.isRunning())
-        m_cmdLoop.exit();
+    m_addLock.unlock();
+    qDebug() << "Command added";
 }
 
