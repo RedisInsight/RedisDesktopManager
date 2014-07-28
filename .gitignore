@@ -63,3 +63,6 @@ crashreports/*
 redis-desktop-manager/ui_*.h
 src/ui_*.h
 src/Makefile*
+build-rdm-*
+src/rdm.pro.*
+tests/tests.pro.*
