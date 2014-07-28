@@ -168,5 +168,5 @@ bool RedisClient::Command::isCanceled() const
 bool RedisClient::Command::isValid() const
 {
     return !isCanceled() && !isEmpty()
-            && hasCallback() && getOwner() != nullptr;
+            /*&& hasCallback()*/ && getOwner() != nullptr;
 }
