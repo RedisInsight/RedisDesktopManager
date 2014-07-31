@@ -1,9 +1,9 @@
 #include <QTest>
-#include "connection.h"
-#include "commandexecutor.h"
 #include "test_connection.h"
-#include "abstractprotocol.h"
-#include "connectionexception.h"
+#include "core/connection.h"
+#include "core/commandexecutor.h"
+#include "core/protocols/abstractprotocol.h"
+#include "core/connectionexception.h"
 
 using namespace RedisClient;
 

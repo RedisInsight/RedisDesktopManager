@@ -7,22 +7,21 @@
 #include <QStringList>
 #include <functional>
 
+namespace Console {
+    class Operations;
+}
+
 namespace ConnectionsTree {
 
     class Operations
     {
     public:
 
-        class ConsoleOperations {
-        public:
-
-        };
-
         /**
          * List of databases with keys counters
          * @emit databesesLoaded
          **/
-        typedef QMap <QString, int> DatabaseList;
+        typedef QHash <QString, int> DatabaseList;
         virtual void getDatabases(std::function<void(DatabaseList)>) = 0;
 
         /**
@@ -36,7 +35,7 @@ namespace ConnectionsTree {
          * @brief getConsoleOperations
          * @return QSharedPointer<ConsoleOperations>
          */
-        virtual QSharedPointer<ConsoleOperations> getConsoleOperations() = 0;
+        virtual QSharedPointer<Console::Operations> getConsoleOperations() = 0;
 
         /**
          * Cancel all operations & close connection

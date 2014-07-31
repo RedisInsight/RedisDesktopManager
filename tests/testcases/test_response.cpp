@@ -1,14 +1,12 @@
 #include "test_response.h"
-#include "response.h"
+#include "core/response.h"
 #include <QtCore>
 #include <QTest>
-
-using namespace RedisClient;
 
 void TestResponse::getValue()
 {
 	//given 
-	Response test;
+    RedisClient::Response test;
     QFETCH(QString, testResponse);
 	QFETCH(QVariant, validResult);
 
@@ -52,7 +50,7 @@ void TestResponse::isValid()
     QFETCH(QString, testResponse);
 	QFETCH(bool, validResult);
 
-    Response test(testResponse.toUtf8());
+    RedisClient::Response test(testResponse.toUtf8());
 
 	//when
 	bool actualOnValid = test.isValid();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "operations.h"
+#include "connections-tree/operations.h"
 
 class ItemOperationsMock : public ConnectionsTree::Operations {
 
@@ -17,9 +17,9 @@ public:
         callback(keys);
     }
 
-    virtual QSharedPointer<ConsoleOperations> getConsoleOperations()
+    virtual QSharedPointer<Console::Operations> getConsoleOperations()
     {
-        return QSharedPointer<ConsoleOperations>();
+        return QSharedPointer<Console::Operations>();
     }
 
     QString namespaceSeparator = ":";

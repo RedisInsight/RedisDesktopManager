@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtCore>
-#include "connectionconfig.h"
+#include "core/connectionconfig.h"
 
 class TestConnection : public QObject
 {

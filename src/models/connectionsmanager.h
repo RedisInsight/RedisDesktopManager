@@ -4,13 +4,13 @@
 #include "core/connection.h"
 #include "connections-tree/model.h"
 
-class RedisConnectionsManager : public ConnectionsTree::Model
+class ConnectionsManager : public ConnectionsTree::Model
 {
     Q_OBJECT    
 
 public:
-    RedisConnectionsManager(QString);
-    ~RedisConnectionsManager(void);
+    ConnectionsManager(QString);
+    ~ConnectionsManager(void);
 
     void AddConnection(QSharedPointer<RedisClient::Connection> connection);
     bool ImportConnections(QString &);

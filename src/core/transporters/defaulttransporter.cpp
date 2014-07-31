@@ -1,5 +1,5 @@
 #include "defaulttransporter.h"
-#include "abstractprotocol.h"
+#include "core/protocols/abstractprotocol.h"
 
 RedisClient::DefaultTransporter::DefaultTransporter(RedisClient::Connection *c)
     : RedisClient::AbstractTransporter(c), socket(nullptr), m_errorOccurred(false), m_reconnectRequired(false)

@@ -1,4 +1,5 @@
 #include "command.h"
+#include <QSet>
 
 RedisClient::Command::Command()
     : owner(nullptr), commandWithArguments(""), dbIndex(-1), commandCanceled(false)
@@ -38,6 +39,10 @@ QStringList RedisClient::Command::splitCommandString(const QString &command)
     int i = 0;
     bool inQuote = false;
     QString part = QString();
+    QSet<QChar> delimiters;
+    delimiters << QChar('"') << QChar('\'');
+    QChar currentDelimiter = '\0';
+
     while (i < command.length())
     {
         if(command.at(i).isSpace() && !inQuote)
@@ -46,10 +51,22 @@ QStringList RedisClient::Command::splitCommandString(const QString &command)
                 parts.append(part);
             part = QString();
         }
-        else if (command.at(i) == QChar('"'))
+        else if (delimiters.contains(command.at(i))
+                 && (!inQuote || currentDelimiter == command.at(i)))
         {
-            if (inQuote)
+            if (i > 0 && command.at(i-1) == QChar('\\')) {
+                part.remove(part.size()-1, 1);
+                part.append(command.at(i++));
+                continue;
+            }
+
+            if (inQuote) {
                 parts.append(part);
+                currentDelimiter = '\0';
+            } else {
+                currentDelimiter = command.at(i);
+            }
+
             part = QString();
             inQuote = !inQuote;
         }
@@ -106,20 +123,12 @@ bool RedisClient::Command::hasDbIndex() const
     return dbIndex >= 0;
 }
 
-bool RedisClient::Command::isSelectCommand(int *dbIndex = nullptr) const
+bool RedisClient::Command::isSelectCommand() const
 {
     if (commandWithArguments.length() < 2)
         return false;
 
-    if (commandWithArguments.at(0).toLower() == "select") {
-
-        if (dbIndex != nullptr)
-            *dbIndex = commandWithArguments.at(0).toInt();
-
-        return true;
-    }
-
-    return false;
+    return commandWithArguments.at(0).toLower() == "select";
 }
 
 int RedisClient::Command::getDbIndex() const
@@ -130,6 +139,11 @@ int RedisClient::Command::getDbIndex() const
 QString RedisClient::Command::getRawString() const
 {
     return commandWithArguments.join(' ');
+}
+
+QStringList RedisClient::Command::getSplitedRepresentattion() const
+{
+    return commandWithArguments;
 }
 
 bool RedisClient::Command::isEmpty() const

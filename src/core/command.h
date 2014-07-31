@@ -17,12 +17,13 @@ public:
     Command(const QStringList& cmd, QObject * owner = nullptr, int db = -1);           
 
     /** @see http://redis.io/topics/protocol for more info **/    
-    QByteArray getByteRepresentation() const;
-    QString    getRawString() const;
-    QString    getCallbackName();
-    QString    getProgressCallbackName();
-    int        getDbIndex() const;
-    QObject *  getOwner() const;
+    QByteArray  getByteRepresentation() const;
+    QString     getRawString() const;
+    QStringList getSplitedRepresentattion() const;
+    QString     getCallbackName();
+    QString     getProgressCallbackName();
+    int         getDbIndex() const;
+    QObject *   getOwner() const;
 
     void setOwner(QObject *);      
     void setCallBackName(const QString &);        
@@ -39,7 +40,7 @@ public:
     bool hasCallback() const;
     bool isEmpty() const;
     bool hasDbIndex() const;
-    bool isSelectCommand(int *dbIndex) const;
+    bool isSelectCommand() const;
 
 private:
     QObject * owner;
@@ -50,10 +51,7 @@ private:
     bool commandCanceled;
     std::function<void(Response)> m_callback;
 
-    QStringList splitCommandString(const QString &);    
-
-private slots:
-    void cancelCommand();
+    QStringList splitCommandString(const QString &);
 };
 
 }

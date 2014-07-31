@@ -14,6 +14,13 @@ SOURCES += \
     $$PWD/testcases/*.cpp \    
     $$SRC_DIR/connections-tree/items/*.cpp \
     $$SRC_DIR/connections-tree/iconproxy.cpp \
+    $$SRC_DIR/connections-tree/model.cpp \
+    $$SRC_DIR/console/consoletab.cpp \
+    $$SRC_DIR/core/*.cpp \
+    $$SRC_DIR/core/protocols/*.cpp \
+    $$SRC_DIR/core/ssh/*.cpp \
+    $$SRC_DIR/core/transporters/*.cpp \
+    $$SRC_DIR/models/connectionsmanager.cpp \
 
 HEADERS  += \
     $$PWD/testcases/*.h \
@@ -21,6 +28,15 @@ HEADERS  += \
     $$SRC_DIR/connections-tree/items/*.h \
     $$SRC_DIR/connections-tree/iconproxy.h \
     $$SRC_DIR/connections-tree/operations.h \
+    $$SRC_DIR/connections-tree/model.h \
+    $$SRC_DIR/console/consoletab.h \
+    $$SRC_DIR/console/operations.h \
+    $$SRC_DIR/widgets/basetab.h \
+    $$SRC_DIR/core/*.h \
+    $$SRC_DIR/core/protocols/*.h \
+    $$SRC_DIR/core/ssh/*.h \
+    $$SRC_DIR/core/transporters/*.h \
+    $$SRC_DIR/models/connectionsmanager.h \
 
 
 release: DESTDIR = ./../bin/tests
@@ -44,7 +60,6 @@ DEPENDPATH += $$PWD/../3rdparty/libssh2/include
 INCLUDEPATH += $$PWD/testcases \
     $$PWD/mocks \
     $$SRC_DIR \
-    $$SRC_DIR/connections-tree \
 
 FORMS += \
     $$SRC_DIR/forms/*.ui \

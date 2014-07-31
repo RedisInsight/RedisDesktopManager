@@ -1,8 +1,8 @@
 #include "consoleconnectionwrapper.h"
-#include "connection.h"
-#include "response.h"
-#include "command.h"
-#include "commandexecutor.h"
+#include "core/connection.h"
+#include "core/response.h"
+#include "core/command.h"
+#include "core/commandexecutor.h"
 
 ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisClient::ConnectionConfig &config)
     : config(config), connectionValid(false)
@@ -53,16 +53,14 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
     using namespace RedisClient;
 
     Command command(cmd);
-    Response result = CommandExecutor::execute(connection.data(), command);
-    
-    int dbIndex = 0;
+    Response result = CommandExecutor::execute(connection.data(), command);        
 
-    if (command.isSelectCommand(&dbIndex))
+    if (command.isSelectCommand())
     {        
         emit changePrompt(
             QString("%1:%2>")
                 .arg(connection->config.name)
-                .arg(dbIndex),
+                .arg(command.getSplitedRepresentattion().at(1)),
                 false
             );
     }

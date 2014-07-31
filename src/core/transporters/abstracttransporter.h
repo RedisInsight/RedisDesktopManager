@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <functional>
-#include "connection.h"
-#include "command.h"
-#include "response.h"
+#include "core/connection.h"
+#include "core/command.h"
+#include "core/response.h"
 
 namespace RedisClient {
 

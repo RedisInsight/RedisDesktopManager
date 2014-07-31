@@ -2,9 +2,9 @@
 #include "connections-tree/items/serveritem.h"
 #include "connectionsmanager.h"
 #include "core/connectionconfig.h"
-#include "core/abstractprotocol.h"
+#include "core/protocols/abstractprotocol.h"
 
-RedisConnectionsManager::RedisConnectionsManager(QString config)
+ConnectionsManager::ConnectionsManager(QString config)
     : configPath(config), connectionSettingsChanged(false)
 {
     if (!config.isEmpty() && QFile::exists(config)) {
@@ -13,14 +13,14 @@ RedisConnectionsManager::RedisConnectionsManager(QString config)
 }
 
 
-RedisConnectionsManager::~RedisConnectionsManager(void)
+ConnectionsManager::~ConnectionsManager(void)
 {
     if (connectionSettingsChanged) {
         SaveConnectionsConfigToFile(configPath);
     }
 }
 
-void RedisConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> connection)
+void ConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> connection)
 {
     //add connection to internal container
     connections.push_back(connection);
@@ -43,7 +43,7 @@ void RedisConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connecti
 }
 
 
-bool RedisConnectionsManager::ImportConnections(QString &path)
+bool ConnectionsManager::ImportConnections(QString &path)
 {
     if (LoadConnectionsConfigFromFile(path, true)) {
         return true;
@@ -53,7 +53,7 @@ bool RedisConnectionsManager::ImportConnections(QString &path)
 }
 
 
-bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile)
+bool ConnectionsManager::LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile)
 {
     QFile conf(config);
     
@@ -87,7 +87,7 @@ bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, boo
     return true;
 }
 
-bool RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
+bool ConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 {
     QDomDocument config;
 
@@ -113,7 +113,7 @@ bool RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
     return false;
 }
 
-int RedisConnectionsManager::size()
+int ConnectionsManager::size()
 {
     return connections.length();
 }

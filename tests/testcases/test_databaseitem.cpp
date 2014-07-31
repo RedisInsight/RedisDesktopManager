@@ -1,5 +1,5 @@
 #include "test_databaseitem.h"
-#include "items/databaseitem.h"
+#include "connections-tree/items/databaseitem.h"
 #include "itemoperationsmock.h"
 
 #include <QtCore>
@@ -23,8 +23,9 @@ void TestDatabaseItem::testLoadKeys()
     operations->keys.append("test-2-key:namespace:subkey2");
     DatabaseItem item("test", 0, 300,
                       QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      nullptr);    
-    QSignalSpy spy(&item, SIGNAL(keysLoaded()));
+                      nullptr);
+
+    QSignalSpy spy(&item, SIGNAL(keysLoaded(unsigned int)));
 
     //when
     item.loadKeys();

@@ -1,7 +1,7 @@
 #include "connection.h"
-#include "defaulttransporter.h"
-#include "defaultprotocol.h"
-#include "sshtransporter.h"
+#include "transporters/defaulttransporter.h"
+#include "protocols/defaultprotocol.h"
+#include "transporters/sshtransporter.h"
 #include "connectionexception.h"
 
 RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)

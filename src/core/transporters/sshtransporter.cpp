@@ -1,5 +1,5 @@
 #include "sshtransporter.h"
-#include "abstractprotocol.h"
+#include "core/protocols/abstractprotocol.h"
 
 #define MAX_BUFFER_SIZE 536800 //response part limit
 

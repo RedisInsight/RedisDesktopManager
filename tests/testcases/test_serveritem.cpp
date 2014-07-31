@@ -1,6 +1,7 @@
 #include "test_serveritem.h"
 #include "itemoperationsmock.h"
-#include "items/serveritem.h"
+#include "connections-tree/items/serveritem.h"
+#include "connections-tree/model.h"
 
 #include <QtCore>
 #include <QTest>
@@ -18,7 +19,8 @@ void TestServerItem::testLoad()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
     operations->databases["test-db"] = 55;
-    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))));
+    Model dummyModel;
+    ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
     QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
 
     //when
@@ -36,7 +38,8 @@ void TestServerItem::testUnload()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
     operations->databases["test-db"] = 55;
-    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))));
+    Model dummyModel;
+    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
 
     //when
     item.unload();
@@ -52,7 +55,8 @@ void TestServerItem::testReload()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
     operations->databases["test-db"] = 55;
-    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))));
+    Model dummyModel;
+    ServerItem item{"test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel};
     QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
 
     //when

@@ -3,12 +3,11 @@
 
 #include <QObject>
 
-class TestRedisConnectionsManager : public QObject
+class TestConnectionsManager : public QObject
 {
 	Q_OBJECT
 
 private slots:
-
 	void LoadConnectionsConfigFromFile();
 	
 };

@@ -2,8 +2,8 @@
 #define SSHTRANSPORTER_H
 
 #include "abstracttransporter.h"
-#include "ssh/qxtsshtcpsocket.h"
-#include "ssh/qxtsshclient.h"
+#include "core/ssh/qxtsshtcpsocket.h"
+#include "core/ssh/qxtsshclient.h"
 
 namespace RedisClient {
 

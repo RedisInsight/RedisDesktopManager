@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QSharedPointer>
-#include "connection.h"
-#include "abstracttransporter.h"
+#include "core/connection.h"
+#include "core/transporters/abstracttransporter.h"
 #include "connections-tree/operations.h"
 
 namespace RedisClient {
@@ -38,7 +38,7 @@ public:
      */
     void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>) override;
 
-    QSharedPointer<ConsoleOperations> getConsoleOperations() override;
+    QSharedPointer<Console::Operations> getConsoleOperations() override;
 
     void disconnect() override;
 
