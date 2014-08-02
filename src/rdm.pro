@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui network xml concurrent widgets
+QT += core gui network xml concurrent widgets quick quickwidgets
 
 TARGET = rdm
 TEMPLATE = app
@@ -15,6 +15,7 @@ SOURCES += \
     $$PWD/connections-tree/*.cpp \
     $$PWD/connections-tree/items/*.cpp \
     $$PWD/console/*.cpp \
+    $$PWD/value-editor/*.cpp \
     $$PWD/core/*.cpp \
     $$PWD/core/ssh/*.cpp \
     $$PWD/core/transporters/*.cpp \
@@ -32,6 +33,7 @@ HEADERS  += \
     $$PWD/connections-tree/*.h \
     $$PWD/connections-tree/items/*.h \
     $$PWD/console/*.h \
+    $$PWD/value-editor/*.h \
     $$PWD/core/*.h \
     $$PWD/core/ssh/*.h \
     $$PWD/core/transporters/*.h \
@@ -121,6 +123,7 @@ RESOURCES += \
 
 OTHER_FILES += \
     qt.conf \
-    Info.plist
+    Info.plist \
+    qml\*.qml \
 
 

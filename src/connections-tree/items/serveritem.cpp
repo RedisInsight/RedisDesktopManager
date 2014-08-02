@@ -152,9 +152,13 @@ void ServerItem::load()
         }
 
         Operations::DatabaseList::const_iterator db = databases.constBegin();
-        unsigned int index = 0;
+        int index;
+        QString dbIndex;
 
         while (db != databases.constEnd()) {
+            dbIndex = db.key();
+            dbIndex = dbIndex.remove(0,2);
+            index = dbIndex.toInt();
 
             QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, this)));
 
@@ -162,8 +166,7 @@ void ServerItem::load()
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));
 
             m_databases.push_back(database);
-            ++db;
-            ++index;
+            ++db;            
         }
 
         std::sort(m_databases.begin(), m_databases.end(), [](QSharedPointer<TreeItem> left, QSharedPointer<TreeItem> right) {

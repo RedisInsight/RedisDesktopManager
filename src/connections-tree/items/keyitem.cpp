@@ -1,5 +1,7 @@
 #include "keyitem.h"
 #include "connections-tree/iconproxy.h"
+#include "value-editor/valuetab.h"
+#include "connections-tree/tabwidget.h"
 #include <QMenu>
 
 using namespace ConnectionsTree;
@@ -48,6 +50,10 @@ bool KeyItem::onClick(ParentView& treeView, TabWidget& tabs)
 {
     //    if (item->isEnabled())
 //        ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));
+
+    QSharedPointer<ValueEditor::ValueTab> tab(new ValueEditor::ValueTab());
+
+    tabs.addTab(tab.staticCast<BaseTab>());
 
     return false;
 }
