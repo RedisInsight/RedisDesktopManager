@@ -1,4 +1,5 @@
 #pragma once
+#include <QTimer>
 #include "widgets/basetab.h"
 #include "operations.h"
 
@@ -14,6 +15,8 @@ public:
 
     void close() override;
     bool shouldBeReplaced() override;
+    virtual QString getTitle() override;
+    virtual QIcon getIcon() override;
 
 private slots:
     void setPrompt(const QString &, bool);
@@ -21,6 +24,7 @@ private slots:
 private:    
     QSharedPointer<QConsole> m_consoleWidget;
     QSharedPointer<Operations> m_consoleOperations;
+    QTimer m_initTimer;
 };
 }
 

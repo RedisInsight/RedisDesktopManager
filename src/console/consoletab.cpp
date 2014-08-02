@@ -39,6 +39,12 @@ ConsoleTab::ConsoleTab(QSharedPointer<Operations> operations)
             this, &ConsoleTab::setPrompt);
     connect(m_consoleOperations.data(), &Operations::addOutput,
             m_consoleWidget.data(), &QConsole::printCommandExecutionResults);
+
+    connect(&m_initTimer, &QTimer::timeout,
+            this, [this]() { m_consoleOperations->init(); });
+
+    m_initTimer.setSingleShot(true);
+    m_initTimer.start(0);
 }
 
 void ConsoleTab::close()
@@ -49,6 +55,16 @@ void ConsoleTab::close()
 bool ConsoleTab::shouldBeReplaced()
 {
     return false;
+}
+
+QString ConsoleTab::getTitle()
+{
+    return m_consoleOperations->getConsoleName();
+}
+
+QIcon ConsoleTab::getIcon()
+{
+    return QIcon(":/images/terminal.png");
 }
 
 void ConsoleTab::setPrompt(const QString & str, bool display)

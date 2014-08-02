@@ -50,17 +50,17 @@ const TreeItem *NamespaceItem::parent() const
     return m_parent;
 }
 
-bool NamespaceItem::onClick(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+bool NamespaceItem::onClick(TreeItem::ParentView& treeView, TabWidget& tabs)
 {
     return true;
 }
 
-void NamespaceItem::onWheelClick(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+void NamespaceItem::onWheelClick(TreeItem::ParentView& treeView, TabWidget& tabs)
 {
 
 }
 
-QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView& treeView, TabWidget& tabs)
 {
     QSharedPointer<QMenu> menu(new QMenu());
     return menu;

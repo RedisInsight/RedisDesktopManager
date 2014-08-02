@@ -4,7 +4,7 @@
 #include "command.h"
 #include "response.h"
 #include "connection.h"
-#include "abstractprotocol.h"
+#include "protocols/abstractprotocol.h"
 #include "commandexecutor.h"
 #include "connectionconfig.h"
 #include "connectionexception.h"

@@ -7,6 +7,7 @@
 namespace ConnectionsTree {
 
     class Model;    
+    class TabWidget;
 
     class TreeView : public QTreeView, public TreeItem::ParentView
     {
@@ -17,6 +18,8 @@ namespace ConnectionsTree {
 
         void setModel(Model *model);
         const Model* model() const;
+
+        void setTabWidget(TabWidget *widget);
 
         QWidget* getParentWidget() override;
 
@@ -29,6 +32,7 @@ namespace ConnectionsTree {
         void processContextMenu(const QPoint &);
 
     private:
+        TabWidget *m_tabWidget;
         TreeItem *preProcessEvent(const QModelIndex& index);
 
     signals:

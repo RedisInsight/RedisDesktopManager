@@ -1,6 +1,8 @@
 #include "abstractprotocol.h"
 #include "core/commandexecutor.h"
 #include "core/connectionexception.h"
+#include "consoleconnectionwrapper.h"
+#include "console/operations.h"
 
 RedisClient::AbstractProtocol::AbstractProtocol(RedisClient::Connection *connection)
     : m_connection(connection)
@@ -98,7 +100,7 @@ void RedisClient::AbstractProtocol::getDatabaseKeys(uint dbIndex, std::function<
 
 QSharedPointer<Console::Operations> RedisClient::AbstractProtocol::getConsoleOperations()
 {
-    return QSharedPointer<Console::Operations>();
+    return QSharedPointer<ConsoleConnectionWrapper>(new ConsoleConnectionWrapper(m_connection)).staticCast<Console::Operations>();
 }
 
 void RedisClient::AbstractProtocol::disconnect()

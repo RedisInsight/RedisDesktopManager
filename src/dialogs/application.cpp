@@ -15,7 +15,6 @@
 #include "dialogs/quickstartdialog.h"
 
 #include "widgets/valueTab.h"
-#include "widgets/consoletab.h"
 
 #include "updater/updater.h"
 #include "utils/configmanager.h"
@@ -58,13 +57,14 @@ void MainWin::initConnectionsTreeView()
         exit(1);
     }
 
-    connections = QSharedPointer<RedisConnectionsManager>(new RedisConnectionsManager(config));
+    connections = QSharedPointer<ConnectionsManager>(new ConnectionsManager(config));
 
     if (connections->size() == 0) {
         QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));
     }
 
     ui.serversTreeView->setModel(connections.data());
+    ui.serversTreeView->setTabWidget(static_cast<ConnectionsTree::TabWidget*>(ui.tabWidget));
 }
 
 void MainWin::initContextMenus()

@@ -1,5 +1,4 @@
-#ifndef OPERATIONS_H
-#define OPERATIONS_H
+#pragma once
 
 #include <QObject>
 #include <qconsole.h>
@@ -10,6 +9,10 @@ namespace Console {
     {
         Q_OBJECT
 
+    public:
+        virtual void init() = 0;
+        virtual QString getConsoleName() = 0;
+
     public slots:
         virtual void executeCommand(const QString&) = 0;
 
@@ -18,5 +21,3 @@ namespace Console {
         void addOutput(const QString&, QConsole::ResultType);
     };
 }
-
-#endif // OPERATIONS_H

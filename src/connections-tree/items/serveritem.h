@@ -25,9 +25,9 @@ namespace ConnectionsTree {
         QSharedPointer<TreeItem> child(int row) const override;
         const TreeItem* parent() const override;
 
-        bool onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
-        void onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override {}
-        QSharedPointer<QMenu> getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs) override;
+        bool onClick(ParentView& treeView, TabWidget& tabs) override;
+        void onWheelClick(ParentView& treeView, TabWidget& tabs) override {}
+        QSharedPointer<QMenu> getContextMenu(ParentView& treeView, TabWidget& tabs) override;
 
         bool isLocked() const override;
         bool isDatabaseListLoaded() const;

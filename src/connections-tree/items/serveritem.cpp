@@ -7,7 +7,11 @@
 #include <QMessageBox>
 #include <functional>
 #include <QCollator>
+#include <QDebug>
 #include <algorithm>
+#include "console/consoletab.h"
+#include "connections-tree/tabwidget.h"
+#include "widgets/BaseTab.h"
 
 using namespace ConnectionsTree;
 
@@ -29,7 +33,7 @@ QString ServerItem::getDisplayName() const
     return m_name;
 }
 
-bool ServerItem::onClick(TreeItem::ParentView& view, QWeakPointer<QTabWidget>)
+bool ServerItem::onClick(TreeItem::ParentView& view, TabWidget&)
 {
     if (m_databaseListLoaded)
         return false;
@@ -72,21 +76,20 @@ QSharedPointer<TreeItem> ServerItem::child(int row) const
 
 const TreeItem *ServerItem::parent() const {return nullptr; }
 
-QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView, TabWidget& tabs)
 {
     QSharedPointer<QMenu> menu(new QMenu());
 
     //console action
     QAction* console = new QAction(QIcon(":/images/terminal.png"), "Console", menu.data());
-    QObject::connect(console, &QAction::triggered, this, [this, &treeView, tabs]() {
+    QObject::connect(console, &QAction::triggered, this, [this, &treeView, &tabs]() {
 
-        QSharedPointer<QTabWidget> tabsView = tabs.toStrongRef();
+        qDebug() << "console action";
 
-        if (!tabsView)
-            return;
+        QSharedPointer<Console::ConsoleTab> tab = QSharedPointer<Console::ConsoleTab>(
+                    new Console::ConsoleTab(m_operations->getConsoleOperations()));
 
-        //TBD: implement this
-
+        tabs.addTab(tab.staticCast<BaseTab>());
     });
     menu->addAction(console);
     menu->addSeparator();    

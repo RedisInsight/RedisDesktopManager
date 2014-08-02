@@ -4,31 +4,26 @@
 #include "core/command.h"
 #include "core/commandexecutor.h"
 
-ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisClient::ConnectionConfig &config)
-    : config(config), connectionValid(false)
+ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisClient::Connection* connection)
+    : m_connection(connection)
 {
 }
 
 void ConsoleConnectionWrapper::init()
 {
-    if (config.isNull()) 
+    if (!m_connection->connect())
     {
-        emit addOutput("Invalid config. Can't create connection.");        
-        return;
-    } 
-
-    connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(config, false));
-
-    if (!connection->connect()) 
-    {
-        emit addOutput("Invalid config. Can't create connection.");    
+        emit addOutput("Connection error. Check network connection", QConsole::Error);
         return;
     }
 
-    connectionValid = true;
+    emit addOutput("Connected.\n", QConsole::Complete);
+    emit changePrompt(QString("%1:0>").arg(m_connection->config.name), true);
+}
 
-    emit addOutput("Connected.\n");
-    emit changePrompt(QString("%1:0>").arg(config.name), true);    
+QString ConsoleConnectionWrapper::getConsoleName()
+{
+    return m_connection->config.name;
 }
 
 void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
@@ -38,32 +33,20 @@ void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
         return;
     }
 
-    if (!connectionValid) 
-    {
-        emit addOutput("Invalid config. Can't create connection.");
-        return;
-    }
-
-    if (!connection->isConnected() && !connection->connect()) 
-    {
-        emit addOutput("Connection error. Check network connection");
-        return;
-    }
-
     using namespace RedisClient;
 
     Command command(cmd);
-    Response result = CommandExecutor::execute(connection.data(), command);        
+    Response result = CommandExecutor::execute(m_connection, command);
 
     if (command.isSelectCommand())
     {        
         emit changePrompt(
             QString("%1:%2>")
-                .arg(connection->config.name)
+                .arg(m_connection->config.name)
                 .arg(command.getSplitedRepresentattion().at(1)),
                 false
             );
     }
     QVariant value = result.getValue();
-    emit addOutput(RedisClient::Response::valueToHumanReadString(value));
+    emit addOutput(RedisClient::Response::valueToHumanReadString(value), QConsole::Complete);
 }

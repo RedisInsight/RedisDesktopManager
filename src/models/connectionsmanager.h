@@ -9,12 +9,12 @@ class ConnectionsManager : public ConnectionsTree::Model
     Q_OBJECT    
 
 public:
-    ConnectionsManager(QString);
+    ConnectionsManager(const QString& configPath);
     ~ConnectionsManager(void);
 
     void AddConnection(QSharedPointer<RedisClient::Connection> connection);
-    bool ImportConnections(QString &);
-    bool SaveConnectionsConfigToFile(QString);
+    bool ImportConnections(const QString &);
+    bool SaveConnectionsConfigToFile(const QString&);
 
     int size();
 
@@ -24,6 +24,6 @@ private:
     QList<QSharedPointer<RedisClient::Connection>> connections;
 
 protected:
-    bool LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile = false);    
+    bool LoadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);
 };
 

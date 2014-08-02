@@ -10,9 +10,10 @@
 #include <QWidget>
 
 class QMenu;
-class QTabWidget;
 
 namespace ConnectionsTree {
+
+class TabWidget;
 
 class TreeItem {
 public:
@@ -31,9 +32,9 @@ public:
     virtual QSharedPointer<TreeItem> child(int row) const = 0;
     virtual const TreeItem* parent() const = 0;
 
-    virtual bool onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) = 0;
-    virtual void onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs) = 0;
-    virtual QSharedPointer<QMenu> getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs) = 0;
+    virtual bool onClick(ParentView& treeView, TabWidget& tabs) = 0;
+    virtual void onWheelClick(ParentView& treeView, TabWidget& tabs) = 0;
+    virtual QSharedPointer<QMenu> getContextMenu(ParentView& treeView, TabWidget& tabs) = 0;
 
     virtual bool isLocked() const = 0;
 

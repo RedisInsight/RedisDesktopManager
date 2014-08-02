@@ -4,11 +4,11 @@
 #include "core/connectionconfig.h"
 #include "core/protocols/abstractprotocol.h"
 
-ConnectionsManager::ConnectionsManager(QString config)
-    : configPath(config), connectionSettingsChanged(false)
+ConnectionsManager::ConnectionsManager(const QString& configPath)
+    : configPath(configPath), connectionSettingsChanged(false)
 {
-    if (!config.isEmpty() && QFile::exists(config)) {
-        LoadConnectionsConfigFromFile(config);
+    if (!configPath.isEmpty() && QFile::exists(configPath)) {
+        LoadConnectionsConfigFromFile(configPath);
     }
 }
 
@@ -43,7 +43,7 @@ void ConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> c
 }
 
 
-bool ConnectionsManager::ImportConnections(QString &path)
+bool ConnectionsManager::ImportConnections(const QString &path)
 {
     if (LoadConnectionsConfigFromFile(path, true)) {
         return true;
@@ -53,7 +53,7 @@ bool ConnectionsManager::ImportConnections(QString &path)
 }
 
 
-bool ConnectionsManager::LoadConnectionsConfigFromFile(QString& config, bool saveChangesToFile)
+bool ConnectionsManager::LoadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile)
 {
     QFile conf(config);
     
@@ -87,7 +87,7 @@ bool ConnectionsManager::LoadConnectionsConfigFromFile(QString& config, bool sav
     return true;
 }
 
-bool ConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
+bool ConnectionsManager::SaveConnectionsConfigToFile(const QString& pathToFile)
 {
     QDomDocument config;
 

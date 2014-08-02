@@ -1,8 +1,9 @@
 #pragma once
 
 #include <QTabWidget>
+#include "connections-tree/tabwidget.h"
 
-class MainTabsWidget : public QTabWidget
+class MainTabsWidget : public QTabWidget, public ConnectionsTree::TabWidget
 {
     Q_OBJECT
 
@@ -16,6 +17,8 @@ public:
     int addTab(QWidget*, const QString &);
 
     void closeTab(unsigned int index);
+
+    void addTab(QSharedPointer<BaseTab> tab) override;
     
 //    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 
@@ -29,5 +32,8 @@ protected slots:
     void OnError(const QString &);
     void OnTabClose(int i);
     //void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
+
+private:
+    QList<QSharedPointer<BaseTab>> m_tabs;
 };
 

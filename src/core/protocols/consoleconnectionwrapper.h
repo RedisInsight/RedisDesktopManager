@@ -2,30 +2,26 @@
 
 #include <QObject>
 #include "core/connectionconfig.h"
+#include "console/operations.h"
 
 namespace RedisClient {
 class Connection;
 }
 
-class ConsoleConnectionWrapper : public QObject
+class ConsoleConnectionWrapper : public Console::Operations
 {
     Q_OBJECT
 
 public:
-    ConsoleConnectionWrapper(RedisClient::ConnectionConfig &);
+    ConsoleConnectionWrapper(RedisClient::Connection*);
 
-    void init();
-
-    public slots:        
-        void executeCommand(const QString &);
-
-    signals:
-        void changePrompt(const QString &, bool);
-        void addOutput(const QString &);
+    public:
+        void init();
+        QString getConsoleName() override;
+        void executeCommand(const QString&);
 
 private:
-    QSharedPointer<RedisClient::Connection> connection;
-    RedisClient::ConnectionConfig config;
-    bool connectionValid;    
+    RedisClient::Connection* m_connection;
+
 };
 

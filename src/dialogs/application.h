@@ -5,7 +5,7 @@
 #include <QSharedPointer>
 #include "ui_main.h"
 
-class RedisConnectionsManager;
+class ConnectionsManager;
 class Updater;
 
 class MainWin : public QMainWindow
@@ -13,7 +13,7 @@ class MainWin : public QMainWindow
     Q_OBJECT
 
 public:
-    QSharedPointer<RedisConnectionsManager> connections;
+    QSharedPointer<ConnectionsManager> connections;
 
     MainWin(QWidget *parent = 0); 
 private:    

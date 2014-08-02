@@ -13,7 +13,7 @@ class AbstractProtocol : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT
 public:
-    AbstractProtocol(Connection * connection);
+    AbstractProtocol(Connection* connection);
 
     /**
      * Select db
@@ -52,7 +52,7 @@ signals:
     void errorOccurred(const QString&);
 
 protected:
-    Connection * m_connection;
+    Connection* m_connection;
 };
 
 }

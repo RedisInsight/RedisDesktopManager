@@ -44,7 +44,7 @@ const TreeItem *KeyItem::parent() const
     return m_parent;
 }
 
-bool KeyItem::onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+bool KeyItem::onClick(ParentView& treeView, TabWidget& tabs)
 {
     //    if (item->isEnabled())
 //        ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));
@@ -52,12 +52,12 @@ bool KeyItem::onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
     return false;
 }
 
-void KeyItem::onWheelClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+void KeyItem::onWheelClick(ParentView& treeView, TabWidget& tabs)
 {
 //     ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
 }
 
-QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeView, TabWidget& tabs)
 {
     QSharedPointer<QMenu> menu(new QMenu());
     //menu->addAction("Open key value in new tab", this, SLOT(OnKeyOpenInNewTab()));

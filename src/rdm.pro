@@ -14,8 +14,11 @@ SOURCES += \
     $$PWD/dialogs/*.cpp \
     $$PWD/connections-tree/*.cpp \
     $$PWD/connections-tree/items/*.cpp \
+    $$PWD/console/*.cpp \
     $$PWD/core/*.cpp \
     $$PWD/core/ssh/*.cpp \
+    $$PWD/core/transporters/*.cpp \
+    $$PWD/core/protocols/*.cpp \
     $$PWD/widgets/*.cpp \
     $$PWD/crashhandler/*.cpp \
     $$PWD/updater/*.cpp \
@@ -28,8 +31,11 @@ HEADERS  += \
     $$PWD/dialogs/*.h \
     $$PWD/connections-tree/*.h \
     $$PWD/connections-tree/items/*.h \
+    $$PWD/console/*.h \
     $$PWD/core/*.h \
     $$PWD/core/ssh/*.h \
+    $$PWD/core/transporters/*.h \
+    $$PWD/core/protocols/*.h \
     $$PWD/widgets/*.h \
     $$PWD/crashhandler/*.h \
     $$PWD/updater/*.h \

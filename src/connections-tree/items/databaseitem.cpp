@@ -57,23 +57,18 @@ const TreeItem *DatabaseItem::parent() const
     return m_parent;
 }
 
-bool DatabaseItem::onClick(ParentView& treeView, QWeakPointer<QTabWidget> tabs)
-{
-    Q_UNUSED(treeView);
-    Q_UNUSED(tabs);
-
+bool DatabaseItem::onClick(ParentView&, TabWidget&)
+{    
     loadKeys();
 
     return true;
 }
 
-void DatabaseItem::onWheelClick(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
-{
-    Q_UNUSED(treeView);
-    Q_UNUSED(tabs);
+void DatabaseItem::onWheelClick(TreeItem::ParentView&, TabWidget&)
+{    
 }
 
-QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView, QWeakPointer<QTabWidget> tabs)
+QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView, TabWidget& tabs)
 {
     return QSharedPointer<QMenu>(new QMenu());
 }
