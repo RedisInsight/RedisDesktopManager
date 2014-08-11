@@ -113,7 +113,7 @@ void MainTabsWidget::closeTab(unsigned int index)
     tab->close();
 }
 
-void MainTabsWidget::addTab(QSharedPointer<BaseTab> tab)
+void MainTabsWidget::addTab(QSharedPointer<BaseTab> tab, bool inNewTab)
 {
     m_tabs.push_back(tab);
     QTabWidget::addTab(tab.data(), tab->getIcon(), tab->getTitle());

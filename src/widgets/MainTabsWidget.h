@@ -18,7 +18,7 @@ public:
 
     void closeTab(unsigned int index);
 
-    void addTab(QSharedPointer<BaseTab> tab) override;
+    void addTab(QSharedPointer<BaseTab> tab, bool inNewTab = true) override;
     
 //    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 

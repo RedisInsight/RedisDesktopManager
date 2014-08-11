@@ -23,6 +23,7 @@ namespace ConnectionsTree {
         QSharedPointer<QMenu> getContextMenu(ParentView& treeView, TabWidget& tabs) override;
 
         bool isLocked() const override;
+        bool isEnabled() const override {return true;}
 
     private:
         QString m_fullPath;

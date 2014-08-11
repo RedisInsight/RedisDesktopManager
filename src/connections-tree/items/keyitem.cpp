@@ -48,19 +48,24 @@ const TreeItem *KeyItem::parent() const
 
 bool KeyItem::onClick(ParentView& treeView, TabWidget& tabs)
 {
-    //    if (item->isEnabled())
-//        ui.tabWidget->openKeyTab(dynamic_cast<RedisKeyItem *>(item));
+    Q_UNUSED(treeView)
 
-    QSharedPointer<ValueEditor::ValueTab> tab(new ValueEditor::ValueTab());
-
-    tabs.addTab(tab.staticCast<BaseTab>());
+    if (isEnabled()) {
+        QSharedPointer<ValueEditor::ValueTab> tab(new ValueEditor::ValueTab(m_fullPath, m_operations));
+        tabs.addTab(tab.staticCast<BaseTab>(), false);
+    }
 
     return false;
 }
 
 void KeyItem::onWheelClick(ParentView& treeView, TabWidget& tabs)
 {
-//     ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
+    Q_UNUSED(treeView)
+
+    if (isEnabled()) {
+        QSharedPointer<ValueEditor::ValueTab> tab(new ValueEditor::ValueTab(m_fullPath, m_operations));
+        tabs.addTab(tab.staticCast<BaseTab>(), true);
+    }
 }
 
 QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeView, TabWidget& tabs)
@@ -75,13 +80,3 @@ bool KeyItem::isLocked() const
 {
     return m_locked;
 }
-
-//void MainWin::OnKeyOpenInNewTab()
-//{
-//    QStandardItem * item = ui.serversTreeView->getSelectedItem();
-
-//    if (item == nullptr || item->type() != RedisKeyItem::TYPE)
-//        return;
-
-//    ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
-//}

@@ -2,6 +2,7 @@
 #define VALUETAB_H
 
 #include "widgets/BaseTab.h"
+#include "connections-tree/operations.h"
 
 namespace ValueEditor {
 
@@ -9,7 +10,13 @@ class ValueTab : public BaseTab
 {
     Q_OBJECT
 public:
-    ValueTab();
+    ValueTab(const QString& keyFullPath, QSharedPointer<ConnectionsTree::Operations> operations);
+
+    QString getTitle() override;
+
+private:
+    QString m_keyFullPath;
+    QSharedPointer<ConnectionsTree::Operations> m_operations;
 };
 }
 

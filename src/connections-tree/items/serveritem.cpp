@@ -89,7 +89,7 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView,
         QSharedPointer<Console::ConsoleTab> tab = QSharedPointer<Console::ConsoleTab>(
                     new Console::ConsoleTab(m_operations->getConsoleOperations()));
 
-        tabs.addTab(tab.staticCast<BaseTab>());
+        tabs.addTab(tab.staticCast<BaseTab>(), false);
     });
     menu->addAction(console);
     menu->addSeparator();    

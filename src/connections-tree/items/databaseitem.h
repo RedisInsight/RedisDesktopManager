@@ -28,6 +28,7 @@ public:
     QSharedPointer<QMenu> getContextMenu(ParentView& treeView, TabWidget& tabs) override;
 
     bool isLocked() const override {return false;}
+    bool isEnabled() const override {return true;}
 
     void loadKeys();
 

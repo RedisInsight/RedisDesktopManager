@@ -30,6 +30,7 @@ namespace ConnectionsTree {
         QSharedPointer<QMenu> getContextMenu(ParentView& treeView, TabWidget& tabs) override;
 
         bool isLocked() const override;
+        bool isEnabled() const override {return true;}
         bool isDatabaseListLoaded() const;
 
         void load();

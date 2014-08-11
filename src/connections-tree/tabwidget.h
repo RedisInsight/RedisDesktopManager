@@ -10,7 +10,7 @@ namespace ConnectionsTree {
 class TabWidget
 {
 public:
-    virtual void addTab(QSharedPointer<BaseTab> tab) = 0;
+    virtual void addTab(QSharedPointer<BaseTab> tab, bool inNewTab) = 0;
 };
 
 }
