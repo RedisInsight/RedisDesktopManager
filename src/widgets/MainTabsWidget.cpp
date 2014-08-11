@@ -1,7 +1,7 @@
 #include "maintabswidget.h"
 #include <QTabBar>
 #include <QMessageBox>
-#include "valueTab.h"
+#include "widgets/BaseTab.h"
 
 MainTabsWidget::MainTabsWidget(QWidget * parent)
     : QTabWidget(parent)

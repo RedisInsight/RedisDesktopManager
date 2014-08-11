@@ -14,8 +14,6 @@
 #include "dialogs/connect.h"
 #include "dialogs/quickstartdialog.h"
 
-#include "widgets/valueTab.h"
-
 #include "updater/updater.h"
 #include "utils/configmanager.h"
 
