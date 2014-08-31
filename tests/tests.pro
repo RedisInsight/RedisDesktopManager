@@ -3,41 +3,28 @@ QT       += core gui network xml testlib concurrent widgets
 TARGET = tests
 TEMPLATE = app
 
-CONFIG += debug
-CONFIG += c++11
+CONFIG += debug c++11
 CONFIG-=app_bundle
+
+SOURCES += \
+    $$PWD/main.cpp \    
 
 SRC_DIR = $$PWD/../src//
 
-SOURCES += \
-    $$PWD/main.cpp \
-    $$PWD/testcases/*.cpp \    
-    $$SRC_DIR/connections-tree/items/*.cpp \
-    $$SRC_DIR/connections-tree/iconproxy.cpp \
-    $$SRC_DIR/connections-tree/model.cpp \
-    $$SRC_DIR/console/consoletab.cpp \
-    $$SRC_DIR/core/*.cpp \
-    $$SRC_DIR/core/protocols/*.cpp \
-    $$SRC_DIR/core/ssh/*.cpp \
-    $$SRC_DIR/core/transporters/*.cpp \
-    $$SRC_DIR/models/connectionsmanager.cpp \
+RESOURCES += \
+    $$SRC_DIR/resources/rdm.qrc
 
-HEADERS  += \
-    $$PWD/testcases/*.h \
-    $$PWD/mocks/*.h \
-    $$SRC_DIR/connections-tree/items/*.h \
-    $$SRC_DIR/connections-tree/iconproxy.h \
-    $$SRC_DIR/connections-tree/operations.h \
-    $$SRC_DIR/connections-tree/model.h \
-    $$SRC_DIR/console/consoletab.h \
-    $$SRC_DIR/console/operations.h \
-    $$SRC_DIR/widgets/basetab.h \
-    $$SRC_DIR/core/*.h \
-    $$SRC_DIR/core/protocols/*.h \
-    $$SRC_DIR/core/ssh/*.h \
-    $$SRC_DIR/core/transporters/*.h \
-    $$SRC_DIR/models/connectionsmanager.h \
+INCLUDEPATH += $$SRC_DIR/modules/
 
+#DEFINES += INTEGRATION_TESTS
+
+#TEST CASES
+#include($$PWD/testcases/app/app-tests.pri)
+include($$PWD/testcases/connections-tree/connections-tree-tests.pri)
+include($$PWD/testcases/redisclient/redisclient-tests.pri)
+include($$PWD/testcases/console/console-tests.pri)
+include($$PWD/testcases/value-editor/value-editor-tests.pri)
+#############
 
 release: DESTDIR = ./../bin/tests
 debug:   DESTDIR = ./../bin/tests
@@ -51,21 +38,7 @@ win32-msvc* {
 }
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
-
 include($$THIRDPARTYDIR/3rdparty.pri)
-
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
 
-INCLUDEPATH += $$PWD/testcases \
-    $$PWD/mocks \
-    $$SRC_DIR \
-
-FORMS += \
-    $$SRC_DIR/forms/*.ui \
-
-RESOURCES += \
-    $$SRC_DIR/resources/rdm.qrc
-
-OTHER_FILES += \
-    stubs/connections.xml

@@ -3,12 +3,13 @@
 
 //tests
 #include <iostream>
-#include "test_connectionsmanager.h"
-#include "test_command.h"
-#include "test_response.h"
-#include "test_connection.h"
-#include "test_serveritem.h"
-#include "test_databaseitem.h"
+#include "testcases/app/test_connectionsmanager.h"
+#include "testcases/redisclient/test_command.h"
+#include "testcases/redisclient/test_response.h"
+#include "testcases/redisclient/test_connection.h"
+#include "testcases/connections-tree/test_serveritem.h"
+#include "testcases/connections-tree/test_databaseitem.h"
+#include "testcases/console/test_console.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,20 +20,23 @@ int main(int argc, char *argv[])
             QTest::qExec(new TestServerItem, argc, argv)
             + QTest::qExec(new TestDatabaseItem, argc, argv)
 
-            // core
+            // redisclient module
             + QTest::qExec(new TestCommand, argc, argv)
             + QTest::qExec(new TestResponse, argc, argv)
             + QTest::qExec(new TestConnection, argc, argv)
 
-            // models
-            + QTest::qExec(new TestConnectionsManager, argc, argv);
+            // console module
+            + QTest::qExec(new TestConsole, argc, argv)
+
+            // app
+            // FIXME
+            //+ QTest::qExec(new TestConnectionsManager, argc, argv)
+            ;
 
     if (allTestsResult != 0 ) {
-
-		#ifdef WIN32		
+#ifdef WIN32
 		std::cin.get();		
-		#endif // WIN32
-
+#endif // WIN32
         return 1;
     }
 
