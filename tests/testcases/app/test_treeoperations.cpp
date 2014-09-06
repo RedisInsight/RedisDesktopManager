@@ -2,17 +2,15 @@
 #include "models/treeoperations.h"
 #include "redisclient/connection.h"
 
-TestTreeOperations::TestTreeOperations(QObject *parent) :
-    QObject(parent)
-{
-}
-
 void TestTreeOperations::testCreation()
 {
     //given
+    QSharedPointer<RedisClient::Connection> connection = getReadyDummyConnection();
 
     //when
-    //TreeOperations operations();
+    TreeOperations operations(connection);
 
     //then
+    //all ok
+    Q_UNUSED(operations);
 }

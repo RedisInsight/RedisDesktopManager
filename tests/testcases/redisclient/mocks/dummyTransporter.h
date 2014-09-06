@@ -22,6 +22,14 @@ public:
     int addCommandCalls;
     int cancelCommandsCalls;
 
+    void setFakeResponses(const QStringList& respList)
+    {
+        for (QString response : respList) {
+            RedisClient::Response r(response.toLatin1());
+            fakeResponses.push_back(r);
+        }
+    }
+
     QList<RedisClient::Command> executedCommands;
     QList<RedisClient::Response> fakeResponses;
 
@@ -32,7 +40,16 @@ public slots:
         RedisClient::AbstractTransporter::addCommand(cmd);
     }
 
-    void init() override { initCalls++; emit connected(); }
+    void init() override
+    {
+        initCalls++;
+
+        // Init command tested after socket connection
+        RedisClient::Response r("+PONG\r\n");
+        fakeResponses.push_front(r);
+
+        emit connected();
+    }
     virtual void disconnect() { disconnectCalls++; }
     virtual void cancelCommands(QObject *) override { cancelCommandsCalls++; }
 

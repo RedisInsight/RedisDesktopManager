@@ -6,6 +6,9 @@ TEMPLATE = app
 CONFIG += debug c++11
 CONFIG-=app_bundle
 
+HEADERS += \
+    $$PWD/basetestcase.h \
+
 SOURCES += \
     $$PWD/main.cpp \    
 
@@ -14,12 +17,14 @@ SRC_DIR = $$PWD/../src//
 RESOURCES += \
     $$SRC_DIR/resources/rdm.qrc
 
-INCLUDEPATH += $$SRC_DIR/modules/
+INCLUDEPATH += $$SRC_DIR/modules/ \
+    $$PWD/
+
 
 #DEFINES += INTEGRATION_TESTS
 
 #TEST CASES
-#include($$PWD/testcases/app/app-tests.pri)
+include($$PWD/testcases/app/app-tests.pri)
 include($$PWD/testcases/connections-tree/connections-tree-tests.pri)
 include($$PWD/testcases/redisclient/redisclient-tests.pri)
 include($$PWD/testcases/console/console-tests.pri)
@@ -41,4 +46,7 @@ THIRDPARTYDIR = $$PWD/../3rdparty/
 include($$THIRDPARTYDIR/3rdparty.pri)
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
+
+HEADERS += \
+    basetestcase.h
 

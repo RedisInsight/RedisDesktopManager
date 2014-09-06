@@ -1,13 +1,12 @@
 #pragma once
 
-#include <QObject>
+#include "basetestcase.h"
 
-class TestTreeOperations : public QObject
+class TestTreeOperations : public BaseTestCase
 {
-    Q_OBJECT
-public:
-    explicit TestTreeOperations(QObject *parent = 0);
+    Q_OBJECT    
+
 private slots:
-    void testCreation();
+    void testCreation();           
 };
 

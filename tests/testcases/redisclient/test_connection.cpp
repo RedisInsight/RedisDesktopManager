@@ -3,7 +3,7 @@
 #include "redisclient/connection.h"
 #include "redisclient/commandexecutor.h"
 #include "redisclient/command.h"
-#include "mocks/dummyTransporter.h"
+
 
 using namespace RedisClient;
 
@@ -200,20 +200,17 @@ void TestConnection::connectAndDisconnect()
 
 void TestConnection::testWithDummyTransporter()
 {
-    //given
-    Connection connection(config, false);
-    DummyTransporter * d = new DummyTransporter{&connection};
-    QSharedPointer<DummyTransporter> transporter(d);
-    RedisClient::Response response("+PONG\r\n");
-    transporter->fakeResponses.push_back(response);
+    //given            
+    // connection with dummy transporter
+    QString validResponse("+PONG\r\n");
+    QSharedPointer<Connection> connection = getReadyDummyConnection(QStringList() << validResponse);
     Command cmd("ping");
 
-    //when
-    connection.setTransporter(transporter.dynamicCast<RedisClient::AbstractTransporter>());
-    connection.connect();
-    Response actualResult = CommandExecutor::execute(&connection, cmd);
+    //when    
+    connection->connect();
+    Response actualResult = CommandExecutor::execute(connection, cmd);
 
     //then
-    QCOMPARE(connection.isConnected(), true);
-    QCOMPARE(actualResult.toString(), QString("+PONG\r\n"));
+    QCOMPARE(connection->isConnected(), true);
+    QCOMPARE(actualResult.toString(), validResponse);
 }

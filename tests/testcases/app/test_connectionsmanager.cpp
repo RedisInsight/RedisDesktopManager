@@ -6,7 +6,7 @@ void TestConnectionsManager::LoadConnectionsConfigFromFile()
 {
 	//given
 	// xml fixture test-config.xml
-	QString configTestFile = "./stubs//connections.xml";
+    QString configTestFile = "connections.xml";
 
 	//when loads connections
     ConnectionsManager testManager(configTestFile);

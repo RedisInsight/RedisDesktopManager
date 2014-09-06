@@ -4,6 +4,7 @@
 //tests
 #include <iostream>
 #include "testcases/app/test_connectionsmanager.h"
+#include "testcases/app/test_treeoperations.h"
 #include "testcases/redisclient/test_command.h"
 #include "testcases/redisclient/test_response.h"
 #include "testcases/redisclient/test_connection.h"
@@ -29,17 +30,13 @@ int main(int argc, char *argv[])
             + QTest::qExec(new TestConsole, argc, argv)
 
             // app
-            // FIXME
-            //+ QTest::qExec(new TestConnectionsManager, argc, argv)
+            + QTest::qExec(new TestConnectionsManager, argc, argv)
+            + QTest::qExec(new TestTreeOperations, argc, argv)
             ;
 
-    if (allTestsResult != 0 ) {
-#ifdef WIN32
-		std::cin.get();		
-#endif // WIN32
-        return 1;
-    }
+    if (allTestsResult == 0)
+        qDebug() << "[Tests PASS]";
 
-	return 0;
+    return (allTestsResult != 0 )? 1 : 0;
 }
 

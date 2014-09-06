@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include <QtCore>
+#include "basetestcase.h"
 #include "redisclient/connectionconfig.h"
 
-class TestConnection : public QObject
+class TestConnection : public BaseTestCase
 {
     Q_OBJECT
 
