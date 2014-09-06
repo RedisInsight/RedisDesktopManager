@@ -2,9 +2,7 @@
 #include "connections-tree/items/serveritem.h"
 #include "connectionsmanager.h"
 #include "redisclient/connectionconfig.h"
-
-//FIXME : refactor this model
-#include "abstractprotocol.h"
+#include "treeoperations.h"
 
 ConnectionsManager::ConnectionsManager(const QString& configPath)
     : configPath(configPath), connectionSettingsChanged(false)
@@ -30,18 +28,18 @@ void ConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> c
     //add connection to view container
     using namespace ConnectionsTree;
 
-//    QSharedPointer<RedisClient::AbstractProtocol> protocol = connection->operations();
+    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection));
 
-//    QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
-//                new ServerItem(connection->getConfig().name,
-//                               protocol.dynamicCast<ConnectionsTree::Operations>(),
-//                               static_cast<ConnectionsTree::Model>(this))
-//                );
+    QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
+                new ServerItem(connection->getConfig().name,
+                               treeModel.dynamicCast<ConnectionsTree::Operations>(),
+                               static_cast<ConnectionsTree::Model>(this))
+                );
 
-//    addRootItem(serverItem);
+    addRootItem(serverItem);
 
-//    //mark settings as unsaved
-//    connectionSettingsChanged = true;
+    //mark settings as unsaved
+    connectionSettingsChanged = true;
 }
 
 

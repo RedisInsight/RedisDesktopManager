@@ -1,19 +1,22 @@
-#include "abstractprotocol.h"
-#include "core/commandexecutor.h"
-#include "core/connectionexception.h"
-#include "consoleconnectionwrapper.h"
-#include "console/operations.h"
+#include "treeoperations.h"
+#include "redisclient/commandexecutor.h"
+#include "redisclient/connection.h"
+#include "redisclient/command.h"
+#include "redisclient/response.h"
 
-RedisClient::AbstractProtocol::AbstractProtocol(RedisClient::Connection *connection)
+TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection)
     : m_connection(connection)
 {
+
 }
 
-void RedisClient::AbstractProtocol::getDatabases(std::function<void(DatabaseList)> callback)
+void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operations::DatabaseList)> callback)
 {
     if (!m_connection->isConnected() && !m_connection->connect()) {
-        throw ConnectionExeption("Cannot connect to host");
+        throw ConnectionsTree::Operations::Exception("Cannot connect to host");
     }
+
+    using namespace RedisClient;
 
     //  Get keys count
     Command cmd("info");
@@ -64,7 +67,7 @@ void RedisClient::AbstractProtocol::getDatabases(std::function<void(DatabaseList
     return callback(availableDatabeses);
 }
 
-void RedisClient::AbstractProtocol::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
+void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
 {
     auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
 
@@ -76,33 +79,27 @@ void RedisClient::AbstractProtocol::getDatabaseKeys(uint dbIndex, std::function<
     m_connection->runCommand(keyCmd);
 }
 
-QSharedPointer<Console::Operations> RedisClient::AbstractProtocol::getConsoleOperations()
+void TreeOperations::disconnect()
 {
-    return QSharedPointer<ConsoleConnectionWrapper>(new ConsoleConnectionWrapper(m_connection)).staticCast<Console::Operations>();
+    //TBD
 }
 
-void RedisClient::AbstractProtocol::disconnect()
-{
-
-}
-
-QString RedisClient::AbstractProtocol::getNamespaceSeparator()
+QString TreeOperations::getNamespaceSeparator()
 {
     return m_connection->config.namespaceSeparator;
 }
 
-QStringList RedisClient::AbstractProtocol::getInfo()
+void TreeOperations::openKeyTab()
 {
-    if (!m_connection->isConnected()) {
-        throw ConnectionExeption("Connect to host before use operations");
-    }
 
-    Command cmd("info");
-    Response info = CommandExecutor::execute(m_connection, cmd);
+}
 
-    if (info.isErrorMessage())
-        return QStringList();
+void TreeOperations::openNewKeyTab()
+{
 
-    return info.getValue().toStringList();
+}
+
+void TreeOperations::openConsoleTab()
+{
 
 }

@@ -1,29 +1,30 @@
 #pragma once
 
-#include <QObject>
 #include <QSharedPointer>
+#include <QObject>
 #include "redisclient/connection.h"
 #include "connections-tree/operations.h"
 
-class TreeOperations : public ConnectionsTree::Operations
+class TreeOperations : public QObject, public ConnectionsTree::Operations
 {
+    Q_OBJECT
 public:
     TreeOperations(QSharedPointer<RedisClient::Connection> connection);
 
-    /**
-     * @brief getDatabases
-     */
     void getDatabases(std::function<void(DatabaseList)>) override;
 
-    /**
-     * @brief getDatabaseKeys
-     * @param dbIndex
-     */
     void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>) override;
-
-    QSharedPointer<Console::Operations> getConsoleOperations() override;
 
     void disconnect() override;
 
-    QString getNamespaceSeparator() override;
+    QString getNamespaceSeparator() override;    
+
+    virtual void openKeyTab() override;
+
+    virtual void openNewKeyTab() override;
+
+    virtual void openConsoleTab() override;
+
+private:
+     QSharedPointer<RedisClient::Connection> m_connection;
 };
