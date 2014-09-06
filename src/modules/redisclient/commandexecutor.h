@@ -15,7 +15,8 @@ class CommandExecutor
     ADD_EXCEPTION
 
 public:
-    static Response execute(Connection *, Command& cmd);
+    static Response execute(QSharedPointer<Connection>, Command& cmd);
+    static Response execute(Connection*, Command& cmd);
 };
 
 class Executor : public QObject

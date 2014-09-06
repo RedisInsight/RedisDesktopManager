@@ -34,12 +34,6 @@ namespace ConnectionsTree {
         virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>) = 0;
 
         /**
-         * @brief getConsoleOperations
-         * @return QSharedPointer<ConsoleOperations>
-         */
-        virtual QSharedPointer<Console::Operations> getConsoleOperations() = 0;
-
-        /**
          * Cancel all operations & close connection
          * @brief disconnect
          */

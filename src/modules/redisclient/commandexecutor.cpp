@@ -2,7 +2,12 @@
 #include "connection.h"
 #include "command.h"
 
-RedisClient::Response RedisClient::CommandExecutor::execute(RedisClient::Connection *connection, RedisClient::Command &cmd)
+RedisClient::Response RedisClient::CommandExecutor::execute(QSharedPointer<Connection> connection, RedisClient::Command &cmd)
+{
+    return execute(connection.data(), cmd);
+}
+
+RedisClient::Response RedisClient::CommandExecutor::execute(Connection* connection, Command& cmd)
 {
     if (!connection->waitConnectedState(connection->config.executeTimeout))
         throw Exception("Can not execute command. Connection not established.");
