@@ -1,4 +1,4 @@
-#include "StringKeyModel.h"
+#include "stringkey.h"
 
 StringKeyModel::StringKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : KeyModel(db, keyName, dbIndex)

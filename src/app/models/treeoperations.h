@@ -2,8 +2,8 @@
 
 #include <QSharedPointer>
 #include <QObject>
-#include "redisclient/connection.h"
-#include "connections-tree/operations.h"
+#include "modules/redisclient/connection.h"
+#include "modules/connections-tree/operations.h"
 
 class TreeOperations : public QObject, public ConnectionsTree::Operations
 {

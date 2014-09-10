@@ -1,9 +1,9 @@
 #pragma once
 
 #include <QTabWidget>
-#include "connections-tree/tabwidget.h"
+#include "basetab.h"
 
-class MainTabsWidget : public QTabWidget, public ConnectionsTree::TabWidget
+class MainTabsWidget : public QTabWidget
 {
     Q_OBJECT
 
@@ -18,7 +18,7 @@ public:
 
     void closeTab(unsigned int index);
 
-    void addTab(QSharedPointer<BaseTab> tab) override;
+    void addTab(QSharedPointer<BaseTab> tab);
     
 //    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 

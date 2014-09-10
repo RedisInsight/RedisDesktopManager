@@ -1,9 +1,13 @@
 #include "viewmodel.h"
 
-ValueEditor::ViewModel::ViewModel(QSharedPointer<ValueEditor::Model> model)
-    : m_model(model)
+ValueEditor::ViewModel::ViewModel(QString fullKeyPath, QSharedPointer<AbstractKeyFactory> keyFactory)
+    : m_currentState(ValueEditor::ViewModel::State::Init)
 {
+    keyFactory->loadKey(fullKeyPath, [this](QSharedPointer<Model> keyModel) {        
+        loadModel(keyModel);
+    });
 
+    setCurrentState(State::Loading);
 }
 
 QString ValueEditor::ViewModel::keyName()
@@ -23,7 +27,12 @@ QString ValueEditor::ViewModel::keyType()
 
 QString ValueEditor::ViewModel::state() const
 {
-    return ""; // TBD
+    switch (m_currentState) {
+        case State::Init: return "init";
+        case State::Loading: return "loading";
+        case State::Loaded: return "loaded";
+        default: return "error";
+    }
 }
 
 bool ValueEditor::ViewModel::showValueNavigation() const
@@ -106,4 +115,41 @@ void ValueEditor::ViewModel::reloadCurrentPage()
 void ValueEditor::ViewModel::reloadCurrentValue()
 {
     // TBD
+}
+
+void ValueEditor::ViewModel::onDataLoaded(/* TBD */)
+{
+
+}
+
+void ValueEditor::ViewModel::setCurrentState(ValueEditor::ViewModel::State s)
+{
+    m_currentState = s;
+    emit stateChanged();
+}
+
+void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> m, bool loadLargeKeysInLegacy)
+{
+    m_model = m;
+
+    connect(m_model.data(), &Model::dataLoaded, this, &ViewModel::onDataLoaded);
+
+    if (!m_model->isMultiRow()) // all data already loaded
+        return;
+
+    if (m_model->isPartialLoadingSupported()) {
+        m_model->loadRows(0, getPageLimit());
+    } else {
+        // TBD: show warning in UI: "(!) Partial loading not supported by current redis-server"
+        if (m_model->rowsCount() > getPageLimit() && !loadLargeKeysInLegacy) {
+            // TBD: show confirmation dialog in UI
+        } else {
+            m_model->loadRows(0, m_model->rowsCount());
+        }
+    }
+}
+
+unsigned long ValueEditor::ViewModel::getPageLimit()
+{
+    return (unsigned long) 100;
 }

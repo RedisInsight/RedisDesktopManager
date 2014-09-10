@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ListKeyModel.h"
+#include "listkey.h"
 
 class SetKeyModel : public ListKeyModel
 {

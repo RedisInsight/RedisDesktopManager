@@ -1,8 +1,7 @@
-#include "KeyModel.h"
+#include "abstractkey.h"
 
 #include <QVariant>
-#include "core/command.h"
-#include "core/connection.h"
+#include "modules/redisclient/redisclient.h"
 
 KeyModel::KeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : db(db), keyName(keyName), dbIndex(dbIndex)

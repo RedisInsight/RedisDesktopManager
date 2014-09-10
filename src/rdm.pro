@@ -11,43 +11,39 @@ TEMPLATE = app
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/dialogs/*.cpp \
-    $$PWD/connections-tree/*.cpp \
-    $$PWD/connections-tree/items/*.cpp \
-    $$PWD/console/*.cpp \
-    $$PWD/value-editor/*.cpp \
-    $$PWD/core/*.cpp \
-    $$PWD/core/ssh/*.cpp \
-    $$PWD/core/transporters/*.cpp \
-    $$PWD/core/protocols/*.cpp \
-    $$PWD/widgets/*.cpp \
-    $$PWD/crashhandler/*.cpp \
-    $$PWD/updater/*.cpp \
-    $$PWD/utils/*.cpp \
-    $$PWD/models/*.cpp \    
-    $$PWD/models/value-view-formatters/*.cpp \
+    $$PWD/app/dialogs/*.cpp \
+    $$PWD/app/models/*.cpp \
+    $$PWD/app/models/key-models/*.cpp \
+    $$PWD/app/widgets/*.cpp \
+    $$PWD/modules/connections-tree/*.cpp \
+    $$PWD/modules/connections-tree/items/*.cpp \
+    $$PWD/modules/console/*.cpp \
+    $$PWD/modules/value-editor/*.cpp \
+    $$PWD/modules/redisclient/*.cpp \
+    $$PWD/modules/redisclient/ssh/*.cpp \
+    $$PWD/modules/redisclient/transporters/*.cpp \
+    $$PWD/modules/crashhandler/*.cpp \
+    $$PWD/modules/updater/*.cpp \
 
 HEADERS  += \
     $$PWD/version.h \
-    $$PWD/dialogs/*.h \
-    $$PWD/connections-tree/*.h \
-    $$PWD/connections-tree/items/*.h \
-    $$PWD/console/*.h \
-    $$PWD/value-editor/*.h \
-    $$PWD/core/*.h \
-    $$PWD/core/ssh/*.h \
-    $$PWD/core/transporters/*.h \
-    $$PWD/core/protocols/*.h \
-    $$PWD/widgets/*.h \
-    $$PWD/crashhandler/*.h \
-    $$PWD/updater/*.h \
-    $$PWD/utils/*.h \
-    $$PWD/models/*.h \    
-    $$PWD/models/value-view-formatters/*.h \
-    $$PWD/core/core.h
+    $$PWD/app/dialogs/*.h \
+    $$PWD/app/models/*.h \
+    $$PWD/app/models/key-models/*.h \
+    $$PWD/app/widgets/*.h \
+    $$PWD/modules/connections-tree/*.h \
+    $$PWD/modules/connections-tree/items/*.h \
+    $$PWD/modules/console/*.h \
+    $$PWD/modules/value-editor/*.h \
+    $$PWD/modules/redisclient/*.h \
+    $$PWD/modules/redisclient/ssh/*.h \
+    $$PWD/modules/redisclient/transporters/*.h \
+    $$PWD/modules/crashhandler/*.h \
+    $$PWD/modules/updater/*.h \
+    $$PWD/modules/*.h \
 
 FORMS += \
-    $$PWD/forms/*.ui \
+    $$PWD/app/forms/*.ui \
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
 
@@ -115,6 +111,7 @@ MOC_DIR = $$DESTDIR/obj
 RCC_DIR = $$DESTDIR/obj
 
 INCLUDEPATH += $$PWD/ \
+    $$PWD/modules/ \
     $$UI_DIR/ \
 
 RESOURCES += \

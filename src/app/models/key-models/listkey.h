@@ -1,8 +1,7 @@
 #ifndef LISTKEYMODEL_H
 #define LISTKEYMODEL_H
 
-#include "keymodel.h"
-#include "core/response.h"
+#include "abstractkey.h"
 
 class ListKeyModel : public KeyModel
 {

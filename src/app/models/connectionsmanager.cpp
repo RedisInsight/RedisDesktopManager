@@ -1,8 +1,8 @@
 #include <QtXml>
-#include "connections-tree/items/serveritem.h"
-#include "connectionsmanager.h"
-#include "redisclient/connectionconfig.h"
+#include "modules/connections-tree/items/serveritem.h"
+#include "modules/redisclient/connectionconfig.h"
 #include "treeoperations.h"
+#include "connectionsmanager.h"
 
 ConnectionsManager::ConnectionsManager(const QString& configPath)
     : configPath(configPath), connectionSettingsChanged(false)

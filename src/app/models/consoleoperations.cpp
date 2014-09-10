@@ -1,15 +1,12 @@
-#include "consoleconnectionwrapper.h"
-#include "core/connection.h"
-#include "core/response.h"
-#include "core/command.h"
-#include "core/commandexecutor.h"
+#include "consoleoperations.h"
+#include "modules/redisclient/redisclient.h"
 
-ConsoleConnectionWrapper::ConsoleConnectionWrapper(RedisClient::Connection* connection)
+ConsoleModel::ConsoleModel(RedisClient::Connection* connection)
     : m_connection(connection)
 {
 }
 
-void ConsoleConnectionWrapper::init()
+void ConsoleModel::init()
 {
     if (!m_connection->connect())
     {
@@ -21,12 +18,12 @@ void ConsoleConnectionWrapper::init()
     emit changePrompt(QString("%1:0>").arg(m_connection->config.name), true);
 }
 
-QString ConsoleConnectionWrapper::getConsoleName()
+QString ConsoleModel::getConsoleName()
 {
     return m_connection->config.name;
 }
 
-void ConsoleConnectionWrapper::executeCommand(const QString & cmd)
+void ConsoleModel::executeCommand(const QString & cmd)
 {
     if (cmd == "segfault") { //crash
         delete reinterpret_cast<QString*>(0xFEE1DEAD);

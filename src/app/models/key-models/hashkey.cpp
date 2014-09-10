@@ -1,4 +1,4 @@
-#include "HashKeyModel.h"
+#include "hashkey.h"
 #include <QStandardItem>
 
 HashKeyModel::HashKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)

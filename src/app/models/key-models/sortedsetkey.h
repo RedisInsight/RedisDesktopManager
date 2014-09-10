@@ -1,7 +1,7 @@
 #ifndef SORTEDSETKEYMODEL_H
 #define SORTEDSETKEYMODEL_H
 
-#include "keymodel.h"
+#include "abstractkey.h"
 
 class SortedSetKeyModel : public KeyModel
 {

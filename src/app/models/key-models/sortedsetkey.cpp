@@ -1,4 +1,4 @@
-#include "SortedSetKeyModel.h"
+#include "sortedsetkey.h"
 
 SortedSetKeyModel::SortedSetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : KeyModel(db, keyName, dbIndex)

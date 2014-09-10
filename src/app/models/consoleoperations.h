@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QObject>
-#include "redisclient/connectionconfig.h"
-#include "console/operations.h"
+#include "modules/redisclient/connectionconfig.h"
+#include "modules/console/operations.h"
 
 namespace RedisClient {
 class Connection;
@@ -12,7 +12,7 @@ class ConsoleModel : public Console::Operations
 {
     Q_OBJECT
 public:
-    ConsoleConnectionWrapper(RedisClient::Connection*);
+    ConsoleModel(RedisClient::Connection*);
 
     public:
         void init();

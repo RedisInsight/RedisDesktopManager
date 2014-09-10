@@ -1,4 +1,4 @@
-#include "ListKeyModel.h"
+#include "listkey.h"
 
 ListKeyModel::ListKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : KeyModel(db, keyName, dbIndex)

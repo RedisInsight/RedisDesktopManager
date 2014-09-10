@@ -1,7 +1,7 @@
 #ifndef HASHKEYMODEL_H
 #define HASHKEYMODEL_H
 
-#include "keymodel.h"
+#include "abstractkey.h"
 
 class HashKeyModel : public KeyModel
 {

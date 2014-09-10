@@ -1,4 +1,4 @@
-#include "SetKeyModel.h"
+#include "setkey.h"
 
 SetKeyModel::SetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
     : ListKeyModel(db, keyName, dbIndex)

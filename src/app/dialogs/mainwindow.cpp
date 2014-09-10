@@ -1,4 +1,4 @@
-#include "application.h"
+#include "mainwindow.h"
 
 #include <QMenu>
 #include <QFileDialog>
@@ -8,27 +8,19 @@
 #include <QMovie>
 #include <QDesktopWidget>
 
-#include "core/core.h"
-#include "models/connectionsmanager.h"
-
-#include "dialogs/connect.h"
-#include "dialogs/quickstartdialog.h"
-
-#include "widgets/valueTab.h"
-
-#include "updater/updater.h"
-#include "utils/configmanager.h"
-
+#include "app/models/configmanager.h"
+#include "app/models/connectionsmanager.h"
+#include "app/dialogs/connect.h"
+#include "app/dialogs/quickstartdialog.h"
+#include "modules/updater/updater.h"
+#include "modules/redisclient/redisclient.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 
-    qRegisterMetaType<RedisClient::Command>("Command");
-    qRegisterMetaType<RedisClient::Command>("RedisClient::Command");
-    qRegisterMetaType<RedisClient::Response>("Response");
-    qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
+    initRedisClient();
 
     QDesktopWidget* desktop = QApplication::desktop();
     QRect scr = desktop->screenGeometry();

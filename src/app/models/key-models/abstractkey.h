@@ -1,9 +1,7 @@
 #pragma once
 
 #include <QStandardItemModel>
-#include "core/connection.h"
-#include "core/command.h"
-#include "core/response.h"
+#include "modules/redisclient/redisclient.h"
 
 class KeyModel : public QStandardItemModel
 {

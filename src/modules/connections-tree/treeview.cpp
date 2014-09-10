@@ -44,11 +44,7 @@ void TreeView::processContextMenu(const QPoint& point)
     if (item == nullptr)
         return;
 
-
-    item->getContextMenu(
-                *static_cast<TreeItem::ParentView* const>(this),
-                *m_tabWidget
-                )->exec(mapToGlobal(point));
+    item->getContextMenu(*static_cast<TreeItem::ParentView* const>(this))->exec(mapToGlobal(point));
 }
 
 void TreeView::processClick(const QModelIndex& index)
@@ -61,8 +57,7 @@ void TreeView::processClick(const QModelIndex& index)
         return;
 
 
-    if (item->onClick(*static_cast<TreeItem::ParentView*>(this),
-                      *m_tabWidget)) {
+    if (item->onClick(*static_cast<TreeItem::ParentView*>(this))) {
         setExpanded(index, true);
     }
 }
@@ -76,8 +71,7 @@ void TreeView::processWheelClick(const QModelIndex& index)
     if (item == nullptr)
         return;
 
-    item->onWheelClick(*static_cast<TreeItem::ParentView*>(this),
-                       *m_tabWidget);
+    item->onWheelClick(*static_cast<TreeItem::ParentView*>(this));
 }
 
 

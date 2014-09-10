@@ -3,9 +3,9 @@
 #include <QDir>
 #include <QSettings>
 
-#include "crashhandler/crashhandler.h"
 #include "version.h"
-#include "dialogs/application.h"
+#include "modules/crashhandler/crashhandler.h"
+#include "app/dialogs/mainwindow.h"
 
 int main(int argc, char *argv[])
 {       

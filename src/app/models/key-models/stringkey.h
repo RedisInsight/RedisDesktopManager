@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include "KeyModel.h"
+#include "abstractkey.h"
 
 class StringKeyModel : public KeyModel
 {
