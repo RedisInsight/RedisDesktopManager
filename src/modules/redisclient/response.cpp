@@ -46,13 +46,18 @@ QString RedisClient::Response::toString()
     return responseSource.left(1500);
 }
 
+RedisClient::Response::Type RedisClient::Response::getType()
+{
+    return getResponseType(responseSource);
+}
+
 QVariant RedisClient::Response::getValue()
 {
     if (responseSource.isEmpty()) {
         return QVariant();
     }
 
-    ResponseType t = getResponseType(responseSource);
+    Type t = getResponseType(responseSource);
 
     QVariant  parsedResponse;
 
@@ -108,7 +113,7 @@ QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
         return QStringList();
     }
 
-    QStringList parsedResult; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
+    QStringList parsedResult; Type type; int firstItemLen, firstPosOfEndl, bulkLen;
 
     parsedResult.reserve(responseSize+5);
 
@@ -147,13 +152,13 @@ QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
     return parsedResult;
 }
 
-RedisClient::Response::ResponseType RedisClient::Response::getResponseType(const QByteArray & r) const
+RedisClient::Response::Type RedisClient::Response::getResponseType(const QByteArray & r) const
 {    
     const char typeChar = (r.length() == 0)? ' ' : r.at(0);
     return getResponseType(typeChar);
 }
 
-RedisClient::Response::ResponseType RedisClient::Response::getResponseType(const char typeChar) const
+RedisClient::Response::Type RedisClient::Response::getResponseType(const char typeChar) const
 {    
     if (typeChar == '+') return Status; 
     if (typeChar == '-') return Error;
@@ -181,7 +186,7 @@ bool RedisClient::Response::isReplyValid(const QByteArray & responseString)
         return false;
     }
 
-    ResponseType type = getResponseType(responseString);
+    Type type = getResponseType(responseString);
 
     switch (type)
     {
@@ -216,7 +221,7 @@ int RedisClient::Response::getPosOfNextItem(const QByteArray &r, int startPos = 
         return -1;
     }
 
-    ResponseType type = getResponseType(r.at(startPos));
+    Type type = getResponseType(r.at(startPos));
 
     int endOfFirstLine = r.indexOf("\r\n", startPos);
 

@@ -15,6 +15,7 @@ public:
     virtual QString getKeyName() = 0; // sync
 
     virtual QString getType() = 0; // sync
+    virtual int getTTL() = 0; // sync
     virtual QStringList getColumnNames() = 0; // sync
     virtual QHash<int, QByteArray> getRoles() = 0; // sync
     virtual QString getData(int rowIndex, int dataRole) = 0; // sync

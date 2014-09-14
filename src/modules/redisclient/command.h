@@ -15,6 +15,7 @@ public:
     Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db = -1);
     Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db = -1);
     Command(const QStringList& cmd, QObject * owner = nullptr, int db = -1);           
+    Command(const QStringList& cmd, QObject * owner, std::function<void(Response)> callback, int db = -1);
 
     /** @see http://redis.io/topics/protocol for more info **/    
     QByteArray  getByteRepresentation() const;

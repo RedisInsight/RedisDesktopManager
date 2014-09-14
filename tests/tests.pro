@@ -18,6 +18,7 @@ RESOURCES += \
     $$SRC_DIR/resources/rdm.qrc
 
 INCLUDEPATH += $$SRC_DIR/modules/ \
+    $$SRC_DIR/ \
     $$PWD/
 
 

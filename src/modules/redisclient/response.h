@@ -31,23 +31,24 @@ public:
     bool isErrorMessage() const;
     bool isOkMessage() const;
 
-    QString toString();       
-private:
+    QString toString();
 
-    QByteArray responseSource;
-
-    //type
-    enum ResponseType 
+    enum Type
     {
-        Status, Error, Integer, Bulk, MultiBulk, Unknown            
+        Status, Error, Integer, Bulk, MultiBulk, Unknown
     };
+
+    Type getType();
+
+private:
+    QByteArray responseSource;
 
     //cache previous validation markers
     int lastValidPos;
     int itemsCount;
 
-    ResponseType getResponseType(const QByteArray&) const;    
-    ResponseType getResponseType(const char) const;
+    Type getResponseType(const QByteArray&) const;
+    Type getResponseType(const char) const;
 
     //parsers
     QString parseBulk(const QByteArray& response);

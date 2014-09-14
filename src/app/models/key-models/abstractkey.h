@@ -1,58 +1,31 @@
 #pragma once
 
-#include <QStandardItemModel>
-#include "modules/redisclient/redisclient.h"
+#include <QSharedPointer>
+#include <QString>
+#include "modules/value-editor/model.h"
+#include "modules/redisclient/connection.h"
 
-class KeyModel : public QStandardItemModel
+class KeyModel : public ValueEditor::Model
 {
     Q_OBJECT
-
 public:
-    KeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
-    virtual ~KeyModel();    
+    KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
-    virtual void loadValue() = 0;
+    QString getKeyName() override;
+    int getTTL() override;
 
-    void loadTTL();
+    bool isPartialLoadingSupported() override;
 
-    QString getKeyName();
+    void setKeyName(const QString&) override;
+    void setTTL(int) override;
+    void removeKey() override;
 
-    void renameKey(const QString&);
-
-    void deleteKey();
-
-    virtual void updateValue(const QString& value, const QModelIndex *cellIndex) = 0;
-
-    const static int KEY_MODEL_TYPE = 1;
-
-    const static int KEY_VALUE_TYPE_ROLE = 7000;
-
-    inline virtual int getKeyModelType()
-    {
-        return KEY_MODEL_TYPE;
-    }
-
-signals:    
-    void valueLoaded();
-    void ttlLoaded(RedisClient::Response);
-    void keyRenamed();
-    void keyRenameError(const QString&);
-    void keyDeleted();
-    void keyDeleteError(const QString&);
-    void valueUpdated();
-    void valueUpdateError(const QString&);
-
-protected slots:
-    void loadedValue(RedisClient::Response);
-    void loadedRenameStatus(RedisClient::Response);
-    void loadedDeleteStatus(RedisClient::Response);
-
-protected:    
-    RedisClient::Connection * db;
-    QString keyName;
-    int dbIndex;    
-
-    virtual void initModel(const QVariant &) = 0;
+protected:
+    QSharedPointer<RedisClient::Connection> m_connection;
+    QString m_keyFullPath;
+    int m_dbIndex;
+    int m_ttl;
+    bool m_isKeyRemoved;
 };
 
 

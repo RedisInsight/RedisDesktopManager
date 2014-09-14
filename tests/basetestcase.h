@@ -2,6 +2,9 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QTest>
+#include <QEventLoop>
+#include <QTimer>
 #include "redisclient/connection.h"
 #include "redisclient/connectionconfig.h"
 #include "testcases/redisclient/mocks/dummyTransporter.h"
@@ -26,6 +29,19 @@ protected:
         connection->connect();
 
         return connection;
+    }
+
+    void wait(int ms)
+    {
+        //wait for data
+        QEventLoop loop;
+        QTimer timeoutTimer;
+
+        timeoutTimer.setSingleShot(true);
+        QObject::connect(&timeoutTimer, SIGNAL(timeout()), &loop, SLOT(quit()));
+
+        timeoutTimer.start(ms);
+        loop.exec();
     }
 
 };

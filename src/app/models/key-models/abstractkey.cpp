@@ -3,68 +3,50 @@
 #include <QVariant>
 #include "modules/redisclient/redisclient.h"
 
-KeyModel::KeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
-    : db(db), keyName(keyName), dbIndex(dbIndex)
-{    
+KeyModel::KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+    : m_connection(connection), m_keyFullPath(fullPath), m_dbIndex(dbIndex), m_ttl(ttl), m_isKeyRemoved(false)
+{
+
 }
 
 QString KeyModel::getKeyName()
 {
-    return keyName;
+    return m_keyFullPath;
 }
 
-void KeyModel::loadedValue(RedisClient::Response value)
+int KeyModel::getTTL()
 {
-    initModel(value.getValue());
-
-    emit valueLoaded();
+    return m_ttl;
 }
 
-void KeyModel::renameKey(const QString& newKeyName)
-{    
+bool KeyModel::isPartialLoadingSupported()
+{
+    return m_connection->getServerVersion() >= 2.8;
+}
+
+void KeyModel::setKeyName(const QString &)
+{
     QStringList renameCommand;
 
     renameCommand << "RENAME" << keyName  << newKeyName;
-    
-    db->runCommand(RedisClient::Command(renameCommand, this, "loadedRenameStatus", dbIndex));
+
+    //db->runCommand(RedisClient::Command(renameCommand, this, "loadedRenameStatus", dbIndex));
+    // TBD
 }
 
-void KeyModel::loadedRenameStatus(RedisClient::Response result)
+void KeyModel::setTTL(int)
 {
-    if (result.isErrorMessage()) 
-        emit keyRenameError(result.getValue().toString());
-    else 
-        emit keyRenamed();    
+    // TBD
 }
 
-void KeyModel::loadTTL()
-{
-    QStringList ttlCommand;
-
-    ttlCommand << "TTL" << keyName;
-
-    db->runCommand(RedisClient::Command(ttlCommand, this, "ttlLoaded", dbIndex));
-}
-
-void KeyModel::deleteKey()
+void KeyModel::removeKey()
 {
     QStringList deleteCommand;
-    
+
     deleteCommand << "DEL" << keyName;
 
-    db->runCommand(RedisClient::Command(deleteCommand, this, "loadedDeleteStatus", dbIndex));
+    //db->runCommand(RedisClient::Command(deleteCommand, this, "loadedDeleteStatus", dbIndex));
+    //TBD
 }
 
-void KeyModel::loadedDeleteStatus(RedisClient::Response result)
-{
-    if (result.isErrorMessage()) 
-    {
-        emit keyDeleteError(result.getValue().toString());
-    }
-    else 
-        emit keyDeleted();    
-}
 
-KeyModel::~KeyModel()
-{
-}
