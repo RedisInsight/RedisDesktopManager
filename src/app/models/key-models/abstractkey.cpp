@@ -24,11 +24,11 @@ bool KeyModel::isPartialLoadingSupported()
     return m_connection->getServerVersion() >= 2.8;
 }
 
-void KeyModel::setKeyName(const QString &)
+void KeyModel::setKeyName(const QString &newKeyName)
 {
     QStringList renameCommand;
 
-    renameCommand << "RENAME" << keyName  << newKeyName;
+    renameCommand << "RENAME" << m_keyFullPath << newKeyName;
 
     //db->runCommand(RedisClient::Command(renameCommand, this, "loadedRenameStatus", dbIndex));
     // TBD
@@ -43,7 +43,7 @@ void KeyModel::removeKey()
 {
     QStringList deleteCommand;
 
-    deleteCommand << "DEL" << keyName;
+    deleteCommand << "DEL" << m_keyFullPath;
 
     //db->runCommand(RedisClient::Command(deleteCommand, this, "loadedDeleteStatus", dbIndex));
     //TBD

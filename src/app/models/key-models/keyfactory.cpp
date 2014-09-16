@@ -21,7 +21,7 @@ void KeyFactory::loadKey(QString keyFullPath, int dbIndex, std::function<void (Q
             return;
         }
 
-        QString type = resp.getValue().toString();
+        QString type = resp.getValue().toString();        
 
         if (type == "none") {
             callback(result);
@@ -29,22 +29,31 @@ void KeyFactory::loadKey(QString keyFullPath, int dbIndex, std::function<void (Q
         }
 
         // TBD : load TTL
+        RedisClient::Command ttlCmd(QStringList() << "ttl" << keyFullPath, dbIndex);
+        RedisClient::Response ttlResult = RedisClient::CommandExecutor::execute(m_connection, ttlCmd);
+
         int ttl = -1;
 
+        if (ttlResult.getType() == RedisClient::Response::Integer) {
+            ttl = ttlResult.getValue().toInt();
+        }
+
         if (type == "string") {
-            result = QSharedPointer<ValueEditor::Model>(new StringKeyModel(m_connection, keyFullPath, dbIndex, ttl))
+            result = QSharedPointer<ValueEditor::Model>(new StringKeyModel(m_connection, keyFullPath, dbIndex, ttl));
         } else if (type == "list") {
-            result = QSharedPointer<ValueEditor::Model>(new ListKeyModel(m_connection, keyFullPath, dbIndex, ttl))
+            result = QSharedPointer<ValueEditor::Model>(new ListKeyModel(m_connection, keyFullPath, dbIndex, ttl));
         } else if (type == "set") {
-            result = QSharedPointer<ValueEditor::Model>(new SetKeyModel(m_connection, keyFullPath, dbIndex, ttl))
+            result = QSharedPointer<ValueEditor::Model>(new SetKeyModel(m_connection, keyFullPath, dbIndex, ttl));
         } else if (type == "zset") {
-            result = QSharedPointer<ValueEditor::Model>(new SortedSetKeyModel(m_connection, keyFullPath, dbIndex, ttl))
+            result = QSharedPointer<ValueEditor::Model>(new SortedSetKeyModel(m_connection, keyFullPath, dbIndex, ttl));
         } else if (type == "hash") {
-            result = QSharedPointer<ValueEditor::Model>(new HashKeyModel(m_connection, keyFullPath, dbIndex, ttl))
+            result = QSharedPointer<ValueEditor::Model>(new HashKeyModel(m_connection, keyFullPath, dbIndex, ttl));
         }
 
         callback(result);
 
     }, dbIndex);
+
+    m_connection->runCommand(typeCmd);
 }
 

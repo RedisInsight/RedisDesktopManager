@@ -1,19 +1,78 @@
 #include "hashkey.h"
 #include <QStandardItem>
 
-HashKeyModel::HashKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
-    : KeyModel(db, keyName, dbIndex)
+HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+       : KeyModel(connection, fullPath, dbIndex, ttl)
 {
-    setColumnCount(2);
 }
 
-void HashKeyModel::loadValue()
+QString HashKeyModel::getType()
 {
-    QStringList command;
-    command << "hgetall" << keyName;
-
-    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
+    return "hash";
 }
+
+QStringList HashKeyModel::getColumnNames()
+{
+    return QStringList();
+}
+
+QHash<int, QByteArray> HashKeyModel::getRoles()
+{
+    return QHash<int, QByteArray>();
+}
+
+QString HashKeyModel::getData(int rowIndex, int dataRole)
+{
+    return QString();
+}
+
+void HashKeyModel::setData(int rowIndex, int dataRole, QString value)
+{
+
+}
+
+void HashKeyModel::addRow()
+{
+
+}
+
+unsigned long HashKeyModel::rowsCount()
+{
+    return 0;
+}
+
+void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
+{
+
+}
+
+void HashKeyModel::clearRowCache()
+{
+
+}
+
+void HashKeyModel::removeRow(int)
+{
+
+}
+
+bool HashKeyModel::isRowLoaded(int)
+{
+    return false;
+}
+
+bool HashKeyModel::isMultiRow() const
+{
+    return true;
+}
+
+//void HashKeyModel::loadValue()
+//{
+//    QStringList command;
+//    command << "hgetall" << keyName;
+
+//    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
+//}
 
 //void HashKeyModel::setCurrentPage(int page)
 //{
@@ -54,58 +113,58 @@ void HashKeyModel::loadValue()
 //    return rawData->size() / 2;
 //}
 
-void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
-{
-    QStandardItem * currentItem = itemFromIndex(*cellIndex);    
+//void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+//{
+//    QStandardItem * currentItem = itemFromIndex(*cellIndex);
 
-    QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
+//    QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
 
-    if (itemType == "key") 
-    {
-        QStringList removeCmd;
-        removeCmd << "HDEL"
-                  << keyName
-                  << currentItem->text();        
+//    if (itemType == "key")
+//    {
+//        QStringList removeCmd;
+//        removeCmd << "HDEL"
+//                  << keyName
+//                  << currentItem->text();
 
-        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
+//        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
 
-        QStandardItem * valueItem = item(currentItem->row(), 1);
+//        QStandardItem * valueItem = item(currentItem->row(), 1);
 
-        QStringList addCmd;
+//        QStringList addCmd;
 
-        addCmd << "HSET"
-               << keyName
-               << value
-               << valueItem->text();
+//        addCmd << "HSET"
+//               << keyName
+//               << value
+//               << valueItem->text();
 
 
-        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
+//        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
 
-    } else if (itemType == "value") {
+//    } else if (itemType == "value") {
 
-        QStandardItem * keyItem = item(currentItem->row(), 0);
+//        QStandardItem * keyItem = item(currentItem->row(), 0);
 
-        QStringList setCmd;
+//        QStringList setCmd;
 
-        setCmd << "HSET"
-            << keyName
-            << keyItem->text()
-            << value;
+//        setCmd << "HSET"
+//            << keyName
+//            << keyItem->text()
+//            << value;
 
-        db->runCommand(RedisClient::Command(setCmd, this, "loadedUpdateStatus", dbIndex));
-    }
+//        db->runCommand(RedisClient::Command(setCmd, this, "loadedUpdateStatus", dbIndex));
+//    }
 
-    currentItem->setText(value);
-}
+//    currentItem->setText(value);
+//}
 
-void HashKeyModel::loadedUpdateStatus(RedisClient::Response result)
-{
-    if (result.isErrorMessage()) 
-    {
-        emit valueUpdateError(result.getValue().toString());
-    }
-    else 
-    {
-        emit valueUpdated();    
-    }
-}
+//void HashKeyModel::loadedUpdateStatus(RedisClient::Response result)
+//{
+//    if (result.isErrorMessage())
+//    {
+//        emit valueUpdateError(result.getValue().toString());
+//    }
+//    else
+//    {
+//        emit valueUpdated();
+//    }
+//}

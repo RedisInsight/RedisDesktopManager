@@ -1,19 +1,78 @@
 #include "sortedsetkey.h"
 
-SortedSetKeyModel::SortedSetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
-    : KeyModel(db, keyName, dbIndex)
+SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+    : KeyModel(connection, fullPath, dbIndex, ttl)
 {
-    setColumnCount(2);
 }
 
-void SortedSetKeyModel::loadValue()
+QString SortedSetKeyModel::getType()
 {
-    QStringList command;
+    return "zset";
+}
+
+QStringList SortedSetKeyModel::getColumnNames()
+{
+    return QStringList();
+}
+
+QHash<int, QByteArray> SortedSetKeyModel::getRoles()
+{
+    return QHash<int, QByteArray>();
+}
+
+QString SortedSetKeyModel::getData(int rowIndex, int dataRole)
+{
+    return QString();
+}
+
+void SortedSetKeyModel::setData(int rowIndex, int dataRole, QString value)
+{
+
+}
+
+void SortedSetKeyModel::addRow()
+{
+
+}
+
+unsigned long SortedSetKeyModel::rowsCount()
+{
+    return 0;
+}
+
+void SortedSetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
+{
+
+}
+
+void SortedSetKeyModel::clearRowCache()
+{
+
+}
+
+void SortedSetKeyModel::removeRow(int)
+{
+
+}
+
+bool SortedSetKeyModel::isRowLoaded(int)
+{
+    return false;
+}
+
+bool SortedSetKeyModel::isMultiRow() const
+{
+    return true;
+}
+
+//void SortedSetKeyModel::loadValue()
+//{
+//    QStringList command;
     
-    command << "ZRANGE" << keyName << "0" << "-1" << "WITHSCORES";
+//    command << "ZRANGE" << keyName << "0" << "-1" << "WITHSCORES";
 
-    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
-}
+//    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
+//}
 
 //void SortedSetKeyModel::setCurrentPage(int page)
 //{
@@ -54,65 +113,65 @@ void SortedSetKeyModel::loadValue()
 //    return rawData->size() / 2;
 //}
 
-void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
-{
-    QStandardItem * currentItem = itemFromIndex(*cellIndex);    
+//void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+//{
+//    QStandardItem * currentItem = itemFromIndex(*cellIndex);
 
-    QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
+//    QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
 
-    if (itemType == "member") 
-    {
-        QStringList removeCmd;
-        removeCmd << "ZREM"
-            << keyName
-            << currentItem->text();        
+//    if (itemType == "member")
+//    {
+//        QStringList removeCmd;
+//        removeCmd << "ZREM"
+//            << keyName
+//            << currentItem->text();
 
-        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
+//        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
 
-        QStandardItem * scoreItem = item(currentItem->row(), 1);
+//        QStandardItem * scoreItem = item(currentItem->row(), 1);
 
-        QStringList addCmd;
+//        QStringList addCmd;
 
-        addCmd << "ZADD"
-            << keyName
-            << scoreItem->text()
-            << value;
+//        addCmd << "ZADD"
+//            << keyName
+//            << scoreItem->text()
+//            << value;
 
-        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
+//        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
 
-    } else if (itemType == "score") {
+//    } else if (itemType == "score") {
 
-        bool converted = false;
-        double changedScore = value.toDouble(&converted);
+//        bool converted = false;
+//        double changedScore = value.toDouble(&converted);
 
-        if (!converted) 
-            return;
+//        if (!converted)
+//            return;
         
-        double currentScore = currentItem->text().toDouble();
-        double incr = changedScore - currentScore;
+//        double currentScore = currentItem->text().toDouble();
+//        double incr = changedScore - currentScore;
 
-        QStandardItem * memberItem = item(currentItem->row(), 0);
+//        QStandardItem * memberItem = item(currentItem->row(), 0);
 
-        QStringList updateCmd;
-        updateCmd << "ZINCRBY"
-            << keyName
-            << QString::number(incr)
-            << memberItem->text();        
+//        QStringList updateCmd;
+//        updateCmd << "ZINCRBY"
+//            << keyName
+//            << QString::number(incr)
+//            << memberItem->text();
 
-        db->runCommand(RedisClient::Command(updateCmd, this, "loadedUpdateStatus", dbIndex));
-    }
+//        db->runCommand(RedisClient::Command(updateCmd, this, "loadedUpdateStatus", dbIndex));
+//    }
 
-    currentItem->setText(value);
-}
+//    currentItem->setText(value);
+//}
 
-void SortedSetKeyModel::loadedUpdateStatus(RedisClient::Response result)
-{
-    if (result.isErrorMessage()) 
-    {
-        emit valueUpdateError(result.getValue().toString());
-    }
-    else 
-    {
-        emit valueUpdated();    
-    }
-}
+//void SortedSetKeyModel::loadedUpdateStatus(RedisClient::Response result)
+//{
+//    if (result.isErrorMessage())
+//    {
+//        emit valueUpdateError(result.getValue().toString());
+//    }
+//    else
+//    {
+//        emit valueUpdated();
+//    }
+//}

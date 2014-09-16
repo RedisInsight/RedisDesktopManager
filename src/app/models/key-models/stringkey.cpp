@@ -1,44 +1,103 @@
 #include "stringkey.h"
+#include "modules/redisclient/command.h"
+#include "modules/redisclient/commandexecutor.h"
 
-StringKeyModel::StringKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex)
-    : KeyModel(db, keyName, dbIndex)
+StringKeyModel::StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+    : KeyModel(connection, fullPath, dbIndex, ttl)
 {
 }
 
-void StringKeyModel::loadValue()
+QString StringKeyModel::getType()
 {
-    QStringList command;
-    command << "GET" << keyName;    
-
-    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
+    return "string";
 }
 
-QString StringKeyModel::getValue()
+QStringList StringKeyModel::getColumnNames()
 {
-    return plainData;
+    return QStringList(); // Single value type - No columns
 }
 
-void StringKeyModel::initModel(const QVariant &value)
+QHash<int, QByteArray> StringKeyModel::getRoles()
 {
-    plainData = value.toString();
+    QHash<int, QByteArray> roles;
+    roles[Roles::Value] = "value";
+    return roles;
 }
 
-void StringKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
+QString StringKeyModel::getData(int rowIndex, int dataRole)
 {
-    Q_UNUSED(cellIndex);
+    if (rowIndex > 0 || dataRole != Roles::Value || m_value.isNull())
+        return QString();
 
-    QStringList updateCommand;
-    updateCommand << "SET" << keyName << value;    
-
-    db->runCommand(RedisClient::Command(updateCommand, this, "loadedUpdateStatus", dbIndex));
+    return m_value;
 }
 
-void StringKeyModel::loadedUpdateStatus(RedisClient::Response result)
+void StringKeyModel::setData(int rowIndex, int dataRole, QString value)
 {
-    if (result.isErrorMessage()) 
-    {
-        emit valueUpdateError(result.getValue().toString());
+    if (rowIndex > 0 || dataRole != Roles::Value || value.isEmpty())
+        return;
+
+    RedisClient::Command updateCmd(QStringList() << "SET" << m_keyFullPath << value, m_dbIndex);
+    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
+
+    if (result.isOkMessage()) {
+        m_value = value.toUtf8();
+        emit dataLoaded();
     }
-    else 
-        emit valueUpdated();    
+}
+
+void StringKeyModel::addRow()
+{
+    return;
+}
+
+unsigned long StringKeyModel::rowsCount()
+{
+    return 1;
+}
+
+void StringKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
+{
+    Q_UNUSED(rowStart);
+    Q_UNUSED(count);
+
+    if (loadValue()) {
+        callback();
+    }
+}
+
+void StringKeyModel::clearRowCache()
+{
+    return;
+}
+
+void StringKeyModel::removeRow(int)
+{
+    return;
+}
+
+bool StringKeyModel::isRowLoaded(int)
+{
+    return !m_value.isNull();
+}
+
+bool StringKeyModel::isMultiRow() const
+{
+    return false;
+}
+
+bool StringKeyModel::loadValue()
+{
+    RedisClient::Command valueCmd(QStringList() << "GET" << m_keyFullPath, m_dbIndex);
+    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, valueCmd);
+
+    if (result.getType() != RedisClient::Response::Bulk) {
+        return false;
+    }
+
+    m_value = result.getValue().toByteArray();
+
+    emit dataLoaded();
+
+    return true;
 }

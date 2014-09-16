@@ -8,18 +8,21 @@ class SortedSetKeyModel : public KeyModel
     Q_OBJECT
 
 public:
-    SortedSetKeyModel(RedisClient::Connection * db, const QString &keyName, int dbIndex);
+    SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
-    void setCurrentPage(int page);
+    QString getType() override;
+    QStringList getColumnNames() override;
+    QHash<int, QByteArray> getRoles() override;
+    QString getData(int rowIndex, int dataRole) override;
+    virtual void setData(int rowIndex, int dataRole, QString value) override;
 
-    int itemsCount();
-
-    void loadValue();
-
-    void updateValue(const QString& value, const QModelIndex *cellIndex);
-
-protected slots:
-    void loadedUpdateStatus(RedisClient::Response);
+    void addRow(/* ??? */) override;
+    unsigned long rowsCount() override;
+    void loadRows(unsigned long rowStart, unsigned long count, std::function<void()> callback) override;
+    void clearRowCache() override;
+    void removeRow(int) override;
+    bool isRowLoaded(int) override;
+    bool isMultiRow() const override;
 };
 
 #endif // SORTEDSETKEYMODEL_H

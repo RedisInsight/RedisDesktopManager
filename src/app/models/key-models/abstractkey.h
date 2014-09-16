@@ -2,7 +2,7 @@
 
 #include <QSharedPointer>
 #include <QString>
-#include "modules/value-editor/model.h"
+#include "modules/value-editor/keymodel.h"
 #include "modules/redisclient/connection.h"
 
 class KeyModel : public ValueEditor::Model
@@ -25,7 +25,7 @@ protected:
     QString m_keyFullPath;
     int m_dbIndex;
     int m_ttl;
-    bool m_isKeyRemoved;
+    bool m_isKeyRemoved;   
 };
 
 
