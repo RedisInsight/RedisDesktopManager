@@ -38,7 +38,7 @@ public:
 
     ConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT);
 
-    ConnectionConfig & operator = (ConnectionConfig & other);
+    ConnectionConfig & operator = (const ConnectionConfig & other);
 
     void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT, 
                                 QString sshPrivatekey = "");

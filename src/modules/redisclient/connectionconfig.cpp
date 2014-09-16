@@ -11,7 +11,7 @@ RedisClient::ConnectionConfig::ConnectionConfig(const QString &host, const QStri
       executeTimeout(DEFAULT_TIMEOUT_IN_MS), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
 {}
 
-RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(RedisClient::ConnectionConfig &other)
+RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(const ConnectionConfig &other)
 {
     if (this != &other) {
         name = other.name;

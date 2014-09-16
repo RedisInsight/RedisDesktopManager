@@ -5,16 +5,20 @@
 #include <iostream>
 #include "testcases/app/test_connectionsmanager.h"
 #include "testcases/app/test_treeoperations.h"
+#include "testcases/app/test_keymodels.h"
 #include "testcases/redisclient/test_command.h"
 #include "testcases/redisclient/test_response.h"
 #include "testcases/redisclient/test_connection.h"
 #include "testcases/connections-tree/test_serveritem.h"
 #include "testcases/connections-tree/test_databaseitem.h"
 #include "testcases/console/test_console.h"
+#include "redisclient/redisclient.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication app( argc, argv );   
+
+    initRedisClient();
 
 	int allTestsResult = 
             // connections-tree module
@@ -32,6 +36,7 @@ int main(int argc, char *argv[])
             // app
             + QTest::qExec(new TestConnectionsManager, argc, argv)
             + QTest::qExec(new TestTreeOperations, argc, argv)
+            + QTest::qExec(new TestKeyModels, argc, argv)
             ;
 
     if (allTestsResult == 0)

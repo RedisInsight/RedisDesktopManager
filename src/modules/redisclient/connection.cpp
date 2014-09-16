@@ -113,6 +113,11 @@ void RedisClient::Connection::setConnectionConfig(RedisClient::ConnectionConfig 
     config = c;
 }
 
+float RedisClient::Connection::getServerVersion()
+{
+    return 0.0; // TBD
+}
+
 void RedisClient::Connection::setConnectedState()
 {
     m_connected = true;
@@ -142,8 +147,7 @@ void RedisClient::Connection::connectionReady()
 
 void RedisClient::Connection::commandAddedToTransporter()
 {
-    m_addLock.unlock();
-    qDebug() << "Command added";
+    m_addLock.unlock();    
 }
 
 void RedisClient::Connection::auth()

@@ -56,14 +56,19 @@ public slots:
 protected:
     virtual void runCommand(const RedisClient::Command &cmd) override
     {
-        executedCommands.push_back(cmd);
+        qDebug() << "Run command:" << cmd.getRawString();
 
-        if (fakeResponses.size() > 0) {
-            runningCommand = cmd;
+        executedCommands.push_back(cmd);        
+        runningCommand = cmd;
+
+        if (fakeResponses.size() > 0) {            
             m_response = fakeResponses.first();
-            fakeResponses.removeFirst();
-            sendResponse();
-            return;
+            fakeResponses.removeFirst();                        
+        } else {
+            qDebug() << "No predefined responses";
+            m_response = RedisClient::Response();
         }
+
+        sendResponse();
     }
 };

@@ -28,6 +28,8 @@ public:
     ConnectionConfig getConfig() const;
     void setConnectionConfig(ConnectionConfig&);
 
+    float getServerVersion();
+
     /**
      * Select db
      * see  http://redis.io/commands/select

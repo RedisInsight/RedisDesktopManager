@@ -2,7 +2,7 @@
 
 #include <QString>
 #include <functional>
-#include "model.h"
+#include "keymodel.h"
 
 namespace ValueEditor {
 
