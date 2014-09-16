@@ -24,7 +24,7 @@ before_script:
 - sudo chmod a+x configure
 - pwd
 - ls
-- sudo ./configure
+- sudo bash ./configure
 - cd ./../tests
 script: 
   - qmake -v
