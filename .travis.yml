@@ -23,7 +23,7 @@ before_script:
 - cd ./src
 - sudo chmod +x configure
 - sudo ./configure
-- cd ./../test
+- cd ./../tests
 script: 
   - qmake -v
   - qmake
