@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 cd ./../3rdparty/
 
 unamestr=$(uname)
 
-if [[ "$unamestr" == 'Linux' ]]; then
+if [ "$unamestr" = 'Linux' ]; then
 
     if [ ! -f "/usr/local/lib/libssh2.a" ]; then 
 	chmod -R 755 libssh2
@@ -15,10 +15,9 @@ if [[ "$unamestr" == 'Linux' ]]; then
     fi
 
 else
-chmod -R 755 breakpad
-cd ./breakpad/
-xcodebuild -sdk macosx10.9 -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
-
+    chmod -R 755 breakpad
+    cd ./breakpad/
+    xcodebuild -sdk macosx10.9 -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
 fi
 
 

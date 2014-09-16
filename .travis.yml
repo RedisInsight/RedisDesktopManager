@@ -22,9 +22,7 @@ before_install:
 before_script:
 - cd ./src
 - sudo chmod a+x configure
-- pwd
-- ls
-- sudo bash ./configure
+- sudo ./configure
 - cd ./../tests
 script: 
   - qmake -v
