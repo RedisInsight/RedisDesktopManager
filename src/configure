@@ -9,6 +9,7 @@ if [ "$unamestr" = 'Linux' ]; then
 	chmod -R 755 libssh2
         cd ./libssh2
         sudo apt-get install libtool -y
+        sudo apt-get install libssl-dev -y
         libtoolize --force
         aclocal
 	autoheader
