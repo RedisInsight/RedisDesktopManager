@@ -12,8 +12,9 @@ if [ "$unamestr" = 'Linux' ]; then
         sudo apt-get install libssl-dev -y
         touch ./src/libssh2_config.h
         touch ./example/libssh2_config.h.in
+        libtoolize --force
         aclocal
-        libtoolize --automake
+        #libtoolize --force
 	autoheader
         automake --force-missing --add-missing
         autoconf
