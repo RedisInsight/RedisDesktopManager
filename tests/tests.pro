@@ -21,7 +21,6 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
     $$PWD/
 
-
 #DEFINES += INTEGRATION_TESTS
 
 #TEST CASES
@@ -43,11 +42,7 @@ win32-msvc* {
     debug:   DESTDIR = ./../bin/windows/debug
 }
 
-THIRDPARTYDIR = $$PWD/../3rdparty/
-include($$THIRDPARTYDIR/3rdparty.pri)
+LIBS += -lssh2 -lssl -lcrypto -ldl -lz
+
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
-
-HEADERS += \
-    basetestcase.h
-
