@@ -21,9 +21,9 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
     $$PWD/
 
-QMAKE_CXXFLAGS -= -O
-QMAKE_CXXFLAGS -= -O1
-QMAKE_CXXFLAGS -= -O2
+INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
+HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
+SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
 
 #DEFINES += INTEGRATION_TESTS
 
@@ -46,11 +46,8 @@ win32-msvc* {
     debug:   DESTDIR = ./../bin/windows/debug
 }
 
-THIRDPARTYDIR = $$PWD/../3rdparty/
-include($$THIRDPARTYDIR/3rdparty.pri)
+LIBS += -lssh2 -lssl -lcrypto -ldl -lz
+
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
-
-HEADERS += \
-    basetestcase.h
 
