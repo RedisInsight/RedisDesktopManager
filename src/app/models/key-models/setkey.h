@@ -23,5 +23,13 @@ public:
     void removeRow(int) override;
     bool isRowLoaded(int) override;
     bool isMultiRow() const override;
+
+private:
+    enum Roles { Value = Qt::UserRole + 1};
+
+    QHash<int, QByteArray> m_rowsCache;
+    unsigned long m_rowCount;
+
+    void loadRowCount();
 };
 

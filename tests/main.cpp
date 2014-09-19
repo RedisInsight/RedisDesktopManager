@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
 
     if (allTestsResult == 0)
         qDebug() << "[Tests PASS]";
+    else
+        qDebug() << "[Tests FAIL]";
 
     return (allTestsResult != 0 )? 1 : 0;
 }

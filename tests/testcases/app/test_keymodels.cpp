@@ -46,6 +46,12 @@ void TestKeyModels::testKeyFactory_data()
                << "list"
                << -1;
 
+       QTest::newRow("Valid set model w/o TTL")
+               << "+set\r\n"
+               << ":-1\r\n"
+               << "set"
+               << -1;
+
        QTest::newRow("Valid sorted set model w/o TTL")
                << "+zset\r\n"
                << ":-1\r\n"
@@ -110,6 +116,30 @@ void TestKeyModels::testValueLoading_data()
 
        QTest::newRow("Valid list model")
                << (QStringList() << "+list\r\n" << ":-1\r\n" << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
+               << 1
+               << Qt::UserRole + 1
+               << (unsigned long)2
+               << true
+               << "bar";
+
+       QTest::newRow("Valid set model")
+               << (QStringList() << "+set\r\n" << ":-1\r\n" << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
+               << 1
+               << Qt::UserRole + 1
+               << (unsigned long)2
+               << true
+               << "bar";
+
+       QTest::newRow("Valid zset model")
+               << (QStringList() << "+zset\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
+               << 1
+               << Qt::UserRole + 1
+               << (unsigned long)2
+               << true
+               << "bar";
+
+       QTest::newRow("Valid hash model")
+               << (QStringList() << "+hash\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
                << 1
                << Qt::UserRole + 1
                << (unsigned long)2

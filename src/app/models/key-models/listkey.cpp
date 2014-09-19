@@ -55,11 +55,11 @@ void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
     } else {
         unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
-        RedisClient::Command updateCmd(QStringList() << "LRANGE" << QString::number(rowStart) << QString::number(rowEnd), m_dbIndex);
+        RedisClient::Command updateCmd(QStringList() << "LRANGE"<< m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd), m_dbIndex);
         RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
         if (result.getType() != RedisClient::Response::MultiBulk) {
-            throw ListKeyModel::Exception("loadRows() error - can't load list from server");
+            throw Exception("loadRows() error - can't load list from server");
         }
 
         QStringList rows = result.getValue().toStringList();
@@ -76,7 +76,7 @@ void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
 
 void ListKeyModel::clearRowCache()
 {
-
+    m_rowsCache.clear();
 }
 
 void ListKeyModel::removeRow(int)
@@ -103,14 +103,6 @@ void ListKeyModel::loadRowCount()
         m_rowCount = result.getValue().toUInt();
     }
 }
-
-//void ListKeyModel::loadValue()
-//{
-//    QStringList command;
-//    command << "LRANGE" << keyName <<"0" << "-1";
-
-//    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
-//}
 
 //void ListKeyModel::setCurrentPage(int page)
 //{
@@ -151,18 +143,6 @@ void ListKeyModel::loadRowCount()
 //    addNew << "LSET" << keyName << QString::number(itemIndex) << value;
 
 //    db->runCommand(RedisClient::Command(addNew, this, "loadedUpdateStatus", dbIndex));
-//}
-
-//void ListKeyModel::loadedUpdateStatus(RedisClient::Response result)
-//{
-//    if (result.isErrorMessage())
-//    {
-//        emit valueUpdateError(result.getValue().toString());
-//    }
-//    else
-//    {
-//        emit valueUpdated();
-//    }
 //}
 
 
