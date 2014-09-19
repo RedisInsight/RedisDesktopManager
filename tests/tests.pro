@@ -21,6 +21,10 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
     $$PWD/
 
+INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
+HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
+SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
+
 #DEFINES += INTEGRATION_TESTS
 
 #TEST CASES
@@ -46,3 +50,4 @@ LIBS += -lssh2 -lssl -lcrypto -ldl -lz
 
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
+
