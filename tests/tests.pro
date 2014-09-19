@@ -3,7 +3,7 @@ QT       += core gui network xml testlib concurrent widgets
 TARGET = tests
 TEMPLATE = app
 
-CONFIG += debug
+CONFIG += debug c++11
 CONFIG-=app_bundle
 
 HEADERS += \
