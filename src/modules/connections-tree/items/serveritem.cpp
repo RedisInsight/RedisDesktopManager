@@ -182,10 +182,11 @@ void ServerItem::unload()
 
     m_locked = true;
 
-    m_databases.clear();
-    m_databaseListLoaded = false;
+    emit unloadStarted();
 
+    m_databaseListLoaded = false;
     m_operations->disconnect();
+    m_databases.clear();        
 
     m_locked = false;
 }

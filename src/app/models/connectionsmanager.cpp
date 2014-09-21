@@ -3,9 +3,10 @@
 #include "modules/redisclient/connectionconfig.h"
 #include "treeoperations.h"
 #include "connectionsmanager.h"
+#include "app/widgets/maintabswidget.h"
 
-ConnectionsManager::ConnectionsManager(const QString& configPath)
-    : configPath(configPath), connectionSettingsChanged(false)
+ConnectionsManager::ConnectionsManager(const QString& configPath, MainTabsWidget& tabs)
+    : configPath(configPath), connectionSettingsChanged(false), m_tabs(tabs)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {
         LoadConnectionsConfigFromFile(configPath);
@@ -28,7 +29,7 @@ void ConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> c
     //add connection to view container
     using namespace ConnectionsTree;
 
-    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection));
+    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_tabs));
 
     QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
                 new ServerItem(connection->getConfig().name,

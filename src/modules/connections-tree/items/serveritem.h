@@ -38,6 +38,7 @@ namespace ConnectionsTree {
 
     signals:
         void databaseListLoaded();
+        void unloadStarted();
         void editActionRequested();
         void deleteActionRequested();
         void keysLoadedInDatabase(unsigned int dbIndex);

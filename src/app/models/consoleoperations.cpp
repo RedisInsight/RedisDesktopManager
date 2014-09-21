@@ -1,7 +1,7 @@
 #include "consoleoperations.h"
 #include "modules/redisclient/redisclient.h"
 
-ConsoleModel::ConsoleModel(RedisClient::Connection* connection)
+ConsoleModel::ConsoleModel(QSharedPointer<RedisClient::Connection> connection)
     : m_connection(connection)
 {
 }

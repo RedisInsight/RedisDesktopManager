@@ -49,7 +49,7 @@ void MainWin::initConnectionsTreeView()
         exit(1);
     }
 
-    connections = QSharedPointer<ConnectionsManager>(new ConnectionsManager(config));
+    connections = QSharedPointer<ConnectionsManager>(new ConnectionsManager(config, *ui.tabWidget));
 
     if (connections->size() == 0) {
         QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QSharedPointer>
 #include "modules/redisclient/connectionconfig.h"
 #include "modules/console/operations.h"
 
@@ -12,7 +13,7 @@ class ConsoleModel : public Console::Operations
 {
     Q_OBJECT
 public:
-    ConsoleModel(RedisClient::Connection*);
+    ConsoleModel(QSharedPointer<RedisClient::Connection>);
 
     public:
         void init();
@@ -20,7 +21,7 @@ public:
         void executeCommand(const QString&);
 
 private:
-    RedisClient::Connection* m_connection;
+    QSharedPointer<RedisClient::Connection> m_connection;
 
 };
 

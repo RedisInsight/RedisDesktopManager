@@ -3,9 +3,12 @@
 #include "redisclient/connection.h"
 #include "redisclient/command.h"
 #include "redisclient/response.h"
+#include "app/widgets/maintabswidget.h"
+#include "console/consoletab.h"
+#include "consoleoperations.h"
 
-TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection)
-    : m_connection(connection)
+TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, MainTabsWidget& tabs)
+    : m_connection(connection), m_tabs(tabs)
 {
 
 }
@@ -81,7 +84,7 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
 
 void TreeOperations::disconnect()
 {
-    //TBD
+    m_connection->disconnect();
 }
 
 QString TreeOperations::getNamespaceSeparator()
@@ -100,6 +103,8 @@ void TreeOperations::openNewKeyTab()
 }
 
 void TreeOperations::openConsoleTab()
-{
-
+{       
+    QSharedPointer<ConsoleModel> model(new ConsoleModel(m_connection));
+    QSharedPointer<Console::ConsoleTab> tab(new Console::ConsoleTab(model.staticCast<Console::Operations>()));
+    m_tabs.addTab(tab.staticCast<BaseTab>());
 }

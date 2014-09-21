@@ -28,7 +28,7 @@ ConsoleTab::ConsoleTab(QSharedPointer<Operations> operations)
     layout->setMargin(0);
     layout->addWidget(m_consoleWidget.data());
     setLayout(layout);
-    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));    
 
     //connect widget & console operations model
     connect(m_consoleWidget.data(), &QConsole::execCommand,
@@ -39,7 +39,7 @@ ConsoleTab::ConsoleTab(QSharedPointer<Operations> operations)
             m_consoleWidget.data(), &QConsole::printCommandExecutionResults);
 
     connect(&m_initTimer, &QTimer::timeout,
-            this, [this]() { m_consoleOperations->init(); });
+            this, [this]() { m_consoleOperations->init(); m_consoleWidget->setFocus(); });
 
     m_initTimer.setSingleShot(true);
     m_initTimer.start(0);

@@ -65,7 +65,7 @@ QModelIndex Model::parent(const QModelIndex &index) const
     if (parentItem == nullptr)
         return QModelIndex();
 
-    return createIndex(/*parentItem->row()*/3, 0, (void*)parentItem);
+    return createIndex(/*parentItem->row()*/0, 0, (void*)parentItem);
 }
 
 int Model::rowCount(const QModelIndex &parent) const
@@ -108,6 +108,13 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
         emit beginInsertRows(itemIndex, 0, item->childCount()-1);
         qDebug() << "database list loaded";
         emit endInsertRows();
+    });
+
+    connect(item.data(), &ServerItem::unloadStarted,
+            this, [this, itemIndex, item]()
+    {
+        emit beginRemoveRows(itemIndex, 0, item->childCount()-1);
+        emit endRemoveRows();
     });
 
     connect(item.data(), &ServerItem::keysLoadedInDatabase,

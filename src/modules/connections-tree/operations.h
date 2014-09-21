@@ -62,17 +62,7 @@ namespace ConnectionsTree {
         //    ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
         //}
 
-
-
         virtual void openConsoleTab() = 0;
-
-//        qDebug() << "console action";
-
-//        QSharedPointer<Console::ConsoleTab> tab = QSharedPointer<Console::ConsoleTab>(
-//                    new Console::ConsoleTab(m_operations->getConsoleOperations()));
-
-//        tabs.addTab(tab.staticCast<BaseTab>());
-
 
         virtual ~Operations() {}
 

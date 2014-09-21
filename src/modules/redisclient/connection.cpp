@@ -70,7 +70,8 @@ void RedisClient::Connection::disconnect()
     if (m_isTransporterInitialized && m_transporterThread->isRunning()) {
         m_transporterThread->quit();
         m_transporterThread->wait();
-        m_isTransporterInitialized = false;                
+        m_isTransporterInitialized = false;
+        m_transporter.clear();
     }
 
     m_connected = false;

@@ -10,17 +10,13 @@ class MainTabsWidget : public QTabWidget
 public:
     MainTabsWidget(QWidget * parent = nullptr);
 
-    int addTab(QString&, QWidget*, QString icon = QString(), bool forceOpenInNewTab = false);    
+    // Default QTabWidget interface, only for widget tabs
+    int addTab(QWidget*w, const QIcon&i, const QString &l) { return QTabWidget::addTab(w, i, l); }
+    int addTab(QWidget*w, const QString &l) { return QTabWidget::addTab(w, l); }
 
-    int addTab(QWidget*, const QIcon&, const QString &);
-
-    int addTab(QWidget*, const QString &);
-
-    void closeTab(unsigned int index);
-
+    // App interface, for functional tabs
     void addTab(QSharedPointer<BaseTab> tab);
-    
-//    void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
+    void closeTab(unsigned int index);    
 
 protected:
     void closeCurrentTabWithValue();
@@ -30,8 +26,7 @@ protected:
 
 protected slots:
     void OnError(const QString &);
-    void OnTabClose(int i);
-    //void OnKeyDeleted(QWidget * tab, RedisKeyItem * key);
+    void OnTabClose(int i);    
 
 private:
     QList<QSharedPointer<BaseTab>> m_tabs;

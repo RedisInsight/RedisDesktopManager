@@ -5,11 +5,13 @@
 #include "modules/redisclient/connection.h"
 #include "modules/connections-tree/operations.h"
 
+class MainTabsWidget;
+
 class TreeOperations : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT
 public:
-    TreeOperations(QSharedPointer<RedisClient::Connection> connection);
+    TreeOperations(QSharedPointer<RedisClient::Connection> connection, MainTabsWidget& tabs);
 
     void getDatabases(std::function<void(DatabaseList)>) override;
 
@@ -27,4 +29,5 @@ public:
 
 private:
      QSharedPointer<RedisClient::Connection> m_connection;
+     MainTabsWidget& m_tabs;
 };

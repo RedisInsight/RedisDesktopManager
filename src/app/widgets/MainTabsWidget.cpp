@@ -8,34 +8,25 @@ MainTabsWidget::MainTabsWidget(QWidget * parent)
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
 }
 
-int MainTabsWidget::addTab(QWidget*w, const QIcon&i, const QString &label)
-{
-    return QTabWidget::addTab(w, i, label);
-}
 
-int MainTabsWidget::addTab(QWidget*w, const QString &label)
-{
-    return QTabWidget::addTab(w, label);
-}
+//int MainTabsWidget::addTab(QString& tabName, QWidget* tab, QString icon, bool forceOpenInNewTab)
+//{
+//    int currIndex;
 
-int MainTabsWidget::addTab(QString& tabName, QWidget* tab, QString icon, bool forceOpenInNewTab)
-{        
-    int currIndex;
+//    if (!forceOpenInNewTab) {
+//        closeCurrentTabWithValue();
+//    }
 
-    if (!forceOpenInNewTab) {
-        closeCurrentTabWithValue();
-    }
+//    if (icon.isEmpty()) {
+//        currIndex = QTabWidget::addTab(tab, tabName);
+//    } else {
+//        currIndex = QTabWidget::addTab(tab, QIcon(icon), tabName);
+//    }
 
-    if (icon.isEmpty()) {
-        currIndex = QTabWidget::addTab(tab, tabName);
-    } else {
-        currIndex = QTabWidget::addTab(tab, QIcon(icon), tabName);
-    }
+//    setCurrentIndex(currIndex);
 
-    setCurrentIndex(currIndex);
-
-    return currIndex;
-}
+//    return currIndex;
+//}
 
 //void MainTabsWidget::openKeyTab(RedisKeyItem * key, bool inNewTab)
 //{
@@ -115,7 +106,9 @@ void MainTabsWidget::closeTab(unsigned int index)
 void MainTabsWidget::addTab(QSharedPointer<BaseTab> tab)
 {
     m_tabs.push_back(tab);
-    QTabWidget::addTab(tab.data(), tab->getIcon(), tab->getTitle());
+    int index = QTabWidget::addTab(tab.data(), tab->getIcon(), tab->getTitle());
+    setCurrentIndex(index);
+    tab->setFocus();
 }
 
 void MainTabsWidget::OnTabClose(int index)
