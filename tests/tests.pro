@@ -21,10 +21,6 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
     $$PWD/
 
-INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
-HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
-SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
-
 #DEFINES += INTEGRATION_TESTS
 
 #TEST CASES
@@ -46,7 +42,15 @@ win32-msvc* {
     debug:   DESTDIR = ./../bin/windows/debug
 }
 
-LIBS += -lssh2 -lssl -lcrypto -ldl -lz
+win32 {
+    include($$PWD/../3rdparty/3rdparty.pri)
+}
+unix:!mac {
+    LIBS += -lssh2 -lssl -lcrypto -ldl -lz
+    INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
+    HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
+    SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
+}
 
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include

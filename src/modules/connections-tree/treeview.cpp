@@ -9,7 +9,7 @@
 using namespace ConnectionsTree;
 
 TreeView::TreeView(QWidget * parent)
-    : QTreeView(parent), m_tabWidget(nullptr)
+    : QTreeView(parent)
 {
     header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     header()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -33,9 +33,7 @@ void TreeView::mousePressEvent(QMouseEvent * event)
 }
 
 void TreeView::processContextMenu(const QPoint& point)
-{
-    Q_ASSERT(m_tabWidget != nullptr);
-
+{    
     if (point.isNull() || QCursor::pos().isNull())
         return;
 
@@ -48,9 +46,7 @@ void TreeView::processContextMenu(const QPoint& point)
 }
 
 void TreeView::processClick(const QModelIndex& index)
-{
-    Q_ASSERT(m_tabWidget != nullptr);
-
+{    
     TreeItem* item = preProcessEvent(index);
 
     if (item == nullptr)
@@ -63,9 +59,7 @@ void TreeView::processClick(const QModelIndex& index)
 }
 
 void TreeView::processWheelClick(const QModelIndex& index)
-{
-    Q_ASSERT(m_tabWidget != nullptr);
-
+{    
     TreeItem* item = preProcessEvent(index);
 
     if (item == nullptr)
@@ -83,11 +77,6 @@ void TreeView::setModel(Model *model)
 const Model *TreeView::model() const
 {
     return qobject_cast<Model*>(QTreeView::model());
-}
-
-void TreeView::setTabWidget(TabWidget *widget)
-{
-    m_tabWidget = widget;
 }
 
 QWidget *TreeView::getParentWidget()

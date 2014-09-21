@@ -62,7 +62,7 @@ Before using Redis Desktop Manager (RDM) take a look on the &lt;a href=&quot;htt
   </layout>
  </widget>
  <resources>
-  <include location="../resources/rdm.qrc"/>
+  <include location="../../resources/rdm.qrc"/>
  </resources>
  <connections>
   <connection>

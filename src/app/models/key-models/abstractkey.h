@@ -25,7 +25,12 @@ protected:
     QString m_keyFullPath;
     int m_dbIndex;
     int m_ttl;
-    bool m_isKeyRemoved;   
+    bool m_isKeyRemoved;
+    unsigned long m_rowCount;
+
+    //multi row internal operations
+    int getRowCount(const QString &countCmd);
+    QVariant getRowsRange(const QString & baseCmd, unsigned long rowStart = -1, unsigned long count = -1);
 };
 
 

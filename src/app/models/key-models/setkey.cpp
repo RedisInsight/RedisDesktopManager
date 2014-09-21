@@ -3,8 +3,9 @@
 #include "modules/redisclient/commandexecutor.h"
 
 SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-       : KeyModel(connection, fullPath, dbIndex, ttl), m_rowCount(-1)
+       : KeyModel(connection, fullPath, dbIndex, ttl)
 {
+    loadRowCount();
 }
 
 QString SetKeyModel::getType()
@@ -56,14 +57,7 @@ void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fun
         if (!m_rowsCache.isEmpty())
             return;
 
-        RedisClient::Command updateCmd(QStringList() << "SMEMBERS" << m_keyFullPath, m_dbIndex);
-        RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
-
-        if (result.getType() != RedisClient::Response::MultiBulk) {
-            throw Exception("loadRows() error - can't load set from server");
-        }
-
-        QStringList rows = result.getValue().toStringList();
+        QStringList rows = getRowsRange("SMEMBERS").toStringList();
         unsigned int rowIndex = rowStart;
 
         foreach (QString row, rows) {
@@ -97,12 +91,7 @@ bool SetKeyModel::isMultiRow() const
 
 void SetKeyModel::loadRowCount()
 {
-    RedisClient::Command updateCmd(QStringList() << "SCARD" << m_keyFullPath, m_dbIndex);
-    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
-
-    if (result.getType() == RedisClient::Response::Integer) {
-        m_rowCount = result.getValue().toUInt();
-    }
+    m_rowCount = getRowCount("SCARD");
 }
 
 //void SetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)

@@ -27,7 +27,7 @@
    <string>Redis Desktop Manager</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resources/rdm.qrc">
+   <iconset resource="../../resources/rdm.qrc">
     <normaloff>:/images/redisBigIcon.png</normaloff>:/images/redisBigIcon.png</iconset>
   </property>
   <property name="styleSheet">
@@ -521,18 +521,18 @@
   <customwidget>
    <class>MainTabsWidget</class>
    <extends>QTabWidget</extends>
-   <header>widgets/maintabswidget.h</header>
+   <header>app/widgets/maintabswidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>BaseTab</class>
    <extends>QWidget</extends>
-   <header>widgets/basetab.h</header>
+   <header>basetab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources/rdm.qrc"/>
+  <include location="../../resources/rdm.qrc"/>
  </resources>
  <connections/>
 </ui>

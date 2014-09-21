@@ -3,7 +3,7 @@
 #include "modules/redisclient/commandexecutor.h"
 
 ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl), m_rowCount(-1)
+    : KeyModel(connection, fullPath, dbIndex, ttl)
 {    
     loadRowCount();
 }
@@ -52,17 +52,9 @@ void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
 {
     if (isPartialLoadingSupported()) {
         //TBD
-    } else {
-        unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
+    } else {        
+        QStringList rows = getRowsRange("LRANGE", rowStart, count).toStringList();
 
-        RedisClient::Command updateCmd(QStringList() << "LRANGE"<< m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd), m_dbIndex);
-        RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
-
-        if (result.getType() != RedisClient::Response::MultiBulk) {
-            throw Exception("loadRows() error - can't load list from server");
-        }
-
-        QStringList rows = result.getValue().toStringList();
         unsigned int rowIndex = rowStart;
 
         foreach (QString row, rows) {
@@ -95,13 +87,8 @@ bool ListKeyModel::isMultiRow() const
 }
 
 void ListKeyModel::loadRowCount()
-{
-    RedisClient::Command updateCmd(QStringList() << "LLEN" << m_keyFullPath, m_dbIndex);
-    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
-
-    if (result.getType() == RedisClient::Response::Integer) {
-        m_rowCount = result.getValue().toUInt();
-    }
+{    
+    m_rowCount = getRowCount("LLEN");
 }
 
 //void ListKeyModel::setCurrentPage(int page)

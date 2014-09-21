@@ -19,8 +19,6 @@ namespace ConnectionsTree {
         void setModel(Model *model);
         const Model* model() const;
 
-        void setTabWidget(TabWidget *widget);
-
         QWidget* getParentWidget() override;
 
     protected:
@@ -32,7 +30,6 @@ namespace ConnectionsTree {
         void processContextMenu(const QPoint &);
 
     private:
-        TabWidget *m_tabWidget;
         TreeItem *preProcessEvent(const QModelIndex& index);
 
     signals:

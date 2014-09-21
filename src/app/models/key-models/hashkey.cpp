@@ -4,6 +4,7 @@
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
        : KeyModel(connection, fullPath, dbIndex, ttl)
 {
+    loadRowCount();
 }
 
 QString HashKeyModel::getType()
@@ -13,16 +14,29 @@ QString HashKeyModel::getType()
 
 QStringList HashKeyModel::getColumnNames()
 {
-    return QStringList();
+    return QStringList() << "Key" << "Value";
 }
 
 QHash<int, QByteArray> HashKeyModel::getRoles()
 {
-    return QHash<int, QByteArray>();
+    QHash<int, QByteArray> roles;
+    roles[Roles::Key] = "key";
+    roles[Roles::Value] = "value";
+    return roles;
 }
 
 QString HashKeyModel::getData(int rowIndex, int dataRole)
 {
+    if (!isRowLoaded(rowIndex) || (dataRole != Roles::Value && dataRole != Roles::Key))
+        return QString();
+
+    QPair<QByteArray, QByteArray> row = m_rowsCache[rowIndex];
+
+    if (dataRole == Roles::Key)
+        return row.first;
+    else if (dataRole ==Roles::Value)
+        return row.second;
+
     return QString();
 }
 
@@ -38,12 +52,34 @@ void HashKeyModel::addRow()
 
 unsigned long HashKeyModel::rowsCount()
 {
-    return 0;
+    return m_rowCount;
 }
 
 void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
 {
+    if (isPartialLoadingSupported()) {
+        //TBD
+    } else {
+        QStringList rows = getRowsRange("HGETALL").toStringList();
 
+        unsigned int rowIndex = rowStart;
+
+        for (QStringList::iterator item = rows.begin();
+             item != rows.end(); ++item, rowIndex++) {
+
+            QPair<QByteArray, QByteArray> value;
+            value.first = item->toUtf8();
+            ++item;
+
+            if (item == rows.end())
+                throw Exception("Partial data loaded from server");
+
+            value.second = item->toUtf8();
+            m_rowsCache[rowIndex] = value;
+        }
+    }
+
+    callback();
 }
 
 void HashKeyModel::clearRowCache()
@@ -56,9 +92,9 @@ void HashKeyModel::removeRow(int)
 
 }
 
-bool HashKeyModel::isRowLoaded(int)
+bool HashKeyModel::isRowLoaded(int rowIndex)
 {
-    return false;
+    return m_rowsCache.contains(rowIndex);
 }
 
 bool HashKeyModel::isMultiRow() const
@@ -66,13 +102,10 @@ bool HashKeyModel::isMultiRow() const
     return true;
 }
 
-//void HashKeyModel::loadValue()
-//{
-//    QStringList command;
-//    command << "hgetall" << keyName;
-
-//    db->runCommand(RedisClient::Command(command, this, "loadedValue", dbIndex));
-//}
+void HashKeyModel::loadRowCount()
+{
+    m_rowCount = getRowCount("HLEN");
+}
 
 //void HashKeyModel::setCurrentPage(int page)
 //{
@@ -106,11 +139,6 @@ bool HashKeyModel::isMultiRow() const
 //        setItem(row, 0, key);
 //        setItem(row, 1, value);
 //    }
-//}
-
-//int HashKeyModel::itemsCount()
-//{
-//    return rawData->size() / 2;
 //}
 
 //void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
@@ -155,16 +183,4 @@ bool HashKeyModel::isMultiRow() const
 //    }
 
 //    currentItem->setText(value);
-//}
-
-//void HashKeyModel::loadedUpdateStatus(RedisClient::Response result)
-//{
-//    if (result.isErrorMessage())
-//    {
-//        emit valueUpdateError(result.getValue().toString());
-//    }
-//    else
-//    {
-//        emit valueUpdated();
-//    }
 //}

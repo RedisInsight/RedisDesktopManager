@@ -28,7 +28,6 @@ void KeyFactory::loadKey(QString keyFullPath, int dbIndex, std::function<void (Q
             return;
         }
 
-        // TBD : load TTL
         RedisClient::Command ttlCmd(QStringList() << "ttl" << keyFullPath, dbIndex);
         RedisClient::Response ttlResult = RedisClient::CommandExecutor::execute(m_connection, ttlCmd);
 

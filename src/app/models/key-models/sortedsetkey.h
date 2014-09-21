@@ -23,6 +23,13 @@ public:
     void removeRow(int) override;
     bool isRowLoaded(int) override;
     bool isMultiRow() const override;
+
+private:
+    enum Roles { Value = Qt::UserRole + 1, Score};
+
+    QHash<int, QPair<QByteArray, double>> m_rowsCache;
+
+    void loadRowCount();
 };
 
 #endif // SORTEDSETKEYMODEL_H

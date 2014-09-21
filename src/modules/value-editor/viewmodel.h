@@ -4,7 +4,7 @@
 #include <QString>
 #include <QSharedPointer>
 #include "abstractkeyfactory.h"
-#include "model.h"
+#include "keymodel.h"
 
 namespace ValueEditor {
 
@@ -21,7 +21,7 @@ class ViewModel : public QAbstractListModel
     Q_PROPERTY(int pageCount READ pageCount NOTIFY pageCountChanged)
 
 public:
-    ViewModel(QString fullKeyPath, QSharedPointer<AbstractKeyFactory> keyFactory);
+    ViewModel(QString fullKeyPath, int dbIndex, QSharedPointer<AbstractKeyFactory> keyFactory);
 
     QString keyName();
     int keyTTL();
@@ -75,6 +75,7 @@ private:
     void setCurrentState(State s);
     void loadModel(QSharedPointer<Model> m, bool loadLargeKeysInLegacy = false);
     unsigned long getPageLimit();
+    void rowsLoaded();
 
 };
 

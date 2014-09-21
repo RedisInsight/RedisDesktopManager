@@ -56,7 +56,6 @@ void MainWin::initConnectionsTreeView()
     }
 
     ui.serversTreeView->setModel(connections.data());
-    ui.serversTreeView->setTabWidget(static_cast<ConnectionsTree::TabWidget*>(ui.tabWidget));
 }
 
 void MainWin::initContextMenus()

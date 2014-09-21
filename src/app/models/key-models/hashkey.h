@@ -24,6 +24,12 @@ public:
     bool isRowLoaded(int) override;
     bool isMultiRow() const override;
 
+private:
+    enum Roles { Key = Qt::UserRole + 1, Value};
+
+    QHash<int, QPair<QByteArray, QByteArray>> m_rowsCache;
+
+    void loadRowCount();
 };
 
 #endif // HASHKEYMODEL_H

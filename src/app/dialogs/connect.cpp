@@ -3,10 +3,10 @@
 #include <QtWidgets/QMessageBox>
 #include <QFileDialog>
 #include <QFile>
-#include "application.h"
-#include "core/connection.h"
-#include "core/connectionconfig.h"
-#include "models/connectionsmanager.h"
+#include "mainwindow.h"
+#include "redisclient/connection.h"
+#include "redisclient/connectionconfig.h"
+#include "app/models/connectionsmanager.h"
 
 ConnectionWindow::ConnectionWindow(QWidget *parent/*, RedisServerItem * srv*/)
     : QDialog(parent), inEditMode(false)

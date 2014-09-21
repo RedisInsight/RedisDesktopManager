@@ -1,9 +1,9 @@
 #include "viewmodel.h"
 
-ValueEditor::ViewModel::ViewModel(QString fullKeyPath, QSharedPointer<AbstractKeyFactory> keyFactory)
+ValueEditor::ViewModel::ViewModel(QString fullKeyPath, int dbIndex, QSharedPointer<AbstractKeyFactory> keyFactory)
     : m_currentState(ValueEditor::ViewModel::State::Init)
 {
-    keyFactory->loadKey(fullKeyPath, [this](QSharedPointer<Model> keyModel) {        
+    keyFactory->loadKey(fullKeyPath, dbIndex, [this](QSharedPointer<Model> keyModel) {
         loadModel(keyModel);
     });
 
@@ -135,16 +135,20 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> m, boo
     connect(m_model.data(), &Model::dataLoaded, this, &ViewModel::onDataLoaded);
 
     if (!m_model->isMultiRow()) // all data already loaded
-        return;
+        return;   
+
+    std::function<void()> callback = [this]() {
+        rowsLoaded();
+    };
 
     if (m_model->isPartialLoadingSupported()) {
-        m_model->loadRows(0, getPageLimit());
+        m_model->loadRows(0, getPageLimit(), callback);
     } else {
         // TBD: show warning in UI: "(!) Partial loading not supported by current redis-server"
         if (m_model->rowsCount() > getPageLimit() && !loadLargeKeysInLegacy) {
             // TBD: show confirmation dialog in UI
         } else {
-            m_model->loadRows(0, m_model->rowsCount());
+            m_model->loadRows(0, m_model->rowsCount(), callback);
         }
     }
 }
@@ -152,4 +156,9 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> m, boo
 unsigned long ValueEditor::ViewModel::getPageLimit()
 {
     return (unsigned long) 100;
+}
+
+void ValueEditor::ViewModel::rowsLoaded()
+{
+
 }
