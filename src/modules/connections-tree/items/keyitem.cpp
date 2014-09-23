@@ -5,8 +5,9 @@
 
 using namespace ConnectionsTree;
 
-KeyItem::KeyItem(const QString& fullPath, QSharedPointer<Operations> operations, const TreeItem* parent)
+KeyItem::KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, const TreeItem* parent)
     : m_fullPath(fullPath),
+      m_dbIndex(dbIndex),
       m_operations(operations),
       m_parent(parent),
       m_locked(false),
@@ -46,30 +47,39 @@ const TreeItem *KeyItem::parent() const
     return m_parent;
 }
 
-bool KeyItem::onClick(ParentView& treeView)
+bool KeyItem::onClick(ParentView&)
 {
-    Q_UNUSED(treeView);
-
     if (isEnabled())
-        m_operations->openKeyTab();
+        m_operations->openKeyTab(m_fullPath, m_dbIndex, false);
 
     return false;
 }
 
-void KeyItem::onWheelClick(ParentView& treeView)
-{
-    Q_UNUSED(treeView);
-
+void KeyItem::onWheelClick(ParentView&)
+{    
     if (isEnabled())
-        m_operations->openNewKeyTab();
+        m_operations->openKeyTab(m_fullPath, m_dbIndex, true);
 }
 
-QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeView)
+QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
 {
-    Q_UNUSED(treeView);
-
     QSharedPointer<QMenu> menu(new QMenu());
-    //menu->addAction("Open key value in new tab", this, SLOT(OnKeyOpenInNewTab()));
+
+    QAction* openKey = new QAction(QIcon(":/images/add.png"), "Open key", menu.data());
+    QObject::connect(openKey, &QAction::triggered, [this] { m_operations->openKeyTab(m_fullPath, m_dbIndex, false); });
+    menu->addAction(openKey);
+
+    QAction* openInNewTab = new QAction(QIcon(":/images/add.png"), "Open key value in new tab", menu.data());
+    QObject::connect(openInNewTab, &QAction::triggered, [this] { m_operations->openKeyTab(m_fullPath, m_dbIndex, true); });
+    menu->addAction(openInNewTab);
+
+    menu->addSeparator();
+
+    QAction* rename = new QAction(QIcon(":/images/editdb.png"), "Rename key", menu.data());
+    menu->addAction(rename);
+
+    QAction* remove = new QAction(QIcon(":/images/delete.png"), "Delete key", menu.data());
+    menu->addAction(remove);
 
     return menu;
 }

@@ -116,7 +116,7 @@ INCLUDEPATH += $$PWD/ \
 
 RESOURCES += \
     $$PWD/resources/rdm.qrc \
-    $$PWD/resources/fonts.qrc
+    $$PWD/resources/fonts.qrc \    
 
 OTHER_FILES += \
     qt.conf \

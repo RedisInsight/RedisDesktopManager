@@ -21,9 +21,7 @@ public:
 
     QString getNamespaceSeparator() override;    
 
-    virtual void openKeyTab() override;
-
-    virtual void openNewKeyTab() override;
+    virtual void openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab = false) override;
 
     virtual void openConsoleTab() override;
 

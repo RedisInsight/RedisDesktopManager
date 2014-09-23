@@ -14,6 +14,7 @@
 #include "app/dialogs/quickstartdialog.h"
 #include "modules/updater/updater.h"
 #include "modules/redisclient/redisclient.h"
+#include "modules/value-editor/sharedqmlengine.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +32,9 @@ MainWin::MainWin(QWidget *parent)
     initFormButtons();    
     initUpdater();    
     initSystemConsole();      
+
+    //init shared qml engine
+    ValueEditor::SharedQmlEngine::getSharedEngine();
 }
 
 void MainWin::initConnectionsTreeView()

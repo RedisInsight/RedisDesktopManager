@@ -45,22 +45,7 @@ namespace ConnectionsTree {
          */
         virtual QString getNamespaceSeparator() = 0;
 
-        virtual void openKeyTab(/* TBD */) = 0;
-        virtual void openNewKeyTab(/* TBD */) = 0;
-
-//        QSharedPointer<ValueEditor::Tab> tab(new ValueEditor::Tab());
-
-//        tabs.addTab(tab.staticCast<BaseTab>());
-
-        //void MainWin::OnKeyOpenInNewTab()
-        //{
-        //    QStandardItem * item = ui.serversTreeView->getSelectedItem();
-
-        //    if (item == nullptr || item->type() != RedisKeyItem::TYPE)
-        //        return;
-
-        //    ui.tabWidget->openKeyTab((RedisKeyItem *)item, true);
-        //}
+        virtual void openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab) = 0;
 
         virtual void openConsoleTab() = 0;
 

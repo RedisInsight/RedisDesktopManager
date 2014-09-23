@@ -111,6 +111,11 @@ void MainTabsWidget::addTab(QSharedPointer<BaseTab> tab)
     tab->setFocus();
 }
 
+void MainTabsWidget::replaceCurrentTab(QSharedPointer<BaseTab> tab)
+{
+
+}
+
 void MainTabsWidget::OnTabClose(int index)
 {
     closeTab((unsigned int)index);

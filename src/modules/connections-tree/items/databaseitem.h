@@ -28,8 +28,8 @@ public:
     QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
 
     bool isLocked() const override {return false;}
-
     void loadKeys();
+    int getIndex() const;
 
 signals:
     void keysLoaded(unsigned int dbIndex);

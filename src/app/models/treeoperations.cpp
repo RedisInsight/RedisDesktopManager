@@ -6,6 +6,7 @@
 #include "app/widgets/maintabswidget.h"
 #include "console/consoletab.h"
 #include "consoleoperations.h"
+#include "value-editor/tab.h"
 
 TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, MainTabsWidget& tabs)
     : m_connection(connection), m_tabs(tabs)
@@ -92,14 +93,15 @@ QString TreeOperations::getNamespaceSeparator()
     return m_connection->config.namespaceSeparator;
 }
 
-void TreeOperations::openKeyTab()
+void TreeOperations::openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab)
 {
+    QSharedPointer<ValueEditor::Tab> tab(new ValueEditor::Tab());
 
-}
-
-void TreeOperations::openNewKeyTab()
-{
-
+    if (openInNewTab) {
+        m_tabs.addTab(tab.staticCast<BaseTab>());
+    } else {
+        m_tabs.replaceCurrentTab(tab.staticCast<BaseTab>());
+    }
 }
 
 void TreeOperations::openConsoleTab()

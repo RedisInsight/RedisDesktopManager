@@ -103,6 +103,11 @@ void DatabaseItem::loadKeys()
     });
 }
 
+int DatabaseItem::getIndex() const
+{
+    return m_index;
+}
+
 void DatabaseItem::onKeysRendered()
 {
     m_keys = m_keysLoadingWatcher.result();
@@ -140,7 +145,7 @@ DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations
 void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
                                                          const QString &notProcessedKeyPart,
                                                          const QString &fullKey,
-                                                         QSharedPointer<Operations> m_operations,
+                                                         QSharedPointer<Operations> m_operations,                                                         
                                                          const QString& m_namespaceSeparator,
                                                          QList<QSharedPointer<TreeItem>>& m_result, const DatabaseItem *db)
 {
@@ -149,7 +154,7 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
     if (!notProcessedKeyPart.contains(m_namespaceSeparator) || m_namespaceSeparator.isEmpty()) {
 
         QSharedPointer<KeyItem> newKey(
-                    (new KeyItem(fullKey, m_operations, currentParent))
+                    (new KeyItem(fullKey, db->getIndex(), m_operations, currentParent))
                     );
 
         if (currItem.isNull()) m_result.push_back(newKey);

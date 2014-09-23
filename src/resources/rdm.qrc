@@ -27,4 +27,7 @@
         <file alias="loader.gif">images/loader.gif</file>
         <file alias="ua.png">images/ua.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>qml/value-editor.qml</file>
+    </qresource>
 </RCC>
