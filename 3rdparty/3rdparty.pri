@@ -78,7 +78,8 @@ unix:!macx { # ubuntu & debian
     QMAKE_CXXFLAGS += -std=gnu++0x -g #workaround for google breakpad
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
-    LIBS += /usr/local/lib/libssh2.a \
+    LIBS += /usr/local/lib/libssh2.a
+    LIBS += -lcrypto -lz
 
     PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
 

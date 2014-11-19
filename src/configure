@@ -8,6 +8,7 @@ if [ "$unamestr" = 'Linux' ]; then
     if [ ! -f "/usr/local/lib/libssh2.a" ]; then 
 	chmod -R 755 libssh2
         cd ./libssh2
+	sudo apt-get install automake -y
         sudo apt-get install libtool -y      
         sudo apt-get install libssl-dev -y
         touch ./src/libssh2_config.h
