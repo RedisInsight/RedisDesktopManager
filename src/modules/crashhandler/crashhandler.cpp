@@ -1,4 +1,4 @@
-#include "CrashHandler.h"
+#include "crashhandler.h"
 
 #include <QtCore/QDir>
 #include <QtCore/QProcess>

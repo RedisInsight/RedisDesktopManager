@@ -117,7 +117,7 @@ void MainWin::OnConsoleStateChanged()
 
 void MainWin::OnAddConnectionClick()
 {
-    QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(this));    
+    QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(connections.toWeakRef(), this));
     connectionDialog->setModal(true);
     connectionDialog->setWindowState(Qt::WindowActive);
 #ifdef Q_OS_LINUX
@@ -140,7 +140,7 @@ void MainWin::OnImportConnectionsClick()
         return;
     }
 
-    if (connections->ImportConnections(fileName)) {
+    if (connections->importConnections(fileName)) {
         QMessageBox::information(this, "Connections imported", "Connections imported from connections file");
     } else {
         QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
@@ -155,7 +155,7 @@ void MainWin::OnExportConnectionsClick()
         return;
     }
 
-    if (connections->SaveConnectionsConfigToFile(fileName)) {
+    if (connections->saveConnectionsConfigToFile(fileName)) {
         QMessageBox::information(this, "Connections exported", "Connections exported in selected file");
     } else {
         QMessageBox::warning(this, "Can't export connections", "Select valid file name for export");

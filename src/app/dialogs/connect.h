@@ -1,26 +1,25 @@
 #pragma once
 
 #include <QDialog>
+#include <QWeakPointer>
 #include "ui_connection.h"
 
-class MainWin;
 namespace RedisClient {
 class ConnectionConfig;
-class Connection;
 }
+class ConnectionsManager;
 
 class ConnectionWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    ConnectionWindow(QWidget *parent = 0/*, RedisServerItem * c = nullptr*/);
+    ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent = nullptr);
 
 private:
-    Ui::connectionDialog ui;
-    MainWin * mainForm;
-    //RedisServerItem * server;
+    Ui::connectionDialog ui;        
     bool inEditMode;
+    QWeakPointer<ConnectionsManager> m_manager;
 
     bool isFormDataValid();
     bool isConnectionSettingsValid();
@@ -28,7 +27,7 @@ private:
     bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
     RedisClient::ConnectionConfig getConectionConfigFromFormData();
-    void loadValuesFromConnection(RedisClient::Connection *);
+    void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
 
     private slots:
         void OnOkButtonClick();

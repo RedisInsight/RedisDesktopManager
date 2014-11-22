@@ -1,4 +1,4 @@
-#include "Updater.h"
+#include "updater.h"
 
 #include <QtNetwork>
 
