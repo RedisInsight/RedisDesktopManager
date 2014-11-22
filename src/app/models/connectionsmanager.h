@@ -14,9 +14,9 @@ public:
     ConnectionsManager(const QString& configPath, MainTabsWidget& tabs);
     ~ConnectionsManager(void);
 
-    void AddConnection(QSharedPointer<RedisClient::Connection> connection);
-    bool ImportConnections(const QString &);
-    bool SaveConnectionsConfigToFile(const QString&);
+    void addConnection(QSharedPointer<RedisClient::Connection> connection);
+    bool importConnections(const QString &);
+    bool saveConnectionsConfigToFile(const QString&);
 
     int size();
 
@@ -27,6 +27,6 @@ private:
     MainTabsWidget& m_tabs;
 
 protected:
-    bool LoadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);
+    bool loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);
 };
 

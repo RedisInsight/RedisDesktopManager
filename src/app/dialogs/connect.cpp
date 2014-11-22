@@ -3,13 +3,12 @@
 #include <QtWidgets/QMessageBox>
 #include <QFileDialog>
 #include <QFile>
-#include "mainwindow.h"
 #include "redisclient/connection.h"
 #include "redisclient/connectionconfig.h"
 #include "app/models/connectionsmanager.h"
 
-ConnectionWindow::ConnectionWindow(QWidget *parent/*, RedisServerItem * srv*/)
-    : QDialog(parent), inEditMode(false)
+ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent)
+    : QDialog(parent), inEditMode(false), m_manager(manager)
 {
     ui.setupUi(this);
 
@@ -17,10 +16,6 @@ ConnectionWindow::ConnectionWindow(QWidget *parent/*, RedisServerItem * srv*/)
     this->setModal(true);
 
     ui.validationWarning->hide();
-
-    if (parent) {
-        mainForm = qobject_cast<MainWin *>(parent);
-    }
 
     // connect slots to signals
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));        
@@ -43,11 +38,9 @@ ConnectionWindow::ConnectionWindow(QWidget *parent/*, RedisServerItem * srv*/)
 //    }
 }
 
-void ConnectionWindow::loadValuesFromConnection(RedisClient::Connection * c)
+void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig& config)
 {
-    inEditMode = true;
-
-    RedisClient::ConnectionConfig config = c->getConfig();
+    inEditMode = true;    
 
     ui.nameEdit->setText(config.name);
     ui.hostEdit->setText(config.host);
@@ -88,14 +81,21 @@ void ConnectionWindow::OnOkButtonClick()
 {
     ui.validationWarning->hide();
 
-    if (!isFormDataValid() || mainForm->connections == nullptr) { 
+    if (!isFormDataValid()) {
         ui.validationWarning->show();
         return;    
     }
 
     RedisClient::ConnectionConfig conf = getConectionConfigFromFormData();
 
-    RedisClient::Connection * connection;
+    if (!m_manager) // some error occurred
+        close();
+
+    auto manager = m_manager.toStrongRef();
+
+    QSharedPointer<RedisClient::Connection> connection;
+
+
 
 //    if (inEditMode) {
 //        connection = server->getConnection();
@@ -103,8 +103,8 @@ void ConnectionWindow::OnOkButtonClick()
 //        mainForm->connections->connectionChanged();
         
 //    } else {
-//        connection = new RedisClient::Connection(conf, false);
-//        mainForm->connections->AddConnection(connection);
+        connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(conf, false));
+        manager->addConnection(connection);
 //    }
     
     close();

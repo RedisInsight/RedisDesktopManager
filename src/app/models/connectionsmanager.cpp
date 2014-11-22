@@ -9,7 +9,7 @@ ConnectionsManager::ConnectionsManager(const QString& configPath, MainTabsWidget
     : configPath(configPath), connectionSettingsChanged(false), m_tabs(tabs)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {
-        LoadConnectionsConfigFromFile(configPath);
+        loadConnectionsConfigFromFile(configPath);
     }
 }
 
@@ -17,11 +17,11 @@ ConnectionsManager::ConnectionsManager(const QString& configPath, MainTabsWidget
 ConnectionsManager::~ConnectionsManager(void)
 {
     if (connectionSettingsChanged) {
-        SaveConnectionsConfigToFile(configPath);
+        saveConnectionsConfigToFile(configPath);
     }
 }
 
-void ConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> connection)
+void ConnectionsManager::addConnection(QSharedPointer<RedisClient::Connection> connection)
 {
     //add connection to internal container
     connections.push_back(connection);
@@ -44,9 +44,9 @@ void ConnectionsManager::AddConnection(QSharedPointer<RedisClient::Connection> c
 }
 
 
-bool ConnectionsManager::ImportConnections(const QString &path)
+bool ConnectionsManager::importConnections(const QString &path)
 {
-    if (LoadConnectionsConfigFromFile(path, true)) {
+    if (loadConnectionsConfigFromFile(path, true)) {
         return true;
     }
 
@@ -54,7 +54,7 @@ bool ConnectionsManager::ImportConnections(const QString &path)
 }
 
 
-bool ConnectionsManager::LoadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile)
+bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile)
 {
     QFile conf(config);
     
@@ -77,7 +77,7 @@ bool ConnectionsManager::LoadConnectionsConfigFromFile(const QString& config, bo
 
             if (conf.isNull()) continue;
 
-            AddConnection(QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(conf, false)));
+            addConnection(QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(conf, false)));
         }        
     }
     conf.close();
@@ -88,7 +88,7 @@ bool ConnectionsManager::LoadConnectionsConfigFromFile(const QString& config, bo
     return true;
 }
 
-bool ConnectionsManager::SaveConnectionsConfigToFile(const QString& pathToFile)
+bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
 {
     QDomDocument config;
 
