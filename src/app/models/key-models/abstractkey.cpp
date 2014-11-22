@@ -4,7 +4,8 @@
 #include "modules/redisclient/redisclient.h"
 
 KeyModel::KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-    : m_connection(connection), m_keyFullPath(fullPath), m_dbIndex(dbIndex), m_ttl(ttl), m_isKeyRemoved(false), m_rowCount(-1)
+    : m_connection(connection), m_keyFullPath(fullPath), m_dbIndex(dbIndex),
+      m_ttl(ttl), m_isKeyRemoved(false), m_rowCount(-1), m_currentState(KeyModel::State::Initial)
 {
 
 }
@@ -17,6 +18,16 @@ QString KeyModel::getKeyName()
 int KeyModel::getTTL()
 {
     return m_ttl;
+}
+
+QString KeyModel::getState()
+{
+    switch (m_currentState) {
+        case Initial: return "initital";
+        case DataLoaded: return "loaded";
+        case Error:
+        default: return "error";
+    }
 }
 
 bool KeyModel::isPartialLoadingSupported()

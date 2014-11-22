@@ -4,14 +4,14 @@
 #include "redisclient/connection.h"
 #include "connections-tree/model.h"
 
-class MainTabsWidget;
+class ConsoleTabs;
 
 class ConnectionsManager : public ConnectionsTree::Model
 {
     Q_OBJECT    
 
 public:
-    ConnectionsManager(const QString& configPath, MainTabsWidget& tabs);
+    ConnectionsManager(const QString& configPath, ConsoleTabs& tabs);
     ~ConnectionsManager(void);
 
     void AddConnection(QSharedPointer<RedisClient::Connection> connection);
@@ -24,7 +24,7 @@ private:
     QString configPath;
     bool connectionSettingsChanged;
     QList<QSharedPointer<RedisClient::Connection>> connections;
-    MainTabsWidget& m_tabs;
+    ConsoleTabs& m_tabs;
 
 protected:
     bool LoadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);

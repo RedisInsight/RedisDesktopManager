@@ -11,6 +11,7 @@ class DefaultTransporter : public AbstractTransporter
     Q_OBJECT
 public:
     DefaultTransporter(Connection * c);
+    ~DefaultTransporter();
 public slots:
     void init();
     void disconnect();

@@ -5,6 +5,12 @@ RedisClient::DefaultTransporter::DefaultTransporter(RedisClient::Connection *c)
 {
 }
 
+RedisClient::DefaultTransporter::~DefaultTransporter()
+{
+    if (!socket.isNull())
+        socket->abort();
+}
+
 void RedisClient::DefaultTransporter::init()
 {
     if (!socket.isNull())
@@ -28,7 +34,9 @@ void RedisClient::DefaultTransporter::disconnect()
     if (socket.isNull())
         return;
 
-    socket->disconnectFromHost();
+    //socket->disconnectFromHost();
+    socket->abort();
+    socket.clear();
 }
 
 bool RedisClient::DefaultTransporter::connectToHost()

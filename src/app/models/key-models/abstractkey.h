@@ -13,6 +13,7 @@ public:
 
     QString getKeyName() override;
     int getTTL() override;
+    QString getState() override;
 
     bool isPartialLoadingSupported() override;
 
@@ -27,6 +28,9 @@ protected:
     int m_ttl;
     bool m_isKeyRemoved;
     unsigned long m_rowCount;
+
+    enum State { Initial, DataLoaded, Error };
+    State m_currentState;
 
     //multi row internal operations
     int getRowCount(const QString &countCmd);

@@ -19,6 +19,7 @@ public:
     virtual QStringList getColumnNames() = 0; // sync
     virtual QHash<int, QByteArray> getRoles() = 0; // sync
     virtual QString getData(int rowIndex, int dataRole) = 0; // sync
+    virtual QString getState() = 0; // sync
 
     virtual bool isPartialLoadingSupported() = 0; // sync
 

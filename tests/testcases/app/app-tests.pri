@@ -14,6 +14,8 @@ HEADERS  += \
     $$APP_SRC_DIR/models/key-models/setkey.h \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.h \
     $$APP_SRC_DIR/models/key-models/hashkey.h \
+    $$APP_SRC_DIR/models/consoleoperations.h \
+    $$APP_SRC_DIR/widgets/consoletabs.h \
 
 SOURCES += \
     $$PWD/test_*.cpp \
@@ -26,6 +28,8 @@ SOURCES += \
     $$APP_SRC_DIR/models/key-models/setkey.cpp \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.cpp \
     $$APP_SRC_DIR/models/key-models/hashkey.cpp \
+    $$APP_SRC_DIR/models/consoleoperations.cpp \
+    $$APP_SRC_DIR/widgets/consoletabs.cpp \
 
 OTHER_FILES += \
     connections.xml

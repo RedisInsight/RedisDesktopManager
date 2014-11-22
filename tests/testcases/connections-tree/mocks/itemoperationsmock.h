@@ -27,7 +27,6 @@ public:
 
     void disconnect() {}
 
-    virtual void openKeyTab(/* TBD */) override {}
-    virtual void openNewKeyTab(/* TBD */) override {}
+    virtual void openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab) override {}
     virtual void openConsoleTab() override {}
 };

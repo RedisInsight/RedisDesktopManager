@@ -1,4 +1,4 @@
-QT       += core gui network xml testlib concurrent widgets
+QT       += core gui network xml concurrent widgets quick quickwidgets testlib
 
 TARGET = tests
 TEMPLATE = app

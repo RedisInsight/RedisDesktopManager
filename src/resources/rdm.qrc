@@ -29,5 +29,7 @@
     </qresource>
     <qresource prefix="/">
         <file>qml/value-editor.qml</file>
+        <file>qml/WelcomeTab.qml</file>
+        <file>qml/ValueTabs.qml</file>
     </qresource>
 </RCC>

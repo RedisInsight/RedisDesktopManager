@@ -3,9 +3,9 @@
 #include "modules/redisclient/connectionconfig.h"
 #include "treeoperations.h"
 #include "connectionsmanager.h"
-#include "app/widgets/maintabswidget.h"
+#include "app/widgets/consoletabs.h"
 
-ConnectionsManager::ConnectionsManager(const QString& configPath, MainTabsWidget& tabs)
+ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs)
     : configPath(configPath), connectionSettingsChanged(false), m_tabs(tabs)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {

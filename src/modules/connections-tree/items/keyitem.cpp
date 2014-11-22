@@ -1,6 +1,5 @@
 #include "keyitem.h"
 #include "connections-tree/iconproxy.h"
-#include "value-editor/tab.h"
 #include <QMenu>
 
 using namespace ConnectionsTree;

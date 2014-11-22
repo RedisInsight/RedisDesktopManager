@@ -3,13 +3,13 @@
 #include "redisclient/connection.h"
 #include "redisclient/command.h"
 #include "redisclient/response.h"
-#include "app/widgets/maintabswidget.h"
+#include "app/widgets/consoletabs.h"
 #include "console/consoletab.h"
 #include "consoleoperations.h"
-#include "value-editor/tab.h"
+#include "value-editor/view.h"
 
-TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, MainTabsWidget& tabs)
-    : m_connection(connection), m_tabs(tabs)
+TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConsoleTabs& tabs)
+    : m_connection(connection), m_consoleTabs(tabs)
 {
 
 }
@@ -95,18 +95,18 @@ QString TreeOperations::getNamespaceSeparator()
 
 void TreeOperations::openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab)
 {
-    QSharedPointer<ValueEditor::Tab> tab(new ValueEditor::Tab());
+//    QSharedPointer<ValueEditor::Tab> tab(new ValueEditor::Tab());
 
-    if (openInNewTab) {
-        m_tabs.addTab(tab.staticCast<BaseTab>());
-    } else {
-        m_tabs.replaceCurrentTab(tab.staticCast<BaseTab>());
-    }
+//    if (openInNewTab) {
+//        m_tabs.addTab(tab.staticCast<BaseTab>());
+//    } else {
+//        m_tabs.replaceCurrentTab(tab.staticCast<BaseTab>());
+//    }
 }
 
 void TreeOperations::openConsoleTab()
 {       
     QSharedPointer<ConsoleModel> model(new ConsoleModel(m_connection));
     QSharedPointer<Console::ConsoleTab> tab(new Console::ConsoleTab(model.staticCast<Console::Operations>()));
-    m_tabs.addTab(tab.staticCast<BaseTab>());
+    m_consoleTabs.addTab(tab.staticCast<BaseTab>());
 }

@@ -12,6 +12,7 @@
 #include "testcases/connections-tree/test_serveritem.h"
 #include "testcases/connections-tree/test_databaseitem.h"
 #include "testcases/console/test_console.h"
+#include "testcases/value-editor/test_view.h"
 #include "redisclient/redisclient.h"
 
 int main(int argc, char *argv[])
@@ -37,6 +38,9 @@ int main(int argc, char *argv[])
             + QTest::qExec(new TestConnectionsManager, argc, argv)
             + QTest::qExec(new TestTreeOperations, argc, argv)
             + QTest::qExec(new TestKeyModels, argc, argv)
+
+            // value-editor module
+            + QTest::qExec(new TestView, argc, argv)
             ;
 
     if (allTestsResult == 0)

@@ -10,11 +10,12 @@
 
 #include "app/models/configmanager.h"
 #include "app/models/connectionsmanager.h"
+#include "app/models/key-models/keyfactory.h"
 #include "app/dialogs/connect.h"
 #include "app/dialogs/quickstartdialog.h"
 #include "modules/updater/updater.h"
 #include "modules/redisclient/redisclient.h"
-#include "modules/value-editor/sharedqmlengine.h"
+#include "modules/value-editor/view.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
@@ -33,8 +34,13 @@ MainWin::MainWin(QWidget *parent)
     initUpdater();    
     initSystemConsole();      
 
-    //init shared qml engine
-    ValueEditor::SharedQmlEngine::getSharedEngine();
+    ValueEditor::View* valueView = new ValueEditor::View();
+    valueView->setParent(ui.qmlParent);
+
+    QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, ui.qmlParent);
+    layout->setMargin(0);
+    layout->addWidget(valueView);
+    ui.qmlParent->setLayout(layout);
 }
 
 void MainWin::initConnectionsTreeView()
@@ -81,25 +87,20 @@ void MainWin::initFormButtons()
 
 void MainWin::initUpdater()
 {
-    //set current version
-    ui.applicationInfoLabel->setText(
-        ui.applicationInfoLabel->text().replace("%VERSION%", QApplication::applicationVersion())
-        );
-
     updater = QSharedPointer<Updater>(new Updater());
     connect(updater.data(), SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
 }
 
 void MainWin::initSystemConsole()
 {
-    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log", this);
-    systemConsoleActivator->setFlat(true);
-    systemConsoleActivator->setStyleSheet("border: 0px; margin: 0 5px; font-size: 11px;");
+//    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log", this);
+//    systemConsoleActivator->setFlat(true);
+//    systemConsoleActivator->setStyleSheet("border: 0px; margin: 0 5px; font-size: 11px;");
 
-    connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
+//    connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
 
-    ui.systemConsole->hide();
-    ui.statusBar->addPermanentWidget(systemConsoleActivator);
+//    ui.systemConsole->hide();
+//    ui.statusBar->addPermanentWidget(systemConsoleActivator);
 }
 
 void MainWin::showQuickStartDialog()
@@ -111,7 +112,7 @@ void MainWin::showQuickStartDialog()
 
 void MainWin::OnConsoleStateChanged()
 {
-    ui.systemConsole->setVisible(!ui.systemConsole->isVisible());
+//    ui.systemConsole->setVisible(!ui.systemConsole->isVisible());
 }
 
 void MainWin::OnAddConnectionClick()

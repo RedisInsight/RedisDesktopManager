@@ -2,6 +2,7 @@
 #include <QStyleFactory>
 #include <QDir>
 #include <QSettings>
+#include <QFontDatabase>
 
 #include "version.h"
 #include "modules/crashhandler/crashhandler.h"
