@@ -147,10 +147,6 @@ void TestConnection::connectWithAuth()
 
 void TestConnection::connectWithSshTunnelPass()
 {
-    #ifndef WIN32
-    QSKIP("This test requires ssh server")
-    #endif
-
     //given
     setSshSettings(config);
 
@@ -166,10 +162,6 @@ void TestConnection::connectWithSshTunnelPass()
 
 void TestConnection::connectWithSshTunnelKey()
 {
-    #ifndef WIN32
-    QSKIP("This test requires ssh server")
-    #endif
-
     //given
     setSshSettings(config, false);
 

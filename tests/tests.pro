@@ -21,7 +21,7 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
     $$PWD/
 
-DEFINES += INTEGRATION_TESTS
+#DEFINES += INTEGRATION_TESTS
 
 #TEST CASES
 include($$PWD/testcases/app/app-tests.pri)

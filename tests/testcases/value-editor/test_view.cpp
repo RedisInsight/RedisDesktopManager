@@ -5,7 +5,7 @@
 void TestView::testOpenKey()
 {
     //given
-    //TODO: FIXME
+    //TODO: FIXME view
 //    ValueEditor::View testView;
 
 //    QString testKeyName("testkey");
