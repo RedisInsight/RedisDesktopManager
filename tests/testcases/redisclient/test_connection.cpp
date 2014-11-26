@@ -147,6 +147,8 @@ void TestConnection::connectWithAuth()
 
 void TestConnection::connectWithSshTunnelPass()
 {
+    QSKIP("This test requires configured ssh server");
+
     //given
     setSshSettings(config);
 
@@ -162,7 +164,7 @@ void TestConnection::connectWithSshTunnelPass()
 
 void TestConnection::connectWithSshTunnelKey()
 {
-    Q_SKIP("This test requires configured ssh server");
+    QSKIP("This test requires configured ssh server");
 
     //given
     setSshSettings(config, false);
