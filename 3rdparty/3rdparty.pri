@@ -81,7 +81,7 @@ unix:!macx { # ubuntu & debian
     LIBS += /usr/local/lib/libssh2.a
     LIBS += -lcrypto -lz
 
-    PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
+    #PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
 
     HEADERS += $$BREAKPADDIR/client/linux/minidump_writer/cpu_set.h \
           $$BREAKPADDIR/client/linux/minidump_writer/proc_cpuinfo_reader.h \
