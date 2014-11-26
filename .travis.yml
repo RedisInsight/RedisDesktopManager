@@ -20,9 +20,6 @@ before_install:
 - sudo ln -s /usr/bin/g++-4.7 /usr/bin/g++
 - sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 before_script:
-- cd ./src
-#- sudo chmod a+x configure
-#- sudo ./configure
 - cd ./../tests
 script: 
   - qmake -v
@@ -30,9 +27,12 @@ script:
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
   - cd ./../src
+  - sudo chmod a+x configure
+  - sudo ./configure
   - qmake
   - make -s
 after_success:
+  - cd ./../tests
   - sudo pip install cpp-coveralls --use-mirrors
   - sudo sh ./coverage.sh
   - coveralls --exclude-pattern '.*\.h' --no-gcov
