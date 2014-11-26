@@ -26,7 +26,7 @@ before_script:
 - cd ./../tests
 script: 
   - qmake -v
-  - qmake
+  - qmake DEFINES+=INTEGRATION_TESTS
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
   - cd ./../src
