@@ -1,5 +1,5 @@
 #!/bin/sh
-cp -Rf ./../redis-desktop-manager/include ./
-cp -Rf ./../redis-desktop-manager/source ./
+cp -Rf ./../src/app ./
+cp -Rf ./../src/modules ./
 
-find . -name '*.cpp' -exec gcov -s ../redis-desktop-manager -o ./../bin/tests/obj {} \;
+find . -name '*.cpp' -exec gcov -s ../src -o ./../bin/tests/obj {} \;
