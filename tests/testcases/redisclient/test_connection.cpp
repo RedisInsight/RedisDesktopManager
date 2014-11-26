@@ -101,7 +101,7 @@ void TestConnection::runCommandWithoutConnection()
     bool hasException = false;
     try {
         CommandExecutor::execute(&connection, cmd);
-    } catch (Connection::Exception&) {
+    } catch (CommandExecutor::Exception&) {
         hasException = true;
     }
 

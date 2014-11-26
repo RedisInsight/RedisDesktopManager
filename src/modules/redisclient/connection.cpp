@@ -88,6 +88,8 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     m_addLock.lock();
 
     emit addCommandToWorker(cmd);
+
+    m_commandWaiter.wait(&m_addLock, 1000);
 }
 
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)

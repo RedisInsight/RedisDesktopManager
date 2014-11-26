@@ -2,7 +2,7 @@
 #include <QSet>
 
 RedisClient::Command::Command()
-    : owner(nullptr), commandWithArguments(""), dbIndex(-1), commandCanceled(false)
+    : owner(nullptr), commandWithArguments(), dbIndex(-1), commandCanceled(false)
 {
     
 }

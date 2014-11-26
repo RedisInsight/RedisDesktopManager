@@ -2,6 +2,7 @@
 #define CONNECTION_H
 
 #include <QObject>
+#include <QWaitCondition>
 #include "connectionconfig.h"
 #include "exception.h"
 
@@ -55,6 +56,7 @@ protected:
     QEventLoop m_loop;
     QEventLoop m_cmdLoop;
     QMutex m_addLock;
+    QWaitCondition m_commandWaiter;
     QTimer m_timeoutTimer;
     int m_dbNumber;
 
