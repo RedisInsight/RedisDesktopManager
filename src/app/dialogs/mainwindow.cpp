@@ -16,6 +16,7 @@
 #include "modules/updater/updater.h"
 #include "modules/redisclient/redisclient.h"
 #include "modules/value-editor/view.h"
+#include "modules/value-editor/viewmodel.h"
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
@@ -32,15 +33,7 @@ MainWin::MainWin(QWidget *parent)
     initContextMenus();
     initFormButtons();    
     initUpdater();    
-    initSystemConsole();      
-
-    ValueEditor::View* valueView = new ValueEditor::View();
-    valueView->setParent(ui.qmlParent);
-
-    QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, ui.qmlParent);
-    layout->setMargin(0);
-    layout->addWidget(valueView);
-    ui.qmlParent->setLayout(layout);
+    initSystemConsole();
 }
 
 void MainWin::initConnectionsTreeView()
@@ -59,7 +52,11 @@ void MainWin::initConnectionsTreeView()
         exit(1);
     }
 
-    connections = QSharedPointer<ConnectionsManager>(new ConnectionsManager(config, *ui.tabWidget));
+    initValuesView();
+
+    connections = QSharedPointer<ConnectionsManager>(
+                    new ConnectionsManager(config, *ui.tabWidget, m_keyValues)
+                );
 
     if (connections->size() == 0) {
         QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));
@@ -100,7 +97,26 @@ void MainWin::initSystemConsole()
 //    connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
 
 //    ui.systemConsole->hide();
-//    ui.statusBar->addPermanentWidget(systemConsoleActivator);
+    //    ui.statusBar->addPermanentWidget(systemConsoleActivator);
+}
+
+void MainWin::initValuesView()
+{
+    QSharedPointer<KeyFactory> keyFactory(new KeyFactory());
+
+    m_keyValues = QSharedPointer<ValueEditor::ViewModel>(
+                    new ValueEditor::ViewModel(
+                        keyFactory.staticCast<ValueEditor::AbstractKeyFactory>()
+                    )
+                );
+
+    ValueEditor::View* valueView = new ValueEditor::View(m_keyValues);
+    valueView->setParent(ui.qmlParent);
+
+    QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, ui.qmlParent);
+    layout->setMargin(0);
+    layout->addWidget(valueView);
+    ui.qmlParent->setLayout(layout);
 }
 
 void MainWin::showQuickStartDialog()

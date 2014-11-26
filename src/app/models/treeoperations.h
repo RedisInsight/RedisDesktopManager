@@ -11,7 +11,8 @@ class TreeOperations : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT
 public:
-    TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConsoleTabs& tabs);
+    TreeOperations(QSharedPointer<RedisClient::Connection> connection,
+                   ConsoleTabs& tabs);
 
     void getDatabases(std::function<void(DatabaseList)>) override;
 
@@ -21,9 +22,14 @@ public:
 
     QString getNamespaceSeparator() override;    
 
-    virtual void openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab = false) override;
+    virtual void openKeyTab(const QString& fullPath, int dbIndex,
+                            bool openInNewTab = false) override;
 
     virtual void openConsoleTab() override;
+
+signals:
+    void openValueTab(QSharedPointer<RedisClient::Connection> connection,
+                      const QString& fullPath, int dbIndex, bool inNewTab);
 
 private:
      QSharedPointer<RedisClient::Connection> m_connection;

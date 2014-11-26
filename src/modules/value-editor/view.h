@@ -14,7 +14,7 @@ class View : public QWidget
 {
     Q_OBJECT    
 public:
-    View();  
+    View(QSharedPointer<ViewModel> viewModel);
 
 private:
     QSharedPointer<QQuickView> m_qml;

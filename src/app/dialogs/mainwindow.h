@@ -8,6 +8,10 @@
 class ConnectionsManager;
 class Updater;
 
+namespace ValueEditor {
+    class ViewModel;
+}
+
 class MainWin : public QMainWindow
 {
     Q_OBJECT
@@ -21,12 +25,14 @@ private:
 
     QSharedPointer<Updater> updater;    
     QSharedPointer<QMenu> connectionsMenu;
+    QSharedPointer<ValueEditor::ViewModel> m_keyValues;
 
     void initFormButtons();
     void initConnectionsTreeView();    
     void initContextMenus();    
     void initUpdater();    
     void initSystemConsole();
+    void initValuesView();
 
 private slots:
     void OnAddConnectionClick();

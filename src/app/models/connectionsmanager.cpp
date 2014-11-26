@@ -1,12 +1,18 @@
 #include <QtXml>
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/redisclient/connectionconfig.h"
+#include "modules/value-editor/viewmodel.h"
 #include "treeoperations.h"
 #include "connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
+#include "modules/value-editor/viewmodel.h"
 
-ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs)
-    : configPath(configPath), connectionSettingsChanged(false), m_tabs(tabs)
+ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
+                                       QSharedPointer<ValueEditor::ViewModel> values)
+    : configPath(configPath),
+      connectionSettingsChanged(false),
+      m_tabs(tabs),
+      m_values(values)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {
         loadConnectionsConfigFromFile(configPath);
@@ -30,6 +36,9 @@ void ConnectionsManager::addConnection(QSharedPointer<RedisClient::Connection> c
     using namespace ConnectionsTree;
 
     QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_tabs));
+
+    QObject::connect(treeModel.data(), &TreeOperations::openValueTab,
+                     m_values.data(), &ValueEditor::ViewModel::openTab);
 
     QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
                 new ServerItem(connection->getConfig().name,

@@ -2,6 +2,7 @@
 
 #include <QAbstractListModel>
 #include <QString>
+#include <QByteArray>
 #include <QSharedPointer>
 #include "abstractkeyfactory.h"
 #include "keymodel.h"
@@ -21,7 +22,6 @@ public:
 public:
     ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory);
 
-    void openKey(const QString& keyFullPath, int dbIndex);
     Q_INVOKABLE Model* getValueModel(int index);
     Q_INVOKABLE void closeKey(int index);
 
@@ -29,12 +29,19 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     bool setData(const QModelIndex& index, const QVariant& value, int role);
+    QHash<int, QByteArray> roleNames() const override;
+
+public slots:
+    void openTab(QSharedPointer<RedisClient::Connection> connection,
+                 const QString& keyFullPath, int dbIndex, bool inNewTab);
 
 private:
     QList<QSharedPointer<Model>> m_valueModels;
     QSharedPointer<AbstractKeyFactory> m_keyFactory;
 
     bool isIndexValid(const QModelIndex &index) const;
+    void loadModel(QSharedPointer<Model> model);
+
 };
 
 }

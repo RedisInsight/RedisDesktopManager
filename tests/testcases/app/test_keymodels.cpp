@@ -150,8 +150,8 @@ void TestKeyModels::testValueLoading_data()
 QSharedPointer<ValueEditor::Model> TestKeyModels::getKeyModel(QSharedPointer<RedisClient::Connection> connection)
 {
     QSharedPointer<ValueEditor::Model> actualResult;
-    KeyFactory factory(connection);
-    factory.loadKey("testKey", 0, [&actualResult](QSharedPointer<ValueEditor::Model> model) {
+    KeyFactory factory;
+    factory.loadKey(connection, "testKey", 0, [&actualResult](QSharedPointer<ValueEditor::Model> model) {
         actualResult = model;
     });
 

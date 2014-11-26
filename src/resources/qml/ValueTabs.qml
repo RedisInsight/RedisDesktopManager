@@ -2,11 +2,12 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
+import QtQuick.Dialogs 1.2
 
 Repeater {
 
     Tab {
-        title: name // "test:test:test:key"
+        title: keyName
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 5
@@ -19,10 +20,52 @@ Repeater {
                 spacing: 1
 
                 Text { text: "Key:" }
-                TextField { Layout.fillWidth: true; text: name}
-                Button { text: "Rename" }
+                TextField { Layout.fillWidth: true; text: keyName}
+
+                Button {
+                    text: "Rename"
+
+                    MessageDialog {
+                        id: renameConfirmation
+                        title: "Rename key"
+                        text: "Do you really want to rename this key?"
+                        onAccepted: {
+                            // TODO
+                        }
+                        visible: false
+                        modality: Qt.WindowModal
+                        icon: StandardIcon.Warning
+                        standardButtons: StandardButton.Yes | StandardButton.No
+                    }
+
+                    onClicked: {
+                        renameConfirmation.open()
+                    }
+                }
+
                 Button { text: "Reload" }
-                Button { text: "Delete" }
+
+                Button {
+                    text: "Delete"
+
+
+                    MessageDialog {
+                        id: deleteConfirmation
+                        title: "Delete key"
+                        text: "Do you really want to delete this key?"
+                        onAccepted: {
+                            // TODO
+                        }
+                        visible: false
+                        modality: Qt.WindowModal
+                        icon: StandardIcon.Warning
+                        standardButtons: StandardButton.Yes | StandardButton.No
+                    }
+
+                    onClicked: {
+                        deleteConfirmation.open()
+                    }
+                }
             }
 
             RowLayout {
@@ -31,11 +74,18 @@ Repeater {
                 Layout.minimumHeight: 40
 
                 Text { text: "Type:"; font.bold: true }
-                Text { text: "ZSET"  }
+                Text { text: keyType.toUpperCase()  }
                 Text { text: "TTL:"; font.bold: true }
-                Text { text: "100012"}
+                Text { text: keyTtl}
+            }
 
-                //pagination
+            RowLayout {
+                id: pagination
+                visible: showValueNavigation
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+                Layout.minimumHeight: 40
+
                 Button { text: "|<"}
                 Button { text: "<"}
                 TextField { text: "1"; Layout.fillWidth: true; readOnly: false}
@@ -48,6 +98,7 @@ Repeater {
 
             TableView {
                 id: table
+                visible: showValueNavigation
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.minimumHeight: 100
@@ -59,9 +110,16 @@ Repeater {
 
             ColumnLayout {
                 Layout.fillWidth: true
+                Layout.fillHeight: !showValueNavigation
 
                 TextArea {
                     Layout.fillWidth: true
+                    Layout.fillHeight: !showValueNavigation
+                    text: {
+                        if (keyType === "string") {
+
+                        }
+                    }
                 }
                 RowLayout {
                     Layout.fillWidth: true

@@ -12,6 +12,7 @@ class Model : public QObject
     Q_OBJECT	
     ADD_EXCEPTION
 public:
+    Model() {}
     virtual QString getKeyName() = 0; // sync
 
     virtual QString getType() = 0; // sync

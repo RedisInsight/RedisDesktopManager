@@ -6,12 +6,17 @@
 
 class ConsoleTabs;
 
+namespace ValueEditor {
+    class ViewModel;
+}
+
 class ConnectionsManager : public ConnectionsTree::Model
 {
     Q_OBJECT    
 
 public:
-    ConnectionsManager(const QString& configPath, ConsoleTabs& tabs);
+    ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
+                       QSharedPointer<ValueEditor::ViewModel> values);
     ~ConnectionsManager(void);
 
     void addConnection(QSharedPointer<RedisClient::Connection> connection);
@@ -25,6 +30,7 @@ private:
     bool connectionSettingsChanged;
     QList<QSharedPointer<RedisClient::Connection>> connections;
     ConsoleTabs& m_tabs;
+    QSharedPointer<ValueEditor::ViewModel> m_values;
 
 protected:
     bool loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);

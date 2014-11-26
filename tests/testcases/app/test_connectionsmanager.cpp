@@ -3,6 +3,10 @@
 #include "test_connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
 
+namespace ValueEditor {
+    class ViewModel;
+}
+
 void TestConnectionsManager::LoadConnectionsConfigFromFile()
 {
 	//given
@@ -11,7 +15,7 @@ void TestConnectionsManager::LoadConnectionsConfigFromFile()
     ConsoleTabs tabsWidget;
 
 	//when loads connections
-    ConnectionsManager testManager(configTestFile, tabsWidget);
+    ConnectionsManager testManager(configTestFile, tabsWidget, QSharedPointer<ValueEditor::ViewModel>());
 
 	//then
     QCOMPARE(testManager.size(), 1);

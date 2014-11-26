@@ -95,13 +95,8 @@ QString TreeOperations::getNamespaceSeparator()
 
 void TreeOperations::openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab)
 {
-//    QSharedPointer<ValueEditor::Tab> tab(new ValueEditor::Tab());
-
-//    if (openInNewTab) {
-//        m_tabs.addTab(tab.staticCast<BaseTab>());
-//    } else {
-//        m_tabs.replaceCurrentTab(tab.staticCast<BaseTab>());
-//    }
+    emit openValueTab(m_connection, fullPath, dbIndex, openInNewTab);
+    qDebug() << "open key:" << fullPath;
 }
 
 void TreeOperations::openConsoleTab()

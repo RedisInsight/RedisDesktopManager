@@ -6,6 +6,7 @@ HEADERS  += \
     $$PWD/mocks/*.h \
     $$VALUEEDITOR_SRC_DIR/view.h \
     $$VALUEEDITOR_SRC_DIR/viewmodel.h \
+    $$VALUEEDITOR_SRC_DIR/keymodel.h \
 
 SOURCES += \
     $$PWD/*.cpp \

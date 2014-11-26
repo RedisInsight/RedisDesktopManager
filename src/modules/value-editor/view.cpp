@@ -8,13 +8,14 @@
 
 using namespace ValueEditor;
 
-View::View()
+View::View(QSharedPointer<ViewModel> viewModel)
     : QWidget(), m_qml(nullptr)
 {    
     m_qml = QSharedPointer<QQuickView>(new QQuickView());
 
     m_qml->setResizeMode(QQuickView::SizeRootObjectToView);
     m_qml->rootContext()->setContextProperty("appVersion", QApplication::applicationVersion());
+    m_qml->rootContext()->setContextProperty("viewModel", viewModel.data());
     m_qml->setSource(QUrl(QStringLiteral("qrc:///qml/value-editor.qml")));
 
     QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight, this);

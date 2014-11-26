@@ -15,11 +15,6 @@ Item {
 
         WelcomeTab {}
 
-        ValueTabs { model: fakeModel }
-
-        ListModel{
-            id: fakeModel
-            ListElement { name: "test" }
-        }
+        ValueTabs { model: viewModel }
     }
 }

@@ -1,18 +1,23 @@
 #include "viewmodel.h"
+#include <QDebug>
 
 ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
     : m_keyFactory(keyFactory)
 {
-//    keyFactory->loadKey(fullKeyPath, dbIndex, [this](QSharedPointer<Model> keyModel) {
-//        loadModel(keyModel);
-//    });
-
-//    setCurrentState(State::Loading);
 }
 
-void ValueEditor::ViewModel::openKey(const QString &keyFullPath, int dbIndex)
+void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
+                                     const QString &keyFullPath, int dbIndex, bool inNewTab)
 {
+    m_keyFactory->loadKey(connection, keyFullPath, dbIndex,
+                        [this](QSharedPointer<Model> keyModel) {
+                            loadModel(keyModel);
+                            qDebug() << "Key model loaded:"
+                                     << keyModel->getKeyName()
+                                     << keyModel->getType();
 
+                        });
+    // TODO: add empty key model for loading
 }
 
 ValueEditor::Model *ValueEditor::ViewModel::getValueModel(int index)
@@ -66,9 +71,29 @@ bool ValueEditor::ViewModel::setData(const QModelIndex &index, const QVariant &v
     return false; //TBD
 }
 
+QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[keyNameRole] = "keyName";
+    roles[keyTTL] = "keyTtl";
+    roles[keyType] = "keyType";
+    roles[state] = "keyState";
+    roles[showValueNavigation] = "showValueNavigation";
+    roles[columnNames] = "columnNames";
+    roles[count] = "valuesCount";
+    return roles;
+}
+
 bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
 {
     return 0 <= index.row() && index.row() < rowCount();
+}
+
+void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model)
+{
+    beginInsertRows(QModelIndex(), m_valueModels.count(), m_valueModels.count());
+    m_valueModels.append(model);
+    endInsertRows();
 }
 
 //void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> m, bool loadLargeKeysInLegacy)
