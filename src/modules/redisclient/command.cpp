@@ -26,11 +26,25 @@ RedisClient::Command::Command(const QStringList &cmd, QObject *owner, std::funct
 
 }
 
-RedisClient::Command::Command(const QStringList &cmd, int db)
+RedisClient::Command::Command(const QStringList& cmd, int db)
     : owner(nullptr), commandWithArguments(cmd),
       dbIndex(db), commandCanceled(false)
 {
 
+}
+
+RedisClient::Command::Command(int db)
+    : owner(nullptr), commandWithArguments(),
+      dbIndex(db), commandCanceled(false)
+{
+
+}
+
+RedisClient::Command &RedisClient::Command::operator <<(const QString &part)
+{
+    this->commandWithArguments.append(part);
+
+    return *this;
 }
 
 RedisClient::Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)

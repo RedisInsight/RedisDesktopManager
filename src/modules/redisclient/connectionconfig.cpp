@@ -41,7 +41,7 @@ void RedisClient::ConnectionConfig::setSshTunnelSettings(QString host, QString u
     sshPrivateKeyPath = privateKey;
 }
 
-bool RedisClient::ConnectionConfig::isNull()
+bool RedisClient::ConnectionConfig::isNull() const
 {
     return host.isEmpty() || port <= 0 || name.isEmpty();
 }
@@ -57,6 +57,11 @@ bool RedisClient::ConnectionConfig::useSshTunnel() const
 bool RedisClient::ConnectionConfig::useAuth() const
 {
     return !(auth.isEmpty());
+}
+
+bool RedisClient::ConnectionConfig::isValid() const
+{
+    return isNull() == false && connectionTimeout > 1000 && executeTimeout > 1000;
 }
 
 QString RedisClient::ConnectionConfig::getSshPrivateKey()

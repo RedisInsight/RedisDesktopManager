@@ -72,13 +72,13 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
     QObject::connect(openInNewTab, &QAction::triggered, [this] { m_operations->openKeyTab(m_fullPath, m_dbIndex, true); });
     menu->addAction(openInNewTab);
 
-    menu->addSeparator();
+//    menu->addSeparator();
 
-    QAction* rename = new QAction(QIcon(":/images/editdb.png"), "Rename key", menu.data());
-    menu->addAction(rename);
+//    QAction* rename = new QAction(QIcon(":/images/editdb.png"), "Rename key", menu.data());
+//    menu->addAction(rename);
 
-    QAction* remove = new QAction(QIcon(":/images/delete.png"), "Delete key", menu.data());
-    menu->addAction(remove);
+//    QAction* remove = new QAction(QIcon(":/images/delete.png"), "Delete key", menu.data());
+//    menu->addAction(remove);
 
     return menu;
 }
@@ -90,6 +90,6 @@ bool KeyItem::isLocked() const
 
 bool KeyItem::isEnabled() const
 {
-    return !isLocked() && m_removed;
+    return isLocked() == false && m_removed == false;
 }
 

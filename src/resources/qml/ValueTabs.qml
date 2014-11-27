@@ -7,7 +7,15 @@ import QtQuick.Dialogs 1.2
 Repeater {
 
     Tab {
+        id: keyTab
+
+        function close(index) {
+            viewModel.closeTab(tabIndex)
+        }
+
         title: keyName
+        property int tabIndex: keyIndex
+
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 5
@@ -20,41 +28,57 @@ Repeater {
                 spacing: 1
 
                 Text { text: "Key:" }
-                TextField { Layout.fillWidth: true; text: keyName}
+                TextField {
+                    id: keyNameField
+                    Layout.fillWidth: true
+                    text: keyName
+                    readOnly: true                    
+                }
 
                 Button {
                     text: "Rename"
 
-                    MessageDialog {
+                    Dialog {
                         id: renameConfirmation
                         title: "Rename key"
-                        text: "Do you really want to rename this key?"
-                        onAccepted: {
-                            // TODO
+
+                        RowLayout {
+                            implicitWidth: 500
+                            implicitHeight: 100
+                            width: 500
+
+                            Text { text: "New name:" }
+                            TextField { id: newKeyName; Layout.fillWidth: true;}
                         }
+
+                        onAccepted: {
+                            console.log(newKeyName.text)
+                            viewModel.renameKey(keyTab.keyIndex, newKeyName.text)
+                        }
+
                         visible: false
                         modality: Qt.WindowModal
-                        icon: StandardIcon.Warning
-                        standardButtons: StandardButton.Yes | StandardButton.No
+                        standardButtons: StandardButton.Ok | StandardButton.Cancel
                     }
 
                     onClicked: {
+                        newKeyName.text = keyNameField.text
                         renameConfirmation.open()
                     }
                 }
 
-                Button { text: "Reload" }
+                //Button { text: "Reload" } // TBD
 
                 Button {
                     text: "Delete"
-
 
                     MessageDialog {
                         id: deleteConfirmation
                         title: "Delete key"
                         text: "Do you really want to delete this key?"
-                        onAccepted: {
-                            // TODO
+                        onYes: {
+                            console.log("remove key")
+                            viewModel.removeKey(keyTab.keyIndex)
                         }
                         visible: false
                         modality: Qt.WindowModal
@@ -117,7 +141,7 @@ Repeater {
                     Layout.fillHeight: !showValueNavigation
                     text: {
                         if (keyType === "string") {
-
+                            return "" // TBD
                         }
                     }
                 }

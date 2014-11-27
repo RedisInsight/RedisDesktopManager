@@ -14,6 +14,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
     : m_name(name),
       m_locked(false),
       m_databaseListLoaded(false),
+      m_row(0),
       m_operations(operations),
       m_model(model)
 {
@@ -69,7 +70,17 @@ QSharedPointer<TreeItem> ServerItem::child(int row) const
     return QSharedPointer<TreeItem>();
 }
 
-const TreeItem *ServerItem::parent() const {return nullptr; }
+const TreeItem *ServerItem::parent() const { return nullptr; }
+
+int ServerItem::row() const
+{
+    return m_row;
+}
+
+void ServerItem::setRow(int r)
+{
+    m_row = r;
+}
 
 QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
 {
@@ -147,7 +158,7 @@ void ServerItem::load()
             dbIndex = dbIndex.remove(0,2);
             index = dbIndex.toInt();
 
-            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, this)));
+            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, this)));            
 
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));

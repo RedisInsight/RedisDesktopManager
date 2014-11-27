@@ -15,7 +15,8 @@ namespace ConnectionsTree {
         Q_OBJECT
 
     public:
-        ServerItem(const QString& name, QSharedPointer<Operations> operations, const Model& model);
+        ServerItem(const QString& name, QSharedPointer<Operations> operations,
+                   const Model& model);
         ~ServerItem();
 
         QString getDisplayName() const override;
@@ -24,6 +25,9 @@ namespace ConnectionsTree {
         uint childCount() const override;
         QSharedPointer<TreeItem> child(int row) const override;
         const TreeItem* parent() const override;
+
+        int row() const override;
+        void setRow(int r);
 
         bool onClick(ParentView& treeView) override;
         void onWheelClick(ParentView& treeView) override {}
@@ -50,6 +54,7 @@ namespace ConnectionsTree {
         QString m_name;
         bool m_locked;        
         bool m_databaseListLoaded;
+        int m_row;
         QSharedPointer<Operations> m_operations;
         QList<QSharedPointer<TreeItem>> m_databases;
         const Model& m_model;

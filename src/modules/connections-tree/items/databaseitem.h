@@ -14,7 +14,10 @@ class DatabaseItem : public QObject, public TreeItem
     Q_OBJECT
 
 public:
-    DatabaseItem(const QString& displayName, unsigned int index, int keysCount, QSharedPointer<Operations> operations, const TreeItem *parent);
+    DatabaseItem(const QString& displayName, unsigned int index, int keysCount,
+                 QSharedPointer<Operations> operations, const TreeItem *parent);
+
+    ~DatabaseItem();
 
     QString getDisplayName() const override;
     QIcon getIcon() const override;

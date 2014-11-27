@@ -65,7 +65,7 @@ QModelIndex Model::parent(const QModelIndex &index) const
     if (parentItem == nullptr)
         return QModelIndex();
 
-    return createIndex(/*parentItem->row()*/0, 0, (void*)parentItem);
+    return createIndex(parentItem->row(), 0, (void*)parentItem);
 }
 
 int Model::rowCount(const QModelIndex &parent) const
@@ -95,6 +95,7 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
         return;
 
     int insertIndex = m_treeItems.size();
+    item->setRow(insertIndex);
 
     emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);    
 

@@ -23,6 +23,11 @@ DatabaseItem::DatabaseItem(const QString& displayName,
     QObject::connect(&m_keysLoadingWatcher, SIGNAL(finished()), this, SLOT(onKeysRendered()));
 }
 
+DatabaseItem::~DatabaseItem()
+{
+    m_parent = nullptr;
+}
+
 QString DatabaseItem::getDisplayName() const
 {
     return m_keys.isEmpty()? m_name : QString("%1 (%2/%3)").arg(m_name).arg(m_keysCount).arg(childCount());

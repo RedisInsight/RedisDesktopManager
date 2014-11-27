@@ -43,9 +43,10 @@ public:
     void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT, 
                                 QString sshPrivatekey = "");
     
-    bool isNull();
+    bool isNull() const;
     bool useSshTunnel() const;
     bool useAuth() const;
+    bool isValid() const;
     
     QString getSshPrivateKey();    
 

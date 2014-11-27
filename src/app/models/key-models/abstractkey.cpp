@@ -37,12 +37,22 @@ bool KeyModel::isPartialLoadingSupported()
 
 void KeyModel::setKeyName(const QString &newKeyName)
 {
-    QStringList renameCommand;
+    auto cmd = RedisClient::Command(m_dbIndex)
+               << "RENAMENX" << m_keyFullPath << newKeyName;
 
-    renameCommand << "RENAME" << m_keyFullPath << newKeyName;
+    RedisClient::Response result;
 
-    //db->runCommand(RedisClient::Command(renameCommand, this, "loadedRenameStatus", dbIndex));
-    // TBD
+    try {
+        result = RedisClient::CommandExecutor::execute(m_connection, cmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
+
+    if (result.getValue().toInt() == 0) {
+        throw Exception("Key with new name already exist in database");
+    }
+
+    m_keyFullPath = newKeyName;
 }
 
 void KeyModel::setTTL(int)
@@ -51,13 +61,19 @@ void KeyModel::setTTL(int)
 }
 
 void KeyModel::removeKey()
-{
-    QStringList deleteCommand;
+{   
+    auto cmd = RedisClient::Command(m_dbIndex)
+               << "DEL" << m_keyFullPath << m_keyFullPath;
 
-    deleteCommand << "DEL" << m_keyFullPath;
+    RedisClient::Response result;
 
-    //db->runCommand(RedisClient::Command(deleteCommand, this, "loadedDeleteStatus", dbIndex));
-    //TBD
+    try {
+        result = RedisClient::CommandExecutor::execute(m_connection, cmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
+
+    m_isKeyRemoved = true;
 }
 
 int KeyModel::getRowCount(const QString &countCmd)

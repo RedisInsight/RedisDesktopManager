@@ -7,7 +7,7 @@
 
 class KeyModel : public ValueEditor::Model
 {
-    Q_OBJECT
+    Q_OBJECT    
 public:
     KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
@@ -30,7 +30,7 @@ protected:
     unsigned long m_rowCount;
 
     enum State { Initial, DataLoaded, Error };
-    State m_currentState;
+    State m_currentState;        
 
     //multi row internal operations
     int getRowCount(const QString &countCmd);

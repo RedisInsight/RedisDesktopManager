@@ -48,8 +48,7 @@ signals:
     void authOk();
     void authError(const QString&);
 
-protected:
-    bool m_isTransporterInitialized;
+protected:    
     bool m_connected;    
     QSharedPointer<QThread> m_transporterThread;
     QSharedPointer<AbstractTransporter> m_transporter;
@@ -62,6 +61,7 @@ protected:
 
     void setConnectedState();
     void createTransporter();
+    bool isTransporterRunning();
 
 protected slots:
     void connectionReady();

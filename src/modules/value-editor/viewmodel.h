@@ -16,20 +16,34 @@ class ViewModel : public QAbstractListModel
 public:
     enum Roles {
         keyNameRole = Qt::UserRole + 1,
-        keyTTL, keyType, state, showValueNavigation, columnNames, count
+        keyIndex,
+        keyTTL,
+        keyType,
+        state,
+        showValueNavigation,
+        columnNames,
+        count
     };
 
 public:
     ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory);
-
-    Q_INVOKABLE Model* getValueModel(int index);
-    Q_INVOKABLE void closeKey(int index);
 
     QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     bool setData(const QModelIndex& index, const QVariant& value, int role);
     QHash<int, QByteArray> roleNames() const override;
+
+
+public: // methods exported to QML
+    Q_INVOKABLE void renameKey(int index, const QString& newKeyName);
+    Q_INVOKABLE void removeKey(int i);
+    Q_INVOKABLE void closeTab(int i);
+    Q_INVOKABLE void setCurrentTab(int i);
+
+signals:
+    void keyError(int index, const QString& error);
+    void closeWelcomeTab();
 
 public slots:
     void openTab(QSharedPointer<RedisClient::Connection> connection,
@@ -40,7 +54,8 @@ private:
     QSharedPointer<AbstractKeyFactory> m_keyFactory;
 
     bool isIndexValid(const QModelIndex &index) const;
-    void loadModel(QSharedPointer<Model> model);
+    void loadModel(QSharedPointer<Model> model, bool openNewTab = false);
+    int m_currentTabIndex;
 
 };
 

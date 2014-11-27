@@ -16,8 +16,18 @@ TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connectio
 
 void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operations::DatabaseList)> callback)
 {
-    if (!m_connection->isConnected() && !m_connection->connect()) {
-        throw ConnectionsTree::Operations::Exception("Cannot connect to host");
+    if (!m_connection->isConnected()) {
+
+        bool result;
+
+        try {
+            result = m_connection->connect();
+        } catch (const RedisClient::Connection::Exception& e) {
+            throw ConnectionsTree::Operations::Exception("Cannot connect to host: " + QString(e.what()));
+        }
+
+        if (!result)
+            throw ConnectionsTree::Operations::Exception("Cannot connect to host");
     }
 
     using namespace RedisClient;

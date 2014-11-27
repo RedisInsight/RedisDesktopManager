@@ -4,7 +4,7 @@
 #include "commandexecutor.h"
 
 RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
-    : config(c), m_isTransporterInitialized(false), m_connected(false), m_dbNumber(-1)
+    : config(c), m_connected(false), m_dbNumber(-1)
 {            
     m_timeoutTimer.setSingleShot(true);
     QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), &m_loop, SLOT(quit()));
@@ -15,17 +15,20 @@ RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
 
 RedisClient::Connection::~Connection()
 {
-    if (m_isTransporterInitialized)
+    if (isTransporterRunning())
         disconnect();
 }
 
 bool RedisClient::Connection::connect() // todo: add block/unblock parameter
 {
     if (isConnected())
-        return true;
+        return true;    
 
-    if (m_isTransporterInitialized)
+    if (isTransporterRunning())
         return false;
+
+    if (config.isValid() == false)
+        throw Exception("Invalid config detected");
 
     if (m_transporter.isNull())
         createTransporter();
@@ -49,8 +52,7 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
     QObject::connect(this, SIGNAL(authError(const QString&)), &loop, SLOT(quit()));
     QObject::connect(this, SIGNAL(authOk()), &loop, SLOT(quit()));
 
-    m_transporterThread->start();
-    m_isTransporterInitialized = true;
+    m_transporterThread->start();    
     timeoutTimer.start(config.connectionTimeout);
     loop.exec();
 
@@ -67,10 +69,9 @@ bool RedisClient::Connection::isConnected()
 
 void RedisClient::Connection::disconnect()
 {
-    if (m_isTransporterInitialized && m_transporterThread->isRunning()) {
+    if (isTransporterRunning()) {
         m_transporterThread->quit();
-        m_transporterThread->wait();
-        m_isTransporterInitialized = false;
+        m_transporterThread->wait();        
         m_transporter.clear();
     }
 
@@ -82,14 +83,14 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     if (!cmd.isValid())
         throw Exception("Command is not valid");
 
-    if (!m_isTransporterInitialized || !m_connected)
+    if (!isTransporterRunning() || !m_connected)
         throw Exception("Try run command in not connected state");
 
     m_addLock.lock();
 
     emit addCommandToWorker(cmd);
 
-    m_commandWaiter.wait(&m_addLock, 1000);
+    //m_commandWaiter.wait(&m_addLock, 1000);
 }
 
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
@@ -97,7 +98,7 @@ bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
     if (isConnected())
         return true;
 
-    if (!m_isTransporterInitialized)
+    if (!isTransporterRunning())
         return false;
 
     m_timeoutTimer.start(timeoutInMs);
@@ -141,6 +142,11 @@ void RedisClient::Connection::createTransporter()
     }
 }
 
+bool RedisClient::Connection::isTransporterRunning()
+{
+    return m_transporter.isNull() == false && m_transporterThread->isRunning();
+}
+
 void RedisClient::Connection::connectionReady()
 {
     // todo: create signal in operations::auth() method and connect to this signal
@@ -170,7 +176,7 @@ void RedisClient::Connection::auth()
         setConnectedState();
         emit authOk();
     } else {
-        emit authError("Redis server require password or password invalid");
+        emit authError("Redis server require password or password invalid");        
         m_connected = false;
     }
 }
