@@ -41,10 +41,11 @@ After installation Redis Desktop Manager will be available in main menu.
 ### Other Linux ###
 You can build Redis Desktop Manager from source.
 
-1. Install Qt 5.3.0
-2. Install openssl 1.0.0
-2. Run:
-	`./configure && qmake redis-desktop-manager.pro && make`
+1. Install Qt 5.3.2+
+2. Install openssl 1.0.0+
+3. Install libssh2
+4. Run:
+	`qmake ./src/rdm.pro && make`
 
 
 
