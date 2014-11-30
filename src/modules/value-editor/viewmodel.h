@@ -7,6 +7,10 @@
 #include "abstractkeyfactory.h"
 #include "keymodel.h"
 
+namespace ConnectionsTree {
+    class KeyItem;
+}
+
 namespace ValueEditor {
 
 class ViewModel : public QAbstractListModel
@@ -47,7 +51,7 @@ signals:
 
 public slots:
     void openTab(QSharedPointer<RedisClient::Connection> connection,
-                 const QString& keyFullPath, int dbIndex, bool inNewTab);
+                 ConnectionsTree::KeyItem& key, bool inNewTab);
 
 private:
     QList<QSharedPointer<Model>> m_valueModels;

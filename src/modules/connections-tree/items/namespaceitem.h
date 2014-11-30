@@ -23,6 +23,7 @@ namespace ConnectionsTree {
         QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
 
         bool isLocked() const override;
+        bool isEnabled() const override;
 
         void append(QSharedPointer<TreeItem> item);
 

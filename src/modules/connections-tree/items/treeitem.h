@@ -51,6 +51,7 @@ public:
     virtual QSharedPointer<QMenu> getContextMenu(ParentView& treeView) = 0;
 
     virtual bool isLocked() const = 0;
+    virtual bool isEnabled() const = 0;
 
     virtual ~TreeItem() {}
 };

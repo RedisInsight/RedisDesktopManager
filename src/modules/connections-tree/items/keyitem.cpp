@@ -49,7 +49,7 @@ const TreeItem *KeyItem::parent() const
 bool KeyItem::onClick(ParentView&)
 {
     if (isEnabled())
-        m_operations->openKeyTab(m_fullPath, m_dbIndex, false);
+        m_operations->openKeyTab(*this, false);
 
     return false;
 }
@@ -57,7 +57,7 @@ bool KeyItem::onClick(ParentView&)
 void KeyItem::onWheelClick(ParentView&)
 {    
     if (isEnabled())
-        m_operations->openKeyTab(m_fullPath, m_dbIndex, true);
+        m_operations->openKeyTab(*this, true);
 }
 
 QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
@@ -65,20 +65,12 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
     QSharedPointer<QMenu> menu(new QMenu());
 
     QAction* openKey = new QAction(QIcon(":/images/add.png"), "Open key", menu.data());
-    QObject::connect(openKey, &QAction::triggered, [this] { m_operations->openKeyTab(m_fullPath, m_dbIndex, false); });
+    QObject::connect(openKey, &QAction::triggered, [this] { m_operations->openKeyTab(*this, false); });
     menu->addAction(openKey);
 
     QAction* openInNewTab = new QAction(QIcon(":/images/add.png"), "Open key value in new tab", menu.data());
-    QObject::connect(openInNewTab, &QAction::triggered, [this] { m_operations->openKeyTab(m_fullPath, m_dbIndex, true); });
+    QObject::connect(openInNewTab, &QAction::triggered, [this] { m_operations->openKeyTab(*this, true); });
     menu->addAction(openInNewTab);
-
-//    menu->addSeparator();
-
-//    QAction* rename = new QAction(QIcon(":/images/editdb.png"), "Rename key", menu.data());
-//    menu->addAction(rename);
-
-//    QAction* remove = new QAction(QIcon(":/images/delete.png"), "Delete key", menu.data());
-//    menu->addAction(remove);
 
     return menu;
 }
@@ -91,5 +83,20 @@ bool KeyItem::isLocked() const
 bool KeyItem::isEnabled() const
 {
     return isLocked() == false && m_removed == false;
+}
+
+QString KeyItem::getFullPath() const
+{
+    return m_fullPath;
+}
+
+int KeyItem::getDbIndex() const
+{
+    return m_dbIndex;
+}
+
+void KeyItem::setRemoved()
+{
+    m_removed = true;
 }
 

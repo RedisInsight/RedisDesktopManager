@@ -18,6 +18,7 @@ namespace ConnectionsTree {
         explicit Model(QObject *parent = 0);
 
         QVariant data(const QModelIndex &index, int role) const;
+        Qt::ItemFlags flags(const QModelIndex& index) const;
         QModelIndex index(int row, int column, const QModelIndex & parent) const;
         QModelIndex parent(const QModelIndex & index) const;
         int rowCount(const QModelIndex & parent = QModelIndex()) const;

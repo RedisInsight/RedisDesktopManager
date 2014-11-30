@@ -42,6 +42,8 @@ Repeater {
                         id: renameConfirmation
                         title: "Rename key"
 
+                        width: 520
+
                         RowLayout {
                             implicitWidth: 500
                             implicitHeight: 100

@@ -25,6 +25,11 @@ namespace ConnectionsTree {
         bool isLocked() const override;
         bool isEnabled() const;
 
+        QString getFullPath() const;
+        int getDbIndex() const;
+
+        void setRemoved();
+
     private:
         QString m_fullPath;
         int m_dbIndex;

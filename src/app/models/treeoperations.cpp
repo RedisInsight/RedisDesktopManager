@@ -103,10 +103,10 @@ QString TreeOperations::getNamespaceSeparator()
     return m_connection->config.namespaceSeparator;
 }
 
-void TreeOperations::openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab)
+void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)
 {
-    emit openValueTab(m_connection, fullPath, dbIndex, openInNewTab);
-    qDebug() << "open key:" << fullPath;
+    emit openValueTab(m_connection, key, openInNewTab);
+    qDebug() << "open key:" << key.getFullPath();
 }
 
 void TreeOperations::openConsoleTab()

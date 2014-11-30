@@ -26,6 +26,21 @@ QVariant Model::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+Qt::ItemFlags Model::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+
+    Qt::ItemFlags result = Qt::ItemIsSelectable;
+
+    const TreeItem *item = static_cast<const TreeItem*>(index.internalPointer());
+
+    if (item->isEnabled())
+        result |= Qt::ItemIsEnabled;
+
+    return result;
+}
+
 QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent))

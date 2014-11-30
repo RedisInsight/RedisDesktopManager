@@ -5,6 +5,10 @@
 #include <QHash>
 #include <QObject>
 
+namespace ConnectionsTree {
+    class KeyItem;
+}
+
 namespace ValueEditor {
 
 class Model : public QObject
@@ -42,6 +46,7 @@ public:
 
 signals:
     void dataLoaded();
+    void removed();
 };
 
 }

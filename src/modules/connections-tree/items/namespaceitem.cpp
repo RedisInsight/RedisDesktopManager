@@ -71,6 +71,11 @@ bool NamespaceItem::isLocked() const
     return m_locked;
 }
 
+bool NamespaceItem::isEnabled() const
+{
+    return true;
+}
+
 void NamespaceItem::append(QSharedPointer<TreeItem> item)
 {
     m_childItems.append(item);

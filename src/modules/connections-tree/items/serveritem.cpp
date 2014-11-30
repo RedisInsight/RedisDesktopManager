@@ -132,6 +132,11 @@ bool ServerItem::isLocked() const
     return m_locked;
 }
 
+bool ServerItem::isEnabled() const
+{
+    return true;
+}
+
 bool ServerItem::isDatabaseListLoaded() const
 {
     return m_databaseListLoaded;

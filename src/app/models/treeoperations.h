@@ -4,6 +4,8 @@
 #include <QObject>
 #include "modules/redisclient/connection.h"
 #include "modules/connections-tree/operations.h"
+#include "modules/connections-tree/items/keyitem.h"
+
 
 class ConsoleTabs;
 
@@ -22,14 +24,13 @@ public:
 
     QString getNamespaceSeparator() override;    
 
-    virtual void openKeyTab(const QString& fullPath, int dbIndex,
-                            bool openInNewTab = false) override;
+    virtual void openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab = false) override;
 
     virtual void openConsoleTab() override;
 
 signals:
     void openValueTab(QSharedPointer<RedisClient::Connection> connection,
-                      const QString& fullPath, int dbIndex, bool inNewTab);
+                      ConnectionsTree::KeyItem& key, bool inNewTab);
 
 private:
      QSharedPointer<RedisClient::Connection> m_connection;

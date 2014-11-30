@@ -1,4 +1,5 @@
 #include "viewmodel.h"
+#include "connections-tree/items/keyitem.h"
 #include <QDebug>
 
 ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
@@ -7,10 +8,10 @@ ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
 }
 
 void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
-                                     const QString &keyFullPath, int dbIndex, bool inNewTab)
+                                     ConnectionsTree::KeyItem& key, bool inNewTab)
 {
-    m_keyFactory->loadKey(connection, keyFullPath, dbIndex,
-                        [this, inNewTab](QSharedPointer<Model> keyModel) {
+    m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
+                        [this, inNewTab, &key](QSharedPointer<Model> keyModel) {
                             if (keyModel.isNull())
                                 return;
 
@@ -18,6 +19,9 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
                             qDebug() << "Key model loaded:"
                                      << keyModel->getKeyName()
                                      << keyModel->getType();
+
+                            QObject::connect(keyModel.data(), &Model::removed,
+                                             this, [&key]() { key.setRemoved(); });
 
                         });
     // TODO: add empty key model for loading

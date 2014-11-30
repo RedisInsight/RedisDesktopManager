@@ -74,6 +74,7 @@ void KeyModel::removeKey()
     }
 
     m_isKeyRemoved = true;
+    emit removed();
 }
 
 int KeyModel::getRowCount(const QString &countCmd)

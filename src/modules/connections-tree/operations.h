@@ -14,6 +14,8 @@ namespace Console {
 
 namespace ConnectionsTree {
 
+    class KeyItem;
+
     class Operations
     {
         ADD_EXCEPTION
@@ -45,7 +47,7 @@ namespace ConnectionsTree {
          */
         virtual QString getNamespaceSeparator() = 0;
 
-        virtual void openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab) = 0;
+        virtual void openKeyTab(KeyItem& key, bool openInNewTab) = 0;
 
         virtual void openConsoleTab() = 0;
 
