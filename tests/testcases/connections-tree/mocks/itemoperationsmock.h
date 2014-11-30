@@ -13,7 +13,7 @@ public:
     }
 
     RawKeysList keys;
-    virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)> callback) {
+    virtual void getDatabaseKeys(uint, std::function<void(const RawKeysList&)> callback) {
         callback(keys);
     }
 
@@ -27,6 +27,6 @@ public:
 
     void disconnect() {}
 
-    virtual void openKeyTab(const QString& fullPath, int dbIndex, bool openInNewTab) override {}
+    virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
     virtual void openConsoleTab() override {}
 };

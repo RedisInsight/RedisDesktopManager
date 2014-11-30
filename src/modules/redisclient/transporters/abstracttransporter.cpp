@@ -1,10 +1,11 @@
 #include "abstracttransporter.h"
+#include <QDebug>
 
 RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *connection)
     : m_isInitialized(false), m_isCommandRunning(false), m_connection(connection)
 {
     //connect signals & slots between connection & transporter
-    connect(connection, SIGNAL(addCommandToWorker(const Command&)), this, SLOT(addCommand(const Command&)));
+    connect(connection, SIGNAL(addCommandToWorker(Command)), this, SLOT(addCommand(Command)));
     connect(this, SIGNAL(errorOccurred(const QString&)), connection, SIGNAL(error(const QString&)));
     connect(this, SIGNAL(logEvent(const QString&)), connection, SIGNAL(log(const QString&)));    
 }
@@ -22,21 +23,19 @@ RedisClient::AbstractTransporter::~AbstractTransporter()
     }
 }
 
-void RedisClient::AbstractTransporter::addCommand(const Command &cmd)
+void RedisClient::AbstractTransporter::addCommand(Command cmd)
 {
-    connect(cmd.getOwner(), SIGNAL(destroyed(QObject *)),
-            this, SLOT(cancelCommands(QObject *))
-            );
-
     commands.enqueue(cmd);
     emit commandAdded();
     processCommandQueue();
 }
 
 void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
-{
-    if (runningCommand.getOwner() == owner)
+{    
+    if (runningCommand.getOwner() == owner) {
         runningCommand.cancel();
+        qDebug() << "Canceled command";
+    }
 
     QListIterator<Command> cmd(commands);
 
@@ -46,6 +45,7 @@ void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
 
         if (currentCommand.getOwner() == owner) {
             currentCommand.cancel();
+            qDebug() << "Canceled command";
         }
     }
 }

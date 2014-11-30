@@ -19,6 +19,9 @@ protected:
     {
         RedisClient::ConnectionConfig dummyConf("127.0.0.1");
         dummyConf.auth = "";
+        dummyConf.name = "test";
+        dummyConf.executeTimeout = 2000;
+        dummyConf.connectionTimeout = 2000;
 
         QSharedPointer<RedisClient::Connection> connection( new RedisClient::Connection(dummyConf, false));
 

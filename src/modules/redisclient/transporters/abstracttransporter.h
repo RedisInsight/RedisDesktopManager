@@ -27,7 +27,7 @@ signals:
 public slots:
     virtual void init() = 0;
     virtual void disconnect() = 0;
-    virtual void addCommand(const Command&);
+    virtual void addCommand(Command);
     virtual void cancelCommands(QObject *);
 
 protected:

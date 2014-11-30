@@ -15,7 +15,10 @@ void TestConnection::init()
     config = ConnectionConfig();
     config.host = "127.0.0.1";
     config.auth = "test";
-    config.connectionTimeout = 30000;
+    config.name = "test";
+    config.port = 6379;
+    config.connectionTimeout = 10000;
+    config.executeTimeout = 10000;
 }
 
 void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)

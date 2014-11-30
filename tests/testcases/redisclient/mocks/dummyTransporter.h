@@ -34,7 +34,7 @@ public:
     QList<RedisClient::Response> fakeResponses;
 
 public slots:
-    virtual void addCommand(const RedisClient::Command& cmd) override
+    virtual void addCommand(RedisClient::Command cmd) override
     {
         addCommandCalls++;
         RedisClient::AbstractTransporter::addCommand(cmd);

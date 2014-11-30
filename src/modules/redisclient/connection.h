@@ -5,11 +5,11 @@
 #include <QWaitCondition>
 #include "connectionconfig.h"
 #include "exception.h"
+#include "command.h"
 
 namespace RedisClient {
 
 class AbstractTransporter;
-class Command;
 
 class Connection : public QObject
 {
@@ -40,7 +40,7 @@ public:
     void setTransporter(QSharedPointer<AbstractTransporter>);
 
 signals:    
-    void addCommandToWorker(const Command&);    
+    void addCommandToWorker(Command);
     void error(const QString&);
     void log(const QString&);
     void connected();

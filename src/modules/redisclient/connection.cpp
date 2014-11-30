@@ -1,4 +1,5 @@
 #include "connection.h"
+#include "command.h"
 #include "transporters/defaulttransporter.h"
 #include "transporters/sshtransporter.h"
 #include "commandexecutor.h"
@@ -88,9 +89,10 @@ void RedisClient::Connection::runCommand(const Command &cmd)
 
     m_addLock.lock();
 
-    emit addCommandToWorker(cmd);
+    QObject::connect(cmd.getOwner(), SIGNAL(destroyed(QObject *)),
+            m_transporter.data(), SLOT(cancelCommands(QObject *)));
 
-    //m_commandWaiter.wait(&m_addLock, 1000);
+    emit addCommandToWorker(cmd);
 }
 
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
@@ -144,7 +146,9 @@ void RedisClient::Connection::createTransporter()
 
 bool RedisClient::Connection::isTransporterRunning()
 {
-    return m_transporter.isNull() == false && m_transporterThread->isRunning();
+    return m_transporter.isNull() == false
+            && m_transporterThread.isNull() == false
+            && m_transporterThread->isRunning();
 }
 
 void RedisClient::Connection::connectionReady()
