@@ -83,6 +83,7 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     roles[showValueNavigation] = "showValueNavigation";
     roles[columnNames] = "columnNames";
     roles[count] = "valuesCount";
+    roles[keyValue] = "keyValue";
     return roles;
 }
 
@@ -141,6 +142,16 @@ void ValueEditor::ViewModel::setCurrentTab(int i)
     m_currentTabIndex = i;
 }
 
+QObject* ValueEditor::ViewModel::getValue(int i)
+{
+    if (!isIndexValid(index(i, 0)))
+        return nullptr;
+
+    auto model = m_valueModels.at(i);
+
+    return new ValueEditor::ValueViewModel(model, (QObject*)model.data());
+}
+
 bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
 {
     return 0 <= index.row() && index.row() < rowCount();
@@ -186,5 +197,65 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
 //        }
 //    }
 //}
+
+
+
+
+ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model, QObject *parent)
+    : m_model(model), QAbstractListModel(parent)
+{
+
+}
+
+int ValueEditor::ValueViewModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    Q_ASSERT(m_model.isNull() != true);
+
+    return m_model->rowsCount();
+}
+
+QVariant ValueEditor::ValueViewModel::data(const QModelIndex &index, int role) const
+{
+    qDebug() << "get index data:" << index.row() << index.column();
+
+    if (!isIndexValid(index))
+        return QVariant();
+
+    qDebug() << "get data";
+
+    return m_model->getData(index.row(), role);
+}
+
+QHash<int, QByteArray> ValueEditor::ValueViewModel::roleNames() const
+{
+    return m_model->getRoles();
+}
+
+bool ValueEditor::ValueViewModel::isIndexValid(const QModelIndex &index) const
+{
+    return 0 <= index.row() && index.row() < rowCount();
+}
+
+bool ValueEditor::ValueViewModel::isPartialLoadingSupported()
+{
+    return m_model->isPartialLoadingSupported();
+}
+
+QVariantList ValueEditor::ValueViewModel::getColumnNames()
+{
+    QVariantList result;
+
+    foreach (QString str, m_model->getColumnNames()) {
+        result.append(QVariant(str));
+    }
+
+    return result;
+}
+
+bool ValueEditor::ValueViewModel::isMultiRow()
+{
+    return m_model->isMultiRow();
+}
 
 

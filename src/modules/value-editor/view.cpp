@@ -5,6 +5,8 @@
 #include <QQmlContext>
 #include <QDateTime>
 #include <QApplication>
+#include <QtQml>
+#include "viewmodel.h"
 
 using namespace ValueEditor;
 
@@ -12,6 +14,8 @@ View::View(QSharedPointer<ViewModel> viewModel)
     : QWidget(), m_qml(nullptr)
 {    
     m_qml = QSharedPointer<QQuickView>(new QQuickView());
+
+    qmlRegisterType<ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");
 
     m_qml->setResizeMode(QQuickView::SizeRootObjectToView);
     m_qml->rootContext()->setContextProperty("appVersion", QApplication::applicationVersion());

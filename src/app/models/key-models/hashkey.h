@@ -13,7 +13,7 @@ public:
     QString getType() override;
     QStringList getColumnNames() override;
     QHash<int, QByteArray> getRoles() override;
-    QString getData(int rowIndex, int dataRole) override;
+    QVariant getData(int rowIndex, int dataRole) override;
     virtual void setData(int rowIndex, int dataRole, QString value) override;
 
     void addRow(/* ??? */) override;
@@ -25,7 +25,7 @@ public:
     bool isMultiRow() const override;
 
 private:
-    enum Roles { Key = Qt::UserRole + 1, Value};
+    enum Roles { Key = Qt::UserRole + 1, Value, RowNumber};
 
     QHash<int, QPair<QByteArray, QByteArray>> m_rowsCache;
 

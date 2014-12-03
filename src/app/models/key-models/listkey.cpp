@@ -25,10 +25,10 @@ QHash<int, QByteArray> ListKeyModel::getRoles()
     return roles;
 }
 
-QString ListKeyModel::getData(int rowIndex, int dataRole)
+QVariant ListKeyModel::getData(int rowIndex, int dataRole)
 {
     if (!isRowLoaded(rowIndex) || dataRole != Roles::Value)
-        return QString();
+        return QVariant();
 
     return m_rowsCache[rowIndex];
 }

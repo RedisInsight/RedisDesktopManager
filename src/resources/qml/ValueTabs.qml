@@ -129,9 +129,29 @@ Repeater {
                 Layout.fillHeight: true
                 Layout.minimumHeight: 100
 
-                TableViewColumn{ role: "number"  ; title: "#" ; width: 30 }
-                TableViewColumn{ role: "key"  ; title: "Key" ; width: 100 }
-                TableViewColumn{ role: "value" ; title: "Value"; width: table.width - 130}
+                TableViewColumn{ width: 30 }
+                TableViewColumn{ width: 100 }
+                TableViewColumn{ width: table.width - 130}
+
+                model: viewModel.getValue(tabIndex)
+
+                Component.onCompleted: {
+                    var columns = table.model.getColumnNames()
+
+                    for (var index = 0; index < 3; index++)
+                    {
+                        var column = table.getColumn(index)
+
+                        if (index >= columns.length) {
+                            column.visible = false
+                            continue
+                        }
+
+                        column.role = columns[index]
+                        column.title = columns[index]
+                        column.visible = true
+                    }
+                }
             }
 
             ColumnLayout {
@@ -158,3 +178,4 @@ Repeater {
         }
     }
 }
+

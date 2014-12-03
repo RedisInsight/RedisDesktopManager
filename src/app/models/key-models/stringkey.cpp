@@ -24,10 +24,10 @@ QHash<int, QByteArray> StringKeyModel::getRoles()
     return roles;
 }
 
-QString StringKeyModel::getData(int rowIndex, int dataRole)
+QVariant StringKeyModel::getData(int rowIndex, int dataRole)
 {
     if (rowIndex > 0 || dataRole != Roles::Value || m_value.isNull())
-        return QString();
+        return QVariant();
 
     return m_value;
 }

@@ -24,10 +24,10 @@ QHash<int, QByteArray> SortedSetKeyModel::getRoles()
     return roles;
 }
 
-QString SortedSetKeyModel::getData(int rowIndex, int dataRole)
+QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
 {
     if (!isRowLoaded(rowIndex) || (dataRole != Roles::Value && dataRole != Roles::Score))
-        return QString();
+        return QVariant();
 
     QPair<QByteArray, double> row = m_rowsCache[rowIndex];
 
@@ -36,7 +36,7 @@ QString SortedSetKeyModel::getData(int rowIndex, int dataRole)
     else if (dataRole ==Roles::Score)
         return QString::number(row.second);
 
-    return QString();
+    return QVariant();
 }
 
 void SortedSetKeyModel::setData(int rowIndex, int dataRole, QString value)

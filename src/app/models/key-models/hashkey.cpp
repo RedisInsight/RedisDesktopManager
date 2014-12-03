@@ -1,10 +1,12 @@
 #include "hashkey.h"
 #include <QStandardItem>
+#include <QDebug>
 
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
        : KeyModel(connection, fullPath, dbIndex, ttl)
 {
     loadRowCount();
+    loadRows(0, 100, [](){}); // FIXME: DEBUG only
 }
 
 QString HashKeyModel::getType()
@@ -14,30 +16,33 @@ QString HashKeyModel::getType()
 
 QStringList HashKeyModel::getColumnNames()
 {
-    return QStringList() << "Key" << "Value";
+    return QStringList() << "row" << "key" << "value";
 }
 
 QHash<int, QByteArray> HashKeyModel::getRoles()
 {
     QHash<int, QByteArray> roles;
+    roles[Roles::RowNumber] = "row";
     roles[Roles::Key] = "key";
-    roles[Roles::Value] = "value";
+    roles[Roles::Value] = "value";    
     return roles;
 }
 
-QString HashKeyModel::getData(int rowIndex, int dataRole)
+QVariant HashKeyModel::getData(int rowIndex, int dataRole)
 {
-    if (!isRowLoaded(rowIndex) || (dataRole != Roles::Value && dataRole != Roles::Key))
+    if (!isRowLoaded(rowIndex))
         return QString();
 
     QPair<QByteArray, QByteArray> row = m_rowsCache[rowIndex];
 
     if (dataRole == Roles::Key)
         return row.first;
-    else if (dataRole ==Roles::Value)
-        return row.second;
+    else if (dataRole == Roles::Value)
+        return row.second;    
+    else if (dataRole == Roles::RowNumber)
+        return QString::number(rowIndex+1);
 
-    return QString();
+    return QVariant();
 }
 
 void HashKeyModel::setData(int rowIndex, int dataRole, QString value)
@@ -105,6 +110,8 @@ bool HashKeyModel::isMultiRow() const
 void HashKeyModel::loadRowCount()
 {
     m_rowCount = getRowCount("HLEN");
+
+    qDebug() << "row count:" << m_rowCount;
 }
 
 //void HashKeyModel::setCurrentPage(int page)

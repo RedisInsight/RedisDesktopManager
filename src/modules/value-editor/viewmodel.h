@@ -13,6 +13,32 @@ namespace ConnectionsTree {
 
 namespace ValueEditor {
 
+class ValueViewModel : public QAbstractListModel
+{
+    Q_OBJECT
+
+public:
+    ValueViewModel(QSharedPointer<Model> model = QSharedPointer<Model>(), QObject* parent = nullptr);
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex &index, int role) const;
+
+    QHash<int, QByteArray> roleNames() const;
+
+public:
+    Q_INVOKABLE bool isPartialLoadingSupported();
+    Q_INVOKABLE QVariantList getColumnNames();
+    Q_INVOKABLE bool isMultiRow();
+
+private:
+    QSharedPointer<Model> m_model;
+
+protected:
+    bool isIndexValid(const QModelIndex &index) const;
+
+};
+
 class ViewModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -26,7 +52,8 @@ public:
         state,
         showValueNavigation,
         columnNames,
-        count
+        count,
+        keyValue
     };
 
 public:
@@ -44,6 +71,7 @@ public: // methods exported to QML
     Q_INVOKABLE void removeKey(int i);
     Q_INVOKABLE void closeTab(int i);
     Q_INVOKABLE void setCurrentTab(int i);
+    Q_INVOKABLE QObject* getValue(int i);
 
 signals:
     void keyError(int index, const QString& error);
