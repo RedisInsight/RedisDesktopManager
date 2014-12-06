@@ -63,6 +63,10 @@ void MainWin::initConnectionsTreeView()
     }
 
     ui.serversTreeView->setModel(connections.data());
+
+    // fix initial widgets sizes
+    ui.mainSplitter->setSizes(QList<int>() << 300 << 750);
+    ui.splitter->setSizes(QList<int>() << 450 << 200);
 }
 
 void MainWin::initContextMenus()

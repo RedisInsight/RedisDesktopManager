@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>550</height>
+    <width>1058</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,7 @@
   <property name="minimumSize">
    <size>
     <width>1000</width>
-    <height>550</height>
+    <height>750</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,13 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
-     <widget class="QSplitter" name="splitter_2">
+     <widget class="QSplitter" name="mainSplitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -81,7 +87,7 @@
         <item>
          <widget class="ConnectionsTree::TreeView" name="serversTreeView">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -96,6 +102,12 @@
            <size>
             <width>800</width>
             <height>16777215</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>330</width>
+            <height>0</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -129,10 +141,13 @@
           <property name="spacing">
            <number>2</number>
           </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
           <item>
            <widget class="QToolButton" name="pbImportConnections">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -182,14 +197,14 @@
           <item>
            <widget class="QToolButton" name="pbAddServer">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>160</width>
+              <width>140</width>
               <height>34</height>
              </size>
             </property>
@@ -201,7 +216,7 @@
             </property>
             <property name="baseSize">
              <size>
-              <width>160</width>
+              <width>140</width>
               <height>35</height>
              </size>
             </property>
@@ -245,7 +260,13 @@
        <property name="minimumSize">
         <size>
          <width>620</width>
-         <height>0</height>
+         <height>300</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>620</width>
+         <height>300</height>
         </size>
        </property>
        <property name="orientation">
@@ -260,7 +281,7 @@
        <widget class="QWidget" name="qmlParent" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
+          <horstretch>3</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
@@ -272,15 +293,15 @@
         </property>
         <property name="baseSize">
          <size>
-          <width>300</width>
-          <height>35</height>
+          <width>700</width>
+          <height>450</height>
          </size>
         </property>
        </widget>
        <widget class="ConsoleTabs" name="tabWidget">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>1</horstretch>
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
@@ -306,7 +327,7 @@
          <enum>QTabWidget::South</enum>
         </property>
         <property name="tabShape">
-         <enum>QTabWidget::Rounded</enum>
+         <enum>QTabWidget::Triangular</enum>
         </property>
         <property name="currentIndex">
          <number>-1</number>
