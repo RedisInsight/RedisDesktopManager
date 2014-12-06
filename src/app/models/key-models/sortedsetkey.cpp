@@ -13,12 +13,13 @@ QString SortedSetKeyModel::getType()
 
 QStringList SortedSetKeyModel::getColumnNames()
 {
-    return QStringList() << "Value" << "Score";
+    return QStringList() << "row" << "value" << "score";
 }
 
 QHash<int, QByteArray> SortedSetKeyModel::getRoles()
 {
     QHash<int, QByteArray> roles;
+    roles[Roles::RowNumber] = "row";
     roles[Roles::Value] = "value";
     roles[Roles::Score] = "score";
     return roles;
@@ -26,7 +27,7 @@ QHash<int, QByteArray> SortedSetKeyModel::getRoles()
 
 QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
 {
-    if (!isRowLoaded(rowIndex) || (dataRole != Roles::Value && dataRole != Roles::Score))
+    if (!isRowLoaded(rowIndex))
         return QVariant();
 
     QPair<QByteArray, double> row = m_rowsCache[rowIndex];
@@ -35,6 +36,8 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
         return row.first;
     else if (dataRole ==Roles::Score)
         return QString::number(row.second);
+    else if (dataRole == Roles::RowNumber)
+        return QString::number(rowIndex+1);
 
     return QVariant();
 }
@@ -44,7 +47,7 @@ void SortedSetKeyModel::setData(int rowIndex, int dataRole, QString value)
 
 }
 
-void SortedSetKeyModel::addRow()
+void SortedSetKeyModel::addRow(const QVariantMap &)
 {
 
 }
@@ -105,40 +108,6 @@ void SortedSetKeyModel::loadRowCount()
 {
     m_rowCount = getRowCount("ZCARD");
 }
-
-//void SortedSetKeyModel::setCurrentPage(int page)
-//{
-//    if (page == currentPage) {
-//        return;
-//    }
-
-//    clear();
-
-//    QStringList labels;
-//    labels << "Value" << "Score";
-//    setHorizontalHeaderLabels(labels);
-
-//    currentPage = page;
-
-//    int size = rawData->size();
-
-//    setRowCount( (itemsOnPageLimit  > size / 2)? size / 2 : itemsOnPageLimit);
-
-//    int startShiftPosition = itemsOnPageLimit * 2 * (currentPage - 1);
-//    int limit = startShiftPosition + itemsOnPageLimit * 2;
-
-//    for (int i = startShiftPosition, row = 0; i < limit && i < size; ++i, ++row) {
-
-//        QStandardItem * key = new QStandardItem(rawData->at(i));
-//        key->setData(QVariant("member"), KeyModel::KEY_VALUE_TYPE_ROLE);
-
-//        QStandardItem * value = new QStandardItem(rawData->at(++i));
-//        value->setData(QVariant("score"), KeyModel::KEY_VALUE_TYPE_ROLE);
-
-//        setItem(row, 0, key);
-//        setItem(row, 1, value);
-//    }
-//}
 
 //void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
 //{

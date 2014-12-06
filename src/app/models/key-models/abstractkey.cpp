@@ -35,6 +35,11 @@ bool KeyModel::isPartialLoadingSupported()
     return m_connection->getServerVersion() >= 2.8;
 }
 
+unsigned long KeyModel::rowsCount()
+{
+    return m_rowCount;
+}
+
 void KeyModel::setKeyName(const QString &newKeyName)
 {
     auto cmd = RedisClient::Command(m_dbIndex)
@@ -122,3 +127,54 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
 }
 
 
+ListLikeKeyModel::ListLikeKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                                   QString fullPath, int dbIndex, int ttl)
+    : KeyModel(connection, fullPath, dbIndex, ttl)
+{
+
+}
+
+QStringList ListLikeKeyModel::getColumnNames()
+{
+    return QStringList() << "row"  << "value";
+}
+
+QHash<int, QByteArray> ListLikeKeyModel::getRoles()
+{
+    QHash<int, QByteArray> roles;
+    roles[Roles::Value] = "value";
+    roles[Roles::RowNumber] = "row";
+    return roles;
+}
+
+QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
+{
+    if (!isRowLoaded(rowIndex))
+        return QVariant();
+
+    switch (dataRole) {
+        case Value:
+            return m_rowsCache[rowIndex];
+        case RowNumber:
+            return QString::number(rowIndex+1);
+    }
+
+    return QVariant();
+
+    return m_rowsCache[rowIndex];
+}
+
+void ListLikeKeyModel::clearRowCache()
+{
+    m_rowsCache.clear();
+}
+
+bool ListLikeKeyModel::isRowLoaded(int rowIndex)
+{
+    return m_rowsCache.contains(rowIndex);
+}
+
+bool ListLikeKeyModel::isMultiRow() const
+{
+    return true;
+}

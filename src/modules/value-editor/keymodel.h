@@ -5,10 +5,6 @@
 #include <QHash>
 #include <QObject>
 
-namespace ConnectionsTree {
-    class KeyItem;
-}
-
 namespace ValueEditor {
 
 class Model : public QObject
@@ -34,7 +30,7 @@ public:
     virtual void removeKey() = 0; // sync
 
     //rows operations	
-    virtual void addRow(/* ??? */) = 0;
+    virtual void addRow(const QVariantMap&) = 0;
     virtual unsigned long rowsCount() = 0; // sync    
     virtual void loadRows(unsigned long rowStart, unsigned long count, std::function<void()> callback) = 0; //async
     virtual void clearRowCache() = 0;

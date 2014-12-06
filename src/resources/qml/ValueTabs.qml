@@ -135,7 +135,39 @@ Repeater {
 
                 model: viewModel.getValue(tabIndex)
 
+                property int currentStart: 0
+                property int maxItemsOnPage: 100
+
                 Component.onCompleted: {
+                    loadValue()
+                }
+
+                Connections {
+                    target: viewModel
+
+                    onReplaceTab: {
+                        console.log("replace tab")
+                        table.model = viewModel.getValue(tabIndex)
+                        table.loadValue()
+                    }
+                }
+
+
+                MessageDialog {
+                    id: valueLoadingConfirmation
+                    title: "Legacy Redis-Server detected!"
+                    text: "You are connected to legacy redis-server, which doesn't support partial loading. "
+                            + "Do you really want to load " + table.model.totalRowCount() +" items?"
+                    onYes: {
+                        table.loadValue(true)
+                    }
+                    visible: false
+                    modality: Qt.WindowModal
+                    icon: StandardIcon.Warning
+                    standardButtons: StandardButton.Yes | StandardButton.No
+                }
+
+                function loadValue() {
                     var columns = table.model.getColumnNames()
 
                     for (var index = 0; index < 3; index++)
@@ -151,6 +183,19 @@ Repeater {
                         column.title = columns[index]
                         column.visible = true
                     }
+
+                    if (table.model.isPartialLoadingSupported()
+                            || table.model.totalRowCount() < maxItemsOnPage
+                            || (arguments.length == 1 && arguments[0] === true)) {
+                        table.model.loadRows(currentStart, maxItemsOnPage)
+                    } else {
+                        // Legacy redis without SCAN support
+                        // Show warning message
+                        // to get upprove from user
+                        valueLoadingConfirmation.open()
+                    }
+
+                    // TODO: show loader with fadeout
                 }
             }
 
@@ -163,8 +208,11 @@ Repeater {
                     Layout.fillHeight: !showValueNavigation
                     text: {
                         if (keyType === "string") {
-                            return "" // TBD
+                            table.loadValue()
+                            console.log(table.model.get(0))
+                            return table.model.get(0).value
                         }
+                        return "" // TBD
                     }
                 }
                 RowLayout {

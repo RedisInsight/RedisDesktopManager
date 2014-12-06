@@ -46,7 +46,7 @@ void StringKeyModel::setData(int rowIndex, int dataRole, QString value)
     }
 }
 
-void StringKeyModel::addRow()
+void StringKeyModel::addRow(const QVariantMap &)
 {
     return;
 }

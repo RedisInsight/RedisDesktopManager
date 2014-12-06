@@ -1,5 +1,6 @@
 #include "viewmodel.h"
 #include "connections-tree/items/keyitem.h"
+#include "value-editor/valueviewmodel.h"
 #include <QDebug>
 
 ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
@@ -68,6 +69,9 @@ bool ValueEditor::ViewModel::setData(const QModelIndex &index, const QVariant &v
 {
     if (!isIndexValid(index))
         return false;
+
+    Q_UNUSED(value);
+    Q_UNUSED(role);
 
     return false; //TBD
 }
@@ -149,7 +153,7 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 
     auto model = m_valueModels.at(i);
 
-    return new ValueEditor::ValueViewModel(model, (QObject*)model.data());
+    return new ValueEditor::ValueViewModel(model);
 }
 
 bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
@@ -169,93 +173,7 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
     } else {
         m_valueModels.insert(m_currentTabIndex, model);
         m_valueModels.removeAt(m_currentTabIndex+1);
+        emit replaceTab(m_currentTabIndex);
         emit dataChanged(index(m_currentTabIndex, 0), index(m_currentTabIndex, 0));
     }
 }
-
-//void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> m, bool loadLargeKeysInLegacy)
-//{
-//    m_model = m;
-
-//    connect(m_model.data(), &Model::dataLoaded, this, &ViewModel::onDataLoaded);
-
-//    if (!m_model->isMultiRow()) // all data already loaded
-//        return;
-
-//    std::function<void()> callback = [this]() {
-//        rowsLoaded();
-//    };
-
-//    if (m_model->isPartialLoadingSupported()) {
-//        m_model->loadRows(0, getPageLimit(), callback);
-//    } else {
-//        // TBD: show warning in UI: "(!) Partial loading not supported by current redis-server"
-//        if (m_model->rowsCount() > getPageLimit() && !loadLargeKeysInLegacy) {
-//            // TBD: show confirmation dialog in UI
-//        } else {
-//            m_model->loadRows(0, m_model->rowsCount(), callback);
-//        }
-//    }
-//}
-
-
-
-
-ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model, QObject *parent)
-    : m_model(model), QAbstractListModel(parent)
-{
-
-}
-
-int ValueEditor::ValueViewModel::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-    Q_ASSERT(m_model.isNull() != true);
-
-    return m_model->rowsCount();
-}
-
-QVariant ValueEditor::ValueViewModel::data(const QModelIndex &index, int role) const
-{
-    qDebug() << "get index data:" << index.row() << index.column();
-
-    if (!isIndexValid(index))
-        return QVariant();
-
-    qDebug() << "get data";
-
-    return m_model->getData(index.row(), role);
-}
-
-QHash<int, QByteArray> ValueEditor::ValueViewModel::roleNames() const
-{
-    return m_model->getRoles();
-}
-
-bool ValueEditor::ValueViewModel::isIndexValid(const QModelIndex &index) const
-{
-    return 0 <= index.row() && index.row() < rowCount();
-}
-
-bool ValueEditor::ValueViewModel::isPartialLoadingSupported()
-{
-    return m_model->isPartialLoadingSupported();
-}
-
-QVariantList ValueEditor::ValueViewModel::getColumnNames()
-{
-    QVariantList result;
-
-    foreach (QString str, m_model->getColumnNames()) {
-        result.append(QVariant(str));
-    }
-
-    return result;
-}
-
-bool ValueEditor::ValueViewModel::isMultiRow()
-{
-    return m_model->isMultiRow();
-}
-
-

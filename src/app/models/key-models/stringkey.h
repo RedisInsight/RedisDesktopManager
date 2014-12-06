@@ -16,7 +16,7 @@ public:
     QVariant getData(int rowIndex, int dataRole) override;
     virtual void setData(int rowIndex, int dataRole, QString value) override;
 
-    void addRow() override;
+    void addRow(const QVariantMap&) override;
     unsigned long rowsCount() override;
     void loadRows(unsigned long rowStart, unsigned long count, std::function<void()> callback) override;
     void clearRowCache() override;

@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QtQml>
 #include "viewmodel.h"
+#include "valueviewmodel.h"
 
 using namespace ValueEditor;
 
