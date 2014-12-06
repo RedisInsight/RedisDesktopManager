@@ -89,11 +89,11 @@ void TestKeyModels::testValueLoading()
     QVERIFY(callbackCalled);
     QVERIFY(keyModel->isRowLoaded(testRow));
 
-    QString actualResult = keyModel->getData(testRow, testRole);
+    QVariant actualResult = keyModel->getData(testRow, testRole);
 
     //then
     QFETCH(QString, validData);
-    QCOMPARE(actualResult, validData);
+    QCOMPARE(actualResult.toString(), validData);
 
 }
 
