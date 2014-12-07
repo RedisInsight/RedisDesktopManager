@@ -3,6 +3,7 @@
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
     : m_model(model), QAbstractListModel((QObject*)model.data()),
+      m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0)
 {
 
@@ -13,9 +14,6 @@ int ValueEditor::ValueViewModel::rowCount(const QModelIndex &parent) const
     Q_UNUSED(parent);
     Q_ASSERT(m_model.isNull() != true);
 
-    if (m_lastLoadedRowFrameSize == 0)
-        return m_model->rowsCount();
-
     return m_lastLoadedRowFrameSize;
 }
 
@@ -24,7 +22,7 @@ QVariant ValueEditor::ValueViewModel::data(const QModelIndex &index, int role) c
     if (!isIndexValid(index))
         return QVariant();   
 
-    return m_model->getData(index.row(), role);
+    return m_model->getData(m_startFramePosition + index.row(), role);
 }
 
 QHash<int, QByteArray> ValueEditor::ValueViewModel::roleNames() const
@@ -66,11 +64,21 @@ bool ValueEditor::ValueViewModel::isRowLoaded(int i)
 
 void ValueEditor::ValueViewModel::loadRows(int start, int count)
 {
+    // frame already loaded
+    if (m_model->isRowLoaded(start)) {
+        m_startFramePosition = start;
+        emit layoutAboutToBeChanged();
+        emit layoutChanged();
+        return;
+    }
+
     m_model->loadRows(start, count, [this, start, count]()
     {                
         int loaded = totalRowCount() - start;
+        loaded = (loaded > count) ? count : loaded;
 
         m_lastLoadedRowFrameSize = loaded;
+        m_startFramePosition = start;
 
         emit layoutAboutToBeChanged();
         emit rowsLoaded(start, loaded);

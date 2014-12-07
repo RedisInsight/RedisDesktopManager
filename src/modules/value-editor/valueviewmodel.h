@@ -40,6 +40,7 @@ protected:
     bool isIndexValid(const QModelIndex &index) const;
 
 private:
+    int m_startFramePosition;
     int m_lastLoadedRowFrameSize;
 
 };

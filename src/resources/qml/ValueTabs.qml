@@ -103,24 +103,13 @@ Repeater {
                 Text { text: keyType.toUpperCase()  }
                 Text { text: "TTL:"; font.bold: true }
                 Text { text: keyTtl}
-            }
 
-            RowLayout {
-                id: pagination
-                visible: showValueNavigation
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
-                Layout.minimumHeight: 40
+                Item { Layout.fillWidth: true}
 
-                Button { text: "|<"}
-                Button { text: "<"}
-                TextField { text: "1"; Layout.fillWidth: true; readOnly: false}
-                Button {
-                    text: "Goto Index"
-                }
-                Button { text: ">"}
-                Button { text: ">|"}
-            }
+                Button { text: "Add row"; visible: showValueNavigation}
+                Button { text: "Delete row"; visible: showValueNavigation}
+                Button { text: "Reload"}
+            }          
 
             TableView {
                 id: table
@@ -137,6 +126,9 @@ Repeater {
 
                 property int currentStart: 0
                 property int maxItemsOnPage: 100
+                property int currentPage: currentStart / maxItemsOnPage + 1
+                property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
+                property bool forceLoading: false
 
                 Component.onCompleted: {
                     loadValue()
@@ -148,6 +140,8 @@ Repeater {
                     onReplaceTab: {
                         console.log("replace tab")
                         table.model = viewModel.getValue(tabIndex)
+                        table.forceLoading = false
+                        table.currentStart = 0
                         table.loadValue()
                     }
                 }
@@ -159,12 +153,49 @@ Repeater {
                     text: "You are connected to legacy redis-server, which doesn't support partial loading. "
                             + "Do you really want to load " + table.model.totalRowCount() +" items?"
                     onYes: {
-                        table.loadValue(true)
+                        table.forceLoading = true
+                        table.loadValue()
                     }
                     visible: false
                     modality: Qt.WindowModal
                     icon: StandardIcon.Warning
                     standardButtons: StandardButton.Yes | StandardButton.No
+                }
+
+                function goToFirstPage() {
+                    console.log('goto first page')
+                    goToPage(1)
+                }
+
+                function goToLastPage() {
+                    console.log('goto last page')
+                    goToPage(table.totalPages)
+                }
+
+                function goToPage(page) {
+                    var firstItemOnPage = table.maxItemsOnPage * (page - 1)
+
+                    if (table.currentStart === firstItemOnPage)
+                        return
+
+                    table.currentStart = firstItemOnPage
+                    loadValue()
+                }
+
+                function goToPrevPage() {
+                    console.log('goto prev page')
+                    if (table.currentPage - 1 < 1)
+                        return
+
+                    goToPage(table.currentPage - 1)
+                }
+
+                function goToNextPage() {
+                    console.log('goto next page')
+                    if (table.totalPages < table.currentPage + 1)
+                        return
+
+                    goToPage(table.currentPage + 1)
                 }
 
                 function loadValue() {
@@ -186,7 +217,7 @@ Repeater {
 
                     if (table.model.isPartialLoadingSupported()
                             || table.model.totalRowCount() < maxItemsOnPage
-                            || (arguments.length == 1 && arguments[0] === true)) {
+                            || table.forceLoading) {
                         table.model.loadRows(currentStart, maxItemsOnPage)
                     } else {
                         // Legacy redis without SCAN support
@@ -196,6 +227,41 @@ Repeater {
                     }
 
                     // TODO: show loader with fadeout
+                }
+            }
+
+            RowLayout {
+                id: pagination
+                visible: showValueNavigation
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+                Layout.minimumHeight: 40
+                Button {
+                    text: "⇤"
+                    onClicked: table.goToFirstPage()
+                }
+                Button {
+                    text: "⇦"
+                    onClicked: table.goToPrevPage()
+                }
+                Text {
+                    text: "Page " + table.currentPage + " of " + table.totalPages
+                            + " (Items:" + (table.currentStart+1) + "-"
+                            + (table.currentStart+table.maxItemsOnPage)
+                            + " of " + table.model.totalRowCount() + ")"
+                }
+                TextField { text: "1"; Layout.fillWidth: true; readOnly: false}
+                Button {
+                    text: "Goto Page"
+                    onClicked: {}
+                }
+                Button {
+                    text: "⇨"
+                    onClicked: table.goToNextPage()
+                }
+                Button {
+                    text: "⇥"
+                    onClicked: table.goToLastPage()
                 }
             }
 
