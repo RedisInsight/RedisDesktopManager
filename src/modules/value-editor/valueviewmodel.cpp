@@ -101,14 +101,17 @@ int ValueEditor::ValueViewModel::totalRowCount()
     return m_model->rowsCount();
 }
 
-QVariantMap ValueEditor::ValueViewModel::get(int row)
+QVariantMap ValueEditor::ValueViewModel::get(int row, bool relative)
 {
     QHash<int,QByteArray> names = roleNames();
     QHashIterator<int, QByteArray> i(names);
     QVariantMap res;
+
+    int targetRow = (relative)? m_startFramePosition + row : row;
+
     while (i.hasNext()) {
         i.next();
-        QModelIndex idx = index(row, 0);
+        QModelIndex idx = index(targetRow, 0);
         QVariant data = idx.data(i.key());
         res[i.value()] = data;
     }

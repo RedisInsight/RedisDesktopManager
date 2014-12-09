@@ -28,7 +28,7 @@ public:
     Q_INVOKABLE void clearRowCache();
     Q_INVOKABLE void addRow(const QVariantMap&row);
     Q_INVOKABLE int totalRowCount();
-    Q_INVOKABLE QVariantMap get(int i);
+    Q_INVOKABLE QVariantMap get(int i, bool relative = false);
 
 signals:
     void rowsLoaded(int start, int count);

@@ -10,6 +10,12 @@ Repeater {
         id: keyTab
 
         function close(index) {
+
+            if (valueEditor.item && valueEditor.item.isValueChanged()) {
+                // TODO: show "Unsaved changes detected" warnings
+                return
+            }
+
             viewModel.closeTab(tabIndex)
         }
 
@@ -142,10 +148,13 @@ Repeater {
                         table.model = viewModel.getValue(tabIndex)
                         table.forceLoading = false
                         table.currentStart = 0
+
+                        if (valueEditor.item)
+                            valueEditor.item.resetAndDisableEditor()
+
                         table.loadValue()
                     }
                 }
-
 
                 MessageDialog {
                     id: valueLoadingConfirmation
@@ -268,24 +277,74 @@ Repeater {
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: !showValueNavigation
+                Layout.minimumHeight: 250
 
-                TextArea {
+                Text {
                     Layout.fillWidth: true
-                    Layout.fillHeight: !showValueNavigation
-                    text: {
-                        if (keyType === "string") {
-                            table.loadValue()
-                            console.log(table.model.get(0))
-                            return table.model.get(0).value
+
+                    visible: showValueNavigation
+
+                    textFormat: Text.RichText
+                    text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
+                }
+
+                Connections {
+                    target: table
+
+                    onActivated: {
+                        if (valueEditor.item) {
+                            var rowValue = table.model.get(row, true)
+                            valueEditor.item.setValue(rowValue)
                         }
-                        return "" // TBD
                     }
                 }
+
+
+                Loader {
+                    id: valueEditor
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    source: {
+                        if (keyType === "string") {
+                            table.loadValue()
+                            return "./editors/SingleItemEditor.qml"
+                        } else if (keyType === "list" || keyType === "set") {
+                            return "./editors/SingleItemEditor.qml"
+                        } else if (keyType === "zset") {
+                            return "./editors/SortedSetItemEditor.qml"
+                        } else if (keyType === "hash") {
+                            return "./editors/HashItemEditor.qml"
+                        } else {
+                            console.error("Editor for type " + keyType + " is not defined!")
+                        }
+                    }
+
+                    onLoaded: {
+                        console.log("VALUE EDITOR LOADED!")
+                    }
+                }
+
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.minimumHeight: 40
+                    Layout.minimumHeight: 40                  
                     Item { Layout.fillWidth: true}
-                    Button { text: "Save"}
+                    Button {
+                        text: "Save"
+
+                        onClicked: {
+                            if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                console.log("Nothing to save")
+                                return
+                            }
+
+                            var value = valueEditor.item.getValue()
+
+                            console.log(value, value["value"])
+                            // TODO: save value
+                        }
+
+                    }
                 }
 
             }

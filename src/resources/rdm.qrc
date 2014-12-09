@@ -31,5 +31,9 @@
         <file>qml/value-editor.qml</file>
         <file>qml/WelcomeTab.qml</file>
         <file>qml/ValueTabs.qml</file>
+        <file>qml/editors/HashItemEditor.qml</file>
+        <file>qml/editors/SingleItemEditor.qml</file>
+        <file>qml/editors/SortedSetItemEditor.qml</file>
+        <file>qml/editors/AbstractEditor.qml</file>
     </qresource>
 </RCC>
