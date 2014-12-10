@@ -153,6 +153,10 @@ Repeater {
                             valueEditor.item.resetAndDisableEditor()
 
                         table.loadValue()
+
+                        if (keyType === "string") {
+                            valueEditor.loadRowValue(0)
+                        }
                     }
                 }
 
@@ -292,10 +296,7 @@ Repeater {
                     target: table
 
                     onActivated: {
-                        if (valueEditor.item) {
-                            var rowValue = table.model.get(row, true)
-                            valueEditor.item.setValue(rowValue)
-                        }
+                        valueEditor.loadRowValue(row)
                     }
                 }
 
@@ -322,12 +323,24 @@ Repeater {
 
                     onLoaded: {
                         console.log("VALUE EDITOR LOADED!")
+
+                        if (keyType === "string") {
+                            valueEditor.loadRowValue(0)
+                        }
+
+                    }
+
+                    function loadRowValue(row) {
+                        if (valueEditor.item) {
+                            var rowValue = table.model.get(row, true)
+                            valueEditor.item.setValue(rowValue)
+                        }
                     }
                 }
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Layout.minimumHeight: 40                  
+                    Layout.minimumHeight: 40
                     Item { Layout.fillWidth: true}
                     Button {
                         text: "Save"
