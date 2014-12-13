@@ -14,7 +14,7 @@ public:
     QStringList getColumnNames() override;
     QHash<int, QByteArray> getRoles() override;
     QVariant getData(int rowIndex, int dataRole) override;
-    virtual void setData(int rowIndex, int dataRole, QString value) override;
+    virtual void updateRow(int rowIndex, const QVariantMap& row) override;
 
     void addRow(const QVariantMap&) override;
     unsigned long rowsCount() override;
@@ -29,6 +29,6 @@ private:
 
     bool loadValue();
 
-    QByteArray m_value;
+    QByteArray m_value;    
 };
 

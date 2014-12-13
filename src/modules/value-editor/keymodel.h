@@ -23,14 +23,13 @@ public:
     virtual QString getState() = 0; // sync
 
     virtual bool isPartialLoadingSupported() = 0; // sync
-
     virtual void setKeyName(const QString&) = 0; // async
-    virtual void setTTL(int) = 0; // async
-    virtual void setData(int rowIndex, int dataRole, QString value) = 0; // async
+    virtual void setTTL(int) = 0; // async   
     virtual void removeKey() = 0; // sync
 
     //rows operations	
     virtual void addRow(const QVariantMap&) = 0;
+    virtual void updateRow(int rowIndex, const QVariantMap&) = 0; // async
     virtual unsigned long rowsCount() = 0; // sync    
     virtual void loadRows(unsigned long rowStart, unsigned long count, std::function<void()> callback) = 0; //async
     virtual void clearRowCache() = 0;

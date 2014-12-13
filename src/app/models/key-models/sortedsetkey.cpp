@@ -42,7 +42,7 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
     return QVariant();
 }
 
-void SortedSetKeyModel::setData(int rowIndex, int dataRole, QString value)
+void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &)
 {
 
 }

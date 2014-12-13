@@ -96,12 +96,25 @@ void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
     m_model->addRow(row);
 }
 
+void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)
+{
+    if (i < 0 || !m_model->isRowLoaded(i))
+        return;
+
+    m_model->updateRow(i, row);
+}
+
+void ValueEditor::ValueViewModel::deleteRow(int i)
+{
+
+}
+
 int ValueEditor::ValueViewModel::totalRowCount()
 {
     return m_model->rowsCount();
 }
 
-QVariantMap ValueEditor::ValueViewModel::get(int row, bool relative)
+QVariantMap ValueEditor::ValueViewModel::getRow(int row, bool relative)
 {
     QHash<int,QByteArray> names = roleNames();
     QHashIterator<int, QByteArray> i(names);

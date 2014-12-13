@@ -44,7 +44,7 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
     return QVariant();
 }
 
-void HashKeyModel::setData(int rowIndex, int dataRole, QString value)
+void HashKeyModel::updateRow(int rowIndex, const QVariantMap &)
 {
 
 }

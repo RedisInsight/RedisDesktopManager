@@ -126,6 +126,29 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
     return result.getValue();
 }
 
+bool KeyModel::isRowValid(const QVariantMap &row)
+{
+    if (row.isEmpty())
+        return false;
+
+    QSet<QString> validKeys;
+
+    foreach (QByteArray role, getRoles().values()) {
+         validKeys.insert(role);
+    }
+
+    QMapIterator<QString, QVariant> i(row);
+
+    while (i.hasNext()) {
+        i.next();
+
+        if(!validKeys.contains(i.key()))
+            return false;
+    }
+
+    return true;
+}
+
 
 ListLikeKeyModel::ListLikeKeyModel(QSharedPointer<RedisClient::Connection> connection,
                                    QString fullPath, int dbIndex, int ttl)

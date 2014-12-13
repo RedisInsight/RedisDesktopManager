@@ -35,6 +35,9 @@ protected:
     //multi row internal operations
     int getRowCount(const QString &countCmd);    
     QVariant getRowsRange(const QString & baseCmd, unsigned long rowStart = -1, unsigned long count = -1);
+
+    // row validator
+    bool isRowValid(const QVariantMap &row);
 };
 
 class ListLikeKeyModel : public KeyModel

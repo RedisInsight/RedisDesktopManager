@@ -65,17 +65,6 @@ QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool ValueEditor::ViewModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (!isIndexValid(index))
-        return false;
-
-    Q_UNUSED(value);
-    Q_UNUSED(role);
-
-    return false; //TBD
-}
-
 QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
 {
     QHash<int, QByteArray> roles;

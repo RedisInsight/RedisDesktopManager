@@ -306,6 +306,8 @@ Repeater {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
+                    property int currentRow: -1
+
                     source: {
                         if (keyType === "string") {
                             table.loadValue()
@@ -332,8 +334,9 @@ Repeater {
 
                     function loadRowValue(row) {
                         if (valueEditor.item) {
-                            var rowValue = table.model.get(row, true)
-                            valueEditor.item.setValue(rowValue)
+                            var rowValue = table.model.getRow(row, true)
+                            valueEditor.currentRow = row
+                            valueEditor.item.setValue(rowValue)                            
                         }
                     }
                 }
@@ -347,16 +350,30 @@ Repeater {
 
                         onClicked: {
                             if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
-                                console.log("Nothing to save")
+                                savingConfirmation.text = "Nothing to save"
+                                savingConfirmation.open()
                                 return
                             }
 
                             var value = valueEditor.item.getValue()
 
                             console.log(value, value["value"])
-                            // TODO: save value
+                            table.model.updateRow(valueEditor.currentRow, value)
+
+                            savingConfirmation.text = "Value was updated!"
+                            savingConfirmation.open()
                         }
 
+                    }
+
+                    MessageDialog {
+                        id: savingConfirmation
+                        title: "Save value"
+                        text: ""
+                        visible: false
+                        modality: Qt.WindowModal
+                        icon: StandardIcon.Warning
+                        standardButtons: StandardButton.Ok
                     }
                 }
 

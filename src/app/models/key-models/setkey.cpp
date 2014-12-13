@@ -13,7 +13,7 @@ QString SetKeyModel::getType()
     return "set";
 }
 
-void SetKeyModel::setData(int rowIndex, int dataRole, QString value)
+void SetKeyModel::updateRow(int rowIndex, const QVariantMap &)
 {
 
 }

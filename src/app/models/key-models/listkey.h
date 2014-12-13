@@ -11,7 +11,7 @@ public:
     ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
     QString getType() override;            
-    virtual void setData(int rowIndex, int dataRole, QString value) override;
+    virtual void updateRow(int rowIndex, const QVariantMap &) override;
 
     void addRow(const QVariantMap&) override;    
     void loadRows(unsigned long rowStart, unsigned long count, std::function<void()> callback) override;    

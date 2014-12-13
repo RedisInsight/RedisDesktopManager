@@ -14,21 +14,27 @@ public:
     ValueViewModel(QSharedPointer<ValueEditor::Model> model = QSharedPointer<ValueEditor::Model>());
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-
     QVariant data(const QModelIndex &index, int role) const;
-
     QHash<int, QByteArray> roleNames() const;
 
 public:
+
+    // single row operations
+    Q_INVOKABLE bool isRowLoaded(int i);
+    Q_INVOKABLE void addRow(const QVariantMap& row);
+    Q_INVOKABLE void updateRow(int i, const QVariantMap& row); // TBD
+    Q_INVOKABLE void deleteRow(int i); // TBD
+    Q_INVOKABLE QVariantMap getRow(int i, bool relative = false);
+
+    // multi row operations
+    Q_INVOKABLE void loadRows(int start, int count);
+    Q_INVOKABLE bool isMultiRow();
+    Q_INVOKABLE void clearRowCache();
+    Q_INVOKABLE int totalRowCount();
+
+    // general operations
     Q_INVOKABLE bool isPartialLoadingSupported();
     Q_INVOKABLE QVariantList getColumnNames();
-    Q_INVOKABLE bool isMultiRow();
-    Q_INVOKABLE bool isRowLoaded(int i);
-    Q_INVOKABLE void loadRows(int start, int count);
-    Q_INVOKABLE void clearRowCache();
-    Q_INVOKABLE void addRow(const QVariantMap&row);
-    Q_INVOKABLE int totalRowCount();
-    Q_INVOKABLE QVariantMap get(int i, bool relative = false);
 
 signals:
     void rowsLoaded(int start, int count);

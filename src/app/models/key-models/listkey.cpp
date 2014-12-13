@@ -13,7 +13,7 @@ QString ListKeyModel::getType()
     return "list";
 }
 
-void ListKeyModel::setData(int rowIndex, int dataRole, QString value)
+void ListKeyModel::updateRow(int rowIndex, const QVariantMap &)
 {
 
 }

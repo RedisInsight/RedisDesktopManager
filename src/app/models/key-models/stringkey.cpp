@@ -32,16 +32,21 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
     return m_value;
 }
 
-void StringKeyModel::setData(int rowIndex, int dataRole, QString value)
+void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
-    if (rowIndex > 0 || dataRole != Roles::Value || value.isEmpty())
+    if (rowIndex > 0 || !isRowValid(row))
+        return;
+
+    QByteArray value = row.value("value").toByteArray();
+
+    if (value.isEmpty())
         return;
 
     RedisClient::Command updateCmd(QStringList() << "SET" << m_keyFullPath << value, m_dbIndex);
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.isOkMessage()) {
-        m_value = value.toUtf8();
+        m_value = value;
         emit dataLoaded();
     }
 }
@@ -76,9 +81,9 @@ void StringKeyModel::removeRow(int)
     return;
 }
 
-bool StringKeyModel::isRowLoaded(int)
+bool StringKeyModel::isRowLoaded(int r)
 {
-    return !m_value.isNull();
+    return r == 0 && !m_value.isNull();
 }
 
 bool StringKeyModel::isMultiRow() const
