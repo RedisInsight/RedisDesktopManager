@@ -2,7 +2,7 @@ language: cpp
 compiler:
   - gcc
 before_install:
-- sudo add-apt-repository --yes ppa:beineri/opt-qt532
+- sudo add-apt-repository --yes ppa:beineri/opt-qt54
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
 - sudo apt-get install qt53base qt53imageformats qt53tools qt53xmlpatterns -y -qq
