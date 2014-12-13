@@ -6,8 +6,6 @@ import QtQuick.Dialogs 1.2
 import "."
 
 Rectangle {
-    //anchors.fill: parent
-    //implicitHeight: 600
     color: "transparent"
 
     TabView {
@@ -111,7 +109,10 @@ Rectangle {
             errorNotification.open()
         }
         onCloseWelcomeTab: {
-           if (tabs.getTab(0).not_mapped)
+
+            var welcomeTab = tabs.getTab(0)
+
+            if (welcomeTab && welcomeTab.not_mapped)
                tabs.removeTab(0)
         }
     }

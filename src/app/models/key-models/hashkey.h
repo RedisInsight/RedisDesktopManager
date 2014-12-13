@@ -30,6 +30,9 @@ private:
     QHash<int, QPair<QByteArray, QByteArray>> m_rowsCache;
 
     void loadRowCount();
+
+    void setHashRow(const QString& hashKey, const QString& hashValue);
+    void deleteHashRow(const QString& hashKey);
 };
 
 #endif // HASHKEYMODEL_H

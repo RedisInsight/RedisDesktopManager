@@ -35,6 +35,11 @@ bool ValueEditor::ValueViewModel::isIndexValid(const QModelIndex &index) const
     return 0 <= index.row() && index.row() < rowCount();
 }
 
+int ValueEditor::ValueViewModel::mapRowIndex(int i)
+{
+    return m_startFramePosition + i;
+}
+
 bool ValueEditor::ValueViewModel::isPartialLoadingSupported()
 {
     return m_model->isPartialLoadingSupported();
@@ -98,15 +103,35 @@ void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
 
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)
 {
-    if (i < 0 || !m_model->isRowLoaded(i))
+    int targetRow = mapRowIndex(i);
+
+    if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
         return;
 
-    m_model->updateRow(i, row);
+    try {
+        m_model->updateRow(targetRow, row);
+    } catch(const Model::Exception& e) {
+        emit error(QString(e.what()));
+    }
+
+    emit dataChanged(index(i, 0), index(i, 0));
 }
 
 void ValueEditor::ValueViewModel::deleteRow(int i)
 {
+    int targetRow = mapRowIndex(i);
 
+    if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
+        return;
+
+    try {
+        m_model->removeRow(targetRow);
+    } catch(const Model::Exception& e) {
+        emit error(QString(e.what()));
+    }
+
+    beginRemoveRows(QModelIndex(), i, i);
+    endRemoveRows();
 }
 
 int ValueEditor::ValueViewModel::totalRowCount()
@@ -120,7 +145,7 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row, bool relative)
     QHashIterator<int, QByteArray> i(names);
     QVariantMap res;
 
-    int targetRow = (relative)? m_startFramePosition + row : row;
+    int targetRow = (relative)? mapRowIndex(row) : row;
 
     while (i.hasNext()) {
         i.next();

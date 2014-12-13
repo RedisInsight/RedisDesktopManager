@@ -149,6 +149,14 @@ bool KeyModel::isRowValid(const QVariantMap &row)
     return true;
 }
 
+void KeyModel::setRemovedIfEmpty()
+{
+    if (m_rowCount == 0) {
+        m_isKeyRemoved = true;
+        emit removed();
+    }
+}
+
 
 ListLikeKeyModel::ListLikeKeyModel(QSharedPointer<RedisClient::Connection> connection,
                                    QString fullPath, int dbIndex, int ttl)

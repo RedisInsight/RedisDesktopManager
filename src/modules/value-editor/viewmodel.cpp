@@ -12,19 +12,30 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
                                      ConnectionsTree::KeyItem& key, bool inNewTab)
 {
     m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
-                        [this, inNewTab, &key](QSharedPointer<Model> keyModel) {
-                            if (keyModel.isNull())
-                                return;
+                        [this, inNewTab, &key](QSharedPointer<Model> keyModel)
+    {
+        if (keyModel.isNull())
+            return;
 
-                            loadModel(keyModel, inNewTab);
-                            qDebug() << "Key model loaded:"
-                                     << keyModel->getKeyName()
-                                     << keyModel->getType();
+        loadModel(keyModel, inNewTab);
+        qDebug() << "Key model loaded:"
+                 << keyModel->getKeyName()
+                 << keyModel->getType();
 
-                            QObject::connect(keyModel.data(), &Model::removed,
-                                             this, [&key]() { key.setRemoved(); });
+        QObject::connect(keyModel.data(), &Model::removed,
+                         this, [this, keyModel, &key]()
+        {
+            int i = m_valueModels.lastIndexOf(keyModel);
 
-                        });
+            beginRemoveRows(QModelIndex(), i, i);
+            m_valueModels.removeAt(i);
+
+            //Disable key in connections tree
+            key.setRemoved();
+
+            endRemoveRows();
+        });
+    });
     // TODO: add empty key model for loading
 }
 
@@ -108,9 +119,6 @@ void ValueEditor::ViewModel::removeKey(int i)
 
     try {
         value->removeKey();
-        beginRemoveRows(QModelIndex(), i, i);
-        m_valueModels.removeAt(i);
-        endRemoveRows();
     } catch (const Model::Exception& e) {
         emit keyError(i, "Can't remove key: " + QString(e.what()));
     }
@@ -142,7 +150,14 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 
     auto model = m_valueModels.at(i);
 
-    return new ValueEditor::ValueViewModel(model);
+    QList<QObject *> valueEditors = model->findChildren<QObject *>();
+
+    qDebug() << "value editors:" << valueEditors.size();
+
+    if (valueEditors.isEmpty())
+        return new ValueEditor::ValueViewModel(model);
+    else
+        return valueEditors[0];
 }
 
 bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const

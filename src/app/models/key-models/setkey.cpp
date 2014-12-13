@@ -44,9 +44,23 @@ void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fun
     callback();
 }
 
-void SetKeyModel::removeRow(int)
+void SetKeyModel::removeRow(int i)
 {
+    if (!m_rowsCache.contains(i))
+        return;
 
+    QByteArray value = m_rowsCache.value(i);
+
+    using namespace RedisClient;
+
+    Command deleteValues(QStringList() << "SREM" << m_keyFullPath << value, m_dbIndex);
+    Response result = CommandExecutor::execute(m_connection, deleteValues);
+
+    m_rowCount--;
+    m_rowsCache.remove(i);
+    Q_UNUSED(result);
+
+    setRemovedIfEmpty();
 }
 
 void SetKeyModel::loadRowCount()

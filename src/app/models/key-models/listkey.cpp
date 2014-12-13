@@ -41,9 +41,53 @@ void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
     callback();
 }
 
-void ListKeyModel::removeRow(int)
+void ListKeyModel::removeRow(int i)
 {
+    if (!m_rowsCache.contains(i))
+        return;
 
+    QByteArray value = m_rowsCache.value(i);
+
+    RedisClient::Response result;
+
+    // check position update
+    RedisClient::Command getValueByIndex(QStringList()
+                                         << "LRANGE" << m_keyFullPath
+                                         << QString::number(i) << QString::number(i),
+                                         m_dbIndex);
+
+    result = RedisClient::CommandExecutor::execute(m_connection, getValueByIndex);
+
+    QStringList currentState = result.getValue().toStringList();
+
+    if (currentState.size() != 1 || currentState[0] != QString(value)) {
+        throw Exception("Can't delete row from list, because row already has changed."
+                        " Reload values and try again.");
+    }
+
+    // Replace value by system string
+    QString customSystemValue("---VALUE_REMOVED_BY_RDM---");
+    RedisClient::Command resetValue(QStringList()
+                                    << "LSET" << m_keyFullPath
+                                    << QString::number(i) << customSystemValue,
+                                    m_dbIndex);
+    result = RedisClient::CommandExecutor::execute(m_connection, resetValue);
+
+    // Remove all system values from list
+    RedisClient::Command deleteValues(QStringList()
+                                    << "LREM" << m_keyFullPath << 0 << customSystemValue,
+                                    m_dbIndex);
+
+    result = RedisClient::CommandExecutor::execute(m_connection, deleteValues);
+
+    m_rowCount--;
+    m_rowsCache.remove(i);
+    Q_UNUSED(result);
+
+    if (m_rowCount == 0) {
+        m_isKeyRemoved = true;
+        emit removed();
+    }
 }
 
 void ListKeyModel::loadRowCount()

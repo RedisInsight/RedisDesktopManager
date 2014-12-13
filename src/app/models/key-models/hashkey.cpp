@@ -1,6 +1,6 @@
 #include "hashkey.h"
-#include <QStandardItem>
-#include <QDebug>
+#include "modules/redisclient/command.h"
+#include "modules/redisclient/commandexecutor.h"
 
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
        : KeyModel(connection, fullPath, dbIndex, ttl)
@@ -44,14 +44,36 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
     return QVariant();
 }
 
-void HashKeyModel::updateRow(int rowIndex, const QVariantMap &)
+void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
+    if (!isRowLoaded(rowIndex) || !isRowValid(row))
+        throw Exception("Invalid row");
 
+    QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
+
+    bool keyChanged = cachedRow.first != row["key"].toString();
+    bool valueChanged = cachedRow.second != row["value"].toString();
+
+    QPair<QByteArray, QByteArray> newRow(
+                    (keyChanged) ? row["key"].toByteArray() : cachedRow.first,
+                    (valueChanged) ? row["value"].toByteArray() : cachedRow.second
+                );
+
+    if (keyChanged) {
+        deleteHashRow(cachedRow.first);
+    }
+
+    setHashRow(newRow.first, newRow.second);
+    m_rowsCache.remove(rowIndex);
+    m_rowsCache.insert(rowIndex, newRow);
 }
 
-void HashKeyModel::addRow(const QVariantMap &)
+void HashKeyModel::addRow(const QVariantMap &row)
 {
+    if (isRowValid(row))
+        throw Exception("Invalid row");
 
+    setHashRow(row["key"].toByteArray(), row["value"].toByteArray());
 }
 
 unsigned long HashKeyModel::rowsCount()
@@ -88,12 +110,22 @@ void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
 
 void HashKeyModel::clearRowCache()
 {
-
+    m_rowsCache.clear();
 }
 
-void HashKeyModel::removeRow(int)
+void HashKeyModel::removeRow(int i)
 {
+    if (!m_rowsCache.contains(i))
+        return;
 
+    QPair<QByteArray, QByteArray> row = m_rowsCache.value(i);
+
+    deleteHashRow(row.first);
+
+    m_rowCount--;
+    m_rowsCache.remove(i);
+
+    setRemovedIfEmpty();
 }
 
 bool HashKeyModel::isRowLoaded(int rowIndex)
@@ -108,51 +140,21 @@ bool HashKeyModel::isMultiRow() const
 
 void HashKeyModel::loadRowCount()
 {
-    m_rowCount = getRowCount("HLEN");
-
-    qDebug() << "row count:" << m_rowCount;
+    m_rowCount = getRowCount("HLEN");   
 }
 
-//void HashKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
-//{
-//    QStandardItem * currentItem = itemFromIndex(*cellIndex);
+void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue)
+{
+    using namespace RedisClient;
+    Command addCmd(QStringList() << "HSET" << m_keyFullPath << hashKey << hashValue,
+                   m_dbIndex);
+    CommandExecutor::execute(m_connection, addCmd);
+}
 
-//    QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
+void HashKeyModel::deleteHashRow(const QString &hashKey)
+{
+    using namespace RedisClient;
+    Command deleteCmd(QStringList()<< "HDEL" << m_keyFullPath << hashKey, m_dbIndex);
+    CommandExecutor::execute(m_connection, deleteCmd);
+}
 
-//    if (itemType == "key")
-//    {
-//        QStringList removeCmd;
-//        removeCmd << "HDEL"
-//                  << keyName
-//                  << currentItem->text();
-
-//        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
-
-//        QStandardItem * valueItem = item(currentItem->row(), 1);
-
-//        QStringList addCmd;
-
-//        addCmd << "HSET"
-//               << keyName
-//               << value
-//               << valueItem->text();
-
-
-//        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
-
-//    } else if (itemType == "value") {
-
-//        QStandardItem * keyItem = item(currentItem->row(), 0);
-
-//        QStringList setCmd;
-
-//        setCmd << "HSET"
-//            << keyName
-//            << keyItem->text()
-//            << value;
-
-//        db->runCommand(RedisClient::Command(setCmd, this, "loadedUpdateStatus", dbIndex));
-//    }
-
-//    currentItem->setText(value);
-//}

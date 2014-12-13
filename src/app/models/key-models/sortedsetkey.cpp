@@ -1,4 +1,6 @@
 #include "sortedsetkey.h"
+#include "modules/redisclient/command.h"
+#include "modules/redisclient/commandexecutor.h"
 
 SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl)
@@ -89,9 +91,23 @@ void SortedSetKeyModel::clearRowCache()
     m_rowsCache.clear();
 }
 
-void SortedSetKeyModel::removeRow(int)
+void SortedSetKeyModel::removeRow(int i)
 {
+    if (!m_rowsCache.contains(i))
+        return;
 
+    QByteArray value = m_rowsCache.value(i).first;
+
+    using namespace RedisClient;
+
+    Command deleteValues(QStringList() << "ZREM" << m_keyFullPath << value, m_dbIndex);
+    Response result = CommandExecutor::execute(m_connection, deleteValues);
+
+    m_rowCount--;
+    m_rowsCache.remove(i);
+    Q_UNUSED(result);
+
+    setRemovedIfEmpty();
 }
 
 bool SortedSetKeyModel::isRowLoaded(int rowIndex)

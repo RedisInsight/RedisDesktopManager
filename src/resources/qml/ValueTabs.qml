@@ -11,16 +11,18 @@ Repeater {
 
         function close(index) {
 
-            if (valueEditor.item && valueEditor.item.isValueChanged()) {
-                // TODO: show "Unsaved changes detected" warnings
-                return
-            }
+//            console.log(valueEditor!=undefined)
+
+//            if (valueEditor != undefined && valueEditor.item && valueEditor.item.isValueChanged()) {
+//                // TODO: show "Unsaved changes detected" warnings
+//                return
+//            }
 
             viewModel.closeTab(tabIndex)
         }
 
         title: keyName
-        property int tabIndex: keyIndex
+        property int tabIndex: keyIndex                       
 
         ColumnLayout {
             anchors.fill: parent
@@ -114,9 +116,36 @@ Repeater {
 
                 Button { text: "Add row"; visible: showValueNavigation}
                 Button {
-                    text: "Delete row"
+                    text: "Delete row"                                                            
                     visible: showValueNavigation
                     enabled: table.currentRow != -1
+
+                    onClicked: {
+                        if (table.model.totalRowCount() == 1) {
+                            deleteRowConfirmation.text = "This is last row in this key, " +
+                                    "if you remove this - key will be removed!"
+                        } else {
+                            deleteRowConfirmation.text = "Do you relly want to remove this row?"
+                        }
+                        deleteRowConfirmation.rowToDelete = table.currentRow
+                        deleteRowConfirmation.open()
+                    }
+
+                    MessageDialog {
+                        id: deleteRowConfirmation
+                        title: "Delete row"
+                        text: ""
+                        onYes: {
+                            console.log("remove row in key")
+                            table.model.deleteRow(rowToDelete)
+                        }
+                        visible: false
+                        modality: Qt.WindowModal
+                        icon: StandardIcon.Warning
+                        standardButtons: StandardButton.Yes | StandardButton.No
+                        property int rowToDelete
+                    }
+
                 }
                 Button { text: "Reload"}
             }          
@@ -161,6 +190,31 @@ Repeater {
                         if (keyType === "string") {
                             valueEditor.loadRowValue(0)
                         }
+                    }               
+                }
+
+                MessageDialog {
+                    id: valueErrorNotification
+                    visible: false
+                    modality: Qt.WindowModal
+                    icon: StandardIcon.Warning
+                    standardButtons: StandardButton.Ok
+                }
+
+                Connections {
+                    target: table.model ? table.model : null
+
+                    onError: {
+                        valueErrorNotification.text = error
+                        valueErrorNotification.open()
+                    }
+
+                    onDataChanged: {
+                        console.log("DATA CHANGED!")
+                    }
+
+                    onLayoutChanged: {
+                        console.log("LAYOUT CHANGED!")
                     }
                 }
 

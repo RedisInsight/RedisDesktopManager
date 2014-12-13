@@ -38,12 +38,14 @@ public:
 
 signals:
     void rowsLoaded(int start, int count);
+    void error(QString error);
 
 private:
     QSharedPointer<ValueEditor::Model> m_model;
 
 protected:
     bool isIndexValid(const QModelIndex &index) const;
+    int mapRowIndex(int i);
 
 private:
     int m_startFramePosition;

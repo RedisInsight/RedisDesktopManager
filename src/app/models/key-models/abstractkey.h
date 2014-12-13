@@ -38,6 +38,7 @@ protected:
 
     // row validator
     bool isRowValid(const QVariantMap &row);
+    void setRemovedIfEmpty();
 };
 
 class ListLikeKeyModel : public KeyModel
