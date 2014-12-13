@@ -113,7 +113,11 @@ Repeater {
                 Item { Layout.fillWidth: true}
 
                 Button { text: "Add row"; visible: showValueNavigation}
-                Button { text: "Delete row"; visible: showValueNavigation}
+                Button {
+                    text: "Delete row"
+                    visible: showValueNavigation
+                    enabled: table.currentRow != -1
+                }
                 Button { text: "Reload"}
             }          
 

@@ -6,7 +6,10 @@
 #include <QSharedPointer>
 #include <QVariantList>
 #include <QQuickView>
+#include <QQuickWidget>
 #include "viewmodel.h"
+
+#define ALTERNATIVE_IMPL
 
 namespace ValueEditor {
 
@@ -17,7 +20,11 @@ public:
     View(QSharedPointer<ViewModel> viewModel);
 
 private:
+#ifndef ALTERNATIVE_IMPL
     QSharedPointer<QQuickView> m_qml;
+#else
+    QSharedPointer<QQuickWidget> m_qml;
+#endif
 };
 }
 

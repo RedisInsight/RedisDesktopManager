@@ -65,8 +65,7 @@ void MainWin::initConnectionsTreeView()
     ui.serversTreeView->setModel(connections.data());
 
     // fix initial widgets sizes
-    ui.mainSplitter->setSizes(QList<int>() << 300 << 750);
-    ui.splitter->setSizes(QList<int>() << 450 << 200);
+    ui.mainSplitter->setSizes(QList<int>() << 300 << 750);    
 }
 
 void MainWin::initContextMenus()
@@ -121,6 +120,8 @@ void MainWin::initValuesView()
     layout->setMargin(0);
     layout->addWidget(valueView);
     ui.qmlParent->setLayout(layout);
+    ui.qmlParent->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    ui.splitter->setSizes(QList<int>() << 0 << 100);
 }
 
 void MainWin::showQuickStartDialog()

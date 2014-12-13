@@ -287,8 +287,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>400</width>
           <height>400</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10000</width>
+          <height>10000</height>
          </size>
         </property>
         <property name="baseSize">
@@ -300,7 +306,7 @@
        </widget>
        <widget class="ConsoleTabs" name="tabWidget">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
