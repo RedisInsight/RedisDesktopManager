@@ -50,6 +50,11 @@ unix:!mac {
     INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
     HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
     SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
+
+    #code coverage
+    QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0
+    QMAKE_LFLAGS += -g -fprofile-arcs -ftest-coverage  -O0
+    LIBS += -lgcov
 }
 
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
