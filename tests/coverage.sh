@@ -1,5 +1,4 @@
 #!/bin/sh
-cp -Rf ./../src/app ./
-cp -Rf ./../src/modules ./
+cd ./../src
 
-find . -name '*.cpp' -exec gcov -s ../src -o ./../bin/tests/obj {} \;
+find . -name '*.cpp' -exec gcov -s `pwd` -o ./../bin/tests/obj {} \;

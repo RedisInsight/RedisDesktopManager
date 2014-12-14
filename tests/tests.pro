@@ -60,3 +60,7 @@ unix:!mac {
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
 
+UI_DIR = $$DESTDIR/ui
+OBJECTS_DIR = $$DESTDIR/obj
+MOC_DIR = $$DESTDIR/obj
+RCC_DIR = $$DESTDIR/obj
