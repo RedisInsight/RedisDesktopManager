@@ -27,7 +27,7 @@ script:
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
-  - coveralls -b `pwd` -r `readlink -m ./../` -e 3rdparty/ -e tests/
+  - coveralls -b `pwd` -r `readlink -m ./../` -e 3rdparty/ -e tests/ -e bin/
   - cd ./../src
   - sudo chmod a+x configure
   - sudo ./configure
