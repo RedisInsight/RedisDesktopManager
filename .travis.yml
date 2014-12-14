@@ -27,8 +27,7 @@ script:
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s
   - ./../bin/tests/tests -platform minimal -txt
-  - sudo sh ./coverage.sh
-  - coveralls --exclude-pattern '.*\.h' --no-gcov
+  - coveralls -b `pwd` -r ~/projects/rdm/
   - cd ./../src
   - sudo chmod a+x configure
   - sudo ./configure
