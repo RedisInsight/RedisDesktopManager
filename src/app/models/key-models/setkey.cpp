@@ -13,14 +13,29 @@ QString SetKeyModel::getType()
     return "set";
 }
 
-void SetKeyModel::updateRow(int rowIndex, const QVariantMap &)
+void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
+    if (!isRowLoaded(rowIndex) || !isRowValid(row))
+        throw Exception("Invalid row");
 
+    QByteArray cachedRow = m_rowsCache[rowIndex];
+    QByteArray newRow(row["value"].toByteArray());
+
+    // delete old value
+    deleteSetRow(cachedRow);
+    m_rowsCache.removeAt(rowIndex);
+
+    // add new value
+    addSetRow(newRow);
+    m_rowsCache.insert(rowIndex, newRow);
 }
 
-void SetKeyModel::addRow(const QVariantMap &)
+void SetKeyModel::addRow(const QVariantMap &row)
 {
+    if (isRowValid(row))
+        throw Exception("Invalid row");
 
+    addSetRow(row["value"].toString());
 }
 
 void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
@@ -32,12 +47,10 @@ void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fun
         if (!m_rowsCache.isEmpty())
             return;
 
-        QStringList rows = getRowsRange("SMEMBERS").toStringList();
-        unsigned int rowIndex = rowStart;
+        QStringList rows = getRowsRange("SMEMBERS").toStringList();        
 
         foreach (QString row, rows) {
-            m_rowsCache[rowIndex] = row.toUtf8();
-            rowIndex++;
+            m_rowsCache.push_back(row.toUtf8());
         }
     }
 
@@ -46,7 +59,7 @@ void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fun
 
 void SetKeyModel::removeRow(int i)
 {
-    if (!m_rowsCache.contains(i))
+    if (!isRowLoaded(i))
         return;
 
     QByteArray value = m_rowsCache.value(i);
@@ -57,7 +70,7 @@ void SetKeyModel::removeRow(int i)
     Response result = CommandExecutor::execute(m_connection, deleteValues);
 
     m_rowCount--;
-    m_rowsCache.remove(i);
+    m_rowsCache.removeAt(i);
     Q_UNUSED(result);
 
     setRemovedIfEmpty();
@@ -68,21 +81,16 @@ void SetKeyModel::loadRowCount()
     m_rowCount = getRowCount("SCARD");
 }
 
-//void SetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
-//{
-//    QStandardItem * item = itemFromIndex(*cellIndex);
-//    QString oldValue = item->text();
-//    item->setText(value);
+void SetKeyModel::addSetRow(const QString &value)
+{
+    using namespace RedisClient;
+    Command addCmd(QStringList() << "SADD" << m_keyFullPath << value, m_dbIndex);
+    CommandExecutor::execute(m_connection, addCmd);
+}
 
-//    QString deleteOld = QString("SREM %1 %2")
-//        .arg(keyName)
-//        .arg(oldValue);
-
-//    db->runCommand(RedisClient::Command(deleteOld, this, dbIndex));
-
-//    QString addNew = QString("SADD %1 %2")
-//        .arg(keyName)
-//        .arg(value);
-
-//    db->runCommand(RedisClient::Command(addNew, this, "loadedUpdateStatus", dbIndex));
-//}
+void SetKeyModel::deleteSetRow(const QString &value)
+{
+    using namespace RedisClient;
+    Command addCmd(QStringList() << "SREM" << m_keyFullPath << value, m_dbIndex);
+    CommandExecutor::execute(m_connection, addCmd);
+}

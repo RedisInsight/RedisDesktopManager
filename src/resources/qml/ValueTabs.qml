@@ -147,7 +147,7 @@ Repeater {
                     }
 
                 }
-                Button { text: "Reload"}
+                Button { text: "Reload values"}
             }          
 
             TableView {
@@ -318,7 +318,7 @@ Repeater {
                 Text {
                     text: "Page " + table.currentPage + " of " + table.totalPages
                             + " (Items:" + (table.currentStart+1) + "-"
-                            + (table.currentStart+table.maxItemsOnPage)
+                            + (table.currentStart+table.rowCount)
                             + " of " + table.model.totalRowCount() + ")"
                 }
                 TextField { text: "1"; Layout.fillWidth: true; readOnly: false}

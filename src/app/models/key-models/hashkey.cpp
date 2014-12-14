@@ -64,8 +64,7 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     }
 
     setHashRow(newRow.first, newRow.second);
-    m_rowsCache.remove(rowIndex);
-    m_rowsCache.insert(rowIndex, newRow);
+    m_rowsCache.replace(rowIndex, newRow);
 }
 
 void HashKeyModel::addRow(const QVariantMap &row)
@@ -101,7 +100,7 @@ void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
                 throw Exception("Partial data loaded from server");
 
             value.second = item->toUtf8();
-            m_rowsCache[rowIndex] = value;
+            m_rowsCache.push_back(value);
         }
     }
 
@@ -115,22 +114,22 @@ void HashKeyModel::clearRowCache()
 
 void HashKeyModel::removeRow(int i)
 {
-    if (!m_rowsCache.contains(i))
+    if (!isRowLoaded(i))
         return;
 
-    QPair<QByteArray, QByteArray> row = m_rowsCache.value(i);
+    QPair<QByteArray, QByteArray> row = m_rowsCache[i];
 
     deleteHashRow(row.first);
 
     m_rowCount--;
-    m_rowsCache.remove(i);
+    m_rowsCache.removeAt(i);
 
     setRemovedIfEmpty();
 }
 
 bool HashKeyModel::isRowLoaded(int rowIndex)
 {
-    return m_rowsCache.contains(rowIndex);
+    return 0 <= rowIndex && rowIndex < m_rowsCache.size();
 }
 
 bool HashKeyModel::isMultiRow() const

@@ -130,8 +130,7 @@ void ValueEditor::ValueViewModel::deleteRow(int i)
         emit error(QString(e.what()));
     }
 
-    beginRemoveRows(QModelIndex(), i, i);
-    endRemoveRows();
+    emit layoutChanged();
 }
 
 int ValueEditor::ValueViewModel::totalRowCount()

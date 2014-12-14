@@ -44,14 +44,34 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
     return QVariant();
 }
 
-void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &)
+void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
+    if (!isRowLoaded(rowIndex) || !isRowValid(row))
+        throw Exception("Invalid row");
 
+    QPair<QByteArray, double> cachedRow = m_rowsCache[rowIndex];
+
+    bool valueChanged = cachedRow.first != row["value"].toString();
+    bool scoreChanged = cachedRow.second != row["score"].toDouble();
+
+    QPair<QByteArray, double> newRow(
+                    (valueChanged) ? row["value"].toByteArray() : cachedRow.first,
+                    (scoreChanged) ? row["score"].toDouble() : cachedRow.second
+                );
+
+    // TODO (uglide): Update only score if value not changed
+
+    deleteSortedSetRow(cachedRow.first);
+    addSortedSetRow(newRow.first, newRow.second);
+    m_rowsCache.replace(rowIndex, newRow);
 }
 
-void SortedSetKeyModel::addRow(const QVariantMap &)
+void SortedSetKeyModel::addRow(const QVariantMap &row)
 {
+    if (isRowValid(row))
+        throw Exception("Invalid row");
 
+    addSortedSetRow(row["value"].toString(), row["score"].toDouble());
 }
 
 unsigned long SortedSetKeyModel::rowsCount()
@@ -64,12 +84,10 @@ void SortedSetKeyModel::loadRows(unsigned long rowStart, unsigned long count, st
     if (isPartialLoadingSupported()) {
         //TBD
     } else {
-        QStringList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toStringList();
-
-        unsigned int rowIndex = rowStart;
+        QStringList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toStringList();       
 
         for (QStringList::iterator item = rows.begin();
-             item != rows.end(); ++item, rowIndex++) {
+             item != rows.end(); ++item) {
 
             QPair<QByteArray, double> value;
             value.first = item->toUtf8();
@@ -79,7 +97,7 @@ void SortedSetKeyModel::loadRows(unsigned long rowStart, unsigned long count, st
                 throw Exception("Partial data loaded from server");
 
             value.second = item->toDouble();
-            m_rowsCache[rowIndex] = value;
+            m_rowsCache.push_back(value);
         }
     }
 
@@ -93,7 +111,7 @@ void SortedSetKeyModel::clearRowCache()
 
 void SortedSetKeyModel::removeRow(int i)
 {
-    if (!m_rowsCache.contains(i))
+    if (!isRowLoaded(i))
         return;
 
     QByteArray value = m_rowsCache.value(i).first;
@@ -104,7 +122,7 @@ void SortedSetKeyModel::removeRow(int i)
     Response result = CommandExecutor::execute(m_connection, deleteValues);
 
     m_rowCount--;
-    m_rowsCache.remove(i);
+    m_rowsCache.removeAt(i);
     Q_UNUSED(result);
 
     setRemovedIfEmpty();
@@ -112,7 +130,7 @@ void SortedSetKeyModel::removeRow(int i)
 
 bool SortedSetKeyModel::isRowLoaded(int rowIndex)
 {
-    return m_rowsCache.contains(rowIndex);
+    return 0 <= rowIndex && rowIndex < m_rowsCache.size();
 }
 
 bool SortedSetKeyModel::isMultiRow() const
@@ -125,53 +143,17 @@ void SortedSetKeyModel::loadRowCount()
     m_rowCount = getRowCount("ZCARD");
 }
 
-//void SortedSetKeyModel::updateValue(const QString& value, const QModelIndex *cellIndex)
-//{
-//    QStandardItem * currentItem = itemFromIndex(*cellIndex);
+void SortedSetKeyModel::addSortedSetRow(const QString &value, double score)
+{
+    using namespace RedisClient;
+    Command addCmd(QStringList() << "ZADD" << m_keyFullPath
+                   << QString::number(score) << value, m_dbIndex);
+    CommandExecutor::execute(m_connection, addCmd);
+}
 
-//    QString itemType = currentItem->data(KeyModel::KEY_VALUE_TYPE_ROLE).toString();
-
-//    if (itemType == "member")
-//    {
-//        QStringList removeCmd;
-//        removeCmd << "ZREM"
-//            << keyName
-//            << currentItem->text();
-
-//        db->runCommand(RedisClient::Command(removeCmd, this, dbIndex));
-
-//        QStandardItem * scoreItem = item(currentItem->row(), 1);
-
-//        QStringList addCmd;
-
-//        addCmd << "ZADD"
-//            << keyName
-//            << scoreItem->text()
-//            << value;
-
-//        db->runCommand(RedisClient::Command(addCmd, this, "loadedUpdateStatus", dbIndex));
-
-//    } else if (itemType == "score") {
-
-//        bool converted = false;
-//        double changedScore = value.toDouble(&converted);
-
-//        if (!converted)
-//            return;
-        
-//        double currentScore = currentItem->text().toDouble();
-//        double incr = changedScore - currentScore;
-
-//        QStandardItem * memberItem = item(currentItem->row(), 0);
-
-//        QStringList updateCmd;
-//        updateCmd << "ZINCRBY"
-//            << keyName
-//            << QString::number(incr)
-//            << memberItem->text();
-
-//        db->runCommand(RedisClient::Command(updateCmd, this, "loadedUpdateStatus", dbIndex));
-//    }
-
-//    currentItem->setText(value);
-//}
+void SortedSetKeyModel::deleteSortedSetRow(const QString &value)
+{
+    using namespace RedisClient;
+    Command addCmd(QStringList() << "ZREM" << m_keyFullPath << value, m_dbIndex);
+    CommandExecutor::execute(m_connection, addCmd);
+}

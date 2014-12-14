@@ -27,9 +27,11 @@ public:
 private:
     enum Roles { Value = Qt::UserRole + 1, Score, RowNumber};
 
-    QHash<int, QPair<QByteArray, double>> m_rowsCache;
+    QList<QPair<QByteArray, double>> m_rowsCache;
 
     void loadRowCount();
+    void addSortedSetRow(const QString& value, double score);
+    void deleteSortedSetRow(const QString& value);
 };
 
 #endif // SORTEDSETKEYMODEL_H

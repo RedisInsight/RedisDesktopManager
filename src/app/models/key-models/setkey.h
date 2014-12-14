@@ -20,5 +20,8 @@ public:
 
 private:
     void loadRowCount();
+
+    void addSetRow(const QString& value);
+    void deleteSetRow(const QString& value);
 };
 

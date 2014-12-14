@@ -19,4 +19,9 @@ public:
 
 private:   
     void loadRowCount();
+
+    bool isActualPositionChanged(int row);
+    void addListRow(const QString& value);
+    void setListRow(int pos, const QString& value);
+    void deleteListRow(int count, const QString& value);
 };

@@ -202,7 +202,7 @@ void ListLikeKeyModel::clearRowCache()
 
 bool ListLikeKeyModel::isRowLoaded(int rowIndex)
 {
-    return m_rowsCache.contains(rowIndex);
+    return 0 <= rowIndex && rowIndex < m_rowsCache.size();
 }
 
 bool ListLikeKeyModel::isMultiRow() const

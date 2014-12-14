@@ -27,7 +27,7 @@ public:
 private:
     enum Roles { Key = Qt::UserRole + 1, Value, RowNumber};
 
-    QHash<int, QPair<QByteArray, QByteArray>> m_rowsCache;
+    QList<QPair<QByteArray, QByteArray>> m_rowsCache;
 
     void loadRowCount();
 

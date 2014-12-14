@@ -59,5 +59,5 @@ public:
 
 protected:
     enum Roles { Value = Qt::UserRole + 1, RowNumber};
-    QHash<int, QByteArray> m_rowsCache;
+    QList<QByteArray> m_rowsCache;
 };
