@@ -5,6 +5,9 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 
 ColumnLayout {
+
+    property bool editingMode: true
+
     function isValueChanged() {
         console.exception("Not implemented")
     }

@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.minimumHeight: 35
 
         text: ""
-        enabled: originalValue != ""
+        enabled: originalValue != "" || !editingMode
         property string originalValue: ""
     }
 
@@ -36,7 +36,7 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != ""
+        enabled: originalValue != "" || !editingMode
         property string originalValue: ""
     }
 

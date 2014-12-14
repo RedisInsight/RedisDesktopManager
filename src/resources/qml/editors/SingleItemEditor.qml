@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != ""
+        enabled: originalValue != "" || !editingMode
     }
 
     function setValue(rowValue) {

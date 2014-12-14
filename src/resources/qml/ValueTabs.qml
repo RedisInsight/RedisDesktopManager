@@ -114,7 +114,63 @@ Repeater {
 
                 Item { Layout.fillWidth: true}
 
-                Button { text: "Add row"; visible: showValueNavigation}
+                Button {
+                    text: "Add row";
+                    visible: showValueNavigation
+
+                    Dialog {
+                        id: addRowDialog
+                        title: "Add Row"
+
+                        width: 520
+
+                        RowLayout {
+                            implicitWidth: 500
+                            implicitHeight: 100
+                            width: 500
+
+                            Loader {
+                                id: valueAddEditor
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+
+                                property int currentRow: -1
+
+                                source: {
+                                    if (keyType === "string") {
+                                        return "./editors/SingleItemEditor.qml"
+                                    } else if (keyType === "list" || keyType === "set") {
+                                        return "./editors/SingleItemEditor.qml"
+                                    } else if (keyType === "zset") {
+                                        return "./editors/SortedSetItemEditor.qml"
+                                    } else if (keyType === "hash") {
+                                        return "./editors/HashItemEditor.qml"
+                                    } else {
+                                        console.error("Editor for type " + keyType + " is not defined!")
+                                    }
+                                }
+
+                                onLoaded: {
+                                    item.editingMode = false
+                                }
+                            }
+                        }
+
+                        onAccepted: {
+                            console.log(newKeyName.text)
+                            viewModel.renameKey(keyTab.keyIndex, newKeyName.text)
+                        }
+
+                        visible: false
+                        modality: Qt.WindowModal
+                        standardButtons: StandardButton.Ok | StandardButton.Cancel
+                    }
+
+                    onClicked: {
+                        addRowDialog.open()
+                    }
+                }
+
                 Button {
                     text: "Delete row"                                                            
                     visible: showValueNavigation
@@ -147,7 +203,7 @@ Repeater {
                     }
 
                 }
-                Button { text: "Reload values"}
+                //Button { text: "Reload values"}
             }          
 
             TableView {
@@ -207,14 +263,6 @@ Repeater {
                     onError: {
                         valueErrorNotification.text = error
                         valueErrorNotification.open()
-                    }
-
-                    onDataChanged: {
-                        console.log("DATA CHANGED!")
-                    }
-
-                    onLayoutChanged: {
-                        console.log("LAYOUT CHANGED!")
                     }
                 }
 
@@ -336,105 +384,111 @@ Repeater {
                 }
             }
 
-            ColumnLayout {
+            GroupBox {
+                title: "Editor:"
                 Layout.fillWidth: true
                 Layout.fillHeight: !showValueNavigation
                 Layout.minimumHeight: 250
+                flat: false
 
-                Text {
-                    Layout.fillWidth: true
+                ColumnLayout {
+                    anchors.fill: parent
 
-                    visible: showValueNavigation
+                    Text {
+                        Layout.fillWidth: true
 
-                    textFormat: Text.RichText
-                    text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
-                }
+                        visible: showValueNavigation
 
-                Connections {
-                    target: table
-
-                    onActivated: {
-                        valueEditor.loadRowValue(row)
+                        textFormat: Text.RichText
+                        text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
                     }
-                }
 
+                    Connections {
+                        target: table
 
-                Loader {
-                    id: valueEditor
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    property int currentRow: -1
-
-                    source: {
-                        if (keyType === "string") {
-                            table.loadValue()
-                            return "./editors/SingleItemEditor.qml"
-                        } else if (keyType === "list" || keyType === "set") {
-                            return "./editors/SingleItemEditor.qml"
-                        } else if (keyType === "zset") {
-                            return "./editors/SortedSetItemEditor.qml"
-                        } else if (keyType === "hash") {
-                            return "./editors/HashItemEditor.qml"
-                        } else {
-                            console.error("Editor for type " + keyType + " is not defined!")
+                        onActivated: {
+                            valueEditor.loadRowValue(row)
                         }
                     }
 
-                    onLoaded: {
-                        console.log("VALUE EDITOR LOADED!")
 
-                        if (keyType === "string") {
-                            valueEditor.loadRowValue(0)
+                    Loader {
+                        id: valueEditor
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        property int currentRow: -1
+
+                        source: {
+                            if (keyType === "string") {
+                                table.loadValue()
+                                return "./editors/SingleItemEditor.qml"
+                            } else if (keyType === "list" || keyType === "set") {
+                                return "./editors/SingleItemEditor.qml"
+                            } else if (keyType === "zset") {
+                                return "./editors/SortedSetItemEditor.qml"
+                            } else if (keyType === "hash") {
+                                return "./editors/HashItemEditor.qml"
+                            } else {
+                                console.error("Editor for type " + keyType + " is not defined!")
+                            }
                         }
 
-                    }
+                        onLoaded: {
+                            console.log("VALUE EDITOR LOADED!")
 
-                    function loadRowValue(row) {
-                        if (valueEditor.item) {
-                            var rowValue = table.model.getRow(row, true)
-                            valueEditor.currentRow = row
-                            valueEditor.item.setValue(rowValue)                            
-                        }
-                    }
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: 40
-                    Item { Layout.fillWidth: true}
-                    Button {
-                        text: "Save"
-
-                        onClicked: {
-                            if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
-                                savingConfirmation.text = "Nothing to save"
-                                savingConfirmation.open()
-                                return
+                            if (keyType === "string") {
+                                valueEditor.loadRowValue(0)
                             }
 
-                            var value = valueEditor.item.getValue()
-
-                            console.log(value, value["value"])
-                            table.model.updateRow(valueEditor.currentRow, value)
-
-                            savingConfirmation.text = "Value was updated!"
-                            savingConfirmation.open()
                         }
 
+                        function loadRowValue(row) {
+                            if (valueEditor.item) {
+                                var rowValue = table.model.getRow(row, true)
+                                valueEditor.currentRow = row
+                                valueEditor.item.setValue(rowValue)
+                            }
+                        }
                     }
 
-                    MessageDialog {
-                        id: savingConfirmation
-                        title: "Save value"
-                        text: ""
-                        visible: false
-                        modality: Qt.WindowModal
-                        icon: StandardIcon.Warning
-                        standardButtons: StandardButton.Ok
-                    }
-                }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: 40
+                        Item { Layout.fillWidth: true}
+                        Button {
+                            text: "Save"
 
+                            onClicked: {
+                                if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                    savingConfirmation.text = "Nothing to save"
+                                    savingConfirmation.open()
+                                    return
+                                }
+
+                                var value = valueEditor.item.getValue()
+
+                                console.log(value, value["value"])
+                                table.model.updateRow(valueEditor.currentRow, value)
+
+                                savingConfirmation.text = "Value was updated!"
+                                savingConfirmation.open()
+                            }
+
+                        }
+
+                        MessageDialog {
+                            id: savingConfirmation
+                            title: "Save value"
+                            text: ""
+                            visible: false
+                            modality: Qt.WindowModal
+                            icon: StandardIcon.Warning
+                            standardButtons: StandardButton.Ok
+                        }
+                    }
+
+                }// --
             }
         }
     }

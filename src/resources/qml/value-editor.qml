@@ -10,7 +10,8 @@ Rectangle {
 
     TabView {
         id: tabs
-        anchors.fill: parent        
+        anchors.fill: parent
+        anchors.margins: 2
         currentIndex: 0
 
         onCurrentIndexChanged: {
