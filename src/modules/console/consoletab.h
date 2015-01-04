@@ -14,7 +14,6 @@ public:
     ConsoleTab(QSharedPointer<Operations>);
 
     void close() override;
-    bool shouldBeReplaced() override;
     virtual QString getTitle() override;
     virtual QIcon getIcon() override;
 

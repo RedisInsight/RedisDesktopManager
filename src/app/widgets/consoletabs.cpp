@@ -91,9 +91,9 @@ void ConsoleTabs::closeCurrentTabWithValue()
 
     BaseTab * tab = qobject_cast<BaseTab *> (widget(currIndex));
 
-    if (tab->shouldBeReplaced()) {
+    //if (tab->shouldBeReplaced()) {
         closeTab(currIndex);
-    }
+    //}
 }
 
 void ConsoleTabs::closeTab(unsigned int index)

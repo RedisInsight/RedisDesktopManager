@@ -25,17 +25,14 @@ before_script:
 script: 
   - qmake -v
   - qmake DEFINES+=INTEGRATION_TESTS
-  - make -s
+  - make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
-  - sudo sh ./coverage.sh
-  - coveralls --exclude-pattern '.*\.h' --no-gcov
+  - coveralls -b `pwd` -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.*
   - cd ./../src
   - sudo chmod a+x configure
   - sudo ./configure
   - qmake
-  - make -s
-after_success:
-  - cd ./../tests
+  - make -s -j 2
 services:
   - redis-server
 notifications:

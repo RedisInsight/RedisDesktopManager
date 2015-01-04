@@ -56,6 +56,7 @@ Rectangle {
                     RowLayout {
                         id: layout
                         anchors.fill: parent
+                        anchors.rightMargin: 8
 
                         Item { Layout.preferredWidth: 3 }
 
@@ -67,10 +68,22 @@ Rectangle {
                         }
                         Button {
                             text: "x"
-                            Layout.maximumWidth: 25
+                            Layout.maximumWidth: 18
+                            Layout.maximumHeight: 18
+                            Layout.preferredWidth: 18
+                            Layout.preferredHeight: 18
                             onClicked: {
                                 tabs.getTab(styleData.index).close(styleData.index)
                             }
+
+                            style: ButtonStyle {
+                                    background: Rectangle {
+                                        border.width: control.hovered? 1 : 0
+                                        border.color: control.hovered? "#000" : "#fff"
+                                        radius: 0
+                                        color:  control.hovered? "red" : "#fff"
+                                    }
+                                }
                         }
                     }
                 }

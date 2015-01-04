@@ -136,7 +136,8 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
     connect(item.data(), &ServerItem::keysLoadedInDatabase,
             this, [this, itemIndex, item](unsigned int dbIndex)
     {
-        emit beginInsertRows(itemIndex, 0, item->child(dbIndex)->childCount());
+        QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
+        emit beginInsertRows(dbModelIndex, 0, item->child(dbIndex)->childCount() - 1);
         qDebug() << "key list loaded";
         emit endInsertRows();
     });

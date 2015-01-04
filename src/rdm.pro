@@ -60,8 +60,8 @@ win32 {
 }
 
 unix:macx { # OSX
-    CONFIG += c++11 release
-    CONFIG -= debug
+    CONFIG += c++11 #release
+    #CONFIG -= debug
 
     debug {
         CONFIG-=app_bundle
@@ -74,9 +74,11 @@ unix:macx { # OSX
     QMAKE_INFO_PLIST =  $$PWD/resources/Info.plist
     ICON = $$PWD/resources/rdm.icns
 
-    CRASHREPORTER_APP.files = $$DESTDIR/crashreporter
-    CRASHREPORTER_APP.path = Contents/MacOS
-    QMAKE_BUNDLE_DATA += CRASHREPORTER_APP
+    release {
+        CRASHREPORTER_APP.files = $$DESTDIR/crashreporter
+        CRASHREPORTER_APP.path = Contents/MacOS
+        QMAKE_BUNDLE_DATA += CRASHREPORTER_APP
+    }
 }
 
 unix:!macx { # ubuntu & debian

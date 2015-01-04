@@ -50,11 +50,6 @@ void ConsoleTab::close()
 
 }
 
-bool ConsoleTab::shouldBeReplaced()
-{
-    return false;
-}
-
 QString ConsoleTab::getTitle()
 {
     return m_consoleOperations->getConsoleName();

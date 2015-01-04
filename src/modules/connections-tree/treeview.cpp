@@ -2,6 +2,7 @@
 #include <QMouseEvent>
 #include <QHeaderView>
 #include <QMenu>
+#include <easylogging++.h>
 
 #include "items/treeitem.h"
 #include "model.h"
@@ -52,6 +53,7 @@ void TreeView::processClick(const QModelIndex& index)
     if (item == nullptr)
         return;
 
+    LOG(DEBUG) << "Click on tree item: " << index.row();
 
     if (item->onClick(*static_cast<TreeItem::ParentView*>(this))) {
         setExpanded(index, true);
