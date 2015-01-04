@@ -24,6 +24,18 @@ AbstractEditor {
         text: ""
         enabled: originalValue != "" || !editingMode
         property string originalValue: ""
+
+        style: TextFieldStyle {
+                background: Rectangle {
+                radius: 1
+                implicitWidth: 100
+                implicitHeight: 24
+                border.color: "#BFBFBF"
+                border.width: 1
+                color: (textArea.text=="" && textArea.enabled
+                                      && textArea.readOnly == false) ? "lightyellow" : "white"
+                }
+         }
     }
 
     Text {
@@ -38,6 +50,11 @@ AbstractEditor {
         text: ""
         enabled: originalValue != "" || !editingMode
         property string originalValue: ""
+
+        style: TextAreaStyle {
+            backgroundColor: (textArea.text=="" && textArea.enabled
+                              && textArea.readOnly == false) ? "lightyellow" : "white"
+        }
     }
 
     function setValue(rowValue) {
@@ -65,5 +82,21 @@ AbstractEditor {
 
     function getValue() {
         return {"value": textArea.text, "key": keyText.text}
+    }
+
+    function isValueValid() {
+        var value = getValue()
+
+        return value && value['key'] && value['value']
+                && value['key'].length > 0
+                && value['value'].length > 0
+    }
+
+    function markInvalidFields() {
+        keyText.textColor = "black"
+        textArea.textColor = "black"
+
+
+        keyText.textColor = "red"
     }
 }

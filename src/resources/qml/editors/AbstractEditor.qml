@@ -23,4 +23,12 @@ ColumnLayout {
     function getValue() {
         console.exception("Not implemented")
     }
+
+    function isValueValid() {
+        console.exception("Not implemented")
+    }
+
+    function markInvalidFields() {
+        console.exception("Not implemented")
+    }
 }

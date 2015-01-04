@@ -3,6 +3,8 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
+import QtQuick.Window 2.2
+
 
 Repeater {
 
@@ -23,6 +25,7 @@ Repeater {
 
         title: keyName
         property int tabIndex: keyIndex                       
+
 
         ColumnLayout {
             anchors.fill: parent
@@ -67,7 +70,7 @@ Repeater {
                         }
 
                         visible: false
-                        modality: Qt.WindowModal
+                        modality: Qt.ApplicationModal
                         standardButtons: StandardButton.Ok | StandardButton.Cancel
                     }
 
@@ -91,7 +94,7 @@ Repeater {
                             viewModel.removeKey(keyTab.keyIndex)
                         }
                         visible: false
-                        modality: Qt.WindowModal
+                        modality: Qt.ApplicationModal
                         icon: StandardIcon.Warning
                         standardButtons: StandardButton.Yes | StandardButton.No
                     }
@@ -118,56 +121,64 @@ Repeater {
                     text: "Add row";
                     visible: showValueNavigation
 
+                    onClicked: {
+                        addRowDialog.open()
+                    }
+
                     Dialog {
                         id: addRowDialog
                         title: "Add Row"
 
                         width: 520
+                        height: 300
+                        modality: Qt.ApplicationModal
 
-                        RowLayout {
-                            implicitWidth: 500
-                            implicitHeight: 100
+                        Loader {
+                            id: valueAddEditor
                             width: 500
+                            height: 350
+                            anchors.centerIn: parent
 
-                            Loader {
-                                id: valueAddEditor
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
+                            property int currentRow: -1
 
-                                property int currentRow: -1
-
-                                source: {
-                                    if (keyType === "string") {
-                                        return "./editors/SingleItemEditor.qml"
-                                    } else if (keyType === "list" || keyType === "set") {
-                                        return "./editors/SingleItemEditor.qml"
-                                    } else if (keyType === "zset") {
-                                        return "./editors/SortedSetItemEditor.qml"
-                                    } else if (keyType === "hash") {
-                                        return "./editors/HashItemEditor.qml"
-                                    } else {
-                                        console.error("Editor for type " + keyType + " is not defined!")
-                                    }
+                            source: {
+                                if (keyType === "string") {
+                                    return "./editors/SingleItemEditor.qml"
+                                } else if (keyType === "list" || keyType === "set") {
+                                    return "./editors/SingleItemEditor.qml"
+                                } else if (keyType === "zset") {
+                                    return "./editors/SortedSetItemEditor.qml"
+                                } else if (keyType === "hash") {
+                                    return "./editors/HashItemEditor.qml"
+                                } else {
+                                    console.error("Editor for type " + keyType + " is not defined!")
                                 }
+                            }
 
-                                onLoaded: {
-                                    item.editingMode = false
-                                }
+                            onLoaded: {
+                                item.editingMode = false
                             }
                         }
 
                         onAccepted: {
-                            console.log(newKeyName.text)
-                            viewModel.renameKey(keyTab.keyIndex, newKeyName.text)
+                            if (!valueAddEditor.item)
+                                return
+
+                            if (valueAddEditor.item.isValueValid()) {
+                                valueAddEditor.item.markInvalidFields()
+                                return
+                            }
+
+                            var row = valueAddEditor.item.getValue()
+
+                            var model = viewModel.getValue(tabIndex)
+                            //model.addRow(row)
+
+                            console.log(row['value'])
                         }
 
                         visible: false
-                        modality: Qt.WindowModal
                         standardButtons: StandardButton.Ok | StandardButton.Cancel
-                    }
-
-                    onClicked: {
-                        addRowDialog.open()
                     }
                 }
 
@@ -196,7 +207,7 @@ Repeater {
                             table.model.deleteRow(rowToDelete)
                         }
                         visible: false
-                        modality: Qt.WindowModal
+                        modality: Qt.ApplicationModal
                         icon: StandardIcon.Warning
                         standardButtons: StandardButton.Yes | StandardButton.No
                         property int rowToDelete
@@ -252,7 +263,7 @@ Repeater {
                 MessageDialog {
                     id: valueErrorNotification
                     visible: false
-                    modality: Qt.WindowModal
+                    modality: Qt.ApplicationModal
                     icon: StandardIcon.Warning
                     standardButtons: StandardButton.Ok
                 }
@@ -276,7 +287,7 @@ Repeater {
                         table.loadValue()
                     }
                     visible: false
-                    modality: Qt.WindowModal
+                    modality: Qt.ApplicationModal
                     icon: StandardIcon.Warning
                     standardButtons: StandardButton.Yes | StandardButton.No
                 }
@@ -482,7 +493,7 @@ Repeater {
                             title: "Save value"
                             text: ""
                             visible: false
-                            modality: Qt.WindowModal
+                            modality: Qt.ApplicationModal
                             icon: StandardIcon.Warning
                             standardButtons: StandardButton.Ok
                         }
