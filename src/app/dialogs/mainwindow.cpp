@@ -7,6 +7,7 @@
 #include <QtWidgets/QDialog>
 #include <QMovie>
 #include <QDesktopWidget>
+#include <easylogging++.h>
 
 #include "app/models/configmanager.h"
 #include "app/models/connectionsmanager.h"
@@ -17,6 +18,9 @@
 #include "modules/redisclient/redisclient.h"
 #include "modules/value-editor/view.h"
 #include "modules/value-editor/viewmodel.h"
+#include "modules/console/logtab.h"
+
+_INITIALIZE_EASYLOGGINGPP
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
@@ -93,14 +97,15 @@ void MainWin::initUpdater()
 
 void MainWin::initSystemConsole()
 {
-//    QPushButton * systemConsoleActivator = new QPushButton( QIcon(":/images/terminal.png"), "System log", this);
-//    systemConsoleActivator->setFlat(true);
-//    systemConsoleActivator->setStyleSheet("border: 0px; margin: 0 5px; font-size: 11px;");
+    QSharedPointer<Console::LogTab> tab(new Console::LogTab());
+    ui.tabWidget->addTab(tab);
 
-//    connect(systemConsoleActivator, SIGNAL(clicked()), this, SLOT(OnConsoleStateChanged()));
+    el::Loggers::removeFlag(el::LoggingFlag::NewLineForContainer);
+    el::Helpers::installLogDispatchCallback<Console::LogHandler>("LogHandler");
+    Console::LogHandler* logHandler = el::Helpers::logDispatchCallback<Console::LogHandler>("LogHandler");
+    logHandler->setOutputTab(tab);
 
-//    ui.systemConsole->hide();
-    //    ui.statusBar->addPermanentWidget(systemConsoleActivator);
+    LOG(INFO) << "Init app log";
 }
 
 void MainWin::initValuesView()

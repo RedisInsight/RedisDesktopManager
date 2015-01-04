@@ -12,6 +12,9 @@ INCLUDEPATH += $$PWD/qtconsole/include
 HEADERS += $$PWD/qtconsole/include/qconsole.h
 SOURCES += $$PWD/qtconsole/src/qconsole.cpp
 
+INCLUDEPATH += $$PWD/easyloggingpp/src
+HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
+
 INCLUDEPATH += $$BREAKPADDIR\
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR

@@ -145,7 +145,7 @@
            <enum>QLayout::SetMinimumSize</enum>
           </property>
           <item>
-           <widget class="QToolButton" name="pbImportConnections">
+           <widget class="QPushButton" name="pbImportConnections">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -155,19 +155,19 @@
             <property name="minimumSize">
              <size>
               <width>130</width>
-              <height>35</height>
+              <height>55</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>190</width>
-              <height>35</height>
+              <height>100</height>
              </size>
             </property>
             <property name="baseSize">
              <size>
               <width>145</width>
-              <height>35</height>
+              <height>55</height>
              </size>
             </property>
             <property name="font">
@@ -183,56 +183,21 @@
              <iconset resource="../../resources/rdm.qrc">
               <normaloff>:/images/menu.png</normaloff>:/images/menu.png</iconset>
             </property>
-            <property name="popupMode">
-             <enum>QToolButton::InstantPopup</enum>
-            </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
-            </property>
-            <property name="autoRaise">
-             <bool>false</bool>
-            </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="pbAddServer">
+           <widget class="QPushButton" name="pbAddServer">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>140</width>
-              <height>34</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>140</width>
-              <height>35</height>
-             </size>
             </property>
             <property name="font">
              <font>
               <family>open-sans,ubuntu,sans-serif</family>
               <pointsize>10</pointsize>
              </font>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding-left: 50px;
-
-</string>
             </property>
             <property name="text">
              <string>Connect to Redis Server</string>
@@ -241,8 +206,11 @@
              <iconset resource="../../resources/rdm.qrc">
               <normaloff>:/images/add.png</normaloff>:/images/add.png</iconset>
             </property>
-            <property name="toolButtonStyle">
-             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
