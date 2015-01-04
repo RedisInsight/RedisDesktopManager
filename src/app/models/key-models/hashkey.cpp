@@ -69,10 +69,10 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 
 void HashKeyModel::addRow(const QVariantMap &row)
 {
-    if (isRowValid(row))
+    if (!isRowValid(row))
         throw Exception("Invalid row");
 
-    setHashRow(row["key"].toByteArray(), row["value"].toByteArray());
+    setHashRow(row["key"].toByteArray(), row["value"].toByteArray(), false);
 }
 
 unsigned long HashKeyModel::rowsCount()
@@ -142,12 +142,21 @@ void HashKeyModel::loadRowCount()
     m_rowCount = getRowCount("HLEN");   
 }
 
-void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue)
+void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
+                              bool updateIfNotExist)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "HSET" << m_keyFullPath << hashKey << hashValue,
+
+    QString command = (updateIfNotExist)? "HSET" : "HSETNX";
+
+    Command addCmd(QStringList() << command << m_keyFullPath << hashKey << hashValue,
                    m_dbIndex);
-    CommandExecutor::execute(m_connection, addCmd);
+
+    Response result = CommandExecutor::execute(m_connection, addCmd);
+
+    if (updateIfNotExist == false
+            && result.getValue().toInt() == 0)
+        throw Exception("Value with same key already exist");
 }
 
 void HashKeyModel::deleteHashRow(const QString &hashKey)

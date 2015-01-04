@@ -31,7 +31,7 @@ private:
 
     void loadRowCount();
 
-    void setHashRow(const QString& hashKey, const QString& hashValue);
+    void setHashRow(const QString& hashKey, const QString& hashValue, bool updateIfNotExist = true);
     void deleteHashRow(const QString& hashKey);
 };
 

@@ -154,8 +154,8 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>130</width>
-              <height>55</height>
+              <width>170</width>
+              <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
@@ -301,7 +301,7 @@
          <enum>QTabWidget::South</enum>
         </property>
         <property name="tabShape">
-         <enum>QTabWidget::Triangular</enum>
+         <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
          <number>-1</number>

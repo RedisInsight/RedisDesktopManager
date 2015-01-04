@@ -162,18 +162,19 @@ Repeater {
 
                         onAccepted: {
                             if (!valueAddEditor.item)
-                                return
+                                return false
 
-                            if (valueAddEditor.item.isValueValid()) {
-                                valueAddEditor.item.markInvalidFields()
-                                return
+                            if (!valueAddEditor.item.isValueValid()) {
+                                valueAddEditor.item.markInvalidFields()                                
+                                return open()
                             }
 
                             var row = valueAddEditor.item.getValue()
 
                             var model = viewModel.getValue(tabIndex)
-                            //model.addRow(row)
+                            model.addRow(row)
 
+                            console.log("[!!!]")
                             console.log(row['value'])
                         }
 

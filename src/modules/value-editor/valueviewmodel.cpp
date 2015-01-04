@@ -98,7 +98,11 @@ void ValueEditor::ValueViewModel::clearRowCache()
 
 void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
 {
-    m_model->addRow(row);
+    try {
+        m_model->addRow(row);
+    } catch (const Model::Exception& e) {
+        emit error(QString(e.what()));
+    }
 }
 
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)

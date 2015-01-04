@@ -68,7 +68,7 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 
 void SortedSetKeyModel::addRow(const QVariantMap &row)
 {
-    if (isRowValid(row))
+    if (!isRowValid(row))
         throw Exception("Invalid row");
 
     addSortedSetRow(row["value"].toString(), row["score"].toDouble());

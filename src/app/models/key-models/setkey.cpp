@@ -32,7 +32,7 @@ void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 
 void SetKeyModel::addRow(const QVariantMap &row)
 {
-    if (isRowValid(row))
+    if (!isRowValid(row))
         throw Exception("Invalid row");
 
     addSetRow(row["value"].toString());
