@@ -1,8 +1,8 @@
 #!/bin/sh
-QT_VERSION=5.3.0
+QT_VERSION=5.4.0
 QT_INSTALLER_NAME=qt-everywhere-opensource-src-$QT_VERSION
 QTDIR=/usr/local/Qt-$QT_VERSION
-QT_DOWNLOAD=http://download.qt-project.org/official_releases/qt/5.3/5.3.0/single/qt-everywhere-opensource-src-5.3.0.tar.gz
+QT_DOWNLOAD=http://download.qt-project.org/official_releases/qt/5.4/5.4.0/single/qt-everywhere-opensource-src-5.4.0.tar.gz
 
 sudo apt-get update 
 sudo apt-get upgrade
