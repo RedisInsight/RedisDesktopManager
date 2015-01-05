@@ -63,5 +63,25 @@ AbstractEditor {
 
     function getValue() {
         return {"value": textArea.text, "score": scoreText.text}
+    }    
+
+    function isValueValid() {
+        var value = getValue()
+
+        return value && value['score'] && value['value']
+                && value['score'].length > 0
+                && value['value'].length > 0
     }
+
+    function markInvalidFields() {
+        keyText.textColor = "black"
+        textArea.textColor = "black"
+        // Fixme
+    }
+
+    function reset() {
+        textArea.text = ""
+        scoreText.text = ""
+    }
+
 }

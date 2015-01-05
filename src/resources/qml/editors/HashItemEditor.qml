@@ -95,8 +95,11 @@ AbstractEditor {
     function markInvalidFields() {
         keyText.textColor = "black"
         textArea.textColor = "black"
+        // Fixme
+    }
 
-
-        keyText.textColor = "red"
+    function reset() {
+        textArea.text = ""
+        keyText.text = ""
     }
 }

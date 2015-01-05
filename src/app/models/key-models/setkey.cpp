@@ -36,6 +36,7 @@ void SetKeyModel::addRow(const QVariantMap &row)
         throw Exception("Invalid row");
 
     addSetRow(row["value"].toString());
+    m_rowCount++;
 }
 
 void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)

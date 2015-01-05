@@ -42,4 +42,21 @@ AbstractEditor {
     function getValue() {
         return {"value": textArea.text}
     }
+
+    function isValueValid() {
+        var value = getValue()
+
+        return value && value['value']
+                && value['value'].length > 0
+    }
+
+    function markInvalidFields() {
+        textArea.textColor = "black"
+        // Fixme
+    }
+
+
+    function reset() {
+        textArea.text = ""
+    }
 }

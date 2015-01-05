@@ -173,9 +173,8 @@ Repeater {
 
                             var model = viewModel.getValue(tabIndex)
                             model.addRow(row)
-
-                            console.log("[!!!]")
-                            console.log(row['value'])
+                            table.model.reload()
+                            valueAddEditor.item.reset()
                         }
 
                         visible: false
@@ -232,7 +231,7 @@ Repeater {
                 model: viewModel.getValue(tabIndex)
 
                 property int currentStart: 0
-                property int maxItemsOnPage: 100
+                property int maxItemsOnPage: model? model.pageSize() : 100
                 property int currentPage: currentStart / maxItemsOnPage + 1
                 property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
                 property bool forceLoading: false

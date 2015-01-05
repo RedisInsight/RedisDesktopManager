@@ -73,6 +73,7 @@ void HashKeyModel::addRow(const QVariantMap &row)
         throw Exception("Invalid row");
 
     setHashRow(row["key"].toByteArray(), row["value"].toByteArray(), false);
+    m_rowCount++;
 }
 
 unsigned long HashKeyModel::rowsCount()

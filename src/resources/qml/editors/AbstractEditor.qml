@@ -31,4 +31,8 @@ ColumnLayout {
     function markInvalidFields() {
         console.exception("Not implemented")
     }
+
+    function reset() {
+        console.exception("Not implemented")
+    }
 }

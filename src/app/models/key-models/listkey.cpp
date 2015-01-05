@@ -33,6 +33,7 @@ void ListKeyModel::addRow(const QVariantMap &row)
         throw Exception("Invalid row");
 
     addListRow(row["value"].toByteArray());
+    m_rowCount++;
 }
 
 void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)

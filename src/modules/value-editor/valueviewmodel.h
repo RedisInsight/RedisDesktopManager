@@ -29,8 +29,9 @@ public:
     // multi row operations
     Q_INVOKABLE void loadRows(int start, int count);
     Q_INVOKABLE bool isMultiRow();
-    Q_INVOKABLE void clearRowCache();
+    Q_INVOKABLE void reload();
     Q_INVOKABLE int totalRowCount();
+    Q_INVOKABLE int pageSize();
 
     // general operations
     Q_INVOKABLE bool isPartialLoadingSupported();
