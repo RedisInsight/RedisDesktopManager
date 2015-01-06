@@ -11,7 +11,7 @@ echo DONE
 echo ============================
 echo Setup Build Environment
 echo ============================
-QTVER=5.3.0
+QTVER=5.4.0
 QTDIR=/usr/local/Qt-$QTVER
 export PATH=$QTDIR/bin:$PATH
 echo '# Used Qt:'
