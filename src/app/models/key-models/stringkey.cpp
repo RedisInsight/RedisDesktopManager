@@ -21,15 +21,29 @@ QHash<int, QByteArray> StringKeyModel::getRoles()
 {
     QHash<int, QByteArray> roles;
     roles[Roles::Value] = "value";
+    roles[Roles::BinaryValue] = "binary_value";
     return roles;
 }
 
 QVariant StringKeyModel::getData(int rowIndex, int dataRole)
 {
-    if (rowIndex > 0 || dataRole != Roles::Value || m_value.isNull())
+    if (rowIndex > 0 || m_value.isNull())
         return QVariant();
 
-    return m_value;
+    if (dataRole == Roles::Value)
+        return m_value;
+
+    if (dataRole == Roles::BinaryValue) {
+
+        QVariantList list;
+
+        for(int index=0; index < m_value.length(); ++index) {
+            list.append(QVariant((unsigned char)m_value.at(index)));
+        }
+        return QVariant(list);
+    }
+
+    return QVariant();
 }
 
 void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)

@@ -17,7 +17,7 @@ AbstractEditor {
         text: "Value:"
     }
 
-    TextArea {
+    MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -28,10 +28,13 @@ AbstractEditor {
     function setValue(rowValue) {
         root.originalValue = rowValue['value']
         textArea.text = rowValue['value']
+        textArea.binaryText = rowValue['binary_value']
+
+        console.log(rowValue['binary_value'])
     }
 
     function isValueChanged() {
-        return originalValue != textArea.text
+        return originalValue != textArea.getText()
     }
 
     function resetAndDisableEditor() {
@@ -40,7 +43,7 @@ AbstractEditor {
     }
 
     function getValue() {
-        return {"value": textArea.text}
+        return {"value": textArea.getText()}
     }
 
     function isValueValid() {

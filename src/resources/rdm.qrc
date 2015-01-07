@@ -35,5 +35,8 @@
         <file>qml/editors/SingleItemEditor.qml</file>
         <file>qml/editors/SortedSetItemEditor.qml</file>
         <file>qml/editors/AbstractEditor.qml</file>
+        <file>qml/editors/MultilineEditor.qml</file>
+        <file>qml/editors/formatters/formatters.js</file>
+        <file>qml/editors/formatters/msgpack.js</file>
     </qresource>
 </RCC>

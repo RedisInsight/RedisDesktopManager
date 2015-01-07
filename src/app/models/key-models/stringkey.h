@@ -25,7 +25,7 @@ public:
     bool isMultiRow() const override;
 
 private:
-    enum Roles { Value = Qt::UserRole + 1};
+    enum Roles { Value = Qt::UserRole + 1, BinaryValue};
 
     bool loadValue();
 

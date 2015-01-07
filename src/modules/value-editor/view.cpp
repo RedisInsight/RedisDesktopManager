@@ -12,7 +12,6 @@
 using namespace ValueEditor;
 
 
-
 View::View(QSharedPointer<ViewModel> viewModel)
     : QWidget(), m_qml(nullptr)
 {    

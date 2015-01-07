@@ -78,7 +78,7 @@ QVariant RedisClient::Response::getValue()
             break;
 
         case MultiBulk:         
-            parsedResponse = QVariant(parseMultiBulk(responseSource));        
+            parsedResponse = QVariant(parseMultiBulk(responseSource));
             break;
         case Unknown:
             break;
@@ -91,7 +91,7 @@ QVariant RedisClient::Response::getValue()
     return parsedResponse;
 }    
 
-QString RedisClient::Response::parseBulk(const QByteArray& response)
+QByteArray RedisClient::Response::parseBulk(const QByteArray& response)
 {
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);    
@@ -100,7 +100,7 @@ QString RedisClient::Response::parseBulk(const QByteArray& response)
         return response.mid(endOfFirstLine + 2, responseSize);        
     }
 
-    return QString();
+    return QByteArray();
 }
 
 QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
@@ -169,7 +169,7 @@ RedisClient::Response::Type RedisClient::Response::getResponseType(const char ty
     return Unknown;
 }
 
-QString RedisClient::Response::getStringResponse(const QByteArray& response)
+QByteArray RedisClient::Response::getStringResponse(const QByteArray& response)
 {
     return response.mid(1, response.length() - 3);
 }

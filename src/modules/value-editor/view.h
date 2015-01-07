@@ -1,5 +1,4 @@
-#ifndef VALUETAB_H
-#define VALUETAB_H
+#pragma once
 
 #include <QWidget>
 #include <QList>
@@ -27,5 +26,3 @@ private:
 #endif
 };
 }
-
-#endif // VALUETAB_H
