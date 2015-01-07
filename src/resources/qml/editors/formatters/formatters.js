@@ -1,10 +1,13 @@
 .import "./msgpack.js" as MsgPack
+.import "./php-unserialize.js" as PHPUnserialize
+.import "./php-serialize.js" as PHPSerialize
 
 function get(type) {
 
     if (type === "plain") return plain
     if (type === "json") return json
     if (type === "msgpack") return msgpack
+    if (type === "php-serialized") return phpserialized
 }
 
 
@@ -84,5 +87,36 @@ var msgpack = {
     getRaw: function (formatted) {
         obj = JSON.parse(formatted)
         return MsgPack.msgpack().pack(obj)
+    }
+}
+
+/**
+  PHP Serialize formatter
+**/
+var phpserialized = {
+    getFormatted: function (raw) {
+
+        try {
+            var parsed = PHPUnserialize.unserialize(raw)
+            console.log('parsed php serialized:', parsed)
+            return JSON.stringify(parsed, undefined, 4)
+
+        } catch (e) {
+            return "Error: Invalid PHP Serialized String: " + e
+        }
+    },
+
+    isValid: function (raw) {
+        try {
+            MsgPack.msgpack().unpack(raw)
+            return true
+        } catch (e) {
+            return false
+        }
+    },
+
+    getRaw: function (formatted) {
+        obj = JSON.parse(formatted)
+        return PHPSerialize.serialize(obj)
     }
 }

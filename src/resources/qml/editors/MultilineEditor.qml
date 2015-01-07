@@ -26,6 +26,7 @@ ColumnLayout
             width: 200
             model: ListModel {
                 id: formattersModel
+                ListElement { text: "PHP Serializer"; formatter: "php-serialized" }
                 ListElement { text: "MSGPACK"; formatter: "msgpack" }
                 ListElement { text: "Plain Text"; formatter: "plain" }
                 ListElement { text: "JSON"; formatter: "json" }
@@ -39,7 +40,13 @@ ColumnLayout
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        text: binaryText? formatter.getFormatted(binaryText) : ''
+        text: {
+            if (formattersModel.get(formatterSelector.currentIndex).formatter === "msgpack") {
+                return binaryText? formatter.getFormatted(binaryText) : ''
+            } else {
+                return formatter.getFormatted(originalText)
+            }
+        }
         property string originalText
         property var binaryText
         property var formatter: Formatters.get(formattersModel.get(formatterSelector.currentIndex).formatter)
