@@ -9,11 +9,8 @@ python set_version.py $1 > ../3rdparty/crashreporter/src/version.h
 echo DONE
 
 echo ============================
-echo Setup Build Environment
+echo Qt info
 echo ============================
-QTVER=5.4.0
-QTDIR=/usr/local/Qt-$QTVER
-export PATH=$QTDIR/bin:$PATH
 echo '# Used Qt:'
 qmake -v
 which qmake
