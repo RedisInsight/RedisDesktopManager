@@ -30,7 +30,6 @@ echo Build Crash Reporter :
 echo ===========================
 cd ./3rdparty/crashreporter
 qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release
-make clean
 make
 
 cd $SOURCE_DIR
