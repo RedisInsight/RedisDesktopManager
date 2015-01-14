@@ -73,14 +73,14 @@ DEPS_LIB=$BUILD_DIR/lib
 mkdir $DEPS_LIB
 
 #external libs
-cp -aR /opt/qt54/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Widgets.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Gui.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Qml.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Network.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Xml.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Core.so.5  $DEPS_LIB
-cp -aR /opt/qt54/lib/libQt5Quick.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Widgets.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Gui.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Qml.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Network.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Xml.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Core.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Quick.so.5  $DEPS_LIB
 
 echo 
 echo ===========================
