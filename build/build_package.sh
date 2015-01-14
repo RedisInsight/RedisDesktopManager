@@ -76,9 +76,6 @@ mkdir $DEPS_LIB/fonts
 
 #external libs
 sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts
-cp -aR /usr/lib/i386-linux-gnu/libxcb*.s* $DEPS_LIB
-cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
-
 
 echo 
 echo ===========================
