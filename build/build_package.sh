@@ -1,11 +1,11 @@
 #!/bin/sh
 
 echo ============================
-echo Set version $1
+echo Set version $APP_VERSION
 echo ============================
-TAG=$1
-python set_version.py $1 > ../src/version.h
-python set_version.py $1 > ../3rdparty/crashreporter/src/version.h
+TAG=$APP_VERSION
+python set_version.py $APP_VERSION > ../src/version.h
+python set_version.py $APP_VERSION > ../3rdparty/crashreporter/src/version.h
 echo DONE
 
 echo ============================
