@@ -99,7 +99,7 @@ unix:!macx { # ubuntu & debian
     INSTALLS += target
 
     data.path = /usr/share/redis-desktop-manager/lib
-    data.files = lib/*
+    data.files = $$PWD/lib/*
     INSTALLS += data
 
     deskicon.path = /usr/share/applications
