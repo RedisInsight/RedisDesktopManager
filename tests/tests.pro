@@ -52,8 +52,8 @@ unix:!mac {
     #3rdparty
     HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
     SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
-    INCLUDEPATH += $$PWD/easyloggingpp/src
-    HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
+    INCLUDEPATH += $$PWD/../3rdparty/easyloggingpp/src
+    HEADERS += $$PWD/../3rdparty/easyloggingpp/src/easylogging++.h
 
     #code coverage
     QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0
