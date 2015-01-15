@@ -7,6 +7,8 @@
 
 using namespace Console;
 
+INITIALIZE_EASYLOGGINGPP
+
 LogTab::LogTab()
   : m_consoleWidget(new QConsole(nullptr, ""))
 {
