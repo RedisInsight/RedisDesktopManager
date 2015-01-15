@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QDateTime>
 #include <easylogging++.h>
-INITIALIZE_EASYLOGGINGPP
+
 class QConsole;
 
 namespace Console {
