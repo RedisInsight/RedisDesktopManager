@@ -48,8 +48,12 @@ win32 {
 unix:!mac {
     LIBS += -lssh2 -lssl -lcrypto -ldl -lz
     INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
+    
+    #3rdparty
     HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
     SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
+    INCLUDEPATH += $$PWD/easyloggingpp/src
+    HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
 
     #code coverage
     QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0
