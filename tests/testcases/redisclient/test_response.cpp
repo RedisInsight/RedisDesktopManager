@@ -28,7 +28,7 @@ void TestResponse::getValue_data()
     QTest::newRow("Error")		<< "-ERR unknown command 'foobar'\r\n"	<< QVariant(QString("ERR unknown command 'foobar'"));
     QTest::newRow("Integer")	<< ":99998\r\n"                         << QVariant(99998);
 	QTest::newRow("Bulk")		<< "$6\r\nfoobar\r\n"					<< QVariant("foobar");
-    QTest::newRow("Null Bulk")	<< "$-1\r\n"							<< QVariant(QString());
+    QTest::newRow("Null Bulk")	<< "$-1\r\n"							<< QVariant(QByteArray());
 	QTest::newRow("Multi Bulk")	<< "*3\r\n:1\r\n:2\r\n$6\r\nfoobar\r\n"	<< QVariant(QStringList() << "1" << "2" << "foobar");
 	QTest::newRow("Multi Bulk with empty item")	
 		<< "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$0\r\n\r\n$3\r\nurl\r\n$5\r\nnourl\r\n"
