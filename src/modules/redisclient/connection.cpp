@@ -114,9 +114,9 @@ RedisClient::ConnectionConfig RedisClient::Connection::getConfig() const
     return config;
 }
 
-void RedisClient::Connection::setConnectionConfig(RedisClient::ConnectionConfig &c)
+void RedisClient::Connection::setConnectionConfig(const RedisClient::ConnectionConfig &c)
 {
-    config = c;
+    config = c;    
 }
 
 float RedisClient::Connection::getServerVersion()

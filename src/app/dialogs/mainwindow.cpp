@@ -62,6 +62,9 @@ void MainWin::initConnectionsTreeView()
                     new ConnectionsManager(config, *ui.tabWidget, m_keyValues)
                 );
 
+    QObject::connect(connections.data(), &ConnectionsManager::editConnection,
+                     this, &MainWin::OnEditConnectionClick);
+
     if (connections->size() == 0) {
         QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));
     }
@@ -103,7 +106,7 @@ void MainWin::initSystemConsole()
     el::Loggers::removeFlag(el::LoggingFlag::NewLineForContainer);
     el::Helpers::installLogDispatchCallback<Console::LogHandler>("LogHandler");
     Console::LogHandler* logHandler = el::Helpers::logDispatchCallback<Console::LogHandler>("LogHandler");
-    logHandler->setOutputTab(tab);
+    logHandler->setOutputTab(tab.toWeakRef());
 
     LOG(INFO) << "Init app log";
 }
@@ -129,6 +132,22 @@ void MainWin::initValuesView()
     ui.splitter->setSizes(QList<int>() << 0 << 100);
 }
 
+void MainWin::openConnectionDialog(RedisClient::ConnectionConfig config)
+{
+    QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(connections.toWeakRef(), this));
+    connectionDialog->setModal(true);
+    connectionDialog->setWindowState(Qt::WindowActive);
+#if defined(Q_OS_LINUX) || defined(Q_OS_WINDOWS)
+    connectionDialog->move(this->pos().x() + this->width()/2 - connectionDialog->width() / 2,
+                           this->pos().y() + this->height()/2 - connectionDialog->height() / 2);
+#endif
+
+    if (!config.isNull())
+        connectionDialog->setConnectionConfig(config);
+
+    connectionDialog->exec();
+}
+
 void MainWin::showQuickStartDialog()
 {
     QScopedPointer<QuickStartDialog> dialog(new QuickStartDialog(this));
@@ -143,13 +162,12 @@ void MainWin::OnConsoleStateChanged()
 
 void MainWin::OnAddConnectionClick()
 {
-    QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(connections.toWeakRef(), this));
-    connectionDialog->setModal(true);
-    connectionDialog->setWindowState(Qt::WindowActive);
-#ifdef Q_OS_LINUX
-    connectionDialog->move(this->width()/2 + connectionDialog->width() / 3, this->height()/2);
-#endif
-    connectionDialog->exec();    
+    openConnectionDialog();
+}
+
+void MainWin::OnEditConnectionClick(RedisClient::ConnectionConfig config)
+{
+    openConnectionDialog(config);
 }
 
 void MainWin::OnNewUpdateAvailable(QString &url)

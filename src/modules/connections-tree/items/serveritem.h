@@ -41,6 +41,8 @@ namespace ConnectionsTree {
         void unload();
         void reload();
 
+        void setName(const QString &name);
+
     signals:
         void databaseListLoaded();
         void unloadStarted();

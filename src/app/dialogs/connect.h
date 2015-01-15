@@ -3,10 +3,8 @@
 #include <QDialog>
 #include <QWeakPointer>
 #include "ui_connection.h"
+#include "modules/redisclient/connectionconfig.h"
 
-namespace RedisClient {
-class ConnectionConfig;
-}
 class ConnectionsManager;
 
 class ConnectionWindow : public QDialog
@@ -15,11 +13,13 @@ class ConnectionWindow : public QDialog
 
 public:
     ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent = nullptr);
+    void setConnectionConfig(const RedisClient::ConnectionConfig& config);
 
 private:
     Ui::connectionDialog ui;        
-    bool inEditMode;
+    bool m_inEditMode;
     QWeakPointer<ConnectionsManager> m_manager;
+    RedisClient::ConnectionConfig m_config;
 
     bool isFormDataValid();
     bool isConnectionSettingsValid();
@@ -29,9 +29,9 @@ private:
     RedisClient::ConnectionConfig getConectionConfigFromFormData();
     void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
 
-    private slots:
-        void OnOkButtonClick();
-        void OnShowPasswordCheckboxChanged(int);
-        void OnBrowseSshKeyClick();
-        void OnTestConnectionButtonClick();
+private slots:
+    void OnOkButtonClick();
+    void OnShowPasswordCheckboxChanged(int);
+    void OnBrowseSshKeyClick();
+    void OnTestConnectionButtonClick();
 };

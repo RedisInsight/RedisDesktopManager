@@ -1,4 +1,6 @@
 #include <QtXml>
+#include <QDebug>
+#include <QAbstractItemModel>
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/redisclient/connectionconfig.h"
 #include "modules/value-editor/viewmodel.h"
@@ -9,8 +11,9 @@
 
 ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
                                        QSharedPointer<ValueEditor::ViewModel> values)
-    : configPath(configPath),
-      connectionSettingsChanged(false),
+    : ConnectionsTree::Model(),
+      m_configPath(configPath),
+      m_connectionSettingsChanged(false),
       m_tabs(tabs),
       m_values(values)
 {
@@ -22,15 +25,18 @@ ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& t
 
 ConnectionsManager::~ConnectionsManager(void)
 {
-    if (connectionSettingsChanged) {
-        saveConnectionsConfigToFile(configPath);
+    if (m_connectionSettingsChanged) {
+        saveConnectionsConfigToFile(m_configPath);
     }
 }
 
-void ConnectionsManager::addConnection(QSharedPointer<RedisClient::Connection> connection)
+void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &config)
 {
+    QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config, false));
+    connection->config.setOwner(connection.toWeakRef());
+
     //add connection to internal container
-    connections.push_back(connection);
+    m_connections.push_back(connection);
 
     //add connection to view container
     using namespace ConnectionsTree;
@@ -41,15 +47,39 @@ void ConnectionsManager::addConnection(QSharedPointer<RedisClient::Connection> c
                      m_values.data(), &ValueEditor::ViewModel::openTab);
 
     QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
-                new ServerItem(connection->getConfig().name,
+                new ServerItem(config.name,
                                treeModel.dynamicCast<ConnectionsTree::Operations>(),
                                static_cast<ConnectionsTree::Model>(this))
                 );
 
+    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested, this, [this, connection]() {
+        qDebug() << "Edit connection";
+        emit editConnection(connection->config);
+    });
+
+    m_connectionMapping.insert(connection, serverItem);
     addRootItem(serverItem);
 
     //mark settings as unsaved
-    connectionSettingsChanged = true;
+    m_connectionSettingsChanged = true;
+}
+
+void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &config)
+{
+    if (!config.getOwner())
+        return;
+
+    QSharedPointer<RedisClient::Connection> connection = config.getOwner().toStrongRef();
+    connection->setConnectionConfig(config);
+    auto serverItem = m_connectionMapping[connection].dynamicCast<ConnectionsTree::ServerItem>();
+
+    if (!serverItem)
+        return;
+
+    serverItem->setName(config.name);
+
+    emit dataChanged(index(serverItem->row(), 0, QModelIndex()),
+                     index(serverItem->row(), 0, QModelIndex()));
 }
 
 
@@ -86,13 +116,13 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 
             if (conf.isNull()) continue;
 
-            addConnection(QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(conf, false)));
+            addNewConnection(conf);
         }        
     }
     conf.close();
 
     if (!saveChangesToFile)
-        connectionSettingsChanged = false;    
+        m_connectionSettingsChanged = false;
 
     return true;
 }
@@ -108,7 +138,7 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
 
     config.appendChild(connectionsItem);
 
-    for (auto c : connections) {
+    for (auto c : m_connections) {
         connectionsItem.appendChild(c->getConfig().toXml(config));
     }
 
@@ -125,5 +155,5 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
 
 int ConnectionsManager::size()
 {
-    return connections.length();
+    return m_connections.length();
 }

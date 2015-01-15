@@ -2,6 +2,7 @@
 
 #include <QSharedPointer>
 #include "redisclient/connection.h"
+#include "redisclient/connectionconfig.h"
 #include "connections-tree/model.h"
 
 class ConsoleTabs;
@@ -15,20 +16,27 @@ class ConnectionsManager : public ConnectionsTree::Model
     Q_OBJECT    
 
 public:
-    ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
+    ConnectionsManager(const QString& m_configPath, ConsoleTabs& tabs,
                        QSharedPointer<ValueEditor::ViewModel> values);
     ~ConnectionsManager(void);
 
-    void addConnection(QSharedPointer<RedisClient::Connection> connection);
+    void addNewConnection(const RedisClient::ConnectionConfig& config);
+    void updateConnection(const RedisClient::ConnectionConfig& config);
+
     bool importConnections(const QString &);
     bool saveConnectionsConfigToFile(const QString&);
 
     int size();
 
+signals:
+    void editConnection(RedisClient::ConnectionConfig config);
+
 private:
-    QString configPath;
-    bool connectionSettingsChanged;
-    QList<QSharedPointer<RedisClient::Connection>> connections;
+    QString m_configPath;
+    bool m_connectionSettingsChanged;
+    QList<QSharedPointer<RedisClient::Connection>> m_connections;
+    QHash<QSharedPointer<RedisClient::Connection>,
+          QSharedPointer<ConnectionsTree::TreeItem>> m_connectionMapping;
     ConsoleTabs& m_tabs;
     QSharedPointer<ValueEditor::ViewModel> m_values;
 

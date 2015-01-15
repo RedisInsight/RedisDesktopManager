@@ -213,6 +213,11 @@ void ServerItem::reload()
     load();
 }
 
+void ServerItem::setName(const QString& name)
+{
+    m_name = name;
+}
+
 
 
 
