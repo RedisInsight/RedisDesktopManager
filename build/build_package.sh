@@ -84,6 +84,7 @@ cp -L /opt/qt54/lib/libQt5Xml.so.5  $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5Core.so.5  $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5Quick.so.5  $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5DBus.so.5 $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Concurrent.so.5 $DEPS_LIB
 cp -LR /opt/qt54/plugins/platforms/ $PLUGINS
 cp -LR /opt/qt54/plugins/imageformats/ $PLUGINS
 
