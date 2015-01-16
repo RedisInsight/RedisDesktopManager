@@ -24,8 +24,9 @@ before_install:
 - sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 - sudo pip install cpp-coveralls --use-mirrors
 before_script:
-- cd ./tests
+- cd ./src
 script: 
+  - cd ./../tests
   - qmake -v
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s -j 2
@@ -50,6 +51,6 @@ addons:
       name: "uglide/RedisDesktopManager"
       description: "Build submitted via Travis CI"
     notification_email: u.glide@gmail.com
-    build_command_prepend: "cd src/; ./configure; qmake"
-    build_command:   "make -j 2"
+    build_command_prepend: "./configure; qmake"
+    build_command:  "make -j 2"
     branch_pattern: "0.8.0"   
