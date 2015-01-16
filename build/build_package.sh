@@ -69,12 +69,10 @@ echo ===========================
 echo copy libs:
 echo ===========================
 DEPS_LIB=$BUILD_DIR/lib
-IMAGE_PLUGINS=$DEPS_LIB/plugins/imageformats/
-PLATFORM_PLUGINS=$DEPS_LIB/plugins/platforms/
+PLUGINS=$DEPS_LIB/plugins/
 
 mkdir $DEPS_LIB
-mkdir -p $IMAGE_PLUGINS
-mkdir -p $PLATFORM_PLUGINS
+mkdir -p $PLUGINS
 
 #external libs
 cp -L /opt/qt54/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
@@ -85,8 +83,8 @@ cp -L /opt/qt54/lib/libQt5Network.so.5  $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5Xml.so.5  $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5Core.so.5  $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5Quick.so.5  $DEPS_LIB
-cp -LR /opt/qt54/plugins/platforms/ $PLATFORM_PLUGINS
-cp -LR /opt/qt54/plugins/imageformats/ $IMAGE_PLUGINS
+cp -LR /opt/qt54/plugins/platforms/ $PLUGINS
+cp -LR /opt/qt54/plugins/imageformats/ $PLUGINS
 
 echo 
 echo ===========================
