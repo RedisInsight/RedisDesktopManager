@@ -1,6 +1,9 @@
 language: cpp
 compiler:
   - gcc
+env:
+  global:
+  - secure: "R7RcjQGpxQsGFdvIGhvZo7TgmUwVMdus0FOmuT+D0eGs2ins8CckONZwDFpib27BmMaw55V+LRobWs+4nkflYidr/Kyp9aZfy1Hc7PFMLcURz4pxz1B0Tb8fNx4xYwIyOvVZcWeGbDyYDvwLeomNH6GqAOiSi4DZjLDHnKJETo8="
 before_install:
 - sudo add-apt-repository --yes ppa:beineri/opt-qt54
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
@@ -41,3 +44,12 @@ notifications:
   email:
     on_success: change
     on_failure: change
+addons:
+  coverity_scan:
+    project:
+      name: "uglide/RedisDesktopManager"
+      description: "Build submitted via Travis CI"
+    notification_email: u.glide@gmail.com
+    build_command_prepend: "cd src/; ./configure; qmake"
+    build_command:   "make -j 2"
+    branch_pattern: "0.8.0"   
