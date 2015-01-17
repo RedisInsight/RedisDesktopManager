@@ -6,8 +6,9 @@
 
 namespace ConnectionsTree {
 
-    class KeyItem : public TreeItem
+    class KeyItem : public QObject, public TreeItem
     {
+        Q_OBJECT
     public:
         KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, const TreeItem* parent);
 

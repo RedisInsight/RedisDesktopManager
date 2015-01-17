@@ -58,10 +58,12 @@ public slots:
 private:
     QList<QSharedPointer<Model>> m_valueModels;
     QSharedPointer<AbstractKeyFactory> m_keyFactory;
+    int m_currentTabIndex;
 
     bool isIndexValid(const QModelIndex &index) const;
     void loadModel(QSharedPointer<Model> model, bool openNewTab = false);
-    int m_currentTabIndex;
+    void removeModel(QSharedPointer<Model> model);
+
 
 };
 
