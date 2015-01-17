@@ -33,15 +33,8 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
     if (dataRole == Roles::Value)
         return m_value;
 
-    if (dataRole == Roles::BinaryValue) {
-
-        QVariantList list;
-
-        for(int index=0; index < m_value.length(); ++index) {
-            list.append(QVariant((unsigned char)m_value.at(index)));
-        }
-        return QVariant(list);
-    }
+    if (dataRole == Roles::BinaryValue)
+        return value2binary(m_value);
 
     return QVariant();
 }

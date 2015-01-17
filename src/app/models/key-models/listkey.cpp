@@ -41,10 +41,10 @@ void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
     if (isPartialLoadingSupported()) {
         //TBD
     } else {        
-        QStringList rows = getRowsRange("LRANGE", rowStart, count).toStringList();        
+        QVariantList rows = getRowsRange("LRANGE", rowStart, count).toList();
 
-        foreach (QString row, rows) {
-            m_rowsCache.push_back(row.toUtf8());
+        foreach (QVariant row, rows) {
+            m_rowsCache.push_back(row.toByteArray());
         }
     }
 
@@ -95,9 +95,9 @@ bool ListKeyModel::isActualPositionChanged(int row)
 
     Response result = CommandExecutor::execute(m_connection, getValueByIndex);
 
-    QStringList currentState = result.getValue().toStringList();
+    QVariantList currentState = result.getValue().toList();
 
-    return currentState.size() != 1 || currentState[0] != QString(cachedValue);
+    return currentState.size() != 1 || currentState[0].toByteArray() != QString(cachedValue);
 }
 
 void ListKeyModel::addListRow(const QString &value)

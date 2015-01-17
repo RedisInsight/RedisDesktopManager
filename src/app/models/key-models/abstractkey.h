@@ -58,6 +58,8 @@ public:
     bool isMultiRow() const override;
 
 protected:
-    enum Roles { Value = Qt::UserRole + 1, RowNumber};
+    enum Roles { Value = Qt::UserRole + 1, BinaryValue, RowNumber};
     QList<QByteArray> m_rowsCache;
 };
+
+QVariant value2binary(const QByteArray&);

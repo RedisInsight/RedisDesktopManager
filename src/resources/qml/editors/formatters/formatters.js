@@ -54,8 +54,14 @@ var json = {
         }
     },
 
-    getRaw: function (formatted) {
-        return formatted
+    getRaw: function (formatted) {        
+        try {
+            var parsed = JSON.parse(formatted)
+            return JSON.stringify(parsed)
+
+        } catch (e) {
+            return formatted
+        }
     }
 }
 
@@ -85,8 +91,10 @@ var msgpack = {
     },
 
     getRaw: function (formatted) {
-        obj = JSON.parse(formatted)
-        return MsgPack.msgpack().pack(obj)
+        var obj = JSON.parse(formatted)
+        var compressed = MsgPack.msgpack().pack(obj, true)
+        console.log('compressed: ', compressed)
+        return compressed
     }
 }
 
@@ -116,7 +124,7 @@ var phpserialized = {
     },
 
     getRaw: function (formatted) {
-        obj = JSON.parse(formatted)
+        var obj = JSON.parse(formatted)
         return PHPSerialize.serialize(obj)
     }
 }

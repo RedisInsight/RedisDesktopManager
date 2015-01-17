@@ -24,6 +24,7 @@ QHash<int, QByteArray> SortedSetKeyModel::getRoles()
     roles[Roles::RowNumber] = "row";
     roles[Roles::Value] = "value";
     roles[Roles::Score] = "score";
+    roles[Roles::BinaryValue] = "binary_value";
     return roles;
 }
 
@@ -40,6 +41,8 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
         return QString::number(row.second);
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
+    else if (dataRole == Roles::BinaryValue)
+        return value2binary(row.first);
 
     return QVariant();
 }
@@ -84,13 +87,13 @@ void SortedSetKeyModel::loadRows(unsigned long rowStart, unsigned long count, st
     if (isPartialLoadingSupported()) {
         //TBD
     } else {
-        QStringList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toStringList();       
+        QVariantList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toList();
 
-        for (QStringList::iterator item = rows.begin();
+        for (QVariantList::iterator item = rows.begin();
              item != rows.end(); ++item) {
 
             QPair<QByteArray, double> value;
-            value.first = item->toUtf8();
+            value.first = item->toByteArray();
             ++item;
 
             if (item == rows.end())

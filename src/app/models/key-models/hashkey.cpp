@@ -23,7 +23,8 @@ QHash<int, QByteArray> HashKeyModel::getRoles()
     QHash<int, QByteArray> roles;
     roles[Roles::RowNumber] = "row";
     roles[Roles::Key] = "key";
-    roles[Roles::Value] = "value";    
+    roles[Roles::Value] = "value";
+    roles[Roles::BinaryValue] = "binary_value";
     return roles;
 }
 
@@ -40,6 +41,8 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
         return row.second;    
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
+    else if (dataRole == Roles::BinaryValue)
+        return value2binary(row.second);
 
     return QVariant();
 }
@@ -86,21 +89,21 @@ void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
     if (isPartialLoadingSupported()) {
         //TBD
     } else {
-        QStringList rows = getRowsRange("HGETALL").toStringList();
+        QVariantList rows = getRowsRange("HGETALL").toList();
 
         unsigned int rowIndex = rowStart;
 
-        for (QStringList::iterator item = rows.begin();
+        for (QVariantList::iterator item = rows.begin();
              item != rows.end(); ++item, rowIndex++) {
 
             QPair<QByteArray, QByteArray> value;
-            value.first = item->toUtf8();
+            value.first = item->toByteArray();
             ++item;
 
             if (item == rows.end())
                 throw Exception("Partial data loaded from server");
 
-            value.second = item->toUtf8();
+            value.second = item->toByteArray();
             m_rowsCache.push_back(value);
         }
     }

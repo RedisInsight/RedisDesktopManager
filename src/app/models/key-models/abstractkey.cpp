@@ -175,6 +175,7 @@ QHash<int, QByteArray> ListLikeKeyModel::getRoles()
     QHash<int, QByteArray> roles;
     roles[Roles::Value] = "value";
     roles[Roles::RowNumber] = "row";
+    roles[Roles::BinaryValue] = "binary_value";
     return roles;
 }
 
@@ -188,6 +189,8 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
             return m_rowsCache[rowIndex];
         case RowNumber:
             return QString::number(rowIndex+1);
+        case BinaryValue:
+            return value2binary(m_rowsCache[rowIndex]);
     }
 
     return QVariant();
@@ -208,4 +211,15 @@ bool ListLikeKeyModel::isRowLoaded(int rowIndex)
 bool ListLikeKeyModel::isMultiRow() const
 {
     return true;
+}
+
+
+QVariant value2binary(const QByteArray &value)
+{
+    QVariantList list;
+
+    for(int index=0; index < value.length(); ++index) {
+        list.append(QVariant((unsigned char)value.at(index)));
+    }
+    return QVariant(list);
 }

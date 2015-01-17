@@ -28,7 +28,7 @@ AbstractEditor {
     function setValue(rowValue) {
         root.originalValue = rowValue['value']
         textArea.text = rowValue['value']
-        textArea.binaryText = rowValue['binary_value']
+        textArea.binaryArray = rowValue['binary_value']
 
         console.log(rowValue['binary_value'])
     }

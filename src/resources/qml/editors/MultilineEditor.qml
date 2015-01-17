@@ -8,9 +8,10 @@ ColumnLayout
 {
     id: root
     property alias text: textArea.originalText
-    property alias binaryText: textArea.binaryText
+    property alias binaryArray: textArea.binaryArray
     property alias enabled: textArea.enabled
     property alias textColor: textArea.textColor
+    property alias style: textArea.style
 
     function getText() {
         return textArea.formatter.getRaw(textArea.text)
@@ -26,10 +27,10 @@ ColumnLayout
             width: 200
             model: ListModel {
                 id: formattersModel
-                ListElement { text: "PHP Serializer"; formatter: "php-serialized" }
-                ListElement { text: "MSGPACK"; formatter: "msgpack" }
                 ListElement { text: "Plain Text"; formatter: "plain" }
                 ListElement { text: "JSON"; formatter: "json" }
+                ListElement { text: "MSGPACK"; formatter: "msgpack" }
+                ListElement { text: "PHP Serializer"; formatter: "php-serialized" }                                                
             }
         }
     }
@@ -42,17 +43,15 @@ ColumnLayout
 
         text: {
             if (formattersModel.get(formatterSelector.currentIndex).formatter === "msgpack") {
-                return binaryText? formatter.getFormatted(binaryText) : ''
+                var formatted = binaryArray? formatter.getFormatted(binaryArray) : ''
+                console.log('formatted MSGPACK:', formatted)
+                return formatted
             } else {
                 return formatter.getFormatted(originalText)
             }
         }
         property string originalText
-        property var binaryText
+        property var binaryArray
         property var formatter: Formatters.get(formattersModel.get(formatterSelector.currentIndex).formatter)
-    }
-
-    Component.onCompleted: {
-        console.log("BINARY:", textArea.binaryText)
     }
 }

@@ -48,10 +48,10 @@ void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fun
         if (!m_rowsCache.isEmpty())
             return;
 
-        QStringList rows = getRowsRange("SMEMBERS").toStringList();        
+        QVariantList rows = getRowsRange("SMEMBERS").toList();
 
-        foreach (QString row, rows) {
-            m_rowsCache.push_back(row.toUtf8());
+        foreach (QVariant row, rows) {
+            m_rowsCache.push_back(row.toByteArray());
         }
     }
 

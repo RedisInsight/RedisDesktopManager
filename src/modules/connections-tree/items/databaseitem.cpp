@@ -132,7 +132,9 @@ DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations
     QList<QSharedPointer<TreeItem>> result;
 
     //render
-    for (QString rawKey : keys) {
+    for (QVariant key : keys) {
+
+        QString rawKey = key.toString();
 
         //if filter enabled - skip keys
         if (!filter.isEmpty() && !rawKey.contains(filter)) {

@@ -25,7 +25,7 @@ public:
     bool isMultiRow() const override;
 
 private:
-    enum Roles { Key = Qt::UserRole + 1, Value, RowNumber};
+    enum Roles { Key = Qt::UserRole + 1, Value, BinaryValue, RowNumber};
 
     QList<QPair<QByteArray, QByteArray>> m_rowsCache;
 

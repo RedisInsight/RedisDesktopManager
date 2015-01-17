@@ -33,7 +33,7 @@ AbstractEditor {
         text: "Value:"
     }
 
-    TextArea {
+    MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -47,6 +47,7 @@ AbstractEditor {
         scoreText.text = rowValue['score']
         textArea.originalValue = rowValue['value']
         textArea.text = rowValue['value']
+        textArea.binaryArray = rowValue['binary_value']
     }
 
     function isValueChanged() {

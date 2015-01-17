@@ -43,7 +43,7 @@ AbstractEditor {
         text: "Value:"
     }
 
-    TextArea {
+    MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -66,6 +66,9 @@ AbstractEditor {
         keyText.text = rowValue['key']
         textArea.originalValue = rowValue['value']
         textArea.text = rowValue['value']
+        textArea.binaryArray = rowValue['binary_value']
+
+        console.log("binary set: ", rowValue['binary_value'])
     }
 
     function isValueChanged() {
