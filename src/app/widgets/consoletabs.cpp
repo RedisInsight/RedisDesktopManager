@@ -8,68 +8,6 @@ ConsoleTabs::ConsoleTabs(QWidget * parent)
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(OnTabClose(int)));
 }
 
-
-//int MainTabsWidget::addTab(QString& tabName, QWidget* tab, QString icon, bool forceOpenInNewTab)
-//{
-//    int currIndex;
-
-//    if (!forceOpenInNewTab) {
-//        closeCurrentTabWithValue();
-//    }
-
-//    if (icon.isEmpty()) {
-//        currIndex = QTabWidget::addTab(tab, tabName);
-//    } else {
-//        currIndex = QTabWidget::addTab(tab, QIcon(icon), tabName);
-//    }
-
-//    setCurrentIndex(currIndex);
-
-//    return currIndex;
-//}
-
-//void MainTabsWidget::openKeyTab(RedisKeyItem * key, bool inNewTab)
-//{
-//    QWidget * viewTab = new ValueTab(key);
-
-//    connect(viewTab, SIGNAL(keyDeleted(QWidget *, RedisKeyItem *)),
-//        this, SLOT(OnKeyDeleted(QWidget *, RedisKeyItem *)));
-
-//    connect(viewTab, SIGNAL(error(const QString &)),
-//        this, SLOT(OnError(const QString &)));
-
-//    QString keyFullName = key->getTabLabelText();
-
-//    if (inNewTab) {
-//        addTab(keyFullName, viewTab, QString(), true);
-//    } else {
-//        addTab(keyFullName, viewTab);
-//    }
-//}
-
-//void MainTabsWidget::OnKeyDeleted(QWidget * tab, RedisKeyItem * key)
-//{
-//    if (tab == nullptr || key == nullptr)
-//        return;
-
-//    int widgetsCount = count();
-//    int widgetIndex = -1;
-
-//    for (int currentWidget = 0; currentWidget < widgetsCount; currentWidget++)
-//    {
-//        if (tab == widget(currentWidget)) {
-//            widgetIndex = currentWidget;
-//            break;
-//        }
-//    }
-
-//    if (widgetIndex == -1) {
-//        return;
-//    }
-
-//    closeTab(widgetIndex);
-//}
-
 int ConsoleTabs::getTabIndex(QString& name)
 {
     for (int i = 0; i < count(); ++i)
@@ -101,6 +39,18 @@ void ConsoleTabs::closeTab(unsigned int index)
     BaseTab * tab = qobject_cast<BaseTab *> (widget(index));
     removeTab(index);
     tab->close();
+}
+
+void ConsoleTabs::closeAllTabsWithName(const QString &name)
+{
+    int widgetsCount = count();
+
+    for (int currentIndex = 0; currentIndex < widgetsCount; currentIndex++)
+    {
+        if (tabText(currentIndex) == name) {
+            this->closeTab(currentIndex);
+        }
+    }
 }
 
 void ConsoleTabs::addTab(QSharedPointer<BaseTab> tab)

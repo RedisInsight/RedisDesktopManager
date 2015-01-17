@@ -14,6 +14,7 @@ class Model : public QObject
 public:
     Model() {}
     virtual QString getKeyName() = 0; // sync
+    virtual QString getDisplayName() = 0; // sync
 
     virtual QString getType() = 0; // sync
     virtual int getTTL() = 0; // sync

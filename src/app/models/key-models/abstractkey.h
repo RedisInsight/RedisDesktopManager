@@ -12,6 +12,7 @@ public:
     KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
     QString getKeyName() override;
+    QString getDisplayName() override;
     int getTTL() override;
     QString getState() override;
 
