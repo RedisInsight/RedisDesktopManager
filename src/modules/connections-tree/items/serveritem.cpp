@@ -105,7 +105,19 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
 
     //edit action
     QAction* edit = new QAction(QIcon(":/images/editdb.png"), "Edit", menu.data());
-    QObject::connect(edit, &QAction::triggered, this, [this] { unload(); emit editActionRequested(); });
+    QObject::connect(edit, &QAction::triggered, this, [this, &treeView] {
+
+        QMessageBox::StandardButton reply = QMessageBox::question(
+                    treeView.getParentWidget(), "Confirm action",
+                    "All value and console tabs related to this "
+                    "connection will be closed. Do you want to continue?",
+                    QMessageBox::Yes|QMessageBox::No);
+
+        if (reply == QMessageBox::Yes) {
+            unload();
+            emit editActionRequested();
+        }
+    });
     menu->addAction(edit);
 
     //delete action

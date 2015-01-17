@@ -12,8 +12,7 @@
 ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
                                        QSharedPointer<ValueEditor::ViewModel> values)
     : ConnectionsTree::Model(),
-      m_configPath(configPath),
-      m_connectionSettingsChanged(false),
+      m_configPath(configPath),      
       m_tabs(tabs),
       m_values(values)
 {
@@ -25,12 +24,9 @@ ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& t
 
 ConnectionsManager::~ConnectionsManager(void)
 {
-    if (m_connectionSettingsChanged) {
-        saveConnectionsConfigToFile(m_configPath);
-    }
 }
 
-void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &config)
+void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &config, bool saveToConfig)
 {
     QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config, false));
     connection->config.setOwner(connection.toWeakRef());
@@ -53,15 +49,30 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
                 );
 
     QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested, this, [this, connection]() {
-        qDebug() << "Edit connection";
+        qDebug() << "Edit connection";        
+        m_tabs.closeAllTabsWithName(connection->getConfig().name);
         emit editConnection(connection->config);
+    });
+
+    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::deleteActionRequested, this, [this, connection]() {        
+        QSharedPointer<ConnectionsTree::ServerItem> serverItem = m_connectionMapping[connection].dynamicCast<ConnectionsTree::ServerItem>();
+
+        if (!serverItem)
+            return;
+
+        qDebug() << "Remove row";
+        m_tabs.closeAllTabsWithName(connection->getConfig().name);        
+        m_connections.removeAll(connection);
+        m_connectionMapping.remove(connection);
+        removeRootItem(serverItem);
+        saveConfig();
     });
 
     m_connectionMapping.insert(connection, serverItem);
     addRootItem(serverItem);
 
-    //mark settings as unsaved
-    m_connectionSettingsChanged = true;
+    if (saveToConfig)
+        saveConfig();
 }
 
 void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &config)
@@ -116,15 +127,20 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 
             if (conf.isNull()) continue;
 
-            addNewConnection(conf);
+            addNewConnection(conf, false);
         }        
     }
     conf.close();
 
-    if (!saveChangesToFile)
-        m_connectionSettingsChanged = false;
+    if (saveChangesToFile)
+        saveConfig();
 
     return true;
+}
+
+void ConnectionsManager::saveConfig()
+{
+    saveConnectionsConfigToFile(m_configPath);
 }
 
 bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)

@@ -11,8 +11,7 @@ class KeyModel : public ValueEditor::Model
 public:
     KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
-    QString getKeyName() override;
-    QString getDisplayName() override;
+    QString getKeyName() override;    
     int getTTL() override;
     QString getState() override;
 

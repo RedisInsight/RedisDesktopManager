@@ -20,25 +20,24 @@ public:
                        QSharedPointer<ValueEditor::ViewModel> values);
     ~ConnectionsManager(void);
 
-    void addNewConnection(const RedisClient::ConnectionConfig& config);
+    void addNewConnection(const RedisClient::ConnectionConfig& config, bool saveToConfig = true);
     void updateConnection(const RedisClient::ConnectionConfig& config);
 
     bool importConnections(const QString &);
     bool saveConnectionsConfigToFile(const QString&);
-
+    void saveConfig();
     int size();
 
 signals:
     void editConnection(RedisClient::ConnectionConfig config);
 
 private:
-    QString m_configPath;
-    bool m_connectionSettingsChanged;
+    QString m_configPath;    
     QList<QSharedPointer<RedisClient::Connection>> m_connections;
     QHash<QSharedPointer<RedisClient::Connection>,
           QSharedPointer<ConnectionsTree::TreeItem>> m_connectionMapping;
     ConsoleTabs& m_tabs;
-    QSharedPointer<ValueEditor::ViewModel> m_values;
+    QSharedPointer<ValueEditor::ViewModel> m_values;    
 
 protected:
     bool loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);

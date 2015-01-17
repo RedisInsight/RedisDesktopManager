@@ -144,3 +144,13 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
 
     emit endInsertRows();
 }
+
+void Model::removeRootItem(QSharedPointer<ServerItem> item)
+{
+    if (!item)
+        return;
+
+    beginRemoveRows(QModelIndex(), item->row(), item->row());
+    m_treeItems.removeAll(item);
+    endRemoveRows();
+}
