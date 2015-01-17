@@ -18,22 +18,17 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
             return;
 
         loadModel(keyModel, inNewTab);
-        qDebug() << "Key model loaded:"
-                 << keyModel->getKeyName()
-                 << keyModel->getType();
 
         QObject::connect(keyModel.data(), &Model::removed,
                          this, [this, keyModel, &key]()
         {
-            int i = m_valueModels.lastIndexOf(keyModel);
+            removeModel(keyModel);
+            key.setRemoved(); //Disable key in connections tree
+        });
 
-            beginRemoveRows(QModelIndex(), i, i);
-            m_valueModels.removeAt(i);
-
-            //Disable key in connections tree
-            key.setRemoved();
-
-            endRemoveRows();
+        QObject::connect(&key, &ConnectionsTree::KeyItem::destroyed,
+                         this, [this, keyModel] () {
+            removeModel(keyModel);
         });
     });
     // TODO: add empty key model for loading
@@ -180,4 +175,13 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
         emit replaceTab(m_currentTabIndex);
         emit dataChanged(index(m_currentTabIndex, 0), index(m_currentTabIndex, 0));
     }
+}
+
+void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> model)
+{
+    int i = m_valueModels.lastIndexOf(model);
+
+    beginRemoveRows(QModelIndex(), i, i);
+    m_valueModels.removeAt(i);
+    endRemoveRows();
 }
