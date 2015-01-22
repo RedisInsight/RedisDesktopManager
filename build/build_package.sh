@@ -54,6 +54,7 @@ mkdir $BUILD_DIR
 
 cp -Rf ./src/* $BUILD_DIR
 chmod +x $BUILD_DIR/configure
+chmod +x $BUILD_DIR/resources/rdm.sh
 mkdir $BUILD_DIR/debian 
 cp -Rf ./build/debian/* $BUILD_DIR/debian  
 echo ===========================
