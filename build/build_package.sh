@@ -54,6 +54,7 @@ mkdir $BUILD_DIR
 
 cp -Rf ./src/* $BUILD_DIR
 chmod +x $BUILD_DIR/configure
+chmod +x $BUILD_DIR/resources/rdm.sh
 mkdir $BUILD_DIR/debian 
 cp -Rf ./build/debian/* $BUILD_DIR/debian  
 echo ===========================
@@ -87,6 +88,7 @@ cp -L /opt/qt54/lib/libQt5DBus.so.5 $DEPS_LIB
 cp -L /opt/qt54/lib/libQt5Concurrent.so.5 $DEPS_LIB
 cp -LR /opt/qt54/plugins/platforms/ $PLUGINS
 cp -LR /opt/qt54/plugins/imageformats/ $PLUGINS
+cp -R /opt/qt54/qml $PLUGINS
 
 echo 
 echo ===========================
