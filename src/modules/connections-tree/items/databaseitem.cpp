@@ -197,6 +197,6 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
         else currItem->append(namespaceItem);
     }
 
-    renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1),
+    renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+m_namespaceSeparator.length()),
                         fullKey, m_operations, m_namespaceSeparator, m_result, db);
 }

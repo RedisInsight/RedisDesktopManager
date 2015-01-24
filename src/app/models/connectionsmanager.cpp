@@ -82,6 +82,7 @@ void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &c
 
     QSharedPointer<RedisClient::Connection> connection = config.getOwner().toStrongRef();
     connection->setConnectionConfig(config);
+    saveConfig();
     auto serverItem = m_connectionMapping[connection].dynamicCast<ConnectionsTree::ServerItem>();
 
     if (!serverItem)
