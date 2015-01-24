@@ -9,6 +9,11 @@ QString ConfigManager::getApplicationConfigPath(const QString &configFile)
     QString libraryDir = QDir::toNativeSeparators(QString("%1/%2")
                                                   .arg(QDir::homePath())
                                                   .arg("/Library/Preferences/rdm/"));
+#else
+    QString libraryDir = QDir::toNativeSeparators(QString("%1/%2")
+                                                  .arg(QDir::homePath())
+                                                  .arg("/.rdm/"));
+#endif
     QDir libraryPath(libraryDir);
     if (libraryPath.mkpath(libraryDir))
         qDebug() << "Config Dir created";
@@ -31,9 +36,6 @@ QString ConfigManager::getApplicationConfigPath(const QString &configFile)
     } else {
         configDir = QDir::homePath();
     }
-#else
-    QString configDir = QDir::homePath();
-#endif
 
     QString configPath = QString("%1/%2").arg(configDir).arg(configFile);
 
