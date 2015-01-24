@@ -24,6 +24,8 @@ void TestResponse::getValue_data()
     QTest::addColumn<QString>("testResponse");
 	QTest::addColumn<QVariant>("validResult");
 
+    QTest::newRow("Unknown")    << "="                                  << QVariant();
+    QTest::newRow("Empty")		<< ""                                   << QVariant();
     QTest::newRow("Status")		<< "+OK\r\n"                            << QVariant(QString("OK"));
     QTest::newRow("Error")		<< "-ERR unknown command 'foobar'\r\n"	<< QVariant(QString("ERR unknown command 'foobar'"));
     QTest::newRow("Integer")	<< ":99998\r\n"                         << QVariant(99998);
@@ -41,6 +43,32 @@ void TestResponse::getValue_data()
         << "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$6\r\n快樂\r\n"
         << QVariant(QStringList() << "app_id" << "0" << "keyword" << "快樂");
 
+}
+
+void TestResponse::source()
+{
+    //given
+    RedisClient::Response test;
+    QString testSource = "test_source";
+
+    //when
+    test.appendToSource(testSource);
+    QString actualResult = test.source();
+
+    //then
+    QCOMPARE(actualResult, testSource);
+}
+
+void TestResponse::valueToHumanReadString()
+{
+    //given
+    QVariant testSource("test");
+
+    //when
+    QString actualResult = RedisClient::Response::valueToHumanReadString(testSource);
+
+    //then
+    QCOMPARE(actualResult, testSource.toString());
 }
 
 
