@@ -21,11 +21,30 @@ Repeater {
 //            }
 
             viewModel.closeTab(tabIndex)
-        }
+        }       
 
         title: keyName
-        property int tabIndex: keyIndex                       
+        property int tabIndex: keyIndex
+        property var table
 
+        Keys.onPressed: {
+            if (!table)
+                return
+
+            var reloadKey = event.key == Qt.Key_F5
+                             || (event.key == Qt.Key_R && (event.modifiers & Qt.ControlModifier))
+                             || (event.key == Qt.Key_R && (event.modifiers & Qt.MetaModifier))
+
+            if (reloadKey) {
+                console.log("Reload")
+                table.model.reload()
+            }
+        }
+
+        Component.onCompleted: {
+            keyTab.focus = true
+            keyTab.forceActiveFocus()
+        }
 
         ColumnLayout {
             anchors.fill: parent
@@ -260,6 +279,7 @@ Repeater {
                 property bool forceLoading: false
 
                 Component.onCompleted: {
+                    keyTab.table = table
                     loadValue()
                 }
 
