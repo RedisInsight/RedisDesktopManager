@@ -44,7 +44,7 @@ public: // methods exported to QML
     Q_INVOKABLE void removeKey(int i);
     Q_INVOKABLE void closeTab(int i);
     Q_INVOKABLE void setCurrentTab(int i);
-    Q_INVOKABLE QObject* getValue(int i);
+    Q_INVOKABLE QObject* getValue(int i);    
 
 signals:
     void keyError(int index, const QString& error);

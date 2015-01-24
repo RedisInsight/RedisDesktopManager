@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
@@ -35,16 +35,22 @@ Repeater {
             RowLayout {
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
-                Layout.fillWidth: true
-                spacing: 1
+                Layout.fillWidth: true                
+                spacing: 5
 
-                Text { text: "Key:" }
+                Text { text: keyType.toUpperCase() + ":"; font.bold: true }
+
                 TextField {
                     id: keyNameField
                     Layout.fillWidth: true
                     text: keyName
                     readOnly: true                    
                 }
+
+                Item { Layout.preferredWidth: 10}
+                Text { text: "TTL:"; font.bold: true }
+                Text { text: keyTtl}
+                Item { Layout.preferredWidth: 10}
 
                 Button {
                     text: "Rename"
@@ -80,8 +86,6 @@ Repeater {
                     }
                 }
 
-                //Button { text: "Reload" } // TBD
-
                 Button {
                     text: "Delete"
 
@@ -110,12 +114,32 @@ Repeater {
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
 
-                Text { text: "Type:"; font.bold: true }
-                Text { text: keyType.toUpperCase()  }
-                Text { text: "TTL:"; font.bold: true }
-                Text { text: keyTtl}
+                Text {
+                    Layout.fillWidth: true
+                    visible: showValueNavigation
+                    textFormat: Text.RichText
+                    text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
+                    color: "#cccccc"
+                }
 
                 Item { Layout.fillWidth: true}
+
+                Button {
+                    text: "Reload Value"
+                    action: reLoadAction
+                    focus: true
+
+                    Action {
+                        id: reLoadAction                        
+                        shortcut: StandardKey.Refresh
+                        onTriggered: {
+                            console.log("Reload")
+                            table.model.reload()
+                        }
+                    }
+                }
+
+                Item { Layout.preferredWidth: 15}
 
                 Button {
                     text: "Add row";
@@ -214,7 +238,6 @@ Repeater {
                     }
 
                 }
-                //Button { text: "Reload values"}
             }          
 
             TableView {
@@ -395,111 +418,112 @@ Repeater {
                 }
             }
 
-            GroupBox {
-                title: "Editor:"
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 10
+            }
+
+            Rectangle {
+                color: "#cccccc"
+                Layout.fillWidth: true
+                Layout.preferredHeight: 1
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 10
+            }
+
+            ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: !showValueNavigation
                 Layout.minimumHeight: 250
-                flat: false
 
-                ColumnLayout {
-                    anchors.fill: parent
+                Connections {
+                    target: table
 
-                    Text {
-                        Layout.fillWidth: true
-
-                        visible: showValueNavigation
-
-                        textFormat: Text.RichText
-                        text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
+                    onActivated: {
+                        valueEditor.loadRowValue(row)
                     }
-
-                    Connections {
-                        target: table
-
-                        onActivated: {
-                            valueEditor.loadRowValue(row)
-                        }
-                    }
+                }
 
 
-                    Loader {
-                        id: valueEditor
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+                Loader {
+                    id: valueEditor
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-                        property int currentRow: -1
+                    property int currentRow: -1
 
-                        source: {
-                            if (keyType === "string") {
-                                table.loadValue()
-                                return "./editors/SingleItemEditor.qml"
-                            } else if (keyType === "list" || keyType === "set") {
-                                return "./editors/SingleItemEditor.qml"
-                            } else if (keyType === "zset") {
-                                return "./editors/SortedSetItemEditor.qml"
-                            } else if (keyType === "hash") {
-                                return "./editors/HashItemEditor.qml"
-                            } else {
-                                console.error("Editor for type " + keyType + " is not defined!")
-                            }
-                        }
-
-                        onLoaded: {
-                            console.log("VALUE EDITOR LOADED!")
-
-                            if (keyType === "string") {
-                                valueEditor.loadRowValue(0)
-                            }
-
-                        }
-
-                        function loadRowValue(row) {
-                            if (valueEditor.item) {
-                                var rowValue = table.model.getRow(row, true)
-                                valueEditor.currentRow = row
-                                valueEditor.item.setValue(rowValue)
-                            }
+                    source: {
+                        if (keyType === "string") {
+                            table.loadValue()
+                            return "./editors/SingleItemEditor.qml"
+                        } else if (keyType === "list" || keyType === "set") {
+                            return "./editors/SingleItemEditor.qml"
+                        } else if (keyType === "zset") {
+                            return "./editors/SortedSetItemEditor.qml"
+                        } else if (keyType === "hash") {
+                            return "./editors/HashItemEditor.qml"
+                        } else {
+                            console.error("Editor for type " + keyType + " is not defined!")
                         }
                     }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 40
-                        Item { Layout.fillWidth: true}
-                        Button {
-                            text: "Save"
+                    onLoaded: {
+                        console.log("VALUE EDITOR LOADED!")
 
-                            onClicked: {
-                                if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
-                                    savingConfirmation.text = "Nothing to save"
-                                    savingConfirmation.open()
-                                    return
-                                }
+                        if (keyType === "string") {
+                            valueEditor.loadRowValue(0)
+                        }
 
-                                var value = valueEditor.item.getValue()
+                    }
 
-                                console.log(value, value["value"])
-                                table.model.updateRow(valueEditor.currentRow, value)
+                    function loadRowValue(row) {
+                        if (valueEditor.item) {
+                            var rowValue = table.model.getRow(row, true)
+                            valueEditor.currentRow = row
+                            valueEditor.item.setValue(rowValue)
+                        }
+                    }
+                }
 
-                                savingConfirmation.text = "Value was updated!"
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 40
+                    Item { Layout.fillWidth: true}
+                    Button {
+                        text: "Save"
+
+                        onClicked: {
+                            if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                savingConfirmation.text = "Nothing to save"
                                 savingConfirmation.open()
+                                return
                             }
 
+                            var value = valueEditor.item.getValue()
+
+                            console.log(value, value["value"])
+                            table.model.updateRow(valueEditor.currentRow, value)
+
+                            savingConfirmation.text = "Value was updated!"
+                            savingConfirmation.open()
                         }
 
-                        MessageDialog {
-                            id: savingConfirmation
-                            title: "Save value"
-                            text: ""
-                            visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Warning
-                            standardButtons: StandardButton.Ok
-                        }
                     }
 
-                }// --
+                    MessageDialog {
+                        id: savingConfirmation
+                        title: "Save value"
+                        text: ""
+                        visible: false
+                        modality: Qt.ApplicationModal
+                        icon: StandardIcon.Warning
+                        standardButtons: StandardButton.Ok
+                    }
+                }
+
             }
         }
     }
