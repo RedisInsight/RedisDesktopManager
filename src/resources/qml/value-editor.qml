@@ -4,9 +4,12 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import "."
+import "./editors/formatters/formatters.js" as Formatters
 
 Rectangle {
+    id: approot
     color: "transparent"
+    property var currentValueFormatter
 
     TabView {
         id: tabs

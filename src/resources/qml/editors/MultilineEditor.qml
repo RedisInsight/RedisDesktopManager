@@ -32,6 +32,17 @@ ColumnLayout
                 ListElement { text: "MSGPACK"; formatter: "msgpack" }
                 ListElement { text: "PHP Serializer"; formatter: "php-serialized" }                                                
             }
+
+            onCurrentIndexChanged: {
+                Formatters.defaultFormatter = currentIndex
+                console.log("APP ROOT: " + Formatters.defaultFormatter)
+            }
+
+            Component.onCompleted: {
+                currentIndex = Formatters.defaultFormatter
+
+                console.log("APP ROOT: " + Formatters.defaultFormatter)
+            }
         }
     }
 

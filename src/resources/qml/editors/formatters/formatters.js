@@ -1,6 +1,9 @@
+.pragma library
 .import "./msgpack.js" as MsgPack
 .import "./php-unserialize.js" as PHPUnserialize
 .import "./php-serialize.js" as PHPSerialize
+
+var defaultFormatter = 0;
 
 function get(type) {
 
