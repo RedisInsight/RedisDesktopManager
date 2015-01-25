@@ -20,11 +20,13 @@ public:
     Command(int db);
 
     Command &operator <<(const QString&);
+    void append(const QByteArray&part);
 
     /** @see http://redis.io/topics/protocol for more info **/    
     QByteArray  getByteRepresentation() const;
     QString     getRawString() const;
-    QStringList getSplitedRepresentattion() const;
+    QList<QByteArray> getSplitedRepresentattion() const;
+    QString     getPartAsString(int i);
     QString     getCallbackName();
     QString     getProgressCallbackName();
     int         getDbIndex() const;
@@ -49,14 +51,16 @@ public:
 
 private:
     QObject * owner;
-    QStringList commandWithArguments;
+    QList<QByteArray> m_commandWithArguments;
     int dbIndex;
     QString callBackMethod; // method(Response)
     QString progressMethod; // method(unsigned int)
     bool commandCanceled;
     std::function<void(Response)> m_callback;
 
-    QStringList splitCommandString(const QString &);
+    QList<QByteArray> splitCommandString(const QString &);
 };
+
+QList<QByteArray> convertStringList(const QStringList&list);
 
 }

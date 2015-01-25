@@ -61,6 +61,17 @@ unix:!mac {
     LIBS += -lgcov
 }
 
+unix:mac {
+    LIBS += /usr/local/lib/libssh2.dylib
+    INCLUDEPATH += $$PWD/../3rdparty/qtconsole/include
+
+    #3rdparty
+    HEADERS += $$PWD/../3rdparty/qtconsole/include/qconsole.h
+    SOURCES += $$PWD/../3rdparty/qtconsole/src/qconsole.cpp
+    INCLUDEPATH += $$PWD/../3rdparty/easyloggingpp/src
+    HEADERS += $$PWD/../3rdparty/easyloggingpp/src/easylogging++.h
+}
+
 INCLUDEPATH += $$PWD/../3rdparty/libssh2/include
 DEPENDPATH += $$PWD/../3rdparty/libssh2/include
 

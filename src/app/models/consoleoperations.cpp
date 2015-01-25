@@ -40,7 +40,7 @@ void ConsoleModel::executeCommand(const QString & cmd)
         emit changePrompt(
             QString("%1:%2>")
                 .arg(m_connection->config.name)
-                .arg(command.getSplitedRepresentattion().at(1)),
+                .arg(command.getPartAsString(1)),
                 false
             );
     }
