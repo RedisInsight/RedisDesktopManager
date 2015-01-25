@@ -61,17 +61,8 @@ void RedisClient::AbstractTransporter::sendResponse()
     auto callback = runningCommand.getCallBack();
 
     if (callback && runningCommand.getOwner()) { // New API
-
         ResponseEmitter emiter(m_response);
         emiter.sendResponse(runningCommand.getOwner(), callback);
-
-    } else if (runningCommand.getOwner()) { // legacy API
-        QString callbackName = runningCommand.getCallbackName();
-
-        QMetaObject::invokeMethod(
-            runningCommand.getOwner(), callbackName.toUtf8().constData(),
-            Qt::AutoConnection, Q_ARG(RedisClient::Response, m_response)
-            );
     }
 
     emit logEvent(QString("%1 > [runCommand] %2 -> response received").arg(m_connection->config.name).arg(runningCommand.getRawString()));
@@ -92,15 +83,7 @@ void RedisClient::AbstractTransporter::processCommandQueue()
 
 void RedisClient::AbstractTransporter::sendProgressValue()
 {
-    QString callbackName = runningCommand.getProgressCallbackName();
-
-    if (callbackName.isNull() || callbackName.isEmpty())
-        return;
-
-    QMetaObject::invokeMethod(
-        runningCommand.getOwner(), callbackName.toUtf8().constData(),
-        Qt::AutoConnection, Q_ARG(int, m_response.getLoadedItemsCount())
-        );
+    //todo
 }
 
 void RedisClient::AbstractTransporter::executionTimeout()
