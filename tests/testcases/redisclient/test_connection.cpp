@@ -118,7 +118,7 @@ void TestConnection::runCommandAndDelete()
     Connection connection(config, true);
     Command cmd("ping");
     QObject * owner = new QObject();
-    cmd.setCallBack(owner, [](){});
+    cmd.setCallBack(owner, [](RedisClient::Response r){});
 
     //when
     connection.runCommand(cmd);
