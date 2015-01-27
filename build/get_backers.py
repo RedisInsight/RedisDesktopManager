@@ -20,9 +20,9 @@ def get_backers_list(team_id):
 
 data = get_backers_list(243)
 
-print('Redis Desktop Manager Backers:', '\n')
+print('## Redis Desktop Manager Backers ##', '\n')
 
 counter = 1
 for backer in data:
-    print('  %s.' % counter, backer['display_name'])
+    print('%s. ' % counter, backer['display_name'])
     counter += 1
