@@ -53,7 +53,8 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     if (value.isEmpty())
         return;
 
-    RedisClient::Command updateCmd(QList<QByteArray>() << "SET" << m_keyFullPath << value, m_dbIndex);
+    RedisClient::Command updateCmd(m_dbIndex);
+    updateCmd << "SET" << m_keyFullPath << value; // FIXME
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.isOkMessage()) {
@@ -104,7 +105,8 @@ bool StringKeyModel::isMultiRow() const
 
 bool StringKeyModel::loadValue()
 {
-    RedisClient::Command valueCmd(QStringList() << "GET" << m_keyFullPath, m_dbIndex);
+    RedisClient::Command valueCmd(m_dbIndex);
+    valueCmd << "GET" << m_keyFullPath;
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, valueCmd);
 
     if (result.getType() != RedisClient::Response::Bulk) {

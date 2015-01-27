@@ -67,8 +67,8 @@ void KeyModel::setTTL(int)
 
 void KeyModel::removeKey()
 {   
-    auto cmd = RedisClient::Command(m_dbIndex)
-               << "DEL" << m_keyFullPath << m_keyFullPath;
+    auto cmd = RedisClient::Command(m_dbIndex);
+    cmd << "DEL" << m_keyFullPath << m_keyFullPath;
 
     RedisClient::Response result;
 
@@ -84,7 +84,9 @@ void KeyModel::removeKey()
 
 int KeyModel::getRowCount(const QString &countCmd)
 {
-    RedisClient::Command updateCmd(QList<QByteArray>() << countCmd << m_keyFullPath, m_dbIndex);
+    RedisClient::Command updateCmd(m_dbIndex);
+    updateCmd << countCmd << m_keyFullPath;
+
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.getType() == RedisClient::Response::Integer) {
@@ -96,7 +98,7 @@ int KeyModel::getRowCount(const QString &countCmd)
 
 QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, unsigned long count)
 {
-    QList<QByteArray> cmd;
+    QStringList cmd;
 
     if (rowStart == -1 && count == -1) {
         cmd << baseCmd << m_keyFullPath;
@@ -104,7 +106,7 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
         unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
         if (baseCmd.contains(QChar(' '))) {
-            QList<QByteArray> suffixCmd(baseCmd.toByteArray().split(QChar(' ')));
+            QStringList suffixCmd(baseCmd.split(QChar(' ')));
 
             cmd << suffixCmd.at(0);
             suffixCmd.removeFirst();

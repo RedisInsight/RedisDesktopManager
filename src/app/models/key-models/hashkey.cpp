@@ -153,12 +153,11 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
 
     QString command = (updateIfNotExist)? "HSET" : "HSETNX";
 
-    Command addCmd(QList<QByteArray>()
-                   << command.toUtf8()
-                   << m_keyFullPath.toUtf8()
-                   << hashKey.toUtf8()
-                   << hashValue.toUtf8(),
-                   m_dbIndex);
+    Command addCmd(m_dbIndex); 
+    addCmd << command.toUtf8() // FIXME
+           << m_keyFullPath.toUtf8()
+           << hashKey.toUtf8()
+           << hashValue.toUtf8();
 
     Response result = CommandExecutor::execute(m_connection, addCmd);
 
@@ -170,7 +169,8 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
 void HashKeyModel::deleteHashRow(const QString &hashKey)
 {
     using namespace RedisClient;
-    Command deleteCmd(QList<QByteArray>()<< "HDEL" << m_keyFullPath << hashKey, m_dbIndex);
+    Command deleteCmd(m_dbIndex);
+    deleteCmd << "HDEL" << m_keyFullPath << hashKey;
     CommandExecutor::execute(m_connection, deleteCmd);
 }
 
