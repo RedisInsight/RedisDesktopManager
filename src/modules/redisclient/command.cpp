@@ -2,39 +2,39 @@
 #include <QSet>
 
 RedisClient::Command::Command()
-    : owner(nullptr), commandWithArguments(), dbIndex(-1), commandCanceled(false)
+    : m_owner(nullptr), m_commandWithArguments(), dbIndex(-1), commandCanceled(false)
 {
     
 }
 
 RedisClient::Command::Command(const QString& cmdString, QObject * owner, int db)
-    : owner(owner), commandWithArguments(splitCommandString(cmdString)), 
+    : m_owner(owner), m_commandWithArguments(splitCommandString(cmdString)),
     dbIndex(db), commandCanceled(false)
 {
 }
 
 RedisClient::Command::Command(const QStringList& cmd, QObject * owner, int db)
-    : owner(owner), commandWithArguments(cmd), 
+    : m_owner(owner), m_commandWithArguments(convertStringList(cmd)),
     dbIndex(db), commandCanceled(false)
 {
 }
 
 RedisClient::Command::Command(const QStringList &cmd, QObject *owner, std::function<void (RedisClient::Response)> callback, int db)
-    : owner(owner), commandWithArguments(cmd),
+    : m_owner(owner), m_commandWithArguments(convertStringList(cmd)),
       dbIndex(db), commandCanceled(false), m_callback(callback)
 {
 
 }
 
 RedisClient::Command::Command(const QStringList& cmd, int db)
-    : owner(nullptr), commandWithArguments(cmd),
+    : m_owner(nullptr), m_commandWithArguments(convertStringList(cmd)),
       dbIndex(db), commandCanceled(false)
 {
 
 }
 
 RedisClient::Command::Command(int db)
-    : owner(nullptr), commandWithArguments(),
+    : m_owner(nullptr), m_commandWithArguments(),
       dbIndex(db), commandCanceled(false)
 {
 
@@ -42,28 +42,19 @@ RedisClient::Command::Command(int db)
 
 RedisClient::Command &RedisClient::Command::operator <<(const QString &part)
 {
-    this->commandWithArguments.append(part);
+    this->m_commandWithArguments.append(part.toUtf8());
 
     return *this;
 }
 
-RedisClient::Command::Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db)
-    : owner(owner), commandWithArguments(splitCommandString(cmdString)), 
-    dbIndex(db), callBackMethod(invokeMethod), commandCanceled(false)
+void RedisClient::Command::append(const QByteArray &part)
 {
-
+    m_commandWithArguments.append(part);
 }
 
-RedisClient::Command::Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db)
-    : owner(owner), commandWithArguments(cmd), 
-    dbIndex(db), callBackMethod(invokeMethod), commandCanceled(false)
+QList<QByteArray> RedisClient::Command::splitCommandString(const QString &command)
 {
-
-}
-
-QStringList RedisClient::Command::splitCommandString(const QString &command)
-{
-    QStringList parts = QStringList();
+    QList<QByteArray> parts;
     int i = 0;
     bool inQuote = false;
     QString part = QString();
@@ -76,7 +67,7 @@ QStringList RedisClient::Command::splitCommandString(const QString &command)
         if(command.at(i).isSpace() && !inQuote)
         {
             if (part.length() > 0)
-                parts.append(part);
+                parts.append(part.toUtf8());
             part = QString();
         }
         else if (delimiters.contains(command.at(i))
@@ -89,7 +80,7 @@ QStringList RedisClient::Command::splitCommandString(const QString &command)
             }
 
             if (inQuote) {
-                parts.append(part);
+                parts.append(part.toUtf8());
                 currentDelimiter = '\0';
             } else {
                 currentDelimiter = command.at(i);
@@ -105,39 +96,19 @@ QStringList RedisClient::Command::splitCommandString(const QString &command)
         ++i;
     }
     if (parts.length() < 1 || part.length() > 0)
-        parts.append(part);
+        parts.append(part.toUtf8());
 
     return parts;
 }
 
 bool RedisClient::Command::hasCallback() const
 {
-    return !callBackMethod.isEmpty();
-}
-
-QString RedisClient::Command::getCallbackName()
-{
-    return callBackMethod;
-}
-
-QString RedisClient::Command::getProgressCallbackName()
-{
-    return progressMethod;
-}
-
-void RedisClient::Command::setCallBackName(const QString & name)
-{
-    callBackMethod = name;
-}
-
-void RedisClient::Command::setProgressCallBackName(const QString &name)
-{
-    progressMethod = name;
+    return (bool)m_callback;
 }
 
 void RedisClient::Command::setCallBack(QObject *context, std::function<void (RedisClient::Response)> callback)
 {
-    owner = context;
+    m_owner = context;
     m_callback = callback;
 }
 
@@ -153,10 +124,10 @@ bool RedisClient::Command::hasDbIndex() const
 
 bool RedisClient::Command::isSelectCommand() const
 {
-    if (commandWithArguments.length() < 2)
+    if (m_commandWithArguments.length() < 2)
         return false;
 
-    return commandWithArguments.at(0).toLower() == "select";
+    return m_commandWithArguments.at(0).toLower() == "select";
 }
 
 int RedisClient::Command::getDbIndex() const
@@ -164,39 +135,39 @@ int RedisClient::Command::getDbIndex() const
     return dbIndex;
 }
 
-QString RedisClient::Command::getRawString() const
+QObject *RedisClient::Command::getOwner() const
 {
-    return commandWithArguments.join(' ');
+    return m_owner;
 }
 
-QStringList RedisClient::Command::getSplitedRepresentattion() const
+QString RedisClient::Command::getRawString() const
 {
-    return commandWithArguments;
+    return m_commandWithArguments.join(' ');
+}
+
+QList<QByteArray> RedisClient::Command::getSplitedRepresentattion() const
+{
+    return m_commandWithArguments;
+}
+
+QString RedisClient::Command::getPartAsString(int i)
+{
+    return QString::fromUtf8(m_commandWithArguments.at(i));
 }
 
 bool RedisClient::Command::isEmpty() const
 {
-    return commandWithArguments.isEmpty();
-}
-
-QObject * RedisClient::Command::getOwner() const
-{
-    return owner;
-}
-
-void RedisClient::Command::setOwner(QObject * o)
-{
-    owner = o;
+    return m_commandWithArguments.isEmpty();
 }
 
 QByteArray RedisClient::Command::getByteRepresentation() const
 {
     QByteArray result;
-    result.append(QString("*%1\r\n").arg(commandWithArguments.length()));
+    result.append(QString("*%1\r\n").arg(m_commandWithArguments.length()));
 
     QByteArray partArray;
 
-    for (QString part : commandWithArguments) {
+    for (QString part : m_commandWithArguments) {
         partArray = part.toUtf8();
         result.append("$");
         result.append(QString::number(partArray.size()));
@@ -222,4 +193,16 @@ bool RedisClient::Command::isValid() const
 {
     return !isCanceled() && !isEmpty()
             /*&& hasCallback()*/ /* && getOwner() != nullptr*/;
+}
+
+
+QList<QByteArray> RedisClient::convertStringList(const QStringList &list)
+{
+    QList<QByteArray> result;
+
+    for(QString line : list) {
+        result.append(line.toUtf8());
+    }
+
+    return result;
 }

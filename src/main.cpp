@@ -12,7 +12,9 @@ int main(int argc, char *argv[])
 {       
     QApplication a(argc, argv);
 
+#ifndef QT_DEBUG
     CrashHandler::instance()->Init(QDir::homePath());
+#endif
 
     QApplication::setApplicationName("Redis Desktop Manager");
     QApplication::setApplicationVersion(QString(RDM_VERSION));
