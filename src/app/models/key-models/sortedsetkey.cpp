@@ -36,13 +36,13 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
     QPair<QByteArray, double> row = m_rowsCache[rowIndex];
 
     if (dataRole == Roles::Value)
-        return row.first;
+        return valueToEscapedString(row.first);
     else if (dataRole ==Roles::Score)
         return QString::number(row.second);
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
     else if (dataRole == Roles::BinaryValue)
-        return value2binary(row.first);
+        return valueToBinary(row.first);
 
     return QVariant();
 }

@@ -36,13 +36,13 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
     QPair<QByteArray, QByteArray> row = m_rowsCache[rowIndex];
 
     if (dataRole == Roles::Key)
-        return row.first;
+        return valueToEscapedString(row.first);
     else if (dataRole == Roles::Value)
-        return row.second;    
+        return valueToEscapedString(row.second);
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
     else if (dataRole == Roles::BinaryValue)
-        return value2binary(row.second);
+        return valueToBinary(row.second);
 
     return QVariant();
 }
@@ -153,7 +153,11 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
 
     QString command = (updateIfNotExist)? "HSET" : "HSETNX";
 
-    Command addCmd(QStringList() << command << m_keyFullPath << hashKey << hashValue,
+    Command addCmd(QList<QByteArray>()
+                   << command.toUtf8()
+                   << m_keyFullPath.toUtf8()
+                   << hashKey.toUtf8()
+                   << hashValue.toUtf8(),
                    m_dbIndex);
 
     Response result = CommandExecutor::execute(m_connection, addCmd);
@@ -166,7 +170,7 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
 void HashKeyModel::deleteHashRow(const QString &hashKey)
 {
     using namespace RedisClient;
-    Command deleteCmd(QStringList()<< "HDEL" << m_keyFullPath << hashKey, m_dbIndex);
+    Command deleteCmd(QList<QByteArray>()<< "HDEL" << m_keyFullPath << hashKey, m_dbIndex);
     CommandExecutor::execute(m_connection, deleteCmd);
 }
 

@@ -62,4 +62,6 @@ protected:
     QList<QByteArray> m_rowsCache;
 };
 
-QVariant value2binary(const QByteArray&);
+QVariant valueToBinary(const QByteArray&value);
+QVariant valueToEscapedString(const QByteArray&);
+QByteArray escapedStringToValue(const QString&);

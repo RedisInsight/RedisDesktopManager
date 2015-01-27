@@ -31,10 +31,10 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
         return QVariant();
 
     if (dataRole == Roles::Value)
-        return m_value;
+        return valueToEscapedString(m_value);
 
     if (dataRole == Roles::BinaryValue)
-        return value2binary(m_value);
+        return valueToBinary(m_value);
 
     return QVariant();
 }
@@ -44,12 +44,16 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     if (rowIndex > 0 || !isRowValid(row))
         return;
 
-    QByteArray value = row.value("value").toByteArray();
+    QString escapedString = row.value("value").toString();
+    qDebug() << "escaped string: " << escapedString;
+
+    QByteArray value = escapedStringToValue(escapedString);
+    qDebug() << "value: " << value.toHex();
 
     if (value.isEmpty())
         return;
 
-    RedisClient::Command updateCmd(QStringList() << "SET" << m_keyFullPath << value, m_dbIndex);
+    RedisClient::Command updateCmd(QList<QByteArray>() << "SET" << m_keyFullPath << value, m_dbIndex);
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.isOkMessage()) {

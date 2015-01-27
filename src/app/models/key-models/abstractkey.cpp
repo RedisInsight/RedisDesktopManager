@@ -84,7 +84,7 @@ void KeyModel::removeKey()
 
 int KeyModel::getRowCount(const QString &countCmd)
 {
-    RedisClient::Command updateCmd(QStringList() << countCmd << m_keyFullPath, m_dbIndex);
+    RedisClient::Command updateCmd(QList<QByteArray>() << countCmd << m_keyFullPath, m_dbIndex);
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.getType() == RedisClient::Response::Integer) {
@@ -96,15 +96,15 @@ int KeyModel::getRowCount(const QString &countCmd)
 
 QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, unsigned long count)
 {
-    QStringList cmd;
+    QList<QByteArray> cmd;
 
     if (rowStart == -1 && count == -1) {
-        cmd = (QStringList() << baseCmd << m_keyFullPath);
+        cmd << baseCmd << m_keyFullPath;
     } else {
         unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
         if (baseCmd.contains(QChar(' '))) {
-            QStringList suffixCmd = baseCmd.split(QChar(' '));
+            QList<QByteArray> suffixCmd(baseCmd.toByteArray().split(QChar(' ')));
 
             cmd << suffixCmd.at(0);
             suffixCmd.removeFirst();
@@ -112,7 +112,7 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
             cmd += suffixCmd;
 
         } else {
-            cmd = (QStringList() << baseCmd << m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd));
+            cmd << baseCmd << m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd);
         }
     }
 
@@ -190,7 +190,7 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
         case RowNumber:
             return QString::number(rowIndex+1);
         case BinaryValue:
-            return value2binary(m_rowsCache[rowIndex]);
+            return valueToEscapedString(m_rowsCache[rowIndex]);
     }
 
     return QVariant();
@@ -214,12 +214,50 @@ bool ListLikeKeyModel::isMultiRow() const
 }
 
 
-QVariant value2binary(const QByteArray &value)
+QVariant valueToEscapedString(const QByteArray &value)
 {
-    QVariantList list;
+    QString val = QString::fromStdString(value.toStdString());
 
-    for(int index=0; index < value.length(); ++index) {
-        list.append(QVariant((unsigned char)value.at(index)));
+    for(int index=0; index < val.length(); ++index) {
+
+        QChar c(val.at(index));
+
+        if (c.category() == QChar::Other_Control) {
+            QString num = QString::number(c.toLatin1(), 16);
+
+            QString replace = QString("\\x%1%2").arg(num.size() == 1 ? "0": "").arg(num);
+            val.replace(index, 1, replace);
+            index += replace.size();
+        }
     }
-    return QVariant(list);
+    return QVariant(val);
+}
+
+
+QByteArray escapedStringToValue(const QString &value)
+{
+    QString result = value;
+    QRegExp rx("\\" "\\" "x([0-9]{2,2})");
+    int pos = 0;
+
+    while ((pos = rx.indexIn(result, pos)) != -1) {
+        QString found = rx.cap(1);
+        QString after(QChar(found.toInt(nullptr, 16)));
+
+        result.replace(pos, rx.matchedLength(), after);
+        pos += 1;
+    }
+
+    return result.toUtf8();
+}
+
+
+QVariant valueToBinary(const QByteArray &value)
+{
+   QVariantList list;
+
+   for(int index=0; index < value.length(); ++index) {
+       list.append(QVariant((unsigned char)value.at(index)));
+   }
+   return QVariant(list);
 }

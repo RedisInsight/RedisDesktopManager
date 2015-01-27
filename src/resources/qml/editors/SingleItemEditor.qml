@@ -12,11 +12,6 @@ AbstractEditor {
 
     property string originalValue: ""
 
-    Text {
-        Layout.fillWidth: true
-        text: "Value:"
-    }
-
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true

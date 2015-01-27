@@ -126,16 +126,22 @@ Repeater {
                         deleteConfirmation.open()
                     }
                 }
+
+                Button {
+                    text: "Reload Value"
+                    action: reLoadAction
+                    visible: !showValueNavigation
+                }
             }
 
             RowLayout {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
+                visible: showValueNavigation
 
                 Text {
-                    Layout.fillWidth: true
-                    visible: showValueNavigation
+                    Layout.fillWidth: true                    
                     textFormat: Text.RichText
                     text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
                     color: "#cccccc"
@@ -145,9 +151,7 @@ Repeater {
 
                 Button {
                     text: "Reload Value"
-                    action: reLoadAction
-                    focus: true
-
+                    action: reLoadAction                    
                     Action {
                         id: reLoadAction                        
                         shortcut: StandardKey.Refresh
@@ -162,11 +166,8 @@ Repeater {
 
                 Button {
                     text: "Add row";
-                    visible: showValueNavigation
 
-                    onClicked: {
-                        addRowDialog.open()
-                    }
+                    onClicked: addRowDialog.open()
 
                     Dialog {
                         id: addRowDialog
@@ -226,8 +227,7 @@ Repeater {
                 }
 
                 Button {
-                    text: "Delete row"                                                            
-                    visible: showValueNavigation
+                    text: "Delete row"                                                                                
                     enabled: table.currentRow != -1
 
                     onClicked: {
@@ -266,9 +266,9 @@ Repeater {
                 Layout.fillHeight: true
                 Layout.minimumHeight: 100
 
-                TableViewColumn{ width: 30 }
-                TableViewColumn{ width: 100 }
-                TableViewColumn{ width: table.width - 130}
+                TableViewColumn{ width: 50 }
+                TableViewColumn{ width: 150 }
+                TableViewColumn{ width: table.width - 200}
 
                 model: viewModel.getValue(tabIndex)
 
