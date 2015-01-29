@@ -35,7 +35,7 @@ void SetKeyModel::addRow(const QVariantMap &row)
     if (!isRowValid(row))
         throw Exception("Invalid row");
 
-    addSetRow(row["value"].toString());
+    addSetRow(row["value"].toByteArray());
     m_rowCount++;
 }
 
@@ -63,16 +63,11 @@ void SetKeyModel::removeRow(int i)
     if (!isRowLoaded(i))
         return;
 
-    QByteArray value = m_rowsCache.value(i);
-
-    using namespace RedisClient;
-
-    Command deleteValues(QStringList() << "SREM" << m_keyFullPath << value, m_dbIndex);
-    Response result = CommandExecutor::execute(m_connection, deleteValues);
+    QByteArray value = m_rowsCache.value(i);   
+    deleteSetRow(value);
 
     m_rowCount--;
     m_rowsCache.removeAt(i);
-    Q_UNUSED(result);
 
     setRemovedIfEmpty();
 }
@@ -82,16 +77,18 @@ void SetKeyModel::loadRowCount()
     m_rowCount = getRowCount("SCARD");
 }
 
-void SetKeyModel::addSetRow(const QString &value)
+void SetKeyModel::addSetRow(const QByteArray &value)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "SADD" << m_keyFullPath << value, m_dbIndex);
+    Command addCmd(m_dbIndex);
+    (addCmd << "SADD" << m_keyFullPath).append(value);
     CommandExecutor::execute(m_connection, addCmd);
 }
 
-void SetKeyModel::deleteSetRow(const QString &value)
+RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "SREM" << m_keyFullPath << value, m_dbIndex);
-    CommandExecutor::execute(m_connection, addCmd);
+    Command deleteCmd(m_dbIndex);
+    (deleteCmd << "SREM" << m_keyFullPath).append(value);
+    return CommandExecutor::execute(m_connection, deleteCmd);
 }

@@ -36,7 +36,7 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
     QPair<QByteArray, double> row = m_rowsCache[rowIndex];
 
     if (dataRole == Roles::Value)
-        return valueToEscapedString(row.first);
+        return row.first;
     else if (dataRole ==Roles::Score)
         return QString::number(row.second);
     else if (dataRole == Roles::RowNumber)
@@ -74,7 +74,7 @@ void SortedSetKeyModel::addRow(const QVariantMap &row)
     if (!isRowValid(row))
         throw Exception("Invalid row");
 
-    addSortedSetRow(row["value"].toString(), row["score"].toDouble());
+    addSortedSetRow(row["value"].toByteArray(), row["score"].toDouble());
 }
 
 unsigned long SortedSetKeyModel::rowsCount()
@@ -146,17 +146,18 @@ void SortedSetKeyModel::loadRowCount()
     m_rowCount = getRowCount("ZCARD");
 }
 
-void SortedSetKeyModel::addSortedSetRow(const QString &value, double score)
+void SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "ZADD" << m_keyFullPath
-                   << QString::number(score) << value, m_dbIndex);
+    Command addCmd(m_dbIndex);
+    (addCmd << "ZADD" << m_keyFullPath << QString::number(score)).append(value);
     CommandExecutor::execute(m_connection, addCmd);
 }
 
-void SortedSetKeyModel::deleteSortedSetRow(const QString &value)
+void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "ZREM" << m_keyFullPath << value, m_dbIndex);
+    Command addCmd(m_dbIndex);
+    (addCmd << "ZREM" << m_keyFullPath).append(value);
     CommandExecutor::execute(m_connection, addCmd);
 }

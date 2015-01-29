@@ -36,9 +36,9 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
     QPair<QByteArray, QByteArray> row = m_rowsCache[rowIndex];
 
     if (dataRole == Roles::Key)
-        return valueToEscapedString(row.first);
+        return row.first;
     else if (dataRole == Roles::Value)
-        return valueToEscapedString(row.second);
+        return row.second;
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
     else if (dataRole == Roles::BinaryValue)
@@ -146,7 +146,7 @@ void HashKeyModel::loadRowCount()
     m_rowCount = getRowCount("HLEN");   
 }
 
-void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
+void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashValue,
                               bool updateIfNotExist)
 {
     using namespace RedisClient;
@@ -154,10 +154,9 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
     QString command = (updateIfNotExist)? "HSET" : "HSETNX";
 
     Command addCmd(m_dbIndex); 
-    addCmd << command.toUtf8() // FIXME
-           << m_keyFullPath.toUtf8()
-           << hashKey.toUtf8()
-           << hashValue.toUtf8();
+    (addCmd << command << m_keyFullPath)
+            .append(hashKey)
+            .append(hashValue);
 
     Response result = CommandExecutor::execute(m_connection, addCmd);
 
@@ -166,11 +165,11 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
         throw Exception("Value with same key already exist");
 }
 
-void HashKeyModel::deleteHashRow(const QString &hashKey)
+void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
 {
     using namespace RedisClient;
     Command deleteCmd(m_dbIndex);
-    deleteCmd << "HDEL" << m_keyFullPath << hashKey;
+    (deleteCmd << "HDEL" << m_keyFullPath).append(hashKey);
     CommandExecutor::execute(m_connection, deleteCmd);
 }
 

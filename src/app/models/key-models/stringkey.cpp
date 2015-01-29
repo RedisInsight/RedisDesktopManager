@@ -31,7 +31,7 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
         return QVariant();
 
     if (dataRole == Roles::Value)
-        return valueToEscapedString(m_value);
+        return m_value;
 
     if (dataRole == Roles::BinaryValue)
         return valueToBinary(m_value);
@@ -54,7 +54,7 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
         return;
 
     RedisClient::Command updateCmd(m_dbIndex);
-    updateCmd << "SET" << m_keyFullPath << value; // FIXME
+    (updateCmd << "SET" << m_keyFullPath).append(value);
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.isOkMessage()) {

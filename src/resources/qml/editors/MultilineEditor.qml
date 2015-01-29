@@ -28,6 +28,7 @@ ColumnLayout
             model: ListModel {
                 id: formattersModel
                 ListElement { text: "Plain Text"; formatter: "plain" }
+                ListElement { text: "HEX (read-only)"; formatter: "hex" }
                 ListElement { text: "JSON"; formatter: "json" }
                 ListElement { text: "MSGPACK"; formatter: "msgpack" }
                 ListElement { text: "PHP Serializer"; formatter: "php-serialized" }                                                
@@ -51,11 +52,15 @@ ColumnLayout
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
+        textFormat: TextEdit.RichText
+        readOnly: formatter.readOnly
 
         text: {
-            if (formattersModel.get(formatterSelector.currentIndex).formatter === "msgpack") {
-                var formatted = binaryArray? formatter.getFormatted(binaryArray) : ''
-                console.log('formatted MSGPACK:', formatted)
+            var currentFormatter = formattersModel.get(formatterSelector.currentIndex).formatter
+            if (currentFormatter === "msgpack" || currentFormatter === "hex") {
+                console.log('Binary array:', binaryArray)
+                console.log('Current formatter:', currentFormatter)
+                var formatted = binaryArray? formatter.getFormatted(binaryArray) : ''                
                 return formatted
             } else {
                 return formatter.getFormatted(originalText)

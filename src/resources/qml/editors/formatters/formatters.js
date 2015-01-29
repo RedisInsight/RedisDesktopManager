@@ -1,5 +1,6 @@
 .pragma library
 .import "./msgpack.js" as MsgPack
+.import "./hexy.js" as Hexy
 .import "./php-unserialize.js" as PHPUnserialize
 .import "./php-serialize.js" as PHPSerialize
 
@@ -8,6 +9,7 @@ var defaultFormatter = 0;
 function get(type) {
 
     if (type === "plain") return plain
+    if (type === "hex") return hex
     if (type === "json") return json
     if (type === "msgpack") return msgpack
     if (type === "php-serialized") return phpserialized
@@ -19,6 +21,8 @@ function get(type) {
 **/
 
 var plain = {
+
+    readOnly: false,
 
     getFormatted: function (raw) {
         return raw
@@ -33,10 +37,30 @@ var plain = {
     }
 }
 
+var hex = {
+    readOnly: true,
+
+    getFormatted: function (raw) {
+        var format = {'html': true}
+        return Hexy.hexy(raw, format)
+    },
+
+    isValid: function (raw) {
+        return true
+    },
+
+    getRaw: function (formatted) {
+        return ''
+    }
+}
+
 /**
   JSON formatter
 **/
 var json = {
+
+    readOnly: false,
+
     getFormatted: function (raw) {
 
         try {
@@ -72,6 +96,9 @@ var json = {
   MsgPack formatter
 **/
 var msgpack = {
+
+    readOnly: false,
+
     getFormatted: function (raw) {
 
         try {
@@ -105,6 +132,9 @@ var msgpack = {
   PHP Serialize formatter
 **/
 var phpserialized = {
+
+    readOnly: false,
+
     getFormatted: function (raw) {
 
         try {

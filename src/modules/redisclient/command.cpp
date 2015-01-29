@@ -47,9 +47,11 @@ RedisClient::Command &RedisClient::Command::operator <<(const QString &part)
     return *this;
 }
 
-void RedisClient::Command::append(const QByteArray &part)
+RedisClient::Command &RedisClient::Command::append(const QByteArray &part)
 {
     m_commandWithArguments.append(part);
+
+    return *this;
 }
 
 QList<QByteArray> RedisClient::Command::splitCommandString(const QString &command)
@@ -163,12 +165,9 @@ bool RedisClient::Command::isEmpty() const
 QByteArray RedisClient::Command::getByteRepresentation() const
 {
     QByteArray result;
-    result.append(QString("*%1\r\n").arg(m_commandWithArguments.length()));
+    result.append(QString("*%1\r\n").arg(m_commandWithArguments.length()));    
 
-    QByteArray partArray;
-
-    for (QString part : m_commandWithArguments) {
-        partArray = part.toUtf8();
+    for (QByteArray partArray : m_commandWithArguments) {
         result.append("$");
         result.append(QString::number(partArray.size()));
         result.append("\r\n");

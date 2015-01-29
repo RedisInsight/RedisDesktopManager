@@ -30,8 +30,8 @@ private:
     QList<QPair<QByteArray, double>> m_rowsCache;
 
     void loadRowCount();
-    void addSortedSetRow(const QString& value, double score);
-    void deleteSortedSetRow(const QString& value);
+    void addSortedSetRow(const QByteArray &value, double score);
+    void deleteSortedSetRow(const QByteArray& value);
 };
 
 #endif // SORTEDSETKEYMODEL_H

@@ -18,7 +18,7 @@ public:
     Command(int db);
 
     Command &operator <<(const QString&);
-    void append(const QByteArray&part);
+    Command &append(const QByteArray&part);
 
     /** @see http://redis.io/topics/protocol for more info **/    
     QByteArray  getByteRepresentation() const;

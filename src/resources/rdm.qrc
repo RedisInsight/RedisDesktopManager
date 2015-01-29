@@ -40,5 +40,6 @@
         <file>qml/editors/formatters/msgpack.js</file>
         <file>qml/editors/formatters/php-unserialize.js</file>
         <file>qml/editors/formatters/php-serialize.js</file>
+        <file>qml/editors/formatters/hexy.js</file>
     </qresource>
 </RCC>

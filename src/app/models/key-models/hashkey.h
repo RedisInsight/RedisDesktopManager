@@ -31,8 +31,8 @@ private:
 
     void loadRowCount();
 
-    void setHashRow(const QString& hashKey, const QString& hashValue, bool updateIfNotExist = true);
-    void deleteHashRow(const QString& hashKey);
+    void setHashRow(const QByteArray &hashKey, const QByteArray &hashValue, bool updateIfNotExist = true);
+    void deleteHashRow(const QByteArray& hashKey);
 };
 
 #endif // HASHKEYMODEL_H

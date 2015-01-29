@@ -192,7 +192,7 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
         case RowNumber:
             return QString::number(rowIndex+1);
         case BinaryValue:
-            return valueToEscapedString(m_rowsCache[rowIndex]);
+            return valueToBinary(m_rowsCache[rowIndex]);
     }
 
     return QVariant();
