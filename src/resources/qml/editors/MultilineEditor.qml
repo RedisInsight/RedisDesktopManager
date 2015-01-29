@@ -52,7 +52,7 @@ ColumnLayout
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
-        textFormat: TextEdit.RichText
+        textFormat: formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
         readOnly: formatter.readOnly
 
         text: {
