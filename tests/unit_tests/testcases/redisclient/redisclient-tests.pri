@@ -1,5 +1,5 @@
 
-REDISCLIENT_SRC_DIR = $$PWD/../../../src/modules/redisclient/
+REDISCLIENT_SRC_DIR = $$PWD/../../../../src/modules/redisclient/
 
 HEADERS  += \
     $$PWD/*.h \

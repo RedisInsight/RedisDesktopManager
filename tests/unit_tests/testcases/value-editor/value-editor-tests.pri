@@ -1,5 +1,5 @@
 
-VALUEEDITOR_SRC_DIR = $$PWD/../../../src/modules/value-editor/
+VALUEEDITOR_SRC_DIR = $$PWD/../../../../src/modules/value-editor/
 
 HEADERS  += \
     $$PWD/*.h \

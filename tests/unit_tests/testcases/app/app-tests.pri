@@ -1,5 +1,5 @@
 
-APP_SRC_DIR = $$PWD/../../../src/app/
+APP_SRC_DIR = $$PWD/../../../../src/app/
 
 INCLUDEPATH += $$APP_SRC_DIR
 

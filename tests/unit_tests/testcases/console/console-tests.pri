@@ -1,4 +1,4 @@
-CONSOLE_SRC_DIR = $$PWD/../../../src/modules/console/
+CONSOLE_SRC_DIR = $$PWD/../../../../src/modules/console/
 
 HEADERS  += \
     $$PWD/*.h \

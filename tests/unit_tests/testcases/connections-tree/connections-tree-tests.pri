@@ -1,5 +1,5 @@
 
-CONNECTIONS_TREE_SRC_DIR = $$PWD/../../../src/modules/connections-tree/
+CONNECTIONS_TREE_SRC_DIR = $$PWD/../../../../src/modules/connections-tree/
 
 HEADERS  += \
     $$PWD/*.h \
