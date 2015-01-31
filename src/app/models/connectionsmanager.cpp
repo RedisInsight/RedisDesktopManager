@@ -41,6 +41,8 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
 
     QObject::connect(treeModel.data(), &TreeOperations::openValueTab,
                      m_values.data(), &ValueEditor::ViewModel::openTab);
+    QObject::connect(treeModel.data(), &TreeOperations::newKeyDialog,
+                     m_values.data(), &ValueEditor::ViewModel::openNewKeyDialog);
 
     QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
                 new ServerItem(config.name,

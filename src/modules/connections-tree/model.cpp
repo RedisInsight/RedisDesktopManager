@@ -142,6 +142,14 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
         emit endInsertRows();
     });
 
+    connect(item.data(), &ServerItem::unloadStartedInDatabase,
+            this, [this, itemIndex, item](unsigned int dbIndex)
+    {
+        QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
+        emit beginRemoveRows(dbModelIndex, 0, item->child(dbIndex)->childCount() - 1);
+        emit endRemoveRows();
+    });
+
     emit endInsertRows();
 }
 

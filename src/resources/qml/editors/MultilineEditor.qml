@@ -12,12 +12,15 @@ ColumnLayout
     property alias enabled: textArea.enabled
     property alias textColor: textArea.textColor
     property alias style: textArea.style
+    property bool showFormatters: true
 
     function getText() {
         return textArea.formatter.getRaw(textArea.text)
     }
 
     RowLayout{
+        visible: showFormatters
+
         Text {
             text: "View value as:"
         }

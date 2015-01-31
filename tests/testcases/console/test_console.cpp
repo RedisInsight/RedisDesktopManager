@@ -1,5 +1,6 @@
 #include "test_console.h"
 #include "console/consoletab.h"
+#include "console/hex_untils.h"
 #include "mocks/consoleoperations.h"
 #include <QTest>
 
@@ -18,4 +19,21 @@ void TestConsole::testWidget()
 
     //then
     QCOMPARE(tab.getTitle(), operations->getConsoleName());
+}
+
+void TestConsole::testHexUtils()
+{
+    // given
+    QByteArray test("123");
+    test.append('\0');
+    test.append("\u2605");
+    test.append("456");
+
+    // when
+    QString actualResult = binaryStringToEscapedString(test);
+    QByteArray actualResult2 = escapedStringToBinaryString(actualResult);
+
+    // then
+    QCOMPARE(actualResult, QString("123\\x00\u2605456"));
+    QCOMPARE(actualResult2, test);
 }

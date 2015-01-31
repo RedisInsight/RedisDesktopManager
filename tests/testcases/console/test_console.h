@@ -10,5 +10,6 @@ public:
 
 private slots:
     void testWidget();
+    void testHexUtils();
 };
 

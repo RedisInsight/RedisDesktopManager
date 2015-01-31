@@ -179,6 +179,8 @@ void ServerItem::load()
 
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));
+            QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(unloadStarted(unsigned int)),
+                             this, SIGNAL(unloadStartedInDatabase(unsigned int)));
 
             m_databases.push_back(database);
             ++db;            

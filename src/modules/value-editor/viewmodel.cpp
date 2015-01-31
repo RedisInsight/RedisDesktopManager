@@ -1,6 +1,7 @@
 #include "viewmodel.h"
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
+#include "redisclient/connection.h"
 #include <QDebug>
 
 ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
@@ -86,6 +87,13 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     return roles;
 }
 
+void ValueEditor::ViewModel::addKey(QString keyName, QString keyType, const QVariantMap &row)
+{
+    m_keyFactory->addKey(m_newKeyRequest.first,
+                         keyName, m_newKeyRequest.second,
+                         keyType, row);
+}
+
 void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
 {
     if (!isIndexValid(index(i, 0)))
@@ -153,6 +161,19 @@ QObject* ValueEditor::ViewModel::getValue(int i)
         return new ValueEditor::ValueViewModel(model);
     else
         return valueEditors[0];
+}
+
+void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                                              int dbIndex, QString keyPrefix)
+{
+    if (connection.isNull() || dbIndex < 0)
+        return;
+
+    m_newKeyRequest = qMakePair(connection, dbIndex);
+
+    QString dbId= QString("%1:db%2").arg(connection->getConfig().name).arg(dbIndex);
+
+    emit newKeyDialog(dbId, keyPrefix);
 }
 
 bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const

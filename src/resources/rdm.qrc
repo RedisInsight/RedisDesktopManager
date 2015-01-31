@@ -41,5 +41,8 @@
         <file>qml/editors/formatters/php-unserialize.js</file>
         <file>qml/editors/formatters/php-serialize.js</file>
         <file>qml/editors/formatters/hexy.js</file>
+        <file>qml/editors/editor.js</file>
+        <file>qml/parts/Pagination.qml</file>
+        <file>qml/AddKeyDialog.qml</file>
     </qresource>
 </RCC>

@@ -38,9 +38,14 @@ public:
 
 signals:
     void keysLoaded(unsigned int dbIndex);
+    void unloadStarted(unsigned int dbIndex);
 
 protected slots:
     void onKeysRendered();
+
+protected:
+    void unload();
+    void reload();
 
 private:
     class KeysTreeRenderer

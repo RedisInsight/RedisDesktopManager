@@ -29,4 +29,5 @@ public:
 
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
     virtual void openConsoleTab() override {}
+    void openNewKeyDialog(int, QString = QString()) override {}
 };

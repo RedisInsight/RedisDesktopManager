@@ -42,13 +42,9 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
 void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
     if (rowIndex > 0 || !isRowValid(row))
-        return;
+        return;   
 
-    QString escapedString = row.value("value").toString();
-    qDebug() << "escaped string: " << escapedString;
-
-    QByteArray value = escapedStringToValue(escapedString);
-    qDebug() << "value: " << value.toHex();
+    QByteArray value = row.value("value").toByteArray();
 
     if (value.isEmpty())
         return;
@@ -63,9 +59,9 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     }
 }
 
-void StringKeyModel::addRow(const QVariantMap &)
+void StringKeyModel::addRow(const QVariantMap &row)
 {
-    return;
+    updateRow(0, row);
 }
 
 unsigned long StringKeyModel::rowsCount()

@@ -17,7 +17,8 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
+        showFormatters: root.state != "new"
     }
 
     function setValue(rowValue) {

@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.minimumHeight: 35
 
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
         placeholderText: "Score"
         validator: DoubleValidator { locale: "C" } // force point as decimal separator
@@ -38,7 +38,8 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
+        showFormatters: root.state != "new"
         property string originalValue: ""
     }
 
@@ -75,7 +76,7 @@ AbstractEditor {
     }
 
     function markInvalidFields() {
-        keyText.textColor = "black"
+        scoreText.textColor = "black"
         textArea.textColor = "black"
         // Fixme
     }

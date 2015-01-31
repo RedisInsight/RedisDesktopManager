@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.minimumHeight: 35
 
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
 
         style: TextFieldStyle {
@@ -48,8 +48,9 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
+        showFormatters: root.state != "new"
 
         style: TextAreaStyle {
             backgroundColor: (textArea.text=="" && textArea.enabled

@@ -63,5 +63,3 @@ protected:
 };
 
 QVariant valueToBinary(const QByteArray&value);
-QVariant valueToEscapedString(const QByteArray&);
-QByteArray escapedStringToValue(const QString&);

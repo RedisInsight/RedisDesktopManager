@@ -4,6 +4,8 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
+import "./editors/editor.js" as Editor
+import "./parts"
 
 
 Repeater {
@@ -86,11 +88,17 @@ Repeater {
                             width: 500
 
                             Text { text: "New name:" }
-                            TextField { id: newKeyName; Layout.fillWidth: true;}
+                            TextField {
+                                id: newKeyName;
+                                Layout.fillWidth: true;
+                            }
                         }
 
                         onAccepted: {
-                            console.log(newKeyName.text)
+                            if (newKeyName.text.length == 0) {
+                                return open()
+                            }
+
                             viewModel.renameKey(keyTab.keyIndex, newKeyName.text)
                         }
 
@@ -182,25 +190,12 @@ Repeater {
                             width: 500
                             height: 350
                             anchors.centerIn: parent
-
                             property int currentRow: -1
 
-                            source: {
-                                if (keyType === "string") {
-                                    return "./editors/SingleItemEditor.qml"
-                                } else if (keyType === "list" || keyType === "set") {
-                                    return "./editors/SingleItemEditor.qml"
-                                } else if (keyType === "zset") {
-                                    return "./editors/SortedSetItemEditor.qml"
-                                } else if (keyType === "hash") {
-                                    return "./editors/HashItemEditor.qml"
-                                } else {
-                                    console.error("Editor for type " + keyType + " is not defined!")
-                                }
-                            }
+                            source: Editor.getEditorByTypeString(keyType)
 
                             onLoaded: {
-                                item.editingMode = false
+                                item.state = "add"
                             }
                         }
 
@@ -403,39 +398,12 @@ Repeater {
                 }
             }
 
-            RowLayout {
+            Pagination {
                 id: pagination
                 visible: showValueNavigation
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
-                Button {
-                    text: "⇤"
-                    onClicked: table.goToFirstPage()
-                }
-                Button {
-                    text: "⇦"
-                    onClicked: table.goToPrevPage()
-                }
-                Text {
-                    text: "Page " + table.currentPage + " of " + table.totalPages
-                            + " (Items:" + (table.currentStart+1) + "-"
-                            + (table.currentStart+table.rowCount)
-                            + " of " + table.model.totalRowCount() + ")"
-                }
-                TextField { text: "1"; Layout.fillWidth: true; readOnly: false}
-                Button {
-                    text: "Goto Page"
-                    onClicked: {}
-                }
-                Button {
-                    text: "⇨"
-                    onClicked: table.goToNextPage()
-                }
-                Button {
-                    text: "⇥"
-                    onClicked: table.goToLastPage()
-                }
             }
 
             Item {
@@ -476,27 +444,15 @@ Repeater {
                     property int currentRow: -1
 
                     source: {
-                        if (keyType === "string") {
-                            table.loadValue()
-                            return "./editors/SingleItemEditor.qml"
-                        } else if (keyType === "list" || keyType === "set") {
-                            return "./editors/SingleItemEditor.qml"
-                        } else if (keyType === "zset") {
-                            return "./editors/SortedSetItemEditor.qml"
-                        } else if (keyType === "hash") {
-                            return "./editors/HashItemEditor.qml"
-                        } else {
-                            console.error("Editor for type " + keyType + " is not defined!")
-                        }
+                        if (keyType === "string")
+                            table.loadValue()                                                    
+
+                        return Editor.getEditorByTypeString(keyType)
                     }
 
                     onLoaded: {
-                        console.log("VALUE EDITOR LOADED!")
-
-                        if (keyType === "string") {
+                        if (keyType === "string")
                             valueEditor.loadRowValue(0)
-                        }
-
                     }
 
                     function loadRowValue(row) {
@@ -539,11 +495,10 @@ Repeater {
                         text: ""
                         visible: false
                         modality: Qt.ApplicationModal
-                        icon: StandardIcon.Warning
+                        icon: StandardIcon.Information
                         standardButtons: StandardButton.Ok
                     }
                 }
-
             }
         }
     }
