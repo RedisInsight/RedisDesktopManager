@@ -11,3 +11,5 @@ debug:   DESTDIR = $$PROJECT_ROOT/bin/tests
 OBJECTS_DIR = $$DESTDIR/qml_obj
 MOC_DIR = $$DESTDIR/qml_obj
 RCC_DIR = $$DESTDIR/qml_obj
+
+OTHER_FILES = $$PWD/tst_*.qml
