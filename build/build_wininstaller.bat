@@ -1,20 +1,20 @@
 @echo off
 
 echo ============================
-echo Set version %1
-echo ============================
-python set_version.py %1 > ./../src/version.h
-python set_version.py %1 > ./../3rdparty/crashreporter/src/version.h
-echo DONE
-
-echo ============================
 echo Setup Build Environment
 echo ============================
 cd ./../
 set SRCDIR=%cd%
 set QTDIR=C:\\Qt\\5.4\\mingw491_32\\bin
-set PATH=C:\\Qt\\Tools\\mingw491_32\\bin:%PATH%
+set PATH=C:\Qt\Tools\mingw491_32\bin;C:\Python27\;C:\%PATH%
 echo %PATH%
+echo DONE
+
+echo ============================
+echo Set version %1
+echo ============================
+python set_version.py %1 > ./../src/version.h
+python set_version.py %1 > ./../3rdparty/crashreporter/src/version.h
 echo DONE
 
 echo ============================
