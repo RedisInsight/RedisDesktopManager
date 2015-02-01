@@ -5,8 +5,13 @@ echo Setup Build Environment
 echo ============================
 cd ./../
 set SRCDIR=%cd%
-set QTDIR=C:\\Qt\\5.4\\mingw491_32\\bin
-set PATH=C:\Qt\Tools\mingw491_32\bin;C:\Python27\;C:\%PATH%
+set QTDIR=C:\\Qt\\5.4\\msvc2012_opengl\\bin\\
+set PATH=C:\Python27\;%PATH%
+
+if not defined DevEnvDir (
+call "C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
+)
+
 echo %PATH%
 echo DONE
 
@@ -24,7 +29,8 @@ echo Build Crash Reporter :
 cd ./3rdparty/crashreporter
 %QTDIR%/qmake -v
 %QTDIR%/qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
-mingw32-make -j 2 -s 
+nmake /NOLOGO /S clean >nul: 2>nul:
+nmake /NOLOGO /S
 
 if %errorlevel% neq 0 (
  echo !!! Crashreporter Compilation Error !!!
@@ -37,7 +43,8 @@ echo Build Application :
 cd ./src
 %QTDIR%/qmake -v
 %QTDIR%/qmake CONFIG+=release
-mingw32-make -j 2 -s
+nmake /NOLOGO /S clean >nul: 2>nul:
+nmake /NOLOGO /S
 
 if %errorlevel% neq 0 (
  echo !!! Compilation Error !!!
