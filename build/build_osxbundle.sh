@@ -38,7 +38,7 @@ cp resources/Info.plist.sample resources/Info.plist
 sed -i "s/0.0.0/$TAG/g" resources/Info.plist
 
 sh ./configure
-qmake
+qmake CONFIG+=release
 make -s clean
 make -s -j 2
 
@@ -47,7 +47,7 @@ echo DONE
 echo ============================
 echo Create release bundle
 echo ============================
-cd ./../
+cd $SOURCE_DIR
 
 BUNDLE_PATH=./bin/linux/release/ 
 BUILD_DIR=$BUNDLE_PATH/rdm.app/Contents/
