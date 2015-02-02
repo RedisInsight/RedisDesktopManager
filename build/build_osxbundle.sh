@@ -38,7 +38,7 @@ cp resources/Info.plist.sample resources/Info.plist
 sed -i "s/0.0.0/$TAG/g" resources/Info.plist
 
 sh ./configure
-qmake CONFIG+=release
+qmake CONFIG-=debug CONFIG+=release CONFIG+=app_bundle
 make -s clean
 make -s -j 2
 
