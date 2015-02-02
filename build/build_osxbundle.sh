@@ -11,7 +11,7 @@ echo DONE
 echo ============================
 echo Setup Build Environment
 echo ============================
-QTPATH=/Users/admin/Qt/5.3/clang_64/bin
+QTPATH=/usr/local/opt/qt5/bin/
 export PATH=$PATH:$QTPATH
 SOURCE_DIR=`pwd`
 rm -fR ./bin/linux/release/*
