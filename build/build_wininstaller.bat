@@ -6,12 +6,11 @@ echo ============================
 cd ./../
 set SRCDIR=%cd%
 set QTDIR=C:\\Qt\\5.4\\msvc2012_opengl\\bin\\
-set PATH=C:\Python27\;%PATH%
-
+set PATH=C:\Python27\;%QTDIR%;%PATH%
+qmake -v
 if not defined DevEnvDir (
 call "C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
 )
-
 echo %PATH%
 echo DONE
 
@@ -27,9 +26,7 @@ echo Build project
 echo ============================
 echo Build Crash Reporter :
 cd ./3rdparty/crashreporter
-%QTDIR%/qmake -v
-%QTDIR%/qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
-nmake /NOLOGO /S clean >nul: 2>nul:
+qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
 nmake /NOLOGO /S
 
 if %errorlevel% neq 0 (
@@ -37,13 +34,10 @@ if %errorlevel% neq 0 (
  exit /b %errorlevel%
 )
 
-cd %SRCDIR%
 echo ============================
 echo Build Application :
-cd ./src
-%QTDIR%/qmake -v
-%QTDIR%/qmake CONFIG+=release
-nmake /NOLOGO /S clean >nul: 2>nul:
+cd %SRCDIR%/src
+qmake CONFIG+=release
 nmake /NOLOGO /S
 
 if %errorlevel% neq 0 (
@@ -51,23 +45,29 @@ if %errorlevel% neq 0 (
  exit /b %errorlevel%
 )
 
-cd ./../
-
 echo ============================
 echo Export debug symbols
 echo ============================
-cd ./bin/windows/release
+cd %SRCDIR%/bin/windows/release
 %SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
-cd %SRCDIR%
 
 echo ============================
 echo Build installer
 echo ============================
+cd %SRCDIR%
+cp -f bin/windows/release/rdm.exe build/windows/installer/resources/
+cd build/windows/installer/resources/
+echo ===============
+echo Windeploy tool:
+windeployqt --no-translations --compiler-runtime --release-with-debug-info --qmldir %SRCDIR%/src/resources/qml rdm.exe
+cd %SRCDIR%
+
+echo ===============
+echo Build installer:
 "C:\\Program Files\\NSIS\\Unicode\\makensis.exe" /V1 /DVERSION=%1  ./build/windows/installer/installer.nsi
 
 echo ============================
 echo Copy installer
 echo ============================
-del /F /Q .\\bin\\*.exe
-cp ./build/windows/installer/redis-desktop-manager-%1.exe .\\bin\\redis-desktop-manager-%1.exe
-
+rm -f ./bin/*.exe
+cp -f ./build/windows/installer/redis-desktop-manager-%1.exe ./bin/redis-desktop-manager-%1.exe
