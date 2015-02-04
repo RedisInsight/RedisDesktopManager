@@ -48,7 +48,7 @@ InstallDir $PROGRAMFILES\RedisDesktopManager
 CRCCheck on
 XPStyle on
 ShowInstDetails show
-VIProductVersion 0.7.0.0
+VIProductVersion ${VERSION}.0
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "Redis Desktop Manager"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -66,7 +66,6 @@ Section -Main SEC0000
 
     SetOutPath $INSTDIR
     SetOverwrite on
-    File ..\..\..\bin\windows\release\${APP_EXE}
     File ..\..\..\bin\windows\release\crashreporter.exe
     File ..\..\..\bin\windows\release\rdm.pdb
     File /r resources\*
