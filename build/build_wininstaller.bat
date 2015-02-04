@@ -6,7 +6,7 @@ echo ============================
 cd ./../
 set SRCDIR=%cd%
 set QTDIR=C:\\Qt\\5.4\\msvc2012_opengl\\bin\\
-set PATH=C:\Python27\;%QTDIR%;%PATH%
+set PATH=C:\Python27\;%QTDIR%;C:\msys\1.0\bin\;%PATH%
 qmake -v
 if not defined DevEnvDir (
 call "C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
