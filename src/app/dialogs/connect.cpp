@@ -8,7 +8,7 @@
 #include "app/models/connectionsmanager.h"
 
 ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent)
-    : QDialog(parent), inEditMode(false), m_manager(manager)
+    : QDialog(parent), m_inEditMode(false), m_manager(manager)
 {
     ui.setupUi(this);
 
@@ -23,24 +23,21 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
-    // todo: load available formatters from factory
-    ui.defaultValueFormat->insertItem(0,"Plain text");
-    ui.defaultValueFormat->insertItem(1,"JSON");
+    ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+    ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+    ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+}
 
-    //edit mode
-//    if (srv != nullptr) {
-//        server = srv;
-//        //loadValuesFromConnection(srv->getConnection());
-//    } else {
-//        ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
-//        ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
-//        ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
-//    }
+void ConnectionWindow::setConnectionConfig(const RedisClient::ConnectionConfig& config)
+{
+    m_config = config;
+    m_inEditMode = true;
+    loadValuesFromConfig(m_config);
 }
 
 void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig& config)
 {
-    inEditMode = true;    
+    m_inEditMode = true;
 
     ui.nameEdit->setText(config.name);
     ui.hostEdit->setText(config.host);
@@ -49,12 +46,6 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
     ui.namespaceSeparator->setText(config.namespaceSeparator);
     ui.connectionTimeout->setValue(config.connectionTimeout / 1000);
     ui.executionTimeout->setValue(config.executeTimeout / 1000);
-
-    if (config.defaultValueFormat == "json") {
-        ui.defaultValueFormat->setCurrentIndex(1);
-    } else {
-        ui.defaultValueFormat->setCurrentIndex(0);
-    }
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
@@ -93,19 +84,12 @@ void ConnectionWindow::OnOkButtonClick()
 
     auto manager = m_manager.toStrongRef();
 
-    QSharedPointer<RedisClient::Connection> connection;
-
-
-
-//    if (inEditMode) {
-//        connection = server->getConnection();
-//        connection->setConnectionConfig(conf);
-//        mainForm->connections->connectionChanged();
-        
-//    } else {
-        connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(conf, false));
-        manager->addConnection(connection);
-//    }
+    if (m_inEditMode) {
+        conf.setOwner(m_config.getOwner());
+        manager->updateConnection(conf);
+    } else {
+        manager->addNewConnection(conf);
+    }
     
     close();
 }
@@ -269,9 +253,6 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
     if (!ui.authEdit->text().isEmpty()) {
         conf.auth = ui.authEdit->text();
     }
-
-    if (ui.defaultValueFormat->currentIndex() == 1)
-        conf.defaultValueFormat = "json";
 
     if (isSshTunnelUsed()) {
         conf.setSshTunnelSettings(

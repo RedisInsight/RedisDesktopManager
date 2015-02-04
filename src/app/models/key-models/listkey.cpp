@@ -41,10 +41,10 @@ void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
     if (isPartialLoadingSupported()) {
         //TBD
     } else {        
-        QStringList rows = getRowsRange("LRANGE", rowStart, count).toStringList();        
+        QVariantList rows = getRowsRange("LRANGE", rowStart, count).toList();
 
-        foreach (QString row, rows) {
-            m_rowsCache.push_back(row.toUtf8());
+        foreach (QVariant row, rows) {
+            m_rowsCache.push_back(row.toByteArray());
         }
     }
 
@@ -62,10 +62,10 @@ void ListKeyModel::removeRow(int i)
 
     // Replace value by system string
     QString customSystemValue("---VALUE_REMOVED_BY_RDM---");        
-    setListRow(i, customSystemValue);
+    setListRow(i, customSystemValue.toUtf8());
 
     // Remove all system values from list
-    deleteListRow(0, customSystemValue);
+    deleteListRow(0, customSystemValue.toUtf8());
 
     m_rowCount--;
     m_rowsCache.removeAt(i);
@@ -95,32 +95,32 @@ bool ListKeyModel::isActualPositionChanged(int row)
 
     Response result = CommandExecutor::execute(m_connection, getValueByIndex);
 
-    QStringList currentState = result.getValue().toStringList();
+    QVariantList currentState = result.getValue().toList();
 
-    return currentState.size() != 1 || currentState[0] != QString(cachedValue);
+    return currentState.size() != 1 || currentState[0].toByteArray() != QString(cachedValue);
 }
 
-void ListKeyModel::addListRow(const QString &value)
+void ListKeyModel::addListRow(const QByteArray &value)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "LPUSH" << m_keyFullPath << value, m_dbIndex);
+    Command addCmd(m_dbIndex);
+    (addCmd << "LPUSH" << m_keyFullPath).append(value),
     CommandExecutor::execute(m_connection, addCmd);
 }
 
-void ListKeyModel::setListRow(int pos, const QString &value)
+void ListKeyModel::setListRow(int pos, const QByteArray &value)
 {
     using namespace RedisClient;
-    Command addCmd(QStringList() << "LSET"
-                   << m_keyFullPath << QString::number(pos)
-                   << value, m_dbIndex);
+    Command addCmd(m_dbIndex);
+    (addCmd << "LSET" << m_keyFullPath << QString::number(pos)).append(value);
     CommandExecutor::execute(m_connection, addCmd);
 }
 
-void ListKeyModel::deleteListRow(int count, const QString &value)
+void ListKeyModel::deleteListRow(int count, const QByteArray &value)
 {
     using namespace RedisClient;
-    Command deleteCmd(QStringList() << "LREM" << m_keyFullPath
-                   << QString::number(count) << value, m_dbIndex);
+    Command deleteCmd(m_dbIndex);
+    (deleteCmd << "LREM" << m_keyFullPath << QString::number(count)).append(value);
     CommandExecutor::execute(m_connection, deleteCmd);
 }
 

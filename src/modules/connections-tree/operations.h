@@ -51,6 +51,8 @@ namespace ConnectionsTree {
 
         virtual void openConsoleTab() = 0;
 
+        virtual void openNewKeyDialog(int dbIndex, QString keyPrefix = QString()) = 0;
+
         virtual ~Operations() {}
 
     };

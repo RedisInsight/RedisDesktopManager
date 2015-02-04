@@ -115,3 +115,9 @@ void TreeOperations::openConsoleTab()
     QSharedPointer<Console::ConsoleTab> tab(new Console::ConsoleTab(model.staticCast<Console::Operations>()));
     m_consoleTabs.addTab(tab.staticCast<BaseTab>());
 }
+
+void TreeOperations::openNewKeyDialog(int dbIndex, QString keyPrefix)
+{
+    qDebug() << "new key";
+    emit newKeyDialog(m_connection, dbIndex, keyPrefix);
+}

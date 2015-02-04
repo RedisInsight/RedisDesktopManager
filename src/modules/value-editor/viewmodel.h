@@ -2,6 +2,7 @@
 
 #include <QAbstractListModel>
 #include <QString>
+#include <QPair>
 #include <QByteArray>
 #include <QSharedPointer>
 #include "abstractkeyfactory.h"
@@ -40,28 +41,36 @@ public:
 
 
 public: // methods exported to QML
+    Q_INVOKABLE void addKey(QString keyName, QString keyType, const QVariantMap &row);
     Q_INVOKABLE void renameKey(int index, const QString& newKeyName);
     Q_INVOKABLE void removeKey(int i);
     Q_INVOKABLE void closeTab(int i);
     Q_INVOKABLE void setCurrentTab(int i);
-    Q_INVOKABLE QObject* getValue(int i);
+    Q_INVOKABLE QObject* getValue(int i);    
 
 signals:
     void keyError(int index, const QString& error);
     void replaceTab(int index);
     void closeWelcomeTab();
+    void newKeyDialog(QString dbIdentificationString, QString keyPrefix);
 
 public slots:
+    void openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
+                          QString keyPrefix);
     void openTab(QSharedPointer<RedisClient::Connection> connection,
                  ConnectionsTree::KeyItem& key, bool inNewTab);
 
 private:
     QList<QSharedPointer<Model>> m_valueModels;
     QSharedPointer<AbstractKeyFactory> m_keyFactory;
+    int m_currentTabIndex;
+
+    QPair<QSharedPointer<RedisClient::Connection>, int> m_newKeyRequest;
 
     bool isIndexValid(const QModelIndex &index) const;
     void loadModel(QSharedPointer<Model> model, bool openNewTab = false);
-    int m_currentTabIndex;
+    void removeModel(QSharedPointer<Model> model);
+
 
 };
 

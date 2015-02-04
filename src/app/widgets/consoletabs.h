@@ -10,14 +10,11 @@ class ConsoleTabs : public QTabWidget
 public:
     ConsoleTabs(QWidget * parent = nullptr);
 
-    // Default QTabWidget interface, only for widget tabs
-    int addTab(QWidget*w, const QIcon&i, const QString &l) { return QTabWidget::addTab(w, i, l); }
-    int addTab(QWidget*w, const QString &l) { return QTabWidget::addTab(w, l); }
-
     // App interface, for functional tabs
     void addTab(QSharedPointer<BaseTab> tab);
     void replaceCurrentTab(QSharedPointer<BaseTab> tab);
-    void closeTab(unsigned int index);    
+    void closeTab(unsigned int index);
+    void closeAllTabsWithName(const QString& name);
 
 protected:
     void closeCurrentTabWithValue();

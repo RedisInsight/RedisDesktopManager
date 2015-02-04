@@ -95,11 +95,11 @@ unix:!macx { # ubuntu & debian
 
     #deployment
     target.path = /usr/share/redis-desktop-manager/bin
-    target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter  $$PWD/resources/qt.conf  $$PWD/resources/rdm.png
+    target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter  $$PWD/resources/qt.conf  $$PWD/resources/rdm.png $$PWD/resources/rdm.sh
     INSTALLS += target
 
     data.path = /usr/share/redis-desktop-manager/lib
-    data.files = lib/*
+    data.files = $$PWD/lib/*
     INSTALLS += data
 
     deskicon.path = /usr/share/applications

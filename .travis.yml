@@ -21,13 +21,15 @@ before_install:
 - sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 - sudo pip install cpp-coveralls --use-mirrors
 before_script:
-- cd ./tests
+- cd ./src
 script: 
+  - cd ./../tests
   - qmake -v
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
-  - coveralls -b `pwd` -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.*
+  - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.*
+  - ./../bin/tests/qml_tests -platform minimal -txt
   - cd ./../src
   - sudo chmod a+x configure
   - sudo ./configure

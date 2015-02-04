@@ -20,8 +20,11 @@ RedisClient::Response RedisClient::CommandExecutor::execute(Connection* connecti
 
 RedisClient::Executor::Executor(RedisClient::Command &cmd)
 {
-    cmd.setOwner(this);
-    cmd.setCallBackName("responseReceiver");
+    cmd.setCallBack(this, [this](Response r) {
+        m_result = r;
+        m_loop.exit();
+    });
+
     m_timeoutTimer.setSingleShot(true);
     connect(&m_timeoutTimer, SIGNAL(timeout()), &m_loop, SLOT(quit()));
 }
@@ -31,10 +34,4 @@ RedisClient::Response RedisClient::Executor::waitForResult(unsigned int timeoutI
     m_timeoutTimer.start(timeoutInMs);
     m_loop.exec();
     return m_result;
-}
-
-void RedisClient::Executor::responseReceiver(Response r)
-{
-    m_result = r;
-    m_loop.exit();
 }

@@ -27,7 +27,7 @@ public:
     void runCommand(const Command &cmd);    
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
-    void setConnectionConfig(ConnectionConfig&);
+    void setConnectionConfig(const ConnectionConfig &);
 
     float getServerVersion();
 

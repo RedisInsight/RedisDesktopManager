@@ -22,6 +22,7 @@ RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(const C
         connectionTimeout = other.connectionTimeout;
         executeTimeout = other.executeTimeout;
         defaultValueFormat = other.defaultValueFormat;
+        m_owner = other.m_owner;
 
         setSshTunnelSettings(
                     other.sshHost, other.sshUser, other.sshPassword,
@@ -62,6 +63,16 @@ bool RedisClient::ConnectionConfig::useAuth() const
 bool RedisClient::ConnectionConfig::isValid() const
 {
     return isNull() == false && connectionTimeout > 1000 && executeTimeout > 1000;
+}
+
+void RedisClient::ConnectionConfig::setOwner(QWeakPointer<RedisClient::Connection> owner)
+{
+    m_owner = owner;
+}
+
+QWeakPointer<RedisClient::Connection> RedisClient::ConnectionConfig::getOwner() const
+{
+    return m_owner;
 }
 
 QString RedisClient::ConnectionConfig::getSshPrivateKey()

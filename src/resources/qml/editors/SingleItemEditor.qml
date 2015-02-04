@@ -12,23 +12,19 @@ AbstractEditor {
 
     property string originalValue: ""
 
-    Text {
-        Layout.fillWidth: true
-        text: "Value:"
-    }
-
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
+        showFormatters: root.state != "new"
     }
 
     function setValue(rowValue) {
         root.originalValue = rowValue['value']
         textArea.text = rowValue['value']
-        textArea.binaryText = rowValue['binary_value']
+        textArea.binaryArray = rowValue['binary_value']
 
         console.log(rowValue['binary_value'])
     }

@@ -23,7 +23,8 @@ QHash<int, QByteArray> HashKeyModel::getRoles()
     QHash<int, QByteArray> roles;
     roles[Roles::RowNumber] = "row";
     roles[Roles::Key] = "key";
-    roles[Roles::Value] = "value";    
+    roles[Roles::Value] = "value";
+    roles[Roles::BinaryValue] = "binary_value";
     return roles;
 }
 
@@ -37,9 +38,11 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
     if (dataRole == Roles::Key)
         return row.first;
     else if (dataRole == Roles::Value)
-        return row.second;    
+        return row.second;
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
+    else if (dataRole == Roles::BinaryValue)
+        return valueToBinary(row.second);
 
     return QVariant();
 }
@@ -86,21 +89,21 @@ void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::fu
     if (isPartialLoadingSupported()) {
         //TBD
     } else {
-        QStringList rows = getRowsRange("HGETALL").toStringList();
+        QVariantList rows = getRowsRange("HGETALL").toList();
 
         unsigned int rowIndex = rowStart;
 
-        for (QStringList::iterator item = rows.begin();
+        for (QVariantList::iterator item = rows.begin();
              item != rows.end(); ++item, rowIndex++) {
 
             QPair<QByteArray, QByteArray> value;
-            value.first = item->toUtf8();
+            value.first = item->toByteArray();
             ++item;
 
             if (item == rows.end())
                 throw Exception("Partial data loaded from server");
 
-            value.second = item->toUtf8();
+            value.second = item->toByteArray();
             m_rowsCache.push_back(value);
         }
     }
@@ -143,15 +146,17 @@ void HashKeyModel::loadRowCount()
     m_rowCount = getRowCount("HLEN");   
 }
 
-void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
+void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashValue,
                               bool updateIfNotExist)
 {
     using namespace RedisClient;
 
     QString command = (updateIfNotExist)? "HSET" : "HSETNX";
 
-    Command addCmd(QStringList() << command << m_keyFullPath << hashKey << hashValue,
-                   m_dbIndex);
+    Command addCmd(m_dbIndex); 
+    (addCmd << command << m_keyFullPath)
+            .append(hashKey)
+            .append(hashValue);
 
     Response result = CommandExecutor::execute(m_connection, addCmd);
 
@@ -160,10 +165,11 @@ void HashKeyModel::setHashRow(const QString &hashKey, const QString &hashValue,
         throw Exception("Value with same key already exist");
 }
 
-void HashKeyModel::deleteHashRow(const QString &hashKey)
+void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
 {
     using namespace RedisClient;
-    Command deleteCmd(QStringList()<< "HDEL" << m_keyFullPath << hashKey, m_dbIndex);
+    Command deleteCmd(m_dbIndex);
+    (deleteCmd << "HDEL" << m_keyFullPath).append(hashKey);
     CommandExecutor::execute(m_connection, deleteCmd);
 }
 

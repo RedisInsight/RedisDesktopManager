@@ -103,17 +103,19 @@ QByteArray RedisClient::Response::parseBulk(const QByteArray& response)
     return QByteArray();
 }
 
-QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
+QVariantList RedisClient::Response::parseMultiBulk(const QByteArray& response)
 {    
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);            
 
     if (responseSize == 0) 
     {    
-        return QStringList();
+        return QVariantList();
     }
 
-    QStringList parsedResult; Type type; int firstItemLen, firstPosOfEndl, bulkLen;
+    QVariantList parsedResult;
+    Type type;
+    int firstItemLen, firstPosOfEndl, bulkLen;
 
     parsedResult.reserve(responseSize+5);
 
@@ -125,7 +127,7 @@ QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
         firstItemLen = firstPosOfEndl - currPos-1;
 
         if (type == Integer) {                                            
-            parsedResult << response.mid(currPos+1, firstItemLen);
+            parsedResult << QVariant(response.mid(currPos+1, firstItemLen));
 
             currPos = firstPosOfEndl + 2;
             continue;
@@ -134,10 +136,10 @@ QStringList RedisClient::Response::parseMultiBulk(const QByteArray& response)
 
             if (bulkLen == 0) 
             {
-                parsedResult << "";
+                parsedResult << QVariant("");
                 currPos = firstPosOfEndl + 4;
             } else {
-                parsedResult << response.mid(firstPosOfEndl+2, bulkLen);
+                parsedResult << QVariant(response.mid(firstPosOfEndl+2, bulkLen));
                 currPos = firstPosOfEndl + bulkLen + 4;
             }
 

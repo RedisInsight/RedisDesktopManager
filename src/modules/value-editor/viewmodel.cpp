@@ -1,6 +1,7 @@
 #include "viewmodel.h"
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
+#include "redisclient/connection.h"
 #include <QDebug>
 
 ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
@@ -18,22 +19,17 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
             return;
 
         loadModel(keyModel, inNewTab);
-        qDebug() << "Key model loaded:"
-                 << keyModel->getKeyName()
-                 << keyModel->getType();
 
         QObject::connect(keyModel.data(), &Model::removed,
                          this, [this, keyModel, &key]()
         {
-            int i = m_valueModels.lastIndexOf(keyModel);
+            removeModel(keyModel);
+            key.setRemoved(); //Disable key in connections tree
+        });
 
-            beginRemoveRows(QModelIndex(), i, i);
-            m_valueModels.removeAt(i);
-
-            //Disable key in connections tree
-            key.setRemoved();
-
-            endRemoveRows();
+        QObject::connect(&key, &ConnectionsTree::KeyItem::destroyed,
+                         this, [this, keyModel] () {
+            removeModel(keyModel);
         });
     });
     // TODO: add empty key model for loading
@@ -89,6 +85,13 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     roles[count] = "valuesCount";
     roles[keyValue] = "keyValue";
     return roles;
+}
+
+void ValueEditor::ViewModel::addKey(QString keyName, QString keyType, const QVariantMap &row)
+{
+    m_keyFactory->addKey(m_newKeyRequest.first,
+                         keyName, m_newKeyRequest.second,
+                         keyType, row);
 }
 
 void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
@@ -160,6 +163,19 @@ QObject* ValueEditor::ViewModel::getValue(int i)
         return valueEditors[0];
 }
 
+void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                                              int dbIndex, QString keyPrefix)
+{
+    if (connection.isNull() || dbIndex < 0)
+        return;
+
+    m_newKeyRequest = qMakePair(connection, dbIndex);
+
+    QString dbId= QString("%1:db%2").arg(connection->getConfig().name).arg(dbIndex);
+
+    emit newKeyDialog(dbId, keyPrefix);
+}
+
 bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
 {
     return 0 <= index.row() && index.row() < rowCount();
@@ -180,4 +196,13 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
         emit replaceTab(m_currentTabIndex);
         emit dataChanged(index(m_currentTabIndex, 0), index(m_currentTabIndex, 0));
     }
+}
+
+void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> model)
+{
+    int i = m_valueModels.lastIndexOf(model);
+
+    beginRemoveRows(QModelIndex(), i, i);
+    m_valueModels.removeAt(i);
+    endRemoveRows();
 }

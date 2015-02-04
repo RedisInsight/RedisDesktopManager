@@ -4,9 +4,12 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import "."
+import "./editors/formatters/formatters.js" as Formatters
 
 Rectangle {
+    id: approot
     color: "transparent"
+    property var currentValueFormatter
 
     TabView {
         id: tabs
@@ -66,24 +69,21 @@ Rectangle {
                             color: "red"
                             text: styleData.title
                         }
-                        Button {
-                            text: "x"
-                            Layout.maximumWidth: 18
-                            Layout.maximumHeight: 18
+                        Item {
                             Layout.preferredWidth: 18
                             Layout.preferredHeight: 18
-                            onClicked: {
-                                tabs.getTab(styleData.index).close(styleData.index)
-                            }
 
-                            style: ButtonStyle {
-                                    background: Rectangle {
-                                        border.width: control.hovered? 1 : 0
-                                        border.color: control.hovered? "#000" : "#fff"
-                                        radius: 0
-                                        color:  control.hovered? "red" : "#fff"
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 2
+                                source: "qrc:/images/clear.png"
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        tabs.getTab(styleData.index).close(styleData.index)
                                     }
                                 }
+                            }
                         }
                     }
                 }
@@ -114,6 +114,10 @@ Rectangle {
         standardButtons: StandardButton.Ok
     }
 
+    AddKeyDialog {
+       id: addNewKeyDialog
+       visible: false
+    }
 
     Connections {
         target: viewModel
@@ -128,6 +132,11 @@ Rectangle {
 
             if (welcomeTab && welcomeTab.not_mapped)
                tabs.removeTab(0)
+        }
+
+        onNewKeyDialog: {
+            console.log(dbIdentificationString, keyPrefix)
+            addNewKeyDialog.open()
         }
     }
 }

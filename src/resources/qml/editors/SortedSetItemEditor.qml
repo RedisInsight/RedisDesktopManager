@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.minimumHeight: 35
 
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
         placeholderText: "Score"
         validator: DoubleValidator { locale: "C" } // force point as decimal separator
@@ -33,12 +33,13 @@ AbstractEditor {
         text: "Value:"
     }
 
-    TextArea {
+    MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
+        showFormatters: root.state != "new"
         property string originalValue: ""
     }
 
@@ -47,6 +48,7 @@ AbstractEditor {
         scoreText.text = rowValue['score']
         textArea.originalValue = rowValue['value']
         textArea.text = rowValue['value']
+        textArea.binaryArray = rowValue['binary_value']
     }
 
     function isValueChanged() {
@@ -74,7 +76,7 @@ AbstractEditor {
     }
 
     function markInvalidFields() {
-        keyText.textColor = "black"
+        scoreText.textColor = "black"
         textArea.textColor = "black"
         // Fixme
     }

@@ -41,12 +41,15 @@ namespace ConnectionsTree {
         void unload();
         void reload();
 
+        void setName(const QString &name);
+
     signals:
         void databaseListLoaded();
         void unloadStarted();
         void editActionRequested();
         void deleteActionRequested();
         void keysLoadedInDatabase(unsigned int dbIndex);
+        void unloadStartedInDatabase(unsigned int dbIndex);
 
         /*signals:
     void keysLoaded(unsigned int dbIndex);*/

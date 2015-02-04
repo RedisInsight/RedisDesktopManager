@@ -25,14 +25,14 @@ public:
     bool isMultiRow() const override;
 
 private:
-    enum Roles { Key = Qt::UserRole + 1, Value, RowNumber};
+    enum Roles { Key = Qt::UserRole + 1, Value, BinaryValue, RowNumber};
 
     QList<QPair<QByteArray, QByteArray>> m_rowsCache;
 
     void loadRowCount();
 
-    void setHashRow(const QString& hashKey, const QString& hashValue, bool updateIfNotExist = true);
-    void deleteHashRow(const QString& hashKey);
+    void setHashRow(const QByteArray &hashKey, const QByteArray &hashValue, bool updateIfNotExist = true);
+    void deleteHashRow(const QByteArray& hashKey);
 };
 
 #endif // HASHKEYMODEL_H

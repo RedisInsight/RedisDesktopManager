@@ -1,9 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
+import "./editors/editor.js" as Editor
+import "./parts"
 
 
 Repeater {
@@ -21,11 +23,30 @@ Repeater {
 //            }
 
             viewModel.closeTab(tabIndex)
-        }
+        }       
 
         title: keyName
-        property int tabIndex: keyIndex                       
+        property int tabIndex: keyIndex
+        property var table
 
+        Keys.onPressed: {
+            if (!table)
+                return
+
+            var reloadKey = event.key == Qt.Key_F5
+                             || (event.key == Qt.Key_R && (event.modifiers & Qt.ControlModifier))
+                             || (event.key == Qt.Key_R && (event.modifiers & Qt.MetaModifier))
+
+            if (reloadKey) {
+                console.log("Reload")
+                table.model.reload()
+            }
+        }
+
+        Component.onCompleted: {
+            keyTab.focus = true
+            keyTab.forceActiveFocus()
+        }
 
         ColumnLayout {
             anchors.fill: parent
@@ -35,16 +56,22 @@ Repeater {
             RowLayout {
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
-                Layout.fillWidth: true
-                spacing: 1
+                Layout.fillWidth: true                
+                spacing: 5
 
-                Text { text: "Key:" }
+                Text { text: keyType.toUpperCase() + ":"; font.bold: true }
+
                 TextField {
                     id: keyNameField
                     Layout.fillWidth: true
                     text: keyName
                     readOnly: true                    
                 }
+
+                Item { Layout.preferredWidth: 10}
+                Text { text: "TTL:"; font.bold: true }
+                Text { text: keyTtl}
+                Item { Layout.preferredWidth: 10}
 
                 Button {
                     text: "Rename"
@@ -61,11 +88,17 @@ Repeater {
                             width: 500
 
                             Text { text: "New name:" }
-                            TextField { id: newKeyName; Layout.fillWidth: true;}
+                            TextField {
+                                id: newKeyName;
+                                Layout.fillWidth: true;
+                            }
                         }
 
                         onAccepted: {
-                            console.log(newKeyName.text)
+                            if (newKeyName.text.length == 0) {
+                                return open()
+                            }
+
                             viewModel.renameKey(keyTab.keyIndex, newKeyName.text)
                         }
 
@@ -79,8 +112,6 @@ Repeater {
                         renameConfirmation.open()
                     }
                 }
-
-                //Button { text: "Reload" } // TBD
 
                 Button {
                     text: "Delete"
@@ -103,27 +134,48 @@ Repeater {
                         deleteConfirmation.open()
                     }
                 }
+
+                Button {
+                    text: "Reload Value"
+                    action: reLoadAction
+                    visible: !showValueNavigation
+                }
             }
 
             RowLayout {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
+                visible: showValueNavigation
 
-                Text { text: "Type:"; font.bold: true }
-                Text { text: keyType.toUpperCase()  }
-                Text { text: "TTL:"; font.bold: true }
-                Text { text: keyTtl}
+                Text {
+                    Layout.fillWidth: true                    
+                    textFormat: Text.RichText
+                    text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
+                    color: "#cccccc"
+                }
 
                 Item { Layout.fillWidth: true}
 
                 Button {
-                    text: "Add row";
-                    visible: showValueNavigation
-
-                    onClicked: {
-                        addRowDialog.open()
+                    text: "Reload Value"
+                    action: reLoadAction                    
+                    Action {
+                        id: reLoadAction                        
+                        shortcut: StandardKey.Refresh
+                        onTriggered: {
+                            console.log("Reload")
+                            table.model.reload()
+                        }
                     }
+                }
+
+                Item { Layout.preferredWidth: 15}
+
+                Button {
+                    text: "Add row";
+
+                    onClicked: addRowDialog.open()
 
                     Dialog {
                         id: addRowDialog
@@ -138,25 +190,12 @@ Repeater {
                             width: 500
                             height: 350
                             anchors.centerIn: parent
-
                             property int currentRow: -1
 
-                            source: {
-                                if (keyType === "string") {
-                                    return "./editors/SingleItemEditor.qml"
-                                } else if (keyType === "list" || keyType === "set") {
-                                    return "./editors/SingleItemEditor.qml"
-                                } else if (keyType === "zset") {
-                                    return "./editors/SortedSetItemEditor.qml"
-                                } else if (keyType === "hash") {
-                                    return "./editors/HashItemEditor.qml"
-                                } else {
-                                    console.error("Editor for type " + keyType + " is not defined!")
-                                }
-                            }
+                            source: Editor.getEditorByTypeString(keyType)
 
                             onLoaded: {
-                                item.editingMode = false
+                                item.state = "add"
                             }
                         }
 
@@ -183,8 +222,7 @@ Repeater {
                 }
 
                 Button {
-                    text: "Delete row"                                                            
-                    visible: showValueNavigation
+                    text: "Delete row"                                                                                
                     enabled: table.currentRow != -1
 
                     onClicked: {
@@ -214,7 +252,6 @@ Repeater {
                     }
 
                 }
-                //Button { text: "Reload values"}
             }          
 
             TableView {
@@ -224,9 +261,9 @@ Repeater {
                 Layout.fillHeight: true
                 Layout.minimumHeight: 100
 
-                TableViewColumn{ width: 30 }
-                TableViewColumn{ width: 100 }
-                TableViewColumn{ width: table.width - 130}
+                TableViewColumn{ width: 50 }
+                TableViewColumn{ width: 150 }
+                TableViewColumn{ width: table.width - 200}
 
                 model: viewModel.getValue(tabIndex)
 
@@ -237,6 +274,7 @@ Repeater {
                 property bool forceLoading: false
 
                 Component.onCompleted: {
+                    keyTab.table = table
                     loadValue()
                 }
 
@@ -360,146 +398,107 @@ Repeater {
                 }
             }
 
-            RowLayout {
+            Pagination {
                 id: pagination
                 visible: showValueNavigation
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Layout.minimumHeight: 40
-                Button {
-                    text: "⇤"
-                    onClicked: table.goToFirstPage()
-                }
-                Button {
-                    text: "⇦"
-                    onClicked: table.goToPrevPage()
-                }
-                Text {
-                    text: "Page " + table.currentPage + " of " + table.totalPages
-                            + " (Items:" + (table.currentStart+1) + "-"
-                            + (table.currentStart+table.rowCount)
-                            + " of " + table.model.totalRowCount() + ")"
-                }
-                TextField { text: "1"; Layout.fillWidth: true; readOnly: false}
-                Button {
-                    text: "Goto Page"
-                    onClicked: {}
-                }
-                Button {
-                    text: "⇨"
-                    onClicked: table.goToNextPage()
-                }
-                Button {
-                    text: "⇥"
-                    onClicked: table.goToLastPage()
-                }
             }
 
-            GroupBox {
-                title: "Editor:"
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 10
+            }
+
+            Rectangle {
+                color: "#cccccc"
+                Layout.fillWidth: true
+                Layout.preferredHeight: 1
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 10
+            }
+
+            ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: !showValueNavigation
                 Layout.minimumHeight: 250
-                flat: false
 
-                ColumnLayout {
-                    anchors.fill: parent
+                Connections {
+                    target: table
 
-                    Text {
-                        Layout.fillWidth: true
+                    onActivated: {
+                        valueEditor.loadRowValue(row)
+                    }
+                }
 
-                        visible: showValueNavigation
 
-                        textFormat: Text.RichText
-                        text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
+                Loader {
+                    id: valueEditor
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    property int currentRow: -1
+
+                    source: {
+                        if (keyType === "string")
+                            table.loadValue()                                                    
+
+                        return Editor.getEditorByTypeString(keyType)
                     }
 
-                    Connections {
-                        target: table
-
-                        onActivated: {
-                            valueEditor.loadRowValue(row)
-                        }
+                    onLoaded: {
+                        if (keyType === "string")
+                            valueEditor.loadRowValue(0)
                     }
 
-
-                    Loader {
-                        id: valueEditor
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-
-                        property int currentRow: -1
-
-                        source: {
-                            if (keyType === "string") {
-                                table.loadValue()
-                                return "./editors/SingleItemEditor.qml"
-                            } else if (keyType === "list" || keyType === "set") {
-                                return "./editors/SingleItemEditor.qml"
-                            } else if (keyType === "zset") {
-                                return "./editors/SortedSetItemEditor.qml"
-                            } else if (keyType === "hash") {
-                                return "./editors/HashItemEditor.qml"
-                            } else {
-                                console.error("Editor for type " + keyType + " is not defined!")
-                            }
-                        }
-
-                        onLoaded: {
-                            console.log("VALUE EDITOR LOADED!")
-
-                            if (keyType === "string") {
-                                valueEditor.loadRowValue(0)
-                            }
-
-                        }
-
-                        function loadRowValue(row) {
-                            if (valueEditor.item) {
-                                var rowValue = table.model.getRow(row, true)
-                                valueEditor.currentRow = row
-                                valueEditor.item.setValue(rowValue)
-                            }
+                    function loadRowValue(row) {
+                        if (valueEditor.item) {
+                            var rowValue = table.model.getRow(row, true)
+                            valueEditor.currentRow = row
+                            valueEditor.item.setValue(rowValue)
                         }
                     }
+                }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 40
-                        Item { Layout.fillWidth: true}
-                        Button {
-                            text: "Save"
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 40
+                    Item { Layout.fillWidth: true}
+                    Button {
+                        text: "Save"
 
-                            onClicked: {
-                                if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
-                                    savingConfirmation.text = "Nothing to save"
-                                    savingConfirmation.open()
-                                    return
-                                }
-
-                                var value = valueEditor.item.getValue()
-
-                                console.log(value, value["value"])
-                                table.model.updateRow(valueEditor.currentRow, value)
-
-                                savingConfirmation.text = "Value was updated!"
+                        onClicked: {
+                            if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                savingConfirmation.text = "Nothing to save"
                                 savingConfirmation.open()
+                                return
                             }
 
+                            var value = valueEditor.item.getValue()
+
+                            console.log(value, value["value"])
+                            table.model.updateRow(valueEditor.currentRow, value)
+
+                            savingConfirmation.text = "Value was updated!"
+                            savingConfirmation.open()
                         }
 
-                        MessageDialog {
-                            id: savingConfirmation
-                            title: "Save value"
-                            text: ""
-                            visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Warning
-                            standardButtons: StandardButton.Ok
-                        }
                     }
 
-                }// --
+                    MessageDialog {
+                        id: savingConfirmation
+                        title: "Save value"
+                        text: ""
+                        visible: false
+                        modality: Qt.ApplicationModal
+                        icon: StandardIcon.Information
+                        standardButtons: StandardButton.Ok
+                    }
+                }
             }
         }
     }

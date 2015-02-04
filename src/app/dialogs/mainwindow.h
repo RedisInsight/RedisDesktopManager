@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QSharedPointer>
 #include "ui_main.h"
+#include "modules/redisclient/connectionconfig.h"
 
 class ConnectionsManager;
 class Updater;
@@ -34,8 +35,11 @@ private:
     void initSystemConsole();
     void initValuesView();
 
+    void openConnectionDialog(RedisClient::ConnectionConfig config = RedisClient::ConnectionConfig());
+
 private slots:
     void OnAddConnectionClick();
+    void OnEditConnectionClick(RedisClient::ConnectionConfig config);
     void OnNewUpdateAvailable(QString &);        
     void OnImportConnectionsClick();
     void OnExportConnectionsClick();    

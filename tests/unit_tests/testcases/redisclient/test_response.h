@@ -11,6 +11,10 @@ private slots:
 	void getValue();
 	void getValue_data();
 
+    // basic tests
+    void source();
+    void valueToHumanReadString();
+
 	//validation tests
 	void isValid();
 	void isValid_data();	

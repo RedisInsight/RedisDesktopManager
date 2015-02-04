@@ -5,6 +5,7 @@
 #include <iostream>
 #include "testcases/app/test_connectionsmanager.h"
 #include "testcases/app/test_treeoperations.h"
+#include "testcases/app/test_abstractkey.h"
 #include "testcases/app/test_keymodels.h"
 #include "testcases/redisclient/test_command.h"
 #include "testcases/redisclient/test_response.h"
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
             + QTest::qExec(new TestConnectionsManager, argc, argv)
             + QTest::qExec(new TestTreeOperations, argc, argv)
             + QTest::qExec(new TestKeyModels, argc, argv)
+            + QTest::qExec(new TestAbstractKey, argc, argv)
 
             // value-editor module
             + QTest::qExec(new TestView, argc, argv)

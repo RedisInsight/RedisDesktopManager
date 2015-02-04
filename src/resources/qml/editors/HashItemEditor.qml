@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.minimumHeight: 35
 
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
 
         style: TextFieldStyle {
@@ -43,13 +43,14 @@ AbstractEditor {
         text: "Value:"
     }
 
-    TextArea {
+    MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || !editingMode
+        enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
+        showFormatters: root.state != "new"
 
         style: TextAreaStyle {
             backgroundColor: (textArea.text=="" && textArea.enabled
@@ -66,6 +67,9 @@ AbstractEditor {
         keyText.text = rowValue['key']
         textArea.originalValue = rowValue['value']
         textArea.text = rowValue['value']
+        textArea.binaryArray = rowValue['binary_value']
+
+        console.log("binary set: ", rowValue['binary_value'])
     }
 
     function isValueChanged() {

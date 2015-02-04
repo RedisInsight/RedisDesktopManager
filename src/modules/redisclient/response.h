@@ -52,7 +52,7 @@ private:
 
     //parsers
     QByteArray parseBulk(const QByteArray& response);
-    QStringList parseMultiBulk(const QByteArray& response);
+    QVariantList parseMultiBulk(const QByteArray& response);
     QByteArray getStringResponse(const QByteArray& response);
 
     int getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine = -1, int beginFrom = 0);    

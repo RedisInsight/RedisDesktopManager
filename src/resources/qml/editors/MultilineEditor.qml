@@ -8,15 +8,19 @@ ColumnLayout
 {
     id: root
     property alias text: textArea.originalText
-    property alias binaryText: textArea.binaryText
+    property alias binaryArray: textArea.binaryArray
     property alias enabled: textArea.enabled
     property alias textColor: textArea.textColor
+    property alias style: textArea.style
+    property bool showFormatters: true
 
     function getText() {
         return textArea.formatter.getRaw(textArea.text)
     }
 
     RowLayout{
+        visible: showFormatters
+
         Text {
             text: "View value as:"
         }
@@ -26,10 +30,22 @@ ColumnLayout
             width: 200
             model: ListModel {
                 id: formattersModel
-                ListElement { text: "PHP Serializer"; formatter: "php-serialized" }
-                ListElement { text: "MSGPACK"; formatter: "msgpack" }
                 ListElement { text: "Plain Text"; formatter: "plain" }
+                ListElement { text: "HEX (read-only)"; formatter: "hex" }
                 ListElement { text: "JSON"; formatter: "json" }
+                ListElement { text: "MSGPACK"; formatter: "msgpack" }
+                ListElement { text: "PHP Serializer"; formatter: "php-serialized" }                                                
+            }
+
+            onCurrentIndexChanged: {
+                Formatters.defaultFormatter = currentIndex
+                console.log("APP ROOT: " + Formatters.defaultFormatter)
+            }
+
+            Component.onCompleted: {
+                currentIndex = Formatters.defaultFormatter
+
+                console.log("APP ROOT: " + Formatters.defaultFormatter)
             }
         }
     }
@@ -39,20 +55,22 @@ ColumnLayout
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
+        textFormat: formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
+        readOnly: formatter.readOnly
 
         text: {
-            if (formattersModel.get(formatterSelector.currentIndex).formatter === "msgpack") {
-                return binaryText? formatter.getFormatted(binaryText) : ''
+            var currentFormatter = formattersModel.get(formatterSelector.currentIndex).formatter
+            if (currentFormatter === "msgpack" || currentFormatter === "hex") {
+                console.log('Binary array:', binaryArray)
+                console.log('Current formatter:', currentFormatter)
+                var formatted = binaryArray? formatter.getFormatted(binaryArray) : ''                
+                return formatted
             } else {
                 return formatter.getFormatted(originalText)
             }
         }
         property string originalText
-        property var binaryText
+        property var binaryArray
         property var formatter: Formatters.get(formattersModel.get(formatterSelector.currentIndex).formatter)
-    }
-
-    Component.onCompleted: {
-        console.log("BINARY:", textArea.binaryText)
     }
 }

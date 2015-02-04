@@ -1,19 +1,16 @@
 #!/bin/sh
 
 echo ============================
-echo Set version $1
+echo Set version $APP_VERSION
 echo ============================
-TAG=$1
-python set_version.py $1 > ../src/version.h
-python set_version.py $1 > ../3rdparty/crashreporter/src/version.h
+TAG=$APP_VERSION
+python set_version.py $APP_VERSION > ../src/version.h
+python set_version.py $APP_VERSION > ../3rdparty/crashreporter/src/version.h
 echo DONE
 
 echo ============================
-echo Setup Build Environment
+echo Qt info
 echo ============================
-QTVER=5.4.0
-QTDIR=/usr/local/Qt-$QTVER
-export PATH=$QTDIR/bin:$PATH
 echo '# Used Qt:'
 qmake -v
 which qmake
@@ -33,7 +30,6 @@ echo Build Crash Reporter :
 echo ===========================
 cd ./3rdparty/crashreporter
 qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release
-make clean
 make
 
 cd $SOURCE_DIR
@@ -58,6 +54,7 @@ mkdir $BUILD_DIR
 
 cp -Rf ./src/* $BUILD_DIR
 chmod +x $BUILD_DIR/configure
+chmod +x $BUILD_DIR/resources/rdm.sh
 mkdir $BUILD_DIR/debian 
 cp -Rf ./build/debian/* $BUILD_DIR/debian  
 echo ===========================
@@ -73,15 +70,25 @@ echo ===========================
 echo copy libs:
 echo ===========================
 DEPS_LIB=$BUILD_DIR/lib
+PLUGINS=$DEPS_LIB/plugins/
 
 mkdir $DEPS_LIB
-mkdir $DEPS_LIB/fonts
+mkdir -p $PLUGINS
 
 #external libs
-sudo cp -Rf $QTDIR/lib/fonts/* $DEPS_LIB/fonts
-cp -aR /usr/lib/i386-linux-gnu/libxcb*.s* $DEPS_LIB
-cp -aR /usr/lib/`uname -m`-linux-gnu/libxcb*.s* $DEPS_LIB
-
+cp -L /opt/qt54/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Widgets.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Gui.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Qml.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Network.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Xml.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Core.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Quick.so.5  $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5DBus.so.5 $DEPS_LIB
+cp -L /opt/qt54/lib/libQt5Concurrent.so.5 $DEPS_LIB
+cp -LR /opt/qt54/plugins/platforms/ $PLUGINS
+cp -LR /opt/qt54/plugins/imageformats/ $PLUGINS
+cp -R /opt/qt54/qml $PLUGINS
 
 echo 
 echo ===========================

@@ -21,7 +21,7 @@ private:
     void loadRowCount();
 
     bool isActualPositionChanged(int row);
-    void addListRow(const QString& value);
-    void setListRow(int pos, const QString& value);
-    void deleteListRow(int count, const QString& value);
+    void addListRow(const QByteArray &value);
+    void setListRow(int pos, const QByteArray &value);
+    void deleteListRow(int count, const QByteArray &value);
 };

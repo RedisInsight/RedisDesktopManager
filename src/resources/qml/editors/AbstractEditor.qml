@@ -6,7 +6,13 @@ import QtQuick.Dialogs 1.2
 
 ColumnLayout {
 
-    property bool editingMode: true
+    state: "edit"
+
+    states: [
+        State { name: "new"},
+        State { name: "add"},
+        State { name: "edit"}
+    ]
 
     function isValueChanged() {
         console.exception("Not implemented")

@@ -76,8 +76,20 @@ void DatabaseItem::onWheelClick(TreeItem::ParentView&)
 QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView)
 {
     Q_UNUSED(treeView);
+    QSharedPointer<QMenu> menu(new QMenu());
 
-    return QSharedPointer<QMenu>(new QMenu());
+    //new key action
+    QAction* newKey = new QAction(QIcon(":/images/terminal.png"), "Add new key", menu.data());
+    QObject::connect(newKey, &QAction::triggered, this, [this]() { m_operations->openNewKeyDialog(m_index); });
+    menu->addAction(newKey);
+    menu->addSeparator();
+
+    //reload action
+    QAction* reload = new QAction(QIcon(":/images/refreshdb.png"), "Reload", menu.data());
+    QObject::connect(reload, &QAction::triggered, this, [this] { this->reload(); });
+    menu->addAction(reload);
+
+    return menu;
 }
 
 void DatabaseItem::loadKeys()
@@ -120,6 +132,24 @@ void DatabaseItem::onKeysRendered()
     emit keysLoaded(m_index);
 }
 
+void DatabaseItem::unload()
+{
+    if (m_keys.size() == 0)
+        return;
+
+    m_locked = true;
+    emit unloadStarted(m_index);
+
+    m_keys.clear();
+    m_locked = false;
+}
+
+void DatabaseItem::reload()
+{
+    unload();
+    loadKeys();
+}
+
 QList<QSharedPointer<TreeItem> >
 DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
                                            Operations::RawKeysList keys,
@@ -132,7 +162,9 @@ DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations
     QList<QSharedPointer<TreeItem>> result;
 
     //render
-    for (QString rawKey : keys) {
+    for (QVariant key : keys) {
+
+        QString rawKey = key.toString();
 
         //if filter enabled - skip keys
         if (!filter.isEmpty() && !rawKey.contains(filter)) {
@@ -195,6 +227,6 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
         else currItem->append(namespaceItem);
     }
 
-    renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+1),
+    renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+m_namespaceSeparator.length()),
                         fullKey, m_operations, m_namespaceSeparator, m_result, db);
 }

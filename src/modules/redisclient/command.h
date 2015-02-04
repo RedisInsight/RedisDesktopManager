@@ -11,28 +11,22 @@ class Command
 {    
 public:
     Command();
-    Command(const QString& cmdString, QObject * owner = nullptr, int db = -1);
-    Command(const QString& cmdString, QObject * owner, const QString& invokeMethod, int db = -1);
-    Command(const QStringList& cmd, QObject * owner, const QString& invokeMethod, int db = -1);
-    Command(const QStringList& cmd, QObject * owner = nullptr, int db = -1);           
-    Command(const QStringList& cmd, QObject * owner, std::function<void(Response)> callback, int db = -1);
+    Command(const QString& cmdString, QObject * m_owner = nullptr, int db = -1);
+    Command(const QStringList& cmd, QObject * m_owner = nullptr, int db = -1);
+    Command(const QStringList& cmd, QObject * m_owner, std::function<void(Response)> callback, int db = -1);
     Command(const QStringList& cmd, int db);
     Command(int db);
 
     Command &operator <<(const QString&);
+    Command &append(const QByteArray&part);
 
     /** @see http://redis.io/topics/protocol for more info **/    
     QByteArray  getByteRepresentation() const;
     QString     getRawString() const;
-    QStringList getSplitedRepresentattion() const;
-    QString     getCallbackName();
-    QString     getProgressCallbackName();
+    QList<QByteArray> getSplitedRepresentattion() const;
+    QString     getPartAsString(int i);
     int         getDbIndex() const;
-    QObject *   getOwner() const;
-
-    void setOwner(QObject *);      
-    void setCallBackName(const QString &);        
-    void setProgressCallBackName(const QString &);
+    QObject*    getOwner() const;
 
     /** New callback API **/
     void setCallBack(QObject* context, std::function<void(Response)> callback);
@@ -48,15 +42,15 @@ public:
     bool isSelectCommand() const;
 
 private:
-    QObject * owner;
-    QStringList commandWithArguments;
+    QObject * m_owner;
+    QList<QByteArray> m_commandWithArguments;
     int dbIndex;
-    QString callBackMethod; // method(Response)
-    QString progressMethod; // method(unsigned int)
     bool commandCanceled;
     std::function<void(Response)> m_callback;
 
-    QStringList splitCommandString(const QString &);
+    QList<QByteArray> splitCommandString(const QString &);
 };
+
+QList<QByteArray> convertStringList(const QStringList&list);
 
 }

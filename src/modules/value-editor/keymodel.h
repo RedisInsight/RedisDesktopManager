@@ -13,7 +13,7 @@ class Model : public QObject
     ADD_EXCEPTION
 public:
     Model() {}
-    virtual QString getKeyName() = 0; // sync
+    virtual QString getKeyName() = 0; // sync    
 
     virtual QString getType() = 0; // sync
     virtual int getTTL() = 0; // sync

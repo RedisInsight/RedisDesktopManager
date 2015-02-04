@@ -33,15 +33,8 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
     if (dataRole == Roles::Value)
         return m_value;
 
-    if (dataRole == Roles::BinaryValue) {
-
-        QVariantList list;
-
-        for(int index=0; index < m_value.length(); ++index) {
-            list.append(QVariant((unsigned char)m_value.at(index)));
-        }
-        return QVariant(list);
-    }
+    if (dataRole == Roles::BinaryValue)
+        return valueToBinary(m_value);
 
     return QVariant();
 }
@@ -49,14 +42,15 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
 void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
     if (rowIndex > 0 || !isRowValid(row))
-        return;
+        return;   
 
     QByteArray value = row.value("value").toByteArray();
 
     if (value.isEmpty())
         return;
 
-    RedisClient::Command updateCmd(QStringList() << "SET" << m_keyFullPath << value, m_dbIndex);
+    RedisClient::Command updateCmd(m_dbIndex);
+    (updateCmd << "SET" << m_keyFullPath).append(value);
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.isOkMessage()) {
@@ -65,9 +59,9 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     }
 }
 
-void StringKeyModel::addRow(const QVariantMap &)
+void StringKeyModel::addRow(const QVariantMap &row)
 {
-    return;
+    updateRow(0, row);
 }
 
 unsigned long StringKeyModel::rowsCount()
@@ -107,7 +101,8 @@ bool StringKeyModel::isMultiRow() const
 
 bool StringKeyModel::loadValue()
 {
-    RedisClient::Command valueCmd(QStringList() << "GET" << m_keyFullPath, m_dbIndex);
+    RedisClient::Command valueCmd(m_dbIndex);
+    valueCmd << "GET" << m_keyFullPath;
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, valueCmd);
 
     if (result.getType() != RedisClient::Response::Bulk) {

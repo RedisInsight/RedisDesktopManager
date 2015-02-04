@@ -24,13 +24,18 @@ public:
 
     QString getNamespaceSeparator() override;    
 
-    virtual void openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab = false) override;
+    void openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab = false) override;
 
-    virtual void openConsoleTab() override;
+    void openConsoleTab() override;
+
+    void openNewKeyDialog(int dbIndex, QString keyPrefix = QString()) override;
 
 signals:
     void openValueTab(QSharedPointer<RedisClient::Connection> connection,
                       ConnectionsTree::KeyItem& key, bool inNewTab);
+
+    void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                      int dbIndex, QString keyPrefix);
 
 private:
      QSharedPointer<RedisClient::Connection> m_connection;

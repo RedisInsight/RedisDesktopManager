@@ -11,7 +11,7 @@ class KeyModel : public ValueEditor::Model
 public:
     KeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
-    QString getKeyName() override;
+    QString getKeyName() override;    
     int getTTL() override;
     QString getState() override;
 
@@ -58,6 +58,8 @@ public:
     bool isMultiRow() const override;
 
 protected:
-    enum Roles { Value = Qt::UserRole + 1, RowNumber};
+    enum Roles { Value = Qt::UserRole + 1, BinaryValue, RowNumber};
     QList<QByteArray> m_rowsCache;
 };
+
+QVariant valueToBinary(const QByteArray&value);

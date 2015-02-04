@@ -67,8 +67,8 @@ void KeyModel::setTTL(int)
 
 void KeyModel::removeKey()
 {   
-    auto cmd = RedisClient::Command(m_dbIndex)
-               << "DEL" << m_keyFullPath << m_keyFullPath;
+    auto cmd = RedisClient::Command(m_dbIndex);
+    cmd << "DEL" << m_keyFullPath << m_keyFullPath;
 
     RedisClient::Response result;
 
@@ -84,7 +84,9 @@ void KeyModel::removeKey()
 
 int KeyModel::getRowCount(const QString &countCmd)
 {
-    RedisClient::Command updateCmd(QStringList() << countCmd << m_keyFullPath, m_dbIndex);
+    RedisClient::Command updateCmd(m_dbIndex);
+    updateCmd << countCmd << m_keyFullPath;
+
     RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
 
     if (result.getType() == RedisClient::Response::Integer) {
@@ -99,12 +101,12 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
     QStringList cmd;
 
     if (rowStart == -1 && count == -1) {
-        cmd = (QStringList() << baseCmd << m_keyFullPath);
+        cmd << baseCmd << m_keyFullPath;
     } else {
         unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
         if (baseCmd.contains(QChar(' '))) {
-            QStringList suffixCmd = baseCmd.split(QChar(' '));
+            QStringList suffixCmd(baseCmd.split(QChar(' ')));
 
             cmd << suffixCmd.at(0);
             suffixCmd.removeFirst();
@@ -112,7 +114,7 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
             cmd += suffixCmd;
 
         } else {
-            cmd = (QStringList() << baseCmd << m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd));
+            cmd << baseCmd << m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd);
         }
     }
 
@@ -175,6 +177,7 @@ QHash<int, QByteArray> ListLikeKeyModel::getRoles()
     QHash<int, QByteArray> roles;
     roles[Roles::Value] = "value";
     roles[Roles::RowNumber] = "row";
+    roles[Roles::BinaryValue] = "binary_value";
     return roles;
 }
 
@@ -188,6 +191,8 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
             return m_rowsCache[rowIndex];
         case RowNumber:
             return QString::number(rowIndex+1);
+        case BinaryValue:
+            return valueToBinary(m_rowsCache[rowIndex]);
     }
 
     return QVariant();
@@ -208,4 +213,14 @@ bool ListLikeKeyModel::isRowLoaded(int rowIndex)
 bool ListLikeKeyModel::isMultiRow() const
 {
     return true;
+}
+
+QVariant valueToBinary(const QByteArray &value)
+{
+   QVariantList list;
+
+   for(int index=0; index < value.length(); ++index) {
+       list.append(QVariant((unsigned char)value.at(index)));
+   }
+   return QVariant(list);
 }

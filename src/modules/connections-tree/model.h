@@ -28,6 +28,7 @@ namespace ConnectionsTree {
 
     protected:            
         void addRootItem(QSharedPointer<ServerItem> item);
+        void removeRootItem(QSharedPointer<ServerItem> item);
 
     private:
          QList<QSharedPointer<TreeItem>> m_treeItems;

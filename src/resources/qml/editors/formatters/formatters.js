@@ -1,10 +1,15 @@
+.pragma library
 .import "./msgpack.js" as MsgPack
+.import "./hexy.js" as Hexy
 .import "./php-unserialize.js" as PHPUnserialize
 .import "./php-serialize.js" as PHPSerialize
+
+var defaultFormatter = 0;
 
 function get(type) {
 
     if (type === "plain") return plain
+    if (type === "hex") return hex
     if (type === "json") return json
     if (type === "msgpack") return msgpack
     if (type === "php-serialized") return phpserialized
@@ -16,6 +21,8 @@ function get(type) {
 **/
 
 var plain = {
+
+    readOnly: false,
 
     getFormatted: function (raw) {
         return raw
@@ -30,10 +37,30 @@ var plain = {
     }
 }
 
+var hex = {
+    readOnly: true,
+
+    getFormatted: function (raw) {
+        var format = {'html': true}
+        return Hexy.hexy(raw, format)
+    },
+
+    isValid: function (raw) {
+        return true
+    },
+
+    getRaw: function (formatted) {
+        return ''
+    }
+}
+
 /**
   JSON formatter
 **/
 var json = {
+
+    readOnly: false,
+
     getFormatted: function (raw) {
 
         try {
@@ -54,8 +81,14 @@ var json = {
         }
     },
 
-    getRaw: function (formatted) {
-        return formatted
+    getRaw: function (formatted) {        
+        try {
+            var parsed = JSON.parse(formatted)
+            return JSON.stringify(parsed)
+
+        } catch (e) {
+            return formatted
+        }
     }
 }
 
@@ -63,6 +96,9 @@ var json = {
   MsgPack formatter
 **/
 var msgpack = {
+
+    readOnly: false,
+
     getFormatted: function (raw) {
 
         try {
@@ -85,8 +121,10 @@ var msgpack = {
     },
 
     getRaw: function (formatted) {
-        obj = JSON.parse(formatted)
-        return MsgPack.msgpack().pack(obj)
+        var obj = JSON.parse(formatted)
+        var compressed = MsgPack.msgpack().pack(obj, true)
+        console.log('compressed: ', compressed)
+        return compressed
     }
 }
 
@@ -94,6 +132,9 @@ var msgpack = {
   PHP Serialize formatter
 **/
 var phpserialized = {
+
+    readOnly: false,
+
     getFormatted: function (raw) {
 
         try {
@@ -116,7 +157,7 @@ var phpserialized = {
     },
 
     getRaw: function (formatted) {
-        obj = JSON.parse(formatted)
+        var obj = JSON.parse(formatted)
         return PHPSerialize.serialize(obj)
     }
 }

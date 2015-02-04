@@ -1,21 +1,25 @@
 @echo off
 
 echo ============================
-echo Set version %1
-echo ============================
-python set_version.py %1 > ./../src/version.h
-python set_version.py %1 > ./../3rdparty/crashreporter/src/version.h
-echo DONE
-
-echo ============================
 echo Setup Build Environment
 echo ============================
 cd ./../
 set SRCDIR=%cd%
-set QTDIR=D:\Qt\5.3\msvc2012_opengl\bin\
+set QTDIR=C:\\Qt\\5.4\\msvc2012_opengl\\bin\\
+set PATH=C:\Python27\;%PATH%
+
 if not defined DevEnvDir (
-call "C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
+call "C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
 )
+
+echo %PATH%
+echo DONE
+
+echo ============================
+echo Set version %1
+echo ============================
+python ./build/set_version.py %1 > ./src/version.h
+python ./build/set_version.py %1 > ./3rdparty/crashreporter/src/version.h
 echo DONE
 
 echo ============================
@@ -59,10 +63,11 @@ cd %SRCDIR%
 echo ============================
 echo Build installer
 echo ============================
-"C:\\Program Files (x86)\\NSIS\\Unicode\\makensis.exe" /V1 /DVERSION=%1  ./build/windows/installer/installer.nsi
+"C:\\Program Files\\NSIS\\Unicode\\makensis.exe" /V1 /DVERSION=%1  ./build/windows/installer/installer.nsi
 
 echo ============================
 echo Copy installer
 echo ============================
 del /F /Q .\\bin\\*.exe
 cp ./build/windows/installer/redis-desktop-manager-%1.exe .\\bin\\redis-desktop-manager-%1.exe
+
