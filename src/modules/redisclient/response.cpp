@@ -126,7 +126,9 @@ QVariantList RedisClient::Response::parseMultiBulk(const QByteArray& response)
         firstPosOfEndl = response.indexOf("\r\n", currPos);
         firstItemLen = firstPosOfEndl - currPos-1;
 
-        if (type == Integer) {                                            
+        if (type == Integer
+                || type == Status
+                || type == Error) {
             parsedResult << QVariant(response.mid(currPos+1, firstItemLen));
 
             currPos = firstPosOfEndl + 2;
@@ -144,8 +146,14 @@ QVariantList RedisClient::Response::parseMultiBulk(const QByteArray& response)
             }
 
             continue;
-        } else if (type == MultiBulk) {               
-            throw Exception("Recursive parsing of MultiBulk replies not supported");
+        } else if (type == MultiBulk) {
+            int posOfNextItemAfterArray = getPosOfNextItem(response, currPos);
+
+            QVariantList result = parseMultiBulk(response.mid(currPos, posOfNextItemAfterArray - currPos));
+            parsedResult << QVariant(result);
+
+            currPos = posOfNextItemAfterArray;
+            //throw Exception("Recursive parsing of MultiBulk replies not supported");
         } else {
             break;
         }
@@ -231,6 +239,8 @@ int RedisClient::Response::getPosOfNextItem(const QByteArray &r, int startPos = 
 
     switch (type)
     {    
+    case Status:
+    case Error:
     case Integer:
         return endOfFirstLine+2;
 
@@ -243,6 +253,23 @@ int RedisClient::Response::getPosOfNextItem(const QByteArray &r, int startPos = 
             return endOfFirstLine+responseSize+4;
         }
         break;
+    case MultiBulk:
+        responseSize = getSizeOfBulkReply(r, endOfFirstLine, startPos);
+
+        if (responseSize == -1 || responseSize == 0) {
+            return endOfFirstLine+2;
+        } else {
+            int lastPos = endOfFirstLine+2;
+            for (int currentIndex = 0; currentIndex < responseSize; currentIndex++) {
+                lastPos = getPosOfNextItem(r, lastPos);
+
+                if (lastPos == -1)
+                    return lastPos;
+            }
+            return lastPos;
+        }
+        break;
+
     default:
         return -1;
     }

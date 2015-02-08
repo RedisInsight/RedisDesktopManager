@@ -12,15 +12,6 @@ RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *c
 
 RedisClient::AbstractTransporter::~AbstractTransporter()
 {
-    QListIterator<Command> cmd(commands);
-
-    while (cmd.hasNext())
-    {
-        auto currentCommand = cmd.next();
-
-        QObject::disconnect(currentCommand.getOwner(), SIGNAL(destroyed(QObject *)),
-                   this, SLOT(cancelCommands(QObject *)));
-    }
 }
 
 void RedisClient::AbstractTransporter::addCommand(Command cmd)
@@ -34,7 +25,6 @@ void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
 {    
     if (runningCommand.getOwner() == owner) {
         runningCommand.cancel();
-        qDebug() << "Canceled command";
     }
 
     QListIterator<Command> cmd(commands);

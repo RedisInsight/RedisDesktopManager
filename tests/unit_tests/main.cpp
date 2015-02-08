@@ -23,9 +23,9 @@ int main(int argc, char *argv[])
 
     initRedisClient();
 
-	int allTestsResult = 
+    int allTestsResult = 0
             // connections-tree module
-            QTest::qExec(new TestServerItem, argc, argv)
+            + QTest::qExec(new TestServerItem, argc, argv)
             + QTest::qExec(new TestDatabaseItem, argc, argv)
 
             // redisclient module

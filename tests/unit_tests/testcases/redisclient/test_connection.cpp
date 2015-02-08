@@ -68,6 +68,21 @@ void TestConnection::selectDatabase_data()
     QTest::newRow("InValid db index") << 10000 << false;
 }
 
+void TestConnection::testScanCommand()
+{
+    //given
+    Connection connection(config, true);
+    Command cmd(QStringList() << "SCAN" << "0"); //valid
+
+    //when
+    Response result = CommandExecutor::execute(&connection, cmd);
+    QVariant value = result.getValue();
+
+
+    //then
+    QCOMPARE(value.isNull(), false);
+}
+
 void TestConnection::runEmptyCommand()
 {
     //given

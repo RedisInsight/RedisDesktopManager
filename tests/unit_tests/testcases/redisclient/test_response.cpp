@@ -43,6 +43,17 @@ void TestResponse::getValue_data()
         << "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$6\r\n快樂\r\n"
         << QVariant(QStringList() << "app_id" << "0" << "keyword" << "快樂");
 
+    QTest::newRow("Array of arrays")
+        << "*2\r\n"
+           "*3\r\n"
+           ":1\r\n"
+           ":2\r\n"
+           ":3\r\n"
+           "*2\r\n"
+           "+Foo\r\n"
+           "+Bar\r\n"
+        << QVariant(QVariantList() << (QStringList() << "1" << "2" << "3") << (QStringList() << "Foo" << "Bar"));
+
 }
 
 void TestResponse::source()
@@ -113,6 +124,17 @@ void TestResponse::isValid_data()
 		<< "*5\r\n:1\r\n:2\r\n:3\r\n:4\r\n$6\r\nfoobar\r\n"	<< true;
 	QTest::newRow("Multi Bulk valid")
 		<< "*4\r\n$3\r\nfoo\r\n$3\r\nbar\r\n$5\r\nHello\r\n$5\r\nWorld\r\n"	<< true;
+
+    QTest::newRow("Array of Arrays valid")
+            << "*2\r\n"
+               "*3\r\n"
+               ":1\r\n"
+               ":2\r\n"
+               ":3\r\n"
+               "*2\r\n"
+               "+Foo\r\n"
+               "+Bar\r\n"
+            << true;
 
 	QTest::newRow("Multi Bulk invalid") << "*5\r\n"						<< false;
 	QTest::newRow("Multi Bulk invalid") << "*5\r\n:1\r\n"				<< false;

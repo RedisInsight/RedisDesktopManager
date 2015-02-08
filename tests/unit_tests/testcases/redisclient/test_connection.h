@@ -24,9 +24,10 @@ private slots:
     void connectWithSshTunnelPass();
     void connectWithSshTunnelKey();
 
-
     void selectDatabase();
     void selectDatabase_data();
+
+    void testScanCommand();
 
     /*
      * dirty tests for runCommand()
