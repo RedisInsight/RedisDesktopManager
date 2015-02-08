@@ -65,7 +65,9 @@ void RedisClient::AbstractTransporter::sendResponse()
         emiter.sendResponse(runningCommand.getOwner(), callback);
     }
 
-    emit logEvent(QString("%1 > [runCommand] %2 -> response received").arg(m_connection->config.name).arg(runningCommand.getRawString()));
+    emit logEvent(QString("%1 > [runCommand] %2 -> response received")
+                  .arg(m_connection->config.name())
+                  .arg(runningCommand.getRawString()));
 
     m_isCommandRunning = false;
 

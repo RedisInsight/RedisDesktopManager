@@ -14,57 +14,60 @@ class Connection;
 class ConnectionConfig
 {
 public:
-    ConnectionConfig(const QString & host = "", const QString & name = "", const int port = DEFAULT_REDIS_PORT);
+    ConnectionConfig(const QString & host = "", const QString & name = "",
+                     const int port = DEFAULT_REDIS_PORT);
     ConnectionConfig & operator = (const ConnectionConfig & other);
+
+    QString name() const;
+    QString host() const;
+    QString auth() const;
+    int port() const;
+    int executeTimeout() const;
+    int connectionTimeout() const;
+
 
     bool isNull() const;
     bool useSshTunnel() const;
     bool useAuth() const;
     bool isValid() const;
-    void setOwner(QWeakPointer<Connection>);
-    QWeakPointer<Connection> getOwner() const;
-
-    void setSshTunnelSettings(QString host, QString user, QString pass, int port = DEFAULT_SSH_PORT,
-                              QString sshPrivatekey = "");
-    QString getSshPrivateKey();
-
-    QDomElement toXml(QDomDocument dom);
-    QStringList allowedNamespaces();
-
-    static ConnectionConfig createFromXml(QDomNode & connectionNode);
-public:        
-    // redis connection parameters
-    QString name;
-    QString host;
-    QString auth;
-    int port;
-
-    // ssh tunnel connection parameters
-    QString sshHost;
-    int sshPort;
-    QString sshUser;
-    QString sshPassword;    
-    QString sshPrivateKeyPath;    
-
     bool isSshPasswordUsed();
 
-    //timeouts 
-    int connectionTimeout;
-    int executeTimeout;    
+    template <class T> inline T param(const QString& p) const
+    {
+       if (m_parameters.contains(p)) return m_parameters[p].value<T>();
+       return T();
+    }
 
-    // other settings
-    QString namespaceSeparator;    
+    template <class T> inline void setParam(const QString& key, T p)
+    {
+        m_parameters.insert(key, p);
+    }
+
+    QWeakPointer<Connection> getOwner() const;
+    QString getSshPrivateKey();
+    QStringList allowedNamespaces();
+
+    void setOwner(QWeakPointer<Connection>);
+    void setSshTunnelSettings(QString host, QString user, QString pass,
+                              int port = DEFAULT_SSH_PORT,
+                              QString sshPrivatekey = "");    
+
+    QDomElement toXml();
+    static ConnectionConfig fromXml(QDomNode & connectionNode);
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
-    QString defaultValueFormat;
 
 protected:        
-    void saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value);
+    bool loadValueFromXml(const QDomNamedNodeMap& attr,
+                                const QString& name,
+                                const QString& target = QString());
 
-    static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value);
-    static bool getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value);
+    void saveXmlAttribute(QDomDocument & document,
+                          QDomElement & root,
+                          const QString& name,
+                          const QString& value);
 
 private:
     QWeakPointer<Connection> m_owner;
+    QVariantHash m_parameters;
 };
-
 }

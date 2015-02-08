@@ -45,14 +45,14 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
                      m_values.data(), &ValueEditor::ViewModel::openNewKeyDialog);
 
     QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
-                new ServerItem(config.name,
+                new ServerItem(config.param<QString>("name"),
                                treeModel.dynamicCast<ConnectionsTree::Operations>(),
                                static_cast<ConnectionsTree::Model>(this))
                 );
 
     QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested, this, [this, connection]() {
         qDebug() << "Edit connection";        
-        m_tabs.closeAllTabsWithName(connection->getConfig().name);
+        m_tabs.closeAllTabsWithName(connection->getConfig().param<QString>("name"));
         emit editConnection(connection->config);
     });
 
@@ -63,7 +63,7 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
             return;
 
         qDebug() << "Remove row";
-        m_tabs.closeAllTabsWithName(connection->getConfig().name);        
+        m_tabs.closeAllTabsWithName(connection->getConfig().param<QString>("name"));
         m_connections.removeAll(connection);
         m_connectionMapping.remove(connection);
         removeRootItem(serverItem);
@@ -90,7 +90,7 @@ void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &c
     if (!serverItem)
         return;
 
-    serverItem->setName(config.name);
+    serverItem->setName(config.param<QString>("name"));
 
     emit dataChanged(index(serverItem->row(), 0, QModelIndex()),
                      index(serverItem->row(), 0, QModelIndex()));
@@ -126,7 +126,7 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 
             if (connection.nodeName() != "connection") continue;
 
-            RedisClient::ConnectionConfig conf = RedisClient::ConnectionConfig::createFromXml(connection);
+            RedisClient::ConnectionConfig conf = RedisClient::ConnectionConfig::fromXml(connection);
 
             if (conf.isNull()) continue;
 
@@ -158,7 +158,7 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
     config.appendChild(connectionsItem);
 
     for (auto c : m_connections) {
-        connectionsItem.appendChild(c->getConfig().toXml(config));
+        connectionsItem.appendChild(c->getConfig().toXml());
     }
 
     QFile confFile(pathToFile);

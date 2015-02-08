@@ -17,11 +17,10 @@ protected:
 
     QSharedPointer<RedisClient::Connection> getReadyDummyConnection(const QStringList& expectedResponses = QStringList())
     {
-        RedisClient::ConnectionConfig dummyConf("127.0.0.1");
-        dummyConf.auth = "";
-        dummyConf.name = "test";
-        dummyConf.executeTimeout = 2000;
-        dummyConf.connectionTimeout = 2000;
+        RedisClient::ConnectionConfig dummyConf("127.0.0.1", "test");
+        dummyConf.setParam("auth", "");
+        dummyConf.setParam("timeout_execute", 2000);
+        dummyConf.setParam("timeout_connect", 2000);
 
         QSharedPointer<RedisClient::Connection> connection( new RedisClient::Connection(dummyConf, false));
 

@@ -39,21 +39,21 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
 {
     m_inEditMode = true;
 
-    ui.nameEdit->setText(config.name);
-    ui.hostEdit->setText(config.host);
-    ui.portSpinBox->setValue(config.port);
-    ui.authEdit->setText(config.auth);
-    ui.namespaceSeparator->setText(config.namespaceSeparator);
-    ui.connectionTimeout->setValue(config.connectionTimeout / 1000);
-    ui.executionTimeout->setValue(config.executeTimeout / 1000);
+    ui.nameEdit->setText(config.name());
+    ui.hostEdit->setText(config.host());
+    ui.portSpinBox->setValue(config.port());
+    ui.authEdit->setText(config.auth());
+    ui.namespaceSeparator->setText(config.param<QString>("namespace_separator"));
+    ui.connectionTimeout->setValue(config.connectionTimeout());
+    ui.executionTimeout->setValue(config.executeTimeout());
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
-        ui.sshHost->setText(config.sshHost);
-        ui.sshUser->setText(config.sshUser);
-        ui.sshPass->setText(config.sshPassword);
-        ui.sshPort->setValue(config.sshPort);
-        ui.privateKeyPath->setText(config.sshPrivateKeyPath);
+        ui.sshHost->setText(config.param<QString>("ssh_host"));
+        ui.sshUser->setText(config.param<QString>("ssh_user"));
+        ui.sshPass->setText(config.param<QString>("ssh_password"));
+        ui.sshPort->setValue(config.param<int>("ssh_port"));
+        ui.privateKeyPath->setText(config.param<QString>("ssh_private_key"));
 
         ui.sshKeysGroup->setChecked(false);
         ui.sshPasswordGroup->setChecked(false);
@@ -126,7 +126,7 @@ void ConnectionWindow::OnTestConnectionButtonClick()
     ui.testConnectionButton->setIcon(QIcon(":/images/wait.png"));
 
     RedisClient::ConnectionConfig config = getConectionConfigFromFormData();
-    config.connectionTimeout = 8000;
+    config.setParam("timeout_connect", 8000);
 
     RedisClient::Connection testConnection(config, false);
 
@@ -246,12 +246,12 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
     RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
 
-    conf.namespaceSeparator = ui.namespaceSeparator->text();
-    conf.connectionTimeout = ui.connectionTimeout->value() * 1000;
-    conf.executeTimeout = ui.executionTimeout->value() * 1000;
+    conf.setParam("namespace_separator", ui.namespaceSeparator->text());
+    conf.setParam("timeout_connect", ui.connectionTimeout->value() * 1000);
+    conf.setParam("timeout_execute", ui.executionTimeout->value() * 1000);
 
     if (!ui.authEdit->text().isEmpty()) {
-        conf.auth = ui.authEdit->text();
+        conf.setParam("auth", ui.authEdit->text());
     }
 
     if (isSshTunnelUsed()) {

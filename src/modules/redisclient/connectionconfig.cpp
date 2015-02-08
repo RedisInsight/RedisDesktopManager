@@ -1,68 +1,97 @@
 #include "connectionconfig.h"
 #include <QFile>
 
-bool RedisClient::ConnectionConfig::isSshPasswordUsed()
+RedisClient::ConnectionConfig::ConnectionConfig(const QString &host, const QString &name, const int port)    
 {
-    return !sshPassword.isNull() && !sshPassword.isEmpty();
+    m_parameters.insert("name", name);
+    m_parameters.insert("host", host);
+    m_parameters.insert("port", port);
+    m_parameters.insert("ssh_port", DEFAULT_SSH_PORT);
+    m_parameters.insert("timeout_connect", DEFAULT_TIMEOUT_IN_MS);
+    m_parameters.insert("timeout_execute", DEFAULT_TIMEOUT_IN_MS);
+    m_parameters.insert("namespace_separator", QString(DEFAULT_NAMESPACE_SEPARATOR));
 }
-
-RedisClient::ConnectionConfig::ConnectionConfig(const QString &host, const QString &name, const int port)
-    : name(name), host(host), port(port), sshPort(DEFAULT_SSH_PORT), connectionTimeout(DEFAULT_TIMEOUT_IN_MS),
-      executeTimeout(DEFAULT_TIMEOUT_IN_MS), namespaceSeparator(DEFAULT_NAMESPACE_SEPARATOR)
-{}
 
 RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(const ConnectionConfig &other)
 {
     if (this != &other) {
-        name = other.name;
-        host = other.host;
-        auth = other.auth;
-        port = other.port;
-        namespaceSeparator = other.namespaceSeparator;
-        connectionTimeout = other.connectionTimeout;
-        executeTimeout = other.executeTimeout;
-        defaultValueFormat = other.defaultValueFormat;
+        m_parameters = other.m_parameters;
         m_owner = other.m_owner;
-
-        setSshTunnelSettings(
-                    other.sshHost, other.sshUser, other.sshPassword,
-                    other.sshPort, other.sshPrivateKeyPath
-                    );
     }
 
     return *this;
 }
 
+QString RedisClient::ConnectionConfig::name() const
+{
+    return param<QString>("name");
+}
+
+QString RedisClient::ConnectionConfig::host() const
+{
+    return param<QString>("host");
+}
+
+QString RedisClient::ConnectionConfig::auth() const
+{
+    return param<QString>("auth");
+}
+
+int RedisClient::ConnectionConfig::port() const
+{
+    return param<int>("port");
+}
+
+int RedisClient::ConnectionConfig::executeTimeout() const
+{
+    return param<int>("timeout_execute");
+}
+
+int RedisClient::ConnectionConfig::connectionTimeout() const
+{
+    return param<int>("timeout_connect");
+}
+
+bool RedisClient::ConnectionConfig::isSshPasswordUsed()
+{
+    return !param<QString>("ssh_password").isEmpty();
+}
+
 void RedisClient::ConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port, QString privateKey)
 {
-    sshHost = host;
-    sshUser = user;
-    sshPassword = pass;
-    sshPort = port;    
-    sshPrivateKeyPath = privateKey;
+    m_parameters.insert("ssh_host", host);
+    m_parameters.insert("ssh_user", user);
+    m_parameters.insert("ssh_password", pass);
+    m_parameters.insert("ssh_port", port);
+    m_parameters.insert("ssh_private_key_path", privateKey);
 }
 
 bool RedisClient::ConnectionConfig::isNull() const
 {
-    return host.isEmpty() || port <= 0 || name.isEmpty();
+    return param<QString>("host").isEmpty()
+            || param<int>("port") <= 0
+            || param<QString>("name").isEmpty();
 }
 
 bool RedisClient::ConnectionConfig::useSshTunnel() const
 {
-    return !sshHost.isEmpty()
-            && sshPort > 0
-            && !sshUser.isEmpty()
-            && (!sshPassword.isEmpty() || !sshPrivateKeyPath.isEmpty());
+    return !param<QString>("ssh_host").isEmpty()
+            && param<int>("ssh_port") > 0
+            && !param<QString>("ssh_user").isEmpty()
+            && (!param<QString>("ssh_password").isEmpty()
+                || !param<QString>("ssh_private_key_path").isEmpty());
 }
 
 bool RedisClient::ConnectionConfig::useAuth() const
 {
-    return !(auth.isEmpty());
+    return !param<QString>("auth").isEmpty();
 }
 
 bool RedisClient::ConnectionConfig::isValid() const
 {
-    return isNull() == false && connectionTimeout > 1000 && executeTimeout > 1000;
+    return isNull() == false
+            && param<int>("timeout_connect") > 1000
+            && param<int>("timeout_execute") > 1000;
 }
 
 void RedisClient::ConnectionConfig::setOwner(QWeakPointer<RedisClient::Connection> owner)
@@ -77,40 +106,39 @@ QWeakPointer<RedisClient::Connection> RedisClient::ConnectionConfig::getOwner() 
 
 QString RedisClient::ConnectionConfig::getSshPrivateKey()
 {
-    if (sshPrivateKeyPath.isEmpty()
-            || !QFile::exists(sshPrivateKeyPath))
+    QString path = param<QString>("ssh_private_key_path");
+    if (path.isEmpty() || !QFile::exists(path))
         return QString();
 
-    return sshPrivateKeyPath;
+    return path;
 }
 
-RedisClient::ConnectionConfig RedisClient::ConnectionConfig::createFromXml(QDomNode & connectionNode)
+RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & connectionNode)
 {
-    ConnectionConfig connectionConfig;
+    ConnectionConfig c;
 
     if (!connectionNode.hasAttributes()) {
-        return connectionConfig;
+        return c;
     }
 
     QDomNamedNodeMap attr = connectionNode.attributes();
 
-    getValueFromXml(attr, "name", connectionConfig.name);
-    getValueFromXml(attr, "host", connectionConfig.host);
-    getValueFromXml(attr, "port", connectionConfig.port);    
-    getValueFromXml(attr, "auth", connectionConfig.auth);        
+    QHash<QString, QString> valueMapping({
+        {"name", ""}, {"host", ""}, {"port", ""}, {"auth", ""},
+        {"sshHost", "ssh_host"}, {"sshUser", "ssh_user"}, {"sshPassword", "ssh_password"},
+        {"sshPort", "ssh_port"}, {"sshPrivateKey", "ssh_private_key_path"},
+        {"namespaceSeparator", "namespace_separator"},
+        {"connectionTimeout", "timeout_connect"}, {"executeTimeout", "timeout_execute"}
+    });
 
-    getValueFromXml(attr, "sshHost", connectionConfig.sshHost);    
-    getValueFromXml(attr, "sshUser", connectionConfig.sshUser);    
-    getValueFromXml(attr, "sshPassword", connectionConfig.sshPassword);
-    getValueFromXml(attr, "sshPort", connectionConfig.sshPort);    
-    getValueFromXml(attr, "sshPrivateKey", connectionConfig.sshPrivateKeyPath);
+    QHashIterator<QString, QString> i(valueMapping);
 
-    getValueFromXml(attr, "namespaceSeparator", connectionConfig.namespaceSeparator);   
-    getValueFromXml(attr, "connectionTimeout", connectionConfig.connectionTimeout);   
-    getValueFromXml(attr, "executeTimeout", connectionConfig.executeTimeout);   
-    getValueFromXml(attr, "defaultValueFormat", connectionConfig.defaultValueFormat);
+    while (i.hasNext()) {
+        i.next();
+        c.loadValueFromXml(attr, i.key(), i.value());
+    }
 
-    return connectionConfig;
+    return c;
 }
 
 QStringList RedisClient::ConnectionConfig::allowedNamespaces()
@@ -118,58 +146,52 @@ QStringList RedisClient::ConnectionConfig::allowedNamespaces()
     return QStringList() << "*";
 }
 
-bool RedisClient::ConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, QString & value)
+bool RedisClient::ConnectionConfig::loadValueFromXml(const QDomNamedNodeMap & attr,
+                                                    const QString& name,
+                                                    const QString& target)
 {
     if (!attr.contains(name))
         return false;
 
-    value = attr.namedItem(name).nodeValue();
+    QString targetKey = (target.isEmpty())? name : target;
+
+    QString rawValue = attr.namedItem(name).nodeValue();
+
+    if (targetKey.contains("timeout") or targetKey.contains("port")) {
+        m_parameters[targetKey] = rawValue.toInt();
+    } else {
+        m_parameters[targetKey] = rawValue;
+    }
 
     return true;
 }
 
-bool RedisClient::ConnectionConfig::getValueFromXml(const QDomNamedNodeMap & attr, const QString& name, int & value)
+QDomElement RedisClient::ConnectionConfig::toXml()
 {
-    QString val;
-
-    bool result = getValueFromXml(attr, name, val);
-
-    if (result) {
-        value = val.toInt();
-    }    
-
-    return result;
-}
-
-QDomElement RedisClient::ConnectionConfig::toXml(QDomDocument dom)
-{
+    QDomDocument dom;
     QDomElement xml = dom.createElement("connection");
 
-    saveXmlAttribute(dom, xml, "name", name);    
-    saveXmlAttribute(dom, xml, "host", host);   
-    saveXmlAttribute(dom, xml, "port", QString::number(port));   
+    saveXmlAttribute(dom, xml, "name", param<QString>("name"));
+    saveXmlAttribute(dom, xml, "host", param<QString>("host"));
+    saveXmlAttribute(dom, xml, "port", QString::number(param<int>("port")));
 
     if (useAuth()) {
-        saveXmlAttribute(dom, xml, "auth", auth); 
+        saveXmlAttribute(dom, xml, "auth", param<QString>("auth"));
     }
 
-    if (namespaceSeparator != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
-        saveXmlAttribute(dom, xml, "namespaceSeparator", namespaceSeparator); 
+    if (param<QString>("namespace_separator") != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
+        saveXmlAttribute(dom, xml, "namespaceSeparator", param<QString>("namespace_separator"));
     }
 
-    if (!defaultValueFormat.isEmpty()) {
-        saveXmlAttribute(dom, xml, "defaultValueFormat", defaultValueFormat);
-    }
-
-    saveXmlAttribute(dom, xml, "connectionTimeout", QString::number(connectionTimeout)); 
-    saveXmlAttribute(dom, xml, "executeTimeout", QString::number(executeTimeout)); 
+    saveXmlAttribute(dom, xml, "connectionTimeout", QString::number(param<int>("timeout_connect")));
+    saveXmlAttribute(dom, xml, "executeTimeout", QString::number(param<int>("timeout_execute")));
 
     if (useSshTunnel()) {
-        saveXmlAttribute(dom, xml, "sshHost", sshHost); 
-        saveXmlAttribute(dom, xml, "sshUser", sshUser); 
-        saveXmlAttribute(dom, xml, "sshPassword", sshPassword); 
-        saveXmlAttribute(dom, xml, "sshPort", QString::number(sshPort)); 
-        saveXmlAttribute(dom, xml, "sshPrivateKey", sshPrivateKeyPath);        
+        saveXmlAttribute(dom, xml, "sshHost", param<QString>("ssh_host"));
+        saveXmlAttribute(dom, xml, "sshUser", param<QString>("ssh_user"));
+        saveXmlAttribute(dom, xml, "sshPassword", param<QString>("ssh_password"));
+        saveXmlAttribute(dom, xml, "sshPort", QString::number(param<int>("ssh_port")));
+        saveXmlAttribute(dom, xml, "sshPrivateKey", param<QString>("ssh_private_key_path"));
     }
 
     return xml;

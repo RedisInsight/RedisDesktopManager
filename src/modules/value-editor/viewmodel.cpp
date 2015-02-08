@@ -171,7 +171,9 @@ void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connec
 
     m_newKeyRequest = qMakePair(connection, dbIndex);
 
-    QString dbId= QString("%1:db%2").arg(connection->getConfig().name).arg(dbIndex);
+    QString dbId= QString("%1:db%2")
+            .arg(connection->getConfig().name())
+            .arg(dbIndex);
 
     emit newKeyDialog(dbId, keyPrefix);
 }

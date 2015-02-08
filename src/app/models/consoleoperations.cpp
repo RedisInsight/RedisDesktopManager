@@ -15,12 +15,12 @@ void ConsoleModel::init()
     }
 
     emit addOutput("Connected.\n", QConsole::Complete);
-    emit changePrompt(QString("%1:0>").arg(m_connection->config.name), true);
+    emit changePrompt(QString("%1:0>").arg(m_connection->config.param<QString>("name")), true);
 }
 
 QString ConsoleModel::getConsoleName()
 {
-    return m_connection->config.name;
+    return m_connection->config.param<QString>("name");
 }
 
 void ConsoleModel::executeCommand(const QString & cmd)
@@ -39,7 +39,7 @@ void ConsoleModel::executeCommand(const QString & cmd)
     {        
         emit changePrompt(
             QString("%1:%2>")
-                .arg(m_connection->config.name)
+                .arg(m_connection->config.param<QString>("name"))
                 .arg(command.getPartAsString(1)),
                 false
             );

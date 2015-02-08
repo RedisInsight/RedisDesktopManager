@@ -54,7 +54,7 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
     QObject::connect(this, SIGNAL(authOk()), &loop, SLOT(quit()));
 
     m_transporterThread->start();    
-    timeoutTimer.start(config.connectionTimeout);
+    timeoutTimer.start(config.param<int>("timeout_connect"));
     loop.exec();
 
     if (!m_connected)
@@ -169,7 +169,7 @@ void RedisClient::Connection::auth()
     m_connected = true;
 
     if (config.useAuth()) {
-        Command authCmd(QStringList() << "auth" << config.auth);
+        Command authCmd(QStringList() << "auth" << config.auth());
         CommandExecutor::execute(this, authCmd);
     }
 
@@ -177,6 +177,10 @@ void RedisClient::Connection::auth()
     Response testResult = CommandExecutor::execute(this, testCommand);
 
     if (testResult.toString() == "+PONG\r\n") {
+        Command infoCommand("INFO");
+        Response infoResult = CommandExecutor::execute(this, infoCommand);
+        m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());
+
         setConnectedState();
         emit authOk();
     } else {
@@ -190,12 +194,17 @@ bool RedisClient::Connection::selectDb(int index)
     if (m_dbNumber == index)
         return true;
 
-    m_dbNumber = index;
     QStringList commandParts;
     commandParts << "select" << QString::number(index);
     Command cmd(commandParts);
     Response result = CommandExecutor::execute(this, cmd);
-    return result.isOkMessage();
+
+    if (result.isOkMessage()) {
+        m_dbNumber = index;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void RedisClient::Connection::setTransporter(QSharedPointer<RedisClient::AbstractTransporter> transporter)
@@ -204,4 +213,20 @@ void RedisClient::Connection::setTransporter(QSharedPointer<RedisClient::Abstrac
         return;
 
     m_transporter = transporter;
+}
+
+RedisClient::ServerInfo RedisClient::ServerInfo::fromString(const QString &info)
+{
+    QRegExp versionRegex("redis_version:([0-9]\\.[0-9]+)", Qt::CaseInsensitive, QRegExp::RegExp2);
+
+    int pos = versionRegex.indexIn(info);
+
+    RedisClient::ServerInfo result;
+    if (pos == -1) {
+        result.version = 0.0;
+    } else {
+        result.version = versionRegex.cap(1).toDouble();
+    }
+
+    return result;
 }

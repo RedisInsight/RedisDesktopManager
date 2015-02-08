@@ -41,6 +41,9 @@ private slots:
      */
     void testWithDummyTransporter();
 
+    void testParseServerInfo();
+    void testConfig();
+
 private:
     RedisClient::ConnectionConfig config;
     void setSshSettings(RedisClient::ConnectionConfig&, bool);

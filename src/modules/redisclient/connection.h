@@ -1,6 +1,7 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
+#include <QHash>
 #include <QObject>
 #include <QWaitCondition>
 #include "connectionconfig.h"
@@ -10,6 +11,13 @@
 namespace RedisClient {
 
 class AbstractTransporter;
+
+struct ServerInfo
+{
+    double version;
+
+    static ServerInfo fromString(const QString& info);
+};
 
 class Connection : public QObject
 {
@@ -58,6 +66,7 @@ protected:
     QWaitCondition m_commandWaiter;
     QTimer m_timeoutTimer;
     int m_dbNumber;
+    ServerInfo m_serverInfo;
 
     void setConnectedState();
     void createTransporter();
@@ -68,6 +77,5 @@ protected slots:
     void commandAddedToTransporter();
     void auth();
 };
-
 }
 #endif // CONNECTION_H

@@ -43,25 +43,27 @@ bool RedisClient::DefaultTransporter::connectToHost()
 {
     m_errorOccurred = false;
 
-    socket->connectToHost(m_connection->config.host, m_connection->config.port);
+    socket->connectToHost(m_connection->config.host(), m_connection->config.port());
 
-    if (socket->waitForConnected(m_connection->config.connectionTimeout))
+    if (socket->waitForConnected(m_connection->config.connectionTimeout()))
     {
         emit connected();
-        emit logEvent(QString("%1 > connected").arg(m_connection->config.name));
+        emit logEvent(QString("%1 > connected").arg(m_connection->config.name()));
         return true;
     }
 
     if (!m_errorOccurred)
         emit errorOccurred("Connection timeout");
 
-    emit logEvent(QString("%1 > connection failed").arg(m_connection->config.name));
+    emit logEvent(QString("%1 > connection failed").arg(m_connection->config.name()));
     return false;
 }
 
 void RedisClient::DefaultTransporter::runCommand(const Command &command)
 {
-    emit logEvent(QString("%1 > [runCommand] %2").arg(m_connection->config.name).arg(command.getRawString()));
+    emit logEvent(QString("%1 > [runCommand] %2")
+                  .arg(m_connection->config.name())
+                  .arg(command.getRawString()));
 
     if (command.hasDbIndex()) {
 
@@ -76,7 +78,7 @@ void RedisClient::DefaultTransporter::runCommand(const Command &command)
     m_response.clear();
     m_isCommandRunning = true;
     runningCommand = command;
-    executionTimer->start(m_connection->config.executeTimeout);
+    executionTimer->start(m_connection->config.executeTimeout());
 
     // Send command
     QByteArray cmd = command.getByteRepresentation();
@@ -98,7 +100,7 @@ void RedisClient::DefaultTransporter::readyRead()
         return sendResponse();
     } else {
         sendProgressValue();
-        executionTimer->start(m_connection->config.executeTimeout); //restart execution timer
+        executionTimer->start(m_connection->config.executeTimeout()); //restart execution timer
     }
 }
 

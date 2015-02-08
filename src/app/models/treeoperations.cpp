@@ -100,7 +100,7 @@ void TreeOperations::disconnect()
 
 QString TreeOperations::getNamespaceSeparator()
 {
-    return m_connection->config.namespaceSeparator;
+    return m_connection->config.param<QString>("namespace_separator");
 }
 
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)
