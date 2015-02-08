@@ -65,6 +65,8 @@ Item {
                              typeSelector.model[typeSelector.currentIndex],
                              row)
 
+            newKeyName.text = ''
+            valueAddEditor.item.reset()
             addConfirmation.text = "Key was added!"
             addConfirmation.open()
         }
