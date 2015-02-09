@@ -40,6 +40,11 @@ RedisClient::Command::Command(int db)
 
 }
 
+RedisClient::Command::~Command()
+{
+
+}
+
 RedisClient::Command &RedisClient::Command::operator <<(const QString &part)
 {
     this->m_commandWithArguments.append(part.toUtf8());

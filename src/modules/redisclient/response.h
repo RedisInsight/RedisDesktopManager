@@ -11,10 +11,9 @@ class Response
 public:
     Response();
     Response(const QByteArray &);
-    ~Response(void);
+    virtual ~Response(void);
 
-    QVariant getValue();
-    bool isValid();    
+    QVariant getValue();        
 
     void setSource(const QByteArray&);
     QByteArray source();
@@ -29,7 +28,8 @@ public:
     int getLoadedItemsCount();
 
     bool isErrorMessage() const;
-    bool isOkMessage() const;
+    bool isOkMessage() const;   
+    bool isValid();
 
     QString toString();
 

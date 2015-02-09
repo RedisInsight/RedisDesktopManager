@@ -4,9 +4,13 @@
 #include <QHash>
 #include <QObject>
 #include <QWaitCondition>
+#include <functional>
+#include <QVariantList>
+#include <QSharedPointer>
 #include "connectionconfig.h"
 #include "exception.h"
 #include "command.h"
+#include "scancommand.h"
 
 namespace RedisClient {
 
@@ -32,7 +36,11 @@ public:
     bool connect();
     bool isConnected();
     void disconnect();
-    void runCommand(const Command &cmd);    
+
+    void runCommand(const Command &cmd);
+    void retrieveCollection(QSharedPointer<Command> cmd,
+                            std::function<void(QVariant)> callback);
+
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
     void setConnectionConfig(const ConnectionConfig &);
@@ -71,6 +79,10 @@ protected:
     void setConnectedState();
     void createTransporter();
     bool isTransporterRunning();
+
+    void processScanCommand(QSharedPointer<ScanCommand> cmd,
+                            std::function<void(QVariant)> callback,
+                            QSharedPointer<QVariantList> result=QSharedPointer<QVariantList>());
 
 protected slots:
     void connectionReady();

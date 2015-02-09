@@ -3,6 +3,7 @@
 #include "transporters/defaulttransporter.h"
 #include "transporters/sshtransporter.h"
 #include "commandexecutor.h"
+#include "scanresponse.h"
 
 RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
     : config(c), m_connected(false), m_dbNumber(-1)
@@ -95,6 +96,17 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     emit addCommandToWorker(cmd);
 }
 
+void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::Command> cmd,
+                                                 std::function<void (QVariant)> callback)
+{
+    if (!RedisClient::ScanCommand::isValidScanCommand(*cmd))
+        throw Exception("Invalid command");
+
+    auto c = cmd.dynamicCast<RedisClient::ScanCommand>();
+
+    processScanCommand(c, callback);
+}
+
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
 {
     if (isConnected())
@@ -149,6 +161,40 @@ bool RedisClient::Connection::isTransporterRunning()
     return m_transporter.isNull() == false
             && m_transporterThread.isNull() == false
             && m_transporterThread->isRunning();
+}
+
+void RedisClient::Connection::processScanCommand(QSharedPointer<ScanCommand> cmd,
+                                                 std::function<void(QVariant)> callback,
+                                                 QSharedPointer<QVariantList> result)
+{
+    if (result.isNull())
+        result = QSharedPointer<QVariantList>(new QVariantList());
+
+    cmd->setCallBack(this, [this, cmd, result, callback](RedisClient::Response r){
+
+        if (!ScanResponse::isValidScanResponse(r)) {
+            callback(QVariant(*result));
+            return;
+        }
+
+        auto scanResp = dynamic_cast<RedisClient::ScanResponse*>(&r);
+
+        if (!scanResp)
+            throw Exception("Error occured on cast ScanResponse from Response.");
+
+        if (scanResp->getCursor() == 0) {
+            result->append(scanResp->getCollection());
+
+            callback(QVariant(*result));
+            return;
+        }
+
+        cmd->setCursor(scanResp->getCursor());
+
+        processScanCommand(cmd, callback, result);
+    });
+
+    runCommand(*cmd);
 }
 
 void RedisClient::Connection::connectionReady()
