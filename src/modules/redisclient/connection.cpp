@@ -99,6 +99,9 @@ void RedisClient::Connection::runCommand(const Command &cmd)
 void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::Command> cmd,
                                                  std::function<void (QVariant)> callback)
 {
+    if (getServerVersion() < 2.8)
+        throw Exception("Scan commands not supported by redis-server.");
+
     if (!RedisClient::ScanCommand::isValidScanCommand(*cmd))
         throw Exception("Invalid command");
 
