@@ -28,6 +28,7 @@ private slots:
     void selectDatabase_data();
 
     void testScanCommand();
+    void testRetriveCollection();
 
     /*
      * dirty tests for runCommand()

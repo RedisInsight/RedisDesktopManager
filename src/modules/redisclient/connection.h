@@ -1,5 +1,4 @@
-#ifndef CONNECTION_H
-#define CONNECTION_H
+#pragma once
 
 #include <QHash>
 #include <QObject>
@@ -38,14 +37,14 @@ public:
     void disconnect();
 
     void runCommand(const Command &cmd);
-    void retrieveCollection(QSharedPointer<Command> cmd,
+    void retrieveCollection(QSharedPointer<ScanCommand> cmd,
                             std::function<void(QVariant)> callback);
 
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
     void setConnectionConfig(const ConnectionConfig &);
 
-    float getServerVersion();
+    double getServerVersion();
 
     /**
      * Select db
@@ -90,4 +89,3 @@ protected slots:
     void auth();
 };
 }
-#endif // CONNECTION_H

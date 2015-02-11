@@ -87,9 +87,9 @@ void TestCommand::scanCommandIsValid()
     //given
     QFETCH(QString, rawCommandString);
     QFETCH(bool, expected);
-    RedisClient::Command cmd(rawCommandString);
+    RedisClient::ScanCommand cmd(rawCommandString);
 
-    bool actualResult = RedisClient::ScanCommand::isValidScanCommand(cmd);
+    bool actualResult = cmd.isValidScanCommand();
 
     QCOMPARE(actualResult, expected);
 }

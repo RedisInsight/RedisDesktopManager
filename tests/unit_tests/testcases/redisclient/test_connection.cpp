@@ -1,3 +1,5 @@
+#include <chrono>
+#include <thread>
 #include <QTest>
 #include "test_connection.h"
 #include "redisclient/connection.h"
@@ -81,6 +83,28 @@ void TestConnection::testScanCommand()
 
     //then
     QCOMPARE(value.isNull(), false);
+}
+
+void TestConnection::testRetriveCollection()
+{
+    //given
+    Connection connection(config, true);
+    QSharedPointer<ScanCommand> cmd(new ScanCommand("SCAN 0")); //valid
+    bool callbackCalled = false;
+    QVERIFY(cmd->isValidScanCommand());
+
+    //when
+    CommandExecutor::execute(&connection, Command() << "SET" << "test" << "1");
+    connection.retrieveCollection(cmd, [&callbackCalled](QVariant result) {
+        //then - part 1
+        QCOMPARE(result.isNull(), false);
+        QCOMPARE(result.canConvert(QMetaType::QVariantList), true);
+        callbackCalled = true;
+    });
+    wait(10000);
+
+    //then - part 2
+    QCOMPARE(callbackCalled, true);
 }
 
 void TestConnection::runEmptyCommand()

@@ -1,5 +1,6 @@
 #include "connection.h"
 #include "command.h"
+#include "scancommand.h"
 #include "transporters/defaulttransporter.h"
 #include "transporters/sshtransporter.h"
 #include "commandexecutor.h"
@@ -96,18 +97,16 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     emit addCommandToWorker(cmd);
 }
 
-void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::Command> cmd,
+void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::ScanCommand> cmd,
                                                  std::function<void (QVariant)> callback)
 {
     if (getServerVersion() < 2.8)
         throw Exception("Scan commands not supported by redis-server.");
 
-    if (!RedisClient::ScanCommand::isValidScanCommand(*cmd))
-        throw Exception("Invalid command");
+    if (!cmd->isValidScanCommand())
+        throw Exception("Invalid command");    
 
-    auto c = cmd.dynamicCast<RedisClient::ScanCommand>();
-
-    processScanCommand(c, callback);
+    processScanCommand(cmd, callback);
 }
 
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
@@ -134,9 +133,9 @@ void RedisClient::Connection::setConnectionConfig(const RedisClient::ConnectionC
     config = c;    
 }
 
-float RedisClient::Connection::getServerVersion()
+double RedisClient::Connection::getServerVersion()
 {
-    return 0.0; // TBD
+    return m_serverInfo.version;
 }
 
 void RedisClient::Connection::setConnectedState()
@@ -180,12 +179,15 @@ void RedisClient::Connection::processScanCommand(QSharedPointer<ScanCommand> cmd
             return;
         }
 
-        auto scanResp = dynamic_cast<RedisClient::ScanResponse*>(&r);
+        RedisClient::ScanResponse* scanResp = (RedisClient::ScanResponse*)(&r);
 
-        if (!scanResp)
-            throw Exception("Error occured on cast ScanResponse from Response.");
+        if (!scanResp) {
+            callback(QVariant("-Error occured on cast ScanResponse from Response."));
+            return;
+        }
 
-        if (scanResp->getCursor() == 0) {
+
+        if (scanResp->getCursor() <= 0) {
             result->append(scanResp->getCollection());
 
             callback(QVariant(*result));

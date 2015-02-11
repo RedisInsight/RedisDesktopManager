@@ -7,12 +7,14 @@ class ScanCommand : public Command
 {
 public:
     ScanCommand(const QString& cmd) : Command(cmd) {}
+
     void setCursor(int cursor);
 
-    static bool isValidScanCommand(Command r);
+    bool isValidScanCommand();
+
 private:
-    static bool isKeyScanCommand(const QString& cmd);
-    static bool isValueScanCommand(const QString& cmd);
+    bool isKeyScanCommand(const QString& cmd);
+    bool isValueScanCommand(const QString& cmd);
 };
 
 

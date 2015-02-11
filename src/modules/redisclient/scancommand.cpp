@@ -13,9 +13,9 @@ void RedisClient::ScanCommand::setCursor(int cursor)
     }
 }
 
-bool RedisClient::ScanCommand::isValidScanCommand(RedisClient::Command r)
+bool RedisClient::ScanCommand::isValidScanCommand()
 {
-    auto parts = r.getSplitedRepresentattion();
+    auto parts = getSplitedRepresentattion();
 
     return (parts.size() > 1 && isKeyScanCommand(parts[0]))
             || (parts.size() > 2 && isValueScanCommand(parts[0]));
