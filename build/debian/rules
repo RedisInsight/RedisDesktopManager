@@ -8,5 +8,5 @@ override_dh_auto_build:
 	$(MAKE)
 
 override_dh_auto_install:
-	$(MAKE) INSTALL_ROOT=`pwd`/debian/redis-desktop-manager install
-	mkdir -p `pwd`/debian/redis-desktop-manager/usr/bin/
+	$(MAKE) INSTALL_ROOT=$(CURDIR)/debian/redis-desktop-manager install
+	mkdir -p $(CURDIR)/debian/redis-desktop-manager/usr/bin/
