@@ -6,6 +6,7 @@ Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
 Homepage: http://redisdesktop.com
 Vcs-Git: git://github.com/uglide/RedisDesktopManager.git
+Vcs-Browser: http://github.com/uglide/RedisDesktopManager
 
 Package: redis-desktop-manager
 Architecture: any
