@@ -6,10 +6,12 @@ namespace RedisClient {
 class ScanResponse : public Response
 {
 public:
-    int getCursor() const;
-    QVariantList getCollection() const;
+    ScanResponse(const QByteArray &resp): Response(resp) {}
 
-    static bool isValidScanResponse(Response& r);
+    int getCursor();
+    QVariantList getCollection();
+
+    static bool isValidScanResponse(Response r);
 };
 
 }

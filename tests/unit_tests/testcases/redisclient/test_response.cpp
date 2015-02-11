@@ -1,5 +1,6 @@
 #include "test_response.h"
 #include "redisclient/response.h"
+#include "redisclient/scanresponse.h"
 #include <QtCore>
 #include <QTest>
 
@@ -140,4 +141,38 @@ void TestResponse::isValid_data()
 	QTest::newRow("Multi Bulk invalid") << "*5\r\n:1\r\n"				<< false;
 	QTest::newRow("Multi Bulk invalid") << "*2\r\n:1\r\n$6\r\nHello\r\n"<< false;
 
+}
+
+void TestResponse::scanRespGetData()
+{
+    //given
+    QString testResponse = "*2\r\n"
+                           ":1\r\n"
+                           "*2\r\n"
+                           "+Foo\r\n"
+                           "+Bar\r\n";
+    RedisClient::ScanResponse test(testResponse.toUtf8());
+
+    //when
+    int cursor = test.getCursor();
+    QVariantList collection = test.getCollection();
+
+    //then
+    QCOMPARE(cursor, 1);
+    QCOMPARE(collection, QVariantList() << "Foo" << "Bar");
+
+}
+
+void TestResponse::scanIsValid()
+{
+    //given
+    QString testResponse = "*2\r\n"
+                           ":1\r\n"
+                           "*1\r\n"
+                           "+Bar\r\n";
+    RedisClient::Response test(testResponse.toUtf8());
+
+    //when
+    //then
+    QCOMPARE(RedisClient::ScanResponse::isValidScanResponse(test), true);
 }

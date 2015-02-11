@@ -40,7 +40,7 @@ public:
 
     Type getType();
 
-private:
+protected:
     QByteArray responseSource;
 
     //cache previous validation markers

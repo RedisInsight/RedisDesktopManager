@@ -43,7 +43,7 @@ public:
     bool hasDbIndex() const;
     bool isSelectCommand() const;
 
-private:
+protected:
     QObject * m_owner;
     QList<QByteArray> m_commandWithArguments;
     int dbIndex;

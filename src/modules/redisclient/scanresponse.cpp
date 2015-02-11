@@ -1,16 +1,39 @@
 #include "scanresponse.h"
 
-int RedisClient::ScanResponse::getCursor() const
+int RedisClient::ScanResponse::getCursor()
 {
-    return -1; //TBD
+    QVariant value = getValue();
+
+    if (!value.canConvert(QMetaType::QVariantList))
+        return -1;
+
+    QVariantList result = value.toList();
+
+    return result.at(0).toInt();
 }
 
-QVariantList RedisClient::ScanResponse::getCollection() const
+QVariantList RedisClient::ScanResponse::getCollection()
 {
-    return QVariantList(); //TBD
+    QVariant value = getValue();
+
+    if (!value.canConvert(QMetaType::QVariantList))
+        return QVariantList();
+
+    QVariantList result = value.toList();
+
+    return result.at(1).toList();
 }
 
-bool RedisClient::ScanResponse::isValidScanResponse(RedisClient::Response &r)
+bool RedisClient::ScanResponse::isValidScanResponse(Response r)
 {
-    return false; //TBD
+    QVariant value = r.getValue();
+
+    if (!value.canConvert(QMetaType::QVariantList))
+        return false;
+
+    QVariantList result = value.toList();
+
+    return result.size() == 2
+            && result.at(0).canConvert(QMetaType::QString)
+            && result.at(1).canConvert(QMetaType::QVariantList);
 }
