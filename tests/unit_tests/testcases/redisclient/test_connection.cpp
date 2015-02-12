@@ -26,7 +26,7 @@ void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
 
     c.setSshTunnelSettings("localhost", "test",
                            (usePass)? "test" : "",
-                           22, (usePass)? "" : "fixme");
+                           2222, (usePass)? "" : "fixme");
 }
 
 #ifdef INTEGRATION_TESTS
