@@ -18,3 +18,5 @@ sudo ssh-keygen -t ecdsa -N "" -f /root/ssh_host_ecdsa_key
 
 sudo `which sshd` -f /root/sshd_config
 ps aux | grep ssh
+netstat -ntlp | grep LISTEN
+cat /root/sshd_config
