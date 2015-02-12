@@ -17,3 +17,4 @@ ssh-keygen -t dsa -N "" -f ~/ssh_host_dsa_key
 ssh-keygen -t ecdsa -N "" -f ~/ssh_host_ecdsa_key
 
 `which sshd` -f ~/sshd_config
+ps aux | grep ssh
