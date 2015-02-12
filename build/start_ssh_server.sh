@@ -8,6 +8,8 @@ echo test:test | chpasswd
 
 sudo cp /etc/ssh/sshd_config /root/sshd_config
 sudo bash -c "echo '' >> /root/sshd_config"
+sudo bash -c "echo 'PasswordAuthentication yes' >> /root/sshd_config"
+sudo bash -c "echo '' >> /root/sshd_config"
 sudo bash -c "echo 'AllowUsers test' >> /root/sshd_config"
 sudo sed -i "s/Port 22/Port 2222/g" /root/sshd_config
 sudo sed -i "s/\/etc\/ssh\//~\//g" /root/sshd_config
