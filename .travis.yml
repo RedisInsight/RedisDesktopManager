@@ -21,6 +21,7 @@ before_install:
 - sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
 - sudo pip install cpp-coveralls --use-mirrors
 before_script:
+- ./build/start_ssh_server.sh
 - cd ./src
 script: 
   - cd ./../tests
