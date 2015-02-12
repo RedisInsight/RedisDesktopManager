@@ -23,4 +23,4 @@ ps aux | grep ssh
 netstat -ntlp | grep LISTEN
 cat /root/sshd_config
 sudo apt-get install sshpass -y -qq
-sshpass -p "test" ssh -o StrictHostKeyChecking=no test@127.0.0.1
+sshpass -p "test" ssh -o StrictHostKeyChecking=no test@127.0.0.1 "uname"
