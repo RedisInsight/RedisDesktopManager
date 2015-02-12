@@ -16,5 +16,5 @@ sudo ssh-keygen -t rsa -N "" -f /root/ssh_host_rsa_key
 sudo ssh-keygen -t dsa -N "" -f /root/ssh_host_dsa_key
 sudo ssh-keygen -t ecdsa -N "" -f /root/ssh_host_ecdsa_key
 
-sudo `which sshd` -f ~/sshd_config
+sudo `which sshd` -f /root/sshd_config
 ps aux | grep ssh
