@@ -24,8 +24,8 @@ void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
 {        
     c.setParam("timeout_connect", 10000);
 
-    c.setSshTunnelSettings("localhost", "test",
-                           (usePass)? "test" : "",
+    c.setSshTunnelSettings("localhost", "travis",
+                           (usePass)? "travis" : "",
                            22, (usePass)? "" : "D:\\ssh-keys\\private");
 }
 
