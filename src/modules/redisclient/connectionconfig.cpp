@@ -123,13 +123,19 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & 
 
     QDomNamedNodeMap attr = connectionNode.attributes();
 
-    QHash<QString, QString> valueMapping({
-        {"name", ""}, {"host", ""}, {"port", ""}, {"auth", ""},
-        {"sshHost", "ssh_host"}, {"sshUser", "ssh_user"}, {"sshPassword", "ssh_password"},
-        {"sshPort", "ssh_port"}, {"sshPrivateKey", "ssh_private_key_path"},
-        {"namespaceSeparator", "namespace_separator"},
-        {"connectionTimeout", "timeout_connect"}, {"executeTimeout", "timeout_execute"}
-    });
+    QHash<QString, QString> valueMapping;
+    valueMapping.insert("name", "");
+    valueMapping.insert("host", "");
+    valueMapping.insert("port", "");
+    valueMapping.insert("auth", "");
+    valueMapping.insert("sshHost", "ssh_host");
+    valueMapping.insert("sshUser", "ssh_user");
+    valueMapping.insert("sshPassword", "ssh_password");
+    valueMapping.insert("sshPort", "ssh_port");
+    valueMapping.insert("sshPrivateKey", "ssh_private_key_path");
+    valueMapping.insert("namespaceSeparator", "namespace_separator");
+    valueMapping.insert("connectionTimeout", "timeout_connect");
+    valueMapping.insert("executeTimeout", "timeout_execute");
 
     QHashIterator<QString, QString> i(valueMapping);
 
@@ -157,7 +163,7 @@ bool RedisClient::ConnectionConfig::loadValueFromXml(const QDomNamedNodeMap & at
 
     QString rawValue = attr.namedItem(name).nodeValue();
 
-    if (targetKey.contains("timeout") or targetKey.contains("port")) {
+    if (targetKey.contains("timeout") || targetKey.contains("port")) {
         m_parameters[targetKey] = rawValue.toInt();
     } else {
         m_parameters[targetKey] = rawValue;
