@@ -2,6 +2,7 @@
 #include "redisclient/commandexecutor.h"
 #include "redisclient/connection.h"
 #include "redisclient/command.h"
+#include "redisclient/scancommand.h"
 #include "redisclient/response.h"
 #include "app/widgets/consoletabs.h"
 #include "console/consoletab.h"
@@ -83,14 +84,24 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
 void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
 {
-    auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
+    if (m_connection->getServerVersion() >= 2.8) {
+        QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand("scan 0 MATCH *", this, dbIndex));
+        m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r) {
 
-    keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
-        qDebug() << "Keys response";
-        callback(r.getValue().toStringList());
-    });
+            if (r.type() == QMetaType::QVariantList)
+                callback(r.toStringList());
+            else
+                callback(QStringList());
+        });
+    } else {
+        auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
 
-    m_connection->runCommand(keyCmd);
+        keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
+            callback(r.getValue().toStringList());
+        });
+
+        m_connection->runCommand(keyCmd);
+    }
 }
 
 void TreeOperations::disconnect()

@@ -8,6 +8,7 @@
 #include "redisclient/connection.h"
 #include "redisclient/connectionconfig.h"
 #include "testcases/redisclient/mocks/dummyTransporter.h"
+#include "testcases/redisclient/mocks/dummyconnection.h"
 
 class BaseTestCase : public QObject
 {
@@ -29,6 +30,17 @@ protected:
 
         connection->setTransporter(transporter.dynamicCast<RedisClient::AbstractTransporter>());
         connection->connect();
+
+        return connection;
+    }
+
+    QSharedPointer<DummyConnection> getFakeConnection(const QList<QVariant>& expectedScanResponses,
+                                                      const QStringList& expectedResponses = QStringList(),
+                                                      double version=2.6)
+    {
+        QSharedPointer<DummyConnection> connection(new DummyConnection(version));
+        connection->fakeScanCollections.append(expectedScanResponses);
+        connection->setFakeResponses(expectedResponses);
 
         return connection;
     }

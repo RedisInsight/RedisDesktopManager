@@ -186,10 +186,9 @@ void RedisClient::Connection::processScanCommand(QSharedPointer<ScanCommand> cmd
             return;
         }
 
+        result->append(scanResp->getCollection());
 
-        if (scanResp->getCursor() <= 0) {
-            result->append(scanResp->getCollection());
-
+        if (scanResp->getCursor() <= 0) {            
             callback(QVariant(*result));
             return;
         }

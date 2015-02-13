@@ -28,7 +28,7 @@ class Connection : public QObject
     ADD_EXCEPTION
 public:
     Connection(const ConnectionConfig & c, bool autoConnect = false);
-    ~Connection();
+    virtual ~Connection();
 
     ConnectionConfig config;
 
@@ -36,15 +36,15 @@ public:
     bool isConnected();
     void disconnect();
 
-    void runCommand(const Command &cmd);
-    void retrieveCollection(QSharedPointer<ScanCommand> cmd,
-                            std::function<void(QVariant)> callback);
+    virtual void runCommand(const Command &cmd);
+    virtual void retrieveCollection(QSharedPointer<ScanCommand> cmd,
+                                    std::function<void(QVariant)> callback);
 
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
     void setConnectionConfig(const ConnectionConfig &);
 
-    double getServerVersion();
+    virtual double getServerVersion();
 
     /**
      * Select db

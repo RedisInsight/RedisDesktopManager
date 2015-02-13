@@ -8,5 +8,7 @@ class TestTreeOperations : public BaseTestCase
 
 private slots:
     void testCreation();           
+    void testGetDatabaseKeys();
+    void testGetDatabaseKeys_data();
 };
 

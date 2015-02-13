@@ -119,7 +119,7 @@ void RedisClient::Command::setCallBack(QObject *context, std::function<void (Red
     m_callback = callback;
 }
 
-std::function<void (RedisClient::Response)> RedisClient::Command::getCallBack()
+std::function<void (RedisClient::Response)> RedisClient::Command::getCallBack() const
 {
     return m_callback;
 }

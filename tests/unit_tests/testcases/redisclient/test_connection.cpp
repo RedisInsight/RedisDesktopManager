@@ -94,10 +94,12 @@ void TestConnection::testRetriveCollection()
     QVERIFY(cmd->isValidScanCommand());
 
     //when
+    CommandExecutor::execute(&connection, Command() << "FLUSHDB");
     CommandExecutor::execute(&connection, Command() << "SET" << "test" << "1");
     connection.retrieveCollection(cmd, [&callbackCalled](QVariant result) {
         //then - part 1
         QCOMPARE(result.isNull(), false);
+        QCOMPARE(result.toList().size(), 1);
         QCOMPARE(result.canConvert(QMetaType::QVariantList), true);
         callbackCalled = true;
     });
@@ -178,8 +180,10 @@ void TestConnection::connectWithAuth()
     QCOMPARE(actualCommandResult.toString(), QString("+PONG\r\n"));
 }
 
-void TestConnection::connectWithSshTunnelPass()
+
+void TestConnection::connectWithSshTunnelPass() // FIXME
 {
+    QSKIP("This test requires configured ssh server");
     //given
     setSshSettings(config);
 
@@ -193,7 +197,7 @@ void TestConnection::connectWithSshTunnelPass()
     QCOMPARE(actualResult, true);
 }
 
-void TestConnection::connectWithSshTunnelKey()
+void TestConnection::connectWithSshTunnelKey() // FIXME
 {
     QSKIP("This test requires configured ssh server");
 

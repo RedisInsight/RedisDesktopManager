@@ -31,7 +31,7 @@ public:
 
     /** New callback API **/
     void setCallBack(QObject* context, std::function<void(Response)> callback);
-    std::function<void(Response)> getCallBack();    
+    std::function<void(Response)> getCallBack() const;
 
     void cancel();
 
