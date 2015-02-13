@@ -359,6 +359,7 @@ int RedisClient::Response::getSizeOfBulkReply(const QByteArray& reply, int endOf
     return strRepresentaton.toInt();        
 }
 
+// TBD: add pretty printing
 QString RedisClient::Response::valueToHumanReadString(QVariant& value)
 {
     if (value.isNull()) 
@@ -366,7 +367,19 @@ QString RedisClient::Response::valueToHumanReadString(QVariant& value)
         return "NULL";
     } else if (value.type() == QVariant::StringList) {
         return value.toStringList().join("\r\n");
-    } 
+    } else if (value.type() == QMetaType::QVariantList) {
+        QVariantList val = value.toList();
+        QString result;
+        for (int i = 0; i < val.size(); ++i) {
+            result.append(QString("%1)").arg(QString::number(i+1)));
+            if (val.at(i).type() == QMetaType::QVariantList) {
+                result.append(val.at(i).toStringList().join("\r\n"));
+            } else {
+                result.append(val.at(i).toString());
+            }
+            return result;
+        }
+    }
 
     return value.toString();
 }
