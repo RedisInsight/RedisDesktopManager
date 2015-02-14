@@ -85,7 +85,7 @@ void TestKeyModels::testValueLoading()
     bool callbackCalled = false;
 
     keyModel->loadRows(0, keyModel->rowsCount(), [&callbackCalled]() { callbackCalled = true; });
-    wait(100);
+    wait(500);
     QVERIFY(callbackCalled);
     QVERIFY(keyModel->isRowLoaded(testRow));
 
@@ -155,7 +155,7 @@ QSharedPointer<ValueEditor::Model> TestKeyModels::getKeyModel(QSharedPointer<Red
         actualResult = model;
     });
 
-    wait(500);
+    wait(1000);
 
     return actualResult;
 }

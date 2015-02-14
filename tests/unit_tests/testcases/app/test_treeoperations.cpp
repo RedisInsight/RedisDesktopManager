@@ -37,7 +37,7 @@ void TestTreeOperations::testGetDatabaseKeys()
     });
 
     //then - part 1
-    wait(2);
+    wait(100);
     QCOMPARE(callbackCalled, true);
     QCOMPARE(connection->runCommandCalled, runCommandCalled);
     QCOMPARE(connection->getServerVersionCalled, 1u);
