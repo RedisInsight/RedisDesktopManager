@@ -1,6 +1,9 @@
 #include <QTest>
 #include <QApplication>
 
+#include <easylogging++.h>
+_INITIALIZE_EASYLOGGINGPP
+
 //tests
 #include <iostream>
 #include "testcases/app/test_connectionsmanager.h"

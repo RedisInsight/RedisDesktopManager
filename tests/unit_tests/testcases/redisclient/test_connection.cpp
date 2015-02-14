@@ -24,7 +24,7 @@ void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
 {        
     c.setParam("timeout_connect", 10000);
 
-    c.setSshTunnelSettings("localhost", "test",
+    c.setSshTunnelSettings("127.0.0.1", "test",
                            (usePass)? "test" : "",
                            2222, (usePass)? "" : "fixme");
 }
@@ -183,9 +183,9 @@ void TestConnection::connectWithAuth()
 
 void TestConnection::connectWithSshTunnelPass() // FIXME
 {
-    QSKIP("This test requires configured ssh server");
+    //QSKIP("This test requires configured ssh server");
     //given
-    setSshSettings(config);
+    setSshSettings(config, true);
 
     Connection connection(config, false);
 
