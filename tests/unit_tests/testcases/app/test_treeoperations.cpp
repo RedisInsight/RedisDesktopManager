@@ -18,14 +18,15 @@ void TestTreeOperations::testCreation()
 }
 
 void TestTreeOperations::testGetDatabaseKeys()
-{
-    QSKIP("FIXME");
+{    
     //given
     QFETCH(double, redisServerVersion);
     QFETCH(uint, runCommandCalled);
     QFETCH(uint, retrieveCollectionCalled);
     ConsoleTabs tabsWidget;
-    auto connection = getFakeConnection(QList<QVariant>() << QVariant());
+    auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
+                                        QStringList() << "",
+                                        redisServerVersion);
 
     //when
     bool callbackCalled = false;
