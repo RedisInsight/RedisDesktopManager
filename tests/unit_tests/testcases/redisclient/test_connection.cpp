@@ -103,7 +103,7 @@ void TestConnection::testRetriveCollection()
         QCOMPARE(result.canConvert(QMetaType::QVariantList), true);
         callbackCalled = true;
     });
-    wait(10000);
+    wait(2000);
 
     //then - part 2
     QCOMPARE(callbackCalled, true);

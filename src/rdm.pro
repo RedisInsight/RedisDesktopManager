@@ -10,10 +10,11 @@ TARGET = rdm
 TEMPLATE = app
 
 # Skip version file
-!exists( $$PWD/version.h ) {
-    write_file( $$PWD/version.h )
+!exists( $$PWD/version.h ) {    
     DEFINES += RDM_VERSION=\\\"0.8.0.0\\\"
 }
+
+DEFINES += ELPP_QT_LOGGING ELPP_STL_LOGGING
 
 SOURCES += \
     $$PWD/main.cpp \

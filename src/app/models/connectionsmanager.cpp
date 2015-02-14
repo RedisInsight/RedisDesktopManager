@@ -1,6 +1,7 @@
 #include <QtXml>
 #include <QDebug>
 #include <QAbstractItemModel>
+#include <easylogging++.h>
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/redisclient/connectionconfig.h"
 #include "modules/value-editor/viewmodel.h"
@@ -33,6 +34,17 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
 
     //add connection to internal container
     m_connections.push_back(connection);
+
+    //set logger
+    QObject::connect(connection.data(), &RedisClient::Connection::log, this, [this](const QString& info){
+        QString msg = QString("Connection: %1").arg(info);
+        LOG(INFO) << msg.toStdString();
+    });
+
+    QObject::connect(connection.data(), &RedisClient::Connection::error, this, [this](const QString& error){
+        QString msg = QString("Connection: %1").arg(error);
+        LOG(ERROR) << msg.toStdString();
+    });
 
     //add connection to view container
     using namespace ConnectionsTree;

@@ -216,7 +216,7 @@ void RedisClient::Connection::commandAddedToTransporter()
 void RedisClient::Connection::auth()
 {
     // todo: check is socket succesufully connected before run this method
-    m_connected = true;
+    m_connected = true;    
 
     if (config.useAuth()) {
         Command authCmd(QStringList() << "auth" << config.auth());
@@ -232,8 +232,10 @@ void RedisClient::Connection::auth()
         m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());
 
         setConnectedState();
+        emit log("AUTH OK");
         emit authOk();
     } else {
+        emit error("AUTH ERROR");
         emit authError("Redis server require password or password invalid");        
         m_connected = false;
     }
