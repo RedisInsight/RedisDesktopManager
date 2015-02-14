@@ -96,6 +96,7 @@ int KeyModel::getRowCount(const QString &countCmd)
     return -1;
 }
 
+//FIXME: make this call async
 QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, unsigned long count)
 {
     QStringList cmd;

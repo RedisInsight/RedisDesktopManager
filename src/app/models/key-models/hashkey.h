@@ -33,6 +33,8 @@ private:
 
     void setHashRow(const QByteArray &hashKey, const QByteArray &hashValue, bool updateIfNotExist = true);
     void deleteHashRow(const QByteArray& hashKey);
+
+    void addLoadedRowsToCache(const QVariantList& list, int rowStart);
 };
 
 #endif // HASHKEYMODEL_H

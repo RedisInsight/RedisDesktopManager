@@ -37,15 +37,11 @@ void ListKeyModel::addRow(const QVariantMap &row)
 }
 
 void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
-{
-    if (isPartialLoadingSupported()) {
-        //TBD
-    } else {        
-        QVariantList rows = getRowsRange("LRANGE", rowStart, count).toList();
+{           
+    QVariantList rows = getRowsRange("LRANGE", rowStart, count).toList();
 
-        foreach (QVariant row, rows) {
-            m_rowsCache.push_back(row.toByteArray());
-        }
+    foreach (QVariant row, rows) {
+        m_rowsCache.push_back(row.toByteArray());
     }
 
     callback();

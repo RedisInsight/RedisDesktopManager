@@ -39,10 +39,23 @@ void SetKeyModel::addRow(const QVariantMap &row)
     m_rowCount++;
 }
 
-void SetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
+void SetKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function<void ()> callback)
 {
     if (isPartialLoadingSupported()) {
-        //TBD
+        QSharedPointer<RedisClient::ScanCommand> cmd(new RedisClient::ScanCommand(
+                                                         QString("SSCAN %1 0").arg(m_keyFullPath),
+                                                         this, m_dbIndex));
+
+        m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {
+            if (result.type() == QMetaType::QVariantList) {
+                QVariantList rows = result.toList();
+
+                foreach (QVariant row, rows) {
+                    m_rowsCache.push_back(row.toByteArray());
+                }
+            }
+            callback();
+        });
     } else {
 
         if (!m_rowsCache.isEmpty())
