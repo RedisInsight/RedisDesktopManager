@@ -74,7 +74,14 @@ void SortedSetKeyModel::addRow(const QVariantMap &row)
     if (!isRowValid(row))
         throw Exception("Invalid row");
 
-    addSortedSetRow(row["value"].toByteArray(), row["score"].toDouble());
+    QPair<QByteArray, double> cachedRow(
+                row["value"].toByteArray(),
+                row["score"].toDouble());
+
+    if (addSortedSetRow(cachedRow.first, cachedRow.second)) {
+        m_rowsCache.append(cachedRow);
+        m_rowCount++;
+    }
 }
 
 unsigned long SortedSetKeyModel::rowsCount()
@@ -142,12 +149,14 @@ void SortedSetKeyModel::loadRowCount()
     m_rowCount = getRowCount("ZCARD");
 }
 
-void SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
+bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 {
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
     (addCmd << "ZADD" << m_keyFullPath << QString::number(score)).append(value);
-    CommandExecutor::execute(m_connection, addCmd);
+    Response result = CommandExecutor::execute(m_connection, addCmd);
+
+    return result.getValue().toInt() == 1;
 }
 
 void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)

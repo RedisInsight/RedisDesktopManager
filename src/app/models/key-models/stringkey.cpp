@@ -66,7 +66,7 @@ void StringKeyModel::addRow(const QVariantMap &row)
 
 unsigned long StringKeyModel::rowsCount()
 {
-    return 1;
+    return m_value.size() == 0 ? 0 : 1;
 }
 
 void StringKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
@@ -81,12 +81,12 @@ void StringKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::
 
 void StringKeyModel::clearRowCache()
 {
-    return;
+    m_value.clear();
 }
 
 void StringKeyModel::removeRow(int)
 {
-    return;
+    m_value.clear();
 }
 
 bool StringKeyModel::isRowLoaded(int r)

@@ -21,12 +21,8 @@ void TestConnection::init()
 }
 
 void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
-{        
-    c.setParam("timeout_connect", 10000);
-
-    c.setSshTunnelSettings("127.0.0.1", "test",
-                           (usePass)? "test" : "",
-                           2222, (usePass)? "" : "fixme");
+{            
+    c.setSshTunnelSettings("127.0.0.1", "test", "test", 2222, "");
 }
 
 #ifdef INTEGRATION_TESTS
@@ -183,7 +179,7 @@ void TestConnection::connectWithAuth()
 
 void TestConnection::connectWithSshTunnelPass() // FIXME
 {
-    //QSKIP("This test requires configured ssh server");
+    QSKIP("This test requires configured ssh server");
     //given
     setSshSettings(config, true);
 

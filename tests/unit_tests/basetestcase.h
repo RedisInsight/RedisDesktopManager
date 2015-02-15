@@ -34,7 +34,7 @@ protected:
         return connection;
     }
 
-    QSharedPointer<DummyConnection> getFakeConnection(const QList<QVariant>& expectedScanResponses,
+    QSharedPointer<DummyConnection> getFakeConnection(const QList<QVariant>& expectedScanResponses = QList<QVariant>(),
                                                       const QStringList& expectedResponses = QStringList(),
                                                       double version=2.6)
     {

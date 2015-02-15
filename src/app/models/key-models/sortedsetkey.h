@@ -30,7 +30,7 @@ private:
     QList<QPair<QByteArray, double>> m_rowsCache;
 
     void loadRowCount();
-    void addSortedSetRow(const QByteArray &value, double score);
+    bool addSortedSetRow(const QByteArray &value, double score);
     void deleteSortedSetRow(const QByteArray& value);
 };
 
