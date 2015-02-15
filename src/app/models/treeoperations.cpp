@@ -84,8 +84,11 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
 void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
 {
+    QString keyPattern = m_connection->getConfig().keysPattern();
+
     if (m_connection->getServerVersion() >= 2.8) {
-        QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand("scan 0 MATCH *", this, dbIndex));
+        QString cmd = QString("scan 0 MATCH %1").arg(keyPattern);
+        QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(cmd, this, dbIndex));
         m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r) {
 
             if (r.type() == QMetaType::QVariantList)
@@ -94,7 +97,8 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
                 callback(QStringList());
         });
     } else {
-        auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
+        QString cmd = QString("keys %1").arg(keyPattern);
+        auto keyCmd = RedisClient::Command(cmd, this, dbIndex);
 
         keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
             callback(r.getValue().toStringList());

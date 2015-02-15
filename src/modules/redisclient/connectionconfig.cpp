@@ -10,6 +10,7 @@ RedisClient::ConnectionConfig::ConnectionConfig(const QString &host, const QStri
     m_parameters.insert("timeout_connect", DEFAULT_TIMEOUT_IN_MS);
     m_parameters.insert("timeout_execute", DEFAULT_TIMEOUT_IN_MS);
     m_parameters.insert("namespace_separator", QString(DEFAULT_NAMESPACE_SEPARATOR));
+    m_parameters.insert("keys_pattern", QString("*"));
 }
 
 RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(const ConnectionConfig &other)
@@ -113,6 +114,11 @@ QString RedisClient::ConnectionConfig::getSshPrivateKey()
     return path;
 }
 
+QString RedisClient::ConnectionConfig::keysPattern()
+{
+    return param<QString>("keys_pattern");
+}
+
 RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & connectionNode)
 {
     ConnectionConfig c;
@@ -147,10 +153,7 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & 
     return c;
 }
 
-QStringList RedisClient::ConnectionConfig::allowedNamespaces()
-{
-    return QStringList() << "*";
-}
+
 
 bool RedisClient::ConnectionConfig::loadValueFromXml(const QDomNamedNodeMap & attr,
                                                     const QString& name,

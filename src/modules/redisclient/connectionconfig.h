@@ -45,7 +45,7 @@ public:
 
     QWeakPointer<Connection> getOwner() const;
     QString getSshPrivateKey();
-    QStringList allowedNamespaces();
+    QString keysPattern();
 
     void setOwner(QWeakPointer<Connection>);
     void setSshTunnelSettings(QString host, QString user, QString pass,
