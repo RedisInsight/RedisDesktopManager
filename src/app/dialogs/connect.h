@@ -14,6 +14,7 @@ class ConnectionWindow : public QDialog
 public:
     ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent = nullptr);
     void setConnectionConfig(const RedisClient::ConnectionConfig& config);
+    RedisClient::ConnectionConfig getConectionConfigFromFormData();
 
 private:
     Ui::connectionDialog ui;        
@@ -26,7 +27,7 @@ private:
     bool isSshSettingsValid();
     bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
-    RedisClient::ConnectionConfig getConectionConfigFromFormData();
+
     void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
 
     void markFieldInvalid(QWidget *w);

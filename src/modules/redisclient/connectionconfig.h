@@ -25,12 +25,13 @@ public:
     int executeTimeout() const;
     int connectionTimeout() const;
 
-
     bool isNull() const;
     bool useSshTunnel() const;
     bool useAuth() const;
     bool isValid() const;
     bool isSshPasswordUsed();
+
+    QVariantHash getInternalParameters();
 
     template <class T> inline T param(const QString& p) const
     {

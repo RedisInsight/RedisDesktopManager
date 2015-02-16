@@ -58,6 +58,11 @@ bool RedisClient::ConnectionConfig::isSshPasswordUsed()
     return !param<QString>("ssh_password").isEmpty();
 }
 
+QVariantHash RedisClient::ConnectionConfig::getInternalParameters()
+{
+    return m_parameters;
+}
+
 void RedisClient::ConnectionConfig::setSshTunnelSettings(QString host, QString user, QString pass, int port, QString privateKey)
 {
     m_parameters.insert("ssh_host", host);

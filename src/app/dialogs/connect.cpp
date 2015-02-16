@@ -44,8 +44,8 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
     ui.portSpinBox->setValue(config.port());
     ui.authEdit->setText(config.auth());
     ui.namespaceSeparator->setText(config.param<QString>("namespace_separator"));
-    ui.connectionTimeout->setValue(config.connectionTimeout());
-    ui.executionTimeout->setValue(config.executeTimeout());
+    ui.connectionTimeout->setValue(config.connectionTimeout()/1000);
+    ui.executionTimeout->setValue(config.executeTimeout()/1000);
 
     if (!config.keysPattern().isEmpty()) {
         ui.keysPattern->setText(config.keysPattern());

@@ -10,6 +10,7 @@ _INITIALIZE_EASYLOGGINGPP
 #include "testcases/app/test_treeoperations.h"
 #include "testcases/app/test_abstractkey.h"
 #include "testcases/app/test_keymodels.h"
+#include "testcases/app/test_dialogs.h"
 #include "testcases/redisclient/test_command.h"
 #include "testcases/redisclient/test_response.h"
 #include "testcases/redisclient/test_connection.h"
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
             + QTest::qExec(new TestTreeOperations, argc, argv)
             + QTest::qExec(new TestKeyModels, argc, argv)
             + QTest::qExec(new TestAbstractKey, argc, argv)
+            + QTest::qExec(new TestDialogs, argc, argv)
 
             // value-editor module
             + QTest::qExec(new TestView, argc, argv)
