@@ -6,6 +6,7 @@
 #include <QtCore>
 #include <QTest>
 #include <QSignalSpy>
+#include <QMenu>
 
 using namespace ConnectionsTree;
 
@@ -64,5 +65,20 @@ void TestServerItem::testReload()
 
     //then
     QCOMPARE(spy.count(), 1);
+}
+
+void TestServerItem::testContextMenu()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock();
+    Model dummyModel;
+    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
+    DummyParentView view;
+
+    //when
+    QSharedPointer<QMenu> actualResult = item.getContextMenu(view);
+
+    //then
+    QCOMPARE(actualResult->isEmpty(), false);
 }
 

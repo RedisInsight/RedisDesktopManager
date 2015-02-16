@@ -18,7 +18,7 @@ _INITIALIZE_EASYLOGGINGPP
 #include "testcases/connections-tree/test_serveritem.h"
 #include "testcases/connections-tree/test_databaseitem.h"
 #include "testcases/console/test_console.h"
-#include "testcases/value-editor/test_view.h"
+#include "testcases/value-editor/test_valueview.h"
 #include "redisclient/redisclient.h"
 
 int main(int argc, char *argv[])
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
             + QTest::qExec(new TestDialogs, argc, argv)
 
             // value-editor module
-            + QTest::qExec(new TestView, argc, argv)
+            + QTest::qExec(new TestValueView, argc, argv)
             ;
 
     if (allTestsResult == 0)

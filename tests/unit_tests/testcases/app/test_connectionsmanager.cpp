@@ -18,5 +18,4 @@ void TestConnectionsManager::LoadConnectionsConfigFromFile()
 
 	//then
     QCOMPARE(testManager.size(), 1);
-
 }

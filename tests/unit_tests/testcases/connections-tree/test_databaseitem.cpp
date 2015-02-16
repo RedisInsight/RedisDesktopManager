@@ -5,6 +5,7 @@
 #include <QtCore>
 #include <QTest>
 #include <QSignalSpy>
+#include <QMenu>
 
 using namespace ConnectionsTree;
 
@@ -34,4 +35,20 @@ void TestDatabaseItem::testLoadKeys()
     QCOMPARE(spy.wait(), true);
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item.childCount(), (unsigned int)3);
+}
+
+void TestDatabaseItem::testContextMenu()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock();
+    DatabaseItem item("test", 0, 300,
+                      QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
+                      nullptr);
+    DummyParentView view;
+
+    //when
+    QSharedPointer<QMenu> actualResult = item.getContextMenu(view);
+
+    //then
+    QCOMPARE(actualResult->isEmpty(), false);
 }
