@@ -144,3 +144,12 @@ cp $FILENAME $NEW_FILE
 
 rm -f $FILENAME
 
+echo ===========================
+echo export symbols
+echo ===========================
+svn checkout http://google-breakpad.googlecode.com/svn/trunk/ google-breakpad
+cd google-breakpad
+./configure
+make
+cd src/tools/linux/dump_syms
+./dump_syms $SOURCE_DIR/bin/linux/release/rdm > $SOURCE_DIR/bin/linux/release/rdm.sym
