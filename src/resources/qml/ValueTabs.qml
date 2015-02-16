@@ -115,6 +115,7 @@ Repeater {
 
                 Button {
                     text: "Delete"
+                    iconSource: "qrc:/images/delete.png"
 
                     MessageDialog {
                         id: deleteConfirmation
@@ -139,276 +140,269 @@ Repeater {
                     text: "Reload Value"
                     action: reLoadAction
                     visible: !showValueNavigation
-                }
+                }                                
             }
 
             RowLayout {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 40
-                Layout.minimumHeight: 40
+                Layout.fillHeight: true
                 visible: showValueNavigation
 
-                Text {
-                    Layout.fillWidth: true                    
-                    textFormat: Text.RichText
-                    text: "<b>Note:</b> Double click on row or press ENTER on selected row to activate editing"
-                    color: "#cccccc"
-                }
+                TableView {
+                    id: table
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.minimumHeight: 100
 
-                Item { Layout.fillWidth: true}
+                    TableViewColumn{ width: 50 }
+                    TableViewColumn{ width: 150 }
+                    TableViewColumn{ width: table.width - 200}
 
-                Button {
-                    text: "Reload Value"
-                    action: reLoadAction                    
-                    Action {
-                        id: reLoadAction                        
-                        shortcut: StandardKey.Refresh
-                        onTriggered: {
-                            console.log("Reload")
-                            table.model.reload()
-                        }
+                    model: viewModel.getValue(tabIndex)
+
+                    property int currentStart: 0
+                    property int maxItemsOnPage: model? model.pageSize() : 100
+                    property int currentPage: currentStart / maxItemsOnPage + 1
+                    property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
+                    property bool forceLoading: false
+
+                    Component.onCompleted: {
+                        keyTab.table = table
+                        loadValue()
                     }
-                }
 
-                Item { Layout.preferredWidth: 15}
+                    Connections {
+                        target: viewModel
 
-                Button {
-                    text: "Add row";
+                        onReplaceTab: {
+                            console.log("replace tab")
+                            table.model = viewModel.getValue(tabIndex)
+                            table.forceLoading = false
+                            table.currentStart = 0
 
-                    onClicked: addRowDialog.open()
+                            if (valueEditor.item)
+                                valueEditor.item.resetAndDisableEditor()
 
-                    Dialog {
-                        id: addRowDialog
-                        title: "Add Row"
+                            table.loadValue()
 
-                        width: 520
-                        height: 300
-                        modality: Qt.ApplicationModal
-
-                        Loader {
-                            id: valueAddEditor
-                            width: 500
-                            height: 350
-                            anchors.centerIn: parent
-                            property int currentRow: -1
-
-                            source: Editor.getEditorByTypeString(keyType)
-
-                            onLoaded: {
-                                item.state = "add"
+                            if (keyType === "string") {
+                                valueEditor.loadRowValue(0)
                             }
                         }
-
-                        onAccepted: {
-                            if (!valueAddEditor.item)
-                                return false
-
-                            if (!valueAddEditor.item.isValueValid()) {
-                                valueAddEditor.item.markInvalidFields()                                
-                                return open()
-                            }
-
-                            var row = valueAddEditor.item.getValue()
-
-                            var model = viewModel.getValue(tabIndex)
-                            model.addRow(row)
-                            table.model.reload()
-                            valueAddEditor.item.reset()
-                        }
-
-                        visible: false
-                        standardButtons: StandardButton.Ok | StandardButton.Cancel
-                    }
-                }
-
-                Button {
-                    text: "Delete row"                                                                                
-                    enabled: table.currentRow != -1
-
-                    onClicked: {
-                        if (table.model.totalRowCount() == 1) {
-                            deleteRowConfirmation.text = "This is last row in this key, " +
-                                    "if you remove this - key will be removed!"
-                        } else {
-                            deleteRowConfirmation.text = "Do you relly want to remove this row?"
-                        }
-                        deleteRowConfirmation.rowToDelete = table.currentRow
-                        deleteRowConfirmation.open()
                     }
 
                     MessageDialog {
-                        id: deleteRowConfirmation
-                        title: "Delete row"
-                        text: ""
+                        id: valueErrorNotification
+                        visible: false
+                        modality: Qt.ApplicationModal
+                        icon: StandardIcon.Warning
+                        standardButtons: StandardButton.Ok
+                    }
+
+                    Connections {
+                        target: table.model ? table.model : null
+
+                        onError: {
+                            valueErrorNotification.text = error
+                            valueErrorNotification.open()
+                        }
+                    }
+
+                    MessageDialog {
+                        id: valueLoadingConfirmation
+                        title: "Legacy Redis-Server detected!"
+                        text: "You are connected to legacy redis-server, which doesn't support partial loading. "
+                                + "Do you really want to load " + table.model.totalRowCount() +" items?"
                         onYes: {
-                            console.log("remove row in key")
-                            table.model.deleteRow(rowToDelete)
+                            table.forceLoading = true
+                            table.loadValue()
                         }
                         visible: false
                         modality: Qt.ApplicationModal
                         icon: StandardIcon.Warning
                         standardButtons: StandardButton.Yes | StandardButton.No
-                        property int rowToDelete
                     }
 
-                }
-            }          
+                    function goToPage(page) {
+                        var firstItemOnPage = table.maxItemsOnPage * (page - 1)
 
-            TableView {
-                id: table
-                visible: showValueNavigation
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.minimumHeight: 100
+                        if (table.currentStart === firstItemOnPage)
+                            return
 
-                TableViewColumn{ width: 50 }
-                TableViewColumn{ width: 150 }
-                TableViewColumn{ width: table.width - 200}
-
-                model: viewModel.getValue(tabIndex)
-
-                property int currentStart: 0
-                property int maxItemsOnPage: model? model.pageSize() : 100
-                property int currentPage: currentStart / maxItemsOnPage + 1
-                property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
-                property bool forceLoading: false
-
-                Component.onCompleted: {
-                    keyTab.table = table
-                    loadValue()
-                }
-
-                Connections {
-                    target: viewModel
-
-                    onReplaceTab: {
-                        console.log("replace tab")
-                        table.model = viewModel.getValue(tabIndex)
-                        table.forceLoading = false
-                        table.currentStart = 0
-
-                        if (valueEditor.item)
-                            valueEditor.item.resetAndDisableEditor()
-
-                        table.loadValue()
-
-                        if (keyType === "string") {
-                            valueEditor.loadRowValue(0)
-                        }
-                    }               
-                }
-
-                MessageDialog {
-                    id: valueErrorNotification
-                    visible: false
-                    modality: Qt.ApplicationModal
-                    icon: StandardIcon.Warning
-                    standardButtons: StandardButton.Ok
-                }
-
-                Connections {
-                    target: table.model ? table.model : null
-
-                    onError: {
-                        valueErrorNotification.text = error
-                        valueErrorNotification.open()
+                        table.currentStart = firstItemOnPage
+                        loadValue()
                     }
-                }
 
-                MessageDialog {
-                    id: valueLoadingConfirmation
-                    title: "Legacy Redis-Server detected!"
-                    text: "You are connected to legacy redis-server, which doesn't support partial loading. "
-                            + "Do you really want to load " + table.model.totalRowCount() +" items?"
-                    onYes: {
-                        table.forceLoading = true
-                        table.loadValue()
+                    function goToPrevPage() {
+                        console.log('goto prev page')
+                        if (table.currentPage - 1 < 1)
+                            return
+
+                        goToPage(table.currentPage - 1)
                     }
-                    visible: false
-                    modality: Qt.ApplicationModal
-                    icon: StandardIcon.Warning
-                    standardButtons: StandardButton.Yes | StandardButton.No
-                }
 
-                function goToFirstPage() {
-                    console.log('goto first page')
-                    goToPage(1)
-                }
+                    function goToNextPage() {
+                        console.log('goto next page')
+                        if (table.totalPages < table.currentPage + 1)
+                            return
 
-                function goToLastPage() {
-                    console.log('goto last page')
-                    goToPage(table.totalPages)
-                }
+                        goToPage(table.currentPage + 1)
+                    }
 
-                function goToPage(page) {
-                    var firstItemOnPage = table.maxItemsOnPage * (page - 1)
+                    function loadValue() {
+                        var columns = table.model.getColumnNames()
 
-                    if (table.currentStart === firstItemOnPage)
-                        return
+                        for (var index = 0; index < 3; index++)
+                        {
+                            var column = table.getColumn(index)
 
-                    table.currentStart = firstItemOnPage
-                    loadValue()
-                }
+                            if (index >= columns.length) {
+                                column.visible = false
+                                continue
+                            }
 
-                function goToPrevPage() {
-                    console.log('goto prev page')
-                    if (table.currentPage - 1 < 1)
-                        return
-
-                    goToPage(table.currentPage - 1)
-                }
-
-                function goToNextPage() {
-                    console.log('goto next page')
-                    if (table.totalPages < table.currentPage + 1)
-                        return
-
-                    goToPage(table.currentPage + 1)
-                }
-
-                function loadValue() {
-                    var columns = table.model.getColumnNames()
-
-                    for (var index = 0; index < 3; index++)
-                    {
-                        var column = table.getColumn(index)
-
-                        if (index >= columns.length) {
-                            column.visible = false
-                            continue
+                            column.role = columns[index]
+                            column.title = columns[index]
+                            column.visible = true
                         }
 
-                        column.role = columns[index]
-                        column.title = columns[index]
-                        column.visible = true
-                    }
+                        if (table.model.isPartialLoadingSupported()
+                                || table.model.totalRowCount() < maxItemsOnPage
+                                || table.forceLoading) {
+                            table.model.loadRows(currentStart, maxItemsOnPage)
+                        } else {
+                            // Legacy redis without SCAN support
+                            // Show warning message
+                            // to get upprove from user
+                            valueLoadingConfirmation.open()
+                        }
 
-                    if (table.model.isPartialLoadingSupported()
-                            || table.model.totalRowCount() < maxItemsOnPage
-                            || table.forceLoading) {
-                        table.model.loadRows(currentStart, maxItemsOnPage)
-                    } else {
-                        // Legacy redis without SCAN support
-                        // Show warning message
-                        // to get upprove from user
-                        valueLoadingConfirmation.open()
+                        // TODO: show loader with fadeout
                     }
-
-                    // TODO: show loader with fadeout
                 }
-            }
 
-            Pagination {
-                id: pagination
-                visible: showValueNavigation
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
-                Layout.minimumHeight: 40
+                ColumnLayout {
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: 140
+                    Layout.maximumWidth: 140
+                    Layout.alignment: Qt.AlignTop
+
+                    Button {
+                        Layout.preferredWidth: 130
+                        text: "Add row";
+                        iconSource: "qrc:/images/add.png"
+                        onClicked: addRowDialog.open()
+
+                        Dialog {
+                            id: addRowDialog
+                            title: "Add Row"
+
+                            width: 520
+                            height: 300
+                            modality: Qt.ApplicationModal
+
+                            Loader {
+                                id: valueAddEditor
+                                width: 500
+                                height: 350
+                                anchors.centerIn: parent
+                                property int currentRow: -1
+
+                                source: Editor.getEditorByTypeString(keyType)
+
+                                onLoaded: {
+                                    item.state = "add"
+                                }
+                            }
+
+                            onAccepted: {
+                                if (!valueAddEditor.item)
+                                    return false
+
+                                if (!valueAddEditor.item.isValueValid()) {
+                                    valueAddEditor.item.markInvalidFields()
+                                    return open()
+                                }
+
+                                var row = valueAddEditor.item.getValue()
+
+                                var model = viewModel.getValue(tabIndex)
+                                model.addRow(row)
+                                table.model.reload()
+                                valueAddEditor.item.reset()
+                            }
+
+                            visible: false
+                            standardButtons: StandardButton.Ok | StandardButton.Cancel
+                        }
+                    }
+
+                    Button {
+                        Layout.preferredWidth: 130
+                        text: "Delete row"
+                        iconSource: "qrc:/images/delete.png"
+                        enabled: table.currentRow != -1
+
+                        onClicked: {
+                            if (table.model.totalRowCount() == 1) {
+                                deleteRowConfirmation.text = "This is last row in this key, " +
+                                        "if you remove this - key will be removed!"
+                            } else {
+                                deleteRowConfirmation.text = "Do you relly want to remove this row?"
+                            }
+                            deleteRowConfirmation.rowToDelete = table.currentRow
+                            deleteRowConfirmation.open()
+                        }
+
+                        MessageDialog {
+                            id: deleteRowConfirmation
+                            title: "Delete row"
+                            text: ""
+                            onYes: {
+                                console.log("remove row in key")
+                                table.model.deleteRow(rowToDelete)
+                            }
+                            visible: false
+                            modality: Qt.ApplicationModal
+                            icon: StandardIcon.Warning
+                            standardButtons: StandardButton.Yes | StandardButton.No
+                            property int rowToDelete
+                        }
+
+                    }
+
+                    Button {
+                        Layout.preferredWidth: 130
+                        text: "Reload Value"
+                        iconSource: "qrc:/images/refreshdb.png"
+                        action: reLoadAction
+
+                        Action {
+                            id: reLoadAction
+                            shortcut: StandardKey.Refresh
+                            onTriggered: {
+                                console.log("Reload")
+                                table.model.reload()
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
+
+                    Pagination {
+                        id: pagination
+                        visible: showValueNavigation
+                        Layout.maximumWidth: 130
+                    }
+                }
             }
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 10
+                Layout.preferredHeight: 5
             }
 
             Rectangle {
@@ -419,7 +413,7 @@ Repeater {
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 10
+                Layout.preferredHeight: 5
             }
 
             ColumnLayout {
