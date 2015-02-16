@@ -60,3 +60,10 @@ cd $BUNDLE_PATH
 
 $MAC_TOOL rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter
 cp rdm.dmg redis-desktop-manager-$TAG.dmg
+
+echo ============================
+echo Export symbols
+echo ============================
+cd $SOURCE_DIR/3rdparty/breakpad/
+xcodebuild -sdk macosx10.9 -project src/tools/mac/dump_syms/dump_syms.xcodeproj -configuration Release ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
+src/tools/mac/dump_syms/build/Release/dump_syms $SOURCE_DIR/bin/linux/release/rdm.app/Contents/MacOS/rdm > $SOURCE_DIR/bin/linux/release/rdm.sym
