@@ -87,7 +87,7 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
     QString keyPattern = m_connection->getConfig().keysPattern();
 
     if (m_connection->getServerVersion() >= 2.8) {
-        QString cmd = QString("scan 0 MATCH %1").arg(keyPattern);
+        QString cmd = QString("scan 0 MATCH %1 COUNT 10000").arg(keyPattern);
         QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(cmd, this, dbIndex));
         m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r) {
 

@@ -79,7 +79,7 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
     QSharedPointer<QMenu> menu(new QMenu());
 
     //new key action
-    QAction* newKey = new QAction(QIcon(":/images/terminal.png"), "Add new key", menu.data());
+    QAction* newKey = new QAction(QIcon(":/images/add.png"), "Add new key", menu.data());
     QObject::connect(newKey, &QAction::triggered, this, [this]() { m_operations->openNewKeyDialog(m_index); });
     menu->addAction(newKey);
     menu->addSeparator();

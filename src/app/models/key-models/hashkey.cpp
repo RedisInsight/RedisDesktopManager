@@ -88,7 +88,7 @@ void HashKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function
 {    
     if (isPartialLoadingSupported()) {
         QSharedPointer<RedisClient::ScanCommand> cmd(new RedisClient::ScanCommand(
-                                                         QString("HSCAN %1 0").arg(m_keyFullPath),
+                                                         QString("HSCAN %1 0 COUNT 10000").arg(m_keyFullPath),
                                                          this, m_dbIndex));
 
         m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {            
