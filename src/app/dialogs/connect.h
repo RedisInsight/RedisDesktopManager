@@ -29,6 +29,9 @@ private:
     RedisClient::ConnectionConfig getConectionConfigFromFormData();
     void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
 
+    void markFieldInvalid(QWidget *w);
+    void markFieldValid(QWidget *w);
+
 private slots:
     void OnOkButtonClick();
     void OnShowPasswordCheckboxChanged(int);

@@ -114,7 +114,7 @@ QString RedisClient::ConnectionConfig::getSshPrivateKey()
     return path;
 }
 
-QString RedisClient::ConnectionConfig::keysPattern()
+QString RedisClient::ConnectionConfig::keysPattern() const
 {
     return param<QString>("keys_pattern");
 }
@@ -134,6 +134,7 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & 
     valueMapping.insert("host", "");
     valueMapping.insert("port", "");
     valueMapping.insert("auth", "");
+    valueMapping.insert("keys_pattern", "");
     valueMapping.insert("sshHost", "ssh_host");
     valueMapping.insert("sshUser", "ssh_user");
     valueMapping.insert("sshPassword", "ssh_password");
@@ -183,6 +184,8 @@ QDomElement RedisClient::ConnectionConfig::toXml()
     saveXmlAttribute(dom, xml, "name", param<QString>("name"));
     saveXmlAttribute(dom, xml, "host", param<QString>("host"));
     saveXmlAttribute(dom, xml, "port", QString::number(param<int>("port")));
+
+    saveXmlAttribute(dom, xml, "keys_pattern", param<QString>("keys_pattern"));
 
     if (useAuth()) {
         saveXmlAttribute(dom, xml, "auth", param<QString>("auth"));
