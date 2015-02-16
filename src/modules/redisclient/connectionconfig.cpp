@@ -185,7 +185,8 @@ QDomElement RedisClient::ConnectionConfig::toXml()
     saveXmlAttribute(dom, xml, "host", param<QString>("host"));
     saveXmlAttribute(dom, xml, "port", QString::number(param<int>("port")));
 
-    saveXmlAttribute(dom, xml, "keys_pattern", param<QString>("keys_pattern"));
+    if (param<QString>("keys_pattern")!= QString("*"))
+        saveXmlAttribute(dom, xml, "keys_pattern", param<QString>("keys_pattern"));
 
     if (useAuth()) {
         saveXmlAttribute(dom, xml, "auth", param<QString>("auth"));
