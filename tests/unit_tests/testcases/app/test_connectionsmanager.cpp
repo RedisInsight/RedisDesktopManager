@@ -2,21 +2,19 @@
 #include "models/connectionsmanager.h"
 #include "test_connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
-
-namespace ValueEditor {
-    class ViewModel;
-}
+#include "value-editor/viewmodel.h"
 
 void TestConnectionsManager::LoadConnectionsConfigFromFile()
 {
-	//given    
-    QSKIP("FIXME");
+	//given        
 	// xml fixture test-config.xml
-    QString configTestFile = "connections.xml";
+    QString configTestFile = "./unit_tests/testcases/app/connections.xml";
     ConsoleTabs tabsWidget;
+    QSharedPointer<ValueEditor::ViewModel> viewModel(
+                new ValueEditor::ViewModel(QSharedPointer<ValueEditor::AbstractKeyFactory>(nullptr)));
 
 	//when loads connections
-    ConnectionsManager testManager(configTestFile, tabsWidget, QSharedPointer<ValueEditor::ViewModel>());
+    ConnectionsManager testManager(configTestFile, tabsWidget, viewModel);
 
 	//then
     QCOMPARE(testManager.size(), 1);
