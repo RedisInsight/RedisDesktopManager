@@ -13,3 +13,6 @@
 [submodule "3rdparty/easyloggingpp"]
 	path = 3rdparty/easyloggingpp
 	url = https://github.com/easylogging/easyloggingpp.git
+[submodule "3rdparty/depot_tools"]
+	path = 3rdparty/depot_tools
+	url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
