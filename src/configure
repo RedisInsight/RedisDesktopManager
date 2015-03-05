@@ -29,6 +29,7 @@ if [ "$unamestr" = 'Linux' ]; then
     # Sync breakpad deps
     export PATH=`pwd`/depot_tools:$PATH
     cd ./breakpad/
+    sed -i -e "s,src/src,src,g" DEPS
     gclient config https://chromium.googlesource.com/external/google-breakpad.git
     gclient sync -v --nohooks --noprehooks
 
