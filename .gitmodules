@@ -6,7 +6,7 @@
 	url = git://git.libssh2.org/libssh2.git
 [submodule "3rdparty/breakpad"]
 	path = 3rdparty/breakpad
-	url = https://github.com/RedisDesktop/Breakpad.git
+	url = https://chromium.googlesource.com/external/google-breakpad.git
 [submodule "3rdparty/crashreporter"]
 	path = 3rdparty/crashreporter
 	url = https://github.com/RedisDesktop/CrashReporter.git
