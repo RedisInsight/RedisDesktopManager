@@ -147,8 +147,7 @@ rm -f $FILENAME
 echo ===========================
 echo export symbols
 echo ===========================
-svn checkout http://google-breakpad.googlecode.com/svn/trunk/ google-breakpad
-cd google-breakpad
+cd $SOURCE_DIR/3rdparty/breakpad
 ./configure
 make
 cd src/tools/linux/dump_syms
