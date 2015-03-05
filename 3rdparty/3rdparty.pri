@@ -119,7 +119,7 @@ unix:!macx { # ubuntu & debian
           $$BREAKPADDIR/google_breakpad/common/minidump_size.h \
           $$BREAKPADDIR/google_breakpad/common/breakpad_types.h \
           $$BREAKPADDIR/common/scoped_ptr.h \
-          $$BREAKPADDIR/third_party/lss/linux_syscall_support.h
+          $$BREAKPADDIR/src/third_party/lss/linux_syscall_support.h
 
     SOURCES += $$BREAKPADDIR/client/linux/crash_generation/crash_generation_client.cc \
          $$BREAKPADDIR/client/linux/handler/exception_handler.cc \
