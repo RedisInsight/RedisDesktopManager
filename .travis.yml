@@ -30,7 +30,7 @@ script:
   - cd ./../src
   - python ./../build/set_version.py 1.0.0 > version.h
   - sudo chmod a+x configure
-  - sudo ./configure
+  - ./configure
   - qmake
   - make -s -j 2
 after_success:
