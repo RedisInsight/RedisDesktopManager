@@ -126,6 +126,10 @@ unix:!macx { # ubuntu & debian
          $$BREAKPADDIR/client/linux/handler/exception_handler.cc \
          $$BREAKPADDIR/client/linux/handler/minidump_descriptor.cc \
          $$BREAKPADDIR/client/linux/minidump_writer/minidump_writer.cc \
+         $$BREAKPADDIR/client/linux/dump_writer_common/thread_info.cc \
+         $$BREAKPADDIR/client/linux/dump_writer_common/seccomp_unwinder.cc \
+         $$BREAKPADDIR/client/linux/dump_writer_common/ucontext_reader.cc \
+         $$BREAKPADDIR/client/linux/microdump_writer/microdump_writer.cc \
          $$BREAKPADDIR/client/linux/minidump_writer/linux_dumper.cc \
          $$BREAKPADDIR/client/linux/minidump_writer/linux_ptrace_dumper.cc \
          $$BREAKPADDIR/client/linux/log/log.cc \

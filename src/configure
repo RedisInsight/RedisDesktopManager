@@ -30,7 +30,7 @@ if [ "$unamestr" = 'Linux' ]; then
     export PATH=`pwd`/depot_tools:$PATH
     cd ./breakpad/
     gclient config https://chromium.googlesource.com/external/google-breakpad.git
-    gclient sync -v --nohooks --noprehooks
+    gclient sync --nohooks --noprehooks
     rsync -av ./src/src ./src
 
 else
