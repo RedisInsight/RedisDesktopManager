@@ -47,7 +47,7 @@ void SetKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function<
                                                          this, m_dbIndex));
 
         m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {
-            if (result.type() == QMetaType::QVariantList) {
+            if (result.type() == QVariant::Type::List) {
                 QVariantList rows = result.toList();
 
                 foreach (QVariant row, rows) {

@@ -49,9 +49,9 @@ uint DatabaseItem::childCount() const
     return m_keys.size();
 }
 
-QSharedPointer<TreeItem> DatabaseItem::child(int row) const
+QSharedPointer<TreeItem> DatabaseItem::child(uint row) const
 {
-    if (0 <= row && row < childCount())
+    if (row < childCount())
         return m_keys.at(row);
 
     return QSharedPointer<TreeItem>();

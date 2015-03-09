@@ -4,7 +4,8 @@
 const int PAGE_SIZE = 100;
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
-    : m_model(model), QAbstractListModel((QObject*)model.data()),
+    : QAbstractListModel((QObject*)model.data()),
+      m_model(model),
       m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0)
 {
