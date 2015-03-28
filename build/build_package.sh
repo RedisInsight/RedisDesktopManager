@@ -148,6 +148,7 @@ echo ===========================
 echo export symbols
 echo ===========================
 cd $SOURCE_DIR/3rdparty/breakpad
+cp -r src/src .
 ./configure
 make
 cd src/tools/linux/dump_syms
