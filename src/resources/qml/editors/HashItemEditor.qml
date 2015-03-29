@@ -19,7 +19,7 @@ AbstractEditor {
         id: keyText
 
         Layout.fillWidth: true
-        Layout.minimumHeight: 35
+        Layout.minimumHeight: 28
 
         text: ""
         enabled: originalValue != "" || state !== "edit"
@@ -38,10 +38,6 @@ AbstractEditor {
          }
     }
 
-    Text {
-        Layout.fillWidth: true
-        text: "Value:"
-    }
 
     MultilineEditor {
         id: textArea
@@ -73,7 +69,7 @@ AbstractEditor {
     }
 
     function isValueChanged() {
-        return textArea.originalValue != textArea.text
+        return textArea.originalValue != textArea.getText()
                 || keyText.originalValue != keyText.text
     }
 
@@ -85,7 +81,7 @@ AbstractEditor {
     }
 
     function getValue() {
-        return {"value": textArea.text, "key": keyText.text}
+        return {"value": textArea.getText(), "key": keyText.text}
     }
 
     function isValueValid() {

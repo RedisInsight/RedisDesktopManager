@@ -6,38 +6,42 @@ ColumnLayout {
     id: pagination
     visible: showValueNavigation
 
-    Text {
-        Layout.maximumWidth: 130
-        text: "Page " + table.currentPage + " of " + table.totalPages
-        wrapMode: Text.WrapAnywhere
-    }
     RowLayout {
-        Layout.maximumWidth: 130
+        Text {
+            text: "Page "
+            wrapMode: Text.WrapAnywhere
+        }
+
+        TextField {
+            id: pageField;
+            text: table.currentPage;
+            Layout.maximumWidth: 60;
+            Layout.preferredWidth: 60;
+            readOnly: false
+            validator: IntValidator {bottom: 1; top: table.totalPages}
+        }
+
+        Text {
+            Layout.maximumWidth: 130
+            text: " of " + table.totalPages
+            wrapMode: Text.WrapAnywhere
+        }
+    }
+
+    RowLayout {
+        Layout.maximumWidth: 100
         spacing: 0
         Button {
-            Layout.maximumWidth: 65
             text: "⇦"
             onClicked: table.goToPrevPage()
         }
         Button {
-            Layout.maximumWidth: 65
+            text: "Set"
+            onClicked: table.goToPage(pageField.text)
+        }
+        Button {
             text: "⇨"
             onClicked: table.goToNextPage()
         }
     }
-
-    TextField {
-        id: pageField;
-        text: "1";
-        Layout.maximumWidth: 130;
-        Layout.preferredWidth: 130;
-        readOnly: false
-        validator: IntValidator {bottom: 1; top: table.totalPages}
-    }
-
-    Button {
-        Layout.preferredWidth: 130
-        text: "Goto Page"
-        onClicked: table.goToPage(pageField.text)
-    }   
 }
