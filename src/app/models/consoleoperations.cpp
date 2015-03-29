@@ -2,7 +2,7 @@
 #include "modules/redisclient/redisclient.h"
 
 ConsoleModel::ConsoleModel(QSharedPointer<RedisClient::Connection> connection)
-    : m_connection(connection)
+    : m_connection(connection), m_current_db(0)
 {
 }
 
@@ -32,11 +32,12 @@ void ConsoleModel::executeCommand(const QString & cmd)
 
     using namespace RedisClient;
 
-    Command command(cmd);
+    Command command(cmd, nullptr, m_current_db);
     Response result = CommandExecutor::execute(m_connection, command);
 
     if (command.isSelectCommand())
     {        
+        m_current_db = command.getPartAsString(1).toInt();
         emit changePrompt(
             QString("%1:%2>")
                 .arg(m_connection->config.param<QString>("name"))

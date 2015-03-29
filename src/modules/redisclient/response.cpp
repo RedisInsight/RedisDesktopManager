@@ -370,15 +370,16 @@ QString RedisClient::Response::valueToHumanReadString(QVariant& value)
     } else if (value.type() == QVariant::Type::List) {
         QVariantList val = value.toList();
         QString result;
-        for (int i = 0; i < val.size(); ++i) {
-            result.append(QString("%1)").arg(QString::number(i+1)));
+        for (int i = 0; i < val.size(); i++) {
+            result.append(QString("%1) ").arg(QString::number(i+1)));
             if (val.at(i).type() == QVariant::Type::List) {
                 result.append(val.at(i).toStringList().join("\r\n"));
             } else {
                 result.append(val.at(i).toString());
             }
-            return result;
+            result.append("\n");
         }
+        return result;
     }
 
     return value.toString();
