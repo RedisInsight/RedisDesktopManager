@@ -92,7 +92,7 @@ void HashKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function
                                                          this, m_dbIndex));
 
         m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {            
-            if (result.type() == QMetaType::QVariantList) {
+            if (result.type() == QVariant::Type::List) {
                 addLoadedRowsToCache(result.toList(), rowStart);
             }
             callback();

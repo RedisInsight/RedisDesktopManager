@@ -15,7 +15,8 @@ SOURCES += $$PWD/qtconsole/src/qconsole.cpp
 INCLUDEPATH += $$PWD/easyloggingpp/src
 HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
 
-INCLUDEPATH += $$BREAKPADDIR\
+INCLUDEPATH += $$BREAKPADDIR/
+INCLUDEPATH += $$BREAKPADDIR/src
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR
 
@@ -119,12 +120,16 @@ unix:!macx { # ubuntu & debian
           $$BREAKPADDIR/google_breakpad/common/minidump_size.h \
           $$BREAKPADDIR/google_breakpad/common/breakpad_types.h \
           $$BREAKPADDIR/common/scoped_ptr.h \
-          $$BREAKPADDIR/third_party/lss/linux_syscall_support.h
+          $$BREAKPADDIR/src/third_party/lss/linux_syscall_support.h
 
     SOURCES += $$BREAKPADDIR/client/linux/crash_generation/crash_generation_client.cc \
          $$BREAKPADDIR/client/linux/handler/exception_handler.cc \
          $$BREAKPADDIR/client/linux/handler/minidump_descriptor.cc \
          $$BREAKPADDIR/client/linux/minidump_writer/minidump_writer.cc \
+         $$BREAKPADDIR/client/linux/dump_writer_common/thread_info.cc \
+         $$BREAKPADDIR/client/linux/dump_writer_common/seccomp_unwinder.cc \
+         $$BREAKPADDIR/client/linux/dump_writer_common/ucontext_reader.cc \
+         $$BREAKPADDIR/client/linux/microdump_writer/microdump_writer.cc \
          $$BREAKPADDIR/client/linux/minidump_writer/linux_dumper.cc \
          $$BREAKPADDIR/client/linux/minidump_writer/linux_ptrace_dumper.cc \
          $$BREAKPADDIR/client/linux/log/log.cc \

@@ -101,7 +101,7 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
 {
     QStringList cmd;
 
-    if (rowStart == -1 && count == -1) {
+    if (rowStart == 0 && count == 0) {
         cmd << baseCmd << m_keyFullPath;
     } else {
         unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;

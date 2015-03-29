@@ -37,9 +37,9 @@ uint NamespaceItem::childCount() const
     return m_childItems.size();
 }
 
-QSharedPointer<TreeItem> NamespaceItem::child(int row) const
+QSharedPointer<TreeItem> NamespaceItem::child(uint row) const
 {    
-    if (0 <= row && row < m_childItems.size())
+    if (row < m_childItems.size())
         return m_childItems.at(row);
 
     return QSharedPointer<TreeItem>();
@@ -50,17 +50,12 @@ const TreeItem *NamespaceItem::parent() const
     return m_parent;
 }
 
-bool NamespaceItem::onClick(TreeItem::ParentView& treeView)
+bool NamespaceItem::onClick(TreeItem::ParentView&)
 {
     return true;
 }
 
-void NamespaceItem::onWheelClick(TreeItem::ParentView& treeView)
-{
-
-}
-
-QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView& treeView)
+QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView&)
 {
     QSharedPointer<QMenu> menu(new QMenu());
     return menu;

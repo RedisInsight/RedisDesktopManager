@@ -144,3 +144,12 @@ cp $FILENAME $NEW_FILE
 
 rm -f $FILENAME
 
+echo ===========================
+echo export symbols
+echo ===========================
+cd $SOURCE_DIR/3rdparty/breakpad
+cp -r src/src .
+./configure
+make
+cd src/tools/linux/dump_syms
+./dump_syms $SOURCE_DIR/bin/linux/release/rdm > $SOURCE_DIR/bin/linux/release/rdm.sym

@@ -34,7 +34,7 @@ uint KeyItem::childCount() const
     return (uint)0;
 }
 
-QSharedPointer<TreeItem> KeyItem::child(int row) const
+QSharedPointer<TreeItem> KeyItem::child(uint row) const
 {
     Q_UNUSED(row);
 

@@ -23,14 +23,13 @@ namespace ConnectionsTree {
         QIcon getIcon() const override;
         QList<QSharedPointer<TreeItem>> getAllChilds() const override;
         uint childCount() const override;
-        QSharedPointer<TreeItem> child(int row) const override;
+        QSharedPointer<TreeItem> child(uint row) const override;
         const TreeItem* parent() const override;
 
         int row() const override;
         void setRow(int r);
 
         bool onClick(ParentView& treeView) override;
-        void onWheelClick(ParentView& treeView) override {}
         QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
 
         bool isLocked() const override;

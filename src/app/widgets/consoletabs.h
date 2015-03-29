@@ -12,7 +12,6 @@ public:
 
     // App interface, for functional tabs
     void addTab(QSharedPointer<BaseTab> tab);
-    void replaceCurrentTab(QSharedPointer<BaseTab> tab);
     void closeTab(unsigned int index);
     void closeAllTabsWithName(const QString& name);
 

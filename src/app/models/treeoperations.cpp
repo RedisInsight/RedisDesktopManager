@@ -91,7 +91,7 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
         QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(cmd, this, dbIndex));
         m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r) {
 
-            if (r.type() == QMetaType::QVariantList)
+            if (r.type() == QVariant::Type::List)
                 callback(r.toStringList());
             else
                 callback(QStringList());

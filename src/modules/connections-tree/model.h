@@ -22,7 +22,12 @@ namespace ConnectionsTree {
         QModelIndex index(int row, int column, const QModelIndex & parent) const;
         QModelIndex parent(const QModelIndex & index) const;
         int rowCount(const QModelIndex & parent = QModelIndex()) const;
-        inline int columnCount(const QModelIndex & parent = QModelIndex()) const { return 1; }
+
+        inline int columnCount(const QModelIndex & parent = QModelIndex()) const
+        {
+            Q_UNUSED(parent);
+            return 1;
+        }
 
         TreeItem *getItemFromIndex(const QModelIndex&index) const;
 
