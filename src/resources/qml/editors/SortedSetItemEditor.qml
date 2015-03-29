@@ -19,18 +19,13 @@ AbstractEditor {
         id: scoreText
 
         Layout.fillWidth: true
-        Layout.minimumHeight: 35
+        Layout.minimumHeight: 28
 
         text: ""
         enabled: originalValue != "" || state !== "edit"
         property string originalValue: ""
         placeholderText: "Score"
         validator: DoubleValidator { locale: "C" } // force point as decimal separator
-    }
-
-    Text {
-        Layout.fillWidth: true
-        text: "Value:"
     }
 
     MultilineEditor {
@@ -52,7 +47,7 @@ AbstractEditor {
     }
 
     function isValueChanged() {
-        return textArea.originalValue != textArea.text
+        return textArea.originalValue != textArea.getText()
                 || scoreText.originalValue != scoreText.text
     }
 
@@ -64,7 +59,7 @@ AbstractEditor {
     }
 
     function getValue() {
-        return {"value": textArea.text, "score": scoreText.text}
+        return {"value": textArea.getText(), "score": scoreText.text}
     }    
 
     function isValueValid() {

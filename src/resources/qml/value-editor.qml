@@ -45,8 +45,8 @@ Rectangle {
             tab: Rectangle {
                 color: "#cccccc"
                 implicitWidth: layout.implicitWidth + 3
-                implicitHeight: 35
-                radius: 3
+                implicitHeight: 28
+                radius: 2
 
                 Rectangle {
                     id: content

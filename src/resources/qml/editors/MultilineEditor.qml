@@ -22,6 +22,14 @@ ColumnLayout
         visible: showFormatters
 
         Text {
+            text: "Value:"
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Text {
             text: "View value as:"
         }
 

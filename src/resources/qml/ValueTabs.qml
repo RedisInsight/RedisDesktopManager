@@ -283,12 +283,12 @@ Repeater {
 
                 ColumnLayout {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: 140
-                    Layout.maximumWidth: 140
+                    Layout.preferredWidth: 150
+                    Layout.maximumWidth: 150
                     Layout.alignment: Qt.AlignTop
 
                     Button {
-                        Layout.preferredWidth: 130
+                        Layout.preferredWidth: 150
                         text: "Add row";
                         iconSource: "qrc:/images/add.png"
                         onClicked: addRowDialog.open()
@@ -338,7 +338,7 @@ Repeater {
                     }
 
                     Button {
-                        Layout.preferredWidth: 130
+                        Layout.preferredWidth: 150
                         text: "Delete row"
                         iconSource: "qrc:/images/delete.png"
                         enabled: table.currentRow != -1
@@ -372,7 +372,7 @@ Repeater {
                     }
 
                     Button {
-                        Layout.preferredWidth: 130
+                        Layout.preferredWidth: 150
                         text: "Reload Value"
                         iconSource: "qrc:/images/refreshdb.png"
                         action: reLoadAction
@@ -395,31 +395,32 @@ Repeater {
                     Pagination {
                         id: pagination
                         visible: showValueNavigation
-                        Layout.maximumWidth: 130
+                        Layout.maximumWidth: 150
                     }
                 }
             }
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 5
+                Layout.preferredHeight: 2
             }
 
             Rectangle {
-                color: "#cccccc"
+                color: "#e2e2e2"
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
             }
 
             Item {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 5
+                Layout.preferredHeight: 2
             }
 
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: !showValueNavigation
-                Layout.minimumHeight: 250
+                Layout.minimumHeight: 220
+                spacing: 0
 
                 Connections {
                     target: table
@@ -428,7 +429,6 @@ Repeater {
                         valueEditor.loadRowValue(row)
                     }
                 }
-
 
                 Loader {
                     id: valueEditor
