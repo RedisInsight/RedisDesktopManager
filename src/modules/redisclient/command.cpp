@@ -2,40 +2,41 @@
 #include <QSet>
 
 RedisClient::Command::Command()
-    : m_owner(nullptr), m_commandWithArguments(), dbIndex(-1), commandCanceled(false)
+    : m_owner(nullptr), m_commandWithArguments(), dbIndex(-1),
+      commandCanceled(false), m_hiPriorityCommand(false)
 {
     
 }
 
 RedisClient::Command::Command(const QString& cmdString, QObject * owner, int db)
     : m_owner(owner), m_commandWithArguments(splitCommandString(cmdString)),
-    dbIndex(db), commandCanceled(false)
+    dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
 {
 }
 
 RedisClient::Command::Command(const QStringList& cmd, QObject * owner, int db)
     : m_owner(owner), m_commandWithArguments(convertStringList(cmd)),
-    dbIndex(db), commandCanceled(false)
+    dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
 {
 }
 
 RedisClient::Command::Command(const QStringList &cmd, QObject *owner, std::function<void (RedisClient::Response)> callback, int db)
     : m_owner(owner), m_commandWithArguments(convertStringList(cmd)),
-      dbIndex(db), commandCanceled(false), m_callback(callback)
+      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false), m_callback(callback)
 {
 
 }
 
 RedisClient::Command::Command(const QStringList& cmd, int db)
     : m_owner(nullptr), m_commandWithArguments(convertStringList(cmd)),
-      dbIndex(db), commandCanceled(false)
+      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
 {
 
 }
 
 RedisClient::Command::Command(int db)
     : m_owner(nullptr), m_commandWithArguments(),
-      dbIndex(db), commandCanceled(false)
+      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
 {
 
 }
@@ -137,6 +138,11 @@ bool RedisClient::Command::isSelectCommand() const
     return m_commandWithArguments.at(0).toLower() == "select";
 }
 
+bool RedisClient::Command::isHiPriorityCommand() const
+{
+    return m_hiPriorityCommand;
+}
+
 int RedisClient::Command::getDbIndex() const
 {
     return dbIndex;
@@ -189,6 +195,11 @@ QByteArray RedisClient::Command::getByteRepresentation() const
 void RedisClient::Command::cancel()
 {
     commandCanceled = true;
+}
+
+void RedisClient::Command::markAsHiPriorityCommand()
+{
+    m_hiPriorityCommand = true;
 }
 
 bool RedisClient::Command::isCanceled() const

@@ -26,7 +26,6 @@ private slots:
 private:
     QSharedPointer<QTcpSocket> socket;
     bool m_errorOccurred;
-    bool m_reconnectRequired;
 };
 
 }

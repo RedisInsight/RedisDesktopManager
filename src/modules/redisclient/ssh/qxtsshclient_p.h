@@ -32,6 +32,8 @@
 #include "qxtsshclient.h"
 #include "qxtsshchannel.h"
 #include <QTcpSocket>
+#include <QTimer>
+#include <QSharedPointer>
 
 extern "C"{
 #include <libssh2.h>
@@ -63,6 +65,8 @@ public:
     QList<QxtSshClient::AuthenticationMethod> d_availableMethods;
     QList<QxtSshClient::AuthenticationMethod> d_failedMethods;
     QxtSshClient::AuthenticationMethod d_currentAuthTry;
+    QSharedPointer<QTimer> d_keepAliveTimer;
+    int d_sleepInterval;
 
     QList<QxtSshChannel*> d_channels;
 public slots:

@@ -22,6 +22,7 @@ protected slots:
     void OnSshConnected();
     void OnSocketReadyRead();
     void OnSshConnectionClose();
+    void reconnect();
 private:
     QxtSshTcpSocket * socket; // owner of this object is sshClient
     QSharedPointer<QxtSshClient> sshClient;

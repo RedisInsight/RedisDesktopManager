@@ -188,6 +188,16 @@ void RedisClient::SshTransporter::OnSshConnectionClose()
 {
     if (syncLoop->isRunning())
         syncLoop->exit();
+
+    emit logEvent("SSH connection closed");
+}
+
+void RedisClient::SshTransporter::reconnect()
+{
+    emit logEvent("Reconnect to host");
+    socket->close();
+    sshClient->resetState();
+    connectToHost();
 }
 
 QString RedisClient::SshTransporter::getErrorString(QxtSshClient::Error error)

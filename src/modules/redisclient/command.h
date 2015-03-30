@@ -34,6 +34,7 @@ public:
     std::function<void(Response)> getCallBack() const;
 
     void cancel();
+    void markAsHiPriorityCommand();
 
     bool isCanceled() const;
     bool isValid() const;
@@ -42,12 +43,14 @@ public:
     bool isEmpty() const;
     bool hasDbIndex() const;
     bool isSelectCommand() const;
+    bool isHiPriorityCommand() const;
 
 protected:
     QObject * m_owner;
     QList<QByteArray> m_commandWithArguments;
     int dbIndex;
     bool commandCanceled;
+    bool m_hiPriorityCommand;
     std::function<void(Response)> m_callback;
 
     QList<QByteArray> splitCommandString(const QString &);

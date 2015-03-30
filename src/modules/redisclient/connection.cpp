@@ -215,19 +215,23 @@ void RedisClient::Connection::commandAddedToTransporter()
 
 void RedisClient::Connection::auth()
 {
+    emit log("AUTH");
     // todo: check is socket succesufully connected before run this method
     m_connected = true;    
 
     if (config.useAuth()) {
         Command authCmd(QStringList() << "auth" << config.auth());
+        authCmd.markAsHiPriorityCommand();
         CommandExecutor::execute(this, authCmd);
     }
 
     Command testCommand("ping");
+    testCommand.markAsHiPriorityCommand();
     Response testResult = CommandExecutor::execute(this, testCommand);
 
     if (testResult.toString() == "+PONG\r\n") {
         Command infoCommand("INFO");
+        infoCommand.markAsHiPriorityCommand();
         Response infoResult = CommandExecutor::execute(this, infoCommand);
         m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());
 

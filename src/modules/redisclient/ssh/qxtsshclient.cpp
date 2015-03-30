@@ -558,6 +558,7 @@ void QxtSshClientPrivate::d_reset(){
 
     d_state=0;
     d_errorCode=0;
+    d_sleepInterval=5;
     d_errorMessage=QString();
     d_failedMethods.clear();
     d_availableMethods.clear();
@@ -573,8 +574,16 @@ void QxtSshClientPrivate::d_reset(){
     Q_ASSERT(d_knownHosts);
 
     libssh2_session_set_blocking(d_session,0);
+    libssh2_keepalive_config(d_session, 1, d_sleepInterval);
 
-
+    d_keepAliveTimer = QSharedPointer<QTimer>(new QTimer());
+    d_keepAliveTimer->setSingleShot(false);
+    QObject::connect(d_keepAliveTimer.data(), &QTimer::timeout, this, [this]() {
+        libssh2_keepalive_send(d_session, &d_sleepInterval);
+        d_keepAliveTimer->start(d_sleepInterval * 1000);
+        qDebug() << "SSH keepalive";
+    });
+    d_keepAliveTimer->start(d_sleepInterval * 1000);
 }
 
 void QxtSshClientPrivate::d_disconnected (){

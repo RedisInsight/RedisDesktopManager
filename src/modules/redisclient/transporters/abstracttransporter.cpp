@@ -16,7 +16,11 @@ RedisClient::AbstractTransporter::~AbstractTransporter()
 
 void RedisClient::AbstractTransporter::addCommand(Command cmd)
 {
-    commands.enqueue(cmd);
+    if (cmd.isHiPriorityCommand())
+        commands.prepend(cmd);
+    else
+        commands.enqueue(cmd);
+
     emit commandAdded();
     processCommandQueue();
 }
@@ -55,9 +59,10 @@ void RedisClient::AbstractTransporter::sendResponse()
         emiter.sendResponse(runningCommand.getOwner(), callback);
     }
 
-    emit logEvent(QString("%1 > [runCommand] %2 -> response received")
+    emit logEvent(QString("%1 > [runCommand] %2 -> response received : %3")
                   .arg(m_connection->config.name())
-                  .arg(runningCommand.getRawString()));
+                  .arg(runningCommand.getRawString())
+                  .arg(m_response.getLoadedItemsCount()));
 
     m_isCommandRunning = false;
 
