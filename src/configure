@@ -5,6 +5,7 @@ unamestr=$(uname)
 
 if [ "$unamestr" = 'Linux' ]; then
     sudo apt-get install automake -y
+    sudo apt-get install subversion -y
     sudo apt-get install libtool -y      
     sudo apt-get install libssl-dev -y
     sudo apt-get install g++ -y
