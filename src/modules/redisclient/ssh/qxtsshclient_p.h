@@ -79,5 +79,5 @@ public slots:
     void d_delaydErrorEmit();
 
 private:
-    bool authWithSystemClient();
+    int authWithSystemClient();
 };

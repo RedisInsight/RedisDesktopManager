@@ -506,10 +506,8 @@ void QxtSshClientPrivate::d_readyRead(){
 #ifdef QXT_DEBUG_SSH
         qDebug()<<"trying"<<d_currentAuthTry;
 #endif
-        if (d_useSystemClient) {
-            libssh2_session_set_blocking(d_session,1);
-            ret=authWithSystemClient() ? 0 : 1;
-            libssh2_session_set_blocking(d_session,0);
+        if (d_useSystemClient) {            
+            ret=authWithSystemClient();
             qDebug() << "SSH auth with system client: " << ret;
         } else if(d_currentAuthTry==QxtSshClient::PasswordAuthentication){
             ret=libssh2_userauth_password(d_session, qPrintable(d_userName),
@@ -619,26 +617,26 @@ void QxtSshClientPrivate::d_delaydErrorEmit(){
     emit p->error(d_delaydError);
 }
 
-bool QxtSshClientPrivate::authWithSystemClient()
+int QxtSshClientPrivate::authWithSystemClient()
 {
     struct libssh2_agent_publickey *identity, *prev_identity = NULL;
     d_agent = libssh2_agent_init(d_session);
 
     if (!d_agent)
-        return false;
+        return 1;
 
     if (libssh2_agent_connect(d_agent) != 0)
-        return false;
+        return 1;
 
     while (true) {
         int r = libssh2_agent_list_identities(d_agent);
 
         if (r == LIBSSH2_ERROR_EAGAIN)
-            continue;
+            return r;
         else if (r != 0) {
             d_getLastError();
             qDebug() << d_errorMessage;
-            return false;
+            return 1;
         } else
             break;
     }
@@ -646,11 +644,11 @@ bool QxtSshClientPrivate::authWithSystemClient()
     while (true) {
         if (libssh2_agent_get_identity(d_agent, &identity, prev_identity) != 0
                 || libssh2_agent_userauth(d_agent, qPrintable(d_userName), identity))
-            return false;
+            return 1;
         else
-            return true;
+            return 0;
 
         prev_identity = identity;
     }
-    return false;
+    return 1;
 }
