@@ -4,12 +4,7 @@ cd ./../3rdparty/
 unamestr=$(uname)
 
 if [ "$unamestr" = 'Linux' ]; then
-    sudo apt-get install automake -y
-    sudo apt-get install subversion -y
-    sudo apt-get install libtool -y      
-    sudo apt-get install libssl-dev -y
-    sudo apt-get install g++ -y
-    sudo apt-get install libgl1-mesa-dev -y	
+    sudo apt-get install automake subversion libtool libssl-dev g++ libgl1-mesa-dev -y	
 
     if [ ! -f "/usr/local/lib/libssh2.a" ]; then 
 	chmod -R 755 libssh2
