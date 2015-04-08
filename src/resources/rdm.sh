@@ -1,3 +1,4 @@
 #!/bin/bash
-export LD_LIBRARY_PATH="../lib":$LD_LIBRARY_PATH
-./rdm
+DIR=$(dirname "$(readlink -f "$0")")
+export LD_LIBRARY_PATH="$DIR/lib":$LD_LIBRARY_PATH
+$DIR/rdm
