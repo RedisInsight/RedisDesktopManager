@@ -171,6 +171,17 @@ Repeater {
                         loadValue()
                     }
 
+                    itemDelegate: Item {
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: truncated ? 'red' : styleData.textColor
+                            elide: styleData.elideMode
+                            text: styleData.value + (truncated ? '...' : '')
+                            wrapMode: Text.WordWrap
+                            maximumLineCount: 1
+                        }
+                    }
+
                     Connections {
                         target: viewModel
 
