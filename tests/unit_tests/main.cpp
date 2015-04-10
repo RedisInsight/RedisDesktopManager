@@ -14,6 +14,7 @@ _INITIALIZE_EASYLOGGINGPP
 #include "testcases/redisclient/test_command.h"
 #include "testcases/redisclient/test_response.h"
 #include "testcases/redisclient/test_connection.h"
+#include "testcases/redisclient/test_ssh.h"
 #include "testcases/redisclient/test_config.h"
 #include "testcases/connections-tree/test_serveritem.h"
 #include "testcases/connections-tree/test_databaseitem.h"
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
 
             // redisclient module
             + QTest::qExec(new TestCommand, argc, argv)
+            + QTest::qExec(new TestSsh, argc, argv)
             + QTest::qExec(new TestResponse, argc, argv)
             + QTest::qExec(new TestConnection, argc, argv)
             + QTest::qExec(new TestConfig, argc, argv)
