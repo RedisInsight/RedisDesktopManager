@@ -56,7 +56,7 @@ void TreeView::processClick(const QModelIndex& index)
     LOG(DEBUG) << "Click on tree item: " << index.row();
 
     if (item->onClick(*static_cast<TreeItem::ParentView*>(this))) {
-        setExpanded(index, true);
+        expand(index);
     }
 }
 

@@ -106,6 +106,10 @@ void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::Sca
     if (!cmd->isValidScanCommand())
         throw Exception("Invalid command");    
 
+    // workaround
+    Command selectCmd(QStringList() << "select" << QString::number(cmd->getDbIndex()));
+    CommandExecutor::execute(this, selectCmd);
+
     processScanCommand(cmd, callback);
 }
 

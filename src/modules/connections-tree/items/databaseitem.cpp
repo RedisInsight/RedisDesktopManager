@@ -94,8 +94,10 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
 
 void DatabaseItem::loadKeys()
 {
-    if (m_keys.size() > 0)
+    if (m_keys.size() > 0) {
+        emit keysLoaded(m_index);
         return;
+    }
 
     m_locked = true;
 

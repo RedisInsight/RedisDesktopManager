@@ -204,6 +204,11 @@ void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> mode
 {
     int i = m_valueModels.lastIndexOf(model);
 
+    if (i == -1) {
+        qDebug() << "[Remove model] Key model not found!";
+        return;
+    }
+
     beginRemoveRows(QModelIndex(), i, i);
     m_valueModels.removeAt(i);
     endRemoveRows();
