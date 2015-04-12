@@ -25,4 +25,5 @@ void TestDialogs::testConnectionDialog()
 
     //then
     QCOMPARE(actualResult.getInternalParameters(), conf.getInternalParameters());
+    QCOMPARE(window.isFormDataValid(), true);
 }

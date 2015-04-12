@@ -1,6 +1,4 @@
-#ifndef SERVERITEM_H
-#define SERVERITEM_H
-
+#pragma once
 #include "treeitem.h"
 #include "connections-tree/operations.h"
 #include <QList>
@@ -41,7 +39,6 @@ namespace ConnectionsTree {
         void reload();
 
         void setName(const QString &name);
-
     signals:
         void databaseListLoaded();
         void unloadStarted();
@@ -49,9 +46,6 @@ namespace ConnectionsTree {
         void deleteActionRequested();
         void keysLoadedInDatabase(unsigned int dbIndex);
         void unloadStartedInDatabase(unsigned int dbIndex);
-
-        /*signals:
-    void keysLoaded(unsigned int dbIndex);*/
 
     private:
         QString m_name;
@@ -63,5 +57,3 @@ namespace ConnectionsTree {
         const Model& m_model;
     };
 }
-
-#endif // SERVERITEM_H

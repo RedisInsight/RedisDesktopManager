@@ -13,4 +13,5 @@ private slots:
     void testUnload();
     void testReload();
     void testContextMenu();
+    void testBasicMethods();
 };

@@ -30,7 +30,7 @@ DatabaseItem::~DatabaseItem()
 
 QString DatabaseItem::getDisplayName() const
 {
-    return m_keys.isEmpty()? m_name : QString("%1 (%2/%3)").arg(m_name).arg(m_keysCount).arg(childCount());
+    return m_keys.isEmpty()? m_name : QString("%1 (%2/%3)").arg(m_name).arg(childCount()).arg(m_keysCount);
 }
 
 QIcon DatabaseItem::getIcon() const
@@ -65,7 +65,6 @@ const TreeItem *DatabaseItem::parent() const
 bool DatabaseItem::onClick(ParentView&)
 {    
     loadKeys();
-
     return true;
 }
 

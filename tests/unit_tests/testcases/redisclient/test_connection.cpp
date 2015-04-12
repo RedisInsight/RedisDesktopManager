@@ -20,11 +20,6 @@ void TestConnection::init()
     config.setParam("timeout_connect", 10000);
 }
 
-void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
-{            
-    c.setSshTunnelSettings("127.0.0.1", "test", "test", 2222, "");
-}
-
 #ifdef INTEGRATION_TESTS
 void TestConnection::connectToHostAndRunCommand()
 {
@@ -176,38 +171,19 @@ void TestConnection::connectWithAuth()
     QCOMPARE(actualCommandResult.toString(), QString("+PONG\r\n"));
 }
 
-
-void TestConnection::connectWithSshTunnelPass() // FIXME
+void TestConnection::connectWithInvalidAuth()
 {
-    QSKIP("This test requires configured ssh server");
     //given
-    setSshSettings(config, true);
-
+    ConnectionConfig invalidAuth = config;
+    invalidAuth.setParam<QString>("auth", "fake_value");
     Connection connection(config, false);
 
     //when
-    bool actualResult = connection.connect();
+    bool connectResult = connection.connect();
 
     //then
-    QCOMPARE(connection.isConnected(), true);
-    QCOMPARE(actualResult, true);
-}
-
-void TestConnection::connectWithSshTunnelKey() // FIXME
-{
-    QSKIP("This test requires configured ssh server");
-
-    //given
-    setSshSettings(config, false);
-
-    Connection connection(config, false);
-
-    //when
-    bool actualResult = connection.connect();
-
-    //then
-    QCOMPARE(connection.isConnected(), true);
-    QCOMPARE(actualResult, true);
+    QCOMPARE(connectResult, false);
+    QCOMPARE(connection.isConnected(), false);
 }
 
 void TestConnection::connectAndDisconnect()
@@ -224,6 +200,26 @@ void TestConnection::connectAndDisconnect()
     QCOMPARE(connection.isConnected(), false);
 }
 #endif
+
+void TestConnection::connectWithInvalidConfig()
+{
+    //given
+    ConnectionConfig invalidConfig;
+    Connection connection(invalidConfig, false);
+    bool exceptionRaised = false;
+
+    //when
+    try {
+        connection.connect();
+    } catch (Connection::Exception e) {
+        exceptionRaised = true;
+    }
+
+    //then
+    QCOMPARE(exceptionRaised, true);
+    QCOMPARE(connection.isConnected(), false);
+}
+
 
 void TestConnection::testWithDummyTransporter()
 {

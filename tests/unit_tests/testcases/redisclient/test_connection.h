@@ -21,8 +21,8 @@ private slots:
     void connectAndDisconnect();
     void connectToHostAndRunCommand();
     void connectWithAuth();
-    void connectWithSshTunnelPass();
-    void connectWithSshTunnelKey();
+    void connectWithInvalidAuth();
+    void connectWithInvalidConfig();
 
     void selectDatabase();
     void selectDatabase_data();
@@ -48,7 +48,6 @@ private slots:
 
 private:
     RedisClient::ConnectionConfig config;
-    void setSshSettings(RedisClient::ConnectionConfig&, bool);
 };
 
 #endif // TEST_CONNECTION_H

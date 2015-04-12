@@ -34,6 +34,7 @@ public:
     bool isEnabled() const override {return true;}
 
     void loadKeys();
+    void unload();
     int getIndex() const;
 
 signals:
@@ -44,7 +45,6 @@ protected slots:
     void onKeysRendered();
 
 protected:
-    void unload();
     void reload();
 
 private:

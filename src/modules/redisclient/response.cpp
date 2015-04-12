@@ -62,28 +62,26 @@ QVariant RedisClient::Response::getValue()
     QVariant  parsedResponse;
 
     try {
-
         switch (t) {
-        case Status:
-        case Error:        
-            parsedResponse = QVariant(getStringResponse(responseSource));
-            break;
+            case Status:
+            case Error:
+                parsedResponse = QVariant(getStringResponse(responseSource));
+                break;
 
-        case Integer:        
-            parsedResponse = QVariant(getStringResponse(responseSource).toInt());
-            break;
+            case Integer:
+                parsedResponse = QVariant(getStringResponse(responseSource).toInt());
+                break;
 
-        case Bulk:
-            parsedResponse = QVariant(parseBulk(responseSource));
-            break;
+            case Bulk:
+                parsedResponse = QVariant(parseBulk(responseSource));
+                break;
 
-        case MultiBulk:         
-            parsedResponse = QVariant(parseMultiBulk(responseSource));
-            break;
-        case Unknown:
-            break;
+            case MultiBulk:
+                parsedResponse = QVariant(parseMultiBulk(responseSource));
+                break;
+            case Unknown:
+                break;
         }
-
     } catch (Response::Exception &e) {
         parsedResponse = QVariant(QStringList() << e.what());
     }
@@ -108,10 +106,8 @@ QVariantList RedisClient::Response::parseMultiBulk(const QByteArray& response)
     int endOfFirstLine = response.indexOf("\r\n");
     int responseSize = getSizeOfBulkReply(response, endOfFirstLine);            
 
-    if (responseSize == 0) 
-    {    
+    if (responseSize == 0)     
         return QVariantList();
-    }
 
     QVariantList parsedResult;
     Type type;
@@ -153,7 +149,6 @@ QVariantList RedisClient::Response::parseMultiBulk(const QByteArray& response)
             parsedResult << QVariant(result);
 
             currPos = posOfNextItemAfterArray;
-            //throw Exception("Recursive parsing of MultiBulk replies not supported");
         } else {
             break;
         }
@@ -175,7 +170,6 @@ RedisClient::Response::Type RedisClient::Response::getResponseType(const char ty
     if (typeChar == ':') return Integer;
     if (typeChar == '$') return Bulk;
     if (typeChar == '*') return MultiBulk;
-
     return Unknown;
 }
 
@@ -191,10 +185,8 @@ bool RedisClient::Response::isValid()
 
 bool RedisClient::Response::isReplyValid(const QByteArray & responseString)
 {
-    if (responseString.isEmpty()) 
-    {
-        return false;
-    }
+    if (responseString.isEmpty())     
+        return false;    
 
     Type type = getResponseType(responseString);
 
@@ -232,9 +224,7 @@ int RedisClient::Response::getPosOfNextItem(const QByteArray &r, int startPos = 
     }
 
     Type type = getResponseType(r.at(startPos));
-
     int endOfFirstLine = r.indexOf("\r\n", startPos);
-
     int responseSize;
 
     switch (type)
@@ -273,7 +263,6 @@ int RedisClient::Response::getPosOfNextItem(const QByteArray &r, int startPos = 
     default:
         return -1;
     }
-
 }
 
 bool RedisClient::Response::isIntReplyValid(const QByteArray& r)
@@ -292,7 +281,7 @@ bool RedisClient::Response::isBulkReplyValid(const QByteArray& r)
 
     int actualSizeOfResponse = r.size() - endOfFirstLine - 4;
 
-    // we need not strict check for using this method for validation multi-bulk items
+    // we need not strict condition for using this method for validation multi-bulk items
     if (actualSizeOfResponse < responseSize) {
         return false;
     }
@@ -311,7 +300,6 @@ bool RedisClient::Response::isMultiBulkReplyValid(const QByteArray& r)
         
     //fast validation based on string size
     int minimalReplySize = responseSize * 4 + endOfFirstLine; // 4 is [type char] + [digit char] + [\r\n]
-
     int responseStringSize = r.size();
 
     if (responseStringSize < minimalReplySize) {
@@ -323,7 +311,6 @@ bool RedisClient::Response::isMultiBulkReplyValid(const QByteArray& r)
     int lastPos = 0;
 
     do {
-
         currPos = getPosOfNextItem(r, currPos);
 
         if (currPos != -1) {
@@ -335,7 +322,6 @@ bool RedisClient::Response::isMultiBulkReplyValid(const QByteArray& r)
         }
 
     } while (currPos != -1 && ++itemsCount);
-
 
     if (itemsCount < responseSize || (lastPos != responseStringSize)) {
         return false;
@@ -394,7 +380,6 @@ bool RedisClient::Response::isErrorMessage() const
 {
     return getResponseType(responseSource) == Error
         && responseSource.startsWith("-ERR");
-
 }
 
 bool RedisClient::Response::isOkMessage() const
