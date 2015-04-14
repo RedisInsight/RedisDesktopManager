@@ -18,9 +18,9 @@ before_install:
 - sudo pip install cpp-coveralls
 - uname -m
 - gcc --version
+- qmake -v
 script: 
   - cd ./tests
-  - qmake -v
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
