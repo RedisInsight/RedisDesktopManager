@@ -173,6 +173,7 @@ void TestConnection::connectWithAuth()
 
 void TestConnection::connectWithInvalidAuth()
 {
+    QSKIP("FIXME");
     //given
     ConnectionConfig invalidAuth = config;
     invalidAuth.setParam<QString>("auth", "fake_value");
