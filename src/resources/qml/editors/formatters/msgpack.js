@@ -247,6 +247,23 @@ function decode() { // @return Mix:
     case 0xc0:  return null;
     case 0xc2:  return false;
     case 0xc3:  return true;
+    case 0xc6:  // bin32
+        size =  buf[++_idx] * 0x1000000 + (buf[++_idx] << 16);
+    case 0xc5:  // bin16
+        size += buf[++_idx] << 8;
+    case 0xc4:   // bin8
+        size += buf[++_idx];
+        //console.log(_idx, "bin", size);
+        for (ary = [], i = _idx, iz = i + size; i < iz; ) {
+            c = buf[++i]; // lead byte
+            ary.push(c < 0x80 ? c : // ASCII(0x00 ~ 0x7f)
+                     c < 0xe0 ? ((c & 0x1f) <<  6 | (buf[++i] & 0x3f)) :
+                                ((c & 0x0f) << 12 | (buf[++i] & 0x3f) << 6
+                                                  | (buf[++i] & 0x3f)));
+        }
+        _idx = i;
+        //console.log(_idx, "bin str", _toString.apply(null, ary));
+        return _toString.apply(null, ary);
     case 0xca:  // float
                 num = buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
                                                 (buf[++_idx] <<  8) + buf[++_idx];
@@ -335,18 +352,9 @@ function decode() { // @return Mix:
     case 0xde:  num += (buf[++_idx] << 8)       +  buf[++_idx];
     case 0x80:  hash = {};
                 while (num--) {
-                    // make key/value pair
-                    size = buf[++_idx] - 0xa0;
-
-                    for (ary = [], i = _idx, iz = i + size; i < iz; ) {
-                        c = buf[++i]; // lead byte
-                        ary.push(c < 0x80 ? c : // ASCII(0x00 ~ 0x7f)
-                                 c < 0xe0 ? ((c & 0x1f) <<  6 | (buf[++i] & 0x3f)) :
-                                            ((c & 0x0f) << 12 | (buf[++i] & 0x3f) << 6
-                                                              | (buf[++i] & 0x3f)));
-                    }
-                    _idx = i;
-                    hash[_toString.apply(null, ary)] = decode();
+                    var k = decode();
+                    var v = decode();
+                    hash[k] = v;
                 }
                 return hash;
     // 0xdd: array32, 0xdc: array16, 0x90: array
