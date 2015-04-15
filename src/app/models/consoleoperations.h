@@ -22,6 +22,7 @@ public:
 
 private:
     QSharedPointer<RedisClient::Connection> m_connection;
+    int m_current_db;
 
 };
 

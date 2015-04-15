@@ -9,6 +9,13 @@ QT += core gui network xml concurrent widgets quick quickwidgets
 TARGET = rdm
 TEMPLATE = app
 
+# Skip version file
+!exists( $$PWD/version.h ) {    
+    DEFINES += RDM_VERSION=\\\"0.8.0.0\\\"
+}
+
+DEFINES += ELPP_QT_LOGGING ELPP_STL_LOGGING
+
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/app/dialogs/*.cpp \
@@ -41,6 +48,8 @@ HEADERS  += \
     $$PWD/modules/crashhandler/*.h \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \
+    
+
 
 FORMS += \
     $$PWD/app/forms/*.ui \

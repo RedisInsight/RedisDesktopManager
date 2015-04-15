@@ -1,9 +1,7 @@
-#ifndef TEST_REDISCONNECTIONSMANAGER_H
-#define TEST_REDISCONNECTIONSMANAGER_H
+#pragma once
+#include "basetestcase.h"
 
-#include <QObject>
-
-class TestConnectionsManager : public QObject
+class TestConnectionsManager : public BaseTestCase
 {
 	Q_OBJECT
 
@@ -11,5 +9,3 @@ private slots:
 	void LoadConnectionsConfigFromFile();
 	
 };
-
-#endif // TEST_REDISCONNECTIONSMANAGER_H

@@ -1,3 +1,5 @@
+#include <chrono>
+#include <thread>
 #include <QTest>
 #include "test_connection.h"
 #include "redisclient/connection.h"
@@ -12,29 +14,10 @@ void TestConnection::init()
     qRegisterMetaType<RedisClient::Command>("Command");
     qRegisterMetaType<RedisClient::Response>("RedisClient::Response");
 
-    config = ConnectionConfig();
-    config.host = "127.0.0.1";
-    config.auth = "test";
-    config.name = "test";
-    config.port = 6379;
-    config.connectionTimeout = 10000;
-    config.executeTimeout = 10000;
-}
-
-void TestConnection::setSshSettings(ConnectionConfig &c, bool usePass = true)
-{
-    c.sshHost = "192.168.252.10";
-    c.sshPort = 22;
-    c.connectionTimeout = 10000;
-
-    if (usePass) {   
-        c.sshPassword = "123";
-        c.sshUser = "admin";
-    } else {
-        c.sshUser = "admin";
-        c.sshPrivateKeyPath = "D:\\ssh-keys\\private";
-        c.connectionTimeout = 300000;
-    }
+    config = ConnectionConfig("127.0.0.1", "test", 6379);
+    config.setParam("auth", "test");
+    config.setParam("timeout_execute", 10000);
+    config.setParam("timeout_connect", 10000);
 }
 
 #ifdef INTEGRATION_TESTS
@@ -61,10 +44,12 @@ void TestConnection::selectDatabase()
     QFETCH(bool, validResult);
 
     //when
-    bool actualResult = connection.selectDb(dbIndex);
+    bool actualResultFirst = connection.selectDb(dbIndex);
+    bool actualResultSecond = connection.selectDb(dbIndex);
 
     //then
-    QCOMPARE(actualResult, validResult);
+    QCOMPARE(actualResultFirst, validResult);
+    QCOMPARE(actualResultSecond, validResult);
 }
 
 void TestConnection::selectDatabase_data()
@@ -74,6 +59,45 @@ void TestConnection::selectDatabase_data()
 
     QTest::newRow("Valid db index") << 1 << true;
     QTest::newRow("InValid db index") << 10000 << false;
+}
+
+void TestConnection::testScanCommand()
+{
+    //given
+    Connection connection(config, true);
+    Command cmd(QStringList() << "SCAN" << "0"); //valid
+
+    //when
+    Response result = CommandExecutor::execute(&connection, cmd);
+    QVariant value = result.getValue();
+
+
+    //then
+    QCOMPARE(value.isNull(), false);
+}
+
+void TestConnection::testRetriveCollection()
+{
+    //given
+    Connection connection(config, true);
+    QSharedPointer<ScanCommand> cmd(new ScanCommand("SCAN 0")); //valid
+    bool callbackCalled = false;
+    QVERIFY(cmd->isValidScanCommand());
+
+    //when
+    CommandExecutor::execute(&connection, Command() << "FLUSHDB");
+    CommandExecutor::execute(&connection, Command() << "SET" << "test" << "1");
+    connection.retrieveCollection(cmd, [&callbackCalled](QVariant result) {
+        //then - part 1
+        QCOMPARE(result.isNull(), false);
+        QCOMPARE(result.toList().size(), 1);
+        QCOMPARE(result.canConvert(QMetaType::QVariantList), true);
+        callbackCalled = true;
+    });
+    wait(2000);
+
+    //then - part 2
+    QCOMPARE(callbackCalled, true);
 }
 
 void TestConnection::runEmptyCommand()
@@ -147,38 +171,20 @@ void TestConnection::connectWithAuth()
     QCOMPARE(actualCommandResult.toString(), QString("+PONG\r\n"));
 }
 
-void TestConnection::connectWithSshTunnelPass()
+void TestConnection::connectWithInvalidAuth()
 {
-    QSKIP("This test requires configured ssh server");
-
+    QSKIP("FIXME");
     //given
-    setSshSettings(config);
-
+    ConnectionConfig invalidAuth = config;
+    invalidAuth.setParam<QString>("auth", "fake_value");
     Connection connection(config, false);
 
     //when
-    bool actualResult = connection.connect();
+    bool connectResult = connection.connect();
 
     //then
-    QCOMPARE(connection.isConnected(), true);
-    QCOMPARE(actualResult, true);
-}
-
-void TestConnection::connectWithSshTunnelKey()
-{
-    QSKIP("This test requires configured ssh server");
-
-    //given
-    setSshSettings(config, false);
-
-    Connection connection(config, false);
-
-    //when
-    bool actualResult = connection.connect();
-
-    //then
-    QCOMPARE(connection.isConnected(), true);
-    QCOMPARE(actualResult, true);
+    QCOMPARE(connectResult, false);
+    QCOMPARE(connection.isConnected(), false);
 }
 
 void TestConnection::connectAndDisconnect()
@@ -196,10 +202,30 @@ void TestConnection::connectAndDisconnect()
 }
 #endif
 
+void TestConnection::connectWithInvalidConfig()
+{
+    //given
+    ConnectionConfig invalidConfig;
+    Connection connection(invalidConfig, false);
+    bool exceptionRaised = false;
+
+    //when
+    try {
+        connection.connect();
+    } catch (Connection::Exception e) {
+        exceptionRaised = true;
+    }
+
+    //then
+    QCOMPARE(exceptionRaised, true);
+    QCOMPARE(connection.isConnected(), false);
+}
+
+
 void TestConnection::testWithDummyTransporter()
 {
     //given            
-    // connection with dummy transporter
+    // connection with dummy transporter    
     QString validResponse("+PONG\r\n");
     QSharedPointer<Connection> connection = getReadyDummyConnection(QStringList() << validResponse);
     Command cmd("ping");
@@ -211,4 +237,47 @@ void TestConnection::testWithDummyTransporter()
     //then
     QCOMPARE(connection->isConnected(), true);
     QCOMPARE(actualResult.toString(), validResponse);
+}
+
+void TestConnection::testParseServerInfo()
+{
+    //given
+    QString testInfo("# Server\n"
+                     "redis_version:2.9.999\n"
+                     "redis_git_sha1:3bf72d0d\n"
+                     "redis_git_dirty:0\n"
+                     "redis_build_id:69b45658ca5a9e2d\n"
+                     "redis_mode:standalone\n"
+                     "os:Linux 3.13.7-x86_64-linode38 x86_64\n"
+                     "arch_bits:32\n"
+                     "multiplexing_api:epoll\n"
+                     "gcc_version:4.4.1\n"
+                     "process_id:14029\n"
+                     "run_id:63bccba63aa231ac84b459af7a6ae34cb89caecd\n"
+                     "tcp_port:6379\n"
+                     "uptime_in_seconds:18354826\n"
+                     "uptime_in_days:212\n"
+                     "hz:10\n"
+                     "lru_clock:14100747\n"
+                     "config_file:/etc/redis/6379.conf\n");
+
+    //when
+    ServerInfo actualResult = ServerInfo::fromString(testInfo);
+
+    //then
+    QCOMPARE(actualResult.version, 2.9);
+}
+
+void TestConnection::testConfig()
+{
+    //given
+    Connection connection(config, false);
+    ConnectionConfig empty;
+
+    //when
+    connection.setConnectionConfig(empty);
+    ConnectionConfig actualResult = connection.getConfig();
+
+    //then
+    QCOMPARE(actualResult.isNull(), empty.isNull());
 }

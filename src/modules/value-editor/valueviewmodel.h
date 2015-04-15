@@ -22,8 +22,8 @@ public:
     // single row operations
     Q_INVOKABLE bool isRowLoaded(int i);
     Q_INVOKABLE void addRow(const QVariantMap& row);
-    Q_INVOKABLE void updateRow(int i, const QVariantMap& row); // TBD
-    Q_INVOKABLE void deleteRow(int i); // TBD
+    Q_INVOKABLE void updateRow(int i, const QVariantMap& row);
+    Q_INVOKABLE void deleteRow(int i);
     Q_INVOKABLE QVariantMap getRow(int i, bool relative = false);
 
     // multi row operations

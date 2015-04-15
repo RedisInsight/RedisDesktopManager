@@ -12,5 +12,10 @@ private slots:
     void parseCommandString();
     void parseCommandString_data();
     void isSelectCommand();
+
+    void scanCommandSetCursor();
+    void scanCommandSetCursor_data();
+    void scanCommandIsValid();
+    void scanCommandIsValid_data();
 };
 

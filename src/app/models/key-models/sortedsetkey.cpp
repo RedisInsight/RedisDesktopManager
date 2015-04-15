@@ -74,7 +74,14 @@ void SortedSetKeyModel::addRow(const QVariantMap &row)
     if (!isRowValid(row))
         throw Exception("Invalid row");
 
-    addSortedSetRow(row["value"].toByteArray(), row["score"].toDouble());
+    QPair<QByteArray, double> cachedRow(
+                row["value"].toByteArray(),
+                row["score"].toDouble());
+
+    if (addSortedSetRow(cachedRow.first, cachedRow.second)) {
+        m_rowsCache.append(cachedRow);
+        m_rowCount++;
+    }
 }
 
 unsigned long SortedSetKeyModel::rowsCount()
@@ -84,24 +91,20 @@ unsigned long SortedSetKeyModel::rowsCount()
 
 void SortedSetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
 {
-    if (isPartialLoadingSupported()) {
-        //TBD
-    } else {
-        QVariantList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toList();
+    QVariantList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toList();
 
-        for (QVariantList::iterator item = rows.begin();
-             item != rows.end(); ++item) {
+    for (QVariantList::iterator item = rows.begin();
+         item != rows.end(); ++item) {
 
-            QPair<QByteArray, double> value;
-            value.first = item->toByteArray();
-            ++item;
+        QPair<QByteArray, double> value;
+        value.first = item->toByteArray();
+        ++item;
 
-            if (item == rows.end())
-                throw Exception("Partial data loaded from server");
+        if (item == rows.end())
+            throw Exception("Partial data loaded from server");
 
-            value.second = item->toDouble();
-            m_rowsCache.push_back(value);
-        }
+        value.second = item->toDouble();
+        m_rowsCache.push_back(value);
     }
 
     callback();
@@ -146,12 +149,14 @@ void SortedSetKeyModel::loadRowCount()
     m_rowCount = getRowCount("ZCARD");
 }
 
-void SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
+bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 {
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
     (addCmd << "ZADD" << m_keyFullPath << QString::number(score)).append(value);
-    CommandExecutor::execute(m_connection, addCmd);
+    Response result = CommandExecutor::execute(m_connection, addCmd);
+
+    return result.getValue().toInt() == 1;
 }
 
 void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)

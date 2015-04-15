@@ -4,7 +4,9 @@
 #include <QSettings>
 #include <QFontDatabase>
 
+#ifndef RDM_VERSION
 #include "version.h"
+#endif
 #include "modules/crashhandler/crashhandler.h"
 #include "app/dialogs/mainwindow.h"
 

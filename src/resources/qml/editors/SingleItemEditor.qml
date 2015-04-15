@@ -56,6 +56,7 @@ AbstractEditor {
 
 
     function reset() {
-        textArea.text = ""
+        textArea.text = ''
+        console.log("reset")
     }
 }

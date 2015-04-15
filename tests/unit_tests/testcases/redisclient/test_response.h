@@ -18,5 +18,8 @@ private slots:
 	//validation tests
 	void isValid();
 	void isValid_data();	
+
+    void scanRespGetData();
+    void scanIsValid();
 };
 

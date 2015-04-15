@@ -22,7 +22,8 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
     $$PWD/
 
-#DEFINES += INTEGRATION_TESTS
+DEFINES += INTEGRATION_TESTS
+DEFINES += ELPP_STL_LOGGING
 
 #TEST CASES
 include($$PWD/testcases/app/app-tests.pri)

@@ -39,10 +39,9 @@ public:
 
     void handle(const el::LogDispatchData* data) {
         if (m_tab)
-            m_tab.toStrongRef()->print(QString("%1 : %2 (%3)")
+            m_tab.toStrongRef()->print(QString("%1 : %2")
                              .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-                             .arg(QString::fromStdString(data->logMessage()->message()))
-                             .arg(QString::fromStdString(data->logMessage()->func()))
+                             .arg(QString::fromStdString(data->logMessage()->message()))                             
                              );
     }
 private:

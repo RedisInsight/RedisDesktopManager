@@ -12,20 +12,15 @@ RedisClient::AbstractTransporter::AbstractTransporter(RedisClient::Connection *c
 
 RedisClient::AbstractTransporter::~AbstractTransporter()
 {
-    QListIterator<Command> cmd(commands);
-
-    while (cmd.hasNext())
-    {
-        auto currentCommand = cmd.next();
-
-        QObject::disconnect(currentCommand.getOwner(), SIGNAL(destroyed(QObject *)),
-                   this, SLOT(cancelCommands(QObject *)));
-    }
 }
 
 void RedisClient::AbstractTransporter::addCommand(Command cmd)
 {
-    commands.enqueue(cmd);
+    if (cmd.isHiPriorityCommand())
+        commands.prepend(cmd);
+    else
+        commands.enqueue(cmd);
+
     emit commandAdded();
     processCommandQueue();
 }
@@ -34,7 +29,6 @@ void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
 {    
     if (runningCommand.getOwner() == owner) {
         runningCommand.cancel();
-        qDebug() << "Canceled command";
     }
 
     QListIterator<Command> cmd(commands);
@@ -65,7 +59,10 @@ void RedisClient::AbstractTransporter::sendResponse()
         emiter.sendResponse(runningCommand.getOwner(), callback);
     }
 
-    emit logEvent(QString("%1 > [runCommand] %2 -> response received").arg(m_connection->config.name).arg(runningCommand.getRawString()));
+    emit logEvent(QString("%1 > [runCommand] %2 -> response received : %3")
+                  .arg(m_connection->config.name())
+                  .arg(runningCommand.getRawString())
+                  .arg(m_response.getLoadedItemsCount()));
 
     m_isCommandRunning = false;
 

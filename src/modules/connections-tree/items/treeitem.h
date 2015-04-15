@@ -29,7 +29,7 @@ public:
     virtual QIcon getIcon() const = 0;
     virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
     virtual uint childCount() const = 0;
-    virtual QSharedPointer<TreeItem> child(int row) const = 0;
+    virtual QSharedPointer<TreeItem> child(uint row) const = 0;
     virtual const TreeItem* parent() const = 0;
 
     virtual int row() const
@@ -37,7 +37,7 @@ public:
         if (!parent())
             return 0;
 
-        for (int index = 0; index < parent()->childCount(); ++index)
+        for (uint index = 0; index < parent()->childCount(); ++index)
         {
             if (parent()->child(index).data() == this)
                 return index;
@@ -47,7 +47,12 @@ public:
     }
 
     virtual bool onClick(ParentView& treeView) = 0;
-    virtual void onWheelClick(ParentView& treeView) = 0;
+
+    virtual void onWheelClick(ParentView& treeView)
+    {
+        Q_UNUSED(treeView);
+    }
+
     virtual QSharedPointer<QMenu> getContextMenu(ParentView& treeView) = 0;
 
     virtual bool isLocked() const = 0;

@@ -167,11 +167,12 @@ QxtSshClient::~QxtSshClient(){
  * The host parameter can be an IP address or a host name. Host names will be
  * resolved by the server.
  */
-void QxtSshClient::connectToHost(const QString & user,const QString & host,int port){
+void QxtSshClient::connectToHost(const QString & user, const QString & host, int port, bool useSystemClient){
     d->d_hostName=host;
     d->d_userName=user;
     d->d_port=port;
     d->d_state=0;
+    d->d_useSystemClient=useSystemClient;
     d->connectToHost(host,port);
 }
 
@@ -353,6 +354,8 @@ QxtSshClientPrivate::QxtSshClientPrivate()
     ,d_knownHosts(0)
     ,d_state(0)
     ,d_errorCode(0)
+    ,d_useSystemClient(false)
+
 {
     connect(this,SIGNAL(connected()),this,SLOT(d_connected()));
     connect(this,SIGNAL(disconnected()),this,SLOT(d_disconnected()));
@@ -503,7 +506,10 @@ void QxtSshClientPrivate::d_readyRead(){
 #ifdef QXT_DEBUG_SSH
         qDebug()<<"trying"<<d_currentAuthTry;
 #endif
-        if(d_currentAuthTry==QxtSshClient::PasswordAuthentication){
+        if (d_useSystemClient) {            
+            ret=authWithSystemClient();
+            qDebug() << "SSH auth with system client: " << ret;
+        } else if(d_currentAuthTry==QxtSshClient::PasswordAuthentication){
             ret=libssh2_userauth_password(d_session, qPrintable(d_userName),
                                           qPrintable(d_passphrase));
 
@@ -514,7 +520,7 @@ void QxtSshClientPrivate::d_readyRead(){
                                                        qPrintable(d_privateKey),
                                                        qPrintable(d_passphrase));
         }
-        if(ret==LIBSSH2_ERROR_EAGAIN ){
+        if(ret==LIBSSH2_ERROR_EAGAIN){
             return;
         }else if(ret==0){
             d_state=6;
@@ -558,6 +564,7 @@ void QxtSshClientPrivate::d_reset(){
 
     d_state=0;
     d_errorCode=0;
+    d_sleepInterval=5;
     d_errorMessage=QString();
     d_failedMethods.clear();
     d_availableMethods.clear();
@@ -573,8 +580,16 @@ void QxtSshClientPrivate::d_reset(){
     Q_ASSERT(d_knownHosts);
 
     libssh2_session_set_blocking(d_session,0);
+    libssh2_keepalive_config(d_session, 1, d_sleepInterval);
 
-
+    d_keepAliveTimer = QSharedPointer<QTimer>(new QTimer());
+    d_keepAliveTimer->setSingleShot(false);
+    QObject::connect(d_keepAliveTimer.data(), &QTimer::timeout, this, [this]() {
+        libssh2_keepalive_send(d_session, &d_sleepInterval);
+        d_keepAliveTimer->start(d_sleepInterval * 1000);
+        qDebug() << "SSH keepalive";
+    });
+    d_keepAliveTimer->start(d_sleepInterval * 1000);
 }
 
 void QxtSshClientPrivate::d_disconnected (){
@@ -602,3 +617,38 @@ void QxtSshClientPrivate::d_delaydErrorEmit(){
     emit p->error(d_delaydError);
 }
 
+int QxtSshClientPrivate::authWithSystemClient()
+{
+    struct libssh2_agent_publickey *identity, *prev_identity = NULL;
+    d_agent = libssh2_agent_init(d_session);
+
+    if (!d_agent)
+        return 1;
+
+    if (libssh2_agent_connect(d_agent) != 0)
+        return 1;
+
+    while (true) {
+        int r = libssh2_agent_list_identities(d_agent);
+
+        if (r == LIBSSH2_ERROR_EAGAIN)
+            return r;
+        else if (r != 0) {
+            d_getLastError();
+            qDebug() << d_errorMessage;
+            return 1;
+        } else
+            break;
+    }
+
+    while (true) {
+        if (libssh2_agent_get_identity(d_agent, &identity, prev_identity) != 0
+                || libssh2_agent_userauth(d_agent, qPrintable(d_userName), identity))
+            return 1;
+        else
+            return 0;
+
+        prev_identity = identity;
+    }
+    return 1;
+}

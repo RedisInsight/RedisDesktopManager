@@ -76,7 +76,8 @@ public:
     QxtSshClient(QObject * parent=0);
     ~QxtSshClient();
 
-    void connectToHost(const QString & username,const QString & hostname,int port = 22);
+    void connectToHost(const QString & username,const QString & hostname,
+                       int port = 22, bool useSystemClient = false);
     void disconnectFromHost ();
     void resetState();
     void setPassphrase(const QString & pass);

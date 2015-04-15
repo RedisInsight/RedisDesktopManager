@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QObject>
+#include "basetestcase.h"
 
-class TestAbstractKey : public QObject
+class TestAbstractKey : public BaseTestCase
 {
     Q_OBJECT
 

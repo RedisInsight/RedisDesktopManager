@@ -2,39 +2,38 @@ language: cpp
 compiler:
   - gcc
 before_install:
-- sudo add-apt-repository --yes ppa:beineri/opt-qt54
+- sudo bash ./build/start_ssh_server.sh
+- sudo add-apt-repository --yes ppa:beineri/opt-qt541
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
-- sudo apt-get install qt54base qt54imageformats qt54tools qt54xmlpatterns -y -qq
-- uname -m
-- export QTDIR=/opt/qt54
-- export PATH=$QTDIR/bin:$PATH
-- export LD_LIBRARY_PATH=$QTDIR/lib/:$QTDIR/lib/`uname -m`-linux-gnu:$LD_LIBRARY_PATH
-- sudo apt-get install libssl1.0.0 libssh2-1-dev -y -qq
-#- sudo sh ./build/build_automake.sh
-- sudo apt-get install gcc-4.7 g++-4.7 gdb -y -qq
+- sudo apt-get install qt54base qt54imageformats qt54tools qt54xmlpatterns libssl1.0.0 libssh2-1-dev gdb  -y -qq
+- sudo apt-get install gcc-4.9 g++-4.9 -y -qq
 - sudo rm -f /usr/bin/gcc
 - sudo rm -f /usr/bin/g++
 - sudo rm -f /usr/bin/gcov
-- sudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc
-- sudo ln -s /usr/bin/g++-4.7 /usr/bin/g++
-- sudo ln -s /usr/bin/gcov-4.7 /usr/bin/gcov
-- sudo pip install cpp-coveralls --use-mirrors
-before_script:
-- cd ./src
+- sudo ln -s /usr/bin/gcc-4.9 /usr/bin/gcc
+- sudo ln -s /usr/bin/g++-4.9 /usr/bin/g++
+- sudo ln -s /usr/bin/gcov-4.9 /usr/bin/gcov
+- source /opt/qt54/bin/qt54-env.sh
+- sudo pip install cpp-coveralls
+- uname -m
+- gcc --version
+- qmake -v
 script: 
-  - cd ./../tests
-  - qmake -v
+  - cd ./tests
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
-  - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.*
   - ./../bin/tests/qml_tests -platform minimal -txt
   - cd ./../src
+  - python ./../build/set_version.py 1.0.0 > version.h
   - sudo chmod a+x configure
-  - sudo ./configure
+  - ./configure
   - qmake
   - make -s -j 2
+after_success:
+  - cd ./../tests
+  - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*  > coveralls.log
 services:
   - redis-server
 notifications:

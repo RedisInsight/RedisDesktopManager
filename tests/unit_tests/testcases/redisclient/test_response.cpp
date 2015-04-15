@@ -1,5 +1,6 @@
 #include "test_response.h"
 #include "redisclient/response.h"
+#include "redisclient/scanresponse.h"
 #include <QtCore>
 #include <QTest>
 
@@ -42,6 +43,17 @@ void TestResponse::getValue_data()
     QTest::newRow("Multi Bulk with unicode item")
         << "*6\r\n$6\r\napp_id\r\n$1\r\n0\r\n$7\r\nkeyword\r\n$6\r\n快樂\r\n"
         << QVariant(QStringList() << "app_id" << "0" << "keyword" << "快樂");
+
+    QTest::newRow("Array of arrays")
+        << "*2\r\n"
+           "*3\r\n"
+           ":1\r\n"
+           ":2\r\n"
+           ":3\r\n"
+           "*2\r\n"
+           "+Foo\r\n"
+           "+Bar\r\n"
+        << QVariant(QVariantList() << (QStringList() << "1" << "2" << "3") << (QStringList() << "Foo" << "Bar"));
 
 }
 
@@ -114,8 +126,53 @@ void TestResponse::isValid_data()
 	QTest::newRow("Multi Bulk valid")
 		<< "*4\r\n$3\r\nfoo\r\n$3\r\nbar\r\n$5\r\nHello\r\n$5\r\nWorld\r\n"	<< true;
 
+    QTest::newRow("Array of Arrays valid")
+            << "*2\r\n"
+               "*3\r\n"
+               ":1\r\n"
+               ":2\r\n"
+               ":3\r\n"
+               "*2\r\n"
+               "+Foo\r\n"
+               "+Bar\r\n"
+            << true;
+
 	QTest::newRow("Multi Bulk invalid") << "*5\r\n"						<< false;
 	QTest::newRow("Multi Bulk invalid") << "*5\r\n:1\r\n"				<< false;
 	QTest::newRow("Multi Bulk invalid") << "*2\r\n:1\r\n$6\r\nHello\r\n"<< false;
 
+}
+
+void TestResponse::scanRespGetData()
+{
+    //given
+    QString testResponse = "*2\r\n"
+                           ":1\r\n"
+                           "*2\r\n"
+                           "+Foo\r\n"
+                           "+Bar\r\n";
+    RedisClient::ScanResponse test(testResponse.toUtf8());
+
+    //when
+    int cursor = test.getCursor();
+    QVariantList collection = test.getCollection();
+
+    //then
+    QCOMPARE(cursor, 1);
+    QCOMPARE(collection, QVariantList() << "Foo" << "Bar");
+
+}
+
+void TestResponse::scanIsValid()
+{
+    //given
+    QString testResponse = "*2\r\n"
+                           ":1\r\n"
+                           "*1\r\n"
+                           "+Bar\r\n";
+    RedisClient::Response test(testResponse.toUtf8());
+
+    //when
+    //then
+    QCOMPARE(RedisClient::ScanResponse::isValidScanResponse(test), true);
 }

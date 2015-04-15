@@ -83,7 +83,7 @@
         <widget class="QLineEdit" name="authEdit"/>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="lbName">
          <property name="text">
           <string>Name</string>
          </property>
@@ -93,7 +93,7 @@
         <widget class="QLineEdit" name="nameEdit"/>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="hostLabel">
+        <widget class="QLabel" name="lbHost">
          <property name="text">
           <string>Host:</string>
          </property>
@@ -116,7 +116,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="portLabel">
+        <widget class="QLabel" name="lbPort">
          <property name="text">
           <string>Port:</string>
          </property>
@@ -126,7 +126,7 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="authLabel">
+        <widget class="QLabel" name="lbAuth">
          <property name="text">
           <string>Auth:</string>
          </property>
@@ -143,7 +143,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="0">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="lbRemotePort">
          <property name="text">
           <string>Remote Port</string>
          </property>
@@ -188,7 +188,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="lbRemoteHost">
          <property name="text">
           <string>Remote Host</string>
          </property>
@@ -218,7 +218,7 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="lbUserName">
          <property name="text">
           <string>User Name</string>
          </property>
@@ -253,7 +253,7 @@
            <widget class="QLineEdit" name="privateKeyPath"/>
           </item>
           <item row="0" column="0">
-           <widget class="QLabel" name="label_9">
+           <widget class="QLabel" name="lbPrivateKeyPath">
             <property name="text">
              <string>Path</string>
             </property>
@@ -275,24 +275,24 @@
        <string>Advanced Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="1" column="0">
+        <widget class="QLabel" name="lbNamespace">
          <property name="text">
           <string>Namespace separator</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="1" column="1">
         <widget class="QLineEdit" name="namespaceSeparator"/>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_7">
+       <item row="2" column="0">
+        <widget class="QLabel" name="lbConnectionTimeout">
          <property name="text">
           <string>Connection Timeout (sec)</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QSpinBox" name="connectionTimeout">
          <property name="enabled">
           <bool>true</bool>
@@ -305,14 +305,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_8">
+       <item row="3" column="0">
+        <widget class="QLabel" name="lbExecutionTimeout">
          <property name="text">
           <string>Execution timeout (sec)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QSpinBox" name="executionTimeout">
          <property name="enabled">
           <bool>true</bool>
@@ -325,12 +325,22 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbKeysPattern">
+         <property name="text">
+          <string>Keys  glob-style pattern</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="keysPattern"/>
+       </item>
       </layout>
      </widget>
     </widget>
    </item>
    <item row="2" column="0">
-    <layout class="QHBoxLayout">
+    <layout class="QHBoxLayout" name="DialogButtons">
      <property name="spacing">
       <number>6</number>
      </property>

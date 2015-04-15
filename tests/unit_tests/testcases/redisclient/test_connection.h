@@ -21,12 +21,14 @@ private slots:
     void connectAndDisconnect();
     void connectToHostAndRunCommand();
     void connectWithAuth();
-    void connectWithSshTunnelPass();
-    void connectWithSshTunnelKey();
-
+    void connectWithInvalidAuth();
+    void connectWithInvalidConfig();
 
     void selectDatabase();
     void selectDatabase_data();
+
+    void testScanCommand();
+    void testRetriveCollection();
 
     /*
      * dirty tests for runCommand()
@@ -41,9 +43,11 @@ private slots:
      */
     void testWithDummyTransporter();
 
+    void testParseServerInfo();
+    void testConfig();
+
 private:
     RedisClient::ConnectionConfig config;
-    void setSshSettings(RedisClient::ConnectionConfig&, bool);
 };
 
 #endif // TEST_CONNECTION_H

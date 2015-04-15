@@ -34,7 +34,7 @@ protected:
 
     //multi row internal operations
     int getRowCount(const QString &countCmd);    
-    QVariant getRowsRange(const QString & baseCmd, unsigned long rowStart = -1, unsigned long count = -1);
+    QVariant getRowsRange(const QString & baseCmd, unsigned long rowStart = 0, unsigned long count = 0);
 
     // row validator
     bool isRowValid(const QVariantMap &row);

@@ -1,6 +1,6 @@
 #pragma once
-
 #include "connections-tree/operations.h"
+#include "connections-tree/items/treeitem.h"
 
 class ItemOperationsMock : public ConnectionsTree::Operations {
 
@@ -30,4 +30,13 @@ public:
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
     virtual void openConsoleTab() override {}
     void openNewKeyDialog(int, QString = QString()) override {}
+};
+
+class DummyParentView : public ConnectionsTree::TreeItem::ParentView {
+
+public:
+    QWidget* getParentWidget() override
+    {
+        return nullptr;
+    }
 };

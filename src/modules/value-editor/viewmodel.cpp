@@ -171,7 +171,9 @@ void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connec
 
     m_newKeyRequest = qMakePair(connection, dbIndex);
 
-    QString dbId= QString("%1:db%2").arg(connection->getConfig().name).arg(dbIndex);
+    QString dbId= QString("%1:db%2")
+            .arg(connection->getConfig().name())
+            .arg(dbIndex);
 
     emit newKeyDialog(dbId, keyPrefix);
 }
@@ -201,6 +203,11 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
 void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> model)
 {
     int i = m_valueModels.lastIndexOf(model);
+
+    if (i == -1) {
+        qDebug() << "[Remove model] Key model not found!";
+        return;
+    }
 
     beginRemoveRows(QModelIndex(), i, i);
     m_valueModels.removeAt(i);

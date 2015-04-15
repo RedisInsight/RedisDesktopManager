@@ -12,6 +12,10 @@ private slots:
 
     void testValueLoading();
     void testValueLoading_data();
+
+    void testKeyModelModifyRows();
+    void testKeyModelModifyRows_data();
+
 private:
     QSharedPointer<ValueEditor::Model> getKeyModel(QSharedPointer<RedisClient::Connection> connection);
 };

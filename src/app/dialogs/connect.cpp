@@ -39,21 +39,25 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
 {
     m_inEditMode = true;
 
-    ui.nameEdit->setText(config.name);
-    ui.hostEdit->setText(config.host);
-    ui.portSpinBox->setValue(config.port);
-    ui.authEdit->setText(config.auth);
-    ui.namespaceSeparator->setText(config.namespaceSeparator);
-    ui.connectionTimeout->setValue(config.connectionTimeout / 1000);
-    ui.executionTimeout->setValue(config.executeTimeout / 1000);
+    ui.nameEdit->setText(config.name());
+    ui.hostEdit->setText(config.host());
+    ui.portSpinBox->setValue(config.port());
+    ui.authEdit->setText(config.auth());
+    ui.namespaceSeparator->setText(config.param<QString>("namespace_separator"));
+    ui.connectionTimeout->setValue(config.connectionTimeout()/1000);
+    ui.executionTimeout->setValue(config.executeTimeout()/1000);
+
+    if (!config.keysPattern().isEmpty()) {
+        ui.keysPattern->setText(config.keysPattern());
+    }
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
-        ui.sshHost->setText(config.sshHost);
-        ui.sshUser->setText(config.sshUser);
-        ui.sshPass->setText(config.sshPassword);
-        ui.sshPort->setValue(config.sshPort);
-        ui.privateKeyPath->setText(config.sshPrivateKeyPath);
+        ui.sshHost->setText(config.param<QString>("ssh_host"));
+        ui.sshUser->setText(config.param<QString>("ssh_user"));
+        ui.sshPass->setText(config.param<QString>("ssh_password"));
+        ui.sshPort->setValue(config.param<int>("ssh_port"));
+        ui.privateKeyPath->setText(config.param<QString>("ssh_private_key"));
 
         ui.sshKeysGroup->setChecked(false);
         ui.sshPasswordGroup->setChecked(false);
@@ -66,6 +70,16 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
             ui.sshKeysGroup->setChecked(true);
         }
     }
+}
+
+void ConnectionWindow::markFieldInvalid(QWidget* w)
+{
+    w->setStyleSheet("border: 1px solid red;");
+}
+
+void ConnectionWindow::markFieldValid(QWidget* w)
+{
+    w->setStyleSheet("");
 }
 
 void ConnectionWindow::OnOkButtonClick()
@@ -107,9 +121,8 @@ void ConnectionWindow::OnBrowseSshKeyClick()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Select private key file", "", tr("All Files (*.*)"));
 
-    if (fileName.isEmpty()) {
-        return;
-    }
+    if (fileName.isEmpty())
+        return;    
 
     ui.privateKeyPath->setText(fileName);
 }
@@ -126,7 +139,7 @@ void ConnectionWindow::OnTestConnectionButtonClick()
     ui.testConnectionButton->setIcon(QIcon(":/images/wait.png"));
 
     RedisClient::ConnectionConfig config = getConectionConfigFromFormData();
-    config.connectionTimeout = 8000;
+    config.setParam("timeout_connect", 8000);
 
     RedisClient::Connection testConnection(config, false);
 
@@ -148,55 +161,53 @@ bool ConnectionWindow::isFormDataValid()
 
 bool ConnectionWindow::isConnectionSettingsValid()
 {
-    ui.nameEdit->setStyleSheet("");
-    ui.hostEdit->setStyleSheet("");
+    markFieldValid(ui.nameEdit);
+    markFieldValid(ui.hostEdit);
 
     bool isValid = !ui.nameEdit->text().isEmpty()
         && !ui.hostEdit->text().isEmpty()
         && ui.portSpinBox->value() > 0;
 
-    if (isValid) {
-        return true;
-    } 
+    if (isValid)
+        return true;    
 
-    if (ui.nameEdit->text().isEmpty()) {
-        ui.nameEdit->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.nameEdit->text().isEmpty())
+        markFieldInvalid(ui.nameEdit);
 
-    if (ui.hostEdit->text().isEmpty()) {
-        ui.hostEdit->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.hostEdit->text().isEmpty())
+        markFieldInvalid(ui.hostEdit);
 
     return false;
 }
 
 bool ConnectionWindow::isAdvancedSettingsValid()
 {
-    ui.namespaceSeparator->setStyleSheet("");
+    markFieldValid(ui.namespaceSeparator);
 
-    bool isValid = !ui.namespaceSeparator->text().isEmpty();
+    bool isValid = !ui.namespaceSeparator->text().isEmpty()
+            || !ui.keysPattern->text().isEmpty();
 
-    if (isValid) {
-        return true;
-    } 
+    if (isValid)
+        return true;    
 
-    if (ui.namespaceSeparator->text().isEmpty()) {
-        ui.namespaceSeparator->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.namespaceSeparator->text().isEmpty())
+        markFieldInvalid(ui.namespaceSeparator);
+
+    if (ui.keysPattern->text().isEmpty())
+        markFieldInvalid(ui.keysPattern);
 
     return false;
 }
 
 bool ConnectionWindow::isSshSettingsValid()
 {
-    ui.sshHost->setStyleSheet("");
-    ui.sshUser->setStyleSheet("");
-    ui.sshPass->setStyleSheet("");
-    ui.privateKeyPath->setStyleSheet("");
+    markFieldValid(ui.sshHost);
+    markFieldValid(ui.sshUser);
+    markFieldValid(ui.sshPass);
+    markFieldValid(ui.privateKeyPath);
 
-    if (!isSshTunnelUsed()) {
-        return true;
-    }
+    if (!isSshTunnelUsed())
+        return true;    
 
     bool isValid =  !ui.sshHost->text().isEmpty()  
             && !ui.sshUser->text().isEmpty() 
@@ -204,35 +215,30 @@ bool ConnectionWindow::isSshSettingsValid()
             && (
                 (ui.sshPasswordGroup->isChecked() && !ui.sshPass->text().isEmpty())
                 ||
-                (ui.sshKeysGroup->isChecked() && !ui.privateKeyPath->text().isEmpty() && QFile::exists(ui.privateKeyPath->text()))
+                (ui.sshKeysGroup->isChecked() && !ui.privateKeyPath->text().isEmpty()
+                 && QFile::exists(ui.privateKeyPath->text()))
                 )
             && ui.sshPort->value() > 0;
 
-    if (isValid) {
-        return true;
-    }
+    if (isValid)
+        return true;    
 
-    if (ui.sshHost->text().isEmpty()) {
-        ui.sshHost->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.sshHost->text().isEmpty())
+       markFieldInvalid(ui.sshHost);
 
-    if (ui.sshUser->text().isEmpty()) {
-        ui.sshUser->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.sshUser->text().isEmpty())
+        markFieldInvalid(ui.sshUser);
 
-    if (ui.sshPasswordGroup->isChecked() && ui.sshPass->text().isEmpty()) {
-        ui.sshPass->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.sshPasswordGroup->isChecked() && ui.sshPass->text().isEmpty())
+        markFieldInvalid(ui.sshPass);
 
-    if (ui.sshKeysGroup->isChecked() && ui.privateKeyPath->text().isEmpty()) {
-        ui.privateKeyPath->setStyleSheet("border: 1px solid red;");
-    }
+    if (ui.sshKeysGroup->isChecked() && ui.privateKeyPath->text().isEmpty())
+        markFieldInvalid(ui.privateKeyPath);
 
     if (!ui.sshPasswordGroup->isChecked() && !ui.sshKeysGroup->isChecked()) {
-        ui.sshPass->setStyleSheet("border: 1px solid red;");
-        ui.privateKeyPath->setStyleSheet("border: 1px solid red;");
+        markFieldInvalid(ui.sshPass);
+        markFieldInvalid(ui.privateKeyPath);
     }
-
 
     return false;
 }
@@ -244,15 +250,19 @@ bool ConnectionWindow::isSshTunnelUsed()
 
 RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
-    RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),ui.nameEdit->text().trimmed(), ui.portSpinBox->value());
+    RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),
+                                       ui.nameEdit->text().trimmed(),
+                                       ui.portSpinBox->value());
 
-    conf.namespaceSeparator = ui.namespaceSeparator->text();
-    conf.connectionTimeout = ui.connectionTimeout->value() * 1000;
-    conf.executeTimeout = ui.executionTimeout->value() * 1000;
+    conf.setParam("namespace_separator", ui.namespaceSeparator->text());
+    conf.setParam("timeout_connect", ui.connectionTimeout->value() * 1000);
+    conf.setParam("timeout_execute", ui.executionTimeout->value() * 1000);
 
-    if (!ui.authEdit->text().isEmpty()) {
-        conf.auth = ui.authEdit->text();
-    }
+    if (!ui.authEdit->text().isEmpty())
+        conf.setParam("auth", ui.authEdit->text());    
+
+    if (!ui.keysPattern->text().isEmpty())
+        conf.setParam("keys_pattern", ui.keysPattern->text());
 
     if (isSshTunnelUsed()) {
         conf.setSshTunnelSettings(
@@ -260,10 +270,8 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
             ui.sshUser->text().trimmed(), 
             (ui.sshPasswordGroup->isChecked()? ui.sshPass->text().trimmed() : ""),
             ui.sshPort->value(),
-            (ui.sshKeysGroup->isChecked() ? ui.privateKeyPath->text().trimmed() : "")
-            );
+            (ui.sshKeysGroup->isChecked() ? ui.privateKeyPath->text().trimmed() : ""));
     }
 
     return conf;
 }
-

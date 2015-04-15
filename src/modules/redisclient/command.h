@@ -16,6 +16,7 @@ public:
     Command(const QStringList& cmd, QObject * m_owner, std::function<void(Response)> callback, int db = -1);
     Command(const QStringList& cmd, int db);
     Command(int db);
+    virtual ~Command();
 
     Command &operator <<(const QString&);
     Command &append(const QByteArray&part);
@@ -26,26 +27,30 @@ public:
     QList<QByteArray> getSplitedRepresentattion() const;
     QString     getPartAsString(int i);
     int         getDbIndex() const;
-    QObject*    getOwner() const;
+    QObject*    getOwner() const;    
 
     /** New callback API **/
     void setCallBack(QObject* context, std::function<void(Response)> callback);
-    std::function<void(Response)> getCallBack();
+    std::function<void(Response)> getCallBack() const;
 
     void cancel();
+    void markAsHiPriorityCommand();
 
     bool isCanceled() const;
     bool isValid() const;
+    bool isScanCommand() const;
     bool hasCallback() const;
     bool isEmpty() const;
     bool hasDbIndex() const;
     bool isSelectCommand() const;
+    bool isHiPriorityCommand() const;
 
-private:
+protected:
     QObject * m_owner;
     QList<QByteArray> m_commandWithArguments;
     int dbIndex;
     bool commandCanceled;
+    bool m_hiPriorityCommand;
     std::function<void(Response)> m_callback;
 
     QList<QByteArray> splitCommandString(const QString &);

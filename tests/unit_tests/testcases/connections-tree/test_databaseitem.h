@@ -1,6 +1,4 @@
-#ifndef TEST_DATABASEITEM_H
-#define TEST_DATABASEITEM_H
-
+#pragma once
 #include <QObject>
 
 class TestDatabaseItem : public QObject
@@ -11,7 +9,7 @@ public:
 
 private slots:
     void testLoadKeys();
+    void testUnloadKeys();
+    void testContextMenu();
 
 };
-
-#endif // TEST_DATABASEITEM_H

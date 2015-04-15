@@ -1,8 +1,10 @@
 #include "connection.h"
 #include "command.h"
+#include "scancommand.h"
 #include "transporters/defaulttransporter.h"
 #include "transporters/sshtransporter.h"
 #include "commandexecutor.h"
+#include "scanresponse.h"
 
 RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
     : config(c), m_connected(false), m_dbNumber(-1)
@@ -54,7 +56,7 @@ bool RedisClient::Connection::connect() // todo: add block/unblock parameter
     QObject::connect(this, SIGNAL(authOk()), &loop, SLOT(quit()));
 
     m_transporterThread->start();    
-    timeoutTimer.start(config.connectionTimeout);
+    timeoutTimer.start(config.param<int>("timeout_connect"));
     loop.exec();
 
     if (!m_connected)
@@ -95,6 +97,22 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     emit addCommandToWorker(cmd);
 }
 
+void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::ScanCommand> cmd,
+                                                 std::function<void (QVariant)> callback)
+{
+    if (getServerVersion() < 2.8)
+        throw Exception("Scan commands not supported by redis-server.");
+
+    if (!cmd->isValidScanCommand())
+        throw Exception("Invalid command");    
+
+    // workaround
+    Command selectCmd(QStringList() << "select" << QString::number(cmd->getDbIndex()));
+    CommandExecutor::execute(this, selectCmd);
+
+    processScanCommand(cmd, callback);
+}
+
 bool RedisClient::Connection::waitConnectedState(unsigned int timeoutInMs)
 {
     if (isConnected())
@@ -119,9 +137,9 @@ void RedisClient::Connection::setConnectionConfig(const RedisClient::ConnectionC
     config = c;    
 }
 
-float RedisClient::Connection::getServerVersion()
+double RedisClient::Connection::getServerVersion()
 {
-    return 0.0; // TBD
+    return m_serverInfo.version;
 }
 
 void RedisClient::Connection::setConnectedState()
@@ -151,6 +169,42 @@ bool RedisClient::Connection::isTransporterRunning()
             && m_transporterThread->isRunning();
 }
 
+void RedisClient::Connection::processScanCommand(QSharedPointer<ScanCommand> cmd,
+                                                 std::function<void(QVariant)> callback,
+                                                 QSharedPointer<QVariantList> result)
+{
+    if (result.isNull())
+        result = QSharedPointer<QVariantList>(new QVariantList());
+
+    cmd->setCallBack(this, [this, cmd, result, callback](RedisClient::Response r){
+
+        if (!ScanResponse::isValidScanResponse(r)) {
+            callback(QVariant(*result));
+            return;
+        }
+
+        RedisClient::ScanResponse* scanResp = (RedisClient::ScanResponse*)(&r);
+
+        if (!scanResp) {
+            callback(QVariant("-Error occured on cast ScanResponse from Response."));
+            return;
+        }
+
+        result->append(scanResp->getCollection());
+
+        if (scanResp->getCursor() <= 0) {            
+            callback(QVariant(*result));
+            return;
+        }
+
+        cmd->setCursor(scanResp->getCursor());
+
+        processScanCommand(cmd, callback, result);
+    });
+
+    runCommand(*cmd);
+}
+
 void RedisClient::Connection::connectionReady()
 {
     // todo: create signal in operations::auth() method and connect to this signal
@@ -165,21 +219,31 @@ void RedisClient::Connection::commandAddedToTransporter()
 
 void RedisClient::Connection::auth()
 {
+    emit log("AUTH");
     // todo: check is socket succesufully connected before run this method
-    m_connected = true;
+    m_connected = true;    
 
     if (config.useAuth()) {
-        Command authCmd(QStringList() << "auth" << config.auth);
+        Command authCmd(QStringList() << "auth" << config.auth());
+        authCmd.markAsHiPriorityCommand();
         CommandExecutor::execute(this, authCmd);
     }
 
     Command testCommand("ping");
+    testCommand.markAsHiPriorityCommand();
     Response testResult = CommandExecutor::execute(this, testCommand);
 
     if (testResult.toString() == "+PONG\r\n") {
+        Command infoCommand("INFO");
+        infoCommand.markAsHiPriorityCommand();
+        Response infoResult = CommandExecutor::execute(this, infoCommand);
+        m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());
+
         setConnectedState();
+        emit log("AUTH OK");
         emit authOk();
     } else {
+        emit error("AUTH ERROR");
         emit authError("Redis server require password or password invalid");        
         m_connected = false;
     }
@@ -190,12 +254,17 @@ bool RedisClient::Connection::selectDb(int index)
     if (m_dbNumber == index)
         return true;
 
-    m_dbNumber = index;
     QStringList commandParts;
     commandParts << "select" << QString::number(index);
     Command cmd(commandParts);
     Response result = CommandExecutor::execute(this, cmd);
-    return result.isOkMessage();
+
+    if (result.isOkMessage()) {
+        m_dbNumber = index;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void RedisClient::Connection::setTransporter(QSharedPointer<RedisClient::AbstractTransporter> transporter)
@@ -204,4 +273,20 @@ void RedisClient::Connection::setTransporter(QSharedPointer<RedisClient::Abstrac
         return;
 
     m_transporter = transporter;
+}
+
+RedisClient::ServerInfo RedisClient::ServerInfo::fromString(const QString &info)
+{
+    QRegExp versionRegex("redis_version:([0-9]\\.[0-9]+)", Qt::CaseInsensitive, QRegExp::RegExp2);
+
+    int pos = versionRegex.indexIn(info);
+
+    RedisClient::ServerInfo result;
+    if (pos == -1) {
+        result.version = 0.0;
+    } else {
+        result.version = versionRegex.cap(1).toDouble();
+    }
+
+    return result;
 }

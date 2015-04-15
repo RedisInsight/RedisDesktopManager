@@ -6,6 +6,7 @@
 #include <QtCore>
 #include <QTest>
 #include <QSignalSpy>
+#include <QMenu>
 
 using namespace ConnectionsTree;
 
@@ -22,15 +23,17 @@ void TestServerItem::testLoad()
     Model dummyModel;
     ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
     QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
+    DummyParentView view;
 
     //when
-    item.load();
+    bool actualResult = item.onClick(view);
 
     //then
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item.childCount(), static_cast<uint>(1));
     QCOMPARE(item.isLocked(), false);
     QCOMPARE(item.isDatabaseListLoaded(), true);
+    QCOMPARE(actualResult, true);
 }
 
 void TestServerItem::testUnload()
@@ -64,5 +67,40 @@ void TestServerItem::testReload()
 
     //then
     QCOMPARE(spy.count(), 1);
+}
+
+void TestServerItem::testContextMenu()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock();
+    Model dummyModel;
+    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
+    DummyParentView view;
+
+    //when
+    QSharedPointer<QMenu> actualResult = item.getContextMenu(view);
+
+    //then
+    QCOMPARE(actualResult->isEmpty(), false);
+}
+
+void TestServerItem::testBasicMethods()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock();
+    Model dummyModel;
+
+    //when
+    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
+
+    //then
+    QCOMPARE(item.getDisplayName(), QString("test"));
+    QCOMPARE(item.getIcon().isNull(), false);
+    QCOMPARE(item.parent() == nullptr, true);
+    QCOMPARE(item.isEnabled(), true);
+    QCOMPARE(item.isLocked(), false);
+    QCOMPARE(item.child(0).isNull(), true);
+    QCOMPARE(item.getAllChilds().isEmpty(), true);
+    QCOMPARE(item.row(), 0);
 }
 

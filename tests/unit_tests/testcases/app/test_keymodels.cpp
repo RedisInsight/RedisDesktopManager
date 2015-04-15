@@ -1,5 +1,10 @@
 #include "test_keymodels.h"
 
+#include "app/models/key-models/hashkey.h"
+#include "app/models/key-models/listkey.h"
+#include "app/models/key-models/setkey.h"
+#include "app/models/key-models/sortedsetkey.h"
+#include "app/models/key-models/stringkey.h"
 
 void TestKeyModels::testKeyFactory()
 {
@@ -85,15 +90,20 @@ void TestKeyModels::testValueLoading()
     bool callbackCalled = false;
 
     keyModel->loadRows(0, keyModel->rowsCount(), [&callbackCalled]() { callbackCalled = true; });
-    wait(100);
+    wait(500);
     QVERIFY(callbackCalled);
     QVERIFY(keyModel->isRowLoaded(testRow));
 
     QVariant actualResult = keyModel->getData(testRow, testRole);
+    keyModel->clearRowCache();
 
     //then
     QFETCH(QString, validData);
+    QFETCH(QStringList, validColumns);
     QCOMPARE(actualResult.toString(), validData);
+    QCOMPARE(keyModel->getColumnNames(), validColumns);
+    QVERIFY(keyModel->getRoles().size() != 0);
+    QVERIFY(keyModel->isRowLoaded(0) == false);
 
 }
 
@@ -105,14 +115,16 @@ void TestKeyModels::testValueLoading_data()
        QTest::addColumn<unsigned long>("validRowCount");
        QTest::addColumn<bool>("validIsMultiRow");
        QTest::addColumn<QString>("validData");
+       QTest::addColumn<QStringList>("validColumns");
 
        QTest::newRow("Valid string model")
                << (QStringList() << "+string\r\n" << ":-1\r\n" << "$17\r\n__nice_test_data!\r\n")
                << 0
                << Qt::UserRole + 1
-               << (unsigned long)1
+               << (unsigned long)0
                << false
-               << "__nice_test_data!";
+               << "__nice_test_data!"
+               << QStringList();
 
        QTest::newRow("Valid list model")
                << (QStringList() << "+list\r\n" << ":-1\r\n" << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
@@ -120,7 +132,8 @@ void TestKeyModels::testValueLoading_data()
                << Qt::UserRole + 1
                << (unsigned long)2
                << true
-               << "bar";
+               << "bar"
+               << (QStringList() << "row" << "value");
 
        QTest::newRow("Valid set model")
                << (QStringList() << "+set\r\n" << ":-1\r\n" << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
@@ -128,7 +141,8 @@ void TestKeyModels::testValueLoading_data()
                << Qt::UserRole + 1
                << (unsigned long)2
                << true
-               << "bar";
+               << "bar"
+               << (QStringList() << "row" << "value");
 
        QTest::newRow("Valid zset model")
                << (QStringList() << "+zset\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
@@ -136,7 +150,8 @@ void TestKeyModels::testValueLoading_data()
                << Qt::UserRole + 1
                << (unsigned long)2
                << true
-               << "bar";
+               << "bar"
+               << (QStringList() << "row" << "value" << "score");
 
        QTest::newRow("Valid hash model")
                << (QStringList() << "+hash\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
@@ -144,7 +159,124 @@ void TestKeyModels::testValueLoading_data()
                << Qt::UserRole + 1
                << (unsigned long)2
                << true
-               << "bar";
+               << "bar"
+               << (QStringList() << "row" << "key" << "value");
+}
+
+void TestKeyModels::testKeyModelModifyRows()
+{
+    //given
+    QFETCH(QStringList, testReplies);
+    QFETCH(QVariantMap, row);
+    QFETCH(int, role);
+    QFETCH(int, validRowCount);
+    auto dummyConnection = getReadyDummyConnection(testReplies);
+
+    //when
+    QSharedPointer<ValueEditor::Model> keyModel = getKeyModel(dummyConnection);
+    QVERIFY(keyModel.isNull() == false);
+    keyModel->loadRows(0, 10, [](){return;});
+    wait(500);
+    keyModel->addRow(row);
+    row["value"] = "fakeUpdate";
+    keyModel->updateRow(0, row);
+    QVariant actualResult = keyModel->getData(0, role);
+    keyModel->removeRow(0);
+
+    //then
+    QVERIFY(actualResult.type() == QVariant::ByteArray);
+    QCOMPARE(actualResult.toString(), QString("fakeUpdate"));
+    QCOMPARE(keyModel->rowsCount(), (unsigned long)validRowCount);
+}
+
+void TestKeyModels::testKeyModelModifyRows_data()
+{
+    QTest::addColumn<QStringList>("testReplies");
+    QTest::addColumn<QVariantMap>("row");
+    QTest::addColumn<int>("role");
+    QTest::addColumn<int>("validRowCount");
+
+    QVariantMap stringRow;
+    stringRow["value"] = "test";
+    QTest::newRow("Valid string model")
+            << (QStringList()
+                << "+string\r\n"
+                << ":-1\r\n"
+                << "$17\r\n__nice_test_data!\r\n"
+                << "+OK\r\n"
+                << "+OK\r\n")
+            << stringRow
+            << Qt::UserRole + 1
+            << 0;
+
+    QVariantMap listRow;
+    listRow["row"] = 0;
+    listRow["value"] = "test";
+    QTest::newRow("Valid list model")
+            << (QStringList()
+                << "+list\r\n"
+                << ":-1\r\n"
+                << ":2\r\n"
+                << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
+                << "+OK\r\n"
+                << "*1\r\n$3\r\nfoo\r\n"
+                << "+OK\r\n"
+                << "*1\r\n$10\r\nfakeUpdate\r\n"
+                << "+OK\r\n"
+                << "+OK\r\n")
+            << listRow
+            << Qt::UserRole + 1
+            << 2;
+
+    QVariantMap setRow;
+    setRow["row"] = 0;
+    setRow["value"] = "test";
+    QTest::newRow("Valid set model")
+            << (QStringList()
+                << "+set\r\n"
+                << ":-1\r\n"
+                << ":2\r\n"
+                << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
+                << "+OK\r\n")
+            << setRow
+            << Qt::UserRole + 1
+            << 2;
+
+    QVariantMap zsetRow;
+    zsetRow["row"] = 0;
+    zsetRow["value"] = "test";
+    zsetRow["score"] = 1.1;
+    QTest::newRow("Valid zset model")
+            << (QStringList()
+                << "+zset\r\n"
+                << ":-1\r\n"
+                << ":2\r\n"
+                << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n"
+                << ":1\r\n"
+                << ":1\r\n"
+                << ":1\r\n"
+                << ":1\r\n"
+                )
+            << zsetRow
+            << Qt::UserRole + 1
+            << 2;
+
+    QVariantMap hashRow;
+    hashRow["row"] = 0;
+    hashRow["key"] = "test";
+    hashRow["value"] = "test";
+    QTest::newRow("Valid hash model")
+            << (QStringList()
+                << "+hash\r\n"
+                << ":-1\r\n"
+                << ":2\r\n"
+                << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n"
+                << ":1\r\n"
+                << ":1\r\n"
+                << ":1\r\n")
+            << hashRow
+            << Qt::UserRole + 2
+            << 2;
 }
 
 QSharedPointer<ValueEditor::Model> TestKeyModels::getKeyModel(QSharedPointer<RedisClient::Connection> connection)
@@ -155,7 +287,7 @@ QSharedPointer<ValueEditor::Model> TestKeyModels::getKeyModel(QSharedPointer<Red
         actualResult = model;
     });
 
-    wait(500);
+    wait(100);
 
     return actualResult;
 }

@@ -27,11 +27,7 @@ void ConsoleTabs::closeCurrentTabWithValue()
     if (currIndex == -1) 
         return;
 
-    BaseTab * tab = qobject_cast<BaseTab *> (widget(currIndex));
-
-    //if (tab->shouldBeReplaced()) {
-        closeTab(currIndex);
-    //}
+    closeTab(currIndex);
 }
 
 void ConsoleTabs::closeTab(unsigned int index)
@@ -59,11 +55,6 @@ void ConsoleTabs::addTab(QSharedPointer<BaseTab> tab)
     int index = QTabWidget::addTab(tab.data(), tab->getIcon(), tab->getTitle());
     setCurrentIndex(index);
     tab->setFocus();
-}
-
-void ConsoleTabs::replaceCurrentTab(QSharedPointer<BaseTab> tab)
-{
-
 }
 
 void ConsoleTabs::OnTabClose(int index)

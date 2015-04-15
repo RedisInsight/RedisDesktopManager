@@ -1,7 +1,6 @@
-#ifndef TEST_SERVERITEM_H
-#define TEST_SERVERITEM_H
-
+#pragma once
 #include <QObject>
+
 
 class TestServerItem : public QObject
 {
@@ -10,11 +9,9 @@ public:
     explicit TestServerItem(QObject *parent = 0);
 
 private slots:
-
     void testLoad();
     void testUnload();
     void testReload();
-
+    void testContextMenu();
+    void testBasicMethods();
 };
-
-#endif // TEST_SERVERITEM_H

@@ -2,35 +2,46 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 
-RowLayout {
+ColumnLayout {
     id: pagination
     visible: showValueNavigation
 
-    Button {
-        text: "⇤"
-        onClicked: table.goToFirstPage()
+    RowLayout {
+        Text {
+            text: "Page "
+            wrapMode: Text.WrapAnywhere
+        }
+
+        TextField {
+            id: pageField;
+            text: table.currentPage;
+            Layout.maximumWidth: 60;
+            Layout.preferredWidth: 60;
+            readOnly: false
+            validator: IntValidator {bottom: 1; top: table.totalPages}
+        }
+
+        Text {
+            Layout.maximumWidth: 130
+            text: " of " + table.totalPages
+            wrapMode: Text.WrapAnywhere
+        }
     }
-    Button {
-        text: "⇦"
-        onClicked: table.goToPrevPage()
-    }
-    Text {
-        text: "Page " + table.currentPage + " of " + table.totalPages
-                + " (Items:" + (table.currentStart+1) + "-"
-                + (table.currentStart+table.rowCount)
-                + " of " + table.model.totalRowCount() + ")"
-    }
-    TextField { text: "1"; Layout.fillWidth: true; readOnly: false}
-    Button {
-        text: "Goto Page"
-        onClicked: {}
-    }
-    Button {
-        text: "⇨"
-        onClicked: table.goToNextPage()
-    }
-    Button {
-        text: "⇥"
-        onClicked: table.goToLastPage()
+
+    RowLayout {
+        Layout.maximumWidth: 100
+        spacing: 0
+        Button {
+            text: "⇦"
+            onClicked: table.goToPrevPage()
+        }
+        Button {
+            text: "Set"
+            onClicked: table.goToPage(pageField.text)
+        }
+        Button {
+            text: "⇨"
+            onClicked: table.goToNextPage()
+        }
     }
 }

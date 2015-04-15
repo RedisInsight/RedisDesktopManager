@@ -1,15 +1,26 @@
-#ifndef CONNECTION_H
-#define CONNECTION_H
+#pragma once
 
+#include <QHash>
 #include <QObject>
 #include <QWaitCondition>
+#include <functional>
+#include <QVariantList>
+#include <QSharedPointer>
 #include "connectionconfig.h"
 #include "exception.h"
 #include "command.h"
+#include "scancommand.h"
 
 namespace RedisClient {
 
 class AbstractTransporter;
+
+struct ServerInfo
+{
+    double version;
+
+    static ServerInfo fromString(const QString& info);
+};
 
 class Connection : public QObject
 {
@@ -17,19 +28,23 @@ class Connection : public QObject
     ADD_EXCEPTION
 public:
     Connection(const ConnectionConfig & c, bool autoConnect = false);
-    ~Connection();
+    virtual ~Connection();
 
     ConnectionConfig config;
 
     bool connect();
     bool isConnected();
     void disconnect();
-    void runCommand(const Command &cmd);    
+
+    virtual void runCommand(const Command &cmd);
+    virtual void retrieveCollection(QSharedPointer<ScanCommand> cmd,
+                                    std::function<void(QVariant)> callback);
+
     bool waitConnectedState(unsigned int);
     ConnectionConfig getConfig() const;
     void setConnectionConfig(const ConnectionConfig &);
 
-    float getServerVersion();
+    virtual double getServerVersion();
 
     /**
      * Select db
@@ -58,16 +73,19 @@ protected:
     QWaitCondition m_commandWaiter;
     QTimer m_timeoutTimer;
     int m_dbNumber;
+    ServerInfo m_serverInfo;
 
     void setConnectedState();
     void createTransporter();
     bool isTransporterRunning();
+
+    void processScanCommand(QSharedPointer<ScanCommand> cmd,
+                            std::function<void(QVariant)> callback,
+                            QSharedPointer<QVariantList> result=QSharedPointer<QVariantList>());
 
 protected slots:
     void connectionReady();
     void commandAddedToTransporter();
     void auth();
 };
-
 }
-#endif // CONNECTION_H

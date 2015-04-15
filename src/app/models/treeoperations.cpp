@@ -2,6 +2,7 @@
 #include "redisclient/commandexecutor.h"
 #include "redisclient/connection.h"
 #include "redisclient/command.h"
+#include "redisclient/scancommand.h"
 #include "redisclient/response.h"
 #include "app/widgets/consoletabs.h"
 #include "console/consoletab.h"
@@ -83,14 +84,28 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
 void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
 {
-    auto keyCmd = RedisClient::Command("keys *", this, dbIndex);
+    QString keyPattern = m_connection->getConfig().keysPattern();
 
-    keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
-        qDebug() << "Keys response";
-        callback(r.getValue().toStringList());
-    });
+    if (m_connection->getServerVersion() >= 2.8) {
+        QString cmd = QString("scan 0 MATCH %1 COUNT 10000").arg(keyPattern);
+        QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(cmd, this, dbIndex));
+        m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r) {
 
-    m_connection->runCommand(keyCmd);
+            if (r.type() == QVariant::Type::List)
+                callback(r.toStringList());
+            else
+                callback(QStringList());
+        });
+    } else {
+        QString cmd = QString("keys %1").arg(keyPattern);
+        auto keyCmd = RedisClient::Command(cmd, this, dbIndex);
+
+        keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
+            callback(r.getValue().toStringList());
+        });
+
+        m_connection->runCommand(keyCmd);
+    }
 }
 
 void TreeOperations::disconnect()
@@ -100,7 +115,7 @@ void TreeOperations::disconnect()
 
 QString TreeOperations::getNamespaceSeparator()
 {
-    return m_connection->config.namespaceSeparator;
+    return m_connection->config.param<QString>("namespace_separator");
 }
 
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)

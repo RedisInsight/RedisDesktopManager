@@ -30,7 +30,7 @@ DatabaseItem::~DatabaseItem()
 
 QString DatabaseItem::getDisplayName() const
 {
-    return m_keys.isEmpty()? m_name : QString("%1 (%2/%3)").arg(m_name).arg(m_keysCount).arg(childCount());
+    return m_keys.isEmpty()? m_name : QString("%1 (%2/%3)").arg(m_name).arg(childCount()).arg(m_keysCount);
 }
 
 QIcon DatabaseItem::getIcon() const
@@ -49,9 +49,9 @@ uint DatabaseItem::childCount() const
     return m_keys.size();
 }
 
-QSharedPointer<TreeItem> DatabaseItem::child(int row) const
+QSharedPointer<TreeItem> DatabaseItem::child(uint row) const
 {
-    if (0 <= row && row < childCount())
+    if (row < childCount())
         return m_keys.at(row);
 
     return QSharedPointer<TreeItem>();
@@ -65,7 +65,6 @@ const TreeItem *DatabaseItem::parent() const
 bool DatabaseItem::onClick(ParentView&)
 {    
     loadKeys();
-
     return true;
 }
 
@@ -79,7 +78,7 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
     QSharedPointer<QMenu> menu(new QMenu());
 
     //new key action
-    QAction* newKey = new QAction(QIcon(":/images/terminal.png"), "Add new key", menu.data());
+    QAction* newKey = new QAction(QIcon(":/images/add.png"), "Add new key", menu.data());
     QObject::connect(newKey, &QAction::triggered, this, [this]() { m_operations->openNewKeyDialog(m_index); });
     menu->addAction(newKey);
     menu->addSeparator();
@@ -94,8 +93,10 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
 
 void DatabaseItem::loadKeys()
 {
-    if (m_keys.size() > 0)
+    if (m_keys.size() > 0) {
+        emit keysLoaded(m_index);
         return;
+    }
 
     m_locked = true;
 

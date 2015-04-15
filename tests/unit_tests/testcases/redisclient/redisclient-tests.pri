@@ -7,6 +7,7 @@ HEADERS  += \
     $$REDISCLIENT_SRC_DIR/*.h \
     $$REDISCLIENT_SRC_DIR/ssh/*.h \
     $$REDISCLIENT_SRC_DIR/transporters/*.h \
+    $$PWD/mocks/dummyconnection.h
 
 SOURCES += \
     $$PWD/*.cpp \

@@ -84,31 +84,25 @@ unsigned long HashKeyModel::rowsCount()
     return m_rowCount;
 }
 
-void HashKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
-{
+void HashKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function<void ()> callback)
+{    
     if (isPartialLoadingSupported()) {
-        //TBD
+        QSharedPointer<RedisClient::ScanCommand> cmd(new RedisClient::ScanCommand(
+                                                         QString("HSCAN %1 0 COUNT 10000").arg(m_keyFullPath),
+                                                         this, m_dbIndex));
+
+        m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {            
+            if (result.type() == QVariant::Type::List) {
+                addLoadedRowsToCache(result.toList(), rowStart);
+            }
+            callback();
+        });
+
     } else {
         QVariantList rows = getRowsRange("HGETALL").toList();
-
-        unsigned int rowIndex = rowStart;
-
-        for (QVariantList::iterator item = rows.begin();
-             item != rows.end(); ++item, rowIndex++) {
-
-            QPair<QByteArray, QByteArray> value;
-            value.first = item->toByteArray();
-            ++item;
-
-            if (item == rows.end())
-                throw Exception("Partial data loaded from server");
-
-            value.second = item->toByteArray();
-            m_rowsCache.push_back(value);
-        }
+        addLoadedRowsToCache(rows, rowStart);
+        callback();
     }
-
-    callback();
 }
 
 void HashKeyModel::clearRowCache()
@@ -171,5 +165,24 @@ void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
     Command deleteCmd(m_dbIndex);
     (deleteCmd << "HDEL" << m_keyFullPath).append(hashKey);
     CommandExecutor::execute(m_connection, deleteCmd);
+}
+
+void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
+{
+    unsigned int rowIndex = rowStart;
+
+    for (QVariantList::const_iterator item = rows.begin();
+         item != rows.end(); ++item, rowIndex++) {
+
+        QPair<QByteArray, QByteArray> value;
+        value.first = item->toByteArray();
+        ++item;
+
+        if (item == rows.end())
+            throw Exception("Partial data loaded from server");
+
+        value.second = item->toByteArray();
+        m_rowsCache.push_back(value);
+    }
 }
 

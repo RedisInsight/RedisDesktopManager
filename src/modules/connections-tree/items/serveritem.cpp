@@ -61,9 +61,9 @@ uint ServerItem::childCount() const
     return static_cast<uint>(m_databases.size());
 }
 
-QSharedPointer<TreeItem> ServerItem::child(int row) const
+QSharedPointer<TreeItem> ServerItem::child(uint row) const
 {
-    if (0 <= row && row < m_databases.size()) {
+    if (row < m_databases.size()) {
         return m_databases.at(row);
     }
 
@@ -231,7 +231,3 @@ void ServerItem::setName(const QString& name)
 {
     m_name = name;
 }
-
-
-
-

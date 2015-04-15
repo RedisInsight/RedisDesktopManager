@@ -5,6 +5,7 @@
 #include <QtCore>
 #include <QTest>
 #include <QSignalSpy>
+#include <QMenu>
 
 using namespace ConnectionsTree;
 
@@ -24,14 +25,52 @@ void TestDatabaseItem::testLoadKeys()
     DatabaseItem item("test", 0, 300,
                       QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
                       nullptr);
-
     QSignalSpy spy(&item, SIGNAL(keysLoaded(unsigned int)));
+    DummyParentView view;
 
     //when
-    item.loadKeys();
+    bool actualResult = item.onClick(view);
 
     //then
     QCOMPARE(spy.wait(), true);
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item.childCount(), (unsigned int)3);
+    QCOMPARE(actualResult, true);
+    QCOMPARE(item.getDisplayName(), QString("test (3/300)"));
+    QCOMPARE(item.getIcon().isNull(), false);
+    QCOMPARE(item.getAllChilds().isEmpty(), false);
+    QCOMPARE(item.isEnabled(), true);
+    QCOMPARE(item.isLocked(), false);
+}
+
+void TestDatabaseItem::testUnloadKeys()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock();
+    DatabaseItem item("test", 0, 300,
+                      QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
+                      nullptr);
+
+    //when
+    item.unload();
+
+    //then
+    QCOMPARE(item.childCount(), (unsigned int)0);
+    QCOMPARE(item.isLocked(), false);
+}
+
+void TestDatabaseItem::testContextMenu()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock();
+    DatabaseItem item("test", 0, 300,
+                      QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
+                      nullptr);
+    DummyParentView view;
+
+    //when
+    QSharedPointer<QMenu> actualResult = item.getContextMenu(view);
+
+    //then
+    QCOMPARE(actualResult->isEmpty(), false);
 }
