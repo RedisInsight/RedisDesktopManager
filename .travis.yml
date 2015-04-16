@@ -26,7 +26,6 @@ script:
   - ./../bin/tests/tests -platform minimal -txt
   - ./../bin/tests/qml_tests -platform minimal -txt
   - cd ./../src
-  - python ./../build/set_version.py 1.0.0 > version.h
   - sudo chmod a+x configure
   - ./configure
   - qmake

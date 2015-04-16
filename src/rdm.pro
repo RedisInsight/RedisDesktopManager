@@ -12,6 +12,7 @@ TEMPLATE = app
 # Skip version file
 !exists( $$PWD/version.h ) {    
     DEFINES += RDM_VERSION=\\\"0.8.0.0\\\"
+    message("Version: 0.8.0.0")
 }
 
 DEFINES += ELPP_QT_LOGGING ELPP_STL_LOGGING
@@ -33,7 +34,6 @@ SOURCES += \
     $$PWD/modules/updater/*.cpp \
 
 HEADERS  += \
-    $$PWD/version.h \
     $$PWD/app/dialogs/*.h \
     $$PWD/app/models/*.h \
     $$PWD/app/models/key-models/*.h \
@@ -95,7 +95,6 @@ unix:!macx { # ubuntu & debian
     CONFIG += static release
     CONFIG -= debug
 
-    #Qt static linked on Ubuntu/Debian
     QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
     release: DESTDIR = ./../bin/linux/release

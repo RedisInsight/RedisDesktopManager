@@ -20,7 +20,6 @@ INCLUDEPATH += $$BREAKPADDIR/src
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR
 
-#win32-msvc* {
 win32* {
     CONFIG(release, debug|release) {
         WIN_DEPS_PATH = $$PWD/libs/win32/release/
@@ -80,6 +79,9 @@ unix:macx { # OSX
 unix:!macx { # ubuntu & debian
 
     QMAKE_CXXFLAGS += -std=gnu++0x -g #workaround for google breakpad
+
+    # clean default flags
+    QMAKE_LFLAGS_RPATH=
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
     LIBS += /usr/local/lib/libssh2.a
