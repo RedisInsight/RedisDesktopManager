@@ -84,8 +84,8 @@ unix:!macx { # ubuntu & debian
     QMAKE_LFLAGS_RPATH=
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
-    LIBS += /usr/local/lib/libssh2.a
-    LIBS += -lcrypto -lz
+#    LIBS += /usr/local/lib/libssh2.a
+    LIBS += -lcrypto -lz -lssh2
 
     #PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
 
