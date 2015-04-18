@@ -12,7 +12,7 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
 {
     ui.setupUi(this);
 
-    this->setWindowFlags(Qt::Tool);        
+    this->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);       
     this->setModal(true);
 
     ui.validationWarning->hide();
