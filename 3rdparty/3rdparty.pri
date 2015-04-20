@@ -85,10 +85,9 @@ unix:!macx { # ubuntu & debian
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
 #    LIBS += /usr/local/lib/libssh2.a
-    LIBS += -static -lssh2
-    LIBS += -lcrypto -lz 
+#    PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
+    LIBS += -lcrypto -lz -lssh2
 
-    #PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
 
     HEADERS += $$BREAKPADDIR/client/linux/minidump_writer/cpu_set.h \
           $$BREAKPADDIR/client/linux/minidump_writer/proc_cpuinfo_reader.h \
