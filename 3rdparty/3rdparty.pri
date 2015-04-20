@@ -85,7 +85,8 @@ unix:!macx { # ubuntu & debian
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
 #    LIBS += /usr/local/lib/libssh2.a
-    LIBS += -lcrypto -lz -lssh2
+    LIBS += -static -lssh2
+    LIBS += -lcrypto -lz 
 
     #PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
 
