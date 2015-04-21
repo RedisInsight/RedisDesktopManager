@@ -40,6 +40,7 @@ public:
 signals:
     void keysLoaded(unsigned int dbIndex);
     void unloadStarted(unsigned int dbIndex);
+    void updateIcon(unsigned int dbIndex);
 
 protected slots:
     void onKeysRendered();

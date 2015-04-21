@@ -99,6 +99,7 @@ void DatabaseItem::loadKeys()
     }
 
     m_locked = true;
+    emit updateIcon(m_index);
 
     m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys) {
 

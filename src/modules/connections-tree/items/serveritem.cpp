@@ -157,6 +157,7 @@ bool ServerItem::isDatabaseListLoaded() const
 void ServerItem::load()
 {
     m_locked = true;
+    emit updateIcon();
 
     std::function<void(Operations::DatabaseList)> callback = [this](Operations::DatabaseList databases) {
 
@@ -181,6 +182,8 @@ void ServerItem::load()
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(unloadStarted(unsigned int)),
                              this, SIGNAL(unloadStartedInDatabase(unsigned int)));
+            QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(updateIcon(unsigned int)),
+                             this, SIGNAL(updateDbIcon(unsigned int)));
 
             m_databases.push_back(database);
             ++db;            

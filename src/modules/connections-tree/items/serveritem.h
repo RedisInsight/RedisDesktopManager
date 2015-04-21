@@ -44,6 +44,8 @@ namespace ConnectionsTree {
         void unloadStarted();
         void editActionRequested();
         void deleteActionRequested();
+        void updateIcon();
+        void updateDbIcon(unsigned int dbIndex);
         void keysLoadedInDatabase(unsigned int dbIndex);
         void unloadStartedInDatabase(unsigned int dbIndex);
 
