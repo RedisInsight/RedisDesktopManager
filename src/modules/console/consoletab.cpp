@@ -10,7 +10,7 @@ using namespace Console;
 
 ConsoleTab::ConsoleTab(QSharedPointer<Operations> operations)
     : m_consoleWidget(new QConsole(nullptr, "<span style='color: orange;'>"
-                                   "List of unsupported commands: PTTL, DUMP, RESTORE, AUTH, QUIT, MONITOR"
+                                   "List of unsupported commands: DUMP, RESTORE, AUTH"
                                    "</span> <br /> Connecting ...")),
       m_consoleOperations(operations)
 {        
