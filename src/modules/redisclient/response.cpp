@@ -68,8 +68,8 @@ QVariant RedisClient::Response::getValue()
                 parsedResponse = QVariant(getStringResponse(responseSource));
                 break;
 
-            case Integer:
-                parsedResponse = QVariant(getStringResponse(responseSource).toInt());
+            case Integer:                
+                parsedResponse = QVariant(getStringResponse(responseSource).toLongLong());
                 break;
 
             case Bulk:
