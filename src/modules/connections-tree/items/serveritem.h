@@ -40,6 +40,7 @@ namespace ConnectionsTree {
 
         void setName(const QString &name);
     signals:
+        void error(const QString&);
         void databaseListLoaded();
         void unloadStarted();
         void editActionRequested();
@@ -51,7 +52,7 @@ namespace ConnectionsTree {
 
     private:
         QString m_name;
-        bool m_locked;        
+        bool m_locked;
         bool m_databaseListLoaded;
         int m_row;
         QSharedPointer<Operations> m_operations;

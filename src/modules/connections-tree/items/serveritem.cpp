@@ -36,12 +36,16 @@ bool ServerItem::onClick(TreeItem::ParentView& view)
 
     try {
         load();
-    } catch (Operations::Exception& exception) {
-        QMessageBox::warning(view.getParentWidget(), "Server error", exception.what());
+    } catch (...) {
+        QMessageBox::warning(
+            view.getParentWidget(),
+            "Server error",
+            "Cannot load databases list."
+        );
         m_locked = false;
     }
 
-    return true;
+    return m_databaseListLoaded;
 }
 
 QIcon ServerItem::getIcon() const
@@ -205,7 +209,12 @@ void ServerItem::load()
         emit databaseListLoaded();
     };
 
-    m_operations->getDatabases(callback);
+    try {
+        m_operations->getDatabases(callback);
+    } catch (ConnectionsTree::Operations::Exception& e) {
+        m_locked = false;
+        emit error("Cannot load databases: " + QString(e.what()));
+    }
 }
 
 void ServerItem::unload()

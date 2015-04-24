@@ -10,6 +10,8 @@ public:
 
 private slots:
     void testLoad();
+    void testLoad_invalid();
+
     void testUnload();
     void testReload();
     void testContextMenu();

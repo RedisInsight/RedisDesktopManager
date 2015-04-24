@@ -5,16 +5,23 @@
 class ItemOperationsMock : public ConnectionsTree::Operations {
 
 public:
+    ItemOperationsMock(bool positive_mode=true):
+        m_positive_mode(positive_mode) {}
 
     DatabaseList databases;
-
     virtual void getDatabases(std::function<void(DatabaseList)> callback) {
-        callback(databases);
+        if (m_positive_mode)
+            callback(databases);
+        else
+            throw ConnectionsTree::Operations::Exception("fake error");
     }
 
     RawKeysList keys;
     virtual void getDatabaseKeys(uint, std::function<void(const RawKeysList&)> callback) {
-        callback(keys);
+        if (m_positive_mode)
+            callback(keys);
+        else
+            throw ConnectionsTree::Operations::Exception("fake error");
     }
 
     virtual QSharedPointer<Console::Operations> getConsoleOperations()
@@ -30,6 +37,9 @@ public:
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
     virtual void openConsoleTab() override {}
     void openNewKeyDialog(int, QString = QString()) override {}
+
+protected:
+    bool m_positive_mode;
 };
 
 class DummyParentView : public ConnectionsTree::TreeItem::ParentView {

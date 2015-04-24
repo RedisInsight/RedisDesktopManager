@@ -36,6 +36,26 @@ void TestServerItem::testLoad()
     QCOMPARE(actualResult, true);
 }
 
+void TestServerItem::testLoad_invalid()
+{
+    //given
+    ItemOperationsMock* operations = new ItemOperationsMock(false);
+    Model dummyModel;
+    ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
+    QSignalSpy spy(&item, SIGNAL(error(const QString&)));
+    DummyParentView view;
+
+    //when
+    bool actualResult = item.onClick(view);
+
+    //then
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(item.childCount(), static_cast<uint>(0));
+    QCOMPARE(item.isLocked(), false);
+    QCOMPARE(item.isDatabaseListLoaded(), false);
+    QCOMPARE(actualResult, false);
+}
+
 void TestServerItem::testUnload()
 {
     //given
