@@ -22,6 +22,8 @@ private slots:
     void error(QAbstractSocket::SocketError error);
     void stateChanged(QAbstractSocket::SocketState socketState);
     void reconnect();
+    void sslError(const QList<QSslError> errors);
+    void encrypted();
 private:
     QSharedPointer<QSslSocket> socket;
     bool m_errorOccurred;

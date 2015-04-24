@@ -53,6 +53,25 @@ int RedisClient::ConnectionConfig::connectionTimeout() const
     return param<int>("timeout_connect");
 }
 
+QList<QSslCertificate> RedisClient::ConnectionConfig::sslCaCertificates() const
+{
+    QString path = param<QString>("ssl_ca_cert_path");
+    if (!path.isEmpty() && QFile::exists(path))
+        return QSslCertificate::fromPath(path);
+
+    return QList<QSslCertificate>();
+}
+
+QString RedisClient::ConnectionConfig::sslPrivateKeyPath() const
+{
+    return getValidPathFromParameter("ssl_private_key_path");
+}
+
+QString RedisClient::ConnectionConfig::sslLocalCertPath() const
+{
+    return getValidPathFromParameter("ssl_local_cert_path");
+}
+
 bool RedisClient::ConnectionConfig::isSshPasswordUsed()
 {
     return !param<QString>("ssh_password").isEmpty();
@@ -93,6 +112,11 @@ bool RedisClient::ConnectionConfig::useAuth() const
     return !param<QString>("auth").isEmpty();
 }
 
+bool RedisClient::ConnectionConfig::useSsl() const
+{
+    return !param<QString>("ssl_ca_cert_path").isEmpty();
+}
+
 bool RedisClient::ConnectionConfig::isValid() const
 {
     return isNull() == false
@@ -112,11 +136,7 @@ QWeakPointer<RedisClient::Connection> RedisClient::ConnectionConfig::getOwner() 
 
 QString RedisClient::ConnectionConfig::getSshPrivateKey()
 {
-    QString path = param<QString>("ssh_private_key_path");
-    if (path.isEmpty() || !QFile::exists(path))
-        return QString();
-
-    return path;
+    return getValidPathFromParameter("ssh_private_key_path");
 }
 
 QString RedisClient::ConnectionConfig::keysPattern() const
@@ -145,6 +165,9 @@ RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & 
     valueMapping.insert("sshPassword", "ssh_password");
     valueMapping.insert("sshPort", "ssh_port");
     valueMapping.insert("sshPrivateKey", "ssh_private_key_path");
+    valueMapping.insert("ssl_ca_cert_path", "");
+    valueMapping.insert("ssl_private_key_path", "");
+    valueMapping.insert("ssl_local_cert_path", "");
     valueMapping.insert("namespaceSeparator", "namespace_separator");
     valueMapping.insert("connectionTimeout", "timeout_connect");
     valueMapping.insert("executeTimeout", "timeout_execute");
@@ -212,6 +235,12 @@ QDomElement RedisClient::ConnectionConfig::toXml()
         saveXmlAttribute(dom, xml, "sshPrivateKey", param<QString>("ssh_private_key_path"));
     }
 
+    if (useSsl()) {
+        saveXmlAttribute(dom, xml, "ssl_ca_cert_path", param<QString>("ssl_ca_cert_path"));
+        saveXmlAttribute(dom, xml, "ssl_private_key_path", param<QString>("ssl_private_key_path"));
+        saveXmlAttribute(dom, xml, "ssl_local_cert_path", param<QString>("ssl_local_cert_path"));
+    }
+
     return xml;
 }
 
@@ -220,4 +249,13 @@ void RedisClient::ConnectionConfig::saveXmlAttribute(QDomDocument & document, QD
     QDomAttr attr = document.createAttribute(name);
     attr.setValue(value);
     root.setAttributeNode(attr);
+}
+
+QString RedisClient::ConnectionConfig::getValidPathFromParameter(const QString &name) const
+{
+    QString path = param<QString>(name);
+    if (path.isEmpty() || !QFile::exists(path))
+        return QString();
+
+    return path;
 }

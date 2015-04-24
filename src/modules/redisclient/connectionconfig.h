@@ -2,6 +2,7 @@
 
 #include <QtCore>
 #include <QtXml>
+#include <QSslCertificate>
 
 #define DEFAULT_REDIS_PORT 6379
 #define DEFAULT_SSH_PORT 22
@@ -25,9 +26,14 @@ public:
     int executeTimeout() const;
     int connectionTimeout() const;
 
+    QList<QSslCertificate> sslCaCertificates() const;
+    QString sslPrivateKeyPath() const;
+    QString sslLocalCertPath() const;
+
     bool isNull() const;
     bool useSshTunnel() const;
     bool useAuth() const;
+    bool useSsl() const;
     bool isValid() const;
     bool isSshPasswordUsed();
 
@@ -67,6 +73,7 @@ protected:
                           const QString& name,
                           const QString& value);
 
+    QString getValidPathFromParameter(const QString& param) const;
 private:
     QWeakPointer<Connection> m_owner;
     QVariantHash m_parameters;
