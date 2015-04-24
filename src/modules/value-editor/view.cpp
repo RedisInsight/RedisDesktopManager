@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QApplication>
 #include <QtQml>
+#include <QSysInfo>
 #include "viewmodel.h"
 #include "valueviewmodel.h"
 
@@ -39,6 +40,7 @@ View::View(QSharedPointer<ViewModel> viewModel)
     m_qml->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qml->rootContext()->setContextProperty("appVersion", QApplication::applicationVersion());
     m_qml->rootContext()->setContextProperty("viewModel", viewModel.data());    
+    m_qml->rootContext()->setContextProperty("rdm_platform", QSysInfo::productType());
 
     m_qml->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     m_qml->setSource(QUrl(QStringLiteral("qrc:///qml/value-editor.qml")));

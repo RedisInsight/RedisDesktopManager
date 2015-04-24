@@ -2,11 +2,10 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 
-ColumnLayout {
-    id: pagination
-    visible: showValueNavigation
-
+ColumnLayout {    
     RowLayout {
+        Layout.fillWidth: true
+
         Text {
             text: "Page "
             wrapMode: Text.WrapAnywhere
@@ -15,8 +14,7 @@ ColumnLayout {
         TextField {
             id: pageField;
             text: table.currentPage;
-            Layout.maximumWidth: 60;
-            Layout.preferredWidth: 60;
+            Layout.maximumWidth: 60;            
             readOnly: false
             validator: IntValidator {bottom: 1; top: table.totalPages}
         }
@@ -28,16 +26,18 @@ ColumnLayout {
         }
     }
 
+    Button {
+        Layout.fillWidth: true
+        text: "Set Page"
+        onClicked: table.goToPage(pageField.text)
+    }
+
     RowLayout {
-        Layout.maximumWidth: 100
+        Layout.fillWidth: true
         spacing: 0
         Button {
             text: "⇦"
             onClicked: table.goToPrevPage()
-        }
-        Button {
-            text: "Set"
-            onClicked: table.goToPage(pageField.text)
         }
         Button {
             text: "⇨"

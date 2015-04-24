@@ -16,8 +16,8 @@ Item {
         id: root
         title: "Add New Key"
 
-        width: 520
-        height: 450
+        width: 550
+        height: 500
         minimumWidth: 520
         minimumHeight: 450
         modality: Qt.ApplicationModal

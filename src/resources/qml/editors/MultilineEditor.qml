@@ -51,9 +51,7 @@ ColumnLayout
             }
 
             Component.onCompleted: {
-                currentIndex = Formatters.defaultFormatter
-
-                console.log("APP ROOT: " + Formatters.defaultFormatter)
+                currentIndex = Formatters.defaultFormatter                
             }
         }
     }
@@ -61,8 +59,9 @@ ColumnLayout
     TextArea
     {
         id: textArea
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+        Layout.fillWidth: true        
+        Layout.preferredHeight: 100
+        Layout.fillHeight: (rdm_platform == "Ubuntu")? true : false
         textFormat: formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
         readOnly: formatter.readOnly
 
