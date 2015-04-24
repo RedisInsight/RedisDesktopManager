@@ -59,7 +59,7 @@ bool RedisClient::DefaultTransporter::connectToHost()
             return false;
         }
 
-        socket->setCaCertificates(trustedCas);
+        socket->addCaCertificates(trustedCas);
 
         QString privateKey = conf.sslPrivateKeyPath();
         if (!privateKey.isEmpty()) {
@@ -176,8 +176,10 @@ void RedisClient::DefaultTransporter::reconnect()
 void RedisClient::DefaultTransporter::sslError(const QList<QSslError> errors)
 {
     m_errorOccurred = true;
-    QSslError first = errors.at(0);
-    emit errorOccurred(QString("SSL error: %1").arg(first.errorString()));
+
+    for (QSslError err : errors) {
+        emit errorOccurred(QString("SSL error: %1").arg(err.errorString()));
+    }
 }
 
 void RedisClient::DefaultTransporter::encrypted()
