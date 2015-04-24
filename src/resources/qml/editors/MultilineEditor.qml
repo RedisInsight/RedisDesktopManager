@@ -60,8 +60,8 @@ ColumnLayout
     {
         id: textArea
         Layout.fillWidth: true        
-        Layout.preferredHeight: 100
-        Layout.fillHeight: (rdm_platform == "Ubuntu")? true : false
+        Layout.fillHeight: true
+        Layout.preferredHeight: 100        
         textFormat: formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
         readOnly: formatter.readOnly
 
