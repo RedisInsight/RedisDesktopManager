@@ -20,6 +20,9 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
     // connect slots to signals
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));        
     connect(ui.selectPrivateKeyPath, SIGNAL(clicked()), this,  SLOT(OnBrowseSshKeyClick()));
+    connect(ui.sslCACertButton, &QPushButton::clicked, this, [this]() {
+        OnBrowsePemFileClick(ui.sslCACertEdit);
+    });
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
@@ -69,6 +72,11 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
         if (!ui.privateKeyPath->text().isEmpty()) {
             ui.sshKeysGroup->setChecked(true);
         }
+    }
+
+    if (config.useSsl()) {
+        ui.useSsl->setCheckState(Qt::Checked);
+        ui.sslCACertEdit->setText(config.param<QString>("ssl_ca_cert_path"));
     }
 }
 
@@ -125,6 +133,16 @@ void ConnectionWindow::OnBrowseSshKeyClick()
         return;    
 
     ui.privateKeyPath->setText(fileName);
+}
+
+void ConnectionWindow::OnBrowsePemFileClick(QLineEdit* target)
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Select PEM file", "", tr("All Files (*.pem)"));
+
+    if (fileName.isEmpty())
+        return;
+
+    target->setText(fileName);
 }
 
 void ConnectionWindow::OnTestConnectionButtonClick()
@@ -248,6 +266,11 @@ bool ConnectionWindow::isSshTunnelUsed()
     return ui.useSshTunnel->checkState() == Qt::Checked;
 }
 
+bool ConnectionWindow::isSslUsed()
+{
+    return ui.useSsl->checkState() == Qt::Checked;
+}
+
 RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
     RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),
@@ -271,6 +294,10 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
             (ui.sshPasswordGroup->isChecked()? ui.sshPass->text().trimmed() : ""),
             ui.sshPort->value(),
             (ui.sshKeysGroup->isChecked() ? ui.privateKeyPath->text().trimmed() : ""));
+    }
+
+    if (isSslUsed()) {
+        conf.setParam("ssl_ca_cert_path", ui.sslCACertEdit->text());
     }
 
     return conf;

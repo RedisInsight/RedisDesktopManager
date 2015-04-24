@@ -1,8 +1,7 @@
-#ifndef DEFAULTTRANSPORTER_H
-#define DEFAULTTRANSPORTER_H
+#pragma once
 
 #include "abstracttransporter.h"
-#include <QTcpSocket>
+#include <QSslSocket>
 
 namespace RedisClient {
 
@@ -23,10 +22,11 @@ private slots:
     void error(QAbstractSocket::SocketError error);
     void stateChanged(QAbstractSocket::SocketState socketState);
     void reconnect();
+    void sslError(const QList<QSslError> errors);
+    void encrypted();
 private:
-    QSharedPointer<QTcpSocket> socket;
+    QSharedPointer<QSslSocket> socket;
     bool m_errorOccurred;
 };
 
 }
-#endif // DEFAULTTRANSPORTER_H

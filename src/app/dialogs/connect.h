@@ -27,6 +27,7 @@ private:
     bool isSshSettingsValid();
     bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
+    bool isSslUsed();
 
     void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
 
@@ -37,5 +38,6 @@ private slots:
     void OnOkButtonClick();
     void OnShowPasswordCheckboxChanged(int);
     void OnBrowseSshKeyClick();
+    void OnBrowsePemFileClick(QLineEdit *target);
     void OnTestConnectionButtonClick();
 };

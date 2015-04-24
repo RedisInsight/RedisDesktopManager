@@ -13,6 +13,8 @@ RedisClient::DefaultTransporter::~DefaultTransporter()
 
 void RedisClient::DefaultTransporter::init()
 {
+    using namespace RedisClient;
+
     if (!socket.isNull())
         return;    
 
@@ -20,11 +22,13 @@ void RedisClient::DefaultTransporter::init()
     executionTimer->setSingleShot(true);
     connect(executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));
 
-    socket = QSharedPointer<QTcpSocket>(new QTcpSocket());
+    socket = QSharedPointer<QSslSocket>(new QSslSocket());
     socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
 
-    connect(socket.data(), SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(socket.data(), &QSslSocket::readyRead, this, &DefaultTransporter::readyRead);
+    connect(socket.data(), &QSslSocket::encrypted, this, &DefaultTransporter::encrypted);
     connect(socket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
+    connect(socket.data(), SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(sslError(const QList<QSslError> &)));
 
     connectToHost();
 }
@@ -43,19 +47,50 @@ bool RedisClient::DefaultTransporter::connectToHost()
 {
     m_errorOccurred = false;
 
-    socket->connectToHost(m_connection->config.host(), m_connection->config.port());
+    RedisClient::ConnectionConfig& conf = m_connection->config;
 
-    if (socket->waitForConnected(m_connection->config.connectionTimeout()))
+    bool connectionResult = false;
+
+    if (conf.useSsl()) {
+        QList<QSslCertificate> trustedCas = conf.sslCaCertificates(); // Required
+
+        if (trustedCas.empty()) {
+            emit errorOccurred("SSL Error: no trusted Cas");
+            return false;
+        }
+
+        socket->addCaCertificates(trustedCas);
+
+        QString privateKey = conf.sslPrivateKeyPath();
+        if (!privateKey.isEmpty()) {
+            socket->setPrivateKey(privateKey);
+        }
+
+        QString localCert = conf.sslLocalCertPath();
+        if (!localCert.isEmpty()) {
+            socket->setLocalCertificate(localCert);
+        }
+
+        socket->connectToHostEncrypted(conf.host(), conf.port());
+        connectionResult = socket->waitForEncrypted(conf.connectionTimeout())
+                && socket->waitForConnected(conf.connectionTimeout());
+
+    } else {
+        socket->connectToHost(conf.host(), conf.port());
+        connectionResult = socket->waitForConnected(conf.connectionTimeout());
+    }
+
+    if (connectionResult)
     {
         emit connected();
-        emit logEvent(QString("%1 > connected").arg(m_connection->config.name()));
+        emit logEvent(QString("%1 > connected").arg(conf.name()));
         return true;
     }
 
     if (!m_errorOccurred)
         emit errorOccurred("Connection timeout");
 
-    emit logEvent(QString("%1 > connection failed").arg(m_connection->config.name()));
+    emit logEvent(QString("%1 > connection failed").arg(conf.name()));
     return false;
 }
 
@@ -136,4 +171,18 @@ void RedisClient::DefaultTransporter::reconnect()
     emit logEvent("Reconnect to host");
     socket->abort();
     connectToHost();
+}
+
+void RedisClient::DefaultTransporter::sslError(const QList<QSslError> errors)
+{
+    m_errorOccurred = true;
+
+    for (QSslError err : errors) {
+        emit errorOccurred(QString("SSL error: %1").arg(err.errorString()));
+    }
+}
+
+void RedisClient::DefaultTransporter::encrypted()
+{
+    emit logEvent("SSL encryption: OK");
 }
