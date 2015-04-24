@@ -229,7 +229,7 @@ void RedisClient::Connection::auth()
         CommandExecutor::execute(this, authCmd);
     }
 
-    Command testCommand("ping");
+    Command testCommand("ping", nullptr, m_dbNumber);
     testCommand.markAsHiPriorityCommand();
     Response testResult = CommandExecutor::execute(this, testCommand);
 
