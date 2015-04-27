@@ -29,7 +29,7 @@ echo ===========================
 echo Build Crash Reporter :
 echo ===========================
 cd ./3rdparty/crashreporter
-qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release
+qmake CONFIG+=release DESTDIR=$SOURCE_DIR/bin/linux/release QMAKE_LFLAGS_RPATH=""
 make
 
 cd $SOURCE_DIR
