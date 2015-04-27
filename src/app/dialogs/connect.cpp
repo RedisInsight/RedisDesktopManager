@@ -60,7 +60,7 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
         ui.sshUser->setText(config.param<QString>("ssh_user"));
         ui.sshPass->setText(config.param<QString>("ssh_password"));
         ui.sshPort->setValue(config.param<int>("ssh_port"));
-        ui.privateKeyPath->setText(config.param<QString>("ssh_private_key"));
+        ui.privateKeyPath->setText(config.param<QString>("ssh_private_key_path"));
 
         ui.sshKeysGroup->setChecked(false);
         ui.sshPasswordGroup->setChecked(false);
@@ -77,6 +77,8 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
     if (config.useSsl()) {
         ui.useSsl->setCheckState(Qt::Checked);
         ui.sslCACertEdit->setText(config.param<QString>("ssl_ca_cert_path"));
+        ui.sslPrivateKeyEdit->setText(config.param<QString>("ssl_private_key_path"));
+        ui.sslLocalCertEdit->setText(config.param<QString>("ssl_local_cert_path"));
     }
 }
 
@@ -173,6 +175,7 @@ void ConnectionWindow::OnTestConnectionButtonClick()
 bool ConnectionWindow::isFormDataValid()
 {    
     return isConnectionSettingsValid() 
+        && isSslSettingsValid()
         && isSshSettingsValid()
         && isAdvancedSettingsValid();
 }
@@ -271,6 +274,24 @@ bool ConnectionWindow::isSslUsed()
     return ui.useSsl->checkState() == Qt::Checked;
 }
 
+bool ConnectionWindow::isSslSettingsValid()
+{
+    if (!isSslUsed())
+        return true;
+
+    markFieldValid(ui.sslCACertEdit);
+
+    bool isValid = !ui.sslCACertEdit->text().isEmpty() &&
+            QFile::exists(ui.sslCACertEdit->text().trimmed());
+
+    if (isValid)
+        return true;
+
+    markFieldInvalid(ui.sslCACertEdit);
+
+    return false;
+}
+
 RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
     RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),
@@ -297,7 +318,9 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
     }
 
     if (isSslUsed()) {
-        conf.setParam("ssl_ca_cert_path", ui.sslCACertEdit->text());
+        conf.setParam("ssl_ca_cert_path", ui.sslCACertEdit->text().trimmed());
+        conf.setParam("ssl_private_key_path", ui.sslPrivateKeyEdit->text().trimmed());
+        conf.setParam("ssl_local_cert_path", ui.sslLocalCertEdit->text().trimmed());
     }
 
     return conf;

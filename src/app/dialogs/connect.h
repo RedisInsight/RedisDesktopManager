@@ -28,6 +28,7 @@ private:
     bool isAdvancedSettingsValid();
     bool isSshTunnelUsed();
     bool isSslUsed();
+    bool isSslSettingsValid();
 
     void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
 
