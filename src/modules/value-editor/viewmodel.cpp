@@ -12,27 +12,31 @@ ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
 void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
                                      ConnectionsTree::KeyItem& key, bool inNewTab)
 {
-    m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
-                        [this, inNewTab, &key](QSharedPointer<Model> keyModel)
-    {
-        if (keyModel.isNull())
-            return;
-
-        loadModel(keyModel, inNewTab);
-
-        QObject::connect(keyModel.data(), &Model::removed,
-                         this, [this, keyModel, &key]()
+    try {
+        m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
+                            [this, inNewTab, &key](QSharedPointer<Model> keyModel)
         {
-            removeModel(keyModel);
-            key.setRemoved(); //Disable key in connections tree
-        });
+            if (keyModel.isNull())
+                return;
 
-        QObject::connect(&key, &ConnectionsTree::KeyItem::destroyed,
-                         this, [this, keyModel] () {
-            removeModel(keyModel);
+            loadModel(keyModel, inNewTab);
+
+            QObject::connect(keyModel.data(), &Model::removed,
+                             this, [this, keyModel, &key]()
+            {
+                removeModel(keyModel);
+                key.setRemoved(); //Disable key in connections tree
+            });
+
+            QObject::connect(&key, &ConnectionsTree::KeyItem::destroyed,
+                             this, [this, keyModel] () {
+                removeModel(keyModel);
+            });
         });
-    });
-    // TODO: add empty key model for loading
+        // TODO: add empty key model for loading
+    } catch (...) {
+        emit keyError(-1, "Connection error. Can't open value tab. ");
+    }
 }
 
 
@@ -89,17 +93,19 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
 
 void ValueEditor::ViewModel::addKey(QString keyName, QString keyType, const QVariantMap &row)
 {
-    m_keyFactory->addKey(m_newKeyRequest.first,
-                         keyName, m_newKeyRequest.second,
-                         keyType, row);
+    try {
+        m_keyFactory->addKey(m_newKeyRequest.first,
+                             keyName, m_newKeyRequest.second,
+                             keyType, row);
+    } catch (const Model::Exception& e) {
+        emit keyError(-1, "Can't add new key: " + QString(e.what()));
+    }
 }
 
 void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
 {
     if (!isIndexValid(index(i, 0)))
         return;
-
-    qDebug() << "Rename key:" << newKeyName;
 
     auto value = m_valueModels.at(i);
 
@@ -115,8 +121,6 @@ void ValueEditor::ViewModel::removeKey(int i)
 {
     if (!isIndexValid(index(i, 0)))
         return;
-
-    qDebug() << "Remove key:" << i;
 
     auto value = m_valueModels.at(i);
 
@@ -155,7 +159,6 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 
     QList<QObject *> valueEditors = model->findChildren<QObject *>();
 
-    qDebug() << "value editors:" << valueEditors.size();
 
     if (valueEditors.isEmpty())
         return new ValueEditor::ValueViewModel(model);

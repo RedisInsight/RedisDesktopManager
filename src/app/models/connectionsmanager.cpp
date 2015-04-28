@@ -62,8 +62,7 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
                                static_cast<ConnectionsTree::Model>(this))
                 );
 
-    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested, this, [this, connection]() {
-        qDebug() << "Edit connection";        
+    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested, this, [this, connection]() {       
         m_tabs.closeAllTabsWithName(connection->getConfig().param<QString>("name"));
         emit editConnection(connection->config);
     });
@@ -74,7 +73,6 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
         if (!serverItem)
             return;
 
-        qDebug() << "Remove row";
         m_tabs.closeAllTabsWithName(connection->getConfig().param<QString>("name"));
         m_connections.removeAll(connection);
         m_connectionMapping.remove(connection);

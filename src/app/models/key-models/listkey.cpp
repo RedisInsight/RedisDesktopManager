@@ -89,7 +89,13 @@ bool ListKeyModel::isActualPositionChanged(int row)
                             << QString::number(row) << QString::number(row),
                             m_dbIndex);
 
-    Response result = CommandExecutor::execute(m_connection, getValueByIndex);
+    Response result;
+
+    try {
+        result = CommandExecutor::execute(m_connection, getValueByIndex);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     QVariantList currentState = result.getValue().toList();
 
@@ -100,8 +106,13 @@ void ListKeyModel::addListRow(const QByteArray &value)
 {
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
-    (addCmd << "LPUSH" << m_keyFullPath).append(value),
-    CommandExecutor::execute(m_connection, addCmd);
+    (addCmd << "LPUSH" << m_keyFullPath).append(value);
+
+    try {
+        CommandExecutor::execute(m_connection, addCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }
 
 void ListKeyModel::setListRow(int pos, const QByteArray &value)
@@ -109,7 +120,12 @@ void ListKeyModel::setListRow(int pos, const QByteArray &value)
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
     (addCmd << "LSET" << m_keyFullPath << QString::number(pos)).append(value);
-    CommandExecutor::execute(m_connection, addCmd);
+
+    try {
+        CommandExecutor::execute(m_connection, addCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }
 
 void ListKeyModel::deleteListRow(int count, const QByteArray &value)
@@ -117,7 +133,12 @@ void ListKeyModel::deleteListRow(int count, const QByteArray &value)
     using namespace RedisClient;
     Command deleteCmd(m_dbIndex);
     (deleteCmd << "LREM" << m_keyFullPath << QString::number(count)).append(value);
-    CommandExecutor::execute(m_connection, deleteCmd);
+
+    try {
+        CommandExecutor::execute(m_connection, deleteCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }
 
 

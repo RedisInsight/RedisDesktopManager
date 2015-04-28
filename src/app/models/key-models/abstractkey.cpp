@@ -87,7 +87,13 @@ int KeyModel::getRowCount(const QString &countCmd)
     RedisClient::Command updateCmd(m_dbIndex);
     updateCmd << countCmd << m_keyFullPath;
 
-    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
+    RedisClient::Response result;
+
+    try {
+        result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     if (result.getType() == RedisClient::Response::Integer) {
         return result.getValue().toUInt();
@@ -120,7 +126,13 @@ QVariant KeyModel::getRowsRange(const QString &baseCmd, unsigned long rowStart, 
     }
 
     RedisClient::Command updateCmd(cmd, m_dbIndex);
-    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
+    RedisClient::Response result;
+
+    try {
+        result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     if (result.getType() != RedisClient::Response::MultiBulk) {
         throw Exception("getRowsRange() error - can't load values from server");

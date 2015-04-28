@@ -35,7 +35,13 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
     //  Get keys count
     Command cmd("info");
-    Response result = CommandExecutor::execute(m_connection, cmd);
+
+    Response result;
+    try {
+        result = CommandExecutor::execute(m_connection, cmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+    }
 
     DatabaseList availableDatabeses;
 
@@ -65,7 +71,11 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     Response scanningResp;
     do {
         Command cmd(QString("select %1").arg(dbCount));
-        scanningResp = CommandExecutor::execute(m_connection, cmd);
+        try {
+            scanningResp = CommandExecutor::execute(m_connection, cmd);
+        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+        }
     } while (scanningResp.isOkMessage() && ++dbCount);
 
     // build db list
@@ -121,7 +131,6 @@ QString TreeOperations::getNamespaceSeparator()
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)
 {
     emit openValueTab(m_connection, key, openInNewTab);
-    qDebug() << "open key:" << key.getFullPath();
 }
 
 void TreeOperations::openConsoleTab()
@@ -133,6 +142,5 @@ void TreeOperations::openConsoleTab()
 
 void TreeOperations::openNewKeyDialog(int dbIndex, QString keyPrefix)
 {
-    qDebug() << "new key";
     emit newKeyDialog(m_connection, dbIndex, keyPrefix);
 }

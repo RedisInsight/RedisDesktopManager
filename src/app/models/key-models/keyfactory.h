@@ -1,10 +1,11 @@
 #pragma once
-
+#include "exception.h"
 #include "modules/value-editor/abstractkeyfactory.h"
 
 class KeyFactory : public QObject, public ValueEditor::AbstractKeyFactory
 {
     Q_OBJECT
+    ADD_EXCEPTION
 public:
     KeyFactory();
 

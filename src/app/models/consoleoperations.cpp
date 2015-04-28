@@ -33,7 +33,14 @@ void ConsoleModel::executeCommand(const QString & cmd)
     using namespace RedisClient;
 
     Command command(cmd, nullptr, m_current_db);
-    Response result = CommandExecutor::execute(m_connection, command);
+    Response result;
+
+    try {
+        result = CommandExecutor::execute(m_connection, command);
+    } catch (CommandExecutor::Exception& e) {
+        emit addOutput(QString("Connection error:") + QString(e.what()), QConsole::Error);
+        return;
+    }
 
     if (command.isSelectCommand())
     {        

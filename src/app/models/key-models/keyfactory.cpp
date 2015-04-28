@@ -31,7 +31,14 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
         }
 
         RedisClient::Command ttlCmd(QStringList() << "ttl" << keyFullPath, dbIndex);
-        RedisClient::Response ttlResult = RedisClient::CommandExecutor::execute(connection, ttlCmd);
+        RedisClient::Response ttlResult;
+
+        try {
+            ttlResult = RedisClient::CommandExecutor::execute(connection, ttlCmd);
+        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            callback(result);
+            return;
+        }
 
         int ttl = -1;
 
@@ -45,7 +52,11 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
 
     }, dbIndex);
 
-    connection->runCommand(typeCmd);
+    try {
+        connection->runCommand(typeCmd);
+    } catch (const RedisClient::Connection::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }
 
 void KeyFactory::addKey(QSharedPointer<RedisClient::Connection> connection, QString keyFullPath, int dbIndex,

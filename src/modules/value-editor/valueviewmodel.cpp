@@ -69,7 +69,6 @@ void ValueEditor::ValueViewModel::reload()
 {
     m_model->clearRowCache();
     loadRows(m_startFramePosition, m_model->rowsCount() < PAGE_SIZE ? m_model->rowsCount() : PAGE_SIZE);
-    qDebug() << this;
 }
 
 bool ValueEditor::ValueViewModel::isRowLoaded(int i)

@@ -95,7 +95,12 @@ void SetKeyModel::addSetRow(const QByteArray &value)
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
     (addCmd << "SADD" << m_keyFullPath).append(value);
-    CommandExecutor::execute(m_connection, addCmd);
+
+    try {
+        CommandExecutor::execute(m_connection, addCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }
 
 RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value)
@@ -103,5 +108,13 @@ RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value)
     using namespace RedisClient;
     Command deleteCmd(m_dbIndex);
     (deleteCmd << "SREM" << m_keyFullPath).append(value);
-    return CommandExecutor::execute(m_connection, deleteCmd);
+
+    Response result;
+
+    try {
+        result = CommandExecutor::execute(m_connection, deleteCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
+    return result;
 }

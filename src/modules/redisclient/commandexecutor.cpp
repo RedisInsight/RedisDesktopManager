@@ -10,11 +10,16 @@ RedisClient::Response RedisClient::CommandExecutor::execute(QSharedPointer<Conne
 RedisClient::Response RedisClient::CommandExecutor::execute(Connection* connection, Command& cmd)
 {
     if (!connection->waitConnectedState(connection->config.param<int>("timeout_execute")))
-        throw Exception("Can not execute command. Connection not established.");
+        throw Exception("Cannot execute command. Connection not established.");
 
     Executor syncObject(cmd);
 
-    connection->runCommand(cmd);
+    try {
+        connection->runCommand(cmd);
+    } catch (RedisClient::Connection::Exception& e) {
+        throw Exception("Cannot execute command." + QString(e.what()));
+    }
+
     return syncObject.waitForResult(connection->config.param<int>("timeout_execute"));
 }
 

@@ -152,7 +152,12 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
             .append(hashKey)
             .append(hashValue);
 
-    Response result = CommandExecutor::execute(m_connection, addCmd);
+    Response result;
+    try {
+        result = CommandExecutor::execute(m_connection, addCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     if (updateIfNotExist == false
             && result.getValue().toInt() == 0)
@@ -164,7 +169,12 @@ void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
     using namespace RedisClient;
     Command deleteCmd(m_dbIndex);
     (deleteCmd << "HDEL" << m_keyFullPath).append(hashKey);
-    CommandExecutor::execute(m_connection, deleteCmd);
+
+    try {
+        CommandExecutor::execute(m_connection, deleteCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }
 
 void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)

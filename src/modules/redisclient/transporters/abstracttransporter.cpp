@@ -39,7 +39,6 @@ void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
 
         if (currentCommand.getOwner() == owner) {
             currentCommand.cancel();
-            qDebug() << "Canceled command";
         }
     }
 }

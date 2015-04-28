@@ -108,7 +108,11 @@ void RedisClient::Connection::retrieveCollection(QSharedPointer<RedisClient::Sca
 
     // workaround
     Command selectCmd(QStringList() << "select" << QString::number(cmd->getDbIndex()));
-    CommandExecutor::execute(this, selectCmd);
+    try {
+        CommandExecutor::execute(this, selectCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     processScanCommand(cmd, callback);
 }
@@ -223,28 +227,34 @@ void RedisClient::Connection::auth()
     // todo: check is socket succesufully connected before run this method
     m_connected = true;    
 
-    if (config.useAuth()) {
-        Command authCmd(QStringList() << "auth" << config.auth());
-        authCmd.markAsHiPriorityCommand();
-        CommandExecutor::execute(this, authCmd);
-    }
+    try {
+        if (config.useAuth()) {
+            Command authCmd(QStringList() << "auth" << config.auth());
+            authCmd.markAsHiPriorityCommand();
+            CommandExecutor::execute(this, authCmd);
+        }
 
-    Command testCommand("ping", nullptr, m_dbNumber);
-    testCommand.markAsHiPriorityCommand();
-    Response testResult = CommandExecutor::execute(this, testCommand);
+        Command testCommand("ping", nullptr, m_dbNumber);
+        testCommand.markAsHiPriorityCommand();
+        Response testResult = CommandExecutor::execute(this, testCommand);
 
-    if (testResult.toString() == "+PONG\r\n") {
-        Command infoCommand("INFO");
-        infoCommand.markAsHiPriorityCommand();
-        Response infoResult = CommandExecutor::execute(this, infoCommand);
-        m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());
+        if (testResult.toString() == "+PONG\r\n") {
+            Command infoCommand("INFO");
+            infoCommand.markAsHiPriorityCommand();
+            Response infoResult = CommandExecutor::execute(this, infoCommand);
+            m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());
 
-        setConnectedState();
-        emit log("AUTH OK");
-        emit authOk();
-    } else {
-        emit error("AUTH ERROR");
-        emit authError("Redis server require password or password invalid");        
+            setConnectedState();
+            emit log("AUTH OK");
+            emit authOk();
+        } else {
+            emit error("AUTH ERROR");
+            emit authError("Redis server require password or password invalid");
+            m_connected = false;
+        }
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        emit error("Connection error on AUTH");
+        emit authError("Connection error on AUTH");
         m_connected = false;
     }
 }

@@ -121,7 +121,8 @@ Rectangle {
     Connections {
         target: viewModel
         onKeyError: {
-            tabs.currentIndex = index + 1
+            if (index != -1)
+                tabs.currentIndex = index + 1
             errorNotification.text = error
             errorNotification.open()
         }

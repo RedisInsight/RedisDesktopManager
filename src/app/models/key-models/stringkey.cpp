@@ -49,9 +49,17 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     if (value.isEmpty())
         return;
 
-    RedisClient::Command updateCmd(m_dbIndex);
+    using namespace RedisClient;
+
+    Command updateCmd(m_dbIndex);
     (updateCmd << "SET" << m_keyFullPath).append(value);
-    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
+
+    Response result;
+    try {
+        result = CommandExecutor::execute(m_connection, updateCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     if (result.isOkMessage()) {
         m_value = value;
@@ -103,7 +111,13 @@ bool StringKeyModel::loadValue()
 {
     RedisClient::Command valueCmd(m_dbIndex);
     valueCmd << "GET" << m_keyFullPath;
-    RedisClient::Response result = RedisClient::CommandExecutor::execute(m_connection, valueCmd);
+
+    RedisClient::Response result;
+    try {
+        result = RedisClient::CommandExecutor::execute(m_connection, valueCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     if (result.getType() != RedisClient::Response::Bulk) {
         return false;

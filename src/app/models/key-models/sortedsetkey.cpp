@@ -125,12 +125,14 @@ void SortedSetKeyModel::removeRow(int i)
     using namespace RedisClient;
 
     Command deleteValues(QStringList() << "ZREM" << m_keyFullPath << value, m_dbIndex);
-    Response result = CommandExecutor::execute(m_connection, deleteValues);
+    try {
+        CommandExecutor::execute(m_connection, deleteValues);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     m_rowCount--;
     m_rowsCache.removeAt(i);
-    Q_UNUSED(result);
-
     setRemovedIfEmpty();
 }
 
@@ -154,7 +156,13 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
     (addCmd << "ZADD" << m_keyFullPath << QString::number(score)).append(value);
-    Response result = CommandExecutor::execute(m_connection, addCmd);
+
+    Response result;
+    try {
+        result = CommandExecutor::execute(m_connection, addCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 
     return result.getValue().toInt() == 1;
 }
@@ -164,5 +172,10 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
     using namespace RedisClient;
     Command addCmd(m_dbIndex);
     (addCmd << "ZREM" << m_keyFullPath).append(value);
-    CommandExecutor::execute(m_connection, addCmd);
+
+    try {
+        CommandExecutor::execute(m_connection, addCmd);
+    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
+    }
 }

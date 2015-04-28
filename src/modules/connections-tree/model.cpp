@@ -122,7 +122,6 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
             this, [this, itemIndex, item]()
     {
         emit beginInsertRows(itemIndex, 0, item->childCount()-1);
-        qDebug() << "database list loaded";
         emit endInsertRows();
     });
 
@@ -130,7 +129,6 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
             this, [this, itemIndex, item]()
     {
         emit dataChanged(itemIndex, itemIndex);
-        qDebug() << "icon update";
     });
 
     connect(item.data(), &ServerItem::unloadStarted,
@@ -145,7 +143,6 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
     {
         QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
         emit beginInsertRows(dbModelIndex, 0, item->child(dbIndex)->childCount() - 1);
-        qDebug() << "key list loaded";
         emit endInsertRows();
     });
 
