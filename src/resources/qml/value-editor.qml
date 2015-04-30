@@ -8,11 +8,13 @@ import "./editors/formatters/formatters.js" as Formatters
 
 Rectangle {
     id: approot
+    objectName: "rdm_qml_root"
     color: "transparent"
     property var currentValueFormatter
 
     TabView {
         id: tabs
+        objectName: "rdm_qml_tabs" 
         anchors.fill: parent
         anchors.margins: 2
         currentIndex: 0
@@ -30,6 +32,7 @@ Rectangle {
         }
 
         WelcomeTab {
+            objectName: "rdm_qml_welcome_tab"
             property bool not_mapped: true
 
             function close(index) {
@@ -38,6 +41,7 @@ Rectangle {
         }
 
         ValueTabs {
+            objectName: "rdm_qml_value_tabs"
             model: viewModel
         }
 
@@ -108,6 +112,7 @@ Rectangle {
 
     MessageDialog {
         id: errorNotification
+        objectName: "rdm_qml_error_dialog"
         visible: false
         modality: Qt.WindowModal
         icon: StandardIcon.Warning
@@ -116,6 +121,7 @@ Rectangle {
 
     AddKeyDialog {
        id: addNewKeyDialog
+       objectName: "rdm_qml_new_key_dialog"
     }
 
     Connections {
