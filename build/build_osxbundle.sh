@@ -58,7 +58,7 @@ cp -f ./src/resources/rdm.icns $BUILD_DIR/Resources/
 
 cd $BUNDLE_PATH
 
-$MAC_TOOL rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter
+$MAC_TOOL rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter -qmldir=$SOURCE_DIR/src/resources/qml/ -verbose=2
 cp rdm.dmg redis-desktop-manager-$TAG.dmg
 
 echo ============================
