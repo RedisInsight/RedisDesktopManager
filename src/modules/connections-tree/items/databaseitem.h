@@ -47,6 +47,9 @@ protected slots:
 
 protected:
     void reload();
+    void filterKeys(const QRegExp& filter);
+    void resetFilter();
+    void renderRawKeys(const Operations::RawKeysList& rawKeys);
 
 private:
     class KeysTreeRenderer
@@ -80,6 +83,8 @@ private:
     QFutureWatcher<QList<QSharedPointer<TreeItem>>> m_keysLoadingWatcher;
     KeysTreeRenderer m_keysRenderer;
     const TreeItem* m_parent;
+    Operations::RawKeysList m_rawKeys;
+    QRegExp m_filter;
 };
 
 }

@@ -6,6 +6,7 @@
 #include <functional>
 #include <QDebug>
 #include <QMenu>
+#include <QInputDialog>
 
 using namespace ConnectionsTree;
 
@@ -30,7 +31,13 @@ DatabaseItem::~DatabaseItem()
 
 QString DatabaseItem::getDisplayName() const
 {
-    return m_keys.isEmpty()? m_name : QString("%1 (%2/%3)").arg(m_name).arg(childCount()).arg(m_keysCount);
+    if (!m_filter.isEmpty()) {
+      return QString("%1 (filter: %2)").arg(m_name).arg(m_filter.pattern());
+    } else if (m_keys.isEmpty()) {
+        return m_name;
+    } else {
+        return QString("%1 (%2/%3)").arg(m_name).arg(childCount()).arg(m_keysCount);
+    }
 }
 
 QIcon DatabaseItem::getIcon() const
@@ -83,6 +90,27 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
     menu->addAction(newKey);
     menu->addSeparator();
 
+    //filter action
+    QAction* search = new QAction(QIcon(":/images/filter.png"), "Filter keys", menu.data());
+    QObject::connect(search, &QAction::triggered, this, [this, &treeView]() {
+        QString text = QInputDialog::getText(treeView.getParentWidget(), tr("Filter keys:"),
+                                             tr("Filter regex:"));
+        if (!text.isEmpty())
+            filterKeys(QRegExp(text));
+    });
+
+    QAction* reset = new QAction(QIcon(":/images/clear.png"), "Reset keys filter", menu.data());
+    QObject::connect(reset, &QAction::triggered, this, [this]() {
+        resetFilter();
+    });
+
+    if (m_filter.isEmpty()) {
+        menu->addAction(search);
+    } else {
+        menu->addAction(reset);
+    }
+    menu->addSeparator();
+
     //reload action
     QAction* reload = new QAction(QIcon(":/images/refreshdb.png"), "Reload", menu.data());
     QObject::connect(reload, &QAction::triggered, this, [this] { this->reload(); });
@@ -93,7 +121,8 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
 
 void DatabaseItem::loadKeys()
 {
-    if (m_keys.size() > 0) {
+    if (m_rawKeys.size() > 0) {
+        renderRawKeys(m_rawKeys);
         emit keysLoaded(m_index);
         return;
     }
@@ -102,23 +131,8 @@ void DatabaseItem::loadKeys()
     emit updateIcon(m_index);
 
     m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys) {
-
-        qDebug() << "Keys: " << rawKeys.size();
-
-        if (rawKeys.size() == 0) {
-            m_locked = false;
-            return;
-        }        
-
-        QRegExp filter;
-        QString separator(m_operations->getNamespaceSeparator());        
-
-        QFuture<QList<QSharedPointer<TreeItem>>> keysLoadingResult =
-                QtConcurrent::run(&m_keysRenderer,&KeysTreeRenderer::renderKeys,
-                                  m_operations, rawKeys, filter, separator, this);
-
-        m_keysLoadingWatcher.setFuture(keysLoadingResult);
-
+        m_rawKeys = rawKeys;
+        renderRawKeys(rawKeys);
     });
 }
 
@@ -150,6 +164,36 @@ void DatabaseItem::reload()
 {
     unload();
     loadKeys();
+}
+
+void DatabaseItem::filterKeys(const QRegExp &filter)
+{
+    m_filter = filter;
+    loadKeys();
+}
+
+void DatabaseItem::resetFilter()
+{
+    m_filter = QRegExp();
+    loadKeys();
+}
+
+void DatabaseItem::renderRawKeys(const Operations::RawKeysList &rawKeys)
+{
+    qDebug() << "Keys: " << rawKeys.size();
+
+    if (rawKeys.size() == 0) {
+        m_locked = false;
+        return;
+    }
+
+    QString separator(m_operations->getNamespaceSeparator());
+
+    QFuture<QList<QSharedPointer<TreeItem>>> keysLoadingResult =
+            QtConcurrent::run(&m_keysRenderer,&KeysTreeRenderer::renderKeys,
+                              m_operations, rawKeys, m_filter, separator, this);
+
+    m_keysLoadingWatcher.setFuture(keysLoadingResult);
 }
 
 QList<QSharedPointer<TreeItem> >
