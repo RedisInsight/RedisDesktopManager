@@ -16,12 +16,20 @@ class BaseTestCase : public QObject
 
 protected:
 
-    QSharedPointer<RedisClient::Connection> getReadyDummyConnection(const QStringList& expectedResponses = QStringList())
+    RedisClient::ConnectionConfig getDummyConfig(QString name="test")
     {
-        RedisClient::ConnectionConfig dummyConf("127.0.0.1", "test");
+        RedisClient::ConnectionConfig dummyConf("127.0.0.1", name);
         dummyConf.setParam("auth", "");
         dummyConf.setParam("timeout_execute", 2000);
-        dummyConf.setParam("timeout_connect", 2000);
+        dummyConf.setParam("timeout_connect", 2000); 
+        
+        return dummyConf;   
+    }
+        
+
+    QSharedPointer<RedisClient::Connection> getReadyDummyConnection(const QStringList& expectedResponses = QStringList())
+    {
+        RedisClient::ConnectionConfig dummyConf = getDummyConfig();
 
         QSharedPointer<RedisClient::Connection> connection( new RedisClient::Connection(dummyConf, false));
 
