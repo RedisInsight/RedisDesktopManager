@@ -7,12 +7,13 @@
 class DummyConnection : public RedisClient::Connection
 {
 public:
-    DummyConnection(double version=2.6)
+    DummyConnection(double version=2.6, bool raise_error=false)
         : RedisClient::Connection(RedisClient::ConnectionConfig(), false),
           m_version(version), runCommandCalled(0), retrieveCollectionCalled(0),
-          getServerVersionCalled(0)
+          getServerVersionCalled(0), m_raiseExceptionOnConnect(raise_error)
     {
-        m_connected = true;
+        if (!m_raiseExceptionOnConnect)
+            m_connected = true;
     }
 
     double getServerVersion() override
@@ -67,5 +68,6 @@ public:
 
 private:
     double m_version;
+    bool m_raiseExceptionOnConnect;
 };
 

@@ -44,9 +44,10 @@ protected:
 
     QSharedPointer<DummyConnection> getFakeConnection(const QList<QVariant>& expectedScanResponses = QList<QVariant>(),
                                                       const QStringList& expectedResponses = QStringList(),
-                                                      double version=2.6)
+                                                      double version=2.6,
+                                                      bool raise_error=false)
     {
-        QSharedPointer<DummyConnection> connection(new DummyConnection(version));
+        QSharedPointer<DummyConnection> connection(new DummyConnection(version, raise_error));
         connection->fakeScanCollections.append(expectedScanResponses);
         connection->setFakeResponses(expectedResponses);
 

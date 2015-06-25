@@ -8,9 +8,14 @@ ConsoleModel::ConsoleModel(QSharedPointer<RedisClient::Connection> connection)
 
 void ConsoleModel::init()
 {
-    if (!m_connection->connect())
-    {
-        emit addOutput("Connection error. Check network connection", QConsole::Error);
+    try {
+        if (!m_connection->connect())
+        {
+            emit addOutput("Connection error. Check network connection", QConsole::Error);
+            return;
+        }
+    } catch (RedisClient::Connection::Exception&) {
+        emit addOutput("Invalid Connection. Check connection settings.", QConsole::Error);
         return;
     }
 
