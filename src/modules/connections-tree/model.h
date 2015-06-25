@@ -1,5 +1,4 @@
-#ifndef MODEL_H
-#define MODEL_H
+#pragma once
 
 #include <QAbstractItemModel>
 #include <QList>
@@ -28,8 +27,18 @@ namespace ConnectionsTree {
             Q_UNUSED(parent);
             return 1;
         }
-
-        TreeItem *getItemFromIndex(const QModelIndex&index) const;
+        
+        inline TreeItem *getItemFromIndex(const QModelIndex &index) const {
+            if (!index.isValid())
+                return nullptr;
+            if (index.model() != this)
+                return nullptr;
+                
+            TreeItem *parent = static_cast<TreeItem*>(index.internalPointer());
+            if (!parent)
+                return nullptr;                
+            return parent;
+        }
 
     protected:            
         void addRootItem(QSharedPointer<ServerItem> item);
@@ -37,9 +46,5 @@ namespace ConnectionsTree {
 
     private:
          QList<QSharedPointer<TreeItem>> m_treeItems;
-
     };
-
 }
-
-#endif // MODEL_H

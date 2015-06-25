@@ -10,10 +10,7 @@ Model::Model(QObject *parent) :
 
 QVariant Model::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
-
-    const TreeItem *item = static_cast<const TreeItem*>(index.internalPointer());
+    const TreeItem *item = getItemFromIndex(index);
 
     if (item == nullptr)
         return QVariant();
@@ -28,12 +25,12 @@ QVariant Model::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags Model::flags(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    const TreeItem *item = getItemFromIndex(index);
+
+    if (item == nullptr)    
         return Qt::NoItemFlags;
 
     Qt::ItemFlags result = Qt::ItemIsSelectable;
-
-    const TreeItem *item = static_cast<const TreeItem*>(index.internalPointer());
 
     if (item->isEnabled())
         result |= Qt::ItemIsEnabled;
@@ -46,19 +43,12 @@ QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
     if (!hasIndex(row, column, parent))
         return QModelIndex();
 
-    const TreeItem* parentItem = (parent.isValid())?
-             static_cast<const TreeItem*>(parent.internalPointer()) : nullptr;
-
-
+    const TreeItem* parentItem = getItemFromIndex(parent);
     QSharedPointer<TreeItem> childItem;
 
-    if (parentItem == nullptr) {
-
-       if (row >= m_treeItems.size())
-            return QModelIndex();
-
+    // get item from root items
+    if (!parentItem && row < m_treeItems.size()) {
        childItem = m_treeItems.at(row);
-
     } else {
        childItem = parentItem->child(row);
     }
@@ -71,13 +61,14 @@ QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
 
 QModelIndex Model::parent(const QModelIndex &index) const
 {
-    if (!index.isValid())
+    const TreeItem *childItem = getItemFromIndex(index);
+    
+    if (!childItem)
         return QModelIndex();
 
-    const TreeItem *childItem = static_cast<const TreeItem*>(index.internalPointer());
-    const TreeItem* parentItem = childItem->parent();
+    const TreeItem *parentItem = childItem->parent();
 
-    if (parentItem == nullptr)
+    if (!parentItem)
         return QModelIndex();
 
     return createIndex(parentItem->row(), 0, (void*)parentItem);
@@ -85,23 +76,15 @@ QModelIndex Model::parent(const QModelIndex &index) const
 
 int Model::rowCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
+    const TreeItem* parentItem = getItemFromIndex(parent);
+    
+    if (!parentItem)
         return m_treeItems.size();
 
     if (parent.column() > 0)
         return 0;
 
-    const TreeItem *parentItem = static_cast<TreeItem*>(parent.internalPointer());
-
     return parentItem->childCount();
-}
-
-TreeItem* Model::getItemFromIndex(const QModelIndex &index) const
-{
-    if (index.internalPointer() != nullptr)
-        return static_cast<TreeItem*>(index.internalPointer());
-
-    return nullptr;
 }
 
 void Model::addRootItem(QSharedPointer<ServerItem> item)
@@ -110,10 +93,8 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
         return;
 
     int insertIndex = m_treeItems.size();
+    emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
     item->setRow(insertIndex);
-
-    emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);    
-
     m_treeItems.push_back(item);
 
     QModelIndex itemIndex = index(insertIndex, 0, QModelIndex());
