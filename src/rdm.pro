@@ -15,7 +15,7 @@ TEMPLATE = app
     message("Version: 0.8.0.0")
 }
 
-DEFINES += ELPP_QT_LOGGING ELPP_STL_LOGGING
+DEFINES += CORE_LIBRARY ELPP_QT_LOGGING ELPP_STL_LOGGING
 
 SOURCES += \
     $$PWD/main.cpp \
@@ -61,7 +61,7 @@ include($$THIRDPARTYDIR/3rdparty.pri)
 #win32-msvc* {
 win32 {
     CONFIG += c++11
-    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
+    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lz
     RC_FILE += $$PWD/resources/rdm.rc
 
     release: DESTDIR = ./../bin/windows/release
@@ -72,6 +72,7 @@ unix:macx { # OSX
     CONFIG += c++11 #release
     #CONFIG -= debug
 
+    LIBS += -lz
     debug {
         CONFIG-=app_bundle
     }
@@ -94,6 +95,7 @@ unix:!macx { # ubuntu & debian
 
     CONFIG += static release
     CONFIG -= debug
+    LIBS += -lz
 
     QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
