@@ -113,16 +113,38 @@ void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)
 {
     int targetRow = mapRowIndex(i);
-
     if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
         return;
 
-    try {
-        m_model->updateRow(targetRow, row);
-    } catch(const Model::Exception& e) {
-        emit error(QString(e.what()));
+    QVariantMap res = getRowRaw(i, false);
+    // check original value to avoid maintaining state
+    bool updated = false;
+
+    if (ValueEditor::Compression::isCompressed(res["value"].toByteArray())) {
+        QByteArray output;
+        if (!ValueEditor::Compression::compress(row["value"].toByteArray(), output)) {
+            qDebug() << "Compression failed";
+        } else {
+            qDebug() << "Compression succeeded";
+            QVariantMap compressedRow;
+            compressedRow["value"] = QVariant(output);
+            
+            try {
+                m_model->updateRow(targetRow, compressedRow);
+                updated = true;
+            } catch(const Model::Exception& e) {
+                emit error(QString(e.what()));
+            }
+        }
     }
 
+    if (!updated) {
+        try {
+            m_model->updateRow(targetRow, row);
+        } catch(const Model::Exception& e) {
+            emit error(QString(e.what()));
+        }
+    }
     emit dataChanged(index(i, 0), index(i, 0));
 }
 
@@ -154,6 +176,23 @@ int ValueEditor::ValueViewModel::pageSize()
 
 QVariantMap ValueEditor::ValueViewModel::getRow(int row, bool relative)
 {
+    QVariantMap res = getRowRaw(row, relative);
+    bool compressed = ValueEditor::Compression::isCompressed(res["value"].toByteArray());
+    qDebug() << "Is compressed: " << compressed;
+    if (compressed) {
+        QByteArray output;
+        if (!ValueEditor::Compression::decompress(res["value"].toByteArray(), output)) {
+            qDebug() << "Decompression failed";
+        } else {
+            qDebug() << "Decompression succeeded";
+            res["value"] = QVariant(output);
+        }
+    }
+    return res;
+}
+
+QVariantMap ValueEditor::ValueViewModel::getRowRaw(int row, bool relative)
+{
     QHash<int,QByteArray> names = roleNames();
     QHashIterator<int, QByteArray> i(names);
     QVariantMap res;
@@ -164,7 +203,7 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row, bool relative)
         i.next();
         QModelIndex idx = index(targetRow, 0);
         QVariant data = idx.data(i.key());
-        res[i.value()] = data;
+        res[i.value()] = data;        
     }
     return res;
 }

@@ -3,6 +3,7 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 #include "keymodel.h"
+#include "compression.h"
 
 namespace ValueEditor {
 
@@ -25,7 +26,7 @@ public:
     Q_INVOKABLE void updateRow(int i, const QVariantMap& row);
     Q_INVOKABLE void deleteRow(int i);
     Q_INVOKABLE QVariantMap getRow(int i, bool relative = false);
-
+    
     // multi row operations
     Q_INVOKABLE void loadRows(int start, int count);
     Q_INVOKABLE bool isMultiRow();
@@ -47,6 +48,7 @@ private:
 protected:
     bool isIndexValid(const QModelIndex &index) const;
     int mapRowIndex(int i);
+    QVariantMap getRowRaw(int row, bool relative = false);
 
 private:
     int m_startFramePosition;
