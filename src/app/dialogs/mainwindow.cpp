@@ -20,7 +20,7 @@
 #include "modules/value-editor/viewmodel.h"
 #include "modules/console/logtab.h"
 
-_INITIALIZE_EASYLOGGINGPP
+INITIALIZE_EASYLOGGINGPP
 
 MainWin::MainWin(QWidget *parent)
     : QMainWindow(parent)
