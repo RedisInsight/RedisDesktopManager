@@ -5,14 +5,11 @@ echo Setup Build Environment
 echo ============================
 cd ./../
 set SRCDIR=%cd%
-set QTDIR=C:\\Qt\\5.4\\msvc2012_opengl\\bin\\
-set PATH=C:\Python27\;%QTDIR%;C:\msys\1.0\bin\;%PATH%
+set QTDIR=C:\\Qt\\5.5\\mingw492_32\\bin\\
+set PATH=C:\Python27\;%QTDIR%;C:\msys32\mingw32\bin\;C:\msys32\usr\bin\;C:\Program Files\VisualD\cv2pdb\;%PATH%
 qmake -v
-if not defined DevEnvDir (
-call "C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat"
-)
-echo %PATH%
-echo DONE
+mingw32-make -v
+g++ -v
 
 echo ============================
 echo Set version %1
@@ -27,7 +24,7 @@ echo ============================
 echo Build Crash Reporter :
 cd ./3rdparty/crashreporter
 qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
-nmake /NOLOGO /S
+mingw32-make -s
 
 if %errorlevel% neq 0 (
  echo !!! Crashreporter Compilation Error !!!
@@ -38,7 +35,7 @@ echo ============================
 echo Build Application :
 cd %SRCDIR%/src
 qmake CONFIG+=release
-nmake /NOLOGO /S
+mingw32-make -s
 
 if %errorlevel% neq 0 (
  echo !!! Compilation Error !!!
@@ -49,6 +46,7 @@ echo ============================
 echo Export debug symbols
 echo ============================
 cd %SRCDIR%/bin/windows/release
+cv2pdb rdm.exe
 %SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
 
 echo ============================
@@ -60,6 +58,10 @@ cd build/windows/installer/resources/
 echo ===============
 echo Windeploy tool:
 windeployqt --no-translations --compiler-runtime --release-with-debug-info --qmldir %SRCDIR%/src/resources/qml rdm.exe
+cp C:\\msys32\\mingw32\\bin\\libeay32.dll .
+cp C:\\msys32\\mingw32\\bin\\libssh2-1.dll .
+cp C:\\msys32\\mingw32\\bin\\ssleay32.dll .
+cp C:\\msys32\\mingw32\\bin\\zlib1.dll .
 cd %SRCDIR%
 
 echo ===============

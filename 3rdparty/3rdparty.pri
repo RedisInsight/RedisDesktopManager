@@ -20,20 +20,13 @@ INCLUDEPATH += $$BREAKPADDIR/src
 DEPENDPATH += $$PWD/libssh2/include
 DEPENDPATH += $$BREAKPADDIR
 
+#breakpad app need debug info inside binaries
+QMAKE_CXXFLAGS+=-g
+QMAKE_CFLAGS_RELEASE+=-g
+QMAKE_LFLAGS_RELEASE+=-g
+
 win32* {
-    CONFIG(release, debug|release) {
-        WIN_DEPS_PATH = $$PWD/libs/win32/release/
-    } else: CONFIG(debug, debug|release) {
-        WIN_DEPS_PATH = $$PWD/libs/win32/debug/
-    }
-
-    LIBS += -L$$WIN_DEPS_PATH -llibssh2
-
-    CONFIG(debug, debug|release) {
-        LIBS += -llibeay32 -lssleay32 -lzlib
-    }
-
-    PRE_TARGETDEPS += $$WIN_DEPS_PATH/libssh2.lib
+    LIBS += -lssh2 -lssl -lz
 
     HEADERS += $$BREAKPADDIR/common/windows/string_utils-inl.h
     HEADERS += $$BREAKPADDIR/common/windows/guid_string.h
@@ -47,18 +40,9 @@ win32* {
     SOURCES += $$BREAKPADDIR/common/windows/string_utils.cc
     SOURCES += $$BREAKPADDIR/common/windows/guid_string.cc
     SOURCES += $$BREAKPADDIR/client/windows/crash_generation/crash_generation_client.cc
-
-
-win32-msvc* {
-    QMAKE_CXXFLAGS += /MP
-    QMAKE_LFLAGS_RELEASE += /MAP
-    QMAKE_CFLAGS_RELEASE += /Zi
-    QMAKE_LFLAGS_RELEASE += /debug /opt:ref
-}
 }
 
 unix:macx { # OSX
-
     PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib \
                      $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
 
@@ -67,9 +51,6 @@ unix:macx { # OSX
     LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
     LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
 
-    #breakpad app need debug info inside binaries
-    QMAKE_CXXFLAGS+=-g
-
     #deployment
     APP_DATA_FILES.files = $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
     APP_DATA_FILES.path = Contents/Frameworks
@@ -77,8 +58,7 @@ unix:macx { # OSX
 }
 
 unix:!macx { # ubuntu & debian
-
-    QMAKE_CXXFLAGS += -std=gnu++0x -g #workaround for google breakpad
+    QMAKE_CXXFLAGS += -std=gnu++0x #workaround for google breakpad
 
     # clean default flags
     QMAKE_LFLAGS_RPATH=
@@ -87,7 +67,6 @@ unix:!macx { # ubuntu & debian
 #    LIBS += /usr/local/lib/libssh2.a
 #    PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
     LIBS += -lcrypto -lz -lssh2
-
 
     HEADERS += $$BREAKPADDIR/client/linux/minidump_writer/cpu_set.h \
           $$BREAKPADDIR/client/linux/minidump_writer/proc_cpuinfo_reader.h \

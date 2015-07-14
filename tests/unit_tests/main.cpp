@@ -2,7 +2,7 @@
 #include <QApplication>
 
 #include <easylogging++.h>
-_INITIALIZE_EASYLOGGINGPP
+INITIALIZE_EASYLOGGINGPP
 
 //tests
 #include <iostream>

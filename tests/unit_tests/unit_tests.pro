@@ -45,6 +45,8 @@ win32-msvc* {
 }
 
 win32 {
+    CONFIG -= debug
+    CONFIG += release
     include($$PROJECT_ROOT/3rdparty/3rdparty.pri)
 }
 unix:!mac {
