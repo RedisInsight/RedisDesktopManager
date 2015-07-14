@@ -58,6 +58,10 @@ cd build/windows/installer/resources/
 echo ===============
 echo Windeploy tool:
 windeployqt --no-translations --compiler-runtime --release-with-debug-info --qmldir %SRCDIR%/src/resources/qml rdm.exe
+cp C:\\msys32\\mingw32\\bin\\libeay32.dll .
+cp C:\\msys32\\mingw32\\bin\\libssh2-1.dll .
+cp C:\\msys32\\mingw32\\bin\\ssleay32.dll .
+cp C:\\msys32\\mingw32\\bin\\zlib1.dll .
 cd %SRCDIR%
 
 echo ===============
