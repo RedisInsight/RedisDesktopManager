@@ -6,7 +6,7 @@ echo ============================
 cd ./../
 set SRCDIR=%cd%
 set QTDIR=C:\\Qt\\5.5\\mingw492_32\\bin\\
-set PATH=C:\Python27\;%QTDIR%;C:\msys32\mingw32\bin\;%PATH%
+set PATH=C:\Python27\;%QTDIR%;C:\msys32\mingw32\bin\;C:\msys32\usr\bin\;C:\Program Files\VisualD\cv2pdb\;%PATH%
 qmake -v
 mingw32-make -v
 g++ -v
@@ -46,7 +46,8 @@ echo ============================
 echo Export debug symbols
 echo ============================
 cd %SRCDIR%/bin/windows/release
-%SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.exe > rdm.sym
+cv2pdb rdm.exe
+%SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
 
 echo ============================
 echo Build installer

@@ -67,7 +67,6 @@ Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
     File ..\..\..\bin\windows\release\crashreporter.exe
-    File ..\..\..\bin\windows\release\rdm.pdb
     File /r resources\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd

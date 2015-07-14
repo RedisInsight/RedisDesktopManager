@@ -22,6 +22,8 @@ DEPENDPATH += $$BREAKPADDIR
 
 #breakpad app need debug info inside binaries
 QMAKE_CXXFLAGS+=-g
+QMAKE_CFLAGS_RELEASE+=-g
+QMAKE_LFLAGS_RELEASE+=-g
 
 win32* {
     LIBS += -lssh2 -lssl -lz
