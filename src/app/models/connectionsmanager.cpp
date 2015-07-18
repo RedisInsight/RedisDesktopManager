@@ -178,7 +178,9 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
     QFile confFile(pathToFile);
 
     if (confFile.open(QIODevice::WriteOnly)) {
-        QTextStream(&confFile) << config.toJson();
+        QTextStream outStream(&confFile);
+        outStream.setCodec("UTF-8");
+        outStream << config.toJson();
         confFile.close();
         return true;
     }
