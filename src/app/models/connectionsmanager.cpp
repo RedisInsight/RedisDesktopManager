@@ -134,7 +134,7 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 
 
     if (!jsonConfig.isArray()) {
-        // Show ERROR to USER
+        // TODO(u_glide): Show ERROR message to USER
         return false;
     }
 
