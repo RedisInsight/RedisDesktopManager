@@ -67,6 +67,7 @@ unix:!mac {
 
 unix:mac {
     LIBS += /usr/local/lib/libssh2.dylib
+    LIBS += -lz
     INCLUDEPATH += $$PROJECT_ROOT/3rdparty/qtconsole/include
 
     #3rdparty

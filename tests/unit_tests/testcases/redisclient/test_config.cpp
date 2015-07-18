@@ -4,7 +4,7 @@
 
 #include <QDebug>
 #include <QTest>
-#include <QtXml>
+#include <QJsonObject>
 
 using namespace RedisClient;
 
@@ -44,18 +44,17 @@ void TestConfig::testOwner()
 void TestConfig::testSerialization()
 {
     //given
-    QDomDocument xml("test");
-    xml.setContent(QString("<?xml version=\"1.0\"?>"
-                    "<connection host=\"fake\" "
-                           "name=\"fake\" "
-                           "port=\"1111\" "
-                           "executeTimeout=\"60000\" "
-                           "connectionTimeout=\"60000\"/>"));
+    QJsonObject test {
+        {"host", "fake"},
+        {"name", "fake"},
+        {"port", 1111},
+        {"timeout_connect", 60000},
+        {"timeout_execute", 60000},
+    };
 
     //when
-    QDomElement root = xml.documentElement();
-    ConnectionConfig config = ConnectionConfig::fromXml(root);
-    QDomElement actualResult = config.toXml();
+    ConnectionConfig config = ConnectionConfig::fromJsonObject(test);
+    QJsonObject actualResult = config.toJsonObject();
 
     //then
     QCOMPARE(config.name(), QString("fake"));
@@ -63,7 +62,7 @@ void TestConfig::testSerialization()
     QCOMPARE(config.port(), 1111);
     QCOMPARE(config.executeTimeout(), 60000);
     QCOMPARE(config.connectionTimeout(), 60000);
-    QCOMPARE(actualResult.attributes().contains("auth"), false);
-    QCOMPARE(actualResult.attributes().contains("namespaceSeparator"), false);
-    QCOMPARE(actualResult.attributes().count(), root.attributes().count());
+    QCOMPARE(actualResult.contains("auth"), false);
+    QCOMPARE(actualResult.contains("namespaceSeparator"), false);
+    QCOMPARE(actualResult.size(), test.size());
 }

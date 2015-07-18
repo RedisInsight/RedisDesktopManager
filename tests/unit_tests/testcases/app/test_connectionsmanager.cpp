@@ -12,7 +12,7 @@ void TestConnectionsManager::loadConnectionsConfigFromFile()
 {
 	//given        
 	// xml fixture
-    QString configTestFile = "./unit_tests/testcases/app/connections.xml";   
+    QString configTestFile = "./unit_tests/testcases/app/connections.json";
 
 	//when loads connections
     ConnectionsManager testManager(configTestFile, m_tabsWidget, m_viewModel);
@@ -33,7 +33,7 @@ void TestConnectionsManager::saveConnectionsConfigToFile()
 {
     //given
     QFETCH(QString, connectionName);
-    QString configTestFile = "/tmp/test_rdm.xml";
+    QString configTestFile = "/tmp/test_rdm.json";
     QFile::remove(configTestFile);
     RedisClient::ConnectionConfig connectionConfig = getDummyConfig(connectionName);
     ConnectionsManager testManager(configTestFile, m_tabsWidget, m_viewModel);    
