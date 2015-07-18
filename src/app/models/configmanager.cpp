@@ -46,6 +46,22 @@ QString ConfigManager::getApplicationConfigPath(const QString &configFile)
 }
 
 
+/*
+ * Convert XML config to JSON config:
+ * Value mapping:
+ *
+ *     valueMapping.insert("sshHost", "ssh_host");
+    valueMapping.insert("sshUser", "ssh_user");
+    valueMapping.insert("sshPassword", "ssh_password");
+    valueMapping.insert("sshPort", "ssh_port");
+    valueMapping.insert("sshPrivateKey", "ssh_private_key_path");
+    valueMapping.insert("namespaceSeparator", "namespace_separator");
+    valueMapping.insert("connectionTimeout", "timeout_connect");
+    valueMapping.insert("executeTimeout", "timeout_execute");
+ *
+ *
+ */
+
 bool ConfigManager::chechPath(const QString &configPath)
 {
     QFile testConfig(configPath);

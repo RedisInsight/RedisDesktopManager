@@ -1,4 +1,6 @@
-#include <QtXml>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDebug>
 #include <QAbstractItemModel>
 #include <easylogging++.h>
@@ -123,26 +125,35 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
     
     if (!conf.open(QIODevice::ReadOnly)) 
         return false;    
-    
-    QDomDocument xmlConf;
 
-    if (xmlConf.setContent(&conf)) {
+    QByteArray data = conf.readAll();
+    QJsonDocument jsonConfig = QJsonDocument::fromJson(data);
 
-        QDomNodeList connectionsList = xmlConf.elementsByTagName("connection");
-        
-        for (int i = 0; i < connectionsList.size(); ++i) {
+    if (jsonConfig.isEmpty())
+        return true;
 
-            QDomNode connection = connectionsList.at(i);
 
-            if (connection.nodeName() != "connection") continue;
-
-            RedisClient::ConnectionConfig conf = RedisClient::ConnectionConfig::fromXml(connection);
-
-            if (conf.isNull()) continue;
-
-            addNewConnection(conf, false);
-        }        
+    if (!jsonConfig.isArray()) {
+        // Show ERROR to USER
+        return false;
     }
+
+    QJsonArray connections = jsonConfig.array();
+
+    using namespace RedisClient;
+
+    for (QJsonValue connection : connections) {
+        if (!connection.isObject())
+            continue;
+
+        ConnectionConfig conf = ConnectionConfig::fromJsonObject(connection.toObject());
+
+        if (conf.isNull())
+            continue;
+
+        addNewConnection(conf, false);
+    }
+
     conf.close();
 
     if (saveChangesToFile)
@@ -158,23 +169,16 @@ void ConnectionsManager::saveConfig()
 
 bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
 {
-    QDomDocument config;
-
-    QDomProcessingInstruction xmlProcessingInstruction = config.createProcessingInstruction("xml", "version=\"1.0\"");
-    config.appendChild(xmlProcessingInstruction);
-
-    QDomElement connectionsItem = config.createElement("connections");
-
-    config.appendChild(connectionsItem);
-
+    QJsonArray connections;
     for (auto c : m_connections) {
-        connectionsItem.appendChild(c->getConfig().toXml());
+        connections.push_back(QJsonValue(c->getConfig().toJsonObject()));
     }
 
+    QJsonDocument config(connections);
     QFile confFile(pathToFile);
 
     if (confFile.open(QIODevice::WriteOnly)) {
-        QTextStream(&confFile) << config.toString();
+        QTextStream(&confFile) << config.toJson();
         confFile.close();
         return true;
     }
