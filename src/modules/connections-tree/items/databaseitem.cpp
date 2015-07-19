@@ -70,11 +70,11 @@ QWeakPointer<TreeItem> DatabaseItem::parent() const
 
 bool DatabaseItem::onClick(ParentView&)
 {    
-    //if (m_rawKeys.size() == 0) {
+    if (m_rawKeys.size() == 0) {
         loadKeys();
         return true;
-    //}
-    //return false;
+    }
+    return false;
 }
 
 void DatabaseItem::onWheelClick(TreeItem::ParentView&)
