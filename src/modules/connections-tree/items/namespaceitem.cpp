@@ -6,7 +6,7 @@ using namespace ConnectionsTree;
 
 NamespaceItem::NamespaceItem(const QString &fullPath,
                              QSharedPointer<Operations> operations,
-                             const TreeItem* parent)
+                             QWeakPointer<TreeItem> parent)
     : m_fullPath(fullPath),
       m_operations(operations),
       m_parent(parent),
@@ -45,7 +45,7 @@ QSharedPointer<TreeItem> NamespaceItem::child(uint row) const
     return QSharedPointer<TreeItem>();
 }
 
-const TreeItem *NamespaceItem::parent() const
+QWeakPointer<TreeItem> NamespaceItem::parent() const
 {
     return m_parent;
 }

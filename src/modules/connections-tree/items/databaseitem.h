@@ -15,7 +15,7 @@ class DatabaseItem : public QObject, public TreeItem
 
 public:
     DatabaseItem(const QString& displayName, unsigned int index, int keysCount,
-                 QSharedPointer<Operations> operations, const TreeItem *parent);
+                 QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
     ~DatabaseItem();
 
@@ -24,7 +24,7 @@ public:
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
     uint childCount() const override;
     QSharedPointer<TreeItem> child(uint row) const override;
-    const TreeItem* parent() const override;
+    QWeakPointer<TreeItem> parent() const override;
 
     bool onClick(ParentView& treeView) override;
     void onWheelClick(ParentView& treeView) override;
@@ -60,7 +60,7 @@ private:
                                                    Operations::RawKeysList keys,
                                                    QRegExp filter,
                                                    QString namespaceSeparator,
-                                                   const DatabaseItem*);
+                                                   QSharedPointer<DatabaseItem>);
 
     private:                  
          void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
@@ -69,7 +69,7 @@ private:
                                   QSharedPointer<Operations> operations,
                                   const QString& namespaceSeparator,
                                   QList<QSharedPointer<TreeItem>>& m_result,
-                                  const DatabaseItem*
+                                  QSharedPointer<DatabaseItem>
                                   );
     };
 
@@ -82,7 +82,7 @@ private:
     QList<QSharedPointer<TreeItem>> m_keys;
     QFutureWatcher<QList<QSharedPointer<TreeItem>>> m_keysLoadingWatcher;
     KeysTreeRenderer m_keysRenderer;
-    const TreeItem* m_parent;
+    QWeakPointer<TreeItem> m_parent;
     Operations::RawKeysList m_rawKeys;
     QRegExp m_filter;
 };

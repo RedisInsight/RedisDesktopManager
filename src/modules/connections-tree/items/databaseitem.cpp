@@ -13,7 +13,7 @@ using namespace ConnectionsTree;
 DatabaseItem::DatabaseItem(const QString& displayName,
                            unsigned int index, int keysCount,
                            QSharedPointer<Operations> operations,
-                           const TreeItem* parent)
+                           QWeakPointer<TreeItem> parent)
     : m_name(displayName),
       m_index(index),
       m_keysCount(keysCount),
@@ -26,7 +26,6 @@ DatabaseItem::DatabaseItem(const QString& displayName,
 
 DatabaseItem::~DatabaseItem()
 {
-    m_parent = nullptr;
 }
 
 QString DatabaseItem::getDisplayName() const
@@ -64,18 +63,18 @@ QSharedPointer<TreeItem> DatabaseItem::child(uint row) const
     return QSharedPointer<TreeItem>();
 }
 
-const TreeItem *DatabaseItem::parent() const
+QWeakPointer<TreeItem> DatabaseItem::parent() const
 {
     return m_parent;
 }
 
 bool DatabaseItem::onClick(ParentView&)
 {    
-    if (m_rawKeys.size() == 0) {
+    //if (m_rawKeys.size() == 0) {
         loadKeys();
         return true;
-    }
-    return false;
+    //}
+    //return false;
 }
 
 void DatabaseItem::onWheelClick(TreeItem::ParentView&)
@@ -192,9 +191,18 @@ void DatabaseItem::renderRawKeys(const Operations::RawKeysList &rawKeys)
 
     QString separator(m_operations->getNamespaceSeparator());
 
+    QSharedPointer<TreeItem> server = parent().toStrongRef();
+
+    if (!server) {
+        qDebug() << "Cannot render keys: invalid parent item";
+        return;
+    }
+
+    QSharedPointer<DatabaseItem> self = server->child(row()).staticCast<DatabaseItem>();
+
     QFuture<QList<QSharedPointer<TreeItem>>> keysLoadingResult =
             QtConcurrent::run(&m_keysRenderer,&KeysTreeRenderer::renderKeys,
-                              m_operations, rawKeys, m_filter, separator, this);
+                              m_operations, rawKeys, m_filter, separator, self);
 
     m_keysLoadingWatcher.setFuture(keysLoadingResult);
 }
@@ -204,7 +212,7 @@ DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations
                                            Operations::RawKeysList keys,
                                            QRegExp filter,
                                            QString namespaceSeparator,
-                                           const DatabaseItem* parent)
+                                           QSharedPointer<DatabaseItem> parent)
 {
     //init
     keys.sort();
@@ -231,11 +239,13 @@ DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations
 void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
                                                          const QString &notProcessedKeyPart,
                                                          const QString &fullKey,
-                                                         QSharedPointer<Operations> m_operations,                                                         
+                                                         QSharedPointer<Operations> m_operations,
                                                          const QString& m_namespaceSeparator,
-                                                         QList<QSharedPointer<TreeItem>>& m_result, const DatabaseItem *db)
+                                                         QList<QSharedPointer<TreeItem>>& m_result,
+                                                         QSharedPointer<DatabaseItem> db)
 {
-    const TreeItem* currentParent = (currItem.isNull())? static_cast<const TreeItem*>(db) : currItem.data();
+    QWeakPointer<TreeItem> currentParent = (currItem.isNull())? db.staticCast<TreeItem>().toWeakRef() :
+                                                                currItem.staticCast<TreeItem>().toWeakRef();
 
     if (!notProcessedKeyPart.contains(m_namespaceSeparator) || m_namespaceSeparator.isEmpty()) {
 
