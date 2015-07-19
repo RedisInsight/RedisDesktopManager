@@ -71,8 +71,11 @@ const TreeItem *DatabaseItem::parent() const
 
 bool DatabaseItem::onClick(ParentView&)
 {    
-    loadKeys();
-    return true;
+    if (m_rawKeys.size() == 0) {
+        loadKeys();
+        return true;
+    }
+    return false;
 }
 
 void DatabaseItem::onWheelClick(TreeItem::ParentView&)
