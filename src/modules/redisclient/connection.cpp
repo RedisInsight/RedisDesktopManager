@@ -89,7 +89,10 @@ void RedisClient::Connection::runCommand(const Command &cmd)
     if (!isTransporterRunning() || !m_connected)
         throw Exception("Try run command in not connected state");
 
-    m_addLock.lock();
+    bool isLocked = m_addLock.tryLock(3000);
+
+    if (!isLocked)
+        throw Exception("Run command: Cannot add command to worker. Lock timeout.");
 
     QObject::connect(cmd.getOwner(), SIGNAL(destroyed(QObject *)),
             m_transporter.data(), SLOT(cancelCommands(QObject *)));
