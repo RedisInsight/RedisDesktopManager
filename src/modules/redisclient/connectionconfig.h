@@ -1,7 +1,9 @@
 #pragma once
 
-#include <QtCore>
-#include <QtXml>
+#include <QString>
+#include <QList>
+#include <QVariantHash>
+#include <QJsonObject>
 #include <QSslCertificate>
 
 #define DEFAULT_REDIS_PORT 6379
@@ -15,9 +17,13 @@ class Connection;
 class ConnectionConfig
 {
 public:
+    static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
+
+public:
     ConnectionConfig(const QString & host = "", const QString & name = "",
                      const int port = DEFAULT_REDIS_PORT);
     ConnectionConfig & operator = (const ConnectionConfig & other);
+    ConnectionConfig(const QVariantHash& options);
 
     QString name() const;
     QString host() const;
@@ -59,20 +65,10 @@ public:
                               int port = DEFAULT_SSH_PORT,
                               QString sshPrivatekey = "");    
 
-    QDomElement toXml();
-    static ConnectionConfig fromXml(QDomNode & connectionNode);
-    static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
+    QJsonObject toJsonObject();
+    static ConnectionConfig fromJsonObject(const QJsonObject& config);
 
-protected:        
-    bool loadValueFromXml(const QDomNamedNodeMap& attr,
-                                const QString& name,
-                                const QString& target = QString());
-
-    void saveXmlAttribute(QDomDocument & document,
-                          QDomElement & root,
-                          const QString& name,
-                          const QString& value);
-
+protected:
     QString getValidPathFromParameter(const QString& param) const;
 private:
     QWeakPointer<Connection> m_owner;

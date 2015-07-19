@@ -23,6 +23,11 @@ RedisClient::ConnectionConfig &RedisClient::ConnectionConfig::operator =(const C
     return *this;
 }
 
+RedisClient::ConnectionConfig::ConnectionConfig(const QVariantHash &options)
+    : m_parameters(options)
+{
+}
+
 QString RedisClient::ConnectionConfig::name() const
 {
     return param<QString>("name");
@@ -144,111 +149,16 @@ QString RedisClient::ConnectionConfig::keysPattern() const
     return param<QString>("keys_pattern");
 }
 
-RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromXml(QDomNode & connectionNode)
+RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromJsonObject(const QJsonObject &config)
 {
-    ConnectionConfig c;
-
-    if (!connectionNode.hasAttributes()) {
-        return c;
-    }
-
-    QDomNamedNodeMap attr = connectionNode.attributes();
-
-    QHash<QString, QString> valueMapping;
-    valueMapping.insert("name", "");
-    valueMapping.insert("host", "");
-    valueMapping.insert("port", "");
-    valueMapping.insert("auth", "");
-    valueMapping.insert("keys_pattern", "");
-    valueMapping.insert("sshHost", "ssh_host");
-    valueMapping.insert("sshUser", "ssh_user");
-    valueMapping.insert("sshPassword", "ssh_password");
-    valueMapping.insert("sshPort", "ssh_port");
-    valueMapping.insert("sshPrivateKey", "ssh_private_key_path");
-    valueMapping.insert("ssl_ca_cert_path", "");
-    valueMapping.insert("ssl_private_key_path", "");
-    valueMapping.insert("ssl_local_cert_path", "");
-    valueMapping.insert("namespaceSeparator", "namespace_separator");
-    valueMapping.insert("connectionTimeout", "timeout_connect");
-    valueMapping.insert("executeTimeout", "timeout_execute");
-
-    QHashIterator<QString, QString> i(valueMapping);
-
-    while (i.hasNext()) {
-        i.next();
-        c.loadValueFromXml(attr, i.key(), i.value());
-    }
-
+    QVariantHash options = config.toVariantHash();
+    ConnectionConfig c(options);
     return c;
 }
 
-
-
-bool RedisClient::ConnectionConfig::loadValueFromXml(const QDomNamedNodeMap & attr,
-                                                    const QString& name,
-                                                    const QString& target)
+QJsonObject RedisClient::ConnectionConfig::toJsonObject()
 {
-    if (!attr.contains(name))
-        return false;
-
-    QString targetKey = (target.isEmpty())? name : target;
-
-    QString rawValue = attr.namedItem(name).nodeValue();
-
-    if (targetKey.contains("timeout") || targetKey.contains("port")) {
-        m_parameters[targetKey] = rawValue.toInt();
-    } else {
-        m_parameters[targetKey] = rawValue;
-    }
-
-    return true;
-}
-
-QDomElement RedisClient::ConnectionConfig::toXml()
-{
-    QDomDocument dom;
-    QDomElement xml = dom.createElement("connection");
-
-    saveXmlAttribute(dom, xml, "name", param<QString>("name"));
-    saveXmlAttribute(dom, xml, "host", param<QString>("host"));
-    saveXmlAttribute(dom, xml, "port", QString::number(param<int>("port")));
-
-    if (param<QString>("keys_pattern")!= QString("*"))
-        saveXmlAttribute(dom, xml, "keys_pattern", param<QString>("keys_pattern"));
-
-    if (useAuth()) {
-        saveXmlAttribute(dom, xml, "auth", param<QString>("auth"));
-    }
-
-    if (param<QString>("namespace_separator") != QString(DEFAULT_NAMESPACE_SEPARATOR)) {
-        saveXmlAttribute(dom, xml, "namespaceSeparator", param<QString>("namespace_separator"));
-    }
-
-    saveXmlAttribute(dom, xml, "connectionTimeout", QString::number(param<int>("timeout_connect")));
-    saveXmlAttribute(dom, xml, "executeTimeout", QString::number(param<int>("timeout_execute")));
-
-    if (useSshTunnel()) {
-        saveXmlAttribute(dom, xml, "sshHost", param<QString>("ssh_host"));
-        saveXmlAttribute(dom, xml, "sshUser", param<QString>("ssh_user"));
-        saveXmlAttribute(dom, xml, "sshPassword", param<QString>("ssh_password"));
-        saveXmlAttribute(dom, xml, "sshPort", QString::number(param<int>("ssh_port")));
-        saveXmlAttribute(dom, xml, "sshPrivateKey", param<QString>("ssh_private_key_path"));
-    }
-
-    if (useSsl()) {
-        saveXmlAttribute(dom, xml, "ssl_ca_cert_path", param<QString>("ssl_ca_cert_path"));
-        saveXmlAttribute(dom, xml, "ssl_private_key_path", param<QString>("ssl_private_key_path"));
-        saveXmlAttribute(dom, xml, "ssl_local_cert_path", param<QString>("ssl_local_cert_path"));
-    }
-
-    return xml;
-}
-
-void RedisClient::ConnectionConfig::saveXmlAttribute(QDomDocument & document, QDomElement & root, const QString& name, const QString& value)
-{
-    QDomAttr attr = document.createAttribute(name);
-    attr.setValue(value);
-    root.setAttributeNode(attr);
+    return QJsonObject::fromVariantHash(m_parameters);
 }
 
 QString RedisClient::ConnectionConfig::getValidPathFromParameter(const QString &name) const

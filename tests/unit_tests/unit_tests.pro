@@ -1,4 +1,4 @@
-QT       += core gui network xml concurrent widgets quick quickwidgets testlib
+QT       += core gui network concurrent widgets quick quickwidgets testlib
 
 TARGET = tests
 TEMPLATE = app
@@ -67,6 +67,7 @@ unix:!mac {
 
 unix:mac {
     LIBS += /usr/local/lib/libssh2.dylib
+    LIBS += -lz
     INCLUDEPATH += $$PROJECT_ROOT/3rdparty/qtconsole/include
 
     #3rdparty

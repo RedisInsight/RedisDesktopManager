@@ -43,7 +43,7 @@ MainWin::MainWin(QWidget *parent)
 void MainWin::initConnectionsTreeView()
 {
     //connection manager
-    QString config = ConfigManager::getApplicationConfigPath("connections.xml");
+    QString config = ConfigManager::getApplicationConfigPath("connections.json");
 
     if (config.isNull()) {
         QMessageBox::warning(this,

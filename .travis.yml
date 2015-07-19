@@ -3,10 +3,10 @@ compiler:
   - gcc
 before_install:
 - sudo bash ./build/start_ssh_server.sh
-- sudo add-apt-repository --yes ppa:beineri/opt-qt541
+- sudo add-apt-repository --yes ppa:beineri/opt-qt55
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
-- sudo apt-get install qt54base qt54imageformats qt54tools qt54xmlpatterns libssl1.0.0 libssh2-1-dev gdb  -y -qq
+- sudo apt-get install qt55base qt55imageformats qt55tools libssl1.0.0 libssh2-1-dev gdb  -y -qq
 - sudo apt-get install gcc-4.9 g++-4.9 -y -qq
 - sudo rm -f /usr/bin/gcc
 - sudo rm -f /usr/bin/g++
@@ -14,7 +14,7 @@ before_install:
 - sudo ln -s /usr/bin/gcc-4.9 /usr/bin/gcc
 - sudo ln -s /usr/bin/g++-4.9 /usr/bin/g++
 - sudo ln -s /usr/bin/gcov-4.9 /usr/bin/gcov
-- source /opt/qt54/bin/qt54-env.sh
+- source /opt/qt55/bin/qt55-env.sh
 - sudo pip install cpp-coveralls
 - uname -m
 - gcc --version
