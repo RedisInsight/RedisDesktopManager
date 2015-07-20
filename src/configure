@@ -8,13 +8,13 @@ GetOSVersion
 if [ "$os_VENDOR" == "Ubuntu" ]; then
     print_title "Build RDM on Ubuntu: $os_RELEASE"
 
-    # Check latest Qt 5.4
-    if [ ! -f /opt/qt54/bin/qt54-env.sh ]; then
-        print_title "Install Qt 5.4"
-        sudo add-apt-repository --yes ppa:beineri/opt-qt541
+    # Check latest Qt 5.5
+    if [ ! -f /opt/qt55/bin/qt55-env.sh ]; then
+        print_title "Install Qt 5.5"
+        sudo add-apt-repository --yes ppa:beineri/opt-qt55-trusty
         sudo apt-get update -y
-        sudo apt-get install qt54base qt54imageformats qt54tools \
-            qt54xmlpatterns qt54declarative qt54quickcontrols qt54script qt54quick1 -y
+        sudo apt-get install qt55base qt55imageformats qt55tools \
+            qt55declarative qt55quickcontrols qt55script qt55quick1 -y
     fi
 
     # Install CI environment if needed
@@ -33,7 +33,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
         libssh2-1-dev g++ libgl1-mesa-dev -y
     sync_breakpad
 
-    print_title "Run: source /opt/qt54/bin/qt54-env.sh && qmake && make "
+    print_title "Run: source /opt/qt55/bin/qt55-env.sh && qmake && make "
 
 elif [  "$os_VENDOR" == "Fedora" ]; then
     print_title "Build RDM on Fedora: $os_RELEASE"
