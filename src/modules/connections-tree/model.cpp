@@ -4,7 +4,8 @@
 using namespace ConnectionsTree;
 
 Model::Model(QObject *parent) :
-    QAbstractItemModel(parent)
+    QAbstractItemModel(parent),
+    m_rawPointers(new QHash<TreeItem*, QWeakPointer<TreeItem>>())
 {
 }
 
@@ -55,8 +56,10 @@ QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
 
     if (childItem.isNull())
         return QModelIndex();
-    else
+    else {
+        m_rawPointers->insert(childItem.data(), childItem.toWeakRef());
         return createIndex(row, column, childItem.data());
+    }
 }
 
 QModelIndex Model::parent(const QModelIndex &index) const
@@ -66,12 +69,13 @@ QModelIndex Model::parent(const QModelIndex &index) const
     if (!childItem)
         return QModelIndex();
 
-    const TreeItem *parentItem = childItem->parent();
+    QWeakPointer<TreeItem> parentItem = childItem->parent();
 
     if (!parentItem)
         return QModelIndex();
 
-    return createIndex(parentItem->row(), 0, (void*)parentItem);
+    m_rawPointers->insert(parentItem.data(), parentItem);
+    return createIndex(parentItem.toStrongRef()->row(), 0, (void*)parentItem.data());
 }
 
 int Model::rowCount(const QModelIndex &parent) const
@@ -95,6 +99,7 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
     int insertIndex = m_treeItems.size();
     emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
     item->setRow(insertIndex);
+    item->setWeakPointer(item.toWeakRef());
     m_treeItems.push_back(item);
 
     QModelIndex itemIndex = index(insertIndex, 0, QModelIndex());

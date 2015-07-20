@@ -22,7 +22,7 @@ namespace ConnectionsTree {
         QList<QSharedPointer<TreeItem>> getAllChilds() const override;
         uint childCount() const override;
         QSharedPointer<TreeItem> child(uint row) const override;
-        const TreeItem* parent() const override;
+        QWeakPointer<TreeItem> parent() const override;
 
         int row() const override;
         void setRow(int r);
@@ -39,6 +39,7 @@ namespace ConnectionsTree {
         void reload();
 
         void setName(const QString &name);
+        void setWeakPointer(QWeakPointer<ServerItem>);
     signals:
         void error(const QString&);
         void databaseListLoaded();
@@ -58,5 +59,6 @@ namespace ConnectionsTree {
         QSharedPointer<Operations> m_operations;
         QList<QSharedPointer<TreeItem>> m_databases;
         const Model& m_model;
+        QWeakPointer<ServerItem> m_self;
     };
 }

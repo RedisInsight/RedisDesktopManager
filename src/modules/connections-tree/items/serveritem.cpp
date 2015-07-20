@@ -74,7 +74,7 @@ QSharedPointer<TreeItem> ServerItem::child(uint row) const
     return QSharedPointer<TreeItem>();
 }
 
-const TreeItem *ServerItem::parent() const { return nullptr; }
+QWeakPointer<TreeItem> ServerItem::parent() const { return QWeakPointer<TreeItem>(); }
 
 int ServerItem::row() const
 {
@@ -180,7 +180,7 @@ void ServerItem::load()
             dbIndex = dbIndex.remove(0,2);
             index = dbIndex.toInt();
 
-            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, this)));            
+            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, m_self)));
 
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));
@@ -242,4 +242,9 @@ void ServerItem::reload()
 void ServerItem::setName(const QString& name)
 {
     m_name = name;
+}
+
+void ServerItem::setWeakPointer(QWeakPointer<ServerItem> self)
+{
+    m_self = self;
 }

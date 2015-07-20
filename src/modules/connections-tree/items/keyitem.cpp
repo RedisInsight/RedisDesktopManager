@@ -4,7 +4,7 @@
 
 using namespace ConnectionsTree;
 
-KeyItem::KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, const TreeItem* parent)
+KeyItem::KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent)
     : m_fullPath(fullPath),
       m_dbIndex(dbIndex),
       m_operations(operations),
@@ -41,7 +41,7 @@ QSharedPointer<TreeItem> KeyItem::child(uint row) const
     return QSharedPointer<TreeItem>();
 }
 
-const TreeItem *KeyItem::parent() const
+QWeakPointer<TreeItem> KeyItem::parent() const
 {
     return m_parent;
 }

@@ -30,16 +30,18 @@ public:
     virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
     virtual uint childCount() const = 0;
     virtual QSharedPointer<TreeItem> child(uint row) const = 0;
-    virtual const TreeItem* parent() const = 0;
+    virtual QWeakPointer<TreeItem> parent() const = 0;
 
     virtual int row() const
     {
         if (!parent())
             return 0;
 
-        for (uint index = 0; index < parent()->childCount(); ++index)
+        auto p = parent().toStrongRef();
+
+        for (uint index = 0; index < p->childCount(); ++index)
         {
-            if (parent()->child(index).data() == this)
+            if (p->child(index).data() == this)
                 return index;
         }
 

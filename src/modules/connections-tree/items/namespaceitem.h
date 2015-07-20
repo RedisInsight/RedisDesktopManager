@@ -9,14 +9,14 @@ namespace ConnectionsTree {
     class NamespaceItem : public TreeItem
     {
     public:
-        NamespaceItem(const QString& fullPath,  QSharedPointer<Operations> operations, const TreeItem* parent);
+        NamespaceItem(const QString& fullPath,  QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
         QString getDisplayName() const override;
         QIcon getIcon() const override;
         QList<QSharedPointer<TreeItem>> getAllChilds() const override;
         uint childCount() const override;
         QSharedPointer<TreeItem> child(uint row) const override;
-        const TreeItem* parent() const override;
+        QWeakPointer<TreeItem> parent() const override;
 
         bool onClick(ParentView& treeView) override;
         QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
@@ -29,7 +29,7 @@ namespace ConnectionsTree {
     private:
         QString m_fullPath;
         QSharedPointer<Operations> m_operations;
-        const TreeItem* m_parent;
+        QWeakPointer<TreeItem> m_parent;
         bool m_locked;
         QList<QSharedPointer<TreeItem>> m_childItems;
     };

@@ -35,16 +35,22 @@ namespace ConnectionsTree {
                 return nullptr;
                 
             TreeItem *parent = static_cast<TreeItem*>(index.internalPointer());
-            if (!parent)
-                return nullptr;                
+            if (!parent || !m_rawPointers->contains(parent))
+                return nullptr;
+
+            if (!m_rawPointers->value(parent)) {
+                m_rawPointers->remove(parent);
+                return nullptr;
+            }
+
             return parent;
         }
 
     protected:            
         void addRootItem(QSharedPointer<ServerItem> item);
-        void removeRootItem(QSharedPointer<ServerItem> item);
-
+        void removeRootItem(QSharedPointer<ServerItem> item);        
     private:
          QList<QSharedPointer<TreeItem>> m_treeItems;
+         QSharedPointer<QHash<TreeItem*, QWeakPointer<TreeItem>>> m_rawPointers;
     };
 }

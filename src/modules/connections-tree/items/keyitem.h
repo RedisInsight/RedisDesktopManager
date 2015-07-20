@@ -10,14 +10,14 @@ namespace ConnectionsTree {
     {
         Q_OBJECT
     public:
-        KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, const TreeItem* parent);
+        KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
         QString getDisplayName() const override;
         QIcon getIcon() const override;
         QList<QSharedPointer<TreeItem>> getAllChilds() const override;
         uint childCount() const override;
         QSharedPointer<TreeItem> child(uint row) const override;
-        const TreeItem* parent() const override;
+        QWeakPointer<TreeItem> parent() const override;
 
         bool onClick(ParentView& treeView) override;
         void onWheelClick(ParentView& treeView) override;
@@ -35,7 +35,7 @@ namespace ConnectionsTree {
         QString m_fullPath;
         int m_dbIndex;
         QSharedPointer<Operations> m_operations;
-        const TreeItem* m_parent;
+        QWeakPointer<TreeItem> m_parent;
         bool m_locked;
         bool m_removed;
 

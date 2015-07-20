@@ -1,6 +1,9 @@
 #include "test_databaseitem.h"
 #include "connections-tree/items/databaseitem.h"
+#include "connections-tree/items/serveritem.h"
+#include "connections-tree/model.h"
 #include "mocks/itemoperationsmock.h"
+
 
 #include <QtCore>
 #include <QTest>
@@ -18,29 +21,36 @@ void TestDatabaseItem::testLoadKeys()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
+    QSharedPointer<Operations> operations_(dynamic_cast<Operations*>(operations));
+    operations->databases["test-db"] = 55;
     operations->keys.append("test-1-key");
     operations->keys.append("test-2-key");
     operations->keys.append("test-2-key:subkey");
     operations->keys.append("test-2-key:namespace:subkey2");
-    DatabaseItem item("test", 0, 300,
-                      QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      nullptr);
-    QSignalSpy spy(&item, SIGNAL(keysLoaded(unsigned int)));
+    Model dummyModel;
+    QSharedPointer<ServerItem> parentItem(new ServerItem("test", operations_, dummyModel));
+    parentItem->setWeakPointer(parentItem.toWeakRef());
+
     DummyParentView view;
 
     //when
-    bool actualResult = item.onClick(view);
+    parentItem->onClick(view);
+    qDebug() << parentItem->childCount();
+    QSharedPointer<TreeItem> item = parentItem->child(0);
+
+    QSignalSpy spy((DatabaseItem*)item.data(), SIGNAL(keysLoaded(unsigned int)));
+    bool actualResult = item->onClick(view);
 
     //then
     QCOMPARE(spy.wait(), true);
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(item.childCount(), (unsigned int)3);
+    QCOMPARE(item->childCount(), (unsigned int)3);
     QCOMPARE(actualResult, true);
-    QCOMPARE(item.getDisplayName(), QString("test (3/300)"));
-    QCOMPARE(item.getIcon().isNull(), false);
-    QCOMPARE(item.getAllChilds().isEmpty(), false);
-    QCOMPARE(item.isEnabled(), true);
-    QCOMPARE(item.isLocked(), false);
+    QCOMPARE(item->getDisplayName(), QString("test-db (3/55)"));
+    QCOMPARE(item->getIcon().isNull(), false);
+    QCOMPARE(item->getAllChilds().isEmpty(), false);
+    QCOMPARE(item->isEnabled(), true);
+    QCOMPARE(item->isLocked(), false);
 }
 
 void TestDatabaseItem::testUnloadKeys()
@@ -49,7 +59,7 @@ void TestDatabaseItem::testUnloadKeys()
     ItemOperationsMock* operations = new ItemOperationsMock();
     DatabaseItem item("test", 0, 300,
                       QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      nullptr);
+                      QWeakPointer<ConnectionsTree::TreeItem>());
 
     //when
     item.unload();
@@ -65,7 +75,7 @@ void TestDatabaseItem::testContextMenu()
     ItemOperationsMock* operations = new ItemOperationsMock();
     DatabaseItem item("test", 0, 300,
                       QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      nullptr);
+                      QWeakPointer<ConnectionsTree::TreeItem>());
     DummyParentView view;
 
     //when
