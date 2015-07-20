@@ -75,19 +75,21 @@ PLUGINS=$DEPS_LIB/plugins/
 mkdir $DEPS_LIB
 mkdir -p $PLUGINS
 
+RDM_QT_LIB_PATH=/opt/qt55/
+
 #external libs
-cp -L /opt/qt54/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Widgets.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Gui.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Qml.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Network.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Core.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Quick.so.5  $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5DBus.so.5 $DEPS_LIB
-cp -L /opt/qt54/lib/libQt5Concurrent.so.5 $DEPS_LIB
-cp -LR /opt/qt54/plugins/platforms/ $PLUGINS
-cp -LR /opt/qt54/plugins/imageformats/ $PLUGINS
-cp -R /opt/qt54/qml $PLUGINS
+cp -L $RDM_QT_LIB_PATH/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Widgets.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Gui.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Qml.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Network.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Core.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Quick.so.5  $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5DBus.so.5 $DEPS_LIB
+cp -L $RDM_QT_LIB_PATH/lib/libQt5Concurrent.so.5 $DEPS_LIB
+cp -LR $RDM_QT_LIB_PATH/plugins/platforms/ $PLUGINS
+cp -LR $RDM_QT_LIB_PATH/plugins/imageformats/ $PLUGINS
+cp -R $RDM_QT_LIB_PATH/qml $PLUGINS
 
 echo 
 echo ===========================
