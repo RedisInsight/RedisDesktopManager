@@ -193,7 +193,7 @@ void DatabaseItem::renderRawKeys(const Operations::RawKeysList &rawKeys)
 
     QSharedPointer<TreeItem> server = parent().toStrongRef();
 
-    if (!server) {
+    if (!server || !server->child(row())) {
         qDebug() << "Cannot render keys: invalid parent item";
         return;
     }
