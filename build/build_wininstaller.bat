@@ -46,7 +46,7 @@ echo ============================
 echo Export debug symbols
 echo ============================
 cd %SRCDIR%/bin/windows/release
-cv2pdb rdm.exe
+cv2pdb -C rdm.exe
 %SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
 
 echo ============================
