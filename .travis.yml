@@ -2,7 +2,6 @@ language: cpp
 compiler:
   - gcc
 before_install:
-- sudo bash ./build/start_ssh_server.sh
 - sudo add-apt-repository --yes ppa:beineri/opt-qt55
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq

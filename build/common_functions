@@ -15,10 +15,15 @@ function sync_breakpad {
     rsync -av ./src/src ./src
 }
 
+function print_line {
+    echo "===================================================================="
+}
+
+
 function print_title {
-    echo "=========================="
+    print_line
     echo ${1}
-    echo "=========================="
+    print_line
 }
 
 function is_ppa_installed {
