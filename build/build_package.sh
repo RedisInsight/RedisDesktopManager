@@ -186,7 +186,7 @@ function build_dmg {
     
     cd $BUNDLE_PATH
     
-    macdeployqt rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter -qmldir=$RDM_DIR/src/resources/qml/ -verbose=2
+    $QTDIR/bin/macdeployqt rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter -qmldir=$RDM_DIR/src/resources/qml/ -verbose=2
     cp rdm.dmg redis-desktop-manager-$APP_VERSION.dmg    
 }
 
