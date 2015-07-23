@@ -178,7 +178,7 @@ function build_dmg {
 
     cd $RDM_DIR
     
-    BUNDLE_PATH=./bin/linux/release/ 
+    BUNDLE_PATH=$RDM_DIR/bin/linux/release/ 
     BUILD_DIR=$BUNDLE_PATH/rdm.app/Contents/
 
     cp -f ./src/resources/Info.plist $BUILD_DIR/
