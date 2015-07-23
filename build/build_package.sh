@@ -25,8 +25,8 @@ fi
 
 function set_application_version {
     print_title "Set version $1"
-    python $RDM_DIR/utils/set_version.py $1 > $RDM_DIR/src/version.h
-    python $RDM_DIR/utils/set_version.py $1 > $RDM_DIR/3rdparty/crashreporter/src/version.h
+    python $DIR/utils/set_version.py $1 > $RDM_DIR/src/version.h
+    python $DIR/utils/set_version.py $1 > $RDM_DIR/3rdparty/crashreporter/src/version.h
     print_line
 }
 
