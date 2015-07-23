@@ -162,7 +162,7 @@ function build_dmg {
     # Build app
     # ========================================================================
     print_title "Build Application"
-    cd $RDM_DIR
+    cd $RDM_DIR/src
     
     #replace tag in Info.plist:
     cp resources/Info.plist.sample resources/Info.plist
@@ -170,12 +170,13 @@ function build_dmg {
     
     sh ./configure
     qmake CONFIG-=debug CONFIG+=release CONFIG+=app_bundle
-    make -s clean
     make -s -j 2    
     
     # Build dmg
     # ========================================================================    
-    print_title "Create release bundle"       
+    print_title "Create release bundle"
+
+    cd $RDM_DIR
     
     BUNDLE_PATH=./bin/linux/release/ 
     BUILD_DIR=$BUNDLE_PATH/rdm.app/Contents/
