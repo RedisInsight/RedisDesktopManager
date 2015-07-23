@@ -5,6 +5,10 @@ CI_SERVER=$1
 echo "CI: server = $CI_SERVER"
 
 
+if [[ $OSTYPE == darwin* ]]; then
+  brew install wget
+fi
+
 echo '# Download build agent files'
 mkdir buildAgent
 cd buildAgent
@@ -12,8 +16,14 @@ wget -v http://$CI_SERVER/update/buildAgent.zip
 unzip buildAgent.zip
 rm -f buildAgent.zip
 
+
 echo '# Install JDK'
-sudo apt-get install default-jdk -y
+
+if [[ $OSTYPE == darwin* ]]; then
+  brew install Caskroom/cask/java
+else
+  sudo apt-get install default-jdk -y
+fi
 
 echo '# Update build agent options & run'
 cd ./conf
