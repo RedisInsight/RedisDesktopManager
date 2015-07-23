@@ -46,8 +46,11 @@ elif [  "$os_VENDOR" == "Fedora" ]; then
 
     print_title "Run: qmake-qt5 && make "
 
-else # FIXME: OSX detection
+elif [[ $OSTYPE == darwin* ]]; then
     cd $DEPS_DIR
     chmod -R 755 breakpad && cd breakpad/
     xcodebuild -sdk macosx10.9 -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
+    brew install libssh2
+else
+    echo "Your operation system is not supported!"
 fi
