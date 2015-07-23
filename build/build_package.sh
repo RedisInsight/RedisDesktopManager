@@ -124,7 +124,7 @@ function build_debian_package {
     # Build package
     # ========================================================================
     print_title "Build package:"
-    cd $RDM_DIR
+    cd $BUILD_DIR
 
     DEBEMAIL="u.glide@gmail.com"
     DEBFULLNAME="Igor Malinovskiy"
