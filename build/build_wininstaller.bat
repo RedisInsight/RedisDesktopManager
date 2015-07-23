@@ -14,8 +14,8 @@ g++ -v
 echo ============================
 echo Set version %1
 echo ============================
-python ./build/set_version.py %1 > ./src/version.h
-python ./build/set_version.py %1 > ./3rdparty/crashreporter/src/version.h
+python ./build/utils/set_version.py %1 > ./src/version.h
+python ./build/utils/set_version.py %1 > ./3rdparty/crashreporter/src/version.h
 echo DONE
 
 echo ============================
