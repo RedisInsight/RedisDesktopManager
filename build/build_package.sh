@@ -184,16 +184,12 @@ function build_dmg {
     cp -f ./src/resources/Info.plist $BUILD_DIR/
     cp -f ./src/resources/rdm.icns $BUILD_DIR/Resources/
     
-    # Workaround for macdeployqt bug
-    cd $BUNDLE_PATH/../
-    mkdir bin && cd bin
-    ln -s $QTDIR/bin/qmlimportscanner qmlimportscanner
-    # Workaround end
-    
     cd $BUNDLE_PATH
-    $QTDIR/bin/macdeployqt rdm.app -dmg -executable=./rdm.app/Contents/MacOS/crashreporter -qmldir=$RDM_DIR/src/resources/qml/ -verbose=2
+    
+    pushd $QTDIR/bin # Workaround for macdeployqt bug
+    macdeployqt $BUNDLE_PATH/rdm.app -dmg -executable=$BUNDLE_PATH/rdm.app/Contents/MacOS/crashreporter -qmldir=$RDM_DIR/src/resources/qml/ -verbose=3
+    popd    
     cp rdm.dmg redis-desktop-manager-$APP_VERSION.dmg
-   
 }
 
 
