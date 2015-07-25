@@ -43,13 +43,6 @@ if %errorlevel% neq 0 (
 )
 
 echo ============================
-echo Export debug symbols
-echo ============================
-cd %SRCDIR%/bin/windows/release
-cv2pdb -C rdm.exe
-%SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
-
-echo ============================
 echo Build installer
 echo ============================
 cd %SRCDIR%
@@ -57,7 +50,7 @@ cp -f bin/windows/release/rdm.exe build/windows/installer/resources/
 cd build/windows/installer/resources/
 echo ===============
 echo Windeploy tool:
-windeployqt --no-translations --compiler-runtime --release-with-debug-info --qmldir %SRCDIR%/src/resources/qml rdm.exe
+windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/resources/qml rdm.exe
 cp C:\\msys32\\mingw32\\bin\\libeay32.dll .
 cp C:\\msys32\\mingw32\\bin\\libssh2-1.dll .
 cp C:\\msys32\\mingw32\\bin\\ssleay32.dll .
@@ -73,3 +66,10 @@ echo Copy installer
 echo ============================
 rm -f ./bin/*.exe
 cp -f ./build/windows/installer/redis-desktop-manager-%1.exe ./bin/redis-desktop-manager-%1.exe
+
+echo ============================
+echo Export debug symbols
+echo ============================
+cd %SRCDIR%/bin/windows/release
+cv2pdb -C rdm.exe
+%SRCDIR%/3rdparty/breakpad/src/tools/windows/binaries/dump_syms.exe rdm.pdb > rdm.sym
