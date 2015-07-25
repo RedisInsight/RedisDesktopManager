@@ -3,9 +3,9 @@
 #include "modules/redisclient/commandexecutor.h"
 
 SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl)
-{
-    loadRowCount();
+    : KeyModel(connection, fullPath, dbIndex, ttl, true,
+               "ZCARD", QString(), "ZRANGE WITHSCORES", true)
+{    
 }
 
 QString SortedSetKeyModel::getType()
@@ -84,37 +84,6 @@ void SortedSetKeyModel::addRow(const QVariantMap &row)
     }
 }
 
-unsigned long SortedSetKeyModel::rowsCount()
-{
-    return m_rowCount;
-}
-
-void SortedSetKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
-{
-    QVariantList rows = getRowsRange("ZRANGE WITHSCORES", rowStart, count).toList();
-
-    for (QVariantList::iterator item = rows.begin();
-         item != rows.end(); ++item) {
-
-        QPair<QByteArray, double> value;
-        value.first = item->toByteArray();
-        ++item;
-
-        if (item == rows.end())
-            throw Exception("Partial data loaded from server");
-
-        value.second = item->toDouble();
-        m_rowsCache.push_back(value);
-    }
-
-    callback();
-}
-
-void SortedSetKeyModel::clearRowCache()
-{
-    m_rowsCache.clear();
-}
-
 void SortedSetKeyModel::removeRow(int i)
 {
     if (!isRowLoaded(i))
@@ -134,21 +103,6 @@ void SortedSetKeyModel::removeRow(int i)
     m_rowCount--;
     m_rowsCache.removeAt(i);
     setRemovedIfEmpty();
-}
-
-bool SortedSetKeyModel::isRowLoaded(int rowIndex)
-{
-    return 0 <= rowIndex && rowIndex < m_rowsCache.size();
-}
-
-bool SortedSetKeyModel::isMultiRow() const
-{
-    return true;
-}
-
-void SortedSetKeyModel::loadRowCount()
-{
-    m_rowCount = getRowCount("ZCARD");
 }
 
 bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
@@ -177,5 +131,22 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
         CommandExecutor::execute(m_connection, addCmd);
     } catch (const RedisClient::CommandExecutor::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
+    }
+}
+
+void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int)
+{
+    for (QVariantList::const_iterator item = rows.begin();
+         item != rows.end(); ++item) {
+
+        QPair<QByteArray, double> value;
+        value.first = item->toByteArray();
+        ++item;
+
+        if (item == rows.end())
+            throw Exception("Partial data loaded from server");
+
+        value.second = item->toDouble();
+        m_rowsCache.push_back(value);
     }
 }

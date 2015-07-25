@@ -21,7 +21,7 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
 
             loadModel(keyModel, inNewTab);
 
-            QObject::connect(keyModel.data(), &Model::removed,
+            QObject::connect(keyModel->getConnector().data(), &ModelSignals::removed,
                              this, [this, keyModel, &key]()
             {
                 removeModel(keyModel);
@@ -157,7 +157,7 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 
     auto model = m_valueModels.at(i);
 
-    QList<QObject *> valueEditors = model->findChildren<QObject *>();
+    QList<QObject *> valueEditors = model->getConnector()->findChildren<QObject *>();
 
 
     if (valueEditors.isEmpty())

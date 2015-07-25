@@ -1,12 +1,8 @@
 #pragma once
-
-#include <QObject>
 #include "abstractkey.h"
 
-class StringKeyModel : public KeyModel
-{
-    Q_OBJECT
-
+class StringKeyModel : public KeyModel<QByteArray>
+{    
 public:
     StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
 
@@ -14,21 +10,17 @@ public:
     QStringList getColumnNames() override;
     QHash<int, QByteArray> getRoles() override;
     QVariant getData(int rowIndex, int dataRole) override;
-    virtual void updateRow(int rowIndex, const QVariantMap& row) override;
 
     void addRow(const QVariantMap&) override;
-    unsigned long rowsCount() override;
-    void loadRows(unsigned long rowStart, unsigned long count, std::function<void()> callback) override;
-    void clearRowCache() override;
-    void removeRow(int) override;
-    bool isRowLoaded(int) override;
-    bool isMultiRow() const override;
+    virtual void updateRow(int rowIndex, const QVariantMap& row) override;
+    void loadRows(unsigned long rowStart, unsigned long count, std::function<void(const QString&)> callback) override;
+    void removeRow(int) override;       
+
+protected:
+    void addLoadedRowsToCache(const QVariantList&, int) override {}
 
 private:
     enum Roles { Value = Qt::UserRole + 1, BinaryValue};
-
     bool loadValue();
-
-    QByteArray m_value;    
 };
 

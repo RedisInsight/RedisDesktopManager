@@ -4,7 +4,7 @@
 const int PAGE_SIZE = 100;
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
-    : QAbstractListModel((QObject*)model.data()),
+    : QAbstractListModel((QObject*)model->getConnector().data()),
       m_model(model),
       m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0)
@@ -86,7 +86,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
         return;
     }
 
-    m_model->loadRows(start, count, [this, start, count]()
+    m_model->loadRows(start, count, [this, start, count](const QString& error)
     {                
         int loaded = totalRowCount() - start;
         loaded = (loaded > count) ? count : loaded;

@@ -3,9 +3,9 @@
 #include "modules/redisclient/commandexecutor.h"
 
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-       : KeyModel(connection, fullPath, dbIndex, ttl)
-{
-    loadRowCount();
+       : KeyModel(connection, fullPath, dbIndex, ttl, true,
+                  "HLEN", "HSCAN %1 0 COUNT 10000", "HGETALL")
+{    
 }
 
 QString HashKeyModel::getType()
@@ -79,37 +79,6 @@ void HashKeyModel::addRow(const QVariantMap &row)
     m_rowCount++;
 }
 
-unsigned long HashKeyModel::rowsCount()
-{
-    return m_rowCount;
-}
-
-void HashKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function<void ()> callback)
-{    
-    if (isPartialLoadingSupported()) {
-        QSharedPointer<RedisClient::ScanCommand> cmd(new RedisClient::ScanCommand(
-                                                         QString("HSCAN %1 0 COUNT 10000").arg(m_keyFullPath),
-                                                         this, m_dbIndex));
-
-        m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {            
-            if (result.type() == QVariant::Type::List) {
-                addLoadedRowsToCache(result.toList(), rowStart);
-            }
-            callback();
-        });
-
-    } else {
-        QVariantList rows = getRowsRange("HGETALL").toList();
-        addLoadedRowsToCache(rows, rowStart);
-        callback();
-    }
-}
-
-void HashKeyModel::clearRowCache()
-{
-    m_rowsCache.clear();
-}
-
 void HashKeyModel::removeRow(int i)
 {
     if (!isRowLoaded(i))
@@ -121,23 +90,7 @@ void HashKeyModel::removeRow(int i)
 
     m_rowCount--;
     m_rowsCache.removeAt(i);
-
     setRemovedIfEmpty();
-}
-
-bool HashKeyModel::isRowLoaded(int rowIndex)
-{
-    return 0 <= rowIndex && rowIndex < m_rowsCache.size();
-}
-
-bool HashKeyModel::isMultiRow() const
-{
-    return true;
-}
-
-void HashKeyModel::loadRowCount()
-{
-    m_rowCount = getRowCount("HLEN");   
 }
 
 void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashValue,
@@ -195,4 +148,3 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
         m_rowsCache.push_back(value);
     }
 }
-

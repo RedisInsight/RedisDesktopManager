@@ -3,9 +3,9 @@
 #include "modules/redisclient/commandexecutor.h"
 
 ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-    : ListLikeKeyModel(connection, fullPath, dbIndex, ttl)
-{    
-    loadRowCount();
+    : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
+                       "LLEN", QString(), "LRANGE", true)
+{
 }
 
 QString ListKeyModel::getType()
@@ -36,17 +36,6 @@ void ListKeyModel::addRow(const QVariantMap &row)
     m_rowCount++;
 }
 
-void ListKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void ()> callback)
-{           
-    QVariantList rows = getRowsRange("LRANGE", rowStart, count).toList();
-
-    foreach (QVariant row, rows) {
-        m_rowsCache.push_back(row.toByteArray());
-    }
-
-    callback();
-}
-
 void ListKeyModel::removeRow(int i)
 {
     if (!isRowLoaded(i))
@@ -68,13 +57,8 @@ void ListKeyModel::removeRow(int i)
 
     if (m_rowCount == 0) {
         m_isKeyRemoved = true;
-        emit removed();
+        m_notifier->removed();
     }
-}
-
-void ListKeyModel::loadRowCount()
-{    
-    m_rowCount = getRowCount("LLEN");
 }
 
 bool ListKeyModel::isActualPositionChanged(int row)

@@ -3,9 +3,9 @@
 #include "modules/redisclient/commandexecutor.h"
 
 SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
-       : ListLikeKeyModel(connection, fullPath, dbIndex, ttl)
-{
-    loadRowCount();
+       : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
+                          "SCARD", "SSCAN %1 0 COUNT 10000", "SMEMBERS", false)
+{    
 }
 
 QString SetKeyModel::getType()
@@ -39,38 +39,6 @@ void SetKeyModel::addRow(const QVariantMap &row)
     m_rowCount++;
 }
 
-void SetKeyModel::loadRows(unsigned long rowStart, unsigned long, std::function<void ()> callback)
-{
-    if (isPartialLoadingSupported()) {
-        QSharedPointer<RedisClient::ScanCommand> cmd(new RedisClient::ScanCommand(
-                                                         QString("SSCAN %1 0 COUNT 10000").arg(m_keyFullPath),
-                                                         this, m_dbIndex));
-
-        m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result) {
-            if (result.type() == QVariant::Type::List) {
-                QVariantList rows = result.toList();
-
-                foreach (QVariant row, rows) {
-                    m_rowsCache.push_back(row.toByteArray());
-                }
-            }
-            callback();
-        });
-    } else {
-
-        if (!m_rowsCache.isEmpty())
-            return;
-
-        QVariantList rows = getRowsRange("SMEMBERS").toList();
-
-        foreach (QVariant row, rows) {
-            m_rowsCache.push_back(row.toByteArray());
-        }
-    }
-
-    callback();
-}
-
 void SetKeyModel::removeRow(int i)
 {
     if (!isRowLoaded(i))
@@ -83,11 +51,6 @@ void SetKeyModel::removeRow(int i)
     m_rowsCache.removeAt(i);
 
     setRemovedIfEmpty();
-}
-
-void SetKeyModel::loadRowCount()
-{
-    m_rowCount = getRowCount("SCARD");
 }
 
 void SetKeyModel::addSetRow(const QByteArray &value)
