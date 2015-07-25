@@ -33,16 +33,20 @@ MainWin::MainWin(QWidget *parent)
     QRect scr = desktop->screenGeometry();
     move(scr.center() - rect().center());
 
+    initSystemConsole();
     initConnectionsTreeView();
     initContextMenus();
     initFormButtons();    
-    initUpdater();    
-    initSystemConsole();
+    initUpdater();
 }
 
 void MainWin::initConnectionsTreeView()
 {
     //connection manager
+    if (ConfigManager::migrateOldConfig("connections.xml", "connections.json")) {
+        LOG(INFO) << "Migrate connections.xml to connections.json";
+    }
+
     QString config = ConfigManager::getApplicationConfigPath("connections.json");
 
     if (config.isNull()) {
@@ -178,7 +182,7 @@ void MainWin::OnNewUpdateAvailable(QString &url)
 
 void MainWin::OnImportConnectionsClick()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files (*.xml)"));
+    QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files and JSON files (*.xml *.json)"));
 
     if (fileName.isEmpty()) {
         return;
@@ -193,7 +197,7 @@ void MainWin::OnImportConnectionsClick()
 
 void MainWin::OnExportConnectionsClick()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Export Connections to xml", "", tr("Xml Files (*.xml)"));
+    QString fileName = QFileDialog::getSaveFileName(this, "Export Connections to JSON", "", tr("Json Files (*.json)"));
 
     if (fileName.isEmpty()) {
         return;

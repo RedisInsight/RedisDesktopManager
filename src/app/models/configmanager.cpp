@@ -2,39 +2,30 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
+#include <QFile>
+#include <QXmlStreamReader>
+#include <QVariantHash>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <easylogging++.h>
 
 QString ConfigManager::getApplicationConfigPath(const QString &configFile)
 {
-#ifdef Q_OS_MACX
-    QString libraryDir = QDir::toNativeSeparators(QString("%1/%2")
-                                                  .arg(QDir::homePath())
-                                                  .arg("/Library/Preferences/rdm/"));
-#else
-    QString libraryDir = QDir::toNativeSeparators(QString("%1/%2")
-                                                  .arg(QDir::homePath())
-                                                  .arg("/.rdm/"));
-#endif
-    QDir libraryPath(libraryDir);
-    if (libraryPath.mkpath(libraryDir))
-        qDebug() << "Config Dir created";
-
     QString configDir;
+#ifdef Q_OS_MACX
+    configDir = QDir::toNativeSeparators(
+                    QString("%1/%2").arg(QDir::homePath()).arg("/Library/Preferences/rdm/")
+                );
+#else
+    configDir = QDir::toNativeSeparators(
+                    QString("%1/%2").arg(QDir::homePath()).arg("/.rdm/")
+                );
+#endif
+    QDir settingsPath(configDir);
 
-    if (libraryPath.exists()) {
-
-        //config migration
-        QString homeConfig = QString("%1/%2").arg(QDir::homePath()).arg(configFile);
-        QString destConfig = QString("%1/%2").arg(libraryDir).arg(configFile);
-
-        if (QFile::exists(homeConfig)
-                && QFile::copy(homeConfig, destConfig)
-                && QFile::remove(homeConfig)) {
-            qDebug() << "Old config moved to new dir";
-        }
-
-        configDir = libraryDir;
-    } else {
-        configDir = QDir::homePath();
+    if (!settingsPath.exists() && settingsPath.mkpath(configDir)) {
+        qDebug() << "Config Dir created";
     }
 
     QString configPath = QString("%1/%2").arg(configDir).arg(configFile);
@@ -45,22 +36,116 @@ QString ConfigManager::getApplicationConfigPath(const QString &configFile)
     return configPath;
 }
 
-
-/*
- * Convert XML config to JSON config:
- * Value mapping:
- *
- *     valueMapping.insert("sshHost", "ssh_host");
-    valueMapping.insert("sshUser", "ssh_user");
-    valueMapping.insert("sshPassword", "ssh_password");
-    valueMapping.insert("sshPort", "ssh_port");
-    valueMapping.insert("sshPrivateKey", "ssh_private_key_path");
-    valueMapping.insert("namespaceSeparator", "namespace_separator");
-    valueMapping.insert("connectionTimeout", "timeout_connect");
-    valueMapping.insert("executeTimeout", "timeout_execute");
- *
- *
+/**
+ * @brief ConfigManager::migrateOldConfig
+ * @param oldFileName - config.xml
+ * @param newFileName - config.json
+ * @return true or false
  */
+bool ConfigManager::migrateOldConfig(const QString &oldFileName, const QString &newFileName)
+{
+    // Move config from 0.7.5 or older to appropriate directory
+    QString homeConfig = QString("%1/%2").arg(QDir::homePath()).arg(oldFileName);
+
+    QString xmlConfigPath = getApplicationConfigPath(oldFileName);
+
+    if (xmlConfigPath.isEmpty())
+        return false;
+
+    if (QFile::exists(homeConfig)) {
+        qDebug() << "Config migration: 0.7.5 config detected.";
+        if (QFile::copy(homeConfig, xmlConfigPath) && QFile::remove(homeConfig)) {
+            qDebug() << "Old config moved to new dir";
+        }
+    }
+
+    if (!QFile::exists(xmlConfigPath))
+        return false;
+
+    QJsonArray newConfig = xmlConfigToJsonArray(xmlConfigPath);
+
+    QFile::remove(xmlConfigPath);
+
+    if (newConfig.size() == 0)
+        return false;
+
+    QJsonDocument config(newConfig);
+    QString jsonConfigPath = getApplicationConfigPath(newFileName);
+    QFile confFile(jsonConfigPath);
+
+    if (confFile.open(QIODevice::WriteOnly)) {
+        QTextStream outStream(&confFile);
+        outStream.setCodec("UTF-8");
+        outStream << config.toJson();
+        confFile.close();
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * @brief ConfigManager::xmlConfigToJsonArray - Migrate XML config to JSON array
+ * @param xmlConfigPath
+ * @return
+ */
+QJsonArray ConfigManager::xmlConfigToJsonArray(const QString &xmlConfigPath)
+{
+    LOG(WARNING) << "XML support is deprecated and will be removed in RDM 1.0";
+    QJsonArray newConfig;
+
+    QFile* xmlConfigfile = new QFile(xmlConfigPath);
+    if (!xmlConfigfile->open(QIODevice::ReadOnly | QIODevice::Text))
+        return newConfig;
+
+    QXmlStreamReader xml(xmlConfigfile);
+
+    QHash<QString, QString> attrMapping ({
+        {"sshHost", "ssh_host"},
+        {"sshUser", "ssh_user"},
+        {"sshPassword", "ssh_password"},
+        {"sshPort", "ssh_port"},
+        {"sshPrivateKey", "ssh_private_key_path"},
+        {"namespaceSeparator", "namespace_separator"},
+        {"connectionTimeout", "timeout_connect"},
+        {"executeTimeout", "timeout_execute"},
+    });
+
+    while (!xml.atEnd() && !xml.hasError())
+    {
+        QXmlStreamReader::TokenType token = xml.readNext();
+        if (token == QXmlStreamReader::StartDocument)
+            continue;
+        if (token == QXmlStreamReader::StartElement)
+        {
+            if (xml.name() == "connections")
+                continue;
+            if (xml.name() == "connection") {
+                QXmlStreamAttributes attributes = xml.attributes();
+
+                QString name, value;
+                QVariantHash connection;
+
+                for (QXmlStreamAttribute attr : attributes) {
+                    name = attr.name().toString();
+                    if (attrMapping.contains(name)) {
+                        name = attrMapping[name];
+                    }
+
+                    value = attr.value().toString();
+
+                    if (name.contains("port") || name.contains("timeout")) {
+                        connection.insert(name, value.toInt());
+                    } else {
+                        connection.insert(name, value);
+                    }
+                }
+                newConfig.append(QJsonObject::fromVariantHash(connection));
+            }
+        }
+    }
+    return newConfig;
+}
 
 bool ConfigManager::chechPath(const QString &configPath)
 {

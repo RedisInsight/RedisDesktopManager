@@ -11,6 +11,7 @@
 #include "connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
 #include "modules/value-editor/viewmodel.h"
+#include "configmanager.h"
 
 ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
                                        QSharedPointer<ValueEditor::ViewModel> values)
@@ -121,24 +122,30 @@ bool ConnectionsManager::importConnections(const QString &path)
 
 bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile)
 {
-    QFile conf(config);
-    
-    if (!conf.open(QIODevice::ReadOnly)) 
-        return false;    
+    QJsonArray connections;
 
-    QByteArray data = conf.readAll();
-    QJsonDocument jsonConfig = QJsonDocument::fromJson(data);
+    if (config.endsWith(".xml")) {
+        connections = ConfigManager::xmlConfigToJsonArray(config);
+    } else {
+        QFile conf(config);
 
-    if (jsonConfig.isEmpty())
-        return true;
+        if (!conf.open(QIODevice::ReadOnly))
+            return false;
 
+        QByteArray data = conf.readAll();
+        conf.close();
 
-    if (!jsonConfig.isArray()) {
-        // TODO(u_glide): Show ERROR message to USER
-        return false;
+        QJsonDocument jsonConfig = QJsonDocument::fromJson(data);
+
+        if (jsonConfig.isEmpty())
+            return true;
+
+        if (!jsonConfig.isArray()) {
+            return false;
+        }
+
+        connections = jsonConfig.array();
     }
-
-    QJsonArray connections = jsonConfig.array();
 
     using namespace RedisClient;
 
@@ -153,8 +160,6 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 
         addNewConnection(conf, false);
     }
-
-    conf.close();
 
     if (saveChangesToFile)
         saveConfig();
