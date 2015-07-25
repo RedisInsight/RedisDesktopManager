@@ -163,10 +163,14 @@ void ConnectionWindow::OnTestConnectionButtonClick()
 
     RedisClient::Connection testConnection(config, false);
 
-    if (testConnection.connect()) {
-        QMessageBox::information(this, "Successful connection", "Successful connection to redis-server");
-    } else {
-        QMessageBox::warning(this, "Can't connect to redis-server", "Can't connect to redis-server");
+    try {
+        if (testConnection.connect()) {
+            QMessageBox::information(this, "Successful connection", "Successful connection to redis-server");
+        } else {
+            QMessageBox::warning(this, "Can't connect to redis-server", "Can't connect to redis-server");
+        }
+    } catch (const RedisClient::Connection::Exception& e) {
+        QMessageBox::warning(this, "Error occurred", QString("Error: %1. Please increase timeouts and try again.").arg(e.what()));
     }
 
     ui.testConnectionButton->setIcon(QIcon());
