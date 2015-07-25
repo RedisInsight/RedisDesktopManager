@@ -209,8 +209,6 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
     }
 
     return QVariant();
-
-    return m_rowsCache[rowIndex];
 }
 
 void ListLikeKeyModel::clearRowCache()

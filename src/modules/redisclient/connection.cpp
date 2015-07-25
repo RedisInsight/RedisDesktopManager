@@ -1,3 +1,4 @@
+#include <easylogging++.h>
 #include "connection.h"
 #include "command.h"
 #include "scancommand.h"
@@ -12,8 +13,13 @@ RedisClient::Connection::Connection(const ConnectionConfig &c, bool autoConnect)
     m_timeoutTimer.setSingleShot(true);
     QObject::connect(&m_timeoutTimer, SIGNAL(timeout()), &m_loop, SLOT(quit()));
 
-    if (autoConnect)
-        connect();
+    if (autoConnect){
+        try {
+            connect();
+        } catch (const RedisClient::Connection::Exception& e) {
+            LOG(ERROR) << "Connection failed:" << e.what();
+        }
+    }
 }
 
 RedisClient::Connection::~Connection()

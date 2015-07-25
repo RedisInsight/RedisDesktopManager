@@ -76,6 +76,7 @@ QxtSshChannelPrivate::QxtSshChannelPrivate(QxtSshChannel *_p,QxtSshClient * c)
     ,d_read_stream_id(0)
     ,d_write_stream_id(0)
     ,d_state(0)
+    ,d_port(0)
 {
 }
 
