@@ -89,7 +89,7 @@ void TestKeyModels::testValueLoading()
 
     bool callbackCalled = false;
 
-    keyModel->loadRows(0, keyModel->rowsCount(), [&callbackCalled]() { callbackCalled = true; });
+    keyModel->loadRows(0, keyModel->rowsCount(), [&callbackCalled](const QString&) { callbackCalled = true; });
     wait(500);
     QVERIFY(callbackCalled);
     QVERIFY(keyModel->isRowLoaded(testRow));
@@ -121,7 +121,7 @@ void TestKeyModels::testValueLoading_data()
                << (QStringList() << "+string\r\n" << ":-1\r\n" << "$17\r\n__nice_test_data!\r\n")
                << 0
                << Qt::UserRole + 1
-               << (unsigned long)0
+               << (unsigned long)1
                << false
                << "__nice_test_data!"
                << QStringList();
@@ -175,7 +175,7 @@ void TestKeyModels::testKeyModelModifyRows()
     //when
     QSharedPointer<ValueEditor::Model> keyModel = getKeyModel(dummyConnection);
     QVERIFY(keyModel.isNull() == false);
-    keyModel->loadRows(0, 10, [](){return;});
+    keyModel->loadRows(0, 10, [](const QString&){return;});
     wait(500);
     keyModel->addRow(row);
     row["value"] = "fakeUpdate";

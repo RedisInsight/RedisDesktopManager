@@ -62,7 +62,7 @@ public:
 
     virtual bool isMultiRow() const override
     {
-        return true;
+        return m_isMultiRow;
     }
 
     virtual bool isRowLoaded(int rowIndex) override
@@ -72,9 +72,7 @@ public:
 
     virtual unsigned long rowsCount() override
     {
-        if (isMultiRow())
-            return m_rowCount;
-        return 1;
+       return m_rowCount;
     }
 
     virtual void setKeyName(const QString& newKeyName) override

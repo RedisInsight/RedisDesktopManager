@@ -13,7 +13,7 @@ public:
 
     void addRow(const QVariantMap&) override;
     virtual void updateRow(int rowIndex, const QVariantMap& row) override;
-    void loadRows(unsigned long rowStart, unsigned long count, std::function<void(const QString&)> callback) override;
+    void loadRows(unsigned long, unsigned long, std::function<void(const QString&)> callback) override;
     void removeRow(int) override;       
 
 protected:

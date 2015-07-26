@@ -63,7 +63,8 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     }
 
     if (result.isOkMessage()) {
-        m_rowsCache.replace(0, value);
+        m_rowsCache.clear();
+        m_rowsCache.append(value);
         m_notifier->dataLoaded();
     }
 }
@@ -73,11 +74,8 @@ void StringKeyModel::addRow(const QVariantMap &row)
     updateRow(0, row);
 }
 
-void StringKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::function<void(const QString&)> callback)
+void StringKeyModel::loadRows(unsigned long, unsigned long, std::function<void(const QString&)> callback)
 {
-    Q_UNUSED(rowStart);
-    Q_UNUSED(count);
-
     if (loadValue()) {
         callback(QString());
     }
@@ -85,7 +83,8 @@ void StringKeyModel::loadRows(unsigned long rowStart, unsigned long count, std::
 
 void StringKeyModel::removeRow(int)
 {
-    m_rowsCache.clear();
+    m_rowCount--;
+    setRemovedIfEmpty();
 }
 
 bool StringKeyModel::loadValue()
@@ -104,6 +103,7 @@ bool StringKeyModel::loadValue()
         return false;
     }
 
+    m_rowsCache.clear();
     m_rowsCache.append(result.getValue().toByteArray());
 
     m_notifier->dataLoaded();

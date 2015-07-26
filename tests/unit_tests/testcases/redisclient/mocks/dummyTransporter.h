@@ -66,6 +66,11 @@ protected:
             m_response = fakeResponses.first();
             fakeResponses.removeFirst();                        
         } else {
+            qDebug() << "Unexpected command: "<< cmd.getRawString();
+            qDebug() << "Previous commands:";
+            for (auto cmd : executedCommands) {
+                qDebug() << "\t" << cmd.getRawString();
+            }
             m_response = RedisClient::Response();
         }
 
