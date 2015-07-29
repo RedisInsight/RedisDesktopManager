@@ -6,11 +6,10 @@
 
 namespace ConnectionsTree {
 
-    class KeyItem : public QObject, public TreeItem
-    {
-        Q_OBJECT
+    class KeyItem : public TreeItem
+    {        
     public:
-        KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
+        KeyItem(const QString& fullPath, unsigned short int dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
         QString getDisplayName() const override;
         QIcon getIcon() const override;
@@ -33,12 +32,10 @@ namespace ConnectionsTree {
 
     private:
         QString m_fullPath;
-        int m_dbIndex;
+        unsigned short int m_dbIndex;
         QSharedPointer<Operations> m_operations;
-        QWeakPointer<TreeItem> m_parent;
-        bool m_locked;
+        QWeakPointer<TreeItem> m_parent;        
         bool m_removed;
-
     };
 
 }

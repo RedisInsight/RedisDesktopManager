@@ -30,12 +30,16 @@ public:
 
     void openNewKeyDialog(int dbIndex, QString keyPrefix = QString()) override;
 
+    void notifyDbWasUnloaded(int dbIndex) override;
+
 signals:
     void openValueTab(QSharedPointer<RedisClient::Connection> connection,
                       ConnectionsTree::KeyItem& key, bool inNewTab);
 
     void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
                       int dbIndex, QString keyPrefix);
+
+    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
 private:
      QSharedPointer<RedisClient::Connection> m_connection;

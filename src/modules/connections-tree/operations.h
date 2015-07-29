@@ -25,7 +25,7 @@ namespace ConnectionsTree {
          * List of databases with keys counters
          * @emit databesesLoaded
          **/
-        typedef QHash <QString, int> DatabaseList;
+        typedef QVector<QPair<QString, int>> DatabaseList;
         virtual void getDatabases(std::function<void(DatabaseList)>) = 0;
 
         /**
@@ -52,6 +52,8 @@ namespace ConnectionsTree {
         virtual void openConsoleTab() = 0;
 
         virtual void openNewKeyDialog(int dbIndex, QString keyPrefix = QString()) = 0;
+
+        virtual void notifyDbWasUnloaded(int dbIndex) = 0;
 
         virtual ~Operations() {}
 

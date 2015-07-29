@@ -1,6 +1,4 @@
-#ifndef DATABASEITEM_H
-#define DATABASEITEM_H
-
+#pragma once
 #include "treeitem.h"
 #include "connections-tree/operations.h"
 #include <QtConcurrent>
@@ -9,10 +7,11 @@ namespace ConnectionsTree {
 
 class NamespaceItem;
 
+typedef QList<QSharedPointer<TreeItem>> DatabaseKeys;
+
 class DatabaseItem : public QObject, public TreeItem
 {
     Q_OBJECT
-
 public:
     DatabaseItem(const QString& displayName, unsigned int index, int keysCount,
                  QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
@@ -30,8 +29,8 @@ public:
     void onWheelClick(ParentView& treeView) override;
     QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
 
-    bool isLocked() const override {return false;}
-    bool isEnabled() const override {return true;}
+    bool isLocked() const override;
+    bool isEnabled() const override;
 
     void loadKeys();
     void unload();
@@ -54,39 +53,33 @@ protected:
 private:
     class KeysTreeRenderer
     {
-    public:        
-
-        QList<QSharedPointer<TreeItem>> renderKeys(QSharedPointer<Operations> operations,
-                                                   Operations::RawKeysList keys,
-                                                   QRegExp filter,
-                                                   QString namespaceSeparator,
-                                                   QSharedPointer<DatabaseItem>);
-
+    public:
+        static QSharedPointer<DatabaseKeys> renderKeys(QSharedPointer<Operations> operations,
+                                                       Operations::RawKeysList keys,
+                                                       QRegExp filter,
+                                                       QString namespaceSeparator,
+                                                       QSharedPointer<DatabaseItem>);
     private:                  
-         void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
-                                  const QString& notProcessedKeyPart,
-                                  const QString& fullKey,
-                                  QSharedPointer<Operations> operations,
-                                  const QString& namespaceSeparator,
-                                  QList<QSharedPointer<TreeItem>>& m_result,
-                                  QSharedPointer<DatabaseItem>
-                                  );
+         static void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
+                                          const QString& notProcessedKeyPart,
+                                          const QString& fullKey,
+                                          QSharedPointer<Operations> operations,
+                                          const QString& namespaceSeparator,
+                                          QSharedPointer<DatabaseKeys> m_result,
+                                          QSharedPointer<DatabaseItem>
+                                          );
     };
-
 private:
     QString m_name;
-    unsigned int m_index;
-    int m_keysCount;
+    unsigned short int m_index;
+    unsigned int m_keysCount;
     bool m_locked;
     QSharedPointer<Operations> m_operations;
-    QList<QSharedPointer<TreeItem>> m_keys;
-    QFutureWatcher<QList<QSharedPointer<TreeItem>>> m_keysLoadingWatcher;
-    KeysTreeRenderer m_keysRenderer;
+    QSharedPointer<DatabaseKeys> m_keys;
+    QFutureWatcher<QSharedPointer<DatabaseKeys>> m_keysLoadingWatcher;
     QWeakPointer<TreeItem> m_parent;
     Operations::RawKeysList m_rawKeys;
     QRegExp m_filter;
 };
 
 }
-
-#endif // DATABASEITEM_H

@@ -31,7 +31,7 @@ void TestTreeOperations::testGetDatabaseKeys()
     //when
     bool callbackCalled = false;
     TreeOperations operations(connection, tabsWidget);
-    operations.getDatabaseKeys(99, [&callbackCalled](const ConnectionsTree::Operations::RawKeysList &result) {
+    operations.getDatabaseKeys(99, [&callbackCalled](const ConnectionsTree::Operations::RawKeysList&) {
         //then - part 2
         callbackCalled = true;
     });

@@ -59,6 +59,7 @@ public slots:
                           QString keyPrefix);
     void openTab(QSharedPointer<RedisClient::Connection> connection,
                  ConnectionsTree::KeyItem& key, bool inNewTab);
+    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
 private:
     QList<QSharedPointer<Model>> m_valueModels;

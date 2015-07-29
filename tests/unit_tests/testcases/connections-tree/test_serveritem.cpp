@@ -19,7 +19,7 @@ void TestServerItem::testLoad()
 {    
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
-    operations->databases["test-db"] = 55;
+    operations->databases.append({"test-db", 55});
     Model dummyModel;
     ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
     QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
@@ -60,7 +60,7 @@ void TestServerItem::testUnload()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
-    operations->databases["test-db"] = 55;
+    operations->databases.append({"test-db", 55});
     Model dummyModel;
     ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
 
@@ -77,7 +77,7 @@ void TestServerItem::testReload()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
-    operations->databases["test-db"] = 55;
+    operations->databases.append({"test-db", 55});
     Model dummyModel;
     ServerItem item{"test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel};
     QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));

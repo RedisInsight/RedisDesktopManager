@@ -4,12 +4,11 @@
 
 using namespace ConnectionsTree;
 
-KeyItem::KeyItem(const QString& fullPath, int dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent)
+KeyItem::KeyItem(const QString& fullPath, unsigned short dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent)
     : m_fullPath(fullPath),
       m_dbIndex(dbIndex),
       m_operations(operations),
-      m_parent(parent),
-      m_locked(false),
+      m_parent(parent),      
       m_removed(false)
 {
 }
@@ -77,7 +76,7 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
 
 bool KeyItem::isLocked() const
 {
-    return m_locked;
+    return false;
 }
 
 bool KeyItem::isEnabled() const

@@ -176,11 +176,11 @@ void ServerItem::load()
         QString dbIndex;
 
         while (db != databases.constEnd()) {
-            dbIndex = db.key();
+            dbIndex = db->first;
             dbIndex = dbIndex.remove(0,2);
             index = dbIndex.toInt();
 
-            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), index, db.value(), m_operations, m_self)));
+            QSharedPointer<TreeItem> database((new DatabaseItem(db->first, index, db->second, m_operations, m_self)));
 
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));

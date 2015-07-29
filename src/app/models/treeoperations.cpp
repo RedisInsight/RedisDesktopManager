@@ -44,6 +44,7 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     }
 
     DatabaseList availableDatabeses;
+    QSet<QString> loadedDatabeses;
 
     if (result.isErrorMessage()) {
         return callback(availableDatabeses);
@@ -60,7 +61,8 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
         dbName = getDbAndKeysCount.cap(1);
         keysCount = getDbAndKeysCount.cap(2).toInt();
-        availableDatabeses.insert(dbName, keysCount);
+        availableDatabeses.push_back({dbName, keysCount});
+        loadedDatabeses.insert(dbName);
 
         pos += getDbAndKeysCount.matchedLength();
     }
@@ -83,10 +85,10 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     {
         dbName = QString("db%1").arg(dbIndex);
 
-        if (availableDatabeses.contains(dbName))
+        if (loadedDatabeses.contains(dbName))
             continue;
 
-        availableDatabeses.insert(dbName, 0);
+        availableDatabeses.push_back({dbName, 0});
     }
 
     return callback(availableDatabeses);
@@ -143,4 +145,9 @@ void TreeOperations::openConsoleTab()
 void TreeOperations::openNewKeyDialog(int dbIndex, QString keyPrefix)
 {
     emit newKeyDialog(m_connection, dbIndex, keyPrefix);
+}
+
+void TreeOperations::notifyDbWasUnloaded(int dbIndex)
+{
+    emit closeDbKeys(m_connection, dbIndex);
 }

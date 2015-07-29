@@ -167,6 +167,16 @@ public:
         return m_notifier;
     }
 
+    virtual QSharedPointer<RedisClient::Connection> getConnection() const override
+    {
+        return m_connection;
+    }
+
+    virtual unsigned int dbIndex() const override
+    {
+        return m_dbIndex;
+    }
+
 protected:
     //multi row internal operations
     void loadRowsCount()

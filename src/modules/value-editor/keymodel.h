@@ -4,6 +4,7 @@
 #include <QString>
 #include <QHash>
 #include <QObject>
+#include "redisclient/connection.h"
 
 namespace ValueEditor {
 
@@ -47,6 +48,8 @@ public:
     virtual bool isMultiRow() const = 0;
 
     virtual QSharedPointer<ModelSignals> getConnector() const = 0;
+    virtual QSharedPointer<RedisClient::Connection> getConnection() const = 0;
+    virtual unsigned int dbIndex() const = 0;
 
     virtual ~Model() {}
 };

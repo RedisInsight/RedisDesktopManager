@@ -37,6 +37,7 @@ public:
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
     virtual void openConsoleTab() override {}
     void openNewKeyDialog(int, QString = QString()) override {}
+    virtual void notifyDbWasUnloaded(int) override {}
 
 protected:
     bool m_positive_mode;

@@ -27,11 +27,6 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
                 removeModel(keyModel);
                 key.setRemoved(); //Disable key in connections tree
             });
-
-            QObject::connect(&key, &ConnectionsTree::KeyItem::destroyed,
-                             this, [this, keyModel] () {
-                removeModel(keyModel);
-            });
         });
         // TODO: add empty key model for loading
     } catch (...) {
@@ -39,6 +34,19 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
     }
 }
 
+void ValueEditor::ViewModel::closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex)
+{    
+    for (int index = 0; 0 <= index && index < m_valueModels.size(); index++) {
+        auto model = m_valueModels.at(index);
+
+        if (model->getConnection() == connection && model->dbIndex() == dbIndex) {
+            beginRemoveRows(QModelIndex(), index, index);
+            m_valueModels.removeAt(index);
+            endRemoveRows();
+            index--;
+        }
+    }
+}
 
 QModelIndex ValueEditor::ViewModel::index(int row, int column, const QModelIndex &parent) const
 {
