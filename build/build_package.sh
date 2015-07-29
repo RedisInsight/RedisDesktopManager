@@ -99,6 +99,7 @@ function build_debian_package {
     cp -L $QTDIR/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
     cp -L $QTDIR/lib/libQt5Widgets.so.5  $DEPS_LIB
     cp -L $QTDIR/lib/libQt5Gui.so.5  $DEPS_LIB
+    cp -L $QTDIR/lib/libQt5XcbQpa.so.5  $DEPS_LIB
     cp -L $QTDIR/lib/libQt5Qml.so.5  $DEPS_LIB
     cp -L $QTDIR/lib/libQt5Network.so.5  $DEPS_LIB
     cp -L $QTDIR/lib/libQt5Core.so.5  $DEPS_LIB
