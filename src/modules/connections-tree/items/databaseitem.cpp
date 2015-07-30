@@ -153,6 +153,7 @@ void DatabaseItem::unload()
     emit unloadStarted(m_index);
     m_operations->notifyDbWasUnloaded(m_index);
     m_keys = QSharedPointer<DatabaseKeys>(new DatabaseKeys());
+    m_rawKeys.clear();
     m_locked = false;
 }
 
