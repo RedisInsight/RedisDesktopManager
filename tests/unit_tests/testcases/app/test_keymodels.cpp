@@ -283,7 +283,7 @@ QSharedPointer<ValueEditor::Model> TestKeyModels::getKeyModel(QSharedPointer<Red
 {
     QSharedPointer<ValueEditor::Model> actualResult;
     KeyFactory factory;
-    factory.loadKey(connection, "testKey", 0, [&actualResult](QSharedPointer<ValueEditor::Model> model) {
+    factory.loadKey(connection, "testKey", 0, [&actualResult](QSharedPointer<ValueEditor::Model> model, const QString&) {
         actualResult = model;
     });
 

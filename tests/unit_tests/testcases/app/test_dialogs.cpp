@@ -13,7 +13,7 @@ namespace ValueEditor {
 void TestDialogs::testConnectionDialog()
 {
     //given
-    QString configTestFile = "connections.xml";
+    QString configTestFile = "connections.json";
     ConsoleTabs tabsWidget;
     QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
                                    QSharedPointer<ValueEditor::ViewModel>()));
