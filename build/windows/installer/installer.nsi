@@ -63,6 +63,7 @@ ShowUninstDetails show
 # Installer sections
 Section -Main SEC0000
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
+    RMDir /r $INSTDIR
 
     SetOutPath $INSTDIR
     SetOverwrite on
