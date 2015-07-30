@@ -1,6 +1,4 @@
-#ifndef OPERATIONS_H
-#define OPERATIONS_H
-
+#pragma once
 #include <QString>
 #include <QHash>
 #include <QSharedPointer>
@@ -59,6 +57,3 @@ namespace ConnectionsTree {
 
     };
 }
-
-
-#endif // OPERATIONS_H

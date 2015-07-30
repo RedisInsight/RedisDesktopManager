@@ -34,7 +34,8 @@ namespace ConnectionsTree {
         QString m_fullPath;
         unsigned short int m_dbIndex;
         QSharedPointer<Operations> m_operations;
-        QWeakPointer<TreeItem> m_parent;        
+        QWeakPointer<TreeItem> m_parent;
+        QSharedPointer<QObject> m_signalReciever;
         bool m_removed;
     };
 

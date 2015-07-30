@@ -1,6 +1,9 @@
 #include "keyitem.h"
-#include "connections-tree/iconproxy.h"
 #include <QMenu>
+
+#include "connections-tree/iconproxy.h"
+#include "connections-tree/utils.h"
+
 
 using namespace ConnectionsTree;
 
@@ -63,14 +66,15 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
 {
     QSharedPointer<QMenu> menu(new QMenu());
 
-    QAction* openKey = new QAction(QIcon(":/images/add.png"), "Open key", menu.data());
-    QObject::connect(openKey, &QAction::triggered, [this] { m_operations->openKeyTab(*this, false); });
-    menu->addAction(openKey);
+    if (!m_signalReciever) {
+        m_signalReciever = QSharedPointer<QObject>(new QObject());
+    }
 
-    QAction* openInNewTab = new QAction(QIcon(":/images/add.png"), "Open key value in new tab", menu.data());
-    QObject::connect(openInNewTab, &QAction::triggered, [this] { m_operations->openKeyTab(*this, true); });
-    menu->addAction(openInNewTab);
+    menu->addAction(createMenuAction(":/images/add.png", "Open key", menu.data(), m_signalReciever.data(),
+                                     [this] { m_operations->openKeyTab(*this, false); }));
 
+    menu->addAction(createMenuAction(":/images/add.png", "Open key value in new tab", menu.data(), m_signalReciever.data(),
+                                     [this] { m_operations->openKeyTab(*this, true); }));
     return menu;
 }
 

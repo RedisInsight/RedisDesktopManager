@@ -11,7 +11,6 @@ namespace ConnectionsTree {
     class ServerItem : public QObject, public TreeItem
     {
         Q_OBJECT
-
     public:
         ServerItem(const QString& name, QSharedPointer<Operations> operations,
                    const Model& model);

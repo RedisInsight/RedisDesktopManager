@@ -1,6 +1,4 @@
-#ifndef ICONPROXY_H
-#define ICONPROXY_H
-
+#pragma once
 #include <QIcon>
 #include <QString>
 #include <QSharedPointer>
@@ -22,7 +20,4 @@ namespace ConnectionsTree {
     private:
         IconProxy();
     };
-
 }
-
-#endif // ICONPROXY_H

@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMenu>
 #include <QInputDialog>
+#include "connections-tree/utils.h"
 
 using namespace ConnectionsTree;
 
@@ -85,41 +86,28 @@ void DatabaseItem::onWheelClick(TreeItem::ParentView&)
 
 QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView)
 {
-    Q_UNUSED(treeView);
     QSharedPointer<QMenu> menu(new QMenu());
-
-    //new key action
-    QAction* newKey = new QAction(QIcon(":/images/add.png"), "Add new key", menu.data());
-    QObject::connect(newKey, &QAction::triggered, this, [this]() { m_operations->openNewKeyDialog(m_index); });
-    menu->addAction(newKey);
+    menu->addAction(createMenuAction(":/images/add.png", "Add new key", menu.data(), this,
+                                     [this]() { m_operations->openNewKeyDialog(m_index); }));
     menu->addSeparator();
 
-    //filter action
-    QAction* search = new QAction(QIcon(":/images/filter.png"), "Filter keys", menu.data());
-    QObject::connect(search, &QAction::triggered, this, [this, &treeView]() {
-        QString text = QInputDialog::getText(treeView.getParentWidget(), tr("Filter keys:"),
-                                             tr("Filter regex:"));
-        if (!text.isEmpty())
-            filterKeys(QRegExp(text));
-    });
-
-    QAction* reset = new QAction(QIcon(":/images/clear.png"), "Reset keys filter", menu.data());
-    QObject::connect(reset, &QAction::triggered, this, [this]() {
-        resetFilter();
-    });
-
     if (m_filter.isEmpty()) {
-        menu->addAction(search);
+        menu->addAction(createMenuAction(":/images/filter.png", "Filter keys", menu.data(), this,
+                                         [this, &treeView]()
+        {
+            QString text = QInputDialog::getText(treeView.getParentWidget(),
+                                                 tr("Filter keys:"),
+                                                 tr("Filter regex:"));
+            if (!text.isEmpty()) filterKeys(QRegExp(text));
+        }));
     } else {
-        menu->addAction(reset);
+        menu->addAction(createMenuAction(":/images/clear.png", "Reset keys filter", menu.data(), this,
+                                         [this]() { resetFilter();}));
     }
     menu->addSeparator();
 
-    //reload action
-    QAction* reload = new QAction(QIcon(":/images/refreshdb.png"), "Reload", menu.data());
-    QObject::connect(reload, &QAction::triggered, this, [this] { this->reload(); });
-    menu->addAction(reload);
-
+    menu->addAction(createMenuAction(":/images/refreshdb.png", "Reload", menu.data(), this,
+                                      [this] { this->reload(); }));
     return menu;
 }
 

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QAbstractItemModel>
 #include <QList>
 #include <QVariant>

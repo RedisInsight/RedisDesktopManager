@@ -1,15 +1,12 @@
-#ifndef TREEITEM_H
-#define TREEITEM_H
-
-#define QT_SHAREDPOINTER_TRACK_POINTERS
+#pragma once
+#include <functional>
 #include <QSharedPointer>
 #include <QWeakPointer>
 #include <QString>
 #include <QIcon>
 #include <QList>
 #include <QWidget>
-
-class QMenu;
+#include <QMenu>
 
 namespace ConnectionsTree {
 
@@ -62,5 +59,5 @@ public:
 
     virtual ~TreeItem() {}
 };
+
 }
-#endif // TREEITEM_H

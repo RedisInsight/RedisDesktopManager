@@ -1,6 +1,4 @@
-#ifndef NAMESPACEITEM_H
-#define NAMESPACEITEM_H
-
+#pragma once
 #include "treeitem.h"
 #include "connections-tree/operations.h"
 
@@ -33,6 +31,4 @@ namespace ConnectionsTree {
         bool m_locked;
         QList<QSharedPointer<TreeItem>> m_childItems;
     };
-
 }
-#endif // NAMESPACEITEM_H

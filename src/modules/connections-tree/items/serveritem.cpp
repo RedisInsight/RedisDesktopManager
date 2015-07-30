@@ -1,12 +1,14 @@
 #include "serveritem.h"
-#include "connections-tree/iconproxy.h"
-#include "databaseitem.h"
 #include <QAction>
 #include <QMenu>
-#include <QMessageBox>
 #include <functional>
 #include <QDebug>
 #include <algorithm>
+#include <QMessageBox>
+
+#include "connections-tree/iconproxy.h"
+#include"connections-tree/utils.h"
+#include "databaseitem.h"
 
 using namespace ConnectionsTree;
 
@@ -37,11 +39,8 @@ bool ServerItem::onClick(TreeItem::ParentView& view)
     try {
         load();
     } catch (...) {
-        QMessageBox::warning(
-            view.getParentWidget(),
-            "Server error",
-            "Cannot load databases list."
-        );
+        QMessageBox::warning(view.getParentWidget(), tr("Server error"),
+                             tr("Cannot load databases list."));
         m_locked = false;
     }
 
@@ -88,57 +87,43 @@ void ServerItem::setRow(int r)
 
 QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
 {
-    QSharedPointer<QMenu> menu(new QMenu());
-
-    //console action
-    QAction* console = new QAction(QIcon(":/images/terminal.png"), "Console", menu.data());
-    QObject::connect(console, &QAction::triggered, this, [this]() { m_operations->openConsoleTab(); });
-    menu->addAction(console);
+    QSharedPointer<QMenu> menu(new QMenu());    
+    menu->addAction(createMenuAction(":/images/terminal.png", "Console", menu.data(), this,
+                                     [this]() { m_operations->openConsoleTab();}));
     menu->addSeparator();    
 
-    //reload action
-    QAction* reload = new QAction(QIcon(":/images/refreshdb.png"), "Reload", menu.data());
-    QObject::connect(reload, &QAction::triggered, this, [this] { this->reload(); });
-    menu->addAction(reload);
+    menu->addAction(createMenuAction(":/images/refreshdb.png", "Reload", menu.data(), this,
+                    [this] { this->reload(); }));
 
-     //disconnect action
-    QAction* disconnect = new QAction(QIcon(":/images/redisIcon_offline.png"), "Disconnect", menu.data());
-    QObject::connect(disconnect, &QAction::triggered, this, [this] { unload(); });
-    menu->addAction(disconnect);
-    menu->addSeparator();
+    menu->addAction(createMenuAction(":/images/redisIcon_offline.png", "Disconnect", menu.data(), this,
+                                     [this] { unload(); }));
 
-    //edit action
-    QAction* edit = new QAction(QIcon(":/images/editdb.png"), "Edit", menu.data());
-    QObject::connect(edit, &QAction::triggered, this, [this, &treeView] {
-
-        QMessageBox::StandardButton reply = QMessageBox::question(
-                    treeView.getParentWidget(), "Confirm action",
-                    "All value and console tabs related to this "
-                    "connection will be closed. Do you want to continue?",
-                    QMessageBox::Yes|QMessageBox::No);
-
-        if (reply == QMessageBox::Yes) {
+    menu->addSeparator();   
+    menu->addAction(createMenuAction(":/images/editdb.png", "Edit", menu.data(), this,
+                    [this, &treeView]
+    {
+        confirmAction(treeView.getParentWidget(),
+                      tr("All value and console tabs related to this "
+                      "connection will be closed. Do you want to continue?"),
+                      [this]()
+        {
             unload();
             emit editActionRequested();
-        }
-    });
-    menu->addAction(edit);
+        });
+    }));
 
-    //delete action
-    QAction* del = new QAction(QIcon(":/images/delete.png"), "Delete", menu.data());
-    QObject::connect(del, &QAction::triggered, this, [this, &treeView] {
-
-        QMessageBox::StandardButton reply = QMessageBox::question(
-                    treeView.getParentWidget(), "Confirm action",
-                    "Do you really want delete connection?",
-                    QMessageBox::Yes|QMessageBox::No);
-
-        if (reply == QMessageBox::Yes) {
-            unload();
-            emit deleteActionRequested();
-        }
-    });
-    menu->addAction(del);
+    //delete action    
+    menu->addAction(createMenuAction(":/images/delete.png", "Delete", menu.data(), this,
+                                     [this, &treeView]
+    {
+         confirmAction(treeView.getParentWidget(),
+                       tr("Do you really want delete connection?"),
+                       [this]()
+         {
+             unload();
+             emit deleteActionRequested();
+         });
+     }));
 
     return menu;
 }
