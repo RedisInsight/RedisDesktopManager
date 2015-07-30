@@ -21,37 +21,29 @@ ColumnLayout
     RowLayout{
         visible: showFormatters
 
-        Text {
-            text: "Value:"
-        }
-
-        Item {
-            Layout.fillWidth: true
-        }
-
-        Text {
-            text: "View value as:"
-        }
+        Text { text: "Value:" }
+        Item { Layout.fillWidth: true }
+        Text { text: "View value as:" }
 
         ComboBox {
             id: formatterSelector
             width: 200
-            model: ListModel {
-                id: formattersModel
-                ListElement { text: "Plain Text"; formatter: "plain" }
-                ListElement { text: "HEX (read-only)"; formatter: "hex" }
-                ListElement { text: "JSON"; formatter: "json" }
-                ListElement { text: "MSGPACK"; formatter: "msgpack" }
-                ListElement { text: "PHP Serializer"; formatter: "php-serialized" }                                                
-            }
+            model: formattersModel
+            textRole: "name"
 
-            onCurrentIndexChanged: {
-                Formatters.defaultFormatter = currentIndex
-                console.log("APP ROOT: " + Formatters.defaultFormatter)
-            }
+            onCurrentIndexChanged: Formatters.defaultFormatterIndex = currentIndex
+            Component.onCompleted: currentIndex = Formatters.defaultFormatterIndex
+        }
+
+        ListModel {
+            id: formattersModel
 
             Component.onCompleted: {
-                currentIndex = Formatters.defaultFormatter                
+                for (var index in Formatters.enabledFormatters) {
+                    var f = Formatters.enabledFormatters[index]
+                    var title = f.readOnly ? f.title + " (READ ONLY)" : f.title
+                    append({'name': title})
+                }
             }
         }
     }
@@ -62,22 +54,23 @@ ColumnLayout
         Layout.fillWidth: true        
         Layout.fillHeight: true
         Layout.preferredHeight: 100        
-        textFormat: formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
-        readOnly: formatter.readOnly
+        textFormat: formatter && formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
+        readOnly: (formatter)? formatter.readOnly : enabled ? true : false
+
+        onEnabledChanged: {
+            console.log("Text editor was disabled")
+        }
 
         text: {
-            var currentFormatter = formattersModel.get(formatterSelector.currentIndex).formatter
-            if (currentFormatter === "msgpack" || currentFormatter === "hex") {
-                console.log('Binary array:', binaryArray)
-                console.log('Current formatter:', currentFormatter)
-                var formatted = binaryArray? formatter.getFormatted(binaryArray) : ''                
-                return formatted
-            } else {
-                return formatter.getFormatted(originalText)
-            }
+            if (!formatter) return ''
+            if (formatter.binary === true) return binaryArray? formatter.getFormatted(binaryArray) : ''
+            else return formatter.getFormatted(originalText)
         }
         property string originalText
         property var binaryArray
-        property var formatter: Formatters.get(formattersModel.get(formatterSelector.currentIndex).formatter)
+        property var formatter: {
+            var index = formatterSelector.currentIndex ? formatterSelector.currentIndex : Formatters.defaultFormatterIndex
+            return Formatters.enabledFormatters[index]
+        }
     }
 }

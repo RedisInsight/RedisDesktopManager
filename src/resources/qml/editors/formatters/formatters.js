@@ -4,25 +4,14 @@
 .import "./php-unserialize.js" as PHPUnserialize
 .import "./php-serialize.js" as PHPSerialize
 
-var defaultFormatter = 0;
-
-function get(type) {
-
-    if (type === "plain") return plain
-    if (type === "hex") return hex
-    if (type === "json") return json
-    if (type === "msgpack") return msgpack
-    if (type === "php-serialized") return phpserialized
-}
-
-
 /**
   Plain formatter
 **/
 
 var plain = {
-
+    title: "Plain Text",
     readOnly: false,
+    binary: false,
 
     getFormatted: function (raw) {
         return raw
@@ -38,7 +27,9 @@ var plain = {
 }
 
 var hex = {
+    title: "HEX",
     readOnly: true,
+    binary: true,
 
     getFormatted: function (raw) {
         var format = {'html': true}
@@ -58,8 +49,9 @@ var hex = {
   JSON formatter
 **/
 var json = {
-
+    title: "JSON",
     readOnly: false,
+    binary: false,
 
     getFormatted: function (raw) {
 
@@ -96,8 +88,9 @@ var json = {
   MsgPack formatter
 **/
 var msgpack = {
-
+    title: "MSGPACK",
     readOnly: false,
+    binary: true,
 
     getFormatted: function (raw) {
 
@@ -132,7 +125,7 @@ var msgpack = {
   PHP Serialize formatter
 **/
 var phpserialized = {
-
+    title: "PHP Serializer",
     readOnly: false,
 
     getFormatted: function (raw) {
@@ -161,3 +154,6 @@ var phpserialized = {
         return PHPSerialize.serialize(obj)
     }
 }
+
+var defaultFormatterIndex = 0;
+var enabledFormatters = [plain, hex, json, msgpack, phpserialized]
