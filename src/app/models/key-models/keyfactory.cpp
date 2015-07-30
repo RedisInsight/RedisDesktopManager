@@ -11,22 +11,25 @@ KeyFactory::KeyFactory()
 
 void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
                          QString keyFullPath, int dbIndex,
-                         std::function<void (QSharedPointer<ValueEditor::Model>)> callback)
+                         std::function<void (QSharedPointer<ValueEditor::Model>, const QString &)> callback)
 {
     RedisClient::Command typeCmd(QStringList() << "type" << keyFullPath, this,
                                  [this, connection, keyFullPath, dbIndex, callback] (RedisClient::Response resp) {
 
         QSharedPointer<ValueEditor::Model> result;
 
-        if (resp.isErrorMessage() || resp.getType() != RedisClient::Response::Type::Status) {
-            callback(result);
+        if (resp.isErrorMessage() || resp.getType() != RedisClient::Response::Type::Status) {            
+            QString msg("Cannot load key %1, connection error occurred: %2");
+            callback(result, msg.arg(resp.toString()).arg(keyFullPath));
             return;
         }
 
         QString type = resp.getValue().toString();        
 
         if (type == "none") {
-            callback(result);
+            QString msg("Cannot load key %1 because it doesn't exist in database."
+                        " Please reload connection tree and try again.");
+            callback(result, msg.arg(keyFullPath));
             return;
         }
 
@@ -36,7 +39,8 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
         try {
             ttlResult = RedisClient::CommandExecutor::execute(connection, ttlCmd);
         } catch (const RedisClient::CommandExecutor::Exception& e) {
-            callback(result);
+            QString msg("Cannot load TTL for key %1, connection error occurred: %2");
+            callback(result, msg.arg(keyFullPath).arg(QString(e.what())));
             return;
         }
 
@@ -48,7 +52,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
 
         result = createModel(type, connection, keyFullPath, dbIndex, ttl);
 
-        callback(result);
+        callback(result, QString());
 
     }, dbIndex);
 

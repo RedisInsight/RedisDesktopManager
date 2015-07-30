@@ -11,7 +11,7 @@ public:
 
     void loadKey(QSharedPointer<RedisClient::Connection> connection,
                  QString keyFullPath, int dbIndex,
-                 std::function<void(QSharedPointer<ValueEditor::Model>)> callback) override;
+                 std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)> callback) override;
 
     void addKey(QSharedPointer<RedisClient::Connection> connection,
                 QString keyFullPath, int dbIndex, QString type,

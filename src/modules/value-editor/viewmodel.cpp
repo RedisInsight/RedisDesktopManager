@@ -14,10 +14,13 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
 {
     try {
         m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
-                            [this, inNewTab, &key](QSharedPointer<Model> keyModel)
+                            [this, inNewTab, &key](QSharedPointer<Model> keyModel, const QString& error)
         {
-            if (keyModel.isNull())
+            if (keyModel.isNull() || !error.isEmpty()) {
+                QString msg("<b>Cannot open value tab</b>:\n%1");
+                emit keyError(-1, msg.arg(error));
                 return;
+            }
 
             loadModel(keyModel, inNewTab);
 
