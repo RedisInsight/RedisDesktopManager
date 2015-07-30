@@ -7,7 +7,6 @@
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/redisclient/connectionconfig.h"
 #include "modules/value-editor/viewmodel.h"
-#include "treeoperations.h"
 #include "connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
 #include "modules/value-editor/viewmodel.h"
@@ -17,14 +16,13 @@ ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& t
                                        QSharedPointer<ValueEditor::ViewModel> values)
     : ConnectionsTree::Model(),
       m_configPath(configPath),      
-      m_tabs(tabs),
-      m_values(values)
+      m_consoleTabs(tabs),
+      m_valueTabs(values)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {
         loadConnectionsConfigFromFile(configPath);
     }
 }
-
 
 ConnectionsManager::~ConnectionsManager(void)
 {
@@ -32,64 +30,19 @@ ConnectionsManager::~ConnectionsManager(void)
 
 void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &config, bool saveToConfig)
 {
-    QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config, false));
-    connection->config.setOwner(connection.toWeakRef());
-
     //add connection to internal container
+    QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config, false));
+    connection->config.setOwner(connection.toWeakRef());    
     m_connections.push_back(connection);
 
-    //set logger
-    QObject::connect(connection.data(), &RedisClient::Connection::log, this, [this](const QString& info){
-        QString msg = QString("Connection: %1").arg(info);
-        LOG(INFO) << msg.toStdString();
-    });
+    //set loggers
+    registerLogger(connection);
 
-    QObject::connect(connection.data(), &RedisClient::Connection::error, this, [this](const QString& error){
-        QString msg = QString("Connection: %1").arg(error);
-        LOG(ERROR) << msg.toStdString();
-    });
+    //add connection to connection tree
+    auto treeModel = createTreeModelForConnection(connection);
+    createServerItemForConnection(connection, treeModel);
 
-    //add connection to view container
-    using namespace ConnectionsTree;
-
-    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_tabs));
-
-    QObject::connect(treeModel.data(), &TreeOperations::openValueTab,
-                     m_values.data(), &ValueEditor::ViewModel::openTab);
-    QObject::connect(treeModel.data(), &TreeOperations::newKeyDialog,
-                     m_values.data(), &ValueEditor::ViewModel::openNewKeyDialog);
-    QObject::connect(treeModel.data(), &TreeOperations::closeDbKeys,
-                     m_values.data(), &ValueEditor::ViewModel::closeDbKeys);
-
-    QSharedPointer<ServerItem> serverItem = QSharedPointer<ServerItem>(
-                new ServerItem(config.param<QString>("name"),
-                               treeModel.dynamicCast<ConnectionsTree::Operations>(),
-                               static_cast<ConnectionsTree::Model>(this))
-                );
-
-    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested, this, [this, connection]() {       
-        m_tabs.closeAllTabsWithName(connection->getConfig().param<QString>("name"));
-        emit editConnection(connection->config);
-    });
-
-    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::deleteActionRequested, this, [this, connection]() {        
-        QSharedPointer<ConnectionsTree::ServerItem> serverItem = m_connectionMapping[connection].dynamicCast<ConnectionsTree::ServerItem>();
-
-        if (!serverItem)
-            return;
-
-        m_tabs.closeAllTabsWithName(connection->getConfig().param<QString>("name"));
-        m_connections.removeAll(connection);
-        m_connectionMapping.remove(connection);
-        removeRootItem(serverItem);
-        saveConfig();
-    });
-
-    m_connectionMapping.insert(connection, serverItem);
-    addRootItem(serverItem);
-
-    if (saveToConfig)
-        saveConfig();
+    if (saveToConfig) saveConfig();
 }
 
 void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &config)
@@ -111,16 +64,13 @@ void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &c
                      index(serverItem->row(), 0, QModelIndex()));
 }
 
-
 bool ConnectionsManager::importConnections(const QString &path)
 {
     if (loadConnectionsConfigFromFile(path, true)) {
         return true;
     }
-
     return false;
 }
-
 
 bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile)
 {
@@ -181,21 +131,73 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
         connections.push_back(QJsonValue(c->getConfig().toJsonObject()));
     }
 
-    QJsonDocument config(connections);
-    QFile confFile(pathToFile);
-
-    if (confFile.open(QIODevice::WriteOnly)) {
-        QTextStream outStream(&confFile);
-        outStream.setCodec("UTF-8");
-        outStream << config.toJson();
-        confFile.close();
-        return true;
-    }
-
-    return false;
+    return saveJsonArrayToFile(connections, pathToFile);
 }
 
 int ConnectionsManager::size()
 {
     return m_connections.length();
+}
+
+QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection)
+{
+    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_consoleTabs));
+
+    QObject::connect(treeModel.data(), &TreeOperations::openValueTab,
+                     m_valueTabs.data(), &ValueEditor::ViewModel::openTab);
+    QObject::connect(treeModel.data(), &TreeOperations::newKeyDialog,
+                     m_valueTabs.data(), &ValueEditor::ViewModel::openNewKeyDialog);
+    QObject::connect(treeModel.data(), &TreeOperations::closeDbKeys,
+                     m_valueTabs.data(), &ValueEditor::ViewModel::closeDbKeys);
+
+    return treeModel;
+}
+
+void ConnectionsManager::registerLogger(QSharedPointer<RedisClient::Connection> connection)
+{
+    QObject::connect(connection.data(), &RedisClient::Connection::log, this, [this](const QString& info){
+        QString msg = QString("Connection: %1").arg(info);
+        LOG(INFO) << msg.toStdString();
+    });
+
+    QObject::connect(connection.data(), &RedisClient::Connection::error, this, [this](const QString& error){
+        QString msg = QString("Connection: %1").arg(error);
+        LOG(ERROR) << msg.toStdString();
+    });
+}
+
+void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
+                                                       QSharedPointer<TreeOperations> treeModel)
+{
+    using namespace ConnectionsTree;
+    QString name = connection->getConfig().param<QString>("name");
+    auto serverItem = QSharedPointer<ServerItem>(
+                new ServerItem(name,
+                               treeModel.dynamicCast<ConnectionsTree::Operations>(),
+                               static_cast<ConnectionsTree::Model>(this)));
+
+    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested,
+                     this, [this, connection, name]()
+    {
+        m_consoleTabs.closeAllTabsWithName(name);
+        emit editConnection(connection->config);
+    });
+
+    QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::deleteActionRequested,
+                     this, [this, connection, name]()
+    {
+        auto serverItem = m_connectionMapping[connection].dynamicCast<ConnectionsTree::ServerItem>();
+
+        if (!serverItem)
+            return;
+
+        m_consoleTabs.closeAllTabsWithName(name);
+        m_connections.removeAll(connection);
+        m_connectionMapping.remove(connection);
+        removeRootItem(serverItem);
+        saveConfig();
+    });
+
+    m_connectionMapping.insert(connection, serverItem);
+    addRootItem(serverItem);
 }

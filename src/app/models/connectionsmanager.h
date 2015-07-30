@@ -1,9 +1,9 @@
 #pragma once
-
 #include <QSharedPointer>
 #include "redisclient/connection.h"
 #include "redisclient/connectionconfig.h"
 #include "connections-tree/model.h"
+#include "treeoperations.h"
 
 class ConsoleTabs;
 
@@ -32,12 +32,19 @@ signals:
     void editConnection(RedisClient::ConnectionConfig config);
 
 private:
+     QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);
+     void registerLogger(QSharedPointer<RedisClient::Connection> connection);
+     void createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
+                                        QSharedPointer<TreeOperations> treeModel);
+
+
+private:
     QString m_configPath;    
     QList<QSharedPointer<RedisClient::Connection>> m_connections;
     QHash<QSharedPointer<RedisClient::Connection>,
           QSharedPointer<ConnectionsTree::TreeItem>> m_connectionMapping;
-    ConsoleTabs& m_tabs;
-    QSharedPointer<ValueEditor::ViewModel> m_values;    
+    ConsoleTabs& m_consoleTabs;
+    QSharedPointer<ValueEditor::ViewModel> m_valueTabs;
 
 protected:
     bool loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);

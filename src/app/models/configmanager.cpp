@@ -69,19 +69,9 @@ bool ConfigManager::migrateOldConfig(const QString &oldFileName, const QString &
     if (newConfig.size() == 0)
         return false;
 
-    QJsonDocument config(newConfig);
-    QString jsonConfigPath = getApplicationConfigPath(newFileName);
-    QFile confFile(jsonConfigPath);
+    QString jsonConfigPath = getApplicationConfigPath(newFileName);    
 
-    if (confFile.open(QIODevice::WriteOnly)) {
-        QTextStream outStream(&confFile);
-        outStream.setCodec("UTF-8");
-        outStream << config.toJson();
-        confFile.close();
-        return true;
-    }
-
-    return false;
+    return saveJsonArrayToFile(newConfig, jsonConfigPath);
 }
 
 /**
@@ -176,4 +166,19 @@ void ConfigManager::setPermissions(QFile &file)
 #ifdef Q_OS_WIN
     qt_ntfs_permission_lookup--;
 #endif
+}
+
+bool saveJsonArrayToFile(const QJsonArray &c, const QString &f)
+{
+    QJsonDocument config(c);
+    QFile confFile(f);
+
+    if (confFile.open(QIODevice::WriteOnly)) {
+        QTextStream outStream(&confFile);
+        outStream.setCodec("UTF-8");
+        outStream << config.toJson();
+        confFile.close();
+        return true;
+    }
+    return false;
 }

@@ -1,6 +1,4 @@
-#ifndef CONFIGMANAGER_H
-#define CONFIGMANAGER_H
-
+#pragma once
 #include <QString>
 #include <QFile>
 #include <QJsonArray>
@@ -17,4 +15,4 @@ private:
     static void setPermissions(QFile&);
 };
 
-#endif // CONFIGMANAGER_H
+bool saveJsonArrayToFile(const QJsonArray& c, const QString& f);
