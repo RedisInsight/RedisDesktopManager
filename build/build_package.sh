@@ -95,19 +95,7 @@ function build_debian_package {
     mkdir $DEPS_LIB
     mkdir -p $PLUGINS
 
-    #external libs
-    cp -L $QTDIR/lib/libQt5QuickWidgets.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Widgets.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Gui.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5XcbQpa.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Qml.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Network.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Core.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Quick.so.5  $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5DBus.so.5 $DEPS_LIB
-    cp -L $QTDIR/lib/libQt5Concurrent.so.5 $DEPS_LIB
-    cp -LR $QTDIR/plugins/platforms/ $PLUGINS
-    cp -LR $QTDIR/plugins/imageformats/ $PLUGINS
+    #external deps
     cp -R $QTDIR/qml $PLUGINS
 
 
