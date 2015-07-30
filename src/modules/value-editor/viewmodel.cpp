@@ -73,6 +73,7 @@ QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
     switch (role) {
         case keyIndex: return index.row();
         case keyNameRole: return model->getKeyName();
+        case keyDisplayName: return model->getKeyTitle();
         case keyTTL: return model->getTTL();
         case keyType: return model->getType();        
         case showValueNavigation: return model->isMultiRow();
@@ -88,6 +89,7 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[keyIndex] = "keyIndex";
     roles[keyNameRole] = "keyName";
+    roles[keyDisplayName] = "keyTitle";
     roles[keyTTL] = "keyTtl";
     roles[keyType] = "keyType";    
     roles[showValueNavigation] = "showValueNavigation";

@@ -24,6 +24,7 @@ class Model
 public:
     Model() {}
     virtual QString getKeyName() = 0;
+    virtual QString getKeyTitle() = 0;
 
     virtual QString getType() = 0;
     virtual int getTTL() = 0;

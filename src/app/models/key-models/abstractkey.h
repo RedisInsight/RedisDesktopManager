@@ -40,6 +40,13 @@ public:
         return m_keyFullPath;
     }
 
+    virtual QString getKeyTitle() override
+    {
+        return QString("%1❱db%2❱%3")
+                .arg(m_connection->getConfig().name())
+                .arg(m_dbIndex).arg(m_keyFullPath);
+    }
+
     virtual int getTTL() override
     {
         return m_ttl;

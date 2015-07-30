@@ -25,7 +25,14 @@ Repeater {
             viewModel.closeTab(tabIndex)
         }       
 
-        title: keyName
+        title: {
+            var limit = 30
+            if (keyTitle.length <= limit)
+                return keyTitle
+
+            return keyTitle.substring(0, limit/2) + "..." + keyTitle.substring(keyTitle.length - limit/2)
+
+        }
         property int tabIndex: keyIndex
         property var table
 

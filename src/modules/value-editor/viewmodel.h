@@ -21,6 +21,7 @@ class ViewModel : public QAbstractListModel
 public:
     enum Roles {
         keyNameRole = Qt::UserRole + 1,
+        keyDisplayName,
         keyIndex,
         keyTTL,
         keyType,        
