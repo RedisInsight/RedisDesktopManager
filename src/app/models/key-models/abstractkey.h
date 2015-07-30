@@ -32,7 +32,11 @@ public:
           m_fullLoadingCmdSupportsRanges(fullLoadingCmdSupportsRanges),
           m_notifier(new ValueEditor::ModelSignals())
     {
-        loadRowsCount();
+        try {
+            loadRowsCount();
+        } catch (const ValueEditor::Model::Exception& e) {
+            qDebug() << "Connection error:" << e.what(); // TODO(u_glide): Notify user about error
+        }
     }
 
     virtual QString getKeyName() override

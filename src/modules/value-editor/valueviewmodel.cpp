@@ -86,18 +86,29 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
         return;
     }
 
-    m_model->loadRows(start, count, [this, start, count](const QString& error)
-    {                
-        int loaded = totalRowCount() - start;
-        loaded = (loaded > count) ? count : loaded;
+    QString msg = QString("Cannot load key value: %1");
 
-        m_lastLoadedRowFrameSize = loaded;
-        m_startFramePosition = start;
+    try {
+        m_model->loadRows(start, count, [this, start, count, msg](const QString& err)
+        {
+            if (!err.isEmpty()) {
+                emit error(msg.arg(err));
+                return;
+            }
 
-        emit layoutAboutToBeChanged();
-        emit rowsLoaded(start, loaded);
-        emit layoutChanged();
-    });
+            int loaded = totalRowCount() - start;
+            loaded = (loaded > count) ? count : loaded;
+
+            m_lastLoadedRowFrameSize = loaded;
+            m_startFramePosition = start;
+
+            emit layoutAboutToBeChanged();
+            emit rowsLoaded(start, loaded);
+            emit layoutChanged();
+        });
+    } catch (const ValueEditor::Model::Exception& e) {
+        emit error(msg.arg(e.what()));
+    }
 }
 
 void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
