@@ -29,8 +29,7 @@ public:
     virtual int getTTL() = 0;
     virtual QStringList getColumnNames() = 0;
     virtual QHash<int, QByteArray> getRoles() = 0;
-    virtual QVariant getData(int rowIndex, int dataRole) = 0;
-    virtual QString getState() = 0;
+    virtual QVariant getData(int rowIndex, int dataRole) = 0;    
 
     virtual bool isPartialLoadingSupported() = 0;
     virtual void setKeyName(const QString&) = 0; // async

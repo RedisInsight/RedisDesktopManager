@@ -74,8 +74,7 @@ QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
         case keyIndex: return index.row();
         case keyNameRole: return model->getKeyName();
         case keyTTL: return model->getTTL();
-        case keyType: return model->getType();
-        case state: return model->getState();
+        case keyType: return model->getType();        
         case showValueNavigation: return model->isMultiRow();
         case columnNames: return QVariant(model->getColumnNames()).toList();
         case count: return static_cast<qulonglong>(model->rowsCount());
@@ -90,8 +89,7 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     roles[keyIndex] = "keyIndex";
     roles[keyNameRole] = "keyName";
     roles[keyTTL] = "keyTtl";
-    roles[keyType] = "keyType";
-    roles[state] = "keyState";
+    roles[keyType] = "keyType";    
     roles[showValueNavigation] = "showValueNavigation";
     roles[columnNames] = "columnNames";
     roles[count] = "valuesCount";

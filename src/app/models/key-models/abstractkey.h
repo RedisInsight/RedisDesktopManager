@@ -43,17 +43,7 @@ public:
     virtual int getTTL() override
     {
         return m_ttl;
-    }
-
-    virtual QString getState() override
-    {
-        switch (m_currentState) {
-        case Initial: return "initital";
-        case DataLoaded: return "loaded";
-        case Error:
-        default: return "error";
-        }
-    }
+    }    
 
     virtual bool isPartialLoadingSupported() override
     {
