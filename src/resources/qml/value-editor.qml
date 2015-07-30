@@ -70,7 +70,7 @@ Rectangle {
                         Text {
                             Layout.fillWidth: true
                             Layout.minimumWidth: implicitWidth
-                            color: "red"
+                            color: "#D11313"
                             text: styleData.title
                         }
                         Item {
