@@ -22,7 +22,7 @@ AbstractEditor {
         Layout.minimumHeight: 28
 
         text: ""
-        enabled: originalValue != "" || state !== "edit"
+        enabled: originalValue != "" || root.state !== "edit"
         property string originalValue: ""
         placeholderText: "Score"
         validator: DoubleValidator { locale: "C" } // force point as decimal separator
@@ -33,7 +33,7 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || state !== "edit"
+        enabled: originalValue != "" || root.state !== "edit"
         showFormatters: root.state != "new"
         property string originalValue: ""
     }

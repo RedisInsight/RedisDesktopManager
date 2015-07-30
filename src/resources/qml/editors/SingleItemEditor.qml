@@ -10,14 +10,14 @@ AbstractEditor {
     id: root
     anchors.fill: parent
 
-    property string originalValue: ""
+    property string originalValue: ""    
 
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || state !== "edit"
+        enabled: originalValue != "" || root.state !== "edit"
         showFormatters: root.state != "new"
     }
 

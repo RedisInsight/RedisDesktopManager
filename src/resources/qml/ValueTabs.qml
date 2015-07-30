@@ -399,8 +399,9 @@ Repeater {
                             id: reLoadAction
                             shortcut: StandardKey.Refresh
                             onTriggered: {
-                                console.log("Reload")
+                                console.log("Reload value in tab")
                                 table.model.reload()
+                                valueEditor.clear()
                             }
                         }
                     }
@@ -464,6 +465,8 @@ Repeater {
                     onLoaded: {
                         if (keyType === "string")
                             valueEditor.loadRowValue(0)
+                        if (valueEditor.item)
+                            valueEditor.item.resetAndDisableEditor()
                     }
 
                     function loadRowValue(row) {
@@ -471,6 +474,13 @@ Repeater {
                             var rowValue = table.model.getRow(row, true)
                             valueEditor.currentRow = row
                             valueEditor.item.setValue(rowValue)
+                        }
+                    }
+
+                    function clear() {
+                        if (valueEditor.item) {
+                            currentRow = -1
+                            valueEditor.item.resetAndDisableEditor()
                         }
                     }
                 }
