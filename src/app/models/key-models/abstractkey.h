@@ -6,6 +6,7 @@
 #include <QPair>
 #include "modules/value-editor/keymodel.h"
 #include "modules/redisclient/redisclient.h"
+#include "rowcache.h"
 
 template < typename T > class KeyModel : public ValueEditor::Model
 {  
@@ -300,7 +301,7 @@ protected:
     QString m_fullLoadingCmd;
     bool m_fullLoadingCmdSupportsRanges;
 
-    QList<T> m_rowsCache;
+    MappedCache<T> m_rowsCache;
     QSharedPointer<ValueEditor::ModelSignals> m_notifier;
 };
 
