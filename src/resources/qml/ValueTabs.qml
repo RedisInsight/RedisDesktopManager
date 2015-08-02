@@ -183,9 +183,9 @@ Repeater {
                             anchors.verticalCenter: parent.verticalCenter
                             color: truncated ? 'red' : styleData.textColor
                             elide: styleData.elideMode
-                            text: styleData.value + (truncated ? '...' : '')
+                            text: styleData.value ? styleData.value + (truncated ? '...' : '') : (styleData.column == 1)? "[not loaded from server]" : "--"
                             wrapMode: Text.WordWrap
-                            maximumLineCount: 1
+                            maximumLineCount: 1                            
                         }
                     }
 

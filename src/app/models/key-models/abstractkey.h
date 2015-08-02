@@ -69,7 +69,7 @@ public:
 
     virtual bool isRowLoaded(int rowIndex) override
     {
-        return 0 <= rowIndex && rowIndex < m_rowsCache.size();
+        return m_rowsCache.isRowLoaded(rowIndex);
     }
 
     virtual unsigned long rowsCount() override

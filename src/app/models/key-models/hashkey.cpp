@@ -131,11 +131,11 @@ void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
 }
 
 void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
-{
-    unsigned int rowIndex = rowStart;
+{    
+    QList<QPair<QByteArray, QByteArray>> result;
 
     for (QVariantList::const_iterator item = rows.begin();
-         item != rows.end(); ++item, rowIndex++) {
+         item != rows.end(); ++item) {
 
         QPair<QByteArray, QByteArray> value;
         value.first = item->toByteArray();
@@ -145,6 +145,9 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
             throw Exception("Partial data loaded from server");
 
         value.second = item->toByteArray();
-        m_rowsCache.push_back(value);
+        result.push_back(value);
     }
+
+    m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1},
+                               result);
 }
