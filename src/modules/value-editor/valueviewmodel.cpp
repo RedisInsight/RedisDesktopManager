@@ -89,6 +89,8 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
     QString msg = QString("Cannot load key value: %1");
 
     try {
+        // NOTE(u_glide): Do so for proper rendering of QML table
+        m_lastLoadedRowFrameSize = totalRowCount() - start;
         m_model->loadRows(start, count, [this, start, count, msg](const QString& err)
         {
             if (!err.isEmpty()) {

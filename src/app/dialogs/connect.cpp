@@ -208,6 +208,7 @@ bool ConnectionWindow::isConnectionSettingsValid()
 bool ConnectionWindow::isAdvancedSettingsValid()
 {
     markFieldValid(ui.namespaceSeparator);
+    markFieldValid(ui.keysPattern);
 
     bool isValid = !ui.namespaceSeparator->text().isEmpty()
             || !ui.keysPattern->text().isEmpty();

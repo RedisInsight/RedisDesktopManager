@@ -79,7 +79,7 @@ void SortedSetKeyModel::addRow(const QVariantMap &row)
                 row["score"].toDouble());
 
     if (addSortedSetRow(cachedRow.first, cachedRow.second)) {
-        m_rowsCache.append(cachedRow);
+        m_rowsCache.push_back(cachedRow);
         m_rowCount++;
     }
 }
@@ -89,7 +89,7 @@ void SortedSetKeyModel::removeRow(int i)
     if (!isRowLoaded(i))
         return;
 
-    QByteArray value = m_rowsCache.value(i).first;
+    QByteArray value = m_rowsCache[i].first;
 
     using namespace RedisClient;
 
@@ -134,8 +134,10 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
     }
 }
 
-void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int)
+void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
 {
+    QList<QPair<QByteArray, double>> result;
+
     for (QVariantList::const_iterator item = rows.begin();
          item != rows.end(); ++item) {
 
@@ -147,6 +149,9 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int)
             throw Exception("Partial data loaded from server");
 
         value.second = item->toDouble();
-        m_rowsCache.push_back(value);
+        result.push_back(value);
     }
+
+    m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1},
+                               result);
 }

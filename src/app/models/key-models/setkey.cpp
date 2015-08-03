@@ -21,13 +21,9 @@ void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     QByteArray cachedRow = m_rowsCache[rowIndex];
     QByteArray newRow(row["value"].toByteArray());
 
-    // delete old value
     deleteSetRow(cachedRow);
-    m_rowsCache.removeAt(rowIndex);
-
-    // add new value
     addSetRow(newRow);
-    m_rowsCache.insert(rowIndex, newRow);
+    m_rowsCache.replace(rowIndex, newRow);
 }
 
 void SetKeyModel::addRow(const QVariantMap &row)
@@ -44,7 +40,7 @@ void SetKeyModel::removeRow(int i)
     if (!isRowLoaded(i))
         return;
 
-    QByteArray value = m_rowsCache.value(i);   
+    QByteArray value = m_rowsCache[i];
     deleteSetRow(value);
 
     m_rowCount--;

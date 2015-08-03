@@ -44,7 +44,12 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
 
 void ListLikeKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
 {
+    QList<QByteArray> result;
+
     foreach (QVariant row, rows) {
-        m_rowsCache.push_back(row.toByteArray());
+        result.push_back(row.toByteArray());
     }
+
+    m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1},
+                               result);
 }

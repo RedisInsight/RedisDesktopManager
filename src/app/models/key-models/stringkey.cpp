@@ -62,9 +62,8 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
         throw Exception("Connection error: " + QString(e.what()));
     }
 
-    if (result.isOkMessage()) {
-        m_rowsCache.clear();
-        m_rowsCache.append(value);
+    if (result.isOkMessage()) {        
+        m_rowsCache.replace(0, value);
         m_notifier->dataLoaded();
     }
 }
@@ -104,7 +103,7 @@ bool StringKeyModel::loadValue()
     }
 
     m_rowsCache.clear();
-    m_rowsCache.append(result.getValue().toByteArray());
+    m_rowsCache.push_back(result.getValue().toByteArray());
 
     m_notifier->dataLoaded();
 
