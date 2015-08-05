@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <easylogging++.h>
+#include "redisclient/connectionconfig.h"
 
 QString ConfigManager::getApplicationConfigPath(const QString &configFile)
 {
@@ -130,7 +131,7 @@ QJsonArray ConfigManager::xmlConfigToJsonArray(const QString &xmlConfigPath)
                         connection.insert(name, value);
                     }
                 }
-                newConfig.append(QJsonObject::fromVariantHash(connection));
+                newConfig.append(QJsonObjectFromVariantHash(connection));
             }
         }
     }

@@ -151,14 +151,14 @@ QString RedisClient::ConnectionConfig::keysPattern() const
 
 RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromJsonObject(const QJsonObject &config)
 {
-    QVariantHash options = config.toVariantHash();
+    QVariantHash options = QJsonObjectToVariantHash(config);
     ConnectionConfig c(options);
     return c;
 }
 
 QJsonObject RedisClient::ConnectionConfig::toJsonObject()
 {
-    return QJsonObject::fromVariantHash(m_parameters);
+    return QJsonObjectFromVariantHash(m_parameters);
 }
 
 QString RedisClient::ConnectionConfig::getValidPathFromParameter(const QString &name) const
@@ -168,4 +168,33 @@ QString RedisClient::ConnectionConfig::getValidPathFromParameter(const QString &
         return QString();
 
     return path;
+}
+
+/**
+ * @brief Method for backward compatibility with Qt 5.4
+ * NOTE(u_glide): Remove this method when Qt 5.5 will 
+ * be supported by all target distributions
+ */
+QVariantHash QJsonObjectToVariantHash(const QJsonObject &o)
+{
+    QVariantHash hash;
+
+    for (auto i = o.begin(); i != o.end(); ++i) {
+        hash.insert(i.key(), i.value().toVariant());
+    }
+
+    return hash;
+}
+
+/**
+ * @brief Method for backward compatibility with Qt 5.4
+ * NOTE(u_glide): Remove this method when Qt 5.5 will 
+ * be supported by all target distributions
+ */
+QJsonObject QJsonObjectFromVariantHash(const QVariantHash &hash)
+{
+    QJsonObject object;
+    for (QVariantHash::const_iterator it = hash.constBegin(); it != hash.constEnd(); ++it)
+        object.insert(it.key(), QJsonValue::fromVariant(it.value()));
+    return object;
 }

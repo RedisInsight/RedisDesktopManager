@@ -75,3 +75,9 @@ private:
     QVariantHash m_parameters;
 };
 }
+
+/**
+ * Methods for backward compatibility with Qt 5.4
+ */
+QJsonObject QJsonObjectFromVariantHash(const QVariantHash &hash);
+QVariantHash QJsonObjectToVariantHash(const QJsonObject &o);
