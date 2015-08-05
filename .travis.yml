@@ -9,7 +9,7 @@ addons:
   apt:
     sources:
       - beineri/opt-qt${RDM_QT_VERSION}
-      - ubuntu-toolchain-r/tes
+      - ubuntu-toolchain-r/test
     packages:
       - qt${RDM_QT_VERSION:0:2}base
       - qt${RDM_QT_VERSION:0:2}imageformats
