@@ -19,14 +19,13 @@ addons:
       - gdb
       - gcc-4.9 
       - g++-4.9
-before_install:
-- gcc --version
-- qmake -v
-- export PATH=/usr/bin/gcov-4.9:$PATH
-- source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
 install:
   - pip install cpp-coveralls
 script: 
+  - gcc --version
+  - qmake -v
+  - export PATH=/usr/bin/gcov-4.9:$PATH
+  - source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
   - cd ./tests
   - qmake DEFINES+=INTEGRATION_TESTS QMAKE_CXX=g++-4.9 QMAKE_CC=gcc-4.9
   - make -s -j 3
