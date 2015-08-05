@@ -1,38 +1,39 @@
 language: cpp
 compiler:
   - gcc
+sudo: false  
 env:
   - RDM_QT_VERSION=55
   - RDM_QT_VERSION=542
-before_install:
-- sudo add-apt-repository --yes ppa:beineri/opt-qt${RDM_QT_VERSION}
-- sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
-- gcc --version
-- sudo apt-get update -qq
-- sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools libssl1.0.0 libssh2-1-dev gdb  -y -qq
-- sudo apt-get install gcc-4.9 g++-4.9 -y -qq
-- sudo rm -f /usr/bin/gcc
-- sudo rm -f /usr/bin/g++
-- sudo rm -f /usr/bin/gcov
-- sudo ln -s /usr/bin/gcc-4.9 /usr/bin/gcc
-- sudo ln -s /usr/bin/g++-4.9 /usr/bin/g++
-- sudo ln -s /usr/bin/gcov-4.9 /usr/bin/gcov
-- source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
-- sudo pip install cpp-coveralls
-- uname -m
-- gcc --version
-- qmake -v
+addons:
+  apt:
+    sources:
+      - beineri/opt-qt${RDM_QT_VERSION}
+      - ubuntu-toolchain-r/test
+    packages:
+      - qt${RDM_QT_VERSION:0:2}base
+      - qt${RDM_QT_VERSION:0:2}imageformats
+      - qt${RDM_QT_VERSION:0:2}tools
+      - libssl1.0.0
+      - libssh2-1-dev
+      - gdb
+      - gcc-4.9 
+      - g++-4.9
+install:
+  - pip install cpp-coveralls
 script: 
+  - gcc --version
+  - qmake -v
+  - export PATH=/usr/bin/gcov-4.9:$PATH
+  - source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
   - cd ./tests
-  - qmake DEFINES+=INTEGRATION_TESTS
-  - make -s -j 2
+  - qmake DEFINES+=INTEGRATION_TESTS QMAKE_CXX=g++-4.9 QMAKE_CC=gcc-4.9
+  - make -s -j 3
   - ./../bin/tests/tests -platform minimal -txt
   - ./../bin/tests/qml_tests -platform minimal -txt
   - cd ./../src
-  - sudo chmod a+x configure
-  - ./configure
-  - qmake
-  - make -s -j 2
+  - qmake QMAKE_CXX=g++-4.9 QMAKE_CC=gcc-4.9
+  - make -s -j 3
 after_success:
   - cd ./../tests
   - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*  > coveralls.log
