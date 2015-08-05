@@ -31,29 +31,29 @@ int main(int argc, char *argv[])
 
     int allTestsResult = 0
             // connections-tree module
-            + QTest::qExec(new TestServerItem, argc, argv)
-            + QTest::qExec(new TestDatabaseItem, argc, argv)
+//            + QTest::qExec(new TestServerItem, argc, argv)
+//            + QTest::qExec(new TestDatabaseItem, argc, argv)
 
-            // redisclient module
-            + QTest::qExec(new TestCommand, argc, argv)
-            + QTest::qExec(new TestSsh, argc, argv)
-            + QTest::qExec(new TestResponse, argc, argv)
-            + QTest::qExec(new TestConnection, argc, argv)
-            + QTest::qExec(new TestConfig, argc, argv)
+//            // redisclient module
+//            + QTest::qExec(new TestCommand, argc, argv)
+//            + QTest::qExec(new TestSsh, argc, argv)
+//            + QTest::qExec(new TestResponse, argc, argv)
+//            + QTest::qExec(new TestConnection, argc, argv)
+//            + QTest::qExec(new TestConfig, argc, argv)
 
-            // console module
-            + QTest::qExec(new TestConsole, argc, argv)
+//            // console module
+//            + QTest::qExec(new TestConsole, argc, argv)
 
-            // app
-            + QTest::qExec(new TestConnectionsManager, argc, argv)
-            + QTest::qExec(new TestConsoleOperations, argc, argv)
-            + QTest::qExec(new TestTreeOperations, argc, argv)
-            + QTest::qExec(new TestKeyModels, argc, argv)
-            + QTest::qExec(new TestAbstractKey, argc, argv)
+//            // app
+//            + QTest::qExec(new TestConnectionsManager, argc, argv)
+//            + QTest::qExec(new TestConsoleOperations, argc, argv)
+//            + QTest::qExec(new TestTreeOperations, argc, argv)
+//            + QTest::qExec(new TestKeyModels, argc, argv)
+//            + QTest::qExec(new TestAbstractKey, argc, argv)
             + QTest::qExec(new TestDialogs, argc, argv)
 
             // value-editor module
-            + QTest::qExec(new TestValueView, argc, argv)
+//            + QTest::qExec(new TestValueView, argc, argv)
             ;
 
     if (allTestsResult == 0)

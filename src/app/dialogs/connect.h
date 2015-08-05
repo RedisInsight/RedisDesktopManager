@@ -6,11 +6,12 @@
 #include "modules/redisclient/connectionconfig.h"
 
 class ConnectionsManager;
+class TestDialogs;
 
 class ConnectionWindow : public QDialog
 {
     Q_OBJECT
-
+    friend class TestDialogs;
 public:
     ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent = nullptr);
     void setConnectionConfig(const RedisClient::ConnectionConfig& config);

@@ -64,3 +64,54 @@ void TestDialogs::testConnectionDialog()
     qDebug() << "SSL with auth and custom port";
     verify(conf4);
 }
+
+void TestDialogs::testConnectionDialogValidation()
+{
+    QString configTestFile = "connections.json";
+    ConsoleTabs tabsWidget;
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
+                                   QSharedPointer<ValueEditor::ViewModel>()));
+    ConnectionWindow window(testManager.toWeakRef());
+
+    QCOMPARE(window.isAdvancedSettingsValid(), true);
+
+    window.ui.namespaceSeparator->setText("");
+    QCOMPARE(window.isAdvancedSettingsValid(), false);
+
+    window.ui.namespaceSeparator->setText(":");
+    window.ui.keysPattern->setText("");
+    QCOMPARE(window.isAdvancedSettingsValid(), false);
+}
+
+void TestDialogs::testOkButtonInvalidSettings()
+{
+    QString configTestFile = "connections.json";
+    ConsoleTabs tabsWidget;
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
+                                   QSharedPointer<ValueEditor::ViewModel>()));
+    ConnectionWindow window(testManager.toWeakRef());
+
+    QCOMPARE(window.isConnectionSettingsValid(), false);
+    QCOMPARE(window.isFormDataValid(), false);
+
+    window.OnOkButtonClick();
+    QCOMPARE(testManager->size(), 0);
+}
+
+void TestDialogs::testOkButton()
+{
+    QString configTestFile = "connections.json";
+    ConsoleTabs tabsWidget;
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
+                                   QSharedPointer<ValueEditor::ViewModel>()));
+    ConnectionWindow window(testManager.toWeakRef());
+
+    window.ui.hostEdit->setText("fake");
+    window.ui.nameEdit->setText("fake");
+
+    QCOMPARE(window.isConnectionSettingsValid(), true);
+    QCOMPARE(window.isFormDataValid(), true);
+
+    window.OnOkButtonClick();
+    QCOMPARE(testManager->size(), 1);
+}

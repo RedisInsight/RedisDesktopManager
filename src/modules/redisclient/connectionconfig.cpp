@@ -146,7 +146,8 @@ QString RedisClient::ConnectionConfig::getSshPrivateKey()
 
 QString RedisClient::ConnectionConfig::keysPattern() const
 {
-    return param<QString>("keys_pattern");
+    return (param<QString>("keys_pattern")).isEmpty() ?
+                param<QString>("keys_pattern") : QString(DEFAULT_KEYS_GLOB_PATTERN);
 }
 
 RedisClient::ConnectionConfig RedisClient::ConnectionConfig::fromJsonObject(const QJsonObject &config)

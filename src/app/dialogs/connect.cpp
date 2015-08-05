@@ -27,6 +27,7 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
     ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+    ui.keysPattern->setText(QString(RedisClient::ConnectionConfig::DEFAULT_KEYS_GLOB_PATTERN));
     ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
     ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
 }
@@ -211,7 +212,10 @@ bool ConnectionWindow::isAdvancedSettingsValid()
     markFieldValid(ui.keysPattern);
 
     bool isValid = !ui.namespaceSeparator->text().isEmpty()
-            || !ui.keysPattern->text().isEmpty();
+            && !ui.keysPattern->text().isEmpty()
+            && ui.connectionTimeout->value() >= 10
+            && ui.executionTimeout->value() >= 10;
+
 
     if (isValid)
         return true;    
@@ -221,6 +225,12 @@ bool ConnectionWindow::isAdvancedSettingsValid()
 
     if (ui.keysPattern->text().isEmpty())
         markFieldInvalid(ui.keysPattern);
+
+    if (ui.connectionTimeout->value() < 10)
+        markFieldInvalid(ui.connectionTimeout);
+
+    if (ui.executionTimeout->value() < 10)
+        markFieldInvalid(ui.executionTimeout);
 
     return false;
 }

@@ -18,6 +18,7 @@ class ConnectionConfig
 {
 public:
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
+    static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
 
 public:
     ConnectionConfig(const QString & host = "", const QString & name = "",

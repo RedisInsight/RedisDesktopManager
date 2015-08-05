@@ -7,5 +7,7 @@ class TestDialogs : public BaseTestCase
 
 private slots:
     void testConnectionDialog();
-
+    void testConnectionDialogValidation();
+    void testOkButtonInvalidSettings();
+    void testOkButton();
 };
