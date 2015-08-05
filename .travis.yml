@@ -1,11 +1,15 @@
 language: cpp
 compiler:
   - gcc
+env:
+  - RDM_QT_VERSION=55
+  - RDM_QT_VERSION=542
 before_install:
-- sudo add-apt-repository --yes ppa:beineri/opt-qt55
+- sudo add-apt-repository --yes ppa:beineri/opt-qt${RDM_QT_VERSION}
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
+- gcc --version
 - sudo apt-get update -qq
-- sudo apt-get install qt55base qt55imageformats qt55tools libssl1.0.0 libssh2-1-dev gdb  -y -qq
+- sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools libssl1.0.0 libssh2-1-dev gdb  -y -qq
 - sudo apt-get install gcc-4.9 g++-4.9 -y -qq
 - sudo rm -f /usr/bin/gcc
 - sudo rm -f /usr/bin/g++
@@ -13,7 +17,7 @@ before_install:
 - sudo ln -s /usr/bin/gcc-4.9 /usr/bin/gcc
 - sudo ln -s /usr/bin/g++-4.9 /usr/bin/g++
 - sudo ln -s /usr/bin/gcov-4.9 /usr/bin/gcov
-- source /opt/qt55/bin/qt55-env.sh
+- source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
 - sudo pip install cpp-coveralls
 - uname -m
 - gcc --version
