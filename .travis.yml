@@ -1,9 +1,7 @@
+language: cpp
 os:
   - linux
   - osx
-env:
-  - RDM_QT_VERSION=55
-  - RDM_QT_VERSION=542
 matrix:
   allow_failures:
     - os: osx  
