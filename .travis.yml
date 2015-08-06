@@ -1,9 +1,10 @@
 language: cpp
-compiler:
-  - gcc
-env:
-  - RDM_QT_VERSION=55
-  - RDM_QT_VERSION=542
+os:
+  - linux
+  - osx
+matrix:
+  allow_failures:
+    - os: osx  
 before_install:
 - sudo add-apt-repository --yes ppa:beineri/opt-qt${RDM_QT_VERSION}
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
