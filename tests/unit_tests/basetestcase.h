@@ -54,6 +54,11 @@ protected:
         return connection;
     }
 
+    QString getBulkStringReply(const QString& s)
+    {
+        return QString("$%1\r\n%2\r\n").arg(s.size()).arg(s);
+    }
+
     void wait(int ms)
     {
         //wait for data

@@ -68,20 +68,19 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     }
 
     int dbCount = (dbName.isEmpty())? 0 : dbName.remove(0,2).toInt();
-
-    /**
-     * TODO(u_glide): disable following code for case when dbCount > 0 (issue #3417)
-     */
-    //detect more db
-    Response scanningResp;
-    do {
-        Command cmd(QString("select %1").arg(dbCount));
-        try {
-            scanningResp = CommandExecutor::execute(m_connection, cmd);
-        } catch (const RedisClient::CommandExecutor::Exception& e) {
-            throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
-        }
-    } while (scanningResp.isOkMessage() && ++dbCount);
+    
+    //detect more db if needed
+    if (availableDatabeses.size() == 0) {    
+        Response scanningResp;
+        do {
+            Command cmd(QString("select %1").arg(dbCount));
+            try {
+                scanningResp = CommandExecutor::execute(m_connection, cmd);
+            } catch (const RedisClient::CommandExecutor::Exception& e) {
+                throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+            }
+        } while (scanningResp.isOkMessage() && ++dbCount);
+    }
 
     // build db list
     for (int dbIndex = 0; dbIndex < dbCount; ++dbIndex)

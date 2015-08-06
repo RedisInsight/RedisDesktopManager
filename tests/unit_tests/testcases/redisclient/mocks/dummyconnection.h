@@ -9,11 +9,19 @@ class DummyConnection : public RedisClient::Connection
 public:
     DummyConnection(double version=2.6, bool raise_error=false)
         : RedisClient::Connection(RedisClient::ConnectionConfig(), false),
-          m_version(version), runCommandCalled(0), retrieveCollectionCalled(0),
-          getServerVersionCalled(0), m_raiseExceptionOnConnect(raise_error)
+          runCommandCalled(0), retrieveCollectionCalled(0),
+          getServerVersionCalled(0), m_version(version), 
+          m_raiseExceptionOnConnect(raise_error)
     {
         if (!m_raiseExceptionOnConnect)
             m_connected = true;
+    }
+
+    bool connect()
+    {
+        if (!m_raiseExceptionOnConnect)
+            m_connected = true;
+        return m_connected;            
     }
 
     double getServerVersion() override
@@ -43,6 +51,8 @@ public:
         if (fakeResponses.size()) {
            resp = fakeResponses.first();
            fakeResponses.removeFirst();
+        } else {
+           qDebug() << "Unexpected command: "<< cmd.getRawString();
         }
 
         auto callback = cmd.getCallBack();
