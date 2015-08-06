@@ -69,6 +69,9 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
     int dbCount = (dbName.isEmpty())? 0 : dbName.remove(0,2).toInt();
 
+    /**
+     * TODO(u_glide): disable following code for case when dbCount > 0 (issue #3417)
+     */
     //detect more db
     Response scanningResp;
     do {
