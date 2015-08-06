@@ -5,12 +5,11 @@
 [Development Guide](https://github.com/uglide/RedisDesktopManager/wiki/Development-Guide) |
 [Known issues](https://github.com/uglide/RedisDesktopManager/wiki/Known-issues)
 
-[![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=0.8.0)](https://travis-ci.org/uglide/RedisDesktopManager) [![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.png?branch=0.8.0)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.8.0)
-<a href="https://scan.coverity.com/projects/3548">
-  <img alt="Coverity Scan Build Status"
-       src="https://scan.coverity.com/projects/3548/badge.svg"/>
-</a>
-[![Stories in Progress](https://badge.waffle.io/uglide/redisdesktopmanager.png?label=in progress&title=In Progress)](http://waffle.io/uglide/redisdesktopmanager)
+[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.8.0)](https://travis-ci.org/uglide/RedisDesktopManager) 
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/p5jpdpr69y2xdj9k/branch/0.8.0?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.8.0)
+[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.8.0)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.8.0)
+[![Coverity Scan Build](https://scan.coverity.com/projects/3548/badge.svg)](https://scan.coverity.com/projects/3548)
+[![Stories in Progress](https://badge.waffle.io/uglide/redisdesktopmanager.svg?label=in progress&title=In Progress)](http://waffle.io/uglide/redisdesktopmanager)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
