@@ -3,7 +3,8 @@
 [Install & Run](https://github.com/uglide/RedisDesktopManager/wiki/Install-and-Run) | 
 [Quick Start](https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start) |
 [Development Guide](https://github.com/uglide/RedisDesktopManager/wiki/Development-Guide) |
-[Known issues](https://github.com/uglide/RedisDesktopManager/wiki/Known-issues)
+[Known issues](https://github.com/uglide/RedisDesktopManager/wiki/Known-issues) |
+[Bountysource](https://www.bountysource.com/teams/redisdesktopmanager)
 
 [![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.8.0)](https://travis-ci.org/uglide/RedisDesktopManager) 
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/p5jpdpr69y2xdj9k/branch/0.8.0?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.8.0)
