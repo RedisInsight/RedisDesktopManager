@@ -1,5 +1,6 @@
 #include <QtTest/QtTest>
 #include <QFile>
+#include <QDir>
 #include <QModelIndex>
 #include "models/connectionsmanager.h"
 #include "test_connectionsmanager.h"
@@ -33,7 +34,7 @@ void TestConnectionsManager::saveConnectionsConfigToFile()
 {
     //given
     QFETCH(QString, connectionName);
-    QString configTestFile = "/tmp/test_rdm.json";
+    QString configTestFile = QString("%1/test_rdm.json").arg(QDir::tempPath());
     QFile::remove(configTestFile);
     RedisClient::ConnectionConfig connectionConfig = getDummyConfig(connectionName);
     ConnectionsManager testManager(configTestFile, m_tabsWidget, m_viewModel);    
