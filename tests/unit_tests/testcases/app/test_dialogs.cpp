@@ -2,12 +2,18 @@
 #include "app/dialogs/connect.h"
 #include "models/connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
+#include "value-editor/viewmodel.h"
 #include <functional>
 #include <QTemporaryFile>
 #include <QFileInfo>
 
 namespace ValueEditor {
     class ViewModel;
+}
+
+void TestDialogs::init()
+{
+    QFile::remove("connections.json");
 }
 
 void TestDialogs::testConnectionDialog()
@@ -63,4 +69,58 @@ void TestDialogs::testConnectionDialog()
 
     qDebug() << "SSL with auth and custom port";
     verify(conf4);
+}
+
+void TestDialogs::testConnectionDialogValidation()
+{
+    QString configTestFile = "connections.json";
+    ConsoleTabs tabsWidget;
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
+                                   QSharedPointer<ValueEditor::ViewModel>()));
+    ConnectionWindow window(testManager.toWeakRef());
+
+    QCOMPARE(window.isAdvancedSettingsValid(), true);
+
+    window.ui.namespaceSeparator->setText("");
+    QCOMPARE(window.isAdvancedSettingsValid(), false);
+
+    window.ui.namespaceSeparator->setText(":");
+    window.ui.keysPattern->setText("");
+    QCOMPARE(window.isAdvancedSettingsValid(), false);
+}
+
+void TestDialogs::testOkButtonInvalidSettings()
+{
+    QString configTestFile = "connections.json";
+    ConsoleTabs tabsWidget;
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
+                                   QSharedPointer<ValueEditor::ViewModel>()));
+    ConnectionWindow window(testManager.toWeakRef());
+
+    QCOMPARE(window.isConnectionSettingsValid(), false);
+    QCOMPARE(window.isFormDataValid(), false);
+
+    window.OnOkButtonClick();
+    QCOMPARE(testManager->size(), 0);
+}
+
+void TestDialogs::testOkButton()
+{
+    using namespace ValueEditor;
+    QString configTestFile = "connections.json";
+    ConsoleTabs tabsWidget;
+    QSharedPointer<ViewModel> viewModel(
+                new ViewModel(QSharedPointer<AbstractKeyFactory>()));
+    QSharedPointer<ConnectionsManager> testManager(
+                new ConnectionsManager(configTestFile, tabsWidget, viewModel));
+    ConnectionWindow window(testManager.toWeakRef());
+
+    window.ui.hostEdit->setText("fake");
+    window.ui.nameEdit->setText("fake");
+
+    QCOMPARE(window.isConnectionSettingsValid(), true);
+    QCOMPARE(window.isFormDataValid(), true);
+
+    window.OnOkButtonClick();
+    QCOMPARE(testManager->size(), 1);
 }
