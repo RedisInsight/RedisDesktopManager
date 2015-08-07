@@ -2,12 +2,18 @@
 #include "app/dialogs/connect.h"
 #include "models/connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
+#include "value-editor/viewmodel.h"
 #include <functional>
 #include <QTemporaryFile>
 #include <QFileInfo>
 
 namespace ValueEditor {
     class ViewModel;
+}
+
+void TestDialogs::init()
+{
+    QFile::remove("connections.json");
 }
 
 void TestDialogs::testConnectionDialog()
@@ -100,10 +106,13 @@ void TestDialogs::testOkButtonInvalidSettings()
 
 void TestDialogs::testOkButton()
 {
+    using namespace ValueEditor;
     QString configTestFile = "connections.json";
     ConsoleTabs tabsWidget;
-    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
-                                   QSharedPointer<ValueEditor::ViewModel>()));
+    QSharedPointer<ViewModel> viewModel(
+                new ViewModel(QSharedPointer<AbstractKeyFactory>()));
+    QSharedPointer<ConnectionsManager> testManager(
+                new ConnectionsManager(configTestFile, tabsWidget, viewModel));
     ConnectionWindow window(testManager.toWeakRef());
 
     window.ui.hostEdit->setText("fake");
