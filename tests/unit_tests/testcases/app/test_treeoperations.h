@@ -9,9 +9,6 @@ class TestTreeOperations : public BaseTestCase
 private slots:
     void testCreation();  
     
-    /**
-     * TODO(u_glide): Fix freeze in this tests
-     */ 
     void testGetDatabases();
     void testGetDatabasesWithSelectScan();
     

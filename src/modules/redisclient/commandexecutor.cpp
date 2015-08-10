@@ -36,6 +36,9 @@ RedisClient::Executor::Executor(RedisClient::Command &cmd)
 
 RedisClient::Response RedisClient::Executor::waitForResult(unsigned int timeoutInMs)
 {
+    if (m_result.isValid())
+        return m_result; // NOTE(u_glide): No need to wait if result already fetched
+
     m_timeoutTimer.start(timeoutInMs);
     m_loop.exec();
     return m_result;

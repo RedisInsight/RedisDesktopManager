@@ -1,6 +1,4 @@
-#ifndef COMMANDEXECUTOR_H
-#define COMMANDEXECUTOR_H
-
+#pragma once
 #include <QObject>
 #include "response.h"
 #include "exception.h"
@@ -32,4 +30,3 @@ private:
 };
 
 }
-#endif // COMMANDEXECUTOR_H
