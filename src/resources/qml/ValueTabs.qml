@@ -463,10 +463,10 @@ Repeater {
                     }
 
                     onLoaded: {
-                        if (keyType === "string")
-                            valueEditor.loadRowValue(0)
                         if (valueEditor.item)
                             valueEditor.item.resetAndDisableEditor()
+                        if (keyType === "string")
+                            valueEditor.loadRowValue(0)
                     }
 
                     function loadRowValue(row) {
