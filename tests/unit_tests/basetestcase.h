@@ -57,7 +57,15 @@ protected:
 
     void wait(int ms)
     {
-        qWait(ms);
+        //wait for data
+        QEventLoop loop;
+        QTimer timeoutTimer;
+
+        timeoutTimer.setSingleShot(true);
+        QObject::connect(&timeoutTimer, SIGNAL(timeout()), &loop, SLOT(quit()));
+
+        timeoutTimer.start(ms);
+        loop.exec();
     }
 
 };

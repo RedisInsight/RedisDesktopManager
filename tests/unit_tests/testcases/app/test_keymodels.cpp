@@ -77,9 +77,14 @@ void TestKeyModels::testKeyFactoryAddKey()
     QFETCH(QString, keyType);
     QFETCH(QVariantMap, row);
     auto connection = getRealConnectionWithDummyTransporter(testReplies);
-
+    auto dummyTransporter = connection->m_transporter.dynamicCast<DummyTransporter>();
     KeyFactory factory;
+
+    //when
     factory.addKey(connection, "testKey", 0, keyType, row);
+
+    //then
+    QCOMPARE(testReplies.size(), dummyTransporter->addCommandCalls);
 }
 
 void TestKeyModels::testKeyFactoryAddKey_data()
@@ -88,12 +93,16 @@ void TestKeyModels::testKeyFactoryAddKey_data()
     QTest::addColumn<QString>("keyType");
     QTest::addColumn<QVariantMap>("row");
 
-    QVariantMap strRow {{"value", "test"}, {"key": "fake"}};
+    QVariantMap singleRow{{"value", "test"}};
+    QTest::newRow("string") << (QStringList() << "+OK\r\n") << "string" << singleRow;
+    QTest::newRow("list") << (QStringList() << ":0\r\n" << "+OK\r\n") << "list" << singleRow;
+    QTest::newRow("set") << (QStringList() << ":0\r\n" << "+OK\r\n") << "set" << singleRow;
 
-    QTest::newRow("Valid string model w/o TTL")
-            << (QStringList() << "+OK\r\n")
-            << "string"
-            << strRow;
+    QVariantMap hashRow{{"value", "test"}, {"key", "test-key"}};
+    QTest::newRow("hash") << (QStringList() << ":0\r\n" << ":1\r\n") << "hash" << hashRow;
+
+    QVariantMap zsetRow{{"value", "test"}, {"score", 5.0}};
+    QTest::newRow("zset") << (QStringList() << ":0\r\n" << "+OK\r\n") << "zset" << zsetRow;
 }
 
 void TestKeyModels::testValueLoading()
