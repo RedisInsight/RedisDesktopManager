@@ -104,13 +104,19 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
     if (m_connection->getServerVersion() >= 2.8) {
         QString cmd = QString("scan 0 MATCH %1 COUNT 10000").arg(keyPattern);
         QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(cmd, this, dbIndex));
-        m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r) {
 
-            if (r.type() == QVariant::Type::List)
-                callback(r.toStringList());
-            else
-                callback(QStringList());
-        });
+        try {
+            m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r)
+            {
+                if (r.type() == QVariant::Type::List)
+                    callback(r.toStringList());
+                else
+                    callback(QStringList());
+            });
+        } catch (const RedisClient::Connection::Exception& error) {
+            qDebug() << "Cannot load keys:" << QString(error.what());
+            //TODO: return callback with error
+        }
     } else {
         QString cmd = QString("keys %1").arg(keyPattern);
         auto keyCmd = RedisClient::Command(cmd, this, dbIndex);
@@ -119,7 +125,12 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
             callback(r.getValue().toStringList());
         });
 
-        m_connection->runCommand(keyCmd);
+        try {
+            m_connection->runCommand(keyCmd);
+        } catch (const RedisClient::Connection::Exception& error) {
+            qDebug() << "Cannot load keys:" << QString(error.what());
+            //TODO: return callback with error
+        }
     }
 }
 
