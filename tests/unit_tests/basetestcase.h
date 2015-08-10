@@ -30,5 +30,7 @@ protected:
     void wait(int ms);
 
     void verifyExecutedCommandsCount(QSharedPointer<RedisClient::Connection> connection, uint valid_result);
+    
+    QString getBulkStringReply(const QString& s);
 
 };

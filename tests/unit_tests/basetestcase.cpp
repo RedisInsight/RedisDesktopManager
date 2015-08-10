@@ -52,3 +52,8 @@ void BaseTestCase::verifyExecutedCommandsCount(QSharedPointer<RedisClient::Conne
     auto dummyTransporter = connection->getTransporter().dynamicCast<DummyTransporter>();
     QCOMPARE((uint)dummyTransporter->addCommandCalls, valid_result);
 }
+
+QString BaseTestCase::getBulkStringReply(const QString &s)
+{
+    return QString("$%1\r\n%2\r\n").arg(s.size()).arg(s);
+}
