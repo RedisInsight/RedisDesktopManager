@@ -76,15 +76,14 @@ void TestKeyModels::testKeyFactoryAddKey()
     QFETCH(QStringList, testReplies);
     QFETCH(QString, keyType);
     QFETCH(QVariantMap, row);
-    auto connection = getRealConnectionWithDummyTransporter(testReplies);
-    auto dummyTransporter = connection->m_transporter.dynamicCast<DummyTransporter>();
+    auto connection = getRealConnectionWithDummyTransporter(testReplies);    
     KeyFactory factory;
 
     //when
     factory.addKey(connection, "testKey", 0, keyType, row);
 
     //then
-    QCOMPARE(testReplies.size(), dummyTransporter->addCommandCalls);
+    verifyExecutedCommandsCount(connection, testReplies.size() + 2); // 2 = ping + info
 }
 
 void TestKeyModels::testKeyFactoryAddKey_data()

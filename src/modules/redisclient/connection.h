@@ -14,7 +14,6 @@
 namespace RedisClient {
 
 class AbstractTransporter;
-class BaseTestCase;
 
 struct ServerInfo
 {
@@ -26,8 +25,7 @@ struct ServerInfo
 class Connection : public QObject
 {
     Q_OBJECT
-    ADD_EXCEPTION
-    friend class BaseTestCase;
+    ADD_EXCEPTION    
 public:
     Connection(const ConnectionConfig & c, bool autoConnect = false);
     virtual ~Connection();
@@ -55,6 +53,7 @@ public:
     bool selectDb(int index);
 
     void setTransporter(QSharedPointer<AbstractTransporter>);
+    QSharedPointer<AbstractTransporter> getTransporter() const;
 
 signals:    
     void addCommandToWorker(Command);
