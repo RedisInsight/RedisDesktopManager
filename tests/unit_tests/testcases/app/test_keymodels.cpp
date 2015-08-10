@@ -12,7 +12,7 @@ void TestKeyModels::testKeyFactory()
     QFETCH(QString, typeReply);
     QFETCH(QString, ttlReply);
     QStringList replies = QStringList() << typeReply << ttlReply;
-    auto dummyConnection = getReadyDummyConnection(replies);    
+    auto dummyConnection = getRealConnectionWithDummyTransporter(replies);
 
     //when
     QSharedPointer<ValueEditor::Model> actualResult = getKeyModel(dummyConnection);
@@ -70,11 +70,45 @@ void TestKeyModels::testKeyFactory_data()
                << -1;
 }
 
+void TestKeyModels::testKeyFactoryAddKey()
+{
+    //given
+    QFETCH(QStringList, testReplies);
+    QFETCH(QString, keyType);
+    QFETCH(QVariantMap, row);
+    auto connection = getRealConnectionWithDummyTransporter(testReplies);    
+    KeyFactory factory;
+
+    //when
+    factory.addKey(connection, "testKey", 0, keyType, row);
+
+    //then
+    verifyExecutedCommandsCount(connection, testReplies.size() + 2); // 2 = ping + info
+}
+
+void TestKeyModels::testKeyFactoryAddKey_data()
+{
+    QTest::addColumn<QStringList>("testReplies");
+    QTest::addColumn<QString>("keyType");
+    QTest::addColumn<QVariantMap>("row");
+
+    QVariantMap singleRow{{"value", "test"}};
+    QTest::newRow("string") << (QStringList() << "+OK\r\n") << "string" << singleRow;
+    QTest::newRow("list") << (QStringList() << ":0\r\n" << "+OK\r\n") << "list" << singleRow;
+    QTest::newRow("set") << (QStringList() << ":0\r\n" << "+OK\r\n") << "set" << singleRow;
+
+    QVariantMap hashRow{{"value", "test"}, {"key", "test-key"}};
+    QTest::newRow("hash") << (QStringList() << ":0\r\n" << ":1\r\n") << "hash" << hashRow;
+
+    QVariantMap zsetRow{{"value", "test"}, {"score", 5.0}};
+    QTest::newRow("zset") << (QStringList() << ":0\r\n" << "+OK\r\n") << "zset" << zsetRow;
+}
+
 void TestKeyModels::testValueLoading()
 {
     //given
     QFETCH(QStringList, testReplies);
-    auto dummyConnection = getReadyDummyConnection(testReplies);
+    auto dummyConnection = getRealConnectionWithDummyTransporter(testReplies);
 
     QFETCH(int, testRow);
     QFETCH(int, testRole);
@@ -170,7 +204,7 @@ void TestKeyModels::testKeyModelModifyRows()
     QFETCH(QVariantMap, row);
     QFETCH(int, role);
     QFETCH(int, validRowCount);
-    auto dummyConnection = getReadyDummyConnection(testReplies);
+    auto dummyConnection = getRealConnectionWithDummyTransporter(testReplies);
 
     //when
     QSharedPointer<ValueEditor::Model> keyModel = getKeyModel(dummyConnection);

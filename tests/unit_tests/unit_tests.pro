@@ -10,6 +10,7 @@ HEADERS += \
     $$PWD/basetestcase.h \
 
 SOURCES += \
+    $$PWD/basetestcase.cpp \
     $$PWD/main.cpp \    
 
 PROJECT_ROOT = $$PWD/../..//

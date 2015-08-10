@@ -57,8 +57,7 @@ bool NamespaceItem::onClick(TreeItem::ParentView&)
 
 QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView&)
 {
-    QSharedPointer<QMenu> menu(new QMenu());
-    return menu;
+    return QSharedPointer<QMenu>();
 }
 
 bool NamespaceItem::isLocked() const

@@ -42,8 +42,10 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
 
 void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
-    if (rowIndex > 0 || !isRowValid(row))
+    if (rowIndex > 0 || !isRowValid(row)) {
+        qDebug() << "Row is not valid";
         return;   
+    }
 
     QByteArray value = row.value("value").toByteArray();
 
@@ -62,8 +64,9 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
         throw Exception("Connection error: " + QString(e.what()));
     }
 
-    if (result.isOkMessage()) {        
-        m_rowsCache.replace(0, value);
+    if (result.isOkMessage()) {
+        m_rowsCache.clear();
+        m_rowsCache.addLoadedRange({0, 0}, (QList<QByteArray>() << value));
         m_notifier->dataLoaded();
     }
 }

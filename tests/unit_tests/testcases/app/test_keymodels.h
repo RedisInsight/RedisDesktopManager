@@ -10,6 +10,9 @@ private slots:
     void testKeyFactory();
     void testKeyFactory_data();
 
+    void testKeyFactoryAddKey();
+    void testKeyFactoryAddKey_data();
+
     void testValueLoading();
     void testValueLoading_data();
 

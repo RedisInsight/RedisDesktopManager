@@ -196,7 +196,7 @@ void ServerItem::load()
 
     try {
         m_operations->getDatabases(callback);
-    } catch (ConnectionsTree::Operations::Exception& e) {
+    } catch (const ConnectionsTree::Operations::Exception& e) {
         m_locked = false;
         emit error("Cannot load databases: " + QString(e.what()));
     }

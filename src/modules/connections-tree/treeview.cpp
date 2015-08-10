@@ -43,7 +43,12 @@ void TreeView::processContextMenu(const QPoint& point)
     if (item == nullptr)
         return;
 
-    item->getContextMenu(*static_cast<TreeItem::ParentView* const>(this))->exec(mapToGlobal(point));
+    auto menu = item->getContextMenu(*static_cast<TreeItem::ParentView* const>(this));
+
+    if (menu.isNull())
+        return;
+
+    menu->exec(mapToGlobal(point));
 }
 
 void TreeView::processClick(const QModelIndex& index)

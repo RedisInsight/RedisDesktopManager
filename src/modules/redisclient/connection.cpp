@@ -294,6 +294,11 @@ void RedisClient::Connection::setTransporter(QSharedPointer<RedisClient::Abstrac
     m_transporter = transporter;
 }
 
+QSharedPointer<RedisClient::AbstractTransporter> RedisClient::Connection::getTransporter() const
+{
+    return m_transporter;
+}
+
 RedisClient::ServerInfo RedisClient::ServerInfo::fromString(const QString &info)
 {
     QRegExp versionRegex("redis_version:([0-9]\\.[0-9]+)", Qt::CaseInsensitive, QRegExp::RegExp2);
