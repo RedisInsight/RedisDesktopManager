@@ -227,7 +227,7 @@ void TestConnection::testWithDummyTransporter()
     //given            
     // connection with dummy transporter    
     QString validResponse("+PONG\r\n");
-    QSharedPointer<Connection> connection = getReadyDummyConnection(QStringList() << validResponse);
+    QSharedPointer<Connection> connection = getRealConnectionWithDummyTransporter(QStringList() << validResponse);
     Command cmd("ping");
 
     //when    

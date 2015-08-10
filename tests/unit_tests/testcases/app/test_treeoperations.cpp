@@ -7,7 +7,7 @@ void TestTreeOperations::testCreation()
 {
     //given
     ConsoleTabs tabsWidget;
-    auto connection = getReadyDummyConnection();
+    auto connection = getRealConnectionWithDummyTransporter();
 
     //when
     TreeOperations operations(connection, tabsWidget);

@@ -27,7 +27,8 @@ protected:
     }
         
 
-    QSharedPointer<RedisClient::Connection> getReadyDummyConnection(const QStringList& expectedResponses = QStringList())
+    QSharedPointer<RedisClient::Connection> getRealConnectionWithDummyTransporter(
+            const QStringList& expectedResponses = QStringList())
     {
         RedisClient::ConnectionConfig dummyConf = getDummyConfig();
 
@@ -56,15 +57,7 @@ protected:
 
     void wait(int ms)
     {
-        //wait for data
-        QEventLoop loop;
-        QTimer timeoutTimer;
-
-        timeoutTimer.setSingleShot(true);
-        QObject::connect(&timeoutTimer, SIGNAL(timeout()), &loop, SLOT(quit()));
-
-        timeoutTimer.start(ms);
-        loop.exec();
+        qWait(ms);
     }
 
 };

@@ -12,7 +12,7 @@ void TestKeyModels::testKeyFactory()
     QFETCH(QString, typeReply);
     QFETCH(QString, ttlReply);
     QStringList replies = QStringList() << typeReply << ttlReply;
-    auto dummyConnection = getReadyDummyConnection(replies);    
+    auto dummyConnection = getRealConnectionWithDummyTransporter(replies);
 
     //when
     QSharedPointer<ValueEditor::Model> actualResult = getKeyModel(dummyConnection);
@@ -70,11 +70,37 @@ void TestKeyModels::testKeyFactory_data()
                << -1;
 }
 
+void TestKeyModels::testKeyFactoryAddKey()
+{
+    //given
+    QFETCH(QStringList, testReplies);
+    QFETCH(QString, keyType);
+    QFETCH(QVariantMap, row);
+    auto connection = getRealConnectionWithDummyTransporter(testReplies);
+
+    KeyFactory factory;
+    factory.addKey(connection, "testKey", 0, keyType, row);
+}
+
+void TestKeyModels::testKeyFactoryAddKey_data()
+{
+    QTest::addColumn<QStringList>("testReplies");
+    QTest::addColumn<QString>("keyType");
+    QTest::addColumn<QVariantMap>("row");
+
+    QVariantMap strRow {{"value", "test"}, {"key": "fake"}};
+
+    QTest::newRow("Valid string model w/o TTL")
+            << (QStringList() << "+OK\r\n")
+            << "string"
+            << strRow;
+}
+
 void TestKeyModels::testValueLoading()
 {
     //given
     QFETCH(QStringList, testReplies);
-    auto dummyConnection = getReadyDummyConnection(testReplies);
+    auto dummyConnection = getRealConnectionWithDummyTransporter(testReplies);
 
     QFETCH(int, testRow);
     QFETCH(int, testRole);
@@ -170,7 +196,7 @@ void TestKeyModels::testKeyModelModifyRows()
     QFETCH(QVariantMap, row);
     QFETCH(int, role);
     QFETCH(int, validRowCount);
-    auto dummyConnection = getReadyDummyConnection(testReplies);
+    auto dummyConnection = getRealConnectionWithDummyTransporter(testReplies);
 
     //when
     QSharedPointer<ValueEditor::Model> keyModel = getKeyModel(dummyConnection);

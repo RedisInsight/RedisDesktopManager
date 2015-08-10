@@ -14,6 +14,7 @@
 namespace RedisClient {
 
 class AbstractTransporter;
+class BaseTestCase;
 
 struct ServerInfo
 {
@@ -26,6 +27,7 @@ class Connection : public QObject
 {
     Q_OBJECT
     ADD_EXCEPTION
+    friend class BaseTestCase;
 public:
     Connection(const ConnectionConfig & c, bool autoConnect = false);
     virtual ~Connection();
