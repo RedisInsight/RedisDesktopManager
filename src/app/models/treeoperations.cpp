@@ -51,20 +51,18 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     }
 
     // Parse keyspace info
-    QString keyspaceInfo = result.toString();
-    QRegExp getDbAndKeysCount("(db\\d+):keys=(\\d+),expires=(\\d+)");
-    int pos = 0;
-    QString dbName;
-    int keysCount;
+    QString keyspaceInfo = result.getValue().toString();
+    QRegularExpression getDbAndKeysCount("^(db\\d+):keys=(\\d+)");
+    getDbAndKeysCount.setPatternOptions(QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator iter = getDbAndKeysCount.globalMatch(keyspaceInfo);
 
-    while ((pos = getDbAndKeysCount.indexIn(keyspaceInfo, pos)) != -1) {
+    QString dbName;    
 
-        dbName = getDbAndKeysCount.cap(1);
-        keysCount = getDbAndKeysCount.cap(2).toInt();
-        availableDatabeses.push_back({dbName, keysCount});
-        loadedDatabeses.insert(dbName);
-
-        pos += getDbAndKeysCount.matchedLength();
+    while (iter.hasNext()) {
+        QRegularExpressionMatch match = iter.next();
+        dbName = match.captured(1);
+        availableDatabeses.push_back({dbName, match.captured(2).toInt()});
+        loadedDatabeses.insert(dbName);       
     }
 
     int dbCount = (dbName.isEmpty())? 0 : dbName.remove(0,2).toInt();
