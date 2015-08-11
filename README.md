@@ -13,6 +13,10 @@
 [![Stories in Progress](https://badge.waffle.io/uglide/redisdesktopmanager.svg?label=in progress&title=In Progress)](http://waffle.io/uglide/redisdesktopmanager)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+<h3>
+RDM is looking for sponsorship. Contact me: uglide@gmail.com
+</h3>
+
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
 ![Redis Desktop Manager screenshoot](http://redisdesktop.com/img/features/all.png?v2)
