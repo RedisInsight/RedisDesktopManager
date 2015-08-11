@@ -55,7 +55,9 @@ bool ConfigManager::migrateOldConfig(const QString &oldFileName, const QString &
 
     if (QFile::exists(homeConfig)) {
         qDebug() << "Config migration: 0.7.5 config detected.";
-        if (QFile::copy(homeConfig, xmlConfigPath) && QFile::remove(homeConfig)) {
+        QFile::remove(xmlConfigPath);
+        if (QFile::copy(homeConfig, xmlConfigPath)
+                && QFile::remove(homeConfig)) {
             qDebug() << "Old config moved to new dir";
         }
     }
@@ -65,7 +67,7 @@ bool ConfigManager::migrateOldConfig(const QString &oldFileName, const QString &
 
     QJsonArray newConfig = xmlConfigToJsonArray(xmlConfigPath);
 
-    QFile::remove(xmlConfigPath);
+    QFile::rename(xmlConfigPath, QString("%1.backup").arg(xmlConfigPath));
 
     if (newConfig.size() == 0)
         return false;
