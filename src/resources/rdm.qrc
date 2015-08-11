@@ -45,5 +45,6 @@
         <file>qml/editors/editor.js</file>
         <file>qml/parts/Pagination.qml</file>
         <file>qml/AddKeyDialog.qml</file>
+        <file>qml/parts/RichTextWithLinks.qml</file>
     </qresource>
 </RCC>
