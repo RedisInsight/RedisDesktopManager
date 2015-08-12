@@ -28,24 +28,24 @@ MainWin::MainWin(QWidget *parent)
     ui.setupUi(this);
 
     initRedisClient();
+    initSystemConsole();
 
     QDesktopWidget* desktop = QApplication::desktop();
     QRect scr = desktop->screenGeometry();
 
     /* Smart resize on big screens */
-    qDebug() << "Current ratio width:" << geometry().width()/(float)scr.width();
-    qDebug() << "Current ratio height:" << geometry().height()/(float)scr.height();
+    LOG(DEBUG) << "Current ratio width:" << geometry().width()/(float)scr.width();
+    LOG(DEBUG) << "Current ratio height:" << geometry().height()/(float)scr.height();
     float minimumRatioW = 0.5;
     float minimumRatioH = 0.7;
     if (geometry().width()/(float)scr.width() < minimumRatioW) {
-        qDebug() << "Resize main window";
+        LOG(DEBUG) << "Resize main window";
         setGeometry(geometry().x(), geometry().y(),
                     (int)(scr.width() * minimumRatioW),
                     (int)(scr.height() * minimumRatioH));
     }
     move(scr.center() - rect().center());
 
-    initSystemConsole();
     initConnectionsTreeView();
     initContextMenus();
     initFormButtons();    
