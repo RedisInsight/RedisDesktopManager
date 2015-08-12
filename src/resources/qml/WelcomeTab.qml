@@ -87,7 +87,7 @@ Tab {
 
             RichTextWithLinks {
                 id: footerMsg
-                html: '<span style="font-size: 15pt; font-weight: 700;"><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">IF YOU FEEL THAT IS USEFUL, <u style="color:green">DONATE</u> TO HELP KEEP DEVELOPMENT GOING.</a></span>'
+                html: '<span style="font-size: 14px; font-weight: 700;"><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">IF YOU FEEL THAT IS USEFUL, <u style="color:green">DONATE</u> TO HELP KEEP DEVELOPMENT GOING.</a></span>'
             }
         }
     }
