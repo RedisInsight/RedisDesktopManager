@@ -6,6 +6,7 @@ Text {
 
     textFormat: Qt.RichText
     text: styleString  + html
+    wrapMode: Text.Wrap
     onLinkActivated: Qt.openUrlExternally(link)
 
     MouseArea {

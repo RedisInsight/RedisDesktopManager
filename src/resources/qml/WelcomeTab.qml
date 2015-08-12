@@ -62,10 +62,12 @@ Tab {
                                       + '<a href="https://www.bountysource.com/teams/redisdesktopmanager/backers">Backers</a> and '
                                       + '<a href="http://redisdesktop.com/community">Community</a></span>'}
 
-            RichTextWithLinks { html: '<span style="font-size: 12px;"><b>Special thanks to:</b> '
+            RichTextWithLinks {
+                Layout.maximumWidth: footerMsg.contentWidth
+                html: '<span style="font-size: 12px;"><b>Special thanks to:</b> '
                                       + 'andrewjknox, Rob T., chasm, mjirby, linux_china, GuRui, '
-                                      + 'cristianobaptista, stgogm, <br/> ryanski44, Itamar Haber, elliots, caywood, '
-                                      + 'chrisgo, pmercier, henkvos, sun.ming.77, trelsco, Sai P.S.,  <br/>'
+                                      + 'cristianobaptista, stgogm, ryanski44, Itamar Haber, elliots, caywood, '
+                                      + 'chrisgo, pmercier, henkvos, sun.ming.77, trelsco, Sai P.S.,'
                                       +' Anonymous, Wrhector, richard.hoogenboom, cblage, WillPerone, rodogu, peters'
                                       + '</span>'
                                       }
@@ -84,7 +86,8 @@ Tab {
             }
 
             RichTextWithLinks {
-                html: '<h3><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">IF YOU FEEL THAT IS USEFUL, <u style="color:green">DONATE</u> TO HELP KEEP DEVELOPMENT GOING.</a></h3>'
+                id: footerMsg
+                html: '<span style="font-size: 15pt; font-weight: 700;"><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">IF YOU FEEL THAT IS USEFUL, <u style="color:green">DONATE</u> TO HELP KEEP DEVELOPMENT GOING.</a></span>'
             }
         }
     }
