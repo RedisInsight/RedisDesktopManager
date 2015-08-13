@@ -13,7 +13,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
                          QString keyFullPath, int dbIndex,
                          std::function<void (QSharedPointer<ValueEditor::Model>, const QString &)> callback)
 {
-    RedisClient::Command typeCmd(QStringList() << "type" << keyFullPath, this,
+    RedisClient::Command typeCmd({"type", keyFullPath}, this,
                                  [this, connection, keyFullPath, dbIndex, callback] (RedisClient::Response resp) {
 
         QSharedPointer<ValueEditor::Model> result;
@@ -33,7 +33,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
             return;
         }
 
-        RedisClient::Command ttlCmd(QStringList() << "ttl" << keyFullPath, dbIndex);
+        RedisClient::Command ttlCmd({"ttl", keyFullPath}, dbIndex);
         RedisClient::Response ttlResult;
 
         try {

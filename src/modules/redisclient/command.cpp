@@ -8,9 +8,9 @@ RedisClient::Command::Command()
     
 }
 
-RedisClient::Command::Command(const QString& cmdString, QObject * owner, int db)
-    : m_owner(owner), m_commandWithArguments(splitCommandString(cmdString)),
-    dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
+RedisClient::Command::Command(const QList<QByteArray> &cmd, QObject *owner, int db)
+    : m_owner(owner), m_commandWithArguments(cmd),
+      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
 {
 }
 

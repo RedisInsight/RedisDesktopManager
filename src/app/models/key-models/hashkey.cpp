@@ -100,12 +100,9 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
 
     QString command = (updateIfNotExist)? "HSET" : "HSETNX";
 
-    Command addCmd(m_dbIndex); 
-    (addCmd << command << m_keyFullPath)
-            .append(hashKey)
-            .append(hashValue);
-
+    Command addCmd({command, m_keyFullPath, hashKey, hashValue}, m_dbIndex);
     Response result;
+
     try {
         result = CommandExecutor::execute(m_connection, addCmd);
     } catch (const RedisClient::CommandExecutor::Exception& e) {
@@ -120,8 +117,7 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
 void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
 {
     using namespace RedisClient;
-    Command deleteCmd(m_dbIndex);
-    (deleteCmd << "HDEL" << m_keyFullPath).append(hashKey);
+    Command deleteCmd({"HDEL", m_keyFullPath, hashKey}, m_dbIndex);
 
     try {
         CommandExecutor::execute(m_connection, deleteCmd);

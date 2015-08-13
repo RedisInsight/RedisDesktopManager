@@ -11,7 +11,7 @@ class Command
 {    
 public:
     Command();
-    Command(const QString& cmdString, QObject * m_owner = nullptr, int db = -1);
+    Command(const QList<QByteArray>& cmd, QObject * owner = nullptr, int db = -1);
     Command(const QStringList& cmd, QObject * m_owner = nullptr, int db = -1);
     Command(const QStringList& cmd, QObject * m_owner, std::function<void(Response)> callback, int db = -1);
     Command(const QStringList& cmd, int db);
@@ -45,6 +45,9 @@ public:
     bool isSelectCommand() const;
     bool isHiPriorityCommand() const;
 
+public:
+    static QList<QByteArray> splitCommandString(const QString &);
+
 protected:
     QObject * m_owner;
     QList<QByteArray> m_commandWithArguments;
@@ -52,8 +55,6 @@ protected:
     bool commandCanceled;
     bool m_hiPriorityCommand;
     std::function<void(Response)> m_callback;
-
-    QList<QByteArray> splitCommandString(const QString &);
 };
 
 QList<QByteArray> convertStringList(const QStringList&list);

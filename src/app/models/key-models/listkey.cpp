@@ -68,11 +68,7 @@ bool ListKeyModel::isActualPositionChanged(int row)
     QByteArray cachedValue = m_rowsCache[row];
 
     // check position update
-    Command getValueByIndex(QStringList()
-                            << "LRANGE" << m_keyFullPath
-                            << QString::number(row) << QString::number(row),
-                            m_dbIndex);
-
+    Command getValueByIndex({"LRANGE", m_keyFullPath, QString::number(row), QString::number(row)}, m_dbIndex);
     Response result;
 
     try {
@@ -89,8 +85,7 @@ bool ListKeyModel::isActualPositionChanged(int row)
 void ListKeyModel::addListRow(const QByteArray &value)
 {
     using namespace RedisClient;
-    Command addCmd(m_dbIndex);
-    (addCmd << "LPUSH" << m_keyFullPath).append(value);
+    Command addCmd({"LPUSH", m_keyFullPath, value}, m_dbIndex);
 
     try {
         CommandExecutor::execute(m_connection, addCmd);

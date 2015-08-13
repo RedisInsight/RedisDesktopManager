@@ -79,9 +79,7 @@ public:
 
     virtual void setKeyName(const QString& newKeyName) override
     {
-        auto cmd = RedisClient::Command(m_dbIndex)
-                << "RENAMENX" << m_keyFullPath << newKeyName;
-
+        auto cmd = RedisClient::Command({"RENAMENX", m_keyFullPath, newKeyName}, m_dbIndex);
         RedisClient::Response result;
 
         try {
@@ -104,9 +102,7 @@ public:
 
     virtual void removeKey() override
     {
-        auto cmd = RedisClient::Command(m_dbIndex);
-        cmd << "DEL" << m_keyFullPath << m_keyFullPath;
-
+        auto cmd = RedisClient::Command({"DEL", m_keyFullPath, m_keyFullPath}, m_dbIndex);
         RedisClient::Response result;
 
         try {
@@ -122,9 +118,11 @@ public:
     virtual void loadRows(unsigned long rowStart, unsigned long count, std::function<void(const QString&)> callback) override
     {
         if (isPartialLoadingSupported() && !m_fullLoadingCmdSupportsRanges) {
-            QSharedPointer<RedisClient::ScanCommand> cmd(new RedisClient::ScanCommand(
-                                                             m_partialLoadingCmd.arg(m_keyFullPath),
-                                                             m_notifier.data(), m_dbIndex));
+            QStringList cmdParts = m_partialLoadingCmd.split(" ");
+            cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
+
+            QSharedPointer<RedisClient::ScanCommand> cmd(
+                        new RedisClient::ScanCommand(cmdParts, m_notifier.data(), m_dbIndex));
             try {
                 m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result)
                 {
@@ -192,9 +190,7 @@ protected:
 
     int getRowCount(const QString &countCmd)
     {
-        RedisClient::Command updateCmd(m_dbIndex);
-        updateCmd << countCmd << m_keyFullPath;
-
+        RedisClient::Command updateCmd({countCmd, m_keyFullPath}, m_dbIndex);
         RedisClient::Response result;
 
         try {

@@ -243,12 +243,12 @@ void RedisClient::Connection::auth()
             CommandExecutor::execute(this, authCmd);
         }
 
-        Command testCommand("ping", nullptr, m_dbNumber);
+        Command testCommand({QString("ping")}, nullptr, m_dbNumber);
         testCommand.markAsHiPriorityCommand();
         Response testResult = CommandExecutor::execute(this, testCommand);
 
         if (testResult.toString() == "+PONG\r\n") {
-            Command infoCommand("INFO");
+            Command infoCommand({QString("INFO")});
             infoCommand.markAsHiPriorityCommand();
             Response infoResult = CommandExecutor::execute(this, infoCommand);
             m_serverInfo = ServerInfo::fromString(infoResult.getValue().toString());

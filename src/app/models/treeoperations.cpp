@@ -34,7 +34,7 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     using namespace RedisClient;
 
     //  Get keys count
-    Command cmd("info");
+    Command cmd({QString("info")});
 
     Response result;
     try {
@@ -71,7 +71,7 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     if (availableDatabeses.size() == 0) {    
         Response scanningResp;
         do {
-            Command cmd(QString("select %1").arg(dbCount));
+            Command cmd({"select", QString::number(dbCount)});
             try {
                 scanningResp = CommandExecutor::execute(m_connection, cmd);
             } catch (const RedisClient::CommandExecutor::Exception& e) {
@@ -98,9 +98,9 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
 {
     QString keyPattern = m_connection->getConfig().keysPattern();
 
-    if (m_connection->getServerVersion() >= 2.8) {
-        QString cmd = QString("scan 0 MATCH %1 COUNT 10000").arg(keyPattern);
-        QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(cmd, this, dbIndex));
+    if (m_connection->getServerVersion() >= 2.8) {        
+        QSharedPointer<RedisClient::ScanCommand> keyCmd(
+                    new RedisClient::ScanCommand({"scan", "0", "MATCH", keyPattern, "COUNT", "10000"}, this, dbIndex));
 
         try {
             m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r)
@@ -115,8 +115,7 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
             //TODO: return callback with error
         }
     } else {
-        QString cmd = QString("keys %1").arg(keyPattern);
-        auto keyCmd = RedisClient::Command(cmd, this, dbIndex);
+        auto keyCmd = RedisClient::Command({"KEYS", keyPattern}, this, dbIndex);
 
         keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
             callback(r.getValue().toStringList());

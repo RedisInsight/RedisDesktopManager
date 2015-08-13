@@ -37,7 +37,7 @@ void ConsoleModel::executeCommand(const QString & cmd)
 
     using namespace RedisClient;
 
-    Command command(cmd, nullptr, m_current_db);
+    Command command(Command::splitCommandString(cmd), nullptr, m_current_db);
     Response result;
 
     try {
