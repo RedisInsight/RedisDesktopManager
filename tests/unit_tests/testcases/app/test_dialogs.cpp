@@ -82,7 +82,7 @@ void TestDialogs::testConnectionDialogValidation()
     QCOMPARE(window.isAdvancedSettingsValid(), true);
 
     window.ui.namespaceSeparator->setText("");
-    QCOMPARE(window.isAdvancedSettingsValid(), false);
+    QCOMPARE(window.isAdvancedSettingsValid(), true);
 
     window.ui.namespaceSeparator->setText(":");
     window.ui.keysPattern->setText("");

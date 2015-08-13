@@ -211,17 +211,13 @@ bool ConnectionWindow::isAdvancedSettingsValid()
     markFieldValid(ui.namespaceSeparator);
     markFieldValid(ui.keysPattern);
 
-    bool isValid = !ui.namespaceSeparator->text().isEmpty()
-            && !ui.keysPattern->text().isEmpty()
+    bool isValid = !ui.keysPattern->text().isEmpty()
             && ui.connectionTimeout->value() >= 10
             && ui.executionTimeout->value() >= 10;
 
 
     if (isValid)
-        return true;    
-
-    if (ui.namespaceSeparator->text().isEmpty())
-        markFieldInvalid(ui.namespaceSeparator);
+        return true;
 
     if (ui.keysPattern->text().isEmpty())
         markFieldInvalid(ui.keysPattern);
