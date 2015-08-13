@@ -28,6 +28,7 @@ namespace ConnectionsTree {
 
     private:
         QString m_fullPath;
+        QString m_displayName;
         QSharedPointer<Operations> m_operations;
         QWeakPointer<TreeItem> m_parent;
         bool m_locked;

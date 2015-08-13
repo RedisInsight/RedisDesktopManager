@@ -66,8 +66,9 @@ private:
                                           QSharedPointer<Operations> operations,
                                           const QString& namespaceSeparator,
                                           QSharedPointer<DatabaseKeys> m_result,
-                                          QSharedPointer<DatabaseItem>
-                                          );
+                                          QSharedPointer<DatabaseItem>,
+                                          QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem>>> m_rootNamespaces
+                                          );         
     };
 private:
     QString m_name;

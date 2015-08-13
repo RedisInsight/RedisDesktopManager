@@ -12,14 +12,12 @@ NamespaceItem::NamespaceItem(const QString &fullPath,
       m_parent(parent),
       m_locked(false)
 {
-
+    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator())+1);
 }
 
 QString NamespaceItem::getDisplayName() const
-{
-    int lastIndex = m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator());
-
-    return m_fullPath.mid(lastIndex+1);
+{    
+    return m_displayName;
 }
 
 QIcon NamespaceItem::getIcon() const

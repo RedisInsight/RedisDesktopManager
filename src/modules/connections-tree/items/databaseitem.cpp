@@ -38,7 +38,7 @@ QString DatabaseItem::getDisplayName() const
     } else if (m_keys->isEmpty()) {
         return m_name;
     } else {
-        return QString("%1 (%2/%3)").arg(m_name).arg(childCount()).arg(m_keysCount);
+        return QString("%1 (%2/%3)").arg(m_name).arg(m_rawKeys.size()).arg(m_keysCount);
     }
 }
 
@@ -214,6 +214,8 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
     keys.sort();
     qDebug() << "Keys sorted in: " << timer.elapsed() << " ms";
     QSharedPointer<QList<QSharedPointer<TreeItem>>> result(new QList<QSharedPointer<TreeItem>>());
+    QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem>>> rootNamespaces(
+                new QHash<QString, QSharedPointer<NamespaceItem>>());
 
     //render
     timer.restart();
@@ -228,7 +230,8 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
 
         renderNamaspacedKey(QSharedPointer<NamespaceItem>(),
                             rawKey, rawKey, operations,
-                            namespaceSeparator, result, parent);
+                            namespaceSeparator, result, parent,
+                            rootNamespaces);
     }
     qDebug() << "Tree builded in: " << timer.elapsed() << " ms";
     return result;
@@ -240,7 +243,8 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
                                                          QSharedPointer<Operations> m_operations,
                                                          const QString& m_namespaceSeparator,
                                                          QSharedPointer<DatabaseKeys> m_result,
-                                                         QSharedPointer<DatabaseItem> db)
+                                                         QSharedPointer<DatabaseItem> db,
+                                                         QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem> > > m_rootNamespaces)
 {
     QWeakPointer<TreeItem> currentParent = (currItem.isNull())? db.staticCast<TreeItem>().toWeakRef() :
                                                                 currItem.staticCast<TreeItem>().toWeakRef();
@@ -259,23 +263,11 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
     }
 
     QString firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
-
     QSharedPointer<NamespaceItem> namespaceItem;    
 
-    if (currItem.isNull()) {
-        int size = m_result->size();
-        QSharedPointer<TreeItem> child;
-
-        for (int i=0; i < size; ++i)
-        {
-            child = (*m_result)[i];
-            if (typeid(NamespaceItem)==typeid(*child)
-                    && child->getDisplayName() == firstNamespaceName) {
-                    namespaceItem =  qSharedPointerCast<NamespaceItem>(child);
-                    break;
-            }
-        }
-    } else {
+    if (currItem.isNull() && m_rootNamespaces->contains(firstNamespaceName)) {
+        namespaceItem = (*m_rootNamespaces)[firstNamespaceName];
+    } else if (!currItem.isNull()) {
         namespaceItem = currItem->findChildNamespace(firstNamespaceName);
     }
 
@@ -283,10 +275,13 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
         namespaceItem = QSharedPointer<NamespaceItem>(
                     new NamespaceItem(firstNamespaceName, m_operations, currentParent));
 
-        if (currItem.isNull()) m_result->push_back(namespaceItem);
+        if (currItem.isNull()) {
+            m_result->push_back(namespaceItem);
+            m_rootNamespaces->insert(namespaceItem->getDisplayName(), namespaceItem);
+        }
         else currItem->append(namespaceItem);
     }
 
     renderNamaspacedKey(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator+m_namespaceSeparator.length()),
-                        fullKey, m_operations, m_namespaceSeparator, m_result, db);
+                        fullKey, m_operations, m_namespaceSeparator, m_result, db, m_rootNamespaces);
 }
