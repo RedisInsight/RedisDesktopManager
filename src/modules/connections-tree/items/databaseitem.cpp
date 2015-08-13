@@ -177,7 +177,7 @@ void DatabaseItem::resetFilter()
 
 void DatabaseItem::renderRawKeys(const Operations::RawKeysList &rawKeys)
 {
-    qDebug() << "Keys: " << rawKeys.size();
+    qDebug() << "Render keys: " << rawKeys.size();
 
     if (rawKeys.size() == 0) {
         m_locked = false;
@@ -209,10 +209,14 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
                                            QSharedPointer<DatabaseItem> parent)
 {
     //init
+    QElapsedTimer timer;
+    timer.start();
     keys.sort();
+    qDebug() << "Keys sorted in: " << timer.elapsed() << " ms";
     QSharedPointer<QList<QSharedPointer<TreeItem>>> result(new QList<QSharedPointer<TreeItem>>());
 
     //render
+    timer.restart();
     for (QVariant key : keys) {
 
         QString rawKey = key.toString();
@@ -226,7 +230,7 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
                             rawKey, rawKey, operations,
                             namespaceSeparator, result, parent);
     }
-
+    qDebug() << "Tree builded in: " << timer.elapsed() << " ms";
     return result;
 }
 
@@ -241,35 +245,38 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
     QWeakPointer<TreeItem> currentParent = (currItem.isNull())? db.staticCast<TreeItem>().toWeakRef() :
                                                                 currItem.staticCast<TreeItem>().toWeakRef();
 
-    if (!notProcessedKeyPart.contains(m_namespaceSeparator) || m_namespaceSeparator.isEmpty()) {
+    int indexOfNaspaceSeparator = (m_namespaceSeparator.isEmpty())?
+                -1 : notProcessedKeyPart.indexOf(m_namespaceSeparator);
 
+    if (indexOfNaspaceSeparator == -1) {
         QSharedPointer<KeyItem> newKey(
                     (new KeyItem(fullKey, db->getIndex(), m_operations, currentParent))
                     );
 
         if (currItem.isNull()) m_result->push_back(newKey);
         else currItem->append(newKey);
-
         return;
     }
 
-    int indexOfNaspaceSeparator = notProcessedKeyPart.indexOf(m_namespaceSeparator);
-
     QString firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
 
-    QSharedPointer<NamespaceItem> namespaceItem;
-    int size = (currItem.isNull())? m_result->size() : currItem->childCount();
+    QSharedPointer<NamespaceItem> namespaceItem;    
 
-    for (int i=0; i < size; ++i)
-    {
-        QSharedPointer<TreeItem> child = (currItem.isNull())? (*m_result)[i] : currItem->child(i);
+    if (currItem.isNull()) {
+        int size = m_result->size();
+        QSharedPointer<TreeItem> child;
 
-        if (child->getDisplayName() == firstNamespaceName
-                && typeid(NamespaceItem)==typeid(*child)) {
-
-                namespaceItem =  qSharedPointerCast<NamespaceItem>(child);
-                break;
+        for (int i=0; i < size; ++i)
+        {
+            child = (*m_result)[i];
+            if (typeid(NamespaceItem)==typeid(*child)
+                    && child->getDisplayName() == firstNamespaceName) {
+                    namespaceItem =  qSharedPointerCast<NamespaceItem>(child);
+                    break;
+            }
         }
+    } else {
+        namespaceItem = currItem->findChildNamespace(firstNamespaceName);
     }
 
     if (namespaceItem.isNull()) {

@@ -72,6 +72,17 @@ bool NamespaceItem::isEnabled() const
 
 void NamespaceItem::append(QSharedPointer<TreeItem> item)
 {
+    if (typeid(NamespaceItem)==typeid(*item)) {
+        m_childNamespaces[item->getDisplayName()] = qSharedPointerCast<NamespaceItem>(item);
+    }
     m_childItems.append(item);
+}
+
+QSharedPointer<NamespaceItem> NamespaceItem::findChildNamespace(const QString &name)
+{
+    if (!m_childNamespaces.contains(name))
+        return QSharedPointer<NamespaceItem>();
+
+    return m_childNamespaces[name];
 }
 

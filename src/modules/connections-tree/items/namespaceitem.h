@@ -24,11 +24,14 @@ namespace ConnectionsTree {
 
         void append(QSharedPointer<TreeItem> item);
 
+        QSharedPointer<NamespaceItem> findChildNamespace(const QString& name);
+
     private:
         QString m_fullPath;
         QSharedPointer<Operations> m_operations;
         QWeakPointer<TreeItem> m_parent;
         bool m_locked;
         QList<QSharedPointer<TreeItem>> m_childItems;
+        QHash<QString, QSharedPointer<NamespaceItem>> m_childNamespaces;
     };
 }
