@@ -11,8 +11,8 @@ TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"0.8.0.0\\\"
-    message("Version: 0.8.0.0")
+    DEFINES += RDM_VERSION=\\\"0.8.1.0\\\"
+    message("Version: 0.8.1.0")
 }
 
 DEFINES += CORE_LIBRARY ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
