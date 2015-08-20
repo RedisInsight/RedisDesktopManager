@@ -38,8 +38,7 @@ private:
 
 private slots:
     void OnOkButtonClick();
-    void OnShowPasswordCheckboxChanged(int);
-    void OnBrowseSshKeyClick();
-    void OnBrowsePemFileClick(QLineEdit *target);
+    void OnShowPasswordCheckboxChanged(int);    
+    void OnBrowseFileClick(QLineEdit *target, QString, QString);
     void OnTestConnectionButtonClick();
 };

@@ -19,9 +19,11 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
 
     // connect slots to signals
     connect(ui.okButton, SIGNAL(clicked()), this, SLOT(OnOkButtonClick()));        
-    connect(ui.selectPrivateKeyPath, SIGNAL(clicked()), this,  SLOT(OnBrowseSshKeyClick()));
+    connect(ui.selectPrivateKeyPath, &QPushButton::clicked, this, [this]() {
+        OnBrowseFileClick(ui.privateKeyPath, "Select private key file", tr("All Files (*.*)"));
+    });
     connect(ui.sslCACertButton, &QPushButton::clicked, this, [this]() {
-        OnBrowsePemFileClick(ui.sslCACertEdit);
+        OnBrowseFileClick(ui.sslCACertEdit, "Select PEM file", tr("All Files (*.pem)"));
     });
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
@@ -128,19 +130,9 @@ void ConnectionWindow::OnShowPasswordCheckboxChanged(int state)
     }
 }
 
-void ConnectionWindow::OnBrowseSshKeyClick()
+void ConnectionWindow::OnBrowseFileClick(QLineEdit* target, QString msg, QString fileFilter)
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Select private key file", "", tr("All Files (*.*)"));
-
-    if (fileName.isEmpty())
-        return;    
-
-    ui.privateKeyPath->setText(fileName);
-}
-
-void ConnectionWindow::OnBrowsePemFileClick(QLineEdit* target)
-{
-    QString fileName = QFileDialog::getOpenFileName(this, "Select PEM file", "", tr("All Files (*.pem)"));
+    QString fileName = QFileDialog::getOpenFileName(this, msg, "", fileFilter);
 
     if (fileName.isEmpty())
         return;
