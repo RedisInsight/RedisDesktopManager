@@ -157,15 +157,8 @@ void ServerItem::load()
         }
 
         Operations::DatabaseList::const_iterator db = databases.constBegin();
-        int index;
-        QString dbIndex;
-
         while (db != databases.constEnd()) {
-            dbIndex = db->first;
-            dbIndex = dbIndex.remove(0,2);
-            index = dbIndex.toInt();
-
-            QSharedPointer<TreeItem> database((new DatabaseItem(db->first, index, db->second, m_operations, m_self)));
+            QSharedPointer<TreeItem> database((new DatabaseItem(db->first, db->second, m_operations, m_self)));
 
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));
@@ -177,17 +170,6 @@ void ServerItem::load()
             m_databases.push_back(database);
             ++db;            
         }
-
-        std::sort(m_databases.begin(), m_databases.end(), [](QSharedPointer<TreeItem> left, QSharedPointer<TreeItem> right) {
-            QString leftName = left->getDisplayName();
-            QString rightName = right->getDisplayName();
-
-            QCollator collator;
-            collator.setNumericMode(true);
-
-            return collator.compare(leftName, rightName) == -1? true : false;
-        });
-
         m_locked = false;
         m_databaseListLoaded = true;
 

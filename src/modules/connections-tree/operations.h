@@ -23,7 +23,7 @@ namespace ConnectionsTree {
          * List of databases with keys counters
          * @emit databesesLoaded
          **/
-        typedef QVector<QPair<QString, int>> DatabaseList;
+        typedef QVector<QPair<int, int>> DatabaseList;
         virtual void getDatabases(std::function<void(DatabaseList)>) = 0;
 
         /**

@@ -11,12 +11,10 @@
 
 using namespace ConnectionsTree;
 
-DatabaseItem::DatabaseItem(const QString& displayName,
-                           unsigned int index, int keysCount,
+DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
                            QSharedPointer<Operations> operations,
                            QWeakPointer<TreeItem> parent)
-    : m_name(displayName),
-      m_index(index),
+    : m_index(index),
       m_keysCount(keysCount),
       m_locked(false),
       m_operations(operations),
@@ -34,11 +32,11 @@ DatabaseItem::~DatabaseItem()
 QString DatabaseItem::getDisplayName() const
 {
     if (!m_filter.isEmpty()) {
-      return QString("%1 (filter: %2)").arg(m_name).arg(m_filter.pattern());
+      return QString("db%1 (filter: %2)").arg(m_index).arg(m_filter.pattern());
     } else if (m_keys->isEmpty()) {
-        return m_name;
+        return QString("db%1").arg(m_index);
     } else {
-        return QString("%1 (%2/%3)").arg(m_name).arg(m_rawKeys.size()).arg(m_keysCount);
+        return QString("db%1 (%2/%3)").arg(m_index).arg(m_rawKeys.size()).arg(m_keysCount);
     }
 }
 

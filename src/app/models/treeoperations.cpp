@@ -9,6 +9,8 @@
 #include "consoleoperations.h"
 #include "value-editor/view.h"
 
+#include <algorithm>
+
 TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConsoleTabs& tabs)
     : m_connection(connection), m_consoleTabs(tabs)
 {
@@ -44,7 +46,7 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     }
 
     DatabaseList availableDatabeses;
-    QSet<QString> loadedDatabeses;
+    QSet<int> loadedDatabeses;
 
     if (result.isErrorMessage()) {
         return callback(availableDatabeses);
@@ -52,23 +54,20 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
     // Parse keyspace info
     QString keyspaceInfo = result.getValue().toString();
-    QRegularExpression getDbAndKeysCount("^(db\\d+):keys=(\\d+)");
+    QRegularExpression getDbAndKeysCount("^db(\\d+):keys=(\\d+)");
     getDbAndKeysCount.setPatternOptions(QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator iter = getDbAndKeysCount.globalMatch(keyspaceInfo);
-
-    QString dbName;    
-
     while (iter.hasNext()) {
         QRegularExpressionMatch match = iter.next();
-        dbName = match.captured(1);
-        availableDatabeses.push_back({dbName, match.captured(2).toInt()});
-        loadedDatabeses.insert(dbName);       
+        int dbIndex = match.captured(1).toInt();
+        availableDatabeses.push_back({dbIndex, match.captured(2).toInt()});
+        loadedDatabeses.insert(dbIndex);
     }
 
-    int dbCount = (dbName.isEmpty())? 0 : dbName.remove(0,2).toInt();
-    
+    int dbCount = (loadedDatabeses.isEmpty())? 0 : *std::max_element(loadedDatabeses.begin(),
+                                                                     loadedDatabeses.end());
     //detect more db if needed
-    if (availableDatabeses.size() == 0) {    
+    if (dbCount == 0) {
         Response scanningResp;
         do {
             Command cmd({"select", QString::number(dbCount)});
@@ -83,13 +82,15 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     // build db list
     for (int dbIndex = 0; dbIndex < dbCount; ++dbIndex)
     {
-        dbName = QString("db%1").arg(dbIndex);
-
-        if (loadedDatabeses.contains(dbName))
+        if (loadedDatabeses.contains(dbIndex))
             continue;
-
-        availableDatabeses.push_back({dbName, 0});
+        availableDatabeses.push_back({dbIndex, 0});
     }
+
+    std::sort(availableDatabeses.begin(), availableDatabeses.end(),
+              [](QPair<int, int> l, QPair<int, int> r) {
+        return l.first < r.first;
+    });
 
     return callback(availableDatabeses);
 }

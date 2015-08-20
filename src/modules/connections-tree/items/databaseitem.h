@@ -13,7 +13,7 @@ class DatabaseItem : public QObject, public TreeItem
 {
     Q_OBJECT
 public:
-    DatabaseItem(const QString& displayName, unsigned int index, int keysCount,
+    DatabaseItem(unsigned int index, int keysCount,
                  QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
     ~DatabaseItem();
@@ -71,7 +71,6 @@ private:
                                           );         
     };
 private:
-    QString m_name;
     unsigned short int m_index;
     unsigned int m_keysCount;
     bool m_locked;
