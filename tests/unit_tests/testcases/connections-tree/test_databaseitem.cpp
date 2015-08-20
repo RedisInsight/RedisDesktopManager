@@ -22,7 +22,7 @@ void TestDatabaseItem::testLoadKeys()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
     QSharedPointer<Operations> operations_(dynamic_cast<Operations*>(operations));
-    operations->databases.append({"test-db", 55});
+    operations->databases.append({0, 55});
 
     for (int i=1; i < 1000000; i++) {
         operations->keys.append(QString("test-%1-key").arg(i));
@@ -49,7 +49,7 @@ void TestDatabaseItem::testLoadKeys()
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item->childCount(), (unsigned int)1000001);
     QCOMPARE(actualResult, true);
-    QCOMPARE(item->getDisplayName(), QString("test-db (1000002/55)"));
+    QCOMPARE(item->getDisplayName(), QString("db0 (1000002/55)"));
     QCOMPARE(item->getIcon().isNull(), false);
     QCOMPARE(item->getAllChilds().isEmpty(), false);
     QCOMPARE(item->isEnabled(), true);
@@ -60,8 +60,7 @@ void TestDatabaseItem::testUnloadKeys()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
-    DatabaseItem item("test", 0, 300,
-                      QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
+    DatabaseItem item(0, 300, QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
                       QWeakPointer<ConnectionsTree::TreeItem>());
 
     //when
@@ -76,8 +75,7 @@ void TestDatabaseItem::testContextMenu()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
-    DatabaseItem item("test", 0, 300,
-                      QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
+    DatabaseItem item(0, 300, QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
                       QWeakPointer<ConnectionsTree::TreeItem>());
     DummyParentView view;
 
