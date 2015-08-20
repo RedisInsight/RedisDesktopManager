@@ -69,3 +69,4 @@ tests/tests.pro.*
 .idea*
 *~
 *Makefile
+*.DS_Store
