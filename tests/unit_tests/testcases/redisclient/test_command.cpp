@@ -8,7 +8,7 @@
 void TestCommand::prepareCommand()
 {
 	//given 
-    RedisClient::Command cmd("EXISTS testkey:test");
+    RedisClient::Command cmd({QString("EXISTS"), "testkey:test"});
 
 	//when
     QByteArray actualResult = cmd.getByteRepresentation();
@@ -21,10 +21,9 @@ void TestCommand::parseCommandString()
 {
     //given
     QFETCH(QString, data);
-    RedisClient::Command cmd(data);
 
     //when
-    QString actualResult = cmd.getSplitedRepresentattion().join("::");
+    QString actualResult = RedisClient::Command::splitCommandString(data).join("::");
 
     //then
     QFETCH(QString, validResult);
@@ -46,7 +45,7 @@ void TestCommand::parseCommandString_data()
 void TestCommand::isSelectCommand()
 {
     //given
-    RedisClient::Command cmd("SELECT 0");
+    RedisClient::Command cmd(QStringList{"SELECT","0"});
 
     //when
     bool actualResult = cmd.isSelectCommand();
@@ -58,7 +57,7 @@ void TestCommand::isSelectCommand()
 void TestCommand::scanCommandSetCursor()
 {
     //given
-    QFETCH(QString, rawCommandString);
+    QFETCH(QStringList, rawCommandString);
     QFETCH(int, cursor);
     QFETCH(int, index);
     RedisClient::ScanCommand cmd(rawCommandString);
@@ -73,19 +72,19 @@ void TestCommand::scanCommandSetCursor()
 
 void TestCommand::scanCommandSetCursor_data()
 {
-    QTest::addColumn<QString>("rawCommandString");
+    QTest::addColumn<QStringList>("rawCommandString");
     QTest::addColumn<int>("cursor");
     QTest::addColumn<int>("index");
-    QTest::newRow("Valid scan") << "scan 0" << 1 << 1;
-    QTest::newRow("Valid sscan") << "sscan set 0" << 1 << 2;
-    QTest::newRow("Valid hscan") << "hscan set 0" << 1 << 2;
-    QTest::newRow("Valid zscan") << "zscan set 0" << 1 << 2;
+    QTest::newRow("Valid scan") << QStringList{"scan", "0"} << 1 << 1;
+    QTest::newRow("Valid sscan") << QStringList{"sscan", "set", "0"} << 1 << 2;
+    QTest::newRow("Valid hscan") << QStringList{"hscan", "set", "0"} << 1 << 2;
+    QTest::newRow("Valid zscan") << QStringList{"zscan", "set", "0"} << 1 << 2;
 }
 
 void TestCommand::scanCommandIsValid()
 {
     //given
-    QFETCH(QString, rawCommandString);
+    QFETCH(QStringList, rawCommandString);
     QFETCH(bool, expected);
     RedisClient::ScanCommand cmd(rawCommandString);
 
@@ -96,12 +95,12 @@ void TestCommand::scanCommandIsValid()
 
 void TestCommand::scanCommandIsValid_data()
 {
-    QTest::addColumn<QString>("rawCommandString");
+    QTest::addColumn<QStringList>("rawCommandString");
     QTest::addColumn<bool>("expected");
 
-    QTest::newRow("Valid scan") << "scan 0" << true;
-    QTest::newRow("Invalid scan") << "set 0" << false;
-    QTest::newRow("Valid value scan") << "sscan set 0" << true;
-    QTest::newRow("Invalid value scan") << "set test 0" << false;
+    QTest::newRow("Valid scan") << QStringList{"scan", "0"} << true;
+    QTest::newRow("Invalid scan") << QStringList{"set", "0"} << false;
+    QTest::newRow("Valid value scan") << QStringList{"sscan", "set", "0"} << true;
+    QTest::newRow("Invalid value scan") << QStringList{"set", "test", "0"} << false;
 }
 

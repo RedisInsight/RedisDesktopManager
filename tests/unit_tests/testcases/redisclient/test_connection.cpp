@@ -25,7 +25,7 @@ void TestConnection::connectToHostAndRunCommand()
 {
     //given
     Connection connection(config, true);
-    Command cmd("ping");
+    Command cmd(QStringList{"ping"});
 
     //when
     //sync execution
@@ -80,7 +80,7 @@ void TestConnection::testRetriveCollection()
 {
     //given
     Connection connection(config, true);
-    QSharedPointer<ScanCommand> cmd(new ScanCommand("SCAN 0")); //valid
+    QSharedPointer<ScanCommand> cmd(new ScanCommand(QStringList{"SCAN", "0"})); //valid
     bool callbackCalled = false;
     QVERIFY(cmd->isValidScanCommand());
 
@@ -122,7 +122,7 @@ void TestConnection::runCommandWithoutConnection()
 {
     //given
     Connection connection(config, false);
-    Command cmd("PING"); //valid
+    Command cmd(QStringList{"PING"}); //valid
 
     //when
     bool hasException = false;
@@ -140,7 +140,7 @@ void TestConnection::runCommandAndDelete()
 {
     //given
     Connection connection(config, true);
-    Command cmd("ping");
+    Command cmd(QStringList{"ping"});
     QObject * owner = new QObject();
     cmd.setCallBack(owner, [](RedisClient::Response r){});
 
@@ -158,12 +158,12 @@ void TestConnection::connectWithAuth()
     Connection connection(config, true);
 
     //when
-    Command cmd("config set requirepass test");
+    Command cmd(QStringList{"config", "set", "requirepass", "test"});
     CommandExecutor::execute(&connection, cmd);
     connection.disconnect();
 
     bool actualConnectResult = connection.connect();
-    Command testResultCmd("ping");
+    Command testResultCmd(QStringList{"ping"});
     Response actualCommandResult = CommandExecutor::execute(&connection, testResultCmd);
 
     //then
@@ -228,7 +228,7 @@ void TestConnection::testWithDummyTransporter()
     // connection with dummy transporter    
     QString validResponse("+PONG\r\n");
     QSharedPointer<Connection> connection = getRealConnectionWithDummyTransporter(QStringList() << validResponse);
-    Command cmd("ping");
+    Command cmd(QStringList{"ping"});
 
     //when    
     connection->connect();
