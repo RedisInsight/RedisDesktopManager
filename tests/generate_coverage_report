@@ -1,9 +1,0 @@
-#!/bin/bash
-qmake && make -j 4
-./../bin/tests/tests
-BASE_DIR=`readlink -f ./../`
-lcov --capture --external --directory $BASE_DIR/bin/tests/obj --base-directory `pwd`/unit_tests --output-file coverage.info
-rm -fR coverage_report || true
-mkdir coverage_report
-genhtml coverage.info --output-directory coverage_report
-open coverage_report/index.html

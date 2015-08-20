@@ -70,4 +70,4 @@ tests/tests.pro.*
 *~
 *Makefile
 *.DS_Store
-tests/coverage_report*
+tests/unit_tests/coverage*
