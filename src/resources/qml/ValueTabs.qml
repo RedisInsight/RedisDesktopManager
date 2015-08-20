@@ -75,10 +75,12 @@ Repeater {
                     readOnly: true                    
                 }
 
-                Item { Layout.preferredWidth: 10}
+                Item { visible: showValueNavigation; Layout.preferredWidth: 5}
+                Text { visible: showValueNavigation; text: "Size: "+ table.model.totalRowCount() }
+                Item { Layout.preferredWidth: 5}
                 Text { text: "TTL:"; font.bold: true }
                 Text { text: keyTtl}
-                Item { Layout.preferredWidth: 10}
+                Item { Layout.preferredWidth: 5}
 
                 Button {
                     text: "Rename"
