@@ -7,6 +7,7 @@ INITIALIZE_EASYLOGGINGPP
 //tests
 #include <iostream>
 #include "testcases/app/test_connectionsmanager.h"
+#include "testcases/app/test_configmanager.h"
 #include "testcases/app/test_consoleoperations.h"
 #include "testcases/app/test_treeoperations.h"
 #include "testcases/app/test_abstractkey.h"
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
 
             // app
             + QTest::qExec(new TestConnectionsManager, argc, argv)
+            + QTest::qExec(new TestConfigManager, argc, argv)
             + QTest::qExec(new TestConsoleOperations, argc, argv)
             + QTest::qExec(new TestTreeOperations, argc, argv)
             + QTest::qExec(new TestKeyModels, argc, argv)

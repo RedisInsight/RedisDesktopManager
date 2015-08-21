@@ -11,16 +11,21 @@
 #include <easylogging++.h>
 #include "redisclient/connectionconfig.h"
 
-QString ConfigManager::getApplicationConfigPath(const QString &configFile)
+ConfigManager::ConfigManager(const QString &basePath)
+    : m_basePath(basePath)
+{
+}
+
+QString ConfigManager::getApplicationConfigPath(const QString &configFile, bool checkPath)
 {
     QString configDir;
 #ifdef Q_OS_MACX
     configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(QDir::homePath()).arg("/Library/Preferences/rdm/")
+                    QString("%1/%2").arg(m_basePath).arg("/Library/Preferences/rdm/")
                 );
 #else
     configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(QDir::homePath()).arg("/.rdm/")
+                    QString("%1/%2").arg(m_basePath).arg(".rdm")
                 );
 #endif
     QDir settingsPath(configDir);
@@ -31,7 +36,7 @@ QString ConfigManager::getApplicationConfigPath(const QString &configFile)
 
     QString configPath = QString("%1/%2").arg(configDir).arg(configFile);
 
-    if (!chechPath(configPath))
+    if (checkPath && !chechPath(configPath))
         return QString();
 
     return configPath;
@@ -45,10 +50,17 @@ QString ConfigManager::getApplicationConfigPath(const QString &configFile)
  */
 bool ConfigManager::migrateOldConfig(const QString &oldFileName, const QString &newFileName)
 {
-    // Move config from 0.7.5 or older to appropriate directory
-    QString homeConfig = QString("%1/%2").arg(QDir::homePath()).arg(oldFileName);
+    QString jsonConfigPath = getApplicationConfigPath(newFileName, false);
 
-    QString xmlConfigPath = getApplicationConfigPath(oldFileName);
+    if (QFile::exists(jsonConfigPath)) {
+        qDebug() << "New config already exist. Ignore old configs.";
+        return false;
+    }
+
+    // Move config from 0.7.5 or older to appropriate directory
+    QString homeConfig = QString("%1/%2").arg(m_basePath).arg(oldFileName);
+
+    QString xmlConfigPath = getApplicationConfigPath(oldFileName, false);
 
     if (xmlConfigPath.isEmpty())
         return false;
@@ -70,9 +82,7 @@ bool ConfigManager::migrateOldConfig(const QString &oldFileName, const QString &
     QFile::rename(xmlConfigPath, QString("%1.backup").arg(xmlConfigPath));
 
     if (newConfig.size() == 0)
-        return false;
-
-    QString jsonConfigPath = getApplicationConfigPath(newFileName);    
+        return false;       
 
     return saveJsonArrayToFile(newConfig, jsonConfigPath);
 }
@@ -133,10 +143,17 @@ QJsonArray ConfigManager::xmlConfigToJsonArray(const QString &xmlConfigPath)
                         connection.insert(name, value);
                     }
                 }
+
+                // NOTE(u_glide): We should add NS separator to new config
+                if (!connection.contains("namespace_separator")) {
+                    connection.insert("namespace_separator",
+                                      QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+                }
+
                 newConfig.append(QJsonObjectFromVariantHash(connection));
             }
         }
-    }
+    }       
     return newConfig;
 }
 

@@ -1,18 +1,23 @@
 #pragma once
 #include <QString>
 #include <QFile>
+#include <QDir>
 #include <QJsonArray>
 
 class ConfigManager
 {
 public:
-    static QString getApplicationConfigPath(const QString &);
-    static bool migrateOldConfig(const QString &oldFileName, const QString &newFileName);
+    ConfigManager(const QString& basePath = QDir::homePath());
+    QString getApplicationConfigPath(const QString &, bool checkPath=true);
+    bool migrateOldConfig(const QString &oldFileName, const QString &newFileName);
+public:
     static QJsonArray xmlConfigToJsonArray(const QString &xmlConfigPath);
 
 private:
     static bool chechPath(const QString&);
     static void setPermissions(QFile&);
+private:
+    QString m_basePath;
 };
 
 bool saveJsonArrayToFile(const QJsonArray& c, const QString& f);
