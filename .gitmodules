@@ -3,7 +3,7 @@
 	url = https://github.com/uglide/QtConsole.git
 [submodule "3rdparty/libssh2"]
 	path = 3rdparty/libssh2
-	url = git://git.libssh2.org/libssh2.git
+	url = https://github.com/libssh2/libssh2.git
 [submodule "3rdparty/breakpad"]
 	path = 3rdparty/breakpad
 	url = https://chromium.googlesource.com/external/google-breakpad.git
