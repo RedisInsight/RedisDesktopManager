@@ -1,6 +1,4 @@
-#ifndef ABSTRACTTRANSPORTER_H
-#define ABSTRACTTRANSPORTER_H
-
+#pragma once
 #include <QObject>
 #include <functional>
 #include "redisclient/connection.h"
@@ -30,23 +28,23 @@ public slots:
     virtual void addCommand(Command);
     virtual void cancelCommands(QObject *);
 
+protected slots:
+    void executionTimeout();
+
+protected:
+    virtual void runCommand(const Command &cmd) = 0;
+    virtual void sendResponse();
+    virtual void processCommandQueue();
+
 protected:
     bool m_isInitialized;
     bool m_isCommandRunning;
     Connection * m_connection;
-    Command runningCommand;
+    Command m_runningCommand;
     Response m_response;
-    QByteArray readingBuffer;
-    QQueue<Command> commands;
-    QSharedPointer<QTimer> executionTimer;
-
-    virtual void runCommand(const Command &cmd) = 0;
-    virtual void sendResponse();
-    virtual void processCommandQueue();
-    void sendProgressValue();
-
-protected slots:
-    void executionTimeout();
+    QByteArray m_readingBuffer;
+    QQueue<Command> m_commands;
+    QSharedPointer<QTimer> m_executionTimer;
 };
 
 class ResponseEmitter : public QObject {
@@ -67,6 +65,4 @@ signals:
 private:
     const Response& m_response;
 };
-
 }
-#endif // ABSTRACTTRANSPORTER_H

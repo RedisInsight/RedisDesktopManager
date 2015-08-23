@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QtCore>
 #include "exception.h"
 
@@ -9,44 +8,33 @@ class Response
     ADD_EXCEPTION
 
 public:
+    enum Type { Status, Error, Integer, Bulk, MultiBulk, Unknown };
+
+public:
     Response();
     Response(const QByteArray &);
     virtual ~Response(void);
 
     QVariant getValue();        
-
-    void setSource(const QByteArray&);
+    Type getType();
+    int getLoadedItemsCount();
     QByteArray source();
+    QString toString();
 
-    void clear();
+    bool isErrorMessage() const;
+    bool isDisabledCommandErrorMessage() const;
+    bool isOkMessage() const;
+    bool isValid();
 
+public:
+    void setSource(const QByteArray&);
     void appendToSource(QString&);
     void appendToSource(QByteArray&);
+    void clear();
 
     static QString valueToHumanReadString(QVariant&);
 
-    int getLoadedItemsCount();
-
-    bool isErrorMessage() const;
-    bool isOkMessage() const;   
-    bool isValid();
-
-    QString toString();
-
-    enum Type
-    {
-        Status, Error, Integer, Bulk, MultiBulk, Unknown
-    };
-
-    Type getType();
-
 protected:
-    QByteArray responseSource;
-
-    //cache previous validation markers
-    int lastValidPos;
-    int itemsCount;
-
     Type getResponseType(const QByteArray&) const;
     Type getResponseType(const char) const;
 
@@ -67,5 +55,12 @@ protected:
     bool isMultiBulkReplyValid(const QByteArray&);    
 
     int getPosOfNextItem(const QByteArray &, int);
+
+protected:
+    QByteArray m_responseSource;
+
+    //cache previous validation markers
+    int m_lastValidPos;
+    int m_itemsCount;
 };
 }

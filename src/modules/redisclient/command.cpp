@@ -2,41 +2,41 @@
 #include <QSet>
 
 RedisClient::Command::Command()
-    : m_owner(nullptr), m_commandWithArguments(), dbIndex(-1),
-      commandCanceled(false), m_hiPriorityCommand(false)
+    : m_owner(nullptr), m_commandWithArguments(), m_dbIndex(-1),
+      m_commandCanceled(false), m_hiPriorityCommand(false)
 {
     
 }
 
 RedisClient::Command::Command(const QList<QByteArray> &cmd, QObject *owner, int db)
     : m_owner(owner), m_commandWithArguments(cmd),
-      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
+      m_dbIndex(db), m_commandCanceled(false), m_hiPriorityCommand(false)
 {
 }
 
 RedisClient::Command::Command(const QStringList& cmd, QObject * owner, int db)
     : m_owner(owner), m_commandWithArguments(convertStringList(cmd)),
-    dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
+    m_dbIndex(db), m_commandCanceled(false), m_hiPriorityCommand(false)
 {
 }
 
 RedisClient::Command::Command(const QStringList &cmd, QObject *owner, std::function<void (RedisClient::Response)> callback, int db)
     : m_owner(owner), m_commandWithArguments(convertStringList(cmd)),
-      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false), m_callback(callback)
+      m_dbIndex(db), m_commandCanceled(false), m_hiPriorityCommand(false), m_callback(callback)
 {
 
 }
 
 RedisClient::Command::Command(const QStringList& cmd, int db)
     : m_owner(nullptr), m_commandWithArguments(convertStringList(cmd)),
-      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
+      m_dbIndex(db), m_commandCanceled(false), m_hiPriorityCommand(false)
 {
 
 }
 
 RedisClient::Command::Command(int db)
     : m_owner(nullptr), m_commandWithArguments(),
-      dbIndex(db), commandCanceled(false), m_hiPriorityCommand(false)
+      m_dbIndex(db), m_commandCanceled(false), m_hiPriorityCommand(false)
 {
 
 }
@@ -127,7 +127,7 @@ std::function<void (RedisClient::Response)> RedisClient::Command::getCallBack() 
 
 bool RedisClient::Command::hasDbIndex() const
 {
-    return dbIndex >= 0;
+    return m_dbIndex >= 0;
 }
 
 bool RedisClient::Command::isSelectCommand() const
@@ -145,7 +145,7 @@ bool RedisClient::Command::isHiPriorityCommand() const
 
 int RedisClient::Command::getDbIndex() const
 {
-    return dbIndex;
+    return m_dbIndex;
 }
 
 QObject *RedisClient::Command::getOwner() const
@@ -194,7 +194,7 @@ QByteArray RedisClient::Command::getByteRepresentation() const
 
 void RedisClient::Command::cancel()
 {
-    commandCanceled = true;
+    m_commandCanceled = true;
 }
 
 void RedisClient::Command::markAsHiPriorityCommand()
@@ -204,7 +204,7 @@ void RedisClient::Command::markAsHiPriorityCommand()
 
 bool RedisClient::Command::isCanceled() const
 {
-    return commandCanceled;
+    return m_commandCanceled;
 }
 
 bool RedisClient::Command::isValid() const

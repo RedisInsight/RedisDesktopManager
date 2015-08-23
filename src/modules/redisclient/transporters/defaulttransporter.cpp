@@ -18,9 +18,9 @@ void RedisClient::DefaultTransporter::init()
     if (!socket.isNull())
         return;    
 
-    executionTimer = QSharedPointer<QTimer>(new QTimer);
-    executionTimer->setSingleShot(true);
-    connect(executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));
+    m_executionTimer = QSharedPointer<QTimer>(new QTimer);
+    m_executionTimer->setSingleShot(true);
+    connect(m_executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));
 
     socket = QSharedPointer<QSslSocket>(new QSslSocket());
     socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
@@ -98,7 +98,7 @@ void RedisClient::DefaultTransporter::runCommand(const Command &command)
 {
     if (socket->state() == QAbstractSocket::UnconnectedState) {
         reconnect();
-        commands.enqueue(command);
+        m_commands.enqueue(command);
         m_isCommandRunning = false;
         return;
     }
@@ -119,8 +119,8 @@ void RedisClient::DefaultTransporter::runCommand(const Command &command)
 
     m_response.clear();
     m_isCommandRunning = true;
-    runningCommand = command;
-    executionTimer->start(m_connection->config.executeTimeout());
+    m_runningCommand = command;
+    m_executionTimer->start(m_connection->config.executeTimeout());
 
     // Send command
     QByteArray cmd = command.getByteRepresentation();
@@ -134,22 +134,21 @@ void RedisClient::DefaultTransporter::readyRead()
         return;
     }
 
-    executionTimer->stop();
-    readingBuffer = socket->readAll();
-    m_response.appendToSource(readingBuffer);
+    m_executionTimer->stop();
+    m_readingBuffer = socket->readAll();
+    m_response.appendToSource(m_readingBuffer);
 
     if (m_response.isValid()) {
         return sendResponse();
-    } else {
-        sendProgressValue();
-        executionTimer->start(m_connection->config.executeTimeout()); //restart execution timer
+    } else {        
+        m_executionTimer->start(m_connection->config.executeTimeout()); //restart execution timer
     }
 }
 
 void RedisClient::DefaultTransporter::error(QAbstractSocket::SocketError error)
 {
     if (error == QAbstractSocket::UnknownSocketError && connectToHost()) {
-        return runCommand(runningCommand);
+        return runCommand(m_runningCommand);
     }
 
     m_errorOccurred = true;

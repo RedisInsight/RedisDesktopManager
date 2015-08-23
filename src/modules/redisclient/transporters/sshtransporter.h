@@ -1,6 +1,4 @@
-#ifndef SSHTRANSPORTER_H
-#define SSHTRANSPORTER_H
-
+#pragma once
 #include "abstracttransporter.h"
 #include "redisclient/ssh/qxtsshtcpsocket.h"
 #include "redisclient/ssh/qxtsshclient.h"
@@ -11,30 +9,32 @@ class SshTransporter : public AbstractTransporter
 {
 public:
     SshTransporter(Connection *);
+
 public slots:
     void init();
     void disconnect();
+
 protected:
     bool connectToHost();
     void runCommand(const Command &cmd);
+
 protected slots:
     void OnSshConnectionError(QxtSshClient::Error);
     void OnSshConnected();
     void OnSocketReadyRead();
     void OnSshConnectionClose();
     void reconnect();
+
+private:
+    QString getErrorString(QxtSshClient::Error);
+
 private:
     QxtSshTcpSocket * socket; // owner of this object is sshClient
-    QSharedPointer<QxtSshClient> sshClient;
-    QSharedPointer<QEventLoop> syncLoop;
-    QSharedPointer<QTimer> syncTimer;
+    QSharedPointer<QxtSshClient> m_sshClient;
+    QSharedPointer<QEventLoop> m_syncLoop;
+    QSharedPointer<QTimer> m_syncTimer;
 
-    bool isHostKeyAlreadyAdded;
+    bool m_isHostKeyAlreadyAdded;
     bool m_lastConnectionOk;
-
-    QString getErrorString(QxtSshClient::Error);
 };
-
 }
-
-#endif // SSHTRANSPORTER_H

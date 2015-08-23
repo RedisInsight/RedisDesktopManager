@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QtCore>
 #include <functional>
 
@@ -29,7 +28,6 @@ public:
     int         getDbIndex() const;
     QObject*    getOwner() const;    
 
-    /** New callback API **/
     void setCallBack(QObject* context, std::function<void(Response)> callback);
     std::function<void(Response)> getCallBack() const;
 
@@ -51,8 +49,8 @@ public:
 protected:
     QObject * m_owner;
     QList<QByteArray> m_commandWithArguments;
-    int dbIndex;
-    bool commandCanceled;
+    int m_dbIndex;
+    bool m_commandCanceled;
     bool m_hiPriorityCommand;
     std::function<void(Response)> m_callback;
 };

@@ -1,12 +1,12 @@
 #include "response.h"
 
 RedisClient::Response::Response()
-    : responseSource(""), lastValidPos(0), itemsCount(0)
+    : m_responseSource(""), m_lastValidPos(0), m_itemsCount(0)
 {
 }
 
 RedisClient::Response::Response(const QByteArray & src)
-    : responseSource(src), lastValidPos(0), itemsCount(0)
+    : m_responseSource(src), m_lastValidPos(0), m_itemsCount(0)
 {
 }
 
@@ -16,48 +16,48 @@ RedisClient::Response::~Response(void)
 
 void RedisClient::Response::setSource(const QByteArray& src)
 {
-    responseSource = src;
+    m_responseSource = src;
 }
 
 void RedisClient::Response::clear()
 {
-    responseSource.clear();
-    lastValidPos = 0;
-    itemsCount = 0;
+    m_responseSource.clear();
+    m_lastValidPos = 0;
+    m_itemsCount = 0;
 }
 
 QByteArray RedisClient::Response::source()
 {
-    return responseSource;
+    return m_responseSource;
 }
 
 void RedisClient::Response::appendToSource(QString& src)
 {
-    responseSource.append(src);
+    m_responseSource.append(src);
 }
 
 void RedisClient::Response::appendToSource(QByteArray& src)
 {
-    responseSource.append(src);
+    m_responseSource.append(src);
 }
 
 QString RedisClient::Response::toString()
 {
-    return responseSource.left(1500);
+    return m_responseSource.left(1500);
 }
 
 RedisClient::Response::Type RedisClient::Response::getType()
 {
-    return getResponseType(responseSource);
+    return getResponseType(m_responseSource);
 }
 
 QVariant RedisClient::Response::getValue()
 {
-    if (responseSource.isEmpty()) {
+    if (m_responseSource.isEmpty()) {
         return QVariant();
     }
 
-    Type t = getResponseType(responseSource);
+    Type t = getResponseType(m_responseSource);
 
     QVariant  parsedResponse;
 
@@ -65,19 +65,19 @@ QVariant RedisClient::Response::getValue()
         switch (t) {
             case Status:
             case Error:
-                parsedResponse = QVariant(getStringResponse(responseSource));
+                parsedResponse = QVariant(getStringResponse(m_responseSource));
                 break;
 
             case Integer:                
-                parsedResponse = QVariant(getStringResponse(responseSource).toLongLong());
+                parsedResponse = QVariant(getStringResponse(m_responseSource).toLongLong());
                 break;
 
             case Bulk:
-                parsedResponse = QVariant(parseBulk(responseSource));
+                parsedResponse = QVariant(parseBulk(m_responseSource));
                 break;
 
             case MultiBulk:
-                parsedResponse = QVariant(parseMultiBulk(responseSource));
+                parsedResponse = QVariant(parseMultiBulk(m_responseSource));
                 break;
             case Unknown:
                 break;
@@ -180,7 +180,7 @@ QByteArray RedisClient::Response::getStringResponse(const QByteArray& response)
 
 bool RedisClient::Response::isValid()
 {
-    return isReplyValid(responseSource);
+    return isReplyValid(m_responseSource);
 }
 
 bool RedisClient::Response::isReplyValid(const QByteArray & responseString)
@@ -307,7 +307,7 @@ bool RedisClient::Response::isMultiBulkReplyValid(const QByteArray& r)
     }
 
     //detailed validation
-    int currPos = (lastValidPos > 0) ? lastValidPos : endOfFirstLine + 2;
+    int currPos = (m_lastValidPos > 0) ? m_lastValidPos : endOfFirstLine + 2;
     int lastPos = 0;
 
     do {
@@ -318,12 +318,12 @@ bool RedisClient::Response::isMultiBulkReplyValid(const QByteArray& r)
         }
 
         if (currPos != -1 && currPos != responseStringSize) {
-            lastValidPos = currPos;
+            m_lastValidPos = currPos;
         }
 
-    } while (currPos != -1 && ++itemsCount);
+    } while (currPos != -1 && ++m_itemsCount);
 
-    if (itemsCount < responseSize || (lastPos != responseStringSize)) {
+    if (m_itemsCount < responseSize || (lastPos != responseStringSize)) {
         return false;
     }
 
@@ -373,17 +373,22 @@ QString RedisClient::Response::valueToHumanReadString(QVariant& value)
 
 int RedisClient::Response::getLoadedItemsCount()
 {
-    return itemsCount;
+    return m_itemsCount;
 }
 
 bool RedisClient::Response::isErrorMessage() const
 {
-    return getResponseType(responseSource) == Error
-        && responseSource.startsWith("-ERR");
+    return getResponseType(m_responseSource) == Error
+            && m_responseSource.startsWith("-ERR");
+}
+
+bool RedisClient::Response::isDisabledCommandErrorMessage() const
+{
+    return isErrorMessage() && m_responseSource.contains("unknown command");
 }
 
 bool RedisClient::Response::isOkMessage() const
 {
-    return getResponseType(responseSource) == Status
-            && responseSource.startsWith("+OK");
+    return getResponseType(m_responseSource) == Status
+            && m_responseSource.startsWith("+OK");
 }

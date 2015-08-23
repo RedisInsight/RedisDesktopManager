@@ -6,7 +6,7 @@ RedisClient::SshTransporter::SshTransporter(RedisClient::Connection *c)
     :
       RedisClient::AbstractTransporter(c),
       socket(nullptr),
-      isHostKeyAlreadyAdded(false),
+      m_isHostKeyAlreadyAdded(false),
       m_lastConnectionOk(false)
 {
 
@@ -14,38 +14,38 @@ RedisClient::SshTransporter::SshTransporter(RedisClient::Connection *c)
 
 void RedisClient::SshTransporter::init()
 {
-    if (!sshClient.isNull()) {
+    if (!m_sshClient.isNull()) {
         return;
     }
 
-    executionTimer = QSharedPointer<QTimer>(new QTimer);
-    executionTimer->setSingleShot(true);
-    connect(executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));    
+    m_executionTimer = QSharedPointer<QTimer>(new QTimer);
+    m_executionTimer->setSingleShot(true);
+    connect(m_executionTimer.data(), SIGNAL(timeout()), this, SLOT(executionTimeout()));    
 
-    sshClient = QSharedPointer<QxtSshClient>(new QxtSshClient);
-    connect(sshClient.data(), &QxtSshClient::error, this, &RedisClient::SshTransporter::OnSshConnectionError);
-    connect(sshClient.data(), &QxtSshClient::connected, this, &RedisClient::SshTransporter::OnSshConnected);
+    m_sshClient = QSharedPointer<QxtSshClient>(new QxtSshClient);
+    connect(m_sshClient.data(), &QxtSshClient::error, this, &RedisClient::SshTransporter::OnSshConnectionError);
+    connect(m_sshClient.data(), &QxtSshClient::connected, this, &RedisClient::SshTransporter::OnSshConnected);
 
-    syncLoop = QSharedPointer<QEventLoop>(new QEventLoop);
-    syncTimer = QSharedPointer<QTimer>(new QTimer);
-    syncTimer->setSingleShot(true);
+    m_syncLoop = QSharedPointer<QEventLoop>(new QEventLoop);
+    m_syncTimer = QSharedPointer<QTimer>(new QTimer);
+    m_syncTimer->setSingleShot(true);
 
-    connect(syncTimer.data(), SIGNAL(timeout()), syncLoop.data(), SLOT(quit()));
+    connect(m_syncTimer.data(), SIGNAL(timeout()), m_syncLoop.data(), SLOT(quit()));
 
     connectToHost();
 }
 
 void RedisClient::SshTransporter::disconnect()
 {    
-    if (sshClient.isNull())
+    if (m_sshClient.isNull())
         return;
 
     if (socket != nullptr)
         QObject::disconnect(socket, 0, 0, 0);
 
-    QObject::disconnect(sshClient.data(), 0, 0, 0);
+    QObject::disconnect(m_sshClient.data(), 0, 0, 0);
 
-    sshClient->resetState();
+    m_sshClient->resetState();
 }
 
 bool RedisClient::SshTransporter::connectToHost()
@@ -53,30 +53,30 @@ bool RedisClient::SshTransporter::connectToHost()
     ConnectionConfig config = m_connection->config;
 
     if (config.isSshPasswordUsed())
-        sshClient->setPassphrase(config.param<QString>("ssh_password"));
+        m_sshClient->setPassphrase(config.param<QString>("ssh_password"));
 
     QString privateKey = config.getSshPrivateKey();
 
     if (!privateKey.isEmpty()) {
-        sshClient->setKeyFiles("", privateKey);
+        m_sshClient->setKeyFiles("", privateKey);
     }
 
     //connect to ssh server
     m_lastConnectionOk = false;
-    syncTimer->start(config.connectionTimeout());
-    sshClient->connectToHost(config.param<QString>("ssh_user"),
+    m_syncTimer->start(config.connectionTimeout());
+    m_sshClient->connectToHost(config.param<QString>("ssh_user"),
                              config.param<QString>("ssh_host"),
                              config.param<int>("ssh_port"));
-    syncLoop->exec();
+    m_syncLoop->exec();
 
     if (!m_lastConnectionOk) {
-        if (!syncTimer->isActive())
+        if (!m_syncTimer->isActive())
             emit errorOccurred("SSH connection timeout, check connection settings");
         return false;
     }
 
     //connect to redis
-    socket = sshClient->openTcpSocket(config.host(), config.port());
+    socket = m_sshClient->openTcpSocket(config.host(), config.port());
 
     if (socket == NULL) {
         emit errorOccurred("SSH connection established, but socket failed");
@@ -86,8 +86,8 @@ bool RedisClient::SshTransporter::connectToHost()
     connect(socket, &QxtSshTcpSocket::readyRead, this, &RedisClient::SshTransporter::OnSocketReadyRead);
 
     m_lastConnectionOk = false;
-    syncTimer->start(config.connectionTimeout());
-    syncLoop->exec();
+    m_syncTimer->start(config.connectionTimeout());
+    m_syncLoop->exec();
 
     if (!m_lastConnectionOk) {
         emit errorOccurred(QString("SSH connection established, but redis connection failed"));
@@ -118,8 +118,8 @@ void RedisClient::SshTransporter::runCommand(const Command &command)
 
     m_response.clear();
     m_isCommandRunning = true;
-    runningCommand = command;
-    executionTimer->start(m_connection->config.executeTimeout());
+    m_runningCommand = command;
+    m_executionTimer->start(m_connection->config.executeTimeout());
 
     // Send command
     QByteArray byteArray = command.getByteRepresentation();
@@ -129,20 +129,20 @@ void RedisClient::SshTransporter::runCommand(const Command &command)
 
 void RedisClient::SshTransporter::OnSshConnectionError(QxtSshClient::Error error)
 {
-    if (!isHostKeyAlreadyAdded && QxtSshClient::HostKeyUnknownError == error) {
-        QxtSshKey hostKey = sshClient->hostKey();
-        sshClient->addKnownHost(m_connection->config.param<QString>("ssh_host"), hostKey);
-        sshClient->resetState();
-        sshClient->connectToHost(m_connection->config.param<QString>("ssh_user"),
+    if (!m_isHostKeyAlreadyAdded && QxtSshClient::HostKeyUnknownError == error) {
+        QxtSshKey hostKey = m_sshClient->hostKey();
+        m_sshClient->addKnownHost(m_connection->config.param<QString>("ssh_host"), hostKey);
+        m_sshClient->resetState();
+        m_sshClient->connectToHost(m_connection->config.param<QString>("ssh_user"),
                                  m_connection->config.param<QString>("ssh_host"),
                                  m_connection->config.param<int>("ssh_port"));
 
-        isHostKeyAlreadyAdded = true;
+        m_isHostKeyAlreadyAdded = true;
         return;
     }
 
-    if (syncLoop->isRunning()) {
-        syncLoop->exit();
+    if (m_syncLoop->isRunning()) {
+        m_syncLoop->exit();
     }
 
     emit errorOccurred(QString("SSH Connection error: %1").arg(getErrorString(error)));
@@ -152,8 +152,8 @@ void RedisClient::SshTransporter::OnSshConnected()
 {
     m_lastConnectionOk = true;
 
-    if (syncLoop->isRunning()) {
-        syncLoop->exit();
+    if (m_syncLoop->isRunning()) {
+        m_syncLoop->exit();
     }
 }
 
@@ -164,30 +164,29 @@ void RedisClient::SshTransporter::OnSocketReadyRead()
         m_lastConnectionOk = true;
     }
 
-    if (syncLoop->isRunning()) {
-        syncLoop->exit();
+    if (m_syncLoop->isRunning()) {
+        m_syncLoop->exit();
     }
 
     if (!m_isCommandRunning) {
         return;
     }
 
-    executionTimer->stop();
-    readingBuffer = socket->read(MAX_BUFFER_SIZE);
-    m_response.appendToSource(readingBuffer);
+    m_executionTimer->stop();
+    m_readingBuffer = socket->read(MAX_BUFFER_SIZE);
+    m_response.appendToSource(m_readingBuffer);
 
     if (m_response.isValid()) {
         return sendResponse();
-    } else {
-        sendProgressValue();
-        executionTimer->start(m_connection->config.executeTimeout()); //restart execution timer
+    } else {        
+        m_executionTimer->start(m_connection->config.executeTimeout()); //restart execution timer
     }
 }
 
 void RedisClient::SshTransporter::OnSshConnectionClose()
 {
-    if (syncLoop->isRunning())
-        syncLoop->exit();
+    if (m_syncLoop->isRunning())
+        m_syncLoop->exit();
 
     emit logEvent("SSH connection closed");
 }
@@ -196,31 +195,22 @@ void RedisClient::SshTransporter::reconnect()
 {
     emit logEvent("Reconnect to host");
     socket->close();
-    sshClient->resetState();
+    m_sshClient->resetState();
     connectToHost();
 }
 
 QString RedisClient::SshTransporter::getErrorString(QxtSshClient::Error error)
 {
     switch (error) {
-        case QxtSshClient::AuthenticationError:
-            return "Authentication Error";
-        case QxtSshClient::HostKeyUnknownError:
-            return "Host Key Unknown Error";
-        case QxtSshClient::HostKeyInvalidError:
-            return "HostKey Invalid";
-        case QxtSshClient::HostKeyMismatchError:
-            return "HostKey Mismatch";
-        case QxtSshClient::ConnectionRefusedError:
-            return "Connection Refused";
-        case QxtSshClient::UnexpectedShutdownError:
-            return "Unexpected Shutdown";
-        case QxtSshClient::HostNotFoundError:
-            return "Host Not Found";
-        case QxtSshClient::SocketError:
-            return "Socket Error";
+        case QxtSshClient::AuthenticationError: return "Authentication Error";
+        case QxtSshClient::HostKeyUnknownError: return "Host Key Unknown Error";
+        case QxtSshClient::HostKeyInvalidError: return "HostKey Invalid";
+        case QxtSshClient::HostKeyMismatchError: return "HostKey Mismatch";
+        case QxtSshClient::ConnectionRefusedError: return "Connection Refused";
+        case QxtSshClient::UnexpectedShutdownError: return "Unexpected Shutdown";
+        case QxtSshClient::HostNotFoundError: return "Host Not Found";
+        case QxtSshClient::SocketError: return "Socket Error";
         default:
-        case QxtSshClient::UnknownError:
-            return "Unknown Error";
+        case QxtSshClient::UnknownError: return "Unknown Error";
     }
 }

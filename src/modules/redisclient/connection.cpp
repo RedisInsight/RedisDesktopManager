@@ -190,8 +190,12 @@ void RedisClient::Connection::processScanCommand(QSharedPointer<ScanCommand> cmd
         result = QSharedPointer<QVariantList>(new QVariantList());
 
     cmd->setCallBack(this, [this, cmd, result, callback](RedisClient::Response r){
+        if (r.isErrorMessage()) {
+            callback(r.getValue());
+            return;
+        }
 
-        if (!ScanResponse::isValidScanResponse(r)) {
+        if (!ScanResponse::isValidScanResponse(r) && !result->isEmpty()) {
             callback(QVariant(*result));
             return;
         }
