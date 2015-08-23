@@ -61,7 +61,7 @@ protected:
     virtual void runCommand(const RedisClient::Command &cmd) override
     {
         executedCommands.push_back(cmd);        
-        runningCommand = cmd;
+        m_runningCommand = cmd;
 
         if (fakeResponses.size() > 0) {            
             m_response = fakeResponses.first();

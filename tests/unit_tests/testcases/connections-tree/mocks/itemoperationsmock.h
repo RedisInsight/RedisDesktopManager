@@ -17,9 +17,9 @@ public:
     }
 
     RawKeysList keys;
-    virtual void getDatabaseKeys(uint, std::function<void(const RawKeysList&)> callback) {
+    void getDatabaseKeys(uint, std::function<void(const RawKeysList&, const QString&)> callback) override {
         if (m_positive_mode)
-            callback(keys);
+            callback(keys, QString());
         else
             throw ConnectionsTree::Operations::Exception("fake error");
     }
