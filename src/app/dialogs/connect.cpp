@@ -25,6 +25,12 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
     connect(ui.sslCACertButton, &QPushButton::clicked, this, [this]() {
         OnBrowseFileClick(ui.sslCACertEdit, "Select PEM file", tr("All Files (*.pem)"));
     });
+    connect(ui.sslLocalCertButton, &QPushButton::clicked, this, [this]() {
+        OnBrowseFileClick(ui.sslLocalCertEdit, "Select PEM file", tr("All Files (*.pem)"));
+    });
+    connect(ui.sslPrivateKeyButton, &QPushButton::clicked, this, [this]() {
+        OnBrowseFileClick(ui.sslPrivateKeyEdit, "Select PEM file", tr("All Files (*.pem)"));
+    });
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
