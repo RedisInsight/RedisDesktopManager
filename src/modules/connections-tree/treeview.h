@@ -23,6 +23,7 @@ namespace ConnectionsTree {
 
     protected:
         void mousePressEvent(QMouseEvent * event);
+        void keyPressEvent(QKeyEvent * event);
 
     protected slots:
         void processClick(const QModelIndex&);

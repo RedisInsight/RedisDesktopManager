@@ -17,7 +17,7 @@ TreeView::TreeView(QWidget * parent)
     header()->setStretchLastSection(false);
     setUniformRowHeights(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
-
+    setColumnWidth(0, 400);
 
     connect(this, &TreeView::clicked, this, &TreeView::processClick);
     connect(this, &TreeView::wheelClicked, this, &TreeView::processWheelClick);
@@ -31,6 +31,16 @@ void TreeView::mousePressEvent(QMouseEvent * event)
     }
 
     return QTreeView::mousePressEvent(event);
+}
+
+void TreeView::keyPressEvent(QKeyEvent *event)
+{
+    if (selectedIndexes().size() > 0 &&
+            (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)) {
+        emit clicked(selectedIndexes()[0]);
+    }
+
+    return QTreeView::keyPressEvent(event);
 }
 
 void TreeView::processContextMenu(const QPoint& point)

@@ -18,7 +18,8 @@ QVariant Model::data(const QModelIndex &index, int role) const
 
     switch (role) {
         case Qt::DisplayRole: return item->getDisplayName();
-        case Qt::DecorationRole: return item->getIcon();
+        case Qt::DecorationRole: return item->getIcon();        
+        case Qt::SizeHintRole: return QSize( 250, 18 );
     }
 
     return QVariant();
