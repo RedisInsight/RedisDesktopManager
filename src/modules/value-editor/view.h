@@ -17,12 +17,7 @@ class View : public QWidget
     Q_OBJECT    
 public:
     View(QSharedPointer<ViewModel> viewModel);
-
 private:
-#ifndef ALTERNATIVE_IMPL
-    QSharedPointer<QQuickView> m_qml;
-#else
     QSharedPointer<QQuickWidget> m_qml;
-#endif
 };
 }
