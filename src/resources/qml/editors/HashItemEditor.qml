@@ -44,7 +44,7 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true
         text: ""
-        enabled: originalValue != "" || root.state !== "edit"
+        enabled: keyText.originalValue != "" || root.state !== "edit"
         property string originalValue: ""
         showFormatters: root.state != "new"
 
@@ -57,8 +57,7 @@ AbstractEditor {
     function setValue(rowValue) {
 
         if (!rowValue)
-            return
-
+            return       
         keyText.originalValue = rowValue['key']
         keyText.text = rowValue['key']
         textArea.originalValue = rowValue['value']
@@ -74,8 +73,8 @@ AbstractEditor {
     }
 
     function resetAndDisableEditor() {
-        textArea.originalValue = ""
         textArea.text = ""
+        textArea.originalValue = ""
         keyText.originalValue = ""
         keyText.text = ""
     }
@@ -87,9 +86,7 @@ AbstractEditor {
     function isValueValid() {
         var value = getValue()
 
-        return value && value['key'] && value['value']
-                && value['key'].length > 0
-                && value['value'].length > 0
+        return value && value['key'] && value['key'].length > 0
     }
 
     function markInvalidFields() {
@@ -99,7 +96,9 @@ AbstractEditor {
     }
 
     function reset() {
+        textArea.originalValue = ""
         textArea.text = ""
+        keyText.originalValue = ""
         keyText.text = ""
     }
 }
