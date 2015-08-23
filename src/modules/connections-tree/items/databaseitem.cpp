@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QMenu>
 #include <QInputDialog>
+#include <QMessageBox>
 #include "connections-tree/utils.h"
 
 using namespace ConnectionsTree;
@@ -19,7 +20,8 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
       m_locked(false),
       m_operations(operations),
       m_keys(new DatabaseKeys()),
-      m_parent(parent)
+      m_parent(parent),
+      m_parentView(nullptr)
 {    
     QObject::connect(&m_keysLoadingWatcher, SIGNAL(finished()), this, SLOT(onKeysRendered()));
 }
@@ -69,8 +71,9 @@ QWeakPointer<TreeItem> DatabaseItem::parent() const
     return m_parent;
 }
 
-bool DatabaseItem::onClick(ParentView&)
+bool DatabaseItem::onClick(ParentView& view)
 {    
+    m_parentView = &view;
     if (m_rawKeys.size() == 0) {
         loadKeys();
         return true;
@@ -84,6 +87,7 @@ void DatabaseItem::onWheelClick(TreeItem::ParentView&)
 
 QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView)
 {
+    m_parentView = &treeView;
     QSharedPointer<QMenu> menu(new QMenu());
     menu->addAction(createMenuAction(":/images/add.png", "Add new key", menu.data(), this,
                                      [this]() { m_operations->openNewKeyDialog(m_index); }));
@@ -124,7 +128,17 @@ void DatabaseItem::loadKeys()
     m_locked = true;
     emit updateIcon(m_index);
 
-    m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys) {
+    m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys, const QString& err) {
+        if (!err.isEmpty()) {
+            m_locked = false;
+            emit error(err);
+            emit updateIcon(m_index);
+
+            if (m_parentView)
+                QMessageBox::warning(m_parentView->getParentWidget(), tr("Keys error"), err);
+
+            return;
+        }
         m_rawKeys = rawKeys;
         renderRawKeys(rawKeys);
     });

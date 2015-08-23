@@ -95,7 +95,7 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     return callback(availableDatabeses);
 }
 
-void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const ConnectionsTree::Operations::RawKeysList &)> callback)
+void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const RawKeysList &, const QString &)> callback)
 {
     QString keyPattern = m_connection->getConfig().keysPattern();
 
@@ -105,28 +105,26 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Con
 
         try {
             m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r)
-            {
+            {                
                 if (r.type() == QVariant::Type::List)
-                    callback(r.toStringList());
+                    callback(r.toStringList(), QString());
                 else
-                    callback(QStringList());
+                    callback(QStringList(), QString("Cannot load keys: %1").arg(r.toString()));
             });
-        } catch (const RedisClient::Connection::Exception& error) {
-            qDebug() << "Cannot load keys:" << QString(error.what());
-            //TODO: return callback with error
+        } catch (const RedisClient::Connection::Exception& error) {            
+            callback(QStringList(), QString("Cannot load keys: %1").arg(error.what()));
         }
     } else {
         auto keyCmd = RedisClient::Command({"KEYS", keyPattern}, this, dbIndex);
 
         keyCmd.setCallBack(this, [this, callback](RedisClient::Response r) {
-            callback(r.getValue().toStringList());
+            callback(r.getValue().toStringList(), QString());
         });
 
         try {
             m_connection->runCommand(keyCmd);
         } catch (const RedisClient::Connection::Exception& error) {
-            qDebug() << "Cannot load keys:" << QString(error.what());
-            //TODO: return callback with error
+            callback(QStringList(), QString("Cannot load keys: %1").arg(error.what()));
         }
     }
 }

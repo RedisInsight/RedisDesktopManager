@@ -31,7 +31,7 @@ namespace ConnectionsTree {
          * @param dbIndex
          */
         typedef QStringList RawKeysList;
-        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&)>) = 0;
+        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&, const QString&)>) = 0;
 
         /**
          * Cancel all operations & close connection

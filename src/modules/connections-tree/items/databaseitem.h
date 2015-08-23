@@ -40,6 +40,7 @@ signals:
     void keysLoaded(unsigned int dbIndex);
     void unloadStarted(unsigned int dbIndex);
     void updateIcon(unsigned int dbIndex);
+    void error(const QString&);
 
 protected slots:
     void onKeysRendered();
@@ -80,6 +81,7 @@ private:
     QWeakPointer<TreeItem> m_parent;
     Operations::RawKeysList m_rawKeys;
     QRegExp m_filter;
+    ParentView* m_parentView;
 };
 
 }
