@@ -25,7 +25,7 @@ public:
     Q_INVOKABLE void addRow(const QVariantMap& row);
     Q_INVOKABLE void updateRow(int i, const QVariantMap& row);
     Q_INVOKABLE void deleteRow(int i);
-    Q_INVOKABLE QVariantMap getRow(int i, bool relative = false);
+    Q_INVOKABLE QVariantMap getRow(int i);
     
     // multi row operations
     Q_INVOKABLE void loadRows(int start, int count);
@@ -48,7 +48,7 @@ private:
 protected:
     bool isIndexValid(const QModelIndex &index) const;
     int mapRowIndex(int i);
-    QVariantMap getRowRaw(int row, bool relative = false);
+    QVariantMap getRowRaw(int row);
 
 private:
     int m_startFramePosition;

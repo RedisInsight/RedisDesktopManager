@@ -129,7 +129,7 @@ void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)
     if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
         return;
 
-    QVariantMap res = getRowRaw(i, false);
+    QVariantMap res = getRowRaw(i);
     // check original value to avoid maintaining state
     bool updated = false;
 
@@ -187,9 +187,13 @@ int ValueEditor::ValueViewModel::pageSize()
     return PAGE_SIZE;
 }
 
-QVariantMap ValueEditor::ValueViewModel::getRow(int row, bool relative)
+QVariantMap ValueEditor::ValueViewModel::getRow(int row)
 {
-    QVariantMap res = getRowRaw(row, relative);
+    int targetRow = mapRowIndex(row);
+    if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
+        return QVariantMap();
+
+    QVariantMap res = getRowRaw(row);
     bool compressed = ValueEditor::Compression::isCompressed(res["value"].toByteArray());
     qDebug() << "Is compressed: " << compressed;
     if (compressed) {
@@ -204,17 +208,15 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row, bool relative)
     return res;
 }
 
-QVariantMap ValueEditor::ValueViewModel::getRowRaw(int row, bool relative)
+QVariantMap ValueEditor::ValueViewModel::getRowRaw(int row)
 {
     QHash<int,QByteArray> names = roleNames();
     QHashIterator<int, QByteArray> i(names);
     QVariantMap res;
 
-    int targetRow = (relative)? mapRowIndex(row) : row;
-
     while (i.hasNext()) {
         i.next();
-        QModelIndex idx = index(targetRow, 0);
+        QModelIndex idx = index(row, 0);
         QVariant data = idx.data(i.key());
         res[i.value()] = data;        
     }
