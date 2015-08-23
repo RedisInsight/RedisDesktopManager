@@ -55,11 +55,12 @@ MainWin::MainWin(QWidget *parent)
 void MainWin::initConnectionsTreeView()
 {
     //connection manager
-    if (ConfigManager::migrateOldConfig("connections.xml", "connections.json")) {
+    ConfigManager confManager;
+    if (confManager.migrateOldConfig("connections.xml", "connections.json")) {
         LOG(INFO) << "Migrate connections.xml to connections.json";
     }
 
-    QString config = ConfigManager::getApplicationConfigPath("connections.json");
+    QString config = confManager.getApplicationConfigPath("connections.json");
 
     if (config.isNull()) {
         QMessageBox::warning(this,
