@@ -29,6 +29,7 @@ void RedisClient::AbstractTransporter::cancelCommands(QObject *owner)
 {    
     if (m_isCommandRunning && m_runningCommand.getOwner() == owner) {
         m_runningCommand.cancel();
+        cleanRunningCommand();
         emit logEvent("Running command was canceled.");
     }
 
@@ -53,13 +54,40 @@ void RedisClient::AbstractTransporter::sendResponse()
     if (m_runningCommand.isCanceled())
         return;
 
-    auto callback = m_runningCommand.getCallBack();
-
-    if (callback && m_runningCommand.getOwner()) { // New API
-        ResponseEmitter emiter(m_response);
-        emiter.sendResponse(m_runningCommand.getOwner(), callback);
+    if (m_emitter) { // NOTE(u_glide): Command has callback
+       m_emitter->sendResponse(m_response);
     }
 
+    logActiveResponse();
+    cleanRunningCommand();
+    processCommandQueue();
+}
+
+void RedisClient::AbstractTransporter::processCommandQueue()
+{
+    if (m_isCommandRunning || m_commands.isEmpty()) {
+        return;
+    }
+
+    auto command = m_commands.dequeue();
+    auto callback = command.getCallBack();
+    auto owner = command.getOwner();
+    if (callback && owner) {
+        m_emitter = QSharedPointer<ResponseEmitter>(
+                    new ResponseEmitter(owner, callback));
+    }
+
+    runCommand(command);
+}
+
+void RedisClient::AbstractTransporter::cleanRunningCommand()
+{
+    m_isCommandRunning = false;
+    m_emitter.clear();
+}
+
+void RedisClient::AbstractTransporter::logActiveResponse()
+{
     QString result;
 
     if (m_response.isErrorMessage()) {
@@ -75,19 +103,6 @@ void RedisClient::AbstractTransporter::sendResponse()
                   .arg(m_connection->config.name())
                   .arg(m_runningCommand.getRawString())
                   .arg(result));
-
-    m_isCommandRunning = false;
-
-    processCommandQueue();
-}
-
-void RedisClient::AbstractTransporter::processCommandQueue()
-{
-    if (m_isCommandRunning || m_commands.isEmpty()) {
-        return;
-    }
-
-    runCommand(m_commands.dequeue());
 }
 
 void RedisClient::AbstractTransporter::executionTimeout()

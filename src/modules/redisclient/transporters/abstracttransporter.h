@@ -8,6 +8,7 @@
 namespace RedisClient {
 
 class Response;
+class ResponseEmitter;
 
 class AbstractTransporter : public QObject
 {
@@ -36,6 +37,10 @@ protected:
     virtual void sendResponse();
     virtual void processCommandQueue();
 
+private:
+    void cleanRunningCommand();
+    void logActiveResponse();
+
 protected:
     bool m_isInitialized;
     bool m_isCommandRunning;
@@ -45,24 +50,23 @@ protected:
     QByteArray m_readingBuffer;
     QQueue<Command> m_commands;
     QSharedPointer<QTimer> m_executionTimer;
+    QSharedPointer<ResponseEmitter> m_emitter;
 };
 
 class ResponseEmitter : public QObject {
     Q_OBJECT
 public:
-    ResponseEmitter(const Response& r)
-        : m_response(r){}
-
-    void sendResponse(QObject* owner, std::function<void(Response)> callback)
+    ResponseEmitter(QObject* owner, std::function<void(Response)> callback)
     {
-        QObject::connect(this, &ResponseEmitter::response, owner, callback, Qt::AutoConnection);
-
-        emit response(m_response);
+        QObject::connect(this, &ResponseEmitter::response,
+                         owner, callback, Qt::AutoConnection);
     }
 
+    void sendResponse(const Response& r)
+    {        
+        emit response(r);
+    }
 signals:
     void response(Response);
-private:
-    const Response& m_response;
 };
 }
