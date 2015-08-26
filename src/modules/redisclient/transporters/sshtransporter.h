@@ -23,6 +23,7 @@ protected slots:
     void OnSshConnected();
     void OnSocketReadyRead();
     void OnSshConnectionClose();
+    void OnSshSocketDestroyed();
     void reconnect();
 
 private:

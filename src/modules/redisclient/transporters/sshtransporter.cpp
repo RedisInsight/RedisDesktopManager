@@ -40,7 +40,7 @@ void RedisClient::SshTransporter::disconnect()
     if (m_sshClient.isNull())
         return;
 
-    if (socket != nullptr)
+    if (socket)
         QObject::disconnect(socket, 0, 0, 0);
 
     QObject::disconnect(m_sshClient.data(), 0, 0, 0);
@@ -78,12 +78,13 @@ bool RedisClient::SshTransporter::connectToHost()
     //connect to redis
     socket = m_sshClient->openTcpSocket(config.host(), config.port());
 
-    if (socket == NULL) {
+    if (!socket) {
         emit errorOccurred("SSH connection established, but socket failed");
         return false;
     }
 
     connect(socket, &QxtSshTcpSocket::readyRead, this, &RedisClient::SshTransporter::OnSocketReadyRead);
+    connect(socket, SIGNAL(destroyed()), this, SLOT(OnSshSocketDestroyed()));
 
     m_lastConnectionOk = false;
     m_syncTimer->start(config.connectionTimeout());
@@ -105,6 +106,11 @@ void RedisClient::SshTransporter::runCommand(const Command &command)
     emit logEvent(QString("%1 > [runCommand] %2")
                   .arg(m_connection->config.name())
                   .arg(command.getRawString()));
+
+    if (!socket){
+        emit errorOccurred("SSH: TCP socket not connected!");
+        return;
+    }
 
     if (command.hasDbIndex()) {
 
@@ -168,7 +174,7 @@ void RedisClient::SshTransporter::OnSocketReadyRead()
         m_syncLoop->exit();
     }
 
-    if (!m_isCommandRunning) {
+    if (!m_isCommandRunning || !socket) {
         return;
     }
 
@@ -191,10 +197,16 @@ void RedisClient::SshTransporter::OnSshConnectionClose()
     emit logEvent("SSH connection closed");
 }
 
+void RedisClient::SshTransporter::OnSshSocketDestroyed()
+{
+    socket = nullptr;
+    emit logEvent("SSH socket detroyed");
+}
+
 void RedisClient::SshTransporter::reconnect()
 {
     emit logEvent("Reconnect to host");
-    socket->close();
+    if (socket) socket->close();
     m_sshClient->resetState();
     connectToHost();
 }
