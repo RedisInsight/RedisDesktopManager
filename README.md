@@ -11,7 +11,7 @@
 [![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.8.0)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.8.0)
 [![Coverity Scan Build](https://scan.coverity.com/projects/3548/badge.svg)](https://scan.coverity.com/projects/3548)
 [![Stories in Progress](https://badge.waffle.io/uglide/redisdesktopmanager.svg?label=in progress&title=In Progress)](http://waffle.io/uglide/redisdesktopmanager)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager)
 
 <h3>
 RDM is looking for sponsorship. Contact me: uglide@gmail.com
