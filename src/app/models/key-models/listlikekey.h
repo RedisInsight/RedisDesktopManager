@@ -5,10 +5,10 @@ class ListLikeKeyModel : public KeyModel<QByteArray>
 {
 public:
     ListLikeKeyModel(QSharedPointer<RedisClient::Connection> connection,
-                QString fullPath, int dbIndex, int ttl,
-                     QString rowsCountCmd,
-                     QString partialLoadingCmd,
-                     QString fullLoadingCmd,
+                     QString fullPath, int dbIndex, int ttl,
+                     QByteArray rowsCountCmd,
+                     QByteArray partialLoadingCmd,
+                     QByteArray fullLoadingCmd,
                      bool fullLoadingCmdSupportsRanges);
 
 

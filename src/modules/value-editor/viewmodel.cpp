@@ -1,8 +1,8 @@
 #include "viewmodel.h"
+#include <QDebug>
+#include <qredisclient/connection.h>
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
-#include "redisclient/connection.h"
-#include <QDebug>
 
 ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
     : m_keyFactory(keyFactory), m_currentTabIndex(0)

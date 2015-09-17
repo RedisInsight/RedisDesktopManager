@@ -1,10 +1,9 @@
 #include "stringkey.h"
-#include "modules/redisclient/command.h"
-#include "modules/redisclient/commandexecutor.h"
+#include <qredisclient/connection.h>
 
 StringKeyModel::StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl, false,
-               QString(), QString(), QString())
+               QByteArray(), QByteArray(), QByteArray())
 {
 }
 
@@ -52,15 +51,10 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     if (value.isEmpty())
         return;
 
-    using namespace RedisClient;
-
-    Command updateCmd(m_dbIndex);
-    (updateCmd << "SET" << m_keyFullPath).append(value);
-
-    Response result;
+    RedisClient::Response result;
     try {
-        result = CommandExecutor::execute(m_connection, updateCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        result = m_connection->commandSync("SET", m_keyFullPath, value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 
@@ -91,13 +85,10 @@ void StringKeyModel::removeRow(int)
 
 bool StringKeyModel::loadValue()
 {
-    RedisClient::Command valueCmd(m_dbIndex);
-    valueCmd << "GET" << m_keyFullPath;
-
     RedisClient::Response result;
     try {
-        result = RedisClient::CommandExecutor::execute(m_connection, valueCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        result = m_connection->commandSync("GET", m_keyFullPath, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 

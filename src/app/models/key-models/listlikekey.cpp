@@ -2,8 +2,8 @@
 
 ListLikeKeyModel::ListLikeKeyModel(QSharedPointer<RedisClient::Connection> connection,
                                    QString fullPath, int dbIndex, int ttl,
-                                   QString rowsCountCmd,
-                                   QString partialLoadingCmd, QString fullLoadingCmd,
+                                   QByteArray rowsCountCmd,
+                                   QByteArray partialLoadingCmd, QByteArray fullLoadingCmd,
                                    bool fullLoadingCmdSupportsRanges)
     : KeyModel(connection, fullPath, dbIndex, ttl, true,
                rowsCountCmd, partialLoadingCmd, fullLoadingCmd,

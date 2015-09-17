@@ -28,23 +28,20 @@ void TestDialogs::testConnectionDialog()
     QString fake_file_path = fk.absoluteFilePath();
 
     //ssh with password
-    RedisClient::ConnectionConfig conf("fake_host", "fake_name");
+    ConnectionConfig conf("fake_host", "fake_name");
     conf.setSshTunnelSettings("fake_ssh_host", "fake_ssh_user", "fake_ssh_pass");
 
     //ssh with key
-    RedisClient::ConnectionConfig conf2("fake_host", "fake_name");
+    ConnectionConfig conf2("fake_host", "fake_name");
     conf2.setSshTunnelSettings("fake_ssh_host", "fake_ssh_user", "", 2222, fake_file_path);
 
     //ssh with key and pass
-    RedisClient::ConnectionConfig conf3("fake_host", "fake_name");
+    ConnectionConfig conf3("fake_host", "fake_name");
     conf3.setSshTunnelSettings("fake_ssh_host", "fake_ssh_user", "fake_ssh_key_pass", 2222, fake_file_path);
 
     // ssl with auth and custom port
-    RedisClient::ConnectionConfig conf4("fake_host", "fake_name", 6380);
-    conf4.setParam("ssl_ca_cert_path", fake_file_path);
-    conf4.setParam("ssl_private_key_path", fake_file_path);
-    conf4.setParam("ssl_local_cert_path", fake_file_path);
-    conf4.setParam("auth", "fake_auth");
+    ConnectionConfig conf4("fake_host", "auth", 6380, "fake_name");
+    conf4.setSslSettigns(fake_file_path, fake_file_path, fake_file_path);
 
     auto verify = [this, testManager](RedisClient::ConnectionConfig& conf) {
         ConnectionWindow window(testManager.toWeakRef());

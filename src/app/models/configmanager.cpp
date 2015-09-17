@@ -9,7 +9,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <easylogging++.h>
-#include "redisclient/connectionconfig.h"
+#include <qredisclient/utils/compat.h>
+#include "app/models/connectionconf.h"
 
 ConfigManager::ConfigManager(const QString &basePath)
     : m_basePath(basePath)
@@ -147,7 +148,7 @@ QJsonArray ConfigManager::xmlConfigToJsonArray(const QString &xmlConfigPath)
                 // NOTE(u_glide): We should add NS separator to new config
                 if (!connection.contains("namespace_separator")) {
                     connection.insert("namespace_separator",
-                                      QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+                                      QString(ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
                 }
 
                 newConfig.append(QJsonObjectFromVariantHash(connection));

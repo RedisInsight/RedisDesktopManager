@@ -3,6 +3,7 @@
 #include <QList>
 #include <QHash>
 #include <exception>
+#include <QDebug>
 
 typedef long int RowIndex;
 

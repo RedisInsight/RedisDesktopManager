@@ -4,8 +4,8 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QPair>
+#include <qredisclient/redisclient.h>
 #include "modules/value-editor/keymodel.h"
-#include "modules/redisclient/redisclient.h"
 #include "rowcache.h"
 
 template < typename T > class KeyModel : public ValueEditor::Model
@@ -14,9 +14,9 @@ public:
     KeyModel(QSharedPointer<RedisClient::Connection> connection,
              QString fullPath, int dbIndex, int ttl,
              bool isMultiRow,
-             QString rowsCountCmd,
-             QString partialLoadingCmd,
-             QString fullLoadingCmd,
+             QByteArray rowsCountCmd,
+             QByteArray partialLoadingCmd,
+             QByteArray fullLoadingCmd,
              bool fullLoadingCmdSupportsRanges=false)
         :
           m_connection(connection),
@@ -79,12 +79,11 @@ public:
 
     virtual void setKeyName(const QString& newKeyName) override
     {
-        auto cmd = RedisClient::Command({"RENAMENX", m_keyFullPath, newKeyName}, m_dbIndex);
         RedisClient::Response result;
 
         try {
-            result = RedisClient::CommandExecutor::execute(m_connection, cmd);
-        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            result = m_connection->commandSync("RENAMENX", m_keyFullPath, newKeyName, m_dbIndex);
+        } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
 
@@ -102,12 +101,11 @@ public:
 
     virtual void removeKey() override
     {
-        auto cmd = RedisClient::Command({"DEL", m_keyFullPath, m_keyFullPath}, m_dbIndex);
         RedisClient::Response result;
 
         try {
-            result = RedisClient::CommandExecutor::execute(m_connection, cmd);
-        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            result = m_connection->commandSync("DEL", m_keyFullPath, m_keyFullPath, m_dbIndex);
+        } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
 
@@ -118,13 +116,13 @@ public:
     virtual void loadRows(unsigned long rowStart, unsigned long count, std::function<void(const QString&)> callback) override
     {
         if (isPartialLoadingSupported() && !m_fullLoadingCmdSupportsRanges) {
-            QStringList cmdParts = m_partialLoadingCmd.split(" ");
-            cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
+            QList<QByteArray> cmdParts = m_partialLoadingCmd.split(' ');
+            cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath.toUtf8());
 
             QSharedPointer<RedisClient::ScanCommand> cmd(
-                        new RedisClient::ScanCommand(cmdParts, m_notifier.data(), m_dbIndex));
+                        new RedisClient::ScanCommand(cmdParts, m_dbIndex));
             try {
-                m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result)
+                m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result, QString)
                 {
                     if (result.type() == QVariant::Type::List) {
                         try {
@@ -190,12 +188,11 @@ protected:
 
     int getRowCount(const QString &countCmd)
     {
-        RedisClient::Command updateCmd({countCmd, m_keyFullPath}, m_dbIndex);
         RedisClient::Response result;
 
         try {
-            result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
-        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            result = m_connection->commandSync(countCmd, m_keyFullPath, m_dbIndex);
+        } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
 
@@ -206,34 +203,37 @@ protected:
         return -1;
     }
 
-    QVariant getRowsRange(const QString & baseCmd, unsigned long rowStart = 0, unsigned long count = 0)
+    QVariant getRowsRange(const QByteArray & baseCmd, unsigned long rowStart = 0, unsigned long count = 0)
     {
-        QStringList cmd;
+        QList<QByteArray> cmd;
 
         if (rowStart == 0 && count == 0) {
-            cmd << baseCmd << m_keyFullPath;
+            cmd << baseCmd << m_keyFullPath.toUtf8();
         } else {
             unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
-            if (baseCmd.contains(QChar(' '))) {
-                QStringList suffixCmd(baseCmd.split(QChar(' ')));
+            if (baseCmd.contains(' ')) {
+                QList<QByteArray> suffixCmd(baseCmd.split(' '));
 
-                cmd << suffixCmd.at(0);
-                suffixCmd.removeFirst();
-                cmd << m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd);
+                cmd << suffixCmd.takeFirst();
+                cmd << m_keyFullPath.toUtf8()
+                    << QString::number(rowStart).toLatin1()
+                    << QString::number(rowEnd).toLatin1();
                 cmd += suffixCmd;
 
             } else {
-                cmd << baseCmd << m_keyFullPath << QString::number(rowStart) << QString::number(rowEnd);
+                cmd << baseCmd
+                    << m_keyFullPath.toUtf8()
+                    << QString::number(rowStart).toLatin1()
+                    << QString::number(rowEnd).toLatin1();
             }
         }
 
-        RedisClient::Command updateCmd(cmd, m_dbIndex);
         RedisClient::Response result;
 
         try {
-            result = RedisClient::CommandExecutor::execute(m_connection, updateCmd);
-        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            result = m_connection->commandSync(cmd, m_dbIndex);
+        } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
 
@@ -292,9 +292,9 @@ protected:
     bool m_isMultiRow;
 
     // CMD strings
-    QString m_rowsCountCmd;
-    QString m_partialLoadingCmd;
-    QString m_fullLoadingCmd;
+    QByteArray m_rowsCountCmd;
+    QByteArray m_partialLoadingCmd;
+    QByteArray m_fullLoadingCmd;
     bool m_fullLoadingCmdSupportsRanges;
 
     MappedCache<T> m_rowsCache;

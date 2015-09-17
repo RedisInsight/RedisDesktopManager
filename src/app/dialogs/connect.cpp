@@ -1,10 +1,8 @@
 #include "connect.h"
-
 #include <QtWidgets/QMessageBox>
 #include <QFileDialog>
 #include <QFile>
-#include "redisclient/connection.h"
-#include "redisclient/connectionconfig.h"
+#include <qredisclient/connection.h>
 #include "app/models/connectionsmanager.h"
 
 ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent)
@@ -34,20 +32,20 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
 
-    ui.namespaceSeparator->setText(QString(RedisClient::ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
-    ui.keysPattern->setText(QString(RedisClient::ConnectionConfig::DEFAULT_KEYS_GLOB_PATTERN));
-    ui.connectionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
-    ui.executionTimeout->setValue(DEFAULT_TIMEOUT_IN_MS / 1000);
+    ui.namespaceSeparator->setText(QString(ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+    ui.keysPattern->setText(QString(ConnectionConfig::DEFAULT_KEYS_GLOB_PATTERN));
+    ui.connectionTimeout->setValue(ConnectionConfig::DEFAULT_TIMEOUT_IN_MS / 1000);
+    ui.executionTimeout->setValue(ConnectionConfig::DEFAULT_TIMEOUT_IN_MS / 1000);
 }
 
-void ConnectionWindow::setConnectionConfig(const RedisClient::ConnectionConfig& config)
+void ConnectionWindow::setConnectionConfig(const ConnectionConfig& config)
 {
     m_config = config;
     m_inEditMode = true;
     loadValuesFromConfig(m_config);
 }
 
-void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig& config)
+void ConnectionWindow::loadValuesFromConfig(const ConnectionConfig& config)
 {
     m_inEditMode = true;
 
@@ -55,7 +53,7 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
     ui.hostEdit->setText(config.host());
     ui.portSpinBox->setValue(config.port());
     ui.authEdit->setText(config.auth());
-    ui.namespaceSeparator->setText(config.param<QString>("namespace_separator"));
+    ui.namespaceSeparator->setText(config.namespaceSeparator());
     ui.connectionTimeout->setValue(config.connectionTimeout()/1000);
     ui.executionTimeout->setValue(config.executeTimeout()/1000);
 
@@ -65,11 +63,11 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
 
     if (config.useSshTunnel()) {
         ui.useSshTunnel->setCheckState(Qt::Checked);
-        ui.sshHost->setText(config.param<QString>("ssh_host"));
-        ui.sshUser->setText(config.param<QString>("ssh_user"));
-        ui.sshPass->setText(config.param<QString>("ssh_password"));
-        ui.sshPort->setValue(config.param<int>("ssh_port"));
-        ui.privateKeyPath->setText(config.param<QString>("ssh_private_key_path"));
+        ui.sshHost->setText(config.sshHost());
+        ui.sshUser->setText(config.sshUser());
+        ui.sshPass->setText(config.sshPassword());
+        ui.sshPort->setValue(config.sshPort());
+        ui.privateKeyPath->setText(config.getSshPrivateKeyPath());
 
         ui.sshKeysGroup->setChecked(false);
         ui.sshPasswordGroup->setChecked(false);
@@ -85,9 +83,9 @@ void ConnectionWindow::loadValuesFromConfig(const RedisClient::ConnectionConfig&
 
     if (config.useSsl()) {
         ui.useSsl->setCheckState(Qt::Checked);
-        ui.sslCACertEdit->setText(config.param<QString>("ssl_ca_cert_path"));
-        ui.sslPrivateKeyEdit->setText(config.param<QString>("ssl_private_key_path"));
-        ui.sslLocalCertEdit->setText(config.param<QString>("ssl_local_cert_path"));
+        ui.sslCACertEdit->setText(config.sslCaCertPath());
+        ui.sslPrivateKeyEdit->setText(config.sslPrivateKeyPath());
+        ui.sslLocalCertEdit->setText(config.sslLocalCertPath());
     }
 }
 
@@ -110,7 +108,7 @@ void ConnectionWindow::OnOkButtonClick()
         return;    
     }
 
-    RedisClient::ConnectionConfig conf = getConectionConfigFromFormData();
+    ConnectionConfig conf = getConectionConfigFromFormData();
 
     if (!m_manager) // some error occurred
         close();
@@ -157,10 +155,10 @@ void ConnectionWindow::OnTestConnectionButtonClick()
 
     ui.testConnectionButton->setIcon(QIcon(":/images/wait.png"));
 
-    RedisClient::ConnectionConfig config = getConectionConfigFromFormData();
-    config.setParam("timeout_connect", 8000);
+    ConnectionConfig config = getConectionConfigFromFormData();
+    config.setTimeouts(8000, 8000);
 
-    RedisClient::Connection testConnection(config, false);
+    RedisClient::Connection testConnection(config);
 
     try {
         if (testConnection.connect()) {
@@ -301,21 +299,19 @@ bool ConnectionWindow::isSslSettingsValid()
     return false;
 }
 
-RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
+ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
 {    
-    RedisClient::ConnectionConfig conf(ui.hostEdit->text().trimmed(),
-                                       ui.nameEdit->text().trimmed(),
-                                       ui.portSpinBox->value());
+    ConnectionConfig conf(ui.hostEdit->text().trimmed(),
+                          ui.authEdit->text().isEmpty() ? "" : ui.authEdit->text(),
+                          (uint)ui.portSpinBox->value(),
+                          ui.nameEdit->text().trimmed());
 
-    conf.setParam("namespace_separator", ui.namespaceSeparator->text());
-    conf.setParam("timeout_connect", ui.connectionTimeout->value() * 1000);
-    conf.setParam("timeout_execute", ui.executionTimeout->value() * 1000);
-
-    if (!ui.authEdit->text().isEmpty())
-        conf.setParam("auth", ui.authEdit->text());    
+    conf.setNamespaceSeparator(ui.namespaceSeparator->text());
+    conf.setTimeouts(ui.connectionTimeout->value() * 1000,
+                     ui.executionTimeout->value() * 1000);
 
     if (!ui.keysPattern->text().isEmpty())
-        conf.setParam("keys_pattern", ui.keysPattern->text());
+        conf.setKeysPattern(ui.keysPattern->text());
 
     if (isSshTunnelUsed()) {
         conf.setSshTunnelSettings(
@@ -327,9 +323,9 @@ RedisClient::ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
     }
 
     if (isSslUsed()) {
-        conf.setParam("ssl_ca_cert_path", ui.sslCACertEdit->text().trimmed());
-        conf.setParam("ssl_private_key_path", ui.sslPrivateKeyEdit->text().trimmed());
-        conf.setParam("ssl_local_cert_path", ui.sslLocalCertEdit->text().trimmed());
+        conf.setSslSettigns(ui.sslCACertEdit->text().trimmed(),
+                            ui.sslPrivateKeyEdit->text().trimmed(),
+                            ui.sslLocalCertEdit->text().trimmed());
     }
 
     return conf;

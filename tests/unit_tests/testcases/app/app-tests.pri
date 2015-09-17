@@ -7,6 +7,7 @@ HEADERS  += \
     $$PWD/test_*.h \
     $$APP_SRC_DIR/models/connectionsmanager.h \
     $$APP_SRC_DIR/models/configmanager.h \
+    $$APP_SRC_DIR/models/connectionconf.h \
     $$APP_SRC_DIR/models/treeoperations.h \
     $$APP_SRC_DIR/models/key-models/keyfactory.h \
     $$APP_SRC_DIR/models/key-models/abstractkey.h \
@@ -24,6 +25,7 @@ SOURCES += \
     $$PWD/test_*.cpp \
     $$APP_SRC_DIR/models/connectionsmanager.cpp \
     $$APP_SRC_DIR/models/configmanager.cpp \
+    $$APP_SRC_DIR/models/connectionconf.cpp \
     $$APP_SRC_DIR/models/treeoperations.cpp \
     $$APP_SRC_DIR/models/key-models/keyfactory.cpp \    
     $$APP_SRC_DIR/models/key-models/stringkey.cpp \

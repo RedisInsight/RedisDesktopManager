@@ -4,29 +4,31 @@
 #
 #-------------------------------------------------
 
-BREAKPADDIR = $$PWD/breakpad/src
+# qredisclient
+include($$PWD/qredisclient/qredisclient.pri)
 
-INCLUDEPATH += $$PWD/libssh2/include
-
+# QConsole
 include($$PWD/qtconsole/qtconsole.pri)
 
+# Easylogging
 INCLUDEPATH += $$PWD/easyloggingpp/src
 HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
 
+
+# Google breakpad
+BREAKPADDIR = $$PWD/breakpad/src
+DEPENDPATH += $$BREAKPADDIR
+
 INCLUDEPATH += $$BREAKPADDIR/
 INCLUDEPATH += $$BREAKPADDIR/src
-DEPENDPATH += $$PWD/libssh2/include
-DEPENDPATH += $$BREAKPADDIR
 
 #breakpad app need debug info inside binaries
 QMAKE_CXXFLAGS+=-g
 QMAKE_CFLAGS_RELEASE+=-g
 
-
 win32* {    
     # Workaround for mingw
     QMAKE_LFLAGS_RELEASE=
-    LIBS += -lssh2 -lssl -lz
 
     HEADERS += $$BREAKPADDIR/common/windows/string_utils-inl.h
     HEADERS += $$BREAKPADDIR/common/windows/guid_string.h
@@ -43,10 +45,7 @@ win32* {
 }
 
 unix:macx { # OSX
-    PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib \
-                     $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
-
-    LIBS += /usr/local/lib/libssh2.dylib
+    PRE_TARGETDEPS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
     LIBS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework/Versions/A/Breakpad
     LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
     LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
@@ -64,9 +63,6 @@ unix:!macx { # ubuntu & debian
     QMAKE_LFLAGS_RPATH=
 
     LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
-#    LIBS += /usr/local/lib/libssh2.a
-#    PRE_TARGETDEPS +=/usr/local/lib/libssh2.a \
-    LIBS += -lcrypto -lz -lssh2
 
     HEADERS += $$BREAKPADDIR/client/linux/minidump_writer/cpu_set.h \
           $$BREAKPADDIR/client/linux/minidump_writer/proc_cpuinfo_reader.h \

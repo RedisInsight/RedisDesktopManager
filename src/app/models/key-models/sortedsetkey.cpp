@@ -1,10 +1,9 @@
 #include "sortedsetkey.h"
-#include "modules/redisclient/command.h"
-#include "modules/redisclient/commandexecutor.h"
+#include <qredisclient/connection.h>
 
 SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl, true,
-               "ZCARD", QString(), "ZRANGE WITHSCORES", true)
+               "ZCARD", QByteArray(), "ZRANGE WITHSCORES", true)
 {    
 }
 
@@ -91,12 +90,9 @@ void SortedSetKeyModel::removeRow(int i)
 
     QByteArray value = m_rowsCache[i].first;
 
-    using namespace RedisClient;
-
-    Command deleteValues(QStringList() << "ZREM" << m_keyFullPath << value, m_dbIndex);
     try {
-        CommandExecutor::execute(m_connection, deleteValues);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        m_connection->commandSync("ZREM", m_keyFullPath, value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 
@@ -107,14 +103,11 @@ void SortedSetKeyModel::removeRow(int i)
 
 bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 {
-    using namespace RedisClient;
-    Command addCmd(m_dbIndex);
-    (addCmd << "ZADD" << m_keyFullPath << QString::number(score)).append(value);
-
-    Response result;
+    RedisClient::Response result;
     try {
-        result = CommandExecutor::execute(m_connection, addCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        result = m_connection->commandSync("ZADD", m_keyFullPath, QString::number(score),
+                                           value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 
@@ -123,13 +116,9 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 
 void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
 {
-    using namespace RedisClient;
-    Command addCmd(m_dbIndex);
-    (addCmd << "ZREM" << m_keyFullPath).append(value);
-
     try {
-        CommandExecutor::execute(m_connection, addCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        m_connection->commandSync("ZREM", m_keyFullPath, value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 }

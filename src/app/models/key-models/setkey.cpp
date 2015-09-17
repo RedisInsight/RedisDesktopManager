@@ -1,6 +1,5 @@
 #include "setkey.h"
-#include "modules/redisclient/command.h"
-#include "modules/redisclient/commandexecutor.h"
+#include <qredisclient/connection.h>
 
 SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
        : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
@@ -51,29 +50,18 @@ void SetKeyModel::removeRow(int i)
 
 void SetKeyModel::addSetRow(const QByteArray &value)
 {
-    using namespace RedisClient;
-    Command addCmd(m_dbIndex);
-    (addCmd << "SADD" << m_keyFullPath).append(value);
-
     try {
-        CommandExecutor::execute(m_connection, addCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        m_connection->commandSync("SADD", m_keyFullPath, value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 }
 
 RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value)
 {
-    using namespace RedisClient;
-    Command deleteCmd(m_dbIndex);
-    (deleteCmd << "SREM" << m_keyFullPath).append(value);
-
-    Response result;
-
     try {
-        result = CommandExecutor::execute(m_connection, deleteCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        return m_connection->commandSync("SREM", m_keyFullPath, value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
-    return result;
 }
