@@ -1,7 +1,7 @@
 #pragma once
 #include <QSharedPointer>
-#include "redisclient/connection.h"
-#include "redisclient/connectionconfig.h"
+#include <qredisclient/connection.h>
+#include "app/models/connectionconf.h"
 #include "connections-tree/model.h"
 #include "treeoperations.h"
 
@@ -20,8 +20,8 @@ public:
                        QSharedPointer<ValueEditor::ViewModel> values);
     ~ConnectionsManager(void);
 
-    void addNewConnection(const RedisClient::ConnectionConfig& config, bool saveToConfig = true);
-    void updateConnection(const RedisClient::ConnectionConfig& config);
+    void addNewConnection(const ConnectionConfig& config, bool saveToConfig = true);
+    void updateConnection(const ConnectionConfig& config);
 
     bool importConnections(const QString &);
     bool saveConnectionsConfigToFile(const QString&);
@@ -29,7 +29,7 @@ public:
     int size();
 
 signals:
-    void editConnection(RedisClient::ConnectionConfig config);
+    void editConnection(ConnectionConfig config);
 
 private:
      QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);

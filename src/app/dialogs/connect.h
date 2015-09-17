@@ -3,7 +3,7 @@
 #include <QDialog>
 #include <QWeakPointer>
 #include "ui_connection.h"
-#include "modules/redisclient/connectionconfig.h"
+#include "app/models/connectionconf.h"
 
 class ConnectionsManager;
 class TestDialogs;
@@ -14,15 +14,15 @@ class ConnectionWindow : public QDialog
     friend class TestDialogs;
 public:
     ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent = nullptr);
-    void setConnectionConfig(const RedisClient::ConnectionConfig& config);
-    RedisClient::ConnectionConfig getConectionConfigFromFormData();
+    void setConnectionConfig(const ConnectionConfig& config);
+    ConnectionConfig getConectionConfigFromFormData();
     bool isFormDataValid();
 
 private:
     Ui::connectionDialog ui;        
     bool m_inEditMode;
     QWeakPointer<ConnectionsManager> m_manager;
-    RedisClient::ConnectionConfig m_config;
+    ConnectionConfig m_config;
 
     bool isConnectionSettingsValid();
     bool isSshSettingsValid();
@@ -31,7 +31,7 @@ private:
     bool isSslUsed();
     bool isSslSettingsValid();
 
-    void loadValuesFromConfig(const RedisClient::ConnectionConfig& config);
+    void loadValuesFromConfig(const ConnectionConfig& config);
 
     void markFieldInvalid(QWidget *w);
     void markFieldValid(QWidget *w);

@@ -1,10 +1,11 @@
 #include "keyfactory.h"
+#include <qredisclient/redisclient.h>
+
 #include "stringkey.h"
 #include "setkey.h"
 #include "sortedsetkey.h"
 #include "hashkey.h"
 #include "listkey.h"
-#include "modules/redisclient/redisclient.h"
 
 KeyFactory::KeyFactory()
 {}
@@ -13,14 +14,15 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
                          QString keyFullPath, int dbIndex,
                          std::function<void (QSharedPointer<ValueEditor::Model>, const QString &)> callback)
 {
-    RedisClient::Command typeCmd({"type", keyFullPath}, this,
-                                 [this, connection, keyFullPath, dbIndex, callback] (RedisClient::Response resp) {
+    RedisClient::Command typeCmd({"type", keyFullPath.toUtf8()}, this,
+                                 [this, connection, keyFullPath, dbIndex, callback] (RedisClient::Response resp, QString)
+    {
 
         QSharedPointer<ValueEditor::Model> result;
 
         if (resp.isErrorMessage() || resp.getType() != RedisClient::Response::Type::Status) {            
             QString msg("Cannot load key %1, connection error occurred: %2");
-            callback(result, msg.arg(resp.toString()).arg(keyFullPath));
+            callback(result, msg.arg(keyFullPath).arg(resp.toRawString()));
             return;
         }
 
@@ -33,12 +35,11 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
             return;
         }
 
-        RedisClient::Command ttlCmd({"ttl", keyFullPath}, dbIndex);
         RedisClient::Response ttlResult;
 
         try {
-            ttlResult = RedisClient::CommandExecutor::execute(connection, ttlCmd);
-        } catch (const RedisClient::CommandExecutor::Exception& e) {
+            ttlResult = connection->commandSync("ttl", keyFullPath, dbIndex);
+        } catch (const RedisClient::Connection::Exception& e) {
             QString msg("Cannot load TTL for key %1, connection error occurred: %2");
             callback(result, msg.arg(keyFullPath).arg(QString(e.what())));
             return;

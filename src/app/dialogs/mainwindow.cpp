@@ -8,6 +8,7 @@
 #include <QMovie>
 #include <QDesktopWidget>
 #include <easylogging++.h>
+#include <qredisclient/redisclient.h>
 
 #include "app/models/configmanager.h"
 #include "app/models/connectionsmanager.h"
@@ -15,7 +16,6 @@
 #include "app/dialogs/connect.h"
 #include "app/dialogs/quickstartdialog.h"
 #include "modules/updater/updater.h"
-#include "modules/redisclient/redisclient.h"
 #include "modules/value-editor/view.h"
 #include "modules/value-editor/viewmodel.h"
 #include "modules/console/logtab.h"
@@ -149,7 +149,7 @@ void MainWin::initValuesView()
     ui.splitter->setSizes(QList<int>() << 0 << 100);
 }
 
-void MainWin::openConnectionDialog(RedisClient::ConnectionConfig config)
+void MainWin::openConnectionDialog(ConnectionConfig config)
 {
     QScopedPointer<ConnectionWindow> connectionDialog(new ConnectionWindow(connections.toWeakRef(), this));
     connectionDialog->setModal(true);
@@ -182,7 +182,7 @@ void MainWin::OnAddConnectionClick()
     openConnectionDialog();
 }
 
-void MainWin::OnEditConnectionClick(RedisClient::ConnectionConfig config)
+void MainWin::OnEditConnectionClick(ConnectionConfig config)
 {
     openConnectionDialog(config);
 }

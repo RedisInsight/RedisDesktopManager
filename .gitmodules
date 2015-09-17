@@ -16,3 +16,6 @@
 [submodule "3rdparty/depot_tools"]
 	path = 3rdparty/depot_tools
 	url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
+[submodule "3rdparty/qredisclient"]
+	path = 3rdparty/qredisclient
+	url = https://github.com/uglide/qredisclient.git

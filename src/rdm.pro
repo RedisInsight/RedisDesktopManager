@@ -27,9 +27,6 @@ SOURCES += \
     $$PWD/modules/connections-tree/items/*.cpp \
     $$PWD/modules/console/*.cpp \
     $$PWD/modules/value-editor/*.cpp \
-    $$PWD/modules/redisclient/*.cpp \
-    $$PWD/modules/redisclient/ssh/*.cpp \
-    $$PWD/modules/redisclient/transporters/*.cpp \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
 
@@ -42,9 +39,6 @@ HEADERS  += \
     $$PWD/modules/connections-tree/items/*.h \
     $$PWD/modules/console/*.h \
     $$PWD/modules/value-editor/*.h \
-    $$PWD/modules/redisclient/*.h \
-    $$PWD/modules/redisclient/ssh/*.h \
-    $$PWD/modules/redisclient/transporters/*.h \
     $$PWD/modules/crashhandler/*.h \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \

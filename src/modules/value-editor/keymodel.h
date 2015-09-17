@@ -4,7 +4,7 @@
 #include <QString>
 #include <QHash>
 #include <QObject>
-#include "redisclient/connection.h"
+#include <qredisclient/connection.h>
 
 namespace ValueEditor {
 

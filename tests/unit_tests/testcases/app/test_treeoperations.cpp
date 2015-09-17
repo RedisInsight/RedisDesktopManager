@@ -1,6 +1,6 @@
 #include "test_treeoperations.h"
+#include <qredisclient/connection.h>
 #include "models/treeoperations.h"
-#include "redisclient/connection.h"
 #include "app/widgets/consoletabs.h"
 
 void TestTreeOperations::testCreation()

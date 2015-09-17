@@ -4,12 +4,11 @@
 #include <QDebug>
 #include <QAbstractItemModel>
 #include <easylogging++.h>
+
 #include "modules/connections-tree/items/serveritem.h"
-#include "modules/redisclient/connectionconfig.h"
 #include "modules/value-editor/viewmodel.h"
-#include "connectionsmanager.h"
 #include "app/widgets/consoletabs.h"
-#include "modules/value-editor/viewmodel.h"
+#include "connectionsmanager.h"
 #include "configmanager.h"
 
 ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
@@ -28,11 +27,13 @@ ConnectionsManager::~ConnectionsManager(void)
 {
 }
 
-void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &config, bool saveToConfig)
+void ConnectionsManager::addNewConnection(const ConnectionConfig &config, bool saveToConfig)
 {
     //add connection to internal container
-    QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config, false));
-    connection->config.setOwner(connection.toWeakRef());    
+    QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config));
+    ConnectionConfig conf = config;
+    conf.setOwner(connection.toWeakRef());
+    connection->setConnectionConfig(conf);
     m_connections.push_back(connection);
 
     //set loggers
@@ -45,7 +46,7 @@ void ConnectionsManager::addNewConnection(const RedisClient::ConnectionConfig &c
     if (saveToConfig) saveConfig();
 }
 
-void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &config)
+void ConnectionsManager::updateConnection(const ConnectionConfig &config)
 {
     if (!config.getOwner())
         return;
@@ -58,7 +59,7 @@ void ConnectionsManager::updateConnection(const RedisClient::ConnectionConfig &c
     if (!serverItem)
         return;
 
-    serverItem->setName(config.param<QString>("name"));
+    serverItem->setName(config.name());
 
     emit dataChanged(index(serverItem->row(), 0, QModelIndex()),
                      index(serverItem->row(), 0, QModelIndex()));
@@ -98,8 +99,6 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 
         connections = jsonConfig.array();
     }
-
-    using namespace RedisClient;
 
     for (QJsonValue connection : connections) {
         if (!connection.isObject())
@@ -170,7 +169,7 @@ void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClien
                                                        QSharedPointer<TreeOperations> treeModel)
 {
     using namespace ConnectionsTree;
-    QString name = connection->getConfig().param<QString>("name");
+    QString name = connection->getConfig().name();
     auto serverItem = QSharedPointer<ServerItem>(
                 new ServerItem(name,
                                treeModel.dynamicCast<ConnectionsTree::Operations>(),
@@ -180,7 +179,7 @@ void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClien
                      this, [this, connection, name]()
     {
         m_consoleTabs.closeAllTabsWithName(name);
-        emit editConnection(connection->config);
+        emit editConnection(static_cast<ConnectionConfig>(connection->getConfig()));
     });
 
     QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::deleteActionRequested,

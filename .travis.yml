@@ -20,7 +20,8 @@ before_install:
 - source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
 - sudo pip install cpp-coveralls
 - qmake -v
-script: 
+script:
+  - git submodule update --init --recursive 
   - cd ./tests
   - qmake DEFINES+=INTEGRATION_TESTS
   - make -s -j 2

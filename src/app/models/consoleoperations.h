@@ -2,12 +2,9 @@
 
 #include <QObject>
 #include <QSharedPointer>
-#include "modules/redisclient/connectionconfig.h"
 #include "modules/console/operations.h"
 
-namespace RedisClient {
-class Connection;
-}
+namespace RedisClient { class Connection; }
 
 class ConsoleModel : public Console::Operations
 {
@@ -15,14 +12,12 @@ class ConsoleModel : public Console::Operations
 public:
     ConsoleModel(QSharedPointer<RedisClient::Connection>);
 
-    public:
-        void init();
-        QString getConsoleName() override;
-        void executeCommand(const QString&);
+public:
+    void init();
+    QString getConsoleName() override;
+    void executeCommand(const QString&);
 
 private:
     QSharedPointer<RedisClient::Connection> m_connection;
     int m_current_db;
-
 };
-

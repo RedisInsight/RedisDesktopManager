@@ -1,10 +1,9 @@
 #include "listkey.h"
-#include "modules/redisclient/command.h"
-#include "modules/redisclient/commandexecutor.h"
+#include <qredisclient/connection.h>
 
 ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
     : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
-                       "LLEN", QString(), "LRANGE", true)
+                       "LLEN", QByteArray(), "LRANGE", true)
 {
 }
 
@@ -68,12 +67,12 @@ bool ListKeyModel::isActualPositionChanged(int row)
     QByteArray cachedValue = m_rowsCache[row];
 
     // check position update
-    Command getValueByIndex({"LRANGE", m_keyFullPath, QString::number(row), QString::number(row)}, m_dbIndex);
     Response result;
 
     try {
-        result = CommandExecutor::execute(m_connection, getValueByIndex);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        result = m_connection->commandSync("LRANGE", m_keyFullPath, QString::number(row),
+                                           QString::number(row), m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 
@@ -84,40 +83,29 @@ bool ListKeyModel::isActualPositionChanged(int row)
 
 void ListKeyModel::addListRow(const QByteArray &value)
 {
-    using namespace RedisClient;
-    Command addCmd({"LPUSH", m_keyFullPath, value}, m_dbIndex);
-
     try {
-        CommandExecutor::execute(m_connection, addCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        m_connection->commandSync("LPUSH", m_keyFullPath, value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 }
 
 void ListKeyModel::setListRow(int pos, const QByteArray &value)
-{
-    using namespace RedisClient;
-    Command addCmd(m_dbIndex);
-    (addCmd << "LSET" << m_keyFullPath << QString::number(pos)).append(value);
-
+{    
     try {
-        CommandExecutor::execute(m_connection, addCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        m_connection->commandSync("LSET", m_keyFullPath,
+                                  QString::number(pos), value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 }
 
 void ListKeyModel::deleteListRow(int count, const QByteArray &value)
-{
-    using namespace RedisClient;
-    Command deleteCmd(m_dbIndex);
-    (deleteCmd << "LREM" << m_keyFullPath << QString::number(count)).append(value);
-
+{       
     try {
-        CommandExecutor::execute(m_connection, deleteCmd);
-    } catch (const RedisClient::CommandExecutor::Exception& e) {
+        m_connection->commandSync("LREM", m_keyFullPath, QString::number(count),
+                                  value, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
 }
-
-

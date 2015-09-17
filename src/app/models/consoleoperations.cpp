@@ -1,5 +1,6 @@
 #include "consoleoperations.h"
-#include "modules/redisclient/redisclient.h"
+#include "app/models/connectionconf.h"
+#include <qredisclient/redisclient.h>
 
 ConsoleModel::ConsoleModel(QSharedPointer<RedisClient::Connection> connection)
     : m_connection(connection), m_current_db(0)
@@ -20,12 +21,12 @@ void ConsoleModel::init()
     }
 
     emit addOutput("Connected.\n", QConsole::Complete);
-    emit changePrompt(QString("%1:0>").arg(m_connection->config.param<QString>("name")), true);
+    emit changePrompt(QString("%1:0>").arg(m_connection->getConfig().name()), true);
 }
 
 QString ConsoleModel::getConsoleName()
 {
-    return m_connection->config.param<QString>("name");
+    return m_connection->getConfig().name();
 }
 
 void ConsoleModel::executeCommand(const QString & cmd)
@@ -37,12 +38,12 @@ void ConsoleModel::executeCommand(const QString & cmd)
 
     using namespace RedisClient;
 
-    Command command(Command::splitCommandString(cmd), nullptr, m_current_db);
+    Command command(Command::splitCommandString(cmd), m_current_db);
     Response result;
 
     try {
-        result = CommandExecutor::execute(m_connection, command);
-    } catch (CommandExecutor::Exception& e) {
+        result = m_connection->commandSync(command);
+    } catch (Connection::Exception& e) {
         emit addOutput(QString("Connection error:") + QString(e.what()), QConsole::Error);
         return;
     }
@@ -52,7 +53,7 @@ void ConsoleModel::executeCommand(const QString & cmd)
         m_current_db = command.getPartAsString(1).toInt();
         emit changePrompt(
             QString("%1:%2>")
-                .arg(m_connection->config.param<QString>("name"))
+                .arg(m_connection->getConfig().name())
                 .arg(command.getPartAsString(1)),
                 false
             );
