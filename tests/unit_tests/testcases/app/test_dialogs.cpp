@@ -28,15 +28,15 @@ void TestDialogs::testConnectionDialog()
     QString fake_file_path = fk.absoluteFilePath();
 
     //ssh with password
-    ConnectionConfig conf("fake_host", "fake_name");
+    ConnectionConfig conf("fake_host", "fake_auth", 6379, "fake_name");
     conf.setSshTunnelSettings("fake_ssh_host", "fake_ssh_user", "fake_ssh_pass");
 
     //ssh with key
-    ConnectionConfig conf2("fake_host", "fake_name");
+    ConnectionConfig conf2("fake_host", "fake_auth", 6379, "fake_name");
     conf2.setSshTunnelSettings("fake_ssh_host", "fake_ssh_user", "", 2222, fake_file_path);
 
     //ssh with key and pass
-    ConnectionConfig conf3("fake_host", "fake_name");
+    ConnectionConfig conf3("fake_host", "fake_auth", 6379, "fake_name");
     conf3.setSshTunnelSettings("fake_ssh_host", "fake_ssh_user", "fake_ssh_key_pass", 2222, fake_file_path);
 
     // ssl with auth and custom port
