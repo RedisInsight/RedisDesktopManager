@@ -99,12 +99,12 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Raw
         QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(rawCmd, dbIndex));
 
         try {
-            m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r, QString)
+            m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r, QString err)
             {                
-                if (r.type() == QVariant::Type::List)
-                    callback(r.toStringList(), QString());
-                else
-                    callback(QStringList(), QString("Cannot load keys: %1").arg(r.toString()));
+                if (!err.isEmpty())
+                    callback(QStringList(), QString("Cannot load keys: %1").arg(err));
+
+                callback(r.toStringList(), QString());
             });
         } catch (const RedisClient::Connection::Exception& error) {            
             callback(QStringList(), QString("Cannot load keys: %1").arg(error.what()));
