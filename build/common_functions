@@ -6,13 +6,11 @@
 
 DEPS_DIR=$RDM_DIR/3rdparty/
 
-function sync_breakpad {
-    # Sync breakpad deps
-    export PATH=$DEPS_DIR/depot_tools:$PATH
-    cd $DEPS_DIR/breakpad/
-    gclient config https://chromium.googlesource.com/external/google-breakpad.git
-    gclient sync --nohooks --noprehooks
-    rsync -av ./src/src ./src
+function build_breakpad {
+    cd $DEPS_DIR/gbreakpad/
+    svn checkout http://linux-syscall-support.googlecode.com/svn/trunk/lss/ src/third_party/lss
+    ./configure
+    make -j 2	
 }
 
 function print_line {

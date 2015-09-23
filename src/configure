@@ -6,12 +6,19 @@ DIR=$(dirname "$(readlink -f "$0")") && RDM_DIR=$DIR/../
 GetOSVersion
 
 if [ "$os_VENDOR" == "Ubuntu" ]; then
-    print_title "Build RDM on Ubuntu: $os_RELEASE"
+    ubuntu_ver=${os_RELEASE:0:2}	
+    print_title "Build RDM on Ubuntu: $ubuntu_ver"
 
     # Check latest Qt 5.5
     if [ ! -f /opt/qt55/bin/qt55-env.sh ]; then
         print_title "Install Qt 5.5"
-        sudo add-apt-repository --yes ppa:beineri/opt-qt55-trusty
+
+	if [ "$ubuntu_ver" == "14" ]; then
+        	sudo add-apt-repository --yes ppa:beineri/opt-qt55-trusty
+        elif [ "$ubuntu_ver" == "12" ]; then
+		sudo add-apt-repository --yes ppa:beineri/opt-qt55
+	fi
+
         sudo apt-get update -y
         sudo apt-get install qt55base qt55imageformats qt55tools \
             qt55declarative qt55quickcontrols qt55script qt55quick1 -y
@@ -31,7 +38,8 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     print_title "Check deps"
     sudo apt-get install automake subversion libtool libssl-dev \
         libssh2-1-dev g++ libgl1-mesa-dev -y
-    sync_breakpad
+
+    build_breakpad
 
     print_title "Run: source /opt/qt55/bin/qt55-env.sh && qmake && make "
 
@@ -42,7 +50,8 @@ elif [  "$os_VENDOR" == "Fedora" ]; then
     sudo yum install libssh2 libssh2-devel qt5-qtbase qt5-qtsvg-devel \
         qt5-qtdeclarative-devel qt5-qtgraphicaleffects qt5-qtquickcontrols  \
         qt5-qttools gcc gcc-c++ libstdc++-static subversion git rsync -y
-    sync_breakpad
+
+    build_breakpad
 
     print_title "Run: qmake-qt5 && make "
 
