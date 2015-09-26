@@ -1,5 +1,5 @@
 #pragma once
-
+#include <functional>
 #include <QSharedPointer>
 #include <QObject>
 #include <qredisclient/connection.h>
@@ -28,7 +28,8 @@ public:
 
     void openConsoleTab() override;
 
-    void openNewKeyDialog(int dbIndex, QString keyPrefix = QString()) override;
+    void openNewKeyDialog(int dbIndex, std::function<void()> callback,
+                          QString keyPrefix = QString()) override;
 
     void notifyDbWasUnloaded(int dbIndex) override;
 
@@ -37,6 +38,7 @@ signals:
                       ConnectionsTree::KeyItem& key, bool inNewTab);
 
     void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                      std::function<void()> callback,
                       int dbIndex, QString keyPrefix);
 
     void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);

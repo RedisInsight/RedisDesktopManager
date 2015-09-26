@@ -89,8 +89,17 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
 {
     m_parentView = &treeView;
     QSharedPointer<QMenu> menu(new QMenu());
-    menu->addAction(createMenuAction(":/images/add.png", "Add new key", menu.data(), this,
-                                     [this]() { m_operations->openNewKeyDialog(m_index); }));
+    std::function<void()> newKeyItemCallback = [this, &treeView]()
+    {
+        m_operations->openNewKeyDialog(m_index, [this, &treeView]()
+        {
+            confirmAction(treeView.getParentWidget(),
+                          tr("Key was added. Do you want to reload keys in the selected database?"),
+                          [this]() { reload(); m_keysCount++; }, tr("Key was added"));
+        });
+    };
+    menu->addAction(createMenuAction(":/images/add.png", "Add new key",
+                                     menu.data(), this, newKeyItemCallback));
     menu->addSeparator();
 
     if (m_filter.isEmpty()) {

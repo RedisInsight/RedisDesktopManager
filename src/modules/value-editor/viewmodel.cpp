@@ -108,6 +108,7 @@ void ValueEditor::ViewModel::addKey(QString keyName, QString keyType, const QVar
         m_keyFactory->addKey(m_newKeyRequest.first,
                              keyName, m_newKeyRequest.second,
                              keyType, row);
+        m_newKeyCallback();
     } catch (const Model::Exception& e) {
         emit keyError(-1, "Can't add new key: " + QString(e.what()));
     }
@@ -178,12 +179,14 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 }
 
 void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                                              std::function<void()> callback,
                                               int dbIndex, QString keyPrefix)
 {
     if (connection.isNull() || dbIndex < 0)
         return;
 
     m_newKeyRequest = qMakePair(connection, dbIndex);
+    m_newKeyCallback = callback;
 
     QString dbId= QString("%1:db%2")
             .arg(connection->getConfig().name())

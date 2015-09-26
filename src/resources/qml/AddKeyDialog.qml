@@ -84,8 +84,6 @@ Item {
                             newKeyName.text = ''
                             valueAddEditor.item.reset()
                             root.close()
-                            addConfirmation.text = "Key was added!"
-                            addConfirmation.open()
                         }
                     }
 

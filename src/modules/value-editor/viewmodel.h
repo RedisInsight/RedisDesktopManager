@@ -1,5 +1,5 @@
 #pragma once
-
+#include <functional>
 #include <QAbstractListModel>
 #include <QString>
 #include <QPair>
@@ -55,8 +55,8 @@ signals:
     void newKeyDialog(QString dbIdentificationString, QString keyPrefix);
 
 public slots:
-    void openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
-                          QString keyPrefix);
+    void openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                          std::function<void()>, int dbIndex, QString keyPrefix);
     void openTab(QSharedPointer<RedisClient::Connection> connection,
                  ConnectionsTree::KeyItem& key, bool inNewTab);
     void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
@@ -67,12 +67,11 @@ private:
     int m_currentTabIndex;
 
     QPair<QSharedPointer<RedisClient::Connection>, int> m_newKeyRequest;
+    std::function<void()> m_newKeyCallback;
 
     bool isIndexValid(const QModelIndex &index) const;
     void loadModel(QSharedPointer<Model> model, bool openNewTab = false);
     void removeModel(QSharedPointer<Model> model);
-
-
 };
 
 }

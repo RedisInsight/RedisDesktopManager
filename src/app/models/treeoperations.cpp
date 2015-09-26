@@ -144,9 +144,12 @@ void TreeOperations::openConsoleTab()
     m_consoleTabs.addTab(tab.staticCast<BaseTab>());
 }
 
-void TreeOperations::openNewKeyDialog(int dbIndex, QString keyPrefix)
+// TODO: add callback paramter to allow defining additional logic in db item
+// TODO: fix issue #3328
+void TreeOperations::openNewKeyDialog(int dbIndex, std::function<void()> callback,
+                                      QString keyPrefix)
 {
-    emit newKeyDialog(m_connection, dbIndex, keyPrefix);
+    emit newKeyDialog(m_connection, callback, dbIndex, keyPrefix);
 }
 
 void TreeOperations::notifyDbWasUnloaded(int dbIndex)
