@@ -41,21 +41,20 @@ HEADERS  += \
     $$PWD/modules/value-editor/*.h \
     $$PWD/modules/crashhandler/*.h \
     $$PWD/modules/updater/*.h \
-    $$PWD/modules/*.h \
-    
-
+    $$PWD/modules/*.h \    
 
 FORMS += \
     $$PWD/app/forms/*.ui \
+
+LIBS += -lz
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
 
 include($$THIRDPARTYDIR/3rdparty.pri)
 
-#win32-msvc* {
 win32 {
     CONFIG += c++11
-    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lz
+    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
     RC_FILE += $$PWD/resources/rdm.rc
 
     release: DESTDIR = ./../bin/windows/release
@@ -63,16 +62,12 @@ win32 {
 }
 
 unix:macx { # OSX
-    CONFIG += c++11 #release
-    #CONFIG -= debug
+    CONFIG += c++11
 
-    LIBS += -lz
-    debug {
-        CONFIG-=app_bundle
-    }
+    debug: CONFIG-=app_bundle
 
-    release: DESTDIR = ./../bin/linux/release
-    debug:   DESTDIR = ./../bin/linux/debug
+    release: DESTDIR = ./../bin/osx/release
+    debug:   DESTDIR = ./../bin/osx/debug
 
     #deployment
     QMAKE_INFO_PLIST =  $$PWD/resources/Info.plist
@@ -86,16 +81,13 @@ unix:macx { # OSX
 }
 
 unix:!macx { # ubuntu & debian
-
     CONFIG += static release
-    CONFIG -= debug
-    LIBS += -lz
+    CONFIG -= debug    
 
     QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
     release: DESTDIR = ./../bin/linux/release
     debug:   DESTDIR = ./../bin/linux/debug
-
 
     #deployment
     target.path = /usr/share/redis-desktop-manager/bin
@@ -128,5 +120,3 @@ OTHER_FILES += \
     qt.conf \
     Info.plist \
     qml\*.qml \
-
-

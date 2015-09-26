@@ -18,8 +18,10 @@ DIR=$(dirname "$(readlink -f "$0")") && RDM_DIR=$DIR/../
 
 if [[ $OSTYPE == darwin* ]]; then
     QMAKE_EXTRA_PARAMS=
+    RDM_OS="osx"
 else
     QMAKE_EXTRA_PARAMS="QMAKE_LFLAGS_RPATH=\"\""
+    RDM_OS="linux"
 fi
 
 
@@ -45,7 +47,7 @@ function clean_build_dir {
     rm -f redis-desktop-manager-*.gz
     rm -f redis-desktop-manager-*.tar
     rm -fR $RDM_DIR/redis-desktop-manager-*/
-    rm -fR $RDM_DIR/bin/linux/release/*
+    rm -fR $RDM_DIR/bin/$RDM_OS/release/*
     print_line
 }
 
@@ -53,7 +55,7 @@ function clean_build_dir {
 function build_crash_reporter {
     print_title "Build Crash Reporter"
     cd $RDM_DIR/3rdparty/crashreporter
-    qmake CONFIG+=release DESTDIR=$RDM_DIR/bin/linux/release $QMAKE_EXTRA_PARAMS
+    qmake CONFIG+=release DESTDIR=$RDM_DIR/bin/$RDM_OS/release $QMAKE_EXTRA_PARAMS
     make -s -j 2
     print_line
 }
@@ -167,7 +169,7 @@ function build_dmg {
 
     cd $RDM_DIR
     
-    BUNDLE_PATH=$RDM_DIR/bin/linux/release/ 
+    BUNDLE_PATH=$RDM_DIR/bin/$RDM_OS/release/ 
     BUILD_DIR=$BUNDLE_PATH/rdm.app/Contents/
 
     cp -f ./src/resources/Info.plist $BUILD_DIR/
@@ -189,14 +191,14 @@ function export_debug_symbols {
     if [[ $OSTYPE == darwin* ]]; then
         xcodebuild -sdk macosx10.9 -project src/tools/mac/dump_syms/dump_syms.xcodeproj -configuration Release ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
         cd src/tools/mac/dump_syms/build/Release
-        BINARY_PATH="$RDM_DIR/bin/linux/release/rdm.app/Contents/MacOS/rdm"
+        BINARY_PATH="$RDM_DIR/bin/$RDM_OS/release/rdm.app/Contents/MacOS/rdm"
     else
         cp -r src/src .
         ./configure && make
         cd src/tools/linux/dump_syms
-        BINARY_PATH="$RDM_DIR/bin/linux/release/rdm"
+        BINARY_PATH="$RDM_DIR/bin/$RDM_OS/release/rdm"
     fi
-    ./dump_syms $BINARY_PATH > $RDM_DIR/bin/linux/release/rdm.sym
+    ./dump_syms $BINARY_PATH > $RDM_DIR/bin/$RDM_OS/release/rdm.sym
 }
 
 # Build package:
