@@ -20,7 +20,7 @@ QString NamespaceItem::getDisplayName() const
     return QString("%1 (%2)").arg(m_displayName).arg(descendantCount());
 }
 
-QString NamespaceItem::getOriginalDisplayName() const
+QString NamespaceItem::getName() const
 {
     return m_displayName;
 }
@@ -89,7 +89,7 @@ bool NamespaceItem::isEnabled() const
 void NamespaceItem::append(QSharedPointer<TreeItem> item)
 {
     if (typeid(NamespaceItem)==typeid(*item)) {
-        m_childNamespaces[item.staticCast<NamespaceItem>()->getOriginalDisplayName()] = qSharedPointerCast<NamespaceItem>(item);
+        m_childNamespaces[item.staticCast<NamespaceItem>()->getName()] = qSharedPointerCast<NamespaceItem>(item);
     }
     m_childItems.append(item);
 }
