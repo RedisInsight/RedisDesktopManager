@@ -17,6 +17,11 @@ NamespaceItem::NamespaceItem(const QString &fullPath,
 
 QString NamespaceItem::getDisplayName() const
 {    
+    return QString("%1 (%2)").arg(m_displayName).arg(descendantCount());
+}
+
+QString NamespaceItem::getOriginalDisplayName() const
+{
     return m_displayName;
 }
 
@@ -33,6 +38,19 @@ QList<QSharedPointer<TreeItem> > NamespaceItem::getAllChilds() const
 uint NamespaceItem::childCount() const
 {
     return m_childItems.size();
+}
+
+uint NamespaceItem::descendantCount() const
+{
+    uint count = 0;
+    for (auto item : m_childItems) {
+        if (typeid(NamespaceItem)==typeid(*item)) {
+            count += item.staticCast<NamespaceItem>()->descendantCount();
+        } else {
+            count++;
+        }
+    }
+    return count;
 }
 
 QSharedPointer<TreeItem> NamespaceItem::child(uint row) const
@@ -71,7 +89,7 @@ bool NamespaceItem::isEnabled() const
 void NamespaceItem::append(QSharedPointer<TreeItem> item)
 {
     if (typeid(NamespaceItem)==typeid(*item)) {
-        m_childNamespaces[item->getDisplayName()] = qSharedPointerCast<NamespaceItem>(item);
+        m_childNamespaces[item.staticCast<NamespaceItem>()->getOriginalDisplayName()] = qSharedPointerCast<NamespaceItem>(item);
     }
     m_childItems.append(item);
 }

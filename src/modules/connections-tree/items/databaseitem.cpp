@@ -298,7 +298,7 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
 
         if (currItem.isNull()) {
             m_result->push_back(namespaceItem);
-            m_rootNamespaces->insert(namespaceItem->getDisplayName(), namespaceItem);
+            m_rootNamespaces->insert(namespaceItem->getOriginalDisplayName(), namespaceItem);
         }
         else currItem->append(namespaceItem);
     }

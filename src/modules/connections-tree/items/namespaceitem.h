@@ -10,9 +10,11 @@ namespace ConnectionsTree {
         NamespaceItem(const QString& fullPath,  QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
         QString getDisplayName() const override;
+        QString getOriginalDisplayName() const;
         QIcon getIcon() const override;
         QList<QSharedPointer<TreeItem>> getAllChilds() const override;
         uint childCount() const override;
+        uint descendantCount() const;
         QSharedPointer<TreeItem> child(uint row) const override;
         QWeakPointer<TreeItem> parent() const override;
 
