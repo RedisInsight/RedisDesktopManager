@@ -53,7 +53,7 @@ QList<QSharedPointer<TreeItem> > DatabaseItem::getAllChilds() const
     return *m_keys;
 }
 
-uint DatabaseItem::childCount() const
+uint DatabaseItem::childCount(bool recursive) const
 {
     return m_keys->size();
 }
@@ -298,7 +298,7 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<Namespac
 
         if (currItem.isNull()) {
             m_result->push_back(namespaceItem);
-            m_rootNamespaces->insert(namespaceItem->getDisplayName(), namespaceItem);
+            m_rootNamespaces->insert(namespaceItem->getName(), namespaceItem);
         }
         else currItem->append(namespaceItem);
     }

@@ -25,9 +25,11 @@ public:
     virtual QString getDisplayName() const = 0;
     virtual QIcon getIcon() const = 0;
     virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
-    virtual uint childCount() const = 0;
+    virtual uint childCount(bool recursive = false) const = 0;
     virtual QSharedPointer<TreeItem> child(uint row) const = 0;
     virtual QWeakPointer<TreeItem> parent() const = 0;
+
+    virtual bool supportChildItems() const { return true; }
 
     virtual int row() const
     {

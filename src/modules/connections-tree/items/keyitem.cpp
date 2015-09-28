@@ -31,7 +31,12 @@ QList<QSharedPointer<TreeItem>> KeyItem::getAllChilds() const
     return QList<QSharedPointer<TreeItem>>();
 }
 
-uint KeyItem::childCount() const
+bool KeyItem::supportChildItems() const
+{
+    return false;
+}
+
+uint KeyItem::childCount(bool recursive) const
 {
     return (uint)0;
 }
