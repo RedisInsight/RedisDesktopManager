@@ -17,7 +17,7 @@ NamespaceItem::NamespaceItem(const QString &fullPath,
 
 QString NamespaceItem::getDisplayName() const
 {    
-    return QString("%1 (%2)").arg(m_displayName).arg(descendantCount());
+    return QString("%1 (%2)").arg(m_displayName).arg(childCount(true));
 }
 
 QString NamespaceItem::getName() const
@@ -35,19 +35,17 @@ QList<QSharedPointer<TreeItem> > NamespaceItem::getAllChilds() const
     return m_childItems;
 }
 
-uint NamespaceItem::childCount() const
+uint NamespaceItem::childCount(bool recursive) const
 {
-    return m_childItems.size();
-}
+    if (!recursive)
+        return m_childItems.size();
 
-uint NamespaceItem::descendantCount() const
-{
     uint count = 0;
     for (auto item : m_childItems) {
-        if (typeid(NamespaceItem)==typeid(*item)) {
-            count += item.staticCast<NamespaceItem>()->descendantCount();
+        if (item->supportChildItems()) {
+            count += item->childCount(true);
         } else {
-            count++;
+            count += 1;
         }
     }
     return count;

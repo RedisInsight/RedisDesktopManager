@@ -13,8 +13,7 @@ namespace ConnectionsTree {
         QString getName() const;
         QIcon getIcon() const override;
         QList<QSharedPointer<TreeItem>> getAllChilds() const override;
-        uint childCount() const override;
-        uint descendantCount() const;
+        uint childCount(bool recursive = false) const override;
         QSharedPointer<TreeItem> child(uint row) const override;
         QWeakPointer<TreeItem> parent() const override;
 

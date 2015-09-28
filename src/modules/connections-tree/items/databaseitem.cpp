@@ -53,7 +53,7 @@ QList<QSharedPointer<TreeItem> > DatabaseItem::getAllChilds() const
     return *m_keys;
 }
 
-uint DatabaseItem::childCount() const
+uint DatabaseItem::childCount(bool recursive) const
 {
     return m_keys->size();
 }
