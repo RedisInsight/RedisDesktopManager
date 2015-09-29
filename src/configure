@@ -64,10 +64,6 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     build_breakpad
 
     print_title "Run: source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
-    
-    if [ $TRAVIS_OS_NAME ]; then
-      source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
-    fi 	
 elif [  "$os_VENDOR" == "Fedora" ]; then
     print_title "Build RDM on Fedora: $os_RELEASE"
 
@@ -83,8 +79,8 @@ elif [  "$os_VENDOR" == "Fedora" ]; then
 elif [[ $OSTYPE == darwin* ]]; then
     cd $DEPS_DIR
     chmod -R 755 gbreakpad && cd gbreakpad/
-    xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 
-    xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
+    xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 > /dev/null
+    xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 > /dev/null
     brew upgrade libssh2 || brew install libssh2
 else
     echo "Your operation system is not supported!"
