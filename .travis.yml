@@ -3,19 +3,8 @@ os:
   - linux
   - osx
 before_install:
-- export RDM_QT_VERSION=542
 - sudo pip install cpp-coveralls
-- sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
-- sudo apt-get update -qq
-- sudo apt-get install gcc-4.9 g++-4.9 gdb -y -qq
-- sudo rm -f /usr/bin/gcov
-- sudo rm -f /usr/bin/gcc
-- sudo rm -f /usr/bin/g++
-- sudo ln -s /usr/bin/gcov-4.9 /usr/bin/gcov
-- sudo ln -s /usr/bin/gcc-4.9 /usr/bin/gcc
-- sudo ln -s /usr/bin/g++-4.9 /usr/bin/g++
 - cd ./src && ./configure && cd ./../
-- source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
 - qmake -v
 script:
   - git submodule update --init --recursive 
