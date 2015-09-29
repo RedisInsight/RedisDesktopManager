@@ -6,7 +6,7 @@ before_install:
 - sudo pip install cpp-coveralls
 - cd ./src && ./configure && cd ./../
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then source /opt/qt54/bin/qt54-env.sh; fi
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install qt5; fi
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; brew install qt5; export PATH=/usr/local/opt/qt5/bin/:$PATH; fi
 - qmake -v
 script:
   - git submodule update --init --recursive 
