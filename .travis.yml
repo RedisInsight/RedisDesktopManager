@@ -1,22 +1,11 @@
 language: cpp
-compiler:
-  - gcc
-env:
-  - RDM_QT_VERSION=55
-  - RDM_QT_VERSION=542
+os:
+  - linux
+  - osx
 before_install:
-- sudo pip install cpp-coveralls
-- sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
-- sudo apt-get update -qq
-- sudo apt-get install gcc-4.9 g++-4.9 gdb -y -qq
-- sudo rm -f /usr/bin/gcov
-- sudo rm -f /usr/bin/gcc
-- sudo rm -f /usr/bin/g++
-- sudo ln -s /usr/bin/gcov-4.9 /usr/bin/gcov
-- sudo ln -s /usr/bin/gcc-4.9 /usr/bin/gcc
-- sudo ln -s /usr/bin/g++-4.9 /usr/bin/g++
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update > /dev/null; brew install qt5 > /dev/null; export PATH=/usr/local/opt/qt5/bin/:$PATH; fi
 - cd ./src && ./configure && cd ./../
-- source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then source /opt/qt54/bin/qt54-env.sh; fi
 - qmake -v
 script:
   - git submodule update --init --recursive 
@@ -28,6 +17,7 @@ script:
   - qmake && make -s -j 2
 after_success:
   - cd ./../tests
+  - sudo pip install cpp-coveralls
   - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*  > coveralls.log
 services:
   - redis-server
