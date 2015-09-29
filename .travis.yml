@@ -1,10 +1,9 @@
 language: cpp
-compiler:
-  - gcc
-env:
-  - RDM_QT_VERSION=55
-  - RDM_QT_VERSION=542
+os:
+  - linux
+  - osx
 before_install:
+- export RDM_QT_VERSION=542
 - sudo pip install cpp-coveralls
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test 
 - sudo apt-get update -qq
