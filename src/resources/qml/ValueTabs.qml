@@ -301,7 +301,8 @@ Repeater {
                             if (table.model.isPartialLoadingSupported()
                                     || table.model.totalRowCount() < maxItemsOnPage
                                     || table.forceLoading) {
-                                wrapper.showLoader()
+                                if (keyType != "string")
+                                    wrapper.showLoader()
                                 table.model.loadRows(currentStart, maxItemsOnPage)
                             } else {
                                 // Legacy redis without SCAN support
@@ -473,8 +474,9 @@ Repeater {
                         property int currentRow: -1
 
                         source: {
-                            if (keyType === "string")
+                            if (keyType === "string") {
                                 table.loadValue()
+                            }
 
                             return Editor.getEditorByTypeString(keyType)
                         }
@@ -482,8 +484,9 @@ Repeater {
                         onLoaded: {
                             if (valueEditor.item)
                                 valueEditor.item.resetAndDisableEditor()
-                            if (keyType === "string")
+                            if (keyType === "string") {
                                 valueEditor.loadRowValue(0)
+                            }
                         }
 
                         function loadRowValue(row) {
