@@ -194,11 +194,11 @@ Repeater {
 
                         itemDelegate: Item {
                             Text {
-                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.fill: parent
                                 color: styleData.textColor
                                 elide: styleData.elideMode
                                 text: styleData.value ? styleData.value + (truncated ? '...' : '') : (styleData.column == 1)? "[not loaded from server]" : "--"
-                                wrapMode: Text.WordWrap
+                                wrapMode: Text.Wrap
                                 maximumLineCount: 1
                             }
                         }
