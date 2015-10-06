@@ -82,8 +82,10 @@ Section -post SEC0001
     
     IfSilent 0 +2
         Exec "$INSTDIR\${APP_EXE}"
-    
+
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\RedisDesktopManager.lnk" "$INSTDIR\${APP_EXE}"
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
+
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
