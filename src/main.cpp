@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QFontDatabase>
+#include <googlemp.h>
 
 #ifndef RDM_VERSION
 #include "version.h"
@@ -21,10 +22,14 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("Redis Desktop Manager");
     QApplication::setApplicationVersion(QString(RDM_VERSION));
     QApplication::setOrganizationDomain("redisdesktop.com");
+    QApplication::setOrganizationName("redisdesktop");
     
     QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttf");
     QFont defaultFont("OpenSans", 10);
     QApplication::setFont(defaultFont);
+
+    GoogleMP::startSession(QDateTime::currentMSecsSinceEpoch());
+    GoogleMP::instance()->reportEvent("rdm:cpp", "app start", "");
 
     MainWin w;
     w.show();
