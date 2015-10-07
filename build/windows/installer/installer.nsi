@@ -11,7 +11,7 @@ SetCompressor /SOLID /FINAL lzma
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(Name)"
 !define COMPANY "Igor Malinovskiy"
-!define URL redisdesltop.com
+!define URL redisdesktop.com
 !define APP_EXE "rdm.exe"
 
 # MUI Symbol Definitions
