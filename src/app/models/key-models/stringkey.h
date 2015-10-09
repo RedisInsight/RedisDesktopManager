@@ -4,7 +4,8 @@
 class StringKeyModel : public KeyModel<QByteArray>
 {    
 public:
-    StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
+    StringKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                   QString fullPath, int dbIndex, long long ttl);
 
     QString getType() override;
     QStringList getColumnNames() override;

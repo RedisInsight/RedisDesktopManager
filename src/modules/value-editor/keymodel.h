@@ -27,14 +27,14 @@ public:
     virtual QString getKeyTitle() = 0;
 
     virtual QString getType() = 0;
-    virtual int getTTL() = 0;
+    virtual long long getTTL() = 0;
     virtual QStringList getColumnNames() = 0;
     virtual QHash<int, QByteArray> getRoles() = 0;
     virtual QVariant getData(int rowIndex, int dataRole) = 0;    
 
     virtual bool isPartialLoadingSupported() = 0;
     virtual void setKeyName(const QString&) = 0; // async
-    virtual void setTTL(int) = 0; // async   
+    virtual void setTTL(unsigned long) = 0; // async
     virtual void removeKey() = 0;
 
     //rows operations	

@@ -1,7 +1,7 @@
 #include "stringkey.h"
 #include <qredisclient/connection.h>
 
-StringKeyModel::StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+StringKeyModel::StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl, false,
                QByteArray(), QByteArray(), QByteArray())
 {

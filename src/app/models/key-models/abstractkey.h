@@ -52,7 +52,7 @@ public:
                 .arg(m_dbIndex).arg(m_keyFullPath);
     }
 
-    virtual int getTTL() override
+    virtual long long getTTL() override
     {
         return m_ttl;
     }    
@@ -94,7 +94,7 @@ public:
         m_keyFullPath = newKeyName;
     }
 
-    virtual void setTTL(int) override
+    virtual void setTTL(unsigned long) override
     {
         // TBD
     }
@@ -282,7 +282,7 @@ protected:
     QSharedPointer<RedisClient::Connection> m_connection;
     QString m_keyFullPath;
     int m_dbIndex;
-    int m_ttl;
+    long long m_ttl;
     bool m_isKeyRemoved;
     unsigned long m_rowCount;
 

@@ -1,7 +1,7 @@
 #include "listkey.h"
 #include <qredisclient/connection.h>
 
-ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
     : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
                        "LLEN", QByteArray(), "LRANGE", true)
 {

@@ -1,7 +1,7 @@
 #include "hashkey.h"
 #include <qredisclient/connection.h>
 
-HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
        : KeyModel(connection, fullPath, dbIndex, ttl, true,
                   "HLEN", "HSCAN %1 0 COUNT 10000", "HGETALL")
 {    

@@ -19,7 +19,7 @@ public:
 
 private:
     QSharedPointer<ValueEditor::Model> createModel(QString type, QSharedPointer<RedisClient::Connection> connection,
-                                                   QString keyFullPath, int dbIndex, int ttl);
+                                                   QString keyFullPath, int dbIndex, long long ttl);
 };
 
 

@@ -5,7 +5,8 @@
 class ListKeyModel : public ListLikeKeyModel
 {
 public:
-    ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
+    ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                 QString fullPath, int dbIndex, long long ttl);
 
     QString getType() override;
 

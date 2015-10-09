@@ -4,7 +4,8 @@
 class HashKeyModel : public KeyModel<QPair<QByteArray, QByteArray>>
 {
 public:
-    HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl);
+    HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                 QString fullPath, int dbIndex, long long ttl);
 
     QString getType() override;
     QStringList getColumnNames() override;

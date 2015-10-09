@@ -1,7 +1,7 @@
 #include "setkey.h"
 #include <qredisclient/connection.h>
 
-SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
        : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
                           "SCARD", "SSCAN %1 0 COUNT 10000", "SMEMBERS", false)
 {    

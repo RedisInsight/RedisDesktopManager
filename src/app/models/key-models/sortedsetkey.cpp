@@ -1,7 +1,7 @@
 #include "sortedsetkey.h"
 #include <qredisclient/connection.h>
 
-SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, int ttl)
+SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl, true,
                "ZCARD", QByteArray(), "ZRANGE WITHSCORES", true)
 {    

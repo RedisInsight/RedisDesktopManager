@@ -45,10 +45,10 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
             return;
         }
 
-        int ttl = -1;
+        long long ttl = -1;
 
         if (ttlResult.getType() == RedisClient::Response::Integer) {
-            ttl = ttlResult.getValue().toInt();
+            ttl = ttlResult.getValue().toLongLong();
         }
 
         result = createModel(type, connection, keyFullPath, dbIndex, ttl);
@@ -76,7 +76,7 @@ void KeyFactory::addKey(QSharedPointer<RedisClient::Connection> connection, QStr
 }
 
 QSharedPointer<ValueEditor::Model> KeyFactory::createModel(QString type, QSharedPointer<RedisClient::Connection> connection,
-                                                           QString keyFullPath, int dbIndex, int ttl)
+                                                           QString keyFullPath, int dbIndex, long long ttl)
 {
     if (type == "string") {
         return QSharedPointer<ValueEditor::Model>(new StringKeyModel(connection, keyFullPath, dbIndex, ttl));
