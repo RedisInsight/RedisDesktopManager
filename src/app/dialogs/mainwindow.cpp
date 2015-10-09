@@ -120,6 +120,12 @@ void MainWin::initSystemConsole()
     QSharedPointer<Console::LogTab> tab(new Console::LogTab());
     ui.tabWidget->addTab(tab);
 
+    el::Configurations defaultConf;
+    defaultConf.setToDefault();
+    defaultConf.setGlobally(el::ConfigurationType::ToStandardOutput, "false");
+    defaultConf.setGlobally(el::ConfigurationType::ToFile, "false");
+    el::Loggers::reconfigureLogger("default", defaultConf);
+
     el::Loggers::removeFlag(el::LoggingFlag::NewLineForContainer);
     el::Helpers::installLogDispatchCallback<Console::LogHandler>("LogHandler");
     Console::LogHandler* logHandler = el::Helpers::logDispatchCallback<Console::LogHandler>("LogHandler");
