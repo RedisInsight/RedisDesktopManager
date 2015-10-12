@@ -9,10 +9,8 @@
 void TestKeyModels::testKeyFactory()
 {
     //given
-    QFETCH(QString, typeReply);
-    QFETCH(QString, ttlReply);
-    QStringList replies = QStringList() << typeReply << ttlReply;
-    auto dummyConnection = getRealConnectionWithDummyTransporter(replies);
+    QFETCH(QStringList, validReplies);
+    auto dummyConnection = getRealConnectionWithDummyTransporter(validReplies);
 
     //when
     QSharedPointer<ValueEditor::Model> actualResult = getKeyModel(dummyConnection);
@@ -28,44 +26,37 @@ void TestKeyModels::testKeyFactory()
 
 void TestKeyModels::testKeyFactory_data()
 {
-       QTest::addColumn<QString>("typeReply");
-       QTest::addColumn<QString>("ttlReply");
+       QTest::addColumn<QStringList>("validReplies");
        QTest::addColumn<QString>("typeValid");
        QTest::addColumn<int>("ttlValid");
 
        QTest::newRow("Valid string model w/o TTL")
-               << "+string\r\n"
-               << ":-1\r\n"
+               << (QStringList() << "+string\r\n" << ":-1\r\n")
                << "string"
                << -1;
 
        QTest::newRow("Valid string model w TTL")
-               << "+string\r\n"
-               << ":100\r\n"
+               << (QStringList() << "+string\r\n" << ":100\r\n")
                << "string"
                << 100;
 
        QTest::newRow("Valid list model w/o TTL")
-               << "+list\r\n"
-               << ":-1\r\n"
+               << (QStringList() << "+list\r\n" << ":-1\r\n" << ":1\r\n")
                << "list"
                << -1;
 
        QTest::newRow("Valid set model w/o TTL")
-               << "+set\r\n"
-               << ":-1\r\n"
+               << (QStringList() << "+set\r\n" << ":-1\r\n" << ":1\r\n")
                << "set"
                << -1;
 
        QTest::newRow("Valid sorted set model w/o TTL")
-               << "+zset\r\n"
-               << ":-1\r\n"
+               << (QStringList() << "+zset\r\n" << ":-1\r\n" << ":1\r\n")
                << "zset"
                << -1;
 
        QTest::newRow("Valid hash model w/o TTL")
-               << "+hash\r\n"
-               << ":-1\r\n"
+               << (QStringList() << "+hash\r\n" << ":-1\r\n" << ":1\r\n")
                << "hash"
                << -1;
 }
@@ -170,7 +161,9 @@ void TestKeyModels::testValueLoading_data()
                << (QStringList() << "row" << "value");
 
        QTest::newRow("Valid set model")
-               << (QStringList() << "+set\r\n" << ":-1\r\n" << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
+               << (QStringList() << "+set\r\n" << ":-1\r\n"
+                   << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
+                   << ":1\r\n" << ":1\r\n" << ":1\r\n" << ":1\r\n")
                << 1
                << Qt::UserRole + 1
                << (unsigned long)2

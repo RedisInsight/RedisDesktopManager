@@ -62,7 +62,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
     try {
         connection->runCommand(typeCmd);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception("Cannot retrive type of the key: " + QString(e.what()));
     }
 }
 

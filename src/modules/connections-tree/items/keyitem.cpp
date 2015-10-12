@@ -38,7 +38,7 @@ bool KeyItem::supportChildItems() const
     return false;
 }
 
-uint KeyItem::childCount(bool recursive) const
+uint KeyItem::childCount(bool) const
 {
     return (uint)0;
 }
