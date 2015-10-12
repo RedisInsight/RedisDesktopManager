@@ -25,9 +25,10 @@ ColumnLayout
         value = val
         var isBin = binaryUtils.isBinaryString(val)
 
-        console.log('binary:', isBin)
+        binaryFlag.visible = false
 
-        if (!isBin) text = val
+        if (isBin) binaryFlag.visible = true
+        else text = val
 
         autoDetectFormatter(isBin)
     }
@@ -41,6 +42,8 @@ ColumnLayout
         visible: showFormatters
 
         Text { text: "Value:" }
+        Text { id: binaryFlag; text: "[Binary]"; visible: false; color: "green"; }
+        Text { id: compressedFlag; text: "[GZIP compressed]"; visible: false; color: "red"; } // TBD
         Item { Layout.fillWidth: true }
         Text { text: "View value as:" }
 

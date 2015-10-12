@@ -79,12 +79,12 @@ public:
        return m_rowCount;
     }
 
-    virtual void setKeyName(const QString& newKeyName) override
+    virtual void setKeyName(const QByteArray& newKeyName) override
     {
         RedisClient::Response result;
 
         try {
-            result = m_connection->commandSync("RENAMENX", m_keyFullPath, newKeyName, m_dbIndex);
+            result = m_connection->commandSync({"RENAMENX", m_keyFullPath, newKeyName}, m_dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
@@ -93,7 +93,7 @@ public:
             throw Exception("Key with new name already exist in database");
         }
 
-        m_keyFullPath = newKeyName.toUtf8();
+        m_keyFullPath = newKeyName;
     }
 
     virtual void setTTL(unsigned long) override

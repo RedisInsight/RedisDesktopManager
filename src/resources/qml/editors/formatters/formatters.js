@@ -1,4 +1,3 @@
-.pragma library
 .import "./msgpack.js" as MsgPack
 .import "./hexy.js" as Hexy
 .import "./php-unserialize.js" as PHPUnserialize
@@ -13,7 +12,7 @@ var plain = {
     readOnly: false,
     binary: false,
 
-    getFormatted: function (raw) {
+    getFormatted: function (raw) {        
         return raw
     },
 
@@ -27,6 +26,24 @@ var plain = {
 }
 
 var hex = {
+    title: "HEX",
+    readOnly: false,
+    binary: true,
+
+    getFormatted: function (raw) {
+        return binaryUtils.printable(binaryUtils.binaryListToValue(raw))
+    },
+
+    isValid: function (raw) {
+        return binaryUtils.isBinaryString(binaryUtils.binaryListToValue(raw))
+    },
+
+    getRaw: function (formatted) {
+        return binaryUtils.valueToBinary(binaryUtils.printableToValue(formatted))
+    }
+}
+
+var hexTable = {
     title: "HEX TABLE",
     readOnly: true,
     binary: true,
@@ -153,11 +170,11 @@ var phpserialized = {
 }
 
 var defaultFormatterIndex = 0;                        
-var enabledFormatters = [plain, hex, json, msgpack, phpserialized]
+var enabledFormatters = [plain, json, msgpack, hex, hexTable, phpserialized]
 
 function guessFormatter(isBinary, val)
 {
-    var tryFormatters = isBinary? [3, 1] : [2, 4]
+    var tryFormatters = isBinary? [2, 3, 4] : [1, 5]
 
     for (var index in tryFormatters) {
         if (enabledFormatters[tryFormatters[index]].isValid(val)){

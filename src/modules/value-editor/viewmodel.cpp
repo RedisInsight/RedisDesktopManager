@@ -1,6 +1,7 @@
 #include "viewmodel.h"
 #include <QDebug>
 #include <qredisclient/connection.h>
+#include <qredisclient/utils/text.h>
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
 
@@ -122,7 +123,7 @@ void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
     auto value = m_valueModels.at(i);
 
     try {
-        value->setKeyName(newKeyName);
+        value->setKeyName(printableStringToBinary(newKeyName));
         emit dataChanged(index(i, 0), index(i, 0));
     } catch (const Model::Exception& e) {
         emit keyError(i, "Can't rename key: " + QString(e.what()));

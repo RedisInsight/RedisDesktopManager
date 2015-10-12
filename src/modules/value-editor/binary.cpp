@@ -42,3 +42,12 @@ QVariant BinaryUtils::printable(const QVariant &value)
     QByteArray val = value.toByteArray();
     return printableString(val);
 }
+
+QVariant BinaryUtils::printableToValue(const QVariant &printable)
+{
+    if (!printable.canConvert(QVariant::String)) {
+        return QVariant();
+    }
+    QString val = printable.toString();
+    return printableStringToBinary(val);
+}
