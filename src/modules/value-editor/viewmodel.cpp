@@ -106,7 +106,7 @@ void ValueEditor::ViewModel::addKey(QString keyName, QString keyType, const QVar
 {
     try {
         m_keyFactory->addKey(m_newKeyRequest.first,
-                             keyName, m_newKeyRequest.second,
+                             keyName.toUtf8(), m_newKeyRequest.second,
                              keyType, row);
         m_newKeyCallback();
     } catch (const Model::Exception& e) {

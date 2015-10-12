@@ -10,16 +10,16 @@ public:
     KeyFactory();
 
     void loadKey(QSharedPointer<RedisClient::Connection> connection,
-                 QString keyFullPath, int dbIndex,
+                 QByteArray keyFullPath, int dbIndex,
                  std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)> callback) override;
 
     void addKey(QSharedPointer<RedisClient::Connection> connection,
-                QString keyFullPath, int dbIndex, QString type,
+                QByteArray keyFullPath, int dbIndex, QString type,
                 const QVariantMap &row) override;
 
 private:
     QSharedPointer<ValueEditor::Model> createModel(QString type, QSharedPointer<RedisClient::Connection> connection,
-                                                   QString keyFullPath, int dbIndex, long long ttl);
+                                                   QByteArray keyFullPath, int dbIndex, long long ttl);
 };
 
 

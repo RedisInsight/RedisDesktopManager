@@ -1,5 +1,6 @@
 #include "treeoperations.h"
 #include <qredisclient/redisclient.h>
+#include <qredisclient/utils/compat.h>
 #include "app/widgets/consoletabs.h"
 #include "app/models/connectionconf.h"
 #include "console/consoletab.h"
@@ -102,22 +103,22 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const Raw
             m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r, QString err)
             {                
                 if (!err.isEmpty())
-                    callback(QStringList(), QString("Cannot load keys: %1").arg(err));
+                    callback(RawKeysList(), QString("Cannot load keys: %1").arg(err));
 
-                callback(r.toStringList(), QString());
+                callback(convertQVariantList(r.toList()), QString());
             });
         } catch (const RedisClient::Connection::Exception& error) {            
-            callback(QStringList(), QString("Cannot load keys: %1").arg(error.what()));
+            callback(RawKeysList(), QString("Cannot load keys: %1").arg(error.what()));
         }
     } else {
         try {
             m_connection->command({"KEYS", keyPattern.toUtf8()}, this,
                                   [this, callback](RedisClient::Response r, QString)
             {
-                callback(r.getValue().toStringList(), QString());
+                callback(convertQVariantList(r.getValue().toList()), QString());
             }, dbIndex);
         } catch (const RedisClient::Connection::Exception& error) {
-            callback(QStringList(), QString("Cannot load keys: %1").arg(error.what()));
+            callback(RawKeysList(), QString("Cannot load keys: %1").arg(error.what()));
         }
     }
 }

@@ -9,7 +9,8 @@ namespace ConnectionsTree {
     class KeyItem : public TreeItem
     {        
     public:
-        KeyItem(const QString& fullPath, unsigned short int dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
+        KeyItem(const QByteArray& fullPath, unsigned short int dbIndex,
+                QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
 
         QString getDisplayName() const override;
         QIcon getIcon() const override;
@@ -26,13 +27,13 @@ namespace ConnectionsTree {
         bool isLocked() const override;
         bool isEnabled() const;
 
-        QString getFullPath() const;
+        QByteArray getFullPath() const;
         int getDbIndex() const;
 
         void setRemoved();
 
     private:
-        QString m_fullPath;
+        QByteArray m_fullPath;
         unsigned short int m_dbIndex;
         QSharedPointer<Operations> m_operations;
         QWeakPointer<TreeItem> m_parent;

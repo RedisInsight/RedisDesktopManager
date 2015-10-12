@@ -1,7 +1,8 @@
 #include "setkey.h"
 #include <qredisclient/connection.h>
 
-SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
+SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                         QByteArray fullPath, int dbIndex, long long ttl)
        : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
                           "SCARD", "SSCAN %1 0 COUNT 10000", "SMEMBERS", false)
 {    
@@ -51,7 +52,7 @@ void SetKeyModel::removeRow(int i)
 void SetKeyModel::addSetRow(const QByteArray &value)
 {
     try {
-        m_connection->commandSync("SADD", m_keyFullPath, value, m_dbIndex);
+        m_connection->commandSync({"SADD", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -60,7 +61,7 @@ void SetKeyModel::addSetRow(const QByteArray &value)
 RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value)
 {
     try {
-        return m_connection->commandSync("SREM", m_keyFullPath, value, m_dbIndex);
+        return m_connection->commandSync({"SREM", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }

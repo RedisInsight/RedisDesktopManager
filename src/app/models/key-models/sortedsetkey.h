@@ -5,7 +5,7 @@ class SortedSetKeyModel : public KeyModel<QPair<QByteArray, double>>
 {    
 public:
     SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection,
-                      QString fullPath, int dbIndex, long long ttl);
+                      QByteArray fullPath, int dbIndex, long long ttl);
 
     QString getType() override;
     QStringList getColumnNames() override;

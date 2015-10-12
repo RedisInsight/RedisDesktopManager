@@ -1,13 +1,15 @@
 #include "keyitem.h"
 #include <QMenu>
+#include <qredisclient/utils/text.h>
 
 #include "connections-tree/iconproxy.h"
 #include "connections-tree/utils.h"
 
-
 using namespace ConnectionsTree;
 
-KeyItem::KeyItem(const QString& fullPath, unsigned short dbIndex, QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent)
+KeyItem::KeyItem(const QByteArray &fullPath, unsigned short dbIndex,
+                 QSharedPointer<Operations> operations,
+                 QWeakPointer<TreeItem> parent)
     : m_fullPath(fullPath),
       m_dbIndex(dbIndex),
       m_operations(operations),
@@ -18,7 +20,7 @@ KeyItem::KeyItem(const QString& fullPath, unsigned short dbIndex, QSharedPointer
 
 QString KeyItem::getDisplayName() const
 {
-    return m_fullPath;
+    return printableString(m_fullPath);
 }
 
 QIcon KeyItem::getIcon() const
@@ -93,7 +95,7 @@ bool KeyItem::isEnabled() const
     return isLocked() == false && m_removed == false;
 }
 
-QString KeyItem::getFullPath() const
+QByteArray KeyItem::getFullPath() const
 {
     return m_fullPath;
 }
@@ -107,4 +109,3 @@ void KeyItem::setRemoved()
 {
     m_removed = true;
 }
-

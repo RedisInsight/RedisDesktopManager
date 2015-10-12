@@ -62,14 +62,14 @@ private:
                                                        QSharedPointer<DatabaseItem>);
     private:                  
          static void renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
-                                          const QString& notProcessedKeyPart,
-                                          const QString& fullKey,
+                                          const QByteArray &notProcessedKeyPart,
+                                          const QByteArray &fullKey,
                                           QSharedPointer<Operations> operations,
                                           const QString& namespaceSeparator,
                                           QSharedPointer<DatabaseKeys> m_result,
                                           QSharedPointer<DatabaseItem>,
                                           QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem>>> m_rootNamespaces
-                                          );         
+                                          );
     };
 private:
     unsigned short int m_index;

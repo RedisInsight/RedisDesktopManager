@@ -30,7 +30,7 @@ namespace ConnectionsTree {
          * @brief getDatabaseKeys
          * @param dbIndex
          */
-        typedef QStringList RawKeysList;
+        typedef QList<QByteArray> RawKeysList;
         virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&, const QString&)>) = 0;
 
         /**

@@ -5,6 +5,7 @@
 #include <QByteArray>
 #include <QPair>
 #include <qredisclient/redisclient.h>
+#include <qredisclient/utils/text.h>
 #include "modules/value-editor/keymodel.h"
 #include "rowcache.h"
 
@@ -12,7 +13,7 @@ template < typename T > class KeyModel : public ValueEditor::Model
 {  
 public:
     KeyModel(QSharedPointer<RedisClient::Connection> connection,
-             QString fullPath, int dbIndex, int ttl,
+             QByteArray fullPath, int dbIndex, int ttl,
              bool isMultiRow,
              QByteArray rowsCountCmd,
              QByteArray partialLoadingCmd,
@@ -42,14 +43,14 @@ public:
 
     virtual QString getKeyName() override
     {
-        return m_keyFullPath;
+        return printableString(m_keyFullPath);
     }
 
     virtual QString getKeyTitle() override
     {
         return QString("%1::db%2::%3")
                 .arg(m_connection->getConfig().name())
-                .arg(m_dbIndex).arg(m_keyFullPath);
+                .arg(m_dbIndex).arg(getKeyName());
     }
 
     virtual long long getTTL() override
@@ -91,7 +92,7 @@ public:
             throw Exception("Key with new name already exist in database");
         }
 
-        m_keyFullPath = newKeyName;
+        m_keyFullPath = newKeyName.toUtf8();
     }
 
     virtual void setTTL(unsigned long) override
@@ -117,7 +118,7 @@ public:
     {
         if (isPartialLoadingSupported() && !m_fullLoadingCmdSupportsRanges) {
             QList<QByteArray> cmdParts = m_partialLoadingCmd.split(' ');
-            cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath.toUtf8());
+            cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
 
             QSharedPointer<RedisClient::ScanCommand> cmd(
                         new RedisClient::ScanCommand(cmdParts, m_dbIndex));
@@ -186,12 +187,12 @@ protected:
         }
     }
 
-    int getRowCount(const QString &countCmd)
+    int getRowCount(const QByteArray &countCmd)
     {
         RedisClient::Response result;
 
         try {
-            result = m_connection->commandSync(countCmd, m_keyFullPath, m_dbIndex);
+            result = m_connection->commandSync({countCmd, m_keyFullPath}, m_dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
@@ -208,7 +209,7 @@ protected:
         QList<QByteArray> cmd;
 
         if (rowStart == 0 && count == 0) {
-            cmd << baseCmd << m_keyFullPath.toUtf8();
+            cmd << baseCmd << m_keyFullPath;
         } else {
             unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
@@ -216,14 +217,14 @@ protected:
                 QList<QByteArray> suffixCmd(baseCmd.split(' '));
 
                 cmd << suffixCmd.takeFirst();
-                cmd << m_keyFullPath.toUtf8()
+                cmd << m_keyFullPath
                     << QString::number(rowStart).toLatin1()
                     << QString::number(rowEnd).toLatin1();
                 cmd += suffixCmd;
 
             } else {
                 cmd << baseCmd
-                    << m_keyFullPath.toUtf8()
+                    << m_keyFullPath
                     << QString::number(rowStart).toLatin1()
                     << QString::number(rowEnd).toLatin1();
             }
@@ -280,7 +281,7 @@ protected:
 
 protected:
     QSharedPointer<RedisClient::Connection> m_connection;
-    QString m_keyFullPath;
+    QByteArray m_keyFullPath;
     int m_dbIndex;
     long long m_ttl;
     bool m_isKeyRemoved;

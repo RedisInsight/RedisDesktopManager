@@ -1,5 +1,6 @@
 #include "keyfactory.h"
 #include <qredisclient/redisclient.h>
+#include <qredisclient/utils/text.h>
 
 #include "stringkey.h"
 #include "setkey.h"
@@ -11,18 +12,19 @@ KeyFactory::KeyFactory()
 {}
 
 void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
-                         QString keyFullPath, int dbIndex,
+                         QByteArray keyFullPath, int dbIndex,
                          std::function<void (QSharedPointer<ValueEditor::Model>, const QString &)> callback)
 {
-    RedisClient::Command typeCmd({"type", keyFullPath.toUtf8()}, this,
-                                 [this, connection, keyFullPath, dbIndex, callback] (RedisClient::Response resp, QString)
+    RedisClient::Command typeCmd({"type", keyFullPath}, this,
+                                 [this, connection, keyFullPath, dbIndex, callback]
+                                 (RedisClient::Response resp, QString)
     {
 
         QSharedPointer<ValueEditor::Model> result;
 
         if (resp.isErrorMessage() || resp.getType() != RedisClient::Response::Type::Status) {            
             QString msg("Cannot load key %1, connection error occurred: %2");
-            callback(result, msg.arg(keyFullPath).arg(resp.toRawString()));
+            callback(result, msg.arg(printableString(keyFullPath)).arg(resp.toRawString()));
             return;
         }
 
@@ -31,17 +33,17 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
         if (type == "none") {
             QString msg("Cannot load key %1 because it doesn't exist in database."
                         " Please reload connection tree and try again.");
-            callback(result, msg.arg(keyFullPath));
+            callback(result, msg.arg(printableString(keyFullPath)));
             return;
         }
 
         RedisClient::Response ttlResult;
 
         try {
-            ttlResult = connection->commandSync("ttl", keyFullPath, dbIndex);
+            ttlResult = connection->commandSync({"ttl", keyFullPath}, dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
             QString msg("Cannot load TTL for key %1, connection error occurred: %2");
-            callback(result, msg.arg(keyFullPath).arg(QString(e.what())));
+            callback(result, msg.arg(printableString(keyFullPath)).arg(QString(e.what())));
             return;
         }
 
@@ -64,7 +66,8 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
     }
 }
 
-void KeyFactory::addKey(QSharedPointer<RedisClient::Connection> connection, QString keyFullPath, int dbIndex,
+void KeyFactory::addKey(QSharedPointer<RedisClient::Connection> connection,
+                        QByteArray keyFullPath, int dbIndex,
                         QString type, const QVariantMap &row)
 {
     QSharedPointer<ValueEditor::Model> result = createModel(type, connection, keyFullPath, dbIndex, -1);
@@ -76,7 +79,7 @@ void KeyFactory::addKey(QSharedPointer<RedisClient::Connection> connection, QStr
 }
 
 QSharedPointer<ValueEditor::Model> KeyFactory::createModel(QString type, QSharedPointer<RedisClient::Connection> connection,
-                                                           QString keyFullPath, int dbIndex, long long ttl)
+                                                           QByteArray keyFullPath, int dbIndex, long long ttl)
 {
     if (type == "string") {
         return QSharedPointer<ValueEditor::Model>(new StringKeyModel(connection, keyFullPath, dbIndex, ttl));

@@ -1,7 +1,8 @@
 #include "sortedsetkey.h"
 #include <qredisclient/connection.h>
 
-SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
+SortedSetKeyModel::SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                                     QByteArray fullPath, int dbIndex, long long ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl, true,
                "ZCARD", QByteArray(), "ZRANGE WITHSCORES", true)
 {    
@@ -91,7 +92,7 @@ void SortedSetKeyModel::removeRow(int i)
     QByteArray value = m_rowsCache[i].first;
 
     try {
-        m_connection->commandSync("ZREM", m_keyFullPath, value, m_dbIndex);
+        m_connection->commandSync({"ZREM", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -105,8 +106,8 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 {
     RedisClient::Response result;
     try {
-        result = m_connection->commandSync("ZADD", m_keyFullPath, QString::number(score),
-                                           value, m_dbIndex);
+        result = m_connection->commandSync(
+        {"ZADD", m_keyFullPath, QString::number(score).toLatin1(), value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -117,7 +118,7 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
 void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
 {
     try {
-        m_connection->commandSync("ZREM", m_keyFullPath, value, m_dbIndex);
+        m_connection->commandSync({"ZREM", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }

@@ -1,7 +1,8 @@
 #include "hashkey.h"
 #include <qredisclient/connection.h>
 
-HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
+HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                           QByteArray fullPath, int dbIndex, long long ttl)
        : KeyModel(connection, fullPath, dbIndex, ttl, true,
                   "HLEN", "HSCAN %1 0 COUNT 10000", "HGETALL")
 {    
@@ -99,12 +100,9 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
 
     Response result;
 
-    try {
-        QList<QByteArray> rawCmd {
-            (updateIfNotExist)? "HSET" : "HSETNX",
-            m_keyFullPath.toUtf8(), hashKey, hashValue
-        };
-        result = m_connection->commandSync(rawCmd, m_dbIndex);
+    try {        
+        result = m_connection->commandSync({(updateIfNotExist)? "HSET" : "HSETNX",
+                                            m_keyFullPath, hashKey, hashValue}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -117,7 +115,7 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
 void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
 {
     try {
-        m_connection->commandSync("HDEL", m_keyFullPath, hashKey, m_dbIndex);
+        m_connection->commandSync({"HDEL", m_keyFullPath, hashKey}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }

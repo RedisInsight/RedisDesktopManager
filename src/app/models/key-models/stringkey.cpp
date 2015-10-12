@@ -1,7 +1,8 @@
 #include "stringkey.h"
 #include <qredisclient/connection.h>
 
-StringKeyModel::StringKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
+StringKeyModel::StringKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                               QByteArray fullPath, int dbIndex, long long ttl)
     : KeyModel(connection, fullPath, dbIndex, ttl, false,
                QByteArray(), QByteArray(), QByteArray())
 {
@@ -53,7 +54,7 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 
     RedisClient::Response result;
     try {
-        result = m_connection->commandSync("SET", m_keyFullPath, value, m_dbIndex);
+        result = m_connection->commandSync({"SET", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -87,7 +88,7 @@ bool StringKeyModel::loadValue()
 {
     RedisClient::Response result;
     try {
-        result = m_connection->commandSync("GET", m_keyFullPath, m_dbIndex);
+        result = m_connection->commandSync({"GET", m_keyFullPath}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }

@@ -4,6 +4,7 @@
 #include "connections-tree/iconproxy.h"
 #include <typeinfo>
 #include <functional>
+#include <algorithm>
 #include <QDebug>
 #include <QMenu>
 #include <QInputDialog>
@@ -231,8 +232,8 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
 {
     //init
     QElapsedTimer timer;
-    timer.start();
-    keys.sort();
+    timer.start();    
+    std::sort(keys.begin(), keys.end());
     qDebug() << "Keys sorted in: " << timer.elapsed() << " ms";
     QSharedPointer<QList<QSharedPointer<TreeItem>>> result(new QList<QSharedPointer<TreeItem>>());
     QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem>>> rootNamespaces(
@@ -240,13 +241,13 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
 
     //render
     timer.restart();
-    for (QVariant key : keys) {
-
-        QString rawKey = key.toString();
+    for (QByteArray rawKey : keys) {
 
         //if filter enabled - skip keys
-        if (!filter.isEmpty() && !rawKey.contains(filter)) {
-            continue;
+        if (!filter.isEmpty()) {
+            QString key = QString::fromUtf8(rawKey); // UTF filtering
+            if (!key.contains(filter))
+                continue;
         }
 
         renderNamaspacedKey(QSharedPointer<NamespaceItem>(),
@@ -258,14 +259,15 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
     return result;
 }
 
-void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(QSharedPointer<NamespaceItem> currItem,
-                                                         const QString &notProcessedKeyPart,
-                                                         const QString &fullKey,
-                                                         QSharedPointer<Operations> m_operations,
-                                                         const QString& m_namespaceSeparator,
-                                                         QSharedPointer<DatabaseKeys> m_result,
-                                                         QSharedPointer<DatabaseItem> db,
-                                                         QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem> > > m_rootNamespaces)
+void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(
+        QSharedPointer<NamespaceItem> currItem,
+        const QByteArray &notProcessedKeyPart,
+        const QByteArray &fullKey,
+        QSharedPointer<Operations> m_operations,
+        const QString& m_namespaceSeparator,
+        QSharedPointer<DatabaseKeys> m_result,
+        QSharedPointer<DatabaseItem> db,
+        QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem> > > m_rootNamespaces)
 {
     QWeakPointer<TreeItem> currentParent = (currItem.isNull())? db.staticCast<TreeItem>().toWeakRef() :
                                                                 currItem.staticCast<TreeItem>().toWeakRef();

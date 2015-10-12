@@ -16,11 +16,11 @@ class AbstractKeyFactory
 {
 public:
     virtual void loadKey(QSharedPointer<RedisClient::Connection> connection,
-                         QString keyFullPath, int dbIndex,
+                         QByteArray keyFullPath, int dbIndex,
                          std::function<void(QSharedPointer<Model>, const QString&)> callback) = 0;
 
     virtual void addKey(QSharedPointer<RedisClient::Connection> connection,
-                         QString keyFullPath, int dbIndex, QString type,
+                         QByteArray keyFullPath, int dbIndex, QString type,
                          const QVariantMap &row) = 0;
 
 };

@@ -1,7 +1,8 @@
 #include "listkey.h"
 #include <qredisclient/connection.h>
 
-ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection, QString fullPath, int dbIndex, long long ttl)
+ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
+                           QByteArray fullPath, int dbIndex, long long ttl)
     : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
                        "LLEN", QByteArray(), "LRANGE", true)
 {
@@ -70,8 +71,8 @@ bool ListKeyModel::isActualPositionChanged(int row)
     Response result;
 
     try {
-        result = m_connection->commandSync("LRANGE", m_keyFullPath, QString::number(row),
-                                           QString::number(row), m_dbIndex);
+        result = m_connection->commandSync({"LRANGE", m_keyFullPath, QString::number(row).toLatin1(),
+                                           QString::number(row).toLatin1()}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -84,7 +85,7 @@ bool ListKeyModel::isActualPositionChanged(int row)
 void ListKeyModel::addListRow(const QByteArray &value)
 {
     try {
-        m_connection->commandSync("LPUSH", m_keyFullPath, value, m_dbIndex);
+        m_connection->commandSync({"LPUSH", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -93,8 +94,8 @@ void ListKeyModel::addListRow(const QByteArray &value)
 void ListKeyModel::setListRow(int pos, const QByteArray &value)
 {    
     try {
-        m_connection->commandSync("LSET", m_keyFullPath,
-                                  QString::number(pos), value, m_dbIndex);
+        m_connection->commandSync({"LSET", m_keyFullPath,
+                                  QString::number(pos).toLatin1(), value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -103,8 +104,8 @@ void ListKeyModel::setListRow(int pos, const QByteArray &value)
 void ListKeyModel::deleteListRow(int count, const QByteArray &value)
 {       
     try {
-        m_connection->commandSync("LREM", m_keyFullPath, QString::number(count),
-                                  value, m_dbIndex);
+        m_connection->commandSync({"LREM", m_keyFullPath, QString::number(count).toLatin1(),
+                                  value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
