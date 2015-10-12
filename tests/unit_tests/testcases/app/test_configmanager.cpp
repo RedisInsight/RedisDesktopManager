@@ -9,6 +9,9 @@ void TestConfigManager::testGetApplicationConfigPath()
 #ifdef Q_OS_MACX
     QSKIP("SKIP ON OSX");
 #endif
+#ifdef Q_OS_WIN
+    QSKIP("SKIP ON Windows");
+#endif
     // Given
     QTemporaryDir tmpDir;
     tmpDir.setAutoRemove(true);
@@ -31,6 +34,9 @@ void TestConfigManager::testMigrateOldConfig()
 {
 #ifdef Q_OS_MACX
     QSKIP("SKIP ON OSX");
+#endif
+#ifdef Q_OS_WIN
+    QSKIP("SKIP ON Windows");
 #endif
     // Given
     QTemporaryDir tmpDir;
