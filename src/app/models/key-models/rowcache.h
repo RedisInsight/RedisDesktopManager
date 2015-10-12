@@ -3,7 +3,6 @@
 #include <QList>
 #include <QHash>
 #include <exception>
-#include <QDebug>
 
 typedef long int RowIndex;
 
@@ -61,8 +60,7 @@ public:
         if (!isRowLoaded(index))
             return T();
 
-        CacheRange i = findTargetRange(index);
-        qDebug() << "get row with index" << (index - i.first);
+        CacheRange i = findTargetRange(index);        
         return m_mapping[i].at(index - i.first);
     }
 

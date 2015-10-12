@@ -264,6 +264,9 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << ":-1\r\n"
                 << ":2\r\n"
                 << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
+                << ":1\r\n"
+                << "+OK\r\n"
+                << ":1\r\n"
                 << "+OK\r\n")
             << setRow
             << Qt::UserRole + 1
@@ -298,6 +301,7 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << ":-1\r\n"
                 << ":2\r\n"
                 << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n"
+                << ":1\r\n"
                 << ":1\r\n"
                 << ":1\r\n"
                 << ":1\r\n")

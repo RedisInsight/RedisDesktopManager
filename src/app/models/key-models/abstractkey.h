@@ -4,6 +4,7 @@
 #include <QVariant>
 #include <QByteArray>
 #include <QPair>
+#include <QDebug>
 #include <qredisclient/redisclient.h>
 #include <qredisclient/utils/text.h>
 #include "modules/value-editor/keymodel.h"

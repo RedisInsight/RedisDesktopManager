@@ -24,8 +24,8 @@ void TestDatabaseItem::testLoadKeys()
     QSharedPointer<Operations> operations_(dynamic_cast<Operations*>(operations));
     operations->databases.append({0, 55});
 
-    for (int i=1; i < 1000000; i++) {
-        operations->keys.append(QString("test-%1-key").arg(i));
+    for (int i=1; i < 100000; i++) {
+        operations->keys.append(QString("test-%1-key").arg(i).toUtf8());
     }
     operations->keys.append("test-2-key");
     operations->keys.append("test-2-key:subkey");
@@ -47,9 +47,9 @@ void TestDatabaseItem::testLoadKeys()
     //then
     QCOMPARE(spy.wait(), true);
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(item->childCount(), (unsigned int)1000001);
+    QCOMPARE(item->childCount(), (unsigned int)100001);
     QCOMPARE(actualResult, true);
-    QCOMPARE(item->getDisplayName(), QString("db0 (1000002/55)"));
+    QCOMPARE(item->getDisplayName(), QString("db0 (100002/55)"));
     QCOMPARE(item->getIcon().isNull(), false);
     QCOMPARE(item->getAllChilds().isEmpty(), false);
     QCOMPARE(item->isEnabled(), true);
