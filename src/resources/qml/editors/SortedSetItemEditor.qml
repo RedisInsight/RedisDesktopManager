@@ -23,7 +23,7 @@ AbstractEditor {
 
         text: ""
         enabled: originalValue != "" || root.state !== "edit"
-        property string originalValue: ""
+        property var originalValue: ""
         placeholderText: "Score"
         validator: DoubleValidator { locale: "C" } // force point as decimal separator
     }
@@ -35,15 +35,14 @@ AbstractEditor {
         text: ""
         enabled: originalValue != "" || root.state !== "edit"
         showFormatters: root.state != "new"
-        property string originalValue: ""
+        property var originalValue: ""
     }
 
     function setValue(rowValue) {
         scoreText.originalValue = rowValue['score']
         scoreText.text = rowValue['score']
         textArea.originalValue = rowValue['value']
-        textArea.text = rowValue['value']
-        textArea.binaryArray = rowValue['binary_value']
+        textArea.setValue(rowValue['value'])
     }
 
     function isValueChanged() {
@@ -80,5 +79,4 @@ AbstractEditor {
         textArea.text = ""
         scoreText.text = ""
     }
-
 }

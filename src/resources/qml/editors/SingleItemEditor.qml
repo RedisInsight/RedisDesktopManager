@@ -10,7 +10,7 @@ AbstractEditor {
     id: root
     anchors.fill: parent
 
-    property string originalValue: ""    
+    property var originalValue: ""
 
     MultilineEditor {
         id: textArea
@@ -22,11 +22,8 @@ AbstractEditor {
     }
 
     function setValue(rowValue) {
-        root.originalValue = rowValue['value']
-        textArea.text = rowValue['value']
-        textArea.binaryArray = rowValue['binary_value']
-
-        console.log(rowValue['binary_value'])
+        root.originalValue = rowValue['value']        
+        textArea.setValue(rowValue['value'])
     }
 
     function isValueChanged() {
@@ -53,7 +50,6 @@ AbstractEditor {
         textArea.textColor = "black"
         // Fixme
     }
-
 
     function reset() {
         textArea.text = ''

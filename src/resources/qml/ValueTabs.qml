@@ -197,7 +197,9 @@ Repeater {
                                 anchors.fill: parent
                                 color: styleData.textColor
                                 elide: styleData.elideMode
-                                text: styleData.value ? styleData.value + (truncated ? '...' : '') : (styleData.column == 1)? "[not loaded from server]" : "--"
+                                text: styleData.value ? binaryUtils.printable(styleData.value) + (truncated ? '...' : '')
+                                                      : (styleData.column == 1) ?
+                                                            "[not loaded from server]" : "--"
                                 wrapMode: Text.Wrap
                                 maximumLineCount: 1
                             }

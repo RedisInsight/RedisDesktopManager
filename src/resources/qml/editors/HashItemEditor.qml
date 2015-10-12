@@ -23,7 +23,7 @@ AbstractEditor {
 
         text: ""
         enabled: originalValue != "" || root.state !== "edit"
-        property string originalValue: ""
+        property var originalValue: ""
 
         style: TextFieldStyle {
                 background: Rectangle {
@@ -45,7 +45,7 @@ AbstractEditor {
         Layout.fillHeight: true
         text: ""
         enabled: keyText.originalValue != "" || root.state !== "edit"
-        property string originalValue: ""
+        property var originalValue: ""
         showFormatters: root.state != "new"
 
         style: TextAreaStyle {
@@ -55,16 +55,13 @@ AbstractEditor {
     }
 
     function setValue(rowValue) {
-
         if (!rowValue)
             return       
+
         keyText.originalValue = rowValue['key']
         keyText.text = rowValue['key']
         textArea.originalValue = rowValue['value']
-        textArea.text = rowValue['value']
-        textArea.binaryArray = rowValue['binary_value']
-
-        console.log("binary set: ", rowValue['binary_value'])
+        textArea.setValue(rowValue['value'])
     }
 
     function isValueChanged() {

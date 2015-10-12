@@ -13,7 +13,8 @@
 using namespace ValueEditor;
 
 View::View(QSharedPointer<ViewModel> viewModel)
-    : QWidget(), m_qml(nullptr)
+    : QWidget(), m_qml(nullptr),
+      m_binaryUtils(QSharedPointer<BinaryUtils>(new BinaryUtils()))
 {    
     m_qml = QSharedPointer<QQuickWidget>(new QQuickWidget());
 
@@ -22,7 +23,8 @@ View::View(QSharedPointer<ViewModel> viewModel)
     m_qml->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qml->rootContext()->setContextProperty("appVersion", QApplication::applicationVersion());
     m_qml->rootContext()->setContextProperty("viewModel", viewModel.data());    
-    m_qml->rootContext()->setContextProperty("rdm_platform", QSysInfo::productType());
+    m_qml->rootContext()->setContextProperty("rdm_platform", QSysInfo::productType());        
+    m_qml->rootContext()->setContextProperty("binaryUtils", m_binaryUtils.data());
 
     m_qml->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     m_qml->setSource(QUrl(QStringLiteral("qrc:///qml/value-editor.qml")));

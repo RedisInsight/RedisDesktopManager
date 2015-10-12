@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QWidget>
 #include <QList>
 #include <QSharedPointer>
@@ -7,8 +6,7 @@
 #include <QQuickView>
 #include <QQuickWidget>
 #include "viewmodel.h"
-
-#define ALTERNATIVE_IMPL
+#include "binary.h"
 
 namespace ValueEditor {
 
@@ -19,5 +17,6 @@ public:
     View(QSharedPointer<ViewModel> viewModel);
 private:
     QSharedPointer<QQuickWidget> m_qml;
+    QSharedPointer<BinaryUtils> m_binaryUtils;
 };
 }

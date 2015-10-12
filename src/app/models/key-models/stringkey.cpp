@@ -21,8 +21,7 @@ QStringList StringKeyModel::getColumnNames()
 QHash<int, QByteArray> StringKeyModel::getRoles()
 {
     QHash<int, QByteArray> roles;
-    roles[Roles::Value] = "value";
-    roles[Roles::BinaryValue] = "binary_value";
+    roles[Roles::Value] = "value";    
     return roles;
 }
 
@@ -32,10 +31,7 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole)
         return QVariant();
 
     if (dataRole == Roles::Value)
-        return m_rowsCache[rowIndex];
-
-    if (dataRole == Roles::BinaryValue)
-        return valueToBinary(m_rowsCache[rowIndex]);
+        return m_rowsCache[rowIndex];    
 
     return QVariant();
 }

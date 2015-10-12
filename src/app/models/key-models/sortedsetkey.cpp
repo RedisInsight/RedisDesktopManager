@@ -23,8 +23,7 @@ QHash<int, QByteArray> SortedSetKeyModel::getRoles()
     QHash<int, QByteArray> roles;
     roles[Roles::RowNumber] = "row";
     roles[Roles::Value] = "value";
-    roles[Roles::Score] = "score";
-    roles[Roles::BinaryValue] = "binary_value";
+    roles[Roles::Score] = "score";    
     return roles;
 }
 
@@ -40,9 +39,7 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
     else if (dataRole ==Roles::Score)
         return QString::number(row.second);
     else if (dataRole == Roles::RowNumber)
-        return QString::number(rowIndex+1);
-    else if (dataRole == Roles::BinaryValue)
-        return valueToBinary(row.first);
+        return QString::number(rowIndex+1);    
 
     return QVariant();
 }

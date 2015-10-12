@@ -23,8 +23,7 @@ QHash<int, QByteArray> HashKeyModel::getRoles()
     QHash<int, QByteArray> roles;
     roles[Roles::RowNumber] = "row";
     roles[Roles::Key] = "key";
-    roles[Roles::Value] = "value";
-    roles[Roles::BinaryValue] = "binary_value";
+    roles[Roles::Value] = "value";    
     return roles;
 }
 
@@ -41,8 +40,6 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
         return row.second;
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);
-    else if (dataRole == Roles::BinaryValue)
-        return valueToBinary(row.second);
 
     return QVariant();
 }

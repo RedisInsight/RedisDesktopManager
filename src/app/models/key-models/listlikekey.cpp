@@ -20,8 +20,7 @@ QHash<int, QByteArray> ListLikeKeyModel::getRoles()
 {
     QHash<int, QByteArray> roles;
     roles[Roles::Value] = "value";
-    roles[Roles::RowNumber] = "row";
-    roles[Roles::BinaryValue] = "binary_value";
+    roles[Roles::RowNumber] = "row";    
     return roles;
 }
 
@@ -34,9 +33,7 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole)
         case Value:
             return m_rowsCache[rowIndex];
         case RowNumber:
-            return QString::number(rowIndex+1);
-        case BinaryValue:
-            return valueToBinary(m_rowsCache[rowIndex]);
+            return QString::number(rowIndex+1);        
     }
 
     return QVariant();

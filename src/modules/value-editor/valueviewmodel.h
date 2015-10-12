@@ -36,7 +36,7 @@ public:
 
     // general operations
     Q_INVOKABLE bool isPartialLoadingSupported();
-    Q_INVOKABLE QVariantList getColumnNames();       
+    Q_INVOKABLE QVariantList getColumnNames();
 
 signals:
     void rowsLoaded(int start, int count);

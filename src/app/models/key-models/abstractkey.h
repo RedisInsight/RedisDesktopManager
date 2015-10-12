@@ -303,12 +303,3 @@ protected:
     QSharedPointer<ValueEditor::ModelSignals> m_notifier;
 };
 
-inline QVariant valueToBinary(const QByteArray&value)
-{
-   QVariantList list;
-
-   for(int index=0; index < value.length(); ++index) {
-       list.append(QVariant((unsigned char)value.at(index)));
-   }
-   return QVariant(list);
-}

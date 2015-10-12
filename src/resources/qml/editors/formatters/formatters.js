@@ -27,7 +27,7 @@ var plain = {
 }
 
 var hex = {
-    title: "HEX",
+    title: "HEX TABLE",
     readOnly: true,
     binary: true,
 
@@ -93,7 +93,6 @@ var msgpack = {
     binary: true,
 
     getFormatted: function (raw) {
-
         try {
             var parsed = MsgPack.msgpack().unpack(raw)
             console.log('parsed msgpack:', parsed)
@@ -106,8 +105,7 @@ var msgpack = {
 
     isValid: function (raw) {
         try {
-            MsgPack.msgpack().unpack(raw)
-            return true
+            return MsgPack.msgpack().unpack(raw) !== undefined
         } catch (e) {
             return false
         }
@@ -115,8 +113,7 @@ var msgpack = {
 
     getRaw: function (formatted) {
         var obj = JSON.parse(formatted)
-        var compressed = MsgPack.msgpack().pack(obj, true)
-        console.log('compressed: ', compressed)
+        var compressed = MsgPack.msgpack().pack(obj)
         return compressed
     }
 }
@@ -155,5 +152,17 @@ var phpserialized = {
     }
 }
 
-var defaultFormatterIndex = 0;
+var defaultFormatterIndex = 0;                        
 var enabledFormatters = [plain, hex, json, msgpack, phpserialized]
+
+function guessFormatter(isBinary, val)
+{
+    var tryFormatters = isBinary? [3, 1] : [2, 4]
+
+    for (var index in tryFormatters) {
+        if (enabledFormatters[tryFormatters[index]].isValid(val)){
+            return tryFormatters[index]
+        }
+    }
+    return 0 // Plain text
+}
