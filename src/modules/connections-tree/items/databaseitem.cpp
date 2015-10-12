@@ -100,7 +100,13 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
         });
     };
     menu->addAction(createMenuAction(":/images/add.png", "Add new key",
-                                     menu.data(), this, newKeyItemCallback));
+                                     menu.data(), this, newKeyItemCallback,
+#ifdef Q_OS_MACX
+ QKeySequence("Meta+N")
+#else
+ QKeySequence("Ctrl+N")
+#endif
+    ));
     menu->addSeparator();
 
     if (m_filter.isEmpty()) {
@@ -111,15 +117,28 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
                                                  tr("Filter keys:"),
                                                  tr("Filter regex:"));
             if (!text.isEmpty()) filterKeys(QRegExp(text));
-        }));
+        },
+#ifdef Q_OS_MACX
+    QKeySequence("Meta+F")
+#else
+    QKeySequence("Ctrl+F")
+#endif
+        ));
     } else {
         menu->addAction(createMenuAction(":/images/clear.png", "Reset keys filter", menu.data(), this,
-                                         [this]() { resetFilter();}));
+                                         [this]() { resetFilter();},
+        QKeySequence("Esc")));
     }
     menu->addSeparator();
 
     menu->addAction(createMenuAction(":/images/refreshdb.png", "Reload", menu.data(), this,
-                                      [this] { this->reload(); }));
+                                      [this] { this->reload(); },
+#ifdef Q_OS_MACX
+    QKeySequence("Meta+R")
+#else
+    QKeySequence("Ctrl+R")
+#endif
+    ));
     return menu;
 }
 

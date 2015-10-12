@@ -89,14 +89,26 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
 {
     QSharedPointer<QMenu> menu(new QMenu());    
     menu->addAction(createMenuAction(":/images/terminal.png", "Console", menu.data(), this,
-                                     [this]() { m_operations->openConsoleTab();}));
+                                     [this]() { m_operations->openConsoleTab();},
+#ifdef Q_OS_MACX
+    QKeySequence("Meta+T")
+#else
+    QKeySequence("Ctrl+T")
+#endif
+    ));
     menu->addSeparator();    
 
     menu->addAction(createMenuAction(":/images/refreshdb.png", "Reload", menu.data(), this,
-                    [this] { this->reload(); }));
+                    [this] { this->reload(); },
+#ifdef Q_OS_MACX
+    QKeySequence("Meta+R")
+#else
+    QKeySequence("Ctrl+R")
+#endif
+    ));
 
     menu->addAction(createMenuAction(":/images/redisIcon_offline.png", "Disconnect", menu.data(), this,
-                                     [this] { unload(); }));
+                                     [this] { unload(); }, QKeySequence(QKeySequence::StandardKey::Close)));
 
     menu->addSeparator();   
     menu->addAction(createMenuAction(":/images/editdb.png", "Edit", menu.data(), this,
@@ -110,7 +122,13 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
             unload();
             emit editActionRequested();
         });
-    }));
+    },
+#ifdef Q_OS_MACX
+    QKeySequence("Meta+E")
+#else
+    QKeySequence("Ctrl+E")
+#endif
+    ));
 
     //delete action    
     menu->addAction(createMenuAction(":/images/delete.png", "Delete", menu.data(), this,
@@ -123,7 +141,7 @@ QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
              unload();
              emit deleteActionRequested();
          });
-     }));
+     }, QKeySequence(QKeySequence::StandardKey::Delete)));
 
     return menu;
 }
