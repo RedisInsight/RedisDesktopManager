@@ -63,7 +63,7 @@ Tab {
                                       + '<a href="http://redisdesktop.com/community">Community</a></span>'}
 
             RichTextWithLinks {
-                Layout.maximumWidth: footerMsg.contentWidth
+                Layout.maximumWidth: topLayout.implicitWidth
                 html: '<span style="font-size: 12px;"><b>Special thanks to:</b> '
                                       + 'andrewjknox, Rob T., chasm, mjirby, linux_china, GuRui, '
                                       + 'cristianobaptista, stgogm, ryanski44, Itamar Haber, elliots, caywood, '
@@ -72,11 +72,22 @@ Tab {
                                       + '</span>'
                                       }
 
-            RichTextWithLinks { html: '<span style="font-size: 9px;">Used third party software and images:<a href="http://qt-project.org/"> Qt5</a>; '
-                                      + '<a href="http://libqxt.org/">Qxt</a> , <a href="http://www.libssh2.org">libssh2</a>, '
-                                      + '<a href="http://code.google.com/p/google-breakpad/">google breakpad</a>, '
+            RichTextWithLinks { html: '<span style="font-size: 11px;">Used third party software and images: <a href="http://qt.io/">Qt</a>; '
+                                      + '<a href="https://github.com/uglide/qredisclient">qredisclient</a>, '
                                       + '<a href="https://github.com/uglide/QtConsole">QtConsole</a>, '
-                                      + '<a href="http://www.carlosprioglio.com/">Redis Logo</a> and other great OSS</span>'}
+                                      + '<a href="http://code.google.com/p/google-breakpad/">google breakpad</a>, '                                      
+                                      + '<a href="http://redis.io/">Redis Logo</a> and other great OSS</span>'}
+
+            Rectangle { color: "#cccccc"; Layout.preferredHeight: 1; Layout.fillWidth: true }
+
+            RichTextWithLinks {
+                Layout.fillWidth: true
+                html: '<img align="left" src="qrc:/images/ga.png" height="50" width="50" /><span style="font-size: 12px; display: block; ">'
+                                      + ' Redis Desktop Manager uses Google Analytics to track which features you are using. '
+                                      + ' <br />&nbsp;This data helps <a href="https://github.com/uglide">me</a> to develop staff that you actually need :)'
+                                      + ' <br />&nbsp;RDM <b>doesn\'t</b> send <a href="https://github.com/uglide/RedisDesktopManager/search?q=GoogleMP&utf8=%E2%9C%93">any sensitive information or data from your databases.</a>'
+                                      + ' <a href="https://github.com/uglide/RedisDesktopManager/wiki/Google-Analytics">More ></a>'
+                                      + ' </span>'}
 
             Rectangle { color: "#cccccc"; Layout.preferredHeight: 1; Layout.fillWidth: true }
 
@@ -87,7 +98,7 @@ Tab {
 
             RichTextWithLinks {
                 id: footerMsg
-                html: '<span style="font-size: 14px; font-weight: 700;"><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">IF YOU FEEL THAT IS USEFUL, <u style="color:green">DONATE</u> TO HELP KEEP DEVELOPMENT GOING.</a></span>'
+                html: '<span style="font-size: 20px; font-weight: 700;"><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">JUST <span style="color:red">DO</span><span style="font-size: 10px; color: grey;">NATE</span> IT!</a></span>'
             }
         }
     }

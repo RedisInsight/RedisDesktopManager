@@ -9,6 +9,7 @@
 #include <QDesktopWidget>
 #include <easylogging++.h>
 #include <qredisclient/redisclient.h>
+#include <googlemp.h>
 
 #include "app/models/configmanager.h"
 #include "app/models/connectionsmanager.h"
@@ -201,6 +202,8 @@ void MainWin::OnNewUpdateAvailable(QString &url)
 
 void MainWin::OnImportConnectionsClick()
 {
+    GoogleMP::instance()->showScreen("import-connections");
+
     QString fileName = QFileDialog::getOpenFileName(this, "Import Connections", "", tr("Xml Files and JSON files (*.xml *.json)"));
 
     if (fileName.isEmpty()) {
@@ -211,11 +214,13 @@ void MainWin::OnImportConnectionsClick()
         QMessageBox::information(this, "Connections imported", "Connections imported from connections file");
     } else {
         QMessageBox::warning(this, "Can't import connections", "Select valid file for import");
-    }
+    }       
 }
 
 void MainWin::OnExportConnectionsClick()
 {
+    GoogleMP::instance()->showScreen("export-connections");
+
     QString fileName = QFileDialog::getSaveFileName(this, "Export Connections to JSON", "", tr("Json Files (*.json)"));
 
     if (fileName.isEmpty()) {

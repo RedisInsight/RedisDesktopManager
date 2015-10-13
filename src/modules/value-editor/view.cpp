@@ -7,10 +7,21 @@
 #include <QApplication>
 #include <QtQml>
 #include <QSysInfo>
+#include <googlemp.h>
 #include "viewmodel.h"
 #include "valueviewmodel.h"
 
 using namespace ValueEditor;
+
+static QObject *analytics_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    GoogleMP *gmp = GoogleMP::instance();
+    return gmp;
+}
+
 
 View::View(QSharedPointer<ViewModel> viewModel)
     : QWidget(), m_qml(nullptr),
@@ -19,6 +30,7 @@ View::View(QSharedPointer<ViewModel> viewModel)
     m_qml = QSharedPointer<QQuickWidget>(new QQuickWidget());
 
     qmlRegisterType<ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");
+    qmlRegisterSingletonType<GoogleMP>("MeasurementProtocol", 1, 0, "Analytics", analytics_singletontype_provider);
 
     m_qml->setResizeMode(QQuickWidget::SizeRootObjectToView);
     m_qml->rootContext()->setContextProperty("appVersion", QApplication::applicationVersion());

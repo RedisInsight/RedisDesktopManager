@@ -3,6 +3,7 @@
 #include <QScrollBar>
 #include <QTextBlock>
 #include <QBoxLayout>
+#include <googlemp.h>
 
 #include <qconsole.h>
 
@@ -43,6 +44,8 @@ ConsoleTab::ConsoleTab(QSharedPointer<Operations> operations)
 
     m_initTimer.setSingleShot(true);
     m_initTimer.start(0);
+
+    GoogleMP::instance()->showScreen("redis-console");
 }
 
 void ConsoleTab::close()

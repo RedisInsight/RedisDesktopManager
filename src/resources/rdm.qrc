@@ -28,6 +28,7 @@
         <file alias="ua.png">images/ua.png</file>
         <file alias="filter.png">images/filter.png</file>
         <file alias="gitter.png">images/gitter.png</file>
+        <file alias="ga.png">images/ga.png</file>
     </qresource>
     <qresource prefix="/">
         <file>qml/value-editor.qml</file>

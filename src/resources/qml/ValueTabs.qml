@@ -4,6 +4,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
+import MeasurementProtocol 1.0
 import "./editors/editor.js" as Editor
 import "./parts"
 
@@ -52,7 +53,7 @@ Repeater {
 
         Component.onCompleted: {
             keyTab.focus = true
-            keyTab.forceActiveFocus()
+            keyTab.forceActiveFocus()            
         }
 
         Item {
@@ -131,6 +132,8 @@ Repeater {
                         onClicked: {
                             newKeyName.text = keyNameField.text
                             renameConfirmation.open()
+
+                            Analytics.reportEvent("value-editor", "rename-key")
                         }
                     }
 
@@ -154,6 +157,8 @@ Repeater {
 
                         onClicked: {
                             deleteConfirmation.open()
+
+                            Analytics.reportEvent("value-editor", "delete-key")
                         }
                     }
 
@@ -329,7 +334,11 @@ Repeater {
                             Layout.preferredWidth: 150
                             text: "Add row";
                             iconSource: "qrc:/images/add.png"
-                            onClicked: addRowDialog.open()
+                            onClicked: {
+                                addRowDialog.open()
+
+                                Analytics.reportEvent("value-editor", "add-row")
+                            }
 
                             Dialog {
                                 id: addRowDialog
@@ -390,6 +399,8 @@ Repeater {
                                 }
                                 deleteRowConfirmation.rowToDelete = table.currentRow
                                 deleteRowConfirmation.open()
+
+                                Analytics.reportEvent("value-editor", "delete-row")
                             }
 
                             MessageDialog {
@@ -422,6 +433,8 @@ Repeater {
                                     console.log("Reload value in tab")
                                     table.model.reload()
                                     valueEditor.clear()
+
+                                    Analytics.reportEvent("value-editor", "reload-key")
                                 }
                             }
                         }
@@ -528,6 +541,8 @@ Repeater {
 
                                 savingConfirmation.text = "Value was updated!"
                                 savingConfirmation.open()
+
+                                Analytics.reportEvent("value-editor", "update-row")
                             }
 
                         }

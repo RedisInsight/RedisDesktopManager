@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <qredisclient/connection.h>
+#include <googlemp.h>
 #include "app/models/connectionsmanager.h"
 
 ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWidget *parent)
@@ -36,6 +37,8 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
     ui.keysPattern->setText(QString(ConnectionConfig::DEFAULT_KEYS_GLOB_PATTERN));
     ui.connectionTimeout->setValue(ConnectionConfig::DEFAULT_TIMEOUT_IN_MS / 1000);
     ui.executionTimeout->setValue(ConnectionConfig::DEFAULT_TIMEOUT_IN_MS / 1000);
+
+    GoogleMP::instance()->showScreen("connection-dialog");
 }
 
 void ConnectionWindow::setConnectionConfig(const ConnectionConfig& config)
