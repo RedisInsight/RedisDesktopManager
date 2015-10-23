@@ -82,6 +82,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
     if (m_model->isRowLoaded(start)) {
         m_startFramePosition = start;
         emit layoutAboutToBeChanged();
+        emit rowsLoaded(start, count);
         emit layoutChanged();
         return;
     }

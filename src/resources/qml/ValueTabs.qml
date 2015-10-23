@@ -203,8 +203,7 @@ Repeater {
                                 color: styleData.textColor
                                 elide: styleData.elideMode
                                 text: styleData.value ? binaryUtils.printable(styleData.value) + (truncated ? '...' : '')
-                                                      : (styleData.column == 1) ?
-                                                            "[not loaded from server]" : "--"
+                                                      : ""
                                 wrapMode: Text.WrapAnywhere
                                 maximumLineCount: 1
                             }
@@ -244,6 +243,10 @@ Repeater {
                             onError: {
                                 valueErrorNotification.text = error
                                 valueErrorNotification.open()
+                            }
+
+                            onRowsLoaded: {
+                                wrapper.hideLoader()
                             }
                         }
 
