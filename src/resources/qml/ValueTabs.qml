@@ -205,7 +205,7 @@ Repeater {
                                 text: styleData.value ? binaryUtils.printable(styleData.value) + (truncated ? '...' : '')
                                                       : (styleData.column == 1) ?
                                                             "[not loaded from server]" : "--"
-                                wrapMode: Text.Wrap
+                                wrapMode: Text.WrapAnywhere
                                 maximumLineCount: 1
                             }
                         }
@@ -302,6 +302,7 @@ Repeater {
 
                                 column.role = columns[index]
                                 column.title = columns[index]
+                                if (index > 0) column.width = table.width / (columns.length - 1) - 50
                                 column.visible = true
                             }
 
