@@ -202,7 +202,8 @@ Repeater {
                                 anchors.fill: parent
                                 color: styleData.textColor
                                 elide: styleData.elideMode
-                                text: styleData.value ? binaryUtils.printable(styleData.value) + (truncated ? '...' : '')
+                                text: styleData.value ? binaryUtils.printable(styleData.value)
+                                                        + (lineCount > 1 ? '...' : '')
                                                       : ""
                                 wrapMode: Text.WrapAnywhere
                                 maximumLineCount: 1
