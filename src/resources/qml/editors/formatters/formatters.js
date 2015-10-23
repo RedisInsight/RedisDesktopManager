@@ -174,7 +174,7 @@ var enabledFormatters = [plain, json, msgpack, hex, hexTable, phpserialized]
 
 function guessFormatter(isBinary, val)
 {
-    var tryFormatters = isBinary? [2, 3, 4] : [1, 5, 2, 4]
+    var tryFormatters = isBinary? [2, 3, 4] : [1, 5, 2, 0]
 
     for (var index in tryFormatters) {
         if (enabledFormatters[tryFormatters[index]].isValid(val)){
