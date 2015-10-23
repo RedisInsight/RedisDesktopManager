@@ -35,15 +35,26 @@ MainWin::MainWin(QWidget *parent)
     QRect scr = desktop->screenGeometry();
 
     /* Smart resize on big screens */
-    LOG(DEBUG) << "Current ratio width:" << geometry().width()/(float)scr.width();
-    LOG(DEBUG) << "Current ratio height:" << geometry().height()/(float)scr.height();
+    float wRatio = geometry().width()/(float)scr.width();
+    float hRatio = geometry().height()/(float)scr.height();
+
+    LOG(DEBUG) << "Current ratio width:" << wRatio;
+    LOG(DEBUG) << "Current ratio height:" << hRatio;
+
     float minimumRatioW = 0.5;
     float minimumRatioH = 0.7;
-    if (geometry().width()/(float)scr.width() < minimumRatioW) {
+
+    if (wRatio < minimumRatioW
+            || hRatio < minimumRatioH) {
         LOG(DEBUG) << "Resize main window";
         setGeometry(geometry().x(), geometry().y(),
                     (int)(scr.width() * minimumRatioW),
                     (int)(scr.height() * minimumRatioH));
+    } else if (hRatio > 1 || wRatio > 1) {
+        LOG(DEBUG) << "Ratio > 1.0. Resize main window.";
+        setGeometry(geometry().x(), geometry().y(),
+                    (int)(scr.width() * 0.9),
+                    (int)(scr.height() * 0.8));
     }
     move(scr.center() - rect().center());
 
