@@ -4,6 +4,8 @@
 #
 #-------------------------------------------------
 
+OTHER_FILES += $$PWD/../src/resources/qml/3rdparty/php-unserialize-js/phpUnserialize.js
+
 # qredisclient
 include($$PWD/qredisclient/qredisclient.pri)
 

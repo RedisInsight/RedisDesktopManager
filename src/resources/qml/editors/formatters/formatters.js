@@ -140,13 +140,14 @@ var msgpack = {
 **/
 var phpserialized = {
     title: "PHP Serializer",
-    readOnly: false,
+    readOnly: true,
+    binary: false,
 
     getFormatted: function (raw) {
 
         try {
             var parsed = PHPUnserialize.unserialize(raw)
-            console.log('parsed php serialized:', parsed)
+            console.log('parsed php serialized:', JSON.stringify(parsed))
             return JSON.stringify(parsed, undefined, 4)
 
         } catch (e) {
