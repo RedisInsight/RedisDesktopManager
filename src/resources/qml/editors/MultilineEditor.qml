@@ -38,6 +38,7 @@ ColumnLayout
 
     RowLayout{
         visible: showFormatters
+        Layout.fillWidth: true
 
         Text { text: "Value:" }
         Text { id: binaryFlag; text: "[Binary]"; visible: false; color: "green"; }
@@ -83,10 +84,18 @@ ColumnLayout
 
         text: {
             if (!formatter) return ''
+            var val
             if (formatter.binary === true)
-                return formatter.getFormatted(binaryUtils.valueToBinary(value))
+                val = formatter.getFormatted(binaryUtils.valueToBinary(value))
             else
-                return formatter.getFormatted(binaryUtils.toUtf(value))
+                val = formatter.getFormatted(binaryUtils.toUtf(value))
+
+            if (val === undefined) {
+                formatterSelector.currentIndex = 0
+                binaryFlag.visible = false
+            }
+
+            return (val === undefined) ? '' : val
         }
 
         property var formatter: {

@@ -20,14 +20,8 @@ Rectangle {
         currentIndex: 0
 
         onCurrentIndexChanged: {
-
             var index = currentIndex
-
-            if (tabs.getTab(0).not_mapped)
-                index -= 1
-
-            console.log(index)
-
+            if (tabs.getTab(0).not_mapped) index -= 1
             viewModel.setCurrentTab(index)
         }
 
@@ -132,8 +126,8 @@ Rectangle {
             errorNotification.text = error
             errorNotification.open()
         }
-        onCloseWelcomeTab: {
 
+        onCloseWelcomeTab: {
             var welcomeTab = tabs.getTab(0)
 
             if (welcomeTab && welcomeTab.not_mapped)

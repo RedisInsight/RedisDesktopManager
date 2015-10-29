@@ -1,6 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
@@ -13,6 +13,8 @@ Repeater {
 
     Tab {
         id: keyTab
+        width: approot.width
+        height: approot.height
 
         function close(index) {
 
@@ -169,399 +171,422 @@ Repeater {
                     }
                 }
 
-                RowLayout {
-                    Layout.fillWidth: true
+                SplitView {
+                    orientation: Qt.Vertical
                     Layout.fillHeight: true
-                    visible: showValueNavigation
+                    Layout.fillWidth: true
 
-                    TableView {
-                        id: table
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.minimumHeight: 100
+                    handleDelegate: ColumnLayout {
+                        Item { Layout.fillWidth: true; Layout.preferredHeight: 2; }
+                        Rectangle { color: "#e2e2e2"; Layout.fillWidth: true; Layout.preferredHeight: 1; }
+                        Item { Layout.fillWidth: true; Layout.preferredHeight: 2;}
+                    }
 
-                        TableViewColumn{ width: 50 }
-                        TableViewColumn{ width: 150 }
-                        TableViewColumn{ width: table.width - 200}
-
-                        model: viewModel.getValue(tabIndex)
-
-                        property int currentStart: 0
-                        property int maxItemsOnPage: model? model.pageSize() : 100
-                        property int currentPage: currentStart / maxItemsOnPage + 1
-                        property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
-                        property bool forceLoading: false
-
-                        Component.onCompleted: {
-                            keyTab.table = table
-                            loadValue()
-                        }
-
-                        itemDelegate: Item {
-                            Text {
-                                anchors.fill: parent
-                                color: styleData.textColor
-                                elide: styleData.elideMode
-                                text: styleData.value ? binaryUtils.printable(styleData.value)
-                                                        + (lineCount > 1 ? '...' : '')
-                                                      : ""
-                                wrapMode: Text.WrapAnywhere
-                                maximumLineCount: 1
-                            }
-                        }
-
-                        Connections {
-                            target: viewModel
-
-                            onReplaceTab: {
-                                console.log("replace tab")
-                                table.model = viewModel.getValue(tabIndex)
-                                table.forceLoading = false
-                                table.currentStart = 0
-
-                                if (valueEditor.item)
-                                    valueEditor.item.resetAndDisableEditor()
-
-                                table.loadValue()
-
-                                if (keyType === "string") {
-                                    valueEditor.loadRowValue(0)
-                                }
-                            }
-                        }
-
-                        MessageDialog {
-                            id: valueErrorNotification
-                            visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Warning
-                            standardButtons: StandardButton.Ok
-                        }
-
-                        Connections {
-                            target: table.model ? table.model : null
-
-                            onError: {
-                                valueErrorNotification.text = error
-                                valueErrorNotification.open()
-                            }
-
-                            onRowsLoaded: {
-                                wrapper.hideLoader()
-                            }
-                        }
-
-                        MessageDialog {
-                            id: valueLoadingConfirmation
-                            title: "Legacy Redis-Server detected!"
-                            text: "You are connected to legacy redis-server, which doesn't support partial loading. "
-                                  + "Do you really want to load " + table.model.totalRowCount() +" items?"
-                            onYes: {
-                                table.forceLoading = true
-                                table.loadValue()
-                            }
-                            visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Warning
-                            standardButtons: StandardButton.Yes | StandardButton.No
-                        }
-
-                        function goToPage(page) {
-                            var firstItemOnPage = table.maxItemsOnPage * (page - 1)
-
-                            if (table.currentStart === firstItemOnPage)
-                                return
-
-                            table.currentStart = firstItemOnPage
-                            loadValue()
-                        }
-
-                        function goToPrevPage() {
-                            console.log('goto prev page')
-                            if (table.currentPage - 1 < 1)
-                                return
-
-                            goToPage(table.currentPage - 1)
-                        }
-
-                        function goToNextPage() {
-                            console.log('goto next page')
-                            if (table.totalPages < table.currentPage + 1)
-                                return
-
-                            goToPage(table.currentPage + 1)
-                        }
-
-                        function loadValue() {
-                            var columns = table.model.getColumnNames()
-
-                            for (var index = 0; index < 3; index++)
-                            {
-                                var column = table.getColumn(index)
-
-                                if (index >= columns.length) {
-                                    column.visible = false
-                                    continue
-                                }
-
-                                column.role = columns[index]
-                                column.title = columns[index]
-                                if (index > 0) column.width = table.width / (columns.length - 1) - 50
-                                column.visible = true
-                            }
-
-                            if (table.model.isPartialLoadingSupported()
-                                    || table.model.totalRowCount() < maxItemsOnPage
-                                    || table.forceLoading) {
-                                if (keyType != "string")
-                                    wrapper.showLoader()
-                                table.model.loadRows(currentStart, maxItemsOnPage)
-                            } else {
-                                // Legacy redis without SCAN support
-                                // Show warning message
-                                // to get upprove from user
-                                valueLoadingConfirmation.open()
-                            }
-                        }
-
-                        onRowCountChanged: {
-                            wrapper.hideLoader()
+                    onResizingChanged: {
+                        if (resizing) {
+                            valueEditor.maxHeight = 9999
                         }
                     }
 
-                    ColumnLayout {
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: 150
-                        Layout.maximumWidth: 150
-                        Layout.alignment: Qt.AlignTop
+                    // Table
+                    RowLayout {
+                        id: navigationTable
+                        Layout.fillWidth: true
+                        Layout.fillHeight: showValueNavigation
+                        visible: showValueNavigation
 
-                        Button {
-                            Layout.preferredWidth: 150
-                            text: "Add row";
-                            iconSource: "qrc:/images/add.png"
-                            onClicked: {
-                                addRowDialog.open()
+                        TableView {
+                            id: table
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.minimumHeight: 100
 
-                                Analytics.reportEvent("value-editor", "add-row")
+                            TableViewColumn{ width: 50 }
+                            TableViewColumn{ width: 150 }
+                            TableViewColumn{ width: table.width - 200}
+
+                            model: viewModel.getValue(tabIndex)
+
+                            property int currentStart: 0
+                            property int maxItemsOnPage: model? model.pageSize() : 100
+                            property int currentPage: currentStart / maxItemsOnPage + 1
+                            property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
+                            property bool forceLoading: false
+
+                            Component.onCompleted: {
+                                keyTab.table = table
+                                loadValue()
                             }
 
-                            Dialog {
-                                id: addRowDialog
-                                title: "Add Row"
-
-                                width: 520
-                                height: 300
-                                modality: Qt.ApplicationModal
-
-                                Loader {
-                                    id: valueAddEditor
-                                    width: 500
-                                    height: 350
-                                    anchors.centerIn: parent
-                                    property int currentRow: -1
-
-                                    source: Editor.getEditorByTypeString(keyType)
-
-                                    onLoaded: {
-                                        item.state = "add"
-                                    }
+                            itemDelegate: Item {
+                                Text {
+                                    anchors.fill: parent
+                                    color: styleData.textColor
+                                    elide: styleData.elideMode
+                                    text: styleData.value ? binaryUtils.printable(styleData.value)
+                                                            + (lineCount > 1 ? '...' : '')
+                                                          : ""
+                                    wrapMode: Text.WrapAnywhere
+                                    maximumLineCount: 1
                                 }
-
-                                onAccepted: {
-                                    if (!valueAddEditor.item)
-                                        return false
-
-                                    if (!valueAddEditor.item.isValueValid()) {
-                                        valueAddEditor.item.markInvalidFields()
-                                        return open()
-                                    }
-
-                                    var row = valueAddEditor.item.getValue()
-
-                                    var model = viewModel.getValue(tabIndex)
-                                    model.addRow(row)
-                                    table.model.reload()
-                                    valueAddEditor.item.reset()
-                                }
-
-                                visible: false
-                                standardButtons: StandardButton.Ok | StandardButton.Cancel
                             }
-                        }
 
-                        Button {
-                            Layout.preferredWidth: 150
-                            text: "Delete row"
-                            iconSource: "qrc:/images/delete.png"
-                            enabled: table.currentRow != -1
+                            Connections {
+                                target: viewModel
 
-                            onClicked: {
-                                if (table.model.totalRowCount() == 1) {
-                                    deleteRowConfirmation.text = "This is last row in this key, " +
-                                            "if you remove this - key will be removed!"
-                                } else {
-                                    deleteRowConfirmation.text = "Do you relly want to remove this row?"
+                                onReplaceTab: {
+                                    console.log("replace tab")
+                                    table.model = viewModel.getValue(tabIndex)
+                                    table.forceLoading = false
+                                    table.currentStart = 0
+
+                                    if (valueEditor.item)
+                                        valueEditor.item.resetAndDisableEditor()
+
+                                    table.loadValue()
+
+                                    if (keyType === "string") {
+                                        valueEditor.loadRowValue(0)
+                                    }
                                 }
-                                deleteRowConfirmation.rowToDelete = table.currentRow
-                                deleteRowConfirmation.open()
-
-                                Analytics.reportEvent("value-editor", "delete-row")
                             }
 
                             MessageDialog {
-                                id: deleteRowConfirmation
-                                title: "Delete row"
-                                text: ""
+                                id: valueErrorNotification
+                                visible: false
+                                modality: Qt.ApplicationModal
+                                icon: StandardIcon.Warning
+                                standardButtons: StandardButton.Ok
+                            }
+
+                            Connections {
+                                target: table.model ? table.model : null
+
+                                onError: {
+                                    valueErrorNotification.text = error
+                                    valueErrorNotification.open()
+                                }
+
+                                onRowsLoaded: {
+                                    wrapper.hideLoader()
+                                }
+                            }
+
+                            MessageDialog {
+                                id: valueLoadingConfirmation
+                                title: "Legacy Redis-Server detected!"
+                                text: "You are connected to legacy redis-server, which doesn't support partial loading. "
+                                      + "Do you really want to load " + table.model.totalRowCount() +" items?"
                                 onYes: {
-                                    console.log("remove row in key")
-                                    table.model.deleteRow(rowToDelete)
+                                    table.forceLoading = true
+                                    table.loadValue()
                                 }
                                 visible: false
                                 modality: Qt.ApplicationModal
                                 icon: StandardIcon.Warning
                                 standardButtons: StandardButton.Yes | StandardButton.No
-                                property int rowToDelete
                             }
 
-                        }
+                            function goToPage(page) {
+                                var firstItemOnPage = table.maxItemsOnPage * (page - 1)
 
-                        Button {
-                            Layout.preferredWidth: 150
-                            text: "Reload Value"
-                            iconSource: "qrc:/images/refreshdb.png"
-                            action: reLoadAction
-
-                            Action {
-                                id: reLoadAction
-                                shortcut: StandardKey.Refresh
-                                onTriggered: {
-                                    console.log("Reload value in tab")
-                                    table.model.reload()
-                                    valueEditor.clear()
-
-                                    Analytics.reportEvent("value-editor", "reload-key")
-                                }
-                            }
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                        }
-
-                        Pagination {
-                            id: pagination
-                            visible: showValueNavigation
-                        }
-                    }
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 2
-                }
-
-                Rectangle {
-                    color: "#e2e2e2"
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 2
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: !showValueNavigation
-                    Layout.minimumHeight: 220
-                    spacing: 0
-
-                    Connections {
-                        target: table
-
-                        onActivated: {
-                            valueEditor.loadRowValue(row)
-                        }
-                    }
-
-                    Loader {
-                        id: valueEditor
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-
-                        property int currentRow: -1
-
-                        source: {
-                            if (keyType === "string") {
-                                table.loadValue()
-                            }
-
-                            return Editor.getEditorByTypeString(keyType)
-                        }
-
-                        onLoaded: {
-                            if (valueEditor.item)
-                                valueEditor.item.resetAndDisableEditor()
-                            if (keyType === "string") {
-                                valueEditor.loadRowValue(0)
-                            }
-                        }
-
-                        function loadRowValue(row) {
-                            if (valueEditor.item) {
-                                var rowValue = table.model.getRow(row, true)
-                                valueEditor.currentRow = row
-                                valueEditor.item.setValue(rowValue)
-                            }
-                        }
-
-                        function clear() {
-                            if (valueEditor.item) {
-                                currentRow = -1
-                                valueEditor.item.resetAndDisableEditor()
-                            }
-                        }
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 40
-                        Item { Layout.fillWidth: true}
-                        Button {
-                            text: "Save"
-
-                            onClicked: {
-                                if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
-                                    savingConfirmation.text = "Nothing to save"
-                                    savingConfirmation.open()
+                                if (table.currentStart === firstItemOnPage)
                                     return
-                                }
 
-                                var value = valueEditor.item.getValue()
-
-                                console.log(value, value["value"])
-                                table.model.updateRow(valueEditor.currentRow, value)
-
-                                savingConfirmation.text = "Value was updated!"
-                                savingConfirmation.open()
-
-                                Analytics.reportEvent("value-editor", "update-row")
+                                table.currentStart = firstItemOnPage
+                                loadValue()
                             }
 
+                            function goToPrevPage() {
+                                console.log('goto prev page')
+                                if (table.currentPage - 1 < 1)
+                                    return
+
+                                goToPage(table.currentPage - 1)
+                            }
+
+                            function goToNextPage() {
+                                console.log('goto next page')
+                                if (table.totalPages < table.currentPage + 1)
+                                    return
+
+                                goToPage(table.currentPage + 1)
+                            }
+
+                            function loadValue() {
+                                var columns = table.model.getColumnNames()
+
+                                for (var index = 0; index < 3; index++)
+                                {
+                                    var column = table.getColumn(index)
+
+                                    if (index >= columns.length) {
+                                        column.visible = false
+                                        continue
+                                    }
+
+                                    column.role = columns[index]
+                                    column.title = columns[index]
+                                    if (index > 0) column.width = table.width / (columns.length - 1) - 50
+                                    column.visible = true
+                                }
+
+                                if (table.model.isPartialLoadingSupported()
+                                        || table.model.totalRowCount() < maxItemsOnPage
+                                        || table.forceLoading) {
+                                    if (keyType != "string")
+                                        wrapper.showLoader()
+                                    table.model.loadRows(currentStart, maxItemsOnPage)
+                                } else {
+                                    // Legacy redis without SCAN support
+                                    // Show warning message
+                                    // to get upprove from user
+                                    valueLoadingConfirmation.open()
+                                }
+                            }
+
+                            onRowCountChanged: {
+                                wrapper.hideLoader()
+                            }
                         }
 
-                        MessageDialog {
-                            id: savingConfirmation
-                            title: "Save value"
-                            text: ""
-                            visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Information
-                            standardButtons: StandardButton.Ok
+                        ColumnLayout {
+                            Layout.fillHeight: true
+                            Layout.preferredWidth: 150
+                            Layout.maximumWidth: 150
+                            Layout.alignment: Qt.AlignTop
+
+                            Button {
+                                Layout.preferredWidth: 150
+                                text: "Add row";
+                                iconSource: "qrc:/images/add.png"
+                                onClicked: {
+                                    addRowDialog.open()
+
+                                    Analytics.reportEvent("value-editor", "add-row")
+                                }
+
+                                Dialog {
+                                    id: addRowDialog
+                                    title: "Add Row"
+
+                                    width: 520
+                                    height: 300
+                                    modality: Qt.ApplicationModal
+
+                                    Loader {
+                                        id: valueAddEditor
+                                        width: 500
+                                        height: 350
+                                        anchors.centerIn: parent
+                                        property int currentRow: -1
+
+                                        source: Editor.getEditorByTypeString(keyType)
+
+                                        onLoaded: {
+                                            item.state = "add"
+                                        }
+                                    }
+
+                                    onAccepted: {
+                                        if (!valueAddEditor.item)
+                                            return false
+
+                                        if (!valueAddEditor.item.isValueValid()) {
+                                            valueAddEditor.item.markInvalidFields()
+                                            return open()
+                                        }
+
+                                        var row = valueAddEditor.item.getValue()
+
+                                        var model = viewModel.getValue(tabIndex)
+                                        model.addRow(row)
+                                        table.model.reload()
+                                        valueAddEditor.item.reset()
+                                    }
+
+                                    visible: false
+                                    standardButtons: StandardButton.Ok | StandardButton.Cancel
+                                }
+                            }
+
+                            Button {
+                                Layout.preferredWidth: 150
+                                text: "Delete row"
+                                iconSource: "qrc:/images/delete.png"
+                                enabled: table.currentRow != -1
+
+                                onClicked: {
+                                    if (table.model.totalRowCount() == 1) {
+                                        deleteRowConfirmation.text = "This is last row in this key, " +
+                                                "if you remove this - key will be removed!"
+                                    } else {
+                                        deleteRowConfirmation.text = "Do you relly want to remove this row?"
+                                    }
+                                    deleteRowConfirmation.rowToDelete = table.currentRow
+                                    deleteRowConfirmation.open()
+
+                                    Analytics.reportEvent("value-editor", "delete-row")
+                                }
+
+                                MessageDialog {
+                                    id: deleteRowConfirmation
+                                    title: "Delete row"
+                                    text: ""
+                                    onYes: {
+                                        console.log("remove row in key")
+                                        table.model.deleteRow(rowToDelete)
+                                    }
+                                    visible: false
+                                    modality: Qt.ApplicationModal
+                                    icon: StandardIcon.Warning
+                                    standardButtons: StandardButton.Yes | StandardButton.No
+                                    property int rowToDelete
+                                }
+
+                            }
+
+                            Button {
+                                Layout.preferredWidth: 150
+                                text: "Reload Value"
+                                iconSource: "qrc:/images/refreshdb.png"
+                                action: reLoadAction
+
+                                Action {
+                                    id: reLoadAction
+                                    shortcut: StandardKey.Refresh
+                                    onTriggered: {
+                                        console.log("Reload value in tab")
+                                        table.model.reload()
+                                        valueEditor.clear()
+
+                                        Analytics.reportEvent("value-editor", "reload-key")
+                                    }
+                                }
+                            }
+
+                            Item {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                            }
+
+                            Pagination {
+                                id: pagination
+                                visible: showValueNavigation
+                            }
                         }
                     }
+                    // Table end
+
+                    //Value editor
+                    ColumnLayout {
+                        id: editorWrapper
+                        Layout.fillWidth: true
+                        Layout.fillHeight: !showValueNavigation
+                        spacing: 0
+
+                        Connections {
+                            target: table
+
+                            onActivated: {
+                                valueEditor.loadRowValue(row)
+                            }
+                        }
+
+                        Loader {
+                            id: valueEditor
+                            Layout.fillWidth: true                            
+                            Layout.fillHeight: true
+                            Layout.minimumHeight: 180
+
+                            Layout.maximumHeight: maxHeight
+                            property int maxHeight: 9999
+
+                            Connections {
+                                target: viewModel
+
+                                onReplaceTab: {
+                                    if (showValueNavigation && keyIndex === index) {
+                                        valueEditor.maxHeight = wrapper.height * 0.4
+                                    } else {
+                                        valueEditor.maxHeight = 9999
+                                    }
+                                }
+                            }
+
+                            property int currentRow: -1
+
+                            source: {
+                                if (keyType === "string") {
+                                    table.loadValue()
+                                }
+
+                                return Editor.getEditorByTypeString(keyType)
+                            }
+
+                            onLoaded: {
+                                if (valueEditor.item)
+                                    valueEditor.item.resetAndDisableEditor()
+                                if (keyType === "string") {
+                                    valueEditor.loadRowValue(0)
+                                }
+                            }
+
+                            function loadRowValue(row) {
+                                if (valueEditor.item) {
+                                    var rowValue = table.model.getRow(row, true)
+                                    valueEditor.currentRow = row
+                                    valueEditor.item.setValue(rowValue)
+                                }
+                            }
+
+                            function clear() {
+                                if (valueEditor.item) {
+                                    currentRow = -1
+                                    valueEditor.item.resetAndDisableEditor()
+                                }
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.minimumHeight: 40
+                            Item { Layout.fillWidth: true}
+                            Button {
+                                text: "Save"
+
+                                onClicked: {
+                                    if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                        savingConfirmation.text = "Nothing to save"
+                                        savingConfirmation.open()
+                                        return
+                                    }
+
+                                    var value = valueEditor.item.getValue()
+
+                                    console.log(value, value["value"])
+                                    table.model.updateRow(valueEditor.currentRow, value)
+
+                                    savingConfirmation.text = "Value was updated!"
+                                    savingConfirmation.open()
+
+                                    Analytics.reportEvent("value-editor", "update-row")
+                                }
+
+                            }
+
+                            MessageDialog {
+                                id: savingConfirmation
+                                title: "Save value"
+                                text: ""
+                                visible: false
+                                modality: Qt.ApplicationModal
+                                icon: StandardIcon.Information
+                                standardButtons: StandardButton.Ok
+                            }
+                        }
+                    }
+                    //Value editor end
                 }
             }
 
