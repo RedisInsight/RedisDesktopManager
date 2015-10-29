@@ -32,7 +32,7 @@ AbstractEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
-        text: ""
+        value: ""
         enabled: originalValue != "" || root.state !== "edit"
         showFormatters: root.state != "new"
         property var originalValue: ""
@@ -52,7 +52,7 @@ AbstractEditor {
 
     function resetAndDisableEditor() {
         textArea.originalValue = ""
-        textArea.text = ""
+        textArea.value = ""
         scoreText.originalValue = ""
         scoreText.text = ""
     }
@@ -76,7 +76,7 @@ AbstractEditor {
     }
 
     function reset() {
-        textArea.text = ""
+        textArea.value = ""
         scoreText.text = ""
     }
 }

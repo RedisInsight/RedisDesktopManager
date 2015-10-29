@@ -51,3 +51,13 @@ QVariant BinaryUtils::printableToValue(const QVariant &printable)
     QString val = printable.toString();
     return printableStringToBinary(val);
 }
+
+QVariant BinaryUtils::toUtf(const QVariant &value)
+{
+    if (!value.canConvert(QVariant::ByteArray)) {
+        return QVariant();
+    }
+    QByteArray val = value.toByteArray();
+    QString result = QString::fromUtf8(val.constData(), val.size());
+    return QVariant(result);
+}

@@ -32,8 +32,9 @@ AbstractEditor {
                 implicitHeight: 24
                 border.color: "#BFBFBF"
                 border.width: 1
-                color: (textArea.text=="" && textArea.enabled
-                                      && textArea.readOnly == false) ? "lightyellow" : "white"
+                color: (!keyText.text
+                        && keyText.enabled
+                        && keyText.readOnly == false) ? "lightyellow" : "white"
                 }
          }
     }
@@ -42,14 +43,13 @@ AbstractEditor {
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true
-        Layout.fillHeight: true
-        text: ""
+        Layout.fillHeight: true        
         enabled: keyText.originalValue != "" || root.state !== "edit"
         property var originalValue: ""
         showFormatters: root.state != "new"
 
         style: TextAreaStyle {
-            backgroundColor: (textArea.text=="" && textArea.enabled
+            backgroundColor: (!textArea.value && textArea.enabled
                               && textArea.readOnly == false) ? "lightyellow" : "white"
         }
     }
@@ -70,7 +70,7 @@ AbstractEditor {
     }
 
     function resetAndDisableEditor() {
-        textArea.text = ""
+        textArea.value = ""
         textArea.originalValue = ""
         keyText.originalValue = ""
         keyText.text = ""
@@ -94,7 +94,7 @@ AbstractEditor {
 
     function reset() {
         textArea.originalValue = ""
-        textArea.text = ""
+        textArea.value = ""
         keyText.originalValue = ""
         keyText.text = ""
     }

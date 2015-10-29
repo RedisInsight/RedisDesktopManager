@@ -16,8 +16,8 @@ AbstractEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
-        text: ""
-        enabled: originalValue != "" || root.state !== "edit"
+        value: ""
+        enabled: originalValue !== "" || root.state !== "edit"
         showFormatters: root.state != "new"
     }
 
@@ -32,7 +32,7 @@ AbstractEditor {
 
     function resetAndDisableEditor() {
         root.originalValue = ""
-        textArea.text = ""
+        textArea.value = ""
     }
 
     function getValue() {

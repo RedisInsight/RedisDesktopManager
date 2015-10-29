@@ -6,8 +6,8 @@ import "./formatters/formatters.js" as Formatters
 
 ColumnLayout
 {
-    id: root    
-    property alias text: textArea.originalText    
+    id: root
+
     property alias enabled: textArea.enabled
     property alias textColor: textArea.textColor
     property alias style: textArea.style
@@ -27,15 +27,13 @@ ColumnLayout
 
         binaryFlag.visible = false
 
-        if (isBin) binaryFlag.visible = true
-        else text = val
+        if (isBin) binaryFlag.visible = true        
 
         autoDetectFormatter(isBin)
     }
 
     function autoDetectFormatter(isBinary) {
-        formatterSelector.currentIndex = Formatters.guessFormatter(
-                    isBinary, isBinary? binaryUtils.valueToBinary(value) : text)
+        formatterSelector.currentIndex = Formatters.guessFormatter(isBinary, value)
     }
 
     RowLayout{
@@ -88,9 +86,9 @@ ColumnLayout
             if (formatter.binary === true)
                 return formatter.getFormatted(binaryUtils.valueToBinary(value))
             else
-                return formatter.getFormatted(originalText)
+                return formatter.getFormatted(binaryUtils.toUtf(value))
         }
-        property string originalText        
+
         property var formatter: {
             var index = formatterSelector.currentIndex ? formatterSelector.currentIndex : Formatters.defaultFormatterIndex
             return Formatters.enabledFormatters[index]

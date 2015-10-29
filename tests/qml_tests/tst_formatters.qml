@@ -26,27 +26,34 @@ TestCase {
         compare(plain.getRaw(testValue), testValue)
     }
 
-    function test_php() {
+    function test_php_data() {
+        return [{
+                    value: 'a:6:{i:1;s:30:"PHP code tester Sandbox Online";'
+                           +'s:3:"foo";s:3:"bar";i:2;i:5;i:5;i:89009;s:4:"case";'
+                           +'s:12:"Random Stuff";s:11:"PHP Version";s:6:"5.5.18";}',
+                    validResult: {
+                        "1": "PHP code tester Sandbox Online",
+                        "foo": "bar",
+                        "2": 5,
+                        "5": 89009,
+                        "case": "Random Stuff",
+                        "PHP Version": "5.5.18"
+                    }
+                }
+                ]
+    }
+
+    function test_php(data) {
         // given
         var phpFormatter = Formatters.phpserialized
-        var testValue = 'a:6:{i:1;s:30:"PHP code tester Sandbox Online";'
-                +'s:3:"foo";s:3:"bar";i:2;i:5;i:5;i:89009;s:4:"case";'
-                +'s:12:"Random Stuff";s:11:"PHP Version";s:6:"5.5.18";}'
-        var validResult = {
-            "1": "PHP code tester Sandbox Online",
-            "foo": "bar",
-            "2": 5,
-            "5": 89009,
-            "case": "Random Stuff",
-            "PHP Version": "5.5.18"
-        }
+        var testValue = data.value
+        var validResult = data.validResult
 
         // when
-        checkProperties(phpFormatter, false, false)
+        checkProperties(phpFormatter, false, true)
 
         // then
         compare(phpFormatter.isValid(testValue), true)
-        compare(JSON.parse(phpFormatter.getFormatted(testValue)), validResult)
-        compare(phpFormatter.getRaw(JSON.stringify(validResult, undefined, 4)), testValue)
+        compare(JSON.parse(phpFormatter.getFormatted(testValue)), validResult)        
     }
 }
