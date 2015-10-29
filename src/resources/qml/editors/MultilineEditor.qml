@@ -75,7 +75,7 @@ ColumnLayout
         Layout.fillWidth: true        
         Layout.fillHeight: true
         Layout.preferredHeight: 100        
-        textFormat: formatter && formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
+        textFormat: formatter && formatter.htmlOutput ? TextEdit.RichText : TextEdit.PlainText
         readOnly: (formatter)? formatter.readOnly : enabled ? true : false
 
         onEnabledChanged: {

@@ -10,6 +10,7 @@ var plain = {
     title: "Plain Text",
     readOnly: false,
     binary: false,
+    htmlOutput: false,
 
     getFormatted: function (raw) {        
         return raw
@@ -28,6 +29,7 @@ var hex = {
     title: "HEX",
     readOnly: false,
     binary: true,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
         return binaryUtils.printable(binaryUtils.binaryListToValue(raw))
@@ -46,6 +48,7 @@ var hexTable = {
     title: "HEX TABLE",
     readOnly: true,
     binary: true,
+    htmlOutput: true,
 
     getFormatted: function (raw) {
         var format = {'html': true}
@@ -68,6 +71,7 @@ var json = {
     title: "JSON",
     readOnly: false,
     binary: false,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
 
@@ -107,6 +111,7 @@ var msgpack = {
     title: "MSGPACK",
     readOnly: false,
     binary: true,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
         try {
@@ -139,8 +144,9 @@ var msgpack = {
 **/
 var phpserialized = {
     title: "PHP Serializer",
-    readOnly: true,
+    readOnly: true,    
     binary: false,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
 
