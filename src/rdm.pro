@@ -11,8 +11,8 @@ TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"0.8.1.0\\\"
-    message("Version: 0.8.1.0")
+    DEFINES += RDM_VERSION=\\\"0.8.2-dev\\\"
+    message("Version: 0.8.2-dev")
 }
 
 DEFINES += CORE_LIBRARY ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
@@ -42,6 +42,10 @@ HEADERS  += \
     $$PWD/modules/crashhandler/*.h \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \    
+
+exists( $$PWD/version.h ) {
+    HEADERS  += $$PWD/version.h
+}
 
 FORMS += \
     $$PWD/app/forms/*.ui \
