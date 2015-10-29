@@ -1,7 +1,6 @@
 .import "./msgpack.js" as MsgPack
 .import "./hexy.js" as Hexy
 .import "./php-unserialize.js" as PHPUnserialize
-.import "./php-serialize.js" as PHPSerialize
 
 /**
   Plain formatter
@@ -11,6 +10,7 @@ var plain = {
     title: "Plain Text",
     readOnly: false,
     binary: false,
+    htmlOutput: false,
 
     getFormatted: function (raw) {        
         return raw
@@ -29,6 +29,7 @@ var hex = {
     title: "HEX",
     readOnly: false,
     binary: true,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
         return binaryUtils.printable(binaryUtils.binaryListToValue(raw))
@@ -47,6 +48,7 @@ var hexTable = {
     title: "HEX TABLE",
     readOnly: true,
     binary: true,
+    htmlOutput: true,
 
     getFormatted: function (raw) {
         var format = {'html': true}
@@ -69,6 +71,7 @@ var json = {
     title: "JSON",
     readOnly: false,
     binary: false,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
 
@@ -108,6 +111,7 @@ var msgpack = {
     title: "MSGPACK",
     readOnly: false,
     binary: true,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
         try {
@@ -140,17 +144,19 @@ var msgpack = {
 **/
 var phpserialized = {
     title: "PHP Serializer",
-    readOnly: false,
+    readOnly: true,    
+    binary: false,
+    htmlOutput: false,
 
     getFormatted: function (raw) {
 
         try {
             var parsed = PHPUnserialize.unserialize(raw)
-            console.log('parsed php serialized:', parsed)
+            console.log('parsed php serialized:', JSON.stringify(parsed))
             return JSON.stringify(parsed, undefined, 4)
 
         } catch (e) {
-            return "Error: Invalid PHP Serialized String: " + e
+            return "Error: Invalid PHP Serialized String: " + JSON.stringify(e)
         }
     },
 
@@ -172,11 +178,14 @@ var phpserialized = {
 var defaultFormatterIndex = 0;                        
 var enabledFormatters = [plain, json, msgpack, hex, hexTable, phpserialized]
 
-function guessFormatter(isBinary, val)
+function guessFormatter(isBinary, value)
 {
-    var tryFormatters = isBinary? [2, 3, 4] : [1, 5, 2, 0]
+    var tryFormatters = isBinary? [2, 5, 3, 4] : [1, 5, 2]
 
     for (var index in tryFormatters) {
+        var val = (enabledFormatters[tryFormatters[index]].binary) ?
+            binaryUtils.valueToBinary(value) : binaryUtils.toUtf(value)
+
         if (enabledFormatters[tryFormatters[index]].isValid(val)){
             return tryFormatters[index]
         }

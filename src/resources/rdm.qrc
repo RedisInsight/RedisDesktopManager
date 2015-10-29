@@ -42,11 +42,11 @@
         <file>qml/editors/formatters/formatters.js</file>
         <file>qml/editors/formatters/msgpack.js</file>
         <file>qml/editors/formatters/php-unserialize.js</file>
-        <file>qml/editors/formatters/php-serialize.js</file>
         <file>qml/editors/formatters/hexy.js</file>
         <file>qml/editors/editor.js</file>
         <file>qml/parts/Pagination.qml</file>
         <file>qml/AddKeyDialog.qml</file>
         <file>qml/parts/RichTextWithLinks.qml</file>
+        <file>qml/3rdparty/php-unserialize-js/phpUnserialize.js</file>
     </qresource>
 </RCC>

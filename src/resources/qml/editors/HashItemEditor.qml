@@ -8,48 +8,36 @@ import "."
 
 AbstractEditor {
     id: root
-    anchors.fill: parent
+    anchors.fill: parent    
 
-    Text {
-        Layout.fillWidth: true
-        text: "Key:"
-    }
-
-    TextField {
+    MultilineEditor {
         id: keyText
-
+        fieldLabel: "Key:"
         Layout.fillWidth: true
-        Layout.minimumHeight: 28
+        Layout.minimumHeight: 80
+        Layout.preferredHeight: 90
 
-        text: ""
+        value: ""
         enabled: originalValue != "" || root.state !== "edit"
         property var originalValue: ""
 
-        style: TextFieldStyle {
-                background: Rectangle {
-                radius: 1
-                implicitWidth: 100
-                implicitHeight: 24
-                border.color: "#BFBFBF"
-                border.width: 1
-                color: (textArea.text=="" && textArea.enabled
-                                      && textArea.readOnly == false) ? "lightyellow" : "white"
-                }
-         }
+        style: TextAreaStyle {
+            backgroundColor: (!keyText.value && keyText.enabled
+                              && keyText.readOnly == false) ? "lightyellow" : "white"
+        }
     }
 
 
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true
-        Layout.fillHeight: true
-        text: ""
+        Layout.fillHeight: true        
         enabled: keyText.originalValue != "" || root.state !== "edit"
         property var originalValue: ""
         showFormatters: root.state != "new"
 
         style: TextAreaStyle {
-            backgroundColor: (textArea.text=="" && textArea.enabled
+            backgroundColor: (!textArea.value && textArea.enabled
                               && textArea.readOnly == false) ? "lightyellow" : "white"
         }
     }
@@ -59,7 +47,7 @@ AbstractEditor {
             return       
 
         keyText.originalValue = rowValue['key']
-        keyText.text = rowValue['key']
+        keyText.setValue(rowValue['key'])
         textArea.originalValue = rowValue['value']
         textArea.setValue(rowValue['value'])
     }
@@ -70,14 +58,14 @@ AbstractEditor {
     }
 
     function resetAndDisableEditor() {
-        textArea.text = ""
+        textArea.value = ""
         textArea.originalValue = ""
         keyText.originalValue = ""
-        keyText.text = ""
+        keyText.value = ""
     }
 
     function getValue() {
-        return {"value": textArea.getText(), "key": keyText.text}
+        return {"value": textArea.getText(), "key": keyText.getText()}
     }
 
     function isValueValid() {
@@ -94,8 +82,8 @@ AbstractEditor {
 
     function reset() {
         textArea.originalValue = ""
-        textArea.text = ""
+        textArea.value = ""
         keyText.originalValue = ""
-        keyText.text = ""
+        keyText.value = ""
     }
 }

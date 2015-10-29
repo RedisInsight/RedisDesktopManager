@@ -6,12 +6,13 @@ import "./formatters/formatters.js" as Formatters
 
 ColumnLayout
 {
-    id: root    
-    property alias text: textArea.originalText    
+    id: root
+
     property alias enabled: textArea.enabled
     property alias textColor: textArea.textColor
     property alias style: textArea.style
     property bool showFormatters: true
+    property string fieldLabel: "Value:"
     property var value
 
     function getText() {
@@ -27,25 +28,24 @@ ColumnLayout
 
         binaryFlag.visible = false
 
-        if (isBin) binaryFlag.visible = true
-        else text = val
+        if (isBin) binaryFlag.visible = true        
 
         autoDetectFormatter(isBin)
     }
 
     function autoDetectFormatter(isBinary) {
-        formatterSelector.currentIndex = Formatters.guessFormatter(
-                    isBinary, isBinary? binaryUtils.valueToBinary(value) : text)
+        formatterSelector.currentIndex = Formatters.guessFormatter(isBinary, value)
     }
 
     RowLayout{
         visible: showFormatters
+        Layout.fillWidth: true
 
-        Text { text: "Value:" }
+        Text { text: root.fieldLabel }
         Text { id: binaryFlag; text: "[Binary]"; visible: false; color: "green"; }
         Text { id: compressedFlag; text: "[GZIP compressed]"; visible: false; color: "red"; } // TBD
         Item { Layout.fillWidth: true }
-        Text { text: "View value as:" }
+        Text { text: "View as:" }
 
         ComboBox {
             id: formatterSelector
@@ -76,7 +76,7 @@ ColumnLayout
         Layout.fillWidth: true        
         Layout.fillHeight: true
         Layout.preferredHeight: 100        
-        textFormat: formatter && formatter.readOnly? TextEdit.RichText : TextEdit.PlainText
+        textFormat: formatter && formatter.htmlOutput ? TextEdit.RichText : TextEdit.PlainText
         readOnly: (formatter)? formatter.readOnly : enabled ? true : false
 
         onEnabledChanged: {
@@ -85,12 +85,20 @@ ColumnLayout
 
         text: {
             if (!formatter) return ''
+            var val
             if (formatter.binary === true)
-                return formatter.getFormatted(binaryUtils.valueToBinary(value))
+                val = formatter.getFormatted(binaryUtils.valueToBinary(value))
             else
-                return formatter.getFormatted(originalText)
+                val = formatter.getFormatted(binaryUtils.toUtf(value))
+
+            if (val === undefined) {
+                formatterSelector.currentIndex = 0
+                binaryFlag.visible = false
+            }
+
+            return (val === undefined) ? '' : val
         }
-        property string originalText        
+
         property var formatter: {
             var index = formatterSelector.currentIndex ? formatterSelector.currentIndex : Formatters.defaultFormatterIndex
             return Formatters.enabledFormatters[index]

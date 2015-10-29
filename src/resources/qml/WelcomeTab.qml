@@ -8,10 +8,11 @@ Tab {
     title: "RDM"
 
     Rectangle {
+        id: parentWrapper
         color: "transparent"
 
         ColumnLayout {
-            anchors.centerIn: parent
+            anchors.centerIn: parentWrapper
 
             RowLayout {
                 id: topLayout
