@@ -12,6 +12,7 @@ ColumnLayout
     property alias textColor: textArea.textColor
     property alias style: textArea.style
     property bool showFormatters: true
+    property string fieldLabel: "Value:"
     property var value
 
     function getText() {
@@ -40,11 +41,11 @@ ColumnLayout
         visible: showFormatters
         Layout.fillWidth: true
 
-        Text { text: "Value:" }
+        Text { text: root.fieldLabel }
         Text { id: binaryFlag; text: "[Binary]"; visible: false; color: "green"; }
         Text { id: compressedFlag; text: "[GZIP compressed]"; visible: false; color: "red"; } // TBD
         Item { Layout.fillWidth: true }
-        Text { text: "View value as:" }
+        Text { text: "View as:" }
 
         ComboBox {
             id: formatterSelector
