@@ -1,4 +1,4 @@
-#[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site") 
+#[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site") :key:
 
 [Install & Run](https://github.com/uglide/RedisDesktopManager/wiki/Install-and-Run) | 
 [Quick Start](https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start) |
