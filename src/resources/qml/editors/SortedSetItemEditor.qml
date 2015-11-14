@@ -25,7 +25,7 @@ AbstractEditor {
         enabled: originalValue != "" || root.state !== "edit"
         property var originalValue: ""
         placeholderText: "Score"
-        validator: DoubleValidator { locale: "C" } // force point as decimal separator
+        validator: DoubleValidator { locale: "C"; notation: DoubleValidator.StandardNotation } // force point as decimal separator
     }
 
     MultilineEditor {
@@ -40,7 +40,7 @@ AbstractEditor {
 
     function setValue(rowValue) {
         scoreText.originalValue = rowValue['score']
-        scoreText.text = rowValue['score']
+        scoreText.text = Number(rowValue['score']).toFixed(20)
         textArea.originalValue = rowValue['value']
         textArea.setValue(rowValue['value'])
     }

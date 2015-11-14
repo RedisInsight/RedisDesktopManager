@@ -223,9 +223,18 @@ Repeater {
                                     anchors.fill: parent
                                     color: styleData.textColor
                                     elide: styleData.elideMode
-                                    text: styleData.value ? binaryUtils.printable(styleData.value)
+                                    text: {
+                                        if (!styleData.value)
+                                            return ""
+
+                                        if (styleData.column === 2 && keyType == "zset") {
+                                            var locale = Qt.locale("C")
+                                            return Number(styleData.value).toLocaleString(locale, "f")
+                                        }
+
+                                        return binaryUtils.printable(styleData.value)
                                                             + (lineCount > 1 ? '...' : '')
-                                                          : ""
+                                    }
                                     wrapMode: Text.WrapAnywhere
                                     maximumLineCount: 1
                                 }
