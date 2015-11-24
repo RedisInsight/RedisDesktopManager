@@ -134,8 +134,7 @@ Rectangle {
                tabs.removeTab(0)
         }
 
-        onNewKeyDialog: {
-            console.log(dbIdentificationString, keyPrefix)
+        onNewKeyDialog: {            
             addNewKeyDialog.open()
         }
     }

@@ -20,6 +20,7 @@ AbstractEditor {
         value: ""
         enabled: originalValue != "" || root.state !== "edit"
         property var originalValue: ""
+        showFormatters: root.state != "new"
 
         style: TextAreaStyle {
             backgroundColor: (!keyText.value && keyText.enabled

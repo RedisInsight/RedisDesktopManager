@@ -5,6 +5,7 @@
 #include <QPair>
 #include <QByteArray>
 #include <QSharedPointer>
+#include <QJSValue>
 #include "abstractkeyfactory.h"
 #include "keymodel.h"
 
@@ -41,7 +42,8 @@ public:
 
 
 public: // methods exported to QML
-    Q_INVOKABLE void addKey(QString keyName, QString keyType, const QVariantMap &row);
+    Q_INVOKABLE void addKey(QString keyName, QString keyType,
+                            const QVariantMap &row, QJSValue jsCallback);
     Q_INVOKABLE void renameKey(int index, const QString& newKeyName);
     Q_INVOKABLE void removeKey(int i);
     Q_INVOKABLE void closeTab(int i);

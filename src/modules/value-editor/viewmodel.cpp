@@ -106,15 +106,17 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     return roles;
 }
 
-void ValueEditor::ViewModel::addKey(QString keyName, QString keyType, const QVariantMap &row)
+void ValueEditor::ViewModel::addKey(QString keyName, QString keyType,
+                                    const QVariantMap &row, QJSValue jsCallback)
 {
     try {
         m_keyFactory->addKey(m_newKeyRequest.first,
                              keyName.toUtf8(), m_newKeyRequest.second,
                              keyType, row);
         m_newKeyCallback();
-    } catch (const Model::Exception& e) {
-        emit keyError(-1, "Can't add new key: " + QString(e.what()));
+        jsCallback.call(QJSValueList {});
+    } catch (const Model::Exception& e) {        
+        jsCallback.call(QJSValueList { "Can't add new key: " + QString(e.what()) });
     }
 }
 

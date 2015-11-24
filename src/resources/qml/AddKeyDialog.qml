@@ -77,13 +77,21 @@ Item {
                             }
 
                             var row = valueAddEditor.item.getValue()
-                            viewModel.addKey(newKeyName.text,
-                                             typeSelector.model[typeSelector.currentIndex],
-                                             row)
-
-                            newKeyName.text = ''
-                            valueAddEditor.item.reset()
-                            root.close()
+                            viewModel.addKey(
+                                newKeyName.text,
+                                typeSelector.model[typeSelector.currentIndex],
+                                row,
+                                function callback(err) {
+                                     if (!err) {
+                                         newKeyName.text = ''
+                                         valueAddEditor.item.reset()
+                                         root.close()
+                                     } else {
+                                        addError.text = err
+                                        addError.open()
+                                     }
+                                 }
+                            )
                         }
                     }
 
@@ -97,12 +105,12 @@ Item {
         }
 
         MessageDialog {
-            id: addConfirmation
-            title: "Save value"
+            id: addError
+            title: "Error"
             text: ""
             visible: false
             modality: Qt.ApplicationModal
-            icon: StandardIcon.Information
+            icon: StandardIcon.Warning
             standardButtons: StandardButton.Ok
         }
     }
