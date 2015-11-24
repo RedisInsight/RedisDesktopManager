@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QFontDatabase>
+#include <QtWebEngine/QtWebEngine>
 #include <googlemp.h>
 
 #ifndef RDM_VERSION
@@ -14,6 +15,7 @@
 int main(int argc, char *argv[])
 {       
     QApplication a(argc, argv);
+    QtWebEngine::initialize();
 
 #ifndef QT_DEBUG
     CrashHandler::instance()->Init(QDir::homePath());

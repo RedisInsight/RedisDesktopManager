@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
+import QtWebEngine 1.1
 import "."
 import "./editors/formatters/formatters.js" as Formatters
 
@@ -23,6 +24,25 @@ Rectangle {
             var index = currentIndex
             if (tabs.getTab(0).not_mapped) index -= 1
             viewModel.setCurrentTab(index)
+        }
+
+        Tab {
+            title: "web_view!"
+
+            WebEngineView {
+                id: webview
+
+                anchors.fill: parent
+
+                Component.onCompleted: {
+                    var json_editor = '<html><head><link rel="stylesheet" href="qrc:/highlight.css"></head><body>'
+                    + '<pre><code>{"a": true}</code></pre>'
+                    + '<script src="qrc:/highlight.js"></script>'
+                    + '<script>hljs.initHighlightingOnLoad();</script></body></html>'
+
+                    webview.loadHtml(json_editor)
+                }
+            }
         }
 
         WelcomeTab {
