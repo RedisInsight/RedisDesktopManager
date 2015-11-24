@@ -32,12 +32,12 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
     if (!isRowLoaded(rowIndex))
         return QVariant();
 
-    QPair<QByteArray, double> row = m_rowsCache[rowIndex];
+    QPair<QByteArray, QByteArray> row = m_rowsCache[rowIndex];
 
     if (dataRole == Roles::Value)
         return row.first;
     else if (dataRole ==Roles::Score)
-        return QString::number(row.second);
+        return row.second;
     else if (dataRole == Roles::RowNumber)
         return QString::number(rowIndex+1);    
 
@@ -49,14 +49,14 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     if (!isRowLoaded(rowIndex) || !isRowValid(row))
         throw Exception("Invalid row");
 
-    QPair<QByteArray, double> cachedRow = m_rowsCache[rowIndex];
+    QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
     bool valueChanged = cachedRow.first != row["value"].toString();
-    bool scoreChanged = cachedRow.second != row["score"].toDouble();
+    bool scoreChanged = cachedRow.second != row["score"].toString();
 
-    QPair<QByteArray, double> newRow(
+    QPair<QByteArray, QByteArray> newRow(
                     (valueChanged) ? row["value"].toByteArray() : cachedRow.first,
-                    (scoreChanged) ? row["score"].toDouble() : cachedRow.second
+                    (scoreChanged) ? row["score"].toByteArray() : cachedRow.second
                 );
 
     // TODO (uglide): Update only score if value not changed
@@ -71,9 +71,9 @@ void SortedSetKeyModel::addRow(const QVariantMap &row)
     if (!isRowValid(row))
         throw Exception("Invalid row");
 
-    QPair<QByteArray, double> cachedRow(
+    QPair<QByteArray, QByteArray> cachedRow(
                 row["value"].toByteArray(),
-                row["score"].toDouble());
+                row["score"].toByteArray());
 
     if (addSortedSetRow(cachedRow.first, cachedRow.second)) {
         m_rowsCache.push_back(cachedRow);
@@ -99,12 +99,12 @@ void SortedSetKeyModel::removeRow(int i)
     setRemovedIfEmpty();
 }
 
-bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, double score)
+bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, QByteArray score)
 {
     RedisClient::Response result;
     try {
         result = m_connection->commandSync(
-        {"ZADD", m_keyFullPath, QString::number(score).toLatin1(), value}, m_dbIndex);
+        {"ZADD", m_keyFullPath, score, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
         throw Exception("Connection error: " + QString(e.what()));
     }
@@ -123,19 +123,19 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
 
 void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
 {
-    QList<QPair<QByteArray, double>> result;
+    QList<QPair<QByteArray, QByteArray>> result;
 
     for (QVariantList::const_iterator item = rows.begin();
          item != rows.end(); ++item) {
 
-        QPair<QByteArray, double> value;
+        QPair<QByteArray, QByteArray> value;
         value.first = item->toByteArray();
         ++item;
 
         if (item == rows.end())
             throw Exception("Partial data loaded from server");
 
-        value.second = item->toDouble();
+        value.second = item->toByteArray();
         result.push_back(value);
     }
 

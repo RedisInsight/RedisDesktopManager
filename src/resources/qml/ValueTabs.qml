@@ -228,8 +228,7 @@ Repeater {
                                             return ""
 
                                         if (styleData.column === 2 && keyType == "zset") {
-                                            var locale = Qt.locale("C")
-                                            return Number(styleData.value).toLocaleString(locale, "f")
+                                            return parseFloat(Number(styleData.value).toFixed(20))
                                         }
 
                                         return binaryUtils.printable(styleData.value)

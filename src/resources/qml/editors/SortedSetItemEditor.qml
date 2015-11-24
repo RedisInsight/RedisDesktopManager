@@ -40,7 +40,7 @@ AbstractEditor {
 
     function setValue(rowValue) {
         scoreText.originalValue = rowValue['score']
-        scoreText.text = Number(rowValue['score']).toFixed(20)
+        scoreText.text = parseFloat(Number(rowValue['score']).toFixed(20))
         textArea.originalValue = rowValue['value']
         textArea.setValue(rowValue['value'])
     }

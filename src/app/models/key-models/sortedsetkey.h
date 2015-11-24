@@ -1,7 +1,7 @@
 #pragma once
 #include "abstractkey.h"
 
-class SortedSetKeyModel : public KeyModel<QPair<QByteArray, double>>
+class SortedSetKeyModel : public KeyModel<QPair<QByteArray, QByteArray>>
 {    
 public:
     SortedSetKeyModel(QSharedPointer<RedisClient::Connection> connection,
@@ -22,6 +22,6 @@ protected:
 private:
     enum Roles { Value = Qt::UserRole + 1, Score, RowNumber};
 
-    bool addSortedSetRow(const QByteArray &value, double score);
+    bool addSortedSetRow(const QByteArray &value, QByteArray score);
     void deleteSortedSetRow(const QByteArray& value);
 };
