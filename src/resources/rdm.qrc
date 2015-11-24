@@ -48,7 +48,5 @@
         <file>qml/AddKeyDialog.qml</file>
         <file>qml/parts/RichTextWithLinks.qml</file>
         <file>qml/3rdparty/php-unserialize-js/phpUnserialize.js</file>
-        <file alias="highlight.css">qml/3rdparty/highlightjs/default.min.css</file>
-        <file alias="highlight.js">qml/3rdparty/highlightjs/highlight.min.js</file>
     </qresource>
 </RCC>
