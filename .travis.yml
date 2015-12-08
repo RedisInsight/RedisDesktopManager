@@ -17,9 +17,9 @@ script:
   - cd ./../src
   - qmake && make -s -j 2
 after_success:
-  - cd ./../tests
+  - cd ./../tests/unit_tests/
   - pip install --user codecov
-  - codecov --gcov-root `pwd`/unit_tests/
+  - codecov -X gcov
 services:
   - redis-server
 notifications:
