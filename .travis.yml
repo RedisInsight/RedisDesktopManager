@@ -18,6 +18,7 @@ script:
   - qmake && make -s -j 2
 after_success:
   - cd ./../tests/unit_tests/
+  - ./generate_report
   - pip install --user codecov
   - codecov -X gcov
 services:
