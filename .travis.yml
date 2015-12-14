@@ -5,8 +5,7 @@ os:
 before_install:
 - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update > /dev/null; brew install qt5 > /dev/null; export PATH=/usr/local/opt/qt5/bin/:$PATH; fi
 - cd ./src && ./configure && cd ./../
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then source /opt/qt54/bin/qt54-env.sh; fi
-- 
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then source /opt/qt54/bin/qt54-env.sh; sudo apt-get install lcov -y; fi
 - qmake -v
 script:
   - git submodule update --init --recursive 
@@ -18,9 +17,9 @@ script:
   - qmake && make -s -j 2
 after_success:
   - cd ./../tests/unit_tests/
-  - ./generate_report
-  - pip install --user codecov
-  - codecov -X gcov
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ./generate_report; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then pip install --user codecov; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then codecov -X gcov fi
 services:
   - redis-server
 notifications:
