@@ -25,9 +25,10 @@ lcov -e coverage.info "$ROOT_DIR/*" -o coverage.info.filtered
 lcov -r coverage.info.filtered "$ROOT_DIR/tests/*" -o coverage.info.filtered
 lcov -r coverage.info.filtered "$ROOT_DIR/bin/*" -o coverage.info.filtered
 lcov -r coverage.info.filtered "$ROOT_DIR/3rdparty/*" -o coverage.info.filtered
+mv coverage.info.filtered lcov.info
 
 # Generate HTML report
-rm -fR coverage_report || true
-mkdir coverage_report
-genhtml coverage.info.filtered --output-directory coverage_report
-open coverage_report/index.html
+#rm -fR coverage_report || true
+#mkdir coverage_report
+#genhtml coverage.info.filtered --output-directory coverage_report
+#open coverage_report/index.html
