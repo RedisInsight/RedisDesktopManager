@@ -169,6 +169,47 @@ Repeater {
                         action: reLoadAction
                         visible: !showValueNavigation
                     }
+
+                    Button {
+                        text: "Set TTL"
+                        Dialog {
+                            id: setTTLConfirmation
+                            title: "Set key TTL"
+
+                            width: 520
+
+                            RowLayout {
+                                implicitWidth: 500
+                                implicitHeight: 100
+                                width: 500
+
+                                Text { text: "New TTL:" }
+                                TextField {
+                                    id: newTTL;
+                                    Layout.fillWidth: true;
+                                }
+                            }
+
+                            onAccepted: {
+                                if (newTTL.text.length == 0) {
+                                    return open()
+                                }
+
+                                viewModel.setTTL(keyTab.keyIndex, newTTL.text)
+                            }
+
+                            visible: false
+                            modality: Qt.ApplicationModal
+                            standardButtons: StandardButton.Ok | StandardButton.Cancel
+                        }
+
+                        onClicked: {
+                            newTTL.text = ""+keyTtl
+                            setTTLConfirmation.open()
+
+                            Analytics.reportEvent("value-editor", "set-key-ttl")
+                        }
+                    }
                 }
 
                 SplitView {

@@ -96,9 +96,26 @@ public:
         m_keyFullPath = newKeyName;
     }
 
-    virtual void setTTL(unsigned long) override
+    virtual void setTTL(const long long ttl) override
     {
-        // TBD
+        RedisClient::Response result;
+        qDebug(QString("TTL=%1").arg(ttl).toLatin1().constData());
+        try {
+            if (ttl >= 0)
+                result = m_connection->commandSync("EXPIRE", m_keyFullPath, QString::number(ttl), m_dbIndex);
+            else
+                result = m_connection->commandSync("PERSIST", m_keyFullPath, m_dbIndex);
+        } catch (const RedisClient::Connection::Exception& e) {
+            throw Exception("Connection error: " + QString(e.what()));
+        }
+
+        if (result.getValue().toInt() == 0) {
+            throw Exception("Not supprt TTL at this key");
+        }
+        if (ttl >= 0)
+            m_ttl = ttl;
+        else
+            m_ttl = -1;
     }
 
     virtual void removeKey() override
