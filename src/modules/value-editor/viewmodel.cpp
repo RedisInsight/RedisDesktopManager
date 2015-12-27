@@ -149,6 +149,21 @@ void ValueEditor::ViewModel::removeKey(int i)
     }
 }
 
+void ValueEditor::ViewModel::setTTL(int i, const QString& newTTL)
+{
+    if (!isIndexValid(index(i, 0)))
+        return;
+
+    auto value = m_valueModels.at(i);
+
+    try {
+        value->setTTL(newTTL.toLong());
+        emit dataChanged(index(i, 0), index(i, 0));
+    } catch (const Model::Exception& e) {
+        emit keyError(i, "Can't set key ttl: " + QString(e.what()));
+    }
+}
+
 void ValueEditor::ViewModel::closeTab(int i)
 {
     if (!isIndexValid(index(i, 0)))
