@@ -6,9 +6,9 @@
 [Known issues](https://github.com/uglide/RedisDesktopManager/wiki/Known-issues) |
 :green_apple: [Bountysource](https://www.bountysource.com/teams/redisdesktopmanager)
 
-[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.8.0)](https://travis-ci.org/uglide/RedisDesktopManager) 
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/p5jpdpr69y2xdj9k/branch/0.8.0?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.8.0)
-[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.8.0)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.8.0)
+[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.9)](https://travis-ci.org/uglide/RedisDesktopManager) 
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/p5jpdpr69y2xdj9k/branch/0.9?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.9)
+[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.9)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.9)
 [![Coverity Scan Build](https://scan.coverity.com/projects/3548/badge.svg)](https://scan.coverity.com/projects/3548)
 [![Stories in Progress](https://badge.waffle.io/uglide/redisdesktopmanager.svg?label=in progress&title=In Progress)](http://waffle.io/uglide/redisdesktopmanager)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager)
