@@ -2,7 +2,6 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
-#include <QtCore/QCoreApplication>
 #include <QString>
 #include <QDebug>
 #include <QFileInfo>
@@ -35,7 +34,7 @@ public:
         delete pHandler;
     }
  
-    void InitCrashHandler(const QString& dumpPath);
+    void InitCrashHandler(const QString& dumpPath, const QString &appPath, const QString &appDir);
     static google_breakpad::ExceptionHandler* pHandler;
     static bool bReportCrashesToSystem;
     
@@ -135,16 +134,12 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
     return CrashHandlerPrivate::bReportCrashesToSystem ? success : true;
 }
  
-void CrashHandlerPrivate::InitCrashHandler(const QString& dumpPath)
+void CrashHandlerPrivate::InitCrashHandler(const QString& dumpPath, const QString& appPath, const QString& crashReporterFullPath)
 {
     if ( pHandler != NULL )
         return;
 
-    QString appPath = QCoreApplication::applicationFilePath();
     wcscpy(applicationPath, appPath.toStdWString().c_str());
-
-    QString appDir = (QCoreApplication::applicationDirPath().isEmpty())? "." : QCoreApplication::applicationDirPath();
-    QString crashReporterFullPath = QString("%1%2").arg(appDir).arg("/crashreporter");
     wcscpy(crashReporterPath, crashReporterFullPath.toStdWString().c_str());
  
 #if defined(Q_OS_WIN32)
@@ -217,7 +212,7 @@ bool CrashHandler::writeMinidump()
     return res;
 }
  
-void CrashHandler::Init( const QString& reportPath )
+void CrashHandler::Init( const QString& reportPath,  const QString& appPath, const QString& crashReporterFullPath )
 {
-    d->InitCrashHandler(reportPath);
+    d->InitCrashHandler(reportPath, appPath, crashReporterFullPath);
 }

@@ -7,15 +7,13 @@
 
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/value-editor/viewmodel.h"
-#include "app/widgets/consoletabs.h"
 #include "connectionsmanager.h"
 #include "configmanager.h"
 
-ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
+ConnectionsManager::ConnectionsManager(const QString& configPath,
                                        QSharedPointer<ValueEditor::ViewModel> values)
     : ConnectionsTree::Model(),
-      m_configPath(configPath),      
-      m_consoleTabs(tabs),
+      m_configPath(configPath),
       m_valueTabs(values)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {
@@ -133,6 +131,22 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
     return saveJsonArrayToFile(connections, pathToFile);
 }
 
+bool ConnectionsManager::testConnectionSettings(const ConnectionConfig &config)
+{
+    RedisClient::Connection testConnection(config);
+
+    try {
+        return testConnection.connect();
+    } catch (const RedisClient::Connection::Exception&) {
+        return false;
+    }
+}
+
+ConnectionConfig ConnectionsManager::createEmptyConfig() const
+{
+    return ConnectionConfig();
+}
+
 int ConnectionsManager::size()
 {
     return m_connections.length();
@@ -140,7 +154,7 @@ int ConnectionsManager::size()
 
 QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection)
 {
-    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_consoleTabs));
+    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection));
 
     QObject::connect(treeModel.data(), &TreeOperations::openValueTab,
                      m_valueTabs.data(), &ValueEditor::ViewModel::openTab);
@@ -177,8 +191,8 @@ void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClien
 
     QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested,
                      this, [this, connection, name]()
-    {
-        m_consoleTabs.closeAllTabsWithName(name);
+    {        
+        emit connectionAboutToBeEdited(name);
         emit editConnection(static_cast<ConnectionConfig>(connection->getConfig()));
     });
 
@@ -190,7 +204,7 @@ void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClien
         if (!serverItem)
             return;
 
-        m_consoleTabs.closeAllTabsWithName(name);
+        emit connectionAboutToBeEdited(name);
         m_connections.removeAll(connection);
         m_connectionMapping.remove(connection);
         removeRootItem(serverItem);

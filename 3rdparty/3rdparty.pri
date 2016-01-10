@@ -9,9 +9,6 @@ OTHER_FILES += $$PWD/../src/resources/qml/3rdparty/php-unserialize-js/phpUnseria
 # qredisclient
 include($$PWD/qredisclient/qredisclient.pri)
 
-# QConsole
-include($$PWD/qtconsole/qtconsole.pri)
-
 #qgamp
 include($$PWD/qgamp/qgamp.pri)
 DEFINES += GMP_ID=\\\"UA-68484170-1\\\"

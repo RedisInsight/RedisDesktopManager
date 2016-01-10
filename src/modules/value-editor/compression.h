@@ -1,8 +1,5 @@
 #pragma once 
 
-#ifndef COMPRESSOR_H
-#define COMPRESSOR_H
-
 #include <zlib.h>
 #include <QByteArray>
 
@@ -14,10 +11,9 @@ namespace ValueEditor {
 class Compression
 {
 public:
-	static bool isCompressed(QByteArray input);
+    static bool isCompressed(QByteArray input);
     static bool compress(QByteArray input, QByteArray &output, int level = -1);
     static bool decompress(QByteArray input, QByteArray &output);
 };
 
 }
-#endif // COMPRESSOR_H

@@ -1,5 +1,4 @@
 #include "namespaceitem.h"
-#include "connections-tree/iconproxy.h"
 #include <QMenu>
 
 using namespace ConnectionsTree;
@@ -25,9 +24,9 @@ QString NamespaceItem::getName() const
     return m_displayName;
 }
 
-QIcon NamespaceItem::getIcon() const
+QString NamespaceItem::getIconUrl() const
 {    
-    return IconProxy::instance()->get(":/images/namespace.png");
+    return QString("qrc:/images/namespace.png");
 }
 
 QList<QSharedPointer<TreeItem> > NamespaceItem::getAllChilds() const
@@ -64,16 +63,6 @@ QWeakPointer<TreeItem> NamespaceItem::parent() const
     return m_parent;
 }
 
-bool NamespaceItem::onClick(TreeItem::ParentView&)
-{
-    return true;
-}
-
-QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView&)
-{
-    return QSharedPointer<QMenu>();
-}
-
 bool NamespaceItem::isLocked() const
 {
     return m_locked;
@@ -99,4 +88,3 @@ QSharedPointer<NamespaceItem> NamespaceItem::findChildNamespace(const QString &n
 
     return m_childNamespaces[name];
 }
-

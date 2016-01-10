@@ -4,25 +4,24 @@
 #
 #-------------------------------------------------
 
-QT += core gui network concurrent widgets quick quickwidgets
+QT += core gui network concurrent widgets quick quickwidgets webengine
 
 TARGET = rdm
 TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"0.8.4-dev\\\"
-    message("Version: 0.8.4-dev")
+    DEFINES += RDM_VERSION=\\\"0.9.0-dev\\\"
 }
 
 DEFINES += CORE_LIBRARY ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/app/dialogs/*.cpp \
+    $$PWD/app/app.cpp \
+    $$PWD/app/qmlutils.cpp \
     $$PWD/app/models/*.cpp \
     $$PWD/app/models/key-models/*.cpp \
-    $$PWD/app/widgets/*.cpp \
     $$PWD/modules/connections-tree/*.cpp \
     $$PWD/modules/connections-tree/items/*.cpp \
     $$PWD/modules/console/*.cpp \
@@ -31,10 +30,11 @@ SOURCES += \
     $$PWD/modules/updater/*.cpp \
 
 HEADERS  += \
-    $$PWD/app/dialogs/*.h \
+    $$PWD/app/app.h \
+    $$PWD/app/logger.h \
+    $$PWD/app/qmlutils.h \
     $$PWD/app/models/*.h \
     $$PWD/app/models/key-models/*.h \
-    $$PWD/app/widgets/*.h \
     $$PWD/modules/connections-tree/*.h \
     $$PWD/modules/connections-tree/items/*.h \
     $$PWD/modules/console/*.h \
@@ -46,9 +46,6 @@ HEADERS  += \
 exists( $$PWD/version.h ) {
     HEADERS  += $$PWD/version.h
 }
-
-FORMS += \
-    $$PWD/app/forms/*.ui \
 
 LIBS += -lz
 
@@ -117,10 +114,13 @@ INCLUDEPATH += $$PWD/ \
     $$UI_DIR/ \
 
 RESOURCES += \
-    $$PWD/resources/rdm.qrc \
+    $$PWD/resources/images.qrc \
     $$PWD/resources/fonts.qrc \    
+    $$PWD/qml/qml.qrc \
+    $$PWD/modules/code-editor/ace.qrc \
 
 OTHER_FILES += \
     qt.conf \
     Info.plist \
     qml\*.qml \
+    $$PWD/modules/code-editor/ace.html \

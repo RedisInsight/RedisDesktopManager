@@ -3,22 +3,38 @@
 #include <QList>
 #include <QVariant>
 #include <QSharedPointer>
+#include <QQuickImageProvider>
+#include <QDebug>
+
+#include "items/treeitem.h"
 
 namespace ConnectionsTree {
 
-    class TreeItem;
     class ServerItem;
 
     class Model : public QAbstractItemModel
     {
         Q_OBJECT
     public:
+        enum Roles {
+            itemName = Qt::UserRole + 1,
+            itemType,
+            itemMeta,
+        };
+
+    public:
         explicit Model(QObject *parent = 0);
 
         QVariant data(const QModelIndex &index, int role) const;
+
+        QHash<int, QByteArray> roleNames() const override;
+
         Qt::ItemFlags flags(const QModelIndex& index) const;
+
         QModelIndex index(int row, int column, const QModelIndex & parent) const;
+
         QModelIndex parent(const QModelIndex & index) const;
+
         int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
         inline int columnCount(const QModelIndex & parent = QModelIndex()) const
@@ -43,6 +59,32 @@ namespace ConnectionsTree {
             }
 
             return parent;
+        }
+
+    public slots:
+        QVariant getItemIcon(const QModelIndex &index)
+        {
+            return data(index, Qt::DecorationRole);
+        }
+
+        QVariant getItemType(const QModelIndex &index)
+        {
+            return data(index, itemType);
+        }
+
+        void sendEvent(const QModelIndex &index, QString event)
+        {
+            qDebug() << "Event recieved:" << event;
+
+            TreeItem * item = getItemFromIndex(index);
+
+            if (item)
+                item->handleEvent(event);
+        }
+
+        unsigned int size()
+        {
+            return m_treeItems.size();
         }
 
     protected:            

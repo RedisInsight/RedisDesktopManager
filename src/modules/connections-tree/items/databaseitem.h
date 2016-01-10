@@ -14,26 +14,35 @@ class DatabaseItem : public QObject, public TreeItem
     Q_OBJECT
 public:
     DatabaseItem(unsigned int index, int keysCount,
-                 QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
+                 QSharedPointer<Operations> operations,
+                 QWeakPointer<TreeItem> parent);
 
     ~DatabaseItem();
 
     QString getDisplayName() const override;
-    QIcon getIcon() const override;
-    QList<QSharedPointer<TreeItem>> getAllChilds() const override;
-    uint childCount(bool recursive = false) const override;
-    QSharedPointer<TreeItem> child(uint row) const override;
-    QWeakPointer<TreeItem> parent() const override;
 
-    bool onClick(ParentView& treeView) override;
-    void onWheelClick(ParentView& treeView) override;
-    QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
+    QString getIconUrl() const override;
+
+    QString getType() const override { return "database"; }
+
+    QVariantMap getMetadata() const override;
+
+    QList<QSharedPointer<TreeItem>> getAllChilds() const override;
+
+    uint childCount(bool recursive = false) const override;
+
+    QSharedPointer<TreeItem> child(uint row) const override;
+
+    QWeakPointer<TreeItem> parent() const override;    
 
     bool isLocked() const override;
-    bool isEnabled() const override;
+
+    bool isEnabled() const override;    
 
     void loadKeys();
+
     void unload();
+
     int getIndex() const;
 
 signals:
@@ -80,8 +89,7 @@ private:
     QFutureWatcher<QSharedPointer<DatabaseKeys>> m_keysLoadingWatcher;
     QWeakPointer<TreeItem> m_parent;
     Operations::RawKeysList m_rawKeys;
-    QRegExp m_filter;
-    ParentView* m_parentView;
+    QRegExp m_filter;    
 };
 
 }

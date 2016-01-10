@@ -17,12 +17,21 @@ QVariant Model::data(const QModelIndex &index, int role) const
         return QVariant();
 
     switch (role) {
-        case Qt::DisplayRole: return item->getDisplayName();
-        case Qt::DecorationRole: return item->getIcon();        
-        case Qt::SizeHintRole: return QSize(100 + item->getDisplayName().size() * 5, 18 );
+        case itemName: return item->getDisplayName();
+        case Qt::DecorationRole: return item->getIconUrl();
+        case itemType: return item->getType();
+        case itemMeta: return item->getMetadata();
     }
 
     return QVariant();
+}
+
+QHash<int, QByteArray> Model::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[itemName] = "name";
+    roles[itemType] = "type";
+    return roles;
 }
 
 Qt::ItemFlags Model::flags(const QModelIndex &index) const

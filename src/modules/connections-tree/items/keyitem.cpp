@@ -2,7 +2,6 @@
 #include <QMenu>
 #include <qredisclient/utils/text.h>
 
-#include "connections-tree/iconproxy.h"
 #include "connections-tree/utils.h"
 
 using namespace ConnectionsTree;
@@ -16,6 +15,13 @@ KeyItem::KeyItem(const QByteArray &fullPath, unsigned short dbIndex,
       m_parent(parent),      
       m_removed(false)
 {
+    m_eventHandlers.insert("click", [this]() {
+        if (isEnabled()) m_operations->openKeyTab(*this, false);
+    });
+
+    m_eventHandlers.insert("open_in_new_tab", [this]() {
+        if (isEnabled()) m_operations->openKeyTab(*this, true);
+    });
 }
 
 QString KeyItem::getDisplayName() const
@@ -23,9 +29,9 @@ QString KeyItem::getDisplayName() const
     return printableString(m_fullPath);
 }
 
-QIcon KeyItem::getIcon() const
+QString KeyItem::getIconUrl() const
 {
-    return IconProxy::instance()->get(":/images/key.png");
+    return QString("qrc:/images/key.png");
 }
 
 QList<QSharedPointer<TreeItem>> KeyItem::getAllChilds() const
@@ -40,54 +46,17 @@ bool KeyItem::supportChildItems() const
 
 uint KeyItem::childCount(bool) const
 {
-    return (uint)0;
+    return 0u;
 }
 
-QSharedPointer<TreeItem> KeyItem::child(uint row) const
+QSharedPointer<TreeItem> KeyItem::child(uint) const
 {
-    Q_UNUSED(row);
-
     return QSharedPointer<TreeItem>();
 }
 
 QWeakPointer<TreeItem> KeyItem::parent() const
 {
     return m_parent;
-}
-
-bool KeyItem::onClick(ParentView&)
-{
-    if (isEnabled())
-        m_operations->openKeyTab(*this, false);
-
-    return false;
-}
-
-void KeyItem::onWheelClick(ParentView&)
-{    
-    if (isEnabled())
-        m_operations->openKeyTab(*this, true);
-}
-
-QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
-{
-    QSharedPointer<QMenu> menu(new QMenu());
-
-    if (!m_signalReciever) {
-        m_signalReciever = QSharedPointer<QObject>(new QObject());
-    }
-
-    menu->addAction(createMenuAction(":/images/add.png", "Open key", menu.data(), m_signalReciever.data(),
-                                     [this] { m_operations->openKeyTab(*this, false); }));
-
-    menu->addAction(createMenuAction(":/images/add.png", "Open key value in new tab", menu.data(), m_signalReciever.data(),
-                                     [this] { m_operations->openKeyTab(*this, true); }));
-    return menu;
-}
-
-bool KeyItem::isLocked() const
-{
-    return false;
 }
 
 bool KeyItem::isEnabled() const

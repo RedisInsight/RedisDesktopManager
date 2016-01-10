@@ -1,7 +1,6 @@
 #include "databaseitem.h"
 #include "namespaceitem.h"
 #include "keyitem.h"
-#include "connections-tree/iconproxy.h"
 #include <typeinfo>
 #include <functional>
 #include <algorithm>
@@ -21,10 +20,38 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
       m_locked(false),
       m_operations(operations),
       m_keys(new DatabaseKeys()),
-      m_parent(parent),
-      m_parentView(nullptr)
+      m_parent(parent)
 {    
     QObject::connect(&m_keysLoadingWatcher, SIGNAL(finished()), this, SLOT(onKeysRendered()));
+
+    m_eventHandlers.insert("click", [this]() {
+        if (m_rawKeys.size() != 0)
+            return;
+
+        loadKeys();
+    });
+
+    m_eventHandlers.insert("add_key", [this]() {
+        m_operations->openNewKeyDialog(m_index, [this]()
+        {
+            confirmAction(nullptr,
+                          tr("Key was added. Do you want to reload keys in the selected database?"),
+                          [this]() { reload(); m_keysCount++; }, tr("Key was added"));
+        });
+    });
+
+    m_eventHandlers.insert("set_filter", [this]() {
+        QString text = QInputDialog::getText(nullptr, tr("Filter keys:"), tr("Filter regex:"));
+        if (!text.isEmpty()) filterKeys(QRegExp(text));
+    });
+
+    m_eventHandlers.insert("reset_filter", [this]() {
+        resetFilter();
+    });
+
+    m_eventHandlers.insert("reload", [this]() {
+        reload();
+    });
 }
 
 DatabaseItem::~DatabaseItem()
@@ -43,10 +70,17 @@ QString DatabaseItem::getDisplayName() const
     }
 }
 
-QIcon DatabaseItem::getIcon() const
+QString DatabaseItem::getIconUrl() const
 {
-    if (m_locked)    return IconProxy::instance()->get(":/images/wait.png");
-    return IconProxy::instance()->get(":/images/db.png");
+    if (m_locked) return QString("qrc:/images/wait.png");
+    return QString("qrc:/images/db.png");
+}
+
+QVariantMap DatabaseItem::getMetadata() const
+{
+    QVariantMap meta;
+    meta.insert("filter", !m_filter.isEmpty());
+    return meta;
 }
 
 QList<QSharedPointer<TreeItem> > DatabaseItem::getAllChilds() const
@@ -72,76 +106,6 @@ QWeakPointer<TreeItem> DatabaseItem::parent() const
     return m_parent;
 }
 
-bool DatabaseItem::onClick(ParentView& view)
-{    
-    m_parentView = &view;
-    if (m_rawKeys.size() == 0) {
-        loadKeys();
-        return true;
-    }
-    return false;
-}
-
-void DatabaseItem::onWheelClick(TreeItem::ParentView&)
-{    
-}
-
-QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeView)
-{
-    m_parentView = &treeView;
-    QSharedPointer<QMenu> menu(new QMenu());
-    std::function<void()> newKeyItemCallback = [this, &treeView]()
-    {
-        m_operations->openNewKeyDialog(m_index, [this, &treeView]()
-        {
-            confirmAction(treeView.getParentWidget(),
-                          tr("Key was added. Do you want to reload keys in the selected database?"),
-                          [this]() { reload(); m_keysCount++; }, tr("Key was added"));
-        });
-    };
-    menu->addAction(createMenuAction(":/images/add.png", "Add new key",
-                                     menu.data(), this, newKeyItemCallback,
-#ifdef Q_OS_MACX
- QKeySequence("Meta+N")
-#else
- QKeySequence("Ctrl+N")
-#endif
-    ));
-    menu->addSeparator();
-
-    if (m_filter.isEmpty()) {
-        menu->addAction(createMenuAction(":/images/filter.png", "Filter keys", menu.data(), this,
-                                         [this, &treeView]()
-        {
-            QString text = QInputDialog::getText(treeView.getParentWidget(),
-                                                 tr("Filter keys:"),
-                                                 tr("Filter regex:"));
-            if (!text.isEmpty()) filterKeys(QRegExp(text));
-        },
-#ifdef Q_OS_MACX
-    QKeySequence("Meta+F")
-#else
-    QKeySequence("Ctrl+F")
-#endif
-        ));
-    } else {
-        menu->addAction(createMenuAction(":/images/clear.png", "Reset keys filter", menu.data(), this,
-                                         [this]() { resetFilter();},
-        QKeySequence("Esc")));
-    }
-    menu->addSeparator();
-
-    menu->addAction(createMenuAction(":/images/refreshdb.png", "Reload", menu.data(), this,
-                                      [this] { this->reload(); },
-#ifdef Q_OS_MACX
-    QKeySequence("Meta+R")
-#else
-    QKeySequence("Ctrl+R")
-#endif
-    ));
-    return menu;
-}
-
 bool DatabaseItem::isLocked() const {return m_locked;}
 
 bool DatabaseItem::isEnabled() const {return true;}
@@ -163,8 +127,7 @@ void DatabaseItem::loadKeys()
             emit error(err);
             emit updateIcon(m_index);
 
-            if (m_parentView)
-                QMessageBox::warning(m_parentView->getParentWidget(), tr("Keys error"), err);
+            QMessageBox::warning(nullptr, tr("Keys error"), err);
 
             return;
         }

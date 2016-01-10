@@ -1,16 +1,15 @@
 #include "treeoperations.h"
 #include <qredisclient/redisclient.h>
 #include <qredisclient/utils/compat.h>
-#include "app/widgets/consoletabs.h"
 #include "app/models/connectionconf.h"
-#include "console/consoletab.h"
-#include "consoleoperations.h"
-#include "value-editor/view.h"
 
 #include <algorithm>
+#include <QSet>
+#include <QRegularExpression>
+#include <QRegularExpressionMatchIterator>
 
-TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConsoleTabs& tabs)
-    : m_connection(connection), m_consoleTabs(tabs)
+TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection)
+    : m_connection(connection)
 {
 }
 
@@ -139,10 +138,8 @@ void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab
 }
 
 void TreeOperations::openConsoleTab()
-{       
-    QSharedPointer<ConsoleModel> model(new ConsoleModel(m_connection));
-    QSharedPointer<Console::ConsoleTab> tab(new Console::ConsoleTab(model.staticCast<Console::Operations>()));
-    m_consoleTabs.addTab(tab.staticCast<BaseTab>());
+{
+    emit openConsole(m_connection);
 }
 
 // TODO: add callback paramter to allow defining additional logic in db item

@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <QMessageBox>
 
-#include "connections-tree/iconproxy.h"
 #include"connections-tree/utils.h"
 #include "databaseitem.h"
 
@@ -20,6 +19,42 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
       m_operations(operations),
       m_model(model)
 {
+
+    m_eventHandlers.insert("click", [this]() {
+        if (m_databaseListLoaded)
+            return;
+
+        load();
+    });
+
+    m_eventHandlers.insert("console", [this]() {
+        m_operations->openConsoleTab();
+    });
+
+    m_eventHandlers.insert("reload", [this]() {
+        reload();
+    });
+
+    m_eventHandlers.insert("unload", [this]() {
+        unload();
+    });
+
+    m_eventHandlers.insert("edit", [this]() {
+        confirmAction(nullptr, tr("All value and console tabs related to this"
+                                  "connection will be closed. Do you want to continue?"), [this]()
+         {
+             unload();
+             emit editActionRequested();
+         });
+    });
+
+    m_eventHandlers.insert("delete", [this]() {
+        confirmAction(nullptr, tr("Do you really want delete connection?"), [this]()
+         {
+             unload();
+             emit deleteActionRequested();
+         });
+    });
 }
 
 ServerItem::~ServerItem()
@@ -31,27 +66,11 @@ QString ServerItem::getDisplayName() const
     return m_name;
 }
 
-bool ServerItem::onClick(TreeItem::ParentView& view)
+QString ServerItem::getIconUrl() const
 {
-    if (m_databaseListLoaded)
-        return false;
-
-    try {
-        load();
-    } catch (...) {
-        QMessageBox::warning(view.getParentWidget(), tr("Server error"),
-                             tr("Cannot load databases list."));
-        m_locked = false;
-    }
-
-    return m_databaseListLoaded;
-}
-
-QIcon ServerItem::getIcon() const
-{
-    if (m_locked)    return IconProxy::instance()->get(":/images/wait.png");
-    if (m_databaseListLoaded) return IconProxy::instance()->get(":/images/redisIcon.png");
-    return IconProxy::instance()->get(":/images/redisIcon_offline.png");
+    if (m_locked)    return QString("qrc:/images/wait.png");
+    if (m_databaseListLoaded) return QString("qrc:/images/server.png");
+    return QString("qrc:/images/server.png"); //offline
 }
 
 QList<QSharedPointer<TreeItem> > ServerItem::getAllChilds() const
@@ -73,7 +92,10 @@ QSharedPointer<TreeItem> ServerItem::child(uint row) const
     return QSharedPointer<TreeItem>();
 }
 
-QWeakPointer<TreeItem> ServerItem::parent() const { return QWeakPointer<TreeItem>(); }
+QWeakPointer<TreeItem> ServerItem::parent() const
+{
+    return QWeakPointer<TreeItem>();
+}
 
 int ServerItem::row() const
 {
@@ -83,67 +105,6 @@ int ServerItem::row() const
 void ServerItem::setRow(int r)
 {
     m_row = r;
-}
-
-QSharedPointer<QMenu> ServerItem::getContextMenu(TreeItem::ParentView& treeView)
-{
-    QSharedPointer<QMenu> menu(new QMenu());    
-    menu->addAction(createMenuAction(":/images/terminal.png", "Console", menu.data(), this,
-                                     [this]() { m_operations->openConsoleTab();},
-#ifdef Q_OS_MACX
-    QKeySequence("Meta+T")
-#else
-    QKeySequence("Ctrl+T")
-#endif
-    ));
-    menu->addSeparator();    
-
-    menu->addAction(createMenuAction(":/images/refreshdb.png", "Reload", menu.data(), this,
-                    [this] { this->reload(); },
-#ifdef Q_OS_MACX
-    QKeySequence("Meta+R")
-#else
-    QKeySequence("Ctrl+R")
-#endif
-    ));
-
-    menu->addAction(createMenuAction(":/images/redisIcon_offline.png", "Disconnect", menu.data(), this,
-                                     [this] { unload(); }, QKeySequence(QKeySequence::StandardKey::Close)));
-
-    menu->addSeparator();   
-    menu->addAction(createMenuAction(":/images/editdb.png", "Edit", menu.data(), this,
-                    [this, &treeView]
-    {
-        confirmAction(treeView.getParentWidget(),
-                      tr("All value and console tabs related to this "
-                      "connection will be closed. Do you want to continue?"),
-                      [this]()
-        {
-            unload();
-            emit editActionRequested();
-        });
-    },
-#ifdef Q_OS_MACX
-    QKeySequence("Meta+E")
-#else
-    QKeySequence("Ctrl+E")
-#endif
-    ));
-
-    //delete action    
-    menu->addAction(createMenuAction(":/images/delete.png", "Delete", menu.data(), this,
-                                     [this, &treeView]
-    {
-         confirmAction(treeView.getParentWidget(),
-                       tr("Do you really want delete connection?"),
-                       [this]()
-         {
-             unload();
-             emit deleteActionRequested();
-         });
-     }, QKeySequence(QKeySequence::StandardKey::Delete)));
-
-    return menu;
 }
 
 bool ServerItem::isLocked() const
@@ -162,7 +123,7 @@ bool ServerItem::isDatabaseListLoaded() const
 }
 
 void ServerItem::load()
-{
+{ 
     m_locked = true;
     emit updateIcon();
 
@@ -224,6 +185,23 @@ void ServerItem::reload()
 {
     unload();
     load();
+}
+
+void ServerItem::edit()
+{
+    unload();
+    emit editActionRequested();
+}
+
+void ServerItem::remove()
+{
+    unload();
+    emit deleteActionRequested();
+}
+
+void ServerItem::openConsole()
+{
+    m_operations->openConsoleTab();
 }
 
 void ServerItem::setName(const QString& name)

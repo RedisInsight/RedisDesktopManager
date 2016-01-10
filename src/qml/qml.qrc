@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/">
+        <file>app.qml</file>
+        <file>WelcomeTab.qml</file>
+        <file>QuickStartDialog.qml</file>
+        <file>AddKeyDialog.qml</file>
+        <file>ConnectionSettignsDialog.qml</file>
+        <file>common/RichTextWithLinks.qml</file>
+        <file>common/PasswordInput.qml</file>
+        <file>common/AddressInput.qml</file>
+        <file>common/FilePathInput.qml</file>
+        <file>common/BetterTabView.qml</file>
+        <file>common/BetterTab.qml</file>
+        <file>connections-tree/menu/InlineMenu.qml</file>
+        <file>connections-tree/menu/server.qml</file>
+        <file>connections-tree/menu/database.qml</file>
+        <file>connections-tree/menu/namespace.qml</file>
+        <file>connections-tree/menu/key.qml</file>
+        <file>value-editor/ValueTabs.qml</file>
+        <file>value-editor/Pagination.qml</file>
+        <file>value-editor/editors/HashItemEditor.qml</file>
+        <file>value-editor/editors/SingleItemEditor.qml</file>
+        <file>value-editor/editors/SortedSetItemEditor.qml</file>
+        <file>value-editor/editors/AbstractEditor.qml</file>
+        <file>value-editor/editors/MultilineEditor.qml</file>
+        <file>value-editor/editors/formatters/formatters.js</file>
+        <file>value-editor/editors/formatters/msgpack.js</file>
+        <file>value-editor/editors/formatters/php-unserialize.js</file>
+        <file>value-editor/editors/formatters/hexy.js</file>
+        <file>value-editor/editors/editor.js</file>
+        <file>3rdparty/php-unserialize-js/phpUnserialize.js</file>
+        <file>console/QConsole.qml</file>
+        <file>console/BaseConsole.qml</file>
+        <file>code-editor/CodeEditor.qml</file>
+    </qresource>
+</RCC>

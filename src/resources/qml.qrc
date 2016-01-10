@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>qml/value-editor.qml</file>
-    </qresource>
-</RCC>

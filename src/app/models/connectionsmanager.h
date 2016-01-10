@@ -5,8 +5,6 @@
 #include "connections-tree/model.h"
 #include "treeoperations.h"
 
-class ConsoleTabs;
-
 namespace ValueEditor {
     class ViewModel;
 }
@@ -16,34 +14,45 @@ class ConnectionsManager : public ConnectionsTree::Model
     Q_OBJECT    
 
 public:
-    ConnectionsManager(const QString& m_configPath, ConsoleTabs& tabs,
+    ConnectionsManager(const QString& m_configPath,
                        QSharedPointer<ValueEditor::ViewModel> values);
+
     ~ConnectionsManager(void);
 
-    void addNewConnection(const ConnectionConfig& config, bool saveToConfig = true);
-    void updateConnection(const ConnectionConfig& config);
+    Q_INVOKABLE void addNewConnection(const ConnectionConfig& config, bool saveToConfig = true);
 
-    bool importConnections(const QString &);
-    bool saveConnectionsConfigToFile(const QString&);
+    Q_INVOKABLE void updateConnection(const ConnectionConfig& config);
+
+    Q_INVOKABLE bool importConnections(const QString &);
+
+    Q_INVOKABLE bool saveConnectionsConfigToFile(const QString&);
+
+    Q_INVOKABLE bool testConnectionSettings(const ConnectionConfig& config);
+
+    Q_INVOKABLE ConnectionConfig createEmptyConfig() const;
+
     void saveConfig();
-    int size();
+
+    Q_INVOKABLE int size();
 
 signals:
     void editConnection(ConnectionConfig config);
 
+    void connectionAboutToBeEdited(QString name);
+
 private:
      QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);
+
      void registerLogger(QSharedPointer<RedisClient::Connection> connection);
+
      void createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
                                         QSharedPointer<TreeOperations> treeModel);
-
 
 private:
     QString m_configPath;    
     QList<QSharedPointer<RedisClient::Connection>> m_connections;
     QHash<QSharedPointer<RedisClient::Connection>,
-          QSharedPointer<ConnectionsTree::TreeItem>> m_connectionMapping;
-    ConsoleTabs& m_consoleTabs;
+          QSharedPointer<ConnectionsTree::TreeItem>> m_connectionMapping;    
     QSharedPointer<ValueEditor::ViewModel> m_valueTabs;
 
 protected:

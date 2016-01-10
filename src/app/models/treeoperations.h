@@ -7,14 +7,12 @@
 #include "modules/connections-tree/items/keyitem.h"
 
 
-class ConsoleTabs;
 
 class TreeOperations : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT
 public:
-    TreeOperations(QSharedPointer<RedisClient::Connection> connection,
-                   ConsoleTabs& tabs);
+    TreeOperations(QSharedPointer<RedisClient::Connection> connection);
 
     void getDatabases(std::function<void(DatabaseList)>) override;
 
@@ -37,6 +35,8 @@ signals:
     void openValueTab(QSharedPointer<RedisClient::Connection> connection,
                       ConnectionsTree::KeyItem& key, bool inNewTab);
 
+    void openConsole(QSharedPointer<RedisClient::Connection> connection);
+
     void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
                       std::function<void()> callback,
                       int dbIndex, QString keyPrefix);
@@ -44,6 +44,5 @@ signals:
     void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
 private:
-     QSharedPointer<RedisClient::Connection> m_connection;
-     ConsoleTabs& m_consoleTabs;
+     QSharedPointer<RedisClient::Connection> m_connection;     
 };

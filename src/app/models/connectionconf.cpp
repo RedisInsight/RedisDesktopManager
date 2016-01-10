@@ -33,3 +33,13 @@ void ConnectionConfig::setNamespaceSeparator(QString ns)
 {
     return setParam<QString>("namespace_separator", ns);
 }
+
+bool ConnectionConfig::useSsl() const
+{
+    return RedisClient::ConnectionConfig::useSsl();
+}
+
+bool ConnectionConfig::useSshTunnel() const
+{
+    return RedisClient::ConnectionConfig::useSshTunnel();
+}
