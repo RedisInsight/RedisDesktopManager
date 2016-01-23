@@ -7,7 +7,6 @@
 #include "modules/connections-tree/items/keyitem.h"
 
 
-
 class TreeOperations : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT

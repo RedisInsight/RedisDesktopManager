@@ -15,6 +15,7 @@ class ConnectionsManager;
 class Updater;
 class LogHandler;
 namespace ValueEditor { class ViewModel; }
+namespace Console { class ViewModel; }
 
 class Application : public QApplication
 {
@@ -43,6 +44,7 @@ private:
     QSharedPointer<QmlUtils> m_qmlUtils;
     QSharedPointer<ConnectionsManager> m_connections;
     QSharedPointer<Updater> m_updater;
-    QSharedPointer<ValueEditor::ViewModel> m_keyValues;    
+    QSharedPointer<ValueEditor::ViewModel> m_keyValues;
+    QSharedPointer<Console::ViewModel> m_consoleModel;
     LogHandler* m_logger;
 };

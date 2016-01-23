@@ -19,6 +19,7 @@
 #include "modules/updater/updater.h"
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/viewmodel.h"
+#include "modules/console/consoleviewmodel.h"
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -33,7 +34,7 @@ static QObject *analytics_singletontype_provider(QQmlEngine *engine, QJSEngine *
 
 Application::Application(int &argc, char **argv)
     : QApplication(argc, argv),
-      m_qmlUtils(QSharedPointer<QmlUtils>(new QmlUtils())),
+      m_qmlUtils(QSharedPointer<QmlUtils>(new QmlUtils())),      
       m_logger(nullptr)
 {
     // Init components required for models and qml
@@ -49,6 +50,11 @@ Application::Application(int &argc, char **argv)
 void Application::initModels()
 {
     initConnectionsManager();
+
+    m_consoleModel = QSharedPointer<Console::ViewModel>(new Console::ViewModel());
+
+    connect(m_connections.data(), &ConnectionsManager::openConsole,
+            m_consoleModel.data(), &Console::ViewModel::openConsole);
 }
 
 void Application::initAppInfo()
@@ -76,6 +82,7 @@ void Application::registerQmlTypes()
 {
     qmlRegisterType<ValueEditor::ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");   
     qmlRegisterSingletonType<GoogleMP>("MeasurementProtocol", 1, 0, "Analytics", analytics_singletontype_provider);
+    qRegisterMetaType<ServerConfig>();
 }
 
 void Application::registerQmlRootObjects()
@@ -83,8 +90,9 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("binaryUtils", m_qmlUtils.data()); // TODO: Remove legacy name usage in qml
     m_engine.rootContext()->setContextProperty("qmlUtils", m_qmlUtils.data());
     m_engine.rootContext()->setContextProperty("connectionsManager", m_connections.data());
-    m_engine.rootContext()->setContextProperty("viewModel", m_keyValues.data()); // TODO: Remove legacy name usage in qml
+    m_engine.rootContext()->setContextProperty("viewModel", m_keyValues.data()); // TODO: Remove legacy name usage in qml    
     m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
+    m_engine.rootContext()->setContextProperty("consoleModel", m_consoleModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
 }
 

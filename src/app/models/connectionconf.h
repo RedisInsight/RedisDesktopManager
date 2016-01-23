@@ -2,7 +2,7 @@
 #include <QObject>
 #include <qredisclient/connectionconfig.h>
 
-class ConnectionConfig : public RedisClient::ConnectionConfig
+class ServerConfig : public RedisClient::ConnectionConfig
 {
     Q_GADGET
 
@@ -42,10 +42,10 @@ public:
     static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
 
 public:
-    ConnectionConfig(const QString & host = "127.0.0.1", const QString & auth = "",
+    ServerConfig(const QString & host = "127.0.0.1", const QString & auth = "",
                      const uint port = DEFAULT_REDIS_PORT, const QString & name = "");
 
-    ConnectionConfig(const RedisClient::ConnectionConfig&);
+    ServerConfig(const RedisClient::ConnectionConfig&);
 
     QString keysPattern() const;
     void setKeysPattern(QString keyGlobPattern);
@@ -57,4 +57,4 @@ public:
     Q_INVOKABLE bool useSshTunnel() const;
 };
 
-Q_DECLARE_METATYPE(ConnectionConfig)
+Q_DECLARE_METATYPE(ServerConfig)

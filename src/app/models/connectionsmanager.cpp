@@ -25,11 +25,11 @@ ConnectionsManager::~ConnectionsManager(void)
 {
 }
 
-void ConnectionsManager::addNewConnection(const ConnectionConfig &config, bool saveToConfig)
+void ConnectionsManager::addNewConnection(const ServerConfig &config, bool saveToConfig)
 {
     //add connection to internal container
     QSharedPointer<RedisClient::Connection> connection(new RedisClient::Connection(config));
-    ConnectionConfig conf = config;
+    ServerConfig conf = config;
     conf.setOwner(connection.toWeakRef());
     connection->setConnectionConfig(conf);
     m_connections.push_back(connection);
@@ -44,7 +44,7 @@ void ConnectionsManager::addNewConnection(const ConnectionConfig &config, bool s
     if (saveToConfig) saveConfig();
 }
 
-void ConnectionsManager::updateConnection(const ConnectionConfig &config)
+void ConnectionsManager::updateConnection(const ServerConfig &config)
 {
     if (!config.getOwner())
         return;
@@ -102,7 +102,7 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
         if (!connection.isObject())
             continue;
 
-        ConnectionConfig conf = ConnectionConfig::fromJsonObject(connection.toObject());
+        ServerConfig conf = ServerConfig::fromJsonObject(connection.toObject());
 
         if (conf.isNull())
             continue;
@@ -131,7 +131,7 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
     return saveJsonArrayToFile(connections, pathToFile);
 }
 
-bool ConnectionsManager::testConnectionSettings(const ConnectionConfig &config)
+bool ConnectionsManager::testConnectionSettings(const ServerConfig &config)
 {
     RedisClient::Connection testConnection(config);
 
@@ -142,9 +142,9 @@ bool ConnectionsManager::testConnectionSettings(const ConnectionConfig &config)
     }
 }
 
-ConnectionConfig ConnectionsManager::createEmptyConfig() const
+ServerConfig ConnectionsManager::createEmptyConfig() const
 {
-    return ConnectionConfig();
+    return ServerConfig();
 }
 
 int ConnectionsManager::size()
@@ -162,6 +162,8 @@ QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(
                      m_valueTabs.data(), &ValueEditor::ViewModel::openNewKeyDialog);
     QObject::connect(treeModel.data(), &TreeOperations::closeDbKeys,
                      m_valueTabs.data(), &ValueEditor::ViewModel::closeDbKeys);
+    QObject::connect(treeModel.data(), &TreeOperations::openConsole,
+                     this, &ConnectionsManager::openConsole);
 
     return treeModel;
 }
@@ -193,7 +195,7 @@ void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClien
                      this, [this, connection, name]()
     {        
         emit connectionAboutToBeEdited(name);
-        emit editConnection(static_cast<ConnectionConfig>(connection->getConfig()));
+        emit editConnection(static_cast<ServerConfig>(connection->getConfig()));
     });
 
     QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::deleteActionRequested,

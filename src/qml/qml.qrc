@@ -32,5 +32,8 @@
         <file>console/QConsole.qml</file>
         <file>console/BaseConsole.qml</file>
         <file>code-editor/CodeEditor.qml</file>
+        <file>console/Consoles.qml</file>
+        <file>connections-tree/BetterTreeView.qml</file>
+        <file>AppToolBar.qml</file>
     </qresource>
 </RCC>

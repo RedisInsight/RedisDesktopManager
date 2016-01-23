@@ -148,7 +148,7 @@ QJsonArray ConfigManager::xmlConfigToJsonArray(const QString &xmlConfigPath)
                 // NOTE(u_glide): We should add NS separator to new config
                 if (!connection.contains("namespace_separator")) {
                     connection.insert("namespace_separator",
-                                      QString(ConnectionConfig::DEFAULT_NAMESPACE_SEPARATOR));
+                                      QString(ServerConfig::DEFAULT_NAMESPACE_SEPARATOR));
                 }
 
                 newConfig.append(QJsonObjectFromVariantHash(connection));

@@ -7,6 +7,7 @@ import QtQml.Models 2.2
 import "."
 import "./common"
 import "./value-editor"
+import "./connections-tree"
 import "./console"
 import "./code-editor"
 //import "./editors/formatters/formatters.js" as Formatters
@@ -20,6 +21,10 @@ ApplicationWindow {
     height: 800
 
     property var currentValueFormatter
+
+    SystemPalette {
+        id: sysPalette
+    }
 
     QuickStartDialog {
        id: quickStartDialog
@@ -75,177 +80,16 @@ ApplicationWindow {
         }
     }
 
-    toolBar: ToolBar {
-        RowLayout {
-            anchors.fill: parent
-            Button {
-                iconSource: "qrc:/images/add.png"
-                text: "Connect to Redis Server"
-                Layout.preferredWidth: 230
-
-                onClicked: {
-                    connectionSettingsDialog.settings = connectionsManager.createEmptyConfig()
-                    connectionSettingsDialog.open()
-                }
-            }
-
-            ToolButton {
-                iconSource: "qrc:/images/import.png"
-                text: "Import Connections"
-                tooltip: text
-
-                onClicked: importConnectionsDialog.open()
-
-                FileDialog {
-                    id: importConnectionsDialog
-                    title: "Import Connections"
-                    nameFilters: ["RDM Connections (*.xml *.json)"]
-                    selectExisting: true
-                    onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(fileUrl))
-                }
-            }
-
-            ToolButton {
-                iconSource: "qrc:/images/export.png"
-                text: "Export Connections"
-                tooltip: text
-
-                onClicked: exportConnectionsDialog.open()
-
-                FileDialog {
-                    id: exportConnectionsDialog
-                    title: "Import Connections"
-                    nameFilters: ["RDM Connections (*.json)"]
-                    selectExisting: false
-                    onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
-                }
-            }
-
-            Rectangle { width: 1; color: "lightgrey"; Layout.fillHeight: true;}
-
-            Item { Layout.fillWidth: true }
-
-            Button {
-                iconSource: "qrc:/images/settings.png"
-                text: "Settings"
-            }
-        }
-    }
+    toolBar: AppToolBar {}
 
     SplitView {
         anchors.fill: parent
         orientation: Qt.Horizontal
 
-        TreeView {
+        BetterTreeView {
             id: connectionsTree
             Layout.fillHeight: true
             Layout.minimumWidth: 300
-            alternatingRowColors: false
-            headerVisible: false
-
-            TableViewColumn {
-                title: "item"
-                role: "name"
-                width: 300
-            }
-
-            selectionMode: SelectionMode.SingleSelection
-
-            selection: ItemSelectionModel {
-                id: connectionTreeSelectionModel
-                model: connectionsManager
-            }
-
-            model: connectionsManager
-
-            itemDelegate: Item {
-
-                RowLayout {
-                    anchors.fill: parent
-                    spacing: 5
-
-                    Item {
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: 5
-                    }
-
-                    Item {
-                        Layout.fillHeight: true
-                        Image {
-                            id: itemIcon
-                            anchors.centerIn: parent
-                            width: 21
-                            height: 21
-                            source: {
-                                if (!connectionsManager)
-                                    return
-
-                                return connectionsManager.getItemIcon(styleData.index)
-                            }
-                        }
-                    }
-
-                    Item {
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: itemIcon.width / 3
-                    }
-
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.preferredHeight: 35
-
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: styleData.textColor
-                            elide: styleData.elideMode
-                            text: styleData.value
-                        }
-                    }
-
-                    Loader {
-                        Layout.fillHeight: true
-                        visible: styleData.selected
-
-                        source: {
-                            if (!connectionsManager)
-                                return
-
-                            var type = connectionsManager.getItemType(styleData.index)
-                            return "./connections-tree/menu/" + type + ".qml"
-                        }
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.RightButton | Qt.MiddleButton
-
-                    onClicked: {
-                        console.log("Catch event to item")
-
-                        if(mouse.button == Qt.RightButton) {
-                            mouse.accepted = true
-                            connectionTreeSelectionModel.setCurrentIndex(styleData.index, 1)
-                            connectionsManager.sendEvent(styleData.index, "right-click")
-                            return
-                        }
-
-                        if (mouse.button == Qt.MiddleButton) {
-                            mouse.accepted = true
-                            connectionsManager.sendEvent(styleData.index, "mid-click")
-                            return
-                        }
-                    }
-                }
-            }
-
-            onClicked: {
-                if (!connectionsManager)
-                    return
-
-                connectionsManager.sendEvent(index, "click")
-            }
         }
 
         SplitView {
@@ -265,13 +109,6 @@ ApplicationWindow {
                     var index = currentIndex
                     if (tabs.getTab(0).not_mapped) index -= 1
                     viewModel.setCurrentTab(index)
-                }
-
-                BetterTab {
-                    CodeEditor {
-                        anchors.fill: parent
-                        anchors.margins: 5
-                    }
                 }
 
                 WelcomeTab {
@@ -294,7 +131,7 @@ ApplicationWindow {
                 }
 
                 Connections {
-                    target: viewModel
+                    target: valuesModel
                     onKeyError: {
                         if (index != -1)
                             tabs.currentIndex = index + 1
@@ -314,31 +151,22 @@ ApplicationWindow {
             }
 
             BetterTabView {
+                id: bottomTabView
                 Layout.fillWidth: true
                 Layout.minimumHeight: 30
 
                 tabPosition: Qt.BottomEdge
 
-                BetterTab {
-                    title: "Test Console"
-                    icon: "qrc:/images/console.png"
+                Consoles {
+                    objectName: "rdm_qml_console_tabs"
+                    model: consoleModel
+                }
 
-                    QConsole {
-                        id: redisConsole
+                Connections {
+                    target: consoleModel
 
-                        Component.onCompleted: {
-                            testTimer.start()
-                        }
-
-                        Timer {
-                            id: testTimer
-                            repeat: false
-                            interval: 1000
-
-                            onTriggered: {
-                                redisConsole.setPrompt("test_server>", true)
-                            }
-                        }
+                    onChangeCurrentTab: {
+                        bottomTabView.currentIndex = i + 1
                     }
                 }
 

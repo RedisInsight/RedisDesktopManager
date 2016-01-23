@@ -16,8 +16,7 @@ class ViewModel : public QAbstractListModel
 
 public:
     enum Roles {
-        consoleName = Qt::UserRole + 1,
-        consoleState,
+        consoleName = Qt::UserRole + 1,        
         consoleIndex,
     };
 
@@ -33,6 +32,9 @@ public: // methods exported to QML
     Q_INVOKABLE void closeTab(int i);
     Q_INVOKABLE void setCurrentTab(int i);
     Q_INVOKABLE QObject* getValue(int i);    
+
+signals:
+    void changeCurrentTab(int i);
 
 public slots:    
     void openConsole(QSharedPointer<RedisClient::Connection> connection);

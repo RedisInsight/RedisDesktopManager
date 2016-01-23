@@ -10,6 +10,7 @@ Rectangle {
     property string prompt
     property int promptPosition
     property int promptLength: prompt.length
+    property alias busy: textArea.readOnly
 
     property string initText:
           "<span style='color: white; font-size: 14px;'>RDM Redis Console</span> | <span style='color: orange'>Unsupported commands: DUMP, RESTORE, AUTH </span><br/>" +
@@ -34,18 +35,38 @@ Rectangle {
         textArea.clear()
     }
 
+    function addOutput(text, type) {
+
+        if (type == "error") {
+            textArea.append("<span style='color: red'>" + text + '</span>')
+        } else {
+            textArea.append("<span style='color: white'>" + text + '</span>')
+        }
+
+        if (type == "complete" || type == "error") {
+            textArea.blockAllInput = false
+            displayPrompt()
+        }
+    }
+
+    signal execCommand(string command)
+
     BaseConsole {
         id: textArea
         anchors.fill: parent
         backgroundVisible: false
         textColor: "yellow"
-        readOnly: root.prompt.length == 0
+        readOnly: root.promptLength == 0 || blockAllInput
         textFormat: TextEdit.RichText
         menu: null
 
+        property bool blockAllInput: false
+
         Keys.onPressed: {
-            if (readOnly)
+            if (readOnly) {
+                console.log("Console is read-only. Ignore Key presses.")
                 return
+            }
 
             var cursorInReadOnlyArea = cursorPosition < root.promptPosition + root.promptLength
 
@@ -91,6 +112,13 @@ Rectangle {
                 insert(cursorPosition, hiddenBuffer.text.trim())
 
                 return
+            }
+
+            if (event.key == Qt.Key_Return && cursorPosition > root.promptPosition + root.promptLength) {
+                var command = getText(root.promptPosition + root.promptLength, cursorPosition)
+                blockAllInput = true
+                event.accepted = true
+                root.execCommand(command)
             }
         }
 

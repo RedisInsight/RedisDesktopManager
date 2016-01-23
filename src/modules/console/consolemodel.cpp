@@ -4,8 +4,11 @@
 using namespace Console;
 
 Model::Model(QSharedPointer<RedisClient::Connection> connection)
-    : m_connection(connection), m_current_db(0)
+    : m_current_db(0)
 {
+    // Clone connection
+    RedisClient::ConnectionConfig config = connection->getConfig();
+    m_connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(config));
 }
 
 void Model::init()

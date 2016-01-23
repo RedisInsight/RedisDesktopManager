@@ -16,8 +16,8 @@ void Console::ViewModel::openConsole(QSharedPointer<RedisClient::Connection> con
 
     QSharedPointer<Model> model(new Model(connection));
     m_models.append(model);
-    QTimer::singleShot(100, this, [model]() { model->init(); });
-
+    setCurrentTab(m_models.size() - 1);
+    emit changeCurrentTab(m_models.size() - 1);
     endInsertRows();
 }
 
@@ -58,7 +58,6 @@ QVariant Console::ViewModel::data(const QModelIndex &index, int role) const
     switch (role) {
         case consoleIndex: return index.row();
         case consoleName: return model->getName();
-        case consoleState: return "tbd"; // TODO: add state in console model
     }
 
     return QVariant();
@@ -68,8 +67,7 @@ QHash<int, QByteArray> Console::ViewModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[consoleIndex] = "consoleIndex";
-    roles[consoleName] = "consoleName";
-    roles[consoleState] = "consoleState";
+    roles[consoleName] = "consoleName";    
     return roles;
 }
 

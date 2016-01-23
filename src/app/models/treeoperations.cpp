@@ -90,7 +90,7 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
 
 void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const RawKeysList &, const QString &)> callback)
 {
-    QString keyPattern = static_cast<ConnectionConfig>(m_connection->getConfig()).keysPattern();
+    QString keyPattern = static_cast<ServerConfig>(m_connection->getConfig()).keysPattern();
 
     if (m_connection->getServerVersion() >= 2.8) {
         QList<QByteArray> rawCmd {
@@ -129,7 +129,7 @@ void TreeOperations::disconnect()
 
 QString TreeOperations::getNamespaceSeparator()
 {
-    return static_cast<ConnectionConfig>(m_connection->getConfig()).namespaceSeparator();
+    return static_cast<ServerConfig>(m_connection->getConfig()).namespaceSeparator();
 }
 
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)
@@ -138,7 +138,7 @@ void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab
 }
 
 void TreeOperations::openConsoleTab()
-{
+{    
     emit openConsole(m_connection);
 }
 

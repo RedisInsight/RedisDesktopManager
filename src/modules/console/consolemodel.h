@@ -20,7 +20,7 @@ namespace Console {
     public:
         Model(QSharedPointer<RedisClient::Connection> connection);
 
-        void init();
+        Q_INVOKABLE void init();
         QString getName();
         QSharedPointer<RedisClient::Connection> getConnection();
 
@@ -28,8 +28,8 @@ namespace Console {
         void executeCommand(const QString&);
 
     signals:
-        void changePrompt(const QString &, bool);
-        void addOutput(const QString&, QString resultType);
+        void changePrompt(const QString &text, bool showPrompt);
+        void addOutput(const QString &text, QString resultType);
 
     private:
         QSharedPointer<RedisClient::Connection> m_connection;

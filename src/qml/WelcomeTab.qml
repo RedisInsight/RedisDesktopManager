@@ -10,10 +10,11 @@ BetterTab {
 
     Rectangle {
         id: parentWrapper
+        anchors.fill: parent
         color: "transparent"
 
         ColumnLayout {
-            anchors.centerIn: parentWrapper
+            anchors.centerIn: parent
 
             RowLayout {
                 id: topLayout

@@ -7,10 +7,6 @@ import QtQuick.Controls.Styles 1.1
 TabView {
     id: root
 
-    SystemPalette {
-        id: sysPalette
-    }
-
     style: TabViewStyle {
         tab: Rectangle {
             color: "#cccccc"
@@ -34,13 +30,31 @@ TabView {
 
                     Item { Layout.preferredWidth: 3 }
 
+                    AnimatedImage {
+                        source: {
+                            var icon = root.getTab(styleData.index).icon
+
+                            if (icon && icon.indexOf(".gif") > -1) {
+                                visible = true
+                                return icon
+                            } else {
+                                visible = false
+                                return ""
+                            }
+                        }
+
+                        width: 20
+                        height: 20
+                    }
+
                     Image {
                         source: {
                             var icon = root.getTab(styleData.index).icon
 
-                            if (icon)
+                            if (icon && icon.indexOf(".gif") == -1) {
+                                visible = true
                                 return icon
-                            else {
+                            } else {
                                 visible = false
                                 return ""
                             }

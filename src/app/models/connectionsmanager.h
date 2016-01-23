@@ -19,26 +19,28 @@ public:
 
     ~ConnectionsManager(void);
 
-    Q_INVOKABLE void addNewConnection(const ConnectionConfig& config, bool saveToConfig = true);
+    Q_INVOKABLE void addNewConnection(const ServerConfig& config, bool saveToConfig = true);
 
-    Q_INVOKABLE void updateConnection(const ConnectionConfig& config);
+    Q_INVOKABLE void updateConnection(const ServerConfig& config);
 
     Q_INVOKABLE bool importConnections(const QString &);
 
     Q_INVOKABLE bool saveConnectionsConfigToFile(const QString&);
 
-    Q_INVOKABLE bool testConnectionSettings(const ConnectionConfig& config);
+    Q_INVOKABLE bool testConnectionSettings(const ServerConfig& config);
 
-    Q_INVOKABLE ConnectionConfig createEmptyConfig() const;
+    Q_INVOKABLE ServerConfig createEmptyConfig() const;
 
     void saveConfig();
 
     Q_INVOKABLE int size();
 
 signals:
-    void editConnection(ConnectionConfig config);
+    void editConnection(ServerConfig config);
 
     void connectionAboutToBeEdited(QString name);
+
+    void openConsole(QSharedPointer<RedisClient::Connection> connection);
 
 private:
      QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);
