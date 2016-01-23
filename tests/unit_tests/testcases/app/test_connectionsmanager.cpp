@@ -16,7 +16,7 @@ void TestConnectionsManager::loadConnectionsConfigFromFile()
     QString configTestFile = "./unit_tests/testcases/app/connections.json";
 
 	//when loads connections
-    ConnectionsManager testManager(configTestFile, m_tabsWidget, m_viewModel);
+    ConnectionsManager testManager(configTestFile, m_viewModel);
 
 	//then
     QCOMPARE(testManager.size(), 1);
@@ -37,15 +37,15 @@ void TestConnectionsManager::saveConnectionsConfigToFile()
     QString configTestFile = QString("%1/test_rdm.json").arg(QDir::tempPath());
     QFile::remove(configTestFile);
     RedisClient::ConnectionConfig connectionConfig = getDummyConfig(connectionName);
-    ConnectionsManager testManager(configTestFile, m_tabsWidget, m_viewModel);    
+    ConnectionsManager testManager(configTestFile, m_viewModel);
 
 	//when
 	// add new connection and save
     testManager.addNewConnection(connectionConfig, true);
     // load everything from scratch
-    ConnectionsManager testManagerNew(configTestFile, m_tabsWidget, m_viewModel);
+    ConnectionsManager testManagerNew(configTestFile, m_viewModel);
     QModelIndex testIndex = testManagerNew.index(0, 0, QModelIndex());
-    QString actualConnectionName = testManagerNew.data(testIndex, Qt::DisplayRole).toString();
+    QString actualConnectionName = testManagerNew.data(testIndex, ConnectionsTree::Model::itemName).toString();
 
     //then
     qDebug() << "Actual name: " << actualConnectionName;  

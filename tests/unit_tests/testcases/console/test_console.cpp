@@ -1,24 +1,10 @@
 #include "test_console.h"
-#include "console/consoletab.h"
-#include "console/hex_untils.h"
-#include "mocks/consoleoperations.h"
+#include "console/hex_utils.h"
 #include <QTest>
 
 TestConsole::TestConsole(QObject *parent) :
     QObject(parent)
 {
-}
-
-void TestConsole::testWidget()
-{
-    //given
-    QSharedPointer<ConsoleOperationsMock> operations(new ConsoleOperationsMock());
-
-    //when
-    Console::ConsoleTab tab(operations);
-
-    //then
-    QCOMPARE(tab.getTitle(), operations->getConsoleName());
 }
 
 void TestConsole::testHexUtils()

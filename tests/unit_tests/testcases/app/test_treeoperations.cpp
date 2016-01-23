@@ -1,16 +1,14 @@
 #include "test_treeoperations.h"
 #include <qredisclient/connection.h>
 #include "models/treeoperations.h"
-#include "app/widgets/consoletabs.h"
 
 void TestTreeOperations::testCreation()
 {
-    //given
-    ConsoleTabs tabsWidget;
+    //given    
     auto connection = getRealConnectionWithDummyTransporter();
 
     //when
-    TreeOperations operations(connection, tabsWidget);
+    TreeOperations operations(connection);
 
     //then
     //all ok
@@ -19,8 +17,7 @@ void TestTreeOperations::testCreation()
 
 void TestTreeOperations::testGetDatabases()
 {
-    //given
-    ConsoleTabs tabsWidget;
+    //given    
     QStringList expectedResponses{
         getBulkStringReply(
             "# CPU\n"
@@ -40,7 +37,7 @@ void TestTreeOperations::testGetDatabases()
 
     //when
     qDebug() << "testGetDatabases - start execution";        
-    TreeOperations operations(connection, tabsWidget);
+    TreeOperations operations(connection);
     operations.getDatabases(
     [&callbackCalled, &result](const ConnectionsTree::Operations::DatabaseList& r) {    
         callbackCalled = true;
@@ -56,8 +53,7 @@ void TestTreeOperations::testGetDatabases()
 
 void TestTreeOperations::testGetDatabasesWithSelectScan()
 {
-    //given
-    ConsoleTabs tabsWidget;
+    //given    
     QStringList expectedResponses{
         getBulkStringReply(
             "# CPU\n"
@@ -72,7 +68,7 @@ void TestTreeOperations::testGetDatabasesWithSelectScan()
     ConnectionsTree::Operations::DatabaseList result;
 
     //when
-    TreeOperations operations(connection, tabsWidget);
+    TreeOperations operations(connection);
     operations.getDatabases(
     [&callbackCalled, &result](const ConnectionsTree::Operations::DatabaseList& r) {    
         callbackCalled = true;
@@ -91,15 +87,14 @@ void TestTreeOperations::testGetDatabaseKeys()
     //given
     QFETCH(double, redisServerVersion);
     QFETCH(uint, runCommandCalled);
-    QFETCH(uint, retrieveCollectionCalled);
-    ConsoleTabs tabsWidget;
+    QFETCH(uint, retrieveCollectionCalled);    
     auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
                                         QStringList() << "",
                                         redisServerVersion);
 
     //when
     bool callbackCalled = false;
-    TreeOperations operations(connection, tabsWidget);
+    TreeOperations operations(connection);
     operations.getDatabaseKeys(99, [&callbackCalled](
                                const ConnectionsTree::Operations::RawKeysList&,
                                const QString&)
@@ -114,7 +109,6 @@ void TestTreeOperations::testGetDatabaseKeys()
     QCOMPARE(connection->runCommandCalled, runCommandCalled);
     QCOMPARE(connection->getServerVersionCalled, 1u);
     QCOMPARE(connection->retrieveCollectionCalled, retrieveCollectionCalled);
-
 }
 
 void TestTreeOperations::testGetDatabaseKeys_data()

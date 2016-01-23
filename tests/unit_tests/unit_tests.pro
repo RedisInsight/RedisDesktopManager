@@ -18,8 +18,8 @@ SOURCES += \
     $$PWD/main.cpp \
 
 
-RESOURCES += \
-    $$SRC_DIR/resources/rdm.qrc
+#RESOURCES += \
+#    $$SRC_DIR/resources/rdm.qrc
 
 INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \

@@ -22,18 +22,16 @@ void TestServerItem::testLoad()
     operations->databases.append({0, 55});
     Model dummyModel;
     ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
-    QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
-    DummyParentView view;
+    QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));    
 
     //when
-    bool actualResult = item.onClick(view);
+    item.handleEvent("click");
 
     //then
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item.childCount(), static_cast<uint>(1));
     QCOMPARE(item.isLocked(), false);
-    QCOMPARE(item.isDatabaseListLoaded(), true);
-    QCOMPARE(actualResult, true);
+    QCOMPARE(item.isDatabaseListLoaded(), true);    
 }
 
 void TestServerItem::testLoad_invalid()
@@ -42,18 +40,16 @@ void TestServerItem::testLoad_invalid()
     ItemOperationsMock* operations = new ItemOperationsMock(false);
     Model dummyModel;
     ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
-    QSignalSpy spy(&item, SIGNAL(error(const QString&)));
-    DummyParentView view;
+    QSignalSpy spy(&item, SIGNAL(error(const QString&)));    
 
     //when
-    bool actualResult = item.onClick(view);
+    item.handleEvent("click");
 
     //then
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item.childCount(), static_cast<uint>(0));
     QCOMPARE(item.isLocked(), false);
-    QCOMPARE(item.isDatabaseListLoaded(), false);
-    QCOMPARE(actualResult, false);
+    QCOMPARE(item.isDatabaseListLoaded(), false);    
 }
 
 void TestServerItem::testUnload()
@@ -65,7 +61,7 @@ void TestServerItem::testUnload()
     ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
 
     //when
-    item.unload();
+    item.handleEvent("unload");
 
     //then
     QCOMPARE(item.childCount(), static_cast<uint>(0));
@@ -83,25 +79,10 @@ void TestServerItem::testReload()
     QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
 
     //when
-    item.reload();
+    item.handleEvent("reload");
 
     //then
     QCOMPARE(spy.count(), 1);
-}
-
-void TestServerItem::testContextMenu()
-{
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock();
-    Model dummyModel;
-    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
-    DummyParentView view;
-
-    //when
-    QSharedPointer<QMenu> actualResult = item.getContextMenu(view);
-
-    //then
-    QCOMPARE(actualResult->isEmpty(), false);
 }
 
 void TestServerItem::testBasicMethods()
@@ -115,7 +96,7 @@ void TestServerItem::testBasicMethods()
 
     //then
     QCOMPARE(item.getDisplayName(), QString("test"));
-    QCOMPARE(item.getIcon().isNull(), false);
+    QCOMPARE(item.getIconUrl().isNull(), false);
     QCOMPARE(item.parent() == nullptr, true);
     QCOMPARE(item.isEnabled(), true);
     QCOMPARE(item.isLocked(), false);

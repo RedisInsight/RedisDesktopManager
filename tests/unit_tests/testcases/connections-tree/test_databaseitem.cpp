@@ -4,7 +4,6 @@
 #include "connections-tree/model.h"
 #include "mocks/itemoperationsmock.h"
 
-
 #include <QtCore>
 #include <QTest>
 #include <QSignalSpy>
@@ -32,25 +31,22 @@ void TestDatabaseItem::testLoadKeys()
     operations->keys.append("test-2-key:namespace:subkey2");
     Model dummyModel;
     QSharedPointer<ServerItem> parentItem(new ServerItem("test", operations_, dummyModel));
-    parentItem->setWeakPointer(parentItem.toWeakRef());
-
-    DummyParentView view;
+    parentItem->setWeakPointer(parentItem.toWeakRef());    
 
     //when
-    parentItem->onClick(view);
+    parentItem->handleEvent("click");
     qDebug() << parentItem->childCount();
     QSharedPointer<TreeItem> item = parentItem->child(0);
 
     QSignalSpy spy((DatabaseItem*)item.data(), SIGNAL(keysLoaded(unsigned int)));
-    bool actualResult = item->onClick(view);
+    item->handleEvent("click");
 
     //then
     QCOMPARE(spy.wait(), true);
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(item->childCount(), (unsigned int)100001);
-    QCOMPARE(actualResult, true);
+    QCOMPARE(item->childCount(), (unsigned int)100001);    
     QCOMPARE(item->getDisplayName(), QString("db0 (100002/55)"));
-    QCOMPARE(item->getIcon().isNull(), false);
+    QCOMPARE(item->getIconUrl().isNull(), false);
     QCOMPARE(item->getAllChilds().isEmpty(), false);
     QCOMPARE(item->isEnabled(), true);
     QCOMPARE(item->isLocked(), false);
@@ -69,19 +65,4 @@ void TestDatabaseItem::testUnloadKeys()
     //then
     QCOMPARE(item.childCount(), (unsigned int)0);
     QCOMPARE(item.isLocked(), false);
-}
-
-void TestDatabaseItem::testContextMenu()
-{
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock();
-    DatabaseItem item(0, 300, QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      QWeakPointer<ConnectionsTree::TreeItem>());
-    DummyParentView view;
-
-    //when
-    QSharedPointer<QMenu> actualResult = item.getContextMenu(view);
-
-    //then
-    QCOMPARE(actualResult->isEmpty(), false);
 }

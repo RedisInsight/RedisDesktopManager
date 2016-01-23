@@ -42,12 +42,3 @@ public:
 protected:
     bool m_positive_mode;
 };
-
-class DummyParentView : public ConnectionsTree::TreeItem::ParentView {
-
-public:
-    QWidget* getParentWidget() override
-    {
-        return nullptr;
-    }
-};

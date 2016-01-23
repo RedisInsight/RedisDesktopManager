@@ -8,8 +8,7 @@ class TestConsole : public QObject
 public:
     explicit TestConsole(QObject *parent = 0);
 
-private slots:
-    void testWidget();
+private slots:    
     void testHexUtils();
 };
 

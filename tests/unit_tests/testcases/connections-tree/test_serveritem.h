@@ -13,7 +13,6 @@ private slots:
     void testLoad_invalid();
 
     void testUnload();
-    void testReload();
-    void testContextMenu();
+    void testReload();    
     void testBasicMethods();
 };

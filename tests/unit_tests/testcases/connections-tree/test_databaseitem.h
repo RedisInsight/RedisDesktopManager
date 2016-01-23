@@ -9,7 +9,5 @@ public:
 
 private slots:
     void testLoadKeys();
-    void testUnloadKeys();
-    void testContextMenu();
-
+    void testUnloadKeys();    
 };
