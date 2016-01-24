@@ -72,12 +72,12 @@ TabView {
                     }
 
                     Item {
-                        visible: !root.getTab(styleData.index).closable
+                        visible: root.getTab(styleData.index) && !root.getTab(styleData.index).closable
                         Layout.preferredWidth: 3
                     }
 
                     ToolButton {
-                        visible: root.getTab(styleData.index).closable
+                        visible: root.getTab(styleData.index) && root.getTab(styleData.index).closable
                         Layout.preferredWidth: 18
                         Layout.preferredHeight: 18
 
