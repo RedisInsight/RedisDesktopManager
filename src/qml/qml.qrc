@@ -2,8 +2,7 @@
     <qresource prefix="/">
         <file>app.qml</file>
         <file>WelcomeTab.qml</file>
-        <file>QuickStartDialog.qml</file>
-        <file>AddKeyDialog.qml</file>
+        <file>QuickStartDialog.qml</file>        
         <file>ConnectionSettignsDialog.qml</file>
         <file>common/RichTextWithLinks.qml</file>
         <file>common/PasswordInput.qml</file>
@@ -16,6 +15,7 @@
         <file>connections-tree/menu/database.qml</file>
         <file>connections-tree/menu/namespace.qml</file>
         <file>connections-tree/menu/key.qml</file>
+        <file>value-editor/AddKeyDialog.qml</file>
         <file>value-editor/ValueTabs.qml</file>
         <file>value-editor/Pagination.qml</file>
         <file>value-editor/editors/HashItemEditor.qml</file>

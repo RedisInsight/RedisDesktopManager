@@ -4,7 +4,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
-import "./value-editor/editors/editor.js" as Editor
+import "./editors/editor.js" as Editor
 
 Item {
     function open() {
