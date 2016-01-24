@@ -107,7 +107,7 @@ void Application::initLog()
 {
     el::Configurations defaultConf;
     defaultConf.setToDefault();
-    defaultConf.setGlobally(el::ConfigurationType::ToStandardOutput, "true");
+    defaultConf.setGlobally(el::ConfigurationType::ToStandardOutput, "false");
     defaultConf.setGlobally(el::ConfigurationType::ToFile, "false");
     el::Loggers::reconfigureLogger("default", defaultConf);
 
