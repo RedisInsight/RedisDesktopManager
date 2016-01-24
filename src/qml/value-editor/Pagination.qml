@@ -26,20 +26,24 @@ ColumnLayout {
         }
     }
 
-    Button {
+    Button {        
+        Layout.maximumWidth: 200
         Layout.fillWidth: true
         text: "Set Page"
         onClicked: table.goToPage(pageField.text)
     }
 
-    RowLayout {
+    RowLayout {        
+        Layout.maximumWidth: 200
         Layout.fillWidth: true
         spacing: 0
         Button {
+            Layout.fillWidth: true
             text: "⇦"
             onClicked: table.goToPrevPage()
         }
         Button {
+            Layout.fillWidth: true
             text: "⇨"
             onClicked: table.goToNextPage()
         }

@@ -520,6 +520,7 @@ Repeater {
 
                             Pagination {
                                 id: pagination
+                                Layout.maximumWidth: 150
                                 visible: showValueNavigation
                             }
                         }
