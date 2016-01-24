@@ -5,13 +5,13 @@ function getSupportedKeyTypes() {
 
 function getEditorByTypeString(keyType) {
     if (keyType === "string") {
-        return "./value-editor/editors/SingleItemEditor.qml"
+        return "./editors/SingleItemEditor.qml"
     } else if (keyType === "list" || keyType === "set") {
-        return "./value-editor/editors/SingleItemEditor.qml"
+        return "./editors/SingleItemEditor.qml"
     } else if (keyType === "zset") {
-        return "./value-editor/editors/SortedSetItemEditor.qml"
+        return "./editors/SortedSetItemEditor.qml"
     } else if (keyType === "hash") {
-        return "./value-editor/editors/HashItemEditor.qml"
+        return "./editors/HashItemEditor.qml"
     } else {
         console.error("Editor for type " + keyType + " is not defined!")
     }
