@@ -4,13 +4,14 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
+import QtQuick.Window 2.2
+import Qt.labs.settings 1.0
 import "."
 import "./common"
 import "./value-editor"
 import "./connections-tree"
 import "./console"
 import "./code-editor"
-//import "./editors/formatters/formatters.js" as Formatters
 
 ApplicationWindow {
     id: approot
@@ -18,17 +19,36 @@ ApplicationWindow {
     objectName: "rdm_qml_root"
     title: "Redis Desktop Manager " + Qt.application.version
     width: 1000
-    height: 800
+    height: 700
+
+    property double wRatio : (width * 1.0) / (Screen.width * 1.0)
+    property double hRatio : (height * 1.0) / (Screen.height * 1.0)
 
     property var currentValueFormatter
+
+    Component.onCompleted: {
+        if (hRatio > 1 || wRatio > 1) {
+            console.log("Ratio > 1.0. Resize main window.")
+            width = Screen.width * 0.9
+            height = Screen.heigh * 0.8
+        }
+    }
+
+    Settings {
+        category: "windows_settings"
+        property alias x: approot.x
+        property alias y: approot.y
+        property alias width: approot.width
+        property alias height: approot.height
+    }
 
     SystemPalette {
         id: sysPalette
     }
 
     QuickStartDialog {
-       id: quickStartDialog
-       objectName: "rdm_qml_quick_start_dialog"
+        id: quickStartDialog
+        objectName: "rdm_qml_quick_start_dialog"
     }
 
     ConnectionSettignsDialog {
@@ -71,7 +91,7 @@ ApplicationWindow {
 
         onEditConnection: {
             connectionSettingsDialog.settings = config
-            connectionSettingsDialog.open()           
+            connectionSettingsDialog.open()
         }
 
         Component.onCompleted: {
@@ -118,7 +138,7 @@ ApplicationWindow {
                     property bool not_mapped: true
 
                     onClose: tabs.removeTab(index)
-                }                
+                }
 
                 ValueTabs {
                     objectName: "rdm_qml_value_tabs"
@@ -126,8 +146,8 @@ ApplicationWindow {
                 }
 
                 AddKeyDialog {
-                   id: addNewKeyDialog
-                   objectName: "rdm_qml_new_key_dialog"
+                    id: addNewKeyDialog
+                    objectName: "rdm_qml_new_key_dialog"
                 }
 
                 Connections {
@@ -143,7 +163,7 @@ ApplicationWindow {
                         var welcomeTab = tabs.getTab(0)
 
                         if (welcomeTab && welcomeTab.not_mapped)
-                           tabs.removeTab(0)
+                            tabs.removeTab(0)
                     }
 
                     onNewKeyDialog: addNewKeyDialog.open()
@@ -170,7 +190,7 @@ ApplicationWindow {
                     }
                 }
 
-                BetterTab {                    
+                BetterTab {
                     closable: false
                     title: "Log"
                     icon: "qrc:/images/log.png"
@@ -186,7 +206,7 @@ ApplicationWindow {
                             Component.onCompleted: appLogger.getMessages()
                         }
                     }
-                }                                
+                }
             }
         }
     }
