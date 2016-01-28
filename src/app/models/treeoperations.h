@@ -15,7 +15,7 @@ public:
 
     void getDatabases(std::function<void(DatabaseList)>) override;
 
-    void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&, const QString&)>) override;
+    void getDatabaseKeys(uint dbIndex, QString filter, std::function<void(const RawKeysList&, const QString&)>) override;
 
     void disconnect() override;
 

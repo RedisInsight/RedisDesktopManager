@@ -102,7 +102,9 @@ void DatabaseItem::loadKeys()
         return;
     }
 
-    m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys, const QString& err) {
+    QString filter = (m_filter.isEmpty())? "" : m_filter.pattern();
+
+    m_operations->getDatabaseKeys(m_index, filter, [this](const Operations::RawKeysList& rawKeys, const QString& err) {
         if (!err.isEmpty()) {
             m_locked = false;
             emit error(err);

@@ -88,9 +88,9 @@ void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operation
     return callback(availableDatabeses);
 }
 
-void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const RawKeysList &, const QString &)> callback)
+void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter, std::function<void (const RawKeysList &, const QString &)> callback)
 {
-    QString keyPattern = static_cast<ServerConfig>(m_connection->getConfig()).keysPattern();
+    QString keyPattern = filter.isEmpty() ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern() : filter;
 
     if (m_connection->getServerVersion() >= 2.8) {
         QList<QByteArray> rawCmd {
