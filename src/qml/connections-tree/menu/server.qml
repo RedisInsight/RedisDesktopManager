@@ -6,11 +6,11 @@ import "."
 RowLayout {
     InlineMenu {
         model: [
-            {'icon': "qrc:/images/console.png", 'event': 'console'},
-            {'icon': "qrc:/images/refresh.png", 'event': 'reload'},
-            {'icon': "qrc:/images/offline.png", 'event': 'unload'},
-            {'icon': "qrc:/images/editdb.png", 'event': 'edit'},
-            {'icon': "qrc:/images/delete.png", 'event': 'delete'},
+            {'icon': "qrc:/images/console.png", 'event': 'console', "help": "Open Console"},
+            {'icon': "qrc:/images/refresh.png", 'event': 'reload', "help": "Reload Server"},
+            {'icon': "qrc:/images/offline.png", 'event': 'unload', "help": "Unload All Data"},
+            {'icon': "qrc:/images/editdb.png", 'event': 'edit', "help": "Edit Connection Settings"},
+            {'icon': "qrc:/images/delete.png", 'event': 'delete', "help": "Delete Connection"},
         ]
     }
 }

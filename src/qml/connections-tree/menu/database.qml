@@ -37,9 +37,9 @@ RowLayout {
         }
 
         model: [
-            {'icon': "qrc:/images/filter.png", "callback": "filter"},
-            {'icon': "qrc:/images/refresh.png", 'event': 'reload'},
-            {'icon': "qrc:/images/add.png", 'event': 'add_key'},            
+            {'icon': "qrc:/images/filter.png", "callback": "filter", "help": "Open Filter"},
+            {'icon': "qrc:/images/refresh.png", 'event': 'reload', "help": "Reload Keys in Database"},
+            {'icon': "qrc:/images/add.png", 'event': 'add_key', "help": "Add New Key"},
         ]
     }
 

@@ -22,6 +22,8 @@ RowLayout {
 
                 connectionsManager.sendEvent(styleData.index, modelData['event'])
             }
+
+            tooltip: modelData['help'] != undefined ? modelData['help'] : ""
         }
     }
 }
