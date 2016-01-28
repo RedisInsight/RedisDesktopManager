@@ -18,8 +18,7 @@ namespace ConnectionsTree {
     public:
         enum Roles {
             itemName = Qt::UserRole + 1,
-            itemType,
-            itemMeta,
+            itemType,            
         };
 
     public:
@@ -62,30 +61,17 @@ namespace ConnectionsTree {
         }
 
     public slots:
-        QVariant getItemIcon(const QModelIndex &index)
-        {
-            return data(index, Qt::DecorationRole);
-        }
+        QVariant getItemIcon(const QModelIndex &index);
 
-        QVariant getItemType(const QModelIndex &index)
-        {
-            return data(index, itemType);
-        }
+        QVariant getItemType(const QModelIndex &index);
 
-        void sendEvent(const QModelIndex &index, QString event)
-        {
-            qDebug() << "Event recieved:" << event;
+        QVariant getMetadata(const QModelIndex &index, const QString& metaKey);
 
-            TreeItem * item = getItemFromIndex(index);
+        void setMetadata(const QModelIndex &index, const QString& metaKey, QVariant value);
 
-            if (item)
-                item->handleEvent(event);
-        }
+        void sendEvent(const QModelIndex &index, QString event);
 
-        unsigned int size()
-        {
-            return m_treeItems.size();
-        }
+        unsigned int size();
 
     protected:            
         void addRootItem(QSharedPointer<ServerItem> item);

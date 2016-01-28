@@ -7,6 +7,7 @@
 #include <QIcon>
 #include <QList>
 #include <QHash>
+#include <QVariantMap>
 #include <QDebug>
 
 
@@ -20,9 +21,7 @@ public:
 
     virtual QString getIconUrl() const = 0;
 
-    virtual QString getType() const = 0;
-
-    virtual QVariantMap getMetadata() const { return QVariantMap(); }
+    virtual QString getType() const = 0;    
 
     virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
 
@@ -33,6 +32,10 @@ public:
     virtual QWeakPointer<TreeItem> parent() const = 0;
 
     virtual bool supportChildItems() const { return true; }
+
+    virtual QVariant metadata(const QString&) { return QVariant(); }
+
+    virtual void setMetadata(const QString&, QVariant) {}
 
     virtual int row() const
     {

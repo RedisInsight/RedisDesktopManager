@@ -18,7 +18,7 @@ ApplicationWindow {
     visible: true
     objectName: "rdm_qml_root"
     title: "Redis Desktop Manager " + Qt.application.version
-    width: 1000
+    width: 1100
     height: 700
 
     property double wRatio : (width * 1.0) / (Screen.width * 1.0)
@@ -109,7 +109,7 @@ ApplicationWindow {
         BetterTreeView {
             id: connectionsTree
             Layout.fillHeight: true
-            Layout.minimumWidth: 300
+            Layout.minimumWidth: 350
         }
 
         SplitView {

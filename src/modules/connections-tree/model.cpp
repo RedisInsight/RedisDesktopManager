@@ -20,7 +20,6 @@ QVariant Model::data(const QModelIndex &index, int role) const
         case itemName: return item->getDisplayName();
         case Qt::DecorationRole: return item->getIconUrl();
         case itemType: return item->getType();
-        case itemMeta: return item->getMetadata();
     }
 
     return QVariant();
@@ -101,59 +100,106 @@ int Model::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void Model::addRootItem(QSharedPointer<ServerItem> item)
+QVariant Model::getItemIcon(const QModelIndex &index)
 {
-    if (item.isNull())
+    return data(index, Qt::DecorationRole);
+}
+
+QVariant Model::getItemType(const QModelIndex &index)
+{
+    return data(index, itemType);
+}
+
+QVariant Model::getMetadata(const QModelIndex &index, const QString &metaKey)
+{
+    TreeItem *item = getItemFromIndex(index);
+
+    if (item == nullptr)
+        return QVariant();
+
+    return item->metadata(metaKey);
+}
+
+void Model::setMetadata(const QModelIndex &index, const QString &metaKey, QVariant value)
+{
+    TreeItem *item = getItemFromIndex(index);
+
+    if (item == nullptr)
+        return;
+
+    item->setMetadata(metaKey, value);
+}
+
+void Model::sendEvent(const QModelIndex &index, QString event)
+{
+    qDebug() << "Event recieved:" << event;
+
+    TreeItem * item = getItemFromIndex(index);
+
+    if (item)
+        item->handleEvent(event);
+}
+
+unsigned int Model::size()
+{
+    return m_treeItems.size();
+}
+
+void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
+{
+    if (serverItem.isNull())
         return;
 
     int insertIndex = m_treeItems.size();
     emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
-    item->setRow(insertIndex);
-    item->setWeakPointer(item.toWeakRef());
-    m_treeItems.push_back(item);
+    serverItem->setRow(insertIndex);
+    serverItem->setWeakPointer(serverItem.toWeakRef());
+    m_treeItems.push_back(serverItem);
 
     QModelIndex itemIndex = index(insertIndex, 0, QModelIndex());
 
-    connect(item.data(), &ServerItem::databaseListLoaded,
-            this, [this, itemIndex, item]()
+    connect(serverItem.data(), &ServerItem::databaseListLoaded,
+            this, [this, itemIndex, serverItem]()
     {
-        emit beginInsertRows(itemIndex, 0, item->childCount()-1);
+        emit beginInsertRows(itemIndex, 0, serverItem->childCount()-1);
         emit endInsertRows();
     });
 
-    connect(item.data(), &ServerItem::updateIcon,
-            this, [this, itemIndex, item]()
+    connect(serverItem.data(), &ServerItem::updateIcon,
+            this, [this, itemIndex, serverItem]()
     {
         emit dataChanged(itemIndex, itemIndex);
     });
 
-    connect(item.data(), &ServerItem::unloadStarted,
-            this, [this, itemIndex, item]()
+    connect(serverItem.data(), &ServerItem::unloadStarted,
+            this, [this, itemIndex, serverItem]()
     {
-        emit beginRemoveRows(itemIndex, 0, item->childCount()-1);
+        emit beginRemoveRows(itemIndex, 0, serverItem->childCount()-1);
         emit endRemoveRows();
     });
 
-    connect(item.data(), &ServerItem::keysLoadedInDatabase,
-            this, [this, itemIndex, item](unsigned int dbIndex)
+    connect(serverItem.data(), &ServerItem::keysLoadedInDatabase,
+            this, [this, itemIndex, serverItem](unsigned int dbIndex)
     {
         QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
-        emit beginInsertRows(dbModelIndex, 0, item->child(dbIndex)->childCount() - 1);
+
+        emit beginInsertRows(dbModelIndex, 0, serverItem->child(dbIndex)->childCount() - 1);
         emit endInsertRows();
+
     });
 
-    connect(item.data(), &ServerItem::updateDbIcon,
-            this, [this, itemIndex, item](unsigned int dbIndex)
+    connect(serverItem.data(), &ServerItem::updateDbIcon,
+            this, [this, itemIndex, serverItem](unsigned int dbIndex)
     {
         QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
         emit dataChanged(dbModelIndex, dbModelIndex);
     });
 
-    connect(item.data(), &ServerItem::unloadStartedInDatabase,
-            this, [this, itemIndex, item](unsigned int dbIndex)
+    connect(serverItem.data(), &ServerItem::unloadStartedInDatabase,
+            this, [this, itemIndex, serverItem](unsigned int dbIndex)
     {
         QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
-        emit beginRemoveRows(dbModelIndex, 0, item->child(dbIndex)->childCount() - 1);
+        emit beginRemoveRows(dbModelIndex, 0, serverItem->child(dbIndex)->childCount() - 1);
         emit endRemoveRows();
     });
 

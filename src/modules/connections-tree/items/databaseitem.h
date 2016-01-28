@@ -23,9 +23,7 @@ public:
 
     QString getIconUrl() const override;
 
-    QString getType() const override { return "database"; }
-
-    QVariantMap getMetadata() const override;
+    QString getType() const override { return "database"; }    
 
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
@@ -45,10 +43,15 @@ public:
 
     int getIndex() const;
 
+    QVariant metadata(const QString&) override;
+
+    void setMetadata(const QString&, QVariant) override;
+
 signals:
     void keysLoaded(unsigned int dbIndex);
     void unloadStarted(unsigned int dbIndex);
     void updateIcon(unsigned int dbIndex);
+    void updateLayout(unsigned int dbIndex);
     void error(const QString&);
 
 protected slots:

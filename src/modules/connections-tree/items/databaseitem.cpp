@@ -40,18 +40,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
         });
     });
 
-    m_eventHandlers.insert("set_filter", [this]() {
-        QString text = QInputDialog::getText(nullptr, tr("Filter keys:"), tr("Filter regex:"));
-        if (!text.isEmpty()) filterKeys(QRegExp(text));
-    });
-
-    m_eventHandlers.insert("reset_filter", [this]() {
-        resetFilter();
-    });
-
-    m_eventHandlers.insert("reload", [this]() {
-        reload();
-    });
+    m_eventHandlers.insert("reload", [this]() { reload();});
 }
 
 DatabaseItem::~DatabaseItem()
@@ -74,13 +63,6 @@ QString DatabaseItem::getIconUrl() const
 {
     if (m_locked) return QString("qrc:/images/wait.png");
     return QString("qrc:/images/db.png");
-}
-
-QVariantMap DatabaseItem::getMetadata() const
-{
-    QVariantMap meta;
-    meta.insert("filter", !m_filter.isEmpty());
-    return meta;
 }
 
 QList<QSharedPointer<TreeItem> > DatabaseItem::getAllChilds() const
@@ -112,14 +94,13 @@ bool DatabaseItem::isEnabled() const {return true;}
 
 void DatabaseItem::loadKeys()
 {
-    if (m_rawKeys.size() > 0) {
-        renderRawKeys(m_rawKeys);
-        emit keysLoaded(m_index);
-        return;
-    }
-
     m_locked = true;
     emit updateIcon(m_index);
+
+    if (m_rawKeys.size() > 0) {
+        renderRawKeys(m_rawKeys);
+        return;
+    }
 
     m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys, const QString& err) {
         if (!err.isEmpty()) {
@@ -139,6 +120,28 @@ void DatabaseItem::loadKeys()
 int DatabaseItem::getIndex() const
 {
     return m_index;
+}
+
+QVariant DatabaseItem::metadata(const QString &key)
+{
+    if (key == "filter")
+        return m_filter.pattern();
+    return QVariant();
+}
+
+void DatabaseItem::setMetadata(const QString &key, QVariant value)
+{
+    if (key != "filter")
+        return;
+
+    if (!m_filter.isEmpty()
+            && (value.isNull()
+                || !value.canConvert<QString>()
+                || value.toString().isEmpty()))
+        return resetFilter();
+
+    QRegExp pattern(value.toString(), Qt::CaseSensitive, QRegExp::PatternSyntax::WildcardUnix);
+    return filterKeys(pattern);
 }
 
 void DatabaseItem::onKeysRendered()
@@ -170,12 +173,14 @@ void DatabaseItem::reload()
 void DatabaseItem::filterKeys(const QRegExp &filter)
 {
     m_filter = filter;
+    emit unloadStarted(m_index);
     loadKeys();
 }
 
 void DatabaseItem::resetFilter()
 {
     m_filter = QRegExp();
+    emit unloadStarted(m_index);
     loadKeys();
 }
 

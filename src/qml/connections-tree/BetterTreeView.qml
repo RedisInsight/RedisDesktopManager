@@ -14,7 +14,7 @@ TreeView {
     TableViewColumn {
         title: "item"
         role: "name"
-        width: 300
+        width: root.width
     }
 
     selectionMode: SelectionMode.SingleSelection
@@ -28,7 +28,7 @@ TreeView {
 
     rowDelegate: Rectangle {
         height: 28
-        color: styleData.selected ? sysPalette.highlight : "white"
+        color: styleData.selected ? "#e2e2e2" : "white" //sysPalette.highlight
     }
 
     itemDelegate: Item {
@@ -71,7 +71,7 @@ TreeView {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: styleData.selected ? sysPalette.highlightedText : styleData.textColor
+                //color: styleData.selected ? sysPalette.highlightedText : styleData.textColor
                 elide: styleData.elideMode
                 text: styleData.value
             }
@@ -79,9 +79,11 @@ TreeView {
 
         Loader {
             anchors {right: itemRoot.right; top: itemRoot.top; bottom: itemRoot.bottom; }
+            anchors.rightMargin: 20
             height: parent.height
             visible: styleData.selected
             asynchronous: true
+
 
             source: {
                 if (!styleData.selected
