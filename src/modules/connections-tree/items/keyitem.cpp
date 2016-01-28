@@ -19,7 +19,7 @@ KeyItem::KeyItem(const QByteArray &fullPath, unsigned short dbIndex,
         if (isEnabled()) m_operations->openKeyTab(*this, false);
     });
 
-    m_eventHandlers.insert("open_in_new_tab", [this]() {
+    m_eventHandlers.insert("mid-click", [this]() {
         if (isEnabled()) m_operations->openKeyTab(*this, true);
     });
 }
