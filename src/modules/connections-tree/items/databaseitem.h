@@ -92,7 +92,8 @@ private:
     QFutureWatcher<QSharedPointer<DatabaseKeys>> m_keysLoadingWatcher;
     QWeakPointer<TreeItem> m_parent;
     Operations::RawKeysList m_rawKeys;
-    QRegExp m_filter;    
+    QRegExp m_filter;
+    QTimer m_liveUpdateTimer;
 };
 
 }

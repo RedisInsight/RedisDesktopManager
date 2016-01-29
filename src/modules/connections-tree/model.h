@@ -18,6 +18,7 @@ namespace ConnectionsTree {
     public:
         enum Roles {
             itemName = Qt::UserRole + 1,
+            itemOriginalName,
             itemType,            
         };
 
@@ -58,7 +59,10 @@ namespace ConnectionsTree {
             }
 
             return parent;
-        }
+        }        
+
+    signals:
+        void expand(const QModelIndex &index);
 
     public slots:
         QVariant getItemIcon(const QModelIndex &index);
@@ -73,11 +77,18 @@ namespace ConnectionsTree {
 
         unsigned int size();
 
+        void setExpanded(const QModelIndex &index);
+
+        void setCollapsed(const QModelIndex &index);
+
     protected:            
         void addRootItem(QSharedPointer<ServerItem> item);
-        void removeRootItem(QSharedPointer<ServerItem> item);        
+        void removeRootItem(QSharedPointer<ServerItem> item);
+        void restoreOpenedNamespaces(const QModelIndex &dbIndex);
     private:
          QList<QSharedPointer<TreeItem>> m_treeItems;
          QSharedPointer<QHash<TreeItem*, QWeakPointer<TreeItem>>> m_rawPointers;
+         QSet<QByteArray> m_expanded;         
+         QSet<QByteArray> m_expandedCache;
     };
 }

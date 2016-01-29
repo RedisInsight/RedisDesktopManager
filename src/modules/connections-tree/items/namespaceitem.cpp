@@ -3,7 +3,7 @@
 
 using namespace ConnectionsTree;
 
-NamespaceItem::NamespaceItem(const QString &fullPath,
+NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              QSharedPointer<Operations> operations,
                              QWeakPointer<TreeItem> parent)
     : m_fullPath(fullPath),
@@ -19,9 +19,14 @@ QString NamespaceItem::getDisplayName() const
     return QString("%1 (%2)").arg(m_displayName).arg(childCount(true));
 }
 
-QString NamespaceItem::getName() const
+QString NamespaceItem::getDisplayPart() const
 {
     return m_displayName;
+}
+
+QByteArray NamespaceItem::getName() const
+{
+    return m_fullPath;
 }
 
 QString NamespaceItem::getIconUrl() const
@@ -76,7 +81,7 @@ bool NamespaceItem::isEnabled() const
 void NamespaceItem::append(QSharedPointer<TreeItem> item)
 {
     if (typeid(NamespaceItem)==typeid(*item)) {
-        m_childNamespaces[item.staticCast<NamespaceItem>()->getName()] = qSharedPointerCast<NamespaceItem>(item);
+        m_childNamespaces[item.staticCast<NamespaceItem>()->getDisplayPart()] = qSharedPointerCast<NamespaceItem>(item);
     }
     m_childItems.append(item);
 }

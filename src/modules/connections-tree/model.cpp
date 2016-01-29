@@ -1,6 +1,8 @@
 #include "model.h"
 #include "items/serveritem.h"
 #include <QDebug>
+#include <algorithm>
+
 using namespace ConnectionsTree;
 
 Model::Model(QObject *parent) :
@@ -20,6 +22,7 @@ QVariant Model::data(const QModelIndex &index, int role) const
         case itemName: return item->getDisplayName();
         case Qt::DecorationRole: return item->getIconUrl();
         case itemType: return item->getType();
+        case itemOriginalName: return item->getName();
     }
 
     return QVariant();
@@ -145,6 +148,26 @@ unsigned int Model::size()
     return m_treeItems.size();
 }
 
+void Model::setExpanded(const QModelIndex &index)
+{
+    TreeItem * item = getItemFromIndex(index);
+
+    if (!item || item->getType() != "namespace")
+        return;
+
+    m_expanded.insert(item->getName());
+}
+
+void Model::setCollapsed(const QModelIndex &index)
+{
+    TreeItem * item = getItemFromIndex(index);
+
+    if (!item || item->getType() != "namespace")
+        return;    
+
+    m_expanded.remove(item->getName());
+}
+
 void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
 {
     if (serverItem.isNull())
@@ -163,6 +186,7 @@ void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
     {
         emit beginInsertRows(itemIndex, 0, serverItem->childCount()-1);
         emit endInsertRows();
+        emit expand(itemIndex);        
     });
 
     connect(serverItem.data(), &ServerItem::updateIcon,
@@ -185,7 +209,14 @@ void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
 
         emit beginInsertRows(dbModelIndex, 0, serverItem->child(dbIndex)->childCount() - 1);
         emit endInsertRows();
+        emit expand(dbModelIndex);
 
+        qDebug() << "---- BEGIN EXPANDING ------";
+        m_expandedCache = m_expanded;
+        m_expanded.clear();
+        restoreOpenedNamespaces(dbModelIndex);
+        m_expandedCache.clear();
+        qDebug() << "---- END EXPANDING ------";
     });
 
     connect(serverItem.data(), &ServerItem::updateDbIcon,
@@ -214,4 +245,20 @@ void Model::removeRootItem(QSharedPointer<ServerItem> item)
     beginRemoveRows(QModelIndex(), item->row(), item->row());
     m_treeItems.removeAll(item);
     endRemoveRows();
+}
+
+void Model::restoreOpenedNamespaces(const QModelIndex &dbIndex)
+{    
+    QModelIndex searchFrom = index(0, 0, dbIndex);
+
+    foreach (QByteArray item, m_expandedCache)
+    {        
+        QModelIndexList matches = match(searchFrom, itemOriginalName, item, -1,
+                                        Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchRecursive);
+
+        foreach (QModelIndex i, matches)
+        {            
+            emit expand(i);
+        }
+    }
 }

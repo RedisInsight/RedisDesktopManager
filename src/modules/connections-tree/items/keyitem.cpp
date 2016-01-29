@@ -29,6 +29,11 @@ QString KeyItem::getDisplayName() const
     return printableString(m_fullPath);
 }
 
+QByteArray KeyItem::getName() const
+{
+    return m_fullPath;
+}
+
 QString KeyItem::getIconUrl() const
 {
     return QString("qrc:/images/key.png");

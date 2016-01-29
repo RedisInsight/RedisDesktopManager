@@ -11,7 +11,8 @@
 
 using namespace ConnectionsTree;
 
-ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations, const Model& model)
+ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations,
+                       const Model& model)
     : m_name(name),
       m_locked(false),
       m_databaseListLoaded(false),

@@ -7,11 +7,15 @@ namespace ConnectionsTree {
 class NamespaceItem : public TreeItem
 {
 public:
-    NamespaceItem(const QString& fullPath,  QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
+    NamespaceItem(const QByteArray& fullPath,
+                  QSharedPointer<Operations> operations,
+                  QWeakPointer<TreeItem> parent);
 
     QString getDisplayName() const override;
 
-    QString getName() const;
+    QString getDisplayPart() const;
+
+    QByteArray getName() const override;
 
     QString getIconUrl() const override;
 
@@ -34,7 +38,7 @@ public:
     QSharedPointer<NamespaceItem> findChildNamespace(const QString& name);
 
 private:
-    QString m_fullPath;
+    QByteArray m_fullPath;
     QString m_displayName;
     QSharedPointer<Operations> m_operations;
     QWeakPointer<TreeItem> m_parent;

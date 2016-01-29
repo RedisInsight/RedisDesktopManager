@@ -41,6 +41,10 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
     });
 
     m_eventHandlers.insert("reload", [this]() { reload();});
+
+    m_liveUpdateTimer.setInterval(10000); // TODO: move live update interval to settigns
+    m_liveUpdateTimer.setSingleShot(false);
+    connect(&m_liveUpdateTimer, &QTimer::timeout, this, [this]() { reload(); });
 }
 
 DatabaseItem::~DatabaseItem()
@@ -128,22 +132,31 @@ QVariant DatabaseItem::metadata(const QString &key)
 {
     if (key == "filter")
         return m_filter.pattern();
+    if (key == "live_update")
+        return m_liveUpdateTimer.isActive();
+
     return QVariant();
 }
 
 void DatabaseItem::setMetadata(const QString &key, QVariant value)
 {
-    if (key != "filter")
+    bool isResetValue = (value.isNull() || !value.canConvert<QString>() || value.toString().isEmpty());
+
+    if (key == "filter") {
+        if (!m_filter.isEmpty() && isResetValue)
+            return resetFilter();
+
+        QRegExp pattern(value.toString(), Qt::CaseSensitive, QRegExp::PatternSyntax::WildcardUnix);
+        return filterKeys(pattern);
+    } else if (key == "live_update") {
+        if (m_liveUpdateTimer.isActive() && isResetValue) {
+            m_liveUpdateTimer.stop();
+            return;
+        }
+
+        m_liveUpdateTimer.start();
         return;
-
-    if (!m_filter.isEmpty()
-            && (value.isNull()
-                || !value.canConvert<QString>()
-                || value.toString().isEmpty()))
-        return resetFilter();
-
-    QRegExp pattern(value.toString(), Qt::CaseSensitive, QRegExp::PatternSyntax::WildcardUnix);
-    return filterKeys(pattern);
+    }
 }
 
 void DatabaseItem::onKeysRendered()
@@ -285,11 +298,12 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(
 
     if (namespaceItem.isNull()) {
         namespaceItem = QSharedPointer<NamespaceItem>(
-                    new NamespaceItem(firstNamespaceName, m_operations, currentParent));
+                    new NamespaceItem(fullKey.mid(0, fullKey.indexOf(notProcessedKeyPart.mid(indexOfNaspaceSeparator))),
+                                      m_operations, currentParent));
 
         if (currItem.isNull()) {
             m_result->push_back(namespaceItem);
-            m_rootNamespaces->insert(namespaceItem->getName(), namespaceItem);
+            m_rootNamespaces->insert(namespaceItem->getDisplayPart(), namespaceItem);
         }
         else currItem->append(namespaceItem);
     }

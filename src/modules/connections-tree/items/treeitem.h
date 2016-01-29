@@ -19,6 +19,8 @@ public:
 
     virtual QString getDisplayName() const = 0;
 
+    virtual QByteArray getName() const { return getDisplayName().toUtf8(); }
+
     virtual QString getIconUrl() const = 0;
 
     virtual QString getType() const = 0;    

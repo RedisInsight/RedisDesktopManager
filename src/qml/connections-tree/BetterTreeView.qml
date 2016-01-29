@@ -130,4 +130,9 @@ TreeView {
 
         connectionsManager.sendEvent(index, "click")
     }
+
+    onExpanded: connectionsManager.setExpanded(index)
+    onCollapsed: connectionsManager.setCollapsed(index)
+
+    Connections { target: connectionsManager; onExpand: root.expand(index) }
 }

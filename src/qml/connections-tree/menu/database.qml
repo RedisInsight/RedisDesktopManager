@@ -33,14 +33,33 @@ RowLayout {
         id: dbMenu
 
         callbacks: {
-            "filter": function() { root.state = "filter" }
+            "filter": function() { root.state = "filter" },
+            'live_update_enable': function() {
+                if (!connectionsManager)
+                    return
+                connectionsManager.setMetadata(styleData.index, "live_update", true)
+            },
+            'live_update_disable': function() {
+                if (!connectionsManager)
+                    return
+                connectionsManager.setMetadata(styleData.index, "live_update", true)
+            }
         }
 
-        model: [
-            {'icon': "qrc:/images/filter.png", "callback": "filter", "help": "Open Filter"},
-            {'icon': "qrc:/images/refresh.png", 'event': 'reload', "help": "Reload Keys in Database"},
-            {'icon': "qrc:/images/add.png", 'event': 'add_key', "help": "Add New Key"},
-        ]
+        model: {
+            var result = []
+            result.push({'icon': "qrc:/images/filter.png", "callback": "filter", "help": "Open Filter"})
+
+            if (connectionsManager && connectionsManager.getMetadata(styleData.index, "live_update") == true) {
+                result.push({'icon': "qrc:/images/live_update_disable.png", 'callback': 'live_update_disable', "help": "Disable Live Update"})
+            } else {
+                result.push({'icon': "qrc:/images/live_update.png", 'callback': 'live_update_enable', "help": "Enable Live Update (reload values every 3 sec)"})
+            }
+
+            result.push({'icon': "qrc:/images/refresh.png", 'event': 'reload', "help": "Reload Keys in Database"})
+            result.push({'icon': "qrc:/images/add.png", 'event': 'add_key', "help": "Add New Key"})
+            return result
+        }
     }
 
     TextField {
