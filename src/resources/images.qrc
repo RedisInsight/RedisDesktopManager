@@ -33,6 +33,7 @@
         <file alias="log.png">images/log.png</file>
         <file alias="live_update.png">images/live_update.png</file>
         <file alias="live_update_disable.png">images/live_update_disable.png</file>
+        <file alias="copy.png">images/copy.png</file>
     </qresource>
     <qresource prefix="/">
         <file>images/debug.png</file>

@@ -1,4 +1,7 @@
 #include "qmlutils.h"
+#include <QClipboard>
+#include <QApplication>
+#include <QDebug>
 #include <qredisclient/utils/text.h>
 
 bool QmlUtils::isBinaryString(const QVariant &value)
@@ -65,4 +68,15 @@ QVariant QmlUtils::toUtf(const QVariant &value)
 QString QmlUtils::getPathFromUrl(const QUrl &url)
 {
     return url.path();
+}
+
+void QmlUtils::copyToClipboard(const QString &text)
+{
+    QClipboard* cb = QApplication::clipboard();
+
+    if (!cb)
+        return;
+
+    cb->clear();
+    cb->setText(text);
 }
