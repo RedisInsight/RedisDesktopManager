@@ -88,7 +88,6 @@ namespace ConnectionsTree {
     private:
          QList<QSharedPointer<TreeItem>> m_treeItems;
          QSharedPointer<QHash<TreeItem*, QWeakPointer<TreeItem>>> m_rawPointers;
-         QSet<QByteArray> m_expanded;         
-         QSet<QByteArray> m_expandedCache;
+         QSet<QByteArray> m_expanded;
     };
 }

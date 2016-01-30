@@ -211,12 +211,7 @@ void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
         emit endInsertRows();
         emit expand(dbModelIndex);
 
-        qDebug() << "---- BEGIN EXPANDING ------";
-        m_expandedCache = m_expanded;
-        m_expanded.clear();
         restoreOpenedNamespaces(dbModelIndex);
-        m_expandedCache.clear();
-        qDebug() << "---- END EXPANDING ------";
     });
 
     connect(serverItem.data(), &ServerItem::updateDbIcon,
@@ -248,10 +243,13 @@ void Model::removeRootItem(QSharedPointer<ServerItem> item)
 }
 
 void Model::restoreOpenedNamespaces(const QModelIndex &dbIndex)
-{    
+{        
+    QSet<QByteArray> expandedCache = m_expanded;
+    m_expanded.clear();
+
     QModelIndex searchFrom = index(0, 0, dbIndex);
 
-    foreach (QByteArray item, m_expandedCache)
+    foreach (QByteArray item, expandedCache)
     {        
         QModelIndexList matches = match(searchFrom, itemOriginalName, item, -1,
                                         Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchRecursive);
