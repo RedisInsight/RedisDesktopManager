@@ -102,9 +102,9 @@ ApplicationWindow {
 
     toolBar: AppToolBar {}
 
-    SplitView {
+    BetterSplitView {
         anchors.fill: parent
-        orientation: Qt.Horizontal
+        orientation: Qt.Horizontal        
 
         BetterTreeView {
             id: connectionsTree
@@ -112,7 +112,7 @@ ApplicationWindow {
             Layout.minimumWidth: 350
         }
 
-        SplitView {
+        BetterSplitView {
             orientation: Qt.Vertical
 
             BetterTabView {

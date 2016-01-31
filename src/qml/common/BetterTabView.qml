@@ -2,7 +2,7 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
-
+import "."
 
 TabView {
     id: root
@@ -76,12 +76,13 @@ TabView {
                         Layout.preferredWidth: 3
                     }
 
-                    ToolButton {
+                    ImageButton {
                         visible: root.getTab(styleData.index) && root.getTab(styleData.index).closable
+
                         Layout.preferredWidth: 18
                         Layout.preferredHeight: 18
 
-                        iconSource: "qrc:/images/clear.png"
+                        imgSource: "qrc:/images/clear.png"
                         onClicked: root.getTab(styleData.index).closeTab(styleData.index)
                     }
                 }

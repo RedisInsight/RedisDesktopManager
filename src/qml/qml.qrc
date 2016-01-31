@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>app.qml</file>
         <file>WelcomeTab.qml</file>
-        <file>QuickStartDialog.qml</file>        
+        <file>QuickStartDialog.qml</file>
         <file>ConnectionSettignsDialog.qml</file>
         <file>common/RichTextWithLinks.qml</file>
         <file>common/PasswordInput.qml</file>
@@ -35,5 +35,7 @@
         <file>console/Consoles.qml</file>
         <file>connections-tree/BetterTreeView.qml</file>
         <file>AppToolBar.qml</file>
+        <file>common/BetterSplitView.qml</file>
+        <file>common/ImageButton.qml</file>
     </qresource>
 </RCC>
