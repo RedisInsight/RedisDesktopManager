@@ -372,10 +372,13 @@ Dialog {
                         SpinBox {
                             id: executeTimeout
                             Layout.fillWidth: true
-                            minimumValue: 10
-                            maximumValue: 10000
-                            value: root.settings ? root.settings.executeTimeout : 60
-                            onValueChanged: root.settings.executeTimeout = value
+                            minimumValue: 30
+                            maximumValue: 100000
+                            value: {
+                                console.log("Execution timeout:", root.settings.executeTimeout)
+                                return root.settings ? (root.settings.executeTimeout / 1000.0) : 60
+                            }
+                            onValueChanged: root.settings.executeTimeout = value * 1000
                         }
 
                         Label { text: "Execution Timeout (sec):"}
@@ -383,10 +386,10 @@ Dialog {
                         SpinBox {
                             id: connectionTimeout
                             Layout.fillWidth: true
-                            minimumValue: 10
-                            maximumValue: 10000
-                            value: root.settings ? root.settings.connectionTimeout : 60
-                            onValueChanged: root.settings.connectionTimeout = value
+                            minimumValue: 30
+                            maximumValue: 100000
+                            value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 60
+                            onValueChanged: root.settings.connectionTimeout = value * 1000
                         }
 
                         Item {
