@@ -63,6 +63,7 @@ namespace ConnectionsTree {
 
     signals:
         void expand(const QModelIndex &index);
+        void error(const QString& err);
 
     public slots:
         QVariant getItemIcon(const QModelIndex &index);

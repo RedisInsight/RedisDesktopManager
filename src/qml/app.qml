@@ -98,6 +98,10 @@ ApplicationWindow {
             connectionSettingsDialog.open()
         }
 
+        onError: {
+            notification.showError(err)
+        }
+
         Component.onCompleted: {
             if (connectionsManager.size() == 0)
                 quickStartDialog.open()
