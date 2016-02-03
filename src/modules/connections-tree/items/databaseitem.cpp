@@ -157,6 +157,8 @@ void DatabaseItem::setMetadata(const QString &key, QVariant value)
     if (key == "filter") {
         if (!m_filter.isEmpty() && isResetValue)
             return resetFilter();
+        else if (isResetValue)
+            return;
 
         QRegExp pattern(value.toString(), Qt::CaseSensitive, QRegExp::PatternSyntax::WildcardUnix);
         return filterKeys(pattern);

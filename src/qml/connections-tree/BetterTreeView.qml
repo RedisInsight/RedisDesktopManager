@@ -78,12 +78,12 @@ TreeView {
         }
 
         Loader {
+            id: menuLoader
             anchors {right: itemRoot.right; top: itemRoot.top; bottom: itemRoot.bottom; }
             anchors.rightMargin: 20
             height: parent.height
             visible: styleData.selected
             asynchronous: true
-
 
             source: {
                 if (!styleData.selected
@@ -121,6 +121,13 @@ TreeView {
                     return
                 }
             }
+        }
+
+        focus: true
+        Keys.forwardTo: menuLoader.item ? [menuLoader.item] : []
+
+        Component.onCompleted: {
+            forceActiveFocus()
         }
     }
 
