@@ -59,6 +59,10 @@ ToolBar {
         Button {
             iconSource: "qrc:/images/settings.png"
             text: "Settings"
+
+            onClicked: {
+                settingsDialog.open()
+            }
         }
     }
 }

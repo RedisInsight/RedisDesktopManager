@@ -37,5 +37,8 @@
         <file>AppToolBar.qml</file>
         <file>common/BetterSplitView.qml</file>
         <file>common/ImageButton.qml</file>
+        <file>GlobalSettings.qml</file>
+        <file>settings/BoolOption.qml</file>
+        <file>settings/IntOption.qml</file>
     </qresource>
 </RCC>

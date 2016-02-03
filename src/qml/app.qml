@@ -51,6 +51,10 @@ ApplicationWindow {
         objectName: "rdm_qml_quick_start_dialog"
     }
 
+    GlobalSettings {
+        id: settingsDialog
+    }
+
     ConnectionSettignsDialog {
         id: connectionSettingsDialog
 
