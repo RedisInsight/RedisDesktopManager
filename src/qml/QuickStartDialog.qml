@@ -20,7 +20,7 @@ Dialog {
 
                 Layout.fillHeight: true
 
-                Image { source: "qrc:/images/help.png" }
+                Image { source: "qrc:/images/help.svg" }
 
                 RichTextWithLinks {
 

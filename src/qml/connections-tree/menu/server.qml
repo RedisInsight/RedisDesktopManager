@@ -21,11 +21,11 @@ RowLayout {
     InlineMenu {
         id: serverMenu
         model: [
-            {'icon': "qrc:/images/console.png", 'event': 'console', "help": sc(qsTr("Open Console"), 'console')},
-            {'icon': "qrc:/images/refresh.png", 'event': 'reload', "help": sc(qsTr("Reload Server"), 'reload')},
-            {'icon': "qrc:/images/offline.png", 'event': 'unload', "help": sc(qsTr("Unload All Data"), 'unload')},
-            {'icon': "qrc:/images/editdb.png", 'event': 'edit', "help": sc(qsTr("Edit Connection Settings"), 'edit')},
-            {'icon': "qrc:/images/delete.png", 'event': 'delete', "help": sc(qsTr("Delete Connection"), 'delete')},
+            {'icon': "qrc:/images/console.svg", 'event': 'console', "help": sc(qsTr("Open Console"), 'console')},
+            {'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": sc(qsTr("Reload Server"), 'reload')},
+            {'icon': "qrc:/images/offline.svg", 'event': 'unload', "help": sc(qsTr("Unload All Data"), 'unload')},
+            {'icon': "qrc:/images/editdb.svg", 'event': 'edit', "help": sc(qsTr("Edit Connection Settings"), 'edit')},
+            {'icon': "qrc:/images/delete.svg", 'event': 'delete', "help": sc(qsTr("Delete Connection"), 'delete')},
         ]
     }
 

@@ -10,7 +10,7 @@ ToolBar {
     RowLayout {
         anchors.fill: parent
         Button {
-            iconSource: "qrc:/images/add.png"
+            iconSource: "qrc:/images/add.svg"
             text: "Connect to Redis Server"
             Layout.preferredWidth: 230
 
@@ -21,7 +21,7 @@ ToolBar {
         }
 
         ToolButton {
-            iconSource: "qrc:/images/import.png"
+            iconSource: "qrc:/images/import.svg"
             text: "Import Connections"
             tooltip: text
 
@@ -37,7 +37,7 @@ ToolBar {
         }
 
         ToolButton {
-            iconSource: "qrc:/images/export.png"
+            iconSource: "qrc:/images/export.svg"
             text: "Export Connections"
             tooltip: text
 
@@ -57,7 +57,7 @@ ToolBar {
         Item { Layout.fillWidth: true }
 
         Button {
-            iconSource: "qrc:/images/settings.png"
+            iconSource: "qrc:/images/settings.svg"
             text: "Settings"
 
             onClicked: {

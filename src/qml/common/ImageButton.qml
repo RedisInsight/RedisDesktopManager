@@ -11,7 +11,7 @@ Item {
     Image {
         id: img
         anchors.centerIn: parent
-        source: "qrc:/images/clear.png"
+        source: "qrc:/images/clear.svg"
         width: 18
         height: 18
     }

@@ -77,8 +77,8 @@ QString DatabaseItem::getDisplayName() const
 
 QString DatabaseItem::getIconUrl() const
 {
-    if (m_locked) return QString("qrc:/images/wait.png");
-    return QString("qrc:/images/db.png");
+    if (m_locked) return QString("qrc:/images/wait.svg");
+    return QString("qrc:/images/db.svg");
 }
 
 QList<QSharedPointer<TreeItem> > DatabaseItem::getAllChilds() const

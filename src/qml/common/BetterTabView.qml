@@ -82,7 +82,7 @@ TabView {
                         Layout.preferredWidth: 18
                         Layout.preferredHeight: 18
 
-                        imgSource: "qrc:/images/clear.png"
+                        imgSource: "qrc:/images/clear.svg"
                         onClicked: root.getTab(styleData.index).closeTab(styleData.index)
                     }
                 }

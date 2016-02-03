@@ -27,7 +27,7 @@ BetterTab {
                     RichTextWithLinks { html: '<span style="font-size:32pt;">Redis Desktop Manager</span>'}
                     RichTextWithLinks { html: '<span style="padding-left:85px; font-size: 14px; line-height: 21px; display: inline-block;">&nbsp;<b>Version</b> ' + Qt.application.version +' &nbsp;&nbsp;&nbsp; '
                                               + 'Developed by - <a href="http://careers.stackoverflow.com/IgorMalinovskiy">Igor Malinovskiy</a> in '
-                                              + '<a href="http://en.wikipedia.org/wiki/Ukraine">&nbsp;<img src="qrc:/images/ua.png" width="20" height="20" />&nbsp;Ukraine</a></span>'}
+                                              + '<a href="http://en.wikipedia.org/wiki/Ukraine">&nbsp;<img src="qrc:/images/ua.svg" width="20" height="20" />&nbsp;Ukraine</a></span>'}
                 }
             }
 
@@ -39,23 +39,23 @@ BetterTab {
 
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html: '<a style="color: red; font-size: 16px;" href="https://github.com/uglide/RedisDesktopManager/issues"><img src="qrc:/images/alert.png" />&nbsp;Report issue</a> '
+                    html: '<a style="color: red; font-size: 16px;" href="https://github.com/uglide/RedisDesktopManager/issues"><img width="25" src="qrc:/images/alert.svg" />&nbsp;Report issue</a> '
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html:  '<a style="color: green; font-size: 16px;" href="https://github.com/uglide/RedisDesktopManager/wiki"><img  src="qrc:/images/help.png" />&nbsp;Wiki</a>'
+                    html:  '<a style="color: green; font-size: 16px;" href="https://github.com/uglide/RedisDesktopManager/wiki"><img width="25" src="qrc:/images/help.svg" />&nbsp;Wiki</a>'
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html: '<a style="font-size: 16px; " href="https://gitter.im/uglide/RedisDesktopManager"><img src="qrc:/images/chat.png" />&nbsp;Join Gitter Chat</a> '
+                    html: '<a style="font-size: 16px; " href="https://gitter.im/uglide/RedisDesktopManager"><img width="25" src="qrc:/images/chat.svg" />&nbsp;Join Gitter Chat</a> '
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html: '<a style="font-size: 16px; " href="https://twitter.com/RedisDesktop"><img  src="qrc:/images/twi.png" />&nbsp;Follow</a> '
+                    html: '<a style="font-size: 16px; " href="https://twitter.com/RedisDesktop"><img width="25" src="qrc:/images/twi.svg" />&nbsp;Follow</a> '
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html: '<a style="font-size: 16px; " href="https://github.com/uglide/RedisDesktopManager/stargazers"><img  src="qrc:/images/github.png" />&nbsp;Star!</a>'
+                    html: '<a style="font-size: 16px; " href="https://github.com/uglide/RedisDesktopManager/stargazers"><img width="25" src="qrc:/images/github.svg" />&nbsp;Star!</a>'
                 }
             }
 

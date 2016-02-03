@@ -14,7 +14,7 @@ Repeater {
         id: keyTab
         width: approot.width
         height: approot.height
-        icon: "qrc:/images/key.png"
+        icon: "qrc:/images/key.svg"
 
         closable: true
         onClose: {
@@ -140,7 +140,7 @@ Repeater {
 
                     Button {
                         text: "Delete"
-                        iconSource: "qrc:/images/delete.png"
+                        iconSource: "qrc:/images/delete.svg"
 
                         MessageDialog {
                             id: deleteConfirmation
@@ -407,7 +407,7 @@ Repeater {
                             Button {
                                 Layout.preferredWidth: 150
                                 text: "Add row";
-                                iconSource: "qrc:/images/add.png"
+                                iconSource: "qrc:/images/add.svg"
                                 onClicked: {
                                     addRowDialog.open()
 
@@ -461,7 +461,7 @@ Repeater {
                             Button {
                                 Layout.preferredWidth: 150
                                 text: "Delete row"
-                                iconSource: "qrc:/images/delete.png"
+                                iconSource: "qrc:/images/delete.svg"
                                 enabled: table.currentRow != -1
 
                                 onClicked: {
@@ -497,7 +497,7 @@ Repeater {
                             Button {
                                 Layout.preferredWidth: 150
                                 text: "Reload Value"
-                                iconSource: "qrc:/images/refreshdb.png"
+                                iconSource: "qrc:/images/refresh.svg"
                                 action: reLoadAction
 
                                 Action {

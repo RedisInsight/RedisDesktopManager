@@ -201,7 +201,7 @@ ApplicationWindow {
                 BetterTab {
                     closable: false
                     title: "Log"
-                    icon: "qrc:/images/log.png"
+                    icon: "qrc:/images/log.svg"
 
                     BaseConsole {
                         id: logTab

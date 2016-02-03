@@ -2,43 +2,35 @@
     <qresource prefix="/images">
         <file alias="redisBigIcon.png">images/redis_big_icon.png</file>
         <file alias="logo.png">images/logo.png</file>
-        <file alias="twi.png">images/twi.png</file>
-        <file alias="github.png">images/github.png</file>
-        <file alias="ok.png">images/ok.png</file>
-        <file alias="clear.png">images/clear.png</file>
-        <file alias="wait.png">images/wait.png</file>
-        <file alias="db.png">images/db.png</file>
-        <file alias="namespace.png">images/namespace.png</file>
-        <file alias="key.png">images/key.png</file>
-        <file alias="help.png">images/help.png</file>
-        <file alias="alert.png">images/alert.png</file>
-        <file alias="add.png">images/add.png</file>
-        <file alias="import.png">images/import.png</file>
-        <file alias="export.png">images/export.png</file>
-        <file alias="menu.png">images/menu.png</file>
-        <file alias="refreshdb.png">images/refreshdb.png</file>
-        <file alias="editdb.png">images/editdb.png</file>
-        <file alias="delete.png">images/delete.png</file>
+        <file alias="twi.svg">images/twi.svg</file>
+        <file alias="github.svg">images/github.svg</file>
+        <file alias="ok.svg">images/ok.svg</file>
+        <file alias="clear.svg">images/clear.svg</file>
+        <file alias="wait.svg">images/wait.svg</file>
+        <file alias="db.svg">images/db.svg</file>
+        <file alias="namespace.svg">images/namespace.svg</file>
+        <file alias="key.svg">images/key.svg</file>
+        <file alias="help.svg">images/help.svg</file>
+        <file alias="alert.svg">images/alert.svg</file>
+        <file alias="add.svg">images/add.svg</file>
+        <file alias="import.svg">images/import.svg</file>
+        <file alias="export.svg">images/export.svg</file>
+        <file alias="editdb.svg">images/editdb.svg</file>
+        <file alias="delete.svg">images/delete.svg</file>
         <file alias="rdm.ico">redis.ico</file>
         <file alias="loader.gif">images/loader.gif</file>
-        <file alias="ua.png">images/ua.png</file>
-        <file alias="filter.png">images/filter.png</file>
-        <file alias="chat.png">images/chat.png</file>
+        <file alias="ua.svg">images/ua.svg</file>
+        <file alias="filter.svg">images/filter.svg</file>
+        <file alias="chat.svg">images/chat.svg</file>
         <file alias="ga.png">images/ga.png</file>
-        <file alias="server.png">images/server.png</file>
-        <file alias="offline.png">images/offline.png</file>
-        <file alias="settings.png">images/settings.png</file>
-        <file alias="console.png">images/console.png</file>
-        <file alias="refresh.png">images/refresh.png</file>
-        <file alias="log.png">images/log.png</file>
-        <file alias="live_update.png">images/live_update.png</file>
-        <file alias="live_update_disable.png">images/live_update_disable.png</file>
-        <file alias="copy.png">images/copy.png</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>images/debug.png</file>
-        <file>images/execute.png</file>
-        <file>images/next-line.png</file>
-        <file>images/stop.png</file>
+        <file alias="server.svg">images/server.svg</file>
+        <file alias="offline.svg">images/offline.svg</file>
+        <file alias="settings.svg">images/settings.svg</file>
+        <file alias="console.svg">images/console.svg</file>
+        <file alias="refresh.svg">images/refresh.svg</file>
+        <file alias="log.svg">images/log.svg</file>
+        <file alias="live_update.svg">images/live_update.svg</file>
+        <file alias="live_update_disable.svg">images/live_update_disable.svg</file>
+        <file alias="copy.svg">images/copy.svg</file>
     </qresource>
 </RCC>

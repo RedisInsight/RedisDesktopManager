@@ -7,7 +7,7 @@ import "./common"
 
 Dialog {
     id: root
-    title: settings ? "Edit Connection Settings - " + settings.name : "New Connection Settings"
+    title: !settings || !settings.name ? "New Connection Settings" : "Edit Connection Settings - " + settings.name
 
     property var settings
     property string quickStartGuideUrl: "https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start"
@@ -410,7 +410,7 @@ Dialog {
 
                 RowLayout {
                     anchors.centerIn: parent
-                    Image {source: "qrc:/images/alert.png"}
+                    Image {source: "qrc:/images/alert.svg"}
                     Text { text: "Invalid settings detected!"}
                 }
             }
@@ -419,13 +419,13 @@ Dialog {
                 Layout.fillWidth: true
 
                 Button {
-                    iconSource: "qrc:/images/offline.png"
+                    iconSource: "qrc:/images/offline.svg"
                     text: "Test Connection"
                     onClicked: root.testConnection(root.settings)
                 }
 
                 ToolButton {
-                    iconSource: "qrc:/images/help.png"
+                    iconSource: "qrc:/images/help.svg"
                     text: "Quick Start Guide"
                     tooltip: text
                     onClicked: Qt.openUrlExternally(root.quickStartGuideUrl)

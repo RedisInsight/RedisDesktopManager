@@ -78,7 +78,7 @@ RowLayout {
 
         ToolButton {
             tooltip: sc(qsTr("Open Keys Filter"), 'filter')
-            iconSource: "qrc:/images/filter.png"
+            iconSource: "qrc:/images/filter.svg"
 
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
@@ -88,7 +88,7 @@ RowLayout {
 
         ToolButton {
             tooltip: sc(qsTr("Reload Keys in Database"), 'reload')
-            iconSource: "qrc:/images/refresh.png"
+            iconSource: "qrc:/images/refresh.svg"
 
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
@@ -98,7 +98,7 @@ RowLayout {
 
         ToolButton {
             tooltip: sc(qsTr("Add New Key"), 'add')
-            iconSource: "qrc:/images/add.png"
+            iconSource: "qrc:/images/add.svg"
 
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
@@ -111,7 +111,7 @@ RowLayout {
 
             property bool liveUpdateEnabled: false
             tooltip: liveUpdateEnabled? qsTr("Disable Live Update") : sc(qsTr("Enable Live Update"), 'live')
-            iconSource: liveUpdateEnabled? "qrc:/images/live_update_disable.png" : "qrc:/images/live_update.png"
+            iconSource: liveUpdateEnabled? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg"
 
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
@@ -150,7 +150,7 @@ RowLayout {
 
     ToolButton {
         id: filterOk
-        iconSource: "qrc:/images/ok.png"
+        iconSource: "qrc:/images/ok.svg"
 
         onClicked: setFilter()
 
@@ -165,13 +165,13 @@ RowLayout {
 
     ToolButton {
         id: filterHelp
-        iconSource: "qrc:/images/help.png"
+        iconSource: "qrc:/images/help.svg"
         onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/wiki/Features#Filter")
     }
 
     ToolButton {
         id: filterCancel
-        iconSource: "qrc:/images/clear.png"
+        iconSource: "qrc:/images/clear.svg"
 
         onClicked: {
             if (!connectionsManager)

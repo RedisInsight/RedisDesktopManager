@@ -31,7 +31,7 @@ QByteArray NamespaceItem::getName() const
 
 QString NamespaceItem::getIconUrl() const
 {    
-    return QString("qrc:/images/namespace.png");
+    return QString("qrc:/images/namespace.svg");
 }
 
 QList<QSharedPointer<TreeItem> > NamespaceItem::getAllChilds() const

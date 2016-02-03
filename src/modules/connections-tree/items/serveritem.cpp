@@ -69,9 +69,9 @@ QString ServerItem::getDisplayName() const
 
 QString ServerItem::getIconUrl() const
 {
-    if (m_locked)    return QString("qrc:/images/wait.png");
-    if (m_databaseListLoaded) return QString("qrc:/images/server.png");
-    return QString("qrc:/images/server.png"); //offline
+    if (m_locked)    return QString("qrc:/images/wait.svg");
+    if (m_databaseListLoaded) return QString("qrc:/images/server.svg");
+    return QString("qrc:/images/server.svg"); //offline
 }
 
 QList<QSharedPointer<TreeItem> > ServerItem::getAllChilds() const
