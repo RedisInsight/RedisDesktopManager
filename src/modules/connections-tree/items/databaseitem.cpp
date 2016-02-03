@@ -8,6 +8,7 @@
 #include <QMenu>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QSettings>
 #include "connections-tree/utils.h"
 
 using namespace ConnectionsTree;
@@ -40,11 +41,22 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
         });
     });
 
-    m_eventHandlers.insert("reload", [this]() { reload();});
+    m_eventHandlers.insert("reload", [this]() {
+        if (m_locked) {
+            QMessageBox::warning(nullptr, tr("Another operation is currently in progress"),
+                                 tr("Please wait until another operation will be finised."));
+            return;
+        }
 
-    m_liveUpdateTimer.setInterval(10000); // TODO: move live update interval to settigns
-    m_liveUpdateTimer.setSingleShot(false);
-    connect(&m_liveUpdateTimer, &QTimer::timeout, this, [this]() { reload(); });
+        reload();
+    });
+
+    QSettings settings;
+    m_liveUpdateTimer.setInterval(settings.value("app/liveUpdateInterval", 10).toInt() * 1000);
+    m_liveUpdateTimer.setSingleShot(true);
+    connect(&m_liveUpdateTimer, &QTimer::timeout, this, [this]() {
+        liveUpdate();
+    });
 }
 
 DatabaseItem::~DatabaseItem()
@@ -185,6 +197,46 @@ void DatabaseItem::reload()
     loadKeys();
 }
 
+void DatabaseItem::liveUpdate()
+{
+    if (m_locked) {
+        qDebug() << "Another loading operation is in progress. Skip this live update...";
+        m_liveUpdateTimer.start();
+        return;
+    }
+
+    m_locked = true;
+    emit updateIcon(m_index);
+
+    QString filter = (m_filter.isEmpty())? "" : m_filter.pattern();
+
+    m_operations->getDatabaseKeys(m_index, filter, [this](const Operations::RawKeysList& rawKeys, const QString& err) {
+        if (!err.isEmpty()) {
+            m_locked = false;
+            emit error(err);
+            emit updateIcon(m_index);
+
+            QMessageBox::warning(nullptr, tr("Keys error"), err);
+
+            return;
+        }
+        m_rawKeys = rawKeys;
+
+        QSettings settings;
+        if (m_rawKeys.size() >= settings.value("app/liveUpdateKeysLimit", 1000).toInt()) {
+            m_liveUpdateTimer.stop();
+            QMessageBox::warning(nullptr, tr("Live update was disabled"),
+                                 tr("Live update was disabled due to exceeded keys limit. "
+                                    "Please specify more accurate filter or change limit in settings."));
+        } else {
+            emit unloadStarted(m_index);
+            m_keys = QSharedPointer<DatabaseKeys>(new DatabaseKeys());
+            renderRawKeys(rawKeys);
+            m_liveUpdateTimer.start();
+        }
+    });
+}
+
 void DatabaseItem::filterKeys(const QRegExp &filter)
 {
     m_filter = filter;
@@ -234,9 +286,17 @@ QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedP
 {
     //init
     QElapsedTimer timer;
-    timer.start();    
-    std::sort(keys.begin(), keys.end());
-    qDebug() << "Keys sorted in: " << timer.elapsed() << " ms";
+    timer.start();
+
+    // Sort keys before rendering
+    QSettings settings;
+    if (settings.value("app/enableKeySortingInTree", true).toBool()) {
+        std::sort(keys.begin(), keys.end());
+        qDebug() << "Keys sorted in: " << timer.elapsed() << " ms";
+    } else {
+        qDebug() << "Keys sorting disabled in settings";
+    }
+
     QSharedPointer<QList<QSharedPointer<TreeItem>>> result(new QList<QSharedPointer<TreeItem>>());
     QSharedPointer<QHash<QString, QSharedPointer<NamespaceItem>>> rootNamespaces(
                 new QHash<QString, QSharedPointer<NamespaceItem>>());

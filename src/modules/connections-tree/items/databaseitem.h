@@ -59,6 +59,7 @@ protected slots:
 
 protected:
     void reload();
+    void liveUpdate();
     void filterKeys(const QRegExp& filter);
     void resetFilter();
     void renderRawKeys(const Operations::RawKeysList& rawKeys);

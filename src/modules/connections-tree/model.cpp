@@ -1,6 +1,7 @@
 #include "model.h"
 #include "items/serveritem.h"
 #include <QDebug>
+#include <QSettings>
 #include <algorithm>
 
 using namespace ConnectionsTree;
@@ -211,7 +212,13 @@ void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
         emit endInsertRows();
         emit expand(dbModelIndex);
 
-        restoreOpenedNamespaces(dbModelIndex);
+        QSettings settings;
+        if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {
+            restoreOpenedNamespaces(dbModelIndex);
+        } else {
+            qDebug() << "Namespace reopening is disabled in settings";
+            m_expanded.clear();
+        }
     });
 
     connect(serverItem.data(), &ServerItem::updateDbIcon,

@@ -32,34 +32,64 @@ RowLayout {
     InlineMenu {
         id: dbMenu
 
+        property string liveUpdateItem: 'live_update'
+
         callbacks: {
             "filter": function() { root.state = "filter" },
-            'live_update_enable': function() {
+            'live_update': function() {
                 if (!connectionsManager)
                     return
                 connectionsManager.setMetadata(styleData.index, "live_update", true)
+
+                itemsModel.setProperty(2, "icon", "qrc:/images/live_update_disable.png")
+                itemsModel.setProperty(2, "callback", "live_update_disable")
             },
             'live_update_disable': function() {
                 if (!connectionsManager)
                     return
                 connectionsManager.setMetadata(styleData.index, "live_update", true)
+
+                itemsModel.setProperty(2, "icon", "qrc:/images/live_update.png")
+                itemsModel.setProperty(2, "callback", "live_update")
             }
         }
 
-        model: {
-            var result = []
-            result.push({'icon': "qrc:/images/filter.png", "callback": "filter", "help": "Open Filter"})
+        ListModel {
+            id: itemsModel
 
-            if (connectionsManager && connectionsManager.getMetadata(styleData.index, "live_update") == true) {
-                result.push({'icon': "qrc:/images/live_update_disable.png", 'callback': 'live_update_disable', "help": "Disable Live Update"})
-            } else {
-                result.push({'icon': "qrc:/images/live_update.png", 'callback': 'live_update_enable', "help": "Enable Live Update (reload values every 3 sec)"})
+            ListElement {
+                icon: "qrc:/images/filter.png"
+                callback: "filter"
+                help: qsTr("Open Keys Filter")
             }
 
-            result.push({'icon': "qrc:/images/refresh.png", 'event': 'reload', "help": "Reload Keys in Database"})
-            result.push({'icon': "qrc:/images/add.png", 'event': 'add_key', "help": "Add New Key"})
-            return result
+            ListElement {
+                icon: "qrc:/images/refresh.png"
+                event: "reload"
+                help: qsTr("Reload Keys in Database")
+            }
+
+            ListElement {
+                icon: "qrc:/images/live_update.png"
+                callback: "live_update"
+                help: (callback == "live_update") ? qsTr("Enable Live Update") : qsTr("Disable Live Update")
+            }
+
+            ListElement {
+                icon: "qrc:/images/add.png"
+                event: "add_key"
+                help: qsTr("Add New Key")
+            }
+
+            Component.onCompleted: {
+                if (connectionsManager && connectionsManager.getMetadata(styleData.index, "live_update")) {
+                    setProperty(2, "icon", "qrc:/images/live_update_disable.png")
+                    setProperty(2, "callback", "live_update_disable")
+                }
+            }
         }
+
+        model: itemsModel
     }
 
     TextField {

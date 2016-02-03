@@ -11,7 +11,10 @@ RowLayout {
         id: repeater
 
         ToolButton {
-            iconSource: modelData['icon']
+
+            property variant data: modelData || model
+
+            iconSource: data['icon']
 
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
@@ -20,14 +23,14 @@ RowLayout {
                 if (!connectionsManager)
                     return
 
-                if (modelData['callback'] != undefined) {
-                    return callbacks[modelData['callback']]()
+                if (data['callback'] != undefined) {
+                    return callbacks[data['callback']]()
                 }
 
-                connectionsManager.sendEvent(styleData.index, modelData['event'])
+                connectionsManager.sendEvent(styleData.index, data['event'])
             }
 
-            tooltip: modelData['help'] != undefined ? modelData['help'] : ""
+            tooltip: data['help'] != undefined ? data['help'] : ""
         }
     }
 }
