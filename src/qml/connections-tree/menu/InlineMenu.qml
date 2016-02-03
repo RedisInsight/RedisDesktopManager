@@ -4,8 +4,20 @@ import QtQuick.Controls 1.4
 import "./../../"
 
 RowLayout {
+   id: root
    property alias model: repeater.model
    property var callbacks
+
+   function sendEvent(e) {
+       if (!connectionsManager)
+           return
+
+       connectionsManager.sendEvent(styleData.index, e)
+   }
+
+   function callCallback(c) {
+       return callbacks[c]()
+   }
 
    Repeater {
         id: repeater
@@ -19,15 +31,11 @@ RowLayout {
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
 
-            onClicked: {
-                if (!connectionsManager)
-                    return
-
-                if (data['callback'] != undefined) {
-                    return callbacks[data['callback']]()
-                }
-
-                connectionsManager.sendEvent(styleData.index, data['event'])
+            onClicked: {                
+                if (data['callback'] != undefined)
+                    return root.callCallback(data['callback'])
+                else
+                    return root.sendEvent(data['event'])
             }
 
             tooltip: data['help'] != undefined ? data['help'] : ""

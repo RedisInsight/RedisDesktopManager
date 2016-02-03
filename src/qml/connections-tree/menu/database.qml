@@ -29,67 +29,68 @@ RowLayout {
         }
     ]
 
-    InlineMenu {
+    RowLayout {
         id: dbMenu
 
-        property string liveUpdateItem: 'live_update'
+        function sendEvent(e) {
+            if (!connectionsManager)
+                return
 
-        callbacks: {
-            "filter": function() { root.state = "filter" },
-            'live_update': function() {
-                if (!connectionsManager)
-                    return
-                connectionsManager.setMetadata(styleData.index, "live_update", true)
-
-                itemsModel.setProperty(2, "icon", "qrc:/images/live_update_disable.png")
-                itemsModel.setProperty(2, "callback", "live_update_disable")
-            },
-            'live_update_disable': function() {
-                if (!connectionsManager)
-                    return
-                connectionsManager.setMetadata(styleData.index, "live_update", true)
-
-                itemsModel.setProperty(2, "icon", "qrc:/images/live_update.png")
-                itemsModel.setProperty(2, "callback", "live_update")
-            }
+            connectionsManager.sendEvent(styleData.index, e)
         }
 
-        ListModel {
-            id: itemsModel
+        ToolButton {
+            tooltip: qsTr("Open Keys Filter")
+            iconSource: "qrc:/images/filter.png"
 
-            ListElement {
-                icon: "qrc:/images/filter.png"
-                callback: "filter"
-                help: qsTr("Open Keys Filter")
-            }
+            Layout.preferredWidth: 25
+            Layout.preferredHeight: 25
 
-            ListElement {
-                icon: "qrc:/images/refresh.png"
-                event: "reload"
-                help: qsTr("Reload Keys in Database")
-            }
+            onClicked: root.state = "filter"
+        }
 
-            ListElement {
-                icon: "qrc:/images/live_update.png"
-                callback: "live_update"
-                help: (callback == "live_update") ? qsTr("Enable Live Update") : qsTr("Disable Live Update")
-            }
+        ToolButton {
+            tooltip: qsTr("Reload Keys in Database")
+            iconSource: "qrc:/images/refresh.png"
 
-            ListElement {
-                icon: "qrc:/images/add.png"
-                event: "add_key"
-                help: qsTr("Add New Key")
+            Layout.preferredWidth: 25
+            Layout.preferredHeight: 25
+
+            onClicked: dbMenu.sendEvent("reload")
+        }
+
+        ToolButton {
+            tooltip: qsTr("Add New Key")
+            iconSource: "qrc:/images/add.png"
+
+            Layout.preferredWidth: 25
+            Layout.preferredHeight: 25
+
+            onClicked: dbMenu.sendEvent("add_key")
+        }
+
+        ToolButton {
+            property bool liveUpdateEnabled: false
+            tooltip: liveUpdateEnabled? qsTr("Disable Live Update") : qsTr("Enable Live Update")
+            iconSource: liveUpdateEnabled? "qrc:/images/live_update_disable.png" : "qrc:/images/live_update.png"
+
+            Layout.preferredWidth: 25
+            Layout.preferredHeight: 25
+
+            onClicked: {
+                if (liveUpdateEnabled) {
+                    connectionsManager.setMetadata(styleData.index, "live_update", false)
+                } else {
+                    connectionsManager.setMetadata(styleData.index, "live_update", true)
+                }
+
+                liveUpdateEnabled = connectionsManager.getMetadata(styleData.index, "live_update")
             }
 
             Component.onCompleted: {
-                if (connectionsManager && connectionsManager.getMetadata(styleData.index, "live_update")) {
-                    setProperty(2, "icon", "qrc:/images/live_update_disable.png")
-                    setProperty(2, "callback", "live_update_disable")
-                }
+                liveUpdateEnabled = connectionsManager.getMetadata(styleData.index, "live_update")
             }
         }
-
-        model: itemsModel
     }
 
     TextField {
