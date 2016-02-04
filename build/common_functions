@@ -8,7 +8,7 @@ DEPS_DIR=$RDM_DIR/3rdparty/
 
 function build_breakpad {
     cd $DEPS_DIR/gbreakpad/
-    svn checkout http://linux-syscall-support.googlecode.com/svn/trunk/lss/ src/third_party/lss
+    svn checkout http://linux-syscall-support.googlecode.com/svn/trunk/lss/ src/third_party/lss || true
     touch README
     ./configure
     make -j 2	
