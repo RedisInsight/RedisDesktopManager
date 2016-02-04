@@ -14,6 +14,12 @@ GetOSVersion
 
 RDM_QT_VERSION=${RDM_QT_VERSION:-542}
 
+if [ "$1" == "breakpad" ]; then
+    print_title "Build only Breakpad"
+    build_breakpad
+    exit 0
+fi
+
 if [ "$os_VENDOR" == "Ubuntu" ]; then
     ubuntu_ver=${os_RELEASE:0:2}	
     print_title "Build RDM on Ubuntu: $ubuntu_ver"
