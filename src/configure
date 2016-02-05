@@ -69,7 +69,8 @@ elif [  "$os_VENDOR" == "Fedora" ]; then
     print_title "Check deps"
     sudo yum install libssh2 libssh2-devel qt5-qtbase qt5-qtsvg-devel \
         qt5-qtdeclarative-devel qt5-qtgraphicaleffects qt5-qtquickcontrols  \
-        qt5-qttools gcc gcc-c++ libstdc++-static subversion git rsync -y
+        qt5-qttools gcc gcc-c++ libstdc++-static subversion git rsync \
+        redhat-rpm-config -y
 
     build_breakpad
 
