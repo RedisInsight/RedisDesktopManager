@@ -38,8 +38,22 @@ TestCase {
                         "5": 89009,
                         "case": "Random Stuff",
                         "PHP Version": "5.5.18"
-                    }
-                }
+                    },
+                    valid: true
+                },
+                {value: "C", valid: false, validResult: undefined},
+                {value: "i", valid: false, validResult: undefined},
+                {value: "d", valid: false, validResult: undefined},
+                {value: "b", valid: false, validResult: undefined},
+                {value: "s", valid: false, validResult: undefined},
+                {value: "a", valid: false, validResult: undefined},
+                {value: "O", valid: false, validResult: undefined},
+                {value: "r", valid: false, validResult: undefined},
+                {value: "R", valid: false, validResult: undefined},
+                {value: "New", valid: false, validResult: undefined},
+                {value: "New;", valid: false, validResult: undefined},
+                {value: '<pre class="lang-php prettyprint prettyprinted"><code><span class="pln">b</span><span class="pun">:&lt;</span><span class="pln">i</span><span class="pun">&gt;;</span></code></pre>',
+                    valid: false, validResult: undefined},
                 ]
     }
 
@@ -48,12 +62,15 @@ TestCase {
         var phpFormatter = Formatters.phpserialized
         var testValue = data.value
         var validResult = data.validResult
+        var isValid = data.valid
 
         // when
         checkProperties(phpFormatter, false, true)
 
         // then
-        compare(phpFormatter.isValid(testValue), true)
-        compare(JSON.parse(phpFormatter.getFormatted(testValue)), validResult)        
+        compare(phpFormatter.isValid(testValue), isValid)
+
+        if (isValid)
+            compare(JSON.parse(phpFormatter.getFormatted(testValue)), validResult)
     }
 }
