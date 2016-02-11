@@ -29,12 +29,23 @@ INCLUDEPATH += $$BREAKPADDIR/
 INCLUDEPATH += $$BREAKPADDIR/src
 
 #breakpad app need debug info inside binaries
-QMAKE_CXXFLAGS+=-g
-QMAKE_CFLAGS_RELEASE+=-g
+win32-msvc* {
+    QMAKE_CXXFLAGS += /MP
+    QMAKE_LFLAGS_RELEASE += /MAP
+    QMAKE_CFLAGS_RELEASE += /Zi
+    QMAKE_LFLAGS_RELEASE += /debug /opt:ref
+} else {
+    QMAKE_CXXFLAGS+=-g
+    QMAKE_CFLAGS_RELEASE+=-g
+}
 
 win32* {    
-    # Workaround for mingw
-    QMAKE_LFLAGS_RELEASE=
+    win32-g++ {
+        # Workaround for mingw
+        QMAKE_LFLAGS_RELEASE=
+    } else {
+        INCLUDEPATH += $$PWD/windows/rmt_zlib.1.2.8.6/build/native/include
+    }
 
     HEADERS += $$BREAKPADDIR/common/windows/string_utils-inl.h
     HEADERS += $$BREAKPADDIR/common/windows/guid_string.h

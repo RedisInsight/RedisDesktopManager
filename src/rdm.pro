@@ -50,8 +50,6 @@ exists( $$PWD/version.h ) {
 FORMS += \
     $$PWD/app/forms/*.ui \
 
-LIBS += -lz
-
 THIRDPARTYDIR = $$PWD/../3rdparty/
 
 include($$THIRDPARTYDIR/3rdparty.pri)
