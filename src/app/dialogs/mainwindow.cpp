@@ -41,7 +41,7 @@ MainWin::MainWin(QWidget *parent)
     LOG(DEBUG) << "Current ratio width:" << wRatio;
     LOG(DEBUG) << "Current ratio height:" << hRatio;
 
-    float minimumRatioW = 0.5;
+    float minimumRatioW = 0.6;
     float minimumRatioH = 0.7;
 
     if (wRatio < minimumRatioW
@@ -52,8 +52,10 @@ MainWin::MainWin(QWidget *parent)
                     (int)(scr.height() * minimumRatioH));
     } else if (hRatio > 1 || wRatio > 1) {
         LOG(DEBUG) << "Ratio > 1.0. Resize main window.";
+        setMinimumSize((int)(scr.width() * 0.6),
+                       (int)(scr.height() * 0.6));
         setGeometry(geometry().x(), geometry().y(),
-                    (int)(scr.width() * 0.9),
+                    (int)(scr.width() * 0.8),
                     (int)(scr.height() * 0.8));
     }
     move(scr.center() - rect().center());
