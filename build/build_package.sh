@@ -180,7 +180,7 @@ function build_dmg {
     pushd $QTDIR/bin # Workaround for macdeployqt bug
     macdeployqt $BUNDLE_PATH/rdm.app -dmg -executable=$BUNDLE_PATH/rdm.app/Contents/MacOS/crashreporter -qmldir=$RDM_DIR/src/resources/qml/ -verbose=3
     popd    
-    cp rdm.dmg redis-desktop-manager-$APP_VERSION.dmg
+    mv rdm.dmg redis-desktop-manager-$APP_VERSION.dmg
 }
 
 
