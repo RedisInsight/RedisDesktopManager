@@ -1,0 +1,10 @@
+## Search in connection tree
+RDM supports key filtering. To filter keys you need to open database context menu and select "Filter keys"
+
+![](http://redisdesktop.com/docs/rdm_tree_search1.png)
+
+After that you will be able to enter filter pattern:
+
+![](http://redisdesktop.com/docs/rdm_tree_search2.png)
+
+Press OK button to apply a filter.
