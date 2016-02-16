@@ -189,7 +189,7 @@ function export_debug_symbols {
     
     cd $RDM_DIR/3rdparty/gbreakpad
     if [[ $OSTYPE == darwin* ]]; then
-        xcodebuild -sdk macosx10.9 -project src/tools/mac/dump_syms/dump_syms.xcodeproj -configuration Release ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.9 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
+        xcodebuild -sdk macosx10.11 -project src/tools/mac/dump_syms/dump_syms.xcodeproj -configuration Release ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.11 GCC_VERSION=com.apple.compilers.llvm.clang.1_0
         cd src/tools/mac/dump_syms/build/Release
         BINARY_PATH="$RDM_DIR/bin/$RDM_OS/release/rdm.app/Contents/MacOS/rdm"
     else
