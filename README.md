@@ -1,9 +1,9 @@
 #[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
 
-[Install & Run](https://github.com/uglide/RedisDesktopManager/wiki/Install-and-Run) | 
-[Quick Start](https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start) |
-[Development Guide](https://github.com/uglide/RedisDesktopManager/wiki/Development-Guide) |
-[Known issues](https://github.com/uglide/RedisDesktopManager/wiki/Known-issues) |
+[Install & Run](http://docs.redisdesktop.com/en/latest/install/) | 
+[Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/) |
+[Development Guide](http://docs.redisdesktop.com/en/latest/development/) |
+[Known issues](http://docs.redisdesktop.com/en/latest/known-issues/) |
 :green_apple: [Bountysource](https://www.bountysource.com/teams/redisdesktopmanager)
 
 [![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.8.0)](https://travis-ci.org/uglide/RedisDesktopManager) 
