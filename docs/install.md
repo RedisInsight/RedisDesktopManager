@@ -82,10 +82,9 @@ mv qt.conf qt.backup
 4. Open ./src/rdm.pro in Qt Creator
 5. Run build
 
-### Build on Windows [work in progress] ##
+### Build on Windows##
 1. Install Visual Studio 2013 Community with Update 5
-2. Download Nuget command line tool
-...
 2. Install [Qt 5.6+](http://www.qt.io/download-open-source/#section-2)
-3. Open ./src/rdm.pro in Qt Creator
-4. Run build
+3. Download RDM dependencies `cd ./src` and  run `configure.bat`
+4. Open ./src/rdm.pro in Qt Creator
+5. Run build
