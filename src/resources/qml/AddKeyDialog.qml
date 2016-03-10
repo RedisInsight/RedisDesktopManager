@@ -22,8 +22,8 @@ Item {
         minimumHeight: 450
         modality: Qt.ApplicationModal
         flags: Qt.Dialog
-        x: Screen.desktopAvailableWidth / 2.0 - 250
-        y: Screen.desktopAvailableHeight / 2.0 - 200
+        x: Screen.width / 2.0 - 250
+        y: Screen.height / 2.0 - 200
         visible: false
 
         Item {
