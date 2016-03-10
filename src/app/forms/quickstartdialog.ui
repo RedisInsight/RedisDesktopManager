@@ -21,7 +21,7 @@
    <string>Quick Start Guide</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resources/rdm.qrc">
+   <iconset resource="../../resources/rdm.qrc">
     <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
   </property>
   <property name="modal">
@@ -34,7 +34,7 @@
       <string>&lt;h2&gt;Explore Redis Desktop Manager&lt;/h2&gt;
 
 &lt;p style=&quot;font-size: 13px; font-weight: normal;&quot;&gt;
-Before using Redis Desktop Manager (RDM) take a look on the &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start&quot;&gt;Quick Start Guide&lt;/a&gt;
+Before using Redis Desktop Manager (RDM) take a look on the &lt;a href=&quot;http://docs.redisdesktop.com/en/latest/quick-start/&quot;&gt;Quick Start Guide&lt;/a&gt;
 &lt;/p&gt;
 </string>
      </property>
