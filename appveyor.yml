@@ -21,7 +21,7 @@ build_script:
 - qmake CONFIG+=release
 - nmake /S /NOLOGO release
 - cd %SRCDIR%
-- copy /y ./bin/windows/release/rdm.exe ./build/windows/installer/resources/ 
+- copy /y .\bin\windows\release\rdm.exe .\build\windows\installer\resources\rdm.exe
 - cd build/windows/installer/resources/
 - windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/resources/qml rdm.exe
 - cd %SRCDIR%
