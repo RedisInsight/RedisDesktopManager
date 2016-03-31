@@ -24,7 +24,7 @@ build_script:
 - cd build/windows/installer/resources/
 - windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/resources/qml rdm.exe
 - cd %SRCDIR%
-- "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%1  ./build/windows/installer/installer.nsi
+- "C:\Program Files (x86)\NSIS\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
 test_script:
 - cd tests/
 - qmake
