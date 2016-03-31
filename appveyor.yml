@@ -7,6 +7,7 @@ install:
 - set PATH=%QTDIR%\bin;%PATH%
 - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 - nuget install -Version 1.6.0.2 -OutputDirectory ./3rdparty/qredisclient/3rdparty/windows rmt_libssh2
+- nuget install -Version 1.2.8.6 -OutputDirectory ./3rdparty/qredisclient/3rdparty/windows rmt_zlib
 - qmake -v
 
 build_script:
