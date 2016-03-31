@@ -44,7 +44,7 @@ win32* {
         # Workaround for mingw
         QMAKE_LFLAGS_RELEASE=
     } else {
-        INCLUDEPATH += $$PWD/windows/rmt_zlib.1.2.8.6/build/native/include
+        INCLUDEPATH += $$PWD/qredisclient/3rdparty/windows/rmt_zlib.1.2.8.6/build/native/include
     }
 
     HEADERS += $$BREAKPADDIR/common/windows/string_utils-inl.h
