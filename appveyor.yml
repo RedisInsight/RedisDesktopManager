@@ -16,9 +16,10 @@ build_script:
 - python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./3rdparty/crashreporter/src/version.h
 - cd ./3rdparty/crashreporter
 - qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
-- nmake /S /NOLOGO
+- nmake /S /NOLOGO release
 - cd %SRCDIR%/src
-- nmake /S /NOLOGO
+- qmake CONFIG+=release
+- nmake /S /NOLOGO release
 - cd %SRCDIR%
 - xcopy /s /y bin/windows/release/rdm.exe build/windows/installer/resources/rdm.exe
 - cd build/windows/installer/resources/
