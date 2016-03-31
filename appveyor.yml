@@ -11,25 +11,23 @@ install:
 - qmake -v
 
 build_script:
- cmd: >-
-    set SRCDIR=%cd%
-    python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./src/version.h
-    python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./3rdparty/crashreporter/src/version.h
-    cd ./3rdparty/crashreporter
-    qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
-    nmake /S /NOLOGO
-    cd %SRCDIR%/src
-    nmake /S /NOLOGO
-    cd %SRCDIR%
-    xcopy /s /y bin/windows/release/rdm.exe build/windows/installer/resources/rdm.exe
-    cd build/windows/installer/resources/
-    windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/resources/qml rdm.exe
-    cd %SRCDIR%
-    "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
+- set SRCDIR=%cd%
+- python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./src/version.h
+- python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./3rdparty/crashreporter/src/version.h
+- cd ./3rdparty/crashreporter
+- qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
+- nmake /S /NOLOGO
+- cd %SRCDIR%/src
+- nmake /S /NOLOGO
+- cd %SRCDIR%
+- xcopy /s /y bin/windows/release/rdm.exe build/windows/installer/resources/rdm.exe
+- cd build/windows/installer/resources/
+- windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/resources/qml rdm.exe
+- cd %SRCDIR%
+- call "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
 test_script:
- cmd: >-
-    cd tests/
-    qmake
-    nmake /S /NOLOGO
-    %cd%/../bin/tests/tests -platform minimal -txt
-    %cd%/../bin/tests/qml_tests -platform minimal -txt
+- cd tests/
+- qmake
+- nmake /S /NOLOGO
+- ./../bin/tests/tests -platform minimal -txt
+- ./../bin/tests/qml_tests -platform minimal -txt
