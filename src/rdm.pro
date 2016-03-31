@@ -56,7 +56,6 @@ include($$THIRDPARTYDIR/3rdparty.pri)
 
 win32 {
     CONFIG += c++11
-    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
     RC_FILE += $$PWD/resources/rdm.rc
 
     release: DESTDIR = ./../bin/windows/release
