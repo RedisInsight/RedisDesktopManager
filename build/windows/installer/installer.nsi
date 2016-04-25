@@ -1,3 +1,5 @@
+!addincludedir .\include
+!addplugindir .\plugin
 
 Name "Redis Desktop Manager"
 
