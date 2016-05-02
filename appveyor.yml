@@ -27,8 +27,4 @@ build_script:
 - cd %SRCDIR%
 - call "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
 test_script:
-- cd tests/
-- qmake
-- nmake /S /NOLOGO
-- ./../bin/tests/tests -platform minimal -txt
-- ./../bin/tests/qml_tests -platform minimal -txt
+- echo 'Windows build is used only for installer compilation. Skip tests.'
