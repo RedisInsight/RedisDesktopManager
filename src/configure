@@ -64,7 +64,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     fi
         
     print_title "Check deps"
-    sudo apt-get install automake subversion libtool libssl-dev \
+    sudo apt-get install automake libtool libssl-dev \
         libssh2-1-dev g++ libgl1-mesa-dev -y
 
     build_breakpad
@@ -76,7 +76,7 @@ elif [  "$os_VENDOR" == "Fedora" ]; then
     print_title "Check deps"
     sudo yum install libssh2 libssh2-devel qt5-qtbase qt5-qtsvg-devel \
         qt5-qtdeclarative-devel qt5-qtgraphicaleffects qt5-qtquickcontrols  \
-        qt5-qttools gcc gcc-c++ libstdc++-static subversion git rsync \
+        qt5-qttools gcc gcc-c++ libstdc++-static git rsync \
         redhat-rpm-config -y
 
     build_breakpad
