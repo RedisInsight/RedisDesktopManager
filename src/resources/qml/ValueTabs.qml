@@ -123,7 +123,7 @@ Repeater {
                                     return open()
                                 }
 
-                                viewModel.renameKey(keyTab.keyIndex, newKeyName.text)
+                                viewModel.renameKey(keyTab.tabIndex, newKeyName.text)
                             }
 
                             visible: false
@@ -149,7 +149,7 @@ Repeater {
                             text: "Do you really want to delete this key?"
                             onYes: {
                                 console.log("remove key")
-                                viewModel.removeKey(keyTab.keyIndex)
+                                viewModel.removeKey(keyTab.tabIndex)
                             }
                             visible: false
                             modality: Qt.ApplicationModal
@@ -195,7 +195,7 @@ Repeater {
                                     return open()
                                 }
 
-                                viewModel.setTTL(keyTab.keyIndex, newTTL.text)
+                                viewModel.setTTL(keyTab.tabIndex, newTTL.text)
                             }
 
                             visible: false
