@@ -11,7 +11,7 @@ git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0
 ```
 cd src/
 ./configure
-source /opt/qt54/bin/qt55-env.sh && make && sudo make install
+source /opt/qt55/bin/qt55-env.sh && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
 mv qt.conf qt.backup
 ```
