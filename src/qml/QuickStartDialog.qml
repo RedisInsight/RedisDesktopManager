@@ -25,7 +25,7 @@ Dialog {
                 RichTextWithLinks {
 
                     html: "<p style='font-size: 13pt;'>Before using Redis Desktop Manager (RDM) take a look on the "
-                          + "<a href='https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start'>Quick Start Guide</a>"
+                          + "<a href='http://docs.redisdesktop.com/en/latest/quick-start/'>Quick Start Guide</a>"
                           + "</p>"
                 }
             }

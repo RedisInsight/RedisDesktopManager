@@ -102,9 +102,9 @@ public:
         qDebug(QString("TTL=%1").arg(ttl).toLatin1().constData());
         try {
             if (ttl >= 0)
-                result = m_connection->commandSync("EXPIRE", m_keyFullPath, QString::number(ttl), m_dbIndex);
+                result = m_connection->commandSync({"EXPIRE", m_keyFullPath, QString::number(ttl).toLatin1()}, m_dbIndex);
             else
-                result = m_connection->commandSync("PERSIST", m_keyFullPath, m_dbIndex);
+                result = m_connection->commandSync({"PERSIST", m_keyFullPath}, m_dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
@@ -123,7 +123,7 @@ public:
         RedisClient::Response result;
 
         try {
-            result = m_connection->commandSync("DEL", m_keyFullPath, m_keyFullPath, m_dbIndex);
+            result = m_connection->commandSync({"DEL", m_keyFullPath, m_keyFullPath}, m_dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }

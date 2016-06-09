@@ -1,11 +1,16 @@
 #include <QDir>
 #include <QFileInfo>
+#include <QGuiApplication>
 
 #include "app/app.h"
 #include "modules/crashhandler/crashhandler.h"
 
 int main(int argc, char *argv[])
-{       
+{           
+#ifdef Q_OS_WIN
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
     #ifndef QT_DEBUG
     QFileInfo appPath(QString::fromLocal8Bit(argv[0]));
     QString appDir(appPath.absoluteDir().path());

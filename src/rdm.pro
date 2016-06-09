@@ -47,8 +47,6 @@ exists( $$PWD/version.h ) {
     HEADERS  += $$PWD/version.h
 }
 
-LIBS += -lz
-
 THIRDPARTYDIR = $$PWD/../3rdparty/
 
 include($$THIRDPARTYDIR/3rdparty.pri)
