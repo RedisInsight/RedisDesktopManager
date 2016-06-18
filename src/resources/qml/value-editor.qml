@@ -122,7 +122,7 @@ Rectangle {
         target: viewModel
         onKeyError: {
             if (index != -1)
-                tabs.currentIndex = index + 1
+                tabs.currentIndex = index
             errorNotification.text = error
             errorNotification.open()
         }
