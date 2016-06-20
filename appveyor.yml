@@ -1,5 +1,5 @@
 os: Visual Studio 2015
-version: 0.8.4.{build}
+version: 0.8.5.{build}
 clone_depth: 5
 install:
 - git submodule update --init --recursive
