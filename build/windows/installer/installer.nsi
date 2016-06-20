@@ -72,6 +72,8 @@ Section -Main SEC0000
     File ..\..\..\bin\windows\release\crashreporter.exe
     File /r resources\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
+    ExecWait '"$INSTDIR\vcredist_x86.exe"  /quiet /norestart'
+    BringToFront
 SectionEnd
 
 Section -post SEC0001
