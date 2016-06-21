@@ -6,3 +6,10 @@ Remove opengl32sw.dll and Copy [this dll](https://github.com/uglide/RedisDesktop
 
 #### Graphical glitches on Ubuntu (RDM 0.7.9+)
 It's the well-known problem of Qt Quick components.
+
+#### RDM crashed on startup (Windows & RDM 0.8.6+)
+RDM requires OpenGL 2.1 or higher to run. 
+
+What you can do:
+* On Windows PC/Laptop: Upgrade your graphics drivers
+* On Windows Virtual machine: Enable 3d acceleration 
