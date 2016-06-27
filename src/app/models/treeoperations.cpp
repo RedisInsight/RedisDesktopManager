@@ -157,3 +157,8 @@ void TreeOperations::notifyDbWasUnloaded(int dbIndex)
 {
     emit closeDbKeys(m_connection, dbIndex);
 }
+
+void TreeOperations::openDeleteKeyDialog(ConnectionsTree::KeyItem& key)
+{
+    emit deleteKeyDialog(m_connection, key);
+}

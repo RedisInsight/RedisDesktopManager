@@ -149,6 +149,35 @@ void ValueEditor::ViewModel::removeKey(int i)
     }
 }
 
+void ValueEditor::ViewModel::removeKey()
+{
+    auto connection = m_deleteKeyRequest.first;
+    auto pKey = m_deleteKeyRequest.second;
+    if (connection.isNull() || pKey == nullptr)
+        return;
+
+    m_keyFactory->loadKey(connection, pKey->getFullPath(), pKey->getDbIndex(),
+                          [this, pKey](QSharedPointer<Model> keyModel, const QString& error)
+    {
+        if (keyModel.isNull() || !error.isEmpty()) {
+            QString msg("<b>Cannot remove key</b>:\n%1");
+            emit keyError(-1, msg.arg(error));
+            return;
+        }
+
+        QObject::connect(keyModel->getConnector().data(), &ModelSignals::removed,
+                         this, [pKey, this]()
+        {
+            // If the key was loaded by opening one or multiple tabs, the model needs to be released.
+            removeModel(pKey->getFullPath());
+
+            pKey->setRemoved(); //Disable key in connections tree
+        });
+
+        keyModel->removeKey();
+    });
+}
+
 void ValueEditor::ViewModel::setTTL(int i, const QString& newTTL)
 {
     if (!isIndexValid(index(i, 0)))
@@ -250,4 +279,31 @@ void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> mode
     beginRemoveRows(QModelIndex(), i, i);
     m_valueModels.removeAt(i);
     endRemoveRows();
+}
+
+void ValueEditor::ViewModel::removeModel(const QString& keyName)
+{
+    QList<int> indexList;
+    for (auto it = m_valueModels.constBegin(); it != m_valueModels.constEnd(); ++it)
+    {
+        if ((*it)->getKeyName() == keyName)
+        {
+            indexList.append(it - m_valueModels.begin());
+        }
+    }
+
+    for (auto it = indexList.rbegin(); it != indexList.rend(); ++it)
+    {
+        beginRemoveRows(QModelIndex(), *it, *it);
+        m_valueModels.removeAt(*it);
+        endRemoveRows();
+    }
+}
+
+void ValueEditor::ViewModel::openDeleteKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+                                                 ConnectionsTree::KeyItem& key)
+{
+    m_deleteKeyRequest = qMakePair(connection, &key);
+
+    emit deleteKeyDialog();
 }

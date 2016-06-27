@@ -118,6 +118,21 @@ Rectangle {
        objectName: "rdm_qml_new_key_dialog"
     }
 
+    MessageDialog {
+        id: deleteConfirmation
+        title: "Delete key"
+        text: "Do you really want to delete this key?"
+        onYes: {
+            console.log("remove key")
+            viewModel.removeKey()
+        }
+        visible: false
+        modality: Qt.ApplicationModal
+        icon: StandardIcon.Warning
+        standardButtons: StandardButton.Yes | StandardButton.No
+    }
+
+
     Connections {
         target: viewModel
         onKeyError: {
@@ -136,6 +151,10 @@ Rectangle {
 
         onNewKeyDialog: {            
             addNewKeyDialog.open()
+        }
+
+        onDeleteKeyDialog: {
+            deleteConfirmation.open()
         }
     }
 }

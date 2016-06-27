@@ -82,6 +82,9 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
 
     menu->addAction(createMenuAction(":/images/add.png", "Open key value in new tab", menu.data(), m_signalReciever.data(),
                                      [this] { m_operations->openKeyTab(*this, true); }));
+
+    menu->addAction(createMenuAction(":/images/delete.png", "Remove key", menu.data(), m_signalReciever.data(),
+                                     [this] { m_operations->openDeleteKeyDialog(*this); }));
     return menu;
 }
 
