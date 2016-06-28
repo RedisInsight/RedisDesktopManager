@@ -158,7 +158,18 @@ void TreeOperations::notifyDbWasUnloaded(int dbIndex)
     emit closeDbKeys(m_connection, dbIndex);
 }
 
-void TreeOperations::openDeleteKeyDialog(ConnectionsTree::KeyItem& key)
+void TreeOperations::deleteDbKey(int dbIndex, ConnectionsTree::KeyItem& key)
 {
-    emit deleteKeyDialog(m_connection, key);
+    RedisClient::Command::Callback callback = [this, dbIndex, &key](const RedisClient::Response&, const QString&)
+    {
+        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
+        emit closeDbKeys(m_connection, dbIndex, filter);
+        key.setRemoved();
+    };
+
+    try {
+        m_connection->command({"DEL", key.getFullPath()}, this, callback, dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
+        throw ConnectionsTree::Operations::Exception("Delete key error: " + QString(e.what()));
+    }
 }

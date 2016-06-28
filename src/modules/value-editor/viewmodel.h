@@ -46,7 +46,6 @@ public: // methods exported to QML
                             const QVariantMap &row, QJSValue jsCallback);
     Q_INVOKABLE void renameKey(int index, const QString& newKeyName);
     Q_INVOKABLE void removeKey(int i);
-    Q_INVOKABLE void removeKey();
     Q_INVOKABLE void setTTL(int i, const QString& newTTL);
     Q_INVOKABLE void closeTab(int i);
     Q_INVOKABLE void setCurrentTab(int i);
@@ -57,16 +56,14 @@ signals:
     void replaceTab(int index);
     void closeWelcomeTab();
     void newKeyDialog(QString dbIdentificationString, QString keyPrefix);
-    void deleteKeyDialog();
 
 public slots:
     void openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
                           std::function<void()>, int dbIndex, QString keyPrefix);
-    void openDeleteKeyDialog(QSharedPointer<RedisClient::Connection> connection,
-                             ConnectionsTree::KeyItem& key);
     void openTab(QSharedPointer<RedisClient::Connection> connection,
                  ConnectionsTree::KeyItem& key, bool inNewTab);
-    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
+    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
+                     const QRegExp& filter);
 
 private:
     QList<QSharedPointer<Model>> m_valueModels;
@@ -74,13 +71,11 @@ private:
     int m_currentTabIndex;
 
     QPair<QSharedPointer<RedisClient::Connection>, int> m_newKeyRequest;
-    QPair<QSharedPointer<RedisClient::Connection>, ConnectionsTree::KeyItem*> m_deleteKeyRequest;
     std::function<void()> m_newKeyCallback;
 
     bool isIndexValid(const QModelIndex &index) const;
     void loadModel(QSharedPointer<Model> model, bool openNewTab = false);
     void removeModel(QSharedPointer<Model> model);
-    void removeModel(const QString& keyName);
 };
 
 }

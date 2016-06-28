@@ -146,8 +146,6 @@ QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(
                      m_valueTabs.data(), &ValueEditor::ViewModel::openTab);
     QObject::connect(treeModel.data(), &TreeOperations::newKeyDialog,
                      m_valueTabs.data(), &ValueEditor::ViewModel::openNewKeyDialog);
-    QObject::connect(treeModel.data(), &TreeOperations::deleteKeyDialog,
-                     m_valueTabs.data(), &ValueEditor::ViewModel::openDeleteKeyDialog);
     QObject::connect(treeModel.data(), &TreeOperations::closeDbKeys,
                      m_valueTabs.data(), &ValueEditor::ViewModel::closeDbKeys);
 
