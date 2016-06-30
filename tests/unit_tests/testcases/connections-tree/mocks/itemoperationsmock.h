@@ -38,6 +38,7 @@ public:
     virtual void openConsoleTab() override {}
     void openNewKeyDialog(int, std::function<void()>, QString = QString()) override {}
     virtual void notifyDbWasUnloaded(int) override {}
+    virtual void deleteDbKey(ConnectionsTree::KeyItem&, std::function<void(const QString&)>) override {}
 
 protected:
     bool m_positive_mode;
