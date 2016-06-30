@@ -118,6 +118,7 @@ Rectangle {
        objectName: "rdm_qml_new_key_dialog"
     }
 
+
     Connections {
         target: viewModel
         onKeyError: {

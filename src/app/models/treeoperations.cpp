@@ -157,3 +157,24 @@ void TreeOperations::notifyDbWasUnloaded(int dbIndex)
 {
     emit closeDbKeys(m_connection, dbIndex);
 }
+
+void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback)
+{
+    RedisClient::Command::Callback cmdCallback = [this, &key, &callback](const RedisClient::Response&, const QString& error)
+    {
+        if (!error.isEmpty()) {
+          callback(QString("Cannot remove key: %1").arg(error));
+          return;
+        }
+
+        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
+        emit closeDbKeys(m_connection, key.getDbIndex(), filter);
+        key.setRemoved();
+    };
+
+    try {
+        m_connection->command({"DEL", key.getFullPath()}, this, cmdCallback, key.getDbIndex());
+    } catch (const RedisClient::Connection::Exception& e) {
+        throw ConnectionsTree::Operations::Exception("Delete key error: " + QString(e.what()));
+    }
+}

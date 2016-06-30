@@ -1,5 +1,6 @@
 #include "keyitem.h"
 #include <QMenu>
+#include <QMessageBox>
 #include <qredisclient/utils/text.h>
 
 #include "connections-tree/iconproxy.h"
@@ -69,7 +70,7 @@ void KeyItem::onWheelClick(ParentView&)
         m_operations->openKeyTab(*this, true);
 }
 
-QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
+QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeview)
 {
     QSharedPointer<QMenu> menu(new QMenu());
 
@@ -82,6 +83,22 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView&)
 
     menu->addAction(createMenuAction(":/images/add.png", "Open key value in new tab", menu.data(), m_signalReciever.data(),
                                      [this] { m_operations->openKeyTab(*this, true); }));
+
+
+    std::function<void()> deleteKeyItemCallback = [this, &treeview]()
+    {
+        confirmAction(treeview.getParentWidget(),
+                      QObject::tr("Do you really want to delete this key?"),
+                      [this, &treeview]()
+        {
+            m_operations->deleteDbKey(*this, [&treeview](const QString& error){
+                QMessageBox::warning(treeview.getParentWidget(), QObject::tr("Key error"), error);
+            });
+        });
+    };
+    menu->addAction(createMenuAction(":/images/delete.png", "Remove key",
+                                     menu.data(), m_signalReciever.data(), deleteKeyItemCallback));
+
     return menu;
 }
 
