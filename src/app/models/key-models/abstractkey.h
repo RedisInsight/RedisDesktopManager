@@ -124,7 +124,7 @@ public:
         RedisClient::Response result;
 
         try {
-            result = m_connection->commandSync({"DEL", m_keyFullPath, m_keyFullPath}, m_dbIndex);
+            result = m_connection->commandSync({"DEL", m_keyFullPath}, m_dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
             throw Exception("Connection error: " + QString(e.what()));
         }
