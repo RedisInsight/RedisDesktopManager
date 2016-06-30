@@ -1,5 +1,6 @@
 #include "keyitem.h"
 #include <QMenu>
+#include <QMessageBox>
 #include <qredisclient/utils/text.h>
 
 #include "connections-tree/iconproxy.h"
@@ -88,9 +89,11 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeview)
     {
         confirmAction(treeview.getParentWidget(),
                       QObject::tr("Do you really want to delete this key?"),
-                      [this]()
+                      [this, &treeview]()
         {
-            emit m_operations->deleteDbKey(m_dbIndex, *this);
+            m_operations->deleteDbKey(*this, [&treeview](const QString& error){
+                QMessageBox::warning(treeview.getParentWidget(), QObject::tr("Key error"), error);
+            });
         });
     };
     menu->addAction(createMenuAction(":/images/delete.png", "Remove key",

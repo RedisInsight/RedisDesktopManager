@@ -33,7 +33,7 @@ public:
 
     void notifyDbWasUnloaded(int dbIndex) override;
 
-    void deleteDbKey(int dbIndex, ConnectionsTree::KeyItem& key) override;
+    void deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback) override;
 
 signals:
     void openValueTab(QSharedPointer<RedisClient::Connection> connection,

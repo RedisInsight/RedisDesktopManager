@@ -54,7 +54,7 @@ namespace ConnectionsTree {
 
         virtual void notifyDbWasUnloaded(int dbIndex) = 0;
 
-        virtual void deleteDbKey(int dbIndex, ConnectionsTree::KeyItem& key) = 0;
+        virtual void deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback) = 0;
 
         virtual ~Operations() {}
 
