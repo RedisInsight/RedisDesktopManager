@@ -11,8 +11,6 @@ DIR=$(dirname "$(readlink -f "$0")") && RDM_DIR=$DIR/../
 . $RDM_DIR/build/common_functions
 
 GetOSVersion
-CompareVersionStrings "$os_RELEASE" "7"
-versionCheck=$?
 
 RDM_QT_VERSION=${RDM_QT_VERSION:-542}
 
@@ -72,7 +70,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     build_breakpad
 
     print_title "Run: source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
-elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && ${versionCheck} == 1 ]]; then
+elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && "$os_RELEASE" -ge "7" ]]; then
     print_title "Build RDM on $os_VENDOR: $os_RELEASE"
 
     print_title "Check deps"
