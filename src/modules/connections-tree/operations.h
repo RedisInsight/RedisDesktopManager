@@ -1,6 +1,6 @@
 #pragma once
 #include <QString>
-#include <QHash>
+#include <QMap>
 #include <QSharedPointer>
 #include <QStringList>
 #include <functional>
@@ -22,16 +22,14 @@ namespace ConnectionsTree {
         /**
          * List of databases with keys counters
          * @emit databesesLoaded
-         **/
-        typedef QVector<QPair<int, int>> DatabaseList;
-        virtual void getDatabases(std::function<void(DatabaseList)>) = 0;
+         **/        
+        virtual void getDatabases(std::function<void(QMap<int, int>)>) = 0;
 
         /**
          * @brief getDatabaseKeys
          * @param dbIndex
-         */
-        typedef QList<QByteArray> RawKeysList;
-        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&, const QString&)>) = 0;
+         */        
+        virtual void getDatabaseKeys(uint dbIndex, std::function<void(const QList<QByteArray>&, const QString&)>) = 0;
 
         /**
          * Cancel all operations & close connection

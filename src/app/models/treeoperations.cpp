@@ -1,6 +1,5 @@
 #include "treeoperations.h"
 #include <qredisclient/redisclient.h>
-#include <qredisclient/utils/compat.h>
 #include "app/widgets/consoletabs.h"
 #include "app/models/connectionconf.h"
 #include "console/consoletab.h"
@@ -14,98 +13,47 @@ TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connectio
 {
 }
 
-void TreeOperations::getDatabases(std::function<void (ConnectionsTree::Operations::DatabaseList)> callback)
+void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)> callback)
 {
-    using namespace RedisClient;
-
-    //  Get keys count
-    Response result;
-    try {
-        result = m_connection->commandSync("info");
-    } catch (const RedisClient::Connection::Exception& e) {
-        throw ConnectionsTree::Operations::Exception("Connection error:\n\n" + QString(e.what()));
+    if (!m_connection->isConnected()) {
+        try {
+            m_connection->connect(true);
+        } catch (const RedisClient::Connection::Exception& e) {
+            throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+        }
     }
 
-    DatabaseList availableDatabeses;
-    QSet<int> loadedDatabeses;
+    RedisClient::DatabaseList availableDatabeses = m_connection->getKeyspaceInfo();
 
-    if (result.isErrorMessage()) {
-        return callback(availableDatabeses);
+    //detect all databases
+    RedisClient::Response scanningResp;
+    int dbIndex = (availableDatabeses.size() == 0)? 0 : availableDatabeses.lastKey() + 1;
+
+    while (true) {
+        try {
+            scanningResp = m_connection->commandSync("select", QString::number(dbIndex));
+        } catch (const RedisClient::Connection::Exception& e) {
+            throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+        }
+
+        if (!scanningResp.isOkMessage())
+            break;
+
+        availableDatabeses.insert(dbIndex, 0);
+        ++dbIndex;
     }
-
-    // Parse keyspace info
-    QString keyspaceInfo = result.getValue().toString();
-    QRegularExpression getDbAndKeysCount("^db(\\d+):keys=(\\d+)");
-    getDbAndKeysCount.setPatternOptions(QRegularExpression::MultilineOption);
-    QRegularExpressionMatchIterator iter = getDbAndKeysCount.globalMatch(keyspaceInfo);
-    while (iter.hasNext()) {
-        QRegularExpressionMatch match = iter.next();
-        int dbIndex = match.captured(1).toInt();
-        availableDatabeses.push_back({dbIndex, match.captured(2).toInt()});
-        loadedDatabeses.insert(dbIndex);
-    }
-
-    int dbCount = (loadedDatabeses.isEmpty())? 0 : *std::max_element(loadedDatabeses.begin(),
-                                                                     loadedDatabeses.end());
-    //detect more db if needed
-    if (dbCount == 0) {
-        Response scanningResp;
-        do {
-            try {
-                scanningResp = m_connection->commandSync("select", QString::number(dbCount));
-            } catch (const RedisClient::Connection::Exception& e) {
-                throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
-            }
-        } while (scanningResp.isOkMessage() && ++dbCount);
-    }
-
-    // build db list
-    for (int dbIndex = 0; dbIndex < dbCount; ++dbIndex)
-    {
-        if (loadedDatabeses.contains(dbIndex))
-            continue;
-        availableDatabeses.push_back({dbIndex, 0});
-    }
-
-    std::sort(availableDatabeses.begin(), availableDatabeses.end(),
-              [](QPair<int, int> l, QPair<int, int> r) {
-        return l.first < r.first;
-    });
 
     return callback(availableDatabeses);
 }
 
-void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const RawKeysList &, const QString &)> callback)
+void TreeOperations::getDatabaseKeys(uint dbIndex, std::function<void (const RedisClient::Connection::RawKeysList &, const QString &)> callback)
 {
     QString keyPattern = static_cast<ConnectionConfig>(m_connection->getConfig()).keysPattern();
 
-    if (m_connection->getServerVersion() >= 2.8) {
-        QList<QByteArray> rawCmd {
-            "scan", "0", "MATCH", keyPattern.toUtf8(), "COUNT", "10000"
-        };
-        QSharedPointer<RedisClient::ScanCommand> keyCmd(new RedisClient::ScanCommand(rawCmd, dbIndex));
-
-        try {
-            m_connection->retrieveCollection(keyCmd, [this, callback](QVariant r, QString err)
-            {                
-                if (!err.isEmpty())
-                    callback(RawKeysList(), QString("Cannot load keys: %1").arg(err));
-
-                callback(convertQVariantList(r.toList()), QString());
-            });
-        } catch (const RedisClient::Connection::Exception& error) {            
-            callback(RawKeysList(), QString("Cannot load keys: %1").arg(error.what()));
-        }
-    } else {
-        try {
-            m_connection->command({"KEYS", keyPattern.toUtf8()}, this,
-                                  [this, callback](RedisClient::Response r, QString)
-            {
-                callback(convertQVariantList(r.getValue().toList()), QString());
-            }, dbIndex);
-        } catch (const RedisClient::Connection::Exception& error) {
-            callback(RawKeysList(), QString("Cannot load keys: %1").arg(error.what()));
-        }
+    try {
+        m_connection->getDatabaseKeys(callback, keyPattern, dbIndex);
+    } catch (const RedisClient::Connection::Exception& error) {
+        callback(RedisClient::Connection::RawKeysList(), QString("Cannot load keys: %1").arg(error.what()));
     }
 }
 

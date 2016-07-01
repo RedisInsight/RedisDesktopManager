@@ -16,9 +16,9 @@ public:
     TreeOperations(QSharedPointer<RedisClient::Connection> connection,
                    ConsoleTabs& tabs);
 
-    void getDatabases(std::function<void(DatabaseList)>) override;
+    void getDatabases(std::function<void(RedisClient::DatabaseList)>) override;
 
-    void getDatabaseKeys(uint dbIndex, std::function<void(const RawKeysList&, const QString&)>) override;
+    void getDatabaseKeys(uint dbIndex, std::function<void(const RedisClient::Connection::RawKeysList&, const QString&)>) override;
 
     void disconnect() override;
 
