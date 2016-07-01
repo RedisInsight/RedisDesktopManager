@@ -10,6 +10,15 @@ bool BinaryUtils::isBinaryString(const QVariant &value)
     return isBinary(val);
 }
 
+long BinaryUtils::binaryStringLength(const QVariant &value)
+{
+    if (!value.canConvert(QVariant::ByteArray)) {
+        return -1;
+    }
+    QByteArray val = value.toByteArray();
+    return val.size();
+}
+
 QVariant BinaryUtils::valueToBinary(const QVariant &value)
 {
     if (!value.canConvert(QVariant::ByteArray)) {

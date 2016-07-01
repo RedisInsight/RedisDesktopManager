@@ -9,6 +9,7 @@ class BinaryUtils : public QObject
 public:
     // binary utils
     Q_INVOKABLE bool isBinaryString(const QVariant &value);
+    Q_INVOKABLE long binaryStringLength(const QVariant &value);
     Q_INVOKABLE QVariant valueToBinary(const QVariant &value);
     Q_INVOKABLE QVariant binaryListToValue(const QVariantList& binaryList);
     Q_INVOKABLE QVariant printable(const QVariant &value);
