@@ -22,13 +22,13 @@ ConnectionWindow::ConnectionWindow(QWeakPointer<ConnectionsManager> manager, QWi
         OnBrowseFileClick(ui.privateKeyPath, "Select private key file", tr("All Files (*.*)"));
     });
     connect(ui.sslCACertButton, &QPushButton::clicked, this, [this]() {
-        OnBrowseFileClick(ui.sslCACertEdit, "Select PEM file", tr("All Files (*.pem)"));
+        OnBrowseFileClick(ui.sslCACertEdit, "Select CACert file", tr("All Files (*.pem *.crt)"));
     });
     connect(ui.sslLocalCertButton, &QPushButton::clicked, this, [this]() {
-        OnBrowseFileClick(ui.sslLocalCertEdit, "Select PEM file", tr("All Files (*.pem)"));
+        OnBrowseFileClick(ui.sslLocalCertEdit, "Select Local Cert file", tr("All Files (*.pem *.crt)"));
     });
     connect(ui.sslPrivateKeyButton, &QPushButton::clicked, this, [this]() {
-        OnBrowseFileClick(ui.sslPrivateKeyEdit, "Select PEM file", tr("All Files (*.pem)"));
+        OnBrowseFileClick(ui.sslPrivateKeyEdit, "Select Private key file", tr("All Files (*.pem *.key)"));
     });
     connect(ui.testConnectionButton, SIGNAL(clicked()), this, SLOT(OnTestConnectionButtonClick()));
     connect(ui.showPasswordCheckbox, SIGNAL(stateChanged(int)), this, SLOT(OnShowPasswordCheckboxChanged(int)));
@@ -159,7 +159,7 @@ void ConnectionWindow::OnTestConnectionButtonClick()
     ui.testConnectionButton->setIcon(QIcon(":/images/wait.png"));
 
     ConnectionConfig config = getConectionConfigFromFormData();
-    config.setTimeouts(8000, 8000);
+    config.setConnectionTimeout(8000);
 
     RedisClient::Connection testConnection(config);
 
@@ -310,8 +310,8 @@ ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
                           ui.nameEdit->text().trimmed());
 
     conf.setNamespaceSeparator(ui.namespaceSeparator->text());
-    conf.setTimeouts(ui.connectionTimeout->value() * 1000,
-                     ui.executionTimeout->value() * 1000);
+    conf.setConnectionTimeout(ui.connectionTimeout->value() * 1000);
+    conf.setExecutionTimeout(ui.executionTimeout->value() * 1000);
 
     if (!ui.keysPattern->text().isEmpty())
         conf.setKeysPattern(ui.keysPattern->text());
