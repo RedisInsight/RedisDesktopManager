@@ -68,9 +68,23 @@ void StringKeyModel::addRow(const QVariantMap &row)
 }
 
 void StringKeyModel::loadRows(unsigned long, unsigned long, std::function<void(const QString&)> callback)
-{
-    if (loadValue()) {
-        callback(QString());
+{    
+    try {
+        m_connection->command({"GET", m_keyFullPath}, getConnector().data(),
+                              [this, callback](RedisClient::Response r, QString e)
+        {
+            if (r.getType() != RedisClient::Response::Bulk) {
+                return callback(QString("Cannot load value"));
+            }
+
+            m_rowsCache.clear();
+            m_rowsCache.push_back(r.getValue().toByteArray());
+            m_notifier->dataLoaded();
+
+            callback(QString());
+        }, m_dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
+        throw Exception("Connection error: " + QString(e.what()));
     }
 }
 
@@ -78,25 +92,4 @@ void StringKeyModel::removeRow(int)
 {
     m_rowCount--;
     setRemovedIfEmpty();
-}
-
-bool StringKeyModel::loadValue()
-{
-    RedisClient::Response result;
-    try {
-        result = m_connection->commandSync({"GET", m_keyFullPath}, m_dbIndex);
-    } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
-    }
-
-    if (result.getType() != RedisClient::Response::Bulk) {
-        return false;
-    }
-
-    m_rowsCache.clear();
-    m_rowsCache.push_back(result.getValue().toByteArray());
-
-    m_notifier->dataLoaded();
-
-    return true;
 }
