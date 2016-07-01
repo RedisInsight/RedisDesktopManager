@@ -34,12 +34,12 @@ DatabaseItem::~DatabaseItem()
 
 QString DatabaseItem::getDisplayName() const
 {
-    if (!m_filter.isEmpty()) {
-      return QString("db%1 (filter: %2)").arg(m_index).arg(m_filter.pattern());
-    } else if (m_keys->isEmpty()) {
-        return QString("db%1").arg(m_index);
-    } else {
-        return QString("db%1 (%2/%3)").arg(m_index).arg(m_rawKeys.size()).arg(m_keysCount);
+    if (m_keys->isEmpty()) {
+        return QString("db%1 (%2)").arg(m_index).arg(m_keysCount);
+    } else {                
+        QString filter =  m_filter.isEmpty()? "" : QString("[filter: %1]").arg(m_filter.pattern());
+
+        return QString("db%1 %2 (%3/%4)").arg(m_index).arg(filter).arg(m_rawKeys.size()).arg(m_keysCount);
     }
 }
 
@@ -157,7 +157,7 @@ void DatabaseItem::loadKeys()
     m_locked = true;
     emit updateIcon(m_index);
 
-    m_operations->getDatabaseKeys(m_index, [this](const Operations::RawKeysList& rawKeys, const QString& err) {
+    m_operations->getDatabaseKeys(m_index, [this](const RedisClient::Connection::RawKeysList& rawKeys, const QString& err) {
         if (!err.isEmpty()) {
             m_locked = false;
             emit error(err);
@@ -216,7 +216,7 @@ void DatabaseItem::resetFilter()
     loadKeys();
 }
 
-void DatabaseItem::renderRawKeys(const Operations::RawKeysList &rawKeys)
+void DatabaseItem::renderRawKeys(const RedisClient::Connection::RawKeysList &rawKeys)
 {
     qDebug() << "Render keys: " << rawKeys.size();
 
@@ -244,7 +244,7 @@ void DatabaseItem::renderRawKeys(const Operations::RawKeysList &rawKeys)
 }
 
 QSharedPointer<DatabaseKeys> DatabaseItem::KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
-                                           Operations::RawKeysList keys,
+                                           RedisClient::Connection::RawKeysList keys,
                                            QRegExp filter,
                                            QString namespaceSeparator,
                                            QSharedPointer<DatabaseItem> parent)
