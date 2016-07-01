@@ -21,7 +21,7 @@ if [ "$1" == "breakpad" ]; then
 fi
 
 if [ "$os_VENDOR" == "Ubuntu" ]; then
-    ubuntu_ver=${os_RELEASE:0:2}	
+    ubuntu_ver=${os_RELEASE:0:2}
     print_title "Build RDM on Ubuntu: $ubuntu_ver"
 
     if [ "$ubuntu_ver" == "12" ]; then
@@ -62,7 +62,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
             dh-make diffutils patch gnupg fakeroot lintian pbuilder git python perl -y
         sudo apt-get build-dep qt5-default -y
     fi
-        
+
     print_title "Check deps"
     sudo apt-get install automake libtool libssl-dev \
         libssh2-1-dev g++ libgl1-mesa-dev -y
@@ -70,14 +70,20 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     build_breakpad
 
     print_title "Run: source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
-elif [  "$os_VENDOR" == "Fedora" ]; then
-    print_title "Build RDM on Fedora: $os_RELEASE"
+elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && "$os_RELEASE" -ge "7" ]]; then
+    print_title "Build RDM on $os_VENDOR: $os_RELEASE"
 
     print_title "Check deps"
     sudo yum install libssh2 libssh2-devel qt5-qtbase qt5-qtsvg-devel \
         qt5-qtdeclarative-devel qt5-qtgraphicaleffects qt5-qtquickcontrols  \
         qt5-qttools gcc gcc-c++ libstdc++-static git rsync \
         redhat-rpm-config -y
+
+    if [[ $? == 1 && "$os_VENDOR" == "CentOS" ]]; then
+      # Some of the deps might need to come from Epel, so output a nice message
+      print_title "Not all dependencies were found. Ensure you have the epel repo installed and enabled."
+      exit
+    fi
 
     build_breakpad
 
