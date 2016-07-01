@@ -148,6 +148,8 @@ void Model::addRootItem(QSharedPointer<ServerItem> item)
         emit endRemoveRows();
     });
 
+    connect(item.data(), &ServerItem::error, this, &Model::error);
+
     emit endInsertRows();
 }
 

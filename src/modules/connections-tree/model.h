@@ -45,6 +45,9 @@ namespace ConnectionsTree {
             return parent;
         }
 
+    signals:
+        void error(const QString& err);
+
     protected:            
         void addRootItem(QSharedPointer<ServerItem> item);
         void removeRootItem(QSharedPointer<ServerItem> item);        

@@ -96,6 +96,11 @@ void MainWin::initConnectionsTreeView()
     QObject::connect(connections.data(), &ConnectionsManager::editConnection,
                      this, &MainWin::OnEditConnectionClick);
 
+    QObject::connect(connections.data(), &ConnectionsManager::error,
+                     this, [this](const QString& err) {
+        QMessageBox::warning(this, "Connections Tree Error", err);
+    });
+
     if (connections->size() == 0) {
         QTimer::singleShot(1000, this, SLOT(showQuickStartDialog()));
     }
