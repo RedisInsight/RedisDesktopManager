@@ -30,8 +30,14 @@ If you want to connect to redis-server with SSL you need to enable SSL on the se
 
 4 Provide path to azure.pem file on SSL tab in Public key field
 
-### Redislabs
-**TBD**
+### Redis Labs
+To connect Redis Labs instance with SSL/TLS encryption do following steps:
+1. Make sure that SSL is enabled for your Redis instance in Redis Labs dashboard.
+2. Download and unzip garantia_credentials.zip from Redis Labs dashboard
+3. Select garantia_user.crt in "Public key" field
+4. Select garantia_user_private.key in "Private key" field
+5. Select garantia_ca.pem in "Authority" field
+
 
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
