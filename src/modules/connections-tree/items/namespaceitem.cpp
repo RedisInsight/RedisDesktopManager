@@ -2,15 +2,18 @@
 #include "connections-tree/iconproxy.h"
 #include <QMenu>
 
+#include "connections-tree/utils.h"
+
 using namespace ConnectionsTree;
 
-NamespaceItem::NamespaceItem(const QString &fullPath,
+NamespaceItem::NamespaceItem(const QString &fullPath, unsigned short dbIndex,
                              QSharedPointer<Operations> operations,
                              QWeakPointer<TreeItem> parent)
     : m_fullPath(fullPath),
+      m_dbIndex(dbIndex),
       m_operations(operations),
-      m_parent(parent),
-      m_locked(false)
+      m_parent(parent),      
+      m_removed(false)
 {
     m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator())+1);
 }
@@ -71,17 +74,30 @@ bool NamespaceItem::onClick(TreeItem::ParentView&)
 
 QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView&)
 {
-    return QSharedPointer<QMenu>();
+    QSharedPointer<QMenu> menu(new QMenu());
+
+    if (!isEnabled())
+        return menu;
+
+    if (!m_signalReciever) {
+        m_signalReciever = QSharedPointer<QObject>(new QObject());
+    }
+
+    menu->addAction(createMenuAction(":/images/delete.png", "Delete namespace",
+                                     menu.data(), m_signalReciever.data(),
+                                     [this](){ m_operations->deleteDbNamespace(*this); }));
+
+    return menu;
 }
 
 bool NamespaceItem::isLocked() const
 {
-    return m_locked;
+    return false;
 }
 
 bool NamespaceItem::isEnabled() const
 {
-    return true;
+    return m_removed == false;
 }
 
 void NamespaceItem::append(QSharedPointer<TreeItem> item)
@@ -90,6 +106,21 @@ void NamespaceItem::append(QSharedPointer<TreeItem> item)
         m_childNamespaces[item.staticCast<NamespaceItem>()->getName()] = qSharedPointerCast<NamespaceItem>(item);
     }
     m_childItems.append(item);
+}
+
+QByteArray NamespaceItem::getFullPath() const
+{
+    return m_fullPath.toUtf8();
+}
+
+int NamespaceItem::getDbIndex() const
+{
+    return m_dbIndex;
+}
+
+void NamespaceItem::setRemoved()
+{
+    m_removed = true;
 }
 
 QSharedPointer<NamespaceItem> NamespaceItem::findChildNamespace(const QString &name)

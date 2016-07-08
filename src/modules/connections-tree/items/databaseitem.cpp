@@ -315,7 +315,7 @@ void DatabaseItem::KeysTreeRenderer::renderNamaspacedKey(
 
     if (namespaceItem.isNull()) {
         namespaceItem = QSharedPointer<NamespaceItem>(
-                    new NamespaceItem(firstNamespaceName, m_operations, currentParent));
+                    new NamespaceItem(firstNamespaceName, db->getIndex(), m_operations, currentParent));
 
         if (currItem.isNull()) {
             m_result->push_back(namespaceItem);

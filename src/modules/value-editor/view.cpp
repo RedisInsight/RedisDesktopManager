@@ -11,6 +11,8 @@
 #include "viewmodel.h"
 #include "valueviewmodel.h"
 
+#include "modules/bulk-operations/bulkoperationsmanager.h"
+
 using namespace ValueEditor;
 
 static QObject *analytics_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -23,7 +25,7 @@ static QObject *analytics_singletontype_provider(QQmlEngine *engine, QJSEngine *
 }
 
 
-View::View(QSharedPointer<ViewModel> viewModel)
+View::View(QSharedPointer<ViewModel> viewModel, QSharedPointer<BulkOperations::Manager> bulkOperations)
     : QWidget(), m_qml(nullptr),
       m_binaryUtils(QSharedPointer<BinaryUtils>(new BinaryUtils()))
 {    
@@ -37,6 +39,7 @@ View::View(QSharedPointer<ViewModel> viewModel)
     m_qml->rootContext()->setContextProperty("viewModel", viewModel.data());    
     m_qml->rootContext()->setContextProperty("rdm_platform", QSysInfo::productType());        
     m_qml->rootContext()->setContextProperty("binaryUtils", m_binaryUtils.data());
+    m_qml->rootContext()->setContextProperty("bulkOperations", bulkOperations.data());
 
     m_qml->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     m_qml->setSource(QUrl(QStringLiteral("qrc:///qml/value-editor.qml")));

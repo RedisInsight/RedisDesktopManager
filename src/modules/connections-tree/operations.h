@@ -13,6 +13,7 @@ namespace Console {
 namespace ConnectionsTree {
 
     class KeyItem;
+    class NamespaceItem;
 
     class Operations
     {
@@ -53,6 +54,8 @@ namespace ConnectionsTree {
         virtual void notifyDbWasUnloaded(int dbIndex) = 0;
 
         virtual void deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback) = 0;
+
+        virtual void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) = 0;
 
         virtual ~Operations() {}
 

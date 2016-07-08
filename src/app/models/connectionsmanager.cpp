@@ -5,18 +5,17 @@
 #include <QAbstractItemModel>
 #include <easylogging++.h>
 
+#include "modules/bulk-operations/bulkoperationsmanager.h"
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/value-editor/viewmodel.h"
 #include "app/widgets/consoletabs.h"
 #include "connectionsmanager.h"
 #include "configmanager.h"
 
-ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs,
-                                       QSharedPointer<ValueEditor::ViewModel> values)
+ConnectionsManager::ConnectionsManager(const QString& configPath, ConsoleTabs& tabs)
     : ConnectionsTree::Model(),
       m_configPath(configPath),      
-      m_consoleTabs(tabs),
-      m_valueTabs(values)
+      m_consoleTabs(tabs)
 {
     if (!configPath.isEmpty() && QFile::exists(configPath)) {
         loadConnectionsConfigFromFile(configPath);
@@ -138,17 +137,25 @@ int ConnectionsManager::size()
     return m_connections.length();
 }
 
+QSharedPointer<RedisClient::Connection> ConnectionsManager::getByIndex(int index)
+{
+    return m_connections[index];
+}
+
+QStringList ConnectionsManager::getConnections()
+{
+    QStringList result;
+
+    for (QSharedPointer<RedisClient::Connection> c : m_connections) {
+        result.append(c->getConfig().name());
+    }
+
+    return result;
+}
+
 QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection)
 {
-    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_consoleTabs));
-
-    QObject::connect(treeModel.data(), &TreeOperations::openValueTab,
-                     m_valueTabs.data(), &ValueEditor::ViewModel::openTab);
-    QObject::connect(treeModel.data(), &TreeOperations::newKeyDialog,
-                     m_valueTabs.data(), &ValueEditor::ViewModel::openNewKeyDialog);
-    QObject::connect(treeModel.data(), &TreeOperations::closeDbKeys,
-                     m_valueTabs.data(), &ValueEditor::ViewModel::closeDbKeys);
-
+    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, m_consoleTabs, *this));
     return treeModel;
 }
 

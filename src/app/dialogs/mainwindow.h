@@ -5,6 +5,7 @@
 #include <QSharedPointer>
 #include "ui_main.h"
 #include "app/models/connectionconf.h"
+#include "modules/bulk-operations/bulkoperationsmanager.h"
 
 class ConnectionsManager;
 class Updater;
@@ -27,6 +28,7 @@ private:
     QSharedPointer<Updater> updater;    
     QSharedPointer<QMenu> connectionsMenu;
     QSharedPointer<ValueEditor::ViewModel> m_keyValues;
+    QSharedPointer<BulkOperations::Manager> m_bulkOperations;
 
     void initFormButtons();
     void initConnectionsTreeView();    

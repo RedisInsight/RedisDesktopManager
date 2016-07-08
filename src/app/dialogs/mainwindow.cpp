@@ -20,6 +20,7 @@
 #include "modules/value-editor/view.h"
 #include "modules/value-editor/viewmodel.h"
 #include "modules/console/logtab.h"
+#include "modules/bulk-operations/bulkoperationsmanager.h"
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -87,11 +88,22 @@ void MainWin::initConnectionsTreeView()
         exit(1);
     }
 
+    connections = QSharedPointer<ConnectionsManager>(
+                    new ConnectionsManager(config, *ui.tabWidget)
+                );
+
+    m_bulkOperations = QSharedPointer<BulkOperations::Manager>(new BulkOperations::Manager(connections));
+
     initValuesView();
 
-    connections = QSharedPointer<ConnectionsManager>(
-                    new ConnectionsManager(config, *ui.tabWidget, m_keyValues)
-                );
+    QObject::connect(connections.data(), &ConnectionsManager::openValueTab,
+                     m_keyValues.data(), &ValueEditor::ViewModel::openTab);
+    QObject::connect(connections.data(), &ConnectionsManager::newKeyDialog,
+                     m_keyValues.data(), &ValueEditor::ViewModel::openNewKeyDialog);
+    QObject::connect(connections.data(), &ConnectionsManager::closeDbKeys,
+                     m_keyValues.data(), &ValueEditor::ViewModel::closeDbKeys);
+    QObject::connect(connections.data(), &ConnectionsManager::requestBulkOperation,
+                     m_bulkOperations.data(), &BulkOperations::Manager::requestBulkOperation);
 
     QObject::connect(connections.data(), &ConnectionsManager::editConnection,
                      this, &MainWin::OnEditConnectionClick);
@@ -163,7 +175,7 @@ void MainWin::initValuesView()
                     )
                 );
 
-    ValueEditor::View* valueView = new ValueEditor::View(m_keyValues);
+    ValueEditor::View* valueView = new ValueEditor::View(m_keyValues, m_bulkOperations);
     valueView->setParent(ui.qmlParent);
 
     QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight, ui.qmlParent);

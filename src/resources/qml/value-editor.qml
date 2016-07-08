@@ -4,6 +4,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import "."
+import "./bulk-operations"
 import "./editors/formatters/formatters.js" as Formatters
 
 Rectangle {
@@ -103,7 +104,6 @@ Rectangle {
 
     }
 
-
     MessageDialog {
         id: errorNotification
         objectName: "rdm_qml_error_dialog"
@@ -118,6 +118,18 @@ Rectangle {
        objectName: "rdm_qml_new_key_dialog"
     }
 
+    BulkOperationsDialog {
+        id: bulkOperationDialog
+    }
+
+    Connections {
+        target: bulkOperations
+
+        onOpenDialog: {
+            bulkOperationDialog.operationName = operationName
+            bulkOperationDialog.open()
+        }
+    }
 
     Connections {
         target: viewModel

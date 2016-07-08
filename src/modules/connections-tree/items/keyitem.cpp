@@ -74,6 +74,9 @@ QSharedPointer<QMenu> KeyItem::getContextMenu(ParentView& treeview)
 {
     QSharedPointer<QMenu> menu(new QMenu());
 
+    if (!isEnabled())
+        return menu;
+
     if (!m_signalReciever) {
         m_signalReciever = QSharedPointer<QObject>(new QObject());
     }
@@ -109,7 +112,11 @@ bool KeyItem::isLocked() const
 
 bool KeyItem::isEnabled() const
 {
-    return isLocked() == false && m_removed == false;
+    if (!m_removed && m_parent) {
+        return m_parent.toStrongRef()->isEnabled();
+    } else {
+        return m_removed == false;
+    }
 }
 
 QByteArray KeyItem::getFullPath() const
