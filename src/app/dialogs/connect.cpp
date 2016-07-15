@@ -289,17 +289,7 @@ bool ConnectionWindow::isSslSettingsValid()
     if (!isSslUsed())
         return true;
 
-    markFieldValid(ui.sslCACertEdit);
-
-    bool isValid = !ui.sslCACertEdit->text().isEmpty() &&
-            QFile::exists(ui.sslCACertEdit->text().trimmed());
-
-    if (isValid)
-        return true;
-
-    markFieldInvalid(ui.sslCACertEdit);
-
-    return false;
+    return true;
 }
 
 ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
@@ -326,6 +316,7 @@ ConnectionConfig ConnectionWindow::getConectionConfigFromFormData()
     }
 
     if (isSslUsed()) {
+        conf.setSsl(true);
         conf.setSslSettigns(ui.sslCACertEdit->text().trimmed(),
                             ui.sslPrivateKeyEdit->text().trimmed(),
                             ui.sslLocalCertEdit->text().trimmed());
