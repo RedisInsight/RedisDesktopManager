@@ -21,8 +21,7 @@ void TestDialogs::testConnectionDialog()
     //given
     QString configTestFile = "connections.json";
     ConsoleTabs tabsWidget;
-    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
-                                   QSharedPointer<ValueEditor::ViewModel>()));
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget));
     QTemporaryFile fake_private_key;
     QFileInfo fk(fake_private_key);
     QString fake_file_path = fk.absoluteFilePath();
@@ -72,8 +71,7 @@ void TestDialogs::testConnectionDialogValidation()
 {
     QString configTestFile = "connections.json";
     ConsoleTabs tabsWidget;
-    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
-                                   QSharedPointer<ValueEditor::ViewModel>()));
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget));
     ConnectionWindow window(testManager.toWeakRef());
 
     QCOMPARE(window.isAdvancedSettingsValid(), true);
@@ -90,8 +88,7 @@ void TestDialogs::testOkButtonInvalidSettings()
 {
     QString configTestFile = "connections.json";
     ConsoleTabs tabsWidget;
-    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget,
-                                   QSharedPointer<ValueEditor::ViewModel>()));
+    QSharedPointer<ConnectionsManager> testManager(new ConnectionsManager(configTestFile, tabsWidget));
     ConnectionWindow window(testManager.toWeakRef());
 
     QCOMPARE(window.isConnectionSettingsValid(), false);
@@ -106,10 +103,8 @@ void TestDialogs::testOkButton()
     using namespace ValueEditor;
     QString configTestFile = "connections.json";
     ConsoleTabs tabsWidget;
-    QSharedPointer<ViewModel> viewModel(
-                new ViewModel(QSharedPointer<AbstractKeyFactory>()));
     QSharedPointer<ConnectionsManager> testManager(
-                new ConnectionsManager(configTestFile, tabsWidget, viewModel));
+                new ConnectionsManager(configTestFile, tabsWidget));
     ConnectionWindow window(testManager.toWeakRef());
 
     window.ui.hostEdit->setText("fake");

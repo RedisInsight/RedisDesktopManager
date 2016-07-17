@@ -22,7 +22,7 @@ void TestDatabaseItem::testLoadKeys()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
     QSharedPointer<Operations> operations_(dynamic_cast<Operations*>(operations));
-    operations->databases.append({0, 55});
+    operations->databases.insert(0, 55);
 
     for (int i=1; i < 100000; i++) {
         operations->keys.append(QString("test-%1-key").arg(i).toUtf8());
@@ -49,7 +49,7 @@ void TestDatabaseItem::testLoadKeys()
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item->childCount(), (unsigned int)100001);
     QCOMPARE(actualResult, true);
-    QCOMPARE(item->getDisplayName(), QString("db0 (100002/55)"));
+    QCOMPARE(item->getDisplayName(), QString("db0  (100002/55)"));
     QCOMPARE(item->getIcon().isNull(), false);
     QCOMPARE(item->getAllChilds().isEmpty(), false);
     QCOMPARE(item->isEnabled(), true);

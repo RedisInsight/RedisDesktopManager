@@ -35,7 +35,6 @@ include($$PWD/testcases/connections-tree/connections-tree-tests.pri)
 include($$PWD/testcases/console/console-tests.pri)
 include($$PWD/testcases/value-editor/value-editor-tests.pri)
 #############
-LIBS += -lz
 include($$PROJECT_ROOT/3rdparty/3rdparty.pri)
 
 release: DESTDIR = $$PROJECT_ROOT/bin/tests

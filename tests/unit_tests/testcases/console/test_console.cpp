@@ -1,6 +1,6 @@
 #include "test_console.h"
 #include "console/consoletab.h"
-#include "console/hex_untils.h"
+#include "console/hex_utils.h"
 #include "mocks/consoleoperations.h"
 #include <QTest>
 

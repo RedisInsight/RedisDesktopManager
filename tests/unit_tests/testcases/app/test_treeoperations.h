@@ -10,7 +10,6 @@ private slots:
     void testCreation();  
     
     void testGetDatabases();
-    void testGetDatabasesWithSelectScan();
     
     void testGetDatabaseKeys();
     void testGetDatabaseKeys_data();
