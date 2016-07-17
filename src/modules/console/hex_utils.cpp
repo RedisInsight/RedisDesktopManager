@@ -1,4 +1,4 @@
-#include "hex_untils.h"
+#include "hex_utils.h"
 
 
 QString binaryStringToEscapedString(const QByteArray &value)
