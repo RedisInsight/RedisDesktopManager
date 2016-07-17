@@ -2,7 +2,7 @@
 
 # On OSX use coreutils package to fix absense of readlink command
 if [[ $OSTYPE == darwin* ]]; then
-  brew install coreutils
+  brew install coreutils || true
   PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 fi
 
@@ -52,17 +52,6 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
             qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols qt${RDM_QT_VERSION:0:2}script qt${RDM_QT_VERSION:0:2}quick1 -y
     fi
 
-    # Install CI environment if needed
-    if [ $RDM_CI ]; then
-        print_title "Install CI deps"
-        sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev -y
-        sudo apt-get install libdbus-1-dev -y
-        sudo apt-get install libxext-dev -y
-        sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
-            dh-make diffutils patch gnupg fakeroot lintian pbuilder git python perl -y
-        sudo apt-get build-dep qt5-default -y
-    fi
-
     print_title "Check deps"
     sudo apt-get install automake libtool libssl-dev \
         libssh2-1-dev g++ libgl1-mesa-dev -y
@@ -95,7 +84,7 @@ elif [[ $OSTYPE == darwin* ]]; then
     xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 > /dev/null
     xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 > /dev/null
     xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin INSTALL_PATH=/Frameworks ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 > /dev/null
-    brew upgrade libssh2 || brew install libssh2
+    brew upgrade libssh2 || brew install libssh2 || true
 else
     echo "Your operation system is not supported!"
 fi
