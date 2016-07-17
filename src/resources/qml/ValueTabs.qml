@@ -293,10 +293,6 @@ Repeater {
                                         valueEditor.item.resetAndDisableEditor()
 
                                     table.loadValue()
-
-                                    if (keyType === "string") {
-                                        valueEditor.loadRowValue(0)
-                                    }
                                 }
                             }
 
@@ -318,6 +314,10 @@ Repeater {
 
                                 onRowsLoaded: {
                                     wrapper.hideLoader()
+
+                                    if (keyType === "string") {
+                                        valueEditor.loadRowValue(0)
+                                    }
                                 }
                             }
 
@@ -564,23 +564,14 @@ Repeater {
 
                             property int currentRow: -1
 
-                            source: {
-                                if (keyType === "string") {
-                                    table.loadValue()
-                                }
-
-                                return Editor.getEditorByTypeString(keyType)
-                            }
+                            source: Editor.getEditorByTypeString(keyType)
 
                             onLoaded: {
                                 if (valueEditor.item)
                                     valueEditor.item.resetAndDisableEditor()
-                                if (keyType === "string") {
-                                    valueEditor.loadRowValue(0)
-                                }
                             }
 
-                            function loadRowValue(row) {
+                            function loadRowValue(row) {                                
                                 if (valueEditor.item) {
                                     var rowValue = table.model.getRow(row, true)
 
