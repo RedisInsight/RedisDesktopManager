@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     GoogleMP::instance()->reportEvent("rdm:cpp", "app start", "");
 
     MainWin w;
+    w.setWindowTitle(QString("Redis Desktop Manager v.%1").arg(QString(RDM_VERSION)));
     w.show();
     return a.exec();
 }
