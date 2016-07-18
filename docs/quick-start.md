@@ -20,14 +20,14 @@ If you want to connect to redis-server with SSL you need to enable SSL on the se
 <img src="http://redisdesktop.com/docs/rdm_ssl.png" height="300" />
 
 
-### Windows Azure Redis Cache <img src="https://azure.microsoft.com/svghandler/redis-cache/?width=600&height=315" height="100" />
+### Windows Azure Redis Cache <br /> <img src="https://azure.microsoft.com/svghandler/redis-cache/?width=600&height=315" height="100" />
 
 1. Create connection with all requested information 
  <br /> <img src="https://redisdesktop.com/static/docs/rdm_ssl_azure.png" height="300" />
 2. Make sure that "Use SSL Protocol" checkbox is enabled
 3. Your Azure Redis connection is ready to use
 
-### Redis Labs <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Redis_Labs_Logo.png" height="75" />
+### Redis Labs <br /> <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Redis_Labs_Logo.png" height="75" />
 To connect Redis Labs instance with SSL/TLS encryption do following steps:
 
 1. Make sure that SSL is enabled for your Redis instance in Redis Labs dashboard.
