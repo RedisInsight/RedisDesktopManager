@@ -13,16 +13,17 @@ Dialog {
     standardButtons: StandardButton.NoButton
 
     function loadKeys() {
-        bulkOperations.getAffectedKeys()
         uiBlocker.visible = true
-
+        bulkOperations.getAffectedKeys()        
     }
 
     onVisibleChanged: {
         if (visible == false) {
             bulkOperations.clearOperation();
         } else {
-            bulkOperations.getAffectedKeys();
+            if (!uiBlocker.visible) {
+                loadKeys();
+            }
         }
     }
 
@@ -173,6 +174,7 @@ Dialog {
                         target: bulkOperations
 
                         onAffectedKeys: {
+                            console.log("Affected keys loaded")
                             affectedKeysListView.model = r
                             uiBlocker.visible = false
                         }
