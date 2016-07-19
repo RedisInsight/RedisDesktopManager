@@ -16,7 +16,7 @@
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
-![Redis Desktop Manager screenshoot](http://redisdesktop.com/img/features/all.png?v2)
+![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2)
 
 **Officially Supported platforms** : Windows 7+, Mac OS X 10.11+, Ubuntu 14+, Fedora 22+ (build with automated script)
 
