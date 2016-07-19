@@ -4,7 +4,7 @@
 
 After you [install](install.md)  RDM the first you need to do in order to start using it is create Connection to your Redis server. On the main screen press button **Connect to Redis Server**. 
 
-![](http://redisdesktop.com/docs/rdm_main.png)
+![](http://redisdesktop.com/static/docs/rdm_main.png)
 
 ## Connect to local or public redis-server
 On the first tab Connection Settings put general info regarding connection that you are creating.  
@@ -17,13 +17,13 @@ On the first tab Connection Settings put general info regarding connection that 
 ## Connect to public redis-server with SSL
 If you want to connect to redis-server with SSL you need to enable SSL on the second tab and provide a public key in PEM format. Bellow you can find instructions for particular cloud services.
 
-<img src="http://redisdesktop.com/docs/rdm_ssl.png" height="300" />
+<img src="http://redisdesktop.com/static/docs/rdm_ssl.png" height="300" />
 
 
 ### Windows Azure Redis Cache <br /> <img src="https://azure.microsoft.com/svghandler/redis-cache/?width=600&height=315" height="100" />
 
 1. Create connection with all requested information 
- <br /> <img src="https://redisdesktop.com/static/docs/rdm_ssl_azure.png" height="300" />
+ <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png" height="300" />
 2. Make sure that "Use SSL Protocol" checkbox is enabled
 3. Your Azure Redis connection is ready to use
 
@@ -44,7 +44,7 @@ To use SSH tunnel select checkbox "Use SSH Tunnel". There are different security
 
 > **NOTE for Windows users:** Your private key is must be in .pem format.
 
-<img src="http://redisdesktop.com/docs/rdm_ssh.png" height="300" />
+<img src="http://redisdesktop.com/static/docs/rdm_ssh.png" height="300" />
 
 ### Advanced SSH tunneling
 If you need advanced SSH tunneling you should setup SSH tunnel manually and connect via localhost:
@@ -64,13 +64,13 @@ socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock
 Use the next tab Advanced settings in order to setup Namespace separator or other settings. 
 
 
-<img src="http://redisdesktop.com/docs/rdm_advanced_settings.png" height="300" />
+<img src="http://redisdesktop.com/static/docs/rdm_advanced_settings.png" height="300" />
 
 ## Next steps
 Now you can test connection or create connection right away. 
 
 Congratulations, now you connected to your Redis Server. You should see something similar to what we showed on our screen.
-![](http://redisdesktop.com/docs/rdm_main2.png)
+![](http://redisdesktop.com/static/docs/rdm_main2.png)
 
 
 Click on the connection and expand keys. By clicking the right button, you can see console menu and manage your connection from there. 
