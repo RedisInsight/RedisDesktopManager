@@ -23,3 +23,14 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 **Community Supported platforms**: [ArchLinux](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
 **Supported Redis versions** : 2.4, 2.6, 2.8, 3.0+
+
+## Release Schedule
+| Release | Original plan | Realized |
+| ------- | ------------- | -------- |
+| [0.8.7] (https://github.com/uglide/RedisDesktopManager/milestone/23?closed=1) | July 20, 2016 | [July 18, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.8.7) |
+| [0.8.8RC1] (https://github.com/uglide/RedisDesktopManager/milestone/24) | August 17, 2016 | |
+| [0.8.8] (https://github.com/uglide/RedisDesktopManager/milestone/24) | August 24, 2016 | |
+| [0.9.0RC1] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Sept 14, 2016 | |
+| [0.9.0] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Sept 21, 2016 | |
+| [0.9.1RC1] (https://github.com/uglide/RedisDesktopManager/milestone/22) | Oct 19, 2016 | |
+| [0.9.1] (https://github.com/uglide/RedisDesktopManager/milestone/22) | Oct 26, 2016 | |
