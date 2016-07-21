@@ -7,18 +7,19 @@
 #include <QMessageBox>
 
 #include "connections-tree/iconproxy.h"
-#include"connections-tree/utils.h"
+#include "connections-tree/utils.h"
+#include "connections-tree/model.h"
 #include "databaseitem.h"
+
 
 using namespace ConnectionsTree;
 
-ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations, const Model& model)
-    : m_name(name),
-      m_locked(false),
-      m_databaseListLoaded(false),
+ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations, Model &model)
+    : TreeItem(model),
+      m_name(name),
+      m_locked(false),      
       m_row(0),
-      m_operations(operations),
-      m_model(model)
+      m_operations(operations)
 {
 }
 
@@ -33,7 +34,7 @@ QString ServerItem::getDisplayName() const
 
 bool ServerItem::onClick(TreeItem::ParentView& view)
 {
-    if (m_databaseListLoaded)
+    if (isDatabaseListLoaded())
         return false;
 
     try {
@@ -44,13 +45,13 @@ bool ServerItem::onClick(TreeItem::ParentView& view)
         m_locked = false;
     }
 
-    return m_databaseListLoaded;
+    return isDatabaseListLoaded();
 }
 
 QIcon ServerItem::getIcon() const
 {
     if (m_locked)    return IconProxy::instance()->get(":/images/wait.png");
-    if (m_databaseListLoaded) return IconProxy::instance()->get(":/images/redisIcon.png");
+    if (isDatabaseListLoaded()) return IconProxy::instance()->get(":/images/redisIcon.png");
     return IconProxy::instance()->get(":/images/redisIcon_offline.png");
 }
 
@@ -73,7 +74,10 @@ QSharedPointer<TreeItem> ServerItem::child(uint row) const
     return QSharedPointer<TreeItem>();
 }
 
-QWeakPointer<TreeItem> ServerItem::parent() const { return QWeakPointer<TreeItem>(); }
+QWeakPointer<TreeItem> ServerItem::parent() const
+{
+    return QWeakPointer<TreeItem>();
+}
 
 int ServerItem::row() const
 {
@@ -158,13 +162,13 @@ bool ServerItem::isEnabled() const
 
 bool ServerItem::isDatabaseListLoaded() const
 {
-    return m_databaseListLoaded;
+    return m_locked == false && m_databases.size() > 0;
 }
 
 void ServerItem::load()
 {
     m_locked = true;
-    emit updateIcon();
+    emit m_model.itemChanged(m_self);  
 
     std::function<void(RedisClient::DatabaseList)> callback = [this](RedisClient::DatabaseList databases) {
 
@@ -176,44 +180,34 @@ void ServerItem::load()
 
         RedisClient::DatabaseList::const_iterator db = databases.constBegin();
         while (db != databases.constEnd()) {
-            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), db.value(), m_operations, m_self)));
-
-            QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
-                             this, SIGNAL(keysLoadedInDatabase(unsigned int)));
-            QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(unloadStarted(unsigned int)),
-                             this, SIGNAL(unloadStartedInDatabase(unsigned int)));
-            QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(updateIcon(unsigned int)),
-                             this, SIGNAL(updateDbIcon(unsigned int)));
-            QObject::connect(database.dynamicCast<DatabaseItem>().data(), &DatabaseItem::error,
-                             this, &ServerItem::error);
-
+            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), db.value(), m_operations, m_self, m_model)));
             m_databases.push_back(database);
             ++db;            
         }
-        m_locked = false;
-        m_databaseListLoaded = true;
 
-        emit databaseListLoaded();
+        emit m_model.itemChildsLoaded(m_self);
+
+        m_locked = false;        
+        emit m_model.itemChanged(m_self);
     };
 
     try {
         m_operations->getDatabases(callback);
     } catch (const ConnectionsTree::Operations::Exception& e) {
         m_locked = false;
-        emit error("Cannot load databases:\n\n" + QString(e.what()));
+        emit m_model.error("Cannot load databases:\n\n" + QString(e.what()));
     }
 }
 
 void ServerItem::unload()
 {
-    if (!m_databaseListLoaded)
+    if (!isDatabaseListLoaded())
         return;
 
     m_locked = true;
 
-    emit unloadStarted();
+    emit m_model.itemChildsUnloaded(m_self);
 
-    m_databaseListLoaded = false;
     m_operations->disconnect();
     m_databases.clear();        
 

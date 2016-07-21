@@ -180,7 +180,7 @@ void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClien
     auto serverItem = QSharedPointer<ServerItem>(
                 new ServerItem(name,
                                treeModel.dynamicCast<ConnectionsTree::Operations>(),
-                               static_cast<ConnectionsTree::Model>(this)));
+                               *static_cast<ConnectionsTree::Model*>(this)));
 
     QObject::connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested,
                      this, [this, connection, name]()

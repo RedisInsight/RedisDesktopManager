@@ -13,7 +13,7 @@ namespace ConnectionsTree {
         Q_OBJECT
     public:
         ServerItem(const QString& name, QSharedPointer<Operations> operations,
-                   const Model& model);
+                   Model& model);
         ~ServerItem();
 
         QString getDisplayName() const override;
@@ -31,6 +31,7 @@ namespace ConnectionsTree {
 
         bool isLocked() const override;
         bool isEnabled() const override;
+
         bool isDatabaseListLoaded() const;
 
         void load();
@@ -39,25 +40,17 @@ namespace ConnectionsTree {
 
         void setName(const QString &name);
         void setWeakPointer(QWeakPointer<ServerItem>);
-    signals:
-        void error(const QString&);
-        void databaseListLoaded();
-        void unloadStarted();
+    signals:                
         void editActionRequested();
         void deleteActionRequested();
-        void updateIcon();
-        void updateDbIcon(unsigned int dbIndex);
-        void keysLoadedInDatabase(unsigned int dbIndex);
-        void unloadStartedInDatabase(unsigned int dbIndex);
 
     private:
         QString m_name;
-        bool m_locked;
-        bool m_databaseListLoaded;
+        bool m_locked;        
         int m_row;
         QSharedPointer<Operations> m_operations;
         QList<QSharedPointer<TreeItem>> m_databases;
-        const Model& m_model;
         QWeakPointer<ServerItem> m_self;
+        QModelIndex m_index;
     };
 }

@@ -10,8 +10,10 @@ using namespace ConnectionsTree;
 
 KeyItem::KeyItem(const QByteArray &fullPath, unsigned short dbIndex,
                  QSharedPointer<Operations> operations,
-                 QWeakPointer<TreeItem> parent)
-    : m_fullPath(fullPath),
+                 QWeakPointer<TreeItem> parent,
+                 Model& model)
+    : TreeItem(model),
+      m_fullPath(fullPath),
       m_dbIndex(dbIndex),
       m_operations(operations),
       m_parent(parent),      

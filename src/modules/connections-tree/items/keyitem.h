@@ -9,8 +9,11 @@ namespace ConnectionsTree {
     class KeyItem : public TreeItem
     {        
     public:
-        KeyItem(const QByteArray& fullPath, unsigned short int dbIndex,
-                QSharedPointer<Operations> operations, QWeakPointer<TreeItem> parent);
+        KeyItem(const QByteArray& fullPath,
+                unsigned short int dbIndex,
+                QSharedPointer<Operations> operations,
+                QWeakPointer<TreeItem> parent,
+                Model &model);
 
         QString getDisplayName() const override;
         QIcon getIcon() const override;

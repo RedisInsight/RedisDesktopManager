@@ -38,6 +38,8 @@ public:
 
     void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) override;
 
+    virtual void flushDb(int dbIndex, std::function<void(const QString&)> callback) override;
+
 private:
      QSharedPointer<RedisClient::Connection> m_connection;
      ConsoleTabs& m_consoleTabs;

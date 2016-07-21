@@ -41,7 +41,7 @@ void TestDatabaseItem::testLoadKeys()
     qDebug() << parentItem->childCount();
     QSharedPointer<TreeItem> item = parentItem->child(0);
 
-    QSignalSpy spy((DatabaseItem*)item.data(), SIGNAL(keysLoaded(unsigned int)));
+    QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
     bool actualResult = item->onClick(view);
 
     //then
@@ -60,8 +60,9 @@ void TestDatabaseItem::testUnloadKeys()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
+    Model model;
     DatabaseItem item(0, 300, QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      QWeakPointer<ConnectionsTree::TreeItem>());
+                      QWeakPointer<ConnectionsTree::TreeItem>(), model);
 
     //when
     item.unload();
@@ -75,8 +76,9 @@ void TestDatabaseItem::testContextMenu()
 {
     //given
     ItemOperationsMock* operations = new ItemOperationsMock();
+    Model model;
     DatabaseItem item(0, 300, QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-                      QWeakPointer<ConnectionsTree::TreeItem>());
+                      QWeakPointer<ConnectionsTree::TreeItem>(), model);
     DummyParentView view;
 
     //when

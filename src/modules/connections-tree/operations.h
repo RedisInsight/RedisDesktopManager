@@ -57,6 +57,8 @@ namespace ConnectionsTree {
 
         virtual void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) = 0;
 
+        virtual void flushDb(int dbIndex, std::function<void(const QString&)> callback) = 0;
+
         virtual ~Operations() {}
 
     };
