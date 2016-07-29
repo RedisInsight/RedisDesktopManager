@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import MeasurementProtocol 1.0
+import rdm.models 1.0
 import "./editors/editor.js" as Editor
 import "./parts"
 
@@ -49,7 +50,7 @@ Repeater {
 
             if (reloadKey) {
                 console.log("Reload")
-                table.model.reload()
+                table.smodel.reload()
             }
         }
 
@@ -91,7 +92,7 @@ Repeater {
                     }
 
                     Item { visible: showValueNavigation; Layout.preferredWidth: 5}
-                    Text { visible: showValueNavigation; text: "Size: "+ table.model.totalRowCount() }
+                    Text { visible: showValueNavigation; text: "Size: "+ table.smodel.totalRowCount() }
                     Item { Layout.preferredWidth: 5}
                     Text { text: "TTL:"; font.bold: true }
                     Text { text: keyTtl}
@@ -242,16 +243,32 @@ Repeater {
                             Layout.fillHeight: true
                             Layout.minimumHeight: 100
 
+                            sortIndicatorVisible: true
+
                             TableViewColumn{ width: 50 }
                             TableViewColumn{ width: 150 }
                             TableViewColumn{ width: table.width - 200}
 
-                            model: viewModel.getValue(tabIndex)
+                            property variant smodel: viewModel.getValue(tabIndex)
+
+                            model: SortFilterProxyModel {
+                                id: searchModel
+                                source: table.smodel ? table.smodel : null
+
+                                sortOrder: table.sortIndicatorOrder
+                                sortCaseSensitivity: Qt.CaseInsensitive
+                                sortRole: table.smodel ? table.getColumn(table.sortIndicatorColumn).role : ""
+
+                                filterString: "*" + searchField.text + "*"
+                                filterSyntax: SortFilterProxyModel.Wildcard
+                                filterCaseSensitivity: Qt.CaseInsensitive
+                                filterRole: table.smodel ? table.getColumn(1).role : ""
+                            }
 
                             property int currentStart: 0
-                            property int maxItemsOnPage: model? model.pageSize() : 100
+                            property int maxItemsOnPage: smodel? smodel.pageSize() : 100
                             property int currentPage: currentStart / maxItemsOnPage + 1
-                            property int totalPages: Math.ceil(table.model.totalRowCount() / maxItemsOnPage)
+                            property int totalPages: Math.ceil(table.smodel.totalRowCount() / maxItemsOnPage)
                             property bool forceLoading: false
 
                             Component.onCompleted: {
@@ -285,7 +302,7 @@ Repeater {
 
                                 onReplaceTab: {
                                     console.log("replace tab")
-                                    table.model = viewModel.getValue(tabIndex)
+                                    table.smodel = viewModel.getValue(tabIndex)
                                     table.forceLoading = false
                                     table.currentStart = 0
 
@@ -305,7 +322,7 @@ Repeater {
                             }
 
                             Connections {
-                                target: table.model ? table.model : null
+                                target: table.smodel ? table.smodel : null
 
                                 onError: {
                                     valueErrorNotification.text = error
@@ -325,7 +342,7 @@ Repeater {
                                 id: valueLoadingConfirmation
                                 title: "Legacy Redis-Server detected!"
                                 text: "You are connected to legacy redis-server, which doesn't support partial loading. "
-                                      + "Do you really want to load " + table.model.totalRowCount() +" items?"
+                                      + "Do you really want to load " + table.smodel.totalRowCount() +" items?"
                                 onYes: {
                                     table.forceLoading = true
                                     table.loadValue()
@@ -363,7 +380,7 @@ Repeater {
                             }
 
                             function loadValue() {
-                                var columns = table.model.getColumnNames()
+                                var columns = table.smodel.getColumnNames()
 
                                 for (var index = 0; index < 3; index++)
                                 {
@@ -380,11 +397,11 @@ Repeater {
                                     column.visible = true
                                 }
 
-                                if (table.model.isPartialLoadingSupported()
-                                        || table.model.totalRowCount() < maxItemsOnPage
+                                if (table.smodel.isPartialLoadingSupported()
+                                        || table.smodel.totalRowCount() < maxItemsOnPage
                                         || table.forceLoading) {
                                     wrapper.showLoader()
-                                    table.model.loadRows(currentStart, maxItemsOnPage)
+                                    table.smodel.loadRows(currentStart, maxItemsOnPage)
                                 } else {
                                     // Legacy redis without SCAN support
                                     // Show warning message
@@ -400,12 +417,12 @@ Repeater {
 
                         ColumnLayout {
                             Layout.fillHeight: true
-                            Layout.preferredWidth: 150
-                            Layout.maximumWidth: 150
+                            Layout.preferredWidth: 200
+                            Layout.maximumWidth: 200
                             Layout.alignment: Qt.AlignTop
 
                             Button {
-                                Layout.preferredWidth: 150
+                                Layout.preferredWidth: 195
                                 text: "Add row";
                                 iconSource: "qrc:/images/add.png"
                                 onClicked: {
@@ -449,7 +466,7 @@ Repeater {
 
                                         var model = viewModel.getValue(tabIndex)
                                         model.addRow(row)
-                                        table.model.reload()
+                                        table.smodel.reload()
                                         valueAddEditor.item.reset()
                                     }
 
@@ -459,13 +476,13 @@ Repeater {
                             }
 
                             Button {
-                                Layout.preferredWidth: 150
+                                Layout.preferredWidth: 195
                                 text: "Delete row"
                                 iconSource: "qrc:/images/delete.png"
                                 enabled: table.currentRow != -1
 
                                 onClicked: {
-                                    if (table.model.totalRowCount() == 1) {
+                                    if (table.smodel.totalRowCount() == 1) {
                                         deleteRowConfirmation.text = "This is last row in this key, " +
                                                 "if you remove this - key will be removed!"
                                     } else {
@@ -483,7 +500,7 @@ Repeater {
                                     text: ""
                                     onYes: {
                                         console.log("remove row in key")
-                                        table.model.deleteRow(rowToDelete)
+                                        table.smodel.deleteRow(rowToDelete)
                                     }
                                     visible: false
                                     modality: Qt.ApplicationModal
@@ -495,7 +512,7 @@ Repeater {
                             }
 
                             Button {
-                                Layout.preferredWidth: 150
+                                Layout.preferredWidth: 195
                                 text: "Reload Value"
                                 iconSource: "qrc:/images/refreshdb.png"
                                 action: reLoadAction
@@ -505,12 +522,19 @@ Repeater {
                                     shortcut: StandardKey.Refresh
                                     onTriggered: {
                                         console.log("Reload value in tab")
-                                        table.model.reload()
+                                        table.smodel.reload()
                                         valueEditor.clear()
 
                                         Analytics.reportEvent("value-editor", "reload-key")
                                     }
                                 }
+                            }
+
+                            TextField {
+                                id: searchField
+
+                                Layout.preferredWidth: 195
+                                placeholderText: "Search on page..."
                             }
 
                             Item {
@@ -573,7 +597,7 @@ Repeater {
 
                             function loadRowValue(row) {                                
                                 if (valueEditor.item) {
-                                    var rowValue = table.model.getRow(row, true)
+                                    var rowValue = table.smodel.getRow(row, true)
 
 // TODO: Show dialog here with options:  View in read-only mode, Save to file, Ignore warning
 //                                    if (binaryUtils.binaryStringLength(rowValue['value']) > 150000) {
@@ -611,7 +635,7 @@ Repeater {
                                     var value = valueEditor.item.getValue()
 
                                     console.log(value, value["value"])
-                                    table.model.updateRow(valueEditor.currentRow, value)
+                                    table.smodel.updateRow(valueEditor.currentRow, value)
 
                                     savingConfirmation.text = "Value was updated!"
                                     savingConfirmation.open()

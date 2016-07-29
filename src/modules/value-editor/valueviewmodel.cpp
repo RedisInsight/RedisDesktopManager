@@ -1,7 +1,7 @@
 #include "valueviewmodel.h"
 #include <QDebug>
 
-const int PAGE_SIZE = 100;
+const int PAGE_SIZE = 1000;
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
     : QAbstractListModel((QObject*)model->getConnector().data()),

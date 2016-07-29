@@ -7,9 +7,11 @@
 #include <QApplication>
 #include <QtQml>
 #include <QSysInfo>
+#include <QSortFilterProxyModel>
 #include <googlemp.h>
 #include "viewmodel.h"
 #include "valueviewmodel.h"
+#include "sortfilterproxymodel.h"
 
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 
@@ -32,6 +34,7 @@ View::View(QSharedPointer<ViewModel> viewModel, QSharedPointer<BulkOperations::M
     m_qml = QSharedPointer<QQuickWidget>(new QQuickWidget());
 
     qmlRegisterType<ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");
+    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");
     qmlRegisterSingletonType<GoogleMP>("MeasurementProtocol", 1, 0, "Analytics", analytics_singletontype_provider);
 
     m_qml->setResizeMode(QQuickWidget::SizeRootObjectToView);
