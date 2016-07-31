@@ -70,6 +70,5 @@ private:
 };
 
 typedef QList<QSharedPointer<TreeItem>> TreeItems;
-Q_DECLARE_METATYPE(QWeakPointer<TreeItem>)
 
 }
