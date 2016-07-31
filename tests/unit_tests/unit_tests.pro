@@ -17,6 +17,9 @@ SOURCES += \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.cpp \
     $$PWD/main.cpp \
 
+HEADERS += $$PROJECT_ROOT/3rdparty/qt_modeltest/*.h
+SOURCES += $$PROJECT_ROOT/3rdparty/qt_modeltest/*.cpp
+INCLUDEPATH += $$PROJECT_ROOT/3rdparty/qt_modeltest/
 
 RESOURCES += \
     $$SRC_DIR/resources/rdm.qrc
