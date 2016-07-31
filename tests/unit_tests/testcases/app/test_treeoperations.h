@@ -13,5 +13,8 @@ private slots:
     
     void testGetDatabaseKeys();
     void testGetDatabaseKeys_data();
+
+    void testFlushDb();
+    void testFlushDbCommandError();
 };
 

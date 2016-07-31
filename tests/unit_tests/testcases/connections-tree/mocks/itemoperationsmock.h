@@ -35,11 +35,18 @@ public:
     void disconnect() {}
 
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
+
     virtual void openConsoleTab() override {}
+
     void openNewKeyDialog(int, std::function<void()>, QString = QString()) override {}
+
     virtual void notifyDbWasUnloaded(int) override {}
+
     virtual void deleteDbKey(ConnectionsTree::KeyItem&, std::function<void(const QString&)>) override {}
+
     virtual void deleteDbNamespace(ConnectionsTree::NamespaceItem&) override {}
+
+    virtual void flushDb(int, std::function<void(const QString&)>) override {}
 protected:
     bool m_positive_mode;
 };

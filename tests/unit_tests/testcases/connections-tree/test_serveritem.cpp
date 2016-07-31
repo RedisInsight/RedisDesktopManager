@@ -22,7 +22,7 @@ void TestServerItem::testLoad()
     operations->databases.insert(0, 55);
     Model dummyModel;
     ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
-    QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
+    QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
     DummyParentView view;
 
     //when
@@ -42,7 +42,7 @@ void TestServerItem::testLoad_invalid()
     ItemOperationsMock* operations = new ItemOperationsMock(false);
     Model dummyModel;
     ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
-    QSignalSpy spy(&item, SIGNAL(error(const QString&)));
+    QSignalSpy spy(&dummyModel, SIGNAL(error(const QString&)));
     DummyParentView view;
 
     //when
@@ -80,7 +80,7 @@ void TestServerItem::testReload()
     operations->databases.insert(0, 55);
     Model dummyModel;
     ServerItem item{"test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel};
-    QSignalSpy spy(&item, SIGNAL(databaseListLoaded()));
+    QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
 
     //when
     item.reload();
