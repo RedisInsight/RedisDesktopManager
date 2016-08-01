@@ -30,7 +30,7 @@ QHash<int, QByteArray> HashKeyModel::getRoles()
 QVariant HashKeyModel::getData(int rowIndex, int dataRole)
 {
     if (!isRowLoaded(rowIndex))
-        return QString();
+        return QVariant();
 
     QPair<QByteArray, QByteArray> row = m_rowsCache[rowIndex];
 
