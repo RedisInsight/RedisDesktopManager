@@ -1,7 +1,7 @@
 #include "valueviewmodel.h"
 #include <QDebug>
 
-const int PAGE_SIZE = 100;
+const int PAGE_SIZE = 1000;
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
     : QAbstractListModel((QObject*)model->getConnector().data()),
@@ -171,11 +171,14 @@ void ValueEditor::ValueViewModel::deleteRow(int i)
 
     try {
         m_model->removeRow(targetRow);
-    } catch(const Model::Exception& e) {
-        emit error(QString(e.what()));
-    }
+        emit beginRemoveRows(QModelIndex(), targetRow, targetRow);
+        emit endRemoveRows();
 
-    emit layoutChanged();
+        if (targetRow < m_model->rowsCount())
+            emit dataChanged(index(targetRow, 0), index(m_model->rowsCount() - 1, 0));
+    } catch(const Model::Exception& e) {
+        emit error(QString(e.what()));     
+    }
 }
 
 int ValueEditor::ValueViewModel::totalRowCount()

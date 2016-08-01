@@ -181,7 +181,7 @@ void TestKeyModels::testValueLoading_data()
                << (QStringList() << "row" << "value" << "score");
 
        QTest::newRow("Valid hash model")
-               << (QStringList() << "+hash\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
+               << (QStringList() << "+hash\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
                << 1
                << Qt::UserRole + 1
                << (unsigned long)2
@@ -306,7 +306,7 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << ":1\r\n"
                 << ":1\r\n")
             << hashRow
-            << Qt::UserRole + 2
+            << Qt::UserRole + 1
             << 2;
 }
 
