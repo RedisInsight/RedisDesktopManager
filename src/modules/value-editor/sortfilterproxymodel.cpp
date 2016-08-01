@@ -6,13 +6,6 @@
 
 SortFilterProxyModel::SortFilterProxyModel(QObject *parent) : QSortFilterProxyModel(parent), m_complete(false)
 {
-    connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SIGNAL(countChanged()));
-}
-
-int SortFilterProxyModel::count() const
-{
-    return rowCount();
 }
 
 QObject *SortFilterProxyModel::source() const
@@ -21,8 +14,8 @@ QObject *SortFilterProxyModel::source() const
 }
 
 void SortFilterProxyModel::setSource(QObject *source)
-{
-    setSourceModel(qobject_cast<QAbstractItemModel *>(source));
+{    
+    setSourceModel(qobject_cast<QAbstractItemModel *>(source));   
 }
 
 QByteArray SortFilterProxyModel::sortRole() const
@@ -78,21 +71,6 @@ void SortFilterProxyModel::setFilterSyntax(SortFilterProxyModel::FilterSyntax sy
     setFilterRegExp(QRegExp(filterString(), filterCaseSensitivity(), static_cast<QRegExp::PatternSyntax>(syntax)));
 }
 
-QJSValue SortFilterProxyModel::get(int idx) const
-{
-    QJSEngine *engine = qmlEngine(this);
-    QJSValue value = engine->newObject();
-    if (idx >= 0 && idx < count()) {
-        QHash<int, QByteArray> roles = roleNames();
-        QHashIterator<int, QByteArray> it(roles);
-        while (it.hasNext()) {
-            it.next();
-            value.setProperty(QString::fromUtf8(it.value()), data(index(idx, 0), it.key()).toString());
-        }
-    }
-    return value;
-}
-
 void SortFilterProxyModel::classBegin()
 {
 }
@@ -106,6 +84,12 @@ void SortFilterProxyModel::componentComplete()
         QSortFilterProxyModel::setFilterRole(roleKey(m_filterRole));
 }
 
+int SortFilterProxyModel::getOriginalRowIndex(int i)
+{
+    QModelIndex proxyIndex = index(i, 0);
+    return mapToSource(proxyIndex).row();
+}
+
 int SortFilterProxyModel::roleKey(const QByteArray &role) const
 {
     QHash<int, QByteArray> roles = roleNames();
@@ -116,36 +100,4 @@ int SortFilterProxyModel::roleKey(const QByteArray &role) const
             return it.key();
     }
     return -1;
-}
-
-QHash<int, QByteArray> SortFilterProxyModel::roleNames() const
-{
-    if (QAbstractItemModel *source = sourceModel())
-        return source->roleNames();
-    return QHash<int, QByteArray>();
-}
-
-bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
-{
-    QRegExp rx = filterRegExp();
-    if (rx.isEmpty())
-        return true;
-    QAbstractItemModel *model = sourceModel();
-    if (filterRole().isEmpty()) {
-        QHash<int, QByteArray> roles = roleNames();
-        QHashIterator<int, QByteArray> it(roles);
-        while (it.hasNext()) {
-            it.next();
-            QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
-            QString key = model->data(sourceIndex, it.key()).toString();
-            if (key.contains(rx))
-                return true;
-        }
-        return false;
-    }
-    QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
-    if (!sourceIndex.isValid())
-        return true;
-    QString key = model->data(sourceIndex, roleKey(filterRole())).toString();
-    return key.contains(rx);
 }

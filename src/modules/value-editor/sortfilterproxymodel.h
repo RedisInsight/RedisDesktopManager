@@ -2,14 +2,12 @@
 
 #include <QtCore/qsortfilterproxymodel.h>
 #include <QtQml/qqmlparserstatus.h>
-#include <QtQml/qjsvalue.h>
 
 class SortFilterProxyModel : public QSortFilterProxyModel, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QObject *source READ source WRITE setSource)
 
     Q_PROPERTY(QByteArray sortRole READ sortRole WRITE setSortRole)
@@ -47,19 +45,13 @@ public:
     FilterSyntax filterSyntax() const;
     void setFilterSyntax(FilterSyntax syntax);
 
-    int count() const;
-    Q_INVOKABLE QJSValue get(int index) const;
-
     void classBegin();
     void componentComplete();
 
-signals:
-    void countChanged();
+    Q_INVOKABLE int getOriginalRowIndex(int i);
 
 protected:
     int roleKey(const QByteArray &role) const;
-    QHash<int, QByteArray> roleNames() const;
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
 private:
     bool m_complete;

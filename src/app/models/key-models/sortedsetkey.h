@@ -20,7 +20,7 @@ protected:
     void addLoadedRowsToCache(const QVariantList& list, int rowStart) override;
 
 private:
-    enum Roles { Value = Qt::UserRole + 1, Score, RowNumber};
+    enum Roles { Value = Qt::UserRole + 1, RowNumber, Score};
 
     bool addSortedSetRow(const QByteArray &value, QByteArray score);
     void deleteSortedSetRow(const QByteArray& value);

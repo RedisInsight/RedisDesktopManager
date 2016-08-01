@@ -303,13 +303,16 @@ Repeater {
                                 onReplaceTab: {
                                     console.log("replace tab")
                                     table.smodel = viewModel.getValue(tabIndex)
+                                    table.model.source = table.smodel
+                                    table.model.invalidate()
                                     table.forceLoading = false
                                     table.currentStart = 0
+                                    searchField.text = ""
 
                                     if (valueEditor.item)
                                         valueEditor.item.resetAndDisableEditor()
 
-                                    table.loadValue()
+                                    table.loadValue()                                    
                                 }
                             }
 
@@ -488,7 +491,11 @@ Repeater {
                                     } else {
                                         deleteRowConfirmation.text = "Do you relly want to remove this row?"
                                     }
-                                    deleteRowConfirmation.rowToDelete = table.currentRow
+
+                                    var rowIndex = table.model.getOriginalRowIndex(table.currentRow)
+                                    console.log("Original row index in model:", rowIndex)
+
+                                    deleteRowConfirmation.rowToDelete = rowIndex
                                     deleteRowConfirmation.open()
 
                                     Analytics.reportEvent("value-editor", "delete-row")
@@ -561,7 +568,7 @@ Repeater {
                             target: table
 
                             onActivated: {
-                                valueEditor.loadRowValue(row)
+                                valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
                             }
                         }
 
@@ -578,6 +585,11 @@ Repeater {
                                 target: viewModel
 
                                 onReplaceTab: {
+                                    valueEditor.source = Qt.binding(function() {
+                                        console.log("enforce editor change")
+                                        return Editor.getEditorByTypeString(keyType)
+                                    })
+
                                     if (showValueNavigation && keyIndex === index) {
                                         valueEditor.maxHeight = wrapper.height * 0.4
                                     } else {
@@ -607,6 +619,8 @@ Repeater {
 
                                     valueEditor.currentRow = row
                                     valueEditor.item.setValue(rowValue)
+                                } else {
+                                    console.log("cannot load row value - item is missing")
                                 }
                             }
 
@@ -639,8 +653,6 @@ Repeater {
 
                                     savingConfirmation.text = "Value was updated!"
                                     savingConfirmation.open()
-
-                                    Analytics.reportEvent("value-editor", "update-row")
                                 }
 
                             }

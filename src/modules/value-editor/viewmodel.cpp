@@ -256,8 +256,8 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
     } else {
         m_valueModels.insert(m_currentTabIndex, model);
         m_valueModels.removeAt(m_currentTabIndex+1);
-        emit replaceTab(m_currentTabIndex);
         emit dataChanged(index(m_currentTabIndex, 0), index(m_currentTabIndex, 0));
+        emit replaceTab(m_currentTabIndex);        
     }
 }
 
