@@ -99,6 +99,11 @@ void SortedSetKeyModel::removeRow(int i)
     setRemovedIfEmpty();
 }
 
+QStringList SortedSetKeyModel::exportAsCommands()
+{
+    return QStringList(); // TBD
+}
+
 bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, QByteArray score)
 {
     RedisClient::Response result;

@@ -1,4 +1,6 @@
 #include "binary.h"
+#include <QClipboard>
+#include <QApplication>
 #include <qredisclient/utils/text.h>
 
 bool BinaryUtils::isBinaryString(const QVariant &value)
@@ -69,4 +71,24 @@ QVariant BinaryUtils::toUtf(const QVariant &value)
     QByteArray val = value.toByteArray();
     QString result = QString::fromUtf8(val.constData(), val.size());
     return QVariant(result);
+}
+
+QString BinaryUtils::getPathFromUrl(const QUrl &url)
+{
+#ifdef Q_OS_WIN
+    return url.path().mid(1);
+#else
+    return url.path();
+#endif
+}
+
+void BinaryUtils::copyToClipboard(const QString &text)
+{
+    QClipboard* cb = QApplication::clipboard();
+
+    if (!cb)
+        return;
+
+    cb->clear();
+    cb->setText(text);
 }

@@ -49,6 +49,11 @@ void SetKeyModel::removeRow(int i)
     setRemovedIfEmpty();
 }
 
+QStringList SetKeyModel::exportAsCommands()
+{
+    return QStringList(); // TBD
+}
+
 void SetKeyModel::addSetRow(const QByteArray &value)
 {
     try {

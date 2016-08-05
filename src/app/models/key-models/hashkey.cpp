@@ -90,6 +90,11 @@ void HashKeyModel::removeRow(int i)
     setRemovedIfEmpty();
 }
 
+QStringList HashKeyModel::exportAsCommands()
+{
+    return QStringList(); // TBD
+}
+
 void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashValue,
                               bool updateIfNotExist)
 {

@@ -3,12 +3,14 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 
+import "./../common/"
+
 Dialog {
     id: root
     title: "Bulk Operations Manager"
     modality: Qt.ApplicationModal
 
-    property string operationName: "delete_keys"
+    property string operationName: bulkOperations.operationName
 
     standardButtons: StandardButton.NoButton
 
@@ -53,12 +55,16 @@ Dialog {
             State {
                 name: "delete_keys"
                 PropertyChanges { target: operationLabel; text: "Delete keys" }
+                PropertyChanges { target: actionButton; text: "Delete keys" }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: exportToFile; visible: false }
             },
             State {
-                name: "copy_keys"
-                PropertyChanges { target: operationLabel; text: "Copy keys" }
-                PropertyChanges { target: targetConnectionSettings; visible: true }
+                name: "text_export"
+                PropertyChanges { target: operationLabel; text: "Export Keys as Text Commands" }
+                PropertyChanges { target: actionButton; text: "Export keys" }
+                PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: exportToFile; visible: true }
             }
         ]
 
@@ -84,60 +90,25 @@ Dialog {
                     id: sourceConnectionSettings
                     columns: 2
 
-                    Label {
-                        text: "Redis Server:"
-                    }
+                    Label { text: "Redis Server:" }
+                    Label { text: bulkOperations.connectionName }
 
-                    Label {
-                        text: bulkOperations.connectionName
-                    }
+                    Label { text: "Database number:" }
+                    Label { text: bulkOperations.dbIndex }
 
-                    Label {
-                        text: "Database number:"
-                    }
-
-                    Label {
-                        text: bulkOperations.dbIndex
-                    }
-
-                    Label {
-                        text: "Key pattern:"
-                    }
-
-                    Label {
-                        text: bulkOperations.keyPattern
-                    }
-
-
+                    Label { text: "Key pattern:" }
+                    Label { text: bulkOperations.keyPattern }
                 }
-
 
                 GridLayout {
                     id: targetConnectionSettings
                     columns: 2
 
-                    Label {
-                        text: "Destination Redis Server:"
-                    }
-
-                    ComboBox {
-
-                    }
-
-                    Label {
-                        text: "Destination Redis Server Database Index:"
-                    }
-
-                    ComboBox {
-
-                    }
-
+                    // TODO: Implement UI for target connection
                 }
             }
 
-            Item {
-                Layout.preferredHeight: 10
-            }
+            Item { Layout.preferredHeight: 10 }
 
             ColumnLayout {
                 Layout.fillWidth: true
@@ -195,9 +166,20 @@ Dialog {
                 }
             }
 
-            Item {
-                Layout.fillHeight: true
+            RowLayout {
+                id: exportToFile
+
+                Layout.fillWidth: true
+
+                Label { text: "Export to file:" }
+
+                FilePathInput {
+                    id: exportFilePathField
+                    selectExisting: false
+                }
             }
+
+            Item { Layout.fillHeight: true }
 
             RowLayout {
                 Layout.fillWidth: true
@@ -205,8 +187,22 @@ Dialog {
                 Item { Layout.fillWidth: true; }
 
                 Button {
-                    text: "Delete Keys"
-                    onClicked: bulkConfirmation.open()
+                    id: actionButton
+                    onClicked: {
+
+                        if (root.operationName == "text_export") {
+                            if (!exportFilePathField.path) {
+                                bulkErrorNotification.title = "Validation Error"
+                                bulkErrorNotification.text = "Please select file for exported keys."
+                                bulkErrorNotification.open()
+                                return
+                            } else {
+                                bulkOperations.setOperationMetadata({"path": exportFilePathField.path})
+                            }
+                        }
+
+                        bulkConfirmation.open()
+                    }
                 }
 
                 Button {
@@ -228,9 +224,7 @@ Dialog {
                 BusyIndicator { anchors.centerIn: parent; running: true }
             }
 
-            MouseArea {
-                anchors.fill: parent
-            }
+            MouseArea { anchors.fill: parent }
         }
 
         MessageDialog {

@@ -29,6 +29,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
       m_parentView(nullptr)
 {        
     m_renderingSettings.nsSeparator = operations->getNamespaceSeparator();
+    m_renderingSettings.dbIndex = index;
 }
 
 DatabaseItem::~DatabaseItem()
@@ -127,6 +128,15 @@ QSharedPointer<QMenu> DatabaseItem::getContextMenu(TreeItem::ParentView& treeVie
 #endif
     ));
     menu->addSeparator();
+
+    menu->addAction(createMenuAction(":/images/export.png", "Export Keys as Commands", menu.data(), menu.data(),
+                                     [this]()
+    {
+        m_operations->exportKeysAsCommands(m_index, QString("*"));
+    }));
+
+    menu->addSeparator();
+
     menu->addSeparator();
     menu->addAction(createMenuAction(":/images/delete.png", "Flush database", menu.data(), this,
                                      [this, &treeView]

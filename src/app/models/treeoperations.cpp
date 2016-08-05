@@ -151,3 +151,9 @@ void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> ca
         throw ConnectionsTree::Operations::Exception("FlushDB error: " + QString(e.what()));
     }
 }
+
+void TreeOperations::exportKeysAsCommands(int dbIndex, QString pattern)
+{
+    QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+    emit m_manager.requestBulkOperation(m_connection, dbIndex, BulkOperations::Manager::Operation::TEXT_EXPORT, filter);
+}

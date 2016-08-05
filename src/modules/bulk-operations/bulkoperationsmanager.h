@@ -12,18 +12,19 @@
 
 namespace BulkOperations {
 
-    class CurrentOperation;
+    class AbstractOperation;
 
     class Manager : public QObject
     {
         Q_OBJECT
 
+        Q_PROPERTY(QString operationName READ operationName NOTIFY operationNameChanged)
         Q_PROPERTY(QString connectionName READ connectionName NOTIFY connectionNameChanged)
         Q_PROPERTY(int dbIndex READ dbIndex NOTIFY dbIndexChanged)
         Q_PROPERTY(QString keyPattern READ keyPattern NOTIFY keyPatternChanged)
         Q_PROPERTY(int operationProgress READ operationProgress NOTIFY operationProgressChanged)
     public:
-        enum class Operation { DELETE_KEYS, COPY_KEYS };
+        enum class Operation { DELETE_KEYS, TEXT_EXPORT };
 
     public:
         Manager(QSharedPointer<ConnectionsModel> model);
@@ -36,7 +37,10 @@ namespace BulkOperations {
         Q_INVOKABLE void notifyAboutOperationSuccess();
         Q_INVOKABLE QVariant getTargetConnections();
 
+        Q_INVOKABLE void setOperationMetadata(const QVariantMap& meta);
+
         // Property getters
+        QString operationName() const;
         QString connectionName() const;
         int dbIndex() const;
         QString keyPattern() const;
@@ -46,9 +50,10 @@ namespace BulkOperations {
         void openDialog(const QString& operationName);
         void affectedKeys(QVariant r);
         void operationFinished();
-        void error(QString e);
+        void error(const QStringList& e);
 
         // Property notifiers
+        void operationNameChanged();
         void connectionNameChanged();
         void dbIndexChanged();
         void keyPatternChanged();
@@ -59,7 +64,7 @@ namespace BulkOperations {
                                   Operation op, QRegExp keyPattern, std::function<void()> callback);
 
     private:                
-        QSharedPointer<CurrentOperation> m_operation;
+        QSharedPointer<AbstractOperation> m_operation;
         QSharedPointer<ConnectionsModel> m_model;
     };
 }

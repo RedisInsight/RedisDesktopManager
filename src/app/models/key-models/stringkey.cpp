@@ -93,3 +93,8 @@ void StringKeyModel::removeRow(int)
     m_rowCount--;
     setRemovedIfEmpty();
 }
+
+QStringList StringKeyModel::exportAsCommands()
+{
+    return QStringList() << QString("FAKE"); // TBD
+}

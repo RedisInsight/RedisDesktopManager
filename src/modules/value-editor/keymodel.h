@@ -51,6 +51,8 @@ public:
     virtual QSharedPointer<RedisClient::Connection> getConnection() const = 0;
     virtual unsigned int dbIndex() const = 0;
 
+    virtual QStringList exportAsCommands() = 0;
+
     virtual ~Model() {}
 };
 

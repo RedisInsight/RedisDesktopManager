@@ -2,6 +2,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QVariantList>
+#include <QUrl>
 
 class BinaryUtils : public QObject
 {
@@ -15,4 +16,7 @@ public:
     Q_INVOKABLE QVariant printable(const QVariant &value);
     Q_INVOKABLE QVariant printableToValue(const QVariant &printable);
     Q_INVOKABLE QVariant toUtf(const QVariant &value);
+
+    Q_INVOKABLE QString getPathFromUrl(const QUrl &url);
+    Q_INVOKABLE void copyToClipboard(const QString &text);
 };

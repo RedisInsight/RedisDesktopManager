@@ -30,6 +30,7 @@ SOURCES += \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
     $$PWD/modules/bulk-operations/*.cpp \
+    $$PWD/modules/bulk-operations/operations/*.cpp \
 
 HEADERS  += \
     $$PWD/app/dialogs/*.h \
@@ -44,6 +45,7 @@ HEADERS  += \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \    
     $$PWD/modules/bulk-operations/*.h \
+    $$PWD/modules/bulk-operations/operations/*.h \
 
 exists( $$PWD/version.h ) {
     HEADERS  += $$PWD/version.h

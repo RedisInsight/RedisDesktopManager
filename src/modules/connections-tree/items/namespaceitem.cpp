@@ -43,16 +43,27 @@ bool NamespaceItem::onClick(TreeItem::ParentView&)
     return true;
 }
 
-QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView&)
+QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView& treeview)
 {
     QSharedPointer<QMenu> menu(new QMenu());
 
     if (!isEnabled())
         return menu;
 
-    menu->addAction(createMenuAction(":/images/delete.png", "Delete namespace",
-                                     menu.data(), this,
-                                     [this](){ m_operations->deleteDbNamespace(*this); }));
+    menu->addAction(createMenuAction(":/images/export.png", "Export Keys as Commands", menu.data(), menu.data(),
+                                     [this]()
+    {
+        m_operations->exportKeysAsCommands(getDbIndex(),
+                                           QString("%1:*").arg(QString::fromUtf8(getFullPath())));
+    }));
+
+    menu->addSeparator();
+
+    menu->addAction(createMenuAction(":/images/delete.png", "Delete namespace", menu.data(), menu.data(),
+                                     [this]()
+    {        
+        m_operations->deleteDbNamespace(*this);
+    }));
 
     return menu;
 }

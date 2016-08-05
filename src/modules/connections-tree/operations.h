@@ -59,6 +59,8 @@ namespace ConnectionsTree {
 
         virtual void flushDb(int dbIndex, std::function<void(const QString&)> callback) = 0;
 
+        virtual void exportKeysAsCommands(int dbIndex, QString pattern) = 0;
+
         virtual ~Operations() {}
 
     };

@@ -14,6 +14,8 @@ public:
     virtual void updateRow(int rowIndex, const QVariantMap &) override;
     void removeRow(int) override;
 
+    QStringList exportAsCommands() override;
+
 private:       
     bool isActualPositionChanged(int row);
     void addListRow(const QByteArray &value);

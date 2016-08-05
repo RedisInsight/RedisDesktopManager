@@ -61,6 +61,11 @@ void ListKeyModel::removeRow(int i)
     }
 }
 
+QStringList ListKeyModel::exportAsCommands()
+{
+    return QStringList(); // TBD
+}
+
 bool ListKeyModel::isActualPositionChanged(int row)
 {
     using namespace RedisClient;

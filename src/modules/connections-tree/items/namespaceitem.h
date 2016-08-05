@@ -19,7 +19,7 @@ namespace ConnectionsTree {
         QIcon getIcon() const override;       
 
         bool onClick(ParentView& treeView) override;
-        QSharedPointer<QMenu> getContextMenu(ParentView& treeView) override;
+        QSharedPointer<QMenu> getContextMenu(ParentView& treeview) override;
 
         bool isLocked() const override;
         bool isEnabled() const override;
@@ -33,6 +33,6 @@ namespace ConnectionsTree {
     private:
         QString m_fullPath;        
         QString m_displayName;                           
-        bool m_removed;        
+        bool m_removed;
     };
 }

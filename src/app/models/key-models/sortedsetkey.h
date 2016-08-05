@@ -16,6 +16,8 @@ public:
     virtual void updateRow(int rowIndex, const QVariantMap &) override;
     void removeRow(int) override;
 
+    QStringList exportAsCommands() override;
+
 protected:
     void addLoadedRowsToCache(const QVariantList& list, int rowStart) override;
 
