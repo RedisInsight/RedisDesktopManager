@@ -29,6 +29,7 @@ SOURCES += \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
     $$PWD/modules/bulk-operations/*.cpp \
+    $$PWD/modules/bulk-operations/operations/*.cpp \
     $$PWD/modules/common/*.cpp \
     $$PWD/modules/server-stats/*.cpp \
 
@@ -46,6 +47,7 @@ HEADERS  += \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \
     $$PWD/modules/bulk-operations/*.h \
+    $$PWD/modules/bulk-operations/operations/*.h \
     $$PWD/modules/common/*.h \
     $$PWD/modules/server-stats/*.h \
 
@@ -95,24 +97,24 @@ unix:!macx { # ubuntu & debian
 
     QTPLUGIN += qsvg qsvgicon
 
-    QMAKE_CXXFLAGS += -Wno-sign-compare    
+    QMAKE_CXXFLAGS += -Wno-sign-compare
 
     release: DESTDIR = $$PWD/../bin/linux/release
     debug:   DESTDIR = $$PWD/../bin/linux/debug
 
     #deployment
     LINUX_INSTALL_PATH = /opt/redis-desktop-manager
-    
+
     target.path = $$LINUX_INSTALL_PATH
     target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter $$PWD/resources/rdm.sh
     INSTALLS += target
-    
+
     exists( $$PWD/resources/qt.conf ) {
        appconfig.path = $$LINUX_INSTALL_PATH
        appconfig.files = $$PWD/resources/qt.conf
        INSTALLS += appconfig
     }
-    
+
     data.path = $$LINUX_INSTALL_PATH/lib
     data.files = $$PWD/lib/*
     INSTALLS += data

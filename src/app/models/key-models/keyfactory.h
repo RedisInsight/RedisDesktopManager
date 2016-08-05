@@ -7,7 +7,7 @@ class KeyFactory : public QObject, public ValueEditor::AbstractKeyFactory
     Q_OBJECT
     ADD_EXCEPTION
 public:
-    KeyFactory();
+    KeyFactory(bool loadTTL = true);
 
     void loadKey(QSharedPointer<RedisClient::Connection> connection,
                  QByteArray keyFullPath, int dbIndex,
@@ -20,6 +20,8 @@ public:
 private:
     QSharedPointer<ValueEditor::Model> createModel(QString type, QSharedPointer<RedisClient::Connection> connection,
                                                    QByteArray keyFullPath, int dbIndex, long long ttl);
+
+    bool m_loadTTL;
 };
 
 

@@ -3,12 +3,14 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 
+import "./../common/"
+
 Dialog {
     id: root
     title: qsTr("Bulk Operations Manager")
     modality: Qt.ApplicationModal
 
-    property string operationName: "delete_keys"
+    property string operationName: bulkOperations.operationName
 
     standardButtons: StandardButton.NoButton
 
@@ -26,21 +28,21 @@ Dialog {
         }
     }
 
-//    Timer {
-//        id: ignoreCloseTimer
-//        repeat: false
-//        interval: 100
-//        onTriggered: {
-//            open()
-//        }
-//    }
+    //    Timer {
+    //        id: ignoreCloseTimer
+    //        repeat: false
+    //        interval: 100
+    //        onTriggered: {
+    //            open()
+    //        }
+    //    }
 
-//    onVisibleChanged: {
-//        if (visible === false) {
-//            console.log("ignore", visible)
-//            ignoreCloseTimer.start()
-//        }
-//    }
+    //    onVisibleChanged: {
+    //        if (visible === false) {
+    //            console.log("ignore", visible)
+    //            ignoreCloseTimer.start()
+    //        }
+    //    }
 
     contentItem: Item {
         implicitWidth: 800
@@ -52,12 +54,16 @@ Dialog {
             State {
                 name: "delete_keys"
                 PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
+                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: exportToFile; visible: false }
             },
             State {
-                name: "copy_keys"
-                PropertyChanges { target: operationLabel; text: qsTr("Copy keys") }
-                PropertyChanges { target: targetConnectionSettings; visible: true }
+                name: "text_export"
+                PropertyChanges { target: operationLabel; text: qsTr("Export Keys as Text Commands") }
+                PropertyChanges { target: actionButton; text: qsTr("Export keys") }
+                PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: exportToFile; visible: true }
             }
         ]
 
@@ -106,10 +112,7 @@ Dialog {
                     Label {
                         text: bulkOperations.keyPattern
                     }
-
-
                 }
-
 
                 GridLayout {
                     id: targetConnectionSettings
@@ -126,17 +129,9 @@ Dialog {
                     Label {
                         text: qsTr("Destination Redis Server Database Index:")
                     }
-
-                    ComboBox {
-
-                    }
-
                 }
             }
-
-            Item {
-                Layout.preferredHeight: 10
-            }
+            Item { Layout.preferredHeight: 10 }
 
             ColumnLayout {
                 Layout.fillWidth: true
@@ -194,8 +189,16 @@ Dialog {
                 }
             }
 
-            Item {
-                Layout.fillHeight: true
+            RowLayout {
+                id: exportToFile
+
+                Layout.fillWidth: true
+
+                Label { text: "Export to file:" }
+
+                FilePathInput {
+                    id: exportFilePathField
+                }
             }
 
             RowLayout {
@@ -204,8 +207,22 @@ Dialog {
                 Item { Layout.fillWidth: true; }
 
                 Button {
-                    text: qsTr("Delete Keys")
-                    onClicked: bulkConfirmation.open()
+                    id: actionButton
+                    onClicked: {
+
+                        if (root.operationName == "text_export") {
+                            if (!exportFilePathField.path) {
+                                bulkErrorNotification.title = "Validation Error"
+                                bulkErrorNotification.text = "Please select file for exported keys."
+                                bulkErrorNotification.open()
+                                return
+                            } else {
+                                bulkOperations.setOperationMetadata({"path": exportFilePathField.path})
+                            }
+                        }
+
+                        bulkConfirmation.open()
+                    }
                 }
 
                 Button {
@@ -227,9 +244,7 @@ Dialog {
                 BusyIndicator { anchors.centerIn: parent; running: true }
             }
 
-            MouseArea {
-                anchors.fill: parent
-            }
+            MouseArea { anchors.fill: parent }
         }
 
         MessageDialog {
@@ -275,3 +290,4 @@ Dialog {
         }
     }
 }
+

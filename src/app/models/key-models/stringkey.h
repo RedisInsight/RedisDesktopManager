@@ -17,6 +17,8 @@ public:
     void loadRows(unsigned long, unsigned long, std::function<void(const QString&)> callback) override;
     void removeRow(int) override;       
 
+    QStringList exportAsCommands() override;
+
 protected:
     void addLoadedRowsToCache(const QVariantList&, int) override {}
 

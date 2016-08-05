@@ -33,7 +33,7 @@ namespace ConnectionsTree {
          * @param dbIndex
          * @param filter
          * @param callback
-         */        
+         */
         virtual void loadNamespaceItems(QSharedPointer<AbstractNamespaceItem> parent,
                                         const QString& filter,
                                         std::function<void(const QString& err)> callback) = 0;
@@ -72,6 +72,8 @@ namespace ConnectionsTree {
         virtual QString mode() = 0;
 
         virtual bool isConnected() const = 0;
+
+        virtual void exportKeysAsCommands(int dbIndex, QString pattern) = 0;
 
         virtual ~Operations() {}
 

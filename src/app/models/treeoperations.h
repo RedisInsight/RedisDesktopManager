@@ -53,6 +53,8 @@ public:
 
     void setConnection(QSharedPointer<RedisClient::Connection> c);
 
+    virtual void exportKeysAsCommands(int dbIndex, QString pattern) override;
+
 private:
      QSharedPointer<RedisClient::Connection> m_connection;
      ConnectionsManager& m_manager;

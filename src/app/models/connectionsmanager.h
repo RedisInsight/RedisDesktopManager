@@ -64,7 +64,7 @@ signals:
 
     void requestBulkOperation(QSharedPointer<RedisClient::Connection> connection,
                               int dbIndex, BulkOperations::Manager::Operation op,
-                              QRegExp keyPattern, std::function<void()> callback);
+                              QRegExp keyPattern, std::function<void()> callback=std::function<void()>());
 
 private:
      QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);     

@@ -2,7 +2,8 @@
 #include <QDebug>
 #include <qredisclient/connection.h>
 
-#include "bulkoperation.h"
+#include "operations/deleteoperation.h"
+#include "operations/textexportoperation.h"
 
 BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model)
     : QObject(nullptr),
@@ -26,7 +27,7 @@ bool BulkOperations::Manager::clearOperation()
     if (!hasOperation())
         return true;
 
-    if (m_operation->m_currentState == CurrentOperation::State::RUNNING) {
+    if (m_operation->isRunning()) {
         return false;
     }
 
@@ -39,18 +40,13 @@ void BulkOperations::Manager::runOperation(int, int)
     if (!hasOperation())
         return;
 
-    m_operation->run([this](RedisClient::Response r, QString e){
-        if (!e.isEmpty()) {
+    m_operation->run([this](long processed, const QStringList& e){
+        if (e.size() > 0) {
             emit error(e);
-            return;
         }
 
-        if (r.isErrorMessage()) {
-            emit error(QString(QObject::tr("Bulk operation error: %1")).arg(r.getValue().toString()));
-            return;
-        }
-
-        emit operationFinished();
+        if (processed > 0)
+            emit operationFinished();
     });
 }
 
@@ -61,7 +57,9 @@ void BulkOperations::Manager::getAffectedKeys()
 
     m_operation->getAffectedKeys([this](QVariant r, QString e){
         if (!e.isEmpty()) {
-            emit error(e);
+            QStringList errors;
+            errors << e;
+            emit error(errors);
             return;
         }
 
@@ -80,12 +78,26 @@ QVariant BulkOperations::Manager::getTargetConnections()
     return QVariant(m_model->getConnections());
 }
 
+void BulkOperations::Manager::setOperationMetadata(const QVariantMap &meta)
+{
+    if (hasOperation())
+        m_operation->setMetadata(meta);
+}
+
+QString BulkOperations::Manager::operationName() const
+{
+    if (!hasOperation())
+        return QString();
+
+    return m_operation->getTypeName();
+}
+
 QString BulkOperations::Manager::connectionName() const
 {
     if (!hasOperation())
         return QString();
 
-    return m_operation->m_connection->getConfig().name();
+    return m_operation->getConnection()->getConfig().name();
 }
 
 int BulkOperations::Manager::dbIndex() const
@@ -93,7 +105,7 @@ int BulkOperations::Manager::dbIndex() const
     if (!hasOperation())
         return -1;
 
-    return m_operation->m_dbIndex;
+    return m_operation->getDbIndex();
 }
 
 QString BulkOperations::Manager::keyPattern() const
@@ -101,7 +113,7 @@ QString BulkOperations::Manager::keyPattern() const
     if (!hasOperation())
         return QString();
 
-    return m_operation->m_keyPattern.pattern();
+    return m_operation->getKeyPattern().pattern();
 }
 
 int BulkOperations::Manager::operationProgress() const
@@ -109,7 +121,7 @@ int BulkOperations::Manager::operationProgress() const
     if (!hasOperation())
         return -1;
 
-    return m_operation->m_progress;
+    return m_operation->currentProgress();
 }
 
 void BulkOperations::Manager::requestBulkOperation(QSharedPointer<RedisClient::Connection> connection,
@@ -121,12 +133,18 @@ void BulkOperations::Manager::requestBulkOperation(QSharedPointer<RedisClient::C
         return;
     }
 
-    m_operation = QSharedPointer<BulkOperations::CurrentOperation>(
-                new BulkOperations::CurrentOperation(connection, dbIndex, op, keyPattern));
+    if (op == Operation::DELETE_KEYS) {
+        m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
+                    new BulkOperations::DeleteOperation(connection, dbIndex, keyPattern));
+    } else if (op == Operation::TEXT_EXPORT) {
+        m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
+                    new BulkOperations::TextExportOperation(connection, dbIndex, keyPattern));
+    }
 
-    QObject::connect(m_operation.data(), &BulkOperations::CurrentOperation::notifyCallerAboutSuccess, this,
-                     [callback]() { callback(); });
+    QObject::connect(m_operation.data(), &BulkOperations::AbstractOperation::notifyCallerAboutSuccess, this,
+                     [callback]() { if (callback) callback(); });
 
+    emit operationNameChanged();
     emit connectionNameChanged();
     emit dbIndexChanged();
     emit keyPatternChanged();

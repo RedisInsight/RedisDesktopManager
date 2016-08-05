@@ -10,7 +10,8 @@
 #include "rejsonkey.h"
 #include <QObject>
 
-KeyFactory::KeyFactory()
+KeyFactory::KeyFactory(bool loadTTL)
+    : m_loadTTL(loadTTL)
 {}
 
 void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
@@ -19,12 +20,14 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
 {
     RedisClient::Command typeCmd({"type", keyFullPath}, this,
                                  [this, connection, keyFullPath, dbIndex, callback]
-                                 (RedisClient::Response resp, QString)
+                                 (RedisClient::Response resp, const QString& e)
     {
 
         QSharedPointer<ValueEditor::Model> result;
 
-        if (resp.isErrorMessage() || resp.getType() != RedisClient::Response::Type::Status) {            
+        if (resp.isErrorMessage()
+                || resp.getType() != RedisClient::Response::Type::Status
+                || !e.isEmpty()) {
             QString msg(QObject::tr("Cannot load key %1, connection error occurred: %2"));
             callback(result, msg.arg(printableString(keyFullPath)).arg(resp.toRawString()));
             return;
@@ -39,20 +42,22 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
             return;
         }
 
-        RedisClient::Response ttlResult;
-
-        try {
-            ttlResult = connection->commandSync({"ttl", keyFullPath}, dbIndex);
-        } catch (const RedisClient::Connection::Exception& e) {
-            QString msg(QObject::tr("Cannot load TTL for key %1, connection error occurred: %2"));
-            callback(result, msg.arg(printableString(keyFullPath)).arg(QString(e.what())));
-            return;
-        }
-
         long long ttl = -1;
 
-        if (ttlResult.getType() == RedisClient::Response::Integer) {
-            ttl = ttlResult.getValue().toLongLong();
+        if (m_loadTTL) {
+            RedisClient::Response ttlResult;
+
+            try {
+                ttlResult = connection->commandSync({"ttl", keyFullPath}, dbIndex);
+            } catch (const RedisClient::Connection::Exception& e) {
+                QString msg(QObject::tr("Cannot load TTL for key %1, connection error occurred: %2"));
+                callback(result, msg.arg(printableString(keyFullPath)).arg(QString(e.what())));
+                return;
+            }
+
+            if (ttlResult.getType() == RedisClient::Response::Integer) {
+                ttl = ttlResult.getValue().toLongLong();
+            }
         }
 
         result = createModel(type, connection, keyFullPath, dbIndex, ttl);
