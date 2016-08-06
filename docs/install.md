@@ -42,7 +42,7 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 2. Get source code:
  
 ```bash
-git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0 rdm && cd ./rdm
+git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.7 --depth=1 rdm && cd ./rdm
 ```
 
 ### Build on Linux
