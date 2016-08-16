@@ -29,6 +29,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
       m_parentView(nullptr)
 {        
     m_renderingSettings.nsSeparator = operations->getNamespaceSeparator();
+    m_renderingSettings.dbIndex = index;
 }
 
 DatabaseItem::~DatabaseItem()
