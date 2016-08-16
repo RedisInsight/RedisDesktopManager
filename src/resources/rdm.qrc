@@ -49,5 +49,6 @@
         <file>qml/parts/RichTextWithLinks.qml</file>
         <file>qml/3rdparty/php-unserialize-js/phpUnserialize.js</file>
         <file>qml/bulk-operations/BulkOperationsDialog.qml</file>
+        <file>qml/editors/formatters/json-tools.js</file>
     </qresource>
 </RCC>

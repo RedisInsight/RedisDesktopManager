@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationDomain("redisdesktop.com");
     QApplication::setOrganizationName("redisdesktop");
     
-    QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttf");
+    QFontDatabase::addApplicationFont("://fonts/OpenSans.ttc");
     QFont defaultFont("OpenSans", 10);
     QApplication::setFont(defaultFont);
 
