@@ -1,6 +1,7 @@
 .import "./msgpack.js" as MsgPack
 .import "./hexy.js" as Hexy
 .import "./php-unserialize.js" as PHPUnserialize
+.import "./json-tools.js" as JSONFormatter
 
 /**
   Plain formatter
@@ -74,11 +75,8 @@ var json = {
     htmlOutput: false,
 
     getFormatted: function (raw) {
-
-        try {
-            var parsed = JSON.parse(raw)
-            return JSON.stringify(parsed, undefined, 4)
-
+        try {            
+            return JSONFormatter.prettyPrint(raw)
         } catch (e) {
             return "Error: Invalid JSON"
         }
@@ -95,9 +93,7 @@ var json = {
 
     getRaw: function (formatted) {        
         try {
-            var parsed = JSON.parse(formatted)
-            return JSON.stringify(parsed)
-
+            return JSONFormatter.minify(formatted)
         } catch (e) {
             return formatted
         }
@@ -180,6 +176,11 @@ var enabledFormatters = [plain, json, msgpack, hex, hexTable, phpserialized]
 
 function guessFormatter(isBinary, value)
 {
+    // NOTE(u_glide): Use hex or plain formatter if value is large
+    if (binaryUtils.binaryStringLength(value) > 100000) {
+        return isBinary? 3 : 0
+    }
+
     var tryFormatters = isBinary? [2, 5, 3, 4] : [1, 5, 2]
 
     for (var index in tryFormatters) {

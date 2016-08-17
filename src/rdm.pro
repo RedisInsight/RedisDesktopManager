@@ -60,6 +60,10 @@ win32 {
     CONFIG += c++11
     RC_FILE += $$PWD/resources/rdm.rc
 
+    win32-msvc* {
+        QMAKE_LFLAGS += /LARGEADDRESSAWARE
+    }
+
     release: DESTDIR = ./../bin/windows/release
     debug:   DESTDIR = ./../bin/windows/debug
 }

@@ -13,6 +13,14 @@ Rectangle {
     color: "transparent"
     property var currentValueFormatter
 
+    FontLoader {
+        id: monospacedFont
+        Component.onCompleted: {
+            source = "qrc:/fonts/Inconsolata-Regular.ttf"
+        }
+     }
+
+
     TabView {
         id: tabs
         objectName: "rdm_qml_tabs" 
