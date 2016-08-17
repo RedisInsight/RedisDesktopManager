@@ -143,7 +143,7 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
 
     auto index = getIndexFromItem(item);
 
-    if (!index.isValid())
+    if (!index.isValid() || item.toStrongRef()->childCount() == 0)
         return;
 
     emit beginInsertRows(index, 0, item.toStrongRef()->childCount() - 1);
