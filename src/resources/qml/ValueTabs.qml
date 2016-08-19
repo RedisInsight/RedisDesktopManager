@@ -438,8 +438,8 @@ Repeater {
                                     id: addRowDialog
                                     title: "Add Row"
 
-                                    width: 520
-                                    height: 300
+                                    width: 550
+                                    height: 400
                                     modality: Qt.ApplicationModal
 
                                     Loader {
