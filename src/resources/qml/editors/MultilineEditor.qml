@@ -43,6 +43,7 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
+        TextEdit { text: "size in bytes: " + binaryUtils.binaryStringLength(value); readOnly: true; color: "#ccc"  }
         Text { id: binaryFlag; text: "[Binary]"; visible: false; color: "green"; }
         Text { id: compressedFlag; text: "[GZIP compressed]"; visible: false; color: "red"; } // TBD
         Item { Layout.fillWidth: true }
