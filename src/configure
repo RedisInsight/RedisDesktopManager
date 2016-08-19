@@ -41,7 +41,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
 
         sudo apt-get update -y
         sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools \
-            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols qt${RDM_QT_VERSION:0:2}script qt${RDM_QT_VERSION:0:2}quick1 -y
+            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols -y
     fi
 
     print_title "Check deps"
