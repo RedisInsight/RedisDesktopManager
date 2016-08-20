@@ -27,6 +27,8 @@ After installation Redis Desktop Manager will be available in main menu.
 ## CentOS
 [Build from source](install.md#build-on-linux) with automated bash script
 
+## OpenSUSE
+[Build from source](install.md#build-on-linux) with automated bash script
 
 ## ArchLinux
 Package - [https://aur.archlinux.org/packages/redis-desktop-manager/](https://aur.archlinux.org/packages/redis-desktop-manager/)
@@ -50,17 +52,17 @@ git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0
 ```bash
 cd src/
 ./configure
-source /opt/qt55/bin/qt55-env.sh && make && sudo make install
+source /opt/qt56/bin/qt56-env.sh && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
-mv qt.conf qt.backup
+sudo mv qt.conf qt.backup
 ```
-#### Fedora & CentOS
+#### Fedora & CentOS & OpenSUSE
 ```bash
 cd src/
 ./configure
 qmake-qt5 && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
-mv qt.conf qt.backup
+sudo mv qt.conf qt.backup
 ```
 
 
