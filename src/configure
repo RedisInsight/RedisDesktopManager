@@ -20,6 +20,13 @@ if [ "$1" == "breakpad" ]; then
     exit 0
 fi
 
+if [ "$1" == "libssh2" ]; then
+    print_title "Build only libssh2"
+    build_libssh2
+    exit 0
+fi
+
+
 if [ "$os_VENDOR" == "Ubuntu" ]; then
     ubuntu_ver=${os_RELEASE:0:2}
     print_title "Build RDM on Ubuntu: $ubuntu_ver"
@@ -46,9 +53,10 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
 
     print_title "Check deps"
     sudo apt-get install automake libtool libssl-dev \
-        libssh2-1-dev g++ libgl1-mesa-dev -y
+        libssh2-1-dev g++ libgl1-mesa-dev cmake -y
 
     build_breakpad
+    build_libssh2
 
     print_title "Run: source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
     
@@ -58,7 +66,7 @@ elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && "$os_RELEAS
     print_title "Check deps"
     sudo yum install libssh2 libssh2-devel qt5-qtbase qt5-qtsvg-devel \
         qt5-qtdeclarative-devel qt5-qtgraphicaleffects qt5-qtquickcontrols  \
-        qt5-qttools gcc gcc-c++ libstdc++-static git rsync \
+        qt5-qttools gcc gcc-c++ libstdc++-static git cmake rsync \
         redhat-rpm-config -y
 
     if [[ $? == 1 && "$os_VENDOR" == "CentOS" ]]; then
@@ -68,6 +76,7 @@ elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && "$os_RELEAS
     fi
 
     build_breakpad
+    build_libssh2
 
     print_title "Run: qmake-qt5 && make "
     
@@ -76,9 +85,10 @@ elif [  "$os_VENDOR" == "openSUSE" ]; then
     sudo zypper install -y libopenssl-devel libssh2-devel \
         libX11-devel gcc gcc-c++ libstdc++-devel libqt5-qtbase-common-devel libqt5-qtquick1-devel \
         libqt5-qtdeclarative-devel libqt5-qtimageformats libqt5-qtquickcontrols \
-        libQt5Concurrent-devel automake
+        libQt5Concurrent-devel automake cmake \
 
     build_breakpad
+    build_libssh2
 
     print_title "Run: qmake-qt5 && make "
 
