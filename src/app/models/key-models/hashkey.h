@@ -20,7 +20,7 @@ protected:
     void addLoadedRowsToCache(const QVariantList& list, int rowStart) override;
 
 private:
-    enum Roles { Value = Qt::UserRole + 1, RowNumber, Key};
+    enum Roles { RowNumber = Qt::UserRole + 1, Key, Value};
 
     void setHashRow(const QByteArray &hashKey, const QByteArray &hashValue, bool updateIfNotExist = true);
     void deleteHashRow(const QByteArray& hashKey);

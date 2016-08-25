@@ -89,7 +89,7 @@ QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
         case keyNameRole: return model->getKeyName();
         case keyDisplayName: return model->getKeyTitle();
         case keyTTL: return model->getTTL();
-        case keyType: return model->getType();        
+        case keyType: return model->getType();                
         case showValueNavigation: return model->isMultiRow();
         case columnNames: return QVariant(model->getColumnNames()).toList();
         case count: return static_cast<qulonglong>(model->rowsCount());
@@ -108,8 +108,7 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     roles[keyType] = "keyType";    
     roles[showValueNavigation] = "showValueNavigation";
     roles[columnNames] = "columnNames";
-    roles[count] = "valuesCount";
-    roles[keyValue] = "keyValue";
+    roles[count] = "valuesCount";    
     return roles;
 }
 
@@ -206,7 +205,7 @@ void ValueEditor::ViewModel::setCurrentTab(int i)
     m_currentTabIndex = i;
 }
 
-QObject* ValueEditor::ViewModel::getValue(int i)
+QObject* ValueEditor::ViewModel::getValue(int i) const
 {
     if (!isIndexValid(index(i, 0)))
         return nullptr;
@@ -214,7 +213,6 @@ QObject* ValueEditor::ViewModel::getValue(int i)
     auto model = m_valueModels.at(i);
 
     QList<QObject *> valueEditors = model->getConnector()->findChildren<QObject *>();
-
 
     if (valueEditors.isEmpty())
         return new ValueEditor::ValueViewModel(model);
@@ -257,7 +255,7 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
         m_valueModels.insert(m_currentTabIndex, model);
         m_valueModels.removeAt(m_currentTabIndex+1);
         emit dataChanged(index(m_currentTabIndex, 0), index(m_currentTabIndex, 0));
-        emit replaceTab(m_currentTabIndex);        
+        emit replaceTab(m_currentTabIndex);
     }
 }
 

@@ -37,11 +37,43 @@ Repeater {
             return keyTitle.substring(0, limit/2) + "..." + keyTitle.substring(keyTitle.length - limit/2)
 
         }
-        property int tabIndex: keyIndex
+        property int tabIndex: keyIndex        
         property var table
+        property var valueEditor
+        property var searchModel
+
+        property variant keyModel: keyName ? viewModel.getValue(tabIndex) : null
+
+        onKeyModelChanged: {
+            // On tab reload
+            if (keyModel && table) {
+                table.forceLoading = false
+                table.currentStart = 0
+                table.searchField.text = ""
+
+                if (valueEditor.item)
+                    valueEditor.item.resetAndDisableEditor()                
+
+                table.loadValue()
+            }
+        }
+
+        property Component searchModelComponent: Component {
+            SortFilterProxyModel {
+                source: keyTab.keyModel
+                sortOrder: table.sortIndicatorOrder
+                sortCaseSensitivity: Qt.CaseInsensitive
+                sortRole: keyTab.keyModel ? table.getColumn(table.sortIndicatorColumn).role : ""
+
+                filterString: "*" + table.searchField.text + "*"
+                filterSyntax: SortFilterProxyModel.Wildcard
+                filterCaseSensitivity: Qt.CaseInsensitive
+                filterRole: keyTab.keyModel ? table.getColumn(1).role : ""
+            }
+        }
 
         Keys.onPressed: {
-            if (!table)
+            if (!keyModel)
                 return
 
             var reloadKey = event.key == Qt.Key_F5
@@ -50,7 +82,7 @@ Repeater {
 
             if (reloadKey) {
                 console.log("Reload")
-                table.smodel.reload()
+                keyModel.reload()
             }
         }
 
@@ -92,7 +124,7 @@ Repeater {
                     }
 
                     Item { visible: showValueNavigation; Layout.preferredWidth: 5}
-                    Text { visible: showValueNavigation; text: "Size: "+ table.smodel.totalRowCount() }
+                    Text { visible: showValueNavigation; text: "Size: "+ valuesCount }
                     Item { Layout.preferredWidth: 5}
                     Text { text: "TTL:"; font.bold: true }
                     Text { text: keyTtl}
@@ -239,6 +271,9 @@ Repeater {
 
                         TableView {
                             id: table
+
+                            property var searchField
+
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             Layout.minimumHeight: 100
@@ -247,28 +282,14 @@ Repeater {
 
                             TableViewColumn{ width: 50 }
                             TableViewColumn{ width: 150 }
-                            TableViewColumn{ width: table.width - 200}
+                            TableViewColumn{ width: table.width - 200}                            
 
-                            property variant smodel: viewModel.getValue(tabIndex)
-
-                            model: SortFilterProxyModel {
-                                id: searchModel
-                                source: table.smodel ? table.smodel : null
-
-                                sortOrder: table.sortIndicatorOrder
-                                sortCaseSensitivity: Qt.CaseInsensitive
-                                sortRole: table.smodel ? table.getColumn(table.sortIndicatorColumn).role : ""
-
-                                filterString: "*" + searchField.text + "*"
-                                filterSyntax: SortFilterProxyModel.Wildcard
-                                filterCaseSensitivity: Qt.CaseInsensitive
-                                filterRole: table.smodel ? table.getColumn(1).role : ""
-                            }
+                            model: searchModel ? searchModel : null
 
                             property int currentStart: 0
-                            property int maxItemsOnPage: smodel? smodel.pageSize() : 100
+                            property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize() : 100
                             property int currentPage: currentStart / maxItemsOnPage + 1
-                            property int totalPages: Math.ceil(table.smodel.totalRowCount() / maxItemsOnPage)
+                            property int totalPages: Math.ceil(keyTab.keyModel.totalRowCount() / maxItemsOnPage)
                             property bool forceLoading: false
 
                             Component.onCompleted: {
@@ -281,9 +302,11 @@ Repeater {
                                     anchors.fill: parent
                                     color: styleData.textColor
                                     elide: styleData.elideMode
-                                    text: {
-                                        if (!styleData.value || keyType === "string")
+                                    text: {                                        
+
+                                        if (!styleData.value || keyType === "string") {
                                             return ""
+                                        }
 
                                         if (styleData.column === 2 && keyType == "zset") {
                                             return parseFloat(Number(styleData.value).toFixed(20))
@@ -297,25 +320,6 @@ Repeater {
                                 }
                             }
 
-                            Connections {
-                                target: viewModel
-
-                                onReplaceTab: {
-                                    console.log("replace tab")
-                                    table.smodel = viewModel.getValue(tabIndex)
-                                    table.model.source = table.smodel
-                                    table.model.invalidate()
-                                    table.forceLoading = false
-                                    table.currentStart = 0
-                                    searchField.text = ""
-
-                                    if (valueEditor.item)
-                                        valueEditor.item.resetAndDisableEditor()
-
-                                    table.loadValue()                                    
-                                }
-                            }
-
                             MessageDialog {
                                 id: valueErrorNotification
                                 visible: false
@@ -325,7 +329,7 @@ Repeater {
                             }
 
                             Connections {
-                                target: table.smodel ? table.smodel : null
+                                id: keyModelConnections
 
                                 onError: {
                                     valueErrorNotification.text = error
@@ -333,10 +337,32 @@ Repeater {
                                 }
 
                                 onRowsLoaded: {
+                                    console.log("rows loaded")
+
                                     wrapper.hideLoader()
+
+                                    keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
 
                                     if (keyType === "string") {
                                         valueEditor.loadRowValue(0)
+                                    } else {
+                                        var columns = columnNames
+
+                                        for (var index = 0; index < 3; index++)
+                                        {
+                                            var column = table.getColumn(index)
+
+                                            if (index >= columns.length) {
+                                                column.visible = false
+                                                continue
+                                            }
+
+                                            column.role = columns[index]
+                                            column.title = columns[index]
+                                            //if (index > 0) column.width = table.width / (columns.length - 1) - 50
+                                            column.visible = true
+                                            column.resizeToContents()
+                                        }
                                     }
                                 }
                             }
@@ -345,7 +371,7 @@ Repeater {
                                 id: valueLoadingConfirmation
                                 title: "Legacy Redis-Server detected!"
                                 text: "You are connected to legacy redis-server, which doesn't support partial loading. "
-                                      + "Do you really want to load " + table.smodel.totalRowCount() +" items?"
+                                      + "Do you really want to load " + keyTab.keyModel.totalRowCount() +" items?"
                                 onYes: {
                                     table.forceLoading = true
                                     table.loadValue()
@@ -383,28 +409,18 @@ Repeater {
                             }
 
                             function loadValue() {
-                                var columns = table.smodel.getColumnNames()
-
-                                for (var index = 0; index < 3; index++)
-                                {
-                                    var column = table.getColumn(index)
-
-                                    if (index >= columns.length) {
-                                        column.visible = false
-                                        continue
-                                    }
-
-                                    column.role = columns[index]
-                                    column.title = columns[index]
-                                    if (index > 0) column.width = table.width / (columns.length - 1) - 50
-                                    column.visible = true
+                                console.log("Load value")
+                                if (!keyTab.keyModel) {
+                                    console.log("Model is not ready")
+                                    return
                                 }
 
-                                if (table.smodel.isPartialLoadingSupported()
-                                        || table.smodel.totalRowCount() < maxItemsOnPage
+                                if (keyTab.keyModel.isPartialLoadingSupported()
+                                        || keyTab.keyModel.totalRowCount() < maxItemsOnPage
                                         || table.forceLoading) {
+                                    keyModelConnections.target = keyTab.keyModel
                                     wrapper.showLoader()
-                                    table.smodel.loadRows(currentStart, maxItemsOnPage)
+                                    keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
                                 } else {
                                     // Legacy redis without SCAN support
                                     // Show warning message
@@ -413,9 +429,8 @@ Repeater {
                                 }
                             }
 
-                            onRowCountChanged: {
-                                wrapper.hideLoader()
-                            }
+                            onRowCountChanged: wrapper.hideLoader()
+                            onActivated: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
                         }
 
                         ColumnLayout {
@@ -469,7 +484,7 @@ Repeater {
 
                                         var model = viewModel.getValue(tabIndex)
                                         model.addRow(row)
-                                        table.smodel.reload()
+                                        keyTab.keyModel.reload()
                                         valueAddEditor.item.reset()
                                     }
 
@@ -485,7 +500,7 @@ Repeater {
                                 enabled: table.currentRow != -1
 
                                 onClicked: {
-                                    if (table.smodel.totalRowCount() == 1) {
+                                    if (keyTab.keyModel.totalRowCount() == 1) {
                                         deleteRowConfirmation.text = "This is last row in this key, " +
                                                 "if you remove this - key will be removed!"
                                     } else {
@@ -507,7 +522,7 @@ Repeater {
                                     text: ""
                                     onYes: {
                                         console.log("remove row in key")
-                                        table.smodel.deleteRow(rowToDelete)
+                                        keyTab.keyModel.deleteRow(rowToDelete)
                                     }
                                     visible: false
                                     modality: Qt.ApplicationModal
@@ -529,7 +544,7 @@ Repeater {
                                     shortcut: StandardKey.Refresh
                                     onTriggered: {
                                         console.log("Reload value in tab")
-                                        table.smodel.reload()
+                                        keyTab.keyModel.reload()
                                         valueEditor.clear()
 
                                         Analytics.reportEvent("value-editor", "reload-key")
@@ -542,6 +557,10 @@ Repeater {
 
                                 Layout.preferredWidth: 195
                                 placeholderText: "Search on page..."
+
+                                Component.onCompleted: {
+                                    table.searchField = searchField
+                                }
                             }
 
                             Item {
@@ -563,14 +582,6 @@ Repeater {
                         Layout.fillWidth: true
                         Layout.fillHeight: !showValueNavigation
                         spacing: 0
-
-                        Connections {
-                            target: table
-
-                            onActivated: {
-                                valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
-                            }
-                        }
 
                         Loader {
                             id: valueEditor
@@ -598,6 +609,10 @@ Repeater {
                                 }
                             }
 
+                            Component.onCompleted: {
+                                keyTab.valueEditor = valueEditor
+                            }
+
                             property int currentRow: -1
 
                             source: Editor.getEditorByTypeString(keyType)
@@ -609,7 +624,7 @@ Repeater {
 
                             function loadRowValue(row) {                                
                                 if (valueEditor.item) {
-                                    var rowValue = table.smodel.getRow(row, true)
+                                    var rowValue = keyTab.keyModel.getRow(row, true)
 
 // TODO: Show dialog here with options:  View in read-only mode, Save to file, Ignore warning
 //                                    if (binaryUtils.binaryStringLength(rowValue['value']) > 150000) {
@@ -649,7 +664,7 @@ Repeater {
                                     var value = valueEditor.item.getValue()
 
                                     console.log(value, value["value"])
-                                    table.smodel.updateRow(valueEditor.currentRow, value)
+                                    keyTab.keyModel.updateRow(valueEditor.currentRow, value)
 
                                     savingConfirmation.text = "Value was updated!"
                                     savingConfirmation.open()
