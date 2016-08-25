@@ -154,7 +154,7 @@ void TestKeyModels::testValueLoading_data()
        QTest::newRow("Valid list model")
                << (QStringList() << "+list\r\n" << ":-1\r\n" << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
                << 1
-               << Qt::UserRole + 1
+               << Qt::UserRole + 2
                << (unsigned long)2
                << true
                << "bar"
@@ -165,7 +165,7 @@ void TestKeyModels::testValueLoading_data()
                    << ":2\r\n" << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
                    << ":1\r\n" << ":1\r\n" << ":1\r\n" << ":1\r\n")
                << 1
-               << Qt::UserRole + 1
+               << Qt::UserRole + 2
                << (unsigned long)2
                << true
                << "bar"
@@ -174,7 +174,7 @@ void TestKeyModels::testValueLoading_data()
        QTest::newRow("Valid zset model")
                << (QStringList() << "+zset\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
                << 1
-               << Qt::UserRole + 1
+               << Qt::UserRole + 2
                << (unsigned long)2
                << true
                << "bar"
@@ -183,7 +183,7 @@ void TestKeyModels::testValueLoading_data()
        QTest::newRow("Valid hash model")
                << (QStringList() << "+hash\r\n" << ":-1\r\n" << ":2\r\n" << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
                << 1
-               << Qt::UserRole + 1
+               << Qt::UserRole + 3
                << (unsigned long)2
                << true
                << "bar"
@@ -252,7 +252,7 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << "+OK\r\n"
                 << "+OK\r\n")
             << listRow
-            << Qt::UserRole + 1
+            << Qt::UserRole + 2
             << 2;
 
     QVariantMap setRow;
@@ -269,7 +269,7 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << ":1\r\n"
                 << "+OK\r\n")
             << setRow
-            << Qt::UserRole + 1
+            << Qt::UserRole + 2
             << 2;
 
     QVariantMap zsetRow;
@@ -288,7 +288,7 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << ":1\r\n"
                 )
             << zsetRow
-            << Qt::UserRole + 1
+            << Qt::UserRole + 2
             << 2;
 
     QVariantMap hashRow;
@@ -306,7 +306,7 @@ void TestKeyModels::testKeyModelModifyRows_data()
                 << ":1\r\n"
                 << ":1\r\n")
             << hashRow
-            << Qt::UserRole + 1
+            << Qt::UserRole + 3
             << 2;
 }
 
