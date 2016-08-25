@@ -51,7 +51,7 @@ QSharedPointer<QMenu> NamespaceItem::getContextMenu(TreeItem::ParentView&)
         return menu;
 
     menu->addAction(createMenuAction(":/images/delete.png", "Delete namespace",
-                                     menu.data(), this,
+                                     menu.data(), menu.data(),
                                      [this](){ m_operations->deleteDbNamespace(*this); }));
 
     return menu;
