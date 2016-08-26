@@ -162,7 +162,7 @@ ApplicationWindow {
                     target: valuesModel
                     onKeyError: {
                         if (index != -1)
-                            tabs.currentIndex = index + 1
+                            tabs.currentIndex = index
 
                         notification.showError(error)
                     }

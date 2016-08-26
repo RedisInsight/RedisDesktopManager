@@ -41,16 +41,19 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
     }
 }
 
-void ValueEditor::ViewModel::closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex)
-{    
+void ValueEditor::ViewModel::closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
+                                         const QRegExp& filter)
+{
     for (int index = 0; 0 <= index && index < m_valueModels.size(); index++) {
         auto model = m_valueModels.at(index);
 
         if (model->getConnection() == connection && model->dbIndex() == dbIndex) {
-            beginRemoveRows(QModelIndex(), index, index);
-            m_valueModels.removeAt(index);
-            endRemoveRows();
-            index--;
+            if (model->getKeyName().contains(filter)) {
+                beginRemoveRows(QModelIndex(), index, index);
+                m_valueModels.removeAt(index);
+                endRemoveRows();
+                index--;
+            }
         }
     }
 }

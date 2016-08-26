@@ -21,7 +21,6 @@ protected:
     void addLoadedRowsToCache(const QVariantList&, int) override {}
 
 private:
-    enum Roles { Value = Qt::UserRole + 1 };
-    bool loadValue();
+    enum Roles { Value = Qt::UserRole + 1 };    
 };
 

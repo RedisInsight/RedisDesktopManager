@@ -264,7 +264,7 @@ Repeater {
                                     color: styleData.textColor
                                     elide: styleData.elideMode
                                     text: {
-                                        if (!styleData.value)
+                                        if (!styleData.value || keyType === "string")
                                             return ""
 
                                         if (styleData.column === 2 && keyType == "zset") {
@@ -381,9 +381,8 @@ Repeater {
 
                                 if (table.model.isPartialLoadingSupported()
                                         || table.model.totalRowCount() < maxItemsOnPage
-                                        || table.forceLoading) {
-                                    if (keyType != "string")
-                                        wrapper.showLoader()
+                                        || table.forceLoading) {                                    
+                                    wrapper.showLoader()
                                     table.model.loadRows(currentStart, maxItemsOnPage)
                                 } else {
                                     // Legacy redis without SCAN support
@@ -584,6 +583,13 @@ Repeater {
                             function loadRowValue(row) {
                                 if (valueEditor.item) {
                                     var rowValue = table.model.getRow(row, true)
+
+// TODO: Show dialog here with options:  View in read-only mode, Save to file, Ignore warning
+//                                    if (binaryUtils.binaryStringLength(rowValue['value']) > 150000) {
+//                                        console.log("Extra large value")
+//                                        return
+//                                    }
+
                                     valueEditor.currentRow = row
                                     valueEditor.item.setValue(rowValue)
                                 }

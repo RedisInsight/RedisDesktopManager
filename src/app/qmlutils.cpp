@@ -13,6 +13,15 @@ bool QmlUtils::isBinaryString(const QVariant &value)
     return isBinary(val);
 }
 
+long QmlUtils::binaryStringLength(const QVariant &value)
+{
+    if (!value.canConvert(QVariant::ByteArray)) {
+        return -1;
+    }
+    QByteArray val = value.toByteArray();
+    return val.size();
+}
+
 QVariant QmlUtils::valueToBinary(const QVariant &value)
 {
     if (!value.canConvert(QVariant::ByteArray)) {

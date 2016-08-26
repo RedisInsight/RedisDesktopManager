@@ -13,6 +13,7 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(QString auth READ auth WRITE setAuth)
 
     /* SSL settings */
+    Q_PROPERTY(bool sslEnabled READ useSsl WRITE setSsl)
     Q_PROPERTY(QString sslLocalCertPath READ sslLocalCertPath WRITE setSslLocalCertPath)
     Q_PROPERTY(QString sslPrivateKeyPath READ sslPrivateKeyPath WRITE setSslPrivateKeyPath)
     Q_PROPERTY(QString sslCaCertPath READ sslCaCertPath WRITE setSslCaCertPath)
@@ -53,7 +54,6 @@ public:
     QString namespaceSeparator() const;
     void setNamespaceSeparator(QString);
 
-    Q_INVOKABLE bool useSsl() const;
     Q_INVOKABLE bool useSshTunnel() const;
 };
 

@@ -2,6 +2,7 @@
 #include "treeitem.h"
 #include "connections-tree/operations.h"
 #include <QtConcurrent>
+#include <qredisclient/connection.h>
 
 namespace ConnectionsTree {
 
@@ -62,14 +63,14 @@ protected:
     void liveUpdate();
     void filterKeys(const QRegExp& filter);
     void resetFilter();
-    void renderRawKeys(const Operations::RawKeysList& rawKeys);
+    void renderRawKeys(const RedisClient::Connection::RawKeysList& rawKeys);
 
 private:
     class KeysTreeRenderer
     {
     public:
         static QSharedPointer<DatabaseKeys> renderKeys(QSharedPointer<Operations> operations,
-                                                       Operations::RawKeysList keys,
+                                                       RedisClient::Connection::RawKeysList keys,
                                                        QRegExp filter,
                                                        QString namespaceSeparator,
                                                        QSharedPointer<DatabaseItem>);
@@ -92,7 +93,7 @@ private:
     QSharedPointer<DatabaseKeys> m_keys;
     QFutureWatcher<QSharedPointer<DatabaseKeys>> m_keysLoadingWatcher;
     QWeakPointer<TreeItem> m_parent;
-    Operations::RawKeysList m_rawKeys;
+    RedisClient::Connection::RawKeysList m_rawKeys;
     QRegExp m_filter;
     QTimer m_liveUpdateTimer;
 };

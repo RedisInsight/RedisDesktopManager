@@ -5,7 +5,6 @@
 #include <QSysInfo>
 #include <QQmlContext>
 #include <QMessageBox>
-#include <QtWebEngine/QtWebEngine>
 #include <easylogging++.h>
 #include <googlemp.h>
 #include <qredisclient/redisclient.h>
@@ -43,8 +42,7 @@ Application::Application(int &argc, char **argv)
     initAppFonts();
     initAppAnalytics();
     initRedisClient();
-    initUpdater();
-    QtWebEngine::initialize();
+    initUpdater();    
 }
 
 void Application::initModels()
@@ -67,7 +65,7 @@ void Application::initAppInfo()
 
 void Application::initAppFonts()
 {
-    QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttf");
+    QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttc");
     QFont defaultFont("OpenSans", 10);
     QApplication::setFont(defaultFont);
 }

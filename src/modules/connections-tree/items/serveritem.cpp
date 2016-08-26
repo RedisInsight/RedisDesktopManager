@@ -128,7 +128,7 @@ void ServerItem::load()
     m_locked = true;
     emit updateIcon();
 
-    std::function<void(Operations::DatabaseList)> callback = [this](Operations::DatabaseList databases) {
+    std::function<void(RedisClient::DatabaseList)> callback = [this](RedisClient::DatabaseList databases) {
 
         if (databases.size() == 0)
         {
@@ -136,9 +136,9 @@ void ServerItem::load()
             return;
         }
 
-        Operations::DatabaseList::const_iterator db = databases.constBegin();
+        RedisClient::DatabaseList::const_iterator db = databases.constBegin();
         while (db != databases.constEnd()) {
-            QSharedPointer<TreeItem> database((new DatabaseItem(db->first, db->second, m_operations, m_self)));
+            QSharedPointer<TreeItem> database((new DatabaseItem(db.key(), db.value(), m_operations, m_self)));
 
             QObject::connect(dynamic_cast<QObject*>(database.data()), SIGNAL(keysLoaded(unsigned int)),
                              this, SIGNAL(keysLoadedInDatabase(unsigned int)));
@@ -162,7 +162,7 @@ void ServerItem::load()
         m_operations->getDatabases(callback);
     } catch (const ConnectionsTree::Operations::Exception& e) {
         m_locked = false;
-        emit error("Cannot load databases: " + QString(e.what()));
+        emit error("Cannot load databases:\n\n" + QString(e.what()));
     }
 }
 

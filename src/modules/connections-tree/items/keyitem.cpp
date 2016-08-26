@@ -1,5 +1,6 @@
 #include "keyitem.h"
 #include <QMenu>
+#include <QMessageBox>
 #include <qredisclient/utils/text.h>
 
 #include "connections-tree/utils.h"
@@ -21,6 +22,17 @@ KeyItem::KeyItem(const QByteArray &fullPath, unsigned short dbIndex,
 
     m_eventHandlers.insert("mid-click", [this]() {
         if (isEnabled()) m_operations->openKeyTab(*this, true);
+    });
+
+    m_eventHandlers.insert("delete", [this]() {
+        confirmAction(nullptr,
+                      QObject::tr("Do you really want to delete this key?"),
+                      [this]()
+        {
+            m_operations->deleteDbKey(*this, [](const QString& error){
+                QMessageBox::warning(nullptr, QObject::tr("Key error"), error);
+            });
+        });
     });
 }
 

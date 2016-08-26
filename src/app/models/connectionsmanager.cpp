@@ -47,7 +47,7 @@ void ConnectionsManager::addNewConnection(const ServerConfig &config, bool saveT
 void ConnectionsManager::updateConnection(const ServerConfig &config)
 {
     if (!config.getOwner())
-        return;
+        return addNewConnection(config);
 
     QSharedPointer<RedisClient::Connection> connection = config.getOwner().toStrongRef();
     connection->setConnectionConfig(config);

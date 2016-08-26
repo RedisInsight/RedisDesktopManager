@@ -32,14 +32,14 @@ win32-msvc* {
     QMAKE_CFLAGS_RELEASE += /Zi
     QMAKE_LFLAGS_RELEASE += /debug /opt:ref
 } else {
-QMAKE_CXXFLAGS+=-g
-QMAKE_CFLAGS_RELEASE+=-g
+    QMAKE_CXXFLAGS+=-g
+    QMAKE_CFLAGS_RELEASE+=-g
 }
 
 win32* {    
     win32-g++ {
-    # Workaround for mingw
-    QMAKE_LFLAGS_RELEASE=
+        # Workaround for mingw
+        QMAKE_LFLAGS_RELEASE=
     } else {
         INCLUDEPATH += $$PWD/qredisclient/3rdparty/windows/rmt_zlib.1.2.8.5/build/native/include
     }

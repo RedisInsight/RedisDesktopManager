@@ -26,5 +26,10 @@ valgrind --tool=massif --massif-out-file=rdm.massif /usr/share/redis-desktop-man
 
 ```
 
+### Debug SSL
+```bash
+openssl s_client -connect HOST:PORT -cert test_user.crt -key test.key -CAfile test_ca.pem
+```
+
 
 ### Fix bugs or implement whatever you want :)

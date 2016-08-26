@@ -62,7 +62,8 @@ public slots:
                           std::function<void()>, int dbIndex, QString keyPrefix);
     void openTab(QSharedPointer<RedisClient::Connection> connection,
                  ConnectionsTree::KeyItem& key, bool inNewTab);
-    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
+    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
+                     const QRegExp& filter);
 
 private:
     QList<QSharedPointer<Model>> m_valueModels;
