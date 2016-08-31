@@ -44,7 +44,7 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 2. Get source code:
  
 ```bash
-git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.8 rdm && cd ./rdm
+git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0 rdm && cd ./rdm
 ```
 
 ### Build on Linux
@@ -64,7 +64,6 @@ qmake-qt5 && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
 sudo mv qt.conf qt.backup
 ```
-
 
 ### Build on OS X
 1. Install XCode with xcode build tools
