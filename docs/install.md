@@ -52,7 +52,7 @@ git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0
 ```bash
 cd src/
 ./configure
-source /opt/qt56/bin/qt56-env.sh && make && sudo make install
+source /opt/qt56/bin/qt56-env.sh && qmake && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
 sudo mv qt.conf qt.backup
 ```
@@ -64,7 +64,9 @@ qmake-qt5 && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
 sudo mv qt.conf qt.backup
 ```
+#### Tip: checkinstall
 
+Instead of `sudo make install` consider to use `sudo checkinstall -D --install` on **deb**-based OS and `sudo checkinstall -R --install` on **rpm**-based OS to generate package and install it into the system.
 
 ### Build on OS X
 1. Install XCode with xcode build tools
