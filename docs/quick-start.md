@@ -42,7 +42,8 @@ To connect Redis Labs instance with SSL/TLS encryption do following steps:
 SSH tab is supposed to allow you using SSH tunnel. It's useful if your redis-server is not publicly accessible via a network.
 To use SSH tunnel select checkbox "Use SSH Tunnel". There are different security options: you can use a plain password or openssh private key. 
 
-> **NOTE for Windows users:** Your private key is must be in .pem format.
+!!! note "for Windows users:" 
+    Your private key is must be in .pem format.
 
 <img src="http://redisdesktop.com/static/docs/rdm_ssh.png" height="300" />
 
