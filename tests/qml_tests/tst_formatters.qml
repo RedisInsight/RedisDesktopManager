@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import QtTest 1.0
 
-import "./../../src/resources/qml/editors/formatters/formatters.js" as Formatters
+import "./../../src/qml/value-editor/editors/formatters/formatters.js" as Formatters
 
 TestCase {
     name: "FormatterTests"

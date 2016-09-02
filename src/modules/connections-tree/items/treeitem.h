@@ -9,13 +9,18 @@
 #include <QHash>
 #include <QVariantMap>
 #include <QDebug>
+#include <QModelIndex>
 
 
 namespace ConnectionsTree {
 
+class Model;
+
 class TreeItem {
 public:
-    TreeItem() {}
+    TreeItem(Model& m);
+
+    virtual ~TreeItem() {}
 
     virtual QString getDisplayName() const = 0;
 
@@ -39,42 +44,30 @@ public:
 
     virtual void setMetadata(const QString&, QVariant) {}
 
-    virtual int row() const
-    {
-        if (!parent())
-            return 0;
+    virtual int row() const;
 
-        auto p = parent().toStrongRef();
+    virtual QWeakPointer<TreeItem> getSelf();
 
-        for (uint index = 0; index < p->childCount(); ++index)
-        {
-            if (p->child(index).data() == this)
-                return index;
-        }
-
-        return 0;
-    }    
-
-    virtual void handleEvent(QString event)
-    {
-        if (!m_eventHandlers.contains(event))
-            return;
-
-        try {
-            m_eventHandlers[event]();
-        } catch (...) {
-            qWarning() << "Error on event processing: " << event;
-        }
-    }
+    virtual void handleEvent(QString event);
 
     virtual bool isLocked() const { return false; }
 
     virtual bool isEnabled() const = 0;
 
-    virtual ~TreeItem() {}
+    virtual bool canFetchMore() const { return false; }
+
+    virtual void fetchMore() {}
+
+    virtual Model& model();
 
 protected:
+    Model& m_model;
     QHash<QString, std::function<void()>> m_eventHandlers;
+
+private:
+    QWeakPointer<TreeItem> m_selfPtr;
 };
+
+typedef QList<QSharedPointer<TreeItem>> TreeItems;
 
 }

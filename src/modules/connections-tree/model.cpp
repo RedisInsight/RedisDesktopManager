@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <algorithm>
+#include <QWeakPointer>
 
 using namespace ConnectionsTree;
 
@@ -10,6 +11,12 @@ Model::Model(QObject *parent) :
     QAbstractItemModel(parent),
     m_rawPointers(new QHash<TreeItem*, QWeakPointer<TreeItem>>())
 {
+    QObject::connect(this, &Model::itemChanged, this, &Model::onItemChanged);
+    QObject::connect(this, &Model::itemChildsLoaded, this, &Model::onItemChildsLoaded);
+    QObject::connect(this, &Model::itemChildsUnloaded, this, &Model::onItemChildsUnloaded);
+
+    qRegisterMetaType<QWeakPointer<TreeItem>>("QWeakPointer<TreeItem>");
+
 }
 
 QVariant Model::data(const QModelIndex &index, int role) const
@@ -61,10 +68,10 @@ QModelIndex Model::index(int row, int column, const QModelIndex &parent) const
     QSharedPointer<TreeItem> childItem;
 
     // get item from root items
-    if (!parentItem && row < m_treeItems.size()) {
-       childItem = m_treeItems.at(row);
-    } else {
-       childItem = parentItem->child(row);
+    if (parentItem) {
+        childItem = parentItem->child(row);
+    } else if (row < m_treeItems.size()) {
+        childItem = m_treeItems.at(row);
     }
 
     if (childItem.isNull())
@@ -103,6 +110,87 @@ int Model::rowCount(const QModelIndex &parent) const
 
     return parentItem->childCount();
 }
+
+QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item)
+{
+    if (item && item.toStrongRef()) {
+        return createIndex(item.toStrongRef()->row(), 0, (void*)item.data());
+    }
+    return QModelIndex();
+}
+
+bool Model::canFetchMore(const QModelIndex &parent) const
+{
+    TreeItem* i = getItemFromIndex(parent);
+
+    return i && i->canFetchMore();
+}
+
+void Model::fetchMore(const QModelIndex &parent)
+{
+    TreeItem* i = getItemFromIndex(parent);
+
+    if (!i)
+        return;
+
+    i->fetchMore();
+}
+
+void Model::onItemChanged(QWeakPointer<TreeItem> item)
+{
+    if (!item)
+        return;
+
+    auto index = getIndexFromItem(item);
+
+    if (!index.isValid() || item.toStrongRef()->childCount() == 0)
+        return;
+
+    emit dataChanged(index, index);
+}
+
+void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
+{
+    if (!item)
+        return;
+
+    auto index = getIndexFromItem(item);
+
+    if (!index.isValid())
+        return;
+
+    QSharedPointer<TreeItem> treeItem = item.toStrongRef();
+
+    emit beginInsertRows(index, 0, treeItem->childCount() - 1);
+    emit endInsertRows();
+
+    if (treeItem->getType() == "database") {
+        emit expand(index);
+
+        QSettings settings;
+        if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {
+            restoreOpenedNamespaces(index);
+        } else {
+            qDebug() << "Namespace reopening is disabled in settings";
+            m_expanded.clear();
+        }
+    }
+}
+
+void Model::onItemChildsUnloaded(QWeakPointer<TreeItem> item)
+{
+    if (!item)
+        return;
+
+    auto index = getIndexFromItem(item);
+
+    if (!index.isValid())
+        return;
+
+    emit beginRemoveRows(index, 0, item.toStrongRef()->childCount() - 1);
+    emit endRemoveRows();
+}
+
 
 QVariant Model::getItemIcon(const QModelIndex &index)
 {
@@ -175,68 +263,13 @@ void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
         return;
 
     int insertIndex = m_treeItems.size();
+
     emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+
     serverItem->setRow(insertIndex);
     serverItem->setWeakPointer(serverItem.toWeakRef());
+
     m_treeItems.push_back(serverItem);
-
-    QModelIndex itemIndex = index(insertIndex, 0, QModelIndex());
-
-    connect(serverItem.data(), &ServerItem::databaseListLoaded,
-            this, [this, itemIndex, serverItem]()
-    {
-        emit beginInsertRows(itemIndex, 0, serverItem->childCount()-1);
-        emit endInsertRows();
-        emit expand(itemIndex);        
-    });
-
-    connect(serverItem.data(), &ServerItem::updateIcon,
-            this, [this, itemIndex, serverItem]()
-    {
-        emit dataChanged(itemIndex, itemIndex);
-    });
-
-    connect(serverItem.data(), &ServerItem::unloadStarted,
-            this, [this, itemIndex, serverItem]()
-    {
-        emit beginRemoveRows(itemIndex, 0, serverItem->childCount()-1);
-        emit endRemoveRows();
-    });
-
-    connect(serverItem.data(), &ServerItem::keysLoadedInDatabase,
-            this, [this, itemIndex, serverItem](unsigned int dbIndex)
-    {
-        QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
-
-        emit beginInsertRows(dbModelIndex, 0, serverItem->child(dbIndex)->childCount() - 1);
-        emit endInsertRows();
-        emit expand(dbModelIndex);
-
-        QSettings settings;
-        if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {
-            restoreOpenedNamespaces(dbModelIndex);
-        } else {
-            qDebug() << "Namespace reopening is disabled in settings";
-            m_expanded.clear();
-        }
-    });
-
-    connect(serverItem.data(), &ServerItem::updateDbIcon,
-            this, [this, itemIndex, serverItem](unsigned int dbIndex)
-    {
-        QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
-        emit dataChanged(dbModelIndex, dbModelIndex);
-    });
-
-    connect(serverItem.data(), &ServerItem::unloadStartedInDatabase,
-            this, [this, itemIndex, serverItem](unsigned int dbIndex)
-    {
-        QModelIndex dbModelIndex = index(dbIndex, 0, itemIndex);
-        emit beginRemoveRows(dbModelIndex, 0, serverItem->child(dbIndex)->childCount() - 1);
-        emit endRemoveRows();
-    });
-
-    connect(serverItem.data(), &ServerItem::error, this, &Model::error);
 
     emit endInsertRows();
 }

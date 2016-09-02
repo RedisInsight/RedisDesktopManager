@@ -10,7 +10,7 @@ Dialog {
     title: !settings || !settings.name ? "New Connection Settings" : "Edit Connection Settings - " + settings.name
 
     property var settings
-    property string quickStartGuideUrl: "https://github.com/uglide/RedisDesktopManager/wiki/Quick-Start"
+    property string quickStartGuideUrl: "http://docs.redisdesktop.com/en/latest/quick-start/"
 
     signal testConnection
     signal saveConnection(var settings)
@@ -176,7 +176,7 @@ Dialog {
 
                                 RadioButton {
                                     text: "None"
-                                    checked: root.settings ? !root.settings.useSsl() && !root.settings.useSshTunnel() : true
+                                    checked: root.settings ? !root.settings.sslEnabled && !root.settings.useSshTunnel() : true
                                     exclusiveGroup: connectionSecurityExGroup
                                     Layout.columnSpan: 2
                                 }
@@ -186,9 +186,10 @@ Dialog {
                                     Layout.columnSpan: 2
                                     text: "SSL"
                                     exclusiveGroup: connectionSecurityExGroup
-                                    checked: root.settings ? root.settings.useSsl() : false
+                                    checked: root.settings ? root.settings.sslEnabled : false
                                     Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
                                     onCheckedChanged: {
+                                        root.settings.sslEnabled = checked
                                         root.cleanStyle()
 
                                         if (!checked) {
@@ -211,11 +212,10 @@ Dialog {
                                     FilePathInput {
                                         id: sslLocalCertPath
                                         Layout.fillWidth: true
-                                        placeholderText: "Public Key in PEM format"
-                                        nameFilters: [ "Public Key in PEM format (*)" ]
+                                        placeholderText: "(Optional) Public Key in PEM format"
+                                        nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
                                         title: "Select public key in PEM format"
-                                        path: root.settings ? root.settings.sslLocalCertPath : ""
-                                        Component.onCompleted: root.sslItems.push(sslLocalCertPath)
+                                        path: root.settings ? root.settings.sslLocalCertPath : ""                                        
                                         onPathChanged: root.settings.sslLocalCertPath = path
                                     }
 
@@ -225,7 +225,7 @@ Dialog {
                                         id: sslPrivateKeyPath
                                         Layout.fillWidth: true
                                         placeholderText: "(Optional) Private Key in PEM format"
-                                        nameFilters: [ "Private Key in PEM format (*)" ]
+                                        nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
                                         title: "Select private key in PEM format"
                                         path: root.settings ? root.settings.sslPrivateKeyPath : ""
                                         onPathChanged: root.settings.sslPrivateKeyPath = path
@@ -237,7 +237,7 @@ Dialog {
                                         id: sslCaCertPath
                                         Layout.fillWidth: true
                                         placeholderText: "(Optional) Authority in PEM format"
-                                        nameFilters: [ "Authority file in PEM format (*)" ]
+                                        nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
                                         title: "Select authority file in PEM format"
                                         path: root.settings ? root.settings.sslCaCertPath : ""
                                         onPathChanged: root.settings.sslCaCertPath = path

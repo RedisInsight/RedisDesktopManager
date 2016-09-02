@@ -12,8 +12,9 @@ class ServerItem : public QObject, public TreeItem
 {
     Q_OBJECT
 public:
-    ServerItem(const QString& name, QSharedPointer<Operations> operations,
-               const Model& model);
+    ServerItem(const QString& name,
+               QSharedPointer<Operations> operations,
+               Model &model);
 
     ~ServerItem();
 
@@ -53,25 +54,17 @@ private slots:
     void remove();
     void openConsole();
 
-signals:
-    void error(const QString&);
-    void databaseListLoaded();
-    void unloadStarted();
+signals:            
     void editActionRequested();
-    void deleteActionRequested();
-    void updateIcon();
-    void updateDbIcon(unsigned int dbIndex);    
-    void keysLoadedInDatabase(unsigned int dbIndex);
-    void unloadStartedInDatabase(unsigned int dbIndex);
+    void deleteActionRequested();    
 
 private:
     QString m_name;
-    bool m_locked;
-    bool m_databaseListLoaded;
+    bool m_locked;    
     int m_row;
     QSharedPointer<Operations> m_operations;
-    QList<QSharedPointer<TreeItem>> m_databases;
-    const Model& m_model;
+    QList<QSharedPointer<TreeItem>> m_databases;    
     QWeakPointer<ServerItem> m_self;
+    QModelIndex m_index;
 };
 }

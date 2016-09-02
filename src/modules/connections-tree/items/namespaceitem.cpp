@@ -1,17 +1,34 @@
 #include "namespaceitem.h"
 #include <QMenu>
+#include <QMessageBox>
+#include "connections-tree/utils.h"
+#include "connections-tree/model.h"
+#include "databaseitem.h"
+#include "keyitem.h"
 
 using namespace ConnectionsTree;
 
 NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              QSharedPointer<Operations> operations,
-                             QWeakPointer<TreeItem> parent)
-    : m_fullPath(fullPath),
-      m_operations(operations),
-      m_parent(parent),
-      m_locked(false)
+                             QWeakPointer<TreeItem> parent, Model &model,
+                             const KeysTreeRenderer::RenderingSettigns& settings)
+    : AbstractNamespaceItem(model, parent, operations, settings),
+      m_fullPath(fullPath),
+      m_removed(false)
 {
-    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator())+1);
+    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(settings.nsSeparator) + 1);
+
+    m_eventHandlers.insert("click", [this]() {
+       if (m_childItems.size() == 0 && m_rawChilds.size() > 0) {
+        renderChilds();
+       }
+    });
+
+
+    m_eventHandlers.insert("delete", [this]() {
+        m_operations->deleteDbNamespace(*this);
+    });
+
 }
 
 QString NamespaceItem::getDisplayName() const
@@ -34,62 +51,33 @@ QString NamespaceItem::getIconUrl() const
     return QString("qrc:/images/namespace.svg");
 }
 
-QList<QSharedPointer<TreeItem> > NamespaceItem::getAllChilds() const
-{
-    return m_childItems;
-}
-
-uint NamespaceItem::childCount(bool recursive) const
-{
-    if (!recursive)
-        return m_childItems.size();
-
-    uint count = 0;
-    for (auto item : m_childItems) {
-        if (item->supportChildItems()) {
-            count += item->childCount(true);
-        } else {
-            count += 1;
-        }
-    }
-    return count;
-}
-
-QSharedPointer<TreeItem> NamespaceItem::child(uint row) const
-{    
-    if (row < m_childItems.size())
-        return m_childItems.at(row);
-
-    return QSharedPointer<TreeItem>();
-}
-
-QWeakPointer<TreeItem> NamespaceItem::parent() const
-{
-    return m_parent;
-}
-
 bool NamespaceItem::isLocked() const
 {
-    return m_locked;
+    return false;
 }
 
 bool NamespaceItem::isEnabled() const
 {
-    return true;
+    return m_removed == false;
 }
 
-void NamespaceItem::append(QSharedPointer<TreeItem> item)
+void NamespaceItem::notifyModel()
 {
-    if (typeid(NamespaceItem)==typeid(*item)) {
-        m_childNamespaces[item.staticCast<NamespaceItem>()->getDisplayPart()] = qSharedPointerCast<NamespaceItem>(item);
-    }
-    m_childItems.append(item);
+    m_rawChilds.clear();
+    AbstractNamespaceItem::notifyModel();
 }
 
-QSharedPointer<NamespaceItem> NamespaceItem::findChildNamespace(const QString &name)
+QByteArray NamespaceItem::getFullPath() const
 {
-    if (!m_childNamespaces.contains(name))
-        return QSharedPointer<NamespaceItem>();
+    return m_fullPath;
+}
 
-    return m_childNamespaces[name];
+int NamespaceItem::getDbIndex() const
+{
+    return m_renderingSettings.dbIndex;
+}
+
+void NamespaceItem::setRemoved()
+{
+   m_removed = true;
 }

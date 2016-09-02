@@ -1,8 +1,11 @@
 # Redis Desktop Manager Documentation
 
-Redis Desktop Manager (aka RDM)— is a cross-platform open source Redis DB management tool (i.e. Admin GUI). Redis Desktop Manager developed to replace hundreds of slow and ugly tools for redis.
+Redis Desktop Manager (aka RDM) —  is a fast open source Redis database management application for Windows, Linux and MacOS. This tool offers you an easy-to-use GUI to access your Redis DB and perform some basic operations: view keys as a tree, CRUD keys, execute commands via shell. RDM supports SSL/TLS encryption, SSH tunnels and cloud Redis instances, such as: Amazon ElastiCache, Microsoft Azure Redis Cache and Redis Labs.    
 
-This is an early beta version of Redis Desktop Manager, that we are publishing in a hope to validate usefulness of application. We really welcome your feedback! Please submit any issues and proposals to GitHub.
+
+Please submit any issues and proposals on [GitHub](https://github.com/uglide/RedisDesktopManager/issues)
+
+
 
 
 #### Ask for help in [gitter chat](https://gitter.im/uglide/RedisDesktopManager)

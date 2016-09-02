@@ -12,6 +12,7 @@ import "./value-editor"
 import "./connections-tree"
 import "./console"
 import "./code-editor"
+import "./bulk-operations"
 
 ApplicationWindow {
     id: approot
@@ -44,6 +45,13 @@ ApplicationWindow {
 
     SystemPalette {
         id: sysPalette
+    }
+
+    FontLoader {
+        id: monospacedFont
+        Component.onCompleted: {
+            source = "qrc:/fonts/Inconsolata-Regular.ttf"
+        }
     }
 
     QuickStartDialog {
@@ -87,6 +95,19 @@ ApplicationWindow {
             icon = StandardIcon.Information
             text = msg
             open()
+        }
+    }
+
+    BulkOperationsDialog {
+        id: bulkOperationDialog
+    }
+
+    Connections {
+        target: bulkOperations
+
+        onOpenDialog: {
+            bulkOperationDialog.operationName = operationName
+            bulkOperationDialog.open()
         }
     }
 
@@ -162,7 +183,7 @@ ApplicationWindow {
                     target: valuesModel
                     onKeyError: {
                         if (index != -1)
-                            tabs.currentIndex = index + 1
+                            tabs.currentIndex = index
 
                         notification.showError(error)
                     }

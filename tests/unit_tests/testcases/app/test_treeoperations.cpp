@@ -1,14 +1,16 @@
 #include "test_treeoperations.h"
 #include <qredisclient/connection.h>
 #include "models/treeoperations.h"
+#include "models/connectionsmanager.h"
 
 void TestTreeOperations::testCreation()
 {
     //given    
+    ConnectionsManager manager{QString()};
     auto connection = getRealConnectionWithDummyTransporter();
 
     //when
-    TreeOperations operations(connection);
+    TreeOperations operations(connection, manager);
 
     //then
     //all ok
@@ -18,6 +20,7 @@ void TestTreeOperations::testCreation()
 void TestTreeOperations::testGetDatabases()
 {
     //given    
+    ConnectionsManager manager{QString()};
     QStringList expectedResponses{
         getBulkStringReply(
             "# CPU\n"
@@ -28,49 +31,19 @@ void TestTreeOperations::testGetDatabases()
             "# Keyspace\n"
             "db0:keys=3495,expires=0,avg_ttl=0\n"
             "db999:keys=1,expires=0,avg_ttl=0\n"
-        )
-    };
-    auto connection = getFakeConnection();
-    connection->setFakeResponses(expectedResponses);
-    bool callbackCalled = false;
-    ConnectionsTree::Operations::DatabaseList result;
-
-    //when
-    qDebug() << "testGetDatabases - start execution";        
-    TreeOperations operations(connection);
-    operations.getDatabases(
-    [&callbackCalled, &result](const ConnectionsTree::Operations::DatabaseList& r) {    
-        callbackCalled = true;
-        result = r;
-    });
-
-    //then
-    wait(5);
-    QCOMPARE(callbackCalled, true);
-    QCOMPARE(connection->runCommandCalled, 1u);
-    QCOMPARE(result.size(), 1000);              
-}
-
-void TestTreeOperations::testGetDatabasesWithSelectScan()
-{
-    //given    
-    QStringList expectedResponses{
-        getBulkStringReply(
-            "# CPU\n"
-            "used_cpu_sys:17.89\n"           
-            "# Keyspace\n"
         ),
         "+OK\r\n", "+OK\r\n", "+OK\r\n", "-ERROR\r\n"
     };
     auto connection = getFakeConnection();
     connection->setFakeResponses(expectedResponses);
     bool callbackCalled = false;
-    ConnectionsTree::Operations::DatabaseList result;
+    RedisClient::DatabaseList result;
 
     //when
-    TreeOperations operations(connection);
+    qDebug() << "testGetDatabases - start execution";        
+    TreeOperations operations(connection, manager);
     operations.getDatabases(
-    [&callbackCalled, &result](const ConnectionsTree::Operations::DatabaseList& r) {    
+    [&callbackCalled, &result](const RedisClient::DatabaseList& r) {
         callbackCalled = true;
         result = r;
     });
@@ -78,8 +51,8 @@ void TestTreeOperations::testGetDatabasesWithSelectScan()
     //then
     wait(5);
     QCOMPARE(callbackCalled, true);
-    QCOMPARE(connection->runCommandCalled, 5u);
-    QCOMPARE(result.size(), 3);
+    QCOMPARE(connection->runCommandCalled, 4u);
+    QCOMPARE(result.size(), 1003);
 }
 
 void TestTreeOperations::testGetDatabaseKeys()
@@ -88,15 +61,16 @@ void TestTreeOperations::testGetDatabaseKeys()
     QFETCH(double, redisServerVersion);
     QFETCH(uint, runCommandCalled);
     QFETCH(uint, retrieveCollectionCalled);    
+    ConnectionsManager manager{QString()};
     auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
                                         QStringList() << "",
                                         redisServerVersion);
 
     //when
     bool callbackCalled = false;
-    TreeOperations operations(connection);
-    operations.getDatabaseKeys(99, [&callbackCalled](
-                               const ConnectionsTree::Operations::RawKeysList&,
+    TreeOperations operations(connection, manager);
+    operations.getDatabaseKeys(99, QString(), [&callbackCalled](
+                               const RedisClient::Connection::RawKeysList&,
                                const QString&)
     {
         //then - part 2
@@ -118,4 +92,48 @@ void TestTreeOperations::testGetDatabaseKeys_data()
     QTest::addColumn<uint>("retrieveCollectionCalled");
     QTest::newRow("Legacy redis <= 2.6") << 2.6 << 1u << 0u;
     QTest::newRow("New redis >= 2.8") << 2.8 << 0u << 1u;
+}
+
+void TestTreeOperations::testFlushDb()
+{
+    //given
+    ConnectionsManager manager{QString()};
+    auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
+                                        QStringList() << "+OK");
+
+    //when
+    bool callbackCalled = false;
+    TreeOperations operations(connection, manager);
+    operations.flushDb(0, [&callbackCalled](const QString&)
+    {
+        //then - part 2
+        callbackCalled = true;
+    });
+
+    //then - part 1
+    wait(5);
+    QCOMPARE(callbackCalled, true);
+    QCOMPARE(connection->runCommandCalled, 1u);
+    QCOMPARE(connection->executedCommands[0].getPartAsString(0), QString("FLUSHDB"));
+}
+
+void TestTreeOperations::testFlushDbCommandError()
+{
+    //given
+    ConnectionsManager manager{QString()};
+    auto connection = getFakeConnection();
+    connection->returnErrorOnCmdRun = true;
+
+    //when
+    bool callbackCalledWithError = false;
+    TreeOperations operations(connection, manager);
+    operations.flushDb(0, [&callbackCalledWithError](const QString& e)
+    {
+        //then - part 2
+        callbackCalledWithError = !e.isEmpty();
+    });
+
+    //then - part 1
+    wait(5);
+    QCOMPARE(callbackCalledWithError, true);
 }

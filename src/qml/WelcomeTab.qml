@@ -61,19 +61,6 @@ BetterTab {
 
             Rectangle { color: "#cccccc"; Layout.preferredHeight: 1; Layout.fillWidth: true }
 
-            RichTextWithLinks { html: '<span style="font-size: 13px;">Many thanks to <a href="http://redisdesktop.com/#contributors">our amazing Contributors</a>, '
-                                      + '<a href="https://www.bountysource.com/teams/redisdesktopmanager/backers">Backers</a> and '
-                                      + '<a href="http://redisdesktop.com/community">Community</a></span>'}
-
-            RichTextWithLinks {
-                Layout.maximumWidth: topLayout.implicitWidth
-                html: '<span style="font-size: 12px;"><b>Special thanks to:</b> '
-                                      + 'andrewjknox, Rob T., chasm, mjirby, linux_china, GuRui, '
-                                      + 'cristianobaptista, stgogm, ryanski44, Itamar Haber, elliots, caywood, '
-                                      + 'chrisgo, pmercier, henkvos, sun.ming.77, trelsco, Sai P.S.,'
-                                      +' Anonymous, Wrhector, richard.hoogenboom, cblage, WillPerone, rodogu, peters'
-                                      + '</span>'
-                                      }
 
             RichTextWithLinks { html: '<span style="font-size: 11px;">Used third party software and images: <a href="http://qt.io/">Qt</a>, '
                                       + '<a href="https://github.com/uglide/qredisclient">QRedisClient</a>, '
@@ -99,10 +86,10 @@ BetterTab {
                 Layout.preferredHeight: 10
             }
 
-            RichTextWithLinks {
-                id: footerMsg
-                html: '<span style="font-size: 20px; font-weight: 700;"><a style="color: dark-grey;" href="https://www.bountysource.com/teams/redisdesktopmanager">JUST <span style="color:red">DO</span><span style="font-size: 10px; color: grey;">NATE</span> IT!</a></span>'
-            }
+
+            RichTextWithLinks { html: '<span style="font-size: 13pt;">Many thanks to <a href="http://redisdesktop.com/#contributors">our amazing Contributors</a>, '
+                                      + '<a href="https://redisdesktop.com/subscribe">Supporters</a> and '
+                                      + '<a href="http://redisdesktop.com/community">Community</a></span>'}
         }
     }
 }

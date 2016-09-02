@@ -13,9 +13,6 @@
 [submodule "3rdparty/qgamp"]
 	path = 3rdparty/qgamp
 	url = https://github.com/uglide/qgamp.git
-[submodule "src/modules/code-editor/ace"]
-	path = src/modules/code-editor/ace
-	url = https://github.com/ajaxorg/ace-builds.git
 [submodule "src/qml/3rdparty/php-unserialize-js"]
 	path = src/qml/3rdparty/php-unserialize-js
 	url = https://github.com/uglide/php-unserialize-js.git

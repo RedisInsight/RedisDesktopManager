@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui network concurrent widgets quick quickwidgets webengine
+QT += core gui network concurrent widgets quick quickwidgets
 
 TARGET = rdm
 TEMPLATE = app
@@ -28,6 +28,7 @@ SOURCES += \
     $$PWD/modules/value-editor/*.cpp \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
+    $$PWD/modules/bulk-operations/*.cpp \
 
 HEADERS  += \
     $$PWD/app/app.h \
@@ -41,7 +42,8 @@ HEADERS  += \
     $$PWD/modules/value-editor/*.h \
     $$PWD/modules/crashhandler/*.h \
     $$PWD/modules/updater/*.h \
-    $$PWD/modules/*.h \    
+    $$PWD/modules/*.h \
+    $$PWD/modules/bulk-operations/*.h \
 
 exists( $$PWD/version.h ) {
     HEADERS  += $$PWD/version.h
@@ -53,8 +55,11 @@ include($$THIRDPARTYDIR/3rdparty.pri)
 
 win32 {
     CONFIG += c++11
-    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
     RC_FILE += $$PWD/resources/rdm.rc
+
+    win32-msvc* {
+        QMAKE_LFLAGS += /LARGEADDRESSAWARE
+    }
 
     release: DESTDIR = ./../bin/windows/release
     debug:   DESTDIR = ./../bin/windows/debug
@@ -115,10 +120,8 @@ RESOURCES += \
     $$PWD/resources/images.qrc \
     $$PWD/resources/fonts.qrc \    
     $$PWD/qml/qml.qrc \
-    $$PWD/modules/code-editor/ace.qrc \
 
 OTHER_FILES += \
     qt.conf \
     Info.plist \
     qml\*.qml \
-    $$PWD/modules/code-editor/ace.html \

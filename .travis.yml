@@ -1,12 +1,23 @@
 language: cpp
 dist: trusty
+sudo: required
+
 os:
   - linux
   - osx
-before_install:
-- if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update > /dev/null; brew install qt5 > /dev/null; export PATH=/usr/local/opt/qt5/bin/:$PATH; fi
+  
+install:
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then 
+       brew update > /dev/null
+    && brew install qt5 > /dev/null
+    && export PATH=/usr/local/opt/qt5/bin/:$PATH
+    ;
+  fi
 - cd ./src && ./configure && cd ./../
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then source /opt/qt54/bin/qt54-env.sh; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+       source /opt/qt56/bin/qt56-env.sh
+       ; 
+  fi
 - qmake -v
 script:
   - git submodule update --init --recursive 
