@@ -17,7 +17,7 @@ public:
     QVariant getData(int rowIndex, int dataRole) override;
 
 protected:
-    enum Roles { Value = Qt::UserRole + 1, RowNumber};
+    enum Roles { RowNumber = Qt::UserRole + 1, Value };
 
 protected:
     void addLoadedRowsToCache(const QVariantList& rows, int rowStart) override;

@@ -15,3 +15,5 @@ pages:
 - Known Issues: 'known-issues.md'
 - Development Guide: 'development.md'
 - Notices: 'notices.md'
+markdown_extensions:
+  - markdown.extensions.admonition

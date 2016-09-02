@@ -9,8 +9,10 @@ using namespace ConnectionsTree;
 
 KeyItem::KeyItem(const QByteArray &fullPath, unsigned short dbIndex,
                  QSharedPointer<Operations> operations,
-                 QWeakPointer<TreeItem> parent)
-    : m_fullPath(fullPath),
+                 QWeakPointer<TreeItem> parent,
+                 Model& model)
+    : TreeItem(model),
+      m_fullPath(fullPath),
       m_dbIndex(dbIndex),
       m_operations(operations),
       m_parent(parent),      
@@ -78,7 +80,11 @@ QWeakPointer<TreeItem> KeyItem::parent() const
 
 bool KeyItem::isEnabled() const
 {
-    return isLocked() == false && m_removed == false;
+    if (!m_removed && m_parent) {
+        return m_parent.toStrongRef()->isEnabled();
+    } else {
+        return m_removed == false;
+    }
 }
 
 QByteArray KeyItem::getFullPath() const

@@ -1,14 +1,20 @@
 #include "treeoperations.h"
-#include <qredisclient/redisclient.h>
-#include "app/models/connectionconf.h"
 
+#include <QRegExp>
 #include <algorithm>
 #include <QSet>
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
+#include <qredisclient/redisclient.h>
 
-TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection)
-    : m_connection(connection)
+#include "app/models/connectionconf.h"
+#include "app/models/connectionsmanager.h"
+#include "connections-tree/items/namespaceitem.h"
+
+
+TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConnectionsManager &manager)
+    : m_connection(connection),
+      m_manager(manager)
 {
 }
 
@@ -68,23 +74,23 @@ QString TreeOperations::getNamespaceSeparator()
 
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)
 {
-    emit openValueTab(m_connection, key, openInNewTab);
+    emit m_manager.openValueTab(m_connection, key, openInNewTab);
 }
 
 void TreeOperations::openConsoleTab()
 {    
-    emit openConsole(m_connection);
+    emit m_manager.openConsole(m_connection);
 }
 
 void TreeOperations::openNewKeyDialog(int dbIndex, std::function<void()> callback,
                                       QString keyPrefix)
 {
-    emit newKeyDialog(m_connection, callback, dbIndex, keyPrefix);
+    emit m_manager.newKeyDialog(m_connection, callback, dbIndex, keyPrefix);
 }
 
 void TreeOperations::notifyDbWasUnloaded(int dbIndex)
 {
-    emit closeDbKeys(m_connection, dbIndex);
+    emit m_manager.closeDbKeys(m_connection, dbIndex);
 }
 
 void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback)
@@ -97,7 +103,7 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
         }
 
         QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
-        emit closeDbKeys(m_connection, key.getDbIndex(), filter);
+        emit m_manager.closeDbKeys(m_connection, key.getDbIndex(), filter);
         key.setRemoved();
     };
 
@@ -105,5 +111,38 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
         m_connection->command({"DEL", key.getFullPath()}, this, cmdCallback, key.getDbIndex());
     } catch (const RedisClient::Connection::Exception& e) {
         throw ConnectionsTree::Operations::Exception("Delete key error: " + QString(e.what()));
+    }
+}
+
+void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem &ns)
+{
+    QString pattern = QString("%1:*").arg(QString::fromUtf8(ns.getFullPath()));
+    QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+
+    int dbIndex = ns.getDbIndex();
+
+    emit m_manager.requestBulkOperation(m_connection, dbIndex,
+                                        BulkOperations::Manager::Operation::DELETE_KEYS,
+                                        filter, [this, dbIndex, filter, &ns]() {
+        ns.setRemoved();
+        emit m_manager.closeDbKeys(m_connection, dbIndex, filter);
+    });
+}
+
+void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> callback)
+{
+    RedisClient::Command::Callback cmdCallback = [this, callback](const RedisClient::Response&, const QString& error)
+    {
+        if (!error.isEmpty()) {
+          callback(QString("Cannot remove key: %1").arg(error));
+          return;
+        }
+        callback(QString());
+    };
+
+    try {
+        m_connection->command({"FLUSHDB"}, this, cmdCallback, dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
+        throw ConnectionsTree::Operations::Exception("FlushDB error: " + QString(e.what()));
     }
 }

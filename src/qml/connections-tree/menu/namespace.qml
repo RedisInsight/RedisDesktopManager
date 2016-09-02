@@ -23,7 +23,8 @@ RowLayout {
 
         model:
             [
-                {'icon': "qrc:/images/copy.png", "callback": "copy", "help": "Copy Namespace Pattern"}
+                {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": "Copy Namespace Pattern"},
+                {'icon': "qrc:/images/delete.svg", "event": "delete", "help": "Delete Namespace"}
             ]
     }
 

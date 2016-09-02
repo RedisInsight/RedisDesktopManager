@@ -14,7 +14,4 @@ private slots:
 	
 	void saveConnectionsConfigToFile();
     void saveConnectionsConfigToFile_data();
-	
-private:    
-    QSharedPointer<ValueEditor::ViewModel> m_viewModel;	
 };

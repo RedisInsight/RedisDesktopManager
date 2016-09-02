@@ -28,8 +28,7 @@ public:
         keyType,        
         showValueNavigation,
         columnNames,
-        count,
-        keyValue
+        count
     };
 
 public:
@@ -70,7 +69,8 @@ private:
     QSharedPointer<AbstractKeyFactory> m_keyFactory;
     int m_currentTabIndex;
 
-    QPair<QSharedPointer<RedisClient::Connection>, int> m_newKeyRequest;
+    typedef QPair<QWeakPointer<RedisClient::Connection>, int> NewKeyRequest;
+    NewKeyRequest m_newKeyRequest;
     std::function<void()> m_newKeyCallback;
 
     bool isIndexValid(const QModelIndex &index) const;

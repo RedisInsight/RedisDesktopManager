@@ -1,7 +1,6 @@
 #include "valueviewmodel.h"
 #include <QDebug>
-
-const int PAGE_SIZE = 100;
+#include <QSettings>
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
     : QAbstractListModel((QObject*)model->getConnector().data()),
@@ -68,7 +67,7 @@ bool ValueEditor::ValueViewModel::isMultiRow()
 void ValueEditor::ValueViewModel::reload()
 {
     m_model->clearRowCache();
-    loadRows(m_startFramePosition, m_model->rowsCount() < PAGE_SIZE ? m_model->rowsCount() : PAGE_SIZE);
+    loadRows(m_startFramePosition, m_model->rowsCount() < pageSize() ? m_model->rowsCount() : pageSize());
 }
 
 bool ValueEditor::ValueViewModel::isRowLoaded(int i)
@@ -171,11 +170,16 @@ void ValueEditor::ValueViewModel::deleteRow(int i)
 
     try {
         m_model->removeRow(targetRow);
+
+        emit beginRemoveRows(QModelIndex(), targetRow, targetRow);
+        emit endRemoveRows();
+
+        if (targetRow < m_model->rowsCount())
+            emit dataChanged(index(targetRow, 0), index(m_model->rowsCount() - 1, 0));
+
     } catch(const Model::Exception& e) {
         emit error(QString(e.what()));
-    }
-
-    emit layoutChanged();
+    }    
 }
 
 int ValueEditor::ValueViewModel::totalRowCount()
@@ -185,7 +189,9 @@ int ValueEditor::ValueViewModel::totalRowCount()
 
 int ValueEditor::ValueViewModel::pageSize()
 {
-    return PAGE_SIZE;
+    QSettings settings;
+
+    return settings.value("app/valueEditorPageSize", 1000).toInt();
 }
 
 QVariantMap ValueEditor::ValueViewModel::getRow(int row)

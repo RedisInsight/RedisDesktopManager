@@ -40,5 +40,7 @@
         <file>GlobalSettings.qml</file>
         <file>settings/BoolOption.qml</file>
         <file>settings/IntOption.qml</file>
+        <file>bulk-operations/BulkOperationsDialog.qml</file>
+        <file>value-editor/editors/formatters/json-tools.js</file>
     </qresource>
 </RCC>

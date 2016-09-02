@@ -5,13 +5,17 @@
 #include <qredisclient/connection.h>
 #include "modules/connections-tree/operations.h"
 #include "modules/connections-tree/items/keyitem.h"
+#include "modules/bulk-operations/bulkoperationsmanager.h"
+
+
+class ConnectionsManager;
 
 
 class TreeOperations : public QObject, public ConnectionsTree::Operations
 {
     Q_OBJECT
 public:
-    TreeOperations(QSharedPointer<RedisClient::Connection> connection);
+    TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConnectionsManager& manager);
 
     void getDatabases(std::function<void(RedisClient::DatabaseList)>) override;
 
@@ -32,19 +36,11 @@ public:
 
     void deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback) override;
 
-signals:
-    void openValueTab(QSharedPointer<RedisClient::Connection> connection,
-                      ConnectionsTree::KeyItem& key, bool inNewTab);
+    void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) override;
 
-    void openConsole(QSharedPointer<RedisClient::Connection> connection);
-
-    void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
-                      std::function<void()> callback,
-                      int dbIndex, QString keyPrefix);
-
-    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
-                     const QRegExp& filter=QRegExp("*", Qt::CaseSensitive, QRegExp::Wildcard));
+    virtual void flushDb(int dbIndex, std::function<void(const QString&)> callback) override;
 
 private:
-     QSharedPointer<RedisClient::Connection> m_connection;     
+     QSharedPointer<RedisClient::Connection> m_connection;
+     ConnectionsManager& m_manager;
 };

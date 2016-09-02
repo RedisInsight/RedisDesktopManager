@@ -9,10 +9,12 @@ class TestTreeOperations : public BaseTestCase
 private slots:
     void testCreation();  
     
-    void testGetDatabases();
-    void testGetDatabasesWithSelectScan();
+    void testGetDatabases();    
     
     void testGetDatabaseKeys();
     void testGetDatabaseKeys_data();
+
+    void testFlushDb();
+    void testFlushDbCommandError();
 };
 

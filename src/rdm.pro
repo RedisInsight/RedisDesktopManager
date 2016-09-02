@@ -28,6 +28,7 @@ SOURCES += \
     $$PWD/modules/value-editor/*.cpp \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
+    $$PWD/modules/bulk-operations/*.cpp \
 
 HEADERS  += \
     $$PWD/app/app.h \
@@ -41,7 +42,8 @@ HEADERS  += \
     $$PWD/modules/value-editor/*.h \
     $$PWD/modules/crashhandler/*.h \
     $$PWD/modules/updater/*.h \
-    $$PWD/modules/*.h \    
+    $$PWD/modules/*.h \
+    $$PWD/modules/bulk-operations/*.h \
 
 exists( $$PWD/version.h ) {
     HEADERS  += $$PWD/version.h

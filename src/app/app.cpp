@@ -18,7 +18,10 @@
 #include "modules/updater/updater.h"
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/viewmodel.h"
+#include "modules/value-editor/sortfilterproxymodel.h"
 #include "modules/console/consoleviewmodel.h"
+#include "modules/bulk-operations/bulkoperationsmanager.h"
+
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -79,6 +82,7 @@ void Application::initAppAnalytics()
 void Application::registerQmlTypes()
 {
     qmlRegisterType<ValueEditor::ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");   
+    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");
     qmlRegisterSingletonType<GoogleMP>("MeasurementProtocol", 1, 0, "Analytics", analytics_singletontype_provider);
     qRegisterMetaType<ServerConfig>();
 }
@@ -92,6 +96,7 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
     m_engine.rootContext()->setContextProperty("consoleModel", m_consoleModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
+    m_engine.rootContext()->setContextProperty("bulkOperations", m_bulkOperations.data());
 }
 
 void Application::initQml()
@@ -149,9 +154,18 @@ void Application::initConnectionsManager()
                     )
                 );
 
-    m_connections = QSharedPointer<ConnectionsManager>(
-                    new ConnectionsManager(config, m_keyValues)
-                );
+    m_connections = QSharedPointer<ConnectionsManager>(new ConnectionsManager(config));
+
+    m_bulkOperations = QSharedPointer<BulkOperations::Manager>(new BulkOperations::Manager(m_connections));
+
+    QObject::connect(m_connections.data(), &ConnectionsManager::openValueTab,
+                     m_keyValues.data(), &ValueEditor::ViewModel::openTab);
+    QObject::connect(m_connections.data(), &ConnectionsManager::newKeyDialog,
+                     m_keyValues.data(), &ValueEditor::ViewModel::openNewKeyDialog);
+    QObject::connect(m_connections.data(), &ConnectionsManager::closeDbKeys,
+                     m_keyValues.data(), &ValueEditor::ViewModel::closeDbKeys);
+    QObject::connect(m_connections.data(), &ConnectionsManager::requestBulkOperation,
+                     m_bulkOperations.data(), &BulkOperations::Manager::requestBulkOperation);
 }
 
 void Application::initUpdater()
