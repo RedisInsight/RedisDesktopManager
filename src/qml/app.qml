@@ -11,7 +11,6 @@ import "./common"
 import "./value-editor"
 import "./connections-tree"
 import "./console"
-import "./code-editor"
 import "./bulk-operations"
 
 ApplicationWindow {
