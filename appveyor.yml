@@ -26,7 +26,7 @@ build_script:
 - copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.0.2.5\build\native\bin\v140\Win32\Release\dynamic\libeay32.dll .\build\windows\installer\resources\libeay32.dll
 - copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.0.2.5\build\native\bin\v140\Win32\Release\dynamic\ssleay32.dll .\build\windows\installer\resources\ssleay32.dll
 - cd build/windows/installer/resources/
-- windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/resources/qml rdm.exe
+- windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/qml rdm.exe
 - cd %SRCDIR%
 - call "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
 test_script:
