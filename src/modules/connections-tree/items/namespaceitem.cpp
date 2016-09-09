@@ -19,31 +19,25 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
     m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(settings.nsSeparator) + 1);
 
     m_eventHandlers.insert("click", [this]() {
-       if (m_childItems.size() == 0 && m_rawChilds.size() > 0) {
-        renderChilds();
-       }
-    });
+        if (m_childItems.size() != 0)
+            return;
 
+        renderChilds();
+    });
 
     m_eventHandlers.insert("delete", [this]() {
         m_operations->deleteDbNamespace(*this);
     });
-
 }
 
 QString NamespaceItem::getDisplayName() const
 {    
-    return QString("%1 (%2)").arg(m_displayName).arg(childCount(true));
-}
-
-QString NamespaceItem::getDisplayPart() const
-{
-    return m_displayName;
+    return QString("%1 (%2)").arg(QString::fromUtf8(m_displayName)).arg(childCount(true));
 }
 
 QByteArray NamespaceItem::getName() const
 {
-    return m_fullPath;
+    return m_displayName;
 }
 
 QString NamespaceItem::getIconUrl() const
@@ -59,12 +53,6 @@ bool NamespaceItem::isLocked() const
 bool NamespaceItem::isEnabled() const
 {
     return m_removed == false;
-}
-
-void NamespaceItem::notifyModel()
-{
-    m_rawChilds.clear();
-    AbstractNamespaceItem::notifyModel();
 }
 
 QByteArray NamespaceItem::getFullPath() const

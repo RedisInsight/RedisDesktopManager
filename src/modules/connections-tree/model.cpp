@@ -14,6 +14,7 @@ Model::Model(QObject *parent) :
     QObject::connect(this, &Model::itemChanged, this, &Model::onItemChanged);
     QObject::connect(this, &Model::itemChildsLoaded, this, &Model::onItemChildsLoaded);
     QObject::connect(this, &Model::itemChildsUnloaded, this, &Model::onItemChildsUnloaded);
+    QObject::connect(this, &Model::expandItem, this, &Model::onExpandItem);
 
     qRegisterMetaType<QWeakPointer<TreeItem>>("QWeakPointer<TreeItem>");
 
@@ -31,6 +32,7 @@ QVariant Model::data(const QModelIndex &index, int role) const
         case Qt::DecorationRole: return item->getIconUrl();
         case itemType: return item->getType();
         case itemOriginalName: return item->getName();
+        case itemIsInitiallyExpanded: return item->isExpanded();
     }
 
     return QVariant();
@@ -41,6 +43,7 @@ QHash<int, QByteArray> Model::roleNames() const
     QHash<int, QByteArray> roles;
     roles[itemName] = "name";
     roles[itemType] = "type";
+    roles[itemIsInitiallyExpanded] = "expanded";
     return roles;
 }
 
@@ -174,6 +177,8 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
             qDebug() << "Namespace reopening is disabled in settings";
             m_expanded.clear();
         }
+    } else if (treeItem->getType() == "server" || treeItem->getType() == "namespace") {
+        emit expand(index);
     }
 }
 
@@ -189,6 +194,19 @@ void Model::onItemChildsUnloaded(QWeakPointer<TreeItem> item)
 
     emit beginRemoveRows(index, 0, item.toStrongRef()->childCount() - 1);
     emit endRemoveRows();
+}
+
+void Model::onExpandItem(QWeakPointer<TreeItem> item)
+{
+    if (!item)
+        return;
+
+    auto index = getIndexFromItem(item);
+
+    if (!index.isValid())
+        return;
+
+    emit expand(index);
 }
 
 
@@ -244,7 +262,7 @@ void Model::setExpanded(const QModelIndex &index)
     if (!item || item->getType() != "namespace")
         return;
 
-    m_expanded.insert(item->getName());
+    m_expanded.insert(item->getFullPath());
 }
 
 void Model::setCollapsed(const QModelIndex &index)
@@ -254,7 +272,9 @@ void Model::setCollapsed(const QModelIndex &index)
     if (!item || item->getType() != "namespace")
         return;    
 
-    m_expanded.remove(item->getName());
+    // TODO: remove child ns
+
+    m_expanded.remove(item->getFullPath());
 }
 
 void Model::addRootItem(QSharedPointer<ServerItem> serverItem)
@@ -285,20 +305,15 @@ void Model::removeRootItem(QSharedPointer<ServerItem> item)
 }
 
 void Model::restoreOpenedNamespaces(const QModelIndex &dbIndex)
-{        
-    QSet<QByteArray> expandedCache = m_expanded;
+{                
     m_expanded.clear();
 
     QModelIndex searchFrom = index(0, 0, dbIndex);
+    QModelIndexList matches = match(searchFrom, itemIsInitiallyExpanded, true, -1,
+                                    Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchRecursive);
 
-    foreach (QByteArray item, expandedCache)
-    {        
-        QModelIndexList matches = match(searchFrom, itemOriginalName, item, -1,
-                                        Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchRecursive);
-
-        foreach (QModelIndex i, matches)
-        {            
-            emit expand(i);
-        }
+    foreach (QModelIndex i, matches)
+    {
+        emit expand(i);
     }
 }

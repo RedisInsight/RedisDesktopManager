@@ -102,7 +102,11 @@ TreeView {
         }
 
         MouseArea {
-            anchors.fill: parent
+            anchors.left: itemIcon.left
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
             acceptedButtons: Qt.RightButton | Qt.MiddleButton
 
             onClicked: {
@@ -125,10 +129,6 @@ TreeView {
 
         focus: true
         Keys.forwardTo: menuLoader.item ? [menuLoader.item] : []
-
-        Component.onCompleted: {
-            forceActiveFocus()
-        }
     }
 
     onClicked: {
@@ -141,5 +141,12 @@ TreeView {
     onExpanded: connectionsManager.setExpanded(index)
     onCollapsed: connectionsManager.setCollapsed(index)
 
-    Connections { target: connectionsManager; onExpand: root.expand(index) }
+    Connections {
+        target: connectionsManager;
+        onExpand: {
+            if (!root.isExpanded(index)) {
+                root.expand(index)
+            }
+        }
+    }
 }

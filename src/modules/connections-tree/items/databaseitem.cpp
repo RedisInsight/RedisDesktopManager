@@ -97,8 +97,14 @@ QString DatabaseItem::getDisplayName() const
         return QString("db%1 (%2)").arg(m_index).arg(m_keysCount);
     } else {                
         QString filter =  m_renderingSettings.filter.isEmpty()? "" : QString("[filter: %1]").arg(m_renderingSettings.filter.pattern());
+        QString liveUpdate = m_liveUpdateTimer.isActive()? "[live update]" : "";
 
-        return QString("db%1 %2 (%3/%4)").arg(m_index).arg(filter).arg(m_rawChilds.size()).arg(m_keysCount);
+        return QString("db%1 %2 (%3/%4) %5")
+                .arg(m_index)
+                .arg(filter)
+                .arg(m_rawChilds.size())
+                .arg(m_keysCount)
+                .arg(liveUpdate);
     }
 }
 
@@ -177,12 +183,14 @@ void DatabaseItem::setMetadata(const QString &key, QVariant value)
         return filterKeys(pattern);
     } else if (key == "live_update") {
         if (m_liveUpdateTimer.isActive() && isResetValue) {
-            m_liveUpdateTimer.stop();
-            return;
+            qDebug() << "Stop live update";
+            m_liveUpdateTimer.stop();            
+        } else {
+            qDebug() << "Start live update";
+            m_liveUpdateTimer.start();
         }
 
-        m_liveUpdateTimer.start();
-        return;
+        emit m_model.itemChanged(getSelf());
     }
 }
 
@@ -236,6 +244,7 @@ void DatabaseItem::liveUpdate()
         QSettings settings;
         if (m_rawChilds.size() >= settings.value("app/liveUpdateKeysLimit", 1000).toInt()) {
             m_liveUpdateTimer.stop();
+            emit m_model.itemChanged(getSelf());
             QMessageBox::warning(nullptr, tr("Live update was disabled"),
                                  tr("Live update was disabled due to exceeded keys limit. "
                                     "Please specify more accurate filter or change limit in settings."));

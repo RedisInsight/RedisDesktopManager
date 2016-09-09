@@ -342,6 +342,8 @@ Repeater {
 
                                     keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
 
+                                    console.log(keyType)
+
                                     if (keyType === "string") {
                                         valueEditor.loadRowValue(0)
                                     } else {
@@ -430,6 +432,7 @@ Repeater {
 
                             onRowCountChanged: wrapper.hideLoader()
                             onActivated: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
+                            onClicked: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
                         }
 
                         ColumnLayout {
@@ -596,11 +599,6 @@ Repeater {
                                 target: viewModel
 
                                 onReplaceTab: {
-                                    valueEditor.source = Qt.binding(function() {
-                                        console.log("enforce editor change")
-                                        return Editor.getEditorByTypeString(keyType)
-                                    })
-
                                     if (showValueNavigation && keyIndex === index) {
                                         valueEditor.maxHeight = wrapper.height * 0.4
                                     } else {

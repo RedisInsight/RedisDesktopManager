@@ -20,6 +20,8 @@ namespace ConnectionsTree {
             itemName = Qt::UserRole + 1,
             itemOriginalName,
             itemType,            
+            itemFullPath,
+            itemIsInitiallyExpanded
         };
 
     public:
@@ -67,8 +69,11 @@ namespace ConnectionsTree {
 
         void fetchMore(const QModelIndex &parent);
 
+        QSet<QByteArray> m_expanded;
+
     signals:
         void expand(const QModelIndex &index);
+
         void error(const QString& err);
 
         void itemChanged(QWeakPointer<TreeItem> item);
@@ -77,12 +82,16 @@ namespace ConnectionsTree {
 
         void itemChildsUnloaded(QWeakPointer<TreeItem> item);
 
+        void expandItem(QWeakPointer<TreeItem> item);
+
     protected slots:
         void onItemChanged(QWeakPointer<TreeItem>);
 
         void onItemChildsLoaded(QWeakPointer<TreeItem> item);
 
         void onItemChildsUnloaded(QWeakPointer<TreeItem> item);
+
+        void onExpandItem(QWeakPointer<TreeItem> item);
 
     public slots:
         QVariant getItemIcon(const QModelIndex &index);
@@ -110,7 +119,6 @@ namespace ConnectionsTree {
 
     private:
          QList<QSharedPointer<TreeItem>> m_treeItems;
-         QSharedPointer<QHash<TreeItem*, QWeakPointer<TreeItem>>> m_rawPointers;
-         QSet<QByteArray> m_expanded;
+         QSharedPointer<QHash<TreeItem*, QWeakPointer<TreeItem>>> m_rawPointers;         
     };
 }

@@ -26,6 +26,8 @@ public:
 
     virtual QByteArray getName() const { return getDisplayName().toUtf8(); }
 
+    virtual QByteArray getFullPath() const { return QByteArray(); }
+
     virtual QString getIconUrl() const = 0;
 
     virtual QString getType() const = 0;    
@@ -53,6 +55,8 @@ public:
     virtual bool isLocked() const { return false; }
 
     virtual bool isEnabled() const = 0;
+
+    virtual bool isExpanded() const { return false; }
 
     virtual bool canFetchMore() const { return false; }
 

@@ -29,10 +29,6 @@ RowLayout {
         ]
     }
 
-    Keys.onPressed: {
-        console.log("Works!")
-    }
-
     Shortcut {
         sequence: root.shortcuts['console']
         onActivated: {

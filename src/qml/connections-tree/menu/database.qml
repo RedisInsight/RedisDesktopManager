@@ -120,7 +120,7 @@ RowLayout {
 
             function processClick() {
                 if (liveUpdateEnabled) {
-                    connectionsManager.setMetadata(styleData.index, "live_update", false)
+                    connectionsManager.setMetadata(styleData.index, "live_update", '')
                 } else {
                     connectionsManager.setMetadata(styleData.index, "live_update", true)
                 }

@@ -69,7 +69,7 @@ void Application::initAppInfo()
 void Application::initAppFonts()
 {
     QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttc");
-    QFont defaultFont("OpenSans", 10);
+    QFont defaultFont("OpenSans", 11);
     QApplication::setFont(defaultFont);
 }
 

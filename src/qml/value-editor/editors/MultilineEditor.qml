@@ -103,7 +103,7 @@ ColumnLayout
         style: TextAreaStyle {
             renderType: Text.QtRendering
         }
-        font { family: monospacedFont.name }
+        font { family: monospacedFont.name; pointSize: 12 }
         wrapMode: TextEdit.WrapAnywhere
     }
 }

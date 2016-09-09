@@ -26,13 +26,14 @@ namespace ConnectionsTree {
         static void renderKeys(QSharedPointer<Operations> operations,
                                RedisClient::Connection::RawKeysList keys,
                                QSharedPointer<AbstractNamespaceItem> parent,
-                               RenderingSettigns settings);
+                               RenderingSettigns settings, const QSet<QByteArray> &expandedNamespaces);
     private:
         static void renderLazily(QSharedPointer<AbstractNamespaceItem> parent,
                                  const QByteArray &notProcessedKeyPart,
                                  const QByteArray &fullKey,
                                  QSharedPointer<Operations> operations,
                                  const RenderingSettigns& settings,
+                                 const QSet<QByteArray> &expandedNamespaces,
                                  unsigned long level=0);
     };
 
@@ -71,7 +72,7 @@ namespace ConnectionsTree {
             m_rawChilds.append(item);
         }
 
-        virtual QSharedPointer<AbstractNamespaceItem> findChildNamespace(const QString& name)
+        virtual QSharedPointer<AbstractNamespaceItem> findChildNamespace(const QByteArray& name)
         {
             if (!m_childNamespaces.contains(name))
                 return QSharedPointer<AbstractNamespaceItem>();
@@ -87,6 +88,10 @@ namespace ConnectionsTree {
 
         virtual QByteArray getFullPath() const = 0;
 
+        virtual bool isExpanded() const override { return m_expanded; }
+
+        virtual void setExpanded(bool v) { m_expanded = v; }
+
     protected:
         void renderChilds();
 
@@ -94,8 +99,9 @@ namespace ConnectionsTree {
         QWeakPointer<TreeItem> m_parent;
         QSharedPointer<Operations> m_operations;
         QList<QSharedPointer<TreeItem>> m_childItems;
-        QHash<QString, QSharedPointer<AbstractNamespaceItem>> m_childNamespaces;
+        QHash<QByteArray, QSharedPointer<AbstractNamespaceItem>> m_childNamespaces;
         RedisClient::Connection::RawKeysList m_rawChilds;
-        KeysTreeRenderer::RenderingSettigns m_renderingSettings;              
+        KeysTreeRenderer::RenderingSettigns m_renderingSettings;
+        bool m_expanded;
     };
 }

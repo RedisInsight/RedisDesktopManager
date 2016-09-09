@@ -19,7 +19,7 @@ ApplicationWindow {
     objectName: "rdm_qml_root"
     title: "Redis Desktop Manager " + Qt.application.version
     width: 1100
-    height: 700
+    height: 800
 
     property double wRatio : (width * 1.0) / (Screen.width * 1.0)
     property double hRatio : (height * 1.0) / (Screen.height * 1.0)
@@ -138,6 +138,7 @@ ApplicationWindow {
             id: connectionsTree
             Layout.fillHeight: true
             Layout.minimumWidth: 350
+            Layout.minimumHeight: 500
         }
 
         BetterSplitView {
@@ -226,7 +227,7 @@ ApplicationWindow {
                     BaseConsole {
                         id: logTab
                         readOnly: true
-                        textColor: "darkgrey"
+                        textColor: "#6D6D6E"
 
                         Connections {
                             target: appLogger

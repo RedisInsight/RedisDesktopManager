@@ -11,7 +11,8 @@ using namespace ConnectionsTree;
 void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
                                   RedisClient::Connection::RawKeysList keys,
                                   QSharedPointer<AbstractNamespaceItem> parent,
-                                  RenderingSettigns settings)
+                                  RenderingSettigns settings,
+                                  const QSet<QByteArray>& expandedNamespaces)
 {
     //init
     QElapsedTimer timer;
@@ -36,7 +37,8 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
                 continue;
         }      
 
-        renderLazily(parent, rawKey.mid(unprocessedPartStart), rawKey, operations, settings);
+        renderLazily(parent, rawKey.mid(unprocessedPartStart), rawKey, operations, settings,
+                     expandedNamespaces);
     }
     qDebug() << "Tree builded in: " << timer.elapsed() << " ms";
 
@@ -49,11 +51,12 @@ void KeysTreeRenderer::renderLazily(
         const QByteArray &fullKey,
         QSharedPointer<Operations> m_operations,
         const RenderingSettigns& settings,
+        const QSet<QByteArray> &expandedNamespaces,
         unsigned long level)
 {
     Q_ASSERT(parent);
 
-    if (level > 1) {
+    if (level > 0 && parent->isExpanded() == false) {
         parent->append(fullKey);
         return;
     }
@@ -69,20 +72,28 @@ void KeysTreeRenderer::renderLazily(
         return;
     }
 
-    QString firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
+    QByteArray firstNamespaceName = notProcessedKeyPart.mid(0, indexOfNaspaceSeparator);
 
     QSharedPointer<AbstractNamespaceItem> namespaceItem = parent->findChildNamespace(firstNamespaceName);
 
     if (namespaceItem.isNull()) {
-        QByteArray namespaceFullPath = fullKey.mid(0, fullKey.indexOf(notProcessedKeyPart) + firstNamespaceName.size());
+        long nsEndPos = (fullKey.size() - notProcessedKeyPart.size()
+                         + firstNamespaceName.size()
+                         + settings.nsSeparator.length() - 1);
+        QByteArray namespaceFullPath = fullKey.mid(0, nsEndPos);
         namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(namespaceFullPath,
                                                                         m_operations, currentParent,
                                                                         parent->model(), settings));
+
+        if (expandedNamespaces.contains(namespaceFullPath)) {
+            namespaceItem->setExpanded(true);
+        }
+
         parent->appendNamespace(namespaceItem);
     }
 
     renderLazily(namespaceItem, notProcessedKeyPart.mid(indexOfNaspaceSeparator + settings.nsSeparator.length()),
-                 fullKey, m_operations, settings, level + 1);
+                 fullKey, m_operations, settings, expandedNamespaces, level + 1);
 }
 
 AbstractNamespaceItem::AbstractNamespaceItem(Model& model,
@@ -92,7 +103,8 @@ AbstractNamespaceItem::AbstractNamespaceItem(Model& model,
     : TreeItem(model),
       m_parent(parent),
       m_operations(operations),
-      m_renderingSettings(rSettings)
+      m_renderingSettings(rSettings),
+      m_expanded(false)
 {
 
 }
@@ -146,9 +158,9 @@ void AbstractNamespaceItem::clear(bool removeRawKeys)
 
 void AbstractNamespaceItem::notifyModel()
 {
-    qDebug() << "Notify model about loaded childs";
-    emit m_model.itemChanged(getSelf());
+    qDebug() << "Notify model about loaded childs";    
     emit m_model.itemChildsLoaded(getSelf());
+    emit m_model.itemChanged(getSelf());
 }
 
 void AbstractNamespaceItem::renderChilds()
@@ -160,8 +172,8 @@ void AbstractNamespaceItem::renderChilds()
     if (!self) {
         qDebug() << "Cannot render keys: invalid parent item";
         return;
-    }
+    }        
 
     QtConcurrent::run(&KeysTreeRenderer::renderKeys, m_operations, m_rawChilds,
-                       self.dynamicCast<AbstractNamespaceItem>(), m_renderingSettings);
+                       self.dynamicCast<AbstractNamespaceItem>(), m_renderingSettings, m_model.m_expanded);
 }

@@ -14,9 +14,7 @@ public:
                   Model& model,
                   const KeysTreeRenderer::RenderingSettigns& settings);
 
-    QString getDisplayName() const override;
-
-    QString getDisplayPart() const;
+    QString getDisplayName() const override;    
 
     QByteArray getName() const override;
 
@@ -28,9 +26,7 @@ public:
 
     bool isLocked() const override;
 
-    bool isEnabled() const override;
-
-    void notifyModel() override;
+    bool isEnabled() const override;    
 
     int getDbIndex() const;
 
@@ -38,7 +34,7 @@ public:
 
 private:
     QByteArray m_fullPath;    
-    QString m_displayName;    
+    QByteArray m_displayName;
     bool m_removed;
 };
 }
