@@ -32,7 +32,6 @@ public:
     virtual QHash<int, QByteArray> getRoles() = 0;
     virtual QVariant getData(int rowIndex, int dataRole) = 0;    
 
-    virtual bool isPartialLoadingSupported() = 0;
     virtual void setKeyName(const QByteArray&) = 0; // async
     virtual void setTTL(const long long) = 0; // async
     virtual void removeKey() = 0;

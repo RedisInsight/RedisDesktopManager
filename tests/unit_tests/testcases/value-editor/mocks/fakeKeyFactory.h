@@ -46,11 +46,6 @@ public:
         return QVariant(QString("fake value"));
     }
 
-    bool isPartialLoadingSupported() override
-    {
-        return true;
-    }
-
     void setKeyName(const QByteArray &) override
     {
     }

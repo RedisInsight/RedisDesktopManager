@@ -55,6 +55,26 @@ void TestTreeOperations::testGetDatabases()
     QCOMPARE(result.size(), 1003);
 }
 
+void TestTreeOperations::testGetDatabasesOnOldRedis()
+{
+    //given
+    ConnectionsManager manager{QString()};
+    auto connection = getFakeConnection(QList<QVariant>(), QStringList(), 2.6);
+    bool exceptionCatched = false;
+
+    //when
+    TreeOperations operations(connection, manager);
+
+    try {
+        operations.getDatabases([](const RedisClient::DatabaseList&){});
+    } catch (const TreeOperations::Exception& e) {
+        exceptionCatched = true;
+    }
+
+    //then
+    QCOMPARE(exceptionCatched, true);
+}
+
 void TestTreeOperations::testGetDatabaseKeys()
 {    
     //given
@@ -89,8 +109,7 @@ void TestTreeOperations::testGetDatabaseKeys_data()
 {
     QTest::addColumn<double>("redisServerVersion");
     QTest::addColumn<uint>("runCommandCalled");
-    QTest::addColumn<uint>("retrieveCollectionCalled");
-    QTest::newRow("Legacy redis <= 2.6") << 2.6 << 1u << 0u;
+    QTest::addColumn<uint>("retrieveCollectionCalled");    
     QTest::newRow("New redis >= 2.8") << 2.8 << 0u << 1u;
 }
 

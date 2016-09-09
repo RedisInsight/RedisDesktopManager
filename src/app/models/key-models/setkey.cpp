@@ -4,7 +4,7 @@
 SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection,
                          QByteArray fullPath, int dbIndex, long long ttl)
        : ListLikeKeyModel(connection, fullPath, dbIndex, ttl,
-                          "SCARD", "SSCAN %1 0 COUNT 10000", "SMEMBERS", false)
+                          "SCARD", "SSCAN %1 0 COUNT 10000", QByteArray(), false)
 {    
 }
 

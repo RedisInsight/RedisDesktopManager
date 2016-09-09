@@ -45,7 +45,7 @@ void TestDatabaseItem::testLoadKeys()
     QCOMPARE(spy.wait(), true);
     QCOMPARE(spy.count(), 1);
     QCOMPARE(item->childCount(), (unsigned int)100001);    
-    QCOMPARE(item->getDisplayName(), QString("db0  (100002/55)"));
+    QCOMPARE(item->getDisplayName(), QString("db0  (100002/55) "));
     QCOMPARE(item->getIconUrl().isNull(), false);
     QCOMPARE(item->getAllChilds().isEmpty(), false);
     QCOMPARE(item->isEnabled(), true);

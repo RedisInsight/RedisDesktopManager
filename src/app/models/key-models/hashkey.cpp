@@ -4,7 +4,7 @@
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
                            QByteArray fullPath, int dbIndex, long long ttl)
        : KeyModel(connection, fullPath, dbIndex, ttl, true,
-                  "HLEN", "HSCAN %1 0 COUNT 10000", "HGETALL")
+                  "HLEN", "HSCAN %1 0 COUNT 10000")
 {    
 }
 

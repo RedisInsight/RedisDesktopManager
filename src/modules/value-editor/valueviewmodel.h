@@ -34,8 +34,7 @@ public:
     Q_INVOKABLE int totalRowCount();
     Q_INVOKABLE int pageSize();
 
-    // general operations
-    Q_INVOKABLE bool isPartialLoadingSupported();
+    // general operations    
     Q_INVOKABLE QVariantList getColumnNames();
 
 signals:

@@ -42,11 +42,6 @@ int ValueEditor::ValueViewModel::mapRowIndex(int i)
     return m_startFramePosition + i;
 }
 
-bool ValueEditor::ValueViewModel::isPartialLoadingSupported()
-{
-    return m_model->isPartialLoadingSupported();
-}
-
 QVariantList ValueEditor::ValueViewModel::getColumnNames()
 {
     QVariantList result;

@@ -368,21 +368,6 @@ Repeater {
                                 }
                             }
 
-                            MessageDialog {
-                                id: valueLoadingConfirmation
-                                title: "Legacy Redis-Server detected!"
-                                text: "You are connected to legacy redis-server, which doesn't support partial loading. "
-                                      + "Do you really want to load " + keyTab.keyModel.totalRowCount() +" items?"
-                                onYes: {
-                                    table.forceLoading = true
-                                    table.loadValue()
-                                }
-                                visible: false
-                                modality: Qt.ApplicationModal
-                                icon: StandardIcon.Warning
-                                standardButtons: StandardButton.Yes | StandardButton.No
-                            }
-
                             function goToPage(page) {
                                 var firstItemOnPage = table.maxItemsOnPage * (page - 1)
 
@@ -416,18 +401,9 @@ Repeater {
                                     return
                                 }
 
-                                if (keyTab.keyModel.isPartialLoadingSupported()
-                                        || keyTab.keyModel.totalRowCount() < maxItemsOnPage
-                                        || table.forceLoading) {
-                                    keyModelConnections.target = keyTab.keyModel
-                                    wrapper.showLoader()
-                                    keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
-                                } else {
-                                    // Legacy redis without SCAN support
-                                    // Show warning message
-                                    // to get upprove from user
-                                    valueLoadingConfirmation.open()
-                                }
+                                keyModelConnections.target = keyTab.keyModel
+                                wrapper.showLoader()
+                                keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
                             }
 
                             onRowCountChanged: wrapper.hideLoader()

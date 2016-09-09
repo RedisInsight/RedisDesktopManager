@@ -18,7 +18,7 @@ public:
              bool isMultiRow,
              QByteArray rowsCountCmd,
              QByteArray partialLoadingCmd,
-             QByteArray fullLoadingCmd,
+             QByteArray fullLoadingCmd=QByteArray(),
              bool fullLoadingCmdSupportsRanges=false)
         :
           m_connection(connection),
@@ -57,11 +57,6 @@ public:
     virtual long long getTTL() override
     {
         return m_ttl;
-    }    
-
-    virtual bool isPartialLoadingSupported() override
-    {
-        return m_connection->getServerVersion() >= 2.8;
     }
 
     virtual bool isMultiRow() const override
@@ -134,7 +129,20 @@ public:
 
     virtual void loadRows(unsigned long rowStart, unsigned long count, std::function<void(const QString&)> callback) override
     {
-        if (isPartialLoadingSupported() && !m_fullLoadingCmdSupportsRanges) {
+        if (m_fullLoadingCmdSupportsRanges) {
+            QVariantList rows;
+            try {                
+                rows = getRowsRange(m_fullLoadingCmd, rowStart, count).toList();
+            } catch (const KeyModel::Exception& e) {
+                callback(QString(e.what()));
+            }
+            try {
+                addLoadedRowsToCache(rows, rowStart);
+            } catch(const std::runtime_error& e) {
+                callback(QString(e.what()));
+            }
+            callback(QString());
+        } else {
             QList<QByteArray> cmdParts = m_partialLoadingCmd.split(' ');
             cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
 
@@ -155,22 +163,6 @@ public:
             } catch (const RedisClient::Connection::Exception& e) {
                 callback(QString(e.what()));
             }
-        } else {
-            QVariantList rows;
-            try {
-                if (m_fullLoadingCmdSupportsRanges)
-                    rows = getRowsRange(m_fullLoadingCmd, rowStart, count).toList();
-                else
-                    rows = getRowsRange(m_fullLoadingCmd).toList();
-            } catch (const KeyModel::Exception& e) {
-                callback(QString(e.what()));
-            }
-            try {
-                addLoadedRowsToCache(rows, rowStart);
-            } catch(const std::runtime_error& e) {
-                callback(QString(e.what()));
-            }
-            callback(QString());
         }
     }
 
@@ -222,30 +214,26 @@ protected:
         return -1;
     }
 
-    QVariant getRowsRange(const QByteArray & baseCmd, unsigned long rowStart = 0, unsigned long count = 0)
+    QVariant getRowsRange(const QByteArray & baseCmd, unsigned long rowStart, unsigned long count)
     {
         QList<QByteArray> cmd;
 
-        if (rowStart == 0 && count == 0) {
-            cmd << baseCmd << m_keyFullPath;
+        unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
+
+        if (baseCmd.contains(' ')) {
+            QList<QByteArray> suffixCmd(baseCmd.split(' '));
+
+            cmd << suffixCmd.takeFirst();
+            cmd << m_keyFullPath
+                << QString::number(rowStart).toLatin1()
+                << QString::number(rowEnd).toLatin1();
+            cmd += suffixCmd;
+
         } else {
-            unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
-
-            if (baseCmd.contains(' ')) {
-                QList<QByteArray> suffixCmd(baseCmd.split(' '));
-
-                cmd << suffixCmd.takeFirst();
-                cmd << m_keyFullPath
-                    << QString::number(rowStart).toLatin1()
-                    << QString::number(rowEnd).toLatin1();
-                cmd += suffixCmd;
-
-            } else {
-                cmd << baseCmd
-                    << m_keyFullPath
-                    << QString::number(rowStart).toLatin1()
-                    << QString::number(rowEnd).toLatin1();
-            }
+            cmd << baseCmd
+                << m_keyFullPath
+                << QString::number(rowStart).toLatin1()
+                << QString::number(rowEnd).toLatin1();
         }
 
         RedisClient::Response result;

@@ -9,7 +9,8 @@ class TestTreeOperations : public BaseTestCase
 private slots:
     void testCreation();  
     
-    void testGetDatabases();    
+    void testGetDatabases();
+    void testGetDatabasesOnOldRedis();
     
     void testGetDatabaseKeys();
     void testGetDatabaseKeys_data();
