@@ -59,7 +59,38 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     build_libssh2
 
     print_title "Run: source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
-    
+elif [ "$os_VENDOR" == "LinuxMint" ]; then
+    mint_ver=${os_RELEASE:0:2}
+    print_title "Build RDM on Linux Mint: $mint_ver"
+
+    if [ "$mint_ver" != "17" ] && [ "$mint_ver" != "18" ]; then
+        echo "RedisDesktopManager only supports linux mint 17 and 18."
+        exit 1
+    fi
+
+    # Check Qt ppa
+    if [ ! -f /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh ]; then
+        print_title "Install Qt ${RDM_QT_VERSION}"
+
+        if [ "$mint_ver" == "17" ]; then
+                sudo add-apt-repository --yes ppa:beineri/opt-qt${RDM_QT_VERSION}-trusty
+        elif [ "$mint_ver" == "18" ]; then
+                sudo add-apt-repository --yes ppa:beineri/opt-qt${RDM_QT_VERSION}-xenial
+        fi
+
+        sudo apt-get update -y
+        sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools \
+            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols -y
+    fi
+
+    print_title "Check deps"
+    sudo apt-get install automake libtool libssl-dev \
+        libssh2-1-dev g++ libgl1-mesa-dev cmake -y
+
+    build_breakpad
+    build_libssh2
+
+    print_title "source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
 elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && "$os_RELEASE" -ge "7" ]]; then
     print_title "Build RDM on $os_VENDOR: $os_RELEASE"
 
