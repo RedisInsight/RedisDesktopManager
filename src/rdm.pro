@@ -88,7 +88,7 @@ unix:!macx { # ubuntu & debian
     CONFIG += static release
     CONFIG -= debug    
 
-    QTPLUGIN += qjpeg qgif qsvg qsvgicon
+    QTPLUGIN += qsvg qsvgicon
 
     QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
