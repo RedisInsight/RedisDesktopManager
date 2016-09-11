@@ -88,6 +88,8 @@ unix:!macx { # ubuntu & debian
     CONFIG += static release
     CONFIG -= debug    
 
+    QTPLUGIN += qjpeg qgif qsvg qsvgicon
+
     QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
     release: DESTDIR = ./../bin/linux/release
