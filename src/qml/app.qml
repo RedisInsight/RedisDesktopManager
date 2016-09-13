@@ -30,7 +30,7 @@ ApplicationWindow {
         if (hRatio > 1 || wRatio > 1) {
             console.log("Ratio > 1.0. Resize main window.")
             width = Screen.width * 0.9
-            height = Screen.heigh * 0.8
+            height = Screen.height * 0.8
         }
     }
 
