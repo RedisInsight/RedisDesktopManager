@@ -30,7 +30,7 @@
         <file>value-editor/editors/editor.js</file>
         <file>3rdparty/php-unserialize-js/phpUnserialize.js</file>
         <file>console/QConsole.qml</file>
-        <file>console/BaseConsole.qml</file>        
+        <file>console/BaseConsole.qml</file>
         <file>console/Consoles.qml</file>
         <file>connections-tree/BetterTreeView.qml</file>
         <file>AppToolBar.qml</file>
@@ -41,5 +41,6 @@
         <file>settings/IntOption.qml</file>
         <file>bulk-operations/BulkOperationsDialog.qml</file>
         <file>value-editor/editors/formatters/json-tools.js</file>
+        <file>settings/ComboboxOption.qml</file>
     </qresource>
 </RCC>
