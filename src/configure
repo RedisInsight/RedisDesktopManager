@@ -91,7 +91,7 @@ elif [ "$os_VENDOR" == "LinuxMint" ]; then
     build_libssh2
 
     print_title "source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
-elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" && "$os_RELEASE" -ge "7" ]]; then
+elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" ]]; then
     print_title "Build RDM on $os_VENDOR: $os_RELEASE"
 
     print_title "Check deps"
