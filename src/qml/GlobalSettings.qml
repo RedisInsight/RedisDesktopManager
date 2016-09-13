@@ -10,16 +10,6 @@ Dialog {
     id: root
     title: "Settings"
 
-    Settings {
-        id: globalSettings
-        category: "app"
-
-        property alias reopenNamespacesOnReload: nsReload.value
-        property alias enableKeySortingInTree: keySorting.value
-        property alias liveUpdateKeysLimit: liveKeyLimit.value
-        property alias liveUpdateInterval: liveUpdateInterval.value
-    }
-
     contentItem: Item {
         implicitWidth: 800
         implicitHeight: 600
@@ -29,7 +19,36 @@ Dialog {
             anchors.margins: 20
 
             Text {
-                text: "Connections Tree Settings"
+                text: "Appearance"
+                font.pixelSize: 20
+            }
+
+            ComboboxOption {
+                id: appFont
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+
+                value: "Open Sans"
+                model: Qt.fontFamilies()
+                label: "Font"
+                description: ""
+            }
+
+            ComboboxOption {
+                id: appFontSize
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+
+                model: ["8", "9", "10", "11", "12"]
+                value: "10"
+                label: "Font Size"
+                description: "in pixels"
+            }
+
+            Text {
+                text: "Connections Tree"
                 font.pixelSize: 20
             }
 
@@ -95,5 +114,17 @@ Dialog {
                 }
             }
         }
+    }
+
+    Settings {
+        id: globalSettings
+        category: "app"
+
+        property alias reopenNamespacesOnReload: nsReload.value
+        property alias enableKeySortingInTree: keySorting.value
+        property alias liveUpdateKeysLimit: liveKeyLimit.value
+        property alias liveUpdateInterval: liveUpdateInterval.value
+        property alias appFont: appFont.value
+        property alias appFontSize: appFontSize.value
     }
 }

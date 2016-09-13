@@ -4,6 +4,7 @@
 #include <QUrl>
 #include <QSysInfo>
 #include <QQmlContext>
+#include <QSettings>
 #include <QMessageBox>
 #include <easylogging++.h>
 #include <googlemp.h>
@@ -68,8 +69,21 @@ void Application::initAppInfo()
 
 void Application::initAppFonts()
 {
-    QFontDatabase::addApplicationFont("://fonts/OpenSans-Regular.ttc");
-    QFont defaultFont("OpenSans", 11);
+    QSettings settings;
+    QString appFont = settings.value("app/appFont", "Open Sans").toString();
+    int appFontSize = settings.value("app/appFontSize", 11).toInt();
+
+    if (appFont == "Open Sans") {
+        int result = QFontDatabase::addApplicationFont("://fonts/OpenSans.ttc");
+
+#ifdef Q_OS_LINUX
+        if (result == -1) {
+            appFont = "Ubuntu";
+        }
+#endif
+    }
+    qDebug() << "App font:" << appFont << appFontSize;
+    QFont defaultFont(appFont, appFontSize);
     QApplication::setFont(defaultFont);
 }
 
