@@ -76,7 +76,7 @@ QVariant QmlUtils::toUtf(const QVariant &value)
 
 QString QmlUtils::getPathFromUrl(const QUrl &url)
 {
-    return url.path();
+    return url.isLocalFile() ? url.toLocalFile() : url.path();
 }
 
 void QmlUtils::copyToClipboard(const QString &text)
