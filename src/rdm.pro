@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui network concurrent widgets quick quickwidgets
+QT += core gui network concurrent widgets quick quickwidgets svg
 
 TARGET = rdm
 TEMPLATE = app
@@ -67,8 +67,6 @@ win32 {
 
 unix:macx { # OSX
     CONFIG += c++11
-
-    QTPLUGIN += qsvg qsvgicon
 
     debug: CONFIG-=app_bundle
 
