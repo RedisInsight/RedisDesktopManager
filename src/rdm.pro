@@ -66,6 +66,7 @@ win32 {
 }
 
 unix:macx { # OSX
+    QT += svg
     CONFIG += c++11
 
     debug: CONFIG-=app_bundle
