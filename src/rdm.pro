@@ -68,6 +68,8 @@ win32 {
 unix:macx { # OSX
     CONFIG += c++11
 
+    QTPLUGIN += qsvg qsvgicon
+
     debug: CONFIG-=app_bundle
 
     release: DESTDIR = ./../bin/osx/release
