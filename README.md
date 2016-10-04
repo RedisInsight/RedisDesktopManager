@@ -11,7 +11,6 @@
 [![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.9)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.9)
 [![Coverity Scan Build](https://scan.coverity.com/projects/3548/badge.svg)](https://scan.coverity.com/projects/3548)
 [![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.redisdesktop.com/en/latest/?badge=latest)
-[![Stories in Progress](https://badge.waffle.io/uglide/redisdesktopmanager.svg?label=in progress&title=In Progress)](http://waffle.io/uglide/redisdesktopmanager)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager)
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
@@ -30,7 +29,7 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 | [0.9.0-alpha1] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Sept 9, 2016 | [Sept 13, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha1) |
 | [0.9.0-alpha2] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Oct 7, 2016 | |
 | [0.9.0-alpha3] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Oct 14, 2016 | |
-| [0.9.0-beta] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Oct 28, 2016 | |
-| [0.9.0] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Nov 4, 2016 | |
-| [0.9.1-beta] (https://github.com/uglide/RedisDesktopManager/milestone/22) | Nov 18, 2016 | |
-| [0.9.1] (https://github.com/uglide/RedisDesktopManager/milestone/22) | Nov 25, 2016 | |
+| [0.9.0-alpha4] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Oct 28, 2016 | |
+| [0.9.0-alpha5] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Nov 4, 2016 | |
+| [0.9.0-beta] (https://github.com/uglide/RedisDesktopManager/milestone/22) | Nov 18, 2016 | |
+| [0.9.0] (https://github.com/uglide/RedisDesktopManager/milestone/22) | Nov 25, 2016 | |
