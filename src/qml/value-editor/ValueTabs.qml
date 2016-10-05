@@ -482,7 +482,7 @@ Repeater {
                                         deleteRowConfirmation.text = "This is last row in this key, " +
                                                 "if you remove this - key will be removed!"
                                     } else {
-                                        deleteRowConfirmation.text = "Do you relly want to remove this row?"
+                                        deleteRowConfirmation.text = "Do you really want to remove this row?"
                                     }
 
                                     var rowIndex = table.model.getOriginalRowIndex(table.currentRow)
