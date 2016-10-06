@@ -49,6 +49,7 @@ signals:
 
     void openConsole(QSharedPointer<RedisClient::Connection> connection);
 
+    void openServerStats(QSharedPointer<RedisClient::Connection> connection);
 
     // Proxy-signals from TreeOperationsModel
     void openValueTab(QSharedPointer<RedisClient::Connection> connection,

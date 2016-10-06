@@ -3,6 +3,9 @@
 #include <QVariant>
 #include <QVariantList>
 #include <QUrl>
+#include <QtCharts>
+
+using namespace QtCharts;
 
 class QmlUtils : public QObject
 {
@@ -17,4 +20,5 @@ public:
     Q_INVOKABLE QVariant toUtf(const QVariant &value);
     Q_INVOKABLE QString getPathFromUrl(const QUrl &url);
     Q_INVOKABLE void copyToClipboard(const QString &text);
+    Q_INVOKABLE void addNewValueToDynamicChart(QXYSeries* series, double value);
 };

@@ -12,6 +12,7 @@
 
 #include "logger.h"
 #include "qmlutils.h"
+#include "common/tabviewmodel.h"
 #include "models/connectionconf.h"
 #include "models/configmanager.h"
 #include "models/connectionsmanager.h"
@@ -20,7 +21,8 @@
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/viewmodel.h"
 #include "modules/value-editor/sortfilterproxymodel.h"
-#include "modules/console/consoleviewmodel.h"
+#include "modules/console/consolemodel.h"
+#include "modules/server-stats/serverstatsmodel.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 
 
@@ -53,10 +55,15 @@ void Application::initModels()
 {
     initConnectionsManager();
 
-    m_consoleModel = QSharedPointer<Console::ViewModel>(new Console::ViewModel());
+    m_consoleModel = QSharedPointer<TabViewModel>(new TabViewModel(getTabModelFactory<Console::Model>()));
 
     connect(m_connections.data(), &ConnectionsManager::openConsole,
-            m_consoleModel.data(), &Console::ViewModel::openConsole);
+            m_consoleModel.data(), &TabViewModel::openTab);
+
+    m_serverStatsModel = QSharedPointer<TabViewModel>(new TabViewModel(getTabModelFactory<ServerStats::Model>()));
+
+    connect(m_connections.data(), &ConnectionsManager::openServerStats,
+            m_serverStatsModel.data(), &TabViewModel::openTab);
 }
 
 void Application::initAppInfo()
@@ -109,6 +116,7 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("viewModel", m_keyValues.data()); // TODO: Remove legacy name usage in qml    
     m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
     m_engine.rootContext()->setContextProperty("consoleModel", m_consoleModel.data());
+    m_engine.rootContext()->setContextProperty("serverStatsModel", m_serverStatsModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
     m_engine.rootContext()->setContextProperty("bulkOperations", m_bulkOperations.data());
 }

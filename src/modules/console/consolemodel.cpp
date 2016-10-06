@@ -4,11 +4,8 @@
 using namespace Console;
 
 Model::Model(QSharedPointer<RedisClient::Connection> connection)
-    : m_current_db(0)
-{
-    // Clone connection
-    RedisClient::ConnectionConfig config = connection->getConfig();
-    m_connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(config));
+    : TabModel(connection), m_current_db(0)
+{    
 }
 
 void Model::init()
@@ -28,14 +25,9 @@ void Model::init()
     emit changePrompt(QString("%1:0>").arg(m_connection->getConfig().name()), true);
 }
 
-QString Model::getName()
+QString Model::getName() const
 {
     return m_connection->getConfig().name();
-}
-
-QSharedPointer<RedisClient::Connection> Model::getConnection()
-{
-    return m_connection;
 }
 
 void Model::executeCommand(const QString & cmd)

@@ -1,28 +1,19 @@
 #pragma once
-
-#include <QObject>
-#include <QSharedPointer>
 #include "exception.h"
-
-namespace RedisClient { class Connection; }
-
-#pragma once
-
-#include <QObject>
+#include "common/tabviewmodel.h"
 
 namespace Console {
 
-    class Model : public QObject
-    {
+    class Model : public TabModel
+    {        
         Q_OBJECT
         ADD_EXCEPTION
-
-    public:
+    public:       
         Model(QSharedPointer<RedisClient::Connection> connection);
 
         Q_INVOKABLE void init();
-        QString getName();
-        QSharedPointer<RedisClient::Connection> getConnection();
+
+        QString getName() const override;
 
     public slots:
         void executeCommand(const QString&);
@@ -31,8 +22,7 @@ namespace Console {
         void changePrompt(const QString &text, bool showPrompt);
         void addOutput(const QString &text, QString resultType);
 
-    private:
-        QSharedPointer<RedisClient::Connection> m_connection;
+    private:        
         int m_current_db;
     };
 }

@@ -89,3 +89,33 @@ void QmlUtils::copyToClipboard(const QString &text)
     cb->clear();
     cb->setText(text);
 }
+
+QDateTimeAxis* findDateTimeAxis(QXYSeries *series) {
+    QList<QAbstractAxis*> axes = series->attachedAxes();
+
+    QDateTimeAxis* ax = nullptr;
+
+    for (QAbstractAxis* axis : axes) {
+        if (axis->type() == QAbstractAxis::AxisTypeDateTime) {
+            ax = qobject_cast<QDateTimeAxis* >(axis);
+            return ax;
+        }
+    }
+
+    return ax;
+}
+
+void QmlUtils::addNewValueToDynamicChart(QXYSeries *series, double value)
+{    
+    QDateTimeAxis* ax = findDateTimeAxis(series);
+
+    if (series->count() == 0 && ax) {
+        ax->setMin(QDateTime::currentDateTime());
+    }
+
+    series->append(QDateTime::currentDateTime().toMSecsSinceEpoch(), value);
+
+    if (series->attachedAxes().size() > 0 && ax) {
+        ax->setMax(QDateTime::currentDateTime());
+    }
+}

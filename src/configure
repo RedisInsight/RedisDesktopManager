@@ -48,7 +48,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
 
         sudo apt-get update -y
         sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools \
-            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols -y
+            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols qt${RDM_QT_VERSION:0:2}charts-no-lgpl  qt${RDM_QT_VERSION:0:2}datavis-no-lgpl qt${RDM_QT_VERSION:0:2}svg -y
     fi
 
     print_title "Check deps"
@@ -80,7 +80,7 @@ elif [ "$os_VENDOR" == "LinuxMint" ]; then
 
         sudo apt-get update -y
         sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools \
-            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols -y
+            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols qt${RDM_QT_VERSION:0:2}charts-no-lgpl  qt${RDM_QT_VERSION:0:2}datavis-no-lgpl qt${RDM_QT_VERSION:0:2}svg -y
     fi
 
     print_title "Check deps"
