@@ -52,10 +52,13 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
         ++dbIndex;
     }
 
+    emit m_manager.openServerStats(m_connection);
+
     return callback(availableDatabeses);
 }
 
-void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter, std::function<void (const RedisClient::Connection::RawKeysList &, const QString &)> callback)
+void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter,
+                                     std::function<void (const RedisClient::Connection::RawKeysList &, const QString &)> callback)
 {
     QString keyPattern = filter.isEmpty() ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern() : filter;
 
