@@ -46,7 +46,7 @@ void BulkOperations::Manager::runOperation(int, int)
         }
 
         if (r.isErrorMessage()) {
-            emit error(QString("Bulk operation error: %1").arg(r.getValue().toString()));
+            emit error(QString(QObject::tr("Bulk operation error: %1")).arg(r.getValue().toString()));
             return;
         }
 

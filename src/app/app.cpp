@@ -49,6 +49,7 @@ Application::Application(int &argc, char **argv)
     initAppAnalytics();
     initRedisClient();
     initUpdater();    
+    installTranslator();
 }
 
 void Application::initModels()
@@ -159,10 +160,10 @@ void Application::initConnectionsManager()
 
     if (config.isNull()) {
         QMessageBox::critical(nullptr,
-            "Settings directory is not writable",
-            QString("Program can't save connections file to settings dir."
+            QObject::tr("Settings directory is not writable"),
+            QString(QObject::tr("Program can't save connections file to settings dir."
                     "Please change permissions or restart this program "
-                    " with administrative privileges")
+                    " with administrative privileges"))
             );
 
         throw std::runtime_error("invalid connections config");
@@ -196,8 +197,29 @@ void Application::initUpdater()
     connect(m_updater.data(), SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
 }
 
+void Application::installTranslator()
+{
+    QString locale = QLocale::system().uiLanguages().first().replace( "-", "_" );
+
+    qDebug() << QLocale::system().uiLanguages();
+
+    if (locale.isEmpty() || locale == "C")
+        locale = "en_US";
+
+    qDebug() << "Detected locale:" << locale;
+
+    QTranslator* translator = new QTranslator((QObject *)this);
+    if (translator->load( QString( ":/translations/rdm_" ) + locale ))
+    {
+        qDebug() << "Load translations file for locale:" << locale;
+        QCoreApplication::installTranslator( translator );
+    } else {
+        delete translator;
+    }
+}
+
 void Application::OnNewUpdateAvailable(QString &url)
 {
     QMessageBox::information(nullptr, "New update available",
-        QString("Please download new version of Redis Desktop Manager: %1").arg(url));
+        QString(QObject::tr("Please download new version of Redis Desktop Manager: %1")).arg(url));
 }

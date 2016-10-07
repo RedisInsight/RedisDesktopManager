@@ -42,7 +42,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: "Redis Version"
+                        text: qsTr("Redis Version")
                         font.pointSize: 15
                         color: "grey"
                     }
@@ -52,7 +52,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: "Used memory"
+                        text: qsTr("Used memory")
                         font.pointSize: 15
                         color: "grey"
                     }
@@ -62,7 +62,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: "Clients"
+                        text: qsTr("Clients")
                         font.pointSize: 15
                         color: "grey"
                     }
@@ -72,7 +72,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: "Commands Processed"
+                        text: qsTr("Commands Processed")
                         font.pointSize: 15
                         color: "grey"
                         wrapMode: Text.WordWrap
@@ -84,7 +84,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: "Uptime"
+                        text: qsTr("Uptime")
                         font.pointSize: 15
                         color: "grey"
                     }
@@ -115,7 +115,7 @@ Repeater {
                         Layout.fillHeight: true
                         Layout.preferredWidth: tab.width * 0.5
 
-                        title: "Memory Usage"
+                        title: qsTr("Memory Usage")
                         antialiasing: true
 
                         DateTimeAxis {
@@ -127,8 +127,8 @@ Repeater {
                         ValueAxis {
                             id: axisY
                             min: 0
-                            max: 5000 // total_system_memory
-                            titleText: "Mb"
+//                            max: 5000 // total_system_memory
+                            titleText: qsTr("Mb")
                         }
 
                         function toMsecsSinceEpoch(date) {
@@ -170,7 +170,7 @@ Repeater {
                         Layout.minimumWidth: tab.width * 0.4
 
                         Tab {
-                            title: "Server Info"
+                            title: qsTr("Server Info")
 
                             TableView {
                                 id: serverInfoListView
@@ -182,13 +182,13 @@ Repeater {
 
                                 TableViewColumn {
                                     role: "name"
-                                    title: "Property"
+                                    title: qsTr("Property")
                                     width: 200
                                 }
 
                                 TableViewColumn {
                                     role: "value"
-                                    title: "Value"
+                                    title: qsTr("Value")
                                     width: 200
                                 }
 

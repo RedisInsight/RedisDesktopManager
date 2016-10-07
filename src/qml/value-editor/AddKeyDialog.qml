@@ -23,20 +23,20 @@ Dialog {
             anchors.fill: parent
             anchors.margins: 5
 
-            Text { text: "Key:" }
+            Text { text: qsTr("Key:") }
             TextField {
                 id: newKeyName
                 Layout.fillWidth: true
             }
 
-            Text { text: "Type:" }
+            Text { text: qsTr("Type:") }
             ComboBox {
                 id: typeSelector
                 model: Editor.getSupportedKeyTypes()
                 Layout.fillWidth: true
             }
 
-            Text { text: "Value:" }
+            Text { text: qsTr("Value:") }
             Loader {
                 id: valueAddEditor
                 Layout.fillWidth: true
@@ -54,7 +54,7 @@ Dialog {
                 Layout.minimumHeight: 40
                 Item { Layout.fillWidth: true}
                 Button {
-                    text: "Save"
+                    text: qsTr("Save")
 
                     onClicked: {
                         if (!valueAddEditor.item)
@@ -86,7 +86,7 @@ Dialog {
                 }
 
                 Button {
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     onClicked: root.close()
                 }
             }
@@ -96,7 +96,7 @@ Dialog {
 
     MessageDialog {
         id: addError
-        title: "Error"
+        title: qsTr("Error")
         text: ""
         visible: false
         modality: Qt.ApplicationModal

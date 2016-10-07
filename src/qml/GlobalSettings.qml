@@ -8,7 +8,7 @@ import "./settings"
 
 Dialog {
     id: root
-    title: "Settings"
+    title: qsTr("Settings")
 
     contentItem: Item {
         implicitWidth: 800
@@ -19,7 +19,7 @@ Dialog {
             anchors.margins: 20
 
             Text {
-                text: "Appearance"
+                text: qsTr("Appearance")
                 font.pixelSize: 20
             }
 
@@ -43,12 +43,12 @@ Dialog {
 
                 model: ["8", "9", "10", "11", "12"]
                 value: "10"
-                label: "Font Size"
-                description: "in pixels"
+                label: qsTr("Font Size")
+                description: qsTr("in pixels")
             }
 
             Text {
-                text: "Connections Tree"
+                text: qsTr("Connections Tree")
                 font.pixelSize: 20
             }
 
@@ -59,8 +59,8 @@ Dialog {
                 Layout.preferredHeight: 40
 
                 value: true
-                label: "Reopen namespaces on reload"
-                description: "(Disable to improve treeview performance)"
+                label: qsTr("Reopen namespaces on reload")
+                description: qsTr("(Disable to improve treeview performance)")
             }
 
             BoolOption {
@@ -70,8 +70,8 @@ Dialog {
                 Layout.preferredHeight: 40
 
                 value: true
-                label: "Enable key sorting in tree"
-                description: "(Disable to improve treeview performance)"
+                label: qsTr("Enable key sorting in tree")
+                description: qsTr("(Disable to improve treeview performance)")
             }
 
             IntOption {
@@ -83,7 +83,7 @@ Dialog {
                 min: 100
                 max: 100000
                 value: 1000
-                label: "Live update maximum allowed keys"
+                label: qsTr("Live update maximum allowed keys")
                 description: ""
             }
 
@@ -96,7 +96,7 @@ Dialog {
                 min: 3
                 max: 100000
                 value: 10
-                label: "Live update interval (in seconds)"
+                label: qsTr("Live update interval (in seconds)")
                 description: ""
             }
 
@@ -109,7 +109,7 @@ Dialog {
 
                 Item { Layout.fillWidth: true; }
                 Button {
-                    text: "OK"
+                    text: qsTr("OK")
                     onClicked: root.close()
                 }
             }
