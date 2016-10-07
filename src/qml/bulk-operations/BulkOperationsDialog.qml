@@ -51,12 +51,12 @@ Dialog {
         states: [
             State {
                 name: "delete_keys"
-                PropertyChanges { target: operationLabel; text: "Delete keys" }
+                PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
             },
             State {
                 name: "copy_keys"
-                PropertyChanges { target: operationLabel; text: "Copy keys" }
+                PropertyChanges { target: operationLabel; text: qsTr("Copy keys") }
                 PropertyChanges { target: targetConnectionSettings; visible: true }
             }
         ]
@@ -84,7 +84,7 @@ Dialog {
                     columns: 2
 
                     Label {
-                        text: "Redis Server:"
+                        text: qsTr("Redis Server:")
                     }
 
                     Label {
@@ -92,7 +92,7 @@ Dialog {
                     }
 
                     Label {
-                        text: "Database number:"
+                        text: qsTr("Database number:")
                     }
 
                     Label {
@@ -100,7 +100,7 @@ Dialog {
                     }
 
                     Label {
-                        text: "Key pattern:"
+                        text: qsTr("Key pattern:")
                     }
 
                     Label {
@@ -116,7 +116,7 @@ Dialog {
                     columns: 2
 
                     Label {
-                        text: "Destination Redis Server:"
+                        text: qsTr("Destination Redis Server:")
                     }
 
                     ComboBox {
@@ -124,7 +124,7 @@ Dialog {
                     }
 
                     Label {
-                        text: "Destination Redis Server Database Index:"
+                        text: qsTr("Destination Redis Server Database Index:")
                     }
 
                     ComboBox {
@@ -143,7 +143,7 @@ Dialog {
                 Layout.fillHeight: true
 
                 Text {
-                    text: "Affected keys:"
+                    text: qsTr("Affected keys:")
                 }
                 Rectangle {
                     id: listContainer
@@ -181,7 +181,7 @@ Dialog {
                         onOperationFinished: {
                             affectedKeysListView.model = []
                             uiBlocker.visible = false
-                            bulkSuccessNotification.text = "Bulk Operation finished."
+                            bulkSuccessNotification.text = qsTr("Bulk Operation finished.")
                             bulkSuccessNotification.open()
                         }
 
@@ -204,12 +204,12 @@ Dialog {
                 Item { Layout.fillWidth: true; }
 
                 Button {
-                    text: "Delete Keys"
+                    text: qsTr("Delete Keys")
                     onClicked: bulkConfirmation.open()
                 }
 
                 Button {
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     onClicked: root.close()
                 }
             }
@@ -263,8 +263,8 @@ Dialog {
 
         MessageDialog {
             id: bulkConfirmation
-            title: "Confirmation"
-            text: "Do you really want to perform bulk operation?"
+            title: qsTr("Confirmation")
+            text: qsTr("Do you really want to perform bulk operation?")
             onYes: {
                 bulkOperations.runOperation()
             }

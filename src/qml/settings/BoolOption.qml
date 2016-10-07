@@ -27,7 +27,7 @@ Item {
             }
 
             Text {
-                color: "#cccccc"
+                color: "grey"
                 text: root.description
             }
         }

@@ -81,7 +81,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
         return;
     }
 
-    QString msg = QString("Cannot load key value: %1");
+    QString msg = QString(QObject::tr("Cannot load key value: %1"));
 
     try {
         // NOTE(u_glide): Do so for proper rendering of QML table

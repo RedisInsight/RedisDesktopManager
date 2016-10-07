@@ -37,6 +37,7 @@ private:
     void initLog();
     void initConnectionsManager();
     void initUpdater();
+    void installTranslator();
 
 private slots:
       void OnNewUpdateAvailable(QString &url);

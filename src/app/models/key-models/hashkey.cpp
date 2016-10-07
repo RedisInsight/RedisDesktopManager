@@ -1,5 +1,6 @@
 #include "hashkey.h"
 #include <qredisclient/connection.h>
+#include <QObject>
 
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
                            QByteArray fullPath, int dbIndex, long long ttl)
@@ -47,7 +48,7 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole)
 void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
     if (!isRowLoaded(rowIndex) || !isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
@@ -70,7 +71,7 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 void HashKeyModel::addRow(const QVariantMap &row)
 {
     if (!isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     setHashRow(row["key"].toByteArray(), row["value"].toByteArray(), false);
     m_rowCount++;
@@ -101,12 +102,12 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
         result = m_connection->commandSync({(updateIfNotExist)? "HSET" : "HSETNX",
                                             m_keyFullPath, hashKey, hashValue}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 
     if (updateIfNotExist == false
             && result.getValue().toInt() == 0)
-        throw Exception("Value with same key already exist");
+        throw Exception(QObject::tr("Value with same key already exist"));
 }
 
 void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
@@ -114,7 +115,7 @@ void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
     try {
         m_connection->commandSync({"HDEL", m_keyFullPath, hashKey}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }
 
@@ -130,7 +131,7 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
         ++item;
 
         if (item == rows.end())
-            throw Exception("Partial data loaded from server");
+            throw Exception(QObject::tr("Partial data loaded from server"));
 
         value.second = item->toByteArray();
         result.push_back(value);

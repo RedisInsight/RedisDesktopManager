@@ -28,14 +28,14 @@ void ServerStats::Model::init()
     try {
         if (!m_connection->connect())
         {
-            emit error("Connection error. Check network connection");
+            emit error(QObject::tr("Connection error. Check network connection"));
             return;
         }
 
         m_updateTimer.start();
 
     } catch (RedisClient::Connection::Exception&) {
-        emit error("Invalid Connection. Check connection settings.");
+        emit error(QObject::tr("Invalid Connection. Check connection settings."));
         return;
     }
 
@@ -44,7 +44,7 @@ void ServerStats::Model::init()
 
 QString ServerStats::Model::getName() const
 {
-    return QString("Server %0").arg(m_connection->getConfig().name());
+    return QString(QObject::tr("Server %0")).arg(m_connection->getConfig().name());
 }
 
 QVariantMap ServerStats::Model::serverInfo()

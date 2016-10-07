@@ -52,7 +52,7 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap &row)
     try {
         result = m_connection->commandSync({"SET", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 
     if (result.isOkMessage()) {
@@ -84,7 +84,7 @@ void StringKeyModel::loadRows(unsigned long, unsigned long, std::function<void(c
             callback(QString());
         }, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }
 

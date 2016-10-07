@@ -17,6 +17,6 @@ RowLayout {
 
     CheckBox {
         id: passwordMask
-        text: "Show password"
+        text: qsTr("Show password")
     }
 }

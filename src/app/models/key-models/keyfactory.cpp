@@ -7,6 +7,7 @@
 #include "sortedsetkey.h"
 #include "hashkey.h"
 #include "listkey.h"
+#include <QObject>
 
 KeyFactory::KeyFactory()
 {}
@@ -23,7 +24,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
         QSharedPointer<ValueEditor::Model> result;
 
         if (resp.isErrorMessage() || resp.getType() != RedisClient::Response::Type::Status) {            
-            QString msg("Cannot load key %1, connection error occurred: %2");
+            QString msg(QObject::tr("Cannot load key %1, connection error occurred: %2"));
             callback(result, msg.arg(printableString(keyFullPath)).arg(resp.toRawString()));
             return;
         }
@@ -31,8 +32,8 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
         QString type = resp.getValue().toString();        
 
         if (type == "none") {
-            QString msg("Cannot load key %1 because it doesn't exist in database."
-                        " Please reload connection tree and try again.");
+            QString msg(QObject::tr("Cannot load key %1 because it doesn't exist in database."
+                        " Please reload connection tree and try again."));
             callback(result, msg.arg(printableString(keyFullPath)));
             return;
         }
@@ -42,7 +43,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
         try {
             ttlResult = connection->commandSync({"ttl", keyFullPath}, dbIndex);
         } catch (const RedisClient::Connection::Exception& e) {
-            QString msg("Cannot load TTL for key %1, connection error occurred: %2");
+            QString msg(QObject::tr("Cannot load TTL for key %1, connection error occurred: %2"));
             callback(result, msg.arg(printableString(keyFullPath)).arg(QString(e.what())));
             return;
         }
@@ -62,7 +63,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
     try {
         connection->runCommand(typeCmd);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Cannot retrive type of the key: " + QString(e.what()));
+        throw Exception(QObject::tr("Cannot retrive type of the key: ") + QString(e.what()));
     }
 }
 

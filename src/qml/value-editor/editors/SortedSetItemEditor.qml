@@ -12,7 +12,7 @@ AbstractEditor {
 
     Text {
         Layout.fillWidth: true
-        text: "Score:"
+        text: qsTr("Score:")
     }
 
     TextField {
@@ -24,7 +24,7 @@ AbstractEditor {
         text: ""
         enabled: originalValue != "" || root.state !== "edit"
         property var originalValue: ""
-        placeholderText: "Score"
+        placeholderText: qsTr("Score")
         validator: DoubleValidator { locale: "C"; notation: DoubleValidator.StandardNotation } // force point as decimal separator
     }
 

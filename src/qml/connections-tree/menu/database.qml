@@ -136,7 +136,7 @@ RowLayout {
 
     TextField {
         id: filterText
-        placeholderText: "Enter Filter"
+        placeholderText: qsTr("Enter Filter")
 
         text: {
             if (!connectionsManager)

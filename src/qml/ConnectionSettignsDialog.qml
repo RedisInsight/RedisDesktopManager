@@ -7,7 +7,7 @@ import "./common"
 
 Dialog {
     id: root
-    title: !settings || !settings.name ? "New Connection Settings" : "Edit Connection Settings - " + settings.name
+    title: !settings || !settings.name ? qsTr("New Connection Settings") : qsTr("Edit Connection Settings - %1").arg(settings.name)
 
     property var settings
     property string quickStartGuideUrl: "http://docs.redisdesktop.com/en/latest/quick-start/"
@@ -113,36 +113,36 @@ Dialog {
 
                 Tab {
                     id: mainTab
-                    title: "Connection Settings"
+                    title: qsTr("Connection Settings")
 
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 10
 
                         GroupBox {
-                            title: "Main Settings"
+                            title: qsTr("Main Settings")
                             Layout.fillWidth: true
 
                             GridLayout {
                                 anchors.fill: parent
                                 columns: 2
 
-                                Label { text: "Name:" }
+                                Label { text: qsTr("Name:") }
 
                                 TextField {
                                     id: connectionName
                                     Layout.fillWidth: true
-                                    placeholderText: "Connection Name"
+                                    placeholderText: qsTr("Connection Name")
                                     text: root.settings ? root.settings.name : ""                                    
                                     Component.onCompleted: root.items.push(connectionName)
                                     onTextChanged: root.settings.name = text
                                 }
 
-                                Label { text: "Address:" }
+                                Label { text: qsTr("Address:") }
 
                                 AddressInput {
                                     id: connectionAddress
-                                    placeholderText: "redis-server host"
+                                    placeholderText: qsTr("redis-server host")
                                     host: root.settings ? root.settings.host : "127.0.0.1"
                                     port: root.settings ? root.settings.port : 6379
                                     Component.onCompleted: root.items.push(connectionAddress)
@@ -150,12 +150,12 @@ Dialog {
                                     onPortChanged: if (root.settings) root.settings.port = port
                                 }
 
-                                Label { text: "Auth:" }
+                                Label { text: qsTr("Auth:") }
 
                                 PasswordInput {
                                     id: connectionAuth
                                     Layout.fillWidth: true
-                                    placeholderText: "(Optional) redis-server authentication password"
+                                    placeholderText: qsTr("(Optional) redis-server authentication password")
                                     text: root.settings ? root.settings.auth : ""
                                     onTextChanged: root.settings.auth = text
                                 }
@@ -163,7 +163,7 @@ Dialog {
                         }
 
                         GroupBox {
-                            title: "Security"
+                            title: qsTr("Security")
 
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
@@ -175,7 +175,7 @@ Dialog {
                                 columns: 2
 
                                 RadioButton {
-                                    text: "None"
+                                    text: qsTr("None")
                                     checked: root.settings ? !root.settings.sslEnabled && !root.settings.useSshTunnel() : true
                                     exclusiveGroup: connectionSecurityExGroup
                                     Layout.columnSpan: 2
@@ -184,7 +184,7 @@ Dialog {
                                 RadioButton {
                                     id: sslRadioButton
                                     Layout.columnSpan: 2
-                                    text: "SSL"
+                                    text: qsTr("SSL")
                                     exclusiveGroup: connectionSecurityExGroup
                                     checked: root.settings ? root.settings.sslEnabled : false
                                     Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
@@ -207,38 +207,38 @@ Dialog {
                                     columns: 2
                                     Layout.fillWidth: true
 
-                                    Label { text: "Public Key:" }
+                                    Label { text: qsTr("Public Key:") }
 
                                     FilePathInput {
                                         id: sslLocalCertPath
                                         Layout.fillWidth: true
-                                        placeholderText: "(Optional) Public Key in PEM format"
+                                        placeholderText: qsTr("(Optional) Public Key in PEM format")
                                         nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
-                                        title: "Select public key in PEM format"
+                                        title: qsTr("Select public key in PEM format")
                                         path: root.settings ? root.settings.sslLocalCertPath : ""                                        
                                         onPathChanged: root.settings.sslLocalCertPath = path
                                     }
 
-                                    Label { text: "Private Key:" }
+                                    Label { text: qsTr("Private Key:") }
 
                                     FilePathInput {
                                         id: sslPrivateKeyPath
                                         Layout.fillWidth: true
-                                        placeholderText: "(Optional) Private Key in PEM format"
+                                        placeholderText: qsTr("(Optional) Private Key in PEM format")
                                         nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
-                                        title: "Select private key in PEM format"
+                                        title: qsTr("Select private key in PEM format")
                                         path: root.settings ? root.settings.sslPrivateKeyPath : ""
                                         onPathChanged: root.settings.sslPrivateKeyPath = path
                                     }
 
-                                    Label { text: "Authority:" }
+                                    Label { text: qsTr("Authority:") }
 
                                     FilePathInput {
                                         id: sslCaCertPath
                                         Layout.fillWidth: true
-                                        placeholderText: "(Optional) Authority in PEM format"
+                                        placeholderText: qsTr("(Optional) Authority in PEM format")
                                         nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
-                                        title: "Select authority file in PEM format"
+                                        title: qsTr("Select authority file in PEM format")
                                         path: root.settings ? root.settings.sslCaCertPath : ""
                                         onPathChanged: root.settings.sslCaCertPath = path
                                     }
@@ -247,7 +247,7 @@ Dialog {
                                 RadioButton {
                                     id: sshRadioButton
                                     Layout.columnSpan: 2
-                                    text: "SSH Tunnel"
+                                    text: qsTr("SSH Tunnel")
                                     exclusiveGroup: connectionSecurityExGroup
                                     checked: root.settings ? root.settings.useSshTunnel() : false
                                     Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
@@ -271,11 +271,11 @@ Dialog {
                                     columns: 2
                                     Layout.fillWidth: true
 
-                                    Label { text: "SSH Address:" }
+                                    Label { text: qsTr("SSH Address:") }
 
                                     AddressInput {
                                         id: sshAddress
-                                        placeholderText: "Remote Host with SSH server"
+                                        placeholderText: qsTr("Remote Host with SSH server")
                                         port: root.settings ? root.settings.sshPort : 22
                                         host: root.settings ? root.settings.sshHost : ""
                                         Component.onCompleted: root.sshItems.push(sshAddress)
@@ -283,19 +283,19 @@ Dialog {
                                         onPortChanged: root.settings.sshPort = port
                                     }
 
-                                    Label { text: "SSH User:" }
+                                    Label { text: qsTr("SSH User:") }
 
                                     TextField {
                                         id: sshUser
                                         Layout.fillWidth: true
-                                        placeholderText: "Valid SSH User Name"
+                                        placeholderText: qsTr("Valid SSH User Name")
                                         text: root.settings ? root.settings.sshUser : ""
                                         Component.onCompleted: root.sshItems.push(sshUser)
                                         onTextChanged: root.settings.sshUser = text
                                     }
 
                                     GroupBox {
-                                        title: "Private Key"
+                                        title: qsTr("Private Key")
                                         checkable: true
                                         checked: root.settings ? root.settings.sshPrivateKey : false
 
@@ -305,16 +305,16 @@ Dialog {
                                         FilePathInput {
                                             id: sshPrivateKey
                                             anchors.fill: parent
-                                            placeholderText: "Path to Private Key in PEM format"
+                                            placeholderText: qsTr("Path to Private Key in PEM format")
                                             nameFilters: [ "Private key in PEM format (*)" ]
-                                            title: "Select private key in PEM format"
+                                            title: qsTr("Select private key in PEM format")
                                             path: root.settings ? root.settings.sshPrivateKey : ""
                                             onPathChanged: root.settings.sshPrivateKey = path
                                         }
                                     }
 
                                     GroupBox {
-                                        title: "Password"
+                                        title: qsTr("Password")
                                         checkable: true
                                         checked: root.settings ? root.settings.sshPassword : true
 
@@ -324,7 +324,7 @@ Dialog {
                                         PasswordInput {
                                             id: sshPassword
                                             anchors.fill: parent
-                                            placeholderText: "SSH User Password"
+                                            placeholderText: qsTr("SSH User Password")
                                             text: root.settings ? root.settings.sshPassword : ""
                                             onTextChanged: root.settings.sshPassword = text
                                         }
@@ -336,7 +336,7 @@ Dialog {
                 }
 
                 Tab {
-                    title: "Advanced Settings"
+                    title: qsTr("Advanced Settings")
 
                     GridLayout {
                         anchors.fill: parent
@@ -344,44 +344,43 @@ Dialog {
 
                         columns: 2
 
-                        Label { text: "Keys glob-style pattern:" }
+                        Label { text: qsTr("Keys glob-style pattern:") }
 
                         TextField
                         {
                             id: keysPattern
                             Layout.fillWidth: true
-                            placeholderText: "Pattern which defines loaded keys from redis-server"
+                            placeholderText: qsTr("Pattern which defines loaded keys from redis-server")
                             text: root.settings ? root.settings.keysPattern : "*"
                             Component.onCompleted: root.items.push(keysPattern)
                             onTextChanged: root.settings.keysPattern = text
                         }
 
-                        Label { text: "Namespace Separator:" }
+                        Label { text: qsTr("Namespace Separator:") }
 
                         TextField
                         {
                             id: namespaceSeparator
                             Layout.fillWidth: true
-                            placeholderText: "Separator used for namespace extraction from keys"
+                            placeholderText: qsTr("Separator used for namespace extraction from keys")
                             text: root.settings ? root.settings.namespaceSeparator : ":"
                             onTextChanged: root.settings.namespaceSeparator = text
                         }
 
-                        Label { text: "Connection Timeout (sec):"}
+                        Label { text: qsTr("Connection Timeout (sec):") }
 
                         SpinBox {
                             id: executeTimeout
                             Layout.fillWidth: true
                             minimumValue: 30
                             maximumValue: 100000
-                            value: {
-                                console.log("Execution timeout:", root.settings.executeTimeout)
+                            value: {                                
                                 return root.settings ? (root.settings.executeTimeout / 1000.0) : 60
                             }
                             onValueChanged: root.settings.executeTimeout = value * 1000
                         }
 
-                        Label { text: "Execution Timeout (sec):"}
+                        Label { text: qsTr("Execution Timeout (sec):")}
 
                         SpinBox {
                             id: connectionTimeout
@@ -411,7 +410,7 @@ Dialog {
                 RowLayout {
                     anchors.centerIn: parent
                     Image {source: "qrc:/images/alert.svg"}
-                    Text { text: "Invalid settings detected!"}
+                    Text { text: qsTr("Invalid settings detected!")}
                 }
             }
 
@@ -420,13 +419,13 @@ Dialog {
 
                 Button {
                     iconSource: "qrc:/images/offline.svg"
-                    text: "Test Connection"
+                    text: qsTr("Test Connection")
                     onClicked: root.testConnection(root.settings)
                 }
 
                 ToolButton {
                     iconSource: "qrc:/images/help.svg"
-                    text: "Quick Start Guide"
+                    text: qsTr("Quick Start Guide")
                     tooltip: text
                     onClicked: Qt.openUrlExternally(root.quickStartGuideUrl)
                 }
@@ -434,7 +433,7 @@ Dialog {
                 Item { Layout.fillWidth: true }
 
                 Button {
-                    text: "OK"
+                    text: qsTr("OK")
                     onClicked: {
                         if (root.validate()) {                            
                             root.saveConnection(root.settings)
@@ -446,7 +445,7 @@ Dialog {
                 }
 
                 Button {
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     onClicked: root.close()
                 }
             }

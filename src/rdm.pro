@@ -127,8 +127,30 @@ RESOURCES += \
     $$PWD/resources/images.qrc \
     $$PWD/resources/fonts.qrc \    
     $$PWD/qml/qml.qrc \
+    $$PWD/resources/tr.qrc \
 
 OTHER_FILES += \
     qt.conf \
     Info.plist \
     qml\*.qml \
+
+
+lupdate_only{
+    SOURCES += \
+        $$PWD/qml/*.qml \
+        $$PWD/qml/value-editor/*.qml \
+        $$PWD/qml/settings/*.qml \
+        $$PWD/qml/server-info/*.qml \
+        $$PWD/qml/console/*.qml \
+        $$PWD/qml/connections-tree/*.qml \
+        $$PWD/qml/common/*.qml \
+        $$PWD/qml/bulk-operations/*.qml \
+}
+
+
+TRANSLATIONS = \
+    $$PWD/resources/translations/rdm.ts \
+    $$PWD/resources/translations/rdm_zh_CN.ts \
+    $$PWD/resources/translations/rdm_zh_TW.ts
+
+CODECFORSRC = UTF-8

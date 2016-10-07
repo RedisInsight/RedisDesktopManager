@@ -125,7 +125,7 @@ Repeater {
                     Item { visible: showValueNavigation; Layout.preferredWidth: 5}
                     Text { visible: showValueNavigation; text: "Size: "+ valuesCount }
                     Item { Layout.preferredWidth: 5}
-                    Text { text: "TTL:"; font.bold: true }
+                    Text { text: qsTr("TTL:"); font.bold: true }
                     Text { text: keyTtl}
                     Item { Layout.preferredWidth: 5}
 
@@ -143,7 +143,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Text { text: "New name:" }
+                                Text { text: qsTr("New name:") }
                                 TextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
@@ -172,13 +172,13 @@ Repeater {
                     }
 
                     Button {
-                        text: "Delete"
+                        text: qsTr("Delete")
                         iconSource: "qrc:/images/delete.svg"
 
                         MessageDialog {
                             id: deleteConfirmation
-                            title: "Delete key"
-                            text: "Do you really want to delete this key?"
+                            title: qsTr("Delete key")
+                            text: qsTr("Do you really want to delete this key?")
                             onYes: {
                                 console.log("remove key")
                                 viewModel.removeKey(keyTab.tabIndex)
@@ -197,16 +197,16 @@ Repeater {
                     }
 
                     Button {
-                        text: "Reload Value"
+                        text: qsTr("Reload Value")
                         action: reLoadAction
                         visible: !showValueNavigation
                     }
 
                     Button {
-                        text: "Set TTL"
+                        text: qsTr("Set TTL")
                         Dialog {
                             id: setTTLConfirmation
-                            title: "Set key TTL"
+                            title: qsTr("Set key TTL")
 
                             width: 520
 
@@ -215,7 +215,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Text { text: "New TTL:" }
+                                Text { text: qsTr("New TTL:") }
                                 TextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
@@ -419,7 +419,7 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: "Add row";
+                                text: qsTr("Add row");
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
                                     addRowDialog.open()
@@ -429,7 +429,7 @@ Repeater {
 
                                 Dialog {
                                     id: addRowDialog
-                                    title: "Add Row"
+                                    title: qsTr("Add Row")
 
                                     width: 550
                                     height: 400
@@ -473,16 +473,15 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: "Delete row"
+                                text: qsTr("Delete row")
                                 iconSource: "qrc:/images/delete.svg"
                                 enabled: table.currentRow != -1
 
                                 onClicked: {
                                     if (keyTab.keyModel.totalRowCount() == 1) {
-                                        deleteRowConfirmation.text = "This is last row in this key, " +
-                                                "if you remove this - key will be removed!"
+                                        deleteRowConfirmation.text = qsTr("This is last row in this key, if you remove this - key will be removed!")
                                     } else {
-                                        deleteRowConfirmation.text = "Do you really want to remove this row?"
+                                        deleteRowConfirmation.text = qsTr("Do you really want to remove this row?")
                                     }
 
                                     var rowIndex = table.model.getOriginalRowIndex(table.currentRow)
@@ -496,7 +495,7 @@ Repeater {
 
                                 MessageDialog {
                                     id: deleteRowConfirmation
-                                    title: "Delete row"
+                                    title: qsTr("Delete row")
                                     text: ""
                                     onYes: {
                                         console.log("remove row in key")
@@ -513,7 +512,7 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: "Reload Value"
+                                text: qsTr("Reload Value")
                                 iconSource: "qrc:/images/refresh.svg"
                                 action: reLoadAction
 
@@ -534,7 +533,7 @@ Repeater {
                                 id: searchField
 
                                 Layout.preferredWidth: 195
-                                placeholderText: "Search on page..."
+                                placeholderText: qsTr("Search on page...")
 
                                 Component.onCompleted: {
                                     table.searchField = searchField
@@ -626,11 +625,11 @@ Repeater {
                             Layout.minimumHeight: 40
                             Item { Layout.fillWidth: true}
                             Button {
-                                text: "Save"
+                                text: qsTr("Save")
 
                                 onClicked: {
                                     if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
-                                        savingConfirmation.text = "Nothing to save"
+                                        savingConfirmation.text = qsTr("Nothing to save")
                                         savingConfirmation.open()
                                         return
                                     }
@@ -640,7 +639,7 @@ Repeater {
                                     console.log(value, value["value"])
                                     keyTab.keyModel.updateRow(valueEditor.currentRow, value)
 
-                                    savingConfirmation.text = "Value was updated!"
+                                    savingConfirmation.text = qsTr("Value was updated!")
                                     savingConfirmation.open()
                                 }
 
@@ -648,7 +647,7 @@ Repeater {
 
                             MessageDialog {
                                 id: savingConfirmation
-                                title: "Save value"
+                                title: qsTr("Save value")
                                 text: ""
                                 visible: false
                                 modality: Qt.ApplicationModal

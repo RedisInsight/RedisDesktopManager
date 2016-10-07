@@ -68,9 +68,9 @@ ApplicationWindow {
 
         onTestConnection: {
             if (connectionsManager.testConnectionSettings(settings)) {
-                notification.showMsg("Successful connection to redis-server")
+                notification.showMsg(qsTr("Successful connection to redis-server"))
             } else {
-                notification.showError("Can't connect to redis-server")
+                notification.showError(qsTr("Can't connect to redis-server"))
             }
         }
 

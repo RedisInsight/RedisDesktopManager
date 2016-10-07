@@ -43,8 +43,8 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
-        Text { id: binaryFlag; text: "[Binary]"; visible: false; color: "green"; }
-        Text { id: compressedFlag; text: "[GZIP compressed]"; visible: false; color: "red"; } // TBD
+        Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }
+        Text { id: compressedFlag; text: qsTr("[GZIP compressed]"); visible: false; color: "red"; } // TBD
         Item { Layout.fillWidth: true }
         Text { text: "View as:" }
 
