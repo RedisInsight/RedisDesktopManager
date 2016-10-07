@@ -133,7 +133,7 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowSt
         ++item;
 
         if (item == rows.end())
-            throw Exception(QObject::tr("Partial data loaded from server"));
+            throw Exception(QObject::tr("Data was loaded from server partially."));
 
         value.second = item->toByteArray();
         result.push_back(value);

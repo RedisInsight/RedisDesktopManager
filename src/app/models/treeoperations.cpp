@@ -29,8 +29,8 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
     }
 
     if (m_connection->getServerVersion() < 2.8)
-        throw ConnectionsTree::Operations::Exception(QObject::tr("RedisDesktopManager >= 0.9.0 doesn't support old "
-                                                     "redis-servers (< 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server."));
+        throw ConnectionsTree::Operations::Exception(QObject::tr("RedisDesktopManager >= 0.9.0 doesn't support old versions of "
+                                                     "redis-server (< 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server."));
 
     RedisClient::DatabaseList availableDatabeses = m_connection->getKeyspaceInfo();
 

@@ -107,7 +107,7 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey, const QByteArray &hashV
 
     if (updateIfNotExist == false
             && result.getValue().toInt() == 0)
-        throw Exception(QObject::tr("Value with same key already exist"));
+        throw Exception(QObject::tr("Value with the same key already exist"));
 }
 
 void HashKeyModel::deleteHashRow(const QByteArray &hashKey)
@@ -131,7 +131,7 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowStart)
         ++item;
 
         if (item == rows.end())
-            throw Exception(QObject::tr("Partial data loaded from server"));
+            throw Exception(QObject::tr("Data was loaded from server partially."));
 
         value.second = item->toByteArray();
         result.push_back(value);

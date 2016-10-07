@@ -42,7 +42,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
     });
 
     m_eventHandlers.insert("edit", [this]() {
-        confirmAction(nullptr, tr("All value and console tabs related to this"
+        confirmAction(nullptr, tr("Value and Console tabs related to this "
                                   "connection will be closed. Do you want to continue?"), [this]()
          {
              unload();

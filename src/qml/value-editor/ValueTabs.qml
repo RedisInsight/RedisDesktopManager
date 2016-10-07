@@ -419,7 +419,7 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: qsTr("Add row");
+                                text: qsTr("Add Row");
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
                                     addRowDialog.open()
@@ -479,7 +479,7 @@ Repeater {
 
                                 onClicked: {
                                     if (keyTab.keyModel.totalRowCount() == 1) {
-                                        deleteRowConfirmation.text = qsTr("This is last row in this key, if you remove this - key will be removed!")
+                                        deleteRowConfirmation.text = qsTr("The row is the last one in the key. After removing it key will be deleted.")
                                     } else {
                                         deleteRowConfirmation.text = qsTr("Do you really want to remove this row?")
                                     }
