@@ -19,8 +19,7 @@ void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row)
         throw Exception(QObject::tr("Invalid row"));
 
     if (isActualPositionChanged(rowIndex))
-        throw Exception(QObject::tr("Can't delete row from list, because row already has changed."
-                        " Reload values and try again."));
+        throw Exception(QObject::tr("The row has been changed and can't be updated now. Reload and try again."));
 
     QByteArray newRow(row["value"].toByteArray());
     setListRow(rowIndex, newRow);
@@ -42,8 +41,7 @@ void ListKeyModel::removeRow(int i)
         return;
 
     if (isActualPositionChanged(i))
-        throw Exception(QObject::tr("Can't delete row from list, because row already has changed."
-                        " Reload values and try again."));
+        throw Exception(QObject::tr("The row has been changed and can't be deleted now. Reload and try again."));
 
     // Replace value by system string
     QString customSystemValue("---VALUE_REMOVED_BY_RDM---");        

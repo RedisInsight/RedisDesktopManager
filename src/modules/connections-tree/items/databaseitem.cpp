@@ -40,7 +40,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
         m_operations->openNewKeyDialog(m_index, [this]()
         {
             confirmAction(nullptr,
-                          tr("Key was added. Do you want to reload keys in the selected database?"),
+                          tr("Key was added. Do you want to reload keys in selected database?"),
                           [this]() { reload(); m_keysCount++; }, tr("Key was added"));
         });
     });
@@ -247,7 +247,7 @@ void DatabaseItem::liveUpdate()
             emit m_model.itemChanged(getSelf());
             QMessageBox::warning(nullptr, tr("Live update was disabled"),
                                  tr("Live update was disabled due to exceeded keys limit. "
-                                    "Please specify more accurate filter or change limit in settings."));
+                                    "Please specify filter more carrfully or change limit in settings."));
         } else {
             clear(false);
             renderChilds();

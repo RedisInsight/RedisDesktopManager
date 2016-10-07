@@ -161,9 +161,8 @@ void Application::initConnectionsManager()
     if (config.isNull()) {
         QMessageBox::critical(nullptr,
             QObject::tr("Settings directory is not writable"),
-            QString(QObject::tr("Program can't save connections file to settings dir."
-                    "Please change permissions or restart this program "
-                    " with administrative privileges"))
+            QString(QObject::tr("RDM can't save connections file to settings directory. "
+                    "Please change file permissions or restart RDM as administrator."))
             );
 
         throw std::runtime_error("invalid connections config");

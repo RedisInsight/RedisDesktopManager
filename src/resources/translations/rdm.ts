@@ -2,6 +2,39 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AddKeyDialog</name>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="26"/>
+        <source>Key:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="32"/>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="39"/>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="57"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="89"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="99"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppToolBar</name>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="14"/>
@@ -23,6 +56,74 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="61"/>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BulkOperationsDialog</name>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="54"/>
+        <source>Delete keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
+        <source>Copy keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="87"/>
+        <source>Redis Server:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
+        <source>Database number:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="103"/>
+        <source>Key pattern:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="119"/>
+        <source>Destination Redis Server:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="127"/>
+        <source>Destination Redis Server Database Index:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="146"/>
+        <source>Affected keys:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="184"/>
+        <source>Bulk Operation finished.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="207"/>
+        <source>Delete Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
+        <source>Confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="267"/>
+        <source>Do you really want to perform bulk operation?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -249,7 +350,7 @@
     <name>ConnectionsTree::DatabaseItem</name>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="43"/>
-        <source>Key was added. Do you want to reload keys in the selected database?</source>
+        <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -368,6 +469,11 @@
         <source>Page</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../qml/value-editor/Pagination.qml" line="32"/>
+        <source>Set Page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PasswordInput</name>
@@ -396,11 +502,11 @@
     </message>
     <message>
         <location filename="../../app/app.cpp" line="164"/>
-        <source>Program can&apos;t save connections file to settings dir.Please change permissions or restart this program  with administrative privileges</source>
+        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="224"/>
+        <location filename="../../app/app.cpp" line="223"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -408,7 +514,7 @@
         <location filename="../../app/models/key-models/hashkey.cpp" line="51"/>
         <location filename="../../app/models/key-models/hashkey.cpp" line="74"/>
         <location filename="../../app/models/key-models/listkey.cpp" line="19"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="33"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="32"/>
         <location filename="../../app/models/key-models/setkey.cpp" line="19"/>
         <location filename="../../app/models/key-models/setkey.cpp" line="32"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="50"/>
@@ -419,10 +525,10 @@
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="105"/>
         <location filename="../../app/models/key-models/hashkey.cpp" line="118"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="77"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="90"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="100"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="110"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="75"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="88"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="98"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="108"/>
         <location filename="../../app/models/key-models/setkey.cpp" line="57"/>
         <location filename="../../app/models/key-models/setkey.cpp" line="66"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="94"/>
@@ -442,7 +548,6 @@
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="134"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
         <source>Partial data loaded from server</source>
         <translation type="unfinished"></translation>
     </message>
@@ -452,14 +557,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/listkey.cpp" line="22"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="45"/>
-        <source>Can&apos;t delete row from list, because row already has changed. Reload values and try again.</source>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="35"/>
+        <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="46"/>
+        <source>Cannot load TTL for key %1, connection error occurred: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="66"/>
+        <source>Cannot retrive type of the key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="32"/>
-        <source>RedisDesktopManager &gt;= 0.9.0 doesn&apos;t support old redis-servers (&lt; 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server.</source>
+        <source>RedisDesktopManager &gt;= 0.9.0 doesn&apos;t support old versions of redis-server (&lt; 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -524,33 +638,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/viewmodel.cpp" line="40"/>
+        <location filename="../../modules/value-editor/viewmodel.cpp" line="39"/>
         <source>Connection error. Can&apos;t open value tab. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/viewmodel.cpp" line="141"/>
+        <location filename="../../modules/value-editor/viewmodel.cpp" line="140"/>
         <source>Can&apos;t add new key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/viewmodel.cpp" line="156"/>
+        <location filename="../../modules/value-editor/viewmodel.cpp" line="155"/>
         <source>Can&apos;t rename key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/viewmodel.cpp" line="170"/>
+        <location filename="../../modules/value-editor/viewmodel.cpp" line="169"/>
         <source>Can&apos;t remove key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/viewmodel.cpp" line="185"/>
+        <location filename="../../modules/value-editor/viewmodel.cpp" line="184"/>
         <source>Can&apos;t set key ttl: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/viewmodel.cpp" line="199"/>
+        <location filename="../../modules/value-editor/viewmodel.cpp" line="198"/>
         <source>Can&apos;t close key tab: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/listkey.cpp" line="22"/>
+        <source>The row has been changed and can&apos;t be updated now. Reload and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/listkey.cpp" line="44"/>
+        <source>The row has been changed and can&apos;t be deleted now. Reload and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
+        <source>Data was loaded from server partially.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="49"/>
+        <source>Bulk operation error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="84"/>
+        <source>Cannot load key value: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -619,6 +758,16 @@
         <source>Server Info</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
+        <source>Property</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="191"/>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ValueTabs</name>
@@ -649,6 +798,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="200"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="515"/>
         <source>Reload Value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -668,11 +818,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="422"/>
-        <source>Add row</source>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="482"/>
+        <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
+        <source>Search on page...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="628"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="632"/>
+        <source>Nothing to save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="642"/>
+        <source>Value was updated!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="650"/>
+        <source>Save value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="422"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="432"/>
         <source>Add Row</source>
         <translation type="unfinished"></translation>
@@ -681,11 +857,6 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="476"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="498"/>
         <source>Delete row</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="482"/>
-        <source>This is last row in this key, if you remove this - key will be removed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
