@@ -90,7 +90,10 @@ void QmlUtils::copyToClipboard(const QString &text)
     cb->setText(text);
 }
 
-QDateTimeAxis* findDateTimeAxis(QXYSeries *series) {
+QtCharts::QDateTimeAxis* findDateTimeAxis(QtCharts::QXYSeries *series)
+{
+    using namespace QtCharts;
+
     QList<QAbstractAxis*> axes = series->attachedAxes();
 
     QDateTimeAxis* ax = nullptr;
@@ -105,8 +108,10 @@ QDateTimeAxis* findDateTimeAxis(QXYSeries *series) {
     return ax;
 }
 
-void QmlUtils::addNewValueToDynamicChart(QXYSeries *series, double value)
+void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series, double value)
 {    
+    using namespace QtCharts;
+
     QDateTimeAxis* ax = findDateTimeAxis(series);
 
     if (series->count() == 0 && ax) {
