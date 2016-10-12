@@ -42,7 +42,6 @@
         <file>bulk-operations/BulkOperationsDialog.qml</file>
         <file>value-editor/editors/formatters/json-tools.js</file>
         <file>settings/ComboboxOption.qml</file>
-        <file>server-info/ServerInfoTab.qml</file>
         <file>server-info/ServerInfoTabs.qml</file>
     </qresource>
 </RCC>

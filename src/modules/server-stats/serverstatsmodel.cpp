@@ -1,8 +1,6 @@
 #include "serverstatsmodel.h"
 
 
-
-
 ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection)
     : TabModel(connection)
 {

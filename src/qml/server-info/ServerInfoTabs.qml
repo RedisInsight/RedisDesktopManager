@@ -127,7 +127,6 @@ Repeater {
                         ValueAxis {
                             id: axisY
                             min: 0
-//                            max: 5000 // total_system_memory
                             titleText: qsTr("Mb")
                         }
 
@@ -232,6 +231,8 @@ Repeater {
                             qmlUtils.addNewValueToDynamicChart(used_memory_rss_series, getValue("used_memory_rss"))
                             qmlUtils.addNewValueToDynamicChart(used_memory_lua_series, getValue("used_memory_lua"))
                             qmlUtils.addNewValueToDynamicChart(used_memory_peak_series, getValue("used_memory_peak"))
+
+                            axisY.max = getValue("used_memory_peak") + 100
                         }
                     }
                 }
@@ -247,11 +248,34 @@ Repeater {
                 }
             }
 
-            Component.onCompleted: {
-                //                tab.icon = Qt.binding(function() {
-                //                    return redisConsole.busy ? "qrc:/images/loader.gif" : "qrc:/images/console.svg"
-                //                })
+            Component.onCompleted: {                
                 initTimer.start()
+                uiBlocker.visible = true
+            }
+
+            Connections {
+                target: tab.model ? tab.model : null
+
+                onInitialized: {
+                    uiBlocker.visible = false
+                    tab.icon = "qrc:/images/console.svg"
+                }
+            }
+
+            Rectangle {
+                id: uiBlocker
+                visible: false
+                anchors.fill: parent
+                color: Qt.rgba(0, 0, 0, 0.1)
+
+                Item {
+                    anchors.fill: parent
+                    BusyIndicator { anchors.centerIn: parent; running: true }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                }
             }
         }
     }
