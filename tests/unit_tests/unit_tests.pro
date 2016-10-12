@@ -10,11 +10,13 @@ PROJECT_ROOT = $$PWD/../..//
 SRC_DIR = $$PROJECT_ROOT/src//
 
 HEADERS += \
-    $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.h \
+    $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.h \    
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/mocks/*.h \
+    $$PROJECT_ROOT/src/modules/common/*.h \
 
 SOURCES += \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.cpp \
+    $$PROJECT_ROOT/src/modules/common/*.cpp \
     $$PWD/main.cpp \
 
 
