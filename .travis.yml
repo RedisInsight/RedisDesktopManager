@@ -26,7 +26,10 @@ script:
   - ./../bin/tests/tests -platform minimal -txt
   - ./../bin/tests/qml_tests -platform minimal -txt
   - cd ./../src
-  - qmake && make -s -j 2
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+       qmake && make -s -j 2
+       ; 
+    fi
 after_success:
   - cd ./../tests
   - sudo pip install cpp-coveralls
