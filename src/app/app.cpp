@@ -78,8 +78,16 @@ void Application::initAppInfo()
 void Application::initAppFonts()
 {
     QSettings settings;
-    QString appFont = settings.value("app/appFont", "Open Sans").toString();
-    int appFontSize = settings.value("app/appFontSize", 11).toInt();
+#ifdef Q_OS_MAC    
+    QString defaultFont("Helvetica Neue");
+    int defaultFontSize = 12;
+#else 
+    QString defaultFont("Open Sans");
+    int defaultFontSize = 11;
+#endif    
+    
+    QString appFont = settings.value("app/appFont", defaultFont).toString();
+    int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
     if (appFont == "Open Sans") {
         int result = QFontDatabase::addApplicationFont("://fonts/OpenSans.ttc");
