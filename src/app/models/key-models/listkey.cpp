@@ -16,11 +16,10 @@ QString ListKeyModel::getType()
 void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
     if (!isRowLoaded(rowIndex) || !isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     if (isActualPositionChanged(rowIndex))
-        throw Exception("Can't delete row from list, because row already has changed."
-                        " Reload values and try again.");
+        throw Exception(QObject::tr("The row has been changed and can't be updated now. Reload and try again."));
 
     QByteArray newRow(row["value"].toByteArray());
     setListRow(rowIndex, newRow);
@@ -30,7 +29,7 @@ void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 void ListKeyModel::addRow(const QVariantMap &row)
 {
     if (!isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     addListRow(row["value"].toByteArray());
     m_rowCount++;
@@ -42,8 +41,7 @@ void ListKeyModel::removeRow(int i)
         return;
 
     if (isActualPositionChanged(i))
-        throw Exception("Can't delete row from list, because row already has changed."
-                        " Reload values and try again.");
+        throw Exception(QObject::tr("The row has been changed and can't be deleted now. Reload and try again."));
 
     // Replace value by system string
     QString customSystemValue("---VALUE_REMOVED_BY_RDM---");        
@@ -74,7 +72,7 @@ bool ListKeyModel::isActualPositionChanged(int row)
         result = m_connection->commandSync({"LRANGE", m_keyFullPath, QString::number(row).toLatin1(),
                                            QString::number(row).toLatin1()}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 
     QVariantList currentState = result.getValue().toList();
@@ -87,7 +85,7 @@ void ListKeyModel::addListRow(const QByteArray &value)
     try {
         m_connection->commandSync({"LPUSH", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }
 
@@ -97,7 +95,7 @@ void ListKeyModel::setListRow(int pos, const QByteArray &value)
         m_connection->commandSync({"LSET", m_keyFullPath,
                                   QString::number(pos).toLatin1(), value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }
 
@@ -107,6 +105,6 @@ void ListKeyModel::deleteListRow(int count, const QByteArray &value)
         m_connection->commandSync({"LREM", m_keyFullPath, QString::number(count).toLatin1(),
                                   value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }

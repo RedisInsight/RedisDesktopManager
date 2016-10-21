@@ -32,7 +32,7 @@ TabView {
 
                     AnimatedImage {
                         source: {
-                            var icon = root.getTab(styleData.index).icon
+                            var icon = root.getTab(styleData.index) !== undefined ? root.getTab(styleData.index).icon : ""
 
                             if (icon && icon.indexOf(".gif") > -1) {
                                 visible = true
@@ -49,7 +49,7 @@ TabView {
 
                     Image {
                         source: {
-                            var icon = root.getTab(styleData.index).icon
+                            var icon = root.getTab(styleData.index) !== undefined ? root.getTab(styleData.index).icon : ""
 
                             if (icon && icon.indexOf(".gif") == -1) {
                                 visible = true
@@ -72,12 +72,12 @@ TabView {
                     }
 
                     Item {
-                        visible: root.getTab(styleData.index) && !root.getTab(styleData.index).closable
+                        visible: root.getTab(styleData.index) !== undefined && !root.getTab(styleData.index).closable
                         Layout.preferredWidth: 3
                     }
 
                     ImageButton {
-                        visible: root.getTab(styleData.index) && root.getTab(styleData.index).closable
+                        visible: root.getTab(styleData.index) !== undefined && root.getTab(styleData.index).closable
 
                         Layout.preferredWidth: 18
                         Layout.preferredHeight: 18

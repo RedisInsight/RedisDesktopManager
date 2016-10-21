@@ -12,6 +12,7 @@
 
 #include "logger.h"
 #include "qmlutils.h"
+#include "common/tabviewmodel.h"
 #include "models/connectionconf.h"
 #include "models/configmanager.h"
 #include "models/connectionsmanager.h"
@@ -20,7 +21,8 @@
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/viewmodel.h"
 #include "modules/value-editor/sortfilterproxymodel.h"
-#include "modules/console/consoleviewmodel.h"
+#include "modules/console/consolemodel.h"
+#include "modules/server-stats/serverstatsmodel.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 
 
@@ -47,16 +49,22 @@ Application::Application(int &argc, char **argv)
     initAppAnalytics();
     initRedisClient();
     initUpdater();    
+    installTranslator();
 }
 
 void Application::initModels()
 {
     initConnectionsManager();
 
-    m_consoleModel = QSharedPointer<Console::ViewModel>(new Console::ViewModel());
+    m_consoleModel = QSharedPointer<TabViewModel>(new TabViewModel(getTabModelFactory<Console::Model>()));
 
     connect(m_connections.data(), &ConnectionsManager::openConsole,
-            m_consoleModel.data(), &Console::ViewModel::openConsole);
+            m_consoleModel.data(), &TabViewModel::openTab);
+
+    m_serverStatsModel = QSharedPointer<TabViewModel>(new TabViewModel(getTabModelFactory<ServerStats::Model>()));
+
+    connect(m_connections.data(), &ConnectionsManager::openServerStats,
+            m_serverStatsModel.data(), &TabViewModel::openTab);
 }
 
 void Application::initAppInfo()
@@ -70,8 +78,16 @@ void Application::initAppInfo()
 void Application::initAppFonts()
 {
     QSettings settings;
-    QString appFont = settings.value("app/appFont", "Open Sans").toString();
-    int appFontSize = settings.value("app/appFontSize", 11).toInt();
+#ifdef Q_OS_MAC    
+    QString defaultFontName("Helvetica Neue");
+    int defaultFontSize = 12;
+#else 
+    QString defaultFontName("Open Sans");
+    int defaultFontSize = 11;
+#endif    
+    
+    QString appFont = settings.value("app/appFont", defaultFontName).toString();
+    int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
     if (appFont == "Open Sans") {
         int result = QFontDatabase::addApplicationFont("://fonts/OpenSans.ttc");
@@ -109,6 +125,7 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("viewModel", m_keyValues.data()); // TODO: Remove legacy name usage in qml    
     m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
     m_engine.rootContext()->setContextProperty("consoleModel", m_consoleModel.data());
+    m_engine.rootContext()->setContextProperty("serverStatsModel", m_serverStatsModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
     m_engine.rootContext()->setContextProperty("bulkOperations", m_bulkOperations.data());
 }
@@ -151,10 +168,9 @@ void Application::initConnectionsManager()
 
     if (config.isNull()) {
         QMessageBox::critical(nullptr,
-            "Settings directory is not writable",
-            QString("Program can't save connections file to settings dir."
-                    "Please change permissions or restart this program "
-                    " with administrative privileges")
+            QObject::tr("Settings directory is not writable"),
+            QString(QObject::tr("RDM can't save connections file to settings directory. "
+                    "Please change file permissions or restart RDM as administrator."))
             );
 
         throw std::runtime_error("invalid connections config");
@@ -188,8 +204,29 @@ void Application::initUpdater()
     connect(m_updater.data(), SIGNAL(updateUrlRetrived(QString &)), this, SLOT(OnNewUpdateAvailable(QString &)));
 }
 
+void Application::installTranslator()
+{
+    QString locale = QLocale::system().uiLanguages().first().replace( "-", "_" );
+
+    qDebug() << QLocale::system().uiLanguages();
+
+    if (locale.isEmpty() || locale == "C")
+        locale = "en_US";
+
+    qDebug() << "Detected locale:" << locale;
+
+    QTranslator* translator = new QTranslator((QObject *)this);
+    if (translator->load( QString( ":/translations/rdm_" ) + locale ))
+    {
+        qDebug() << "Load translations file for locale:" << locale;
+        QCoreApplication::installTranslator( translator );
+    } else {
+        delete translator;
+    }
+}
+
 void Application::OnNewUpdateAvailable(QString &url)
 {
     QMessageBox::information(nullptr, "New update available",
-        QString("Please download new version of Redis Desktop Manager: %1").arg(url));
+        QString(QObject::tr("Please download new version of Redis Desktop Manager: %1")).arg(url));
 }

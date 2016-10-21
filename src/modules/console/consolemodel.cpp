@@ -4,11 +4,8 @@
 using namespace Console;
 
 Model::Model(QSharedPointer<RedisClient::Connection> connection)
-    : m_current_db(0)
-{
-    // Clone connection
-    RedisClient::ConnectionConfig config = connection->getConfig();
-    m_connection = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(config));
+    : TabModel(connection), m_current_db(0)
+{    
 }
 
 void Model::init()
@@ -16,26 +13,21 @@ void Model::init()
     try {
         if (!m_connection->connect())
         {
-            emit addOutput("Connection error. Check network connection", "error");
+            emit addOutput(QObject::tr("Connection error. Check network connection"), "error");
             return;
         }
     } catch (RedisClient::Connection::Exception&) {
-        emit addOutput("Invalid Connection. Check connection settings.", "error");
+        emit addOutput(QObject::tr("Invalid Connection. Check connection settings."), "error");
         return;
     }
 
-    emit addOutput("Connected.\n", "complete");
+    emit addOutput(QObject::tr("Connected.\n"), "complete");
     emit changePrompt(QString("%1:0>").arg(m_connection->getConfig().name()), true);
 }
 
-QString Model::getName()
+QString Model::getName() const
 {
     return m_connection->getConfig().name();
-}
-
-QSharedPointer<RedisClient::Connection> Model::getConnection()
-{
-    return m_connection;
 }
 
 void Model::executeCommand(const QString & cmd)
@@ -53,7 +45,7 @@ void Model::executeCommand(const QString & cmd)
     try {
         result = m_connection->commandSync(command);
     } catch (Connection::Exception& e) {
-        emit addOutput(QString("Connection error:") + QString(e.what()), "error");
+        emit addOutput(QString(QObject::tr("Connection error:")) + QString(e.what()), "error");
         return;
     }
 

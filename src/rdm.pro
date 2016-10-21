@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui network concurrent widgets quick quickwidgets
+QT += core gui network concurrent widgets quick quickwidgets charts
 
 TARGET = rdm
 TEMPLATE = app
@@ -29,6 +29,8 @@ SOURCES += \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
     $$PWD/modules/bulk-operations/*.cpp \
+    $$PWD/modules/common/*.cpp \
+    $$PWD/modules/server-stats/*.cpp \
 
 HEADERS  += \
     $$PWD/app/app.h \
@@ -44,6 +46,8 @@ HEADERS  += \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \
     $$PWD/modules/bulk-operations/*.h \
+    $$PWD/modules/common/*.h \
+    $$PWD/modules/server-stats/*.h \
 
 exists( $$PWD/version.h ) {
     HEADERS  += $$PWD/version.h
@@ -123,8 +127,30 @@ RESOURCES += \
     $$PWD/resources/images.qrc \
     $$PWD/resources/fonts.qrc \    
     $$PWD/qml/qml.qrc \
+    $$PWD/resources/tr.qrc \
 
 OTHER_FILES += \
     qt.conf \
     Info.plist \
     qml\*.qml \
+
+
+lupdate_only{
+    SOURCES += \
+        $$PWD/qml/*.qml \
+        $$PWD/qml/value-editor/*.qml \
+        $$PWD/qml/settings/*.qml \
+        $$PWD/qml/server-info/*.qml \
+        $$PWD/qml/console/*.qml \
+        $$PWD/qml/connections-tree/*.qml \
+        $$PWD/qml/common/*.qml \
+        $$PWD/qml/bulk-operations/*.qml \
+}
+
+
+TRANSLATIONS = \
+    $$PWD/resources/translations/rdm.ts \
+    $$PWD/resources/translations/rdm_zh_CN.ts \
+    $$PWD/resources/translations/rdm_zh_TW.ts
+
+CODECFORSRC = UTF-8

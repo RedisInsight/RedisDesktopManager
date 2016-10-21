@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QDebug>
 #include <qredisclient/utils/text.h>
+#include <QtCharts/QDateTimeAxis>
+#include <QDateTime>
 
 bool QmlUtils::isBinaryString(const QVariant &value)
 {
@@ -88,4 +90,39 @@ void QmlUtils::copyToClipboard(const QString &text)
 
     cb->clear();
     cb->setText(text);
+}
+
+QtCharts::QDateTimeAxis* findDateTimeAxis(QtCharts::QXYSeries *series)
+{
+    using namespace QtCharts;
+
+    QList<QAbstractAxis*> axes = series->attachedAxes();
+
+    QDateTimeAxis* ax = nullptr;
+
+    for (QAbstractAxis* axis : axes) {
+        if (axis->type() == QAbstractAxis::AxisTypeDateTime) {
+            ax = qobject_cast<QDateTimeAxis* >(axis);
+            return ax;
+        }
+    }
+
+    return ax;
+}
+
+void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series, double value)
+{    
+    using namespace QtCharts;
+
+    QDateTimeAxis* ax = findDateTimeAxis(series);
+
+    if (series->count() == 0 && ax) {
+        ax->setMin(QDateTime::currentDateTime());
+    }
+
+    series->append(QDateTime::currentDateTime().toMSecsSinceEpoch(), value);
+
+    if (series->attachedAxes().size() > 0 && ax) {
+        ax->setMax(QDateTime::currentDateTime());
+    }
 }

@@ -26,7 +26,7 @@ BetterTab {
                 ColumnLayout {
                     RichTextWithLinks { html: '<span style="font-size:32pt;">Redis Desktop Manager</span>'}
                     RichTextWithLinks { html: '<span style="padding-left:85px; font-size: 14px; line-height: 21px; display: inline-block;">&nbsp;<b>Version</b> ' + Qt.application.version +' &nbsp;&nbsp;&nbsp; '
-                                              + 'Developed by - <a href="http://careers.stackoverflow.com/IgorMalinovskiy">Igor Malinovskiy</a> in '
+                                              + 'Developed by - <a href="http://github.com/uglide">Igor Malinovskiy</a> in '
                                               + '<a href="http://en.wikipedia.org/wiki/Ukraine">&nbsp;<img src="qrc:/images/ua.svg" width="20" height="20" />&nbsp;Ukraine</a></span>'}
                 }
             }
@@ -43,7 +43,7 @@ BetterTab {
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html:  '<a style="color: green; font-size: 16px;" href="https://github.com/uglide/RedisDesktopManager/wiki"><img width="25" src="qrc:/images/help.svg" />&nbsp;Wiki</a>'
+                    html:  '<a style="color: green; font-size: 16px;" href="http://docs.redisdesktop.com/en/latest/"><img width="25" src="qrc:/images/help.svg" />&nbsp;Documentation</a>'
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
@@ -75,8 +75,8 @@ BetterTab {
                 html: '<img align="left" src="qrc:/images/ga.png" height="50" width="50" /><span style="font-size: 12px; display: block; ">'
                                       + ' Redis Desktop Manager uses Google Analytics to track which features you are using. '
                                       + ' <br />&nbsp;This data helps <a href="https://github.com/uglide">me</a> to develop features that you actually need :)'
-                                      + ' <br />&nbsp;RDM <b>doesn\'t</b> send <a href="https://github.com/uglide/RedisDesktopManager/search?q=GoogleMP&utf8=%E2%9C%93">any sensitive information or data from your databases.</a>'
-                                      + ' <a href="https://github.com/uglide/RedisDesktopManager/wiki/Google-Analytics">More ></a>'
+                                      + ' <br />&nbsp;RDM <b>doesn\'t</b> send <a href="https://github.com/uglide/RedisDesktopManager/search?utf8=%E2%9C%93&q=Analytics&type=Code">any sensitive information or data from your databases.</a>'
+                                      + ' <a href="http://docs.redisdesktop.com/en/latest/notices/">More ></a>'
                                       + ' </span>'}
 
             Rectangle { color: "#cccccc"; Layout.preferredHeight: 1; Layout.fillWidth: true }

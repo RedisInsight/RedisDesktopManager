@@ -11,6 +11,7 @@ import "./common"
 import "./value-editor"
 import "./connections-tree"
 import "./console"
+import "./server-info"
 import "./bulk-operations"
 
 ApplicationWindow {
@@ -67,9 +68,9 @@ ApplicationWindow {
 
         onTestConnection: {
             if (connectionsManager.testConnectionSettings(settings)) {
-                notification.showMsg("Successful connection to redis-server")
+                notification.showMsg(qsTr("Successful connection to redis-server"))
             } else {
-                notification.showError("Can't connect to redis-server")
+                notification.showError(qsTr("Can't connect to redis-server"))
             }
         }
 
@@ -161,12 +162,30 @@ ApplicationWindow {
                 }
 
                 WelcomeTab {
+                    id: welcomeTab
                     clip: true
                     objectName: "rdm_qml_welcome_tab"
 
                     property bool not_mapped: true
 
                     onClose: tabs.removeTab(index)
+
+                    function closeIfOpened() {
+                        var welcomeTab = tabs.getTab(0)
+
+                        if (welcomeTab && welcomeTab.not_mapped)
+                            tabs.removeTab(0)
+                    }
+                }
+
+                ServerInfoTabs {
+                    model: serverStatsModel
+                }
+
+                Connections {
+                    target: serverStatsModel
+
+                    onRowsInserted: welcomeTab.closeIfOpened()
                 }
 
                 ValueTabs {
@@ -188,13 +207,7 @@ ApplicationWindow {
                         notification.showError(error)
                     }
 
-                    onCloseWelcomeTab: {
-                        var welcomeTab = tabs.getTab(0)
-
-                        if (welcomeTab && welcomeTab.not_mapped)
-                            tabs.removeTab(0)
-                    }
-
+                    onRowsInserted: welcomeTab.closeIfOpened()
                     onNewKeyDialog: addNewKeyDialog.open()
                 }
             }

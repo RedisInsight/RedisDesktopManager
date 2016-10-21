@@ -24,13 +24,13 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
         try {
             m_connection->connect(true);
         } catch (const RedisClient::Connection::Exception& e) {
-            throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+            throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
         }
     }
 
     if (m_connection->getServerVersion() < 2.8)
-        throw ConnectionsTree::Operations::Exception("RedisDesktopManager >= 0.9.0 doesn't support old "
-                                                     "redis-servers (< 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server.");
+        throw ConnectionsTree::Operations::Exception(QObject::tr("RedisDesktopManager >= 0.9.0 doesn't support old versions of "
+                                                     "redis-server (< 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server."));
 
     RedisClient::DatabaseList availableDatabeses = m_connection->getKeyspaceInfo();
 
@@ -42,7 +42,7 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
         try {
             scanningResp = m_connection->commandSync("select", QString::number(dbIndex));
         } catch (const RedisClient::Connection::Exception& e) {
-            throw ConnectionsTree::Operations::Exception("Connection error: " + QString(e.what()));
+            throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
         }
 
         if (!scanningResp.isOkMessage())
@@ -52,17 +52,20 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
         ++dbIndex;
     }
 
+    emit m_manager.openServerStats(m_connection);
+
     return callback(availableDatabeses);
 }
 
-void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter, std::function<void (const RedisClient::Connection::RawKeysList &, const QString &)> callback)
+void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter,
+                                     std::function<void (const RedisClient::Connection::RawKeysList &, const QString &)> callback)
 {
     QString keyPattern = filter.isEmpty() ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern() : filter;
 
     try {
         m_connection->getDatabaseKeys(callback, keyPattern, dbIndex);
     } catch (const RedisClient::Connection::Exception& error) {
-        callback(RedisClient::Connection::RawKeysList(), QString("Cannot load keys: %1").arg(error.what()));
+        callback(RedisClient::Connection::RawKeysList(), QString(QObject::tr("Cannot load keys: %1")).arg(error.what()));
     }
 }
 
@@ -102,7 +105,7 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
     RedisClient::Command::Callback cmdCallback = [this, &key, &callback](const RedisClient::Response&, const QString& error)
     {
         if (!error.isEmpty()) {
-          callback(QString("Cannot remove key: %1").arg(error));
+          callback(QString(QObject::tr("Cannot remove key: %1")).arg(error));
           return;
         }
 
@@ -114,7 +117,7 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
     try {
         m_connection->command({"DEL", key.getFullPath()}, this, cmdCallback, key.getDbIndex());
     } catch (const RedisClient::Connection::Exception& e) {
-        throw ConnectionsTree::Operations::Exception("Delete key error: " + QString(e.what()));
+        throw ConnectionsTree::Operations::Exception(QObject::tr("Delete key error: ") + QString(e.what()));
     }
 }
 
@@ -138,7 +141,7 @@ void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> ca
     RedisClient::Command::Callback cmdCallback = [this, callback](const RedisClient::Response&, const QString& error)
     {
         if (!error.isEmpty()) {
-          callback(QString("Cannot remove key: %1").arg(error));
+          callback(QString(QObject::tr("Cannot remove key: %1")).arg(error));
           return;
         }
         callback(QString());
@@ -147,6 +150,6 @@ void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> ca
     try {
         m_connection->command({"FLUSHDB"}, this, cmdCallback, dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw ConnectionsTree::Operations::Exception("FlushDB error: " + QString(e.what()));
+        throw ConnectionsTree::Operations::Exception(QObject::tr("FlushDB error: ") + QString(e.what()));
     }
 }

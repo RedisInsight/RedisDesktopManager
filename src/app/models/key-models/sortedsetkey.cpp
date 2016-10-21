@@ -47,7 +47,7 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole)
 void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
     if (!isRowLoaded(rowIndex) || !isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
@@ -69,7 +69,7 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 void SortedSetKeyModel::addRow(const QVariantMap &row)
 {
     if (!isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     QPair<QByteArray, QByteArray> cachedRow(
                 row["value"].toByteArray(),
@@ -91,7 +91,7 @@ void SortedSetKeyModel::removeRow(int i)
     try {
         m_connection->commandSync({"ZREM", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 
     m_rowCount--;
@@ -106,7 +106,7 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value, QByteArray scor
         result = m_connection->commandSync(
         {"ZADD", m_keyFullPath, score, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 
     return result.getValue().toInt() == 1;
@@ -117,7 +117,7 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value)
     try {
         m_connection->commandSync({"ZREM", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }
 
@@ -133,7 +133,7 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows, int rowSt
         ++item;
 
         if (item == rows.end())
-            throw Exception("Partial data loaded from server");
+            throw Exception(QObject::tr("Data was loaded from server partially."));
 
         value.second = item->toByteArray();
         result.push_back(value);

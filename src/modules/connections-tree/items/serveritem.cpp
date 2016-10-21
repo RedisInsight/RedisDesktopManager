@@ -42,7 +42,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
     });
 
     m_eventHandlers.insert("edit", [this]() {
-        confirmAction(nullptr, tr("All value and console tabs related to this"
+        confirmAction(nullptr, tr("Value and Console tabs related to this "
                                   "connection will be closed. Do you want to continue?"), [this]()
          {
              unload();
@@ -155,7 +155,7 @@ void ServerItem::load()
         m_operations->getDatabases(callback);
     } catch (const ConnectionsTree::Operations::Exception& e) {
         m_locked = false;
-        emit m_model.error("Cannot load databases:\n\n" + QString(e.what()));
+        emit m_model.error(QObject::tr("Cannot load databases:\n\n") + QString(e.what()));
     }
 }
 

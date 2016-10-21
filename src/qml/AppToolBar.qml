@@ -11,7 +11,7 @@ ToolBar {
         anchors.fill: parent
         Button {
             iconSource: "qrc:/images/add.svg"
-            text: "Connect to Redis Server"
+            text: qsTr("Connect to Redis Server")
             Layout.preferredWidth: 230
 
             onClicked: {
@@ -22,14 +22,14 @@ ToolBar {
 
         ToolButton {
             iconSource: "qrc:/images/import.svg"
-            text: "Import Connections"
+            text: qsTr("Import Connections")
             tooltip: text
 
             onClicked: importConnectionsDialog.open()
 
             FileDialog {
                 id: importConnectionsDialog
-                title: "Import Connections"
+                title: qsTr("Import Connections")
                 nameFilters: ["RDM Connections (*.xml *.json)"]
                 selectExisting: true
                 onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(fileUrl))
@@ -38,14 +38,14 @@ ToolBar {
 
         ToolButton {
             iconSource: "qrc:/images/export.svg"
-            text: "Export Connections"
+            text: qsTr("Export Connections")
             tooltip: text
 
             onClicked: exportConnectionsDialog.open()
 
             FileDialog {
                 id: exportConnectionsDialog
-                title: "Import Connections"
+                title: qsTr("Import Connections")
                 nameFilters: ["RDM Connections (*.json)"]
                 selectExisting: false
                 onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
@@ -58,7 +58,7 @@ ToolBar {
 
         Button {
             iconSource: "qrc:/images/settings.svg"
-            text: "Settings"
+            text: qsTr("Settings")
 
             onClicked: {
                 settingsDialog.open()

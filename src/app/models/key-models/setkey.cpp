@@ -16,7 +16,7 @@ QString SetKeyModel::getType()
 void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 {
     if (!isRowLoaded(rowIndex) || !isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     QByteArray cachedRow = m_rowsCache[rowIndex];
     QByteArray newRow(row["value"].toByteArray());
@@ -29,7 +29,7 @@ void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row)
 void SetKeyModel::addRow(const QVariantMap &row)
 {
     if (!isRowValid(row))
-        throw Exception("Invalid row");
+        throw Exception(QObject::tr("Invalid row"));
 
     addSetRow(row["value"].toByteArray());
     m_rowCount++;
@@ -54,7 +54,7 @@ void SetKeyModel::addSetRow(const QByteArray &value)
     try {
         m_connection->commandSync({"SADD", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }
 
@@ -63,6 +63,6 @@ RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value)
     try {
         return m_connection->commandSync({"SREM", m_keyFullPath, value}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-        throw Exception("Connection error: " + QString(e.what()));
+        throw Exception(QObject::tr("Connection error: ") + QString(e.what()));
     }
 }

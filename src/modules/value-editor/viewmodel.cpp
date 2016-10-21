@@ -18,9 +18,8 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
         m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
                             [this, inNewTab, &key](QSharedPointer<Model> keyModel, const QString& error)
         {
-            if (keyModel.isNull() || !error.isEmpty()) {
-                QString msg("<b>Cannot open value tab</b>:\n%1");
-                emit keyError(-1, msg.arg(error));
+            if (keyModel.isNull() || !error.isEmpty()) {               
+                emit keyError(-1, QString("<b>%1</b>:\n%2").arg(QObject::tr("Cannot open value tab")).arg(error));
                 return;
             }
 
@@ -37,7 +36,7 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
         });
         // TODO: add empty key model for loading
     } catch (...) {
-        emit keyError(-1, "Connection error. Can't open value tab. ");
+        emit keyError(-1, QObject::tr("Connection error. Can't open value tab. "));
     }
 }
 
@@ -138,7 +137,7 @@ void ValueEditor::ViewModel::addKey(QString keyName, QString keyType,
         m_newKeyRequest = NewKeyRequest();
     } catch (const Model::Exception& e) {
         if (jsCallback.isCallable())
-            jsCallback.call(QJSValueList { "Can't add new key: " + QString(e.what()) });
+            jsCallback.call(QJSValueList { QObject::tr("Can't add new key: ") + QString(e.what()) });
     }
 }
 
@@ -153,7 +152,7 @@ void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
         value->setKeyName(printableStringToBinary(newKeyName));
         emit dataChanged(index(i, 0), index(i, 0));
     } catch (const Model::Exception& e) {
-        emit keyError(i, "Can't rename key: " + QString(e.what()));
+        emit keyError(i, QObject::tr("Can't rename key: ") + QString(e.what()));
     }
 }
 
@@ -167,7 +166,7 @@ void ValueEditor::ViewModel::removeKey(int i)
     try {
         value->removeKey();
     } catch (const Model::Exception& e) {
-        emit keyError(i, "Can't remove key: " + QString(e.what()));
+        emit keyError(i, QObject::tr("Can't remove key: ") + QString(e.what()));
     }
 }
 
@@ -182,7 +181,7 @@ void ValueEditor::ViewModel::setTTL(int i, const QString& newTTL)
         value->setTTL(newTTL.toLong());
         emit dataChanged(index(i, 0), index(i, 0));
     } catch (const Model::Exception& e) {
-        emit keyError(i, "Can't set key ttl: " + QString(e.what()));
+        emit keyError(i, QObject::tr("Can't set key ttl: ") + QString(e.what()));
     }
 }
 
@@ -196,7 +195,7 @@ void ValueEditor::ViewModel::closeTab(int i)
         m_valueModels.removeAt(i);
         endRemoveRows();
     } catch (const Model::Exception& e) {
-        emit keyError(i, "Can't remove key: " + QString(e.what()));
+        emit keyError(i, QObject::tr("Can't close key tab: ") + QString(e.what()));
     }
 }
 

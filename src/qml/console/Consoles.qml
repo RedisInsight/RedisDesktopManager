@@ -13,18 +13,18 @@ Repeater {
 
     BetterTab {
         id: tab
-        title: consoleName
+        title: tabName
         icon: "qrc:/images/console.png"
 
         onClose: {
-            consoleModel.closeTab(consoleIndex)
+            consoleModel.closeTab(tabIndex)
         }
 
         QConsole {
             id: redisConsole
 
             Connections {
-                target: consoleModel ? consoleModel.getValue(consoleIndex) : null
+                target: consoleModel ? consoleModel.getValue(tabIndex) : null
 
                 onChangePrompt: {                    
                     redisConsole.setPrompt(text, showPrompt)
@@ -36,20 +36,20 @@ Repeater {
             }
 
             onExecCommand: {
-                consoleModel.getValue(consoleIndex).executeCommand(command)
+                consoleModel.getValue(tabIndex).executeCommand(command)
             }
 
             Timer {
                 id: initTimer
 
                 onTriggered: {
-                    consoleModel.getValue(consoleIndex).init()
+                    consoleModel.getValue(tabIndex).init()
                 }
             }
 
             Component.onCompleted: {
                 tab.icon = Qt.binding(function() {
-                    return redisConsole.busy ? "qrc:/images/loader.gif" : "qrc:/images/console.png"
+                    return redisConsole.busy ? "qrc:/images/loader.gif" : "qrc:/images/console.svg"
                 })
                 initTimer.start()
             }
