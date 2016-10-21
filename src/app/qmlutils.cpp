@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QDebug>
 #include <qredisclient/utils/text.h>
+#include <QtCharts/QDateTimeAxis>
+#include <QDateTime>
 
 bool QmlUtils::isBinaryString(const QVariant &value)
 {

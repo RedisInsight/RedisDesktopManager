@@ -3,7 +3,7 @@
 #include <QVariant>
 #include <QVariantList>
 #include <QUrl>
-#include <QtCharts>
+#include <QtCharts/QXYSeries>
 
 class QmlUtils : public QObject
 {
