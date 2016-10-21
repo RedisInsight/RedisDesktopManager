@@ -79,14 +79,14 @@ void Application::initAppFonts()
 {
     QSettings settings;
 #ifdef Q_OS_MAC    
-    QString defaultFont("Helvetica Neue");
+    QString defaultFontName("Helvetica Neue");
     int defaultFontSize = 12;
 #else 
-    QString defaultFont("Open Sans");
+    QString defaultFontName("Open Sans");
     int defaultFontSize = 11;
 #endif    
     
-    QString appFont = settings.value("app/appFont", defaultFont).toString();
+    QString appFont = settings.value("app/appFont", defaultFontName).toString();
     int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
     if (appFont == "Open Sans") {
