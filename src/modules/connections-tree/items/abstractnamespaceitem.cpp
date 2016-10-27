@@ -170,7 +170,7 @@ void AbstractNamespaceItem::renderChilds()
     QSharedPointer<TreeItem> self = getSelf().toStrongRef();
 
     if (!self) {
-        qDebug() << "Cannot render keys: invalid parent item";
+        qDebug() << "Cannot render keys: invalid parent item";        
         return;
     }        
 

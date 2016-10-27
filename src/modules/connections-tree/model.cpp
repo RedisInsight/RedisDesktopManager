@@ -33,6 +33,7 @@ QVariant Model::data(const QModelIndex &index, int role) const
         case itemType: return item->getType();
         case itemOriginalName: return item->getName();
         case itemIsInitiallyExpanded: return item->isExpanded();
+        case itemDepth: return item->itemDepth();
     }
 
     return QVariant();
@@ -44,6 +45,7 @@ QHash<int, QByteArray> Model::roleNames() const
     roles[itemName] = "name";
     roles[itemType] = "type";
     roles[itemIsInitiallyExpanded] = "expanded";
+    roles[Qt::DecorationRole] = "icon";
     return roles;
 }
 
@@ -108,10 +110,23 @@ int Model::rowCount(const QModelIndex &parent) const
     if (!parentItem)
         return m_treeItems.size();
 
-    if (parent.column() > 0)
-        return 0;
-
     return parentItem->childCount();
+}
+
+bool Model::hasChildren(const QModelIndex &parent)
+{
+    const TreeItem* parentItem = getItemFromIndex(parent);
+
+    if (!parentItem)
+        return m_treeItems.size() > 0;
+
+    if (parentItem->getType() == "key")
+        return false;
+
+    if (parentItem->getType() == "namespace" || parentItem->getType() == "server")
+        return true;
+
+    return parentItem->childCount() > 0;
 }
 
 QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item)
@@ -146,7 +161,7 @@ void Model::onItemChanged(QWeakPointer<TreeItem> item)
 
     auto index = getIndexFromItem(item);
 
-    if (!index.isValid() || item.toStrongRef()->childCount() == 0)
+    if (!index.isValid())
         return;
 
     emit dataChanged(index, index);
@@ -167,6 +182,8 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
     emit beginInsertRows(index, 0, treeItem->childCount() - 1);
     emit endInsertRows();
 
+    emit dataChanged(index, index);
+
     if (treeItem->getType() == "database") {
         emit expand(index);
 
@@ -176,7 +193,7 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
         } else {
             qDebug() << "Namespace reopening is disabled in settings";
             m_expanded.clear();
-        }
+        }    
     } else if (treeItem->getType() == "server" || treeItem->getType() == "namespace") {
         emit expand(index);
     }
@@ -210,9 +227,9 @@ void Model::onExpandItem(QWeakPointer<TreeItem> item)
 }
 
 
-QVariant Model::getItemIcon(const QModelIndex &index)
+QVariant Model::getItemDepth(const QModelIndex &index)
 {
-    return data(index, Qt::DecorationRole);
+    return data(index, itemDepth);
 }
 
 QVariant Model::getItemType(const QModelIndex &index)

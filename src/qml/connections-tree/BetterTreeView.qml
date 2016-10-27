@@ -13,8 +13,101 @@ TreeView {
 
     TableViewColumn {
         title: "item"
+        role: "icon"
+        width: 25
+        delegate: Item {
+            Image {
+                anchors.centerIn: parent
+                sourceSize.width: 25
+                sourceSize.height: 25
+                source: styleData.value
+                cache: true
+                asynchronous: true
+            }
+        }
+    }
+
+    TableViewColumn {
+        id: itemColumn
+        title: "item"
         role: "name"
-        width: root.width
+        width: root.width - 20
+    }
+
+    itemDelegate: Item {
+        id: itemRoot
+
+        Item {
+            id: wrapper
+            height: 30
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 10
+
+
+            Text {
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                //elide: styleData.elideMode
+                text: styleData.value
+                anchors.leftMargin: {
+                    var itemDepth = connectionsManager.getItemDepth(styleData.index)
+                    return itemDepth * 10 + 15
+                }
+            }
+
+            Loader {
+                id: menuLoader
+                anchors {right: wrapper.right; top: wrapper.top; bottom: wrapper.bottom; }
+                anchors.rightMargin: 20
+                height: parent.height
+                visible: styleData.selected
+                asynchronous: true
+
+                source: {
+                    if (!styleData.selected
+                            || !connectionsManager
+                            || !styleData.index)
+                        return ""
+
+                    var type = connectionsManager.getItemType(styleData.index)
+
+                    if (type != undefined) {
+                        return "./menu/" + type + ".qml"
+                    } else {
+                        return ""
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+
+                acceptedButtons: Qt.RightButton | Qt.MiddleButton
+
+                onClicked: {
+                    console.log("Catch event to item")
+
+                    if(mouse.button == Qt.RightButton) {
+                        mouse.accepted = true
+                        connectionTreeSelectionModel.setCurrentIndex(styleData.index, 1)
+                        connectionsManager.sendEvent(styleData.index, "right-click")
+                        return
+                    }
+
+                    if (mouse.button == Qt.MiddleButton) {
+                        mouse.accepted = true
+                        connectionsManager.sendEvent(styleData.index, "mid-click")
+                        return
+                    }
+                }
+            }
+
+            focus: true
+            Keys.forwardTo: menuLoader.item ? [menuLoader.item] : []
+
+        }
     }
 
     selectionMode: SelectionMode.SingleSelection
@@ -27,108 +120,8 @@ TreeView {
     model: connectionsManager
 
     rowDelegate: Rectangle {
-        height: 28
+        height: 30
         color: styleData.selected ? "#e2e2e2" : "white" //sysPalette.highlight
-    }
-
-    itemDelegate: Item {
-       id: itemRoot
-
-        Loader {
-            id: itemIcon
-            width: 21
-            height: 21
-            asynchronous: true
-
-            anchors {left: itemRoot.left; verticalCenter: itemRoot.verticalCenter; }
-
-            sourceComponent: Component {
-                Image {
-                    anchors.centerIn: parent
-
-                    sourceSize.width: 25
-                    sourceSize.height: 25
-
-                    source: {
-                        if (!connectionsManager || !styleData.index)
-                            return ""
-
-                        var icon = connectionsManager.getItemIcon(styleData.index)
-
-                        if (icon != undefined) {
-                            return icon
-                        } else {
-                            return ""
-                        }
-                    }
-                }
-            }
-        }
-
-        Item {
-            id: itemText
-            anchors {left: itemIcon.right; top: itemRoot.top; bottom: itemRoot.bottom; leftMargin: 5 }
-
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                //color: styleData.selected ? sysPalette.highlightedText : styleData.textColor
-                elide: styleData.elideMode
-                text: styleData.value
-            }
-        }
-
-        Loader {
-            id: menuLoader
-            anchors {right: itemRoot.right; top: itemRoot.top; bottom: itemRoot.bottom; }
-            anchors.rightMargin: 20
-            height: parent.height
-            visible: styleData.selected
-            asynchronous: true
-
-            source: {
-                if (!styleData.selected
-                        || !connectionsManager
-                        || !styleData.index)
-                    return ""
-
-                var type = connectionsManager.getItemType(styleData.index)
-
-                if (type != undefined) {
-                    return "./menu/" + type + ".qml"
-                } else {
-                    return ""
-                }
-            }
-        }
-
-        MouseArea {
-            anchors.left: itemIcon.left
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-
-            acceptedButtons: Qt.RightButton | Qt.MiddleButton
-
-            onClicked: {
-                console.log("Catch event to item")
-
-                if(mouse.button == Qt.RightButton) {
-                    mouse.accepted = true
-                    connectionTreeSelectionModel.setCurrentIndex(styleData.index, 1)
-                    connectionsManager.sendEvent(styleData.index, "right-click")
-                    return
-                }
-
-                if (mouse.button == Qt.MiddleButton) {
-                    mouse.accepted = true
-                    connectionsManager.sendEvent(styleData.index, "mid-click")
-                    return
-                }
-            }
-        }
-
-        focus: true
-        Keys.forwardTo: menuLoader.item ? [menuLoader.item] : []
     }
 
     onClicked: {
@@ -144,8 +137,12 @@ TreeView {
     Connections {
         target: connectionsManager;
         onExpand: {
-            if (!root.isExpanded(index)) {
+            if (!root.isExpanded(index)) {                                
                 root.expand(index)
+
+                // Hack to prevent rendering issues
+                root.__listView.contentY = root.__listView.contentY + 20
+                root.__listView.forceLayout()
             }
         }
     }

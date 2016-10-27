@@ -40,6 +40,8 @@ public:
 
     virtual void flushDb(int dbIndex, std::function<void(const QString&)> callback) override;
 
+    virtual QString mode() override;
+
 private:
      QSharedPointer<RedisClient::Connection> m_connection;
      ConnectionsManager& m_manager;

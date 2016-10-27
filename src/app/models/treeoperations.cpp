@@ -34,22 +34,25 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
 
     RedisClient::DatabaseList availableDatabeses = m_connection->getKeyspaceInfo();
 
-    //detect all databases
-    RedisClient::Response scanningResp;
-    int dbIndex = (availableDatabeses.size() == 0)? 0 : availableDatabeses.lastKey() + 1;
+    if (m_connection->mode() != RedisClient::Connection::Mode::Cluster) {
+        //detect all databases
+        RedisClient::Response scanningResp;
+        int dbIndex = (availableDatabeses.size() == 0)? 0 : availableDatabeses.lastKey() + 1;
 
-    while (true) {
-        try {
-            scanningResp = m_connection->commandSync("select", QString::number(dbIndex));
-        } catch (const RedisClient::Connection::Exception& e) {
-            throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
+        while (true) {
+            try {
+                scanningResp = m_connection->commandSync("select", QString::number(dbIndex));
+            } catch (const RedisClient::Connection::Exception& e) {
+                throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
+            }
+
+            if (!scanningResp.isOkMessage())
+                break;
+
+            availableDatabeses.insert(dbIndex, 0);
+            ++dbIndex;
         }
 
-        if (!scanningResp.isOkMessage())
-            break;
-
-        availableDatabeses.insert(dbIndex, 0);
-        ++dbIndex;
     }
 
     emit m_manager.openServerStats(m_connection);
@@ -63,7 +66,11 @@ void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter,
     QString keyPattern = filter.isEmpty() ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern() : filter;
 
     try {
-        m_connection->getDatabaseKeys(callback, keyPattern, dbIndex);
+        if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+            m_connection->getClusterKeys(callback, keyPattern);
+        } else {
+            m_connection->getDatabaseKeys(callback, keyPattern, dbIndex);
+        }
     } catch (const RedisClient::Connection::Exception& error) {
         callback(RedisClient::Connection::RawKeysList(), QString(QObject::tr("Cannot load keys: %1")).arg(error.what()));
     }
@@ -152,4 +159,9 @@ void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> ca
     } catch (const RedisClient::Connection::Exception& e) {
         throw ConnectionsTree::Operations::Exception(QObject::tr("FlushDB error: ") + QString(e.what()));
     }
+}
+
+QString TreeOperations::mode()
+{
+    return m_connection->mode() == RedisClient::Connection::Mode::Cluster? QString("cluster") : QString("standalone");
 }

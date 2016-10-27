@@ -26,7 +26,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
         if (isDatabaseListLoaded())
             return;
 
-        load();
+        load();        
     });
 
     m_eventHandlers.insert("console", [this]() {
@@ -35,17 +35,18 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
 
     m_eventHandlers.insert("reload", [this]() {
         reload();
+        emit m_model.itemChanged(getSelf());
     });
 
     m_eventHandlers.insert("unload", [this]() {
-        unload();
+        unload();        
     });
 
     m_eventHandlers.insert("edit", [this]() {
         confirmAction(nullptr, tr("Value and Console tabs related to this "
                                   "connection will be closed. Do you want to continue?"), [this]()
          {
-             unload();
+             unload();             
              emit editActionRequested();
          });
     });
@@ -53,7 +54,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
     m_eventHandlers.insert("delete", [this]() {
         confirmAction(nullptr, tr("Do you really want delete connection?"), [this]()
          {
-             unload();
+             unload();             
              emit deleteActionRequested();
          });
     });
@@ -71,8 +72,14 @@ QString ServerItem::getDisplayName() const
 QString ServerItem::getIconUrl() const
 {
     if (m_locked)    return QString("qrc:/images/wait.svg");
-    if (isDatabaseListLoaded()) return QString("qrc:/images/server.svg");
-    return QString("qrc:/images/server.svg"); //offline
+    if (isDatabaseListLoaded()) {
+        if (m_operations->mode() == "cluster") {
+            return QString("qrc:/images/cluster.svg");
+        } else {
+            return QString("qrc:/images/server.svg");
+        }
+    }
+    return QString("qrc:/images/server_offline.svg");
 }
 
 QList<QSharedPointer<TreeItem> > ServerItem::getAllChilds() const

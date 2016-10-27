@@ -14,15 +14,21 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              const KeysTreeRenderer::RenderingSettigns& settings)
     : AbstractNamespaceItem(model, parent, operations, settings),
       m_fullPath(fullPath),
-      m_removed(false)
+      m_removed(false),
+      m_rendering(false)
 {
     m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(settings.nsSeparator) + 1);
 
     m_eventHandlers.insert("click", [this]() {
-        if (m_childItems.size() != 0)
-            return;
+        if (m_childItems.size() == 0) {
+            m_rendering = true;
+            m_model.itemChanged(getSelf());
 
-        renderChilds();
+            renderChilds();
+
+            m_rendering = false;
+            m_model.itemChanged(getSelf());
+        }
     });
 
     m_eventHandlers.insert("delete", [this]() {
@@ -42,6 +48,7 @@ QByteArray NamespaceItem::getName() const
 
 QString NamespaceItem::getIconUrl() const
 {    
+    if (m_rendering) return QString("qrc:/images/wait.svg");
     return QString("qrc:/images/namespace.svg");
 }
 
