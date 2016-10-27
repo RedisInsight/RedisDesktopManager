@@ -13,7 +13,7 @@ Rectangle {
     property alias busy: textArea.readOnly
 
     property string initText:
-          "<span style='color: white; font-size: 14px;'>RDM Redis Console</span> | <span style='color: orange'>Unsupported commands: DUMP, RESTORE, AUTH </span><br/>" +
+          "<span style='color: white; font-size: 13pt;'>RDM Redis Console</span><br/>" +
           "Connecting ..."
 
 
@@ -40,7 +40,7 @@ Rectangle {
         if (type == "error") {
             textArea.append("<span style='color: red'>" + text + '</span>')
         } else {
-            textArea.append("<span style='color: white'>" + text + '</span>')
+            textArea.append("<pre style='color: white'>" + text + '</pre>')
         }
 
         if (type == "complete" || type == "error") {
