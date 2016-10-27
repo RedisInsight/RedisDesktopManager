@@ -1,0 +1,33 @@
+#!/bin/bash
+ROOT_DIR=`readlink -f ./../../`
+BASE_DIR=`pwd`
+OBJ_DIR=$ROOT_DIR/bin/tests/obj
+
+#Build
+export LDFLAGS="-lgcov -fprofile-arcs"
+export CPPFLAGS="-fprofile-arcs -ftest-coverage"
+rm -fR $ROOT_DIR/bin coverage*
+qmake && make -sj 4
+
+# Generate coverage files for all files
+lcov --base-directory $BASE_DIR --capture --initial --directory $OBJ_DIR --output-file coverage.info.base
+
+# Run tests
+$ROOT_DIR/bin/tests/tests
+
+# Generate coverage files for files used in tests
+lcov --capture --directory $OBJ_DIR --base-directory $BASE_DIR --output-file coverage.info.run
+# Merge result
+lcov -a coverage.info.base -a coverage.info.run -o coverage.info
+
+# Remove unit tests and external files to get clean report
+lcov -e coverage.info "$ROOT_DIR/*" -o coverage.info.filtered
+lcov -r coverage.info.filtered "$ROOT_DIR/tests/*" -o coverage.info.filtered
+lcov -r coverage.info.filtered "$ROOT_DIR/bin/*" -o coverage.info.filtered
+lcov -r coverage.info.filtered "$ROOT_DIR/3rdparty/*" -o coverage.info.filtered
+
+# Generate HTML report
+rm -fR coverage_report || true
+mkdir coverage_report
+genhtml coverage.info.filtered --output-directory coverage_report
+open coverage_report/index.html

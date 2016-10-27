@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/OpenSans.ttc</file>
+        <file>fonts/Inconsolata-Regular.ttf</file>        
+    </qresource>
+</RCC>

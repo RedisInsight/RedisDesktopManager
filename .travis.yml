@@ -1,26 +1,39 @@
 language: cpp
-compiler:
-  - gcc
-  - clang
-before_install:
-- sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-- sudo apt-get update -qq
-- sudo apt-get install ubuntu-sdk -y -qq
-- sudo apt-get install libssl1.0.0 -y -qq
-before_script:
-- cd ./redis-desktop-manager
-- sudo chmod 777 configure
-- ./configure
-script: 
-  - qmake -qt=qt5 -v
-  - qmake -qt=qt5
-  - make clean
-  - make -s
-  - cd ./../tests/
-  - qmake
-  - make clean
-  - make -s
+dist: trusty
+sudo: required
+
+os:
+  - linux
+  - osx
+  
+install:
+- if [ "$TRAVIS_OS_NAME" == "osx" ]; then 
+       brew update > /dev/null
+    && brew install qt5 > /dev/null
+    && export PATH=/usr/local/opt/qt5/bin/:$PATH
+    ;
+  fi
+- cd ./src && ./configure && cd ./../
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+       source /opt/qt57/bin/qt57-env.sh
+       ; 
+  fi
+- qmake -v
+script:
+  - git submodule update --init --recursive 
+  - cd ./tests
+  - qmake DEFINES+=INTEGRATION_TESTS && make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
+  - ./../bin/tests/qml_tests -platform minimal -txt
+  - cd ./../src
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+       qmake && make -s -j 2
+       ; 
+    fi
+after_success:
+  - cd ./../tests
+  - sudo pip install cpp-coveralls
+  - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*  > coveralls.log
 services:
   - redis-server
 notifications:
@@ -28,4 +41,4 @@ notifications:
     - u.glide@gmail.com
   email:
     on_success: change
-    on_failure: always
+    on_failure: change
