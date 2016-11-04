@@ -387,23 +387,15 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="249"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Live update was disabled due to exceeded keys limit. Please specify more accurate filter or change limit in settings.</source>
-        <translation type="vanished">由於超出載入鍵數量限制，同步更新功能已經關閉。請設置更精確的篩查條件或更改載入限制設定。</translation>
+        <translation>由於超出載入鍵數量限制，同步更新功能已經關閉。請設置更精確的篩查條件或更改載入限制設定。</translation>
     </message>
 </context>
 <context>
     <name>ConnectionsTree::ServerItem</name>
     <message>
-        <source>All value and console tabs related to thisconnection will be closed. Do you want to continue?</source>
-        <translation type="vanished">所有與該連接相關的鍵值對話方塊和命令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
-    </message>
-    <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="46"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>所有與該連接相關的鍵值對話方塊和命令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="55"/>
@@ -552,15 +544,7 @@
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="110"/>
         <source>Value with the same key already exist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Value with same key already exist</source>
-        <translation type="vanished">相同鍵已經存在</translation>
-    </message>
-    <message>
-        <source>Partial data loaded from server</source>
-        <translation type="vanished">已從伺服器載入部分資料</translation>
+        <translation>相同鍵已經存在</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="27"/>
@@ -851,7 +835,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="484"/>
         <source>Do you really want to remove this row?</source>
-        <translation type="unfinished"></translation>
+        <translation>確定要刪除該行資料嗎？</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
@@ -889,10 +873,6 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="498"/>
         <source>Delete row</source>
         <translation>刪除行</translation>
-    </message>
-    <message>
-        <source>Do you relly want to remove this row?</source>
-        <translation type="vanished">確定要刪除該行資料嗎？</translation>
     </message>
 </context>
 <context>
