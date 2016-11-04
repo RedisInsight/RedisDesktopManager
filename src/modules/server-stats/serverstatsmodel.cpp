@@ -12,7 +12,7 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection)
         QList<QByteArray> rawCmd {"INFO", "all"};
         m_connection->command(rawCmd, this, [this](RedisClient::Response r, QString err) {
 
-            if (err) {
+            if (!err.isEmpty()) {
                 emit error(QObject::tr("Cannot update server info tab. Error: %0").arg(err));
                 return;
             }
