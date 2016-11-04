@@ -28,7 +28,7 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 | ------- | ------------- | -------- |
 | [0.9.0-alpha1] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Sept 9, 2016 | [Sept 13, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha1) |
 | [0.9.0-alpha2] (https://github.com/uglide/RedisDesktopManager/milestone/8) | Oct 7, 2016 | [Oct 21, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha2) |
-| [0.9.0-alpha3] (https://github.com/uglide/RedisDesktopManager/milestone/27) | Oct 28, 2016 | |
+| [0.9.0-alpha3] (https://github.com/uglide/RedisDesktopManager/milestone/27) | Oct 28, 2016 | [Nov 4, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha3) |
 | [0.9.0-alpha4] (https://github.com/uglide/RedisDesktopManager/milestone/30) | Nov 4, 2016 | |
 | [0.9.0-alpha5] (https://github.com/uglide/RedisDesktopManager/milestone/31) | Nov 11, 2016 | |
 | [0.9.0-beta] (https://github.com/uglide/RedisDesktopManager/milestone/29) | Nov 18, 2016 | |
