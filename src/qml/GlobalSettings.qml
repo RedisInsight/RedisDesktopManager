@@ -19,6 +19,23 @@ Dialog {
             anchors.margins: 20
 
             Text {
+                text: qsTr("General")
+                font.pixelSize: 20
+            }
+
+            ComboboxOption {
+                id: appLang
+
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+
+                model: ["system", "en_US", "zh_CN", "zh_TW"]
+                value: "system"
+                label: qsTr("Language")
+                description: qsTr("Application restart is needed to apply this setting.")
+            }
+
+            Text {
                 text: qsTr("Appearance")
                 font.pixelSize: 20
             }
@@ -31,7 +48,7 @@ Dialog {
 
                 value: "Open Sans"
                 model: Qt.fontFamilies()
-                label: "Font"
+                label: qsTr("Font")
                 description: ""
             }
 
@@ -126,5 +143,6 @@ Dialog {
         property alias liveUpdateInterval: liveUpdateInterval.value
         property alias appFont: appFont.value
         property alias appFontSize: appFontSize.value
+        property alias locale: appLang.value
     }
 }

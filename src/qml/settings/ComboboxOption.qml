@@ -28,7 +28,7 @@ Item {
             }
 
             Text {
-                color: "#cccccc"
+                color: "grey"
                 text: root.description
             }
         }
@@ -46,6 +46,12 @@ Item {
             onCountChanged: {
                 if (model) {
                     currentIndex = val.find(root.value)                    
+                }
+            }
+
+            Component.onCompleted: {                
+                if (model) {
+                    currentIndex = val.find(root.value)
                 }
             }
         }

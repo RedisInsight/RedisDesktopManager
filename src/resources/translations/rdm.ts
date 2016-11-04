@@ -412,52 +412,72 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="22"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="34"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="35"/>
+        <source>Application restart is needed to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="39"/>
         <source>Appearance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="46"/>
-        <source>Font Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="47"/>
-        <source>in pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="51"/>
-        <source>Connections Tree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="62"/>
-        <source>Reopen namespaces on reload</source>
+        <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="63"/>
-        <location filename="../../qml/GlobalSettings.qml" line="74"/>
+        <source>Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="64"/>
+        <source>in pixels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="68"/>
+        <source>Connections Tree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="79"/>
+        <source>Reopen namespaces on reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="80"/>
+        <location filename="../../qml/GlobalSettings.qml" line="91"/>
         <source>(Disable to improve treeview performance)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="73"/>
+        <location filename="../../qml/GlobalSettings.qml" line="90"/>
         <source>Enable key sorting in tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="86"/>
+        <location filename="../../qml/GlobalSettings.qml" line="103"/>
         <source>Live update maximum allowed keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="99"/>
+        <location filename="../../qml/GlobalSettings.qml" line="116"/>
         <source>Live update interval (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="112"/>
+        <location filename="../../qml/GlobalSettings.qml" line="129"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -506,7 +526,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="231"/>
+        <location filename="../../app/app.cpp" line="241"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation type="unfinished"></translation>
     </message>

@@ -412,52 +412,72 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="22"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="34"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="35"/>
+        <source>Application restart is needed to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="39"/>
         <source>Appearance</source>
         <translation>界面</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="46"/>
+        <location filename="../../qml/GlobalSettings.qml" line="51"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="63"/>
         <source>Font Size</source>
         <translation>字体大小</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="47"/>
+        <location filename="../../qml/GlobalSettings.qml" line="64"/>
         <source>in pixels</source>
         <translation>像素</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="51"/>
+        <location filename="../../qml/GlobalSettings.qml" line="68"/>
         <source>Connections Tree</source>
         <translation>连接树</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="62"/>
+        <location filename="../../qml/GlobalSettings.qml" line="79"/>
         <source>Reopen namespaces on reload</source>
         <translation>重载时重新打开命名空间</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="63"/>
-        <location filename="../../qml/GlobalSettings.qml" line="74"/>
+        <location filename="../../qml/GlobalSettings.qml" line="80"/>
+        <location filename="../../qml/GlobalSettings.qml" line="91"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(禁用树状试图提高性能)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="73"/>
+        <location filename="../../qml/GlobalSettings.qml" line="90"/>
         <source>Enable key sorting in tree</source>
         <translation>打开树状试图键名排序功能</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="86"/>
+        <location filename="../../qml/GlobalSettings.qml" line="103"/>
         <source>Live update maximum allowed keys</source>
         <translation>在线更新最大允许键数量</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="99"/>
+        <location filename="../../qml/GlobalSettings.qml" line="116"/>
         <source>Live update interval (in seconds)</source>
         <translation>在线更新间隔 (秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="112"/>
+        <location filename="../../qml/GlobalSettings.qml" line="129"/>
         <source>OK</source>
         <translation>好</translation>
     </message>
@@ -506,7 +526,7 @@
         <translation>RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="231"/>
+        <location filename="../../app/app.cpp" line="241"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>请下载新版本的 Redis Desktop Manager: %1</translation>
     </message>
