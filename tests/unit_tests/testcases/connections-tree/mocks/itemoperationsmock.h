@@ -48,6 +48,8 @@ public:
 
     virtual void flushDb(int, std::function<void(const QString&)>) override {}
 
+    virtual QString mode() { return QString("fake"); }
+
 protected:
     bool m_positive_mode;
 };
