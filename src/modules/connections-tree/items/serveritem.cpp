@@ -75,6 +75,8 @@ QString ServerItem::getIconUrl() const
     if (isDatabaseListLoaded()) {
         if (m_operations->mode() == "cluster") {
             return QString("qrc:/images/cluster.svg");
+        } else if (m_operations->mode() == "sentinel") {
+            return QString("qrc:/images/sentinel.svg");
         } else {
             return QString("qrc:/images/server.svg");
         }

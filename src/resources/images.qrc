@@ -33,5 +33,6 @@
         <file alias="live_update_disable.svg">images/live_update_disable.svg</file>
         <file alias="copy.svg">images/copy.svg</file>
         <file alias="cluster.svg">images/cluster.svg</file>
+        <file alias="sentinel.svg">images/sentinel.svg</file>
     </qresource>
 </RCC>

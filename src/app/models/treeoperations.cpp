@@ -163,5 +163,11 @@ void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> ca
 
 QString TreeOperations::mode()
 {
-    return m_connection->mode() == RedisClient::Connection::Mode::Cluster? QString("cluster") : QString("standalone");
+    if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+        return QString("cluster");
+    } else if (m_connection->mode() == RedisClient::Connection::Mode::Sentinel) {
+        return QString("sentinel");
+    } else {
+        return QString("standalone");
+    }
 }
