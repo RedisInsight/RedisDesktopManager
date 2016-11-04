@@ -386,19 +386,19 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="249"/>
-        <source>Live update was disabled due to exceeded keys limit. Please specify more accurate filter or change limit in settings.</source>
+        <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ConnectionsTree::ServerItem</name>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="45"/>
-        <source>All value and console tabs related to thisconnection will be closed. Do you want to continue?</source>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="46"/>
+        <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="54"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="55"/>
         <source>Do you really want delete connection?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -412,52 +412,72 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="22"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="34"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="35"/>
+        <source>Application restart is needed to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="39"/>
         <source>Appearance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="46"/>
-        <source>Font Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="47"/>
-        <source>in pixels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="51"/>
-        <source>Connections Tree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="62"/>
-        <source>Reopen namespaces on reload</source>
+        <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="63"/>
-        <location filename="../../qml/GlobalSettings.qml" line="74"/>
+        <source>Font Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="64"/>
+        <source>in pixels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="68"/>
+        <source>Connections Tree</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="79"/>
+        <source>Reopen namespaces on reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="80"/>
+        <location filename="../../qml/GlobalSettings.qml" line="91"/>
         <source>(Disable to improve treeview performance)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="73"/>
+        <location filename="../../qml/GlobalSettings.qml" line="90"/>
         <source>Enable key sorting in tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="86"/>
+        <location filename="../../qml/GlobalSettings.qml" line="103"/>
         <source>Live update maximum allowed keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="99"/>
+        <location filename="../../qml/GlobalSettings.qml" line="116"/>
         <source>Live update interval (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="112"/>
+        <location filename="../../qml/GlobalSettings.qml" line="129"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -496,17 +516,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="163"/>
+        <location filename="../../app/app.cpp" line="171"/>
         <source>Settings directory is not writable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="164"/>
+        <location filename="../../app/app.cpp" line="172"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="223"/>
+        <location filename="../../app/app.cpp" line="241"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -537,18 +557,13 @@
         <location filename="../../app/models/key-models/stringkey.cpp" line="55"/>
         <location filename="../../app/models/key-models/stringkey.cpp" line="87"/>
         <location filename="../../app/models/treeoperations.cpp" line="27"/>
-        <location filename="../../app/models/treeoperations.cpp" line="45"/>
+        <location filename="../../app/models/treeoperations.cpp" line="46"/>
         <source>Connection error: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="110"/>
-        <source>Value with same key already exist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="134"/>
-        <source>Partial data loaded from server</source>
+        <source>Value with the same key already exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -577,28 +592,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="68"/>
+        <location filename="../../app/models/treeoperations.cpp" line="75"/>
         <source>Cannot load keys: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="108"/>
-        <location filename="../../app/models/treeoperations.cpp" line="144"/>
+        <location filename="../../app/models/treeoperations.cpp" line="115"/>
+        <location filename="../../app/models/treeoperations.cpp" line="151"/>
         <source>Cannot remove key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="120"/>
+        <location filename="../../app/models/treeoperations.cpp" line="127"/>
         <source>Delete key error: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="153"/>
+        <location filename="../../app/models/treeoperations.cpp" line="160"/>
         <source>FlushDB error: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="158"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="167"/>
         <source>Cannot load databases:
 
 </source>
@@ -606,29 +621,40 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="31"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="32"/>
         <source>Connection error. Check network connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="20"/>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="38"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="39"/>
         <source>Invalid Connection. Check connection settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="24"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="25"/>
+        <source>Connected to cluster.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/console/consolemodel.cpp" line="27"/>
         <source>Connected.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="48"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="53"/>
         <source>Connection error:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="47"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="16"/>
+        <source>Cannot update server info tab. Error: %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="48"/>
         <source>Server %0</source>
         <translation type="unfinished"></translation>
     </message>
@@ -678,6 +704,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="134"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
         <source>Data was loaded from server partially.</source>
         <translation type="unfinished"></translation>
@@ -749,22 +776,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="131"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="130"/>
         <source>Mb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="173"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="172"/>
         <source>Server Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="184"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="191"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="190"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -823,6 +850,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="484"/>
+        <source>Do you really want to remove this row?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
         <source>Search on page...</source>
         <translation type="unfinished"></translation>
@@ -857,11 +889,6 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="476"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="498"/>
         <source>Delete row</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="484"/>
-        <source>Do you relly want to remove this row?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

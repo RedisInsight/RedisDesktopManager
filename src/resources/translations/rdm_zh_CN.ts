@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AddKeyDialog</name>
     <message>
@@ -384,19 +386,19 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="249"/>
-        <source>Live update was disabled due to exceeded keys limit. Please specify more accurate filter or change limit in settings.</source>
+        <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
         <translation>由于超出加载键数量限制，在线更新功能已经关闭。请设置更精确的筛查条件或更改加载限制设定。</translation>
     </message>
 </context>
 <context>
     <name>ConnectionsTree::ServerItem</name>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="45"/>
-        <source>All value and console tabs related to thisconnection will be closed. Do you want to continue?</source>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="46"/>
+        <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>所有与该连接相关的键值对话框和命令操作对话框都将被关闭，确定要继续吗？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="54"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="55"/>
         <source>Do you really want delete connection?</source>
         <translation>确定要删除连接？</translation>
     </message>
@@ -410,52 +412,72 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="22"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="34"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="35"/>
+        <source>Application restart is needed to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="39"/>
         <source>Appearance</source>
         <translation>界面</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="46"/>
+        <location filename="../../qml/GlobalSettings.qml" line="51"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="63"/>
         <source>Font Size</source>
         <translation>字体大小</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="47"/>
+        <location filename="../../qml/GlobalSettings.qml" line="64"/>
         <source>in pixels</source>
         <translation>像素</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="51"/>
+        <location filename="../../qml/GlobalSettings.qml" line="68"/>
         <source>Connections Tree</source>
         <translation>连接树</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="62"/>
+        <location filename="../../qml/GlobalSettings.qml" line="79"/>
         <source>Reopen namespaces on reload</source>
         <translation>重载时重新打开命名空间</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="63"/>
-        <location filename="../../qml/GlobalSettings.qml" line="74"/>
+        <location filename="../../qml/GlobalSettings.qml" line="80"/>
+        <location filename="../../qml/GlobalSettings.qml" line="91"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(禁用树状试图提高性能)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="73"/>
+        <location filename="../../qml/GlobalSettings.qml" line="90"/>
         <source>Enable key sorting in tree</source>
         <translation>打开树状试图键名排序功能</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="86"/>
+        <location filename="../../qml/GlobalSettings.qml" line="103"/>
         <source>Live update maximum allowed keys</source>
         <translation>在线更新最大允许键数量</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="99"/>
+        <location filename="../../qml/GlobalSettings.qml" line="116"/>
         <source>Live update interval (in seconds)</source>
         <translation>在线更新间隔 (秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="112"/>
+        <location filename="../../qml/GlobalSettings.qml" line="129"/>
         <source>OK</source>
         <translation>好</translation>
     </message>
@@ -494,17 +516,17 @@
         <translation>键错误</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="163"/>
+        <location filename="../../app/app.cpp" line="171"/>
         <source>Settings directory is not writable</source>
         <translation>设置保存文件夹没有写入权限</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="164"/>
+        <location filename="../../app/app.cpp" line="172"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="223"/>
+        <location filename="../../app/app.cpp" line="241"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>请下载新版本的 Redis Desktop Manager: %1</translation>
     </message>
@@ -535,19 +557,14 @@
         <location filename="../../app/models/key-models/stringkey.cpp" line="55"/>
         <location filename="../../app/models/key-models/stringkey.cpp" line="87"/>
         <location filename="../../app/models/treeoperations.cpp" line="27"/>
-        <location filename="../../app/models/treeoperations.cpp" line="45"/>
+        <location filename="../../app/models/treeoperations.cpp" line="46"/>
         <source>Connection error: </source>
         <translation>连接错误：</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="110"/>
-        <source>Value with same key already exist</source>
+        <source>Value with the same key already exist</source>
         <translation>相同键已经存在</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="134"/>
-        <source>Partial data loaded from server</source>
-        <translation>已从服务器加载部分数据</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="27"/>
@@ -575,28 +592,28 @@
         <translation>0.9.0 版本以下的 Redis Desktop Manager 不支持老版本的 Redis 服务器 (&lt;2.8)。请使用 0.8.8 的 Redis Desktop Manager 或者升级您的 Redis 服务器。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="68"/>
+        <location filename="../../app/models/treeoperations.cpp" line="75"/>
         <source>Cannot load keys: %1</source>
         <translation>无法加载键：%1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="108"/>
-        <location filename="../../app/models/treeoperations.cpp" line="144"/>
+        <location filename="../../app/models/treeoperations.cpp" line="115"/>
+        <location filename="../../app/models/treeoperations.cpp" line="151"/>
         <source>Cannot remove key: %1</source>
         <translation>无法删除键：%1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="120"/>
+        <location filename="../../app/models/treeoperations.cpp" line="127"/>
         <source>Delete key error: </source>
         <translation>删除键错误：</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="153"/>
+        <location filename="../../app/models/treeoperations.cpp" line="160"/>
         <source>FlushDB error: </source>
         <translation>清空库错误：</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="158"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="167"/>
         <source>Cannot load databases:
 
 </source>
@@ -606,30 +623,41 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="31"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="32"/>
         <source>Connection error. Check network connection</source>
         <translation>连接错误，请检查网络。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="20"/>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="38"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="39"/>
         <source>Invalid Connection. Check connection settings.</source>
         <translation>无效连接，请检查连接设置。</translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="24"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="25"/>
+        <source>Connected to cluster.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/console/consolemodel.cpp" line="27"/>
         <source>Connected.
 </source>
         <translation>已连接。
 </translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="48"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="53"/>
         <source>Connection error:</source>
         <translation>连接错误：</translation>
     </message>
     <message>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="47"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="16"/>
+        <source>Cannot update server info tab. Error: %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="48"/>
         <source>Server %0</source>
         <translation>服务器 %0</translation>
     </message>
@@ -679,6 +707,7 @@
         <translation>此行数据已经更改，无法删除。请重载后重试。</translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="134"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
         <source>Data was loaded from server partially.</source>
         <translation>部分数据已经从服务器加载。</translation>
@@ -750,22 +779,22 @@
         <translation>内存占用</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="131"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="130"/>
         <source>Mb</source>
         <translation>Mb</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="173"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="172"/>
         <source>Server Info</source>
         <translation>服务器信息</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="184"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="191"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="190"/>
         <source>Value</source>
         <translation>键值</translation>
     </message>
@@ -824,6 +853,11 @@
         <translation>此行数据是该键最后一行数据。删除此行数据，该键将会被删除。</translation>
     </message>
     <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="484"/>
+        <source>Do you really want to remove this row?</source>
+        <translation>确定要删除该行数据吗？</translation>
+    </message>
+    <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
         <source>Search on page...</source>
         <translation>页面搜索中...</translation>
@@ -859,11 +893,6 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="498"/>
         <source>Delete row</source>
         <translation>删除行</translation>
-    </message>
-    <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="484"/>
-        <source>Do you relly want to remove this row?</source>
-        <translation>确定要删除该行数据吗？</translation>
     </message>
 </context>
 <context>

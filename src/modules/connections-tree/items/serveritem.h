@@ -24,6 +24,8 @@ public:
 
     QString getType() const override { return "server"; }
 
+    int itemDepth() const override { return 0; }
+
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
     uint childCount(bool recursive = false) const override;

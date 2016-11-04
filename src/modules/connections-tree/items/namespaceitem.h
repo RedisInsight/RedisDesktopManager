@@ -24,6 +24,8 @@ public:
 
     QString getType() const override { return "namespace"; }
 
+    int itemDepth() const override { return m_fullPath.count(m_renderingSettings.nsSeparator.toUtf8()) + 2; }
+
     bool isLocked() const override;
 
     bool isEnabled() const override;    
@@ -36,5 +38,6 @@ private:
     QByteArray m_fullPath;    
     QByteArray m_displayName;
     bool m_removed;
+    bool m_rendering;
 };
 }

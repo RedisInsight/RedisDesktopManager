@@ -21,8 +21,13 @@ void Model::init()
         return;
     }
 
-    emit addOutput(QObject::tr("Connected.\n"), "complete");
-    emit changePrompt(QString("%1:0>").arg(m_connection->getConfig().name()), true);
+    if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+        emit addOutput(QObject::tr("Connected to cluster.\n"), "complete");
+    } else {
+        emit addOutput(QObject::tr("Connected.\n"), "complete");
+    }
+
+    updatePrompt(true);
 }
 
 QString Model::getName() const
@@ -49,16 +54,31 @@ void Model::executeCommand(const QString & cmd)
         return;
     }
 
-    if (command.isSelectCommand())
+    if (command.isSelectCommand() || m_connection->mode() == RedisClient::Connection::Mode::Cluster)
     {        
         m_current_db = command.getPartAsString(1).toInt();
-        emit changePrompt(
-            QString("%1:%2>")
-                .arg(m_connection->getConfig().name())
-                .arg(command.getPartAsString(1)),
-                false
-            );
+        updatePrompt(false);
     }
     QVariant value = result.getValue();
     emit addOutput(RedisClient::Response::valueToHumanReadString(value), "complete");
+}
+
+void Model::updatePrompt(bool showPrompt)
+{
+    if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+        emit changePrompt(
+            QString("%1(%2:%3)>")
+                .arg(m_connection->getConfig().name())
+                .arg(m_connection->getConfig().host())
+                .arg(m_connection->getConfig().port()),
+                showPrompt
+            );
+    } else {
+        emit changePrompt(
+            QString("%1:%2>")
+                .arg(m_connection->getConfig().name())
+                .arg(m_current_db),
+                showPrompt
+            );
+    }
 }

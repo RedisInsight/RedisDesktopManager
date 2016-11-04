@@ -206,14 +206,24 @@ void Application::initUpdater()
 
 void Application::installTranslator()
 {
-    QString locale = QLocale::system().uiLanguages().first().replace( "-", "_" );
+    QSettings settings;
+    QString preferredLocale = settings.value("app/locale", "system").toString();
 
-    qDebug() << QLocale::system().uiLanguages();
+    QString locale;
 
-    if (locale.isEmpty() || locale == "C")
-        locale = "en_US";
+    if (preferredLocale == "system") {
+        settings.setValue("app/locale", "system");
+        locale = QLocale::system().uiLanguages().first().replace( "-", "_" );
 
-    qDebug() << "Detected locale:" << locale;
+        qDebug() << QLocale::system().uiLanguages();
+
+        if (locale.isEmpty() || locale == "C")
+            locale = "en_US";
+
+        qDebug() << "Detected locale:" << locale;
+    } else {
+        locale = preferredLocale;
+    }
 
     QTranslator* translator = new QTranslator((QObject *)this);
     if (translator->load( QString( ":/translations/rdm_" ) + locale ))

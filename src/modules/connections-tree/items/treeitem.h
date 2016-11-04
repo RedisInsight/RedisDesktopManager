@@ -30,7 +30,9 @@ public:
 
     virtual QString getIconUrl() const = 0;
 
-    virtual QString getType() const = 0;    
+    virtual QString getType() const = 0;
+
+    virtual int itemDepth() const = 0;
 
     virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
 

@@ -22,6 +22,8 @@ public:
 
     QString getType() const override { return "key"; }
 
+    int itemDepth() const override { return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2; }
+
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
     bool supportChildItems() const override;

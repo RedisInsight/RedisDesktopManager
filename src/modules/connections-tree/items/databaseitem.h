@@ -24,7 +24,9 @@ public:
 
     QString getIconUrl() const override;
 
-    QString getType() const override { return "database"; }          
+    QString getType() const override { return "database"; }
+
+    int itemDepth() const override { return 1; }
 
     bool isLocked() const override;
 

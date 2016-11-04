@@ -17,13 +17,13 @@
         <file alias="export.svg">images/export.svg</file>
         <file alias="editdb.svg">images/editdb.svg</file>
         <file alias="delete.svg">images/delete.svg</file>
-        <file alias="rdm.ico">redis.ico</file>
-        <file alias="loader.gif">images/loader.gif</file>
+        <file alias="rdm.ico">redis.ico</file>        
         <file alias="ua.svg">images/ua.svg</file>
         <file alias="filter.svg">images/filter.svg</file>
         <file alias="chat.svg">images/chat.svg</file>
         <file alias="ga.png">images/ga.png</file>
         <file alias="server.svg">images/server.svg</file>
+        <file alias="server_offline.svg">images/server_offline.svg</file>
         <file alias="offline.svg">images/offline.svg</file>
         <file alias="settings.svg">images/settings.svg</file>
         <file alias="console.svg">images/console.svg</file>
@@ -32,5 +32,7 @@
         <file alias="live_update.svg">images/live_update.svg</file>
         <file alias="live_update_disable.svg">images/live_update_disable.svg</file>
         <file alias="copy.svg">images/copy.svg</file>
+        <file alias="cluster.svg">images/cluster.svg</file>
+        <file alias="sentinel.svg">images/sentinel.svg</file>
     </qresource>
 </RCC>

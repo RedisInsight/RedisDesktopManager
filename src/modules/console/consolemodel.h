@@ -24,5 +24,8 @@ namespace Console {
 
     private:        
         int m_current_db;
+
+    private:
+        void updatePrompt(bool showPrompt);
     };
 }

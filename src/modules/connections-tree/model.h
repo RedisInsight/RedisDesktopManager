@@ -21,7 +21,8 @@ namespace ConnectionsTree {
             itemOriginalName,
             itemType,            
             itemFullPath,
-            itemIsInitiallyExpanded
+            itemIsInitiallyExpanded,
+            itemDepth
         };
 
     public:
@@ -38,6 +39,8 @@ namespace ConnectionsTree {
         QModelIndex parent(const QModelIndex & index) const;
 
         int rowCount(const QModelIndex & parent = QModelIndex()) const;
+
+        bool hasChildren(const QModelIndex &parent = QModelIndex());
 
         inline int columnCount(const QModelIndex & parent = QModelIndex()) const
         {
@@ -94,7 +97,7 @@ namespace ConnectionsTree {
         void onExpandItem(QWeakPointer<TreeItem> item);
 
     public slots:
-        QVariant getItemIcon(const QModelIndex &index);
+        QVariant getItemDepth(const QModelIndex &index);
 
         QVariant getItemType(const QModelIndex &index);
 

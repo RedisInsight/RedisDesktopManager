@@ -23,6 +23,8 @@ Repeater {
         QConsole {
             id: redisConsole
 
+            property var model: consoleModel.getValue(tabIndex)
+
             Connections {
                 target: consoleModel ? consoleModel.getValue(tabIndex) : null
 
@@ -36,14 +38,16 @@ Repeater {
             }
 
             onExecCommand: {
-                consoleModel.getValue(tabIndex).executeCommand(command)
+                if (model)
+                    model.executeCommand(command)
             }
 
             Timer {
                 id: initTimer
 
                 onTriggered: {
-                    consoleModel.getValue(tabIndex).init()
+                    if (model)
+                        model.init()
                 }
             }
 
