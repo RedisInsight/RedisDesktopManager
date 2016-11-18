@@ -33,3 +33,6 @@ test_script:
 - echo 'Windows build is used only for installer compilation. Skip tests.'
 artifacts:
   - path: 'build/windows/installer/*.exe'
+  - path: build/windows/installer/resources/
+    name: rdm
+    type: zip
