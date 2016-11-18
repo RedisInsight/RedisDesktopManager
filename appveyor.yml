@@ -34,5 +34,5 @@ test_script:
 artifacts:
   - path: 'build/windows/installer/*.exe'
   - path: build/windows/installer/resources/
-    name: rdm {version}
+    name: rdm
     type: zip
