@@ -25,8 +25,7 @@
         <file>value-editor/editors/MultilineEditor.qml</file>
         <file>value-editor/editors/formatters/formatters.js</file>
         <file>value-editor/editors/formatters/hexy.js</file>
-        <file>value-editor/editors/editor.js</file>
-        <file>3rdparty/php-unserialize-js/phpUnserialize.js</file>
+        <file>value-editor/editors/editor.js</file>        
         <file>console/QConsole.qml</file>
         <file>console/BaseConsole.qml</file>
         <file>console/Consoles.qml</file>
