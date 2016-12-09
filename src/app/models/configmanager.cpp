@@ -19,16 +19,7 @@ ConfigManager::ConfigManager(const QString &basePath)
 
 QString ConfigManager::getApplicationConfigPath(const QString &configFile, bool checkPath)
 {
-    QString configDir;
-#ifdef Q_OS_MACX
-    configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(m_basePath).arg("/Library/Preferences/rdm/")
-                );
-#else
-    configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(m_basePath).arg(".rdm")
-                );
-#endif
+    QString configDir = getConfigPath();
     QDir settingsPath(configDir);
 
     if (!settingsPath.exists() && settingsPath.mkpath(configDir)) {
@@ -187,6 +178,21 @@ void ConfigManager::setPermissions(QFile &file)
 #ifdef Q_OS_WIN
     qt_ntfs_permission_lookup--;
 #endif
+}
+
+QString ConfigManager::getConfigPath()
+{
+    QString configDir;
+#ifdef Q_OS_MACX
+    configDir = QDir::toNativeSeparators(
+                    QString("%1/%2").arg(QDir::homePath()).arg("/Library/Preferences/rdm/")
+                );
+#else
+    configDir = QDir::toNativeSeparators(
+                    QString("%1/%2").arg(QDir::homePath()).arg(".rdm")
+                );
+#endif
+    return configDir;
 }
 
 bool saveJsonArrayToFile(const QJsonArray &c, const QString &f)

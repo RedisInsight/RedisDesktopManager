@@ -130,11 +130,11 @@ Repeater {
                     Item { Layout.preferredWidth: 5}
 
                     Button {
-                        text: "Rename"
+                        text: qsTr("Rename")
 
                         Dialog {
                             id: renameConfirmation
-                            title: "Rename key"
+                            title: qsTr("Rename key")
 
                             width: 520
 

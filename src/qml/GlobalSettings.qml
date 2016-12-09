@@ -12,7 +12,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 800
-        implicitHeight: 600
+        implicitHeight: 750
 
         ColumnLayout {
             anchors.fill: parent
@@ -117,6 +117,37 @@ Dialog {
                 description: ""
             }
 
+
+            Text {
+                text: qsTr("Custom Value View Formatters")
+                font.pixelSize: 20
+            }
+
+            Text {
+                text: qsTr("Formatters path: %0").arg(formattersManager.formattersPath())
+                font.pixelSize: 12
+                color: "grey"
+            }
+
+            TableView {
+                Layout.fillWidth: true
+
+                TableViewColumn {
+                    role: "name"
+                    title: "Name"
+                }
+                TableViewColumn {
+                    role: "version"
+                    title: "Version"
+                }
+                TableViewColumn {
+                    role: "cmd"
+                    title: "Command"
+                }
+
+                model: formattersManager
+            }
+
             Item {
                 Layout.fillHeight: true
             }
@@ -144,5 +175,12 @@ Dialog {
         property alias appFont: appFont.value
         property alias appFontSize: appFontSize.value
         property alias locale: appLang.value
+    }
+
+    Settings {
+        id: customFormatters
+        category: "formatters"
+
+        property var formatters
     }
 }

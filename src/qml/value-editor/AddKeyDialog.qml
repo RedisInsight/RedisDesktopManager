@@ -8,7 +8,7 @@ import "./editors/editor.js" as Editor
 
 Dialog {
     id: root
-    title: "Add New Key"
+    title: qsTr("Add New Key")
     width: 550
     height: 500
     modality: Qt.ApplicationModal

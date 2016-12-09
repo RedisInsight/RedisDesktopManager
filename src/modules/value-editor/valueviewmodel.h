@@ -3,7 +3,6 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 #include "keymodel.h"
-#include "compression.h"
 
 namespace ValueEditor {
 

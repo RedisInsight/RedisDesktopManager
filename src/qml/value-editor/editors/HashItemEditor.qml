@@ -12,7 +12,7 @@ AbstractEditor {
 
     MultilineEditor {
         id: keyText
-        fieldLabel: "Key:"
+        fieldLabel: qsTr("Key:")
         Layout.fillWidth: true
         Layout.minimumHeight: 80
         Layout.preferredHeight: 90

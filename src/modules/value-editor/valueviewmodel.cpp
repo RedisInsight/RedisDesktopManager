@@ -124,35 +124,12 @@ void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)
     if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
         return;
 
-    QVariantMap res = getRowRaw(i);
-    // check original value to avoid maintaining state
-    bool updated = false;
-
-    if (ValueEditor::Compression::isCompressed(res["value"].toByteArray())) {
-        QByteArray output;
-        if (!ValueEditor::Compression::compress(row["value"].toByteArray(), output)) {
-            qDebug() << "Compression failed";
-        } else {
-            qDebug() << "Compression succeeded";
-            QVariantMap compressedRow;
-            compressedRow["value"] = QVariant(output);
-            
-            try {
-                m_model->updateRow(targetRow, compressedRow);
-                updated = true;
-            } catch(const Model::Exception& e) {
-                emit error(QString(e.what()));
-            }
-        }
+    try {
+        m_model->updateRow(targetRow, row);
+    } catch(const Model::Exception& e) {
+        emit error(QString(e.what()));
     }
 
-    if (!updated) {
-        try {
-            m_model->updateRow(targetRow, row);
-        } catch(const Model::Exception& e) {
-            emit error(QString(e.what()));
-        }
-    }
     emit dataChanged(index(i, 0), index(i, 0));
 }
 
@@ -196,17 +173,6 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row)
         return QVariantMap();
 
     QVariantMap res = getRowRaw(row);
-    bool compressed = ValueEditor::Compression::isCompressed(res["value"].toByteArray());
-    qDebug() << "Is compressed: " << compressed;
-    if (compressed) {
-        QByteArray output;
-        if (!ValueEditor::Compression::decompress(res["value"].toByteArray(), output)) {
-            qDebug() << "Decompression failed";
-        } else {
-            qDebug() << "Decompression succeeded";
-            res["value"] = QVariant(output);
-        }
-    }
     return res;
 }
 

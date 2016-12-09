@@ -13,29 +13,53 @@ ColumnLayout
     property alias textColor: textArea.textColor
     property alias style: textArea.style
     property bool showFormatters: true
-    property string fieldLabel: "Value:"
+    property string fieldLabel: qsTr("Value:")
     property var value
 
     function getText() {
-        if (textArea.formatter.binary)
-            return binaryUtils.binaryListToValue(textArea.formatter.getRaw(textArea.text))
-        else
-            return textArea.formatter.getRaw(textArea.text)
+        return textArea.formatter.getRaw(textArea.text)
     }
 
     function setValue(val) {
         value = val
-        var isBin = binaryUtils.isBinaryString(val)
-
-        binaryFlag.visible = false
-
-        if (isBin) binaryFlag.visible = true        
-
-        autoDetectFormatter(isBin)
+        loadFormattedValue()
     }
 
-    function autoDetectFormatter(isBinary) {
-        formatterSelector.currentIndex = Formatters.guessFormatter(isBinary, value)
+    function loadFormattedValue() {
+        var isBin = binaryUtils.isBinaryString(root.value)
+
+        binaryFlag.visible = false
+        textArea.textFormat = TextEdit.PlainText
+
+        if (isBin) binaryFlag.visible = true
+
+        // FIXME: autoDetectFormatter
+
+        var formatter = formatterSelector.model[formatterSelector.currentIndex]
+
+        uiBlocker.visible = true
+
+        formatter.instance.getFormatted(root.value, function (formatted, isReadOnly, format) {
+
+            if (isReadOnly) {
+                textArea.readOnlyValue = true
+            }
+
+            if (format == "json") {
+                // 1 is JSON
+                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
+                    textArea.text = formattedJson
+                    uiBlocker.visible = false
+                })
+            } else {
+                if (format == "html")
+                    textArea.textFormat = TextEdit.RichText
+
+                textArea.text = formatted
+            }
+
+            uiBlocker.visible = false
+        })
     }
 
     RowLayout{
@@ -43,32 +67,22 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
-        Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }
-        Text { id: compressedFlag; text: qsTr("[GZIP compressed]"); visible: false; color: "red"; } // TBD
+        Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
         Text { text: "View as:" }
 
         ComboBox {
             id: formatterSelector
             width: 200
-            model: formattersModel
+            model: Formatters.buildFormattersModel()
             textRole: "name"
 
-            onCurrentIndexChanged: Formatters.defaultFormatterIndex = currentIndex
-            Component.onCompleted: currentIndex = Formatters.defaultFormatterIndex
-        }
-
-        ListModel {
-            id: formattersModel
-
-            Component.onCompleted: {
-                for (var index in Formatters.enabledFormatters) {
-                    var f = Formatters.enabledFormatters[index]
-                    var title = f.readOnly ? f.title + " (READ ONLY)" : f.title
-                    append({'name': title})
-                }
+            onCurrentIndexChanged: {
+                Formatters.defaultFormatterIndex = currentIndex
+                loadFormattedValue()
             }
-        }
+            Component.onCompleted: currentIndex = Formatters.defaultFormatterIndex
+        }       
     }
 
     TextArea
@@ -77,33 +91,29 @@ ColumnLayout
         Layout.fillWidth: true        
         Layout.fillHeight: true
         Layout.preferredHeight: 100        
-        textFormat: formatter && formatter.htmlOutput ? TextEdit.RichText : TextEdit.PlainText
-        readOnly: (formatter)? formatter.readOnly : enabled ? true : false
 
-        onEnabledChanged: {
-            console.log("Text editor was disabled")
-        }
+        readOnly: (readOnlyValue)? readOnlyValue : enabled ? true : false
 
-        text: {
-            if (!formatter || !value)
-                return ''
+        property bool readOnlyValue: false
 
-            if (formatter.binary === true) {
-                return formatter.getFormatted(binaryUtils.valueToBinary(value)) || ''
-            } else {
-                return formatter.getFormatted(binaryUtils.toUtf(value)) || ''
-            }
-        }
+        style: TextAreaStyle { renderType: Text.QtRendering }
 
-        property var formatter: {
-            var index = formatterSelector.currentIndex ? formatterSelector.currentIndex : Formatters.defaultFormatterIndex
-            return Formatters.enabledFormatters[index]
-        }
-
-        style: TextAreaStyle {
-            renderType: Text.QtRendering
-        }
         font { family: monospacedFont.name; pointSize: 12 }
+
         wrapMode: TextEdit.WrapAnywhere
+    }
+
+    Rectangle {
+        id: uiBlocker
+        visible: false
+        anchors.fill: parent
+        color: Qt.rgba(0, 0, 0, 0.1)
+
+        Item {
+            anchors.fill: parent
+            BusyIndicator { anchors.centerIn: parent; running: true }
+        }
+
+        MouseArea { anchors.fill: parent }
     }
 }

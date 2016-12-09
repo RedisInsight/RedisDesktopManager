@@ -1,7 +1,9 @@
-.import "./msgpack.js" as MsgPack
 .import "./hexy.js" as Hexy
-.import "./php-unserialize.js" as PHPUnserialize
 .import "./json-tools.js" as JSONFormatter
+
+var FORMAT_PLAIN_TEXT = "plain_text"
+var FORMAT_JSON = "json"
+var FORMAT_HTML = "html"
 
 /**
   Plain formatter
@@ -9,60 +11,46 @@
 
 var plain = {
     title: "Plain Text",
-    readOnly: false,
-    binary: false,
-    htmlOutput: false,
 
-    getFormatted: function (raw) {        
-        return raw
+    getFormatted: function (raw, callback) {
+        return callback(raw, false, FORMAT_PLAIN_TEXT)
     },
 
-    isValid: function (raw) {
-        return true
+    isValid: function (raw, callback) {
+        return callback(true, "")
     },
 
-    getRaw: function (formatted) {
-        return formatted
+    getRaw: function (formatted, callback) {
+        return callback(formatted)
     }
 }
 
 var hex = {
     title: "HEX",
-    readOnly: false,
-    binary: true,
-    htmlOutput: false,
 
-    getFormatted: function (raw) {
-        return binaryUtils.printable(binaryUtils.binaryListToValue(raw))
+    getFormatted: function (raw, callback) {
+        return callback(binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
     },
 
-    isValid: function (raw) {
-        return binaryUtils.isBinaryString(binaryUtils.binaryListToValue(raw))
+    isValid: function (raw, callback) {
+        return callback(binaryUtils.isBinaryString(raw), "")
     },
 
-    getRaw: function (formatted) {
-        return binaryUtils.valueToBinary(binaryUtils.printableToValue(formatted))
+    getRaw: function (formatted, callback) {
+        return callback(binaryUtils.printableToValue(formatted))
     }
 }
 
 var hexTable = {
     title: "HEX TABLE",
-    readOnly: true,
-    binary: true,
-    htmlOutput: true,
 
-    getFormatted: function (raw) {
-        var format = {'html': true}
-        return Hexy.hexy(raw, format)
+    getFormatted: function (raw, callback) {        
+        return callback(Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
     },
 
-    isValid: function (raw) {
-        return true
+    isValid: function (raw, callback) {
+        return callback(binaryUtils.isBinaryString(raw), "")
     },
-
-    getRaw: function (formatted) {
-        return ''
-    }
 }
 
 /**
@@ -70,119 +58,86 @@ var hexTable = {
 **/
 var json = {
     title: "JSON",
-    readOnly: false,
-    binary: false,
-    htmlOutput: false,
 
-    getFormatted: function (raw) {
+    getFormatted: function (raw, callback) {
         try {
-            return JSONFormatter.prettyPrint(raw)
+            return callback(JSONFormatter.prettyPrint(raw), false, FORMAT_PLAIN_TEXT)
 
         } catch (e) {
-            return "Error: Invalid JSON"
+            return callback("Error: Invalid JSON")
         }
     },
 
-    isValid: function (raw) {
+    isValid: function (raw, callback) {
         try {
             JSON.parse(raw)
-            return true
+            return callback(true)
         } catch (e) {
-            return false
+            return callback(false)
         }
     },
 
-    getRaw: function (formatted) {        
+    getRaw: function (formatted, callback) {
         try {
-            return JSONFormatter.minify(formatted)
+            return callback(JSONFormatter.minify(formatted))
         } catch (e) {
-            return formatted
+            return callback(formatted)
         }
-    }
-}
-
-/**
-  MsgPack formatter
-**/
-var msgpack = {
-    title: "MSGPACK",
-    readOnly: false,
-    binary: true,
-    htmlOutput: false,
-
-    getFormatted: function (raw) {
-        try {
-            var parsed = MsgPack.msgpack().unpack(raw)
-            console.log('parsed msgpack:', parsed)
-            return JSON.stringify(parsed, undefined, 4)
-
-        } catch (e) {
-            return "Error: Invalid MSGPack or JSON" + e
-        }
-    },
-
-    isValid: function (raw) {
-        try {
-            return MsgPack.msgpack().unpack(raw) !== undefined
-        } catch (e) {
-            return false
-        }
-    },
-
-    getRaw: function (formatted) {
-        var obj = JSON.parse(formatted)
-        var compressed = MsgPack.msgpack().pack(obj)
-        return compressed
-    }
-}
-
-/**
-  PHP Serialize formatter
-**/
-var phpserialized = {
-    title: "PHP Serializer",
-    readOnly: true,    
-    binary: false,
-    htmlOutput: false,
-
-    getFormatted: function (raw) {
-
-        try {
-            var parsed = PHPUnserialize.unserialize(raw)
-            console.log('parsed php serialized:', JSON.stringify(parsed))
-            return JSON.stringify(parsed, undefined, 4)
-
-        } catch (e) {
-            return "Error: Invalid PHP Serialized String: " + JSON.stringify(e)
-        }
-    },
-
-    isValid: function (raw) {
-        try {
-            PHPUnserialize.unserialize(raw)
-            return true
-        } catch (e) {
-            return false
-        }
-    },
-
-    getRaw: function (formatted) {
-        var obj = JSON.parse(formatted)
-        return PHPSerialize.serialize(obj)
     }
 }
 
 var defaultFormatterIndex = 0;                        
-var enabledFormatters = [plain, json, msgpack, hex, hexTable, phpserialized]
+var enabledFormatters = [plain, json, hex, hexTable]
 
-function guessFormatter(isBinary, value)
+
+function buildFormattersModel()
+{
+    var formatters = []
+
+    for (var index in enabledFormatters) {
+        var f = enabledFormatters[index]
+        formatters.push({'name': f.title, 'type': "buildin", "instance": f})
+    }
+
+    var nativeFormatters = formattersManager.getPlainList();
+
+    function createWrapperForNativeFormatter(formatterName) {
+        return {
+            getFormatted: function (raw, callback) {
+                return formattersManager.decode(formatterName, raw, callback)
+            },
+
+            isValid: function (raw, callback) {
+                return formattersManager.isValid(formatterName, raw, callback)
+            },
+
+            getRaw: function (formatted, callback) {
+                return formattersManager.encode(formatterName, formatted, callback)
+            }
+        }
+    }
+
+    for (var index in nativeFormatters) {
+        formatters.push({
+                   'name': nativeFormatters[index],
+                   'type': "external",
+                   'instance': createWrapperForNativeFormatter(nativeFormatters[index])
+               })
+    }
+
+    return formatters
+}
+
+function guessFormatter(formatters, isBinary, value)
 {
     // NOTE(u_glide): Use hex or plain formatter if value is large
     if (binaryUtils.binaryStringLength(value) > 100000) {
-        return isBinary? 3 : 0
+        return isBinary? 2 : 0
     }
 
-    var tryFormatters = isBinary? [2, 5, 3, 4] : [1, 5, 2]
+    // TODO: use native formatters to guess value format
+
+    var tryFormatters = isBinary? [2] : [1]
 
     for (var index in tryFormatters) {
         var val = (enabledFormatters[tryFormatters[index]].binary) ?

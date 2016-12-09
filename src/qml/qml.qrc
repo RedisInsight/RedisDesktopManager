@@ -24,8 +24,6 @@
         <file>value-editor/editors/AbstractEditor.qml</file>
         <file>value-editor/editors/MultilineEditor.qml</file>
         <file>value-editor/editors/formatters/formatters.js</file>
-        <file>value-editor/editors/formatters/msgpack.js</file>
-        <file>value-editor/editors/formatters/php-unserialize.js</file>
         <file>value-editor/editors/formatters/hexy.js</file>
         <file>value-editor/editors/editor.js</file>
         <file>3rdparty/php-unserialize-js/phpUnserialize.js</file>

@@ -21,6 +21,7 @@
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/viewmodel.h"
 #include "modules/value-editor/sortfilterproxymodel.h"
+#include "modules/value-editor/formattersmanager.h"
 #include "modules/console/consolemodel.h"
 #include "modules/server-stats/serverstatsmodel.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
@@ -65,6 +66,9 @@ void Application::initModels()
 
     connect(m_connections.data(), &ConnectionsManager::openServerStats,
             m_serverStatsModel.data(), &TabViewModel::openTab);
+
+    m_formattersManager = QSharedPointer<ValueEditor::FormattersManager>(new ValueEditor::FormattersManager());
+    m_formattersManager->loadFormatters();
 }
 
 void Application::initAppInfo()
@@ -124,6 +128,7 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("connectionsManager", m_connections.data());
     m_engine.rootContext()->setContextProperty("viewModel", m_keyValues.data()); // TODO: Remove legacy name usage in qml    
     m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
+    m_engine.rootContext()->setContextProperty("formattersManager", m_formattersManager.data());
     m_engine.rootContext()->setContextProperty("consoleModel", m_consoleModel.data());
     m_engine.rootContext()->setContextProperty("serverStatsModel", m_serverStatsModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
