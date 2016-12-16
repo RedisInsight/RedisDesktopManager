@@ -22,10 +22,8 @@ AbstractEditor {
         property var originalValue: ""
         showFormatters: root.state != "new"
 
-        style: TextAreaStyle {
-            backgroundColor: (!keyText.value && keyText.enabled
-                              && keyText.readOnly == false) ? "lightyellow" : "white"
-        }
+        backgroundColor: (!keyText.value && keyText.enabled
+                          && keyText.readOnly == false) ? "lightyellow" : "white"
     }
 
 
@@ -37,10 +35,8 @@ AbstractEditor {
         property var originalValue: ""
         showFormatters: root.state != "new"
 
-        style: TextAreaStyle {
-            backgroundColor: (!textArea.value && textArea.enabled
-                              && textArea.readOnly == false) ? "lightyellow" : "white"
-        }
+        backgroundColor: (!textArea.value && textArea.enabled
+                          && textArea.readOnly == false) ? "lightyellow" : "white"
     }
 
     function setValue(rowValue) {

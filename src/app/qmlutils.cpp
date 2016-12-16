@@ -66,13 +66,18 @@ QVariant QmlUtils::binaryListToValue(const QVariantList &binaryList)
     return value;
 }
 
-QVariant QmlUtils::printable(const QVariant &value)
+QVariant QmlUtils::printable(const QVariant &value, bool htmlEscaped)
 {
     if (!value.canConvert(QVariant::ByteArray)) {
         return QVariant();
     }
     QByteArray val = value.toByteArray();
-    return printableString(val);
+
+    if (htmlEscaped) {
+        return printableString(val).toHtmlEscaped();
+    } else {
+        return printableString(val);
+    }
 }
 
 QVariant QmlUtils::printableToValue(const QVariant &printable)

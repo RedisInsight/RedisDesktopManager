@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
+import QtWebEngine 1.0
 
 import "./formatters/formatters.js" as Formatters
 
@@ -9,15 +10,15 @@ ColumnLayout
 {
     id: root
 
-    property alias enabled: textArea.enabled
-    property alias textColor: textArea.textColor
-    property alias style: textArea.style
+    property bool enabled
+    property string textColor
+    property string backgroundColor
     property bool showFormatters: true
     property string fieldLabel: qsTr("Value:")
     property var value
 
     function getText() {
-        return textArea.formatter.getRaw(textArea.text)
+        // FIXME
     }
 
     function setValue(val) {
@@ -28,12 +29,11 @@ ColumnLayout
     function loadFormattedValue() {
         var isBin = binaryUtils.isBinaryString(root.value)
 
-        binaryFlag.visible = false
-        textArea.textFormat = TextEdit.PlainText
+        binaryFlag.visible = false        
 
         if (isBin) binaryFlag.visible = true
 
-        formatterSelector.currentIndex = Formatters.guessFormatter(isBin)
+        //formatterSelector.currentIndex = Formatters.guessFormatter(isBin)
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
@@ -41,21 +41,14 @@ ColumnLayout
 
         formatter.instance.getFormatted(root.value, function (formatted, isReadOnly, format) {
 
-            if (isReadOnly) {
-                textArea.readOnlyValue = true
-            }
-
             if (format == "json") {
                 // 1 is JSON
                 return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-                    textArea.text = formattedJson
+                    webView.setText(formattedJson, false, isReadOnly)
                     uiBlocker.visible = false
                 })
             } else {
-                if (format == "html")
-                    textArea.textFormat = TextEdit.RichText
-
-                textArea.text = formatted
+                webView.setText(formatted, format === "html", isReadOnly)
             }
 
             uiBlocker.visible = false
@@ -86,23 +79,33 @@ ColumnLayout
         }       
     }
 
-    TextArea
-    {
-        id: textArea
-        Layout.fillWidth: true        
+    WebEngineView {
+        id: webView
+        Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 100        
+        Layout.preferredHeight: 100
 
-        readOnly: (readOnlyValue)? readOnlyValue : enabled ? true : false
+        onJavaScriptConsoleMessage: {
+            console.log("Web:", message)
+        }
 
-        property bool readOnlyValue: false
+        function setText(text, html, readOnly) {
 
-        style: TextAreaStyle { renderType: Text.QtRendering }
+            if (html) {
+                webView.loadHtml("<html><body style='width: 100%; height: 100%;'>" + text +"</body>")
+            } else {
+                var attr = "";
 
-        font { family: monospacedFont.name; pointSize: 12 }
+                if (readOnly) {
+                    attr = "readonly";
+                }
 
-        wrapMode: TextEdit.WrapAnywhere
+                webView.loadHtml("<html><body><textarea "+ attr +" id='textarea' style='width: 100%; height: 100%; resize: none;'>" + text +"</textarea></body>")
+            }
+
+        }
     }
+
 
     Rectangle {
         id: uiBlocker
