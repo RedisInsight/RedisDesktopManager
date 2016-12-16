@@ -19,7 +19,7 @@ ConfigManager::ConfigManager(const QString &basePath)
 
 QString ConfigManager::getApplicationConfigPath(const QString &configFile, bool checkPath)
 {
-    QString configDir = getConfigPath();
+    QString configDir = getConfigPath(m_basePath);
     QDir settingsPath(configDir);
 
     if (!settingsPath.exists() && settingsPath.mkpath(configDir)) {
@@ -180,16 +180,16 @@ void ConfigManager::setPermissions(QFile &file)
 #endif
 }
 
-QString ConfigManager::getConfigPath()
+QString ConfigManager::getConfigPath(QString basePath)
 {
     QString configDir;
 #ifdef Q_OS_MACX
     configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(QDir::homePath()).arg("/Library/Preferences/rdm/")
+                    QString("%1/%2").arg(basePath).arg("/Library/Preferences/rdm/")
                 );
 #else
     configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(QDir::homePath()).arg(".rdm")
+                    QString("%1/%2").arg(basePath).arg(".rdm")
                 );
 #endif
     return configDir;

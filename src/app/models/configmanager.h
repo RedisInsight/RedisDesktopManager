@@ -11,7 +11,7 @@ public:
     QString getApplicationConfigPath(const QString &, bool checkPath=true);
     bool migrateOldConfig(const QString &oldFileName, const QString &newFileName);
 public:
-    static QString getConfigPath();
+    static QString getConfigPath(QString basePath = QDir::homePath());
     static QJsonArray xmlConfigToJsonArray(const QString &xmlConfigPath);
 
 private:

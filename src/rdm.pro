@@ -95,6 +95,7 @@ unix:!macx { # ubuntu & debian
 
     QTPLUGIN += qsvg qsvgicon
 
+    QMAKE_CXXFLAGS += -Wno-sign-compare
     QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 
     release: DESTDIR = ./../bin/linux/release

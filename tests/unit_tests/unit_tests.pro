@@ -48,7 +48,7 @@ debug:   DESTDIR = $$PROJECT_ROOT/bin/tests
 
 unix:!mac {
     #code coverage
-    QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0
+    QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0 -Wno-sign-compare
     QMAKE_LFLAGS += -g -fprofile-arcs -ftest-coverage  -O0
     LIBS += -lgcov
 }
