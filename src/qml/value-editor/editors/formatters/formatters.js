@@ -128,24 +128,7 @@ function buildFormattersModel()
     return formatters
 }
 
-function guessFormatter(formatters, isBinary, value)
-{
-    // NOTE(u_glide): Use hex or plain formatter if value is large
-    if (binaryUtils.binaryStringLength(value) > 100000) {
-        return isBinary? 2 : 0
-    }
-
-    // TODO: use native formatters to guess value format
-
-    var tryFormatters = isBinary? [2] : [1]
-
-    for (var index in tryFormatters) {
-        var val = (enabledFormatters[tryFormatters[index]].binary) ?
-            binaryUtils.valueToBinary(value) : binaryUtils.toUtf(value)
-
-        if (enabledFormatters[tryFormatters[index]].isValid(val)){
-            return tryFormatters[index]
-        }
-    }
-    return 0 // Plain text
+function guessFormatter(isBinary)
+{    
+   return isBinary? 2 : 0
 }

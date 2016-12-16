@@ -33,7 +33,7 @@ ColumnLayout
 
         if (isBin) binaryFlag.visible = true
 
-        // FIXME: autoDetectFormatter
+        formatterSelector.currentIndex = Formatters.guessFormatter(isBin)
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
@@ -67,6 +67,7 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
+        TextEdit { text: "size: " + binaryUtils.humanSize(binaryUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
         Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
         Text { text: "View as:" }
