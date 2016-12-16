@@ -17,7 +17,6 @@ INITIALIZE_EASYLOGGINGPP
 #include "testcases/connections-tree/test_model.h"
 #include "testcases/console/test_console.h"
 #include "testcases/console/test_consolemodel.h"
-#include "testcases/value-editor/test_compression.h"
 #include "testcases/value-editor/test_viewmodel.h"
 
 int main(int argc, char *argv[])
@@ -43,8 +42,7 @@ int main(int argc, char *argv[])
             + QTest::qExec(new TestKeyModels, argc, argv)
             + QTest::qExec(new TestAbstractKey, argc, argv)            
 
-            // value-editor module
-            + QTest::qExec(new TestCompression, argc, argv)
+            // value-editor module            
             + QTest::qExec(new TestViewModel, argc, argv)
             ;
 

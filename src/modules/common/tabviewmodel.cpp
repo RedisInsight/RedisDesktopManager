@@ -5,9 +5,8 @@ TabViewModel::TabViewModel(const ModelFactory& modelFactory)
 {
 }
 
-QModelIndex TabViewModel::index(int row, int column, const QModelIndex &parent) const
-{
-    Q_UNUSED(column);
+QModelIndex TabViewModel::index(int row, int, const QModelIndex&) const
+{    
     return createIndex(row, 0);
 }
 

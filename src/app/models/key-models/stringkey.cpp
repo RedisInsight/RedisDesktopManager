@@ -73,7 +73,7 @@ void StringKeyModel::loadRows(unsigned long, unsigned long, std::function<void(c
         m_connection->command({"GET", m_keyFullPath}, getConnector().data(),
                               [this, callback](RedisClient::Response r, QString e)
         {
-            if (r.getType() != RedisClient::Response::Bulk) {
+            if (r.getType() != RedisClient::Response::Bulk || !e.isEmpty()) {
                 return callback(QString("Cannot load value"));
             }
 
