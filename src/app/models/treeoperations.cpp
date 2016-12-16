@@ -20,12 +20,19 @@ TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connectio
 
 void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)> callback)
 {
+    bool connected = false;
+
     if (!m_connection->isConnected()) {
         try {
-            m_connection->connect(true);
+            connected = m_connection->connect(true);
         } catch (const RedisClient::Connection::Exception& e) {
             throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
         }
+    }
+
+    if (!connected) {
+        throw ConnectionsTree::Operations::Exception(
+                    QObject::tr("Cannot connect to server '%1'. Check log for details.").arg(m_connection->getConfig().name()));
     }
 
     if (m_connection->getServerVersion() < 2.8)
