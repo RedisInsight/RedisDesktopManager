@@ -39,6 +39,8 @@ QByteArray readStdoutFromExternalProcess(const QStringList& cmd, const QString& 
 
 QJsonObject readJsonFromExternalProcess(const QStringList& cmd, const QString& wd)
 {
+    qDebug() << cmd;
+
     QByteArray result = readStdoutFromExternalProcess(cmd, wd);
 
     if (result.isEmpty())
@@ -104,7 +106,7 @@ void ValueEditor::FormattersManager::loadFormatters(bool ignoreCache)
 
             QVariantMap data;
             data["name"] = it.fileName();
-            data["version"] = result;
+            data["version"] = result.simplified();
             data["cmd"] = fullCmd.join(" ");
             data["cmd_list"] = fullCmd;
             data["cwd"] = it.filePath();
