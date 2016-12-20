@@ -96,8 +96,21 @@ function GetOSVersion {
         os_RELEASE=$(lsb_release -r -s)
         os_UPDATE=""
         os_PACKAGE="rpm"
+        os_CODENAME=$(lsb_release -c -s)
         if [[ "Debian,Ubuntu,LinuxMint" =~ $os_VENDOR ]]; then
             os_PACKAGE="deb"
+            if [[ "LinuxMint" =~ $os_VENDOR ]]; then
+                os_REALEASEFILE="/etc/os-release"
+                if [ -f "$os_REALEASEFILE" ]
+                then
+                    . /etc/os-release
+                    if [[ "Ubuntu" =~ $NAME ]]; then
+                        os_VENDOR=Ubuntu
+                        os_RELEASE=$(awk '/VERSION_ID=/' /etc/os-release | sed 's/VERSION_ID=//' | sed 's/\"//g')
+                        os_CODENAME=$(awk '/VERSION=/' /etc/os-release | sed 's/VERSION=//' | sed -r 's/\"|\(|\)//g' | awk '{print $(NF-1)}')
+                    fi
+                fi
+            fi
         elif [[ "SUSE LINUX" =~ $os_VENDOR ]]; then
             lsb_release -d -s | grep -q openSUSE
             if [[ $? -eq 0 ]]; then
@@ -108,7 +121,6 @@ function GetOSVersion {
         elif [[ $os_VENDOR =~ Red.*Hat ]]; then
             os_VENDOR="Red Hat"
         fi
-        os_CODENAME=$(lsb_release -c -s)
     elif [[ -r /etc/redhat-release ]]; then
         # Red Hat Enterprise Linux Server release 5.5 (Tikanga)
         # Red Hat Enterprise Linux Server release 7.0 Beta (Maipo)
