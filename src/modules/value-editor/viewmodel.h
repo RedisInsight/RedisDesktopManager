@@ -53,7 +53,6 @@ public: // methods exported to QML
 signals:
     void keyError(int index, const QString& error);
     void replaceTab(int index);
-    void closeWelcomeTab();
     void newKeyDialog(QString dbIdentificationString, QString keyPrefix);
 
 public slots:

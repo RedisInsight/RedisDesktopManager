@@ -16,6 +16,7 @@ Repeater {
         id: tab
         title: tabName
         icon: "qrc:/images/console.svg"
+        tabType: "server_info"
 
         property var model
 

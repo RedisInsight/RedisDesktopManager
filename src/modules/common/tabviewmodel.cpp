@@ -65,6 +65,11 @@ QObject *TabViewModel::getValue(int i)
     return qobject_cast<QObject* >(m_models.at(i).data());
 }
 
+int TabViewModel::tabsCount() const
+{
+    return m_models.count();
+}
+
 void TabViewModel::openTab(QSharedPointer<RedisClient::Connection> connection)
 {
     beginInsertRows(QModelIndex(), m_models.count(), m_models.count());

@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.1
 Tab {
     property string icon
     property bool closable: true
+    property string tabType
 
     signal close(int index)
 

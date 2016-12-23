@@ -244,9 +244,6 @@ bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
 
 void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model, bool openNewTab)
 {
-    if (m_valueModels.count() == 0)
-        emit closeWelcomeTab();
-
     if (openNewTab || m_valueModels.count() == 0) {
         beginInsertRows(QModelIndex(), m_valueModels.count(), m_valueModels.count());
         m_valueModels.append(model);

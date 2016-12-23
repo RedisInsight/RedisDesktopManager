@@ -16,6 +16,7 @@ Repeater {
         width: approot.width
         height: approot.height
         icon: "qrc:/images/key.svg"
+        tabType: "value"
 
         closable: true
         onClose: {
