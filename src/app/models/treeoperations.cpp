@@ -123,9 +123,9 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
           return;
         }
 
-        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
-        emit m_manager.closeDbKeys(m_connection, key.getDbIndex(), filter);
         key.setRemoved();
+        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
+        emit m_manager.closeDbKeys(m_connection, key.getDbIndex(), filter);        
     };
 
     try {

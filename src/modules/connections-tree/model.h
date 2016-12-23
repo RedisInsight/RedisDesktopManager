@@ -22,7 +22,8 @@ namespace ConnectionsTree {
             itemType,            
             itemFullPath,
             itemIsInitiallyExpanded,
-            itemDepth
+            itemDepth,
+            itemState
         };
 
     public:
@@ -97,9 +98,7 @@ namespace ConnectionsTree {
         void onExpandItem(QWeakPointer<TreeItem> item);
 
     public slots:
-        QVariant getItemDepth(const QModelIndex &index);
-
-        QVariant getItemType(const QModelIndex &index);
+        QVariant getItemData(const QModelIndex &index, const QString& dataKey);
 
         QVariant getMetadata(const QModelIndex &index, const QString& metaKey);
 
