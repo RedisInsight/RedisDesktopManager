@@ -137,7 +137,9 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
 
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem &ns)
 {
-    QString pattern = QString("%1:*").arg(QString::fromUtf8(ns.getFullPath()));
+    QString pattern = QString("%1%2*")
+            .arg(QString::fromUtf8(ns.getFullPath()))
+            .arg(static_cast<ServerConfig>(m_connection->getConfig()).namespaceSeparator());
     QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
     int dbIndex = ns.getDbIndex();
