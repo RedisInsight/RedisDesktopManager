@@ -66,12 +66,14 @@ ApplicationWindow {
     ConnectionSettignsDialog {
         id: connectionSettingsDialog
 
-        onTestConnection: {
+        onTestConnection: {            
             if (connectionsManager.testConnectionSettings(settings)) {
+                hideLoader()
                 notification.showMsg(qsTr("Successful connection to redis-server"))
             } else {
+                hideLoader()
                 notification.showError(qsTr("Can't connect to redis-server"))
-            }
+            }            
         }
 
         onSaveConnection: connectionsManager.updateConnection(settings)
@@ -119,7 +121,7 @@ ApplicationWindow {
             connectionSettingsDialog.open()
         }
 
-        onError: {
+        onError: {            
             notification.showError(err)
         }
 
