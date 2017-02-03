@@ -69,6 +69,7 @@ sudo mv qt.conf qt.backup
 
 ### Build on OS X
 1. Install XCode with xcode build tools
+2. Install [Homebrew](http://brew.sh/)
 2. Build RDM dependencies `cd ./src && ./configure`
 3. Install [Qt 5.6](http://www.qt.io/download-open-source/#section-2)
 4. Open ./src/rdm.pro in Qt Creator
