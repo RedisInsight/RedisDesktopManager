@@ -45,7 +45,7 @@ TreeView {
             anchors.verticalCenter: parent.verticalCenter
             anchors.rightMargin: 10
 
-            property bool itemEnabled: connectionsManager.getItemData(styleData.index, "state")
+            property bool itemEnabled: connectionsManager? connectionsManager.getItemData(styleData.index, "state") : true
 
             Text {
                 anchors.left: parent.left

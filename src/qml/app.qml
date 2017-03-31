@@ -168,7 +168,7 @@ ApplicationWindow {
                                 realIndex -= 1
                             }
 
-                            viewModel.setCurrentTab(index);
+                            viewModel.setCurrentTab(realIndex);
                         } else if (tabs.getTab(currentIndex).tabType == "server_info") {
                             var realIndex = currentIndex;
 

@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include <QtWebEngine>
 #include <easylogging++.h>
-#include <googlemp.h>
 #include <qredisclient/redisclient.h>
 
 #include "logger.h"
@@ -30,14 +29,6 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-static QObject *analytics_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-
-    GoogleMP *gmp = GoogleMP::instance();
-    return gmp;
-}
 
 Application::Application(int &argc, char **argv)
     : QApplication(argc, argv),
@@ -47,8 +38,7 @@ Application::Application(int &argc, char **argv)
     // Init components required for models and qml
     initLog();
     initAppInfo();
-    initAppFonts();
-    initAppAnalytics();
+    initAppFonts();    
     initRedisClient();
     initUpdater();    
     installTranslator();
@@ -108,17 +98,10 @@ void Application::initAppFonts()
     QApplication::setFont(defaultFont);
 }
 
-void Application::initAppAnalytics()
-{
-    GoogleMP::startSession(QDateTime::currentMSecsSinceEpoch());
-    GoogleMP::instance()->reportEvent("rdm:cpp", "app start", "");
-}
-
 void Application::registerQmlTypes()
 {
     qmlRegisterType<ValueEditor::ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");   
-    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");
-    qmlRegisterSingletonType<GoogleMP>("MeasurementProtocol", 1, 0, "Analytics", analytics_singletontype_provider);
+    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");    
     qRegisterMetaType<ServerConfig>();
 }
 

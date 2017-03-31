@@ -4,7 +4,6 @@
 #include <QQmlApplicationEngine>
 #include <QFontDatabase>
 #include <QMenu>
-#include <googlemp.h>
 
 #ifndef RDM_VERSION
 #include "../version.h"
@@ -31,8 +30,7 @@ public:
 
 private:
     void initAppInfo();
-    void initAppFonts();
-    void initAppAnalytics();
+    void initAppFonts();    
     void registerQmlTypes();
     void registerQmlRootObjects();
     void initLog();

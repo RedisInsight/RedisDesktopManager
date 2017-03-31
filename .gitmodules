@@ -10,6 +10,3 @@
 [submodule "3rdparty/gbreakpad"]
 	path = 3rdparty/gbreakpad
 	url = https://chromium.googlesource.com/breakpad/breakpad
-[submodule "3rdparty/qgamp"]
-	path = 3rdparty/qgamp
-	url = https://github.com/uglide/qgamp.git

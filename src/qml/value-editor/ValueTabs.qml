@@ -4,7 +4,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
-import MeasurementProtocol 1.0
 import "./editors/editor.js" as Editor
 import "./../common"
 import rdm.models 1.0
@@ -166,9 +165,7 @@ Repeater {
 
                         onClicked: {
                             newKeyName.text = keyNameField.text
-                            renameConfirmation.open()
-
-                            Analytics.reportEvent("value-editor", "rename-key")
+                            renameConfirmation.open()                            
                         }
                     }
 
@@ -191,9 +188,7 @@ Repeater {
                         }
 
                         onClicked: {
-                            deleteConfirmation.open()
-
-                            Analytics.reportEvent("value-editor", "delete-key")
+                            deleteConfirmation.open()                            
                         }
                     }
 
@@ -238,9 +233,7 @@ Repeater {
 
                         onClicked: {
                             newTTL.text = ""+keyTtl
-                            setTTLConfirmation.open()
-
-                            Analytics.reportEvent("value-editor", "set-key-ttl")
+                            setTTLConfirmation.open()                            
                         }
                     }
                 }
@@ -423,9 +416,7 @@ Repeater {
                                 text: qsTr("Add Row");
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
-                                    addRowDialog.open()
-
-                                    Analytics.reportEvent("value-editor", "add-row")
+                                    addRowDialog.open()                                    
                                 }
 
                                 Dialog {
@@ -489,9 +480,7 @@ Repeater {
                                     console.log("Original row index in model:", rowIndex)
 
                                     deleteRowConfirmation.rowToDelete = rowIndex
-                                    deleteRowConfirmation.open()
-
-                                    Analytics.reportEvent("value-editor", "delete-row")
+                                    deleteRowConfirmation.open()                                    
                                 }
 
                                 MessageDialog {
@@ -523,9 +512,7 @@ Repeater {
                                     onTriggered: {
                                         console.log("Reload value in tab")
                                         keyTab.keyModel.reload()
-                                        valueEditor.clear()
-
-                                        Analytics.reportEvent("value-editor", "reload-key")
+                                        valueEditor.clear()                                        
                                     }
                                 }
                             }
