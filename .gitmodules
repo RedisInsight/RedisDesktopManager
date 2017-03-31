@@ -9,4 +9,4 @@
 	url = https://github.com/uglide/qredisclient.git
 [submodule "3rdparty/gbreakpad"]
 	path = 3rdparty/gbreakpad
-	url = https://chromium.googlesource.com/breakpad/breakpad
+	url = https://github.com/google/breakpad.git
