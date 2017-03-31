@@ -131,5 +131,5 @@ elif [[ $OSTYPE == darwin* ]]; then
     xcodebuild -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin INSTALL_PATH=/Frameworks ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES MACOSX_DEPLOYMENT_TARGET=10.10 GCC_VERSION=com.apple.compilers.llvm.clang.1_0 > /dev/null
     brew upgrade libssh2 || brew install libssh2 || true
 else
-    echo "Your operation system is not supported!"
+    echo "Your operational system is not supported!"
 fi
