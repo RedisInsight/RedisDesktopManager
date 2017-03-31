@@ -12,7 +12,7 @@ DIR=$(dirname "$(readlink -f "$0")") && RDM_DIR=$DIR/../
 
 GetOSVersion
 
-RDM_QT_VERSION=${RDM_QT_VERSION:-57}
+RDM_QT_VERSION=${RDM_QT_VERSION:-58}
 
 if [ "$1" == "breakpad" ]; then
     print_title "Build only Breakpad"
