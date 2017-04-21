@@ -54,8 +54,12 @@ TreeView {
                 text: wrapper.itemEnabled ? styleData.value : styleData.value + qsTr(" (Removed)")
                 color: wrapper.itemEnabled ? "black": "#ccc"
                 anchors.leftMargin: {
-                    var itemDepth = connectionsManager.getItemData(styleData.index, "depth")
-                    return itemDepth * 10 + 15
+                    if (connectionsManager) {
+                        var itemDepth = connectionsManager.getItemData(styleData.index, "depth")
+                        return itemDepth * 10 + 15
+                    } else {
+                        return 35
+                    }
                 }
             }
 

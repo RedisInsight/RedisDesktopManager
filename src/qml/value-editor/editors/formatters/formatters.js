@@ -13,15 +13,11 @@ var plain = {
     title: "Plain Text",
 
     getFormatted: function (raw, callback) {
-        return callback(raw, false, FORMAT_PLAIN_TEXT)
-    },
-
-    isValid: function (raw, callback) {
-        return callback(true, "")
-    },
+        return callback("", raw, false, FORMAT_PLAIN_TEXT)
+    },    
 
     getRaw: function (formatted, callback) {
-        return callback(formatted)
+        return callback("", formatted)
     }
 }
 
@@ -29,15 +25,18 @@ var hex = {
     title: "HEX",
 
     getFormatted: function (raw, callback) {
-        return callback(binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
-    },
 
-    isValid: function (raw, callback) {
-        return callback(binaryUtils.isBinaryString(raw), "")
-    },
+        var isValid = binaryUtils.isBinaryString(raw)
+
+        if (isValid) {
+            return callback("", binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
+        } else {
+            return callback("Value is not binary string")
+        }
+    },    
 
     getRaw: function (formatted, callback) {
-        return callback(binaryUtils.printableToValue(formatted))
+        return callback("", binaryUtils.printableToValue(formatted))
     }
 }
 
@@ -45,12 +44,15 @@ var hexTable = {
     title: "HEX TABLE",
 
     getFormatted: function (raw, callback) {        
-        return callback(Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
-    },
 
-    isValid: function (raw, callback) {
-        return callback(binaryUtils.isBinaryString(raw), "")
-    },
+        var isValid = binaryUtils.isBinaryString(raw)
+
+        if (isValid) {
+            return callback("", Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
+        } else {
+            return callback("Value is not binary string")
+        }
+    },    
 }
 
 /**
@@ -62,26 +64,16 @@ var json = {
     getFormatted: function (raw, callback) {
         try {
             return callback(JSONFormatter.prettyPrint(raw), false, FORMAT_PLAIN_TEXT)
-
         } catch (e) {
             return callback("Error: Invalid JSON")
         }
-    },
-
-    isValid: function (raw, callback) {
-        try {
-            JSON.parse(raw)
-            return callback(true)
-        } catch (e) {
-            return callback(false)
-        }
-    },
+    },    
 
     getRaw: function (formatted, callback) {
         try {
             return callback(JSONFormatter.minify(formatted))
         } catch (e) {
-            return callback(formatted)
+            return callback("Error: " + e)
         }
     }
 }
@@ -107,10 +99,6 @@ function buildFormattersModel()
                 return formattersManager.decode(formatterName, raw, callback)
             },
 
-            isValid: function (raw, callback) {
-                return formattersManager.isValid(formatterName, raw, callback)
-            },
-
             getRaw: function (formatted, callback) {
                 return formattersManager.encode(formatterName, formatted, callback)
             }
@@ -129,6 +117,6 @@ function buildFormattersModel()
 }
 
 function guessFormatter(isBinary)
-{    
+{
    return isBinary? 2 : 0
 }

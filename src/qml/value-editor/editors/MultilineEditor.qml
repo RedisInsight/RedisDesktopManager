@@ -13,19 +13,46 @@ ColumnLayout
     property string textColor
     property string backgroundColor
     property bool showFormatters: true
-    property string fieldLabel: qsTr("Value:")
-    property var value
+    property string fieldLabel: qsTr("Value:")    
+    property bool isEdited: false
+    property var value    
 
-    function getText() {
-        // FIXME
+    function validate(callback) {
+        loadRawValue(function (error, raw) {
+            if (error) {
+                // TODO: Show formatter error
+                console.log("Formatter error")
+                 return callback(false);
+            }
+
+            var valid = raw.length > 0
+
+            if (!valid) {
+                showValidationError("Enter value")
+            } else {
+                hideValidationError()
+            }
+
+            return callback(valid)
+        });
     }
 
-    function setValue(val) {
+    function loadRawValue(callback) {
+       var formatter = formatterSelector.model[formatterSelector.currentIndex]
+
+        formatter.instance.getRaw(textArea.text, function (error, raw) {
+            root.value = raw
+            return callback(error, raw)
+        })
+    }
+
+    function loadFormattedValue(val) {
+
         value = val
-        loadFormattedValue()
-    }
 
-    function loadFormattedValue() {
+        if (!value)
+            return
+
         var isBin = binaryUtils.isBinaryString(root.value)
 
         binaryFlag.visible = false        
@@ -36,23 +63,51 @@ ColumnLayout
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
-        uiBlocker.visible = true
+        uiBlocker.visible = true        
 
-        formatter.instance.getFormatted(root.value, function (formatted, isReadOnly, format) {
+        formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
-// TODO: fixme
-//            if (format == "json") {
-//                // 1 is JSON
-//                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-//                    webView.setText(formattedJson, false, isReadOnly)
-//                    uiBlocker.visible = false
-//                })
-//            } else {
-//                webView.setText(formatted, format === "html", isReadOnly)
-//            }
+            // TODO: process error
 
-//            uiBlocker.visible = false
+            if (format == "json") {
+                // 1 is JSON
+                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
+
+                    textArea.text = formattedJson
+                    textArea.readOnly = isReadOnly
+                    textArea.textFormat = TextEdit.PlainText
+                    root.isEdited = false
+                    uiBlocker.visible = false
+                })
+            } else {               
+                textArea.text = formatted
+                textArea.readOnly = isReadOnly
+                root.isEdited = false
+
+                if (format === "html")
+                    textArea.textFormat = TextEdit.RichText
+                else
+                    textArea.textFormat = TextEdit.PlainText
+            }
+
+            uiBlocker.visible = false
         })
+    }
+
+    function reset() {
+        textArea.text = ""
+        root.value = ""
+        root.isEdited = false
+        hideValidationError()
+    }
+
+    function showValidationError(msg) {
+        validationError.text = msg
+        validationError.visible = true
+    }
+
+    function hideValidationError() {
+        validationError.visible = false
     }
 
     RowLayout{
@@ -79,33 +134,28 @@ ColumnLayout
         }       
     }
 
-//    WebEngineView {
-//        id: webView
-//        Layout.fillWidth: true
-//        Layout.fillHeight: true
-//        Layout.preferredHeight: 100
+    TextArea {
+        id: textArea
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.preferredHeight: 100
 
-//        onJavaScriptConsoleMessage: {
-//            console.log("Web:", message)
-//        }
+        style: TextAreaStyle {
+            renderType: Text.QtRendering
+        }
 
-//        function setText(text, html, readOnly) {
+        font { family: monospacedFont.name; pointSize: 12 }
+        wrapMode: TextEdit.WrapAnywhere
 
-//            if (html) {
-//                webView.loadHtml("<html><body style='width: 100%; height: 100%;'>" + text +"</body>")
-//            } else {
-//                var attr = "";
+        onTextChanged: root.isEdited = true
+    }
 
-//                if (readOnly) {
-//                    attr = "readonly";
-//                }
 
-//                webView.loadHtml("<html><body><textarea "+ attr +" id='textarea' style='width: 100%; height: 100%; resize: none;'>" + text +"</textarea></body>")
-//            }
-
-//        }
-//    }
-
+    Text {
+        id: validationError
+        color: "red"
+        visible: false
+    }
 
     Rectangle {
         id: uiBlocker

@@ -51,7 +51,7 @@ Repeater {
                 table.searchField.text = ""
 
                 if (valueEditor.item)
-                    valueEditor.item.resetAndDisableEditor()                
+                    valueEditor.item.reset()
 
                 table.loadValue()
             }
@@ -441,21 +441,32 @@ Repeater {
                                         }
                                     }
 
+                                    Timer {
+                                        id: reOpenTimer
+                                        onTriggered: {
+                                            addRowDialog.open()
+                                        }
+                                        repeat: false
+                                        interval: 50
+                                    }
+
                                     onAccepted: {
                                         if (!valueAddEditor.item)
                                             return false
 
-                                        if (!valueAddEditor.item.isValueValid()) {
-                                            valueAddEditor.item.markInvalidFields()
-                                            return open()
-                                        }
+                                        valueAddEditor.item.validateValue(function (result){
+                                            if (!result) {
+                                                reOpenTimer.start();
+                                                return;
+                                            }
 
-                                        var row = valueAddEditor.item.getValue()
+                                            var row = valueAddEditor.item.getValue()
+                                            var model = viewModel.getValue(tabIndex)
 
-                                        var model = viewModel.getValue(tabIndex)
-                                        model.addRow(row)
-                                        keyTab.keyModel.reload()
-                                        valueAddEditor.item.reset()
+                                            model.addRow(row)
+                                            keyTab.keyModel.reload()
+                                            valueAddEditor.item.reset()
+                                        });
                                     }
 
                                     visible: false
@@ -578,11 +589,6 @@ Repeater {
 
                             source: Editor.getEditorByTypeString(keyType)
 
-                            onLoaded: {
-                                if (valueEditor.item)
-                                    valueEditor.item.resetAndDisableEditor()
-                            }
-
                             function loadRowValue(row) {                                
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row, true)
@@ -616,21 +622,26 @@ Repeater {
                                 text: qsTr("Save")
 
                                 onClicked: {
-                                    if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
                                         savingConfirmation.text = qsTr("Nothing to save")
                                         savingConfirmation.open()
                                         return
                                     }
 
-                                    var value = valueEditor.item.getValue()
+                                    valueEditor.item.validateValue(function (result){
 
-                                    console.log(value, value["value"])
-                                    keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+                                        if (!result)
+                                            return;
 
-                                    savingConfirmation.text = qsTr("Value was updated!")
-                                    savingConfirmation.open()
+                                        var value = valueEditor.item.getValue()
+
+                                        console.log(value, value["value"])
+                                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+
+                                        savingConfirmation.text = qsTr("Value was updated!")
+                                        savingConfirmation.open()
+                                    })
                                 }
-
                             }
 
                             MessageDialog {

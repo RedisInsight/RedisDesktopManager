@@ -23,26 +23,33 @@ Dialog {
             anchors.fill: parent
             anchors.margins: 5
 
-            Text { text: qsTr("Key:") }
+            Text {
+                text: qsTr("Key:")
+            }
             TextField {
                 id: newKeyName
                 Layout.fillWidth: true
             }
 
-            Text { text: qsTr("Type:") }
+            Text {
+                text: qsTr("Type:")
+            }
             ComboBox {
                 id: typeSelector
                 model: Editor.getSupportedKeyTypes()
                 Layout.fillWidth: true
             }
 
-            Text { text: qsTr("Value:") }
+            Text {
+                text: qsTr("Value:")
+            }
             Loader {
                 id: valueAddEditor
                 Layout.fillWidth: true
                 Layout.preferredHeight: 300
 
-                source: Editor.getEditorByTypeString(typeSelector.model[typeSelector.currentIndex])
+                source: Editor.getEditorByTypeString(
+                            typeSelector.model[typeSelector.currentIndex])
 
                 onLoaded: {
                     item.state = "new"
@@ -52,7 +59,9 @@ Dialog {
             RowLayout {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 40
-                Item { Layout.fillWidth: true}
+                Item {
+                    Layout.fillWidth: true
+                }
                 Button {
                     text: qsTr("Save")
 
@@ -60,28 +69,28 @@ Dialog {
                         if (!valueAddEditor.item)
                             return
 
-                        if (!valueAddEditor.item.isValueValid()
-                                || newKeyName.text.length == 0) {
-                            valueAddEditor.item.markInvalidFields()
-                            return
-                        }
+                        valueAddEditor.item.validateValue(function (result) {
+                            if (!result)
+                                return;
 
-                        var row = valueAddEditor.item.getValue()
-                        viewModel.addKey(
-                                    newKeyName.text,
-                                    typeSelector.model[typeSelector.currentIndex],
-                                    row,
-                                    function callback(err) {
-                                        if (!err) {
-                                            newKeyName.text = ''
-                                            valueAddEditor.item.reset()
-                                            root.close()
-                                        } else {
-                                            addError.text = err
-                                            addError.open()
-                                        }
-                                    }
-                                    )
+                            var row = valueAddEditor.item.getValue()
+                            viewModel.addKey(
+                                newKeyName.text,
+                                typeSelector.model[typeSelector.currentIndex],
+                                row, afterSave
+                            );
+                        })
+                    }
+
+                    function afterSave(err) {
+                        if (!err) {
+                            newKeyName.text = ''
+                            valueAddEditor.item.reset()
+                            root.close()
+                        } else {
+                            addError.text = err
+                            addError.open()
+                        }
                     }
                 }
 
@@ -90,7 +99,9 @@ Dialog {
                     onClicked: root.close()
                 }
             }
-            Item { Layout.fillWidth: true}
+            Item {
+                Layout.fillWidth: true
+            }
         }
     }
 
@@ -104,4 +115,3 @@ Dialog {
         standardButtons: StandardButton.Ok
     }
 }
-
