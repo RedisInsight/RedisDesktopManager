@@ -41,17 +41,18 @@ ColumnLayout
 
         formatter.instance.getFormatted(root.value, function (formatted, isReadOnly, format) {
 
-            if (format == "json") {
-                // 1 is JSON
-                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-                    webView.setText(formattedJson, false, isReadOnly)
-                    uiBlocker.visible = false
-                })
-            } else {
-                webView.setText(formatted, format === "html", isReadOnly)
-            }
+// TODO: fixme
+//            if (format == "json") {
+//                // 1 is JSON
+//                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
+//                    webView.setText(formattedJson, false, isReadOnly)
+//                    uiBlocker.visible = false
+//                })
+//            } else {
+//                webView.setText(formatted, format === "html", isReadOnly)
+//            }
 
-            uiBlocker.visible = false
+//            uiBlocker.visible = false
         })
     }
 
@@ -79,32 +80,32 @@ ColumnLayout
         }       
     }
 
-    WebEngineView {
-        id: webView
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.preferredHeight: 100
+//    WebEngineView {
+//        id: webView
+//        Layout.fillWidth: true
+//        Layout.fillHeight: true
+//        Layout.preferredHeight: 100
 
-        onJavaScriptConsoleMessage: {
-            console.log("Web:", message)
-        }
+//        onJavaScriptConsoleMessage: {
+//            console.log("Web:", message)
+//        }
 
-        function setText(text, html, readOnly) {
+//        function setText(text, html, readOnly) {
 
-            if (html) {
-                webView.loadHtml("<html><body style='width: 100%; height: 100%;'>" + text +"</body>")
-            } else {
-                var attr = "";
+//            if (html) {
+//                webView.loadHtml("<html><body style='width: 100%; height: 100%;'>" + text +"</body>")
+//            } else {
+//                var attr = "";
 
-                if (readOnly) {
-                    attr = "readonly";
-                }
+//                if (readOnly) {
+//                    attr = "readonly";
+//                }
 
-                webView.loadHtml("<html><body><textarea "+ attr +" id='textarea' style='width: 100%; height: 100%; resize: none;'>" + text +"</textarea></body>")
-            }
+//                webView.loadHtml("<html><body><textarea "+ attr +" id='textarea' style='width: 100%; height: 100%; resize: none;'>" + text +"</textarea></body>")
+//            }
 
-        }
-    }
+//        }
+//    }
 
 
     Rectangle {

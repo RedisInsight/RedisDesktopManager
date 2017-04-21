@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui network concurrent widgets quick quickwidgets charts webengine
+QT += core gui network concurrent widgets quick quickwidgets charts
 
 TARGET = rdm
 TEMPLATE = app
