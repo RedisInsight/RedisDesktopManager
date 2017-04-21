@@ -11,7 +11,7 @@ function build_breakpad {
     git clone https://chromium.googlesource.com/linux-syscall-support src/third_party/lss || true
     touch README
     ./configure
-    make -j 2	
+    make -s -j 2	
 }
 
 function build_libssh2 {
