@@ -6,7 +6,6 @@
 #include <QQmlContext>
 #include <QSettings>
 #include <QMessageBox>
-#include <QtWebEngine>
 #include <easylogging++.h>
 #include <qredisclient/redisclient.h>
 
@@ -120,8 +119,7 @@ void Application::registerQmlRootObjects()
 }
 
 void Application::initQml()
-{
-    QtWebEngine::initialize();
+{    
     registerQmlTypes();
     registerQmlRootObjects();
     m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));
