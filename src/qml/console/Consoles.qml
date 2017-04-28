@@ -4,7 +4,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
-import MeasurementProtocol 1.0
 import "./../common"
 
 
@@ -14,7 +13,7 @@ Repeater {
     BetterTab {
         id: tab
         title: tabName
-        icon: "qrc:/images/console.png"
+        icon: "qrc:/images/console.svg"
 
         onClose: {
             consoleModel.closeTab(tabIndex)
@@ -53,7 +52,7 @@ Repeater {
 
             Component.onCompleted: {
                 tab.icon = Qt.binding(function() {
-                    return redisConsole.busy ? "qrc:/images/loader.gif" : "qrc:/images/console.svg"
+                    return redisConsole.busy ? "qrc:/images/wait.svg" : "qrc:/images/console.svg"
                 })
                 initTimer.start()
             }

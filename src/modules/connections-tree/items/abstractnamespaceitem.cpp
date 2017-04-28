@@ -77,10 +77,8 @@ void KeysTreeRenderer::renderLazily(
     QSharedPointer<AbstractNamespaceItem> namespaceItem = parent->findChildNamespace(firstNamespaceName);
 
     if (namespaceItem.isNull()) {
-        long nsEndPos = (fullKey.size() - notProcessedKeyPart.size()
-                         + firstNamespaceName.size()
-                         + settings.nsSeparator.length() - 1);
-        QByteArray namespaceFullPath = fullKey.mid(0, nsEndPos);
+        long nsPos = fullKey.size() - notProcessedKeyPart.size() + firstNamespaceName.size();
+        QByteArray namespaceFullPath = fullKey.mid(0, nsPos);
         namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(namespaceFullPath,
                                                                         m_operations, currentParent,
                                                                         parent->model(), settings));

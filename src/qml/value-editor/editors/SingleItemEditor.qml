@@ -10,49 +10,39 @@ AbstractEditor {
     id: root
     anchors.fill: parent
 
-    property var originalValue: ""
+    property bool active: false
 
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true
         value: ""
-        enabled: originalValue !== "" || root.state !== "edit"
+        enabled: root.active || root.state !== "edit"
         showFormatters: root.state != "new"
     }
 
+    function validateValue(callback) {
+        return textArea.validate(callback);
+    }
+
     function setValue(rowValue) {
-        root.originalValue = rowValue['value']        
-        textArea.setValue(rowValue['value'])
+        if (!rowValue)
+            return
+
+        active = true
+        textArea.loadFormattedValue(rowValue['value'])
     }
 
-    function isValueChanged() {
-        return originalValue != textArea.getText()
-    }
-
-    function resetAndDisableEditor() {
-        root.originalValue = ""
-        textArea.value = ""
+    function isEdited() {
+        return textArea.isEdited
     }
 
     function getValue() {
-        return {"value": textArea.getText()}
-    }
-
-    function isValueValid() {
-        var value = getValue()
-
-        return value && value['value']
-                && value['value'].length > 0
-    }
-
-    function markInvalidFields() {
-        textArea.textColor = "black"
-        // Fixme
+        return {"value": textArea.value}
     }
 
     function reset() {
-        textArea.value = ''
-        console.log("reset")
+        textArea.reset()        
+        active = false
     }
 }

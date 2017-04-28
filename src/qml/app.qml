@@ -66,12 +66,14 @@ ApplicationWindow {
     ConnectionSettignsDialog {
         id: connectionSettingsDialog
 
-        onTestConnection: {
+        onTestConnection: {            
             if (connectionsManager.testConnectionSettings(settings)) {
+                hideLoader()
                 notification.showMsg(qsTr("Successful connection to redis-server"))
             } else {
+                hideLoader()
                 notification.showError(qsTr("Can't connect to redis-server"))
-            }
+            }            
         }
 
         onSaveConnection: connectionsManager.updateConnection(settings)
@@ -119,7 +121,7 @@ ApplicationWindow {
             connectionSettingsDialog.open()
         }
 
-        onError: {
+        onError: {            
             notification.showError(err)
         }
 
@@ -156,9 +158,27 @@ ApplicationWindow {
                 Layout.minimumHeight: 30
 
                 onCurrentIndexChanged: {
-                    var index = currentIndex
-                    if (tabs.getTab(0).not_mapped) index -= 1
-                    viewModel.setCurrentTab(index)
+
+                    if (tabs.getTab(currentIndex).tabType) {
+                        if (tabs.getTab(currentIndex).tabType == "value") {
+
+                            var realIndex = currentIndex - serverStatsModel.tabsCount();
+
+                            if (welcomeTab) {
+                                realIndex -= 1
+                            }
+
+                            viewModel.setCurrentTab(realIndex);
+                        } else if (tabs.getTab(currentIndex).tabType == "server_info") {
+                            var realIndex = currentIndex;
+
+                            if (welcomeTab) {
+                                realIndex -= 1
+                            }
+
+                            serverStatsModel.setCurrentTab(index);
+                        }
+                    }
                 }
 
                 WelcomeTab {
@@ -185,7 +205,7 @@ ApplicationWindow {
                 Connections {
                     target: serverStatsModel
 
-                    onRowsInserted: welcomeTab.closeIfOpened()
+                    onRowsInserted: if (welcomeTab) welcomeTab.closeIfOpened()
                 }
 
                 ValueTabs {
@@ -207,7 +227,10 @@ ApplicationWindow {
                         notification.showError(error)
                     }
 
-                    onRowsInserted: welcomeTab.closeIfOpened()
+                    onRowsInserted: {
+                        if (welcomeTab) welcomeTab.closeIfOpened()
+                    }
+
                     onNewKeyDialog: addNewKeyDialog.open()
                 }
             }

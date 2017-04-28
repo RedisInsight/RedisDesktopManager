@@ -64,13 +64,11 @@ void TestViewModel::testOpenTab()
 
 
     // When - Case 1 open first key, Welcome tab sould be closed
-    QSignalSpy spy(&model, SIGNAL(closeWelcomeTab()));
     model.openTab(connection.dynamicCast<RedisClient::Connection>(),
                   *key.data(), false);
 
     // Then
-    QCOMPARE(keyFactory->loadKeyCalled, 1u);
-    QCOMPARE(spy.count(), 1);
+    QCOMPARE(keyFactory->loadKeyCalled, 1u);    
     QCOMPARE(model.rowCount(), 1);
     QVERIFY(model.getValue(0) != nullptr);
 
@@ -80,8 +78,7 @@ void TestViewModel::testOpenTab()
                   *key.data(), false);
 
     // Then
-    QCOMPARE(keyFactory->loadKeyCalled, 2u);
-    QCOMPARE(spy.count(), 1);
+    QCOMPARE(keyFactory->loadKeyCalled, 2u);    
     QCOMPARE(spy2.count(), 1);
     QCOMPARE(model.rowCount(), 1);
     QVERIFY(model.getValue(0) != nullptr);

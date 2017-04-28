@@ -11,18 +11,20 @@ function build_breakpad {
     git clone https://chromium.googlesource.com/linux-syscall-support src/third_party/lss || true
     touch README
     ./configure
-    make -j 2	
+    make -s -j 2	
 }
 
 function build_libssh2 {
-    cd $DEPS_DIR
-    git clone https://github.com/libssh2/libssh2.git libssh2 || true
-    cd libssh2
-    mkdir bin || rm -fR ./bin && mkdir bin
-    cd bin
-    cmake -DCRYPTO_BACKEND=OpenSSL -DENABLE_ZLIB_COMPRESSION=ON ..
-    cmake --build .
-    sudo make install
+    if [ ! -f /usr/local/lib/libssh2.a ]; then
+        cd $DEPS_DIR
+        git clone https://github.com/libssh2/libssh2.git libssh2 || true
+        cd libssh2
+        mkdir bin || rm -fR ./bin && mkdir bin
+        cd bin
+        cmake -DCRYPTO_BACKEND=OpenSSL -DENABLE_ZLIB_COMPRESSION=ON ..
+        cmake --build .
+        sudo make install
+    fi
 }
 
 function print_line {

@@ -7,7 +7,6 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <easylogging++.h>
-#include <googlemp.h>
 #include <qredisclient/redisclient.h>
 
 #include "logger.h"
@@ -21,6 +20,7 @@
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/viewmodel.h"
 #include "modules/value-editor/sortfilterproxymodel.h"
+#include "modules/value-editor/formattersmanager.h"
 #include "modules/console/consolemodel.h"
 #include "modules/server-stats/serverstatsmodel.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
@@ -28,14 +28,6 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-static QObject *analytics_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-
-    GoogleMP *gmp = GoogleMP::instance();
-    return gmp;
-}
 
 Application::Application(int &argc, char **argv)
     : QApplication(argc, argv),
@@ -45,8 +37,7 @@ Application::Application(int &argc, char **argv)
     // Init components required for models and qml
     initLog();
     initAppInfo();
-    initAppFonts();
-    initAppAnalytics();
+    initAppFonts();    
     initRedisClient();
     initUpdater();    
     installTranslator();
@@ -65,6 +56,9 @@ void Application::initModels()
 
     connect(m_connections.data(), &ConnectionsManager::openServerStats,
             m_serverStatsModel.data(), &TabViewModel::openTab);
+
+    m_formattersManager = QSharedPointer<ValueEditor::FormattersManager>(new ValueEditor::FormattersManager());
+    m_formattersManager->loadFormatters();
 }
 
 void Application::initAppInfo()
@@ -103,17 +97,10 @@ void Application::initAppFonts()
     QApplication::setFont(defaultFont);
 }
 
-void Application::initAppAnalytics()
-{
-    GoogleMP::startSession(QDateTime::currentMSecsSinceEpoch());
-    GoogleMP::instance()->reportEvent("rdm:cpp", "app start", "");
-}
-
 void Application::registerQmlTypes()
 {
     qmlRegisterType<ValueEditor::ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");   
-    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");
-    qmlRegisterSingletonType<GoogleMP>("MeasurementProtocol", 1, 0, "Analytics", analytics_singletontype_provider);
+    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");    
     qRegisterMetaType<ServerConfig>();
 }
 
@@ -124,6 +111,7 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("connectionsManager", m_connections.data());
     m_engine.rootContext()->setContextProperty("viewModel", m_keyValues.data()); // TODO: Remove legacy name usage in qml    
     m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
+    m_engine.rootContext()->setContextProperty("formattersManager", m_formattersManager.data());
     m_engine.rootContext()->setContextProperty("consoleModel", m_consoleModel.data());
     m_engine.rootContext()->setContextProperty("serverStatsModel", m_serverStatsModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
@@ -131,7 +119,7 @@ void Application::registerQmlRootObjects()
 }
 
 void Application::initQml()
-{
+{    
     registerQmlTypes();
     registerQmlRootObjects();
     m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));

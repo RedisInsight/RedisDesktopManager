@@ -10,81 +10,56 @@ AbstractEditor {
     id: root
     anchors.fill: parent    
 
+    property bool active: false
+
     MultilineEditor {
         id: keyText
-        fieldLabel: "Key:"
+        fieldLabel: qsTr("Key:")
         Layout.fillWidth: true
         Layout.minimumHeight: 80
         Layout.preferredHeight: 90
 
         value: ""
-        enabled: originalValue != "" || root.state !== "edit"
-        property var originalValue: ""
-        showFormatters: root.state != "new"
-
-        style: TextAreaStyle {
-            backgroundColor: (!keyText.value && keyText.enabled
-                              && keyText.readOnly == false) ? "lightyellow" : "white"
-        }
+        enabled: root.active || root.state !== "edit"
+        showFormatters: root.state != "new"        
     }
-
 
     MultilineEditor {
         id: textArea
         Layout.fillWidth: true
         Layout.fillHeight: true        
-        enabled: keyText.originalValue != "" || root.state !== "edit"
-        property var originalValue: ""
-        showFormatters: root.state != "new"
+        enabled: root.active || root.state !== "edit"
+        showFormatters: root.state != "new"        
+    }
 
-        style: TextAreaStyle {
-            backgroundColor: (!textArea.value && textArea.enabled
-                              && textArea.readOnly == false) ? "lightyellow" : "white"
-        }
+    function validateValue(callback) {
+        return textArea.validate(function (textAreaValid) {
+            keyText.validate(function (keyTextValid) {
+                return callback(textAreaValid && keyTextValid);
+            });
+        });
     }
 
     function setValue(rowValue) {
         if (!rowValue)
             return       
 
-        keyText.originalValue = rowValue['key']
-        keyText.setValue(rowValue['key'])
-        textArea.originalValue = rowValue['value']
-        textArea.setValue(rowValue['value'])
+        active = true
+        keyText.loadFormattedValue(rowValue['key'])
+        textArea.loadFormattedValue(rowValue['value'])
     }
 
-    function isValueChanged() {
-        return textArea.originalValue != textArea.getText()
-                || keyText.originalValue != keyText.text
-    }
-
-    function resetAndDisableEditor() {
-        textArea.value = ""
-        textArea.originalValue = ""
-        keyText.originalValue = ""
-        keyText.value = ""
+    function isEdited() {
+        return textArea.isEdited || keyText.isEdited
     }
 
     function getValue() {
-        return {"value": textArea.getText(), "key": keyText.getText()}
-    }
-
-    function isValueValid() {
-        var value = getValue()
-
-        return value && value['key'] && value['key'].length > 0
-    }
-
-    function markInvalidFields() {
-        keyText.textColor = "black"
-        textArea.textColor = "black"
-        // Fixme
+        return {"value": textArea.value, "key": keyText.value}
     }
 
     function reset() {
-        textArea.originalValue = ""
-        textArea.value = ""
-        keyText.originalValue = ""
-        keyText.value = ""
+        textArea.reset()
+        keyText.reset()
+        active = false
     }
 }

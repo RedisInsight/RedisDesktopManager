@@ -4,6 +4,11 @@
 <context>
     <name>AddKeyDialog</name>
     <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="11"/>
+        <source>Add New Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="26"/>
         <source>Key:</source>
         <translation type="unfinished"></translation>
@@ -61,6 +66,11 @@
 </context>
 <context>
     <name>BulkOperationsDialog</name>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="8"/>
+        <source>Bulk Operations Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="54"/>
         <source>Delete keys</source>
@@ -477,7 +487,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="129"/>
+        <location filename="../../qml/GlobalSettings.qml" line="122"/>
+        <source>Custom Value View Formatters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="127"/>
+        <source>Formatters path: %0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="160"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -504,6 +524,14 @@
     </message>
 </context>
 <context>
+    <name>QConsole</name>
+    <message>
+        <location filename="../../qml/console/QConsole.qml" line="17"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="31"/>
@@ -516,17 +544,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="171"/>
+        <location filename="../../app/app.cpp" line="176"/>
         <source>Settings directory is not writable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="172"/>
+        <location filename="../../app/app.cpp" line="177"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="241"/>
+        <location filename="../../app/app.cpp" line="246"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -719,6 +747,28 @@
         <source>Cannot load key value: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="157"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="185"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="212"/>
+        <source>Can&apos;t find formatter with name: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="170"/>
+        <source>Cannot decode value using %1 formatter. See log for more details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="198"/>
+        <source>Cannot validate value using %1 formatter. See log for more details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="225"/>
+        <source>Cannot encode value using %1 formatter. See log for more details.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QuickStartDialog</name>
@@ -801,6 +851,16 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="128"/>
         <source>TTL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="133"/>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="137"/>
+        <source>Rename key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

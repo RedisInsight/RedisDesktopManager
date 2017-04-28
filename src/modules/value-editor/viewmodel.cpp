@@ -2,7 +2,6 @@
 #include <QDebug>
 #include <qredisclient/connection.h>
 #include <qredisclient/utils/text.h>
-#include <googlemp.h>
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
 
@@ -30,9 +29,7 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
             {
                 removeModel(keyModel);
                 key.setRemoved(); //Disable key in connections tree
-            });
-
-            GoogleMP::instance()->showScreen(QString("ValueEditor-%1").arg(keyModel->getType()));
+            });            
         });
         // TODO: add empty key model for loading
     } catch (...) {
@@ -244,9 +241,6 @@ bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
 
 void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model, bool openNewTab)
 {
-    if (m_valueModels.count() == 0)
-        emit closeWelcomeTab();
-
     if (openNewTab || m_valueModels.count() == 0) {
         beginInsertRows(QModelIndex(), m_valueModels.count(), m_valueModels.count());
         m_valueModels.append(model);

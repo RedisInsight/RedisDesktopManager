@@ -1,8 +1,7 @@
 CONSOLE_SRC_DIR = $$PWD/../../../../src/modules/console/
 
 HEADERS  += \
-    $$PWD/*.h \
-    $$PWD/mocks/*.h \    
+    $$PWD/*.h \  
     $$CONSOLE_SRC_DIR/consolemodel.h \
     $$CONSOLE_SRC_DIR/hex_utils.h \    
 

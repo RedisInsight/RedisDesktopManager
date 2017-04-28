@@ -9,10 +9,6 @@ OTHER_FILES += $$PWD/../src/resources/qml/3rdparty/php-unserialize-js/phpUnseria
 # qredisclient
 include($$PWD/qredisclient/qredisclient.pri)
 
-#qgamp
-include($$PWD/qgamp/qgamp.pri)
-DEFINES += GMP_ID=\\\"UA-68484170-1\\\"
-
 # Easylogging
 INCLUDEPATH += $$PWD/easyloggingpp/src
 HEADERS += $$PWD/easyloggingpp/src/easylogging++.h

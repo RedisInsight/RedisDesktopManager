@@ -14,7 +14,7 @@ Rectangle {
 
     property string initText:
           "<span style='color: white; font-size: 13pt;'>RDM Redis Console</span><br/>" +
-          "Connecting ..."
+          qsTr("Connecting...")
 
 
     function setPrompt(txt, display) {

@@ -24,6 +24,24 @@ long QmlUtils::binaryStringLength(const QVariant &value)
     return val.size();
 }
 
+QString QmlUtils::humanSize(long size)
+{
+    double num = size;
+    QStringList list;
+    list << "KB" << "MB" << "GB";
+
+    QStringListIterator i(list);
+    QString unit("bytes");
+
+    while(num >= 1024.0 && i.hasNext())
+     {
+        unit = i.next();
+        num /= 1024.0;
+    }
+    return QString().setNum(num,'f',2)+" "+unit;
+}
+
+
 QVariant QmlUtils::valueToBinary(const QVariant &value)
 {
     if (!value.canConvert(QVariant::ByteArray)) {
@@ -48,13 +66,18 @@ QVariant QmlUtils::binaryListToValue(const QVariantList &binaryList)
     return value;
 }
 
-QVariant QmlUtils::printable(const QVariant &value)
+QVariant QmlUtils::printable(const QVariant &value, bool htmlEscaped)
 {
     if (!value.canConvert(QVariant::ByteArray)) {
         return QVariant();
     }
     QByteArray val = value.toByteArray();
-    return printableString(val);
+
+    if (htmlEscaped) {
+        return printableString(val).toHtmlEscaped();
+    } else {
+        return printableString(val);
+    }
 }
 
 QVariant QmlUtils::printableToValue(const QVariant &printable)

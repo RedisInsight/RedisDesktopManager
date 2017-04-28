@@ -70,17 +70,6 @@ BetterTab {
 
             Rectangle { color: "#cccccc"; Layout.preferredHeight: 1; Layout.fillWidth: true }
 
-            RichTextWithLinks {
-                Layout.fillWidth: true
-                html: '<img align="left" src="qrc:/images/ga.png" height="50" width="50" /><span style="font-size: 12px; display: block; ">'
-                                      + ' Redis Desktop Manager uses Google Analytics to track which features you are using. '
-                                      + ' <br />&nbsp;This data helps <a href="https://github.com/uglide">me</a> to develop features that you actually need :)'
-                                      + ' <br />&nbsp;RDM <b>doesn\'t</b> send <a href="https://github.com/uglide/RedisDesktopManager/search?utf8=%E2%9C%93&q=Analytics&type=Code">any sensitive information or data from your databases.</a>'
-                                      + ' <a href="http://docs.redisdesktop.com/en/latest/notices/">More ></a>'
-                                      + ' </span>'}
-
-            Rectangle { color: "#cccccc"; Layout.preferredHeight: 1; Layout.fillWidth: true }
-
             Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 10

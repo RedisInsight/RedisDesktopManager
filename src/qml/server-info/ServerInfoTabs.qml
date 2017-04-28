@@ -5,7 +5,6 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import QtCharts 2.0
-import MeasurementProtocol 1.0
 import "./../common"
 
 
@@ -16,6 +15,7 @@ Repeater {
         id: tab
         title: tabName
         icon: "qrc:/images/console.svg"
+        tabType: "server_info"
 
         property var model
 

@@ -11,11 +11,12 @@ public:
     QString getApplicationConfigPath(const QString &, bool checkPath=true);
     bool migrateOldConfig(const QString &oldFileName, const QString &newFileName);
 public:
+    static QString getConfigPath(QString basePath = QDir::homePath());
     static QJsonArray xmlConfigToJsonArray(const QString &xmlConfigPath);
 
 private:
     static bool chechPath(const QString&);
-    static void setPermissions(QFile&);
+    static void setPermissions(QFile&);    
 private:
     QString m_basePath;
 };

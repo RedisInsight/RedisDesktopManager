@@ -4,7 +4,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
-import MeasurementProtocol 1.0
 import "./editors/editor.js" as Editor
 import "./../common"
 import rdm.models 1.0
@@ -16,6 +15,7 @@ Repeater {
         width: approot.width
         height: approot.height
         icon: "qrc:/images/key.svg"
+        tabType: "value"
 
         closable: true
         onClose: {
@@ -51,7 +51,7 @@ Repeater {
                 table.searchField.text = ""
 
                 if (valueEditor.item)
-                    valueEditor.item.resetAndDisableEditor()                
+                    valueEditor.item.reset()
 
                 table.loadValue()
             }
@@ -130,11 +130,11 @@ Repeater {
                     Item { Layout.preferredWidth: 5}
 
                     Button {
-                        text: "Rename"
+                        text: qsTr("Rename")
 
                         Dialog {
                             id: renameConfirmation
-                            title: "Rename key"
+                            title: qsTr("Rename key")
 
                             width: 520
 
@@ -165,9 +165,7 @@ Repeater {
 
                         onClicked: {
                             newKeyName.text = keyNameField.text
-                            renameConfirmation.open()
-
-                            Analytics.reportEvent("value-editor", "rename-key")
+                            renameConfirmation.open()                            
                         }
                     }
 
@@ -190,9 +188,7 @@ Repeater {
                         }
 
                         onClicked: {
-                            deleteConfirmation.open()
-
-                            Analytics.reportEvent("value-editor", "delete-key")
+                            deleteConfirmation.open()                            
                         }
                     }
 
@@ -237,9 +233,7 @@ Repeater {
 
                         onClicked: {
                             newTTL.text = ""+keyTtl
-                            setTTLConfirmation.open()
-
-                            Analytics.reportEvent("value-editor", "set-key-ttl")
+                            setTTLConfirmation.open()                            
                         }
                     }
                 }
@@ -422,9 +416,7 @@ Repeater {
                                 text: qsTr("Add Row");
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
-                                    addRowDialog.open()
-
-                                    Analytics.reportEvent("value-editor", "add-row")
+                                    addRowDialog.open()                                    
                                 }
 
                                 Dialog {
@@ -449,21 +441,32 @@ Repeater {
                                         }
                                     }
 
+                                    Timer {
+                                        id: reOpenTimer
+                                        onTriggered: {
+                                            addRowDialog.open()
+                                        }
+                                        repeat: false
+                                        interval: 50
+                                    }
+
                                     onAccepted: {
                                         if (!valueAddEditor.item)
                                             return false
 
-                                        if (!valueAddEditor.item.isValueValid()) {
-                                            valueAddEditor.item.markInvalidFields()
-                                            return open()
-                                        }
+                                        valueAddEditor.item.validateValue(function (result){
+                                            if (!result) {
+                                                reOpenTimer.start();
+                                                return;
+                                            }
 
-                                        var row = valueAddEditor.item.getValue()
+                                            var row = valueAddEditor.item.getValue()
+                                            var model = viewModel.getValue(tabIndex)
 
-                                        var model = viewModel.getValue(tabIndex)
-                                        model.addRow(row)
-                                        keyTab.keyModel.reload()
-                                        valueAddEditor.item.reset()
+                                            model.addRow(row)
+                                            keyTab.keyModel.reload()
+                                            valueAddEditor.item.reset()
+                                        });
                                     }
 
                                     visible: false
@@ -488,9 +491,7 @@ Repeater {
                                     console.log("Original row index in model:", rowIndex)
 
                                     deleteRowConfirmation.rowToDelete = rowIndex
-                                    deleteRowConfirmation.open()
-
-                                    Analytics.reportEvent("value-editor", "delete-row")
+                                    deleteRowConfirmation.open()                                    
                                 }
 
                                 MessageDialog {
@@ -522,9 +523,7 @@ Repeater {
                                     onTriggered: {
                                         console.log("Reload value in tab")
                                         keyTab.keyModel.reload()
-                                        valueEditor.clear()
-
-                                        Analytics.reportEvent("value-editor", "reload-key")
+                                        valueEditor.clear()                                        
                                     }
                                 }
                             }
@@ -590,11 +589,6 @@ Repeater {
 
                             source: Editor.getEditorByTypeString(keyType)
 
-                            onLoaded: {
-                                if (valueEditor.item)
-                                    valueEditor.item.resetAndDisableEditor()
-                            }
-
                             function loadRowValue(row) {                                
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row, true)
@@ -628,21 +622,26 @@ Repeater {
                                 text: qsTr("Save")
 
                                 onClicked: {
-                                    if (!valueEditor.item || !valueEditor.item.isValueChanged()) {
+                                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
                                         savingConfirmation.text = qsTr("Nothing to save")
                                         savingConfirmation.open()
                                         return
                                     }
 
-                                    var value = valueEditor.item.getValue()
+                                    valueEditor.item.validateValue(function (result){
 
-                                    console.log(value, value["value"])
-                                    keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+                                        if (!result)
+                                            return;
 
-                                    savingConfirmation.text = qsTr("Value was updated!")
-                                    savingConfirmation.open()
+                                        var value = valueEditor.item.getValue()
+
+                                        console.log(value, value["value"])
+                                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+
+                                        savingConfirmation.text = qsTr("Value was updated!")
+                                        savingConfirmation.open()
+                                    })
                                 }
-
                             }
 
                             MessageDialog {

@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 
 Dialog {
     id: root
-    title: "Bulk Operations Manager"
+    title: qsTr("Bulk Operations Manager")
     modality: Qt.ApplicationModal
 
     property string operationName: "delete_keys"

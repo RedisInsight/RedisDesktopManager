@@ -94,7 +94,7 @@ public:
     virtual void setTTL(const long long ttl) override
     {
         RedisClient::Response result;
-        qDebug(QString("TTL=%1").arg(ttl).toLatin1().constData());
+        qDebug() << QString("TTL=%1").arg(ttl);
         try {
             if (ttl >= 0)
                 result = m_connection->commandSync({"EXPIRE", m_keyFullPath, QString::number(ttl).toLatin1()}, m_dbIndex);
@@ -105,7 +105,7 @@ public:
         }
 
         if (result.getValue().toInt() == 0) {
-            throw Exception("Not supprt TTL at this key");
+            throw Exception("Not support TTL at this key");
         }
         if (ttl >= 0)
             m_ttl = ttl;

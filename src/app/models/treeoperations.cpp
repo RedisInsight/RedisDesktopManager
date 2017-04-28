@@ -20,12 +20,19 @@ TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connectio
 
 void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)> callback)
 {
-    if (!m_connection->isConnected()) {
+    bool connected = m_connection->isConnected();
+
+    if (!connected) {
         try {
-            m_connection->connect(true);
+            connected = m_connection->connect(true);
         } catch (const RedisClient::Connection::Exception& e) {
             throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
         }
+    }
+
+    if (!connected) {
+        throw ConnectionsTree::Operations::Exception(
+                    QObject::tr("Cannot connect to server '%1'. Check log for details.").arg(m_connection->getConfig().name()));
     }
 
     if (m_connection->getServerVersion() < 2.8)
@@ -116,9 +123,9 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
           return;
         }
 
-        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
-        emit m_manager.closeDbKeys(m_connection, key.getDbIndex(), filter);
         key.setRemoved();
+        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
+        emit m_manager.closeDbKeys(m_connection, key.getDbIndex(), filter);        
     };
 
     try {
@@ -130,7 +137,9 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key, std::function<vo
 
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem &ns)
 {
-    QString pattern = QString("%1:*").arg(QString::fromUtf8(ns.getFullPath()));
+    QString pattern = QString("%1%2*")
+            .arg(QString::fromUtf8(ns.getFullPath()))
+            .arg(static_cast<ServerConfig>(m_connection->getConfig()).namespaceSeparator());
     QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
     int dbIndex = ns.getDbIndex();

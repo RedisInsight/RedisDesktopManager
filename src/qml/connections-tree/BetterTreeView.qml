@@ -45,16 +45,31 @@ TreeView {
             anchors.verticalCenter: parent.verticalCenter
             anchors.rightMargin: 10
 
+            property bool itemEnabled: connectionsManager? connectionsManager.getItemData(styleData.index, "state") : true
 
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 //elide: styleData.elideMode
-                text: styleData.value
+                text: wrapper.itemEnabled ? styleData.value : styleData.value + qsTr(" (Removed)")
+                color: wrapper.itemEnabled ? "black": "#ccc"
                 anchors.leftMargin: {
-                    var itemDepth = connectionsManager.getItemDepth(styleData.index)
-                    return itemDepth * 10 + 15
+                    if (connectionsManager) {
+                        var itemDepth = connectionsManager.getItemData(styleData.index, "depth")
+                        return itemDepth * 10 + 15
+                    } else {
+                        return 35
+                    }
                 }
+            }
+
+            Timer {
+                id: selectionTimer
+                interval: 1000;
+                running: styleData.index && styleData.selected && wrapper.itemEnabled
+                repeat: true
+                triggeredOnStart: true
+                onTriggered: wrapper.itemEnabled = connectionsManager.getItemData(styleData.index, "state")
             }
 
             Loader {
@@ -62,7 +77,7 @@ TreeView {
                 anchors {right: wrapper.right; top: wrapper.top; bottom: wrapper.bottom; }
                 anchors.rightMargin: 20
                 height: parent.height
-                visible: styleData.selected
+                visible: styleData.selected && wrapper.itemEnabled
                 asynchronous: true
 
                 source: {
@@ -71,7 +86,7 @@ TreeView {
                             || !styleData.index)
                         return ""
 
-                    var type = connectionsManager.getItemType(styleData.index)
+                    var type = connectionsManager.getItemData(styleData.index, "type")
 
                     if (type != undefined) {
                         return "./menu/" + type + ".qml"

@@ -9,16 +9,16 @@ ColumnLayout {
     state: "edit"
 
     states: [
-        State { name: "new"},
-        State { name: "add"},
-        State { name: "edit"}
+        State { name: "new"}, // Creating new key
+        State { name: "add"}, // Adding new value to existing key
+        State { name: "edit"} // Editing existing key
     ]
 
-    function isValueChanged() {
+    function validateValue(callback) {
         console.exception("Not implemented")
     }
 
-    function resetAndDisableEditor() {
+    function isEdited() {
         console.exception("Not implemented")
     }
 
@@ -27,14 +27,6 @@ ColumnLayout {
     }
 
     function getValue() {
-        console.exception("Not implemented")
-    }
-
-    function isValueValid() {
-        console.exception("Not implemented")
-    }
-
-    function markInvalidFields() {
         console.exception("Not implemented")
     }
 

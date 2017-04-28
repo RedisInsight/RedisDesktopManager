@@ -33,6 +33,8 @@ public: // methods exported to QML
 
     Q_INVOKABLE QObject* getValue(int i);
 
+    Q_INVOKABLE int tabsCount() const;
+
 signals:
     void changeCurrentTab(int i);
 

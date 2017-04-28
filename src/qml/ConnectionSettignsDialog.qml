@@ -74,6 +74,14 @@ Dialog {
         return errors_count == 0
     }
 
+    function hideLoader() {
+        uiBlocker.visible = false
+    }
+
+    function showLoader() {
+        uiBlocker.visible = true
+    }
+
     onVisibleChanged: {
         if (visible)
             settingsTabs.currentIndex = 0
@@ -420,7 +428,10 @@ Dialog {
                 Button {
                     iconSource: "qrc:/images/offline.svg"
                     text: qsTr("Test Connection")
-                    onClicked: root.testConnection(root.settings)
+                    onClicked: {
+                        showLoader()
+                        root.testConnection(root.settings)
+                    }
                 }
 
                 ToolButton {
@@ -448,6 +459,22 @@ Dialog {
                     text: qsTr("Cancel")
                     onClicked: root.close()
                 }
+            }
+        }
+
+        Rectangle {
+            id: uiBlocker
+            visible: false
+            anchors.fill: parent
+            color: Qt.rgba(0, 0, 0, 0.1)
+
+            Item {
+                anchors.fill: parent
+                BusyIndicator { anchors.centerIn: parent; running: true }
+            }
+
+            MouseArea {
+                anchors.fill: parent
             }
         }
     }

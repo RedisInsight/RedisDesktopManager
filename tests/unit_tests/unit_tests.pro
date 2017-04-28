@@ -29,7 +29,7 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/
 
 DEFINES += INTEGRATION_TESTS
-DEFINES += ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
+DEFINES += ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
 #TEST CASES
 include($$PWD/testcases/app/app-tests.pri)
@@ -48,7 +48,7 @@ debug:   DESTDIR = $$PROJECT_ROOT/bin/tests
 
 unix:!mac {
     #code coverage
-    QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0
+    QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0 -Wno-sign-compare
     QMAKE_LFLAGS += -g -fprofile-arcs -ftest-coverage  -O0
     LIBS += -lgcov
 }
