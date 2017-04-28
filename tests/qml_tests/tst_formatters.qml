@@ -14,14 +14,11 @@ TestCase {
         // checks
         verify(plain.title.length !== 0, "title")
 
-        plain.isValid(testValue, function (valid, err) {
-            compare(valid, true)
-        })
-        plain.getFormatted(testValue, function (formatted, readOnly, format){
+        plain.getFormatted(testValue, function (error, formatted, readOnly, format){
             compare(formatted, testValue)
         })
 
-        plain.getRaw(testValue, function (plain){
+        plain.getRaw(testValue, function (error, plain){
             compare(plain, testValue)
         })
     }    

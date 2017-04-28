@@ -20,9 +20,9 @@ TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connectio
 
 void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)> callback)
 {
-    bool connected = false;
+    bool connected = m_connection->isConnected();
 
-    if (!m_connection->isConnected()) {
+    if (!connected) {
         try {
             connected = m_connection->connect(true);
         } catch (const RedisClient::Connection::Exception& e) {
