@@ -143,11 +143,11 @@ void ValueEditor::ValueViewModel::deleteRow(int i)
     try {
         m_model->removeRow(targetRow);
 
-        emit beginRemoveRows(QModelIndex(), targetRow, targetRow);
+        emit beginRemoveRows(QModelIndex(), i, i);
         emit endRemoveRows();
 
         if (targetRow < m_model->rowsCount())
-            emit dataChanged(index(targetRow, 0), index(m_model->rowsCount() - 1, 0));
+            emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
 
     } catch(const Model::Exception& e) {
         emit error(QString(e.what()));
