@@ -149,8 +149,9 @@ void Application::initConnectionsManager()
     // Parse optional arguments first
     QCommandLineParser parser;
     QCommandLineOption settingsDir(
-            "settings-dir",
+            "settings-dir",            
              "(Optional) Directory where RDM looks/saves .rdm directory with connections.json file",
+             "settingsDir",
              QDir::homePath()
     );
     parser.addOption(settingsDir);
