@@ -146,8 +146,18 @@ void Application::initLog()
 
 void Application::initConnectionsManager()
 {
+    // Parse optional arguments first
+    QCommandLineParser parser;
+    QCommandLineOption settingsDir(
+            "settings-dir",
+             "(Optional) Directory where RDM looks/saves .rdm directory with connections.json file",
+             QDir::homePath()
+    );
+    parser.addOption(settingsDir);
+    parser.process(*this);
+
     //connection manager
-    ConfigManager confManager;
+    ConfigManager confManager(parser.value(settingsDir));
     if (confManager.migrateOldConfig("connections.xml", "connections.json")) {
         LOG(INFO) << "Migrate connections.xml to connections.json";
     }
