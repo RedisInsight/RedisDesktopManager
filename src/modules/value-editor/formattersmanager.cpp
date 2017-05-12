@@ -174,7 +174,8 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName, const 
     }
 
     if (jsCallback.isCallable()) {
-        jsCallback.call(QJSValueList { outputObj["output"].toString(),
+        jsCallback.call(QJSValueList { outputObj["error"].toString(),
+                                       outputObj["output"].toString(),
                                        outputObj["read-only"].toBool(),
                                        outputObj["format"].toString() });
     }
