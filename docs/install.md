@@ -71,7 +71,7 @@ sudo mv qt.conf qt.backup
 1. Install XCode with xcode build tools
 2. Install [Homebrew](http://brew.sh/)
 3. Build RDM dependencies `cd ./src && ./configure`
-4. Install [Qt 5.6](http://www.qt.io/download-open-source/#section-2)
+4. Install [Qt 5.7](http://www.qt.io/download-open-source/#section-2) with QT Charts module
 5. Open ./src/rdm.pro in Qt Creator
 6. Run build
 
