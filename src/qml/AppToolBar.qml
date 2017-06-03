@@ -12,6 +12,7 @@ ToolBar {
         Button {
             iconSource: "qrc:/images/add.svg"
             text: qsTr("Connect to Redis Server")
+            objectName: "rdm_connect_to_redis_server_btn"
             Layout.preferredWidth: 230
 
             onClicked: {

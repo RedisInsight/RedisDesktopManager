@@ -6,6 +6,7 @@ import "./common"
 
 Dialog {
     id: root
+    objectName: "rdm_quick_start_dialog"
     title: qsTr("Explore Redis Desktop Manager")
 
     contentItem: Item {
@@ -34,6 +35,7 @@ Dialog {
 
                 Item { Layout.fillWidth: true; }
                 Button {
+                    objectName: "rdm_quick_start_dialog_ok_btn"
                     text: qsTr("OK")
                     onClicked: root.close()
                 }

@@ -7,6 +7,7 @@ import "./common"
 
 Dialog {
     id: root
+    objectName: "rdm_connection_settings_dialog"
     title: !settings || !settings.name ? qsTr("New Connection Settings") : qsTr("Edit Connection Settings - %1").arg(settings.name)
 
     property var settings
@@ -139,6 +140,7 @@ Dialog {
 
                                 TextField {
                                     id: connectionName
+                                    objectName: "rdm_connection_name_field"
                                     Layout.fillWidth: true
                                     placeholderText: qsTr("Connection Name")
                                     text: root.settings ? root.settings.name : ""                                    
