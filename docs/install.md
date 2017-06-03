@@ -44,7 +44,7 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 2. Get source code:
  
 ```bash
-git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0 rdm && cd ./rdm
+git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm && cd ./rdm
 ```
 
 ### Build on Linux
@@ -52,7 +52,7 @@ git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.8.0
 ```bash
 cd src/
 ./configure
-source /opt/qt56/bin/qt56-env.sh && qmake && make && sudo make install
+source /opt/qt58/bin/qt58-env.sh && qmake && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
 sudo mv qt.conf qt.backup
 ```
@@ -71,13 +71,13 @@ sudo mv qt.conf qt.backup
 1. Install XCode with xcode build tools
 2. Install [Homebrew](http://brew.sh/)
 3. Build RDM dependencies `cd ./src && ./configure`
-4. Install [Qt 5.6](http://www.qt.io/download-open-source/#section-2)
+4. Install [Qt 5.8](http://www.qt.io/download-open-source/#section-2)
 5. Open ./src/rdm.pro in Qt Creator
 6. Run build
 
 ### Build on Windows##
-1. Install Visual Studio 2013 Community with Update 5
-2. Install [Qt 5.6](http://www.qt.io/download-open-source/#section-2)
+1. Install Visual Studio 2015 Community with Update 2
+2. Install [Qt 5.8](http://www.qt.io/download-open-source/#section-2)
 3. Download RDM dependencies `cd ./src` and  run `configure.bat`
 4. Open ./src/rdm.pro in Qt Creator
 5. Run build
