@@ -15,7 +15,7 @@ install:
   fi
 - cd ./src && ./configure && cd ./../
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-       source /opt/qt58/bin/qt58-env.sh
+       source /opt/qt59/bin/qt59-env.sh
        ; 
   fi
 - qmake -v
