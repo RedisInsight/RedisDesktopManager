@@ -12,7 +12,8 @@ DIR=$(dirname "$(readlink -f "$0")") && RDM_DIR=$DIR/../
 
 GetOSVersion
 
-RDM_QT_VERSION=${RDM_QT_VERSION:-58}
+RDM_QT_VERSION=${RDM_QT_VERSION:-591}
+RDM_QT_BRANCH=${RDM_QT_VERSION:0:2}
 
 if [ "$1" == "breakpad" ]; then
     print_title "Build only Breakpad"
@@ -37,7 +38,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     fi
 
     # Check Qt ppa
-    if [ ! -f /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh ]; then
+    if [ ! -f /opt/qt${RDM_QT_BRANCH}/bin/qt${RDM_QT_BRANCH}-env.sh ]; then
         print_title "Install Qt ${RDM_QT_VERSION}"
 
 	if [ "$ubuntu_ver" == "14" ]; then
@@ -47,8 +48,8 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
 	fi
 
         sudo apt-get update -y
-        sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools \
-            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols qt${RDM_QT_VERSION:0:2}charts-no-lgpl qt${RDM_QT_VERSION:0:2}svg -y
+        sudo apt-get install qt${RDM_QT_BRANCH}base qt${RDM_QT_BRANCH}imageformats qt${RDM_QT_BRANCH}tools \
+            qt${RDM_QT_BRANCH}declarative qt${RDM_QT_BRANCH}quickcontrols qt${RDM_QT_BRANCH}charts-no-lgpl qt${RDM_QT_BRANCH}svg -y
     fi
 
     print_title "Check deps"
@@ -58,7 +59,7 @@ if [ "$os_VENDOR" == "Ubuntu" ]; then
     build_breakpad
     build_libssh2
 
-    print_title "Run: source /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh && qmake && make "
+    print_title "Run: source /opt/qt${RDM_QT_BRANCH}/bin/qt${RDM_QT_BRANCH}-env.sh && qmake && make "
 elif [ "$os_VENDOR" == "LinuxMint" ]; then
     mint_ver=${os_RELEASE:0:2}
     print_title "Build RDM on Linux Mint: $mint_ver"
@@ -69,7 +70,7 @@ elif [ "$os_VENDOR" == "LinuxMint" ]; then
     fi
 
     # Check Qt ppa
-    if [ ! -f /opt/qt${RDM_QT_VERSION:0:2}/bin/qt${RDM_QT_VERSION:0:2}-env.sh ]; then
+    if [ ! -f /opt/qt${RDM_QT_BRANCH}/bin/qt${RDM_QT_BRANCH}-env.sh ]; then
         print_title "Install Qt ${RDM_QT_VERSION}"
 
         if [ "$mint_ver" == "17" ]; then
@@ -79,8 +80,8 @@ elif [ "$os_VENDOR" == "LinuxMint" ]; then
         fi
 
         sudo apt-get update -y
-        sudo apt-get install qt${RDM_QT_VERSION:0:2}base qt${RDM_QT_VERSION:0:2}imageformats qt${RDM_QT_VERSION:0:2}tools \
-            qt${RDM_QT_VERSION:0:2}declarative qt${RDM_QT_VERSION:0:2}quickcontrols qt${RDM_QT_VERSION:0:2}charts-no-lgpl  qt${RDM_QT_VERSION:0:2}svg -y
+        sudo apt-get install qt${RDM_QT_BRANCH}base qt${RDM_QT_BRANCH}imageformats qt${RDM_QT_BRANCH}tools \
+            qt${RDM_QT_BRANCH}declarative qt${RDM_QT_BRANCH}quickcontrols qt${RDM_QT_BRANCH}charts-no-lgpl qt${RDM_QT_BRANCH}svg -y
     fi
 
     print_title "Check deps"
