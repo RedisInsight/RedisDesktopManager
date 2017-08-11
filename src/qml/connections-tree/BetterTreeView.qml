@@ -39,15 +39,17 @@ TreeView {
 
         Item {
             id: wrapper
+            objectName: "rdm_tree_view_item"
             height: 30
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            anchors.rightMargin: 10
+            anchors.rightMargin: 10            
 
             property bool itemEnabled: connectionsManager? connectionsManager.getItemData(styleData.index, "state") : true
 
             Text {
+                objectName: "rdm_tree_view_item_text"
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 //elide: styleData.elideMode

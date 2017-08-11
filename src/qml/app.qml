@@ -66,6 +66,8 @@ ApplicationWindow {
     ConnectionSettignsDialog {
         id: connectionSettingsDialog
 
+        objectName: "rdm_connection_settings_dialog"
+
         onTestConnection: {            
             if (connectionsManager.testConnectionSettings(settings)) {
                 hideLoader()

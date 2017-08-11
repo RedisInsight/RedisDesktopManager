@@ -6,8 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import "./common"
 
 Dialog {
-    id: root
-    objectName: "rdm_connection_settings_dialog"
+    id: root    
     title: !settings || !settings.name ? qsTr("New Connection Settings") : qsTr("Edit Connection Settings - %1").arg(settings.name)
 
     property var settings
@@ -446,6 +445,7 @@ Dialog {
                 Item { Layout.fillWidth: true }
 
                 Button {
+                    objectName: "rdm_connection_settings_dialog_ok_btn"
                     text: qsTr("OK")
                     onClicked: {
                         if (root.validate()) {                            
