@@ -52,7 +52,7 @@ git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 r
 ```bash
 cd src/
 ./configure
-source /opt/qt58/bin/qt58-env.sh && qmake && make && sudo make install
+source /opt/qt59/bin/qt59-env.sh && qmake && make && sudo make install
 cd /usr/share/redis-desktop-manager/bin
 sudo mv qt.conf qt.backup
 ```
@@ -71,13 +71,13 @@ sudo mv qt.conf qt.backup
 1. Install XCode with xcode build tools
 2. Install [Homebrew](http://brew.sh/)
 3. Build RDM dependencies `cd ./src && ./configure`
-4. Install [Qt 5.8](http://www.qt.io/download-open-source/#section-2)
+4. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2)
 5. Open ./src/rdm.pro in Qt Creator
 6. Run build
 
 ### Build on Windows##
 1. Install Visual Studio 2015 Community with Update 2
-2. Install [Qt 5.8](http://www.qt.io/download-open-source/#section-2)
+2. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2)
 3. Download RDM dependencies `cd ./src` and  run `configure.bat`
 4. Open ./src/rdm.pro in Qt Creator
 5. Run build
