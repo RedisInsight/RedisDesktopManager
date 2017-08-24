@@ -1,56 +1,34 @@
-[Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
-===================
-Ubuntu: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager) 
-Mac OS X: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=osx)](https://travis-ci.org/uglide/RedisDesktopManager)
+# [Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
+
+[Install & Run](http://docs.redisdesktop.com/en/latest/install/) | 
+[Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/) |
+[Development Guide](http://docs.redisdesktop.com/en/latest/development/) |
+[Known issues](http://docs.redisdesktop.com/en/latest/known-issues/) |
+:green_apple: [Bountysource](https://www.bountysource.com/teams/redisdesktopmanager)
+
+[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.9)](https://travis-ci.org/uglide/RedisDesktopManager) 
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/91mj2ge0lxjf693c/branch/0.9?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.9)
+[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.9)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.9)
+[![Coverity Scan Build](https://scan.coverity.com/projects/3548/badge.svg)](https://scan.coverity.com/projects/3548)
+[![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.redisdesktop.com/en/latest/?badge=latest)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager)
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
+![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2)
 
-**Supported platforms**
+**Officially Supported platforms** : Windows 7+, Mac OS X 10.11+, Ubuntu 14+, LinuxMint | Fedora | CentOS | OpenSUSE (build with automated script)
 
-- Windows Xp, Vista, 7, 8, 8.1
-- Mac OS X 10.9+
-- Ubuntu 12 and 13
-- Debian 7
+**Community Supported platforms**: [ArchLinux](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
-**Supported Redis versions**
+**Supported Redis versions** : 2.8+ (for old redis-servers use RedisDesktopManager 0.8.8)
 
-- Redis 2.2
-- Redis 2.4
-- Redis 2.6
-- Redis 2.8+
-
-## Install & Run ##
-
-### Windows ###
-
-1. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download)
-2. Run downloaded installer
-
-### Mac OS X ###
-1. Download dmg image from [http://redisdesktop.com/download](http://redisdesktop.com/download)
-2. Mount dmg image
-3. Run rdm.app
-
-### Ubuntu & Debian ###
-
-#### Using console ####
-
-1. Download Debian Package from  [http://redisdesktop.com/download](http://redisdesktop.com/download)
-2. Install package:
-    `dpkg -i redis-desktop-manager_X.X.X_i386.deb`
-3. Run RedisDesktopManager :
-	`/usr/share/redis-desktop-manager/bin/rdm`
-
-After installation Redis Desktop Manager will be available in main menu.
-
-### Other Linux ###
-You can build Redis Desktop Manager from source.
-
-1. Install Qt 5.1.1
-2. Install openssl 1.0
-2. Run:
-	`./configure && qmake redis-desktop-manager.pro && make`
-
-
-
+## Release Schedule
+| Release | Original plan | Realized |
+| ------- | ------------- | -------- |
+| [0.9.0-alpha1](https://github.com/uglide/RedisDesktopManager/milestone/8) | Sept 9, 2016 | [Sept 13, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha1) |
+| [0.9.0-alpha2](https://github.com/uglide/RedisDesktopManager/milestone/8) | Oct 7, 2016 | [Oct 21, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha2) |
+| [0.9.0-alpha3](https://github.com/uglide/RedisDesktopManager/milestone/27) | Oct 28, 2016 | [Nov 4, 2016](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha3) |
+| [0.9.0-alpha4](https://github.com/uglide/RedisDesktopManager/milestone/30) | ~~Dec 23, 2016~~ Apr 7, 2017 | [Apr 28, 2017](https://github.com/uglide/RedisDesktopManager/releases/tag/0.9.0-alpha4) |
+| [0.9.0-beta](https://github.com/uglide/RedisDesktopManager/milestone/29) | ~~Jan 20, 2017~~ ~~Apr 28, 2017~~ May 26, 2017 |  |
+| [0.9.0](https://github.com/uglide/RedisDesktopManager/milestone/8) | ~~Feb 17, 2017~~ ~~May 12, 2017~~ Jul 30, 2017 |  |
