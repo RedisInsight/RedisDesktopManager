@@ -55,26 +55,6 @@ void TestTreeOperations::testGetDatabases()
     QCOMPARE(result.size(), 1003);
 }
 
-void TestTreeOperations::testGetDatabasesOnOldRedis()
-{
-    //given
-    ConnectionsManager manager{QString()};
-    auto connection = getFakeConnection(QList<QVariant>(), QStringList(), 2.6);
-    bool exceptionCatched = false;
-
-    //when
-    TreeOperations operations(connection, manager);
-
-    try {
-        operations.getDatabases([](const RedisClient::DatabaseList&){});
-    } catch (const TreeOperations::Exception& e) {
-        exceptionCatched = true;
-    }
-
-    //then
-    QCOMPARE(exceptionCatched, true);
-}
-
 void TestTreeOperations::testGetDatabaseKeys()
 {    
     //given
@@ -101,7 +81,6 @@ void TestTreeOperations::testGetDatabaseKeys()
     wait(5);
     QCOMPARE(callbackCalled, true);
     QCOMPARE(connection->runCommandCalled, runCommandCalled);
-    QCOMPARE(connection->getServerVersionCalled, 1u);
     QCOMPARE(connection->retrieveCollectionCalled, retrieveCollectionCalled);
 }
 
