@@ -10,7 +10,6 @@ private slots:
     void testCreation();  
     
     void testGetDatabases();
-    void testGetDatabasesOnOldRedis();
     
     void testGetDatabaseKeys();
     void testGetDatabaseKeys_data();
