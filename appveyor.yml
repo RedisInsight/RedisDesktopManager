@@ -3,11 +3,10 @@ version: 0.9.0.{build}
 clone_depth: 5
 install:
 - git submodule update --init --recursive
-- set QTDIR=C:\Qt\5.8\msvc2015
+- set QTDIR=C:\Qt\5.9\msvc2015
 - set PATH=%QTDIR%\bin;%PATH%
 - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
-- nuget install -Version 1.6.0.2 -OutputDirectory ./3rdparty/qredisclient/3rdparty/windows rmt_libssh2
-- nuget install -Version 1.2.8.6 -OutputDirectory ./3rdparty/qredisclient/3rdparty/windows rmt_zlib
+- nuget install -Version 1.8.0 -OutputDirectory ./3rdparty/qredisclient/3rdparty/windows rmt_libssh2
 - qmake -v
 
 build_script:
@@ -23,8 +22,10 @@ build_script:
 - cd %SRCDIR%
 - copy /y .\bin\windows\release\rdm.exe .\build\windows\installer\resources\rdm.exe
 - copy /y .\bin\windows\release\rdm.pdb .\build\windows\installer\resources\rdm.pdb
-- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.0.2.5\build\native\bin\v140\Win32\Release\dynamic\libeay32.dll .\build\windows\installer\resources\libeay32.dll
-- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.0.2.5\build\native\bin\v140\Win32\Release\dynamic\ssleay32.dll .\build\windows\installer\resources\ssleay32.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\libcrypto-1_1.dll .\build\windows\installer\resources\libcrypto-1_1.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\libssl-1_1.dll .\build\windows\installer\resources\libssl-1_1.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\capi.dll .\build\windows\installer\resources\capi.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\padlock.dll .\build\windows\installer\resources\padlock.dll
 - cd build/windows/installer/resources/
 - windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/qml rdm.exe
 - cd %SRCDIR%
