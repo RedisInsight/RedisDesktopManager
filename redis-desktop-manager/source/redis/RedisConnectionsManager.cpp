@@ -6,10 +6,11 @@
 #include "RedisConnection.h"
 #include "RedisServerItem.h"
 #include "RedisServerDbItem.h"
+#include "demo.h"
 
-RedisConnectionsManager::RedisConnectionsManager(QString config)
+RedisConnectionsManager::RedisConnectionsManager(QString config, QObject * parent = nullptr)
 	: configPath(config), connectionSettingsChanged(false), 
-	 QStandardItemModel(nullptr)
+	 QStandardItemModel(parent)
 {
 	if (!config.isEmpty() && QFile::exists(config)) {
 		LoadConnectionsConfigFromFile(config);
@@ -24,16 +25,23 @@ RedisConnectionsManager::~RedisConnectionsManager(void)
 	}
 }
 
-void RedisConnectionsManager::AddConnection(RedisConnectionAbstract * c)
+void RedisConnectionsManager::AddConnection(ConnectionBridge * c)
 {
 	//add connection to internal container
 	connections.push_back(c);
 
 	//add connection to view container	
-	appendRow(new RedisServerItem(c));
+	RedisServerItem * item = new RedisServerItem(c);
+	QObject::connect(item, SIGNAL(databasesLoaded()), this, SLOT(updateFilter()));
+	MainWin * errorViewForm = (MainWin *) parent();
+	QObject::connect(item, SIGNAL(error(QString)), errorViewForm, SLOT(OnError(QString)));
+	QObject::connect(item, SIGNAL(unlockUI()), errorViewForm, SLOT(OnUIUnlock()));
+	QObject::connect(item, SIGNAL(statusMessage(QString)), errorViewForm, SLOT(OnStatusMessage(QString)));
+
+	appendRow(item);
 
 	//mark settings as unsaved
-	connectionSettingsChanged = true;
+	connectionSettingsChanged = true;	
 }
 
 bool RedisConnectionsManager::RemoveConnection(RedisServerItem * c)
@@ -51,14 +59,6 @@ bool RedisConnectionsManager::RemoveConnection(RedisServerItem * c)
 		connectionSettingsChanged = true;
 
 	return removedFromContainer && removedFromModel;
-}
-
-void RedisConnectionsManager::UpdateConnection(RedisConnectionAbstract * old, RedisConnectionAbstract * newConnection) 
-{
-	connections.removeOne(old);
-	connections.push_back(newConnection);
-
-	connectionSettingsChanged = true;
 }
 
 bool RedisConnectionsManager::ImportConnections(QString &path)
@@ -94,15 +94,7 @@ bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, boo
 
 			if (conf.isNull()) continue;
 
-			RedisConnectionAbstract * c;
-
-			if (conf.useSshTunnel()) {
-				c = new RedisConnectionOverSsh(conf);
-			} else {
-				c = new RedisConnection(conf);
-			}
-
-			AddConnection(c);
+			AddConnection(new ConnectionBridge(conf));
 		}		
 	}
 	conf.close();
@@ -113,7 +105,7 @@ bool RedisConnectionsManager::LoadConnectionsConfigFromFile(QString& config, boo
 	return true;
 }
 
-void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
+bool RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 {
 	QDomDocument config;
 
@@ -124,18 +116,19 @@ void RedisConnectionsManager::SaveConnectionsConfigToFile(QString pathToFile)
 
 	config.appendChild(connectionsItem);
 
-	for (RedisConnectionAbstract * c : connections) {
-		connectionsItem.appendChild(c->config.toXml(config));
+	for (ConnectionBridge * c : connections) {
+		connectionsItem.appendChild(c->getConfig().toXml(config));
 	}
 
-	QFile confFile(configPath);
+	QFile confFile(pathToFile);
 
 	if (confFile.open(QIODevice::WriteOnly)) {
 		QTextStream(&confFile) << config.toString();
 		confFile.close();
+		return true;
 	}
 
-	return;
+	return false;
 }
 
 void RedisConnectionsManager::setFilter(QRegExp & pattern)
@@ -151,8 +144,7 @@ void RedisConnectionsManager::setFilter(QRegExp & pattern)
 
 void RedisConnectionsManager::resetFilter()
 {
-	filter = QRegExp("");
-
+	filter.setPattern("");
 	updateFilter();
 }
 
@@ -178,3 +170,7 @@ void RedisConnectionsManager::updateFilter()
 	}
 }
 
+void RedisConnectionsManager::connectionChanged()
+{
+	SaveConnectionsConfigToFile(configPath);
+}

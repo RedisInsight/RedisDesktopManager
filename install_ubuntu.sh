@@ -7,6 +7,7 @@ sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev 
 sudo apt-get install libatspi-dev -y
 sudo apt-get install libdbus-1-dev -y
 sudo apt-get install libxext-dev -y
+sudo apt-get install scons -y
 
 #setup build env
 sudo apt-get install build-essential devscripts ubuntu-dev-tools debhelper \
@@ -16,7 +17,7 @@ cd /home/vagrant
 
 echo 'COMPONENTS="main restricted universe multiverse"' > ~/.pbuilderrc
 
-sudo pbuilder create
+#sudo pbuilder create
 
 #get and build qt
 
@@ -29,9 +30,12 @@ cd $QTBUILD_DIR
 
 if [ ! -f $INSTALL_ARC ]
 then
-	wget http://download.qt-project.org/official_releases/qt/5.1/5.1.1/single/qt-everywhere-opensource-src-5.1.1.tar.gz	
-	tar -xvf $INSTALL_ARC
+	wget http://redisdesktop.com/vagrant/qt-everywhere-opensource-src-5.1.1.tar.gz		
 fi
+
+rm -fR ./qt-everywhere-opensource-src-5.1.1
+
+tar -xvf $INSTALL_ARC
 
 cd ./qt-everywhere-opensource-src-5.1.1
 

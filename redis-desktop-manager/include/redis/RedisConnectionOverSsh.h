@@ -5,7 +5,9 @@
 #include "qxtsshclient.h"
 #include "RedisConnectionAbstract.h"
 
-class RedisConnectionOverSsh : public QObject, public RedisConnectionAbstract
+class Command;
+
+class RedisConnectionOverSsh : public RedisConnectionAbstract
 {
 	Q_OBJECT
 
@@ -14,20 +16,31 @@ public:
 	~RedisConnectionOverSsh();
 
 	bool connect();
+
 	QString getLastError();
+
 	QVariant execute(QString);
+
+	void runCommand(const Command&);
 
 	bool isConnected()
 	{
 		return connected && socketConnected;
 	}
 
+public slots:
+	void disconnect();
+
+protected:
+
+	void init();
+
 private: 
 	QxtSshTcpSocket * socket;
-	QxtSshClient sshClient;
+	QxtSshClient * sshClient;
 	bool isHostKeyAlreadyAdded;
-	QEventLoop syncLoop;
-	QTimer syncTimer;
+	QEventLoop * syncLoop;
+	QTimer * syncTimer;
 	bool socketConnected;
 
 	bool waitForData(int ms);	

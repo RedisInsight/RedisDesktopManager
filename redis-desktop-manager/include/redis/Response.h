@@ -18,10 +18,15 @@ public:
 
 	void setSource(QString&);
 	QString source();
+
+	void clear();
+
 	void appendToSource(QString&);
 	void appendToSource(QByteArray&);
 
 	static QString valueToString(QVariant&);
+
+	int getLoadedItemsCount();
 
 private:
 
@@ -33,23 +38,29 @@ private:
 		Status, Error, Integer, Bulk, MultiBulk, Unknown			
 	};
 
+	//cache previous validation markers
+	int lastValidPos;
+	int itemsCount;
+
 	ResponseType getResponseType(QString);	
 	ResponseType getResponseType(const QChar);
 
 	//parsers
-	QVariant parseBulk(QString response);
-	QStringList parseMultiBulk(QString response);
+	QVariant parseBulk(const QString& response);
+	QStringList parseMultiBulk(const QString& response);
 	QString getStringResponse(QString response);
 
-	int getSizeOfBulkReply(QString&, int);	
+	int getSizeOfBulkReply(const QString& reply, int endOfFirstLine = -1, int beginFrom = 0);	
 
 	//validations
-	bool isReplyValid(QString&);
+	bool isReplyValid(const QString&);
 
 	/** checks general validation rules **/
-	bool isReplyGeneralyValid(QString& );
-	bool isIntReplyValid(QString&);
-	bool isBulkReplyValid(QString&);
-	bool isMultiBulkReplyValid(QString&);	
+	bool isReplyGeneralyValid(const QString& );
+	bool isIntReplyValid(const QString&);
+	bool isBulkReplyValid(const QString&);
+	bool isMultiBulkReplyValid(const QString&);	
+
+	int getPosOfNextItem(const QString &, int);
 };
 

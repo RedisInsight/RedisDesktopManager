@@ -1,16 +1,24 @@
 [Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
 ===================
-[![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager)
+Ubuntu: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=master)](https://travis-ci.org/uglide/RedisDesktopManager) 
+Mac OS X: [![Build Status](https://travis-ci.org/uglide/RedisDesktopManager.png?branch=osx)](https://travis-ci.org/uglide/RedisDesktopManager)
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
 
 **Supported platforms**
 
-- Windows Xp, Vista, 7, 8
+- Windows Xp, Vista, 7, 8, 8.1
+- Mac OS X 10.9+
 - Ubuntu 12 and 13
 - Debian 7
 
+**Supported Redis versions**
+
+- Redis 2.2
+- Redis 2.4
+- Redis 2.6
+- Redis 2.8+
 
 ## Install & Run ##
 
@@ -19,6 +27,10 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 1. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download)
 2. Run downloaded installer
 
+### Mac OS X ###
+1. Download dmg image from [http://redisdesktop.com/download](http://redisdesktop.com/download)
+2. Mount dmg image
+3. Run rdm.app
 
 ### Ubuntu & Debian ###
 
@@ -32,10 +44,11 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 
 After installation Redis Desktop Manager will be available in main menu.
 
-### Other Linux & Mac OS  ###
+### Other Linux ###
 You can build Redis Desktop Manager from source.
 
 1. Install Qt 5.1.1
+2. Install openssl 1.0
 2. Run:
 	`./configure && qmake redis-desktop-manager.pro && make`
 

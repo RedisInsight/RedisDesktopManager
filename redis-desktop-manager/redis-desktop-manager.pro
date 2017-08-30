@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network xml
+QT       += core gui network xml concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,6 +13,7 @@ TEMPLATE = app
 
 CONFIG -= debug
 CONFIG += c++11 release
+#CONFIG-=app_bundle
 
 SOURCES += \
     $$PWD/source/main.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     $$PWD/source/network/*.cpp \
     $$PWD/source/models/*.cpp \
     $$PWD/source/models/items/*.cpp \
+    $$PWD/source/models/value-view-formatters/*.cpp \
 
 HEADERS  += \
     $$PWD/include/*.h \
@@ -33,6 +35,8 @@ HEADERS  += \
     $$PWD/include/network/*.h \
     $$PWD/include/models/*.h \
     $$PWD/include/models/items/*.h \
+    $$PWD/include/models/value-view-formatters/*.h \
+
 
 release: DESTDIR = ./../bin/linux/release
 debug:   DESTDIR = ./../bin/linux/debug
@@ -42,36 +46,61 @@ MOC_DIR = $$DESTDIR/.moc
 RCC_DIR = $$DESTDIR/.qrc
 UI_DIR = $$DESTDIR/.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
-else:unix: LIBS += /usr/local/lib/libssh2.so
+win32 {
 
-win32:CONFIG(release, debug|release): LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
-else:win32:CONFIG(debug, debug|release): LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
+    LIBS += -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 
+    CONFIG(release, debug|release) {
+        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+
+        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncpp
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncpp.lib
+    }
+
+    else: CONFIG(debug, debug|release) {
+        LIBS += -L$$PWD/../deps/libs/win32/ -llibssh2
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
+
+        LIBS += -L$$PWD/../deps/libs/win32/ -ljsoncppd
+        PRE_TARGETDEPS += $$PWD/../deps/libs/win32/jsoncppd.lib
+    }
+}
+
+unix {
+    macx { # os x 10.8
+        LIBS += /usr/local/lib/libssh2.dylib /usr/local/lib/libjsoncpp.a
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.dylib /usr/local/lib/libjsoncpp.a
+
+        QMAKE_INFO_PLIST = Info.plist
+        ICON = rdm.icns
+    }
+    else { # ubuntu & debian
+        LIBS += -Wl,-rpath /usr/local/lib/
+        LIBS += /usr/local/lib/libssh2.so /usr/local/lib/libjsoncpp.a
+
+        PRE_TARGETDEPS += /usr/local/lib/libssh2.so        
+        PRE_TARGETDEPS += /usr/local/lib/libjsoncpp.a
+
+        target.path = /usr/share/redis-desktop-manager/bin
+        target.files = $$DESTDIR/rdm qt.conf rdm.png
+        INSTALLS += target
+
+        deskicon.path = /usr/share/applications
+        deskicon.files = rdm.desktop
+        INSTALLS += deskicon
+
+        data.path = /usr/share/redis-desktop-manager/lib
+        data.files = lib/*
+        INSTALLS += data
+    }
+}
 
 INCLUDEPATH += $$PWD/../deps/libssh/include
 DEPENDPATH += $$PWD/../deps/libssh/include
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../deps/libs/win32/libssh2.lib
-else:unix: PRE_TARGETDEPS += /usr/local/lib/libssh2.so
-
-unix:!mac {
- LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib
-}
-
-target.path = /usr/share/redis-desktop-manager/bin
-target.files = $$DESTDIR/rdm qt.conf rdm.png
-INSTALLS += target
-
-deskicon.path = /usr/share/applications
-deskicon.files = rdm.desktop
-INSTALLS += deskicon
-
-data.path = /usr/share/redis-desktop-manager/lib
-data.files = lib/*
-INSTALLS += data
+INCLUDEPATH += $$PWD/../deps/jsoncpp/include
+DEPENDPATH += $$PWD/../deps/jsoncpp/include
 
 INCLUDEPATH += $$PWD/source \
     $$PWD/source/models \
@@ -83,6 +112,7 @@ INCLUDEPATH += $$PWD/source \
     $$PWD/"include" \
     $$PWD/include/models \
     $$PWD/include/models/items \
+    $$PWD/include/models/value-view-formatters \
     $$PWD/include/network \
     $$PWD/include/redis \
     $$PWD/include/updater \
@@ -94,8 +124,8 @@ FORMS += \
 RESOURCES += \
     Resources/demo.qrc
 
-
 OTHER_FILES += \
-    qt.conf
+    qt.conf \
+    Info.plist
 
 

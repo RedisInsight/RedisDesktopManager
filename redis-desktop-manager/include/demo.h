@@ -5,6 +5,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QFrame>
+#include <QMovie>
 
 #include "ui_demo.h"
 #include "RedisConnection.h"
@@ -23,12 +24,19 @@ public:
 	MainWin(QWidget *parent = 0);
 	~MainWin();	
 private:
-	bool loadingInProgress;
+	bool treeViewUILocked;
 	Ui::demoClass ui;		
 	Updater * updater;
+	QElapsedTimer performanceTimer;
+	QMenu * serverMenu;
+	QMenu * keyMenu;
+	QMenu * connectionsMenu;
 
-	void loadKeyTab(RedisKeyItem *);
-	void addTab(QString&, QWidget*, QString icon = QString());
+	void addTab(QString&, QWidget*, QString icon = QString(), bool forceOpenInNewTab = false);
+
+	void closeCurrentTabWithValue();
+
+	void openKeyTab(RedisKeyItem * key, bool inNewTab = false);
 
 	/** @return >=0 if exist **/
 	int getTabIndex(QString&);
@@ -37,6 +45,9 @@ private:
 
 	void initFormButtons();
 	void initConnectionsTreeView();
+	void initServerMenu();
+	void initKeyMenu();
+	void initConnectionsMenu();
 	void initTabs();
 	void initUpdater();
 	void initFilter();
@@ -46,17 +57,24 @@ private:
 	private slots:
 		void OnAddConnectionClick();
 		void OnConnectionTreeClick(const QModelIndex & index);
+		void OnConnectionTreeWheelClick(const QModelIndex & index);
 		void OnTabClose(int index);
 		void OnTreeViewContextMenu(const QPoint &);
 		void OnReloadServerInTree();
+		void OnDisconnectFromServer();
 		void OnNewUpdateAvailable(QString &);
 		void OnRemoveConnectionFromTree();
 		void OnEditConnection();
 		void OnImportConnectionsClick();
+		void OnExportConnectionsClick();
 		void OnSetFilter();
 		void OnClearFilter();
 		void OnServerInfoOpen();
 		void OnConsoleOpen();
+		void OnError(QString);
+		void OnUIUnlock();
+		void OnStatusMessage(QString);
+		void OnKeyOpenInNewTab();
 };
 
 #endif // DEMO_H

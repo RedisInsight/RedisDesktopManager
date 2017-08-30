@@ -1,24 +1,28 @@
 #pragma once
 
 #include <QObject>
+#include "RedisConnectionConfig.h"
 
-class RedisConnectionConfig;
 class RedisConnectionAbstract;
-class consoleTab;
 
 class ConsoleConnectionWrapper : public QObject
 {
 	Q_OBJECT
 
 public:
-	ConsoleConnectionWrapper(RedisConnectionConfig &, consoleTab &);	
+	ConsoleConnectionWrapper(RedisConnectionConfig &);	
 
 	public slots:
+		void init();
 		void executeCommand(QString);
+
+	signals:
+		void changePrompt(QString);
+		void addOutput(QString);
 
 private:
 	RedisConnectionAbstract * connection;
-	consoleTab & consoleView;
+	RedisConnectionConfig config;
 	bool connectionValid;	
 };
 

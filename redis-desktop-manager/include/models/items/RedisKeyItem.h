@@ -1,36 +1,30 @@
 #ifndef REDISKEYITEM_H
 #define REDISKEYITEM_H
 
-#include <QStandardItem>
+#include "ItemWithNaturalSort.h"
 
 class RedisServerDbItem;
+class KeyModel;
 
-class RedisKeyItem : public QStandardItem
+class RedisKeyItem : public ItemWithNaturalSort
 {
+
 public:
-
-	enum Type {String, Hash, List, Set, ZSet, None, Empty};
-
 	const static int TYPE = 2200;
 
-	RedisKeyItem(QString name, RedisServerDbItem * db);		
+	RedisKeyItem();
+	RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);		
 
-	Type getKeyType();
+	QString getTabLabelText();
 
-	QVariant getValue();
+	int virtual type() const;
 
-	QString getFullText();
+	KeyModel * getKeyModel();
 
-	QString getFullName();
+	void init(QString name, RedisServerDbItem * db, const QIcon &);
 
-	int virtual type() const;	
-
-	void setBusyIcon();
-	void setNormalIcon();
-private:
-	Type keyType;
-	QString fullName;
-	RedisServerDbItem * db;
+private:	
+	RedisServerDbItem * db;	
 };
 
 #endif // REDISKEYITEM_H
