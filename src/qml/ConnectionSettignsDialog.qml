@@ -427,6 +427,7 @@ Dialog {
                 Layout.fillWidth: true
 
                 Button {
+                    objectName: "rdm_connection_settings_dialog_test_btn"
                     iconSource: "qrc:/images/offline.svg"
                     text: qsTr("Test Connection")
                     onClicked: {
