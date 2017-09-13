@@ -21,7 +21,7 @@ AbstractEditor {
 
         value: ""
         enabled: root.active || root.state !== "edit"
-        showFormatters: root.state != "new"        
+        showFormatters: root.state == "edit"
     }
 
     MultilineEditor {
@@ -29,7 +29,7 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true        
         enabled: root.active || root.state !== "edit"
-        showFormatters: root.state != "new"        
+        showFormatters: root.state == "edit"
     }
 
     function validateValue(callback) {

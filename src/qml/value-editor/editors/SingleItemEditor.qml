@@ -18,7 +18,7 @@ AbstractEditor {
         Layout.fillHeight: true
         value: ""
         enabled: root.active || root.state !== "edit"
-        showFormatters: root.state != "new"
+        showFormatters: root.state == "edit"
     }
 
     function validateValue(callback) {
