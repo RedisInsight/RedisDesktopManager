@@ -63,15 +63,15 @@ var json = {
 
     getFormatted: function (raw, callback) {
         try {
-            return callback(JSONFormatter.prettyPrint(raw), false, FORMAT_PLAIN_TEXT)
+            return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_PLAIN_TEXT)
         } catch (e) {
-            return callback("Error: Invalid JSON")
+            return callback("Error: Invalid JSON: " + e)
         }
     },    
 
     getRaw: function (formatted, callback) {
         try {
-            return callback(JSONFormatter.minify(formatted))
+            return callback("", JSONFormatter.minify(formatted))
         } catch (e) {
             return callback("Error: " + e)
         }

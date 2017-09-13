@@ -609,7 +609,7 @@ Repeater {
                             function clear() {
                                 if (valueEditor.item) {
                                     currentRow = -1
-                                    valueEditor.item.resetAndDisableEditor()
+                                    valueEditor.item.reset()
                                 }
                             }
                         }

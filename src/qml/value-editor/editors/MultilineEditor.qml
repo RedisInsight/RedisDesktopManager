@@ -48,10 +48,9 @@ ColumnLayout
 
     function loadFormattedValue(val) {
 
-        value = val
-
-        if (!value)
-            return
+        if (val) {
+            root.value = val
+        }
 
         var isBin = binaryUtils.isBinaryString(root.value)
 
@@ -67,9 +66,14 @@ ColumnLayout
 
         formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
-            // TODO: process error
+            if (error) {
+                uiBlocker.visible = false
+                formatterSelector.currentIndex = 0 // Reset formatter to plain text
+                notification.showError(error)
+                return
+            }
 
-            if (format == "json") {
+            if (format === "json") {
                 // 1 is JSON
                 return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
 
@@ -130,7 +134,9 @@ ColumnLayout
                 Formatters.defaultFormatterIndex = currentIndex
                 loadFormattedValue()
             }
-            Component.onCompleted: currentIndex = Formatters.defaultFormatterIndex
+            Component.onCompleted: {
+                currentIndex = Formatters.defaultFormatterIndex;
+            }
         }       
     }
 
