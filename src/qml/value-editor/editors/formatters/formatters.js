@@ -31,7 +31,7 @@ var hex = {
         if (isValid) {
             return callback("", binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
         } else {
-            return callback("Value is not binary string")
+            return callback(qsTr("Value is not binary string"))
         }
     },    
 
@@ -50,7 +50,7 @@ var hexTable = {
         if (isValid) {
             return callback("", Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
         } else {
-            return callback("Value is not binary string")
+            return callback(qsTr("Value is not binary string"))
         }
     },    
 }
@@ -65,7 +65,7 @@ var json = {
         try {
             return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_PLAIN_TEXT)
         } catch (e) {
-            return callback("Error: Invalid JSON: " + e)
+            return callback(qsTr("Error: Invalid JSON: ") + e)
         }
     },    
 
@@ -73,7 +73,7 @@ var json = {
         try {
             return callback("", JSONFormatter.minify(formatted))
         } catch (e) {
-            return callback("Error: " + e)
+            return callback(qsTr("Error: ") + e)
         }
     }
 }
