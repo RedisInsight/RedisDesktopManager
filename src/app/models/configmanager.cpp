@@ -184,8 +184,14 @@ QString ConfigManager::getConfigPath(QString basePath)
 {
     QString configDir;
 #ifdef Q_OS_MACX
+    if (basePath == QDir::homePath()) {
+        configDir = "/Library/Preferences/rdm/";
+    } else {
+        configDir = ".rdm";
+    }
+
     configDir = QDir::toNativeSeparators(
-                    QString("%1/%2").arg(basePath).arg("/Library/Preferences/rdm/")
+                    QString("%1/%2").arg(basePath).arg(configDir)
                 );
 #else
     configDir = QDir::toNativeSeparators(
