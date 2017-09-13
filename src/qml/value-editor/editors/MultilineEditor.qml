@@ -19,18 +19,17 @@ ColumnLayout
 
     function validate(callback) {
         loadRawValue(function (error, raw) {
-            if (error) {
-                // TODO: Show formatter error
-                console.log("Formatter error")
-                 return callback(false);
+            if (error) {                
+                notification.showError(error)
+                return callback(false);
             }
 
             var valid = raw.length > 0
 
-            if (!valid) {
-                showValidationError("Enter value")
-            } else {
+            if (valid) {
                 hideValidationError()
+            } else {
+                showValidationError("Enter value")
             }
 
             return callback(valid)
@@ -61,9 +60,7 @@ ColumnLayout
 
         binaryFlag.visible = false        
 
-        if (isBin) binaryFlag.visible = true
-
-        //formatterSelector.currentIndex = Formatters.guessFormatter(isBin)
+        if (isBin) binaryFlag.visible = true        
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
@@ -71,10 +68,10 @@ ColumnLayout
 
         formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
-            if (error) {
+            if (error || !formatted) {
                 uiBlocker.visible = false
                 formatterSelector.currentIndex = 0 // Reset formatter to plain text
-                notification.showError(error)
+                notification.showError(error || qsTr("Unknown formatter error (Empty response)"))
                 return
             }
 
@@ -124,10 +121,10 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
-        TextEdit { text: "size: " + binaryUtils.humanSize(binaryUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
+        TextEdit { text: qsTr("size: ") + binaryUtils.humanSize(binaryUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
         Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
-        Text { text: "View as:" }
+        Text { text: qsTr("View as:") }
 
         ComboBox {
             id: formatterSelector
