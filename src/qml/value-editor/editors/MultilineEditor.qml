@@ -52,6 +52,11 @@ ColumnLayout
             root.value = val
         }
 
+        if (!root.value) {
+            console.log("Empty value. Skipping formatting stage");
+            return;
+        }
+
         var isBin = binaryUtils.isBinaryString(root.value)
 
         binaryFlag.visible = false        
@@ -62,7 +67,7 @@ ColumnLayout
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
-        uiBlocker.visible = true        
+        uiBlocker.visible = true                
 
         formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
