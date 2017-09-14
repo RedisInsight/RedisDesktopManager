@@ -46,7 +46,7 @@ Dialog {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
 
-                value: "Open Sans"
+                value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                 model: Qt.fontFamilies()
                 label: qsTr("Font")
                 description: ""
@@ -59,7 +59,7 @@ Dialog {
                 Layout.preferredHeight: 40
 
                 model: ["8", "9", "10", "11", "12"]
-                value: "10"
+                value: Qt.platform.os == "osx"? "12" : "11"
                 label: qsTr("Font Size")
                 description: qsTr("in pixels")
             }
