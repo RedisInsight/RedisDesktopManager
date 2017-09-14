@@ -107,7 +107,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 600
-        implicitHeight: 675
+        implicitHeight: Qt.platform.os == "osx"? 600 : 675
 
         ColumnLayout {
             anchors.fill: parent
@@ -117,7 +117,7 @@ Dialog {
                 id: settingsTabs
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.minimumHeight: 590
+                Layout.minimumHeight: Qt.platform.os == "osx"? 550 : 590
 
                 Tab {
                     id: mainTab
@@ -125,7 +125,7 @@ Dialog {
 
                     ColumnLayout {
                         anchors.fill: parent
-                        anchors.margins: 10
+                        anchors.margins: Qt.platform.os == "osx"? 5 : 10
 
                         GroupBox {
                             title: qsTr("Main Settings")
@@ -436,10 +436,12 @@ Dialog {
                     }
                 }
 
-                ToolButton {
-                    iconSource: "qrc:/images/help.svg"
-                    text: qsTr("Quick Start Guide")
-                    tooltip: text
+                ImageButton {
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    imgSource: "qrc:/images/help.svg"
+                    imgHeight: 30
+                    imgWidth: 30
                     onClicked: Qt.openUrlExternally(root.quickStartGuideUrl)
                 }
 
