@@ -71,3 +71,5 @@ tests/tests.pro.*
 *Makefile
 *.DS_Store
 tests/unit_tests/coverage*
+*.qmlc
+*.jsc
