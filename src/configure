@@ -98,7 +98,7 @@ elif [  "$os_VENDOR" == "Fedora" ] || [[ "$os_VENDOR" == "CentOS" ]]; then
     print_title "Check deps"
     sudo yum install libssh2 libssh2-devel qt5-qtbase qt5-qtsvg-devel \
         qt5-qtdeclarative-devel qt5-qtgraphicaleffects qt5-qtquickcontrols  \
-        qt5-qttools gcc gcc-c++ libstdc++-static git cmake rsync \
+        qt5-qttools qt5-qtcharts-devel gcc gcc-c++ libstdc++-static git cmake rsync \
         redhat-rpm-config -y
 
     if [[ $? == 1 && "$os_VENDOR" == "CentOS" ]]; then
