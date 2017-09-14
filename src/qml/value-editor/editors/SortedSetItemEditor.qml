@@ -74,6 +74,7 @@ AbstractEditor {
     }    
 
     function reset() {
+        root.active = false
         scoreText.reset()
         textArea.reset()
     }

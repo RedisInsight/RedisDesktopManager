@@ -358,6 +358,7 @@ Repeater {
                                             column.visible = true
                                             column.resizeToContents()
                                         }
+                                        valueEditor.clear()
                                     }
                                 }
                             }
@@ -612,6 +613,8 @@ Repeater {
                                     valueEditor.item.reset()
                                 }
                             }
+
+                            onLoaded: clear()
                         }
 
                         RowLayout {
