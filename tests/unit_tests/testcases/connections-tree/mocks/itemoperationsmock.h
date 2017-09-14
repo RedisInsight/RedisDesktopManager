@@ -38,6 +38,8 @@ public:
 
     virtual void openConsoleTab() override {}
 
+    virtual void openServerStats() override {}
+
     void openNewKeyDialog(int, std::function<void()>, QString = QString()) override {}
 
     virtual void notifyDbWasUnloaded(int) override {}
