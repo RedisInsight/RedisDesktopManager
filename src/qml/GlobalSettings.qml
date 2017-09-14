@@ -12,7 +12,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 800
-        implicitHeight: 750
+        implicitHeight: 650
 
         ColumnLayout {
             anchors.fill: parent
@@ -20,7 +20,7 @@ Dialog {
 
             Text {
                 text: qsTr("General")
-                font.pixelSize: 20
+                font.pixelSize: 18
             }
 
             ComboboxOption {
@@ -35,11 +35,6 @@ Dialog {
                 description: qsTr("Application restart is needed to apply this setting.")
             }
 
-            Text {
-                text: qsTr("Appearance")
-                font.pixelSize: 20
-            }
-
             ComboboxOption {
                 id: appFont
 
@@ -49,7 +44,7 @@ Dialog {
                 value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                 model: Qt.fontFamilies()
                 label: qsTr("Font")
-                description: ""
+                description: qsTr("Application restart is needed to apply this setting.")
             }
 
             ComboboxOption {
@@ -61,12 +56,12 @@ Dialog {
                 model: ["8", "9", "10", "11", "12"]
                 value: Qt.platform.os == "osx"? "12" : "11"
                 label: qsTr("Font Size")
-                description: qsTr("in pixels")
+                description: qsTr("Application restart is needed to apply this setting.")
             }
 
             Text {
                 text: qsTr("Connections Tree")
-                font.pixelSize: 20
+                font.pixelSize: 18
             }
 
             BoolOption {
@@ -120,7 +115,7 @@ Dialog {
 
             Text {
                 text: qsTr("Custom Value View Formatters")
-                font.pixelSize: 20
+                font.pixelSize: 18
             }
 
             Text {
