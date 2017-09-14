@@ -63,7 +63,7 @@ void Application::initModels()
 
 void Application::initAppInfo()
 {
-    setApplicationName("Redis Desktop Manager");
+    setApplicationName("RedisDesktopManager");
     setApplicationVersion(QString(RDM_VERSION));
     setOrganizationDomain("redisdesktop.com");
     setOrganizationName("redisdesktop");
@@ -83,15 +83,16 @@ void Application::initAppFonts()
     QString appFont = settings.value("app/appFont", defaultFontName).toString();
     int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
+#ifdef Q_OS_LINUX
     if (appFont == "Open Sans") {
         int result = QFontDatabase::addApplicationFont("://fonts/OpenSans.ttc");
 
-#ifdef Q_OS_LINUX
         if (result == -1) {
             appFont = "Ubuntu";
         }
-#endif
     }
+#endif
+
     qDebug() << "App font:" << appFont << appFontSize;
     QFont defaultFont(appFont, appFontSize);
     QApplication::setFont(defaultFont);
