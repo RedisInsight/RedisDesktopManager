@@ -31,5 +31,10 @@ valgrind --tool=massif --massif-out-file=rdm.massif /usr/share/redis-desktop-man
 openssl s_client -connect HOST:PORT -cert test_user.crt -key test.key -CAfile test_ca.pem
 ```
 
+### Remove app settings on OSX
+```bash
+rm $HOME/Library/Preferences/com.redisdesktop.RedisDesktopManager.plist
+killall -u `whoami` cfprefsd
+```
 
 ### Fix bugs or implement whatever you want :)
