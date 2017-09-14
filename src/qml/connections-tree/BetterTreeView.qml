@@ -10,6 +10,7 @@ TreeView {
     id: root
     alternatingRowColors: false
     headerVisible: false
+    focus: true
 
     TableViewColumn {
         title: "item"
@@ -34,7 +35,7 @@ TreeView {
         width: root.width - 20
     }
 
-    itemDelegate: Item {
+    itemDelegate: FocusScope {
         id: itemRoot
 
         Item {
@@ -95,6 +96,10 @@ TreeView {
                     } else {
                         return ""
                     }
+                }
+
+                onLoaded: {
+                    wrapper.forceActiveFocus()                    
                 }
             }
 

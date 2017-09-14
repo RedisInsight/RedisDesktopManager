@@ -6,6 +6,14 @@ import "."
 RowLayout {
     id: root
 
+    focus: true
+
+    Keys.onPressed: {
+        if (state == "filter" && event.key == Qt.Key_Escape) {
+            state = "menu"
+        }
+    }
+
     property var shortcuts: {
         'add': Qt.platform.os == "osx"? "Meta+N" : "Ctrl+N",
         'reload': Qt.platform.os == "osx"? "Meta+R" : "Ctrl+R",
@@ -145,7 +153,10 @@ RowLayout {
             return connectionsManager.getMetadata(styleData.index, "filter")
         }
 
-        onAccepted: filterOk.setFilter()
+        onAccepted: {
+            filterOk.setFilter()
+            focus = false
+        }
     }
 
     ToolButton {
