@@ -52,6 +52,8 @@ namespace ConnectionsTree {
         virtual void openNewKeyDialog(int dbIndex, std::function<void()> callback,
                                       QString keyPrefix = QString()) = 0;
 
+        virtual void openServerStats() = 0;
+
         virtual void notifyDbWasUnloaded(int dbIndex) = 0;
 
         virtual void deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback) = 0;

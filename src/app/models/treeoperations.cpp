@@ -56,9 +56,7 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
             ++dbIndex;
         }
 
-    }
-
-    emit m_manager.openServerStats(m_connection);
+    }    
 
     return callback(availableDatabeses);
 }
@@ -103,6 +101,11 @@ void TreeOperations::openNewKeyDialog(int dbIndex, std::function<void()> callbac
                                       QString keyPrefix)
 {
     emit m_manager.newKeyDialog(m_connection, callback, dbIndex, keyPrefix);
+}
+
+void TreeOperations::openServerStats()
+{
+    emit m_manager.openServerStats(m_connection);
 }
 
 void TreeOperations::notifyDbWasUnloaded(int dbIndex)

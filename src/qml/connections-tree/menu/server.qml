@@ -7,6 +7,7 @@ RowLayout {
     id: root
 
     property var shortcuts: {
+        'server_info': Qt.platform.os == "osx"? "Meta+I" : "Ctrl+I",
         'console': Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
         'reload': Qt.platform.os == "osx"? "Meta+R" : "Ctrl+R",
         'unload': Qt.platform.os == "osx"? "Meta+U" : "Ctrl+U",
@@ -21,12 +22,20 @@ RowLayout {
     InlineMenu {
         id: serverMenu
         model: [
+            {'icon': "qrc:/images/log.svg", 'event': 'server_info', "help": sc(qsTr("Server Info"), 'server_info')},
             {'icon': "qrc:/images/console.svg", 'event': 'console', "help": sc(qsTr("Open Console"), 'console')},
             {'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": sc(qsTr("Reload Server"), 'reload')},
             {'icon': "qrc:/images/offline.svg", 'event': 'unload', "help": sc(qsTr("Unload All Data"), 'unload')},
             {'icon': "qrc:/images/editdb.svg", 'event': 'edit', "help": sc(qsTr("Edit Connection Settings"), 'edit')},
             {'icon': "qrc:/images/delete.svg", 'event': 'delete', "help": sc(qsTr("Delete Connection"), 'delete')},
         ]
+    }
+
+    Shortcut {
+        sequence: root.shortcuts['server_info']
+        onActivated: {
+            serverMenu.sendEvent('server_info')
+        }
     }
 
     Shortcut {

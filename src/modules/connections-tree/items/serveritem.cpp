@@ -33,6 +33,10 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
         m_operations->openConsoleTab();
     });
 
+    m_eventHandlers.insert("server_info", [this]() {
+        m_operations->openServerStats();
+    });
+
     m_eventHandlers.insert("reload", [this]() {
         reload();
         emit m_model.itemChanged(getSelf());

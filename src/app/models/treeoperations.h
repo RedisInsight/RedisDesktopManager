@@ -32,6 +32,8 @@ public:
     void openNewKeyDialog(int dbIndex, std::function<void()> callback,
                           QString keyPrefix = QString()) override;
 
+    void openServerStats() override;
+
     void notifyDbWasUnloaded(int dbIndex) override;
 
     void deleteDbKey(ConnectionsTree::KeyItem& key, std::function<void(const QString&)> callback) override;
