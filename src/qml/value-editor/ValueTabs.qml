@@ -297,11 +297,11 @@ Repeater {
                                     elide: styleData.elideMode
                                     text: {                                        
 
-                                        if (!styleData.value || keyType === "string") {
+                                        if (styleData.value === "" || keyType === "string") {
                                             return ""
                                         }
 
-                                        if (styleData.column === 2 && keyType == "zset") {
+                                        if (styleData.column === 2 && keyType == "zset") {                                            
                                             return parseFloat(Number(styleData.value).toFixed(20))
                                         }
 
