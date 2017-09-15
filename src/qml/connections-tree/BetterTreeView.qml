@@ -11,6 +11,8 @@ TreeView {
     alternatingRowColors: false
     headerVisible: false
     focus: true
+    horizontalScrollBarPolicy: Qt.ScrollBarAsNeeded
+    verticalScrollBarPolicy: Qt.ScrollBarAsNeeded
 
     TableViewColumn {
         title: "item"
@@ -32,7 +34,7 @@ TreeView {
         id: itemColumn
         title: "item"
         role: "name"
-        width: root.width - 20
+        width: root.width - 50
     }
 
     itemDelegate: FocusScope {
