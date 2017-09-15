@@ -4,6 +4,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
+import QtQuick.Window 2.3
+import "./../common/platformutils.js" as PlatformUtils
 import "."
 
 TreeView {
@@ -43,7 +45,7 @@ TreeView {
         Item {
             id: wrapper
             objectName: "rdm_tree_view_item"
-            height: 30
+            height: PlatformUtils.isOSXRetina(Screen) ? 20 : 30
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
@@ -144,8 +146,8 @@ TreeView {
     model: connectionsManager
 
     rowDelegate: Rectangle {
-        height: 30
-        color: styleData.selected ? "#e2e2e2" : "white" //sysPalette.highlight
+        height: PlatformUtils.isOSXRetina(Screen) ? 25 : 30
+        color: styleData.selected ? "#e2e2e2" : "white"
     }
 
     onClicked: {
@@ -161,12 +163,8 @@ TreeView {
     Connections {
         target: connectionsManager;
         onExpand: {
-            if (!root.isExpanded(index)) {                                
+            if (!root.isExpanded(index)) {
                 root.expand(index)
-
-                // Hack to prevent rendering issues
-                root.__listView.contentY = root.__listView.contentY + 20
-                root.__listView.forceLayout()
             }
         }
     }

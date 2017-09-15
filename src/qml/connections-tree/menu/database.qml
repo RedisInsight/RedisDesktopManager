@@ -1,12 +1,16 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
+import QtQuick.Window 2.3
+import "./../../common/platformutils.js" as PlatformUtils
 import "."
 
 RowLayout {
     id: root
 
     focus: true
+    implicitHeight: itemHeight
+    property int itemHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
 
     Keys.onPressed: {
         if (state == "filter" && event.key == Qt.Key_Escape) {
@@ -15,10 +19,10 @@ RowLayout {
     }
 
     property var shortcuts: {
-        'add': Qt.platform.os == "osx"? "Meta+N" : "Ctrl+N",
-        'reload': Qt.platform.os == "osx"? "Meta+R" : "Ctrl+R",
-        'filter': Qt.platform.os == "osx"? "Meta+F" : "Ctrl+F",
-        'live': Qt.platform.os == "osx"? "Meta+L" : "Ctrl+L",
+        'add': PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
+        'reload': PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
+        'filter': PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
+        'live': PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
     }
 
     function sc(t, a) {
@@ -88,8 +92,8 @@ RowLayout {
             tooltip: sc(qsTr("Open Keys Filter"), 'filter')
             iconSource: "qrc:/images/filter.svg"
 
-            Layout.preferredWidth: 25
-            Layout.preferredHeight: 25
+            Layout.preferredWidth: root.itemHeight
+            Layout.preferredHeight: root.itemHeight
 
             onClicked: root.state = "filter"
         }
@@ -98,8 +102,8 @@ RowLayout {
             tooltip: sc(qsTr("Reload Keys in Database"), 'reload')
             iconSource: "qrc:/images/refresh.svg"
 
-            Layout.preferredWidth: 25
-            Layout.preferredHeight: 25
+            Layout.preferredWidth: root.itemHeight
+            Layout.preferredHeight: root.itemHeight
 
             onClicked: dbMenu.sendEvent("reload")
         }
@@ -108,8 +112,8 @@ RowLayout {
             tooltip: sc(qsTr("Add New Key"), 'add')
             iconSource: "qrc:/images/add.svg"
 
-            Layout.preferredWidth: 25
-            Layout.preferredHeight: 25
+            Layout.preferredWidth: root.itemHeight
+            Layout.preferredHeight: root.itemHeight
 
             onClicked: dbMenu.sendEvent("add_key")
         }
@@ -121,8 +125,8 @@ RowLayout {
             tooltip: liveUpdateEnabled? qsTr("Disable Live Update") : sc(qsTr("Enable Live Update"), 'live')
             iconSource: liveUpdateEnabled? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg"
 
-            Layout.preferredWidth: 25
-            Layout.preferredHeight: 25
+            Layout.preferredWidth: root.itemHeight
+            Layout.preferredHeight: root.itemHeight
 
             onClicked: processClick()
 

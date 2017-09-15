@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
+import QtQuick.Window 2.3
+import "./../../common/platformutils.js" as PlatformUtils
 import "./../../"
 
 RowLayout {
@@ -28,8 +30,9 @@ RowLayout {
 
             iconSource: data['icon']
 
-            Layout.preferredWidth: 25
-            Layout.preferredHeight: 25
+            Layout.preferredWidth: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+            Layout.preferredHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+            Layout.maximumHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
 
             onClicked: {                
                 if (data['callback'] != undefined)

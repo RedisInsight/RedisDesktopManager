@@ -25,7 +25,7 @@
         <file>value-editor/editors/MultilineEditor.qml</file>
         <file>value-editor/editors/formatters/formatters.js</file>
         <file>value-editor/editors/formatters/hexy.js</file>
-        <file>value-editor/editors/editor.js</file>        
+        <file>value-editor/editors/editor.js</file>
         <file>console/QConsole.qml</file>
         <file>console/BaseConsole.qml</file>
         <file>console/Consoles.qml</file>
@@ -40,5 +40,6 @@
         <file>value-editor/editors/formatters/json-tools.js</file>
         <file>settings/ComboboxOption.qml</file>
         <file>server-info/ServerInfoTabs.qml</file>
+        <file>common/platformutils.js</file>
     </qresource>
 </RCC>
