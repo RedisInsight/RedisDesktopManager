@@ -56,7 +56,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
     });
 
     m_eventHandlers.insert("delete", [this]() {
-        confirmAction(nullptr, tr("Do you really want delete connection?"), [this]()
+        confirmAction(nullptr, tr("Do you really want to delete connection?"), [this]()
          {
              unload();             
              emit deleteActionRequested();
