@@ -409,7 +409,7 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="55"/>
-        <source>Do you really want delete connection?</source>
+        <source>Do you really want to delete connection?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
