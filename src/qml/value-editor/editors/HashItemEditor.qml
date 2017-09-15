@@ -16,7 +16,7 @@ AbstractEditor {
         id: keyText
         fieldLabel: qsTr("Key:")
         Layout.fillWidth: true
-        Layout.minimumHeight: 80
+        Layout.minimumHeight: 30
         Layout.preferredHeight: 90
 
         value: ""

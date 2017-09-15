@@ -249,17 +249,11 @@ Repeater {
                         Item { Layout.fillWidth: true; Layout.preferredHeight: 2;}
                     }
 
-                    onResizingChanged: {
-                        if (resizing) {
-                            valueEditor.maxHeight = 9999
-                        }
-                    }
-
                     // Table
                     RowLayout {
                         id: navigationTable
                         Layout.fillWidth: true
-                        Layout.fillHeight: showValueNavigation
+                        Layout.fillHeight: false
                         visible: showValueNavigation
 
                         TableView {
@@ -565,20 +559,13 @@ Repeater {
                             id: valueEditor
                             Layout.fillWidth: true                            
                             Layout.fillHeight: true
-                            Layout.minimumHeight: 180
-
-                            Layout.maximumHeight: maxHeight
-                            property int maxHeight: 9999
-
-                            Connections {
-                                target: viewModel
-
-                                onReplaceTab: {
-                                    if (showValueNavigation && keyIndex === index) {
-                                        valueEditor.maxHeight = wrapper.height * 0.4
-                                    } else {
-                                        valueEditor.maxHeight = 9999
-                                    }
+                            Layout.minimumHeight: 180                            
+                            Layout.maximumHeight: {
+                                if (showValueNavigation) {
+                                    return (approot.height - bottomTabView.height - navigationTable.height
+                                            - editorButtonsRow.height - 50)
+                                } else {
+                                    return approot.height - bottomTabView.height - editorButtonsRow.height - 50
                                 }
                             }
 
@@ -618,6 +605,7 @@ Repeater {
                         }
 
                         RowLayout {
+                            id: editorButtonsRow
                             Layout.fillWidth: true
                             Layout.minimumHeight: 40
                             Item { Layout.fillWidth: true}
