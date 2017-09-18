@@ -19,6 +19,7 @@ TreeView {
         role: "icon"
         width: 25
         delegate: Item {
+
             Image {
                 anchors.centerIn: parent
                 sourceSize.width: 25
@@ -26,6 +27,9 @@ TreeView {
                 source: styleData.value
                 cache: true
                 asynchronous: true
+                objectName: "rdm_tree_view_item_icon"
+
+                property string text: connectionsManager? connectionsManager.getItemData(styleData.index, "type") + styleData.value : ""
             }
         }
     }
@@ -50,6 +54,8 @@ TreeView {
             anchors.rightMargin: 10            
 
             property bool itemEnabled: connectionsManager? connectionsManager.getItemData(styleData.index, "state") : true
+            property string type: connectionsManager? connectionsManager.getItemData(styleData.index, "type") : ""
+            property string text: styleData.value
 
             Text {
                 objectName: "rdm_tree_view_item_text"
