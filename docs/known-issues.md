@@ -1,6 +1,11 @@
 ### Black screen instead of Welcome tab on Windows under VirtualBox
 Remove opengl32sw.dll and Copy [this dll](https://github.com/uglide/RedisDesktopManager/blob/5f99aa22aa84dc55b5c9858de28d68facd1c58b7/build/windows/installer/resources/rdp_fix/opengl32.dll) to RDM installation folder
 
+### Black screen instead of Welcome tab on Windows Remote Desktop
+You need to enable true color in RDP settings.
+
+In Remote Desktop Connection Manager, set Server Properties/Display Settings/Default Settings Groupt Properties/Remote Desktop Settings/Color Depth to 32
+
 ### Black screen instead of Welcome tab on Linux
 RDM starting from 0.8.0+ requires working openGL driver. Run `redis-desktop-manager` from terminal and search for error:
 `libGL error: failed to load driver: XXX`
