@@ -3,6 +3,7 @@ Remove opengl32sw.dll and Copy [this dll](https://github.com/uglide/RedisDesktop
 
 ### Black screen instead of Welcome tab on Windows Remote Desktop
 You need to enable true color in RDP settings.
+
 In Remote Desktop Connection Manager, set Server Properties/Display Settings/Default Settings Groupt Properties/Remote Desktop Settings/Color Depth to 32
 
 ### Black screen instead of Welcome tab on Linux
