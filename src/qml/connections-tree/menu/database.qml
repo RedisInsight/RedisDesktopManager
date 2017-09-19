@@ -149,6 +149,7 @@ RowLayout {
     TextField {
         id: filterText
         placeholderText: qsTr("Enter Filter")
+        objectName: "rdm_inline_menu_filter_field"
 
         text: {
             if (!connectionsManager)
@@ -166,6 +167,7 @@ RowLayout {
     ToolButton {
         id: filterOk
         iconSource: "qrc:/images/ok.svg"
+        objectName: "rdm_inline_menu_button_apply_filter"
 
         onClicked: setFilter()
 
@@ -187,6 +189,7 @@ RowLayout {
     ToolButton {
         id: filterCancel
         iconSource: "qrc:/images/clear.svg"
+        objectName: "rdm_inline_menu_button_reset_filter"
 
         onClicked: {
             if (!connectionsManager)
