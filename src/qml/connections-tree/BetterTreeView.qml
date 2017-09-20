@@ -21,6 +21,7 @@ TreeView {
         role: "icon"
         width: 25
         delegate: Item {
+
             Image {
                 anchors.centerIn: parent
                 sourceSize.width: 25

@@ -371,6 +371,7 @@ Dialog {
                         {
                             id: namespaceSeparator
                             Layout.fillWidth: true
+                            objectName: "rdm_advanced_settings_namespace_separator_field"
                             placeholderText: qsTr("Separator used for namespace extraction from keys")
                             text: root.settings ? root.settings.namespaceSeparator : ":"
                             onTextChanged: root.settings.namespaceSeparator = text

@@ -42,7 +42,7 @@ RowLayout {
             }
 
             tooltip: data['help'] != undefined ? data['help'] : ""
-            objectName: data['event'] != undefined ? "rdm_server_menu_button_" + data['event'] : ""
+            objectName: data['event'] != undefined ? "rdm_inline_menu_button_" + data['event'] : ""
         }
     }
 }

@@ -91,6 +91,7 @@ RowLayout {
         ToolButton {
             tooltip: sc(qsTr("Open Keys Filter"), 'filter')
             iconSource: "qrc:/images/filter.svg"
+            objectName: "rdm_inline_menu_button_filter"
 
             Layout.preferredWidth: root.itemHeight
             Layout.preferredHeight: root.itemHeight
@@ -101,6 +102,7 @@ RowLayout {
         ToolButton {
             tooltip: sc(qsTr("Reload Keys in Database"), 'reload')
             iconSource: "qrc:/images/refresh.svg"
+            objectName: "rdm_inline_menu_button_reload_db"
 
             Layout.preferredWidth: root.itemHeight
             Layout.preferredHeight: root.itemHeight
@@ -111,6 +113,7 @@ RowLayout {
         ToolButton {
             tooltip: sc(qsTr("Add New Key"), 'add')
             iconSource: "qrc:/images/add.svg"
+            objectName: "rdm_inline_menu_button_add_key"
 
             Layout.preferredWidth: root.itemHeight
             Layout.preferredHeight: root.itemHeight
@@ -124,6 +127,7 @@ RowLayout {
             property bool liveUpdateEnabled: false
             tooltip: liveUpdateEnabled? qsTr("Disable Live Update") : sc(qsTr("Enable Live Update"), 'live')
             iconSource: liveUpdateEnabled? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg"
+            objectName: "rdm_inline_menu_button_live_update"
 
             Layout.preferredWidth: root.itemHeight
             Layout.preferredHeight: root.itemHeight
@@ -149,6 +153,7 @@ RowLayout {
     TextField {
         id: filterText
         placeholderText: qsTr("Enter Filter")
+        objectName: "rdm_inline_menu_filter_field"
 
         text: {
             if (!connectionsManager)
@@ -166,6 +171,7 @@ RowLayout {
     ToolButton {
         id: filterOk
         iconSource: "qrc:/images/ok.svg"
+        objectName: "rdm_inline_menu_button_apply_filter"
 
         onClicked: setFilter()
 
@@ -187,6 +193,7 @@ RowLayout {
     ToolButton {
         id: filterCancel
         iconSource: "qrc:/images/clear.svg"
+        objectName: "rdm_inline_menu_button_reset_filter"
 
         onClicked: {
             if (!connectionsManager)
