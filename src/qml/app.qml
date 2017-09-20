@@ -68,13 +68,13 @@ ApplicationWindow {
 
         objectName: "rdm_connection_settings_dialog"
 
-        onTestConnection: {            
+        onTestConnection: {                       
             if (connectionsManager.testConnectionSettings(settings)) {
                 hideLoader()
-                notification.showMsg(qsTr("Successful connection to redis-server"))
+                showMsg(qsTr("Successful connection to redis-server"))
             } else {
                 hideLoader()
-                notification.showError(qsTr("Can't connect to redis-server"))
+                showError(qsTr("Can't connect to redis-server"))
             }            
         }
 

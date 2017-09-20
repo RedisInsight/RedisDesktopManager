@@ -82,6 +82,14 @@ Dialog {
         uiBlocker.visible = true
     }
 
+    function showMsg(msg) {
+        dialog_notification.showMsg(msg)
+    }
+
+    function showError(err) {
+        dialog_notification.showError(err)
+    }
+
     onVisibleChanged: {
         if (visible)
             settingsTabs.currentIndex = 0
@@ -481,6 +489,27 @@ Dialog {
 
             MouseArea {
                 anchors.fill: parent
+            }
+        }
+
+        MessageDialog {
+            id: dialog_notification
+            objectName: "rdm_qml_connection_settings_error_dialog"
+            visible: false
+            modality: Qt.WindowModal
+            icon: StandardIcon.Warning
+            standardButtons: StandardButton.Ok
+
+            function showError(msg) {
+                icon = StandardIcon.Warning
+                text = msg
+                open()
+            }
+
+            function showMsg(msg) {
+                icon = StandardIcon.Information
+                text = msg
+                open()
             }
         }
     }
