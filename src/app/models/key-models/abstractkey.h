@@ -146,8 +146,7 @@ public:
             QList<QByteArray> cmdParts = m_partialLoadingCmd.split(' ');
             cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
 
-            QSharedPointer<RedisClient::ScanCommand> cmd(
-                        new RedisClient::ScanCommand(cmdParts, m_dbIndex));
+            RedisClient::ScanCommand cmd(cmdParts, m_dbIndex);
             try {
                 m_connection->retrieveCollection(cmd, [this, callback, rowStart](QVariant result, QString)
                 {

@@ -31,6 +31,7 @@ INITIALIZE_EASYLOGGINGPP
 
 Application::Application(int &argc, char **argv)
     : QApplication(argc, argv),
+      m_engine(this),
       m_qmlUtils(QSharedPointer<QmlUtils>(new QmlUtils())),      
       m_logger(nullptr)
 {
