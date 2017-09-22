@@ -14,6 +14,9 @@ Also you can easily verify OpenGL support by e.g. running the `glxgears` demo ap
 
 **Solution:** Reinstall your graphics driver
 
+### Application cannot start (0xc000007b). Click OK to close the application
+Find `vcredist_x86.exe` in RDM installation folder and click `Repair`.
+
 ### Graphical glitches on Ubuntu (RDM 0.8.0+)
 It's the well-known problem of Qt Quick components.
 
