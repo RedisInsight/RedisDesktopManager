@@ -32,7 +32,7 @@ script:
     fi
 after_success:
   - cd ./../tests
-  - sudo pip install cpp-coveralls
+  - sudo pip install --upgrade cpp-coveralls
   - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*
 services:
   - redis-server
