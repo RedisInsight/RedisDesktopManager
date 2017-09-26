@@ -28,6 +28,7 @@ AbstractEditor {
         property string valueHash: ""
         placeholderText: qsTr("Score")
         validator: DoubleValidator { locale: "C"; notation: DoubleValidator.StandardNotation } // force point as decimal separator
+        objectName: "rdm_key_zset_score_field"
 
         function setValue(v) {
             valueHash = Qt.md5(v)
@@ -50,6 +51,7 @@ AbstractEditor {
         value: ""
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
+        objectName: "rdm_key_zset_text_field"
     }
 
     function validateValue(callback) {

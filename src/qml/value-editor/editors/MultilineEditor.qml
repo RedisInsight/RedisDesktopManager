@@ -131,6 +131,7 @@ ColumnLayout
             width: 200
             model: Formatters.buildFormattersModel()
             textRole: "name"
+            objectName: "rdm_value_editor_formatter_combobox"
 
             onCurrentIndexChanged: {
                 Formatters.defaultFormatterIndex = currentIndex
@@ -148,6 +149,7 @@ ColumnLayout
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: 100
+        objectName: "rdm_key_multiline_text_field"
 
         style: TextAreaStyle {
             renderType: Text.QtRendering

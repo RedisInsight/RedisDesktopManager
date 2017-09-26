@@ -22,6 +22,7 @@ AbstractEditor {
         value: ""
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
+        objectName: "rdm_key_hash_key_field"
     }
 
     MultilineEditor {
@@ -30,6 +31,7 @@ AbstractEditor {
         Layout.fillHeight: true        
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
+        objectName: "rdm_key_hash_text_field"
     }
 
     function validateValue(callback) {
