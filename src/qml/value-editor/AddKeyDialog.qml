@@ -29,6 +29,7 @@ Dialog {
             TextField {
                 id: newKeyName
                 Layout.fillWidth: true
+                objectName: "rdm_add_key_name_field"
             }
 
             Text {
@@ -38,6 +39,7 @@ Dialog {
                 id: typeSelector
                 model: Editor.getSupportedKeyTypes()
                 Layout.fillWidth: true
+                objectName: "rdm_add_key_type_field"
             }
 
             Text {

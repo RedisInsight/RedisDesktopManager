@@ -87,7 +87,7 @@ Repeater {
 
         Component.onCompleted: {
             keyTab.focus = true
-            keyTab.forceActiveFocus()            
+            keyTab.forceActiveFocus()
         }
 
         Item {
@@ -120,13 +120,14 @@ Repeater {
                         Layout.fillWidth: true
                         text: keyName
                         readOnly: true
+                        objectName: "rdm_key_name_field"
                     }
 
                     Item { visible: showValueNavigation; Layout.preferredWidth: 5}
                     Text { visible: showValueNavigation; text: "Size: "+ valuesCount }
                     Item { Layout.preferredWidth: 5}
                     Text { text: qsTr("TTL:"); font.bold: true }
-                    Text { text: keyTtl}
+                    Text { text: keyTtl; objectName: "rdm_key_ttl_value"}
                     Item { Layout.preferredWidth: 5}
 
                     Button {
@@ -147,6 +148,7 @@ Repeater {
                                 TextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
+                                    objectName: "rdm_rename_key_field"
                                 }
                             }
 
@@ -165,7 +167,7 @@ Repeater {
 
                         onClicked: {
                             newKeyName.text = keyNameField.text
-                            renameConfirmation.open()                            
+                            renameConfirmation.open()
                         }
                     }
 
@@ -188,7 +190,7 @@ Repeater {
                         }
 
                         onClicked: {
-                            deleteConfirmation.open()                            
+                            deleteConfirmation.open()
                         }
                     }
 
@@ -215,6 +217,7 @@ Repeater {
                                 TextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
+                                    objectName: "rdm_set_ttl_key_field"
                                 }
                             }
 
@@ -233,7 +236,7 @@ Repeater {
 
                         onClicked: {
                             newTTL.text = ""+keyTtl
-                            setTTLConfirmation.open()                            
+                            setTTLConfirmation.open()
                         }
                     }
                 }
@@ -269,7 +272,7 @@ Repeater {
 
                             TableViewColumn{ width: 50 }
                             TableViewColumn{ width: 150 }
-                            TableViewColumn{ width: table.width - 200}                            
+                            TableViewColumn{ width: table.width - 200}
 
                             model: searchModel ? searchModel : null
 
@@ -289,13 +292,13 @@ Repeater {
                                     anchors.fill: parent
                                     color: styleData.textColor
                                     elide: styleData.elideMode
-                                    text: {                                        
+                                    text: {
 
                                         if (styleData.value === "" || keyType === "string") {
                                             return ""
                                         }
 
-                                        if (styleData.column === 2 && keyType == "zset") {                                            
+                                        if (styleData.column === 2 && keyType == "zset") {
                                             return parseFloat(Number(styleData.value).toFixed(20))
                                         }
 
@@ -411,7 +414,7 @@ Repeater {
                                 text: qsTr("Add Row");
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
-                                    addRowDialog.open()                                    
+                                    addRowDialog.open()
                                 }
 
                                 Dialog {
@@ -428,6 +431,7 @@ Repeater {
                                         height: 350
                                         anchors.centerIn: parent
                                         property int currentRow: -1
+                                        objectName: "rdm_add_row_dialog"
 
                                         source: Editor.getEditorByTypeString(keyType)
 
@@ -486,7 +490,7 @@ Repeater {
                                     console.log("Original row index in model:", rowIndex)
 
                                     deleteRowConfirmation.rowToDelete = rowIndex
-                                    deleteRowConfirmation.open()                                    
+                                    deleteRowConfirmation.open()
                                 }
 
                                 MessageDialog {
@@ -518,7 +522,7 @@ Repeater {
                                     onTriggered: {
                                         console.log("Reload value in tab")
                                         keyTab.keyModel.reload()
-                                        valueEditor.clear()                                        
+                                        valueEditor.clear()
                                     }
                                 }
                             }
@@ -557,9 +561,9 @@ Repeater {
 
                         Loader {
                             id: valueEditor
-                            Layout.fillWidth: true                            
+                            Layout.fillWidth: true
                             Layout.fillHeight: true
-                            Layout.minimumHeight: 180                            
+                            Layout.minimumHeight: 180
                             Layout.maximumHeight: {
                                 if (showValueNavigation) {
                                     return (approot.height - bottomTabView.height - navigationTable.height
@@ -577,7 +581,7 @@ Repeater {
 
                             source: Editor.getEditorByTypeString(keyType)
 
-                            function loadRowValue(row) {                                
+                            function loadRowValue(row) {
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row, true)
 

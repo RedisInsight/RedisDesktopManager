@@ -46,6 +46,7 @@ ColumnLayout {
             Layout.fillWidth: true
             text: "⇨"
             onClicked: table.goToNextPage()
+            objectName: "rdm_value_editor_next_page_button"
         }
     }
 }
