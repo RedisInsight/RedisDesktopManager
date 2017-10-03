@@ -26,9 +26,7 @@ public:
 
     QString getType() const override { return "database"; }
 
-    int itemDepth() const override { return 1; }
-
-    bool isLocked() const override;
+    int itemDepth() const override { return 1; }    
 
     bool isEnabled() const override;    
 
@@ -52,8 +50,7 @@ private:
     void showLoadingError(const QString& err);
 
 private:    
-    unsigned int m_keysCount;
-    bool m_locked;
+    unsigned int m_keysCount;    
     QTimer m_liveUpdateTimer;
 };
 

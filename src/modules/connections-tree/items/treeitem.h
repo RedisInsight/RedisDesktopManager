@@ -54,7 +54,7 @@ public:
 
     virtual void handleEvent(QString event);
 
-    virtual bool isLocked() const { return false; }
+    virtual bool isLocked() const { return m_locked; }
 
     virtual bool isEnabled() const = 0;
 
@@ -67,11 +67,16 @@ public:
     virtual Model& model();
 
 protected:
+    void lock();
+    void unlock();
+
+protected:
     Model& m_model;
     QHash<QString, std::function<void()>> m_eventHandlers;
 
 private:
     QWeakPointer<TreeItem> m_selfPtr;
+    bool m_locked;
 };
 
 typedef QList<QSharedPointer<TreeItem>> TreeItems;
