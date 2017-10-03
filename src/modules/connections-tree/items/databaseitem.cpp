@@ -99,19 +99,15 @@ QByteArray DatabaseItem::getFullPath() const
 }
 
 QString DatabaseItem::getDisplayName() const
-{
-    if (m_childItems.isEmpty()) {
-        return QString("db%1 (%2)").arg(m_dbIndex).arg(m_keysCount);
-    } else {                
-        QString filter =  m_filter.isEmpty()? "" : QString("[filter: %1]").arg(m_filter.pattern());
-        QString liveUpdate = m_liveUpdateTimer.isActive()? "[live update]" : "";
+{          
+    QString filter =  m_filter.isEmpty()? "" : QString("[filter: %1]").arg(m_filter.pattern());
+    QString liveUpdate = m_liveUpdateTimer.isActive()? "[live update]" : "";
 
-        return QString("db%1 %2 (%3) %4")
-                .arg(m_dbIndex)
-                .arg(filter)
-                .arg(m_keysCount)
-                .arg(liveUpdate);
-    }
+    return QString("db%1 %2 (%3) %4")
+            .arg(m_dbIndex)
+            .arg(filter)
+            .arg(m_keysCount)
+            .arg(liveUpdate);
 }
 
 QString DatabaseItem::getIconUrl() const
@@ -234,13 +230,15 @@ void DatabaseItem::liveUpdate()
 void DatabaseItem::filterKeys(const QRegExp &filter)
 {
     m_filter = filter;
-    loadKeys();
+    emit m_model.itemChanged(getSelf());
+    reload();
 }
 
 void DatabaseItem::resetFilter()
 {
     m_filter = QRegExp();
-    loadKeys();
+    emit m_model.itemChanged(getSelf());
+    reload();
 }
 
 void DatabaseItem::showLoadingError(const QString &err)
