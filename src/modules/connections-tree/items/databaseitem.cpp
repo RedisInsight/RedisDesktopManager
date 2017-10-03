@@ -22,8 +22,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
                            QWeakPointer<TreeItem> parent,
                            Model& model)
     : AbstractNamespaceItem(model, parent, operations, index),
-      m_keysCount(keysCount),      
-      m_locked(false)
+      m_keysCount(keysCount)
 {           
 
     m_eventHandlers.insert("click", [this]() {
@@ -53,7 +52,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
     });
 
     m_eventHandlers.insert("reload", [this]() {
-        if (m_locked) {
+        if (isLocked()) {
             QMessageBox::warning(nullptr, tr("Another operation is currently in progress"),
                                  tr("Please wait until another operation will be finised."));
             return;
@@ -112,35 +111,35 @@ QString DatabaseItem::getDisplayName() const
 
 QString DatabaseItem::getIconUrl() const
 {
-    if (m_locked) return QString("qrc:/images/wait.svg");
+    if (isLocked()) return QString("qrc:/images/wait.svg");
     return QString("qrc:/images/db.svg");
 }
-
-
-bool DatabaseItem::isLocked() const {return m_locked;}
 
 bool DatabaseItem::isEnabled() const {return true;}
 
 void DatabaseItem::notifyModel()
 {
-    m_locked = false;
+    unlock();
     AbstractNamespaceItem::notifyModel();
 }
 
 void DatabaseItem::loadKeys(std::function<void ()> callback)
 {
-    m_locked = true;
+    lock();
     emit m_model.itemChanged(getSelf());
 
     QString filter = (m_filter.isEmpty())? "" : m_filter.pattern();
 
     auto self = getSelf().toStrongRef();
 
-    if (!self)
+    if (!self) {
+        unlock();
         return;
+    }
 
     m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(self),
                                      filter, [this, callback](const QString& err) {
+        unlock();
         if (!err.isEmpty())
             return showLoadingError(err);
 
@@ -190,12 +189,12 @@ void DatabaseItem::unload()
     if (m_childItems.size() == 0)
         return;
 
-    m_locked = true;
+    lock();
     clear();
 
     m_operations->notifyDbWasUnloaded(m_dbIndex);
 
-    m_locked = false;
+    unlock();
     emit m_model.itemChanged(getSelf());
 }
 
@@ -207,7 +206,7 @@ void DatabaseItem::reload()
 
 void DatabaseItem::liveUpdate()
 {
-    if (m_locked) {
+    if (isLocked()) {
         qDebug() << "Another loading operation is in progress. Skip this live update...";
         m_liveUpdateTimer.start();
         return;
@@ -243,7 +242,7 @@ void DatabaseItem::resetFilter()
 
 void DatabaseItem::showLoadingError(const QString &err)
 {
-    m_locked = false;
+    unlock();
 
     emit m_model.itemChanged(getSelf());
     emit m_model.error(err);

@@ -47,11 +47,6 @@ int NamespaceItem::itemDepth() const {
     return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2;
 }
 
-bool NamespaceItem::isLocked() const
-{
-    return false;
-}
-
 bool NamespaceItem::isEnabled() const
 {
     return m_removed == false;

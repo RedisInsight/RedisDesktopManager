@@ -26,8 +26,6 @@ public:
 
     int itemDepth() const override;
 
-    bool isLocked() const override;
-
     bool isEnabled() const override;        
 
     void setRemoved();
