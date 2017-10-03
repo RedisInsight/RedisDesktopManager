@@ -13,38 +13,13 @@ namespace ConnectionsTree {
     class AbstractNamespaceItem;
     class Model;
 
-    class KeysTreeRenderer
-    {
-    public:
-        struct RenderingSettigns {
-            QRegExp filter;
-            QString nsSeparator;
-            int dbIndex;
-        };
-
-    public:
-        static void renderKeys(QSharedPointer<Operations> operations,
-                               RedisClient::Connection::RawKeysList keys,
-                               QSharedPointer<AbstractNamespaceItem> parent,
-                               RenderingSettigns settings, const QSet<QByteArray> &expandedNamespaces);
-    private:
-        static void renderLazily(QSharedPointer<AbstractNamespaceItem> parent,
-                                 const QByteArray &notProcessedKeyPart,
-                                 const QByteArray &fullKey,
-                                 QSharedPointer<Operations> operations,
-                                 const RenderingSettigns& settings,
-                                 const QSet<QByteArray> &expandedNamespaces,
-                                 unsigned long level=0);
-    };
-
-
     class AbstractNamespaceItem : public TreeItem
     {
     public:
         AbstractNamespaceItem(Model& model,
                               QWeakPointer<TreeItem> parent,
                               QSharedPointer<Operations> operations,
-                              const KeysTreeRenderer::RenderingSettigns& rSettings=KeysTreeRenderer::RenderingSettigns());
+                              uint dbIndex);
 
         virtual ~AbstractNamespaceItem() {}
 
@@ -67,11 +42,6 @@ namespace ConnectionsTree {
              m_childItems.append(item.staticCast<TreeItem>());
         }
 
-        virtual void append(const QByteArray& item)
-        {
-            m_rawChilds.append(item);
-        }
-
         virtual QSharedPointer<AbstractNamespaceItem> findChildNamespace(const QByteArray& name)
         {
             if (!m_childNamespaces.contains(name))
@@ -80,7 +50,7 @@ namespace ConnectionsTree {
             return m_childNamespaces[name];
         }
 
-        virtual void clear(bool removeRawKeys=true);
+        virtual void clear();
 
         virtual void notifyModel();
 
@@ -92,16 +62,15 @@ namespace ConnectionsTree {
 
         virtual void setExpanded(bool v) { m_expanded = v; }
 
-    protected:
-        void renderChilds();
+        virtual uint getDbIndex() { return m_dbIndex; }
 
     protected:        
         QWeakPointer<TreeItem> m_parent;
         QSharedPointer<Operations> m_operations;
         QList<QSharedPointer<TreeItem>> m_childItems;
-        QHash<QByteArray, QSharedPointer<AbstractNamespaceItem>> m_childNamespaces;
-        RedisClient::Connection::RawKeysList m_rawChilds;
-        KeysTreeRenderer::RenderingSettigns m_renderingSettings;
+        QHash<QByteArray, QSharedPointer<AbstractNamespaceItem>> m_childNamespaces;        
+        QRegExp m_filter;        
         bool m_expanded;
+        uint m_dbIndex;
     };
 }
