@@ -10,25 +10,17 @@ using namespace ConnectionsTree;
 
 NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              QSharedPointer<Operations> operations,
-                             QWeakPointer<TreeItem> parent, Model &model,
-                             const KeysTreeRenderer::RenderingSettigns& settings)
-    : AbstractNamespaceItem(model, parent, operations, settings),
+                             QWeakPointer<TreeItem> parent,
+                             Model &model, uint dbIndex)
+    : AbstractNamespaceItem(model, parent, operations, dbIndex),
       m_fullPath(fullPath),
-      m_removed(false),
-      m_rendering(false)
+      m_removed(false)
 {
-    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(settings.nsSeparator) + 1);
+    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 
     m_eventHandlers.insert("click", [this]() {
-        if (m_childItems.size() == 0) {
-            m_rendering = true;
-            m_model.itemChanged(getSelf());
-
-            renderChilds();
-
-            m_rendering = false;
-            m_model.itemChanged(getSelf());
-        }
+        setExpanded(true);
+        notifyModel();
     });
 
     m_eventHandlers.insert("delete", [this]() {
@@ -48,8 +40,11 @@ QByteArray NamespaceItem::getName() const
 
 QString NamespaceItem::getIconUrl() const
 {    
-    if (m_rendering) return QString("qrc:/images/wait.svg");
     return QString("qrc:/images/namespace.svg");
+}
+
+int NamespaceItem::itemDepth() const {
+    return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2;
 }
 
 bool NamespaceItem::isLocked() const
@@ -65,11 +60,6 @@ bool NamespaceItem::isEnabled() const
 QByteArray NamespaceItem::getFullPath() const
 {
     return m_fullPath;
-}
-
-int NamespaceItem::getDbIndex() const
-{
-    return m_renderingSettings.dbIndex;
 }
 
 void NamespaceItem::setRemoved()

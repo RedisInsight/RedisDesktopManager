@@ -12,7 +12,7 @@ public:
                   QSharedPointer<Operations> operations,
                   QWeakPointer<TreeItem> parent,
                   Model& model,
-                  const KeysTreeRenderer::RenderingSettigns& settings);
+                  uint dbIndex);
 
     QString getDisplayName() const override;    
 
@@ -24,20 +24,17 @@ public:
 
     QString getType() const override { return "namespace"; }
 
-    int itemDepth() const override { return m_fullPath.count(m_renderingSettings.nsSeparator.toUtf8()) + 2; }
+    int itemDepth() const override;
 
     bool isLocked() const override;
 
-    bool isEnabled() const override;    
-
-    int getDbIndex() const;
+    bool isEnabled() const override;        
 
     void setRemoved();
 
 private:
     QByteArray m_fullPath;    
     QByteArray m_displayName;
-    bool m_removed;
-    bool m_rendering;
+    bool m_removed;    
 };
 }

@@ -34,11 +34,9 @@ public:
 
     void notifyModel() override;
 
-    void loadKeys();
+    void loadKeys(std::function<void()> callback=std::function<void()>());
 
-    void unload(bool removeRawKeys=true);
-
-    int getIndex() const;
+    void unload();
 
     QVariant metadata(const QString&) override;
 
@@ -51,7 +49,9 @@ protected:
     void resetFilter();    
 
 private:
-    unsigned short int m_index;
+    void showLoadingError(const QString& err);
+
+private:    
     unsigned int m_keysCount;
     bool m_locked;
     QTimer m_liveUpdateTimer;

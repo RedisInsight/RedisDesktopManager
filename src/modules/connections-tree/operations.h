@@ -4,6 +4,7 @@
 #include <QSharedPointer>
 #include <QStringList>
 #include <functional>
+#include <qredisclient/connection.h>
 #include "exception.h"
 
 namespace Console {
@@ -14,6 +15,7 @@ namespace ConnectionsTree {
 
     class KeyItem;
     class NamespaceItem;
+    class AbstractNamespaceItem;
 
     class Operations
     {
@@ -27,11 +29,14 @@ namespace ConnectionsTree {
         virtual void getDatabases(std::function<void(QMap<int, int>)>) = 0;
 
         /**
-         * @brief getDatabaseKeys
+         * @brief loadNamespaceItems
          * @param dbIndex
-         */
-        typedef QList<QByteArray> RawKeysList;
-        virtual void getDatabaseKeys(uint dbIndex, QString filter, std::function<void(const QList<QByteArray>&, const QString&)>) = 0;
+         * @param filter
+         * @param callback
+         */        
+        virtual void loadNamespaceItems(QSharedPointer<AbstractNamespaceItem> parent,
+                                        const QString& filter,
+                                        std::function<void(const QString& err)> callback) = 0;
 
         /**
          * Cancel all operations & close connection
