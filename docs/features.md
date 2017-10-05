@@ -12,7 +12,7 @@ Press OK button to apply a filter.
 
 ## Native value formatters
 
-Formatters allow you to view the key values of various formats.
+Formatters allow to display the key values of various formats in the value editor in readable form.
 
 Supported formats:
 * [Pickle](https://docs.python.org/3/library/pickle.html)
@@ -21,21 +21,22 @@ Supported formats:
 * Compressed (supported algorithms: gzip, lzma, lz4, snappy)
 
 Formatters are available on [GitHub](https://github.com/RedisDesktop/rdm-native-value-formatters).
+If they are not enough you can implement your own formatters (see instructions by the [link](https://github.com/RedisDesktop/rdm-native-value-formatters/blob/master/README.md)).
 
 
 ### Installation
 
-To install the formatter you need to copy its directory into ~/.rdm/formatters/ which is by default located inside your home directory.
+To install the formatter create `formatters/` directory inside of `.rdm/` settings directory which is by default located inside of your home directory or by the path you specify as `--settings-dir` option when you run RDM. Then just copy formatter's directory into `.rdm/formatters/`.
 
 
 ### Ubuntu/Fedora/OS X
 
-Some of the formatters have dependencies which are specified in their requirements files, so before using the formatter run the script install-python-deps.sh
+Some of the formatters have `requirements.txt` file which contains packages required for proper work. So before using the formatter run the script `install-python-deps.sh` to get all of these packages installed.
 
 
 ### How to verify installation
 
-To verify that the formatter is installed go to settings and check out the table titled Custom Value View Formatters and if the formatters you need are not there verify that they are located the Formatters path.
+To verify that the formatter is installed go to settings and check out the table titled Custom Value View Formatters.
 
 
 ### How to use
