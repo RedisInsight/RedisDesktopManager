@@ -37,7 +37,7 @@ sudo apt-get install libsnappy-dev
 
 ### Install Python requirements
 
-Most of the formatters are implemented in Python 3 and require additional packages for proper work. So before using formatters make sure you have `python3` and `pip3` on your system, then run `install-python-deps.sh` to install all they need. To achieve this simply run the following commands.
+Most of the formatters are implemented in Python 3 and require additional packages for proper work. So before using formatters make sure you have `python3` and `pip3` on your system and then run `install-python-deps.sh` to install all they need. To achieve this simply run the following commands.
 
 ```shell
 cd formatters/
