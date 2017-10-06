@@ -12,32 +12,39 @@ Press OK button to apply a filter.
 
 ## Native value formatters
 
-Formatters allow to display the key values of various formats in the value editor in readable form.
-
-Supported formats:
-* [Pickle](https://docs.python.org/3/library/pickle.html)
-* [MSGPack](http://msgpack.org/)
-* [CBOR](http://cbor.io/)
-* Compressed (supported algorithms: gzip, lzma, lz4, snappy)
-
-Formatters are available on [GitHub](https://github.com/RedisDesktop/rdm-native-value-formatters).
-If these are not enough you can implement your own formatters by following [instructions](https://github.com/RedisDesktop/rdm-native-value-formatters/blob/master/README.md).
+Native value formatters are scripts or executables developed in different programming languages which allow to display in readable form the key values of various formats inside the RDM value editor. You can easily implement any formatter for your own purposes as well. To see more information including the full list of available formatters and implementation instructions please follow this [link](https://github.com/RedisDesktop/rdm-native-value-formatters).
 
 
 ### Installation
 
-To install the formatter create `formatters/` directory inside of `.rdm/` settings directory which is by default located inside of your home directory or by the path you specify as `--settings-dir` option when you run RDM. Then just copy formatter's directory into `.rdm/formatters/`.
+To install the formatter create `formatters/` directory inside of `.rdm/` settings directory which is by default located inside of your home directory or by the path you specify as `--settings-dir` option when you run RDM. Then copy formatter's directory into `.rdm/formatters/`. Or just clone the repository into `.rdm/` like shown below.
 
+```shell
+cd ~/.rdm/
+git clone https://github.com/RedisDesktop/rdm-native-value-formatters.git formatters
+```
 
-### Ubuntu/Fedora/OS X
+#### Snappy note
 
-Some of the formatters have `requirements.txt` file which contains packages required for proper work. So before using the formatter copy `install-python-deps.sh` into `.rdm/formatters/` and run the script to get all of these packages installed.
+If you are going to use Snappy formetter make sure to install `libsnappy-dev` by running:
 
+```shell
+sudo apt-get install libsnappy-dev
+```
+
+### Install python requirements
+
+Most of the formatters are implemented in Python 3 and require additional packages for proper work. So before using the formatter make sure you have `python3` and `pip3` on your system, then run `install-python-deps.sh` to get all of the packages installed. To achieve this simply run the following commands.
+
+```shell
+cd formatters/
+chmod u+x install-python-deps.sh
+./install-python-deps.sh
+```
 
 ### How to verify installation
 
 To verify that the formatter is installed go to Settings and check the table titled "Custom Value View Formatters" for desired formatter presence.
-
 
 ### How to use
 
