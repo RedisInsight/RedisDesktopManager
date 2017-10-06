@@ -12,7 +12,8 @@ Press OK button to apply a filter.
 
 ## Native value formatters
 
-Native value formatters are scripts or executables developed in different programming languages which allow to display in readable form the key values of various formats inside the RDM value editor. You can easily implement any formatter for your own purposes as well. To see more information including the full list of available formatters and implementation instructions please follow this [link](https://github.com/RedisDesktop/rdm-native-value-formatters).
+Native value formatters are scripts or executables developed in different programming languages which allow
+ to display in readable form the key values of various formats inside the RDM value editor. You can easily implement any formatter for your own purposes as well. To see more information including the full list of available formatters and implementation instructions please follow this [link](https://github.com/RedisDesktop/rdm-native-value-formatters).
 
 
 ### Installation
@@ -24,17 +25,19 @@ cd ~/.rdm/
 git clone https://github.com/RedisDesktop/rdm-native-value-formatters.git formatters
 ```
 
+
 #### Snappy note
 
-If you are going to use Snappy formetter make sure to install `libsnappy-dev` by running:
+If you are going to use Snappy formatter make sure to install `libsnappy-dev` by running:
 
 ```shell
 sudo apt-get install libsnappy-dev
 ```
 
-### Install python requirements
 
-Most of the formatters are implemented in Python 3 and require additional packages for proper work. So before using the formatter make sure you have `python3` and `pip3` on your system, then run `install-python-deps.sh` to get all of the packages installed. To achieve this simply run the following commands.
+### Install Python requirements
+
+Most of the formatters are implemented in Python 3 and require additional packages for proper work. So before using formatters make sure you have `python3` and `pip3` on your system, then run `install-python-deps.sh` to install all they need. To achieve this simply run the following commands.
 
 ```shell
 cd formatters/
@@ -42,9 +45,12 @@ chmod u+x install-python-deps.sh
 ./install-python-deps.sh
 ```
 
+
 ### How to verify installation
 
 To verify that the formatter is installed go to Settings and check the table titled "Custom Value View Formatters" for desired formatter presence.
+![](settings_formatters.png)
+
 
 ### How to use
 
