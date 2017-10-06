@@ -21,7 +21,7 @@ Supported formats:
 * Compressed (supported algorithms: gzip, lzma, lz4, snappy)
 
 Formatters are available on [GitHub](https://github.com/RedisDesktop/rdm-native-value-formatters).
-If they are not enough you can implement your own formatters (see instructions by the [link](https://github.com/RedisDesktop/rdm-native-value-formatters/blob/master/README.md)).
+If these are not enough you can implement your own formatters by following [instructions](https://github.com/RedisDesktop/rdm-native-value-formatters/blob/master/README.md).
 
 
 ### Installation
@@ -31,12 +31,12 @@ To install the formatter create `formatters/` directory inside of `.rdm/` settin
 
 ### Ubuntu/Fedora/OS X
 
-Some of the formatters have `requirements.txt` file which contains packages required for proper work. So before using the formatter run the script `install-python-deps.sh` to get all of these packages installed.
+Some of the formatters have `requirements.txt` file which contains packages required for proper work. So before using the formatter copy `install-python-deps.sh` into `.rdm/formatters/` and run the script to get all of these packages installed.
 
 
 ### How to verify installation
 
-To verify that the formatter is installed go to settings and check out the table titled Custom Value View Formatters.
+To verify that the formatter is installed go to Settings and check the table titled "Custom Value View Formatters" for desired formatter presence.
 
 
 ### How to use
