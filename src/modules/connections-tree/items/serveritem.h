@@ -36,9 +36,7 @@ public:
 
     int row() const override;
 
-    void setRow(int r);
-
-    bool isLocked() const override;
+    void setRow(int r);    
 
     bool isEnabled() const override;
 
@@ -61,8 +59,7 @@ signals:
     void deleteActionRequested();    
 
 private:
-    QString m_name;
-    bool m_locked;    
+    QString m_name;    
     int m_row;
     QSharedPointer<Operations> m_operations;
     QList<QSharedPointer<TreeItem>> m_databases;    

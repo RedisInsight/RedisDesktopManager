@@ -1,5 +1,6 @@
 #include "treeoperations.h"
 
+#include <QtConcurrent>
 #include <QRegExp>
 #include <algorithm>
 #include <QSet>
@@ -10,6 +11,7 @@
 #include "app/models/connectionconf.h"
 #include "app/models/connectionsmanager.h"
 #include "connections-tree/items/namespaceitem.h"
+#include "connections-tree/keysrendering.h"
 
 
 TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConnectionsManager &manager)
@@ -61,19 +63,35 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
     return callback(availableDatabeses);
 }
 
-void TreeOperations::getDatabaseKeys(uint dbIndex, QString filter,
-                                     std::function<void (const RedisClient::Connection::RawKeysList &, const QString &)> callback)
+void TreeOperations::loadNamespaceItems(QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
+                        const QString& filter,
+                        std::function<void(const QString& err)> callback)
 {
     QString keyPattern = filter.isEmpty() ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern() : filter;
 
-    try {
-        if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
-            m_connection->getClusterKeys(callback, keyPattern);
-        } else {
-            m_connection->getDatabaseKeys(callback, keyPattern, dbIndex);
+    auto renderingCallback = [this, callback, filter, parent]
+            (const RedisClient::Connection::RawKeysList& keylist,
+             const QString& err)
+    {
+        if (!err.isEmpty()) {
+            return callback(err);
         }
+
+        auto settings = ConnectionsTree::KeysTreeRenderer::RenderingSettigns{QRegExp(filter), getNamespaceSeparator(), parent->getDbIndex()};
+
+        QtConcurrent::run(&ConnectionsTree::KeysTreeRenderer::renderKeys, sharedFromThis(), keylist,
+                           parent, settings, m_manager.m_expanded);
+    };
+
+    try {        
+        if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+            m_connection->getClusterKeys(renderingCallback, keyPattern);
+        } else {
+            m_connection->getDatabaseKeys(renderingCallback, keyPattern, parent->getDbIndex());
+        }        
+
     } catch (const RedisClient::Connection::Exception& error) {
-        callback(RedisClient::Connection::RawKeysList(), QString(QObject::tr("Cannot load keys: %1")).arg(error.what()));
+        callback(QString(QObject::tr("Cannot load keys: %1")).arg(error.what()));
     }
 }
 

@@ -26,19 +26,15 @@ public:
 
     QString getType() const override { return "database"; }
 
-    int itemDepth() const override { return 1; }
-
-    bool isLocked() const override;
+    int itemDepth() const override { return 1; }    
 
     bool isEnabled() const override;    
 
     void notifyModel() override;
 
-    void loadKeys();
+    void loadKeys(std::function<void()> callback=std::function<void()>());
 
-    void unload(bool removeRawKeys=true);
-
-    int getIndex() const;
+    void unload();
 
     QVariant metadata(const QString&) override;
 
@@ -51,9 +47,10 @@ protected:
     void resetFilter();    
 
 private:
-    unsigned short int m_index;
-    unsigned int m_keysCount;
-    bool m_locked;
+    void showLoadingError(const QString& err);
+
+private:    
+    unsigned int m_keysCount;    
     QTimer m_liveUpdateTimer;
 };
 

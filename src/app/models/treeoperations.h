@@ -2,7 +2,7 @@
 #include <functional>
 #include <QSharedPointer>
 #include <QObject>
-#include <qredisclient/connection.h>
+#include <QEnableSharedFromThis>
 #include "modules/connections-tree/operations.h"
 #include "modules/connections-tree/items/keyitem.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
@@ -11,7 +11,8 @@
 class ConnectionsManager;
 
 
-class TreeOperations : public QObject, public ConnectionsTree::Operations
+class TreeOperations : public QObject, public ConnectionsTree::Operations,
+        public QEnableSharedFromThis<TreeOperations>
 {
     Q_OBJECT
 public:
@@ -19,7 +20,9 @@ public:
 
     void getDatabases(std::function<void(RedisClient::DatabaseList)>) override;
 
-    void getDatabaseKeys(uint dbIndex, QString filter, std::function<void(const RedisClient::Connection::RawKeysList&, const QString&)>) override;
+    void loadNamespaceItems(QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
+                            const QString& filter,
+                            std::function<void(const QString& err)> callback) override;
 
     void disconnect() override;
 
