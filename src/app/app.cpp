@@ -100,10 +100,9 @@ void Application::initAppFonts()
 }
 
 void Application::registerQmlTypes()
-{
-    qmlRegisterType<ValueEditor::ValueViewModel>("rdm.models", 1, 0, "ValueViewModel");   
-    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");    
-    qRegisterMetaType<ServerConfig>();
+{    
+    qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0, "SortFilterProxyModel");        
+    qRegisterMetaType<ServerConfig>();    
 }
 
 void Application::registerQmlRootObjects()
@@ -121,7 +120,7 @@ void Application::registerQmlRootObjects()
 }
 
 void Application::initQml()
-{    
+{       
     registerQmlTypes();
     registerQmlRootObjects();
     m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));

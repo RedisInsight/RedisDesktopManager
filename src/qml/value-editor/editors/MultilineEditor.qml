@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
-
+import "../../common/"
 import "./formatters/formatters.js" as Formatters
 
 ColumnLayout
@@ -60,7 +60,10 @@ ColumnLayout
 
         binaryFlag.visible = false        
 
-        if (isBin) binaryFlag.visible = true        
+        if (isBin) {
+            binaryFlag.visible = true
+            formatterSelector.currentIndex = 2
+        }
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
@@ -77,16 +80,16 @@ ColumnLayout
 
             if (format === "json") {
                 // 1 is JSON
-                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-
-                    textArea.text = formattedJson
+                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {                    
+                    textArea.model = keyTab.keyModel.wrapLargeText(formattedJson)
                     textArea.readOnly = isReadOnly
                     textArea.textFormat = TextEdit.PlainText
                     root.isEdited = false
                     uiBlocker.visible = false
                 })
-            } else {               
-                textArea.text = formatted
+            } else {
+                //textArea.text = formatted
+                textArea.model = keyTab.keyModel.wrapLargeText(formatted)
                 textArea.readOnly = isReadOnly
                 root.isEdited = false
 
@@ -101,7 +104,9 @@ ColumnLayout
     }
 
     function reset() {
-        textArea.text = ""
+        if (textArea.model)
+            textArea.model.cleanUp()
+        textArea.model = null
         root.value = ""
         root.isEdited = false
         hideValidationError()
@@ -142,23 +147,43 @@ ColumnLayout
         }       
     }
 
-    TextArea {
-        id: textArea
-        enabled: root.enabled
+    Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 100
 
-        style: TextAreaStyle {
-            renderType: Text.QtRendering
-        }
+        color: "white"
+        border.color: "#cccccc"
+        border.width: 1
 
-        font { family: monospacedFont.name; pointSize: 12 }
-        wrapMode: TextEdit.WrapAnywhere
+        ScrollView {
+            anchors.fill: parent
+            anchors.margins: 5
 
-        onTextChanged: root.isEdited = true
+            ListView {
+                id: textArea
+                cacheBuffer: 0
+
+                property int textFormat: TextEdit.PlainText
+                property bool readOnly: false
+
+                delegate:
+                    NewTextArea {
+                        id: textAreaPart
+                        width: textArea.width
+                        height: textAreaPart.contentHeight
+
+                        enabled: root.enabled
+                        text: value
+
+                        textFormat: textArea.textFormat
+                        readOnly: textArea.readOnly
+
+                        // TODO: Notify wrapping model about changed parts
+                        onTextChanged: root.isEdited = true
+                    }
+                }
+            }
     }
-
 
     Text {
         id: validationError

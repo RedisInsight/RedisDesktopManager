@@ -42,6 +42,12 @@ public:
         }
     }
 
+    virtual ~KeyModel()
+    {
+        qDebug() << "{!!DEL!!} Remove keymodel";
+        m_notifier.clear();
+    }
+
     virtual QString getKeyName() override
     {
         return printableString(m_keyFullPath);

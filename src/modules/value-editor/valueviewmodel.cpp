@@ -2,8 +2,8 @@
 #include <QDebug>
 #include <QSettings>
 
-ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> model)
-    : QAbstractListModel((QObject*)model->getConnector().data()),
+ValueEditor::ValueViewModel::ValueViewModel(Model &model)
+    : QAbstractListModel((QObject*)model.getConnector().data()),
       m_model(model),
       m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0)
@@ -13,8 +13,7 @@ ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<ValueEditor::Model> m
 
 int ValueEditor::ValueViewModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
-    Q_ASSERT(m_model.isNull() != true);
+    Q_UNUSED(parent);    
 
     return m_lastLoadedRowFrameSize;
 }
@@ -24,12 +23,12 @@ QVariant ValueEditor::ValueViewModel::data(const QModelIndex &index, int role) c
     if (!isIndexValid(index))
         return QVariant();   
 
-    return m_model->getData(m_startFramePosition + index.row(), role);
+    return m_model.getData(m_startFramePosition + index.row(), role);
 }
 
 QHash<int, QByteArray> ValueEditor::ValueViewModel::roleNames() const
 {
-    return m_model->getRoles();
+    return m_model.getRoles();
 }
 
 bool ValueEditor::ValueViewModel::isIndexValid(const QModelIndex &index) const
@@ -46,7 +45,7 @@ QVariantList ValueEditor::ValueViewModel::getColumnNames()
 {
     QVariantList result;
 
-    foreach (QString str, m_model->getColumnNames())
+    foreach (QString str, m_model.getColumnNames())
     {
         result.append(QVariant(str));
     }
@@ -56,24 +55,24 @@ QVariantList ValueEditor::ValueViewModel::getColumnNames()
 
 bool ValueEditor::ValueViewModel::isMultiRow()
 {
-    return m_model->isMultiRow();
+    return m_model.isMultiRow();
 }
 
 void ValueEditor::ValueViewModel::reload()
 {
-    m_model->clearRowCache();
-    loadRows(m_startFramePosition, m_model->rowsCount() < pageSize() ? m_model->rowsCount() : pageSize());
+    m_model.clearRowCache();
+    loadRows(m_startFramePosition, m_model.rowsCount() < pageSize() ? m_model.rowsCount() : pageSize());
 }
 
 bool ValueEditor::ValueViewModel::isRowLoaded(int i)
 {
-    return m_model->isRowLoaded(i);
+    return m_model.isRowLoaded(i);
 }
 
 void ValueEditor::ValueViewModel::loadRows(int start, int count)
 {
     // frame already loaded
-    if (m_model->isRowLoaded(start)) {
+    if (m_model.isRowLoaded(start)) {
         m_startFramePosition = start;
         emit layoutAboutToBeChanged();
         emit rowsLoaded(start, count);
@@ -86,7 +85,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
     try {
         // NOTE(u_glide): Do so for proper rendering of QML table
         m_lastLoadedRowFrameSize = totalRowCount() - start;
-        m_model->loadRows(start, count, [this, start, count, msg](const QString& err)
+        m_model.loadRows(start, count, [this, start, count, msg](const QString& err)
         {
             if (!err.isEmpty()) {
                 emit error(msg.arg(err));
@@ -111,7 +110,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
 void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
 {
     try {                
-        m_model->addRow(row);
+        m_model.addRow(row);
         emit layoutChanged();
     } catch (const Model::Exception& e) {
         emit error(QString(e.what()));
@@ -121,11 +120,11 @@ void ValueEditor::ValueViewModel::addRow(const QVariantMap &row)
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap &row)
 {
     int targetRow = mapRowIndex(i);
-    if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
+    if (targetRow < 0 || !m_model.isRowLoaded(targetRow))
         return;
 
     try {
-        m_model->updateRow(targetRow, row);
+        m_model.updateRow(targetRow, row);
     } catch(const Model::Exception& e) {
         emit error(QString(e.what()));
     }
@@ -137,17 +136,17 @@ void ValueEditor::ValueViewModel::deleteRow(int i)
 {
     int targetRow = mapRowIndex(i);
 
-    if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
+    if (targetRow < 0 || !m_model.isRowLoaded(targetRow))
         return;
 
     try {
-        m_model->removeRow(targetRow);
+        m_model.removeRow(targetRow);
 
         emit beginRemoveRows(QModelIndex(), i, i);
         emit endRemoveRows();
 
-        if (targetRow < m_model->rowsCount())
-            emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
+        if (targetRow < m_model.rowsCount())
+            emit dataChanged(index(i, 0), index(m_model.rowsCount() - 1, 0));
 
     } catch(const Model::Exception& e) {
         emit error(QString(e.what()));
@@ -156,7 +155,7 @@ void ValueEditor::ValueViewModel::deleteRow(int i)
 
 int ValueEditor::ValueViewModel::totalRowCount()
 {
-    return m_model->rowsCount();
+    return m_model.rowsCount();
 }
 
 int ValueEditor::ValueViewModel::pageSize()
@@ -169,7 +168,7 @@ int ValueEditor::ValueViewModel::pageSize()
 QVariantMap ValueEditor::ValueViewModel::getRow(int row)
 {
     int targetRow = mapRowIndex(row);
-    if (targetRow < 0 || !m_model->isRowLoaded(targetRow))
+    if (targetRow < 0 || !m_model.isRowLoaded(targetRow))
         return QVariantMap();
 
     QVariantMap res = getRowRaw(row);

@@ -25,6 +25,7 @@ Repeater {
             //                // TODO: show "Unsaved changes detected" warnings
             //                return
             //            }
+            valueEditor.clear()
             viewModel.closeTab(tabIndex)
         }
 
