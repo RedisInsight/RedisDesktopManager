@@ -83,7 +83,24 @@ void TreeOperations::loadNamespaceItems(QSharedPointer<ConnectionsTree::Abstract
                            parent, settings, m_manager.m_expanded);
     };
 
-    try {        
+    auto thinRenderingCallback = [this, callback, parent]
+            (const RedisClient::Connection::NamespaceItems& items, const QString& err) {
+        if (!err.isEmpty()) {
+            return callback(err);
+        }
+
+        ConnectionsTree::KeysTreeRenderer::renderNamespaceItems(
+                    sharedFromThis(), items, parent, m_manager.m_expanded);
+
+        callback(QString());
+    };
+
+    try {
+        // if connection supports EVAL command & connection mode is not cluster                      
+        m_connection->getNamespaceItems(thinRenderingCallback, getNamespaceSeparator(),
+                                        filter, parent->getDbIndex());
+        return;
+
         if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
             m_connection->getClusterKeys(renderingCallback, keyPattern);
         } else {

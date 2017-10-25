@@ -4,6 +4,8 @@
 #include "keyitem.h"
 #include "namespaceitem.h"
 
+#include <QMessageBox>
+
 using namespace ConnectionsTree;
 
 
@@ -66,4 +68,12 @@ void AbstractNamespaceItem::notifyModel()
     qDebug() << "Notify model about loaded childs";    
     emit m_model.itemChildsLoaded(getSelf());
     emit m_model.itemChanged(getSelf());
+}
+
+void AbstractNamespaceItem::showLoadingError(const QString &err)
+{
+    emit m_model.itemChanged(getSelf());
+    emit m_model.error(err);
+
+    QMessageBox::warning(nullptr, QObject::tr("Keys error"), err);
 }

@@ -43,6 +43,35 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
     parent->notifyModel();
 }
 
+void KeysTreeRenderer::renderNamespaceItems(QSharedPointer<Operations> operations,
+                                            RedisClient::Connection::NamespaceItems items,
+                                            QSharedPointer<AbstractNamespaceItem> parent,
+                                            const QSet<QByteArray> &expandedNamespaces)
+{
+    QWeakPointer<TreeItem> currentParent = parent.staticCast<TreeItem>().toWeakRef();    
+
+    qDebug() << "loaded ns items:" << items;
+
+    for (QPair<QByteArray, ulong> ns : items.first) {        
+        auto namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(ns.first,
+                                                                             operations, currentParent,                                                                             parent->model(),
+                                                                             parent->getDbIndex()));
+        if (expandedNamespaces.contains(ns.first)) {
+            namespaceItem->setExpanded(true);
+        }
+
+        parent->appendNamespace(namespaceItem);
+    }   
+
+    for (QByteArray fullKey : items.second) {
+        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey, parent->getDbIndex(), operations,
+                                                   currentParent, parent->model()));
+        parent->append(newKey);
+    }
+
+    parent->notifyModel();
+}
+
 void KeysTreeRenderer::renderLazily(
         QSharedPointer<AbstractNamespaceItem> parent,
         const QByteArray &notProcessedKeyPart,

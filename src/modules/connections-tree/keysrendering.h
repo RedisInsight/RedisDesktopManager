@@ -24,7 +24,14 @@ namespace ConnectionsTree {
         static void renderKeys(QSharedPointer<Operations> operations,
                                RedisClient::Connection::RawKeysList keys,
                                QSharedPointer<AbstractNamespaceItem> parent,
-                               RenderingSettigns settings, const QSet<QByteArray> &expandedNamespaces);
+                               RenderingSettigns settings,
+                               const QSet<QByteArray> &expandedNamespaces);
+
+        static void renderNamespaceItems(QSharedPointer<Operations> operations,
+                                         RedisClient::Connection::NamespaceItems items,
+                                         QSharedPointer<AbstractNamespaceItem> parent,
+                                         const QSet<QByteArray> &expandedNamespaces);
+
     private:
         static void renderLazily(QSharedPointer<AbstractNamespaceItem> parent,
                                  const QByteArray &notProcessedKeyPart,

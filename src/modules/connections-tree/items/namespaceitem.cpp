@@ -18,9 +18,29 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
 {
     m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 
-    m_eventHandlers.insert("click", [this]() {
-        setExpanded(true);
-        notifyModel();
+    m_eventHandlers.insert("click", [this]() {         
+
+        if (m_childItems.size() == 0) {
+            QString nsFilter = QString("%1%2*").arg(QString::fromUtf8(m_fullPath)).arg(m_operations->getNamespaceSeparator());
+
+            qDebug() << "NS Filter" << nsFilter;
+
+            lock();
+            emit m_model.itemChanged(getSelf());
+
+            m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()),
+                                             nsFilter, [this](const QString& err) {
+                unlock();
+                if (!err.isEmpty())
+                    return showLoadingError(err);
+
+                setExpanded(true);
+                emit m_model.itemChanged(getSelf());
+            });
+        } else {
+            setExpanded(true);
+            emit m_model.itemChanged(getSelf());
+        }
     });
 
     m_eventHandlers.insert("delete", [this]() {
@@ -40,6 +60,7 @@ QByteArray NamespaceItem::getName() const
 
 QString NamespaceItem::getIconUrl() const
 {    
+    if (isLocked()) return QString("qrc:/images/wait.svg");
     return QString("qrc:/images/namespace.svg");
 }
 

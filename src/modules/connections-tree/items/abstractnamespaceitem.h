@@ -64,6 +64,9 @@ namespace ConnectionsTree {
 
         virtual uint getDbIndex() { return m_dbIndex; }
 
+    protected:
+        void showLoadingError(const QString& err);
+
     protected:        
         QWeakPointer<TreeItem> m_parent;
         QSharedPointer<Operations> m_operations;

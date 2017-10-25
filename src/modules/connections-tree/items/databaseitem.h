@@ -44,10 +44,7 @@ protected:
     void reload();
     void liveUpdate();
     void filterKeys(const QRegExp& filter);
-    void resetFilter();    
-
-private:
-    void showLoadingError(const QString& err);
+    void resetFilter();
 
 private:    
     unsigned int m_keysCount;    

@@ -138,13 +138,15 @@ void DatabaseItem::loadKeys(std::function<void ()> callback)
     }
 
     m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(self),
-                                     filter, [this, callback](const QString& err) {
+                                     filter, [this, callback](const QString& err) {       
         unlock();
         if (!err.isEmpty())
             return showLoadingError(err);
 
         if (callback) {
             callback();
+        } else {
+            emit m_model.itemChanged(getSelf());
         }
     });
 }
@@ -238,14 +240,4 @@ void DatabaseItem::resetFilter()
     m_filter = QRegExp();
     emit m_model.itemChanged(getSelf());
     reload();
-}
-
-void DatabaseItem::showLoadingError(const QString &err)
-{
-    unlock();
-
-    emit m_model.itemChanged(getSelf());
-    emit m_model.error(err);
-
-    QMessageBox::warning(nullptr, tr("Keys error"), err);
 }
