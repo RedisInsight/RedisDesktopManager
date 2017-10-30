@@ -53,6 +53,9 @@ If you need advanced SSH tunneling you should setup SSH tunnel manually and conn
 ssh SSH_HOST -L 7000:localhost:6379
 ```
 
+### How to connect to Redis ElastiCache through EC2 
+Follow instructions from this blog post https://userify.com/blog/howto-connect-redis-ec2-ssh-tunnel-elasticache/
+
 ## Connect to UNIX socket
 
 Redis Desktop Manager [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of local socket to the unix domain socket, for instance with [socat](http://sourceforge.net/projects/socat):
