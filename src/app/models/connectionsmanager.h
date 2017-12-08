@@ -69,7 +69,7 @@ signals:
 private:
      QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);
 
-     void registerLogger(QSharedPointer<RedisClient::Connection> connection);
+     void registerLogger(const RedisClient::Connection &connection);
 
      void createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
                                         QSharedPointer<TreeOperations> treeModel);

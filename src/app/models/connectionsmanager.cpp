@@ -35,7 +35,7 @@ void ConnectionsManager::addNewConnection(const ServerConfig &config, bool saveT
     m_connections.push_back(connection);
 
     //set loggers
-    registerLogger(connection);
+    registerLogger(*connection.data());
 
     //add connection to connection tree
     auto treeModel = createTreeModelForConnection(connection);
@@ -134,6 +134,7 @@ bool ConnectionsManager::saveConnectionsConfigToFile(const QString& pathToFile)
 bool ConnectionsManager::testConnectionSettings(const ServerConfig &config)
 {
     RedisClient::Connection testConnection(config);
+    registerLogger(testConnection);
 
     try {
         return testConnection.connect();
@@ -175,14 +176,14 @@ QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(
     return treeModel;
 }
 
-void ConnectionsManager::registerLogger(QSharedPointer<RedisClient::Connection> connection)
+void ConnectionsManager::registerLogger(const RedisClient::Connection& connection)
 {
-    QObject::connect(connection.data(), &RedisClient::Connection::log, this, [this](const QString& info){
+    QObject::connect(&connection, &RedisClient::Connection::log, this, [this](const QString& info){
         QString msg = QString("Connection: %1").arg(info);
         LOG(INFO) << msg.toStdString();
     });
 
-    QObject::connect(connection.data(), &RedisClient::Connection::error, this, [this](const QString& error){
+    QObject::connect(&connection, &RedisClient::Connection::error, this, [this](const QString& error){
         QString msg = QString("Connection: %1").arg(error);
         LOG(ERROR) << msg.toStdString();
     });
