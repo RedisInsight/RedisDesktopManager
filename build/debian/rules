@@ -4,7 +4,7 @@
 	dh $@
 
 override_dh_auto_build:
-	qmake
+	qmake "CLEAN_RPATH=true"
 	$(MAKE)
 
 override_dh_auto_install:
