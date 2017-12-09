@@ -69,9 +69,15 @@ unix:macx { # OSX
 unix:!macx { # ubuntu & debian
     QMAKE_CXXFLAGS += -std=gnu++0x #workaround for google breakpad
 
-    # clean default flags
-    QMAKE_LFLAGS_RPATH=
+    defined(CLEAN_RPATH, var) { # clean default flags
+        message("DEB package build")
+        QMAKE_LFLAGS_RPATH=
+        QMAKE_LFLAGS = -Wl,-rpath=\\\$$ORIGIN/../lib
+        QMAKE_LFLAGS += -static-libgcc -static-libstdc++
+    } else {
+        # Note: uncomment if qtcreator fails to find QtCore dependencies
+        #QMAKE_LFLAGS = -Wl,-rpath=/home/user/Qt5.9.3/5.9.3/gcc_64/lib
+    }
 
-    LIBS += -Wl,-rpath=\\\$$ORIGIN/../lib #don't remove!!!
     LIBS += $$BREAKPADDIR/client/linux/libbreakpad_client.a
 }
