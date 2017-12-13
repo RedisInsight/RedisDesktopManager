@@ -1,0 +1,36 @@
+os: Visual Studio 2015
+version: 0.9.0.{build}
+clone_depth: 5
+install:
+- git submodule update --init --recursive
+- set QTDIR=C:\Qt\5.9\msvc2015
+- set PATH=%QTDIR%\bin;%PATH%
+- call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
+- nuget install -Version 1.8.0 -OutputDirectory ./3rdparty/qredisclient/3rdparty/windows rmt_libssh2
+- qmake -v
+
+build_script:
+- set SRCDIR=%cd%
+- python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./src/version.h
+- python ./build/utils/set_version.py %APPVEYOR_BUILD_VERSION% > ./3rdparty/crashreporter/src/version.h
+- cd ./3rdparty/crashreporter
+- qmake CONFIG+=release DESTDIR=%SRCDIR%/bin/windows/release
+- nmake /S /NOLOGO release
+- cd %SRCDIR%/src
+- qmake CONFIG+=release
+- nmake /S /NOLOGO release
+- cd %SRCDIR%
+- copy /y .\bin\windows\release\rdm.exe .\build\windows\installer\resources\rdm.exe
+- copy /y .\bin\windows\release\rdm.pdb .\build\windows\installer\resources\rdm.pdb
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\libcrypto-1_1.dll .\build\windows\installer\resources\libcrypto-1_1.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\libssl-1_1.dll .\build\windows\installer\resources\libssl-1_1.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\capi.dll .\build\windows\installer\resources\capi.dll
+- copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\padlock.dll .\build\windows\installer\resources\padlock.dll
+- cd build/windows/installer/resources/
+- windeployqt --no-translations --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/qml rdm.exe
+- cd %SRCDIR%
+- call "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
+test_script:
+- echo 'Windows build is used only for installer compilation. Skip tests.'
+artifacts:
+  - path: 'build/windows/installer/*.exe'

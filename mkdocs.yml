@@ -1,0 +1,18 @@
+site_name: "Redis Desktop Manager"
+site_description: "Redis Desktop Manager Documentation"
+site_author: "Igor Malinovskiy"
+site_favicon: "redis.ico"
+repo_url: https://github.com/uglide/RedisDesktopManager
+theme: readthedocs
+extra_css:
+- css/extra.css
+pages:
+- Home: 'index.md'
+- Install: 'install.md'
+- Quick Start: 'quick-start.md'
+- Features Overview: 'features.md'
+- FAQ: 'faq.md'
+- Known Issues: 'known-issues.md'
+- Development Guide: 'development.md'
+markdown_extensions:
+  - markdown.extensions.admonition

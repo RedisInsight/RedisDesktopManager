@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style type="text/css" media="screen">
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.ace_active-line {
+  background: inherit !important;
+}
+.ace_gutter-cell {
+  cursor: pointer;
+}
+.ace_gutter-cell.ace_breakpoint {
+  background: #faa url('qrc:/static/img/breakpoint.png') no-repeat 3px 2px;
+}
+.ace_gutter-cell.ace_breakpoint:hover {
+  background-color: "black";
+}
+.ace_gutter-cell:not(.ace_breakpoint):hover {
+  background: #fdd url('qrc:/static/img/breakpoint-light.png') no-repeat 3px 2px;
+}
+.ace_gutter-cell.live-command:not(.ace_breakpoint):hover {
+  background: #ccc url('qrc:/static/img/breakpoint-live-command-light.png') no-repeat 3px 2px;
+}
+.ace_content .live-command {
+  position: absolute;
+  background: rgb(255, 251, 109);
+  outline: 1px solid rgb(235, 231, 089);
+}
+.ace_gutter-cell.live-command {
+  background: #ccc url('qrc:/static/img/live-command.png') no-repeat 3px 2px;
+}
+.ace_gutter-cell.live-command.ace_breakpoint {
+  background: #ccc url('qrc:/static/img/breakpoint-live-command.png') no-repeat 3px 2px;
+}
+</style>
+</head>
+<body>
+
+<div id="editor">function foo(items) {
+    var x = "All this is syntax highlighted";
+    return x;
+}</div>
+
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    window.ace_editor = ace.edit("editor");
+    window.ace_editor.setTheme("ace/theme/twilight");
+    window.ace_editor.session.setMode("ace/mode/javascript");
+    document.getElementById('editor').style.fontSize='15px';
+
+    /** Debugger **/
+    /** Based on code from https://github.com/schmich/rdb/blob/master/lib/rdb/web/public/js/app.js **/
+
+    function addBreakpoint(line) {
+        console.log("add breakpoint")
+
+        var row = line - 1;
+        window.ace_editor.session.setBreakpoint(row);
+    }
+
+    function removeBreakpoint(line) {
+        console.log("remove breakpoint")
+
+        var row = line - 1;
+        window.ace_editor.session.clearBreakpoint(row);
+    }
+
+    window.ace_editor.on('guttermousedown', function(e) {
+        if (e.domEvent.button != 0) { // left click
+          return;
+        }
+
+        var target = e.domEvent.target;
+        if (target.className.indexOf('ace_gutter-cell') < 0) {
+          return;
+        }
+
+        var row = e.getDocumentPosition().row;
+        var line = row + 1;
+        var breakpoints = e.editor.session.getBreakpoints();
+        var exists = breakpoints[row] != null;
+
+        if (exists) {
+          removeBreakpoint(line);
+        } else {
+          addBreakpoint(line);
+        }
+
+        e.stop();
+    });
+</script>
+</body>
+</html>

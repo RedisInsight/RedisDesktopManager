@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Redis Desktop Manager
+Comment=Redis Desktop Manager
+Type=Application
+Categories=Development;
+Exec=/usr/share/redis-desktop-manager/bin/rdm.sh
+Terminal=false
+StartupNotify=true
+Icon=/usr/share/redis-desktop-manager/bin/rdm.png

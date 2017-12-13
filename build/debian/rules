@@ -1,58 +1,11 @@
 #!/usr/bin/make -f
-# Sample debian/rules that uses debhelper.
-# This file is public domain software, originally written by Joey Hess. 
-#
-# This version is for packages that are architecture dependent.
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+%:
+	dh $@
 
-build: build-stamp
-build-stamp:
-	dh_testdir
+override_dh_auto_build:
+	qmake "CLEAN_RPATH=true"
+	$(MAKE)
 
-	# Add here commands to compile the package.
-	qmake
-	make -s
-
-	touch build-stamp
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-
-        # Add here commands to install the package into debian/<packagename
-	make INSTALL_ROOT=`pwd`/debian/redis-desktop-manager install
-	mkdir -p `pwd`/debian/redis-desktop-manager/usr/bin/
-
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs
-	dh_installdocs
-	dh_installexamples
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install
+override_dh_auto_install:
+	$(MAKE) INSTALL_ROOT=$(CURDIR)/debian/redis-desktop-manager install
