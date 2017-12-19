@@ -1,6 +1,6 @@
 language: cpp
 dist: trusty
-sudo: required
+sudo: false
 
 os:
   - linux
@@ -32,7 +32,7 @@ script:
     fi
 after_success:
   - cd ./../tests
-  - sudo pip install --upgrade cpp-coveralls
+  - pip install --upgrade cpp-coveralls
   - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*
 services:
   - redis-server
