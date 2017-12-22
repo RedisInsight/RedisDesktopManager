@@ -19,7 +19,8 @@ function build_libssh2 {
         cd $DEPS_DIR
         git clone https://github.com/libssh2/libssh2.git libssh2 || true
         cd libssh2
-        mkdir bin || rm -fR ./bin && mkdir bin
+        rm -fR ./bin || true
+        mkdir bin
         cd bin
         cmake -DCRYPTO_BACKEND=OpenSSL -DENABLE_ZLIB_COMPRESSION=ON ..
         cmake --build .

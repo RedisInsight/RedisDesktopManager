@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # On OSX use coreutils package to fix absense of readlink command
 if [[ $OSTYPE == darwin* ]]; then
