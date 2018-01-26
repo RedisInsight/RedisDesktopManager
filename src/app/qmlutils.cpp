@@ -6,6 +6,8 @@
 #include <QtCharts/QDateTimeAxis>
 #include <QDateTime>
 
+#include "value-editor/largetextmodel.h"
+
 bool QmlUtils::isBinaryString(const QVariant &value)
 {
     if (!value.canConvert(QVariant::ByteArray)) {
@@ -147,5 +149,19 @@ void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series, double val
 
     if (series->attachedAxes().size() > 0 && ax) {
         ax->setMax(QDateTime::currentDateTime());
+    }
+}
+
+QObject *QmlUtils::wrapLargeText(const QByteArray &text)
+{    
+    auto w = new ValueEditor::LargeTextWrappingModel(QString::fromUtf8(text));
+    w->setParent(this);
+    return w;
+}
+
+void QmlUtils::deleteTextWrapper(QObject *w)
+{
+    if (w && w->parent() == this) {
+        w->deleteLater();
     }
 }

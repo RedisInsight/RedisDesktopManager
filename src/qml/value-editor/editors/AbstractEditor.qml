@@ -14,6 +14,10 @@ ColumnLayout {
         State { name: "edit"} // Editing existing key
     ]
 
+    function initEmpty() {
+        console.exception("Not implemented")
+    }
+
     function validateValue(callback) {
         console.exception("Not implemented")
     }

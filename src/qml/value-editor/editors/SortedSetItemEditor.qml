@@ -54,6 +54,10 @@ AbstractEditor {
         objectName: "rdm_key_zset_text_field"
     }
 
+    function initEmpty() {
+        textArea.initEmpty()
+    }
+
     function validateValue(callback) {
         return textArea.validate(callback);
     }

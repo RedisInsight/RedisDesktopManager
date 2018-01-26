@@ -2,8 +2,6 @@
 #include <QDebug>
 #include <QSettings>
 
-#include "largetextmodel.h"
-
 ValueEditor::ValueViewModel::ValueViewModel(Model &model)
     : QAbstractListModel((QObject*)model.getConnector().data()),
       m_model(model),
@@ -53,13 +51,6 @@ QVariantList ValueEditor::ValueViewModel::getColumnNames()
     }
 
     return result;
-}
-
-QObject *ValueEditor::ValueViewModel::wrapLargeText(const QByteArray &text)
-{
-    auto w = new LargeTextWrappingModel(QString::fromUtf8(text));
-    w->setParent(this);
-    return w;
 }
 
 bool ValueEditor::ValueViewModel::isMultiRow()

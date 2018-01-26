@@ -34,6 +34,11 @@ AbstractEditor {
         objectName: "rdm_key_hash_text_field"
     }
 
+    function initEmpty() {
+        keyText.initEmpty()
+        textArea.initEmpty()
+    }
+
     function validateValue(callback) {
         return textArea.validate(function (textAreaValid) {
             keyText.validate(function (keyTextValid) {

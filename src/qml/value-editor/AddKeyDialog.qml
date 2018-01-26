@@ -42,9 +42,6 @@ Dialog {
                 objectName: "rdm_add_key_type_field"
             }
 
-            Text {
-                text: qsTr("Value:")
-            }
             Loader {
                 id: valueAddEditor
                 Layout.fillWidth: true
@@ -55,6 +52,7 @@ Dialog {
 
                 onLoaded: {
                     item.state = "new"
+                    item.initEmpty()
                 }
             }
 
@@ -88,6 +86,7 @@ Dialog {
                         if (!err) {
                             newKeyName.text = ''
                             valueAddEditor.item.reset()
+                            valueAddEditor.item.initEmpty()
                             root.close()
                         } else {
                             addError.text = err

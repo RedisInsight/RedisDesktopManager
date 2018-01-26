@@ -16,6 +16,14 @@ ColumnLayout
     property string fieldLabel: qsTr("Value:")    
     property bool isEdited: false
     property var value    
+    property int valueSizeLimit: 150000
+
+    function initEmpty() {
+        // init editor with empty model
+        textView.model = qmlUtils.wrapLargeText("")
+        textView.readOnly = false
+        textView.textFormat = TextEdit.PlainText
+    }
 
     function validate(callback) {
         loadRawValue(function (error, raw) {
@@ -55,7 +63,7 @@ ColumnLayout
             return;
         }
 
-        if (binaryUtils.binaryStringLength(root.value) > 150000) {
+        if (binaryUtils.binaryStringLength(root.value) > valueSizeLimit) {
             root.showFormatters = false
             formatterSelector.currentIndex = 0
         } else {
@@ -87,14 +95,14 @@ ColumnLayout
             if (format === "json") {
                 // 1 is JSON
                 return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-                    textView.model = keyTab.keyModel.wrapLargeText(formattedJson)
+                    textView.model = qmlUtils.wrapLargeText(formattedJson)
                     textView.readOnly = isReadOnly
                     textView.textFormat = TextEdit.PlainText
                     root.isEdited = false
                     uiBlocker.visible = false
                 })
             } else {                
-                textView.model = keyTab.keyModel.wrapLargeText(formatted)
+                textView.model = qmlUtils.wrapLargeText(formatted)
                 textView.readOnly = isReadOnly
                 root.isEdited = false
 
@@ -111,6 +119,11 @@ ColumnLayout
     function reset() {
         if (textView.model)
             textView.model.cleanUp()
+
+        if (textView.model) {
+            qmlUtils.deleteTextWrapper(textView.model)
+        }
+
         textView.model = null
         root.value = ""
         root.isEdited = false
@@ -152,10 +165,11 @@ ColumnLayout
             }
         }
 
-        Text { visible: !showFormatters; text: qsTr("Large value (>150kB). Formatters is not available."); color: "red"; }
+        Text { visible: !showFormatters && binaryUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTr("Large value (>150kB). Formatters is not available."); color: "red"; }
     }
 
     Rectangle {
+        id: texteditorWrapper
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: 100
@@ -181,7 +195,7 @@ ColumnLayout
                     NewTextArea {
                         id: textAreaPart
                         width: textView.width
-                        height: textAreaPart.contentHeight
+                        height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
 
                         enabled: root.enabled
                         text: value
@@ -216,5 +230,5 @@ ColumnLayout
         }
 
         MouseArea { anchors.fill: parent }
-    }
+    }    
 }

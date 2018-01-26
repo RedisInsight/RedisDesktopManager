@@ -21,6 +21,10 @@ AbstractEditor {
         showFormatters: root.state == "edit"
     }
 
+    function initEmpty() {
+        textEditor.initEmpty()
+    }
+
     function validateValue(callback) {
         return textEditor.validate(callback);
     }

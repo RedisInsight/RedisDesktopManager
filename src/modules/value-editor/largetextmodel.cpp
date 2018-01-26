@@ -1,15 +1,15 @@
 #include "largetextmodel.h"
-
+#include <QDebug>
 
 ValueEditor::LargeTextWrappingModel::LargeTextWrappingModel(const QString &text, uint chunkSize)
     : m_chunkSize(chunkSize)
 {
-    m_textRows.reserve(text.size()/chunkSize);
+    setText(text);
+}
 
-    for (uint chunkIndex=0; chunkIndex < text.size()/chunkSize + 1; chunkIndex++)
-    {
-        m_textRows.append(text.mid(chunkIndex * chunkSize, chunkSize));
-    }
+ValueEditor::LargeTextWrappingModel::~LargeTextWrappingModel()
+{
+    qDebug() << "{DELETE}: Largetext model";
 }
 
 QHash<int, QByteArray> ValueEditor::LargeTextWrappingModel::roleNames() const
@@ -34,6 +34,16 @@ QVariant ValueEditor::LargeTextWrappingModel::data(const QModelIndex &index, int
     }
 
     return QVariant();
+}
+
+void ValueEditor::LargeTextWrappingModel::setText(const QString &text)
+{
+    m_textRows.reserve(text.size()/m_chunkSize);
+
+    for (uint chunkIndex=0; chunkIndex < text.size()/m_chunkSize + 1; chunkIndex++)
+    {
+        m_textRows.append(text.mid(chunkIndex * m_chunkSize, m_chunkSize));
+    }
 }
 
 void ValueEditor::LargeTextWrappingModel::cleanUp()

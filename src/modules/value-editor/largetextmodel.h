@@ -14,13 +14,15 @@ class LargeTextWrappingModel : public QAbstractListModel
 public:
     LargeTextWrappingModel(const QString& text=QString(), uint chunkSize=10000);
 
-    ~LargeTextWrappingModel() {}
+    ~LargeTextWrappingModel();
 
     QHash<int, QByteArray> roleNames() const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant data(const QModelIndex &index, int role) const;
+
+    void setText(const QString& text);
 
 public slots:
     void cleanUp();

@@ -34,9 +34,7 @@ public:
     Q_INVOKABLE int pageSize();
 
     // general operations    
-    Q_INVOKABLE QVariantList getColumnNames();
-
-    Q_INVOKABLE QObject* wrapLargeText(const QByteArray &text);
+    Q_INVOKABLE QVariantList getColumnNames();    
 
 signals:
     void rowsLoaded(int start, int count);
