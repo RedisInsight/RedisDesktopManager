@@ -25,6 +25,7 @@ Repeater {
             //                // TODO: show "Unsaved changes detected" warnings
             //                return
             //            }
+            valueEditor.clear()
             viewModel.closeTab(tabIndex)
         }
 
@@ -279,7 +280,7 @@ Repeater {
                             property int currentStart: 0
                             property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize() : 100
                             property int currentPage: currentStart / maxItemsOnPage + 1
-                            property int totalPages: Math.ceil(keyTab.keyModel.totalRowCount() / maxItemsOnPage)
+                            property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount() / maxItemsOnPage) : 0
                             property bool forceLoading: false
 
                             Component.onCompleted: {
@@ -584,13 +585,6 @@ Repeater {
                             function loadRowValue(row) {
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row, true)
-
-// TODO: Show dialog here with options:  View in read-only mode, Save to file, Ignore warning
-//                                    if (binaryUtils.binaryStringLength(rowValue['value']) > 150000) {
-//                                        console.log("Extra large value")
-//                                        return
-//                                    }
-
                                     valueEditor.currentRow = row
                                     valueEditor.item.setValue(rowValue)
                                 } else {
@@ -628,9 +622,7 @@ Repeater {
                                         if (!result)
                                             return;
 
-                                        var value = valueEditor.item.getValue()
-
-                                        console.log(value, value["value"])
+                                        var value = valueEditor.item.getValue()                                        
                                         keyTab.keyModel.updateRow(valueEditor.currentRow, value)
 
                                         savingConfirmation.text = qsTr("Value was updated!")

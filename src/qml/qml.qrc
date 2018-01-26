@@ -41,5 +41,6 @@
         <file>settings/ComboboxOption.qml</file>
         <file>server-info/ServerInfoTabs.qml</file>
         <file>common/platformutils.js</file>
+        <file>common/NewTextArea.qml</file>
     </qresource>
 </RCC>
