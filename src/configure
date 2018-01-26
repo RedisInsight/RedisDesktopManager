@@ -33,7 +33,7 @@ if [ "$os_VENDOR" == "Ubuntu" ] || [ "$os_VENDOR" == "LinuxMint" ]; then
     ubuntu_ver=${os_RELEASE:0:2}
     print_title "Build RDM on $os_VENDOR: $ubuntu_ver"         
 
-    if [ "$os_VENDOR" == "Ubuntu" && "$ubuntu_ver" == "12" ]; then
+    if [ "$os_VENDOR" == "Ubuntu" ] && [ "$ubuntu_ver" == "12" ]; then
         echo "RedisDesktopManager doesn't support Ubuntu 12 since 0.8.8 release."
         exit 1
     fi
