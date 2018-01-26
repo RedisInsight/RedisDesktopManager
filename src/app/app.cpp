@@ -68,6 +68,7 @@ void Application::initAppInfo()
     setApplicationVersion(QString(RDM_VERSION));
     setOrganizationDomain("redisdesktop.com");
     setOrganizationName("redisdesktop");
+    setWindowIcon(QIcon(":/images/logo.png"));
 }
 
 void Application::initAppFonts()
