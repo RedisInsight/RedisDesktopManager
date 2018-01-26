@@ -18,7 +18,7 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
 {
     m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 
-    m_eventHandlers.insert("click", [this]() {         
+    m_eventHandlers.insert("click", [this]() {
 
         if (m_childItems.size() == 0) {
             QString nsFilter = QString("%1%2*").arg(QString::fromUtf8(m_fullPath)).arg(m_operations->getNamespaceSeparator());
@@ -36,10 +36,12 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
 
                 setExpanded(true);
                 emit m_model.itemChanged(getSelf());
+                emit m_model.expandItem(getSelf());
             });
         } else {
             setExpanded(true);
             emit m_model.itemChanged(getSelf());
+            emit m_model.expandItem(getSelf());
         }
     });
 

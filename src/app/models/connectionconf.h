@@ -30,17 +30,12 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(QString namespaceSeparator READ namespaceSeparator WRITE setNamespaceSeparator)
     Q_PROPERTY(uint executeTimeout READ executeTimeout WRITE setExecutionTimeout)
     Q_PROPERTY(uint connectionTimeout READ connectionTimeout WRITE setConnectionTimeout)
-
-    /* DEFAULTS */
-    Q_PROPERTY(QString defautNamespaceSeparator MEMBER DEFAULT_NAMESPACE_SEPARATOR CONSTANT)
-    Q_PROPERTY(QString defautKeysGlobPattern MEMBER DEFAULT_KEYS_GLOB_PATTERN CONSTANT)
-    Q_PROPERTY(uint defautPort MEMBER DEFAULT_REDIS_PORT CONSTANT)
-    Q_PROPERTY(uint defautSshPort MEMBER DEFAULT_SSH_PORT CONSTANT)
-    Q_PROPERTY(uint defautTimeoutInMs MEMBER DEFAULT_TIMEOUT_IN_MS CONSTANT)
+    Q_PROPERTY(bool luaKeysLoading READ luaKeysLoading WRITE setLuaKeysLoading)
 
 public:
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
     static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
+    static const bool DEFAULT_LUA_KEYS_LOADING = true;
 
 public:
     ServerConfig(const QString & host = "127.0.0.1", const QString & auth = "",
@@ -53,6 +48,9 @@ public:
 
     QString namespaceSeparator() const;
     void setNamespaceSeparator(QString);
+
+    bool luaKeysLoading() const;
+    void setLuaKeysLoading(bool);
 
     Q_INVOKABLE bool useSshTunnel() const;
 };

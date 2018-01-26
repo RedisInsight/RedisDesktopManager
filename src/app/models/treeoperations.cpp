@@ -95,16 +95,16 @@ void TreeOperations::loadNamespaceItems(QSharedPointer<ConnectionsTree::Abstract
         callback(QString());
     };
 
-    try {
-        // if connection supports EVAL command & connection mode is not cluster                      
-        m_connection->getNamespaceItems(thinRenderingCallback, getNamespaceSeparator(),
-                                        filter, parent->getDbIndex());
-        return;
-
+    try {        
         if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
             m_connection->getClusterKeys(renderingCallback, keyPattern);
         } else {
-            m_connection->getDatabaseKeys(renderingCallback, keyPattern, parent->getDbIndex());
+            if (static_cast<ServerConfig>(m_connection->getConfig()).luaKeysLoading()) {
+                m_connection->getNamespaceItems(thinRenderingCallback, getNamespaceSeparator(),
+                                                filter, parent->getDbIndex());
+            } else {
+                m_connection->getDatabaseKeys(renderingCallback, keyPattern, parent->getDbIndex());
+            }
         }        
 
     } catch (const RedisClient::Connection::Exception& error) {
