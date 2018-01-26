@@ -13,7 +13,7 @@ AbstractEditor {
     property bool active: false
 
     MultilineEditor {
-        id: textArea
+        id: textEditor
         Layout.fillWidth: true
         Layout.fillHeight: true
         value: ""
@@ -22,7 +22,7 @@ AbstractEditor {
     }
 
     function validateValue(callback) {
-        return textArea.validate(callback);
+        return textEditor.validate(callback);
     }
 
     function setValue(rowValue) {
@@ -30,19 +30,19 @@ AbstractEditor {
             return
 
         active = true
-        textArea.loadFormattedValue(rowValue['value'])
+        textEditor.loadFormattedValue(rowValue['value'])
     }
 
     function isEdited() {
-        return textArea.isEdited
+        return textEditor.isEdited
     }
 
     function getValue() {
-        return {"value": textArea.value}
+        return {"value": textEditor.value}
     }
 
     function reset() {
-        textArea.reset()        
+        textEditor.reset()
         active = false
     }
 }

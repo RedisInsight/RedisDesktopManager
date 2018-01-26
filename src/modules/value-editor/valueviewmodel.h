@@ -11,14 +11,14 @@ class ValueViewModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    ValueViewModel(QSharedPointer<ValueEditor::Model> model = QSharedPointer<ValueEditor::Model>());
+    ValueViewModel(Model &model);
+    ~ValueViewModel() {}
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;
 
 public:
-
     // single row operations
     Q_INVOKABLE bool isRowLoaded(int i);
     Q_INVOKABLE void addRow(const QVariantMap& row);
@@ -36,12 +36,14 @@ public:
     // general operations    
     Q_INVOKABLE QVariantList getColumnNames();
 
+    Q_INVOKABLE QObject* wrapLargeText(const QByteArray &text);
+
 signals:
     void rowsLoaded(int start, int count);
     void error(QString error);
 
 private:
-    QSharedPointer<ValueEditor::Model> m_model;
+    ValueEditor::Model& m_model;
 
 protected:
     bool isIndexValid(const QModelIndex &index) const;

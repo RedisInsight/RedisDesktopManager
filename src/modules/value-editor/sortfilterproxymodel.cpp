@@ -15,7 +15,12 @@ QObject *SortFilterProxyModel::source() const
 
 void SortFilterProxyModel::setSource(QObject *source)
 {    
-    setSourceModel(qobject_cast<QAbstractItemModel *>(source));   
+    auto m = qobject_cast<QAbstractItemModel *>(source);
+
+    if (!m)
+        return;
+
+    setSourceModel(m);
 }
 
 QByteArray SortFilterProxyModel::sortRole() const

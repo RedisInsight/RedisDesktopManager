@@ -24,9 +24,16 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
 
             loadModel(keyModel, inNewTab);
 
+            auto weakKeyModel = keyModel.toWeakRef();
+
             QObject::connect(keyModel->getConnector().data(), &ModelSignals::removed,
-                             this, [this, keyModel, &key]()
+                             this, [this, weakKeyModel, &key]()
             {
+                auto keyModel = weakKeyModel.toStrongRef();
+
+                if (!keyModel)
+                    return;
+
                 removeModel(keyModel);
                 key.setRemoved(); //Disable key in connections tree
             });            
@@ -56,7 +63,6 @@ void ValueEditor::ViewModel::closeDbKeys(QSharedPointer<RedisClient::Connection>
 
 QModelIndex ValueEditor::ViewModel::index(int row, int column, const QModelIndex &parent) const
 {
-    Q_UNUSED(column);
     Q_UNUSED(parent);
 
     if (row < 0 || column < 0)
@@ -189,6 +195,7 @@ void ValueEditor::ViewModel::closeTab(int i)
 
     try {
         beginRemoveRows(QModelIndex(), i, i);
+        m_valueModels[i].clear();
         m_valueModels.removeAt(i);
         endRemoveRows();
     } catch (const Model::Exception& e) {
@@ -212,7 +219,7 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 
 
     if (valueEditors.isEmpty())
-        return new ValueEditor::ValueViewModel(model);
+        return new ValueEditor::ValueViewModel(*model);
     else
         return valueEditors[0];
 }
@@ -246,9 +253,12 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
         m_valueModels.append(model);
         endInsertRows();
     } else {
+        emit layoutAboutToBeChanged();
+        m_valueModels[m_currentTabIndex].clear();
+        m_valueModels.removeAt(m_currentTabIndex);
         m_valueModels.insert(m_currentTabIndex, model);
-        m_valueModels.removeAt(m_currentTabIndex+1);        
-        emit dataChanged(index(m_currentTabIndex, 0), index(m_currentTabIndex, 0));
+
+        emit layoutChanged();
         emit replaceTab(m_currentTabIndex);
     }
 }

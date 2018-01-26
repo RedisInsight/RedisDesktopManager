@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
-
+import "../../common/"
 import "./formatters/formatters.js" as Formatters
 
 ColumnLayout
@@ -36,17 +36,16 @@ ColumnLayout
         });
     }
 
-    function loadRawValue(callback) {
+    function loadRawValue(callback) {                       
        var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
-        formatter.instance.getRaw(textArea.text, function (error, raw) {
+        formatter.instance.getRaw(textView.model.getText(), function (error, raw) {
             root.value = raw
             return callback(error, raw)
         })
     }
 
     function loadFormattedValue(val) {
-
         if (val) {
             root.value = val
         }
@@ -56,11 +55,21 @@ ColumnLayout
             return;
         }
 
+        if (binaryUtils.binaryStringLength(root.value) > 150000) {
+            root.showFormatters = false
+            formatterSelector.currentIndex = 0
+        } else {
+            root.showFormatters = true
+        }
+
         var isBin = binaryUtils.isBinaryString(root.value)
 
         binaryFlag.visible = false        
 
-        if (isBin) binaryFlag.visible = true        
+        if (isBin) {
+            binaryFlag.visible = true
+            formatterSelector.currentIndex = 2
+        }
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
@@ -78,22 +87,21 @@ ColumnLayout
             if (format === "json") {
                 // 1 is JSON
                 return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-
-                    textArea.text = formattedJson
-                    textArea.readOnly = isReadOnly
-                    textArea.textFormat = TextEdit.PlainText
+                    textView.model = keyTab.keyModel.wrapLargeText(formattedJson)
+                    textView.readOnly = isReadOnly
+                    textView.textFormat = TextEdit.PlainText
                     root.isEdited = false
                     uiBlocker.visible = false
                 })
-            } else {               
-                textArea.text = formatted
-                textArea.readOnly = isReadOnly
+            } else {                
+                textView.model = keyTab.keyModel.wrapLargeText(formatted)
+                textView.readOnly = isReadOnly
                 root.isEdited = false
 
                 if (format === "html")
-                    textArea.textFormat = TextEdit.RichText
+                    textView.textFormat = TextEdit.RichText
                 else
-                    textArea.textFormat = TextEdit.PlainText
+                    textView.textFormat = TextEdit.PlainText
             }
 
             uiBlocker.visible = false
@@ -101,7 +109,9 @@ ColumnLayout
     }
 
     function reset() {
-        textArea.text = ""
+        if (textView.model)
+            textView.model.cleanUp()
+        textView.model = null
         root.value = ""
         root.isEdited = false
         hideValidationError()
@@ -117,17 +127,17 @@ ColumnLayout
     }
 
     RowLayout{
-        visible: showFormatters
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
         TextEdit { text: qsTr("size: ") + binaryUtils.humanSize(binaryUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
         Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
-        Text { text: qsTr("View as:") }
+        Text { visible: showFormatters; text: qsTr("View as:") }
 
         ComboBox {
             id: formatterSelector
+            visible: showFormatters
             width: 200
             model: Formatters.buildFormattersModel()
             textRole: "name"
@@ -140,27 +150,53 @@ ColumnLayout
             Component.onCompleted: {
                 currentIndex = Formatters.defaultFormatterIndex;
             }
-        }       
+        }
+
+        Text { visible: !showFormatters; text: qsTr("Large value (>150kB). Formatters is not available."); color: "red"; }
     }
 
-    TextArea {
-        id: textArea
-        enabled: root.enabled
+    Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: 100
         objectName: "rdm_key_multiline_text_field"
 
-        style: TextAreaStyle {
-            renderType: Text.QtRendering
-        }
+        color: "white"
+        border.color: "#cccccc"
+        border.width: 1
 
-        font { family: monospacedFont.name; pointSize: 12 }
-        wrapMode: TextEdit.WrapAnywhere
+        ScrollView {
+            anchors.fill: parent
+            anchors.margins: 5
 
-        onTextChanged: root.isEdited = true
+            ListView {
+                id: textView
+                anchors.fill: parent
+                cacheBuffer: 0
+
+                property int textFormat: TextEdit.PlainText
+                property bool readOnly: false
+
+                delegate:
+                    NewTextArea {
+                        id: textAreaPart
+                        width: textView.width
+                        height: textAreaPart.contentHeight
+
+                        enabled: root.enabled
+                        text: value
+
+                        textFormat: textView.textFormat
+                        readOnly: textView.readOnly
+
+                        onTextChanged: {
+                            root.isEdited = true
+                            textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                        }
+                    }
+                }
+            }            
     }
-
 
     Text {
         id: validationError
