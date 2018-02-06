@@ -17,11 +17,11 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 
 ![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2)
 
-**Officially Supported platforms** : Windows 10, Mac OS X 10.12, Ubuntu 16, LinuxMint | Fedora | CentOS | OpenSUSE (build with automated script)
+**Officially Supported platforms**: Windows 10, Mac OS X 10.12, Ubuntu 16, LinuxMint | Fedora | CentOS | OpenSUSE (build with automated script)
 
-**Community Supported platforms**: [ArchLinux](https://aur.archlinux.org/packages/redis-desktop-manager/)
+**Community Supported platforms**: [Arch Linux](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
-**Supported Redis versions** : 2.8+ (for old redis-servers use RedisDesktopManager 0.8.8)
+**Supported Redis versions**: 2.8+ (for old redis-servers use RedisDesktopManager 0.8.8)
 
 ## Release Schedule
 | Release | Original plan | Realized |
