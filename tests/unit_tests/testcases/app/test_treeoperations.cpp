@@ -2,10 +2,13 @@
 #include <qredisclient/connection.h>
 #include "models/treeoperations.h"
 #include "models/connectionsmanager.h"
+#include "models/connectionconf.h"
+#include "connections-tree/model.h"
+#include "connections-tree/items/databaseitem.h"
 
 void TestTreeOperations::testCreation()
 {
-    //given    
+    //given
     ConnectionsManager manager{QString()};
     auto connection = getRealConnectionWithDummyTransporter();
 
@@ -19,7 +22,7 @@ void TestTreeOperations::testCreation()
 
 void TestTreeOperations::testGetDatabases()
 {
-    //given    
+    //given
     ConnectionsManager manager{QString()};
     QStringList expectedResponses{
         getBulkStringReply(
@@ -40,7 +43,7 @@ void TestTreeOperations::testGetDatabases()
     RedisClient::DatabaseList result;
 
     //when
-    qDebug() << "testGetDatabases - start execution";        
+    qDebug() << "testGetDatabases - start execution";
     TreeOperations operations(connection, manager);
     operations.getDatabases(
     [&callbackCalled, &result](const RedisClient::DatabaseList& r) {
@@ -55,26 +58,42 @@ void TestTreeOperations::testGetDatabases()
     QCOMPARE(result.size(), 1003);
 }
 
-void TestTreeOperations::testGetDatabaseKeys()
+void TestTreeOperations::testLoadNamespaceItems()
 {    
     //given
-    QFETCH(double, redisServerVersion);
+    QFETCH(bool, useLuaLoading);
     QFETCH(uint, runCommandCalled);
     QFETCH(uint, retrieveCollectionCalled);    
+    QFETCH(QList<QVariant>, expectedScanResponses);
+    QFETCH(QStringList, expectedResponses);
+
+    // Setup dummy connection with on/off lua loading
+    auto connection = getFakeConnection(expectedScanResponses, expectedResponses);
+    ServerConfig conf;
+    conf.setLuaKeysLoading(useLuaLoading);
+    connection->setConnectionConfig(conf);
+
     ConnectionsManager manager{QString()};
-    auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
-                                        QStringList() << "",
-                                        redisServerVersion);
+    QSharedPointer<TreeOperations> operations(new TreeOperations(connection, manager));
+
+    ConnectionsTree::Model dummyModel;
+    QSharedPointer<ConnectionsTree::DatabaseItem> item(
+                new ConnectionsTree::DatabaseItem(
+                    0, 1, operations, QWeakPointer<ConnectionsTree::TreeItem>(), dummyModel
+                )
+     );
+
 
     //when
     bool callbackCalled = false;
-    TreeOperations operations(connection, manager);
-    operations.getDatabaseKeys(99, QString(), [&callbackCalled](
-                               const RedisClient::Connection::RawKeysList&,
-                               const QString&)
+
+    operations->loadNamespaceItems(
+                qSharedPointerDynamicCast<ConnectionsTree::AbstractNamespaceItem>(item),
+                QString(), [&callbackCalled](const QString& err)
     {
         //then - part 2
         callbackCalled = true;
+        QVERIFY2(err.isEmpty(), qPrintable(err));
     });
 
     //then - part 1
@@ -84,12 +103,17 @@ void TestTreeOperations::testGetDatabaseKeys()
     QCOMPARE(connection->retrieveCollectionCalled, retrieveCollectionCalled);
 }
 
-void TestTreeOperations::testGetDatabaseKeys_data()
-{
-    QTest::addColumn<double>("redisServerVersion");
+void TestTreeOperations::testLoadNamespaceItems_data()
+{    
+    QTest::addColumn<bool>("useLuaLoading");
     QTest::addColumn<uint>("runCommandCalled");
-    QTest::addColumn<uint>("retrieveCollectionCalled");    
-    QTest::newRow("New redis >= 2.8") << 2.8 << 0u << 1u;
+    QTest::addColumn<uint>("retrieveCollectionCalled");
+    QTest::addColumn< QList<QVariant> >("expectedScanResponses");
+    QTest::addColumn< QStringList >("expectedResponses");
+    QTest::newRow("LUA execution")
+            << true << 1u << 0u << (QList<QVariant>() << QVariant()) << (QStringList() << "*2\r\n$2\r\n{}\r\n\$20\r\n{\"test\":1,\"test2\":1}\r\n");
+    QTest::newRow("SCAN execution")
+            << false << 0u << 1u << (QList<QVariant>() << QVariant(QVariantList() << QString("test") << QString("test2"))) << (QStringList() << "");
 }
 
 void TestTreeOperations::testFlushDb()

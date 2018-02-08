@@ -7,6 +7,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
 #include <qredisclient/redisclient.h>
+#include <asyncfuture.h>
 
 #include "app/models/connectionconf.h"
 #include "app/models/connectionsmanager.h"
@@ -79,8 +80,12 @@ void TreeOperations::loadNamespaceItems(QSharedPointer<ConnectionsTree::Abstract
 
         auto settings = ConnectionsTree::KeysTreeRenderer::RenderingSettigns{QRegExp(filter), getNamespaceSeparator(), parent->getDbIndex()};
 
-        QtConcurrent::run(&ConnectionsTree::KeysTreeRenderer::renderKeys, sharedFromThis(), keylist,
-                           parent, settings, m_manager.m_expanded);
+        AsyncFuture::observe(
+            QtConcurrent::run(&ConnectionsTree::KeysTreeRenderer::renderKeys, sharedFromThis(), keylist,
+                               parent, settings, m_manager.m_expanded)
+        ).subscribe([callback]() {
+            callback(QString());
+        });
     };
 
     auto thinRenderingCallback = [this, callback, parent]

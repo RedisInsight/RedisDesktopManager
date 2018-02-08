@@ -29,17 +29,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
         if (m_childItems.size() != 0)
             return;
 
-//        if (m_keysCount > 10000 && m_filter.isEmpty()) {
-//            confirmAction(nullptr, tr("You are trying to load %1 keys. We highly recomend to run root-namespaces discrovering instead."
-//                                      "Do you want to scan db and load only root namespaces?").arg(m_keysCount), [this]()
-//            {
-//                qDebug() << "Discover & load only root namespaces here";
-//            },
-//            [this]()
-//            {
-                loadKeys();
-//            });
-//        }
+         loadKeys();         
     });
 
     m_eventHandlers.insert("add_key", [this]() {

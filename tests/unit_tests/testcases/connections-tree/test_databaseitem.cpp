@@ -38,14 +38,13 @@ void TestDatabaseItem::testLoadKeys()
     qDebug() << parentItem->childCount();
     QSharedPointer<TreeItem> item = parentItem->child(0);
 
-    QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
+    QSignalSpy spy(&dummyModel, &Model::itemChildsLoaded);
     item->handleEvent("click");
 
-    //then
-    QCOMPARE(spy.wait(), true);
+    //then    
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(item->childCount(), (unsigned int)100001);    
-    QCOMPARE(item->getDisplayName(), QString("db0  (100002/55) "));
+    QCOMPARE(item->childCount(), (unsigned int)100002);
+    QCOMPARE(item->getDisplayName(), QString("db0  (55) "));
     QCOMPARE(item->getIconUrl().isNull(), false);
     QCOMPARE(item->getAllChilds().isEmpty(), false);
     QCOMPARE(item->isEnabled(), true);

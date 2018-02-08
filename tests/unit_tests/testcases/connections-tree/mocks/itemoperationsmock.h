@@ -1,6 +1,8 @@
 #pragma once
 #include "connections-tree/operations.h"
 #include "connections-tree/items/treeitem.h"
+#include "connections-tree/items/keyitem.h"
+#include "connections-tree/items/abstractnamespaceitem.h"
 
 class ItemOperationsMock : public ConnectionsTree::Operations {
 
@@ -17,11 +19,21 @@ public:
     }
 
     QList<QByteArray> keys;
-    void getDatabaseKeys(uint, QString, std::function<void(const QList<QByteArray>&, const QString&)> callback) override {
-        if (m_positive_mode)
-            callback(keys, QString());
-        else
+    void loadNamespaceItems(QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
+                            const QString&,
+                            std::function<void(const QString&)> callback) override {
+        if (m_positive_mode) {
+            for (QByteArray key : keys) {
+                parent->append(QSharedPointer<ConnectionsTree::KeyItem>(
+                    new ConnectionsTree::KeyItem(key, 0, QSharedPointer<Operations>(), parent, parent->model())
+                ));
+            }
+            parent->notifyModel();
+
+            callback(QString());
+        } else {
             throw ConnectionsTree::Operations::Exception("fake error");
+        }
     }
 
     virtual QSharedPointer<Console::Operations> getConsoleOperations()

@@ -13,6 +13,8 @@ include($$PWD/qredisclient/qredisclient.pri)
 INCLUDEPATH += $$PWD/easyloggingpp/src
 HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
 
+# Asyncfuture
+include($$PWD/asyncfuture/asyncfuture.pri)
 
 # Google breakpad
 BREAKPADDIR = $$PWD/gbreakpad/src

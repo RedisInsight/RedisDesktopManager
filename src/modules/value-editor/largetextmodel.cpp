@@ -19,7 +19,7 @@ QHash<int, QByteArray> ValueEditor::LargeTextWrappingModel::roleNames() const
     return roles;
 }
 
-int ValueEditor::LargeTextWrappingModel::rowCount(const QModelIndex &parent) const
+int ValueEditor::LargeTextWrappingModel::rowCount(const QModelIndex &) const
 {
     return m_textRows.size();
 }
@@ -68,7 +68,7 @@ QString ValueEditor::LargeTextWrappingModel::getText()
 
 void ValueEditor::LargeTextWrappingModel::setTextChunk(uint row, QString text)
 {
-    if (0 <= row && row < m_textRows.size()) {
+    if (row < m_textRows.size()) {
         m_textRows[row] = text;
         emit dataChanged(createIndex(row, 0), createIndex(row, 0));
     }
