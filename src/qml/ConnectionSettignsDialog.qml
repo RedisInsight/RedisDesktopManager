@@ -160,8 +160,8 @@ Dialog {
                                 AddressInput {
                                     id: connectionAddress
                                     placeholderText: qsTr("redis-server host")
-                                    host: root.settings ? root.settings.host : "127.0.0.1"
-                                    port: root.settings ? root.settings.port : 6379
+                                    host: root.settings ? root.settings.host : ""
+                                    port: root.settings ? root.settings.port : 0
                                     Component.onCompleted: root.items.push(connectionAddress)
                                     onHostChanged: if (root.settings) root.settings.host = host
                                     onPortChanged: if (root.settings) root.settings.port = port
@@ -368,7 +368,7 @@ Dialog {
                             id: keysPattern
                             Layout.fillWidth: true
                             placeholderText: qsTr("Pattern which defines loaded keys from redis-server")
-                            text: root.settings ? root.settings.keysPattern : "*"
+                            text: root.settings ? root.settings.keysPattern : ""
                             Component.onCompleted: root.items.push(keysPattern)
                             onTextChanged: root.settings.keysPattern = text
                         }
@@ -381,7 +381,7 @@ Dialog {
                             Layout.fillWidth: true
                             objectName: "rdm_advanced_settings_namespace_separator_field"
                             placeholderText: qsTr("Separator used for namespace extraction from keys")
-                            text: root.settings ? root.settings.namespaceSeparator : ":"
+                            text: root.settings ? root.settings.namespaceSeparator : ""
                             onTextChanged: root.settings.namespaceSeparator = text
                         }
 
@@ -393,7 +393,7 @@ Dialog {
                             minimumValue: 30
                             maximumValue: 100000
                             value: {                                
-                                return root.settings ? (root.settings.executeTimeout / 1000.0) : 60
+                                return root.settings ? (root.settings.executeTimeout / 1000.0) : 0
                             }
                             onValueChanged: root.settings.executeTimeout = value * 1000
                         }
@@ -405,8 +405,18 @@ Dialog {
                             Layout.fillWidth: true
                             minimumValue: 30
                             maximumValue: 100000
-                            value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 60
+                            value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
                             onValueChanged: root.settings.connectionTimeout = value * 1000
+                        }
+
+                        Label { text: qsTr("Use server-side optimized keys loading (experimental):")}
+
+                        CheckBox {
+                            id: luaKeysLoading
+                            Layout.fillWidth: true
+                            checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
+                            onCheckedChanged: root.settings.luaKeysLoading = checked
+
                         }
 
                         Item {

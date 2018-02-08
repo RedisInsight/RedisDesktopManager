@@ -11,4 +11,19 @@ void ConnectionsTree::confirmAction(QWidget *parent, const QString &msg,
     if (reply == QMessageBox::Yes) {
         action();
     }
+
+
+}
+
+void ConnectionsTree::confirmAction(QWidget *parent, const QString &msg, std::function<void ()> action,
+                                    std::function<void ()> noCallback, QString title)
+{
+    QMessageBox::StandardButton reply = QMessageBox::question(parent, title,
+                                                              msg, QMessageBox::No|QMessageBox::Yes,
+                                                              QMessageBox::StandardButton::Yes);
+    if (reply == QMessageBox::Yes) {
+        action();
+    } else {
+        noCallback();
+    }
 }

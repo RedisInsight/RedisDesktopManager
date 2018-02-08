@@ -2,7 +2,7 @@
 #include "connections-tree/model.h"
 
 ConnectionsTree::TreeItem::TreeItem(Model &m)
-    : m_model(m)
+    : m_model(m), m_locked(false)
 {
 
 }
@@ -46,10 +46,25 @@ ConnectionsTree::Model &ConnectionsTree::TreeItem::model()
     return m_model;
 }
 
+void ConnectionsTree::TreeItem::lock()
+{
+    m_locked = true;
+}
+
+void ConnectionsTree::TreeItem::unlock()
+{
+    m_locked = false;
+}
+
 void ConnectionsTree::TreeItem::handleEvent(QString event)
 {
     if (!m_eventHandlers.contains(event))
         return;
+
+    if (isLocked()) {
+        qDebug() << "Item is locked. Ignore event: " << event;
+        return;
+    }
 
     try {
         m_eventHandlers[event]();

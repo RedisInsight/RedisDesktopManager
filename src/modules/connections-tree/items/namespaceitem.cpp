@@ -10,24 +10,38 @@ using namespace ConnectionsTree;
 
 NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              QSharedPointer<Operations> operations,
-                             QWeakPointer<TreeItem> parent, Model &model,
-                             const KeysTreeRenderer::RenderingSettigns& settings)
-    : AbstractNamespaceItem(model, parent, operations, settings),
+                             QWeakPointer<TreeItem> parent,
+                             Model &model, uint dbIndex)
+    : AbstractNamespaceItem(model, parent, operations, dbIndex),
       m_fullPath(fullPath),
-      m_removed(false),
-      m_rendering(false)
+      m_removed(false)
 {
-    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(settings.nsSeparator) + 1);
+    m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 
     m_eventHandlers.insert("click", [this]() {
+
         if (m_childItems.size() == 0) {
-            m_rendering = true;
-            m_model.itemChanged(getSelf());
+            QString nsFilter = QString("%1%2*").arg(QString::fromUtf8(m_fullPath)).arg(m_operations->getNamespaceSeparator());
 
-            renderChilds();
+            qDebug() << "NS Filter" << nsFilter;
 
-            m_rendering = false;
-            m_model.itemChanged(getSelf());
+            lock();
+            emit m_model.itemChanged(getSelf());
+
+            m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()),
+                                             nsFilter, [this](const QString& err) {
+                unlock();
+                if (!err.isEmpty())
+                    return showLoadingError(err);
+
+                setExpanded(true);
+                emit m_model.itemChanged(getSelf());
+                emit m_model.expandItem(getSelf());
+            });
+        } else {
+            setExpanded(true);
+            emit m_model.itemChanged(getSelf());
+            emit m_model.expandItem(getSelf());
         }
     });
 
@@ -48,13 +62,12 @@ QByteArray NamespaceItem::getName() const
 
 QString NamespaceItem::getIconUrl() const
 {    
-    if (m_rendering) return QString("qrc:/images/wait.svg");
+    if (isLocked()) return QString("qrc:/images/wait.svg");
     return QString("qrc:/images/namespace.svg");
 }
 
-bool NamespaceItem::isLocked() const
-{
-    return false;
+int NamespaceItem::itemDepth() const {
+    return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2;
 }
 
 bool NamespaceItem::isEnabled() const
@@ -65,11 +78,6 @@ bool NamespaceItem::isEnabled() const
 QByteArray NamespaceItem::getFullPath() const
 {
     return m_fullPath;
-}
-
-int NamespaceItem::getDbIndex() const
-{
-    return m_renderingSettings.dbIndex;
 }
 
 void NamespaceItem::setRemoved()

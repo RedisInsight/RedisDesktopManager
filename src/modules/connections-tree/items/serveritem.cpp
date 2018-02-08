@@ -16,8 +16,7 @@ using namespace ConnectionsTree;
 ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operations,
                        Model& model)
     : TreeItem(model),
-      m_name(name),
-      m_locked(false),      
+      m_name(name),       
       m_row(0),
       m_operations(operations)
 {
@@ -75,7 +74,7 @@ QString ServerItem::getDisplayName() const
 
 QString ServerItem::getIconUrl() const
 {
-    if (m_locked)    return QString("qrc:/images/wait.svg");
+    if (isLocked())    return QString("qrc:/images/wait.svg");
     if (isDatabaseListLoaded()) {
         if (m_operations->mode() == "cluster") {
             return QString("qrc:/images/cluster.svg");
@@ -122,11 +121,6 @@ void ServerItem::setRow(int r)
     m_row = r;
 }
 
-bool ServerItem::isLocked() const
-{
-    return m_locked;
-}
-
 bool ServerItem::isEnabled() const
 {
     return true;
@@ -134,19 +128,19 @@ bool ServerItem::isEnabled() const
 
 bool ServerItem::isDatabaseListLoaded() const
 {
-    return m_locked == false && m_databases.size() > 0;
+    return isLocked() == false && m_databases.size() > 0;
 }
 
 void ServerItem::load()
 { 
-    m_locked = true;
+    lock();
     emit m_model.itemChanged(m_self);
 
     std::function<void(RedisClient::DatabaseList)> callback = [this](RedisClient::DatabaseList databases) {
 
         if (databases.size() == 0)
         {
-            m_locked = false;
+            unlock();
             return;
         }
 
@@ -160,14 +154,14 @@ void ServerItem::load()
 
         emit m_model.itemChildsLoaded(m_self);
 
-        m_locked = false;
+        unlock();
         emit m_model.itemChanged(m_self);
     };
 
     try {
         m_operations->getDatabases(callback);
     } catch (const ConnectionsTree::Operations::Exception& e) {
-        m_locked = false;
+        unlock();
         emit m_model.itemChanged(m_self);
         emit m_model.error(QObject::tr("Cannot load databases:\n\n") + QString(e.what()));
     }
@@ -178,14 +172,14 @@ void ServerItem::unload()
     if (!isDatabaseListLoaded())
         return;
 
-    m_locked = true;
+    lock();
 
     emit m_model.itemChildsUnloaded(m_self);
 
     m_operations->disconnect();
     m_databases.clear();        
 
-    m_locked = false;
+    unlock();
 }
 
 void ServerItem::reload()
