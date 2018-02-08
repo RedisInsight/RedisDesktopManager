@@ -34,5 +34,6 @@
         <file alias="copy.svg">images/copy.svg</file>
         <file alias="cluster.svg">images/cluster.svg</file>
         <file alias="sentinel.svg">images/sentinel.svg</file>
+        <file alias="cleanup.svg">images/cleanup.svg</file>
     </qresource>
 </RCC>

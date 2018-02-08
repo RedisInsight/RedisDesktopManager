@@ -23,6 +23,7 @@ RowLayout {
         'reload': PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
         'filter': PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
         'live': PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
+        'flush': PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
     }
 
     function sc(t, a) {
@@ -52,6 +53,13 @@ RowLayout {
         sequence: root.shortcuts['live']
         onActivated: {
             liveButton.processClick()
+        }
+    }
+
+    Shortcut {
+        sequence: root.shortcuts['flush']
+        onActivated: {
+            dbMenu.sendEvent('flush')
         }
     }
 
@@ -147,6 +155,17 @@ RowLayout {
             Component.onCompleted: {
                 liveUpdateEnabled = connectionsManager.getMetadata(styleData.index, "live_update")
             }
+        }
+
+        ToolButton {
+            tooltip: sc(qsTr("Flush DB"), 'flush')
+            iconSource: "qrc:/images/cleanup.svg"
+            objectName: "rdm_inline_menu_button_flush_db"
+
+            Layout.preferredWidth: root.itemHeight
+            Layout.preferredHeight: root.itemHeight
+
+            onClicked: dbMenu.sendEvent("flush")
         }
     }
 
