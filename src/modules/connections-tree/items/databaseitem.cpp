@@ -58,8 +58,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
         {
              m_operations->flushDb(m_dbIndex, [this](const QString&)
              {
-                 unload();
-                 m_keysCount = 0;
+                 unload();                 
              });
          });
     });
@@ -127,6 +126,13 @@ void DatabaseItem::loadKeys(std::function<void ()> callback)
         return;
     }
 
+    m_operations->getDatabases([this](QMap<int, int> dbMapping){
+        if (dbMapping.contains(m_dbIndex)) {
+            m_keysCount = dbMapping[m_dbIndex];
+            emit m_model.itemChanged(getSelf());
+        }
+    });
+
     m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(self),
                                      filter, [this, callback](const QString& err) {       
         unlock();
@@ -184,7 +190,9 @@ void DatabaseItem::unload()
     lock();
     clear();
 
-    m_operations->notifyDbWasUnloaded(m_dbIndex);
+    m_keysCount = 0;
+
+    m_operations->notifyDbWasUnloaded(m_dbIndex);    
 
     unlock();
     emit m_model.itemChanged(getSelf());
