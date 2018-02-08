@@ -35,7 +35,7 @@ class ServerConfig : public RedisClient::ConnectionConfig
 public:
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
     static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
-    static const bool DEFAULT_LUA_KEYS_LOADING = true;
+    static const bool DEFAULT_LUA_KEYS_LOADING = false;
 
 public:
     ServerConfig(const QString & host = "127.0.0.1", const QString & auth = "",
