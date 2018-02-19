@@ -2,9 +2,9 @@
 
 [Install & Run](http://docs.redisdesktop.com/en/latest/install/) | 
 [Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/) |
+[Features](http://docs.redisdesktop.com/en/latest/features/) |
 [Development Guide](http://docs.redisdesktop.com/en/latest/development/) |
-[Known issues](http://docs.redisdesktop.com/en/latest/known-issues/) |
-:green_apple: [Bountysource](https://www.bountysource.com/teams/redisdesktopmanager)
+[Known issues](http://docs.redisdesktop.com/en/latest/known-issues/)
 
 [![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.9)](https://travis-ci.org/uglide/RedisDesktopManager) 
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/91mj2ge0lxjf693c/branch/0.9?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.9)
