@@ -98,12 +98,6 @@ QString DatabaseItem::getDisplayName() const
             .arg(liveUpdate);
 }
 
-QString DatabaseItem::getIconUrl() const
-{
-    if (isLocked()) return QString("qrc:/images/wait.svg");
-    return QString("qrc:/images/db.svg");
-}
-
 bool DatabaseItem::isEnabled() const {return true;}
 
 void DatabaseItem::notifyModel()
@@ -147,14 +141,12 @@ void DatabaseItem::loadKeys(std::function<void ()> callback)
     });
 }
 
-QVariant DatabaseItem::metadata(const QString &key)
+QVariantMap DatabaseItem::metadata() const
 {
-    if (key == "filter")
-        return m_filter.pattern();
-    if (key == "live_update")
-        return m_liveUpdateTimer.isActive();
-
-    return QVariant();
+    QVariantMap metadata = TreeItem::metadata();
+    metadata["filter"] = m_filter.pattern();
+    metadata["live_update"] = m_liveUpdateTimer.isActive();
+    return metadata;
 }
 
 void DatabaseItem::setMetadata(const QString &key, QVariant value)

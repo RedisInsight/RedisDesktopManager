@@ -7,6 +7,24 @@ ConnectionsTree::TreeItem::TreeItem(Model &m)
 
 }
 
+QVariant ConnectionsTree::TreeItem::metadata(const QString &key) const
+{
+    if (!metadata().contains(key))
+        return QVariant();
+
+    return metadata()[key];
+}
+
+QVariantMap ConnectionsTree::TreeItem::metadata() const
+{
+    QVariantMap meta;
+    meta["type"] = getType();
+    meta["locked"] = isLocked();
+    meta["state"] = isEnabled();
+    meta["depth"] = itemDepth();
+    return meta;
+}
+
 int ConnectionsTree::TreeItem::row() const
 {
     if (!parent())

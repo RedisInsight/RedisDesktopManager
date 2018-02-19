@@ -18,7 +18,7 @@ TreeView {
 
     TableViewColumn {
         title: "item"
-        role: "icon"
+        role: "metadata"
         width: 25
         delegate: Item {
 
@@ -26,7 +26,30 @@ TreeView {
                 anchors.centerIn: parent
                 sourceSize.width: 25
                 sourceSize.height: 25
-                source: styleData.value
+                source: {
+                    var locked = styleData.value["locked"]
+
+                    if (locked === true) {
+                        return "qrc:/images/wait.svg"
+                    }
+
+                    var type = styleData.value["type"]
+
+                    if (type == "server") {
+                        var server_type = styleData.value["server_type"]
+
+                        if (server_type == "unknown") {
+                            return "qrc:/images/server_offline.svg"
+                        } else if (server_type == "standalone") {
+                            return "qrc:/images/" + type + ".svg"
+                        } else {
+                            return "qrc:/images/" + server_type + ".svg"
+                        }
+                    } else {
+                        return "qrc:/images/" + type + ".svg"
+                    }
+
+                }
                 cache: true
                 asynchronous: true
             }
@@ -52,7 +75,7 @@ TreeView {
             anchors.verticalCenter: parent.verticalCenter
             anchors.rightMargin: 10            
 
-            property bool itemEnabled: connectionsManager? connectionsManager.getItemData(styleData.index, "state") : true
+            property bool itemEnabled: connectionsManager? connectionsManager.getMetadata(styleData.index, "state") : true
 
             Text {
                 objectName: "rdm_tree_view_item_text"
@@ -63,7 +86,7 @@ TreeView {
                 color: wrapper.itemEnabled ? "black": "#ccc"
                 anchors.leftMargin: {
                     if (connectionsManager) {
-                        var itemDepth = connectionsManager.getItemData(styleData.index, "depth")
+                        var itemDepth = connectionsManager.getMetadata(styleData.index, "depth")
                         return itemDepth * 10 + 15
                     } else {
                         return 35
@@ -77,7 +100,7 @@ TreeView {
                 running: styleData.index && styleData.selected && wrapper.itemEnabled
                 repeat: true
                 triggeredOnStart: true
-                onTriggered: wrapper.itemEnabled = connectionsManager.getItemData(styleData.index, "state")
+                onTriggered: wrapper.itemEnabled = connectionsManager.getMetadata(styleData.index, "state")
             }
 
             Loader {
@@ -94,7 +117,7 @@ TreeView {
                             || !styleData.index)
                         return ""
 
-                    var type = connectionsManager.getItemData(styleData.index, "type")
+                    var type = connectionsManager.getMetadata(styleData.index, "type")
 
                     if (type != undefined) {
                         return "./menu/" + type + ".qml"

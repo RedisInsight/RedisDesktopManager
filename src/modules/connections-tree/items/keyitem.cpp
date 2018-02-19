@@ -48,11 +48,6 @@ QByteArray KeyItem::getName() const
     return m_fullPath;
 }
 
-QString KeyItem::getIconUrl() const
-{
-    return QString("qrc:/images/key.svg");
-}
-
 QList<QSharedPointer<TreeItem>> KeyItem::getAllChilds() const
 {
     return QList<QSharedPointer<TreeItem>>();

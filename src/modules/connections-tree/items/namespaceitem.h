@@ -20,8 +20,6 @@ public:
 
     QByteArray getFullPath() const;
 
-    QString getIconUrl() const override;
-
     QString getType() const override { return "namespace"; }
 
     int itemDepth() const override;

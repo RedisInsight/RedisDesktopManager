@@ -18,11 +18,11 @@ public:
 
     ~ServerItem();
 
-    QString getDisplayName() const override;
+    QString getDisplayName() const override;    
 
-    QString getIconUrl() const override;
+    QString getType() const override { return "server"; }                   
 
-    QString getType() const override { return "server"; }
+    QVariantMap metadata() const;
 
     int itemDepth() const override { return 0; }
 

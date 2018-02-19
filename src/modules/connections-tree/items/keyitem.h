@@ -16,9 +16,7 @@ public:
 
     QString getDisplayName() const override;
 
-    QByteArray getName() const override;
-
-    QString getIconUrl() const override;
+    QByteArray getName() const override;    
 
     QString getType() const override { return "key"; }
 

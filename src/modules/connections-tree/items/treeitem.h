@@ -28,8 +28,6 @@ public:
 
     virtual QByteArray getFullPath() const { return QByteArray(); }
 
-    virtual QString getIconUrl() const = 0;
-
     virtual QString getType() const = 0;
 
     virtual int itemDepth() const = 0;
@@ -44,7 +42,9 @@ public:
 
     virtual bool supportChildItems() const { return true; }
 
-    virtual QVariant metadata(const QString&) { return QVariant(); }
+    virtual QVariant metadata(const QString& key) const;
+
+    virtual QVariantMap metadata() const;
 
     virtual void setMetadata(const QString&, QVariant) {}
 

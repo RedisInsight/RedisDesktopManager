@@ -60,12 +60,6 @@ QByteArray NamespaceItem::getName() const
     return m_displayName;
 }
 
-QString NamespaceItem::getIconUrl() const
-{    
-    if (isLocked()) return QString("qrc:/images/wait.svg");
-    return QString("qrc:/images/namespace.svg");
-}
-
 int NamespaceItem::itemDepth() const {
     return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2;
 }
