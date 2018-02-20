@@ -118,8 +118,7 @@ bool ServerItem::isDatabaseListLoaded() const
 
 void ServerItem::load()
 { 
-    lock();
-    emit m_model.itemChanged(m_self);
+    lock();    
 
     std::function<void(RedisClient::DatabaseList)> callback = [this](RedisClient::DatabaseList databases) {
 
@@ -139,15 +138,13 @@ void ServerItem::load()
 
         emit m_model.itemChildsLoaded(m_self);
 
-        unlock();
-        emit m_model.itemChanged(m_self);
+        unlock();        
     };
 
     try {
         m_operations->getDatabases(callback);
     } catch (const ConnectionsTree::Operations::Exception& e) {
-        unlock();
-        emit m_model.itemChanged(m_self);
+        unlock();        
         emit m_model.error(QObject::tr("Cannot load databases:\n\n") + QString(e.what()));
     }
 }

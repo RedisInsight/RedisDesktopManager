@@ -19,6 +19,7 @@ QVariantMap ConnectionsTree::TreeItem::metadata() const
 {
     QVariantMap meta;
     meta["name"] = getDisplayName();
+    meta["full_name"] = getName();
     meta["type"] = getType();
     meta["locked"] = isLocked();
     meta["state"] = isEnabled();    
@@ -67,11 +68,13 @@ ConnectionsTree::Model &ConnectionsTree::TreeItem::model()
 void ConnectionsTree::TreeItem::lock()
 {
     m_locked = true;
+    emit m_model.itemChanged(getSelf());
 }
 
 void ConnectionsTree::TreeItem::unlock()
 {
     m_locked = false;
+    emit m_model.itemChanged(getSelf());
 }
 
 void ConnectionsTree::TreeItem::handleEvent(QString event)

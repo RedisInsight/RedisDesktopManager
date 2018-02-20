@@ -135,8 +135,6 @@ void DatabaseItem::loadKeys(std::function<void ()> callback)
 
         if (callback) {
             callback();
-        } else {
-            emit m_model.itemChanged(getSelf());
         }
     });
 }
@@ -186,8 +184,7 @@ void DatabaseItem::unload()
 
     m_operations->notifyDbWasUnloaded(m_dbIndex);    
 
-    unlock();
-    emit m_model.itemChanged(getSelf());
+    unlock();    
 }
 
 void DatabaseItem::reload()

@@ -19,30 +19,24 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
     m_displayName = m_fullPath.mid(m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 
     m_eventHandlers.insert("click", [this]() {
-
-        if (m_childItems.size() == 0) {
-            QString nsFilter = QString("%1%2*").arg(QString::fromUtf8(m_fullPath)).arg(m_operations->getNamespaceSeparator());
-
-            qDebug() << "NS Filter" << nsFilter;
-
+        if (m_childItems.size() == 0) {          
             lock();
-            emit m_model.itemChanged(getSelf());
-
-            m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()),
-                                             nsFilter, [this](const QString& err) {
-                unlock();
-                if (!err.isEmpty())
-                    return showLoadingError(err);
-
-                setExpanded(true);
-                emit m_model.itemChanged(getSelf());
-                emit m_model.expandItem(getSelf());
-            });
+            load();
         } else if (!isExpanded())  {
             setExpanded(true);
             emit m_model.itemChanged(getSelf());
             emit m_model.expandItem(getSelf());
         }
+    });
+
+    m_eventHandlers.insert("reload", [this]() {
+        lock();
+
+        if (m_childItems.size()) {
+            clear();
+        }
+
+        load();
     });
 
     m_eventHandlers.insert("delete", [this]() {
@@ -72,5 +66,25 @@ QByteArray NamespaceItem::getFullPath() const
 
 void NamespaceItem::setRemoved()
 {
-   m_removed = true;
+    m_removed = true;
+
+    clear();
+
+    emit m_model.itemChanged(getSelf());
+}
+
+void NamespaceItem::load()
+{
+    QString nsFilter = QString("%1%2*").arg(QString::fromUtf8(m_fullPath)).arg(m_operations->getNamespaceSeparator());
+
+    m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()),
+                                     nsFilter, [this](const QString& err) {
+        unlock();
+        if (!err.isEmpty())
+            return showLoadingError(err);
+
+        setExpanded(true);
+        emit m_model.itemChanged(getSelf());
+        emit m_model.expandItem(getSelf());
+    });
 }

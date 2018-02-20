@@ -26,6 +26,9 @@ public:
 
     void setRemoved();
 
+protected:
+    void load();
+
 private:
     QByteArray m_fullPath;    
     QByteArray m_displayName;
