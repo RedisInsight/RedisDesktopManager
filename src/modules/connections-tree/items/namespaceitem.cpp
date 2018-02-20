@@ -38,7 +38,7 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                 emit m_model.itemChanged(getSelf());
                 emit m_model.expandItem(getSelf());
             });
-        } else {
+        } else if (!isExpanded())  {
             setExpanded(true);
             emit m_model.itemChanged(getSelf());
             emit m_model.expandItem(getSelf());
@@ -58,10 +58,6 @@ QString NamespaceItem::getDisplayName() const
 QByteArray NamespaceItem::getName() const
 {
     return m_displayName;
-}
-
-int NamespaceItem::itemDepth() const {
-    return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2;
 }
 
 bool NamespaceItem::isEnabled() const

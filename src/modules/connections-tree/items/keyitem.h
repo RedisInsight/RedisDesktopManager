@@ -18,9 +18,7 @@ public:
 
     QByteArray getName() const override;    
 
-    QString getType() const override { return "key"; }
-
-    int itemDepth() const override { return m_fullPath.count(m_operations->getNamespaceSeparator().toUtf8()) + 2; }
+    QString getType() const override { return "key"; }    
 
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 

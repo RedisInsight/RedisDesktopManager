@@ -18,10 +18,10 @@ QVariant ConnectionsTree::TreeItem::metadata(const QString &key) const
 QVariantMap ConnectionsTree::TreeItem::metadata() const
 {
     QVariantMap meta;
+    meta["name"] = getDisplayName();
     meta["type"] = getType();
     meta["locked"] = isLocked();
-    meta["state"] = isEnabled();
-    meta["depth"] = itemDepth();
+    meta["state"] = isEnabled();    
     return meta;
 }
 

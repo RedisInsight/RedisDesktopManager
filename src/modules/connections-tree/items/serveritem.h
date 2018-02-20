@@ -22,9 +22,7 @@ public:
 
     QString getType() const override { return "server"; }                   
 
-    QVariantMap metadata() const;
-
-    int itemDepth() const override { return 0; }
+    QVariantMap metadata() const;    
 
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 

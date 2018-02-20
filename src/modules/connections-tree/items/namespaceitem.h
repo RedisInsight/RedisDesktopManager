@@ -20,9 +20,7 @@ public:
 
     QByteArray getFullPath() const;
 
-    QString getType() const override { return "namespace"; }
-
-    int itemDepth() const override;
+    QString getType() const override { return "namespace"; }    
 
     bool isEnabled() const override;        
 

@@ -22,9 +22,7 @@ public:
 
     QString getDisplayName() const override;
 
-    QString getType() const override { return "database"; }
-
-    int itemDepth() const override { return 1; }    
+    QString getType() const override { return "database"; }     
 
     bool isEnabled() const override;    
 
