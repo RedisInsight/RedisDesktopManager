@@ -110,7 +110,7 @@ RowLayout {
         ToolButton {
             id: filterHelp
             iconSource: "qrc:/images/help.svg"
-            onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/wiki/Features#Filter")
+            onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/features/#search-in-connection-tree")
         }
 
         ToolButton {
