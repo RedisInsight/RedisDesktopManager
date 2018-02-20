@@ -18,6 +18,7 @@ InlineMenu {
 
     model:
         [
+            {'icon': "qrc:/images/refresh.svg", "event": "reload", "help": qsTr("Reload Namespace")},
             {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTr("Copy Namespace Pattern")},
             {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTr("Delete Namespace")}
         ]
