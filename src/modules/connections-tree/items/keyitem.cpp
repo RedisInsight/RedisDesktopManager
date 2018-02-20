@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <qredisclient/utils/text.h>
 
+#include "connections-tree/model.h"
 #include "connections-tree/utils.h"
 
 using namespace ConnectionsTree;
@@ -95,4 +96,6 @@ int KeyItem::getDbIndex() const
 void KeyItem::setRemoved()
 {
     m_removed = true;
+
+    emit m_model.itemChanged(getSelf());
 }
