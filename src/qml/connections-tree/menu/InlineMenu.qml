@@ -2,8 +2,10 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
+import QtQuick.Controls.Styles 1.4
 import "./../../common/platformutils.js" as PlatformUtils
 import "./../../"
+import "./../../common/"
 
 RowLayout {
    id: root
@@ -29,11 +31,13 @@ RowLayout {
             Layout.preferredHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
             Layout.maximumHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
 
-            ToolButton {
+            ImageButton {
                 id: actionButton
                 anchors.fill: parent
 
                 iconSource: modelData['icon']
+                imgWidth: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+                imgHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
 
                 onClicked: handleClick()
 
@@ -45,7 +49,8 @@ RowLayout {
                 }
 
                 tooltip: modelData['help'] != undefined ? modelData['help'] + " (" + modelData["shortcut"] + ")"  : ""
-                objectName: modelData['event'] != undefined ? "rdm_inline_menu_button_" + modelData['event'] : ""
+                objectName: modelData['event'] != undefined ? "rdm_inline_menu_button_" + modelData['event'] : ""                
+
             }
 
             Shortcut {
