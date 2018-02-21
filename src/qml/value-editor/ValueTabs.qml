@@ -438,6 +438,7 @@ Repeater {
 
                                         onLoaded: {
                                             item.state = "add"
+                                            item.initEmpty()
                                         }
                                     }
 
