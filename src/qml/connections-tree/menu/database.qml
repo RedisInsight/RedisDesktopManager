@@ -15,13 +15,11 @@ RowLayout {
     states: [
         State {
             name: "menu"
-            PropertyChanges { target: root; spacing: 5;}
             PropertyChanges { target: dbMenu; visible: true;}
             PropertyChanges { target: filterMenu; visible: false;}
         },
         State {
             name: "filter"
-            PropertyChanges { target: root; spacing: 0;}
             PropertyChanges { target: dbMenu; visible: false;}
             PropertyChanges { target: filterMenu; visible: true;}
         }
@@ -35,6 +33,8 @@ RowLayout {
 
     InlineMenu {
         id: dbMenu
+
+        Layout.fillWidth: true
 
         callbacks: {
             "filter": function() {
@@ -78,8 +78,15 @@ RowLayout {
     RowLayout {
         id: filterMenu
 
+        spacing: 0
+
+        Layout.fillWidth: true
+
         TextField {
             id: filterText
+
+            Layout.fillWidth: true
+
             placeholderText: qsTr("Enter Filter")
             objectName: "rdm_inline_menu_filter_field"
 
