@@ -20,15 +20,14 @@ public:
 
     QByteArray getFullPath() const;
 
-    QString getIconUrl() const override;
-
-    QString getType() const override { return "namespace"; }
-
-    int itemDepth() const override;
+    QString getType() const override { return "namespace"; }    
 
     bool isEnabled() const override;        
 
     void setRemoved();
+
+protected:
+    void load();
 
 private:
     QByteArray m_fullPath;    

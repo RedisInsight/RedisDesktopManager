@@ -17,13 +17,10 @@ namespace ConnectionsTree {
         Q_OBJECT
     public:
         enum Roles {
-            itemName = Qt::UserRole + 1,
-            itemOriginalName,
-            itemType,            
-            itemFullPath,
-            itemIsInitiallyExpanded,
-            itemDepth,
-            itemState
+            itemName = Qt::UserRole + 1,            
+            itemType,
+            itemIsInitiallyExpanded,                                   
+            itemMetaData,
         };
 
     public:
@@ -97,9 +94,7 @@ namespace ConnectionsTree {
 
         void onExpandItem(QWeakPointer<TreeItem> item);
 
-    public slots:
-        QVariant getItemData(const QModelIndex &index, const QString& dataKey);
-
+    public slots:        
         QVariant getMetadata(const QModelIndex &index, const QString& metaKey);
 
         void setMetadata(const QModelIndex &index, const QString& metaKey, QVariant value);

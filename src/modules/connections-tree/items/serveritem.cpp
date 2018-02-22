@@ -72,21 +72,6 @@ QString ServerItem::getDisplayName() const
     return m_name;
 }
 
-QString ServerItem::getIconUrl() const
-{
-    if (isLocked())    return QString("qrc:/images/wait.svg");
-    if (isDatabaseListLoaded()) {
-        if (m_operations->mode() == "cluster") {
-            return QString("qrc:/images/cluster.svg");
-        } else if (m_operations->mode() == "sentinel") {
-            return QString("qrc:/images/sentinel.svg");
-        } else {
-            return QString("qrc:/images/server.svg");
-        }
-    }
-    return QString("qrc:/images/server_offline.svg");
-}
-
 QList<QSharedPointer<TreeItem> > ServerItem::getAllChilds() const
 {
     return m_databases;
@@ -133,8 +118,7 @@ bool ServerItem::isDatabaseListLoaded() const
 
 void ServerItem::load()
 { 
-    lock();
-    emit m_model.itemChanged(m_self);
+    lock();    
 
     std::function<void(RedisClient::DatabaseList)> callback = [this](RedisClient::DatabaseList databases) {
 
@@ -154,15 +138,13 @@ void ServerItem::load()
 
         emit m_model.itemChildsLoaded(m_self);
 
-        unlock();
-        emit m_model.itemChanged(m_self);
+        unlock();        
     };
 
     try {
         m_operations->getDatabases(callback);
     } catch (const ConnectionsTree::Operations::Exception& e) {
-        unlock();
-        emit m_model.itemChanged(m_self);
+        unlock();        
         emit m_model.error(QObject::tr("Cannot load databases:\n\n") + QString(e.what()));
     }
 }
@@ -213,4 +195,17 @@ void ServerItem::setName(const QString& name)
 void ServerItem::setWeakPointer(QWeakPointer<ServerItem> self)
 {
     m_self = self;
+}
+
+QVariantMap ConnectionsTree::ServerItem::metadata() const
+{
+    QVariantMap meta = TreeItem::metadata();
+
+    if (isDatabaseListLoaded()) {
+        meta["server_type"] = m_operations->mode();
+    } else {
+        meta["server_type"] = "unknown";
+    }
+
+    return meta;
 }

@@ -95,8 +95,7 @@ void TestServerItem::testBasicMethods()
     ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
 
     //then
-    QCOMPARE(item.getDisplayName(), QString("test"));
-    QCOMPARE(item.getIconUrl().isNull(), false);
+    QCOMPARE(item.getDisplayName(), QString("test"));    
     QCOMPARE(item.parent() == nullptr, true);
     QCOMPARE(item.isEnabled(), true);
     QCOMPARE(item.isLocked(), false);

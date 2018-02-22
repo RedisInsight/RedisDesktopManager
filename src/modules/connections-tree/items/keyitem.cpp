@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <qredisclient/utils/text.h>
 
+#include "connections-tree/model.h"
 #include "connections-tree/utils.h"
 
 using namespace ConnectionsTree;
@@ -46,11 +47,6 @@ QString KeyItem::getDisplayName() const
 QByteArray KeyItem::getName() const
 {
     return m_fullPath;
-}
-
-QString KeyItem::getIconUrl() const
-{
-    return QString("qrc:/images/key.svg");
 }
 
 QList<QSharedPointer<TreeItem>> KeyItem::getAllChilds() const
@@ -100,4 +96,6 @@ int KeyItem::getDbIndex() const
 void KeyItem::setRemoved()
 {
     m_removed = true;
+
+    emit m_model.itemChanged(getSelf());
 }

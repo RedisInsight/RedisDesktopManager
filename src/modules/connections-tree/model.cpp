@@ -28,13 +28,10 @@ QVariant Model::data(const QModelIndex &index, int role) const
         return QVariant();
 
     switch (role) {
-        case itemName: return item->getDisplayName();
-        case Qt::DecorationRole: return item->getIconUrl();
-        case itemType: return item->getType();
-        case itemOriginalName: return item->getName();
-        case itemIsInitiallyExpanded: return item->isExpanded();
-        case itemDepth: return item->itemDepth();
-        case itemState: return item->isEnabled();
+        case itemName: return item->getDisplayName();        
+        case itemType: return item->getType();        
+        case itemIsInitiallyExpanded: return item->isExpanded();                    
+        case itemMetaData: return item->metadata();
     }
 
     return QVariant();
@@ -43,12 +40,9 @@ QVariant Model::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> Model::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[itemName] = "name";
-    roles[itemType] = "type";
+    roles[itemName] = "name";    
     roles[itemIsInitiallyExpanded] = "expanded";
-    roles[Qt::DecorationRole] = "icon";
-    roles[itemState] = "state";
-    roles[itemDepth] = "depth";
+    roles[itemMetaData] = "metadata";
     return roles;
 }
 
@@ -227,17 +221,6 @@ void Model::onExpandItem(QWeakPointer<TreeItem> item)
         return;
 
     emit expand(index);
-}
-
-
-QVariant Model::getItemData(const QModelIndex &index, const QString& dataKey)
-{
-    QList<int> result = roleNames().keys(dataKey.toLatin1());
-
-    if (result.size() == 0)
-        return QVariant();
-
-    return data(index, result[0]);
 }
 
 QVariant Model::getMetadata(const QModelIndex &index, const QString &metaKey)

@@ -22,11 +22,7 @@ public:
 
     QString getDisplayName() const override;
 
-    QString getIconUrl() const override;
-
-    QString getType() const override { return "database"; }
-
-    int itemDepth() const override { return 1; }    
+    QString getType() const override { return "database"; }     
 
     bool isEnabled() const override;    
 
@@ -34,9 +30,9 @@ public:
 
     void loadKeys(std::function<void()> callback=std::function<void()>());
 
-    void unload();
+    void unload();    
 
-    QVariant metadata(const QString&) override;
+    QVariantMap metadata() const override;
 
     void setMetadata(const QString&, QVariant) override;
 
