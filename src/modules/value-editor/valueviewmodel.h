@@ -27,7 +27,7 @@ public:
     Q_INVOKABLE QVariantMap getRow(int i);
     
     // multi row operations
-    Q_INVOKABLE void loadRows(int start, int count);
+    Q_INVOKABLE void loadRows(int start, int limit);
     Q_INVOKABLE bool isMultiRow();
     Q_INVOKABLE void reload();
     Q_INVOKABLE int totalRowCount();

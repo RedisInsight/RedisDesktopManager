@@ -69,13 +69,18 @@ bool ValueEditor::ValueViewModel::isRowLoaded(int i)
     return m_model.isRowLoaded(i);
 }
 
-void ValueEditor::ValueViewModel::loadRows(int start, int count)
+void ValueEditor::ValueViewModel::loadRows(int start, int limit)
 {
+    int rowsLeft = totalRowCount() - start;
+    int loaded = (rowsLeft > limit) ? limit : rowsLeft;
+
     // frame already loaded
     if (m_model.isRowLoaded(start)) {
         m_startFramePosition = start;
+        m_lastLoadedRowFrameSize = loaded;
+
         emit layoutAboutToBeChanged();
-        emit rowsLoaded(start, count);
+        emit rowsLoaded(start, loaded);
         emit layoutChanged();
         return;
     }
@@ -85,15 +90,12 @@ void ValueEditor::ValueViewModel::loadRows(int start, int count)
     try {
         // NOTE(u_glide): Do so for proper rendering of QML table
         m_lastLoadedRowFrameSize = totalRowCount() - start;
-        m_model.loadRows(start, count, [this, start, count, msg](const QString& err)
+        m_model.loadRows(start, limit, [this, start, limit, loaded, msg](const QString& err)
         {
             if (!err.isEmpty()) {
                 emit error(msg.arg(err));
                 return;
-            }
-
-            int loaded = totalRowCount() - start;
-            loaded = (loaded > count) ? count : loaded;
+            }                      
 
             m_lastLoadedRowFrameSize = loaded;
             m_startFramePosition = start;
