@@ -22,7 +22,7 @@ build_script:
 - cd %SRCDIR%
 - copy /y .\bin\windows\release\rdm.exe .\build\windows\installer\resources\rdm.exe
 - copy /y .\bin\windows\release\rdm.pdb .\build\windows\installer\resources\rdm.pdb
-- dir C:\Qt\5.9\
+- dir C:\OpenSSL-Win32\bin
 - copy /y C:\Qt\5.9\Tools\QtCreator\bin\libeay32.dll .\build\windows\installer\resources\libeay32.dll
 - copy /y C:\Qt\5.9\Tools\QtCreator\bin\ssleay32.dll .\build\windows\installer\resources\ssleay32.dll
 - copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\libcrypto-1_1.dll .\build\windows\installer\resources\libcrypto-1_1.dll
