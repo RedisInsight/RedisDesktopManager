@@ -28,6 +28,13 @@ if [ "$1" == "libssh2" ]; then
     exit 0
 fi
 
+if [ "$os_VENDOR" == "Ubuntu" ] && [ "$#" -gt 2 ]; then
+    print_title "Run configure in DEB Script packaging"
+    build_breakpad
+    build_libssh2
+    exit 0
+fi
+
 
 if [ "$os_VENDOR" == "Ubuntu" ] || [ "$os_VENDOR" == "LinuxMint" ]; then
     ubuntu_ver=${os_RELEASE:0:2}
