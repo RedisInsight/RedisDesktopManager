@@ -37,6 +37,7 @@ private:
     void initConnectionsManager();
     void initUpdater();
     void installTranslator();
+    void processCmdArgs();
 
 private slots:
       void OnNewUpdateAvailable(QString &url);
@@ -52,4 +53,6 @@ private:
     QSharedPointer<TabViewModel> m_consoleModel;
     QSharedPointer<TabViewModel> m_serverStatsModel;
     LogHandler* m_logger;
+    QString m_settingsDir;
+    QString m_renderingBackend;
 };
