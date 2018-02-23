@@ -6,6 +6,7 @@
 #include <QQmlContext>
 #include <QSettings>
 #include <QMessageBox>
+#include <QQuickWindow>
 #include <easylogging++.h>
 #include <qredisclient/redisclient.h>
 
@@ -38,6 +39,7 @@ Application::Application(int &argc, char **argv)
     // Init components required for models and qml
     initLog();
     initAppInfo();
+    processCmdArgs();
     initAppFonts();    
     initRedisClient();
     initUpdater();    
@@ -121,10 +123,34 @@ void Application::registerQmlRootObjects()
 }
 
 void Application::initQml()
-{       
+{             
+    if (m_renderingBackend == "auto") {
+        #ifdef Q_OS_WIN
+        // Experimental
+        // Use DirectX 12 on Windows 10
+        if (QSysInfo::productVersion() == "10") {
+            QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Direct3D12);
+        } else {
+            // Use software renderer on older versions
+            QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Software);
+        }
+        #endif
+    } else {
+        QQuickWindow::setSceneGraphBackend(m_renderingBackend);
+    }
+
     registerQmlTypes();
     registerQmlRootObjects();
-    m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));
+
+    try {
+        m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));
+    } catch (...) {
+        qDebug() << "Failed to load app window. Retrying with software renderer...";
+        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Software);
+        m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));
+    }
+
+    qDebug() << "Rendering backend:" << QQuickWindow::sceneGraphBackend();
 }
 
 void Application::initLog()
@@ -148,19 +174,8 @@ void Application::initLog()
 
 void Application::initConnectionsManager()
 {
-    // Parse optional arguments first
-    QCommandLineParser parser;
-    QCommandLineOption settingsDir(
-            "settings-dir",            
-             "(Optional) Directory where RDM looks/saves .rdm directory with connections.json file",
-             "settingsDir",
-             QDir::homePath()
-    );
-    parser.addOption(settingsDir);
-    parser.process(*this);
-
     //connection manager
-    ConfigManager confManager(parser.value(settingsDir));
+    ConfigManager confManager(m_settingsDir);
     if (confManager.migrateOldConfig("connections.xml", "connections.json")) {
         LOG(INFO) << "Migrate connections.xml to connections.json";
     }
@@ -234,6 +249,31 @@ void Application::installTranslator()
     } else {
         delete translator;
     }
+}
+
+void Application::processCmdArgs()
+{
+    QCommandLineParser parser;    
+    QCommandLineOption settingsDir(
+            "settings-dir",
+             "(Optional) Directory where RDM looks/saves .rdm directory with connections.json file",
+             "settingsDir",
+             QDir::homePath()
+    );
+    QCommandLineOption renderingBackend(
+            "rendering-backend",
+             "(Optional) QML rendering backend [software|opengl|d3d12|'']",
+             "renderingBackend",
+             "auto"
+    );
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addOption(settingsDir);
+    parser.addOption(renderingBackend);
+    parser.process(*this);
+
+    m_settingsDir = parser.value(settingsDir);
+    m_renderingBackend = parser.value(renderingBackend);
 }
 
 void Application::OnNewUpdateAvailable(QString &url)
