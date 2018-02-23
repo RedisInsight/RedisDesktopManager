@@ -2,6 +2,10 @@
 
 %:
 	dh $@
+	
+override_dh_auto_configure:
+        ./configure breakpad
+	./configure libssh2
 
 override_dh_auto_build:
 	qmake "CLEAN_RPATH=true"
