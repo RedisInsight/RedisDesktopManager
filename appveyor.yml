@@ -29,7 +29,7 @@ build_script:
 - copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\capi.dll .\build\windows\installer\resources\capi.dll
 - copy /y .\3rdparty\qredisclient\3rdparty\windows\rmt_openssl.1.1.0.3\build\native\bin\v140\Win32\Release\dynamic\padlock.dll .\build\windows\installer\resources\padlock.dll
 - cd build/windows/installer/resources/
-- windeployqt --compiler-runtime --angle --release --force --qmldir %SRCDIR%/src/qml rdm.exe
+- windeployqt --compiler-runtime --angle --no-opengl-sw --release --force --qmldir %SRCDIR%/src/qml rdm.exe
 - cd %SRCDIR%
 - call "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
 test_script:
