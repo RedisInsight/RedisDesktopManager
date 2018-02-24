@@ -29,7 +29,7 @@ Dialog {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
 
-                model: ["system", "en_US", "zh_CN", "zh_TW"]
+                model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU"]
                 value: "system"
                 label: qsTr("Language")
                 description: qsTr("Application restart is needed to apply this setting.")
