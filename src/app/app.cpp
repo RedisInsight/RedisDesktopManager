@@ -125,15 +125,9 @@ void Application::registerQmlRootObjects()
 void Application::initQml()
 {             
     if (m_renderingBackend == "auto") {
-        #ifdef Q_OS_WIN
-        // Experimental
-        // Use DirectX 12 on Windows 10
-        if (QSysInfo::productVersion() == "10") {
-            QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Direct3D12);
-        } else {
-            // Use software renderer on older versions
-            QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Software);
-        }
+        #ifdef Q_OS_WIN        
+        // Use software renderer on Windows by default
+        QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Software);
         #endif
     } else {
         QQuickWindow::setSceneGraphBackend(m_renderingBackend);
