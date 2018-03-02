@@ -165,3 +165,8 @@ void QmlUtils::deleteTextWrapper(QObject *w)
         w->deleteLater();
     }
 }
+
+QString QmlUtils::escapeHtmlEntities(const QString &t)
+{
+    return t.toHtmlEscaped();
+}

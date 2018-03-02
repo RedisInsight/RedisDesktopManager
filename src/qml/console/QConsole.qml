@@ -38,9 +38,9 @@ Rectangle {
     function addOutput(text, type) {
 
         if (type == "error") {
-            textArea.append("<span style='color: red'>" + text + '</span>')
+            textArea.append("<span style='color: red'>" + qmlUtils.escapeHtmlEntities(text) + '</span>')
         } else {
-            textArea.append("<pre style='color: white'>" + text + '</pre>')
+            textArea.append("<pre style='color: white'>" + qmlUtils.escapeHtmlEntities(text) + '</pre>')
         }
 
         if (type == "complete" || type == "error") {
