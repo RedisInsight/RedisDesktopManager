@@ -27,13 +27,14 @@ ColumnLayout
     }
 
     function validate(callback) {
-        loadRawValue(function (error, raw) {
+        loadRawValue(function (error, raw) {            
+
             if (error) {                
                 notification.showError(error)
                 return callback(false);
-            }
+            }            
 
-            var valid = raw.length > 0
+            var valid = qmlUtils.binaryStringLength(raw) > 0
 
             if (valid) {
                 hideValidationError()
