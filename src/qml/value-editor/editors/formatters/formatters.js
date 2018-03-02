@@ -78,7 +78,6 @@ var json = {
     }
 }
 
-var defaultFormatterIndex = 0;                        
 var enabledFormatters = [plain, json, hex, hexTable]
 
 

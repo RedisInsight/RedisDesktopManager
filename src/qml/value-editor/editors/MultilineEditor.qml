@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
+import Qt.labs.settings 1.0
 import "../../common/"
 import "./formatters/formatters.js" as Formatters
 
@@ -156,12 +157,12 @@ ColumnLayout
             textRole: "name"
             objectName: "rdm_value_editor_formatter_combobox"
 
-            onCurrentIndexChanged: {
-                Formatters.defaultFormatterIndex = currentIndex
-                loadFormattedValue()
-            }
-            Component.onCompleted: {
-                currentIndex = Formatters.defaultFormatterIndex;
+            onCurrentIndexChanged: loadFormattedValue()
+
+            Settings {
+                id: defaultFormatterSettings
+                category: "formatters"
+                property alias defaultFormatterIndex: formatterSelector.currentIndex
             }
         }
 
