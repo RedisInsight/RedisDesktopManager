@@ -193,6 +193,7 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
         }    
     } else if (treeItem->getType() == "server" || treeItem->getType() == "namespace") {
         emit expand(index);
+        emit dataChanged(index, index);
     }
 }
 

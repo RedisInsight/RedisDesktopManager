@@ -25,7 +25,7 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
         if (isDatabaseListLoaded())
             return;
 
-        load();        
+        load();
     });
 
     m_eventHandlers.insert("console", [this]() {
@@ -136,9 +136,8 @@ void ServerItem::load()
             ++db;            
         }                
 
+        unlock();
         emit m_model.itemChildsLoaded(m_self);
-
-        unlock();        
     };
 
     try {

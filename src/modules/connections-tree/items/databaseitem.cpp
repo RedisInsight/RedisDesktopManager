@@ -108,8 +108,7 @@ void DatabaseItem::notifyModel()
 
 void DatabaseItem::loadKeys(std::function<void ()> callback)
 {
-    lock();
-    emit m_model.itemChanged(getSelf());
+    lock();    
 
     QString filter = (m_filter.isEmpty())? "" : m_filter.pattern();
 

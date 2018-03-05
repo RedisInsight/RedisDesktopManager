@@ -53,7 +53,7 @@ TreeView {
                     sourceSize.width: 25
                     sourceSize.height: 25
                     source: {
-                        var locked = styleData.value["locked"]
+                        var locked = styleData.value["locked"]                        
 
                         if (locked === true) {
                             return "qrc:/images/wait.svg"
@@ -62,12 +62,12 @@ TreeView {
                         var type = styleData.value["type"]
 
                         if (type == "server") {
-                            var server_type = styleData.value["server_type"]
+                            var server_type = styleData.value["server_type"]                            
 
                             if (server_type == "unknown") {
                                 return "qrc:/images/server_offline.svg"
                             } else if (server_type == "standalone") {
-                                return "qrc:/images/" + type + ".svg"
+                                return "qrc:/images/server.svg"
                             } else {
                                 return "qrc:/images/" + server_type + ".svg"
                             }
@@ -95,7 +95,7 @@ TreeView {
                     anchors { right: wrapper.right; top: wrapper.top; bottom: wrapper.bottom; rightMargin: 20 }
                     height: parent.height
                     visible: styleData.selected && wrapper.itemEnabled
-                    asynchronous: true
+                    asynchronous: false
 
                     source: {
                         if (!(styleData.selected && styleData.value["type"]))

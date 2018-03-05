@@ -36,9 +36,7 @@ public:
 
     void setRow(int r);    
 
-    bool isEnabled() const override;
-
-    bool isDatabaseListLoaded() const;
+    bool isEnabled() const override;    
 
     void setName(const QString &name);
 
@@ -55,6 +53,9 @@ private slots:
 signals:            
     void editActionRequested();
     void deleteActionRequested();    
+
+protected:
+    bool isDatabaseListLoaded() const;
 
 private:
     QString m_name;    
