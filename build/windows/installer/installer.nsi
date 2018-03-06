@@ -25,6 +25,7 @@ SetCompressor /SOLID /FINAL lzma
 
 # Included files
 !include "nsProcess.nsh"
+!include "install_vcredist_x86.nsh"
 !include Sections.nsh
 !include MUI2.nsh
 
@@ -65,14 +66,19 @@ ShowUninstDetails show
 # Installer sections
 Section -Main SEC0000
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
-    RMDir /r $INSTDIR
+
+    IfFileExists $INSTDIR\uninstall.exe alredy_installed not_installed
+    alredy_installed:
+    ExecWait '$INSTDIR\uninstall.exe /S'
+    Sleep 3000
+
+    not_installed:
 
     SetOutPath $INSTDIR
-    SetOverwrite on
     File ..\..\..\bin\windows\release\crashreporter.exe
     File /r resources\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
-    ExecWait '"$INSTDIR\vcredist_x86.exe"  /quiet /norestart'
+    !insertmacro InstallVCredist
     BringToFront
 SectionEnd
 
