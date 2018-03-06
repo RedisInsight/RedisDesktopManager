@@ -42,6 +42,8 @@ public:
 
     void setWeakPointer(QWeakPointer<ServerItem>);
 
+    bool isDatabaseListLoaded() const;
+
 private slots:
     void load();
     void unload();
@@ -52,10 +54,7 @@ private slots:
 
 signals:            
     void editActionRequested();
-    void deleteActionRequested();    
-
-protected:
-    bool isDatabaseListLoaded() const;
+    void deleteActionRequested();
 
 private:
     QString m_name;    
