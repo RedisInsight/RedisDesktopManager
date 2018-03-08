@@ -10,6 +10,11 @@ ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
 {
 }
 
+ValueEditor::ViewModel::~ViewModel()
+{
+    m_valueModels.clear();
+}
+
 void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
                                      ConnectionsTree::KeyItem& key, bool inNewTab)
 {
@@ -83,7 +88,7 @@ QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
 
     QSharedPointer<Model> model = m_valueModels.at(index.row());
 
-    if (model.isNull())
+    if (!model)
         return QVariant();
 
     switch (role) {
@@ -194,10 +199,9 @@ void ValueEditor::ViewModel::closeTab(int i)
         return;
 
     try {
-        beginRemoveRows(QModelIndex(), i, i);
-        m_valueModels[i].clear();
+        beginRemoveRows(QModelIndex(), i, i);        
         m_valueModels.removeAt(i);
-        endRemoveRows();
+        endRemoveRows();        
     } catch (const Model::Exception& e) {
         emit keyError(i, QObject::tr("Can't close key tab: ") + QString(e.what()));
     }
@@ -215,8 +219,10 @@ QObject* ValueEditor::ViewModel::getValue(int i)
 
     auto model = m_valueModels.at(i);
 
-    QList<QObject *> valueEditors = model->getConnector()->findChildren<QObject *>();
+    if (!(model && model->getConnector()))
+        return nullptr;
 
+    QList<QObject *> valueEditors = model->getConnector()->findChildren<QObject *>();
 
     if (valueEditors.isEmpty())
         return new ValueEditor::ValueViewModel(*model);
@@ -253,8 +259,7 @@ void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model,
         m_valueModels.append(model);
         endInsertRows();
     } else {
-        emit layoutAboutToBeChanged();
-        m_valueModels[m_currentTabIndex].clear();
+        emit layoutAboutToBeChanged();        
         m_valueModels.removeAt(m_currentTabIndex);
         m_valueModels.insert(m_currentTabIndex, model);
 
