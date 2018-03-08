@@ -176,6 +176,10 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item)
 
     QSharedPointer<TreeItem> treeItem = item.toStrongRef();
 
+    if (!treeItem->childCount()) {
+        return;
+    }
+
     emit beginInsertRows(index, 0, treeItem->childCount() - 1);
     emit endInsertRows();
 
