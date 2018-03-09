@@ -467,6 +467,7 @@ Repeater {
                                             model.addRow(row)
                                             keyTab.keyModel.reload()
                                             valueAddEditor.item.reset()
+                                            valueAddEditor.item.initEmpty()
                                         });
                                     }
 
