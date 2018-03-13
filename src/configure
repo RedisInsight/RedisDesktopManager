@@ -70,7 +70,7 @@ if [ "$os_VENDOR" == "Ubuntu" ] || [ "$os_VENDOR" == "LinuxMint" ]; then
 
         sudo apt-get update -y
         sudo apt-get install qt${RDM_QT_BRANCH}base qt${RDM_QT_BRANCH}imageformats qt${RDM_QT_BRANCH}tools \
-            qt${RDM_QT_BRANCH}declarative qt${RDM_QT_BRANCH}quickcontrols qt${RDM_QT_BRANCH}charts-no-lgpl qt${RDM_QT_BRANCH}svg -y
+            qt${RDM_QT_BRANCH}declarative qt${RDM_QT_BRANCH}quickcontrols qt${RDM_QT_BRANCH}quickcontrols2 qt${RDM_QT_BRANCH}charts-no-lgpl qt${RDM_QT_BRANCH}svg -y
     fi
 
     print_title "Check deps"
