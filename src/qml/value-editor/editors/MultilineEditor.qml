@@ -73,13 +73,7 @@ ColumnLayout
         }
 
         var isBin = binaryUtils.isBinaryString(root.value)
-
-        binaryFlag.visible = false        
-
-        if (isBin) {
-            binaryFlag.visible = true
-            formatterSelector.currentIndex = 2
-        }
+        binaryFlag.visible = isBin
 
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
@@ -89,7 +83,7 @@ ColumnLayout
 
             if (error || !formatted) {
                 uiBlocker.visible = false
-                formatterSelector.currentIndex = 0 // Reset formatter to plain text
+                formatterSelector.currentIndex = isBin? 2 : 0 // Reset formatter to plain text
                 notification.showError(error || qsTr("Unknown formatter error (Empty response)"))
                 return
             }
