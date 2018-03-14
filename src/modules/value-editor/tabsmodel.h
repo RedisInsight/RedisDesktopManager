@@ -15,7 +15,7 @@ namespace ConnectionsTree {
 
 namespace ValueEditor {
 
-class ViewModel : public QAbstractListModel
+class TabsModel : public QAbstractListModel
 {
     Q_OBJECT
 
@@ -32,9 +32,9 @@ public:
     };
 
 public:
-    ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory);
+    TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory);
 
-    ~ViewModel();
+    ~TabsModel();
 
     QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
     int rowCount(const QModelIndex& parent = QModelIndex()) const;

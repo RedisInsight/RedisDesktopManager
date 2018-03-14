@@ -19,7 +19,7 @@
 #include "models/key-models/keyfactory.h"
 #include "modules/updater/updater.h"
 #include "modules/value-editor/valueviewmodel.h"
-#include "modules/value-editor/viewmodel.h"
+#include "modules/value-editor/tabsmodel.h"
 #include "modules/value-editor/sortfilterproxymodel.h"
 #include "modules/value-editor/formattersmanager.h"
 #include "modules/console/consolemodel.h"
@@ -188,8 +188,8 @@ void Application::initConnectionsManager()
 
     QSharedPointer<KeyFactory> keyFactory(new KeyFactory());
 
-    m_keyValues = QSharedPointer<ValueEditor::ViewModel>(
-                    new ValueEditor::ViewModel(
+    m_keyValues = QSharedPointer<ValueEditor::TabsModel>(
+                    new ValueEditor::TabsModel(
                         keyFactory.staticCast<ValueEditor::AbstractKeyFactory>()
                     )
                 );
@@ -199,11 +199,11 @@ void Application::initConnectionsManager()
     m_bulkOperations = QSharedPointer<BulkOperations::Manager>(new BulkOperations::Manager(m_connections));
 
     QObject::connect(m_connections.data(), &ConnectionsManager::openValueTab,
-                     m_keyValues.data(), &ValueEditor::ViewModel::openTab);
+                     m_keyValues.data(), &ValueEditor::TabsModel::openTab);
     QObject::connect(m_connections.data(), &ConnectionsManager::newKeyDialog,
-                     m_keyValues.data(), &ValueEditor::ViewModel::openNewKeyDialog);
+                     m_keyValues.data(), &ValueEditor::TabsModel::openNewKeyDialog);
     QObject::connect(m_connections.data(), &ConnectionsManager::closeDbKeys,
-                     m_keyValues.data(), &ValueEditor::ViewModel::closeDbKeys);
+                     m_keyValues.data(), &ValueEditor::TabsModel::closeDbKeys);
     QObject::connect(m_connections.data(), &ConnectionsManager::requestBulkOperation,
                      m_bulkOperations.data(), &BulkOperations::Manager::requestBulkOperation);
 }

@@ -7,7 +7,7 @@
 
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 #include "modules/connections-tree/items/serveritem.h"
-#include "modules/value-editor/viewmodel.h"
+#include "modules/value-editor/tabsmodel.h"
 #include "connectionsmanager.h"
 #include "configmanager.h"
 

@@ -9,7 +9,7 @@
 #include "treeoperations.h"
 
 namespace ValueEditor {
-    class ViewModel;
+    class TabsModel;
 }
 
 class ConnectionsManager : public ConnectionsTree::Model, public BulkOperations::ConnectionsModel

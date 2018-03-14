@@ -1,21 +1,21 @@
-#include "viewmodel.h"
+#include "tabsmodel.h"
 #include <QDebug>
 #include <qredisclient/connection.h>
 #include <qredisclient/utils/text.h>
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
 
-ValueEditor::ViewModel::ViewModel(QSharedPointer<AbstractKeyFactory> keyFactory)
+ValueEditor::TabsModel::TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory)
     : m_keyFactory(keyFactory), m_currentTabIndex(0)
 {
 }
 
-ValueEditor::ViewModel::~ViewModel()
+ValueEditor::TabsModel::~TabsModel()
 {
     m_valueModels.clear();
 }
 
-void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
+void ValueEditor::TabsModel::openTab(QSharedPointer<RedisClient::Connection> connection,
                                      ConnectionsTree::KeyItem& key, bool inNewTab)
 {
     try {
@@ -49,7 +49,7 @@ void ValueEditor::ViewModel::openTab(QSharedPointer<RedisClient::Connection> con
     }
 }
 
-void ValueEditor::ViewModel::closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
+void ValueEditor::TabsModel::closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
                                          const QRegExp& filter)
 {
     for (int index = 0; 0 <= index && index < m_valueModels.size(); index++) {
@@ -58,15 +58,17 @@ void ValueEditor::ViewModel::closeDbKeys(QSharedPointer<RedisClient::Connection>
         if (model->getConnection() == connection && model->dbIndex() == dbIndex) {
             if (model->getKeyName().contains(filter)) {
                 beginRemoveRows(QModelIndex(), index, index);
+                auto model = m_valueModels[index];
                 m_valueModels.removeAt(index);
                 endRemoveRows();
                 index--;
+                model.clear();
             }
         }
     }
 }
 
-QModelIndex ValueEditor::ViewModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex ValueEditor::TabsModel::index(int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
@@ -76,12 +78,12 @@ QModelIndex ValueEditor::ViewModel::index(int row, int column, const QModelIndex
     return createIndex(row, 0);
 }
 
-int ValueEditor::ViewModel::rowCount(const QModelIndex&) const
+int ValueEditor::TabsModel::rowCount(const QModelIndex&) const
 {
     return m_valueModels.count();
 }
 
-QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
+QVariant ValueEditor::TabsModel::data(const QModelIndex &index, int role) const
 {
     if (!isIndexValid(index))
         return QVariant();
@@ -105,7 +107,7 @@ QVariant ValueEditor::ViewModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
+QHash<int, QByteArray> ValueEditor::TabsModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[keyIndex] = "keyIndex";
@@ -119,7 +121,7 @@ QHash<int, QByteArray> ValueEditor::ViewModel::roleNames() const
     return roles;
 }
 
-void ValueEditor::ViewModel::addKey(QString keyName, QString keyType,
+void ValueEditor::TabsModel::addKey(QString keyName, QString keyType,
                                     const QVariantMap &row, QJSValue jsCallback)
 {
     if (m_newKeyRequest.first.isNull()) {
@@ -149,7 +151,7 @@ void ValueEditor::ViewModel::addKey(QString keyName, QString keyType,
     }
 }
 
-void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
+void ValueEditor::TabsModel::renameKey(int i, const QString& newKeyName)
 {
     if (!isIndexValid(index(i, 0)))
         return;
@@ -164,7 +166,7 @@ void ValueEditor::ViewModel::renameKey(int i, const QString& newKeyName)
     }
 }
 
-void ValueEditor::ViewModel::removeKey(int i)
+void ValueEditor::TabsModel::removeKey(int i)
 {
     if (!isIndexValid(index(i, 0)))
         return;
@@ -178,7 +180,7 @@ void ValueEditor::ViewModel::removeKey(int i)
     }
 }
 
-void ValueEditor::ViewModel::setTTL(int i, const QString& newTTL)
+void ValueEditor::TabsModel::setTTL(int i, const QString& newTTL)
 {
     if (!isIndexValid(index(i, 0)))
         return;
@@ -193,26 +195,29 @@ void ValueEditor::ViewModel::setTTL(int i, const QString& newTTL)
     }
 }
 
-void ValueEditor::ViewModel::closeTab(int i)
+void ValueEditor::TabsModel::closeTab(int i)
 {
     if (!isIndexValid(index(i, 0)))
         return;
 
     try {
         beginRemoveRows(QModelIndex(), i, i);        
+        auto model = m_valueModels[i];
         m_valueModels.removeAt(i);
         endRemoveRows();        
+
+        model.clear();
     } catch (const Model::Exception& e) {
         emit keyError(i, QObject::tr("Can't close key tab: ") + QString(e.what()));
     }
 }
 
-void ValueEditor::ViewModel::setCurrentTab(int i)
+void ValueEditor::TabsModel::setCurrentTab(int i)
 {
     m_currentTabIndex = i;
 }
 
-QObject* ValueEditor::ViewModel::getValue(int i)
+QObject* ValueEditor::TabsModel::getValue(int i)
 {
     if (!isIndexValid(index(i, 0)))
         return nullptr;
@@ -230,7 +235,7 @@ QObject* ValueEditor::ViewModel::getValue(int i)
         return valueEditors[0];
 }
 
-void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
+void ValueEditor::TabsModel::openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
                                               std::function<void()> callback,
                                               int dbIndex, QString keyPrefix)
 {
@@ -247,28 +252,28 @@ void ValueEditor::ViewModel::openNewKeyDialog(QSharedPointer<RedisClient::Connec
     emit newKeyDialog(dbId, keyPrefix);
 }
 
-bool ValueEditor::ViewModel::isIndexValid(const QModelIndex &index) const
+bool ValueEditor::TabsModel::isIndexValid(const QModelIndex &index) const
 {
     return 0 <= index.row() && index.row() < rowCount();
 }
 
-void ValueEditor::ViewModel::loadModel(QSharedPointer<ValueEditor::Model> model, bool openNewTab)
+void ValueEditor::TabsModel::loadModel(QSharedPointer<ValueEditor::Model> model, bool openNewTab)
 {
     if (openNewTab || m_valueModels.count() == 0) {
         beginInsertRows(QModelIndex(), m_valueModels.count(), m_valueModels.count());
         m_valueModels.append(model);
         endInsertRows();
     } else {
-        emit layoutAboutToBeChanged();        
-        m_valueModels.removeAt(m_currentTabIndex);
-        m_valueModels.insert(m_currentTabIndex, model);
-
+        emit layoutAboutToBeChanged();
+        auto oldModel = m_valueModels[m_currentTabIndex];
+        m_valueModels.replace(m_currentTabIndex, model);
         emit layoutChanged();
         emit replaceTab(m_currentTabIndex);
+        oldModel.clear();
     }
 }
 
-void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> model)
+void ValueEditor::TabsModel::removeModel(QSharedPointer<ValueEditor::Model> model)
 {
     int i = m_valueModels.lastIndexOf(model);
 
@@ -278,6 +283,8 @@ void ValueEditor::ViewModel::removeModel(QSharedPointer<ValueEditor::Model> mode
     }
 
     beginRemoveRows(QModelIndex(), i, i);
+    auto oldModel = m_valueModels[m_currentTabIndex];
     m_valueModels.removeAt(i);
     endRemoveRows();
+    oldModel.clear();
 }

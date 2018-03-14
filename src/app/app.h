@@ -14,7 +14,7 @@ class ConnectionsManager;
 class Updater;
 class LogHandler;
 class TabViewModel;
-namespace ValueEditor { class ViewModel; }
+namespace ValueEditor { class TabsModel; }
 namespace ValueEditor { class FormattersManager; }
 namespace BulkOperations { class Manager; }
 
@@ -47,7 +47,7 @@ private:
     QSharedPointer<QmlUtils> m_qmlUtils;
     QSharedPointer<ConnectionsManager> m_connections;
     QSharedPointer<Updater> m_updater;
-    QSharedPointer<ValueEditor::ViewModel> m_keyValues;
+    QSharedPointer<ValueEditor::TabsModel> m_keyValues;
     QSharedPointer<ValueEditor::FormattersManager> m_formattersManager;
     QSharedPointer<BulkOperations::Manager> m_bulkOperations;
     QSharedPointer<TabViewModel> m_consoleModel;
