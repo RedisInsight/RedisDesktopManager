@@ -4,6 +4,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls.Styles 1.4
 import "./common"
+import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root    
@@ -115,7 +116,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 600
-        implicitHeight: Qt.platform.os == "osx"? 600 : 675
+        implicitHeight: PlatformUtils.isOSX()? 600 : 675
 
         ColumnLayout {
             anchors.fill: parent
@@ -125,7 +126,7 @@ Dialog {
                 id: settingsTabs
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.minimumHeight: Qt.platform.os == "osx"? 550 : 590
+                Layout.minimumHeight: PlatformUtils.isOSX()? 550 : 590
 
                 Tab {
                     id: mainTab
@@ -133,7 +134,7 @@ Dialog {
 
                     ColumnLayout {
                         anchors.fill: parent
-                        anchors.margins: Qt.platform.os == "osx"? 5 : 10
+                        anchors.margins: PlatformUtils.isOSX()? 5 : 10
 
                         GroupBox {
                             title: qsTr("Main Settings")
@@ -319,16 +320,27 @@ Dialog {
                                         Layout.columnSpan: 2
                                         Layout.fillWidth: true
 
-                                        FilePathInput {
-                                            id: sshPrivateKey
+                                        ColumnLayout {
                                             anchors.fill: parent
-                                            placeholderText: qsTr("Path to Private Key in PEM format")
-                                            nameFilters: [ "Private key in PEM format (*)" ]
-                                            title: qsTr("Select private key in PEM format")
-                                            path: root.settings ? root.settings.sshPrivateKey : ""
-                                            onPathChanged: root.settings.sshPrivateKey = path
+
+                                            FilePathInput {
+                                                id: sshPrivateKey
+
+                                                Layout.fillWidth: true
+
+                                                placeholderText: qsTr("Path to Private Key in PEM format")
+                                                nameFilters: [ "Private key in PEM format (*)" ]
+                                                title: qsTr("Select private key in PEM format")
+                                                path: root.settings ? root.settings.sshPrivateKey : ""
+                                                onPathChanged: root.settings.sshPrivateKey = path
+                                            }
+
+                                            Label {
+                                                visible: PlatformUtils.isOSX()
+                                                Layout.fillWidth: true;
+                                                text: qsTr("<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
                                         }
-                                    }
+                                    }                                                                       
 
                                     GroupBox {
                                         title: qsTr("Password")
