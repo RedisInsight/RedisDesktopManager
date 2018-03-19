@@ -125,8 +125,8 @@ void Application::registerQmlRootObjects()
 void Application::initQml()
 {             
     if (m_renderingBackend == "auto") {
-        #ifdef Q_OS_WIN        
-        // Use software renderer on Windows by default
+        #if defined(Q_OS_WIN) || defined(Q_OS_LINUX)        
+        // Use software renderer on Windows & Linux by default
         QQuickWindow::setSceneGraphBackend(QSGRendererInterface::Software);
         #endif
     } else {
