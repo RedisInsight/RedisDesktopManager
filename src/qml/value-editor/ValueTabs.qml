@@ -16,6 +16,7 @@ Repeater {
         height: approot.height
         icon: "qrc:/images/key.svg"
         tabType: "value"
+        objectName: "rdm_value_tab"
 
         closable: true
         onClose: {
