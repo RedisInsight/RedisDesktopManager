@@ -642,8 +642,12 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="167"/>
-        <source>Cannot load databases:</source>
-        <translation>Ошибка при загрузке баз:</translation>
+        <source>Cannot load databases:
+
+</source>
+        <translation>Ошибка при загрузке баз:
+
+</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
@@ -659,13 +663,17 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="25"/>
-        <source>Connected to cluster.</source>
-        <translation>Подключено к кластеру.</translation>
+        <source>Connected to cluster.
+</source>
+        <translation>Подключено к кластеру.
+</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="27"/>
-        <source>Connected.</source>
-        <translation>Подключено.</translation>
+        <source>Connected.
+</source>
+        <translation>Подключено.
+</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="53"/>
