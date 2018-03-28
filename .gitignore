@@ -24,6 +24,7 @@ build-redis*
 .vagrant/*
 redis-desktop-manager/Makefile*
 build/redis*
+build/gbreakpad*
 redis-desktop-manager/connections.xml
 *.deb
 deps/libssh/example/.deps/*

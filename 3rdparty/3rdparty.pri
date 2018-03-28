@@ -57,13 +57,13 @@ win32* {
 }
 
 unix:macx { # OSX
-    PRE_TARGETDEPS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
-    LIBS += $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework/Versions/A/Breakpad
+    PRE_TARGETDEPS += $$PWD/../build/gbreakpad/Products/Release/Breakpad.framework
+    LIBS += $$PWD/../build/gbreakpad/Products/Release/Breakpad.framework/Versions/A/Breakpad
     LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
     LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
 
     #deployment
-    APP_DATA_FILES.files = $$BREAKPADDIR/client/mac/build/Release/Breakpad.framework
+    APP_DATA_FILES.files = $$PWD/../build/gbreakpad/Products/Release/Breakpad.framework
     APP_DATA_FILES.path = Contents/Frameworks
     QMAKE_BUNDLE_DATA += APP_DATA_FILES
 }

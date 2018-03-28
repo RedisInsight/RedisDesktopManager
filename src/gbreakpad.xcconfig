@@ -1,0 +1,7 @@
+HERE_BUILD=$(SRCROOT)/../../../../../build/gbreakpad
+HERE_INTERMEDIATES=$(HERE_BUILD)/Intermediates
+
+MODULE_CACHE_DIR=$(HERE_BUILD)/DerivedData/ModuleCache
+OBJROOT             = $(HERE_INTERMEDIATES)
+SHARED_PRECOMPS_DIR = $(HERE_INTERMEDIATES)/PrecompiledHeaders
+SYMROOT             = $(HERE_BUILD)/Products
