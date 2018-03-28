@@ -1,6 +1,6 @@
 #pragma once
 #include "basetestcase.h"
-#include "value-editor/viewmodel.h"
+#include "value-editor/tabsmodel.h"
 
 class TestConnectionsManager : public BaseTestCase
 {

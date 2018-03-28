@@ -47,6 +47,7 @@ deps/libssh/src/Makefile
 deps/libssh/src/stamp-h1
 build-tests-*/*
 tests/Makefile
+tests/qml_tests/target_wrapper.sh
 deps/jsoncpp/buildscons/*
 deps/jsoncpp/dist/*
 deps/jsoncpp/libs/*

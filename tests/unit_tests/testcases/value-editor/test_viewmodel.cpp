@@ -1,7 +1,7 @@
 #include "test_viewmodel.h"
 #include <QSignalSpy>
 #include <modeltest.h>
-#include "modules/value-editor/viewmodel.h"
+#include "modules/value-editor/tabsmodel.h"
 #include "modules/connections-tree/items/keyitem.h"
 #include "modules/connections-tree/model.h"
 #include "mocks/fakeKeyFactory.h"
@@ -13,7 +13,7 @@ void TestViewModel::testAddKey()
     using namespace ValueEditor;
 
     QSharedPointer<FakeKeyFactory> keyFactory(new FakeKeyFactory());
-    ViewModel model(keyFactory.dynamicCast<AbstractKeyFactory>());
+    TabsModel model(keyFactory.dynamicCast<AbstractKeyFactory>());
     QString keyName("fake");
     QString keyType("string");
     QVariantMap row{{"value","fake"}};
@@ -51,7 +51,7 @@ void TestViewModel::testOpenTab()
     // ViewModel
     using namespace ValueEditor;
     QSharedPointer<FakeKeyFactory> keyFactory(new FakeKeyFactory());
-    ViewModel model(keyFactory.dynamicCast<AbstractKeyFactory>());
+    TabsModel model(keyFactory.dynamicCast<AbstractKeyFactory>());
     // KeyItem
     ItemOperationsMock* operations = new ItemOperationsMock();
     ConnectionsTree::Model m;
@@ -91,7 +91,7 @@ void TestViewModel::testAbstractModelMethods()
     using namespace ValueEditor;
 
     QSharedPointer<AbstractKeyFactory> keyFactory(new FakeKeyFactory());
-    ViewModel model(keyFactory);
+    TabsModel model(keyFactory);
 
     // When
     ModelTest test(&model);
