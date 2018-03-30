@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-
 # On OSX use coreutils package to fix absense of readlink command
 if [[ $OSTYPE == darwin* ]]; then
   brew install coreutils || true
@@ -117,10 +116,10 @@ elif [  "$os_VENDOR" == "openSUSE" ]; then
 
 elif [[ $OSTYPE == darwin* ]]; then
     cd $DEPS_DIR
-    chmod -R 755 gbreakpad && cd gbreakpad/
-    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad ARCHS=x86_64
-    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64
-    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad install DSTROOT=$DEPS_DIR/../bin INSTALL_PATH=/Frameworks ARCHS=x86_64
+    find gbreakpad -type d -exec chmod 755 {} + && cd gbreakpad
+    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig ARCHS=x86_64 
+    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64
+    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig install DSTROOT=$DEPS_DIR/../bin INSTALL_PATH=/Frameworks ARCHS=x86_64
     brew upgrade libssh2 || brew install libssh2 || true
 else
     echo "Your operational system is not supported!"

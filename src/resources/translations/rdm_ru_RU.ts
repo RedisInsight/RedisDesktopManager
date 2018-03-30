@@ -44,7 +44,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="14"/>
         <source>Connect to Redis Server</source>
-        <translation>Подключится к Редис серверу</translation>
+        <translation>Подключиться к серверу Redis</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="25"/>
@@ -84,7 +84,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="87"/>
         <source>Redis Server:</source>
-        <translation>Редис сервер:</translation>
+        <translation>Сервер Redis:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
@@ -99,7 +99,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="119"/>
         <source>Destination Redis Server:</source>
-        <translation>Редис сервер адресат:</translation>
+        <translation>Redis cервер-адресат:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="127"/>
@@ -177,7 +177,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="145"/>
         <source>redis-server host</source>
-        <translation>хост редис-сервера</translation>
+        <translation>хост сервера Redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="153"/>
@@ -187,7 +187,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="158"/>
         <source>(Optional) redis-server authentication password</source>
-        <translation>(Необязательно) пароль подключения к редис-серверу</translation>
+        <translation>(Необязательно) пароль подключения к серверу Redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="166"/>
@@ -397,7 +397,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="249"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation>Обновление в реальном времени отключеноизза превышения лимита ключей.Уточните фильтр или поменяйте лимит в настройках.</translation>
+        <translation>Обновление в реальном времени отключено из-за превышения лимита ключей. Уточните фильтр или поменяйте лимит в настройках.</translation>
     </message>
 </context>
 <context>
@@ -405,7 +405,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="46"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
-        <translation>Будут закрыты  вкладки консоли и значений имеющие отношение к этому подключению.Продолжить?</translation>
+        <translation>Будут закрыты вкладки консоли и значений, имеющие отношение к этому подключению. Продолжить?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="55"/>
@@ -469,7 +469,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="80"/>
         <location filename="../../qml/GlobalSettings.qml" line="91"/>
         <source>(Disable to improve treeview performance)</source>
-        <translation>(Отключите для увелличениея производительности)</translation>
+        <translation>(Отключите для увеличения производительности)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="90"/>
@@ -512,7 +512,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="32"/>
         <source>Set Page</source>
-        <translation>Перейти к стр</translation>
+        <translation>Перейти к стр.</translation>
     </message>
 </context>
 <context>
@@ -551,7 +551,7 @@
     <message>
         <location filename="../../app/app.cpp" line="177"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM не может сохранить файл с поджключения в папку настроек.Поменяйте права на папку или запустите RDM с правами админа.</translation>
+        <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="246"/>
@@ -602,12 +602,12 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="35"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
-        <translation>Ключ %1  не существует. Перезагрузите дерево подключенийи попробуйте снова.</translation>
+        <translation>Ключ %1 не существует. Перезагрузите дерево подключений и попробуйте снова.</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="46"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
-        <translation>При загрузке TTL для ключа %1. ошибка: %2</translation>
+        <translation>При загрузке TTL для ключа %1. Ошибка: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="66"/>
@@ -617,7 +617,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="32"/>
         <source>RedisDesktopManager &gt;= 0.9.0 doesn&apos;t support old versions of redis-server (&lt; 2.8). Please use RedisDesktopManager 0.8.8 or upgrade your redis-server.</source>
-        <translation>RedisDesktopManager &gt;= 0.9.0 не поддерживает древние версии редис-сервера (&lt; 2.8). Используйте RedisDesktopManager 0.8.8 или обновите редис-сервер.</translation>
+        <translation>RedisDesktopManager &gt;= 0.9.0 не поддерживает устаревшие версии Redis (&lt; 2.8). Используйте RedisDesktopManager 0.8.8 или обновите Redis.</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="75"/>
@@ -653,13 +653,13 @@
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="32"/>
         <source>Connection error. Check network connection</source>
-        <translation>Ошибка подключения.Проверьте сеть</translation>
+        <translation>Ошибка подключения. Проверьте сетевое соединение</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="20"/>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="39"/>
         <source>Invalid Connection. Check connection settings.</source>
-        <translation>Ошибка подключения.Проверьте настройки.</translation>
+        <translation>Ошибка подключения. Проверьте настройки.</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="25"/>
@@ -678,7 +678,7 @@
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="53"/>
         <source>Connection error:</source>
-        <translation>Ошибка подключени:</translation>
+        <translation>Ошибка подключения:</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="16"/>
@@ -693,12 +693,12 @@
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="22"/>
         <source>Cannot open value tab</source>
-        <translation>Ошибка при открытии вкладки с значением</translation>
+        <translation>Ошибка при открытии вкладки со значением</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="39"/>
         <source>Connection error. Can&apos;t open value tab. </source>
-        <translation>Ошибка подключения.Невозможно открыть вкладки с значением. </translation>
+        <translation>Ошибка подключения. Невозможно открыть вкладку со значением. </translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="140"/>
@@ -749,14 +749,14 @@
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="84"/>
         <source>Cannot load key value: %1</source>
-        <translation>Ошибка при загрузке ключа? %1</translation>
+        <translation>Ошибка при загрузке ключа: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="157"/>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="185"/>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="212"/>
         <source>Can&apos;t find formatter with name: %1</source>
-        <translation>Не найден форматтер с именем: %1</translation>
+        <translation>Не найден форматер с именем: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="170"/>
@@ -802,7 +802,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="45"/>
         <source>Redis Version</source>
-        <translation>Версия редиса</translation>
+        <translation>Версия Redis</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="55"/>
@@ -817,7 +817,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="75"/>
         <source>Commands Processed</source>
-        <translation>Обработано комманд</translation>
+        <translation>Обработано команд</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="87"/>
@@ -911,7 +911,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="482"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
-        <translation>Эта строка последняя в ключе.После удаления ключ будет удален.</translation>
+        <translation>Эта строка последняя в ключе. После удаления ключ будет удален.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="484"/>
@@ -961,12 +961,12 @@
     <message>
         <location filename="../../qml/app.qml" line="71"/>
         <source>Successful connection to redis-server</source>
-        <translation>Подключение к редис серверу установлено</translation>
+        <translation>Подключение к серверу Redis установлено</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="73"/>
         <source>Can&apos;t connect to redis-server</source>
-        <translation>Ошибка при подключении к редис-серверу</translation>
+        <translation>Ошибка при подключении к серверу Redis</translation>
     </message>
 </context>
 </TS>
