@@ -42,23 +42,21 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
 
     if (m_connection->mode() != RedisClient::Connection::Mode::Cluster) {
         //detect all databases
-        RedisClient::Response scanningResp;
-        int dbIndex = (availableDatabeses.size() == 0)? 0 : availableDatabeses.lastKey() + 1;
+        RedisClient::Response keyspaceResp;
+        int dbIndex = 0;
+        int idxCount = 0;
 
-        while (true) {
-            try {
-                scanningResp = m_connection->commandSync("select", QString::number(dbIndex));
-            } catch (const RedisClient::Connection::Exception& e) {
-                throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
-            }
+        keyspaceResp = m_connection->commandSync("info", QString("keyspace"));
 
-            if (!scanningResp.isOkMessage())
-                break;
+        QRegExp re("db([0-9]+):keys=([0-9]+)");
 
-            availableDatabeses.insert(dbIndex, 0);
-            ++dbIndex;
+        int lastPos = 0;
+        while ((lastPos = re.indexIn(keyspaceResp.getValue().toString(), lastPos)) != -1) {
+            lastPos += re.matchedLength();
+            dbIndex = re.cap(1).toInt();
+            idxCount = re.cap(2).toInt();
+            availableDatabeses.insert(dbIndex, idxCount);
         }
-
     }    
 
     return callback(availableDatabeses);
