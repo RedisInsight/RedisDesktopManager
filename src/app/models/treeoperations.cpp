@@ -57,6 +57,11 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
             idxCount = re.cap(2).toInt();
             availableDatabeses.insert(dbIndex, idxCount);
         }
+
+        if (availableDatabeses.size() == 0) {
+            // at least one database must be event if it's empty
+            availableDatabeses.insert(0, 0);
+        }
     }    
 
     return callback(availableDatabeses);
