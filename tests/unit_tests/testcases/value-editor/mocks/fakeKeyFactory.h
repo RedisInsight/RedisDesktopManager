@@ -6,6 +6,10 @@
 class FakeKeyModel : public ValueEditor::Model
 {
 public:
+    FakeKeyModel() :
+        m_notifier(new ValueEditor::ModelSignals())
+    {}
+
     QString getKeyName() override
     {
         return QString("fake");
@@ -95,7 +99,7 @@ public:
 
     QSharedPointer<ValueEditor::ModelSignals> getConnector() const override
     {
-        return QSharedPointer<ValueEditor::ModelSignals>();
+        return m_notifier;
     }
 
     QSharedPointer<RedisClient::Connection> getConnection() const override
@@ -107,6 +111,9 @@ public:
     {
         return 0u;
     }
+
+private:
+    QSharedPointer<ValueEditor::ModelSignals> m_notifier;
 };
 
 
