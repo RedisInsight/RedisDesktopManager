@@ -41,7 +41,9 @@ AbstractEditor {
 
     function validateValue(callback) {
         keyText.validate(function (keyTextValid) {
-            return callback(keyTextValid);
+            textArea.validate(function (keyTextValid) {
+                return callback(keyTextValid);
+            });
         });
     }
 
