@@ -41,8 +41,15 @@ AbstractEditor {
 
     function validateValue(callback) {
         keyText.validate(function (keyTextValid) {
-            textArea.validate(function (keyTextValid) {
-                return callback(keyTextValid);
+            textArea.loadRawValue(function(error, raw) {
+                if(!error && (qmlUtils.binaryStringLength(raw) > 0)) {
+                    textArea.validate(function (keyTextValid) {
+                        return callback(keyTextValid);
+                    });
+                }
+                else {
+                    return callback(keyTextValid);
+                }
             });
         });
     }
