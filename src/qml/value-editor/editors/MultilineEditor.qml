@@ -26,6 +26,11 @@ ColumnLayout
         textView.textFormat = TextEdit.PlainText
     }
 
+    function validationRule(raw)
+    {
+        return qmlUtils.binaryStringLength(raw) > 0
+    }
+
     function validate(callback) {
         loadRawValue(function (error, raw) {            
 
@@ -34,7 +39,7 @@ ColumnLayout
                 return callback(false);
             }            
 
-            var valid = qmlUtils.binaryStringLength(raw) > 0
+            var valid = validationRule(raw)
 
             if (valid) {
                 hideValidationError()

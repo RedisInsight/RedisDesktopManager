@@ -32,6 +32,10 @@ AbstractEditor {
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
         objectName: "rdm_key_hash_text_field"
+
+        function validationRule(raw) {
+            return true;
+        }
     }
 
     function initEmpty() {
@@ -41,7 +45,9 @@ AbstractEditor {
 
     function validateValue(callback) {
         keyText.validate(function (keyTextValid) {
-            return callback(keyTextValid);
+            textArea.validate(function (textAreaValid) {
+                return callback(keyTextValid && textAreaValid);
+            });
         });
     }
 
