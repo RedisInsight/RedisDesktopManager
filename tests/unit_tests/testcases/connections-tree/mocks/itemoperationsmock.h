@@ -44,6 +44,9 @@ public:
     QString namespaceSeparator = ":";
     QString getNamespaceSeparator() { return namespaceSeparator; }
 
+    QString defaultKeysFilter = "*";
+    QString defaultFilter() { return defaultKeysFilter; }
+
     void disconnect() {}
 
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}

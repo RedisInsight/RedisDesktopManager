@@ -127,6 +127,11 @@ QString TreeOperations::getNamespaceSeparator()
     return static_cast<ServerConfig>(m_connection->getConfig()).namespaceSeparator();
 }
 
+QString TreeOperations::defaultFilter()
+{
+    return static_cast<ServerConfig>(m_connection->getConfig()).keysPattern();
+}
+
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab)
 {
     emit m_manager.openValueTab(m_connection, key, openInNewTab);
