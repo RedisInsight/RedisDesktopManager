@@ -26,6 +26,11 @@ ColumnLayout
         textView.textFormat = TextEdit.PlainText
     }
 
+    function validationRule(raw)
+    {
+        return qmlUtils.binaryStringLength(raw) > 0
+    }
+
     function validate(callback) {
         loadRawValue(function (error, raw) {            
 
@@ -34,7 +39,7 @@ ColumnLayout
                 return callback(false);
             }            
 
-            var valid = qmlUtils.binaryStringLength(raw) > 0
+            var valid = validationRule(raw)
 
             if (valid) {
                 hideValidationError()
@@ -168,8 +173,7 @@ ColumnLayout
         id: texteditorWrapper
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 100
-        objectName: "rdm_key_multiline_text_field"
+        Layout.preferredHeight: 100        
 
         color: "white"
         border.color: "#cccccc"
@@ -190,6 +194,7 @@ ColumnLayout
                 delegate:
                     NewTextArea {
                         id: textAreaPart
+                        objectName: "rdm_key_multiline_text_field_" + index
                         width: textView.width
                         height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
 
