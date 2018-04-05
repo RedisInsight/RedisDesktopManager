@@ -373,7 +373,7 @@ Dialog {
 
                         columns: 2
 
-                        Label { text: qsTr("Keys glob-style pattern:") }
+                        Label { text: qsTr("Default filter:") }
 
                         TextField
                         {

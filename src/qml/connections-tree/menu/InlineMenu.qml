@@ -49,8 +49,16 @@ RowLayout {
                 }
 
                 tooltip: modelData['help'] != undefined ? modelData['help'] + " (" + modelData["shortcut"] + ")"  : ""
-                objectName: modelData['event'] != undefined ? "rdm_inline_menu_button_" + modelData['event'] : ""                
 
+                objectName: {
+                    if (modelData['event'] != undefined)
+                        return "rdm_inline_menu_button_" + modelData['event']
+
+                    if (modelData['callback'] != undefined)
+                        return "rdm_inline_menu_button_" + modelData['callback']
+
+                     return ""
+                }
             }
 
             Shortcut {

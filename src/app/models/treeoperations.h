@@ -28,6 +28,8 @@ public:
 
     QString getNamespaceSeparator() override;    
 
+    QString defaultFilter() override;
+
     void openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab = false) override;
 
     void openConsoleTab() override;

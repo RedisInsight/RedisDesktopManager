@@ -27,14 +27,6 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
     }
 
     for (QByteArray rawKey : keys) {
-
-        //if filter enabled - skip keys
-        if (!settings.filter.isEmpty()) {
-            QString key = QString::fromUtf8(rawKey); // UTF filtering
-            if (!key.contains(settings.filter))
-                continue;
-        }
-
         renderLazily(parent, rawKey.mid(unprocessedPartStart), rawKey, operations, settings,
                      expandedNamespaces);
     }

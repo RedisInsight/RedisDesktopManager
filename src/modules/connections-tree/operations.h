@@ -50,6 +50,8 @@ namespace ConnectionsTree {
          */
         virtual QString getNamespaceSeparator() = 0;
 
+        virtual QString defaultFilter() = 0;
+
         virtual void openKeyTab(KeyItem& key, bool openInNewTab) = 0;
 
         virtual void openConsoleTab() = 0;

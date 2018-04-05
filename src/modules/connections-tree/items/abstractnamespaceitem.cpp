@@ -15,7 +15,8 @@ AbstractNamespaceItem::AbstractNamespaceItem(Model& model,
                                              uint dbIndex)
     : TreeItem(model),
       m_parent(parent),
-      m_operations(operations),      
+      m_operations(operations),
+      m_filter(operations->defaultFilter()),
       m_expanded(false),
       m_dbIndex(dbIndex)
 {

@@ -88,7 +88,7 @@ QByteArray DatabaseItem::getFullPath() const
 
 QString DatabaseItem::getDisplayName() const
 {          
-    QString filter =  m_filter.isEmpty()? "" : QString("[filter: %1]").arg(m_filter.pattern());
+    QString filter =  m_filter.pattern() == "*"? "" : QString("[filter: %1]").arg(m_filter.pattern());
     QString liveUpdate = m_liveUpdateTimer.isActive()? "[live update]" : "";
 
     return QString("db%1 %2 (%3) %4")
@@ -140,7 +140,7 @@ void DatabaseItem::loadKeys(std::function<void ()> callback)
 
 QVariantMap DatabaseItem::metadata() const
 {
-    QVariantMap metadata = TreeItem::metadata();
+    QVariantMap metadata = TreeItem::metadata();    
     metadata["filter"] = m_filter.pattern();
     metadata["live_update"] = m_liveUpdateTimer.isActive();
     return metadata;
@@ -223,7 +223,7 @@ void DatabaseItem::filterKeys(const QRegExp &filter)
 
 void DatabaseItem::resetFilter()
 {
-    m_filter = QRegExp();
+    m_filter = QRegExp(m_operations->defaultFilter());
     emit m_model.itemChanged(getSelf());
     reload();
 }
