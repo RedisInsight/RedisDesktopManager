@@ -41,6 +41,16 @@ void ServerConfig::setLuaKeysLoading(bool value)
     return setParam<bool>("lua_keys_loading", value);
 }
 
+uint ServerConfig::databaseScanLimit() const
+{
+    return param<uint>("db_scan_limit", DEFAULT_DB_SCAN_LIMIT);
+}
+
+void ServerConfig::setDatabaseScanLimit(uint limit)
+{
+    setParam<uint>("db_scan_limit", limit);
+}
+
 bool ServerConfig::useSshTunnel() const
 {
     return RedisClient::ConnectionConfig::useSshTunnel();

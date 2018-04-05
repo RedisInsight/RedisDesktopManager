@@ -419,6 +419,19 @@ Dialog {
                             maximumValue: 100000
                             value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
                             onValueChanged: root.settings.connectionTimeout = value * 1000
+                        }                        
+
+                        Label { text: qsTr("Databases discovery limit:") }
+
+                        SpinBox {
+                            id: dbScanLimit
+                            Layout.fillWidth: true
+                            minimumValue: 1
+                            maximumValue: 100000
+                            value: {
+                                return root.settings ? root.settings.databaseScanLimit : 1
+                            }
+                            onValueChanged: root.settings.databaseScanLimit = value
                         }
 
                         Label { text: qsTr("Use server-side optimized keys loading (experimental):")}
