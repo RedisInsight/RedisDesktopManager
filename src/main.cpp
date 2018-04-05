@@ -5,6 +5,10 @@
 #include "app/app.h"
 #include "modules/crashhandler/crashhandler.h"
 
+#ifdef Q_OS_LINUX
+#include <sigwatch.h>
+#endif
+
 int main(int argc, char *argv[])
 {           
 #ifdef Q_OS_WIN
@@ -21,6 +25,14 @@ int main(int argc, char *argv[])
     Application a(argc, argv);
     a.initModels();
     a.initQml();
+
+    #ifdef Q_OS_LINUX
+    UnixSignalWatcher sigwatch;
+    sigwatch.watchForSignal(SIGINT);
+    sigwatch.watchForSignal(SIGTERM);
+    QObject::connect(&sigwatch, SIGNAL(unixSignal(int)), &a, SLOT(quit()));
+    #endif
+
     return a.exec();
 }
 
