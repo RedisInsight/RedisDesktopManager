@@ -17,7 +17,8 @@
 
 TreeOperations::TreeOperations(QSharedPointer<RedisClient::Connection> connection, ConnectionsManager &manager)
     : m_connection(connection),
-      m_manager(manager)
+      m_manager(manager),
+      m_dbCount(0)
 {
 }
 
@@ -25,7 +26,9 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
 {
     bool connected = m_connection->isConnected();
 
-    if (!connected) {
+    if (connected) {
+        m_connection->refreshServerInfo();
+    } else {
         try {
             connected = m_connection->connect(true);
         } catch (const RedisClient::Connection::Exception& e) {
@@ -43,22 +46,31 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
     if (m_connection->mode() != RedisClient::Connection::Mode::Cluster) {
         //detect all databases
         RedisClient::Response scanningResp;
-        int dbIndex = (availableDatabeses.size() == 0)? 0 : availableDatabeses.lastKey() + 1;
+        int lastDbIndex = (availableDatabeses.size() == 0)? 0 : availableDatabeses.lastKey() + 1;
 
-        while (true) {
-            try {
-                scanningResp = m_connection->commandSync("select", QString::number(dbIndex));
-            } catch (const RedisClient::Connection::Exception& e) {
-                throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
+        if (m_dbCount > 0) {
+            for (int index=lastDbIndex; index < m_dbCount; index++) {
+                availableDatabeses.insert(index, 0);
             }
+        } else {
+            uint dbScanLimit = static_cast<ServerConfig>(m_connection->getConfig()).databaseScanLimit();
 
-            if (!scanningResp.isOkMessage())
-                break;
+            for (int index=lastDbIndex; index < dbScanLimit; index++) {
+                try {
+                    scanningResp = m_connection->commandSync("select", QString::number(index));
+                } catch (const RedisClient::Connection::Exception& e) {
+                    throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
+                }
 
-            availableDatabeses.insert(dbIndex, 0);
-            ++dbIndex;
+                if (!scanningResp.isOkMessage()) {
+                    break;
+                }
+
+                availableDatabeses.insert(index, 0);
+                ++lastDbIndex;
+            }
+            m_dbCount = lastDbIndex;
         }
-
     }    
 
     return callback(availableDatabeses);

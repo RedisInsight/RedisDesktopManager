@@ -24,21 +24,23 @@ void TestTreeOperations::testGetDatabases()
 {
     //given
     ConnectionsManager manager{QString()};
+    QString infoResp = getBulkStringReply(
+        "# CPU\n"
+        "used_cpu_sys:17.89\n"
+        "used_cpu_user:24.70\n"
+        "used_cpu_sys_children:0.06\n"
+        "used_cpu_user_children:0.33\n\n"
+        "# Keyspace\n"
+        "db0:keys=3495,expires=0,avg_ttl=0\n"
+        "db9:keys=1,expires=0,avg_ttl=0\n"
+    );
+
     QStringList expectedResponses{
-        getBulkStringReply(
-            "# CPU\n"
-            "used_cpu_sys:17.89\n"
-            "used_cpu_user:24.70\n"
-            "used_cpu_sys_children:0.06\n"
-            "used_cpu_user_children:0.33\n\n"
-            "# Keyspace\n"
-            "db0:keys=3495,expires=0,avg_ttl=0\n"
-            "db999:keys=1,expires=0,avg_ttl=0\n"
-        ),
+        infoResp, infoResp,
         "+OK\r\n", "+OK\r\n", "+OK\r\n", "-ERROR\r\n"
     };
     auto connection = getFakeConnection();
-    connection->setFakeResponses(expectedResponses);
+    connection->setFakeResponses(expectedResponses);    
     bool callbackCalled = false;
     RedisClient::DatabaseList result;
 
@@ -54,8 +56,8 @@ void TestTreeOperations::testGetDatabases()
     //then
     wait(5);
     QCOMPARE(callbackCalled, true);
-    QCOMPARE(connection->runCommandCalled, 4u);
-    QCOMPARE(result.size(), 1003);
+    QCOMPARE(connection->runCommandCalled, 5u);
+    QCOMPARE(result.size(), 13);
 }
 
 void TestTreeOperations::testLoadNamespaceItems()

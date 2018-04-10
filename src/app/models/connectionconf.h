@@ -31,11 +31,13 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(uint executeTimeout READ executeTimeout WRITE setExecutionTimeout)
     Q_PROPERTY(uint connectionTimeout READ connectionTimeout WRITE setConnectionTimeout)
     Q_PROPERTY(bool luaKeysLoading READ luaKeysLoading WRITE setLuaKeysLoading)
+    Q_PROPERTY(uint databaseScanLimit READ databaseScanLimit WRITE setDatabaseScanLimit)
 
 public:
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
     static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
     static const bool DEFAULT_LUA_KEYS_LOADING = false;
+    static const uint DEFAULT_DB_SCAN_LIMIT = 20;
 
 public:
     ServerConfig(const QString & host = "127.0.0.1", const QString & auth = "",
@@ -51,6 +53,9 @@ public:
 
     bool luaKeysLoading() const;
     void setLuaKeysLoading(bool);
+
+    uint databaseScanLimit() const;
+    void setDatabaseScanLimit(uint limit);
 
     Q_INVOKABLE bool useSshTunnel() const;
 };

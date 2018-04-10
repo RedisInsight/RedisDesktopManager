@@ -52,4 +52,5 @@ public:
 private:
      QSharedPointer<RedisClient::Connection> m_connection;
      ConnectionsManager& m_manager;
+     uint m_dbCount;
 };
