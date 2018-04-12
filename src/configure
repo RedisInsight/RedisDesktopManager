@@ -57,7 +57,7 @@ if [ "$os_VENDOR" == "Ubuntu" ] || [ "$os_VENDOR" == "LinuxMint" ]; then
 
     if [ "$ubuntu_ver" -gt 16 ]; then	
     	print_title "Install Qt ${RDM_QT_BRANCH}"
-    	sudo apt-get install qt5-default libqt5charts5-dev -y
+    	sudo apt-get install qt5-default qtdeclarative5-dev libqt5charts5-dev -y
     elif [ ! -f /opt/qt${RDM_QT_BRANCH}/bin/qt${RDM_QT_BRANCH}-env.sh ]; then
         print_title "Install Qt ${RDM_QT_VERSION} from ppa"
 
