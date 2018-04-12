@@ -8,6 +8,7 @@ import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
 import "."
 import "./common"
+import "./common/platformutils.js" as PlatformUtils
 import "./value-editor"
 import "./connections-tree"
 import "./console"
@@ -32,6 +33,10 @@ ApplicationWindow {
             console.log("Ratio > 1.0. Resize main window.")
             width = Screen.width * 0.9
             height = Screen.height * 0.8
+        }
+
+        if (PlatformUtils.isOSXRetina(Screen)) {
+            bottomTabView.implicitHeight = 100
         }
     }
 
@@ -240,7 +245,7 @@ ApplicationWindow {
             BetterTabView {
                 id: bottomTabView
                 Layout.fillWidth: true
-                Layout.minimumHeight: 30
+                Layout.minimumHeight: PlatformUtils.isOSXRetina()? 15 : 30
 
                 tabPosition: Qt.BottomEdge
 
