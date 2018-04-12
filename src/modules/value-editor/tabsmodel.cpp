@@ -34,13 +34,16 @@ void ValueEditor::TabsModel::openTab(QSharedPointer<RedisClient::Connection> con
             QObject::connect(keyModel->getConnector().data(), &ModelSignals::removed,
                              this, [this, weakKeyModel, &key]()
             {
-                auto keyModel = weakKeyModel.toStrongRef();
+                // NOTE(u_glide): React in 100 ms to make sure that keymodel update is finished
+                QTimer::singleShot(100, [this, weakKeyModel, &key]() {
+                    auto keyModel = weakKeyModel.toStrongRef();
 
-                if (!keyModel)
-                    return;
+                    if (!keyModel)
+                        return;
 
-                removeModel(keyModel);
-                key.setRemoved(); //Disable key in connections tree
+                    removeModel(keyModel);
+                    key.setRemoved(); //Disable key in connections tree
+                });
             });            
         });
         // TODO: add empty key model for loading
