@@ -52,11 +52,7 @@ void ListKeyModel::removeRow(int i)
 
     m_rowCount--;
     m_rowsCache.removeAt(i);
-
-    if (m_rowCount == 0) {
-        m_isKeyRemoved = true;
-        m_notifier->removed();
-    }
+    setRemovedIfEmpty();
 }
 
 bool ListKeyModel::isActualPositionChanged(int row)
