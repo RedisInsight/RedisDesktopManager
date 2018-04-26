@@ -296,7 +296,7 @@ Repeater {
                                     elide: styleData.elideMode
                                     text: {
 
-                                        if (styleData.value === "" || keyType === "string") {
+                                        if (styleData.value === "" || keyType === "string" || keyType === "ReJSON") {
                                             return ""
                                         }
 
@@ -337,7 +337,7 @@ Repeater {
 
                                     console.log(keyType)
 
-                                    if (keyType === "string") {
+                                    if (keyType === "string" || keyType === "ReJSON") {
                                         valueEditor.loadRowValue(0)
                                     } else {
                                         var columns = columnNames

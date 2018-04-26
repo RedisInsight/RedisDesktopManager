@@ -17,6 +17,7 @@ HEADERS  += \
     $$APP_SRC_DIR/models/key-models/setkey.h \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.h \
     $$APP_SRC_DIR/models/key-models/hashkey.h \            
+    $$APP_SRC_DIR/models/key-models/rejsonkey.h \
 
 SOURCES += \
     $$PWD/test_*.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     $$APP_SRC_DIR/models/key-models/listlikekey.cpp \
     $$APP_SRC_DIR/models/key-models/setkey.cpp \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.cpp \
-    $$APP_SRC_DIR/models/key-models/hashkey.cpp \            
+    $$APP_SRC_DIR/models/key-models/hashkey.cpp \
+    $$APP_SRC_DIR/models/key-models/rejsonkey.cpp \
 
 OTHER_FILES += \
     connections.xml
