@@ -7,6 +7,7 @@
 #include "sortedsetkey.h"
 #include "hashkey.h"
 #include "listkey.h"
+#include "rejsonkey.h"
 #include <QObject>
 
 KeyFactory::KeyFactory()
@@ -56,6 +57,9 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection,
 
         result = createModel(type, connection, keyFullPath, dbIndex, ttl);
 
+        if (!result)
+            return callback(result, QString(QObject::tr("Unsupported Redis Data type %1").arg(type)));
+
         callback(result, QString());
 
     }, dbIndex);
@@ -92,6 +96,8 @@ QSharedPointer<ValueEditor::Model> KeyFactory::createModel(QString type, QShared
         return QSharedPointer<ValueEditor::Model>(new SortedSetKeyModel(connection, keyFullPath, dbIndex, ttl));
     } else if (type == "hash") {
         return QSharedPointer<ValueEditor::Model>(new HashKeyModel(connection, keyFullPath, dbIndex, ttl));
+    } else if (type == "ReJSON-RL") {
+        return QSharedPointer<ValueEditor::Model>(new ReJSONKeyModel(connection, keyFullPath, dbIndex, ttl));
     }
 
     return QSharedPointer<ValueEditor::Model>();

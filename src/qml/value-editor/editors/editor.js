@@ -12,6 +12,8 @@ function getEditorByTypeString(keyType) {
         return "./editors/SortedSetItemEditor.qml"
     } else if (keyType === "hash") {
         return "./editors/HashItemEditor.qml"
+    } else if (keyType === "ReJSON") {
+        return "./editors/SingleItemEditor.qml"
     } else {
         console.error("Editor for type " + keyType + " is not defined!")
     }
