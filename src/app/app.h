@@ -30,7 +30,8 @@ public:
 
 private:
     void initAppInfo();
-    void initAppFonts();    
+    void initAppFonts();
+    void initProxySettings();
     void registerQmlTypes();
     void registerQmlRootObjects();
     void initLog();

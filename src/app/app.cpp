@@ -7,6 +7,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QQuickWindow>
+#include <QNetworkProxyFactory>
 #include <easylogging++.h>
 #include <qredisclient/redisclient.h>
 
@@ -100,6 +101,12 @@ void Application::initAppFonts()
     qDebug() << "App font:" << appFont << appFontSize;
     QFont defaultFont(appFont, appFontSize);
     QApplication::setFont(defaultFont);
+}
+
+void Application::initProxySettings()
+{
+    QSettings settings;
+    QNetworkProxyFactory::setUseSystemConfiguration(settings.value("app/useSystemProxy", false).toBool());
 }
 
 void Application::registerQmlTypes()
