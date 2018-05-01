@@ -8,7 +8,11 @@ DEPS_DIR=$RDM_DIR/3rdparty/
 
 function build_breakpad {
     cd $DEPS_DIR/gbreakpad/
-    git clone https://chromium.googlesource.com/linux-syscall-support src/third_party/lss || true
+    git clone --depth 1 -v https://chromium.googlesource.com/linux-syscall-support src/third_party/lss || true
+    if [ ! -d "src/third_party/lss" ]; then
+        echo "Cannot clone linux-syscall-support repo"
+        exit 2
+    fi
     touch README
     ./configure
     make -s -j 2	
@@ -18,6 +22,10 @@ function build_libssh2 {
     if [ ! -f /usr/local/lib/libssh2.a ]; then
         cd $DEPS_DIR
         git clone https://github.com/libssh2/libssh2.git libssh2 || true
+        if [ ! -d "libssh2" ]; then
+            echo "Cannot clone libssh2 repo"
+            exit 2
+        fi        
         cd libssh2
         rm -fR ./bin || true
         mkdir bin
