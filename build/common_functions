@@ -15,7 +15,7 @@ function build_breakpad {
     fi
     touch README
     ./configure
-    make -s -j 2	
+    make -s -j 2
 }
 
 function build_libssh2 {
@@ -25,7 +25,7 @@ function build_libssh2 {
         if [ ! -d "libssh2" ]; then
             echo "Cannot clone libssh2 repo"
             exit 2
-        fi        
+        fi
         cd libssh2
         rm -fR ./bin || true
         mkdir bin
@@ -107,7 +107,7 @@ function GetOSVersion {
         os_RELEASE=$(lsb_release -r -s)
         os_UPDATE=""
         os_PACKAGE="rpm"
-        if [[ "Debian,Ubuntu,LinuxMint" =~ $os_VENDOR ]]; then
+        if [[ "Debian,Ubuntu,LinuxMint,elementary" =~ $os_VENDOR ]]; then
             os_PACKAGE="deb"
         elif [[ "SUSE LINUX" =~ $os_VENDOR ]]; then
             lsb_release -d -s | grep -q openSUSE
