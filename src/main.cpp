@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {           
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
