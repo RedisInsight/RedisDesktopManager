@@ -182,6 +182,7 @@ Dialog {
 
                         GroupBox {
                             title: qsTr("Security")
+                            objectName: "rdm_connection_group_box_security"
 
                             Layout.columnSpan: 2
                             Layout.fillWidth: true
@@ -264,6 +265,7 @@ Dialog {
 
                                 RadioButton {
                                     id: sshRadioButton
+                                    objectName: "rdm_connection_security_ssh_radio_button"
                                     Layout.columnSpan: 2
                                     text: qsTr("SSH Tunnel")
                                     exclusiveGroup: connectionSecurityExGroup
@@ -305,6 +307,7 @@ Dialog {
 
                                     TextField {
                                         id: sshUser
+                                        objectName: "rdm_connection_security_ssh_user_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTr("Valid SSH User Name")
                                         text: root.settings ? root.settings.sshUser : ""
@@ -314,6 +317,7 @@ Dialog {
 
                                     GroupBox {
                                         title: qsTr("Private Key")
+                                        objectName: "rdm_connection_security_ssh_key_group_box"
                                         checkable: true
                                         checked: root.settings ? root.settings.sshPrivateKey : false
 
@@ -325,6 +329,7 @@ Dialog {
 
                                             FilePathInput {
                                                 id: sshPrivateKey
+                                                objectName: "rdm_connection_security_ssh_key_path_field"
 
                                                 Layout.fillWidth: true
 
@@ -344,6 +349,7 @@ Dialog {
 
                                     GroupBox {
                                         title: qsTr("Password")
+                                        objectName: "rdm_connection_security_ssh_password_group_box"
                                         checkable: true
                                         checked: root.settings ? root.settings.sshPassword : true
 
@@ -352,6 +358,7 @@ Dialog {
 
                                         PasswordInput {
                                             id: sshPassword
+                                            objectName: "rdm_connection_security_ssh_password_field"
                                             anchors.fill: parent
                                             placeholderText: qsTr("SSH User Password")
                                             text: root.settings ? root.settings.sshPassword : ""

@@ -11,6 +11,7 @@ RowLayout {
 
     TextField {
         id: textField
+        objectName: "rdm_connection_address_host_field"
         Layout.fillWidth: true
     }
 
@@ -18,6 +19,7 @@ RowLayout {
 
     SpinBox {
         id: portField
+        objectName: "rdm_connection_address_port_field"
         minimumValue: 1
         maximumValue: 10000000000
         value: 22
