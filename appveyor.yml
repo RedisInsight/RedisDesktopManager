@@ -37,5 +37,3 @@ build_script:
 - call "C:\\Program Files (x86)\\NSIS\\makensis.exe" /V1 /DVERSION=%APPVEYOR_BUILD_VERSION%  ./build/windows/installer/installer.nsi
 test_script:
 - echo 'Windows build is used only for installer compilation. Skip tests.'
-artifacts:
-  - path: 'build/windows/installer/*.exe'
