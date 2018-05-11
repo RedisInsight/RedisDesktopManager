@@ -9,9 +9,18 @@ base: core18
 
 apps:
   rdm:
-    command: desktop-launch /usr/share/redis-desktop-manager/bin/rdm
-    plugs: [home, x11, unity7, opengl, network, network-bind]
-
+    command: desktop-launch $SNAP/usr/share/redis-desktop-manager/bin/rdm
+    desktop: usr/share/applications/rdm.desktop
+    plugs: 
+     - home
+     - unity7
+     - opengl
+     - gsettings
+     - network
+     - network-bind
+     - x11
+     - desktop
+     - desktop-legacy
 parts:
   application:
     plugin: qmake
