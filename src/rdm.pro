@@ -97,8 +97,8 @@ unix:!macx { # ubuntu & debian
 
     QMAKE_CXXFLAGS += -Wno-sign-compare    
 
-    release: DESTDIR = ./../bin/linux/release
-    debug:   DESTDIR = ./../bin/linux/debug
+    release: DESTDIR = $$PWD/../bin/linux/release
+    debug:   DESTDIR = $$PWD/../bin/linux/debug
 
     #deployment
     target.path = /usr/share/redis-desktop-manager/bin

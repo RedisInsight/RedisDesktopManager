@@ -5,7 +5,7 @@
 #include "app/app.h"
 #include "modules/crashhandler/crashhandler.h"
 
-#ifdef Q_OS_LINUX
+#ifdef LINUX_SIGNALS
 #include <sigwatch.h>
 #endif
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     a.initModels();
     a.initQml();
 
-    #ifdef Q_OS_LINUX
+    #ifdef LINUX_SIGNALS
     UnixSignalWatcher sigwatch;
     sigwatch.watchForSignal(SIGINT);
     sigwatch.watchForSignal(SIGTERM);
