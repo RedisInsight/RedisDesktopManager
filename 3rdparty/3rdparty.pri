@@ -84,7 +84,12 @@ unix:!macx { # ubuntu & debian
     LIBS += $$BREAKPADDIR/client/linux/libbreakpad_client.a
 
     # Unix signal watcher
-    HEADERS += $$PWD/qt-unix-signals/sigwatch.h
-    SOURCES += $$PWD/qt-unix-signals/sigwatch.cpp
-    INCLUDEPATH += $$PWD/qt-unix-signals/
+    defined(LINUX_SIGNALS, var) {
+        DEFINES += LINUX_SIGNALS
+
+        HEADERS += $$PWD/qt-unix-signals/sigwatch.h
+        HEADERS += $$PWD/qt-unix-signals/sigwatch_p.h
+        SOURCES += $$PWD/qt-unix-signals/sigwatch.cpp
+        INCLUDEPATH += $$PWD/qt-unix-signals/
+    }
 }

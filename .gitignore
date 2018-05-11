@@ -76,3 +76,6 @@ tests/unit_tests/coverage*
 *.qmlc
 *.jsc
 .qmake.stash
+parts
+prime
+stage
