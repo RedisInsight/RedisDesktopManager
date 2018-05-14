@@ -94,7 +94,7 @@ if [ "$os_VENDOR" == "Ubuntu" ] || [ "$os_VENDOR" == "LinuxMint" ] || [ "$os_VEN
 
     print_title "Check deps"
     sudo apt-get install automake libtool libssl-dev \
-        libssh2-1-dev g++ libgl1-mesa-dev cmake -y
+        libssh2-1-dev g++ libgl1-mesa-dev cmake zlib1g-dev -y
 
     build_breakpad
     build_libssh2
