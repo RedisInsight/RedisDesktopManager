@@ -441,6 +441,15 @@ Dialog {
                             onValueChanged: root.settings.databaseScanLimit = value
                         }
 
+                        Label { text: qsTr("Change host on cluster redirects:")}
+
+                        CheckBox {
+                            id: overrideClusterHost
+                            Layout.fillWidth: true
+                            checked: root.settings ? root.settings.overrideClusterHost : false
+                            onCheckedChanged: root.settings.overrideClusterHost = checked
+                        }
+
                         Label { text: qsTr("Use server-side optimized keys loading (experimental):")}
 
                         CheckBox {

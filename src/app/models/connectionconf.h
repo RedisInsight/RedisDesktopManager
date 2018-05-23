@@ -31,7 +31,10 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(uint executeTimeout READ executeTimeout WRITE setExecutionTimeout)
     Q_PROPERTY(uint connectionTimeout READ connectionTimeout WRITE setConnectionTimeout)
     Q_PROPERTY(bool luaKeysLoading READ luaKeysLoading WRITE setLuaKeysLoading)
+    Q_PROPERTY(bool overrideClusterHost READ overrideClusterHost WRITE setClusterHostOverride)
     Q_PROPERTY(uint databaseScanLimit READ databaseScanLimit WRITE setDatabaseScanLimit)
+
+
 
 public:
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';

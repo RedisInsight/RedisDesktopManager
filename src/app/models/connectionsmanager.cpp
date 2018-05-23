@@ -11,6 +11,28 @@
 #include "connectionsmanager.h"
 #include "configmanager.h"
 
+void registerLogger(const RedisClient::Connection& connection)
+{
+    QObject::connect(&connection, &RedisClient::Connection::log, [](const QString& info){
+        QString msg = QString("Connection: %1").arg(info);
+        LOG(INFO) << msg.toStdString();
+    });
+
+    QObject::connect(&connection, &RedisClient::Connection::error, [](const QString& error){
+        QString msg = QString("Connection: %1").arg(error);
+        LOG(ERROR) << msg.toStdString();
+    });
+}
+
+QSharedPointer<RedisClient::Connection> cloneConnection(QSharedPointer<RedisClient::Connection> c)
+{
+    RedisClient::ConnectionConfig config = c->getConfig();
+    auto copy = QSharedPointer<RedisClient::Connection>(new RedisClient::Connection(config));
+
+    registerLogger(*copy.data());
+
+    return copy;
+}
 
 ConnectionsManager::ConnectionsManager(const QString& configPath)
     : ConnectionsTree::Model(),
@@ -33,9 +55,6 @@ void ConnectionsManager::addNewConnection(const ServerConfig &config, bool saveT
     conf.setOwner(connection.toWeakRef());
     connection->setConnectionConfig(conf);
     m_connections.push_back(connection);
-
-    //set loggers
-    registerLogger(*connection.data());
 
     //add connection to connection tree
     auto treeModel = createTreeModelForConnection(connection);
@@ -172,21 +191,9 @@ QStringList ConnectionsManager::getConnections()
 QSharedPointer<TreeOperations> ConnectionsManager::createTreeModelForConnection(
         QSharedPointer<RedisClient::Connection> connection)
 {
-    QSharedPointer<TreeOperations> treeModel(new TreeOperations(connection, *this));
+    QSharedPointer<TreeOperations> treeModel(
+                new TreeOperations(cloneConnection(connection), *this));
     return treeModel;
-}
-
-void ConnectionsManager::registerLogger(const RedisClient::Connection& connection)
-{
-    QObject::connect(&connection, &RedisClient::Connection::log, this, [this](const QString& info){
-        QString msg = QString("Connection: %1").arg(info);
-        LOG(INFO) << msg.toStdString();
-    });
-
-    QObject::connect(&connection, &RedisClient::Connection::error, this, [this](const QString& error){
-        QString msg = QString("Connection: %1").arg(error);
-        LOG(ERROR) << msg.toStdString();
-    });
 }
 
 void ConnectionsManager::createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
