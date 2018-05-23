@@ -67,9 +67,7 @@ signals:
                               QRegExp keyPattern, std::function<void()> callback);
 
 private:
-     QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);
-
-     void registerLogger(const RedisClient::Connection &connection);
+     QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);     
 
      void createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
                                         QSharedPointer<TreeOperations> treeModel);
