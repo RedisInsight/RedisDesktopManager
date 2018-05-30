@@ -13,32 +13,28 @@ install:
     && export PATH=/usr/local/opt/qt5/bin/:$PATH
     ;
   fi
-- cd ./src && ./configure && cd ./../
+- pushd src && ./configure && popd
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
        source /opt/qt59/bin/qt59-env.sh
-       ; 
+       ;
   fi
 - qmake -v
 script:
   - git submodule update --init --recursive 
-  - cd ./tests
+  - pushd tests
   - qmake DEFINES+=INTEGRATION_TESTS && make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
-  - ./../bin/tests/qml_tests -platform minimal -txt
-  - cd ./../src
+  - popd
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-       qmake && make -s -j 2
+       pushd src && qmake && make -s -j 2 && popd
        ; 
     fi
 after_success:
-  - cd ./../tests
-  - sudo pip install --upgrade cpp-coveralls
-  - coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*
+ - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      pushd tests &&
+      sudo pip install --upgrade cpp-coveralls &&
+      coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*
+      ;
+   fi   
 services:
   - redis-server
-notifications:
-  recipients:
-    - u.glide@gmail.com
-  email:
-    on_success: change
-    on_failure: change
