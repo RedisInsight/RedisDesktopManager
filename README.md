@@ -18,6 +18,8 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 
 **Officially Supported platforms**: Windows 10, Mac OS X 10.12, Ubuntu 16, LinuxMint | Fedora | CentOS | OpenSUSE (build with automated script)
 
+**Important for Windows** need to install [Microsoft Visual C++ 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe) 
+
 **Community Supported platforms**: [Arch Linux](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
 **Supported Redis versions**: 2.8+ (for old redis-servers use RedisDesktopManager 0.8.8)
