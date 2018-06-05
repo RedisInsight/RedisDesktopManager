@@ -1,7 +1,7 @@
 # Quick Install
 
 ## Windows
-
+0. Install [Microsoft Visual C++ 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe)  (If you have not already)
 1. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download)
 2. Run downloaded installer
 
