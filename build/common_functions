@@ -19,7 +19,7 @@ function build_breakpad {
 }
 
 function build_libssh2 {
-    pushd 3rdparty/qredisclient/3rdparty/qsshclient && bash configure && popd
+    pushd $DEPS_DIR/qredisclient/3rdparty/qsshclient && bash configure && popd
 }
 
 function print_line {
