@@ -19,21 +19,7 @@ function build_breakpad {
 }
 
 function build_libssh2 {
-    if [ ! -f /usr/local/lib/libssh2.a ]; then
-        cd $DEPS_DIR
-        git clone https://github.com/libssh2/libssh2.git libssh2 || true
-        if [ ! -d "libssh2" ]; then
-            echo "Cannot clone libssh2 repo"
-            exit 2
-        fi
-        cd libssh2
-        rm -fR ./bin || true
-        mkdir bin
-        cd bin
-        cmake -DCRYPTO_BACKEND=OpenSSL -DENABLE_ZLIB_COMPRESSION=ON ..
-        cmake --build .
-        sudo make install
-    fi
+    pushd $DEPS_DIR/qredisclient/3rdparty/qsshclient && bash configure && popd
 }
 
 function print_line {
