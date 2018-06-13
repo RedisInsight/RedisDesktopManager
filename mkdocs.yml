@@ -3,6 +3,7 @@ site_description: "Redis Desktop Manager Documentation"
 site_author: "Igor Malinovskiy"
 site_favicon: "redis.ico"
 repo_url: https://github.com/uglide/RedisDesktopManager
+edit_uri: edit/0.9/docs/
 theme: readthedocs
 extra_css:
 - css/extra.css
