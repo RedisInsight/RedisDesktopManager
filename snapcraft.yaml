@@ -9,7 +9,7 @@ base: core18
 
 apps:
   rdm:
-    command: desktop-launch $SNAP/usr/share/redis-desktop-manager/bin/rdm
+    command: desktop-launch $SNAP/opt/redis-desktop-manager/rdm
     desktop: usr/share/applications/rdm.desktop
     plugs: 
      - home
