@@ -68,11 +68,12 @@ sudo mv qt.conf qt.backup
     Instead of `sudo make install` consider to use `sudo checkinstall -D --install` on **deb**-based OS and `sudo checkinstall -R --install` on **rpm**-based OS to generate package and install it into the system.
 
 ### Build on OS X
-1. Install XCode with xcode build tools
+1. Install [XCode](https://developer.apple.com/xcode/) with Xcode build tools
 2. Install [Homebrew](http://brew.sh/)
-3. Copy `cp ./resources/Info.plist.sample ./resources/Info.plist`
-4. Build RDM dependencies `cd ./src && ./configure`
-5. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2)
+3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
+4. Building RDM dependencies require i.a. openssl and cmake. Install them: `brew install openssl cmake`
+4. Build RDM dependencies `./configure`
+5. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.9.x add Qt Charts module.
 6. Open ./src/rdm.pro in Qt Creator
 7. Run build
 
