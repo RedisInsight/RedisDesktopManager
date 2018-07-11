@@ -68,7 +68,7 @@ sudo mv qt.conf qt.backup
     Instead of `sudo make install` consider to use `sudo checkinstall -D --install` on **deb**-based OS and `sudo checkinstall -R --install` on **rpm**-based OS to generate package and install it into the system.
 
 ### Build on OS X
-1. Install [XCode](https://developer.apple.com/xcode/) with xcode build tools (requires Apple Developer account)
+1. Install [XCode](https://developer.apple.com/xcode/) with Xcode build tools
 2. Install [Homebrew](http://brew.sh/)
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
 4. Building RDM dependencies require i.a. openssl and cmake. Install them: `brew install openssl cmake`
