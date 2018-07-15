@@ -55,6 +55,8 @@ if [ "$os_VENDOR" == "Ubuntu" ] || [ "$os_VENDOR" == "LinuxMint" ] || [ "$os_VEN
             ubuntu_ver="14"
         elif [ "$ubuntu_ver" == "18" ]; then
             ubuntu_ver="16"
+        elif [ "$ubuntu_ver" == "19" ]; then
+            ubuntu_ver="18"
         else
             echo "RedisDesktopManager only supports linux mint >=17."
             exit 1
