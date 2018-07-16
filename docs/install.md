@@ -52,8 +52,8 @@ git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 r
 ```bash
 cd src/
 ./configure
-source /opt/qt59/bin/qt59-env.sh && qmake && make && sudo make install
-cd /usr/share/redis-desktop-manager/bin
+qmake && make && sudo make install
+cd /opt/redis-desktop-manager/
 sudo mv qt.conf qt.backup
 ```
 #### Fedora & CentOS & OpenSUSE
