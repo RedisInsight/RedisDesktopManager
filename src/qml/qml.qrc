@@ -26,7 +26,7 @@
         <file>value-editor/editors/formatters/formatters.js</file>
         <file>value-editor/editors/formatters/hexy.js</file>
         <file>value-editor/editors/editor.js</file>
-        <file>console/QConsole.qml</file>
+        <file>console/RedisConsole.qml</file>
         <file>console/BaseConsole.qml</file>
         <file>console/Consoles.qml</file>
         <file>connections-tree/BetterTreeView.qml</file>

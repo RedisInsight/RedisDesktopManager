@@ -140,6 +140,7 @@ RESOURCES += \
     $$PWD/resources/fonts.qrc \    
     $$PWD/qml/qml.qrc \
     $$PWD/resources/tr.qrc \
+    resources/commands.qrc
 
 OTHER_FILES += \
     qt.conf \

@@ -21,9 +21,10 @@
 #include "modules/updater/updater.h"
 #include "modules/value-editor/valueviewmodel.h"
 #include "modules/value-editor/tabsmodel.h"
-#include "modules/value-editor/sortfilterproxymodel.h"
+#include "modules/common/sortfilterproxymodel.h"
 #include "modules/value-editor/formattersmanager.h"
 #include "modules/console/consolemodel.h"
+#include "modules/console/autocompletemodel.h"
 #include "modules/server-stats/serverstatsmodel.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 
@@ -63,6 +64,8 @@ void Application::initModels()
 
     m_formattersManager = QSharedPointer<ValueEditor::FormattersManager>(new ValueEditor::FormattersManager());
     m_formattersManager->loadFormatters();
+
+    m_consoleAutocompleteModel = QSharedPointer<Console::AutocompleteModel>(new Console::AutocompleteModel());
 }
 
 void Application::initAppInfo()
@@ -127,6 +130,7 @@ void Application::registerQmlRootObjects()
     m_engine.rootContext()->setContextProperty("serverStatsModel", m_serverStatsModel.data());
     m_engine.rootContext()->setContextProperty("appLogger", m_logger);
     m_engine.rootContext()->setContextProperty("bulkOperations", m_bulkOperations.data());
+    m_engine.rootContext()->setContextProperty("consoleAutocompleteModel", m_consoleAutocompleteModel.data());
 }
 
 void Application::initQml()

@@ -15,11 +15,9 @@ Repeater {
         title: tabName
         icon: "qrc:/images/console.svg"
 
-        onClose: {
-            consoleModel.closeTab(tabIndex)
-        }
+        property var redisConsoleVar
 
-        QConsole {
+        RedisConsole {
             id: redisConsole
 
             property var model: consoleModel.getValue(tabIndex)
@@ -55,7 +53,42 @@ Repeater {
                     return redisConsole.busy ? "qrc:/images/wait.svg" : "qrc:/images/console.svg"
                 })
                 initTimer.start()
+                tab.redisConsoleVar = redisConsole
             }
+
+            Dialog {
+                id: closeConfirmation
+                title: qsTr("Confirm Action")
+
+                width: 520
+
+                RowLayout {
+                    implicitWidth: 500
+                    implicitHeight: 100
+                    width: 500
+
+                    Text { text: qsTr("Do you really want to close console with running command?") }
+                }
+
+                onYes: consoleModel.closeTab(tabIndex)
+
+                visible: false
+                modality: Qt.ApplicationModal
+                standardButtons: StandardButton.Yes | StandardButton.Cancel
+            }
+
+            function closeConfirmation() {
+                closeConfirmation.open()
+            }
+        }      
+
+        onClose: {
+            if (redisConsoleVar && redisConsoleVar.busy) {
+                redisConsoleVar.closeConfirmation()
+                return
+            }
+
+            consoleModel.closeTab(tabIndex)
         }
     }
 }

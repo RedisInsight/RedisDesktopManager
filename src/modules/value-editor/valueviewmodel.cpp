@@ -3,7 +3,7 @@
 #include <QSettings>
 
 ValueEditor::ValueViewModel::ValueViewModel(Model &model)
-    : QAbstractListModel((QObject*)model.getConnector().data()),
+    : BaseListModel((QObject*)model.getConnector().data()),
       m_model(model),
       m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0)
@@ -29,11 +29,6 @@ QVariant ValueEditor::ValueViewModel::data(const QModelIndex &index, int role) c
 QHash<int, QByteArray> ValueEditor::ValueViewModel::roleNames() const
 {
     return m_model.getRoles();
-}
-
-bool ValueEditor::ValueViewModel::isIndexValid(const QModelIndex &index) const
-{
-    return 0 <= index.row() && index.row() < rowCount();
 }
 
 int ValueEditor::ValueViewModel::mapRowIndex(int i)
@@ -173,20 +168,5 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row)
         return QVariantMap();
 
     QVariantMap res = getRowRaw(row);
-    return res;
-}
-
-QVariantMap ValueEditor::ValueViewModel::getRowRaw(int row)
-{
-    QHash<int,QByteArray> names = roleNames();
-    QHashIterator<int, QByteArray> i(names);
-    QVariantMap res;
-
-    while (i.hasNext()) {
-        i.next();
-        QModelIndex idx = index(row, 0);
-        QVariant data = idx.data(i.key());
-        res[i.value()] = data;        
-    }
     return res;
 }
