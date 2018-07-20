@@ -17,6 +17,7 @@ class TabViewModel;
 namespace ValueEditor { class TabsModel; }
 namespace ValueEditor { class FormattersManager; }
 namespace BulkOperations { class Manager; }
+namespace Console { class AutocompleteModel; }
 
 
 class Application : public QApplication
@@ -51,8 +52,9 @@ private:
     QSharedPointer<ValueEditor::TabsModel> m_keyValues;
     QSharedPointer<ValueEditor::FormattersManager> m_formattersManager;
     QSharedPointer<BulkOperations::Manager> m_bulkOperations;
-    QSharedPointer<TabViewModel> m_consoleModel;
+    QSharedPointer<TabViewModel> m_consoleModel;    
     QSharedPointer<TabViewModel> m_serverStatsModel;
+    QSharedPointer<Console::AutocompleteModel> m_consoleAutocompleteModel;
     LogHandler* m_logger;
     QString m_settingsDir;
     QString m_renderingBackend;

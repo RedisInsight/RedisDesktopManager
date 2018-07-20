@@ -3,10 +3,11 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 #include "keymodel.h"
+#include "common/baselistmodel.h"
 
 namespace ValueEditor {
 
-class ValueViewModel : public QAbstractListModel
+class ValueViewModel : public BaseListModel
 {
     Q_OBJECT
 
@@ -40,15 +41,11 @@ signals:
     void rowsLoaded(int start, int count);
     void error(QString error);
 
+protected:    
+    int mapRowIndex(int i);    
+
 private:
     ValueEditor::Model& m_model;
-
-protected:
-    bool isIndexValid(const QModelIndex &index) const;
-    int mapRowIndex(int i);
-    QVariantMap getRowRaw(int row);
-
-private:
     int m_startFramePosition;
     int m_lastLoadedRowFrameSize;
 

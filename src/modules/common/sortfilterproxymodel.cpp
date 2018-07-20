@@ -64,6 +64,7 @@ QString SortFilterProxyModel::filterString() const
 void SortFilterProxyModel::setFilterString(const QString &filter)
 {
     setFilterRegExp(QRegExp(filter, filterCaseSensitivity(), static_cast<QRegExp::PatternSyntax>(filterSyntax())));
+    emit filterStringChanged();
 }
 
 SortFilterProxyModel::FilterSyntax SortFilterProxyModel::filterSyntax() const
