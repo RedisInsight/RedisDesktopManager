@@ -2,7 +2,7 @@
 
 ## Windows
 0. Install [Microsoft Visual C++ 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe)  (If you have not already)
-1. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download)
+1. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download) **(Requires subscription)**
 2. Run downloaded installer
 
 
@@ -12,29 +12,10 @@
 3. Run rdm.app
 
 
-## Ubuntu
-1. Download `deb` package from  [http://redisdesktop.com/download](http://redisdesktop.com/download) **(Requires subscription)**
-2. Install package via Ubuntu Software Center
-3. Run RedisDesktopManager :
-	`/usr/share/redis-desktop-manager/bin/rdm` or `redis-desktop-manager`
-
-After installation Redis Desktop Manager will be available in main menu.
-
-
-## Fedora
-[Build from source](install.md#build-on-linux) with automated bash script
-
-## CentOS
-[Build from source](install.md#build-on-linux) with automated bash script
-
-## OpenSUSE
-[Build from source](install.md#build-on-linux) with automated bash script
-
-## ArchLinux
-Package - [https://aur.archlinux.org/packages/redis-desktop-manager/](https://aur.archlinux.org/packages/redis-desktop-manager/)
+## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / ArchLinux / Other Linux di
+1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager)
 
 ## Other platforms
-
 You can [build Redis Desktop Manager from source](install.md#build-from-source).
 
 ## Build from source
@@ -78,7 +59,7 @@ sudo mv qt.conf qt.backup
 7. Run build
 
 ### Build on Windows##
-1. Install Visual Studio 2015 Community with Update 2
+1. Install Visual Studio 2015 Community with Updates
 2. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2)
 3. Download RDM dependencies `cd ./src` and  run `configure.bat`
 4. Open ./src/rdm.pro in Qt Creator
