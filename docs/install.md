@@ -58,9 +58,11 @@ sudo mv qt.conf qt.backup
 6. Open ./src/rdm.pro in Qt Creator
 7. Run build
 
-### Build on Windows##
+### Build on Windows
 1. Install Visual Studio 2015 Community with Updates
 2. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2)
-3. Download RDM dependencies `cd ./src` and  run `configure.bat`
+3. Install [Win32 Openssl 1.0.X](https://slproweb.com/products/Win32OpenSSL.html)
+4. Install CMake
+3. Build `libssh2` library in folder `3rdparty/qredisclient/3rdparty/qsshclient/3rdparty/libssh2` using CMake
 4. Open ./src/rdm.pro in Qt Creator
 5. Run build
