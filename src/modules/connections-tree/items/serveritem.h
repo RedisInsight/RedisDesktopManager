@@ -44,6 +44,8 @@ public:
 
     bool isDatabaseListLoaded() const;
 
+    QSharedPointer<Operations> getOperations();
+
 private slots:
     void load();
     void unload();
