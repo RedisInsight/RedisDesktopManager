@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Window 2.3
 import "./common"
 import "./common/platformutils.js" as PlatformUtils
 
@@ -116,7 +117,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 600
-        implicitHeight: PlatformUtils.isOSX()? 600 : 675
+        implicitHeight: PlatformUtils.isOSX()? 600 : Math.min(675, Screen.desktopAvailableHeight - 100)
 
         ColumnLayout {
             anchors.fill: parent
@@ -125,8 +126,7 @@ Dialog {
             TabView {
                 id: settingsTabs
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.minimumHeight: PlatformUtils.isOSX()? 550 : 590
+                Layout.fillHeight: true                
 
                 Tab {
                     id: mainTab
@@ -136,336 +136,348 @@ Dialog {
                         anchors.fill: parent
                         anchors.margins: PlatformUtils.isOSX()? 5 : 10
 
-                        GroupBox {
-                            title: qsTr("Main Settings")
-                            Layout.fillWidth: true
+                        Text {
+                            text: qsTr("Main Settings")
+                            font.pixelSize: 15
+                            font.bold: true
+                        }
+
+                        GridLayout {
+                            columns: 2
+
+                            Label { text: qsTr("Name:") }
+
+                            TextField {
+                                id: connectionName
+                                objectName: "rdm_connection_name_field"
+                                Layout.fillWidth: true
+                                placeholderText: qsTr("Connection Name")
+                                text: root.settings ? root.settings.name : ""
+                                Component.onCompleted: root.items.push(connectionName)
+                                onTextChanged: root.settings.name = text
+                            }
+
+                            Label { text: qsTr("Address:") }
+
+                            AddressInput {
+                                id: connectionAddress
+                                placeholderText: qsTr("redis-server host")
+                                host: root.settings ? root.settings.host : ""
+                                port: root.settings ? root.settings.port : 0
+                                Component.onCompleted: root.items.push(connectionAddress)
+                                onHostChanged: if (root.settings) root.settings.host = host
+                                onPortChanged: if (root.settings) root.settings.port = port
+                            }
+
+                            Label { text: qsTr("Auth:") }
+
+                            PasswordInput {
+                                id: connectionAuth
+                                Layout.fillWidth: true
+                                placeholderText: qsTr("(Optional) redis-server authentication password")
+                                text: root.settings ? root.settings.auth : ""
+                                onTextChanged: root.settings.auth = text
+                            }
+                        }
+
+                        Text {
+                            text: qsTr("Security")
+                            font.pixelSize: 15
+                            font.bold: true
+                        }
+
+                        GridLayout {
+                            columns: 2
+
+                            BetterRadioButton {
+                                text: qsTr("None")
+                                checked: root.settings ? !root.settings.sslEnabled && !root.settings.useSshTunnel() : true
+                                Layout.columnSpan: 2
+                            }
+
+                            BetterRadioButton {
+                                id: sslRadioButton
+                                Layout.columnSpan: 2
+                                text: qsTr("SSL")
+                                checked: root.settings ? root.settings.sslEnabled : false
+                                Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
+                                onCheckedChanged: {
+                                    root.settings.sslEnabled = checked
+                                    root.cleanStyle()
+
+                                    if (!checked) {
+                                        sslLocalCertPath.path = ""
+                                        sslPrivateKeyPath.path = ""
+                                        sslCaCertPath.path = ""
+                                    }
+                                }
+                            }
+
+                            Item { Layout.preferredWidth: 20 }
 
                             GridLayout {
-                                anchors.fill: parent
+                                enabled: sslRadioButton.checked
                                 columns: 2
+                                Layout.fillWidth: true
 
-                                Label { text: qsTr("Name:") }
+                                Label { text: qsTr("Public Key:") }
 
-                                TextField {
-                                    id: connectionName
-                                    objectName: "rdm_connection_name_field"
+                                FilePathInput {
+                                    id: sslLocalCertPath
                                     Layout.fillWidth: true
-                                    placeholderText: qsTr("Connection Name")
-                                    text: root.settings ? root.settings.name : ""                                    
-                                    Component.onCompleted: root.items.push(connectionName)
-                                    onTextChanged: root.settings.name = text
+                                    placeholderText: qsTr("(Optional) Public Key in PEM format")
+                                    nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
+                                    title: qsTr("Select public key in PEM format")
+                                    path: root.settings ? root.settings.sslLocalCertPath : ""
+                                    onPathChanged: root.settings.sslLocalCertPath = path
                                 }
 
-                                Label { text: qsTr("Address:") }
+                                Label { text: qsTr("Private Key:") }
+
+                                FilePathInput {
+                                    id: sslPrivateKeyPath
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTr("(Optional) Private Key in PEM format")
+                                    nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
+                                    title: qsTr("Select private key in PEM format")
+                                    path: root.settings ? root.settings.sslPrivateKeyPath : ""
+                                    onPathChanged: root.settings.sslPrivateKeyPath = path
+                                }
+
+                                Label { text: qsTr("Authority:") }
+
+                                FilePathInput {
+                                    id: sslCaCertPath
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTr("(Optional) Authority in PEM format")
+                                    nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
+                                    title: qsTr("Select authority file in PEM format")
+                                    path: root.settings ? root.settings.sslCaCertPath : ""
+                                    onPathChanged: root.settings.sslCaCertPath = path
+                                }
+                            }
+
+                            BetterRadioButton {
+                                id: sshRadioButton
+                                objectName: "rdm_connection_security_ssh_radio_button"
+                                Layout.columnSpan: 2
+                                text: qsTr("SSH Tunnel")
+                                checked: root.settings ? root.settings.useSshTunnel() : false
+                                Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
+                                onCheckedChanged: {
+                                    root.cleanStyle()
+
+                                    if (!checked) {
+                                        sshAddress.host = ""
+                                        sshAddress.port = 22
+                                        sshUser.text = ""
+                                        sshPrivateKey.path = ""
+                                        sshPassword.text = ""
+                                    }
+                                }
+                            }
+
+                            Item { Layout.preferredWidth: 20 }
+
+                            GridLayout {
+                                enabled: sshRadioButton.checked
+                                columns: 2
+                                Layout.fillWidth: true
+
+                                Label { text: qsTr("SSH Address:") }
 
                                 AddressInput {
-                                    id: connectionAddress
-                                    placeholderText: qsTr("redis-server host")
-                                    host: root.settings ? root.settings.host : ""
-                                    port: root.settings ? root.settings.port : 0
-                                    Component.onCompleted: root.items.push(connectionAddress)
-                                    onHostChanged: if (root.settings) root.settings.host = host
-                                    onPortChanged: if (root.settings) root.settings.port = port
+                                    id: sshAddress
+                                    placeholderText: qsTr("Remote Host with SSH server")
+                                    port: root.settings ? root.settings.sshPort : 22
+                                    host: root.settings ? root.settings.sshHost : ""
+                                    Component.onCompleted: root.sshItems.push(sshAddress)
+                                    onHostChanged: root.settings.sshHost = host
+                                    onPortChanged: root.settings.sshPort = port
                                 }
 
-                                Label { text: qsTr("Auth:") }
+                                Label { text: qsTr("SSH User:") }
 
-                                PasswordInput {
-                                    id: connectionAuth
+                                TextField {
+                                    id: sshUser
+                                    objectName: "rdm_connection_security_ssh_user_field"
                                     Layout.fillWidth: true
-                                    placeholderText: qsTr("(Optional) redis-server authentication password")
-                                    text: root.settings ? root.settings.auth : ""
-                                    onTextChanged: root.settings.auth = text
+                                    placeholderText: qsTr("Valid SSH User Name")
+                                    text: root.settings ? root.settings.sshUser : ""
+                                    Component.onCompleted: root.sshItems.push(sshUser)
+                                    onTextChanged: root.settings.sshUser = text
+                                }
+
+                                BetterGroupbox {
+                                    labelText: qsTr("Private Key")
+                                    objectName: "rdm_connection_security_ssh_key_group_box"
+                                    checked: root.settings ? root.settings.sshPrivateKey : false
+
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+
+                                    ColumnLayout {
+                                        anchors.fill: parent
+
+                                        FilePathInput {
+                                            id: sshPrivateKey
+                                            objectName: "rdm_connection_security_ssh_key_path_field"
+
+                                            Layout.fillWidth: true
+
+                                            placeholderText: qsTr("Path to Private Key in PEM format")
+                                            nameFilters: [ "Private key in PEM format (*)" ]
+                                            title: qsTr("Select private key in PEM format")
+                                            path: root.settings ? root.settings.sshPrivateKey : ""
+                                            onPathChanged: root.settings.sshPrivateKey = path
+                                        }
+
+                                        Label {
+                                            visible: PlatformUtils.isOSX()
+                                            Layout.fillWidth: true;
+                                            text: qsTr("<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
+                                    }
+                                }
+
+                                BetterGroupbox {
+                                    labelText: qsTr("Password")
+                                    objectName: "rdm_connection_security_ssh_password_group_box"
+                                    checked: root.settings ? root.settings.sshPassword : true
+
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+
+                                    PasswordInput {
+                                        id: sshPassword
+                                        objectName: "rdm_connection_security_ssh_password_field"
+                                        anchors.fill: parent
+                                        placeholderText: qsTr("SSH User Password")
+                                        text: root.settings ? root.settings.sshPassword : ""
+                                        onTextChanged: root.settings.sshPassword = text
+                                    }
                                 }
                             }
                         }
 
-                        GroupBox {
-                            title: qsTr("Security")
-                            objectName: "rdm_connection_group_box_security"
-
-                            Layout.columnSpan: 2
-                            Layout.fillWidth: true
-
-                            ExclusiveGroup { id: connectionSecurityExGroup }
-
-                            GridLayout {
-                                anchors.fill: parent
-                                columns: 2
-
-                                RadioButton {
-                                    text: qsTr("None")
-                                    checked: root.settings ? !root.settings.sslEnabled && !root.settings.useSshTunnel() : true
-                                    exclusiveGroup: connectionSecurityExGroup
-                                    Layout.columnSpan: 2
-                                }
-
-                                RadioButton {
-                                    id: sslRadioButton
-                                    Layout.columnSpan: 2
-                                    text: qsTr("SSL")
-                                    exclusiveGroup: connectionSecurityExGroup
-                                    checked: root.settings ? root.settings.sslEnabled : false
-                                    Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
-                                    onCheckedChanged: {
-                                        root.settings.sslEnabled = checked
-                                        root.cleanStyle()
-
-                                        if (!checked) {
-                                            sslLocalCertPath.path = ""
-                                            sslPrivateKeyPath.path = ""
-                                            sslCaCertPath.path = ""
-                                        }
-                                    }
-                                }
-
-                                Item { Layout.preferredWidth: 20 }
-
-                                GridLayout {
-                                    enabled: sslRadioButton.checked
-                                    columns: 2
-                                    Layout.fillWidth: true
-
-                                    Label { text: qsTr("Public Key:") }
-
-                                    FilePathInput {
-                                        id: sslLocalCertPath
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTr("(Optional) Public Key in PEM format")
-                                        nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
-                                        title: qsTr("Select public key in PEM format")
-                                        path: root.settings ? root.settings.sslLocalCertPath : ""                                        
-                                        onPathChanged: root.settings.sslLocalCertPath = path
-                                    }
-
-                                    Label { text: qsTr("Private Key:") }
-
-                                    FilePathInput {
-                                        id: sslPrivateKeyPath
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTr("(Optional) Private Key in PEM format")
-                                        nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
-                                        title: qsTr("Select private key in PEM format")
-                                        path: root.settings ? root.settings.sslPrivateKeyPath : ""
-                                        onPathChanged: root.settings.sslPrivateKeyPath = path
-                                    }
-
-                                    Label { text: qsTr("Authority:") }
-
-                                    FilePathInput {
-                                        id: sslCaCertPath
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTr("(Optional) Authority in PEM format")
-                                        nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
-                                        title: qsTr("Select authority file in PEM format")
-                                        path: root.settings ? root.settings.sslCaCertPath : ""
-                                        onPathChanged: root.settings.sslCaCertPath = path
-                                    }
-                                }
-
-                                RadioButton {
-                                    id: sshRadioButton
-                                    objectName: "rdm_connection_security_ssh_radio_button"
-                                    Layout.columnSpan: 2
-                                    text: qsTr("SSH Tunnel")
-                                    exclusiveGroup: connectionSecurityExGroup
-                                    checked: root.settings ? root.settings.useSshTunnel() : false
-                                    Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
-                                    onCheckedChanged: {
-                                        root.cleanStyle()
-
-                                        if (!checked) {
-                                            sshAddress.host = ""
-                                            sshAddress.port = 22
-                                            sshUser.text = ""
-                                            sshPrivateKey.path = ""
-                                            sshPassword.text = ""
-                                        }
-                                    }
-                                }
-
-                                Item { Layout.preferredWidth: 20 }
-
-                                GridLayout {
-                                    enabled: sshRadioButton.checked
-                                    columns: 2
-                                    Layout.fillWidth: true
-
-                                    Label { text: qsTr("SSH Address:") }
-
-                                    AddressInput {
-                                        id: sshAddress
-                                        placeholderText: qsTr("Remote Host with SSH server")
-                                        port: root.settings ? root.settings.sshPort : 22
-                                        host: root.settings ? root.settings.sshHost : ""
-                                        Component.onCompleted: root.sshItems.push(sshAddress)
-                                        onHostChanged: root.settings.sshHost = host
-                                        onPortChanged: root.settings.sshPort = port
-                                    }
-
-                                    Label { text: qsTr("SSH User:") }
-
-                                    TextField {
-                                        id: sshUser
-                                        objectName: "rdm_connection_security_ssh_user_field"
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTr("Valid SSH User Name")
-                                        text: root.settings ? root.settings.sshUser : ""
-                                        Component.onCompleted: root.sshItems.push(sshUser)
-                                        onTextChanged: root.settings.sshUser = text
-                                    }
-
-                                    GroupBox {
-                                        title: qsTr("Private Key")
-                                        objectName: "rdm_connection_security_ssh_key_group_box"
-                                        checkable: true
-                                        checked: root.settings ? root.settings.sshPrivateKey : false
-
-                                        Layout.columnSpan: 2
-                                        Layout.fillWidth: true
-
-                                        ColumnLayout {
-                                            anchors.fill: parent
-
-                                            FilePathInput {
-                                                id: sshPrivateKey
-                                                objectName: "rdm_connection_security_ssh_key_path_field"
-
-                                                Layout.fillWidth: true
-
-                                                placeholderText: qsTr("Path to Private Key in PEM format")
-                                                nameFilters: [ "Private key in PEM format (*)" ]
-                                                title: qsTr("Select private key in PEM format")
-                                                path: root.settings ? root.settings.sshPrivateKey : ""
-                                                onPathChanged: root.settings.sshPrivateKey = path
-                                            }
-
-                                            Label {
-                                                visible: PlatformUtils.isOSX()
-                                                Layout.fillWidth: true;
-                                                text: qsTr("<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
-                                        }
-                                    }                                                                       
-
-                                    GroupBox {
-                                        title: qsTr("Password")
-                                        objectName: "rdm_connection_security_ssh_password_group_box"
-                                        checkable: true
-                                        checked: root.settings ? root.settings.sshPassword : true
-
-                                        Layout.columnSpan: 2
-                                        Layout.fillWidth: true
-
-                                        PasswordInput {
-                                            id: sshPassword
-                                            objectName: "rdm_connection_security_ssh_password_field"
-                                            anchors.fill: parent
-                                            placeholderText: qsTr("SSH User Password")
-                                            text: root.settings ? root.settings.sshPassword : ""
-                                            onTextChanged: root.settings.sshPassword = text
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
 
                 Tab {
                     title: qsTr("Advanced Settings")
 
-                    GridLayout {
-                        anchors.fill: parent
-                        anchors.margins: 10
+                       GridLayout {
+                            anchors.fill: parent
+                            anchors.margins: 10
 
-                        columns: 2
+                            columns: 2
 
-                        Label { text: qsTr("Default filter:") }
-
-                        TextField
-                        {
-                            id: keysPattern
-                            Layout.fillWidth: true
-                            placeholderText: qsTr("Pattern which defines loaded keys from redis-server")
-                            text: root.settings ? root.settings.keysPattern : ""
-                            Component.onCompleted: root.items.push(keysPattern)
-                            onTextChanged: root.settings.keysPattern = text
-                        }
-
-                        Label { text: qsTr("Namespace Separator:") }
-
-                        TextField
-                        {
-                            id: namespaceSeparator
-                            Layout.fillWidth: true
-                            objectName: "rdm_advanced_settings_namespace_separator_field"
-                            placeholderText: qsTr("Separator used for namespace extraction from keys")
-                            text: root.settings ? root.settings.namespaceSeparator : ""
-                            onTextChanged: root.settings.namespaceSeparator = text
-                        }
-
-                        Label { text: qsTr("Connection Timeout (sec):") }
-
-                        SpinBox {
-                            id: executeTimeout
-                            Layout.fillWidth: true
-                            minimumValue: 30
-                            maximumValue: 100000
-                            value: {                                
-                                return root.settings ? (root.settings.executeTimeout / 1000.0) : 0
+                            Text {
+                                text: qsTr("Keys loading")
+                                font.pixelSize: 15
+                                font.bold: true
+                                Layout.columnSpan: 2
                             }
-                            onValueChanged: root.settings.executeTimeout = value * 1000
-                        }
 
-                        Label { text: qsTr("Execution Timeout (sec):")}
+                            Label { text: qsTr("Default filter:") }
 
-                        SpinBox {
-                            id: connectionTimeout
-                            Layout.fillWidth: true
-                            minimumValue: 30
-                            maximumValue: 100000
-                            value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
-                            onValueChanged: root.settings.connectionTimeout = value * 1000
-                        }                        
-
-                        Label { text: qsTr("Databases discovery limit:") }
-
-                        SpinBox {
-                            id: dbScanLimit
-                            Layout.fillWidth: true
-                            minimumValue: 1
-                            maximumValue: 100000
-                            value: {
-                                return root.settings ? root.settings.databaseScanLimit : 1
+                            TextField
+                            {
+                                id: keysPattern
+                                Layout.fillWidth: true
+                                placeholderText: qsTr("Pattern which defines loaded keys from redis-server")
+                                text: root.settings ? root.settings.keysPattern : ""
+                                Component.onCompleted: root.items.push(keysPattern)
+                                onTextChanged: root.settings.keysPattern = text
                             }
-                            onValueChanged: root.settings.databaseScanLimit = value
+
+                            Label { text: qsTr("Namespace Separator:") }
+
+                            TextField
+                            {
+                                id: namespaceSeparator
+                                Layout.fillWidth: true
+                                objectName: "rdm_advanced_settings_namespace_separator_field"
+                                placeholderText: qsTr("Separator used for namespace extraction from keys")
+                                text: root.settings ? root.settings.namespaceSeparator : ""
+                                onTextChanged: root.settings.namespaceSeparator = text
+                            }
+
+                            Label { text: qsTr("Use server-side optimized keys loading (experimental):")}
+
+                            BetterCheckbox {
+                                id: luaKeysLoading
+                                Layout.fillWidth: true
+                                checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
+                                onCheckedChanged: root.settings.luaKeysLoading = checked
+
+                            }
+
+                            Text {
+                                text: qsTr("Timeouts & Limits")
+                                font.pixelSize: 15
+                                font.bold: true
+                                Layout.columnSpan: 2
+                            }
+
+                            Label { text: qsTr("Connection Timeout (sec):") }
+
+                            SpinBox {
+                                id: executeTimeout
+                                Layout.fillWidth: true
+                                minimumValue: 30
+                                maximumValue: 100000
+                                value: {
+                                    return root.settings ? (root.settings.executeTimeout / 1000.0) : 0
+                                }
+                                onValueChanged: root.settings.executeTimeout = value * 1000
+                            }
+
+                            Label { text: qsTr("Execution Timeout (sec):")}
+
+                            SpinBox {
+                                id: connectionTimeout
+                                Layout.fillWidth: true
+                                minimumValue: 30
+                                maximumValue: 100000
+                                value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
+                                onValueChanged: root.settings.connectionTimeout = value * 1000
+                            }
+
+                            Label { text: qsTr("Databases discovery limit:") }
+
+                            SpinBox {
+                                id: dbScanLimit
+                                Layout.fillWidth: true
+                                minimumValue: 1
+                                maximumValue: 100000
+                                value: {
+                                    return root.settings ? root.settings.databaseScanLimit : 1
+                                }
+                                onValueChanged: root.settings.databaseScanLimit = value
+                            }
+
+                            Text {
+                                text: qsTr("Cluster")
+                                font.pixelSize: 15
+                                font.bold: true
+                                Layout.columnSpan: 2
+                            }
+
+                            Label { text: qsTr("Change host on cluster redirects:")}
+
+                            BetterCheckbox {
+                                id: overrideClusterHost
+                                Layout.fillWidth: true
+                                checked: root.settings ? root.settings.overrideClusterHost : false
+                                onCheckedChanged: root.settings.overrideClusterHost = checked
+                            }
+
+                            Item {
+                                Layout.columnSpan: 2
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+                            }
                         }
-
-                        Label { text: qsTr("Change host on cluster redirects:")}
-
-                        CheckBox {
-                            id: overrideClusterHost
-                            Layout.fillWidth: true
-                            checked: root.settings ? root.settings.overrideClusterHost : false
-                            onCheckedChanged: root.settings.overrideClusterHost = checked
-                        }
-
-                        Label { text: qsTr("Use server-side optimized keys loading (experimental):")}
-
-                        CheckBox {
-                            id: luaKeysLoading
-                            Layout.fillWidth: true
-                            checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
-                            onCheckedChanged: root.settings.luaKeysLoading = checked
-
-                        }
-
-                        Item {
-                            Layout.columnSpan: 2
-                            Layout.fillHeight: true
-                            Layout.fillWidth: true
-                        }
-                    }
                 }
             }
 

@@ -42,5 +42,9 @@
         <file>server-info/ServerInfoTabs.qml</file>
         <file>common/platformutils.js</file>
         <file>common/NewTextArea.qml</file>
+        <file>common/BetterGroupbox.qml</file>
+        <file>common/BetterCheckbox.qml</file>
+        <file>common/BetterRadioButton.qml</file>
+        <file>common/BetterTextField.qml</file>
     </qresource>
 </RCC>
