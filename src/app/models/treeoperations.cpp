@@ -236,3 +236,8 @@ QString TreeOperations::mode()
         return QString("standalone");
     }
 }
+
+void TreeOperations::setConnection(QSharedPointer<RedisClient::Connection> c)
+{
+    m_connection = c;
+}

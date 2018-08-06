@@ -77,6 +77,12 @@ void ConnectionsManager::updateConnection(const ServerConfig &config)
         return;
 
     serverItem->setName(config.name());
+    auto operations = serverItem->getOperations().dynamicCast<TreeOperations>();
+
+    if (!operations)
+        return;
+
+    operations->setConnection(cloneConnection(connection));
 
     emit dataChanged(index(serverItem->row(), 0, QModelIndex()),
                      index(serverItem->row(), 0, QModelIndex()));

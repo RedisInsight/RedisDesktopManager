@@ -116,6 +116,11 @@ bool ServerItem::isDatabaseListLoaded() const
     return isLocked() == false && m_databases.size() > 0;
 }
 
+QSharedPointer<Operations> ServerItem::getOperations()
+{
+    return m_operations;
+}
+
 void ServerItem::load()
 { 
     lock();    
