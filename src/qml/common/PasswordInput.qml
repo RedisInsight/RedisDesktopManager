@@ -15,7 +15,7 @@ RowLayout {
         echoMode: passwordMask.checked ? TextInput.Normal : TextInput.Password
     }
 
-    CheckBox {
+    BetterCheckbox {
         id: passwordMask
         text: qsTr("Show password")
     }
