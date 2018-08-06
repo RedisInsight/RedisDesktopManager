@@ -3,8 +3,10 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
+import QtQuick.Window 2.3
 import "./common"
 import "./settings"
+import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root
@@ -12,15 +14,14 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 800
-        implicitHeight: 650
+        implicitHeight: PlatformUtils.isOSX()? 600 : Math.min(750, Screen.desktopAvailableHeight - 100)
 
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 20
 
-            Text {
-                text: qsTr("General")
-                font.pixelSize: 18
+            SettingsGroupTitle {
+                text: qsTr("General")                
             }
 
             ComboboxOption {
@@ -70,9 +71,9 @@ Dialog {
                 description: qsTr("Application restart is needed to apply this setting.")
             }
 
-            Text {
+            SettingsGroupTitle {
                 text: qsTr("Connections Tree")
-                font.pixelSize: 18
+                Layout.topMargin: 20
             }
 
             BoolOption {
@@ -123,9 +124,8 @@ Dialog {
                 description: ""
             }               
 
-            Text {
-                text: qsTr("Custom Value View Formatters")
-                font.pixelSize: 18
+            SettingsGroupTitle {
+                text: qsTr("Custom Value View Formatters")                
             }
 
             Text {
@@ -135,7 +135,8 @@ Dialog {
             }
 
             TableView {
-                Layout.fillWidth: true
+                Layout.fillWidth: true                
+                verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
 
                 TableViewColumn {
                     role: "name"

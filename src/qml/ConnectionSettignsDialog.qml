@@ -117,7 +117,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 600
-        implicitHeight: PlatformUtils.isOSX()? 600 : Math.min(675, Screen.desktopAvailableHeight - 100)
+        implicitHeight: PlatformUtils.isOSX()? 600 : Math.min(750, Screen.desktopAvailableHeight - 100)
 
         ColumnLayout {
             anchors.fill: parent
@@ -136,11 +136,7 @@ Dialog {
                         anchors.fill: parent
                         anchors.margins: PlatformUtils.isOSX()? 5 : 10
 
-                        Text {
-                            text: qsTr("Main Settings")
-                            font.pixelSize: 15
-                            font.bold: true
-                        }
+                        SettingsGroupTitle { text: qsTr("Main Settings") }
 
                         GridLayout {
                             columns: 2
@@ -180,11 +176,7 @@ Dialog {
                             }
                         }
 
-                        Text {
-                            text: qsTr("Security")
-                            font.pixelSize: 15
-                            font.bold: true
-                        }
+                        SettingsGroupTitle { text: qsTr("Security") }
 
                         GridLayout {
                             columns: 2
@@ -371,10 +363,8 @@ Dialog {
 
                             columns: 2
 
-                            Text {
-                                text: qsTr("Keys loading")
-                                font.pixelSize: 15
-                                font.bold: true
+                            SettingsGroupTitle {
+                                text: qsTr("Keys loading")                                
                                 Layout.columnSpan: 2
                             }
 
@@ -412,10 +402,8 @@ Dialog {
 
                             }
 
-                            Text {
-                                text: qsTr("Timeouts & Limits")
-                                font.pixelSize: 15
-                                font.bold: true
+                            SettingsGroupTitle {
+                                text: qsTr("Timeouts & Limits")                               
                                 Layout.columnSpan: 2
                             }
 
@@ -456,10 +444,8 @@ Dialog {
                                 onValueChanged: root.settings.databaseScanLimit = value
                             }
 
-                            Text {
-                                text: qsTr("Cluster")
-                                font.pixelSize: 15
-                                font.bold: true
+                            SettingsGroupTitle {
+                                text: qsTr("Cluster")                                
                                 Layout.columnSpan: 2
                             }
 

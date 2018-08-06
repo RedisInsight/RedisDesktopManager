@@ -46,5 +46,6 @@
         <file>common/BetterCheckbox.qml</file>
         <file>common/BetterRadioButton.qml</file>
         <file>common/BetterTextField.qml</file>
+        <file>common/SettingsGroupTitle.qml</file>
     </qresource>
 </RCC>
