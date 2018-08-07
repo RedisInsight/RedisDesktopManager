@@ -117,7 +117,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 600
-        implicitHeight: PlatformUtils.isOSX()? 600 : Math.min(750, Screen.desktopAvailableHeight - 100)
+        implicitHeight: PlatformUtils.isOSX()? 650 : Math.min(750, Screen.desktopAvailableHeight - 100)
 
         ColumnLayout {
             anchors.fill: parent
