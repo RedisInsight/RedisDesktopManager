@@ -66,7 +66,7 @@ Repeater {
                 sortCaseSensitivity: Qt.CaseInsensitive
                 sortRole: keyTab.keyModel ? table.getColumn(table.sortIndicatorColumn).role : ""
 
-                filterString: "*" + table.searchField.text + "*"
+                filterString: table.searchField.text
                 filterSyntax: SortFilterProxyModel.Wildcard
                 filterCaseSensitivity: Qt.CaseInsensitive
                 filterRole: keyTab.keyModel ? table.getColumn(1).role : ""
