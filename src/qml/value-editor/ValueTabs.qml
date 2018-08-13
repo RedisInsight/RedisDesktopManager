@@ -125,13 +125,6 @@ Repeater {
                         objectName: "rdm_key_name_field"
                     }
 
-                    Item { visible: showValueNavigation; Layout.preferredWidth: 5}
-                    Text { visible: showValueNavigation; text: "Size: "+ valuesCount }
-                    Item { Layout.preferredWidth: 5}
-                    Text { text: qsTr("TTL:"); font.bold: true }
-                    Text { text: keyTtl; objectName: "rdm_key_ttl_value"}
-                    Item { Layout.preferredWidth: 5}
-
                     Button {
                         text: qsTr("Rename")
 
@@ -173,37 +166,14 @@ Repeater {
                         }
                     }
 
-                    Button {
-                        text: qsTr("Delete")
-                        iconSource: "qrc:/images/delete.svg"
-
-                        MessageDialog {
-                            id: deleteConfirmation
-                            title: qsTr("Delete key")
-                            text: qsTr("Do you really want to delete this key?")
-                            onYes: {
-                                console.log("remove key")
-                                viewModel.removeKey(keyTab.tabIndex)
-                            }
-                            visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Warning
-                            standardButtons: StandardButton.Yes | StandardButton.No
-                        }
-
-                        onClicked: {
-                            deleteConfirmation.open()
-                        }
-                    }
+                    Item { visible: showValueNavigation; Layout.preferredWidth: 5}
+                    Text { visible: showValueNavigation; text: "Size: "+ valuesCount }
+                    Item { Layout.preferredWidth: 5}
 
                     Button {
-                        text: qsTr("Reload Value")
-                        action: reLoadAction
-                        visible: !showValueNavigation
-                    }
+                        text: qsTr("TTL:") + keyTtl
+                        objectName: "rdm_key_ttl_value"
 
-                    Button {
-                        text: qsTr("Set TTL")
                         Dialog {
                             id: setTTLConfirmation
                             title: qsTr("Set key TTL")
@@ -241,6 +211,39 @@ Repeater {
                             setTTLConfirmation.open()
                         }
                     }
+
+
+                    Item { Layout.preferredWidth: 5}                    
+
+                    Button {
+                        text: qsTr("Delete")
+                        iconSource: "qrc:/images/delete.svg"
+
+                        MessageDialog {
+                            id: deleteConfirmation
+                            title: qsTr("Delete key")
+                            text: qsTr("Do you really want to delete this key?")
+                            onYes: {
+                                console.log("remove key")
+                                viewModel.removeKey(keyTab.tabIndex)
+                            }
+                            visible: false
+                            modality: Qt.ApplicationModal
+                            icon: StandardIcon.Warning
+                            standardButtons: StandardButton.Yes | StandardButton.No
+                        }
+
+                        onClicked: {
+                            deleteConfirmation.open()
+                        }
+                    }
+
+                    Button {
+                        text: qsTr("Reload Value")
+                        action: reLoadAction
+                        visible: !showValueNavigation
+                        iconSource: "qrc:/images/refresh.svg"
+                    }                    
                 }
 
                 SplitView {
