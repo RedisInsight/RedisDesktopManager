@@ -147,6 +147,18 @@ ColumnLayout
         TextEdit { text: qsTr("size: ") + binaryUtils.humanSize(binaryUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
         Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
+
+        ImageButton {
+            iconSource: "qrc:/images/copy.svg"
+            tooltip: qsTr("Copy to Clipboard")
+
+            onClicked: {
+                if (textView.model) {
+                    qmlUtils.copyToClipboard(textView.model.getText())
+                }
+            }
+        }
+
         Text { visible: showFormatters; text: qsTr("View as:") }
 
         ComboBox {
