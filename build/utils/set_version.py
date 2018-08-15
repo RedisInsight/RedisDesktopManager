@@ -1,12 +1,15 @@
+from __future__ import print_function
 import sys
-import fileinput
 
-if len(sys.argv) != 2 :
-    print "Usage: %version%"
+
+if len(sys.argv) != 2:
+    print("Usage: %version%")
     quit()	
 
-print """
+print(
+    """
 #ifndef RDM_VERSION
     #define RDM_VERSION "{0}"
 #endif // !RDM_VERSION
 """.format(sys.argv[1])
+)
