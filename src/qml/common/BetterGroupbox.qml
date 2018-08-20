@@ -7,6 +7,7 @@ GroupBox {
 
     label: BetterCheckbox {
             id: checkBox
+            objectName: "checkbox"
             checked: root.checked
             text: root.labelText           
     }

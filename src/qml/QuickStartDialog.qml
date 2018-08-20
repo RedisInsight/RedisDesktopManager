@@ -10,7 +10,7 @@ Dialog {
     title: qsTr("Explore Redis Desktop Manager")
 
     contentItem: Item {
-        implicitWidth: msgLayout.implicitWidth + 50
+        implicitWidth: approot.width
         implicitHeight: 150
 
         ColumnLayout {
