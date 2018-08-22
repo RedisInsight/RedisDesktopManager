@@ -73,7 +73,7 @@ bool DumpCallback(const char* _dump_dir,const char* _minidump_id,void *context, 
 #if defined(WIN32)    
     wcscat_s( crashReporterPath, L" \"");
     wcscat_s( crashReporterPath, _dump_dir );
-    wcscat_s( crashReporterPath, L"\\" );
+    wcscat_s( crashReporterPath, L"/" );
     wcscat_s( crashReporterPath, _minidump_id );
     wcscat_s( crashReporterPath, L".dmp\"" );
     wcscat_s( crashReporterPath, L" \"");

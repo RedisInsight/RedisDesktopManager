@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QFileInfo appPath(QString::fromLocal8Bit(argv[0]));
     QString appDir(appPath.absoluteDir().path());
     QString crashReporterPath = QString("%1/crashreporter").arg(appDir.isEmpty() ? "." : appDir);
-    CrashHandler::instance()->Init(QDir::homePath(), appDir, crashReporterPath);
+    CrashHandler::instance()->Init(QDir::homePath(), appPath.absoluteFilePath(), crashReporterPath);
     #endif
 
     Application a(argc, argv);
