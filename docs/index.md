@@ -8,4 +8,4 @@ Please submit any issues and proposals on [GitHub](https://github.com/uglide/Red
 
 
 
-#### Ask for help in [gitter chat](https://gitter.im/uglide/RedisDesktopManager)
+#### Ask for help in [telegram chat](https://t.me/RedisDesktopManager)
