@@ -18,10 +18,9 @@
         <file alias="export.svg">images/export.svg</file>
         <file alias="editdb.svg">images/editdb.svg</file>
         <file alias="delete.svg">images/delete.svg</file>
-        <file alias="rdm.ico">redis.ico</file>        
+        <file alias="rdm.ico">redis.ico</file>
         <file alias="ua.svg">images/ua.svg</file>
         <file alias="filter.svg">images/filter.svg</file>
-        <file alias="chat.svg">images/chat.svg</file>
         <file alias="ga.png">images/ga.png</file>
         <file alias="server.svg">images/server.svg</file>
         <file alias="server_offline.svg">images/server_offline.svg</file>

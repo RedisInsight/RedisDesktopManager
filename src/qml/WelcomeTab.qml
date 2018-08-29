@@ -47,10 +47,6 @@ BetterTab {
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
-                    html: '<a style="font-size: 16px; " href="https://gitter.im/uglide/RedisDesktopManager"><img width="25" src="qrc:/images/chat.svg" />&nbsp;Join Gitter Chat</a> '
-                }
-                RichTextWithLinks {
-                    Layout.fillWidth: true
                     html: '<a style="font-size: 16px; " href="https://twitter.com/RedisDesktop"><img width="25" src="qrc:/images/twi.svg" />&nbsp;Follow</a> '
                 }
                 RichTextWithLinks {
