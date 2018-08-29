@@ -47,6 +47,10 @@ BetterTab {
                 }
                 RichTextWithLinks {
                     Layout.fillWidth: true
+                    html: '<a style="font-size: 16px; " href="https://t.me/RedisDesktopManager"><img width="25" src="qrc:/images/telegram.svg" />&nbsp;Join Telegram Chat</a> '
+                }
+                RichTextWithLinks {
+                    Layout.fillWidth: true
                     html: '<a style="font-size: 16px; " href="https://twitter.com/RedisDesktop"><img width="25" src="qrc:/images/twi.svg" />&nbsp;Follow</a> '
                 }
                 RichTextWithLinks {
