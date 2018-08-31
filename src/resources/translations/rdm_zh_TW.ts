@@ -295,7 +295,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="333"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;提示：&lt;/b&gt; &lt;code&gt;⌘ + Shift + .&lt;/code&gt; 可以顯示隱藏的檔案與資料夾</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="338"/>
@@ -334,7 +334,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="410"/>
         <source>Timeouts &amp; Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>超時 &amp; 限制</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="414"/>
@@ -349,32 +349,32 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="399"/>
         <source>Use server-side optimized keys loading (experimental):</source>
-        <translation type="unfinished"></translation>
+        <translation>使用伺服端最佳化的方式載入鍵 (實驗性)：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="371"/>
         <source>Keys loading</source>
-        <translation type="unfinished"></translation>
+        <translation>鍵的載入</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
         <source>Default filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>預設過濾器：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="438"/>
         <source>Databases discovery limit:</source>
-        <translation type="unfinished"></translation>
+        <translation>資料庫探索上限：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
         <source>Cluster</source>
-        <translation type="unfinished"></translation>
+        <translation>叢集</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="456"/>
         <source>Change host on cluster redirects:</source>
-        <translation type="unfinished"></translation>
+        <translation>在叢集重定向後改變 host ：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="484"/>
@@ -461,12 +461,12 @@
     <message>
         <location filename="../../qml/console/Consoles.qml" line="61"/>
         <source>Confirm Action</source>
-        <translation type="unfinished"></translation>
+        <translation>確認操作</translation>
     </message>
     <message>
         <location filename="../../qml/console/Consoles.qml" line="70"/>
         <source>Do you really want to close console with running command?</source>
-        <translation type="unfinished"></translation>
+        <translation>控制台尚有指令執行中，確定要關閉控制台嗎？</translation>
     </message>
 </context>
 <context>
@@ -515,7 +515,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Use system proxy settings</source>
-        <translation type="unfinished"></translation>
+        <translation>使用系統的 proxy 設定</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="75"/>
@@ -551,12 +551,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="128"/>
         <source>Custom Value View Formatters</source>
-        <translation type="unfinished"></translation>
+        <translation>自訂值格式化工具</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="132"/>
         <source>Formatters path: %0</source>
-        <translation type="unfinished"></translation>
+        <translation>格式化工具路徑：%0</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="166"/>
@@ -597,7 +597,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="153"/>
         <source>Copy to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>複製到剪貼簿</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="162"/>
@@ -721,7 +721,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="61"/>
         <source>Unsupported Redis Data type %1</source>
-        <translation type="unfinished"></translation>
+        <translation>不支援的 Redis 資料類型 %1</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="70"/>
@@ -937,27 +937,27 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="20"/>
         <source>Connecting...</source>
-        <translation type="unfinished">連接中...</translation>
+        <translation>連接中...</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="192"/>
         <source>Arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>參數</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="198"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>描述</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="204"/>
         <source>Available since</source>
-        <translation type="unfinished"></translation>
+        <translation>可用自</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="255"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>關閉</translation>
     </message>
 </context>
 <context>
@@ -1174,7 +1174,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="72"/>
         <source>Open Console</source>
-        <translation type="unfinished">打開控制台</translation>
+        <translation>打開控制台</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
@@ -1184,7 +1184,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
         <source>Enter Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>輸入過濾器</translation>
     </message>
 </context>
 <context>
