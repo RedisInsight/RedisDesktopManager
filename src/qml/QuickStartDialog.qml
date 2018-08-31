@@ -10,23 +10,35 @@ Dialog {
     title: qsTr("Explore Redis Desktop Manager")
 
     contentItem: Item {
-        implicitWidth: approot.width
+        id: rootItem
+        anchors.fill: parent
+        anchors.margins: 15
+        implicitWidth: 750
         implicitHeight: 150
 
         ColumnLayout {
-            anchors.centerIn: parent
+            anchors.fill: parent
 
             RowLayout {
                 id: msgLayout
 
                 Layout.fillHeight: true
+                Layout.alignment: Qt.AlignHCenter
 
-                Image { source: "qrc:/images/help.svg" }
+                Image {
+                    source: "qrc:/images/help.svg"
+                    sourceSize.width: 50
+                    sourceSize.height: 50
+                }
 
                 RichTextWithLinks {
-
+                    wrapMode: Text.WrapAnywhere
                     html: "<p style='font-size: 13pt;'>" + qsTr("Before using Redis Desktop Manager (RDM) take a look on the %1").arg(
                               "<a href='http://docs.redisdesktop.com/en/latest/quick-start/'>" + qsTr("Quick Start Guide")+ "</a>") + "</p>"
+
+                    Component.onCompleted: {
+                        root.width = contentWidth
+                    }
                 }
             }
 
