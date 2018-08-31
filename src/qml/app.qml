@@ -223,6 +223,15 @@ ApplicationWindow {
                 AddKeyDialog {
                     id: addNewKeyDialog
                     objectName: "rdm_qml_new_key_dialog"
+
+                    width: approot.width * 0.7
+                    height: {
+                        if (approot.height > 500) {
+                            return approot.height * 0.7
+                        } else {
+                            return approot.height
+                        }
+                    }
                 }
 
                 Connections {

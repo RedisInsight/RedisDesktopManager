@@ -9,8 +9,6 @@ import "./editors/editor.js" as Editor
 Dialog {
     id: root
     title: qsTr("Add New Key")
-    width: 550
-    height: 500
     modality: Qt.ApplicationModal
     visible: false
 
@@ -18,6 +16,8 @@ Dialog {
 
     Item {
         anchors.fill: parent
+        implicitHeight: 500
+        implicitWidth: 600
 
         ColumnLayout {
             anchors.fill: parent
@@ -45,6 +45,7 @@ Dialog {
             Loader {
                 id: valueAddEditor
                 Layout.fillWidth: true
+                Layout.fillHeight: true
                 Layout.preferredHeight: 300
 
                 source: Editor.getEditorByTypeString(
@@ -104,15 +105,15 @@ Dialog {
                 Layout.fillWidth: true
             }
         }
-    }
 
-    MessageDialog {
-        id: addError
-        title: qsTr("Error")
-        text: ""
-        visible: false
-        modality: Qt.ApplicationModal
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Ok
+        MessageDialog {
+            id: addError
+            title: qsTr("Error")
+            text: ""
+            visible: false
+            modality: Qt.ApplicationModal
+            icon: StandardIcon.Warning
+            standardButtons: StandardButton.Ok
+        }
     }
 }
