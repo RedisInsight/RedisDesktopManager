@@ -902,17 +902,17 @@
         <translation>探索 Redis Desktop Manager</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="28"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="36"/>
         <source>Before using Redis Desktop Manager (RDM) take a look on the %1</source>
         <translation>在使用  Redis Desktop Manager (RDM) 之前，请看看 %1</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="29"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
         <source>Quick Start Guide</source>
         <translation>快速入门指南</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="39"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="51"/>
         <source>OK</source>
         <translation>好</translation>
     </message>
@@ -1127,12 +1127,12 @@
 <context>
     <name>app</name>
     <message>
-        <location filename="../../qml/app.qml" line="79"/>
+        <location filename="../../qml/app.qml" line="81"/>
         <source>Successful connection to redis-server</source>
         <translation>连接 Redis 服务器成功</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="82"/>
+        <location filename="../../qml/app.qml" line="84"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>无法连接 Redis 服务器</translation>
     </message>
