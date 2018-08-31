@@ -154,7 +154,8 @@ void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series, double val
 
 QObject *QmlUtils::wrapLargeText(const QByteArray &text)
 {    
-    auto w = new ValueEditor::LargeTextWrappingModel(QString::fromUtf8(text));
+    //NOTE(u_glide): Use 150Kb chunks
+    auto w = new ValueEditor::LargeTextWrappingModel(QString::fromUtf8(text), 153600);
     w->setParent(this);
     return w;
 }
