@@ -164,6 +164,7 @@ lupdate_only{
 TRANSLATIONS = \
     $$PWD/resources/translations/rdm.ts \
     $$PWD/resources/translations/rdm_zh_CN.ts \
-    $$PWD/resources/translations/rdm_zh_TW.ts
+    $$PWD/resources/translations/rdm_zh_TW.ts \
+    $$PWD/resources/translations/rdm_ru_RU.ts \
 
 CODECFORSRC = UTF-8
