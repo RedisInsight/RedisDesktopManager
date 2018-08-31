@@ -7,7 +7,7 @@ class TabModel : public QObject
     Q_OBJECT
 
     public:
-        TabModel(QSharedPointer<RedisClient::Connection> connection);
+        TabModel(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
         virtual ~TabModel() {}
 

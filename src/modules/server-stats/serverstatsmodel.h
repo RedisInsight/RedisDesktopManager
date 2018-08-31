@@ -12,7 +12,7 @@ namespace ServerStats {
         Q_PROPERTY(QVariantMap serverInfo READ serverInfo NOTIFY serverInfoChanged)
 
     public:
-        Model(QSharedPointer<RedisClient::Connection> connection);
+        Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
         Q_INVOKABLE void init() override;
 

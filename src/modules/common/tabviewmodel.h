@@ -13,7 +13,7 @@ public:
         tabIndex,
     };
 
-    typedef std::function<QSharedPointer<TabModel>(QSharedPointer<RedisClient::Connection>)> ModelFactory;
+    typedef std::function<QSharedPointer<TabModel>(QSharedPointer<RedisClient::Connection>, int dbIndex)> ModelFactory;
 
 public:
     TabViewModel(const ModelFactory& modelFactory);
@@ -39,7 +39,7 @@ signals:
     void changeCurrentTab(int i);
 
 public slots:
-    void openTab(QSharedPointer<RedisClient::Connection> connection);
+    void openTab(QSharedPointer<RedisClient::Connection> connection, int dbIndex=0);
 
     void closeAllTabsWithConnection(QSharedPointer<RedisClient::Connection> connection);
 
@@ -54,7 +54,7 @@ private:
 
 template <class T> TabViewModel::ModelFactory getTabModelFactory()
 {
-    return TabViewModel::ModelFactory([](QSharedPointer<RedisClient::Connection> c) {
-        return QSharedPointer<TabModel>(new T(c));
+    return TabViewModel::ModelFactory([](QSharedPointer<RedisClient::Connection> c, int dbIndex) {
+        return QSharedPointer<TabModel>(new T(c, dbIndex));
     });
 }

@@ -149,9 +149,9 @@ void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab
     emit m_manager.openValueTab(m_connection, key, openInNewTab);
 }
 
-void TreeOperations::openConsoleTab()
+void TreeOperations::openConsoleTab(int dbIndex)
 {    
-    emit m_manager.openConsole(m_connection);
+    emit m_manager.openConsole(m_connection, dbIndex);
 }
 
 void TreeOperations::openNewKeyDialog(int dbIndex, std::function<void()> callback,

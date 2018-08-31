@@ -10,7 +10,7 @@ void TestConsoleOperations::init_invalid()
     QSharedPointer<RedisClient::Connection> invalidConnection = getFakeConnection(
         QList<QVariant>(), QStringList(), 2.6, true
     ).dynamicCast<RedisClient::Connection>();
-    Console::Model testModel(invalidConnection);
+    Console::Model testModel(invalidConnection, 0);
     QSignalSpy spy(&testModel, SIGNAL(addOutput(const QString&, QString)));
     
     //when
