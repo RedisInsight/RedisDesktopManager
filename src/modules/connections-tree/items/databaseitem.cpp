@@ -63,6 +63,10 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
          });
     });
 
+    m_eventHandlers.insert("console", [this]() {
+        m_operations->openConsoleTab(m_dbIndex);
+    });
+
     QSettings settings;
     m_liveUpdateTimer.setInterval(settings.value("app/liveUpdateInterval", 10).toInt() * 1000);
     m_liveUpdateTimer.setSingleShot(true);

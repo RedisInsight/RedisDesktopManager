@@ -47,7 +47,7 @@ signals:
 
     void connectionAboutToBeEdited(QString name);
 
-    void openConsole(QSharedPointer<RedisClient::Connection> connection);
+    void openConsole(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
     void openServerStats(QSharedPointer<RedisClient::Connection> connection);
 

@@ -60,7 +60,10 @@ void Application::initModels()
     m_serverStatsModel = QSharedPointer<TabViewModel>(new TabViewModel(getTabModelFactory<ServerStats::Model>()));
 
     connect(m_connections.data(), &ConnectionsManager::openServerStats,
-            m_serverStatsModel.data(), &TabViewModel::openTab);
+            this, [this](QSharedPointer<RedisClient::Connection> c)
+    {
+        m_serverStatsModel->openTab(c);
+    });
 
     m_formattersManager = QSharedPointer<ValueEditor::FormattersManager>(new ValueEditor::FormattersManager());
     m_formattersManager->loadFormatters();

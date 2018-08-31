@@ -54,7 +54,7 @@ namespace ConnectionsTree {
 
         virtual void openKeyTab(KeyItem& key, bool openInNewTab) = 0;
 
-        virtual void openConsoleTab() = 0;
+        virtual void openConsoleTab(int dbIndex=0) = 0;
 
         virtual void openNewKeyDialog(int dbIndex, std::function<void()> callback,
                                       QString keyPrefix = QString()) = 0;

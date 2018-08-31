@@ -51,7 +51,7 @@ public:
 
     virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
 
-    virtual void openConsoleTab() override {}
+    virtual void openConsoleTab(int dbIndex = 0) override {}
 
     virtual void openServerStats() override {}
 

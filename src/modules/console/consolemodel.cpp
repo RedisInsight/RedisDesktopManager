@@ -3,8 +3,8 @@
 
 using namespace Console;
 
-Model::Model(QSharedPointer<RedisClient::Connection> connection)
-    : TabModel(connection), m_current_db(0)
+Model::Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex)
+    : TabModel(connection, dbIndex), m_current_db(dbIndex)
 {    
 }
 
@@ -73,7 +73,7 @@ void Model::executeCommand(const QString & cmd)
 
         if (command.isSelectCommand() || m_connection->mode() == RedisClient::Connection::Mode::Cluster)
         {
-            m_current_db = command.getPartAsString(1).toInt();
+            m_current_db = m_connection->dbIndex();
             updatePrompt(false);
         }
         QVariant value = result.getValue();

@@ -32,7 +32,7 @@ public:
 
     void openKeyTab(ConnectionsTree::KeyItem& key, bool openInNewTab = false) override;
 
-    void openConsoleTab() override;
+    void openConsoleTab(int dbIndex=0) override;
 
     void openNewKeyDialog(int dbIndex, std::function<void()> callback,
                           QString keyPrefix = QString()) override;

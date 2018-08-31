@@ -9,7 +9,7 @@ namespace Console {
         Q_OBJECT
         ADD_EXCEPTION
     public:       
-        Model(QSharedPointer<RedisClient::Connection> connection);
+        Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
         Q_INVOKABLE void init();
 

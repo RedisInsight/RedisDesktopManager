@@ -1,8 +1,8 @@
 #include "serverstatsmodel.h"
 
 
-ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection)
-    : TabModel(connection)
+ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex)
+    : TabModel(connection, dbIndex)
 {
     m_updateTimer.setInterval(5000);
     m_updateTimer.setSingleShot(false);

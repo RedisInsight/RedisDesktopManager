@@ -70,10 +70,10 @@ int TabViewModel::tabsCount() const
     return m_models.count();
 }
 
-void TabViewModel::openTab(QSharedPointer<RedisClient::Connection> connection)
+void TabViewModel::openTab(QSharedPointer<RedisClient::Connection> connection, int dbIndex)
 {
     beginInsertRows(QModelIndex(), m_models.count(), m_models.count());
-    m_models.append(m_modelFactory(connection));
+    m_models.append(m_modelFactory(connection, dbIndex));
     setCurrentTab(m_models.size() - 1);
     emit changeCurrentTab(m_models.size() - 1);
     endInsertRows();

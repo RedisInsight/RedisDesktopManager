@@ -69,6 +69,10 @@ RowLayout {
                 "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
             },
             {
+                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTr("Open Console"),
+                "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
+            },
+            {
                 'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTr("Flush DB"),
                 "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
             },
