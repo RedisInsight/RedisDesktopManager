@@ -25,7 +25,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="66"/>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>儲存</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="99"/>
@@ -50,7 +50,7 @@
         <location filename="../../qml/AppToolBar.qml" line="33"/>
         <location filename="../../qml/AppToolBar.qml" line="49"/>
         <source>Import Connections</source>
-        <translation>導入連接</translation>
+        <translation>匯入連接</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="42"/>
@@ -60,7 +60,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="62"/>
         <source>Settings</source>
-        <translation>設置</translation>
+        <translation>設定</translation>
     </message>
 </context>
 <context>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="184"/>
         <source>Bulk Operation finished.</source>
-        <translation>批量操作完成。</translation>
+        <translation>批次操作完成。</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="207"/>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="267"/>
         <source>Do you really want to perform bulk operation?</source>
-        <translation>確認要執行批量操作？</translation>
+        <translation>確認要執行批次操作？</translation>
     </message>
 </context>
 <context>
@@ -149,22 +149,22 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="10"/>
         <source>New Connection Settings</source>
-        <translation>新連接設置</translation>
+        <translation>新連接設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="10"/>
         <source>Edit Connection Settings - %1</source>
-        <translation>編輯連接設置 - %1</translation>
+        <translation>編輯連接設定 - %1</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="132"/>
         <source>Connection Settings</source>
-        <translation>連接設置</translation>
+        <translation>連接設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="139"/>
         <source>Main Settings</source>
-        <translation>通用設置</translation>
+        <translation>通用設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="146"/>
@@ -199,7 +199,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="183"/>
         <source>Security</source>
-        <translation>安全設置</translation>
+        <translation>安全設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="195"/>
@@ -275,12 +275,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="303"/>
         <source>SSH User:</source>
-        <translation>SSH 用戶：</translation>
+        <translation>SSH 使用者：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="308"/>
         <source>Valid SSH User Name</source>
-        <translation>有效的 SSH 用戶名</translation>
+        <translation>有效的 SSH 使用者名稱</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="315"/>
@@ -305,7 +305,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="356"/>
         <source>Advanced Settings</source>
-        <translation>高級設置</translation>
+        <translation>進階設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="364"/>
@@ -345,7 +345,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="441"/>
         <source>Invalid settings detected!</source>
-        <translation>檢測到無效的設置！</translation>
+        <translation>檢測到無效的設定！</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="451"/>
@@ -406,7 +406,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="210"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation>由於超出載入鍵數量限制，同步更新功能已經關閉。請設置更精確的篩查條件或更改載入限制設定。</translation>
+        <translation>由於超出載入鍵數量限制，同步更新功能已經關閉。請設定更精確的篩查條件或更改載入限制設定。</translation>
     </message>
 </context>
 <context>
@@ -414,7 +414,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="49"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
-        <translation>所有與該連接相關的鍵值對話方塊和命令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
+        <translation>所有與該連接相關的鍵值對話方塊和指令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="58"/>
@@ -427,7 +427,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="11"/>
         <source>Settings</source>
-        <translation>設置</translation>
+        <translation>設定</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="22"/>
@@ -462,7 +462,7 @@
     </message>
     <message>
         <source>in pixels</source>
-        <translation type="vanished">以圖元計算</translation>
+        <translation type="vanished">以像素計算</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="63"/>
@@ -478,12 +478,12 @@
         <location filename="../../qml/GlobalSettings.qml" line="75"/>
         <location filename="../../qml/GlobalSettings.qml" line="86"/>
         <source>(Disable to improve treeview performance)</source>
-        <translation>(禁用樹狀視圖以提高性能)</translation>
+        <translation>(禁用樹狀檢視以提高性能)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="85"/>
         <source>Enable key sorting in tree</source>
-        <translation>打開樹狀視圖鍵名排序功能</translation>
+        <translation>打開樹狀檢視鍵名排序功能</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="98"/>
@@ -562,7 +562,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="32"/>
         <source>Set Page</source>
-        <translation>設置頁碼</translation>
+        <translation>設定頁碼</translation>
     </message>
 </context>
 <context>
@@ -596,12 +596,12 @@
     <message>
         <location filename="../../app/app.cpp" line="187"/>
         <source>Settings directory is not writable</source>
-        <translation>設置保存資料夾沒有寫入許可權</translation>
+        <translation>設定儲存資料夾沒有寫入許可權</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="188"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM 不能保存設置檔。請更改檔寫入許可權或者以管理員模式啟動 RDM。</translation>
+        <translation>RDM 不能儲存設定檔。請更改檔寫入許可權或者以管理員模式啟動 RDM。</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="282"/>
@@ -713,7 +713,7 @@
         <location filename="../../modules/console/consolemodel.cpp" line="20"/>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="39"/>
         <source>Invalid Connection. Check connection settings.</source>
-        <translation>無效連接，請檢查連接設置。</translation>
+        <translation>無效連接，請檢查連接設定。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="25"/>
@@ -766,7 +766,7 @@
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="158"/>
         <source>Can&apos;t rename key: </source>
-        <translation>無法重命名鍵名：</translation>
+        <translation>無法重新命名鍵名：</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="172"/>
@@ -776,7 +776,7 @@
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="187"/>
         <source>Can&apos;t set key ttl: </source>
-        <translation>無法設置鍵的 TTL：</translation>
+        <translation>無法設定鍵的 TTL：</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/viewmodel.cpp" line="202"/>
@@ -802,7 +802,7 @@
     <message>
         <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="49"/>
         <source>Bulk operation error: %1</source>
-        <translation>批量操作錯誤：%1</translation>
+        <translation>批次操作錯誤：%1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="88"/>
@@ -888,7 +888,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="75"/>
         <source>Commands Processed</source>
-        <translation>已執行命令</translation>
+        <translation>已執行指令</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="87"/>
@@ -980,12 +980,12 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="205"/>
         <source>Set TTL</source>
-        <translation>設置 TTL</translation>
+        <translation>設定 TTL</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="208"/>
         <source>Set key TTL</source>
-        <translation>設置鍵的 TTL</translation>
+        <translation>設定鍵的 TTL</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="217"/>
@@ -1005,17 +1005,17 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
         <source>Search on page...</source>
-        <translation>頁面搜索...</translation>
+        <translation>頁面搜尋...</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="612"/>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>儲存</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="616"/>
         <source>Nothing to save</source>
-        <translation>不需要保存</translation>
+        <translation>不需要儲存</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="629"/>
@@ -1025,7 +1025,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="637"/>
         <source>Save value</source>
-        <translation>保存鍵值</translation>
+        <translation>儲存鍵值</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="415"/>
