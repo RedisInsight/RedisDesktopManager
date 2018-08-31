@@ -63,7 +63,7 @@ ApplicationWindow {
         id: quickStartDialog
         objectName: "rdm_qml_quick_start_dialog"
 
-        width: approot.width * 0.8
+        width: PlatformUtils.isOSX() ? 600 : approot.width * 0.8
     }
 
     GlobalSettings {

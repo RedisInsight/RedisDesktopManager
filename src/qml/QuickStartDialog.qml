@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 import "./common"
+import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root
@@ -13,7 +14,7 @@ Dialog {
         id: rootItem
         anchors.fill: parent
         anchors.margins: 15
-        implicitWidth: 750
+        implicitWidth:  750
         implicitHeight: 150
 
         ColumnLayout {
@@ -37,7 +38,9 @@ Dialog {
                               "<a href='http://docs.redisdesktop.com/en/latest/quick-start/'>" + qsTr("Quick Start Guide")+ "</a>") + "</p>"
 
                     Component.onCompleted: {
-                        root.width = contentWidth
+                        if (!PlatformUtils.isOSX()) {
+                            root.width = contentWidth
+                        }
                     }
                 }
             }
