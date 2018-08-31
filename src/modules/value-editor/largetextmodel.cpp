@@ -9,7 +9,6 @@ ValueEditor::LargeTextWrappingModel::LargeTextWrappingModel(const QString &text,
 
 ValueEditor::LargeTextWrappingModel::~LargeTextWrappingModel()
 {
-    qDebug() << "{DELETE}: Largetext model";
 }
 
 QHash<int, QByteArray> ValueEditor::LargeTextWrappingModel::roleNames() const
