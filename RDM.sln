@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "redis-desktop-manager", "redis-desktop-manager\redis-desktop-manager.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{6421BDA4-EA17-42E0-8736-77A53CE7A465}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crashreporter", "crashreporter\crashreporter.vcxproj", "{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,15 +24,15 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.ActiveCfg = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|Win32.Build.0 = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Debug|Win32.Build.0 = Debug|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Debug|x64.ActiveCfg = Debug|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Live|Win32.ActiveCfg = Release|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Live|Win32.Build.0 = Release|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Live|x64.ActiveCfg = Release|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Release|Win32.ActiveCfg = Release|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Release|Win32.Build.0 = Release|Win32
-		{6421BDA4-EA17-42E0-8736-77A53CE7A465}.Release|x64.ActiveCfg = Release|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Debug|Win32.Build.0 = Debug|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Debug|x64.ActiveCfg = Debug|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Live|Win32.ActiveCfg = Release|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Live|Win32.Build.0 = Release|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Live|x64.ActiveCfg = Release|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Release|Win32.ActiveCfg = Release|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Release|Win32.Build.0 = Release|Win32
+		{C3D3D81D-84E5-42C9-AF3A-38D8AD67D382}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

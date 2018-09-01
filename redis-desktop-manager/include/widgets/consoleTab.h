@@ -1,45 +1,26 @@
 #pragma once
 
 
-#include <QPlainTextEdit>
+#include "qconsole.h"
+#include "BaseTab.h"
 #include <QThread>
 
 class RedisConnectionConfig;
 class ConsoleConnectionWrapper;
 
-class consoleTab: public QPlainTextEdit
+class ConsoleTab: public QConsole
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	consoleTab(RedisConnectionConfig&);
-	~consoleTab(void);
-	void scrollDown();
+    ConsoleTab(RedisConnectionConfig&);
+    ~ConsoleTab(void);    
 
 public slots:
-	void output(QString);
-	void setPrompt(QString);	
+    void setPrompt(const QString &, bool);    
 
-protected:
-	void keyPressEvent(QKeyEvent *);
-	void mousePressEvent(QMouseEvent *);
-	void mouseDoubleClickEvent(QMouseEvent *);
-	void contextMenuEvent(QContextMenuEvent *);
-private:
-	QString prompt;
-	bool isLocked;
-	QStringList *history;
-	int historyPos;
-	ConsoleConnectionWrapper * connection;
-	QThread connectionThread;
-
-	void onEnter();
-	void insertPrompt(bool insertNewBlock = true);
-	void historyAdd(QString);
-	void historyBack();
-	void historyForward();
-signals:
-	void onCommand(QString);
-	void onChange(QString);
+private:    
+    ConsoleConnectionWrapper * connection;
+    QThread connectionThread;    
 };
 

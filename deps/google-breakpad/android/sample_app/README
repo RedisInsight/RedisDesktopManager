@@ -1,0 +1,32 @@
+This is a sample Android executable that can be used to test the
+Google Breakpad client library on Android.
+
+Its purpose is simply to crash and generate a minidump under /data/local/tmp.
+
+Build instructions:
+
+   cd android/sample_app
+   $NDK/ndk-build
+
+  Where $NDK points to a valid Android NDK installation.
+
+Usage instructions:
+
+   After buildind the test program, send it to a device, then run it as
+   the shell UID:
+
+     adb push libs/armeabi/test_google_breakpad /data/local/tmp
+     adb shell /data/local/tmp/test_google_breakpad
+
+   This will simply crash after dumping the name of the generated minidump
+   file.
+
+   See jni/test_breakpad.cpp for details.
+
+   Use 'armeabi-v7a' instead of 'armeabi' above to test the ARMv7-A version
+   of the binary.
+
+Note:
+   If you plan to use the library in a regular Android application, store
+   the minidump files either to your app-specific directory, or to the SDCard
+   (the latter requiring a specific permission).

@@ -5,11 +5,11 @@
 
 class serverInfoViewTab: public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	serverInfoViewTab(QString, QStringList);
+    serverInfoViewTab(QString, QStringList);
 
 private:
-	Ui::serverInfoViewTab ui;
+    Ui::serverInfoViewTab ui;
 };
 

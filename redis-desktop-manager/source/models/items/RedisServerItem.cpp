@@ -2,144 +2,155 @@
 #include "RedisConnectionConfig.h"
 
 RedisServerItem::RedisServerItem(ConnectionBridge * c) 
-	: connection(c), isDbInfoLoaded(false), locked(false)
-{						
-	setOfflineIcon();
-	getItemNameFromConnection();
-	setEditable(false);
+    : connection(c), isDbInfoLoaded(false), locked(false)
+{                        
+    setOfflineIcon();
+    getItemNameFromConnection();
+    setEditable(false);
 }
 
 void RedisServerItem::getItemNameFromConnection()
 {
-	setText(connection->getConfig().name);
+    setText(connection->getConfig().name);
 }
 
 void RedisServerItem::setConnection(ConnectionBridge * c)
 {
-	connection = c;
+    connection = c;
 }
 
 void RedisServerItem::runDatabaseLoading()
-{		
-	if (isDbInfoLoaded || locked) return;
+{        
+    if (isDbInfoLoaded || locked) 
+        return;
 
-	setBusyIcon();
+    setBusyIcon();
+    getItemNameFromConnection();
 
-	connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
-	connect(connection, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),
-		this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
+    connect(connection, SIGNAL(error(QString)), this, SLOT(proccessError(QString)));
+    connect(connection, SIGNAL(dbListLoaded(RedisConnectionAbstract::RedisDatabases)),
+        this, SLOT(databaseDataLoaded(RedisConnectionAbstract::RedisDatabases)));
 
-	connection->initWorker();
-	connection->loadDatabasesList();
+    connection->initWorker();
+    connection->loadDatabasesList();
 }
 
 void RedisServerItem::databaseDataLoaded(RedisConnectionAbstract::RedisDatabases databases)
 {
-	if (databases.size() == 0) 
-	{
-		setNormalIcon();
-		return;
-	}
+    if (databases.size() == 0) 
+    {
+        setNormalIcon();
+        return;
+    }
 
-	connection->disconnect(this);
+    connection->disconnect(this);
 
-	QMap<QString, int>::const_iterator db = databases.constBegin();
+    QMap<QString, int>::const_iterator db = databases.constBegin();
 
-	while (db != databases.constEnd()) {			
-		QStandardItem * newDb = new RedisServerDbItem(db.key(), db.value(), this);
-		appendRow(newDb);
-		++db;
-	}
+    while (db != databases.constEnd()) {            
+        QStandardItem * newDb = new RedisServerDbItem(db.key(), db.value(), this);
+        appendRow(newDb);
+        ++db;
+    }
 
-	sortChildren(0);
+    sortChildren(0);
 
-	setNormalIcon();
+    setNormalIcon();
 
-	isDbInfoLoaded = true;
+    isDbInfoLoaded = true;
 
-	emit databasesLoaded();
+    emit databasesLoaded();
+    emit unlockUI();
 }
 
 QStringList RedisServerItem::getInfo()
 {
-	connection->initWorker();
+    connection->initWorker();
 
-// 	if (!connection->isConnected() && !connection->connect()) {
-// 		// TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
-// 		// TODO: set error icon		
-// 		setOfflineIcon();
-// 		return QStringList();
-// 	}
+//     if (!connection->isConnected() && !connection->connect()) {
+//         // TODO : replace this code by bool checkConnection() { if no_connection -> set server in offline state }
+//         // TODO: set error icon        
+//         setOfflineIcon();
+//         return QStringList();
+//     }
 // 
-// 	QVariant info = connection->execute("INFO");
+//     QVariant info = connection->execute("INFO");
 // 
-// 	if (info.isNull()) {
-// 		return QStringList();
-// 	}
+//     if (info.isNull()) {
+//         return QStringList();
+//     }
 // 
-// 	return info.toString().split("\r\n");
+//     return info.toString().split("\r\n");
 
-	return QStringList();
+    return QStringList();
 }
 
 void RedisServerItem::proccessError(QString srcError)
 {
-	connection->disconnect(this);
-	setOfflineIcon();
+    connection->disconnect(this);
+    setOfflineIcon();
+    locked = false;
 
-	QString message = QString("Can not connect to server %1. Error: %2")
-		.arg(text())
-		.arg(srcError);
+    QString message = QString("Can not connect to server %1. Error: %2")
+        .arg(text())
+        .arg(srcError);
 
-	emit error(message);
+    emit error(message);
 }
 
 ConnectionBridge * RedisServerItem::getConnection()
 {
-	return connection;
+    return connection;
 }
 
 void RedisServerItem::reload()
 {
-	unload();
+    blockSignals(true);
+    unload();
+    blockSignals(false);
 
-	runDatabaseLoading();
+    runDatabaseLoading();    
 }
 
 void RedisServerItem::unload()
 {
-	removeRows(0, rowCount());
+    setBusyIcon();
 
-	isDbInfoLoaded = false;
+    removeRows(0, rowCount());
 
-	getItemNameFromConnection();
+    isDbInfoLoaded = false;
 
-	setOfflineIcon();
+    getItemNameFromConnection();
+
+    setOfflineIcon();
+
+    emit unlockUI();
 }
 
 void RedisServerItem::setBusyIcon()
 {
-	locked = true;
-	setIcon(QIcon(":/images/wait.png"));
+    locked = true;
+    setIcon(QIcon(":/images/wait.png"));
 }
 
 void RedisServerItem::setNormalIcon()
 {
-	locked = false;
-	setIcon(QIcon(":/images/redisIcon.png"));
+    locked = false;
+    setIcon(QIcon(":/images/redisIcon.png"));
 }
 
 void RedisServerItem::setOfflineIcon()
 {
-	setIcon(QIcon(":/images/redisIcon_offline.png"));
+    locked = false;
+    setIcon(QIcon(":/images/redisIcon_offline.png"));
 }
 
 int RedisServerItem::type() const
 {
-	return TYPE;
+    return TYPE;
 }
 
 bool RedisServerItem::isLocked()
 {
-	return locked;
+    return locked;
 }

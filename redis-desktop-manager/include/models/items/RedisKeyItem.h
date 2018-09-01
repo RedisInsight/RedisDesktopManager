@@ -5,26 +5,37 @@
 
 class RedisServerDbItem;
 class KeyModel;
+class Command;
+class ConnectionBridge;
 
 class RedisKeyItem : public ItemWithNaturalSort
-{
-
+{    
 public:
-	const static int TYPE = 2200;
 
-	RedisKeyItem();
-	RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);		
+    const static int TYPE = 2200;
 
-	QString getTabLabelText();
+    RedisKeyItem();
 
-	int virtual type() const;
+    RedisKeyItem(QString name, RedisServerDbItem * db, const QIcon &);
 
-	KeyModel * getKeyModel();
+    void init(QString name, RedisServerDbItem * db, const QIcon &);
 
-	void init(QString name, RedisServerDbItem * db, const QIcon &);
+    QString getTabLabelText();
 
-private:	
-	RedisServerDbItem * db;	
+    int virtual type() const;
+
+    KeyModel * getKeyModel(const QString&);
+
+    Command getTypeCommand();
+
+    ConnectionBridge * getConnection();
+
+    void remove();
+
+    RedisServerDbItem * getDbItem();
+
+private:    
+    RedisServerDbItem * db;    
 };
 
 #endif // REDISKEYITEM_H

@@ -2,12 +2,12 @@
 #include "RedisException.h"
 
 Response::Response()
-	: responseString(""), lastValidPos(0), itemsCount(0)
+    : responseSource(""), lastValidPos(0), itemsCount(0)
 {
 }
 
-Response::Response(QString & src)
-    : responseString(src), lastValidPos(0), itemsCount(0)
+Response::Response(const QByteArray & src)
+    : responseSource(src), lastValidPos(0), itemsCount(0)
 {
 }
 
@@ -15,324 +15,336 @@ Response::~Response(void)
 {
 }
 
-void Response::setSource(QString& str)
+void Response::setSource(const QByteArray& src)
 {
-	responseString = str;
+    responseSource = src;
 }
 
 void Response::clear()
 {
-	responseString.clear();
-	lastValidPos = 0;
-	itemsCount = 0;
+    responseSource.clear();
+    lastValidPos = 0;
+    itemsCount = 0;
 }
 
-QString Response::source()
+QByteArray Response::source()
 {
-	return responseString;
+    return responseSource;
 }
 
 void Response::appendToSource(QString& src)
 {
-	responseString.append(src);
+    responseSource.append(src);
 }
 
 void Response::appendToSource(QByteArray& src)
 {
-	responseString.append(src);
+    responseSource.append(src);
+}
+
+QString Response::toString()
+{
+    return responseSource.left(1500);
 }
 
 QVariant Response::getValue()
 {
-	if (responseString.isEmpty()) {
-		return QVariant();
-	}
+    if (responseSource.isEmpty()) {
+        return QVariant();
+    }
 
-	ResponseType t = getResponseType(responseString);
+    ResponseType t = getResponseType(responseSource);
 
-	QVariant  parsedResponse;
+    QVariant  parsedResponse;
 
-	switch (t) {
+    try {
 
-	case Status:
-	case Error:		
-		parsedResponse = QVariant(getStringResponse(responseString));
-		break;
+        switch (t) {
+        case Status:
+        case Error:        
+            parsedResponse = QVariant(getStringResponse(responseSource));
+            break;
 
-	case Integer:		
-		parsedResponse = QVariant(getStringResponse(responseString).toInt());
-		break;
+        case Integer:        
+            parsedResponse = QVariant(getStringResponse(responseSource).toInt());
+            break;
 
-	case Bulk:
-		parsedResponse = parseBulk(responseString);
-		break;
+        case Bulk:
+            parsedResponse = QVariant(parseBulk(responseSource));
+            break;
 
-	case MultiBulk: 
-		parsedResponse = QVariant(parseMultiBulk(responseString));		
-		break;
-	case Unknown:
-		break;
-	}
+        case MultiBulk:         
+            parsedResponse = QVariant(parseMultiBulk(responseSource));        
+            break;
+        case Unknown:
+            break;
+        }
 
-	return parsedResponse;
-}	
+    } catch (RedisException &e) {
+        parsedResponse = QVariant(QStringList() << e.what());
+    }
 
-QVariant Response::parseBulk(const QString& response)
+    return parsedResponse;
+}    
+
+QString Response::parseBulk(const QByteArray& response)
 {
-	int endOfFirstLine = response.indexOf("\r\n");
-	int responseSize = getSizeOfBulkReply(response, endOfFirstLine);	
+    int endOfFirstLine = response.indexOf("\r\n");
+    int responseSize = getSizeOfBulkReply(response, endOfFirstLine);    
 
-	if (responseSize != -1) {
-		return QVariant(response.mid(endOfFirstLine + 2, responseSize));		
-	}
+    if (responseSize != -1) {
+        return response.mid(endOfFirstLine + 2, responseSize);        
+    }
 
-	return QVariant();
+    return QString();
 }
 
-QStringList Response::parseMultiBulk(const QString& response)
-{	
-	int endOfFirstLine = response.indexOf("\r\n");
-	int responseSize = getSizeOfBulkReply(response, endOfFirstLine);			
+QStringList Response::parseMultiBulk(const QByteArray& response)
+{    
+    int endOfFirstLine = response.indexOf("\r\n");
+    int responseSize = getSizeOfBulkReply(response, endOfFirstLine);            
 
-	if (responseSize == 0) 
-	{	
-		return QStringList();
-	}
+    if (responseSize == 0) 
+    {    
+        return QStringList();
+    }
 
-	QStringList parsedResult; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
+    QStringList parsedResult; ResponseType type; int firstItemLen, firstPosOfEndl, bulkLen;
 
-	parsedResult.reserve(responseSize+5);
+    parsedResult.reserve(responseSize+5);
 
-	for (int currPos = endOfFirstLine + 2, respStringSize = response.size(); currPos < respStringSize;) 
-	{		
-		type = getResponseType(response.at(currPos));
+    for (int currPos = endOfFirstLine + 2, respStringSize = response.size(); currPos < respStringSize;) 
+    {        
+        type = getResponseType(response.at(currPos));
 
-		firstPosOfEndl = response.indexOf("\r\n", currPos);
-		firstItemLen = firstPosOfEndl - currPos-1;
+        firstPosOfEndl = response.indexOf("\r\n", currPos);
+        firstItemLen = firstPosOfEndl - currPos-1;
 
-		if (type == Integer) 
-		{											
-			parsedResult << response.mid(currPos+1, firstItemLen);
+        if (type == Integer) {                                            
+            parsedResult << response.mid(currPos+1, firstItemLen);
 
-			currPos = firstPosOfEndl + 2;
-			continue;
-		} 
+            currPos = firstPosOfEndl + 2;
+            continue;
+        } else if (type == Bulk) {                                    
+            bulkLen = response.mid(currPos+1, firstItemLen).toInt();
 
-		if (type == Bulk) 
-		{									
-			bulkLen = response.mid(currPos+1, firstItemLen).toInt();
+            if (bulkLen == 0) 
+            {
+                parsedResult << "";
+                currPos = firstPosOfEndl + 4;
+            } else {
+                parsedResult << response.mid(firstPosOfEndl+2, bulkLen);
+                currPos = firstPosOfEndl + bulkLen + 4;
+            }
 
-			if (bulkLen == 0) 
-			{
-				parsedResult << "";
-				currPos = firstPosOfEndl + 4;
-			} else {
-				parsedResult << response.mid(firstPosOfEndl+2, bulkLen);
-				currPos = firstPosOfEndl + bulkLen + 4;
-			}
+            continue;
+        } else if (type == MultiBulk) {               
+            throw RedisException("Recursive parsing of MultiBulk replies not supported");
+        } else {
+            break;
+        }
+    }            
 
-			continue;
-		} 
-
-		if (type == MultiBulk) 
-		{
-			throw RedisException("Recursive parsing of MultiBulk replies not supported");
-		}
-	}			
-
-	return parsedResult;
+    return parsedResult;
 }
 
-Response::ResponseType Response::getResponseType(QString r) 
-{	
-	return getResponseType(r.at(0));
+Response::ResponseType Response::getResponseType(const QByteArray & r) const
+{    
+    return getResponseType(r.at(0));
 }
 
-Response::ResponseType Response::getResponseType(const QChar typeChar) 
-{	
-	if (typeChar == '+') return Status; 
-	if (typeChar == '-') return Error;
-	if (typeChar == ':') return Integer;
-	if (typeChar == '$') return Bulk;
-	if (typeChar == '*') return MultiBulk;
+Response::ResponseType Response::getResponseType(const char typeChar) const
+{    
+    if (typeChar == '+') return Status; 
+    if (typeChar == '-') return Error;
+    if (typeChar == ':') return Integer;
+    if (typeChar == '$') return Bulk;
+    if (typeChar == '*') return MultiBulk;
 
-	return Unknown;
+    return Unknown;
 }
 
-QString Response::getStringResponse(QString response)
+QString Response::getStringResponse(const QByteArray& response)
 {
-	return 	response.mid(1, response.length() - 3);
+    return response.mid(1, response.length() - 3);
 }
 
 bool Response::isValid()
 {
-	return isReplyValid(responseString);
+    return isReplyValid(responseSource);
 }
 
-bool Response::isReplyValid(const QString & responseString)
+bool Response::isReplyValid(const QByteArray & responseString)
 {
-	if (responseString.isEmpty()) 
-	{
-		return false;
-	}
+    if (responseString.isEmpty()) 
+    {
+        return false;
+    }
 
-	ResponseType type = getResponseType(responseString);
+    ResponseType type = getResponseType(responseString);
 
-	switch (type)
-	{
-		case Status:
-		case Error:		
-		case Unknown:
-		default:
-			return isReplyGeneralyValid(responseString);				
+    switch (type)
+    {
+        case Status:
+        case Error:        
+        case Unknown:
+        default:
+            return isReplyGeneralyValid(responseString);                
 
-		case Integer:
-			return isReplyGeneralyValid(responseString) 
-				&& isIntReplyValid(responseString);
+        case Integer:
+            return isReplyGeneralyValid(responseString) 
+                && isIntReplyValid(responseString);
 
-		case Bulk:  
-			return isReplyGeneralyValid(responseString) 
-				&& isBulkReplyValid(responseString);		
+        case Bulk:  
+            return isReplyGeneralyValid(responseString) 
+                && isBulkReplyValid(responseString);        
 
-		case MultiBulk:
-			return isReplyGeneralyValid(responseString) 
-				&& isMultiBulkReplyValid(responseString);	
-	}	
+        case MultiBulk:
+            return isReplyGeneralyValid(responseString) 
+                && isMultiBulkReplyValid(responseString);    
+    }    
 }
 
-bool Response::isReplyGeneralyValid(const QString& r)
+bool Response::isReplyGeneralyValid(const QByteArray& r)
 {
-	return r.endsWith("\r\n");
+    return r.endsWith("\r\n");
 }
 
-int Response::getPosOfNextItem(const QString &r, int startPos = 0)
+int Response::getPosOfNextItem(const QByteArray &r, int startPos = 0)
 {
-	if (startPos >= r.size()) {
-		return -1;
-	}
+    if (startPos >= r.size()) {
+        return -1;
+    }
 
-	ResponseType type = getResponseType(r.at(startPos));
+    ResponseType type = getResponseType(r.at(startPos));
 
-	int endOfFirstLine = r.indexOf("\r\n", startPos);
+    int endOfFirstLine = r.indexOf("\r\n", startPos);
 
-	int responseSize;
+    int responseSize;
 
-	switch (type)
-	{	
-	case Integer:
-		return endOfFirstLine+2;
+    switch (type)
+    {    
+    case Integer:
+        return endOfFirstLine+2;
 
-	case Bulk:  		
-		responseSize = getSizeOfBulkReply(r, endOfFirstLine, startPos);
+    case Bulk:          
+        responseSize = getSizeOfBulkReply(r, endOfFirstLine, startPos);
 
-		if (responseSize == -1) {
-			return endOfFirstLine+2;
-		} else {
-			return endOfFirstLine+responseSize+4;
-		}
-		break;
-	default:
-		return -1;
-	}
+        if (responseSize == -1) {
+            return endOfFirstLine+2;
+        } else {
+            return endOfFirstLine+responseSize+4;
+        }
+        break;
+    default:
+        return -1;
+    }
 
 }
 
-bool Response::isIntReplyValid(const QString& r)
+bool Response::isIntReplyValid(const QByteArray& r)
 {
     return !r.isEmpty();
 }
 
-bool Response::isBulkReplyValid(const QString& r)
-{			
-	int endOfFirstLine = r.indexOf("\r\n");
-	int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
+bool Response::isBulkReplyValid(const QByteArray& r)
+{            
+    int endOfFirstLine = r.indexOf("\r\n");
+    int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
 
-	if (responseSize == -1) {
-		return true;
-	}
+    if (responseSize == -1) {
+        return true;
+    }
 
-	int actualSizeOfResponse = r.size() - endOfFirstLine - 4;
+    int actualSizeOfResponse = r.size() - endOfFirstLine - 4;
 
-	// we need not strict check for using this method for validation multi-bulk items
-	if (actualSizeOfResponse < responseSize) {
-		return false;
-	}
+    // we need not strict check for using this method for validation multi-bulk items
+    if (actualSizeOfResponse < responseSize) {
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
-bool Response::isMultiBulkReplyValid(const QString& r) 
-{	
-	int endOfFirstLine = r.indexOf("\r\n");
-	int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
+bool Response::isMultiBulkReplyValid(const QByteArray& r) 
+{    
+    int endOfFirstLine = r.indexOf("\r\n");
+    int responseSize = getSizeOfBulkReply(r, endOfFirstLine);
 
-	if (responseSize <= 0) {
-		return true;
-	}
-		
-	//fast validation based on string size
-	int minimalReplySize = responseSize * 4 + endOfFirstLine; // 4 is [type char] + [digit char] + [\r\n]
+    if (responseSize <= 0) {
+        return true;
+    }
+        
+    //fast validation based on string size
+    int minimalReplySize = responseSize * 4 + endOfFirstLine; // 4 is [type char] + [digit char] + [\r\n]
 
-	int responseStringSize = r.size();
+    int responseStringSize = r.size();
 
-	if (responseStringSize < minimalReplySize) {
-		return false;
-	}
+    if (responseStringSize < minimalReplySize) {
+        return false;
+    }
 
-	//detailed validation
-	int currPos = (lastValidPos > 0) ? lastValidPos : endOfFirstLine + 2;
-	int lastPos = 0;
+    //detailed validation
+    int currPos = (lastValidPos > 0) ? lastValidPos : endOfFirstLine + 2;
+    int lastPos = 0;
 
-	do {
+    do {
 
-		currPos = getPosOfNextItem(r, currPos);
+        currPos = getPosOfNextItem(r, currPos);
 
-		if (currPos != -1) {
-			lastPos = currPos;
-		}
+        if (currPos != -1) {
+            lastPos = currPos;
+        }
 
-		if (currPos != -1 && currPos != responseStringSize) {
-			lastValidPos = currPos;
-		}
+        if (currPos != -1 && currPos != responseStringSize) {
+            lastValidPos = currPos;
+        }
 
-	} while (currPos != -1 && ++itemsCount);
+    } while (currPos != -1 && ++itemsCount);
 
 
-	if (itemsCount < responseSize || (lastPos != responseStringSize)) {
-		return false;
-	}
+    if (itemsCount < responseSize || (lastPos != responseStringSize)) {
+        return false;
+    }
 
-	return true;	
+    return true;    
 }
 
-int Response::getSizeOfBulkReply(const QString& reply, int endOfFirstLine, int beginFrom) 
+int Response::getSizeOfBulkReply(const QByteArray& reply, int endOfFirstLine, int beginFrom) 
 {
-	if (endOfFirstLine == -1) {
-		endOfFirstLine = reply.indexOf("\r\n", beginFrom);
-	}
+    if (endOfFirstLine == -1) {
+        endOfFirstLine = reply.indexOf("\r\n", beginFrom);
+    }
 
-	QString strRepresentaton;
-	
-	for (int pos = beginFrom + 1; pos < endOfFirstLine; pos++) {
-		strRepresentaton += reply.at(pos);
-	}
+    QString strRepresentaton;
+    
+    for (int pos = beginFrom + 1; pos < endOfFirstLine; pos++) {
+        strRepresentaton += reply.at(pos);
+    }
 
-	return strRepresentaton.toInt();		
+    return strRepresentaton.toInt();        
 }
 
 QString Response::valueToString(QVariant& value)
 {
-	if (value.isNull()) 
-	{
-		return "NULL";
-	} else if (value.type() == QVariant::StringList) {
-		return value.toStringList().join("\r\n");
-	} 
+    if (value.isNull()) 
+    {
+        return "NULL";
+    } else if (value.type() == QVariant::StringList) {
+        return value.toStringList().join("\r\n");
+    } 
 
-	return value.toString();
+    return value.toString();
 }
 
 int Response::getLoadedItemsCount()
 {
-	return itemsCount;
+    return itemsCount;
+}
+
+bool Response::isErrorMessage() const
+{
+    return getResponseType(responseSource) == Error
+        && responseSource.startsWith("-ERR");
+
 }

@@ -7,10 +7,10 @@
 
 class FastItemDelegate : public QStyledItemDelegate
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	void paint(QPainter *painter, const QStyleOptionViewItem &option,
-		const QModelIndex &index) const;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+        const QModelIndex &index) const;
 };
 

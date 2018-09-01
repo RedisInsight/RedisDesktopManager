@@ -9,45 +9,45 @@ class Command;
 
 class RedisConnectionOverSsh : public RedisConnectionAbstract
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	RedisConnectionOverSsh(const RedisConnectionConfig &);
-	~RedisConnectionOverSsh();
+    RedisConnectionOverSsh(const RedisConnectionConfig &);
+    ~RedisConnectionOverSsh();
 
-	bool connect();
+    bool connect();
 
-	QString getLastError();
+    QString getLastError();
 
-	QVariant execute(QString);
+    QVariant execute(QString);
 
-	void runCommand(const Command&);
+    void runCommand(const Command&);
 
-	bool isConnected()
-	{
-		return connected && socketConnected;
-	}
+    bool isConnected()
+    {
+        return connected && socketConnected;
+    }
 
 public slots:
-	void disconnect();
+    void disconnect();
 
 protected:
-
-	void init();
+    void init();
 
 private: 
-	QxtSshTcpSocket * socket;
-	QxtSshClient * sshClient;
-	bool isHostKeyAlreadyAdded;
-	QEventLoop * syncLoop;
-	QTimer * syncTimer;
-	bool socketConnected;
+    QxtSshTcpSocket * socket; // owner of this object is sshClient
+    QSharedPointer<QxtSshClient> sshClient;    
+    QSharedPointer<QEventLoop> syncLoop;
+    QSharedPointer<QTimer> syncTimer;
 
-	bool waitForData(int ms);	
+    bool isHostKeyAlreadyAdded;
+    bool socketConnected;
 
-	protected slots:
-		void OnSshConnectionError(QxtSshClient::Error);
-		void OnSshConnected();
-		void OnSocketReadyRead();
+    bool waitForData(int ms);    
+
+    protected slots:
+        void OnSshConnectionError(QxtSshClient::Error);
+        void OnSshConnected();
+        void OnSocketReadyRead();
 };
 

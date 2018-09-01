@@ -3,6 +3,15 @@
 
 QString PlainFormatter::getFormatted()
 {
-	return rawValue;
+    return rawValue;
 }
 
+bool PlainFormatter::isValid()
+{
+    return true;
+}
+
+QString PlainFormatter::getRaw()
+{
+    return rawValue;
+}

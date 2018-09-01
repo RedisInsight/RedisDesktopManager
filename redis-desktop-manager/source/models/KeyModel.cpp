@@ -1,122 +1,71 @@
 #include "KeyModel.h"
 
-#include <QEventLoop>
-#include <QTimer>
 #include <QVariant>
-
 #include "Command.h"
+#include "ConnectionBridge.h"
 
 KeyModel::KeyModel(ConnectionBridge * db, const QString &keyName, int dbIndex)
-	: db(db), keyName(keyName), dbIndex(dbIndex), keyType(Empty)
-{
-}
-
-KeyModel::~KeyModel(void)
-{
-	if (db != nullptr) {
-		db->disconnect(this);
-	}
+    : db(db), keyName(keyName), dbIndex(dbIndex)
+{    
 }
 
 QString KeyModel::getKeyName()
 {
-	return keyName;
+    return keyName;
 }
 
-void KeyModel::getKeyType()
+void KeyModel::loadedValue(Response value)
 {
-	if (keyType != Empty) {
-		emit keyTypeLoaded(keyType);
-		return;
-	}
+    initModel(value.getValue());
 
-	connect(db, SIGNAL(responseResieved(const QVariant&, QObject *)),
-		this, SLOT(loadedType(const QVariant&, QObject*)));
-
-	db->addCommand(Command(QString("type %1").arg(keyName), this, dbIndex));
+    emit valueLoaded();
 }
 
-void KeyModel::getValue()
-{
-	if (keyType == Empty) {
-		getKeyType();
-	}
+void KeyModel::renameKey(const QString& newKeyName)
+{    
+    QStringList renameCommand;
 
-	QString command;
-
-	switch (keyType)
-	{
-	case KeyModel::String:
-		command = QString("get %1").arg(keyName);
-		break;
-
-	case KeyModel::Hash:		
-		command = QString("hgetall %1").arg(keyName);
-		break;
-
-	case KeyModel::List:
-		command = QString("LRANGE %1 0 -1").arg(keyName);		
-		break;
-
-	case KeyModel::Set:
-		command = QString("SMEMBERS %1").arg(keyName);				
-		break;
-
-	case KeyModel::ZSet:		
-		command = QString("ZRANGE %1 0 -1 WITHSCORES").arg(keyName);
-		break;
-	}	
-
-	if (command.isEmpty()) {
-		emit valueLoaded(QVariant(), this);
-		return;
-	} else {
-		connect(db, SIGNAL(responseResieved(const QVariant&, QObject *)),
-			this, SIGNAL(valueLoaded(const QVariant&, QObject*)));
-
-		db->addCommand(Command(command, this, dbIndex));
-	}
+    renameCommand << "RENAME" << keyName  << newKeyName;
+    
+    db->addCommand(Command(renameCommand, this, CALLMETHOD("loadedRenameStatus"), dbIndex));
 }
 
-void KeyModel::loadedValue(const QVariant& value, QObject *sender)
+void KeyModel::loadedRenameStatus(Response result)
 {
-	if (sender != this) {
-		return;
-	}
-
-	db->disconnect(this);
-
-	emit valueLoaded(value, this);
+    if (result.isErrorMessage()) 
+        emit keyRenameError(result.getValue().toString());
+    else 
+        emit keyRenamed();    
 }
 
-void KeyModel::loadedType(const QVariant& result, QObject * owner)
+void KeyModel::loadTTL()
 {
-	if (owner != this) {
-		return;
-	}
+    QStringList ttlCommand;
 
-	db->disconnect(this);
+    ttlCommand << "TTL" << keyName;
 
-	QString t = result.toString();
+    db->addCommand(Command(ttlCommand, this, CALLMETHOD("ttlLoaded"), dbIndex));
+}
 
-	keyType = None;
+void KeyModel::deleteKey()
+{
+    QStringList deleteCommand;
+    
+    deleteCommand << "DEL" << keyName;
 
-	if (t == "string")
-		keyType = String;
+    db->addCommand(Command(deleteCommand, this, CALLMETHOD("loadedDeleteStatus"), dbIndex));
+}
 
-	if (t == "hash") 
-		keyType = Hash;
+void KeyModel::loadedDeleteStatus(Response result)
+{
+    if (result.isErrorMessage()) 
+    {
+        emit keyDeleteError(result.getValue().toString());
+    }
+    else 
+        emit keyDeleted();    
+}
 
-	if (t == "list")
-		keyType = List;
-
-	if (t == "set") 
-		keyType = Set;
-
-	if (t == "zset") 
-		keyType = ZSet;
-
-	emit keyTypeLoaded(keyType);
-
-	return;
+KeyModel::~KeyModel()
+{
 }
