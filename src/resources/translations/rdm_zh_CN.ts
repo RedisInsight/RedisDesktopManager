@@ -20,7 +20,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="11"/>
         <source>Add New Key</source>
-        <translation type="unfinished"></translation>
+        <translation>添加新键</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="67"/>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="89"/>
         <source> (Removed)</source>
-        <translation type="unfinished"></translation>
+        <translation> （删除）</translation>
     </message>
 </context>
 <context>
@@ -76,7 +76,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="8"/>
         <source>Bulk Operations Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>批量操作管理</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="54"/>
@@ -295,7 +295,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="333"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;提示：&lt;/b&gt; 使用 &lt;code&gt;⌘ + Shift + .&lt;/code&gt; 在对话框中显示隐藏文件和文件夹</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="338"/>
@@ -334,7 +334,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="410"/>
         <source>Timeouts &amp; Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>设置超时和限制</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="414"/>
@@ -349,32 +349,32 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="399"/>
         <source>Use server-side optimized keys loading (experimental):</source>
-        <translation type="unfinished"></translation>
+        <translation>使用服务器端键加载优化（测试）：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="371"/>
         <source>Keys loading</source>
-        <translation type="unfinished"></translation>
+        <translation>键加载</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
         <source>Default filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>默认过滤：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="438"/>
         <source>Databases discovery limit:</source>
-        <translation type="unfinished"></translation>
+        <translation>数据库发现限制：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
         <source>Cluster</source>
-        <translation type="unfinished"></translation>
+        <translation>集群</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="456"/>
         <source>Change host on cluster redirects:</source>
-        <translation type="unfinished"></translation>
+        <translation>修改集群重定向：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="484"/>
@@ -461,12 +461,12 @@
     <message>
         <location filename="../../qml/console/Consoles.qml" line="61"/>
         <source>Confirm Action</source>
-        <translation type="unfinished"></translation>
+        <translation>确认操作</translation>
     </message>
     <message>
         <location filename="../../qml/console/Consoles.qml" line="70"/>
         <source>Do you really want to close console with running command?</source>
-        <translation type="unfinished"></translation>
+        <translation>确定要关闭正在执行命令的控制台吗？</translation>
     </message>
 </context>
 <context>
@@ -479,12 +479,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="24"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>通用</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="35"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="36"/>
@@ -492,7 +492,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="60"/>
         <location filename="../../qml/GlobalSettings.qml" line="71"/>
         <source>Application restart is needed to apply this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>需要重启RDM来使设置生效。</translation>
     </message>
     <message>
         <source>Appearance</source>
@@ -501,7 +501,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="47"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>字体</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="59"/>
@@ -515,7 +515,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Use system proxy settings</source>
-        <translation type="unfinished"></translation>
+        <translation>使用系统代理设置</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="75"/>
@@ -551,12 +551,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="128"/>
         <source>Custom Value View Formatters</source>
-        <translation type="unfinished"></translation>
+        <translation>自定义键值格式化配置</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="132"/>
         <source>Formatters path: %0</source>
-        <translation type="unfinished"></translation>
+        <translation>格式化配置路径：%0</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="166"/>
@@ -569,7 +569,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/HashItemEditor.qml" line="17"/>
         <source>Key:</source>
-        <translation type="unfinished">键名：</translation>
+        <translation>键名：</translation>
     </message>
 </context>
 <context>
@@ -577,37 +577,37 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="17"/>
         <source>Value:</source>
-        <translation type="unfinished">键值：</translation>
+        <translation>键值：</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="92"/>
         <source>Unknown formatter error (Empty response)</source>
-        <translation type="unfinished"></translation>
+        <translation>未知的格式化错误（无响应）</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="147"/>
         <source>size: </source>
-        <translation type="unfinished"></translation>
+        <translation>大小：</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="148"/>
         <source>[Binary]</source>
-        <translation type="unfinished"></translation>
+        <translation>[二进制]</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="153"/>
         <source>Copy to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制到剪切板</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="162"/>
         <source>View as:</source>
-        <translation type="unfinished"></translation>
+        <translation>查看</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="181"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>键值内容过大（>150kB），格式化配置无效。</translation>
     </message>
 </context>
 <context>
@@ -714,7 +714,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="61"/>
         <source>Unsupported Redis Data type %1</source>
-        <translation type="unfinished"></translation>
+        <translation>数据格式不支持 %1</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="70"/>
@@ -728,7 +728,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="41"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法连接到服务器 &apos;%1&apos;，详情请查看日志。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="128"/>
@@ -774,21 +774,19 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="25"/>
-        <source>Connected to cluster.
-</source>
-        <translation type="unfinished"></translation>
+        <source>Connected to cluster.</source>
+        <translation>集群已连接。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="27"/>
-        <source>Connected.
-</source>
+        <source>Connected.</source>
         <translation>已连接。
 </translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="55"/>
         <source>Subscribe error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅错误：%1</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="70"/>
@@ -798,7 +796,7 @@
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="16"/>
         <source>Cannot update server info tab. Error: %0</source>
-        <translation type="unfinished"></translation>
+        <translation>无法刷新服务器信息窗口：%0</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="48"/>
@@ -869,29 +867,29 @@
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="79"/>
         <source>Keys error</source>
-        <translation type="unfinished">键错误</translation>
+        <translation>键错误</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="159"/>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="188"/>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="215"/>
         <source>Can&apos;t find formatter with name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>找不到格式化配置名：%1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="172"/>
         <source>Cannot decode value using %1 formatter. See log for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法使用 %1 解析键值，详情请查看日志。</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="201"/>
         <source>Cannot validate value using %1 formatter. See log for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法使用 %1 验证键值，详情请查看日志。</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="228"/>
         <source>Cannot encode value using %1 formatter. See log for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法使用 %1 编码键值，详情请查看日志。</translation>
     </message>
 </context>
 <context>
@@ -922,7 +920,7 @@
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/utils/sync.cpp" line="69"/>
         <source>Command execution timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>命令执行超时</translation>
     </message>
 </context>
 <context>
@@ -930,27 +928,27 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="20"/>
         <source>Connecting...</source>
-        <translation type="unfinished"></translation>
+        <translation>连接中...</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="192"/>
         <source>Arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>参数</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="198"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>描述</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="204"/>
         <source>Available since</source>
-        <translation type="unfinished"></translation>
+        <translation>可用自</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="255"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -1011,12 +1009,12 @@
     <message>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="17"/>
         <source>Score:</source>
-        <translation type="unfinished"></translation>
+        <translation>分数：</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="29"/>
         <source>Score</source>
-        <translation type="unfinished"></translation>
+        <translation>分数</translation>
     </message>
 </context>
 <context>
@@ -1029,12 +1027,12 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="129"/>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="133"/>
         <source>Rename key</source>
-        <translation type="unfinished"></translation>
+        <translation>重命名键</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="142"/>
@@ -1142,42 +1140,42 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="54"/>
         <source>Open Keys Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>打开键过滤器</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="58"/>
         <source>Reload Keys in Database</source>
-        <translation type="unfinished"></translation>
+        <translation>重载该数据库的键</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="62"/>
         <source>Add New Key</source>
-        <translation type="unfinished"></translation>
+        <translation>添加新键</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <source>Disable Live Update</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭实时更新</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <source>Enable Live Update</source>
-        <translation type="unfinished"></translation>
+        <translation>打开实时更新</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="72"/>
         <source>Open Console</source>
-        <translation type="unfinished"></translation>
+        <translation>打开控制台</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
         <source>Flush DB</source>
-        <translation type="unfinished"></translation>
+        <translation>清空数据库</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
         <source>Enter Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>输入过滤器</translation>
     </message>
 </context>
 <context>
@@ -1186,17 +1184,17 @@
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="34"/>
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="53"/>
         <source>Value is not binary string</source>
-        <translation type="unfinished"></translation>
+        <translation>键值不是二进制字符串</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="68"/>
         <source>Error: Invalid JSON: </source>
-        <translation type="unfinished"></translation>
+        <translation>错误：无效 JSON：</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="76"/>
         <source>Error: </source>
-        <translation type="unfinished"></translation>
+        <translation>错误：</translation>
     </message>
 </context>
 <context>
@@ -1204,12 +1202,12 @@
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
         <source>Copy Key Name</source>
-        <translation type="unfinished"></translation>
+        <translation>复制键值</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
         <source>Delete Key</source>
-        <translation type="unfinished"></translation>
+        <translation>删除键</translation>
     </message>
 </context>
 <context>
@@ -1217,17 +1215,17 @@
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="21"/>
         <source>Reload Namespace</source>
-        <translation type="unfinished"></translation>
+        <translation>重载命名空间</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="22"/>
         <source>Copy Namespace Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>复制命名空间模式</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <source>Delete Namespace</source>
-        <translation type="unfinished"></translation>
+        <translation>删除命名空间</translation>
     </message>
 </context>
 <context>
@@ -1235,32 +1233,32 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="11"/>
         <source>Server Info</source>
-        <translation type="unfinished">服务器信息</translation>
+        <translation>服务器信息</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="15"/>
         <source>Open Console</source>
-        <translation type="unfinished"></translation>
+        <translation>打开控制台</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
         <source>Reload Server</source>
-        <translation type="unfinished"></translation>
+        <translation>重载服务器</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Unload All Data</source>
-        <translation type="unfinished"></translation>
+        <translation>卸载所有数据</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="27"/>
         <source>Edit Connection Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑连接设置</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="31"/>
         <source>Delete Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>删除连接</translation>
     </message>
 </context>
 </TS>
