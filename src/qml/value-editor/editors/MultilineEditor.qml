@@ -80,6 +80,11 @@ ColumnLayout
         var isBin = binaryUtils.isBinaryString(root.value)
         binaryFlag.visible = isBin
 
+        // If current formatter is plain text - try to guess formatter
+        if (formatterSelector.currentIndex == 0) {
+            formatterSelector.currentIndex = Formatters.guessFormatter(isBin)
+        }
+
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
         uiBlocker.visible = true                
