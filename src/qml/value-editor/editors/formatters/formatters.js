@@ -25,14 +25,7 @@ var hex = {
     title: "HEX",
 
     getFormatted: function (raw, callback) {
-
-        var isValid = binaryUtils.isBinaryString(raw)
-
-        if (isValid) {
-            return callback("", binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
-        } else {
-            return callback(qsTr("Value is not binary string"))
-        }
+        return callback("", binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
     },    
 
     getRaw: function (formatted, callback) {
@@ -43,15 +36,8 @@ var hex = {
 var hexTable = {
     title: "HEX TABLE",
 
-    getFormatted: function (raw, callback) {        
-
-        var isValid = binaryUtils.isBinaryString(raw)
-
-        if (isValid) {
-            return callback("", Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
-        } else {
-            return callback(qsTr("Value is not binary string"))
-        }
+    getFormatted: function (raw, callback) {              
+        return callback("", Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
     },    
 }
 
