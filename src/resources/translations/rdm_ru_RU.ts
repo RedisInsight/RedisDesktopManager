@@ -905,22 +905,22 @@
 <context>
     <name>QuickStartDialog</name>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="10"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Explore Redis Desktop Manager</source>
         <translation>Изучение Redis Desktop Manager</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="36"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
         <source>Before using Redis Desktop Manager (RDM) take a look on the %1</source>
         <translation>Перед использование Redis Desktop Manager (RDM) взгляните на %1</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="38"/>
         <source>Quick Start Guide</source>
         <translation>Краткое руководство</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="51"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>

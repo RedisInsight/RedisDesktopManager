@@ -866,22 +866,22 @@
 <context>
     <name>QuickStartDialog</name>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="10"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Explore Redis Desktop Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="36"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
         <source>Before using Redis Desktop Manager (RDM) take a look on the %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="38"/>
         <source>Quick Start Guide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="51"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>

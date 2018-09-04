@@ -607,7 +607,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="181"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
-        <translation>键值内容过大（>150kB），格式化配置无效。</translation>
+        <translation>键值内容过大（&gt;150kB），格式化配置无效。</translation>
     </message>
 </context>
 <context>
@@ -774,13 +774,23 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="25"/>
-        <source>Connected to cluster.</source>
-        <translation>集群已连接。</translation>
+        <source>Connected to cluster.
+</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="27"/>
+        <source>Connected.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected to cluster.</source>
+        <translation type="vanished">集群已连接。</translation>
+    </message>
+    <message>
         <source>Connected.</source>
-        <translation>已连接。
+        <translation type="vanished">已连接。
 </translation>
     </message>
     <message>
@@ -895,22 +905,22 @@
 <context>
     <name>QuickStartDialog</name>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="10"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Explore Redis Desktop Manager</source>
         <translation>探索 Redis Desktop Manager</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="36"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
         <source>Before using Redis Desktop Manager (RDM) take a look on the %1</source>
         <translation>在使用  Redis Desktop Manager (RDM) 之前，请看看 %1</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="37"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="38"/>
         <source>Quick Start Guide</source>
         <translation>快速入门指南</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="51"/>
+        <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation>好</translation>
     </message>
