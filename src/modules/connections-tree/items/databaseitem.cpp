@@ -123,12 +123,19 @@ void DatabaseItem::loadKeys(std::function<void ()> callback)
         return;
     }
 
-    m_operations->getDatabases([this](QMap<int, int> dbMapping){
+    std::function<void(RedisClient::DatabaseList)> dbLoadCallback = [this](QMap<int, int> dbMapping){
         if (dbMapping.contains(m_dbIndex)) {
             m_keysCount = dbMapping[m_dbIndex];
             emit m_model.itemChanged(getSelf());
         }
-    });
+    };
+
+    try {
+        m_operations->getDatabases(dbLoadCallback);
+    } catch (const ConnectionsTree::Operations::Exception& e) {
+        unlock();
+        emit m_model.error(QObject::tr("Cannot load databases:\n\n") + QString(e.what()));
+    }
 
     m_operations->loadNamespaceItems(qSharedPointerDynamicCast<AbstractNamespaceItem>(self),
                                      filter, [this, callback](const QString& err) {       

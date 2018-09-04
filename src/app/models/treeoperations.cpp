@@ -27,7 +27,11 @@ void TreeOperations::getDatabases(std::function<void (RedisClient::DatabaseList)
     bool connected = m_connection->isConnected();
 
     if (connected) {
-        m_connection->refreshServerInfo();
+        try {
+            m_connection->refreshServerInfo();
+        } catch (const RedisClient::Connection::Exception& e) {
+            throw ConnectionsTree::Operations::Exception(QObject::tr("Connection error: ") + QString(e.what()));
+        }
     } else {
         try {
             connected = m_connection->connect(true);
