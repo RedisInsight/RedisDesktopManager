@@ -67,6 +67,9 @@ public:
 
     virtual QString mode() { return QString("fake"); }
 
+    virtual bool isConnected() const { return true; }
+
 protected:
     bool m_positive_mode;
+
 };
