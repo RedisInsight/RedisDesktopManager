@@ -46,12 +46,18 @@ ServerItem::ServerItem(const QString& name, QSharedPointer<Operations> operation
     });
 
     m_eventHandlers.insert("edit", [this]() {
-        confirmAction(nullptr, tr("Value and Console tabs related to this "
-                                  "connection will be closed. Do you want to continue?"), [this]()
-         {
-             unload();             
-             emit editActionRequested();
-         });
+
+        auto unloadAction = [this]() {
+            unload();
+            emit editActionRequested();
+        };
+
+        if (m_operations->isConnected()) {
+            confirmAction(nullptr, tr("Value and Console tabs related to this "
+                                      "connection will be closed. Do you want to continue?"), unloadAction);
+        } else {
+            unloadAction();
+        }
     });
 
     m_eventHandlers.insert("delete", [this]() {
