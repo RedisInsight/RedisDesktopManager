@@ -213,18 +213,9 @@ void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem &ns)
 }
 
 void TreeOperations::flushDb(int dbIndex, std::function<void(const QString&)> callback)
-{
-    RedisClient::Command::Callback cmdCallback = [this, callback](const RedisClient::Response&, const QString& error)
-    {
-        if (!error.isEmpty()) {
-          callback(QString(QObject::tr("Cannot remove key: %1")).arg(error));
-          return;
-        }
-        callback(QString());
-    };
-
+{    
     try {
-        m_connection->command({"FLUSHDB"}, this, cmdCallback, dbIndex);
+        m_connection->flushDbKeys(dbIndex, callback);
     } catch (const RedisClient::Connection::Exception& e) {
         throw ConnectionsTree::Operations::Exception(QObject::tr("FlushDB error: ") + QString(e.what()));
     }
