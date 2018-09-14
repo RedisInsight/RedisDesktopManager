@@ -18,6 +18,7 @@ ColumnLayout
     property bool isEdited: false
     property var value    
     property int valueSizeLimit: 150000
+    property string formatterSettingsCategory: "formatters_value"
 
     function initEmpty() {
         // init editor with empty model
@@ -178,7 +179,7 @@ ColumnLayout
 
             Settings {
                 id: defaultFormatterSettings
-                category: "formatters"
+                category: formatterSettingsCategory
                 property alias defaultFormatterIndex: formatterSelector.currentIndex
             }
         }
