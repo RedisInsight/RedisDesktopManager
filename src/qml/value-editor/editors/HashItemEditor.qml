@@ -23,6 +23,7 @@ AbstractEditor {
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
         objectName: "rdm_key_hash_key_field"
+        formatterSettingsCategory: "formatters_hash_key"
     }
 
     MultilineEditor {
