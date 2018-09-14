@@ -74,7 +74,5 @@ void AbstractNamespaceItem::notifyModel()
 void AbstractNamespaceItem::showLoadingError(const QString &err)
 {
     emit m_model.itemChanged(getSelf());
-    emit m_model.error(err);
-
-    QMessageBox::warning(nullptr, QObject::tr("Keys error"), err);
+    emit m_model.error(err);    
 }
