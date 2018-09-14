@@ -71,6 +71,8 @@ namespace ConnectionsTree {
 
         virtual QString mode() = 0;
 
+        virtual bool isConnected() const = 0;
+
         virtual ~Operations() {}
 
     };

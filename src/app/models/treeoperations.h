@@ -49,6 +49,8 @@ public:
 
     virtual QString mode() override;
 
+    virtual bool isConnected() const override;
+
     void setConnection(QSharedPointer<RedisClient::Connection> c);
 
 private:

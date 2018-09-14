@@ -241,6 +241,11 @@ QString TreeOperations::mode()
     }
 }
 
+bool TreeOperations::isConnected() const
+{
+    return m_connection->isConnected();
+}
+
 void TreeOperations::setConnection(QSharedPointer<RedisClient::Connection> c)
 {
     m_connection = c;
