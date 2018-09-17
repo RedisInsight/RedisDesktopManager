@@ -9,7 +9,6 @@ import "./editors/editor.js" as Editor
 Dialog {
     id: root
     title: qsTr("Add New Key")
-    modality: Qt.ApplicationModal
     visible: false
 
     standardButtons: StandardButton.NoButton
