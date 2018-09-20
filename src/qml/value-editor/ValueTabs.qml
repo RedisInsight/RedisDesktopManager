@@ -406,6 +406,14 @@ Repeater {
                             onRowCountChanged: wrapper.hideLoader()
                             onActivated: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
                             onClicked: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
+
+                            Connections {
+                                target: table.selection
+                                onSelectionChanged:{
+                                    console.log("Selection changed", table.currentRow)
+                                    return valueEditor.loadRowValue(table.model.getOriginalRowIndex(table.currentRow))
+                                }
+                            }
                         }
 
                         ColumnLayout {
