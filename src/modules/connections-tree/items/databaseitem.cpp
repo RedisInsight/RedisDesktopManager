@@ -95,11 +95,18 @@ QString DatabaseItem::getDisplayName() const
     QString filter =  m_filter.pattern() == "*"? "" : QString("[filter: %1]").arg(m_filter.pattern());
     QString liveUpdate = m_liveUpdateTimer.isActive()? "[live update]" : "";
 
-    return QString("db%1 %2 (%3) %4")
-            .arg(m_dbIndex)
-            .arg(filter)
-            .arg(m_keysCount)
-            .arg(liveUpdate);
+    if (m_operations->mode() == "cluster") {
+        return QString("db%1 %2 %3")
+                .arg(m_dbIndex)
+                .arg(filter)
+                .arg(liveUpdate);
+    } else {
+        return QString("db%1 %2 (%3) %4")
+                .arg(m_dbIndex)
+                .arg(filter)
+                .arg(m_keysCount)
+                .arg(liveUpdate);
+    }
 }
 
 bool DatabaseItem::isEnabled() const {return true;}
