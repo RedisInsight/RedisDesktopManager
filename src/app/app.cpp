@@ -184,9 +184,6 @@ void Application::initConnectionsManager()
 {
     //connection manager
     ConfigManager confManager(m_settingsDir);
-    if (confManager.migrateOldConfig("connections.xml", "connections.json")) {
-        LOG(INFO) << "Migrate connections.xml to connections.json";
-    }
 
     QString config = confManager.getApplicationConfigPath("connections.json");
 

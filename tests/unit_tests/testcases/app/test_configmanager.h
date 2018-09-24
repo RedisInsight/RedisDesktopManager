@@ -5,8 +5,6 @@ class TestConfigManager : public BaseTestCase
 {
     Q_OBJECT
 private slots:
-    void testGetApplicationConfigPath();
-    void testMigrateOldConfig();
-    void testXmlConfigToJsonArray();
+    void testGetApplicationConfigPath();    
 };
 

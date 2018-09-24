@@ -100,28 +100,25 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config, bo
 {
     QJsonArray connections;
 
-    if (config.endsWith(".xml")) {
-        connections = ConfigManager::xmlConfigToJsonArray(config);
-    } else {
-        QFile conf(config);
+    QFile conf(config);
 
-        if (!conf.open(QIODevice::ReadOnly))
-            return false;
+    if (!conf.open(QIODevice::ReadOnly))
+        return false;
 
-        QByteArray data = conf.readAll();
-        conf.close();
+    QByteArray data = conf.readAll();
+    conf.close();
 
-        QJsonDocument jsonConfig = QJsonDocument::fromJson(data);
+    QJsonDocument jsonConfig = QJsonDocument::fromJson(data);
 
-        if (jsonConfig.isEmpty())
-            return true;
+    if (jsonConfig.isEmpty())
+        return true;
 
-        if (!jsonConfig.isArray()) {
-            return false;
-        }
-
-        connections = jsonConfig.array();
+    if (!jsonConfig.isArray()) {
+        return false;
     }
+
+    connections = jsonConfig.array();
+
 
     for (QJsonValue connection : connections) {
         if (!connection.isObject())
