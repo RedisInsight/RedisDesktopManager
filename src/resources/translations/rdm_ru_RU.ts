@@ -68,7 +68,7 @@
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="89"/>
         <source> (Removed)</source>
-        <translation>Использовано памяти</translation>
+        <translation> (Удален)</translation>
     </message>
 </context>
 <context>
@@ -607,7 +607,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="181"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
-        <translation>Большое значение (&gt;150kB).  Показ невозможен.</translation>
+        <translation>Показ невозможен (&gt;150kB). Форматирование недоступно.</translation>
     </message>
 </context>
 <context>
