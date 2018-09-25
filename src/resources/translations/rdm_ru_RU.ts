@@ -9,12 +9,12 @@
         <translation>Добавить новый ключ</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="27"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="26"/>
         <source>Key:</source>
         <translation>Ключ:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="36"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="35"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
@@ -23,17 +23,17 @@
         <translation type="vanished">Значение:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="67"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="66"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="100"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="99"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="111"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="110"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -66,7 +66,7 @@
 <context>
     <name>BetterTreeView</name>
     <message>
-        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="89"/>
+        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="92"/>
         <source> (Removed)</source>
         <translation> (Удален)</translation>
     </message>
@@ -404,7 +404,7 @@
 <context>
     <name>ConnectionsTree::DatabaseItem</name>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="39"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="35"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>Ключ добавлен. Перезагрузить ключи из выбранной базы?</translation>
     </message>
@@ -414,17 +414,17 @@
         <translation>Ключ добавлен</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="46"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="47"/>
         <source>Another operation is currently in progress</source>
         <translation>Другая операция в процессе</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="47"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="48"/>
         <source>Please wait until another operation will be finised.</source>
         <translation>Подождите завершения операции.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="56"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="58"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>Удалить все ключи из этой базы?</translation>
     </message>
@@ -433,12 +433,12 @@
         <translation type="vanished">Ошибка ключей</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="212"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="215"/>
         <source>Live update was disabled</source>
         <translation>Обновление в реальном времени отключено</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="213"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="216"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
         <translation>Обновление в реальном времени отключено из-за превышения лимита ключей. Уточните фильтр или поменяйте лимит в настройках.</translation>
     </message>
@@ -580,32 +580,32 @@
         <translation>Значение:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="92"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="103"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>Ошибка форматирования (Пустой ответ)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="147"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="158"/>
         <source>size: </source>
         <translation>размер: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="148"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="159"/>
         <source>[Binary]</source>
         <translation>[Двоичный]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="153"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="164"/>
         <source>Copy to Clipboard</source>
         <translation>Скопировать в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="162"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="173"/>
         <source>View as:</source>
         <translation>Показать как:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="181"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="192"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
         <translation>Показ невозможен (&gt;150kB). Форматирование недоступно.</translation>
     </message>
@@ -651,17 +651,17 @@
         <translation>Ошибка ключа</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="195"/>
+        <location filename="../../app/app.cpp" line="52"/>
         <source>Settings directory is not writable</source>
         <translation>Папка настроек недоступна для записи</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="196"/>
+        <location filename="../../app/app.cpp" line="53"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="290"/>
+        <location filename="../../app/app.cpp" line="253"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>Скачайте новую версию Redis Desktop Manager: %1</translation>
     </message>
@@ -693,8 +693,9 @@
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="120"/>
         <location filename="../../app/models/key-models/stringkey.cpp" line="55"/>
         <location filename="../../app/models/key-models/stringkey.cpp" line="87"/>
-        <location filename="../../app/models/treeoperations.cpp" line="35"/>
-        <location filename="../../app/models/treeoperations.cpp" line="62"/>
+        <location filename="../../app/models/treeoperations.cpp" line="31"/>
+        <location filename="../../app/models/treeoperations.cpp" line="38"/>
+        <location filename="../../app/models/treeoperations.cpp" line="74"/>
         <source>Connection error: </source>
         <translation>Ошибка подключения: </translation>
     </message>
@@ -733,33 +734,32 @@
         <translation type="vanished">RedisDesktopManager &gt;= 0.9.0 не поддерживает устаревшие версии Redis (&lt; 2.8). Используйте RedisDesktopManager 0.8.8 или обновите Redis.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="41"/>
+        <location filename="../../app/models/treeoperations.cpp" line="46"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>Невозможно подключится к серверу &apos;%1&apos;. Для дельной информации смотрите логи.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="128"/>
+        <location filename="../../app/models/treeoperations.cpp" line="168"/>
         <source>Cannot load keys: %1</source>
         <translation>Ошибка при загрузке ключей: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="178"/>
         <location filename="../../app/models/treeoperations.cpp" line="216"/>
         <source>Cannot remove key: %1</source>
         <translation>Ошибка при удалении ключа: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="190"/>
+        <location filename="../../app/models/treeoperations.cpp" line="230"/>
         <source>Delete key error: </source>
         <translation>Ошибка при удалении: </translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="225"/>
+        <location filename="../../app/models/treeoperations.cpp" line="258"/>
         <source>FlushDB error: </source>
         <translation>Ошибка при очистке базы: </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="152"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="132"/>
         <source>Cannot load databases:
 
 </source>
@@ -875,31 +875,41 @@
         <translation>Ошибка при загрузке ключа: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="159"/>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="188"/>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="215"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="150"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="183"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="214"/>
         <source>Can&apos;t find formatter with name: %1</source>
         <translation>Не найден форматер с именем: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="172"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="165"/>
         <source>Cannot decode value using %1 formatter. See log for more details.</source>
         <translation>Ошибка декодирования значения форматером %1. Подробнее в логе.</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="201"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="197"/>
         <source>Cannot validate value using %1 formatter. See log for more details.</source>
         <translation>Ошибка валидации форматером %1. Подробнее в логе.</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="228"/>
+        <location filename="../../modules/value-editor/formattersmanager.cpp" line="229"/>
         <source>Cannot encode value using %1 formatter. See log for more details.</source>
         <translation>Ошибка кодирования форматером %1. Подробнее в логе.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="79"/>
         <source>Keys error</source>
-        <translation>Ошибка ключей</translation>
+        <translation type="vanished">Ошибка ключей</translation>
+    </message>
+    <message>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="303"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="333"/>
+        <source>Cannot connect to cluster node %1:%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="344"/>
+        <source>Cannot flush db (%1): %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1066,7 +1076,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="522"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="530"/>
         <source>Reload Value</source>
         <translation>Обновить значение</translation>
     </message>
@@ -1085,49 +1095,49 @@
         <translation>Новый TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="491"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="499"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation>Эта строка последняя в ключе. После удаления ключ будет удален.</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="493"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="501"/>
         <source>Do you really want to remove this row?</source>
         <translation>Удалить строку?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="541"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="549"/>
         <source>Search on page...</source>
         <translation>Поиск на стр...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="617"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="625"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="621"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="629"/>
         <source>Nothing to save</source>
         <translation>Нечего сохранять</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="634"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="642"/>
         <source>Value was updated!</source>
         <translation>Значение обновлено!</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="642"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="650"/>
         <source>Save value</source>
         <translation>Сохранить значение</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="419"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="427"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="435"/>
         <source>Add Row</source>
         <translation>Добавить строку</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="505"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="493"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="513"/>
         <source>Delete row</source>
         <translation>Удалить строку</translation>
     </message>
@@ -1191,18 +1201,16 @@
 <context>
     <name>formatters</name>
     <message>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="34"/>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="53"/>
         <source>Value is not binary string</source>
-        <translation>Значение не бинарная строка</translation>
+        <translation type="vanished">Значение не бинарная строка</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="68"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="54"/>
         <source>Error: Invalid JSON: </source>
         <translation>Ошибка: Неверный формат JSON: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="76"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="62"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
@@ -1241,32 +1249,42 @@
 <context>
     <name>server</name>
     <message>
-        <location filename="../../qml/connections-tree/menu/server.qml" line="11"/>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
         <source>Server Info</source>
         <translation>Информация о сервере</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/server.qml" line="15"/>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Open Console</source>
         <translation>Открыть консоль</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="27"/>
         <source>Reload Server</source>
         <translation>Обновить сервер</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="31"/>
         <source>Unload All Data</source>
         <translation>Выгрузить всю информацию</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/server.qml" line="27"/>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="35"/>
         <source>Edit Connection Settings</source>
         <translation>Редактирование настроек подключения</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/server.qml" line="31"/>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="39"/>
+        <source>Duplicate Connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/server.qml" line="43"/>
         <source>Delete Connection</source>
         <translation>Удалить подключение</translation>
     </message>

@@ -74,7 +74,7 @@ Dialog {
                                 return;
 
                             var row = valueAddEditor.item.getValue()
-                            viewModel.addKey(
+                            valuesModel.addKey(
                                 newKeyName.text,
                                 typeSelector.model[typeSelector.currentIndex],
                                 row, afterSave

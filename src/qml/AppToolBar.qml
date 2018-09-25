@@ -57,6 +57,43 @@ ToolBar {
 
         Item { Layout.fillWidth: true }
 
+        ToolButton {
+            iconSource: "qrc:/images/alert.svg"
+            text: qsTr("Report issue")
+            tooltip: qsTr("Report issue")
+            onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/issues")
+        }
+
+        ToolButton {
+            iconSource: "qrc:/images/help.svg"
+            text: qsTr("Documentation")
+            tooltip: qsTr("Documentation")
+            onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/")
+        }
+
+        ToolButton {
+            iconSource: "qrc:/images/telegram.svg"
+            text: qsTr("Join Telegram Chat")
+            tooltip: qsTr("Join Telegram Chat")
+            onClicked: Qt.openUrlExternally("https://t.me/RedisDesktopManager")
+        }
+
+        ToolButton {
+            iconSource: "qrc:/images/twi.svg"
+            text: qsTr("Follow")
+            tooltip: qsTr("Follow")
+            onClicked: Qt.openUrlExternally("https://twitter.com/RedisDesktop")
+        }
+
+        ToolButton {
+            iconSource: "qrc:/images/github.svg"
+            text: qsTr("Star on Github!")
+            tooltip: qsTr("Star on Github!")
+            onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager")
+        }
+
+        Item { Layout.fillWidth: true }
+
         Button {
             iconSource: "qrc:/images/settings.svg"
             text: qsTr("Settings")

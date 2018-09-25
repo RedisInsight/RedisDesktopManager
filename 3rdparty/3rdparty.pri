@@ -9,10 +9,6 @@ OTHER_FILES += $$PWD/../src/resources/qml/3rdparty/php-unserialize-js/phpUnseria
 # qredisclient
 include($$PWD/qredisclient/qredisclient.pri)
 
-# Easylogging
-INCLUDEPATH += $$PWD/easyloggingpp/src
-HEADERS += $$PWD/easyloggingpp/src/easylogging++.h
-
 # Asyncfuture
 include($$PWD/asyncfuture/asyncfuture.pri)
 
