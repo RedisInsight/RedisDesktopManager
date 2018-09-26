@@ -68,7 +68,7 @@
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="89"/>
         <source> (Removed)</source>
-        <translation type="unfinished"> (Удален)</translation>
+        <translation> (Удален)</translation>
     </message>
 </context>
 <context>
@@ -295,7 +295,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="333"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="338"/>
@@ -315,12 +315,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="371"/>
         <source>Keys loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка ключей</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
         <source>Default filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр по умолчанию:</translation>
     </message>
     <message>
         <source>Keys glob-style pattern:</source>
@@ -344,12 +344,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="399"/>
         <source>Use server-side optimized keys loading (experimental):</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать загрузку ключей на стороне сервера (экспериментально):</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="410"/>
         <source>Timeouts &amp; Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>Тайм-ауты и ограничения</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="414"/>
@@ -364,17 +364,17 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="438"/>
         <source>Databases discovery limit:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничение количества баз данных:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
         <source>Cluster</source>
-        <translation type="unfinished"></translation>
+        <translation>Кластер</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="456"/>
         <source>Change host on cluster redirects:</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить адрес хоста при перенаправлении от кластера:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="484"/>
@@ -461,12 +461,12 @@
     <message>
         <location filename="../../qml/console/Consoles.qml" line="61"/>
         <source>Confirm Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Подтвердить</translation>
     </message>
     <message>
         <location filename="../../qml/console/Consoles.qml" line="70"/>
         <source>Do you really want to close console with running command?</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы точно хотите закрыть консоль с запущенной командой?</translation>
     </message>
 </context>
 <context>
@@ -515,7 +515,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Use system proxy settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать прокси-сервер операционной системы</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="75"/>
@@ -569,7 +569,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/HashItemEditor.qml" line="17"/>
         <source>Key:</source>
-        <translation type="unfinished">Ключ:</translation>
+        <translation>Ключ:</translation>
     </message>
 </context>
 <context>
@@ -577,37 +577,37 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="17"/>
         <source>Value:</source>
-        <translation type="unfinished">Значение:</translation>
+        <translation>Значение:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="92"/>
         <source>Unknown formatter error (Empty response)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка форматирования (Пустой ответ)</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="147"/>
         <source>size: </source>
-        <translation type="unfinished"></translation>
+        <translation>размер: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="148"/>
         <source>[Binary]</source>
-        <translation type="unfinished"></translation>
+        <translation>[Двоичный]</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="153"/>
         <source>Copy to Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать в буфер обмена</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="162"/>
         <source>View as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать как:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="181"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показ невозможен (&gt;150kB). Форматирование недоступно.</translation>
     </message>
 </context>
 <context>
@@ -721,7 +721,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="61"/>
         <source>Unsupported Redis Data type %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестный тип данных %1</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="70"/>
@@ -735,7 +735,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="41"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно подключится к серверу &apos;%1&apos;. Для дельной информации смотрите логи.</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="128"/>
@@ -796,7 +796,7 @@
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="55"/>
         <source>Subscribe error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка подписки: %1</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="70"/>
@@ -899,7 +899,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="79"/>
         <source>Keys error</source>
-        <translation type="unfinished">Ошибка ключей</translation>
+        <translation>Ошибка ключей</translation>
     </message>
 </context>
 <context>
@@ -930,7 +930,7 @@
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/utils/sync.cpp" line="69"/>
         <source>Command execution timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Время исполнения команды истекло</translation>
     </message>
 </context>
 <context>
@@ -938,27 +938,27 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="20"/>
         <source>Connecting...</source>
-        <translation type="unfinished">Подключение...</translation>
+        <translation>Подключение...</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="192"/>
         <source>Arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="198"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="204"/>
         <source>Available since</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступно с</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="255"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
@@ -1019,12 +1019,12 @@
     <message>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="17"/>
         <source>Score:</source>
-        <translation type="unfinished"></translation>
+        <translation>Счет:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="29"/>
         <source>Score</source>
-        <translation type="unfinished"></translation>
+        <translation>Счет</translation>
     </message>
 </context>
 <context>
@@ -1068,7 +1068,7 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="522"/>
         <source>Reload Value</source>
-        <translation>Перезагрузить значение</translation>
+        <translation>Обновить значение</translation>
     </message>
     <message>
         <source>Set TTL</source>
@@ -1150,42 +1150,42 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="54"/>
         <source>Open Keys Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть фильтр ключей</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="58"/>
         <source>Reload Keys in Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить ключи в базе данных</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="62"/>
         <source>Add New Key</source>
-        <translation type="unfinished">Добавить новый ключ</translation>
+        <translation>Добавить новый ключ</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <source>Disable Live Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить живое обновление</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <source>Enable Live Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить живое обновление</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="72"/>
         <source>Open Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть консоль</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
         <source>Flush DB</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить базу данных</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
         <source>Enter Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить фильтр</translation>
     </message>
 </context>
 <context>
@@ -1194,17 +1194,17 @@
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="34"/>
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="53"/>
         <source>Value is not binary string</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение не бинарная строка</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="68"/>
         <source>Error: Invalid JSON: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка: Неверный формат JSON: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="76"/>
         <source>Error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка: </translation>
     </message>
 </context>
 <context>
@@ -1212,12 +1212,12 @@
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
         <source>Copy Key Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать имя ключа</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
         <source>Delete Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить ключ</translation>
     </message>
 </context>
 <context>
@@ -1225,17 +1225,17 @@
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="21"/>
         <source>Reload Namespace</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить пространство имен</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="22"/>
         <source>Copy Namespace Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать шаблон пространства имен</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <source>Delete Namespace</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пространство имен</translation>
     </message>
 </context>
 <context>
@@ -1243,32 +1243,32 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="11"/>
         <source>Server Info</source>
-        <translation type="unfinished">Инфо о сервере</translation>
+        <translation>Информация о сервере</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="15"/>
         <source>Open Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть консоль</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
         <source>Reload Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить сервер</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Unload All Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Выгрузить всю информацию</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="27"/>
         <source>Edit Connection Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование настроек подключения</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="31"/>
         <source>Delete Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить подключение</translation>
     </message>
 </context>
 </TS>
