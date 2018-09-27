@@ -58,7 +58,7 @@ sudo mv qt.conf qt.backup
 
 ### Build on OS X
 
-1. Install [XCode](https://developer.apple.com/xcode/) with Xcode build tools
+1. Install [XCode 9.4.1](https://developer.apple.com/xcode/) with Xcode build tools
 2. Install [Homebrew](http://brew.sh/)
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
 4. Building RDM dependencies require i.a. openssl and cmake. Install them: `brew install openssl cmake`
