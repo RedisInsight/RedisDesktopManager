@@ -27,7 +27,7 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 1. Install git
 2. Get source code:
 
-    ```bash
+    ```
     git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm && cd ./rdm
     ```
 
@@ -35,7 +35,7 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 
 #### Ubuntu
 
-```bash
+```
 cd src/
 ./configure
 qmake && make && sudo make install
@@ -45,7 +45,7 @@ sudo mv qt.conf qt.backup
 
 #### Fedora & CentOS & OpenSUSE
 
-```bash
+```
 cd src/
 ./configure
 qmake-qt5 && make && sudo make install
@@ -75,13 +75,13 @@ sudo mv qt.conf qt.backup
 
 3. Install [Win32 OpenSSL 1.0.X](https://slproweb.com/products/Win32OpenSSL.html)
 
-    Try **Win32 OpenSSL v1.0.2p (30MB)** version.
+    Try **Win32 OpenSSL v1.0.2p (20MB)** version.  Install to `C:\OpenSSL-Win32` folder.
 
 4. Install [CMake](https://cmake.org/)
 
 5. Build `libssh2` library in folder `3rdparty/qredisclient/3rdparty/qsshclient/3rdparty/libssh2` using CMake
 
-    ```bash
+    ```
     cmake -DCRYPTO_BACKEND=WinCNG -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=./output --build .
     cmake --build . --target install
     mkdir build\src\release
