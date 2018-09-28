@@ -141,9 +141,9 @@ elif [ "$os_VENDOR" == "openSUSE" ]; then
 elif [[ $OSTYPE == darwin* ]]; then
     cd $DEPS_DIR
     find gbreakpad -type d -exec chmod 755 {} + && cd gbreakpad
-    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig ARCHS=x86_64
-    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64
-    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig install DSTROOT=$DEPS_DIR/../bin INSTALL_PATH=/Frameworks ARCHS=x86_64
+    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig ARCHS=x86_64 -UseModernBuildSystem=NO
+    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig install DSTROOT=$DEPS_DIR/../bin/osx INSTALL_PATH=/Frameworks ARCHS=x86_64 -UseModernBuildSystem=NO
+    xcodebuild -quiet -sdk macosx -project src/client/mac/Breakpad.xcodeproj -configuration Release -target Breakpad -xcconfig ../../src/gbreakpad.xcconfig install DSTROOT=$DEPS_DIR/../bin INSTALL_PATH=/Frameworks ARCHS=x86_64 -UseModernBuildSystem=NO
     cd ..
     brew upgrade openssl || brew install openssl || true
     export OPENSSL_ROOT_DIR=/usr/local/opt/openssl/
