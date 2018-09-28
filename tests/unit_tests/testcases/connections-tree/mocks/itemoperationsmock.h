@@ -24,7 +24,8 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
   QList<QByteArray> keys;
   void loadNamespaceItems(
       QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
-      const QString&, std::function<void(const QString&)> callback) override {
+      const QString&, std::function<void(const QString&)> callback,
+      QSet<QByteArray>) override {
     if (m_positive_mode) {
       for (QByteArray key : keys) {
         parent->append(QSharedPointer<ConnectionsTree::KeyItem>(
@@ -72,6 +73,8 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
   virtual QString mode() { return QString("fake"); }
 
   virtual bool isConnected() const { return true; }
+
+  virtual void duplicateConnection() override {}
 
  protected:
   bool m_positive_mode;

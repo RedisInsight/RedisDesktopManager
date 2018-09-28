@@ -14,8 +14,6 @@ class KeyItem;
 class Events : public QObject {
   Q_OBJECT
 
- public:
-  enum LogLevel { INFO, ERROR };
  signals:
 
   // Tabs

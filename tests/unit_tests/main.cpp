@@ -1,9 +1,6 @@
 #include <QApplication>
 #include <QTest>
 
-#include <easylogging++.h>
-INITIALIZE_EASYLOGGINGPP
-
 // tests
 #include <qredisclient/redisclient.h>
 #include <iostream>

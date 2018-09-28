@@ -5,6 +5,7 @@ INCLUDEPATH += $$APP_SRC_DIR
 
 HEADERS  += \
     $$PWD/test_*.h \
+    $$APP_SRC_DIR/events.h \
     $$APP_SRC_DIR/models/connectionsmanager.h \
     $$APP_SRC_DIR/models/configmanager.h \
     $$APP_SRC_DIR/models/connectionconf.h \
@@ -21,6 +22,7 @@ HEADERS  += \
 
 SOURCES += \
     $$PWD/test_*.cpp \
+    $$APP_SRC_DIR/events.cpp \
     $$APP_SRC_DIR/models/connectionsmanager.cpp \
     $$APP_SRC_DIR/models/configmanager.cpp \
     $$APP_SRC_DIR/models/connectionconf.cpp \
