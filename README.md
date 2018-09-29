@@ -21,4 +21,4 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 
 **Community Supported platforms**: [Arch Linux](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
-**Supported Redis versions**: 2.8+ (for old redis-servers use RedisDesktopManager 0.8.8)
+**Supported Redis versions**: 2.8+ (for old redis-servers use [RedisDesktopManager 0.8.8](https://github.com/uglide/RedisDesktopManager/releases/tag/0.8.8))
