@@ -43,7 +43,7 @@ Repeater {
         property var valueEditor
         property var searchModel
 
-        property variant keyModel: keyName ? valuesModel.getValue(tabIndex) : null
+        property variant keyModel: keyName ? valuesModel.getValue(keyIndex) : null
 
         onKeyModelChanged: {
             // On tab reload
@@ -166,9 +166,9 @@ Repeater {
                         }
                     }
 
-                    Item { visible: showValueNavigation; Layout.preferredWidth: 5}
+                    Item { visible: isMultiRow; Layout.preferredWidth: 5}
                     Text {
-                        visible: showValueNavigation;
+                        visible: isMultiRow;
                         text:  qsTr("Size: ") + (keyTab.keyModel? keyTab.keyModel.totalRowCount : "0")
                     }
                     Item { Layout.preferredWidth: 5}
@@ -244,7 +244,7 @@ Repeater {
                     Button {
                         text: qsTr("Reload Value")
                         action: reLoadAction
-                        visible: !showValueNavigation
+                        visible: !isMultiRow
                         iconSource: "qrc:/images/refresh.svg"
                     }                    
                 }
@@ -265,7 +265,7 @@ Repeater {
                         id: navigationTable
                         Layout.fillWidth: true
                         Layout.fillHeight: false
-                        visible: showValueNavigation
+                        visible: isMultiRow
 
                         TableView {
                             id: table
@@ -302,7 +302,7 @@ Repeater {
                                     elide: styleData.elideMode
                                     text: {
 
-                                        if (styleData.value === "" || !keyModel.isMultiRow()) {
+                                        if (styleData.value === "" || !isMultiRow) {
                                             return ""
                                         }
 
@@ -341,8 +341,8 @@ Repeater {
 
                                     keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
 
-                                    if (keyModel.isMultiRow()) {
-                                        var columns = columnNames
+                                    if (isMultiRow) {
+                                        var columns = keyTab.keyModel.columnNames
 
                                         for (var index = 0; index < 3; index++)
                                         {
@@ -474,10 +474,9 @@ Repeater {
                                                 return;
                                             }
 
-                                            var row = valueAddEditor.item.getValue()
-                                            var model = valuesModel.getValue(tabIndex)
+                                            var row = valueAddEditor.item.getValue()                                            
 
-                                            model.addRow(row)
+                                            keyTab.keyModel.addRow(row)
                                             keyTab.keyModel.reload()
                                             valueAddEditor.item.reset()
                                             valueAddEditor.item.initEmpty()
@@ -539,7 +538,7 @@ Repeater {
                                         console.log("Reload value in tab")
                                         keyTab.keyModel.reload()
 
-                                        if (keyTab.keyModel.isMultiRow()) {
+                                        if (isMultiRow) {
                                             valueEditor.clear()
 
                                             if (table.currentPage > table.totalPages) {
@@ -569,7 +568,7 @@ Repeater {
                             Pagination {
                                 id: pagination
                                 Layout.maximumWidth: 150
-                                visible: showValueNavigation
+                                visible: isMultiRow
                             }
                         }
                     }
@@ -579,7 +578,7 @@ Repeater {
                     ColumnLayout {
                         id: editorWrapper
                         Layout.fillWidth: true
-                        Layout.fillHeight: !showValueNavigation
+                        Layout.fillHeight: !isMultiRow
                         spacing: 0
 
                         Loader {
@@ -588,7 +587,7 @@ Repeater {
                             Layout.fillHeight: true
                             Layout.minimumHeight: 180
                             Layout.maximumHeight: {
-                                if (showValueNavigation) {
+                                if (isMultiRow) {
                                     return (approot.height - bottomTabView.height - navigationTable.height
                                             - editorButtonsRow.height - 50)
                                 } else {

@@ -3,6 +3,7 @@
 #include <qredisclient/utils/text.h>
 #include <QByteArray>
 #include <QDebug>
+
 #include <QPair>
 #include <QSharedPointer>
 #include <QString>
@@ -22,15 +23,13 @@ class KeyModel : public ValueEditor::Model {
         m_keyFullPath(fullPath),
         m_dbIndex(dbIndex),
         m_ttl(ttl),
-        m_isKeyRemoved(false),
         m_rowCount(-1),
-        m_currentState(KeyModel::State::Initial),
         m_isMultiRow(isMultiRow),
         m_rowsCountCmd(rowsCountCmd),
         m_partialLoadingCmd(partialLoadingCmd),
         m_fullLoadingCmd(fullLoadingCmd),
         m_fullLoadingCmdSupportsRanges(fullLoadingCmdSupportsRanges),
-        m_notifier(new ValueEditor::ModelSignals()) {
+        m_notifier(new ValueEditor::ModelSignals(), &QObject::deleteLater) {
     try {
       loadRowsCount();
     } catch (const ValueEditor::Model::Exception& e) {
@@ -39,10 +38,7 @@ class KeyModel : public ValueEditor::Model {
     }
   }
 
-  virtual ~KeyModel() {
-    qDebug() << "{!!DEL!!} Remove keymodel";
-    m_notifier.clear();
-  }
+  virtual ~KeyModel() { m_notifier.clear(); }
 
   virtual QString getKeyName() override {
     return printableString(m_keyFullPath);
@@ -117,7 +113,6 @@ class KeyModel : public ValueEditor::Model {
       throw Exception("Connection error: " + QString(e.what()));
     }
 
-    m_isKeyRemoved = true;
     m_notifier->removed();
   }
 
@@ -141,9 +136,15 @@ class KeyModel : public ValueEditor::Model {
       cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
 
       RedisClient::ScanCommand cmd(cmdParts, m_dbIndex);
+      auto self = ValueEditor::Model::sharedFromThis().toWeakRef();
+
       try {
         m_connection->retrieveCollection(
-            cmd, [this, callback, rowStart](QVariant result, QString) {
+            cmd, [this, callback, rowStart, self](QVariant result, QString) {
+              if (!self) {
+                return;
+              }
+
               if (result.type() == QVariant::Type::List) {
                 try {
                   addLoadedRowsToCache(result.toList(), rowStart);
@@ -256,7 +257,6 @@ class KeyModel : public ValueEditor::Model {
 
   virtual void setRemovedIfEmpty() {
     if (m_rowCount == 0) {
-      m_isKeyRemoved = true;
       m_notifier->removed();
     }
   }
@@ -268,12 +268,7 @@ class KeyModel : public ValueEditor::Model {
   QByteArray m_keyFullPath;
   int m_dbIndex;
   long long m_ttl;
-  bool m_isKeyRemoved;
   unsigned long m_rowCount;
-
-  enum State { Initial, DataLoaded, Error };
-  State m_currentState;
-
   bool m_isMultiRow;
 
   // CMD strings

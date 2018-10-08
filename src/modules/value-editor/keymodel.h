@@ -1,5 +1,6 @@
 #pragma once
 #include <qredisclient/connection.h>
+#include <QEnableSharedFromThis>
 #include <QHash>
 #include <QObject>
 #include <QString>
@@ -17,7 +18,7 @@ class ModelSignals : public QObject {
   void removed();
 };
 
-class Model {
+class Model : public QEnableSharedFromThis<Model> {
   ADD_EXCEPTION
  public:
   Model() {}

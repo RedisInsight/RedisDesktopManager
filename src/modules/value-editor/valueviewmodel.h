@@ -16,12 +16,14 @@ class ValueViewModel : public BaseListModel {
       QVariantList columnNames READ columnNames NOTIFY columnNamesChanged)
 
  public:
-  ValueViewModel(Model& model);
+  ValueViewModel(QSharedPointer<Model> model);
   ~ValueViewModel() {}
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
+
+  QSharedPointer<Model> model();
 
  public:
   // single row operations
@@ -33,7 +35,6 @@ class ValueViewModel : public BaseListModel {
 
   // multi row operations
   Q_INVOKABLE void loadRows(int start, int limit);
-  Q_INVOKABLE bool isMultiRow();
   Q_INVOKABLE void reload();
 
   int totalRowCount();
@@ -51,7 +52,7 @@ class ValueViewModel : public BaseListModel {
   int mapRowIndex(int i);
 
  private:
-  ValueEditor::Model& m_model;
+  QSharedPointer<Model> m_model;
   int m_startFramePosition;
   int m_lastLoadedRowFrameSize;
 };
