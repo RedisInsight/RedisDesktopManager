@@ -33,7 +33,7 @@ Button {
         radius: 5
    }
 
-   ToolTip.visible: hovered
+   ToolTip.visible: root.tooltip && hovered
    ToolTip.text: root.tooltip
 
 }
