@@ -1,9 +1,6 @@
 [submodule "3rdparty/crashreporter"]
 	path = 3rdparty/crashreporter
 	url = https://github.com/RedisDesktop/CrashReporter.git
-[submodule "3rdparty/easyloggingpp"]
-	path = 3rdparty/easyloggingpp
-	url = https://github.com/easylogging/easyloggingpp.git
 [submodule "3rdparty/qredisclient"]
 	path = 3rdparty/qredisclient
 	url = https://github.com/uglide/qredisclient.git
