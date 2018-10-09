@@ -100,10 +100,10 @@ TreeView {
                     asynchronous: false
 
                     source: {
-                        if (!(styleData.selected && itemType))
+                        if (!(styleData.selected && styleData.value["type"]))
                             return ""
 
-                       return "./menu/" + itemType + ".qml"
+                       return "./menu/" + styleData.value["type"] + ".qml"
                     }
 
                     onLoaded: wrapper.forceActiveFocus()
