@@ -9,8 +9,9 @@ import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root    
-    title: !settings || !settings.name ? qsTr("New Connection Settings") : qsTr("Edit Connection Settings - %1").arg(settings.name)
+    title: isNewConnection ? qsTr("New Connection Settings") : qsTr("Edit Connection Settings - %1").arg(settings.name)
 
+    property bool isNewConnection: !settings || !settings.name
     property var settings
     property string quickStartGuideUrl: "http://docs.redisdesktop.com/en/latest/quick-start/"
 
@@ -122,6 +123,13 @@ Dialog {
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 5
+
+            Loader {
+                id: newsLoader
+                source: "https://redisdesktop.com/qml/ConnectionSuggestions.qml?app_version="
+                        + Qt.application.version + "&platform=" + Qt.platform.os
+                        + "&new=" + root.isNewConnection
+            }
 
             TabView {
                 id: settingsTabs

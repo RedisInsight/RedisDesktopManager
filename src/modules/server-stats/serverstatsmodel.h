@@ -1,34 +1,27 @@
 #pragma once
-#include "exception.h"
 #include "common/tabviewmodel.h"
+#include "exception.h"
 
 namespace ServerStats {
 
-    class Model : public TabModel
-    {
-        Q_OBJECT
-        ADD_EXCEPTION
+class Model : public TabModel {
+  Q_OBJECT
+  ADD_EXCEPTION
 
-        Q_PROPERTY(QVariantMap serverInfo READ serverInfo NOTIFY serverInfoChanged)
+  Q_PROPERTY(QVariantMap serverInfo READ serverInfo NOTIFY serverInfoChanged)
 
-    public:
-        Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
+ public:
+  Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
-        Q_INVOKABLE void init() override;
+  QString getName() const override;
 
-        QString getName() const override;
+  QVariantMap serverInfo();
 
-        QVariantMap serverInfo();
+ signals:
+  void serverInfoChanged();
 
-    signals:
-        void error(const QString& error);
-
-        void initialized();
-
-        void serverInfoChanged();
-
-    private:
-        QTimer m_updateTimer;
-        QVariantMap m_serverInfo;
-    };
-}
+ private:
+  QTimer m_updateTimer;
+  QVariantMap m_serverInfo;
+};
+}  // namespace ServerStats

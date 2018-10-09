@@ -19,6 +19,7 @@ DEFINES += CORE_LIBRARY ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CR
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/app/app.cpp \
+    $$PWD/app/events.cpp \
     $$PWD/app/qmlutils.cpp \
     $$PWD/app/models/*.cpp \
     $$PWD/app/models/key-models/*.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
 
 HEADERS  += \
     $$PWD/app/app.h \
+    $$PWD/app/events.h \
     $$PWD/app/logger.h \
     $$PWD/app/qmlutils.h \
     $$PWD/app/models/*.h \
@@ -91,7 +93,7 @@ unix:macx { # OSX
 
 unix:!macx { # ubuntu & debian
     CONFIG += static release
-    CONFIG -= debug    
+    CONFIG -= debug
 
     QTPLUGIN += qsvg qsvgicon
 

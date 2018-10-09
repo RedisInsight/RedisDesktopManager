@@ -27,7 +27,7 @@ Repeater {
             //                return
             //            }
             valueEditor.clear()
-            viewModel.closeTab(tabIndex)
+            valuesModel.closeTab(tabIndex)
         }
 
         title: {
@@ -43,7 +43,7 @@ Repeater {
         property var valueEditor
         property var searchModel
 
-        property variant keyModel: keyName ? viewModel.getValue(tabIndex) : null
+        property variant keyModel: keyName ? valuesModel.getValue(keyIndex) : null
 
         onKeyModelChanged: {
             // On tab reload
@@ -152,7 +152,7 @@ Repeater {
                                     return open()
                                 }
 
-                                viewModel.renameKey(keyTab.tabIndex, newKeyName.text)
+                                valuesModel.renameKey(keyTab.tabIndex, newKeyName.text)
                             }
 
                             visible: false
@@ -166,8 +166,11 @@ Repeater {
                         }
                     }
 
-                    Item { visible: showValueNavigation; Layout.preferredWidth: 5}
-                    Text { visible: showValueNavigation; text: "Size: "+ valuesCount }
+                    Item { visible: isMultiRow; Layout.preferredWidth: 5}
+                    Text {
+                        visible: isMultiRow;
+                        text:  qsTr("Size: ") + (keyTab.keyModel? keyTab.keyModel.totalRowCount : "0")
+                    }
                     Item { Layout.preferredWidth: 5}
 
                     Button {
@@ -198,7 +201,7 @@ Repeater {
                                     return open()
                                 }
 
-                                viewModel.setTTL(keyTab.tabIndex, newTTL.text)
+                                valuesModel.setTTL(keyTab.tabIndex, newTTL.text)
                             }
 
                             visible: false
@@ -225,7 +228,7 @@ Repeater {
                             text: qsTr("Do you really want to delete this key?")
                             onYes: {
                                 console.log("remove key")
-                                viewModel.removeKey(keyTab.tabIndex)
+                                valuesModel.removeKey(keyTab.tabIndex)
                             }
                             visible: false
                             modality: Qt.ApplicationModal
@@ -241,7 +244,7 @@ Repeater {
                     Button {
                         text: qsTr("Reload Value")
                         action: reLoadAction
-                        visible: !showValueNavigation
+                        visible: !isMultiRow
                         iconSource: "qrc:/images/refresh.svg"
                     }                    
                 }
@@ -262,7 +265,7 @@ Repeater {
                         id: navigationTable
                         Layout.fillWidth: true
                         Layout.fillHeight: false
-                        visible: showValueNavigation
+                        visible: isMultiRow
 
                         TableView {
                             id: table
@@ -282,9 +285,9 @@ Repeater {
                             model: searchModel ? searchModel : null
 
                             property int currentStart: 0
-                            property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize() : 100
+                            property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize : 100
                             property int currentPage: currentStart / maxItemsOnPage + 1
-                            property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount() / maxItemsOnPage) : 0
+                            property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount / maxItemsOnPage) : 0
                             property bool forceLoading: false
 
                             Component.onCompleted: {
@@ -299,7 +302,7 @@ Repeater {
                                     elide: styleData.elideMode
                                     text: {
 
-                                        if (styleData.value === "" || keyType === "string" || keyType === "ReJSON") {
+                                        if (styleData.value === "" || !isMultiRow) {
                                             return ""
                                         }
 
@@ -307,7 +310,7 @@ Repeater {
                                             return parseFloat(Number(styleData.value).toFixed(20))
                                         }
 
-                                        return binaryUtils.printable(styleData.value)
+                                        return qmlUtils.printable(styleData.value)
                                                             + (lineCount > 1 ? '...' : '')
                                     }
                                     wrapMode: Text.WrapAnywhere
@@ -338,12 +341,8 @@ Repeater {
 
                                     keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
 
-                                    console.log(keyType)
-
-                                    if (keyType === "string" || keyType === "ReJSON") {
-                                        valueEditor.loadRowValue(0)
-                                    } else {
-                                        var columns = columnNames
+                                    if (isMultiRow) {
+                                        var columns = keyTab.keyModel.columnNames
 
                                         for (var index = 0; index < 3; index++)
                                         {
@@ -361,6 +360,8 @@ Repeater {
                                             column.resizeToContents()
                                         }
                                         valueEditor.clear()
+                                    } else {
+                                        valueEditor.loadRowValue(0)
                                     }
                                 }
                             }
@@ -473,10 +474,9 @@ Repeater {
                                                 return;
                                             }
 
-                                            var row = valueAddEditor.item.getValue()
-                                            var model = viewModel.getValue(tabIndex)
+                                            var row = valueAddEditor.item.getValue()                                            
 
-                                            model.addRow(row)
+                                            keyTab.keyModel.addRow(row)
                                             keyTab.keyModel.reload()
                                             valueAddEditor.item.reset()
                                             valueAddEditor.item.initEmpty()
@@ -495,7 +495,7 @@ Repeater {
                                 enabled: table.currentRow != -1
 
                                 onClicked: {
-                                    if (keyTab.keyModel.totalRowCount() == 1) {
+                                    if (keyTab.keyModel.totalRowCount === 1) {
                                         deleteRowConfirmation.text = qsTr("The row is the last one in the key. After removing it key will be deleted.")
                                     } else {
                                         deleteRowConfirmation.text = qsTr("Do you really want to remove this row?")
@@ -537,7 +537,14 @@ Repeater {
                                     onTriggered: {
                                         console.log("Reload value in tab")
                                         keyTab.keyModel.reload()
-                                        valueEditor.clear()
+
+                                        if (isMultiRow) {
+                                            valueEditor.clear()
+
+                                            if (table.currentPage > table.totalPages) {
+                                                table.goToPage(1)
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -561,7 +568,7 @@ Repeater {
                             Pagination {
                                 id: pagination
                                 Layout.maximumWidth: 150
-                                visible: showValueNavigation
+                                visible: isMultiRow
                             }
                         }
                     }
@@ -571,7 +578,7 @@ Repeater {
                     ColumnLayout {
                         id: editorWrapper
                         Layout.fillWidth: true
-                        Layout.fillHeight: !showValueNavigation
+                        Layout.fillHeight: !isMultiRow
                         spacing: 0
 
                         Loader {
@@ -580,7 +587,7 @@ Repeater {
                             Layout.fillHeight: true
                             Layout.minimumHeight: 180
                             Layout.maximumHeight: {
-                                if (showValueNavigation) {
+                                if (isMultiRow) {
                                     return (approot.height - bottomTabView.height - navigationTable.height
                                             - editorButtonsRow.height - 50)
                                 } else {

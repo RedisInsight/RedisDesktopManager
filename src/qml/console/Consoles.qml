@@ -22,8 +22,13 @@ Repeater {
 
             property var model: consoleModel.getValue(tabIndex)
 
+            function close() {
+                redisConsole.model = null;
+                consoleModel.closeTab(tabIndex);
+            }
+
             Connections {
-                target: consoleModel ? consoleModel.getValue(tabIndex) : null
+                target: redisConsole.model ? redisConsole.model : null
 
                 onChangePrompt: {                    
                     redisConsole.setPrompt(text, showPrompt)
@@ -70,7 +75,7 @@ Repeater {
                     Text { text: qsTr("Do you really want to close console with running command?") }
                 }
 
-                onYes: consoleModel.closeTab(tabIndex)
+                onYes: redisConsole.close()
 
                 visible: false
                 modality: Qt.ApplicationModal
@@ -88,7 +93,7 @@ Repeater {
                 return
             }
 
-            consoleModel.closeTab(tabIndex)
+            redisConsoleVar.close()
         }
     }
 }

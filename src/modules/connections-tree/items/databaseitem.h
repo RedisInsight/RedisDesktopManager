@@ -5,46 +5,45 @@ namespace ConnectionsTree {
 
 class ServerItem;
 
+class DatabaseItem : public AbstractNamespaceItem {
+ public:
+  DatabaseItem(unsigned int index, int keysCount,
+               QSharedPointer<Operations> operations,
+               QWeakPointer<TreeItem> parent, Model& model);
 
-class DatabaseItem : public QObject, public AbstractNamespaceItem
-{
-    Q_OBJECT
-public:
-    DatabaseItem(unsigned int index, int keysCount,
-                 QSharedPointer<Operations> operations,
-                 QWeakPointer<TreeItem> parent, Model& model);
+  ~DatabaseItem();
 
-    ~DatabaseItem();
+  QByteArray getName() const override;
 
-    QByteArray getName() const override;
+  QByteArray getFullPath() const override;
 
-    QByteArray getFullPath() const override;
+  QString getDisplayName() const override;
 
-    QString getDisplayName() const override;
+  QString getType() const override { return "database"; }
 
-    QString getType() const override { return "database"; }     
+  bool isEnabled() const override;
 
-    bool isEnabled() const override;    
+  void notifyModel() override;
 
-    void notifyModel() override;
+  QVariantMap metadata() const override;
 
-    void loadKeys(std::function<void()> callback=std::function<void()>());
+  void setMetadata(const QString&, QVariant) override;
 
-    void unload();    
+ protected:
+  void loadKeys(std::function<void()> callback = std::function<void()>());
+  void unload(bool notify = true);
+  void reload(std::function<void()> callback = std::function<void()>());
+  void performLiveUpdate();
+  void filterKeys(const QRegExp& filter);
+  void resetFilter();
 
-    QVariantMap metadata() const override;
+ private:
+  QSharedPointer<QTimer> liveUpdateTimer();
+  bool isLiveUpdateEnabled() const;
 
-    void setMetadata(const QString&, QVariant) override;
-
-protected:
-    void reload();
-    void liveUpdate();
-    void filterKeys(const QRegExp& filter);
-    void resetFilter();
-
-private:    
-    unsigned int m_keysCount;    
-    QTimer m_liveUpdateTimer;
+ private:
+  unsigned int m_keysCount;
+  QSharedPointer<QTimer> m_liveUpdateTimer;
 };
 
-}
+}  // namespace ConnectionsTree

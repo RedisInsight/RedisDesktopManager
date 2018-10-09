@@ -1,121 +1,117 @@
 #pragma once
 #include <QAbstractItemModel>
-#include <QList>
-#include <QVariant>
-#include <QSharedPointer>
-#include <QQuickImageProvider>
 #include <QDebug>
+#include <QList>
+#include <QQuickImageProvider>
+#include <QSharedPointer>
+#include <QVariant>
 
 #include "items/treeitem.h"
 
 namespace ConnectionsTree {
 
-    class ServerItem;
+class ServerItem;
 
-    class Model : public QAbstractItemModel
-    {
-        Q_OBJECT
-    public:
-        enum Roles {
-            itemName = Qt::UserRole + 1,            
-            itemType,
-            itemIsInitiallyExpanded,                                   
-            itemMetaData,
-        };
+class Model : public QAbstractItemModel {
+  Q_OBJECT
+ public:
+  enum Roles {
+    itemName = Qt::UserRole + 1,
+    itemType,
+    itemIsInitiallyExpanded,
+    itemMetaData,
+  };
 
-    public:
-        explicit Model(QObject *parent = 0);
+ public:
+  explicit Model(QObject *parent = 0);
 
-        QVariant data(const QModelIndex &index, int role) const;
+  QVariant data(const QModelIndex &index, int role) const;
 
-        QHash<int, QByteArray> roleNames() const override;
+  QHash<int, QByteArray> roleNames() const override;
 
-        Qt::ItemFlags flags(const QModelIndex& index) const;
+  Qt::ItemFlags flags(const QModelIndex &index) const;
 
-        QModelIndex index(int row, int column, const QModelIndex & parent) const;
+  QModelIndex index(int row, int column, const QModelIndex &parent) const;
 
-        QModelIndex parent(const QModelIndex & index) const;
+  QModelIndex parent(const QModelIndex &index) const;
 
-        int rowCount(const QModelIndex & parent = QModelIndex()) const;
+  int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
-        bool hasChildren(const QModelIndex &parent = QModelIndex());
+  bool hasChildren(const QModelIndex &parent = QModelIndex());
 
-        inline int columnCount(const QModelIndex & parent = QModelIndex()) const
-        {
-            Q_UNUSED(parent);
-            return 1;
-        }
-        
-        inline TreeItem *getItemFromIndex(const QModelIndex &index) const {
-            if (!index.isValid())
-                return nullptr;
-            if (index.model() != this)
-                return nullptr;
-                
-            TreeItem *parent = static_cast<TreeItem*>(index.internalPointer());
-            if (!parent || !m_rawPointers->contains(parent))
-                return nullptr;
+  inline int columnCount(const QModelIndex &parent = QModelIndex()) const {
+    Q_UNUSED(parent);
+    return 1;
+  }
 
-            if (!m_rawPointers->value(parent)) {
-                m_rawPointers->remove(parent);
-                return nullptr;
-            }
+  inline TreeItem *getItemFromIndex(const QModelIndex &index) const {
+    if (!index.isValid()) return nullptr;
+    if (index.model() != this) return nullptr;
 
-            return parent;
-        }        
+    TreeItem *parent = static_cast<TreeItem *>(index.internalPointer());
+    if (!parent || !m_rawPointers->contains(parent)) return nullptr;
 
-        QModelIndex getIndexFromItem(QWeakPointer<TreeItem>);
+    if (!m_rawPointers->value(parent)) {
+      m_rawPointers->remove(parent);
+      return nullptr;
+    }
 
-        bool canFetchMore(const QModelIndex &parent) const;
+    return parent;
+  }
 
-        void fetchMore(const QModelIndex &parent);
+  QModelIndex getIndexFromItem(QWeakPointer<TreeItem>);
 
-        QSet<QByteArray> m_expanded;
+  bool canFetchMore(const QModelIndex &parent) const;
 
-    signals:
-        void expand(const QModelIndex &index);
+  void fetchMore(const QModelIndex &parent);
 
-        void error(const QString& err);
+  QSet<QByteArray> m_expanded;
 
-        void itemChanged(QWeakPointer<TreeItem> item);
+ signals:
+  void expand(const QModelIndex &index);
 
-        void itemChildsLoaded(QWeakPointer<TreeItem> item);
+  void error(const QString &err);
 
-        void itemChildsUnloaded(QWeakPointer<TreeItem> item);
+  void itemChanged(QWeakPointer<TreeItem> item);
 
-        void expandItem(QWeakPointer<TreeItem> item);
+  void itemChildsLoaded(QWeakPointer<TreeItem> item);
 
-    protected slots:
-        void onItemChanged(QWeakPointer<TreeItem>);
+  void itemChildsUnloaded(QWeakPointer<TreeItem> item);
 
-        void onItemChildsLoaded(QWeakPointer<TreeItem> item);
+  void expandItem(QWeakPointer<TreeItem> item);
 
-        void onItemChildsUnloaded(QWeakPointer<TreeItem> item);
+ protected slots:
+  void onItemChanged(QWeakPointer<TreeItem>);
 
-        void onExpandItem(QWeakPointer<TreeItem> item);
+  void onItemChildsLoaded(QWeakPointer<TreeItem> item);
 
-    public slots:        
-        QVariant getMetadata(const QModelIndex &index, const QString& metaKey);
+  void onItemChildsUnloaded(QWeakPointer<TreeItem> item);
 
-        void setMetadata(const QModelIndex &index, const QString& metaKey, QVariant value);
+  void onExpandItem(QWeakPointer<TreeItem> item);
 
-        void sendEvent(const QModelIndex &index, QString event);
+ public slots:
+  QVariant getMetadata(const QModelIndex &index, const QString &metaKey);
 
-        unsigned int size();
+  void setMetadata(const QModelIndex &index, const QString &metaKey,
+                   QVariant value);
 
-        void setExpanded(const QModelIndex &index);
+  void sendEvent(const QModelIndex &index, QString event);
 
-        void setCollapsed(const QModelIndex &index);
+  unsigned int size();
 
-    protected:            
-        void addRootItem(QSharedPointer<ServerItem> item);
+  void setExpanded(const QModelIndex &index);
 
-        void removeRootItem(QSharedPointer<ServerItem> item);
+  void setCollapsed(const QModelIndex &index);
 
-        void restoreOpenedNamespaces(const QModelIndex &dbIndex);
+ protected:
+  void addRootItem(QSharedPointer<ServerItem> item);
 
-    private:
-         QList<QSharedPointer<TreeItem>> m_treeItems;
-         QSharedPointer<QHash<TreeItem*, QWeakPointer<TreeItem>>> m_rawPointers;         
-    };
-}
+  void removeRootItem(QSharedPointer<ServerItem> item);
+
+  void restoreOpenedNamespaces(const QModelIndex &dbIndex);
+
+ private:
+  QList<QSharedPointer<TreeItem>> m_treeItems;
+  QSharedPointer<QHash<TreeItem *, QWeakPointer<TreeItem>>> m_rawPointers;
+};
+}  // namespace ConnectionsTree

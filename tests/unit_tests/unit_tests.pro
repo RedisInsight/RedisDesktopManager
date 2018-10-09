@@ -29,7 +29,6 @@ INCLUDEPATH += $$SRC_DIR/modules/ \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/
 
 DEFINES += INTEGRATION_TESTS
-DEFINES += ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
 #TEST CASES
 include($$PWD/testcases/app/app-tests.pri)
