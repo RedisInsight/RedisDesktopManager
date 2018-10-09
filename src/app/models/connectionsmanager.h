@@ -1,84 +1,75 @@
 #pragma once
-#include <functional>
-#include <QSharedPointer>
 #include <qredisclient/connection.h>
+#include <QSharedPointer>
+#include <functional>
 
 #include "app/models/connectionconf.h"
-#include "connections-tree/model.h"
 #include "bulk-operations/connections.h"
+#include "connections-tree/model.h"
 #include "treeoperations.h"
 
 namespace ValueEditor {
-    class TabsModel;
+class TabsModel;
 }
 
-class ConnectionsManager : public ConnectionsTree::Model, public BulkOperations::ConnectionsModel
-{
-    Q_OBJECT    
+class Events;
 
-public:
-    ConnectionsManager(const QString& m_configPath);
+class ConnectionsManager : public ConnectionsTree::Model,
+                           public BulkOperations::ConnectionsModel {
+  Q_OBJECT
 
-    ~ConnectionsManager(void);
+ public:
+  ConnectionsManager(const QString& m_configPath,
+                     QSharedPointer<Events> events);
 
-    Q_INVOKABLE void addNewConnection(const ServerConfig& config, bool saveToConfig = true);
+  ~ConnectionsManager(void);
 
-    Q_INVOKABLE void updateConnection(const ServerConfig& config);
+  Q_INVOKABLE void addNewConnection(const ServerConfig& config,
+                                    bool saveToConfig = true);
 
-    Q_INVOKABLE bool importConnections(const QString &);
+  Q_INVOKABLE void updateConnection(const ServerConfig& config);
 
-    Q_INVOKABLE bool saveConnectionsConfigToFile(const QString&);
+  Q_INVOKABLE bool importConnections(const QString&);
 
-    Q_INVOKABLE bool testConnectionSettings(const ServerConfig& config);
+  Q_INVOKABLE bool saveConnectionsConfigToFile(const QString&);
 
-    Q_INVOKABLE ServerConfig createEmptyConfig() const;
+  Q_INVOKABLE bool testConnectionSettings(const ServerConfig& config);
 
-    void saveConfig();
+  Q_INVOKABLE ServerConfig createEmptyConfig() const;
 
-    Q_INVOKABLE int size();
+  void saveConfig();
 
-    // BulkOperations model methods
-    QSharedPointer<RedisClient::Connection> getByIndex(int index) override;
+  Q_INVOKABLE int size();
 
-    QStringList getConnections() override;
+  // BulkOperations model methods
+  QSharedPointer<RedisClient::Connection> getByIndex(int index) override;
 
-signals:
-    void editConnection(ServerConfig config);
+  QStringList getConnections() override;
 
-    void connectionAboutToBeEdited(QString name);
+ signals:
+  void editConnection(ServerConfig config);
 
-    void openConsole(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
+  void connectionAboutToBeEdited(QString name);
 
-    void openServerStats(QSharedPointer<RedisClient::Connection> connection);
+ protected:
+  bool loadConnectionsConfigFromFile(const QString& config,
+                                     bool saveChangesToFile = false);
 
-    // Proxy-signals from TreeOperationsModel
-    void openValueTab(QSharedPointer<RedisClient::Connection> connection,
-                      ConnectionsTree::KeyItem& key, bool inNewTab);
+ private:
+  void createServerItemForConnection(
+      QSharedPointer<RedisClient::Connection> connection,
+      QSharedPointer<TreeOperations> treeModel);
 
-    void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
-                      std::function<void()> callback,
-                      int dbIndex, QString keyPrefix);
+  QSharedPointer<RedisClient::Connection> cloneConnection(
+      QSharedPointer<RedisClient::Connection> c);
 
-    void closeDbKeys(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
-                     const QRegExp& filter=QRegExp("*", Qt::CaseSensitive, QRegExp::Wildcard));
+  void registerLoggerForConnection(RedisClient::Connection& c);
 
-    void requestBulkOperation(QSharedPointer<RedisClient::Connection> connection,
-                              int dbIndex, BulkOperations::Manager::Operation op,
-                              QRegExp keyPattern, std::function<void()> callback);
-
-private:
-     QSharedPointer<TreeOperations> createTreeModelForConnection(QSharedPointer<RedisClient::Connection> connection);     
-
-     void createServerItemForConnection(QSharedPointer<RedisClient::Connection> connection,
-                                        QSharedPointer<TreeOperations> treeModel);
-
-private:
-    QString m_configPath;    
-    QList<QSharedPointer<RedisClient::Connection>> m_connections;
-    QHash<QSharedPointer<RedisClient::Connection>,
-          QSharedPointer<ConnectionsTree::TreeItem>> m_connectionMapping;
-
-protected:
-    bool loadConnectionsConfigFromFile(const QString& config, bool saveChangesToFile = false);
+ private:
+  QString m_configPath;
+  QList<QSharedPointer<RedisClient::Connection>> m_connections;
+  QHash<QSharedPointer<RedisClient::Connection>,
+        QSharedPointer<ConnectionsTree::TreeItem>>
+      m_connectionMapping;
+  QSharedPointer<Events> m_events;
 };
-

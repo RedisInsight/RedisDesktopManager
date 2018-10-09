@@ -76,14 +76,14 @@ ColumnLayout
             return;
         }
 
-        if (binaryUtils.binaryStringLength(root.value) > valueSizeLimit) {
+        if (qmlUtils.binaryStringLength(root.value) > valueSizeLimit) {
             root.showFormatters = false
             formatterSelector.currentIndex = 0
         } else {
             root.showFormatters = true
         }
 
-        var isBin = binaryUtils.isBinaryString(root.value)
+        var isBin = qmlUtils.isBinaryString(root.value)
         binaryFlag.visible = isBin
 
         // If current formatter is plain text - try to guess formatter
@@ -155,7 +155,7 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
-        TextEdit { text: qsTr("size: ") + binaryUtils.humanSize(binaryUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
+        TextEdit { text: qsTr("size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
         Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
 
@@ -189,7 +189,7 @@ ColumnLayout
             }
         }
 
-        Text { visible: !showFormatters && binaryUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTr("Large value (>150kB). Formatters is not available."); color: "red"; }
+        Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTr("Large value (>150kB). Formatters is not available."); color: "red"; }
     }
 
     Rectangle {

@@ -39,14 +39,12 @@ void TestServerItem::testLoad_invalid()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock(false);
     Model dummyModel;
-    ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
-    QSignalSpy spy(&dummyModel, SIGNAL(error(const QString&)));
+    ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};    
 
     //when
     item.handleEvent("click");
 
-    //then
-    QCOMPARE(spy.count(), 1);
+    //then    
     QCOMPARE(item.childCount(), static_cast<uint>(0));
     QCOMPARE(item.isLocked(), false);
     QCOMPARE(item.isDatabaseListLoaded(), false);    
