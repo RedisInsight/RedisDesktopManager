@@ -46,12 +46,13 @@ TreeView {
 
                 property bool itemEnabled: styleData.value["state"] === true
                 property bool itemLocked: styleData.value["locked"] === true
+                property string itemType: styleData.value["type"]
                 property string itemIconSource: {
                     if (itemLocked) {
                         return "qrc:/images/wait.svg"
                     }
 
-                    var type = styleData.value["type"]
+                    var type = itemType
 
                     if (type === "server") {
                         var server_type = styleData.value["server_type"]
@@ -99,10 +100,10 @@ TreeView {
                     asynchronous: false
 
                     source: {
-                        if (!(styleData.selected && styleData.value["type"]))
+                        if (!(styleData.selected && itemType))
                             return ""
 
-                       return "./menu/" + styleData.value["type"] + ".qml"
+                       return "./menu/" + itemType + ".qml"
                     }
 
                     onLoaded: wrapper.forceActiveFocus()
