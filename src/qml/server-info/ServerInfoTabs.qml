@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import QtCharts 2.0
 import "./../common"
+import "./../settings"
 
 
 Repeater {
@@ -17,7 +18,14 @@ Repeater {
         icon: "qrc:/images/console.svg"
         tabType: "server_info"
 
-        property var model
+        property var model: serverStatsModel.getValue(tabIndex)
+
+        onModelChanged: {
+            if (!model)
+                return;
+
+            tab.model.init()
+        }
 
         onClose: {
             serverStatsModel.closeTab(tabIndex)
@@ -31,7 +39,7 @@ Repeater {
             ColumnLayout {
 
                 anchors.fill: parent
-                anchors.margins: 20
+                anchors.margins: 15
 
                 GridLayout {
                     Layout.fillWidth: true
@@ -43,223 +51,380 @@ Repeater {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Redis Version")
-                        font.pointSize: 15
+                        font.pointSize: 12
                         color: "grey"
                     }
 
-                    Label { id: redisVersionLabel; text: "N/A"; font.pointSize: 18  }
+                    Label { id: redisVersionLabel; text: "N/A"; font.pointSize: 12  }
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Used memory")
-                        font.pointSize: 15
+                        font.pointSize: 12
                         color: "grey"
                     }
 
-                    Label { id: usedMemoryLabel; text: "N/A"; font.pointSize: 18 }
+                    Label { id: usedMemoryLabel; text: "N/A"; font.pointSize: 12 }
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Clients")
-                        font.pointSize: 15
+                        font.pointSize: 12
                         color: "grey"
                     }
 
-                    Label { id: connectedClientsLabel; text: "N/A"; font.pointSize: 18 }
+                    Label { id: connectedClientsLabel; text: "N/A"; font.pointSize: 12 }
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Commands Processed")
-                        font.pointSize: 15
+                        font.pointSize: 12
                         color: "grey"
                         wrapMode: Text.WordWrap
                     }
 
-                    Label { id: totalCommandsProcessedLabel; text: "N/A"; font.pointSize: 18 }
+                    Label { id: totalCommandsProcessedLabel; text: "N/A"; font.pointSize: 12 }
 
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Uptime")
-                        font.pointSize: 15
+                        font.pointSize: 12
                         color: "grey"
                     }
 
-                    Label { id: uptimeLabel; text: "N/A"; font.pointSize: 18 }
+                    Label { id: uptimeLabel; text: "N/A"; font.pointSize: 12 }
 
 
                     Connections {
                         target: tab.model? tab.model : null
 
                         onServerInfoChanged: {
-                            usedMemoryLabel.text = tab.model.serverInfo["memory"]["used_memory_human"]
-                            redisVersionLabel.text = tab.model.serverInfo["server"]["redis_version"]
-                            connectedClientsLabel.text = tab.model.serverInfo["clients"]["connected_clients"]
-                            totalCommandsProcessedLabel.text = tab.model.serverInfo["stats"]["total_commands_processed"]
-                            uptimeLabel.text = tab.model.serverInfo["server"]["uptime_in_days"] + " days"
+                            usedMemoryLabel.text = getValue("memory", "used_memory_human")
+                            redisVersionLabel.text = getValue("server", "redis_version")
+                            connectedClientsLabel.text = getValue("clients", "connected_clients")
+                            totalCommandsProcessedLabel.text = getValue("stats", "total_commands_processed")
+                            uptimeLabel.text = getValue("server", "uptime_in_days") + qsTr(" day(s)")
+                        }
+
+                        function getValue(cat, prop) {
+                            try {
+                                return tab.model.serverInfo[cat][prop]
+                            } catch(e) {
+                                console.error("Cannot get server info '" + prop + "' from " + cat)
+                                return ""
+                            }
                         }
                     }
                 }
 
-                RowLayout {
+                TabView {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+                    Layout.rightMargin: 50
 
-                    ChartView {
-                        id: view
-
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: tab.width * 0.5
-
+                    Tab {
                         title: qsTr("Memory Usage")
-                        antialiasing: true
 
-                        DateTimeAxis {
-                            id: axisX
-                            min: new Date()
-                            format: "HH:mm:ss"
-                        }
+                        ChartView {
+                            id: view
 
-                        ValueAxis {
-                            id: axisY
-                            min: 0
-                            titleText: qsTr("Mb")
-                        }
+                            anchors.fill: parent
 
-                        function toMsecsSinceEpoch(date) {
-                            var msecs = date.getTime();
-                            return msecs;
-                        }
+                            title: qsTr("Memory Usage")
+                            antialiasing: true
 
-                        SplineSeries {
-                            id: used_memory_series
-                            name: "used_memory"
-                            axisX: axisX
-                            axisY: axisY
-                        }
+                            DateTimeAxis {
+                                id: axisX
+                                min: new Date()
+                                format: "HH:mm:ss"
+                            }
 
-                        SplineSeries {
-                            id: used_memory_rss_series
-                            name: "used_memory_rss"
-                            axisX: axisX
-                            axisY: axisY
-                        }
+                            ValueAxis {
+                                id: axisY
+                                min: 0
+                                titleText: qsTr("Mb")
+                            }
 
-                        SplineSeries {
-                            id: used_memory_lua_series
-                            name: "used_memory_lua"
-                            axisX: axisX
-                            axisY: axisY
-                        }
+                            function toMsecsSinceEpoch(date) {
+                                var msecs = date.getTime();
+                                return msecs;
+                            }
 
-                        SplineSeries {
-                            id: used_memory_peak_series
-                            name: "used_memory_peak"
-                            axisX: axisX
-                            axisY: axisY
+                            SplineSeries {
+                                id: used_memory_series
+                                name: "used_memory"
+                                axisX: axisX
+                                axisY: axisY
+                            }
+
+                            SplineSeries {
+                                id: used_memory_rss_series
+                                name: "used_memory_rss"
+                                axisX: axisX
+                                axisY: axisY
+                            }
+
+                            SplineSeries {
+                                id: used_memory_lua_series
+                                name: "used_memory_lua"
+                                axisX: axisX
+                                axisY: axisY
+                            }
+
+                            SplineSeries {
+                                id: used_memory_peak_series
+                                name: "used_memory_peak"
+                                axisX: axisX
+                                axisY: axisY
+                            }
+
+                            Connections {
+                                target: tab.model? tab.model : null
+
+                                onServerInfoChanged: {
+                                    if (uiBlocker.visible) {
+                                        uiBlocker.visible = false
+                                    }
+
+                                    var getValue = function (name) {
+                                        return parseFloat(tab.model.serverInfo["memory"][name] ) / (1024 * 1024)
+                                    }
+
+                                    qmlUtils.addNewValueToDynamicChart(used_memory_series, getValue("used_memory"))
+                                    qmlUtils.addNewValueToDynamicChart(used_memory_rss_series, getValue("used_memory_rss"))
+                                    qmlUtils.addNewValueToDynamicChart(used_memory_lua_series, getValue("used_memory_lua"))
+                                    qmlUtils.addNewValueToDynamicChart(used_memory_peak_series, getValue("used_memory_peak"))
+
+                                    axisY.max = getValue("used_memory_peak") + 1
+                                }
+                            }
                         }
                     }
 
-                    TabView {
-                        Layout.fillHeight: true
-                        Layout.minimumWidth: tab.width * 0.4
+                    Tab {
+                        title: qsTr("Server Info")
 
-                        Tab {
-                            title: qsTr("Server Info")
+                        ColumnLayout {
 
-                            TableView {
-                                id: serverInfoListView
+                            anchors.fill: parent
+                            anchors.margins: 10
 
+                            BoolOption {
+                                id: autorefreshSwitch
+
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 40
+
+                                value: true
+                                label: qsTr("Auto Refresh")
+                            }
+
+                            TabView {
+                                id: serverInfoTabs
+
+                                Layout.fillWidth: true
                                 Layout.fillHeight: true
-                                Layout.minimumWidth: 400
 
-                                model: tab.model && tab.model.serverInfo ? tab.model.serverInfo["server"] : null
+                                Repeater {
+                                    id: serverInfoBuilder
 
-                                TableViewColumn {
-                                    role: "name"
-                                    title: qsTr("Property")
-                                    width: 200
+                                    Tab {
+                                        anchors.fill: parent
+                                        title: modelData["name"]
+
+                                        TableView {
+                                            anchors.fill: parent
+
+                                            model: modelData["section_data"]
+
+                                            TableViewColumn {
+                                                role: "name"
+                                                title: qsTr("Property")
+                                                width: 250
+                                            }
+
+                                            TableViewColumn {
+                                                role: "value"
+                                                title: qsTr("Value")
+                                                width: 350
+                                            }
+                                        }
+                                    }
                                 }
 
-                                TableViewColumn {
-                                    role: "value"
-                                    title: qsTr("Value")
-                                    width: 200
+                                Rectangle {
+                                    id: serverInfoUIBlocker
+                                    visible: !serverInfoBuilder.model
+                                    anchors.fill: parent
+                                    color: Qt.rgba(0, 0, 0, 0.1)
+
+                                    Item {
+                                        anchors.fill: parent
+                                        BusyIndicator { anchors.centerIn: parent; running: true }
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                    }
                                 }
 
                                 Connections {
                                     target: tab.model? tab.model : null
 
                                     onServerInfoChanged: {
-                                        // fill tab with info
-                                        var serverInfo = []
+                                        if (autorefreshSwitch.value === false)
+                                            return;
 
-                                        for (var key in tab.model.serverInfo["server"])
-                                        {
-                                            var property = {"name": key, "value": tab.model.serverInfo["server"][key]}
-                                            serverInfo.push(property)
+                                        loadServerInfo();
+                                    }
+
+                                    function loadServerInfo() {
+                                        var sections = []
+
+                                        for (var section in tab.model.serverInfo) {
+                                            var section_data = []
+                                            for (var key in tab.model.serverInfo[section])
+                                            {
+                                                var property = {"name": key, "value": tab.model.serverInfo[section][key]}
+                                                section_data.push(property)
+                                            }
+                                            sections.push({"name": section, "section_data": section_data})
                                         }
 
-                                        serverInfoListView.model = serverInfo
+                                        var currentTab = serverInfoTabs.currentIndex
+                                        serverInfoBuilder.model = sections
+                                        serverInfoTabs.currentIndex = currentTab
                                     }
                                 }
                             }
                         }
-// TODO: Add UI for slowlog (view/reset) and clients (view/kill)
-//                        Tab {
-//                            title: "Slowlog"
-//                        }
-
-//                        Tab {
-//                            title: "Clients"
-//                        }
                     }
 
-                    Connections {
-                        target: tab.model? tab.model : null
+                    Tab {
+                        title: qsTr("Slowlog")
 
-                        onServerInfoChanged: {
-                            var getValue = function (name) {
-                                return parseFloat(tab.model.serverInfo["memory"][name] ) / (1024 * 1024)
+                        ColumnLayout {
+
+                            anchors.fill: parent
+                            anchors.margins: 10
+
+                            BoolOption {
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 40
+
+                                value: true
+                                label: qsTr("Auto Refresh")
+
+                                onValueChanged: {
+                                    tab.model.refreshSlowLog = value
+                                }
                             }
 
-                            qmlUtils.addNewValueToDynamicChart(used_memory_series, getValue("used_memory"))
-                            qmlUtils.addNewValueToDynamicChart(used_memory_rss_series, getValue("used_memory_rss"))
-                            qmlUtils.addNewValueToDynamicChart(used_memory_lua_series, getValue("used_memory_lua"))
-                            qmlUtils.addNewValueToDynamicChart(used_memory_peak_series, getValue("used_memory_peak"))
+                            TableView {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
 
-                            axisY.max = getValue("used_memory_peak") + 100
+                                model: tab.model.slowLog ? tab.model.slowLog : []
+
+                                TableViewColumn {
+                                    role: "cmd"
+                                    title: qsTr("Command")
+                                    width: 600
+
+                                    delegate: Text {
+                                        text: {
+                                            var result = "";
+                                            for (var index in modelData['cmd']) {
+                                                result += modelData['cmd'][index] + " ";
+                                            }
+                                            return result;
+                                        }
+                                    }
+                                }
+
+                                TableViewColumn {
+                                    role: "time"
+                                    title: qsTr("Processed at")
+                                    width: 150
+                                }
+
+                                TableViewColumn {
+                                    role: "exec_time"
+                                    title: qsTr("Execution Time (μs)")
+                                    width: 150
+                                }
+                            }
+                        }
+                    }
+
+                    Tab {
+                        title: qsTr("Clients")
+
+                        ColumnLayout {
+
+                            anchors.fill: parent
+                            anchors.margins: 10
+
+                            BoolOption {
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 40
+
+                                value: true
+                                label: qsTr("Auto Refresh")
+
+                                onValueChanged: {
+                                    tab.model.refreshClients = value
+                                }
+                            }
+
+                            TableView {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+
+                                model: tab.model.clients ? tab.model.clients : []
+
+                                TableViewColumn {
+                                    role: "addr"
+                                    title: qsTr("Client Address")
+                                    width: 200
+                                }
+
+                                TableViewColumn {
+                                    role: "age"
+                                    title: qsTr("Age (sec)")
+                                    width: 75
+                                }
+
+                                TableViewColumn {
+                                    role: "idle"
+                                    title: qsTr("Idle")
+                                    width: 75
+                                }
+
+                                TableViewColumn {
+                                    role: "flags"
+                                    title: qsTr("Flags")
+                                    width: 75
+                                }
+
+                                TableViewColumn {
+                                    role: "db"
+                                    title: qsTr("Current Database")
+                                    width: 120
+                                }
+                            }
                         }
                     }
                 }
             }
 
-
-            Timer {
-                id: initTimer
-
-                onTriggered: {
-                    tab.model = serverStatsModel.getValue(tabIndex)
-                    tab.model.init()
-                }
-            }
-
-            Component.onCompleted: {                
-                initTimer.start()
+            Component.onCompleted: {
                 uiBlocker.visible = true
-            }
-
-            Connections {
-                target: tab.model ? tab.model : null
-
-                onInitialized: {
-                    uiBlocker.visible = false
-                    tab.icon = "qrc:/images/console.svg"
-                }
             }
 
             Rectangle {

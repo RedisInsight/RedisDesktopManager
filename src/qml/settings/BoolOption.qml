@@ -29,6 +29,7 @@ Item {
             Text {
                 color: "grey"
                 text: root.description
+                visible: root.description
             }
         }
 
