@@ -52,30 +52,45 @@ Repeater {
 
                         text: qsTr("Redis Version")
                         font.pointSize: 12
-                        color: "grey"
+                        color: "grey"                        
                     }
 
-                    Label { id: redisVersionLabel; text: "N/A"; font.pointSize: 12  }
+                    Label {
+                        id: redisVersionLabel
+                        text: "N/A"
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_redis_version"
+                    }
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Used memory")
                         font.pointSize: 12
-                        color: "grey"
+                        color: "grey"                        
                     }
 
-                    Label { id: usedMemoryLabel; text: "N/A"; font.pointSize: 12 }
+                    Label {
+                        id: usedMemoryLabel;
+                        text: "N/A";
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_used_memory"
+                    }
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
                         text: qsTr("Clients")
                         font.pointSize: 12
-                        color: "grey"
+                        color: "grey"                        
                     }
 
-                    Label { id: connectedClientsLabel; text: "N/A"; font.pointSize: 12 }
+                    Label {
+                        id: connectedClientsLabel;
+                        text: "N/A";
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_clients"
+                    }
 
                     Text {
                         Layout.preferredWidth: tab.width / 5
@@ -83,10 +98,15 @@ Repeater {
                         text: qsTr("Commands Processed")
                         font.pointSize: 12
                         color: "grey"
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.WordWrap                        
                     }
 
-                    Label { id: totalCommandsProcessedLabel; text: "N/A"; font.pointSize: 12 }
+                    Label {
+                        id: totalCommandsProcessedLabel;
+                        text: "N/A";
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_cmd_processed"
+                    }
 
 
                     Text {
@@ -94,11 +114,15 @@ Repeater {
 
                         text: qsTr("Uptime")
                         font.pointSize: 12
-                        color: "grey"
+                        color: "grey"                        
                     }
 
-                    Label { id: uptimeLabel; text: "N/A"; font.pointSize: 12 }
-
+                    Label {
+                        id: uptimeLabel;
+                        text: "N/A";
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_uptime"
+                    }
 
                     Connections {
                         target: tab.model? tab.model : null
