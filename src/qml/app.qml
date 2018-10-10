@@ -171,25 +171,25 @@ ApplicationWindow {
                 Layout.minimumHeight: 30
 
                 onCurrentIndexChanged: {
-
+                    var realIndex;
                     if (tabs.getTab(currentIndex).tabType) {
-                        if (tabs.getTab(currentIndex).tabType == "value") {
+                        if (tabs.getTab(currentIndex).tabType === "value") {
 
-                            var realIndex = currentIndex - serverStatsModel.tabsCount();
+                            realIndex = currentIndex - serverStatsModel.tabsCount();
 
                             if (welcomeTab) {
                                 realIndex -= 1
                             }
 
                             valuesModel.setCurrentTab(realIndex);
-                        } else if (tabs.getTab(currentIndex).tabType == "server_info") {
-                            var realIndex = currentIndex;
+                        } else if (tabs.getTab(currentIndex).tabType === "server_info") {
+                            realIndex = currentIndex;
 
                             if (welcomeTab) {
                                 realIndex -= 1
                             }
 
-                            serverStatsModel.setCurrentTab(index);
+                            serverStatsModel.setCurrentTab(realIndex);
                         }
                     }
                 }
