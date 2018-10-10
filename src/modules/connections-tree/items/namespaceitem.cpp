@@ -1,4 +1,5 @@
 #include "namespaceitem.h"
+#include <qredisclient/utils/text.h>
 #include <QMenu>
 #include <QMessageBox>
 #include "connections-tree/model.h"
@@ -45,7 +46,7 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
 
 QString NamespaceItem::getDisplayName() const {
   return QString("%1 (%2)")
-      .arg(QString::fromUtf8(m_displayName))
+      .arg(printableString(m_displayName, true))
       .arg(childCount(true));
 }
 
