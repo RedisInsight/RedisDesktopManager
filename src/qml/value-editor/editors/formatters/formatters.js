@@ -25,11 +25,11 @@ var hex = {
     title: "HEX",
 
     getFormatted: function (raw, callback) {
-        return callback("", binaryUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
+        return callback("", qmlUtils.printable(raw), false, FORMAT_PLAIN_TEXT)
     },    
 
     getRaw: function (formatted, callback) {
-        return callback("", binaryUtils.printableToValue(formatted))
+        return callback("", qmlUtils.printableToValue(formatted))
     }
 }
 
@@ -37,7 +37,7 @@ var hexTable = {
     title: "HEX TABLE",
 
     getFormatted: function (raw, callback) {              
-        return callback("", Hexy.hexy(binaryUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
+        return callback("", Hexy.hexy(qmlUtils.valueToBinary(raw), {'html': true}), true, FORMAT_HTML)
     },    
 }
 
