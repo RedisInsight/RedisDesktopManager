@@ -151,6 +151,11 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName,
     return;
   }
 
+  if (!jsCallback.isCallable()) {
+    emit error(QObject::tr("Invalid callback"));
+    return;
+  }
+
   QVariantMap formatter = m_formattersData[m_mapping[formatterName]];
 
   QStringList cmd = formatter["cmd_list"].toStringList();
@@ -161,18 +166,16 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName,
       readJsonFromExternalProcess(cmd, formatter["cwd"].toString());
 
   if (outputObj.isEmpty()) {
-    emit error(
-        QObject::tr(
-            "Cannot decode value using %1 formatter. See log for more details.")
-            .arg(formatterName));
+    jsCallback.call(
+        QJSValueList{QObject::tr("Cannot decode value using %1 formatter. ")
+                         .arg(formatterName)});
+
     return;
   }
 
-  if (jsCallback.isCallable()) {
-    jsCallback.call(QJSValueList{
-        outputObj["error"].toString(), outputObj["output"].toString(),
-        outputObj["read-only"].toBool(), outputObj["format"].toString()});
-  }
+  jsCallback.call(QJSValueList{
+      outputObj["error"].toString(), outputObj["output"].toString(),
+      outputObj["read-only"].toBool(), outputObj["format"].toString()});
 }
 
 void ValueEditor::FormattersManager::isValid(const QString &formatterName,
@@ -194,8 +197,7 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
       readJsonFromExternalProcess(cmd, formatter["cwd"].toString());
 
   if (outputObj.isEmpty()) {
-    emit error(QObject::tr("Cannot validate value using %1 formatter. See log "
-                           "for more details.")
+    emit error(QObject::tr("Cannot validate value using %1 formatter.")
                    .arg(formatterName));
     return;
   }
