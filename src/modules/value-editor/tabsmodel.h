@@ -26,7 +26,6 @@ class TabsModel : public QAbstractListModel {
     keyTTL,
     keyType,
     isMultiRow,
-    keyViewModel,
   };
 
  public:

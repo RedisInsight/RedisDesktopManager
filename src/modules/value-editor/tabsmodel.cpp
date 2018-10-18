@@ -29,22 +29,20 @@ void ValueEditor::TabsModel::openTab(
           auto viewModel = loadModel(keyModel, inNewTab);
           auto weakKeyModel = viewModel.toWeakRef();
 
-          QObject::connect(
-              keyModel->getConnector().data(), &ModelSignals::removed, this,
-              [this, weakKeyModel, &key]() {
-                // NOTE(u_glide): React in 100 ms to make sure that keymodel
-                // update is finished
-                QTimer::singleShot(100, [this, weakKeyModel, &key]() {
-                  auto keyModel = weakKeyModel.toStrongRef();
+          connect(keyModel->getConnector().data(), &ModelSignals::removed, this,
+                  [this, weakKeyModel, &key]() {
+                    // NOTE(u_glide): React in 100 ms to make sure that keymodel
+                    // update is finished
+                    QTimer::singleShot(100, [this, weakKeyModel, &key]() {
+                      auto keyModel = weakKeyModel.toStrongRef();
 
-                  if (!keyModel) return;
+                      if (!keyModel) return;
 
-                  removeModel(keyModel);
-                  key.setRemoved();  // Disable key in connections tree
-                });
-              });
+                      removeModel(keyModel);
+                      key.setRemoved();  // Disable key in connections tree
+                    });
+                  });
         });
-    // TODO: add empty key model for loading
   } catch (...) {
     emit keyError(-1, QObject::tr("Connection error. Can't open value tab. "));
   }
@@ -103,11 +101,6 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
       return model->getType();
     case isMultiRow:
       return model->isMultiRow();
-    case keyViewModel:
-      QObject* modelPtr =
-          qobject_cast<QObject*>(m_viewModels.at(index.row()).data());
-      QQmlEngine::setObjectOwnership(modelPtr, QQmlEngine::CppOwnership);
-      return QVariant(QMetaType::QObjectStar, modelPtr);
   }
 
   return QVariant();
@@ -121,7 +114,6 @@ QHash<int, QByteArray> ValueEditor::TabsModel::roleNames() const {
   roles[keyTTL] = "keyTtl";
   roles[keyType] = "keyType";
   roles[isMultiRow] = "isMultiRow";
-  roles[keyViewModel] = "keyViewModel";
   return roles;
 }
 
