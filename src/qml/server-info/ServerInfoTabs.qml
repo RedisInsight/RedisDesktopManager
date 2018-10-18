@@ -368,6 +368,7 @@ Repeater {
                                             }
                                             return result;
                                         }
+                                        elide: styleData.elideMode
                                     }
                                 }
 
