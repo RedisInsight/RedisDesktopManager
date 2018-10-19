@@ -17,7 +17,7 @@ Rectangle {
 
     property string initText:
           "<span style='color: white; font-size: 13pt;'>RDM Redis Console</span><br/>" +
-          qsTr("Connecting...")
+          qsTranslate("RDM","Connecting...")
 
 
     function setPrompt(txt, display) {
@@ -189,19 +189,19 @@ Rectangle {
             }
 
             TableViewColumn {
-                title: qsTr("Arguments")
+                title: qsTranslate("RDM","Arguments")
                 role: "arguments"
                 width: 250
             }
 
             TableViewColumn {
-                title: qsTr("Description")
+                title: qsTranslate("RDM","Description")
                 role: "summary"
                 width: 350
             }
 
             TableViewColumn {
-                title: qsTr("Available since")
+                title: qsTranslate("RDM","Available since")
                 role: "since"
                 width: 60
             }
@@ -252,7 +252,7 @@ Rectangle {
 
             Button {
                 id: closeBtn
-                text: qsTr("Close")
+                text: qsTranslate("RDM","Close")
                 onClicked: {
                     autocompleteModel.filterString = ""
                 }

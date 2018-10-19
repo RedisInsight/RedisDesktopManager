@@ -7,7 +7,7 @@ ColumnLayout {
         Layout.fillWidth: true
 
         Text {
-            text: qsTr("Page") + " "
+            text: qsTranslate("RDM","Page") + " "
             wrapMode: Text.WrapAnywhere
         }
 
@@ -29,7 +29,7 @@ ColumnLayout {
     Button {        
         Layout.maximumWidth: 200
         Layout.fillWidth: true
-        text: qsTr("Set Page")
+        text: qsTranslate("RDM","Set Page")
         onClicked: table.goToPage(pageField.text)
     }
 

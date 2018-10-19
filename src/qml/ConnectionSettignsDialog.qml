@@ -9,7 +9,7 @@ import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root    
-    title: isNewConnection ? qsTr("New Connection Settings") : qsTr("Edit Connection Settings - %1").arg(settings.name)
+    title: isNewConnection ? qsTranslate("RDM","New Connection Settings") : qsTranslate("RDM","Edit Connection Settings") + settings.name
 
     property bool isNewConnection: !settings || !settings.name
     property var settings
@@ -138,7 +138,7 @@ Dialog {
 
                 Tab {
                     id: mainTab
-                    title: qsTr("Connection Settings")
+                    title: qsTranslate("RDM","Connection Settings")
 
                     ScrollView {
                         ColumnLayout {
@@ -146,28 +146,28 @@ Dialog {
                             anchors.right: parent.right
                             anchors.margins: PlatformUtils.isOSX()? 5 : 10
 
-                            SettingsGroupTitle { text: qsTr("Main Settings") }
+                            SettingsGroupTitle { text: qsTranslate("RDM","Main Settings") }
 
                             GridLayout {
                                 columns: 2
 
-                                Label { text: qsTr("Name:") }
+                                Label { text: qsTranslate("RDM","Name:") }
 
                                 TextField {
                                     id: connectionName
                                     objectName: "rdm_connection_name_field"
                                     Layout.fillWidth: true
-                                    placeholderText: qsTr("Connection Name")
+                                    placeholderText: qsTranslate("RDM","Connection Name")
                                     text: root.settings ? root.settings.name : ""
                                     Component.onCompleted: root.items.push(connectionName)
                                     onTextChanged: root.settings.name = text
                                 }
 
-                                Label { text: qsTr("Address:") }
+                                Label { text: qsTranslate("RDM","Address:") }
 
                                 AddressInput {
                                     id: connectionAddress
-                                    placeholderText: qsTr("redis-server host")
+                                    placeholderText: qsTranslate("RDM","redis-server host")
                                     host: root.settings ? root.settings.host : ""
                                     port: root.settings ? root.settings.port : 0
                                     Component.onCompleted: root.items.push(connectionAddress)
@@ -175,25 +175,25 @@ Dialog {
                                     onPortChanged: if (root.settings) root.settings.port = port
                                 }
 
-                                Label { text: qsTr("Auth:") }
+                                Label { text: qsTranslate("RDM","Auth:") }
 
                                 PasswordInput {
                                     id: connectionAuth
                                     Layout.fillWidth: true
-                                    placeholderText: qsTr("(Optional) redis-server authentication password")
+                                    placeholderText: qsTranslate("RDM","(Optional) redis-server authentication password")
                                     text: root.settings ? root.settings.auth : ""
                                     onTextChanged: root.settings.auth = text
                                 }
                             }
 
-                            SettingsGroupTitle { text: qsTr("Security") }
+                            SettingsGroupTitle { text: qsTranslate("RDM","Security") }
 
                             GridLayout {
                                 objectName: "rdm_connection_group_box_security"
                                 columns: 2
 
                                 BetterRadioButton {
-                                    text: qsTr("None")
+                                    text: qsTranslate("RDM","None")
                                     checked: root.settings ? !root.settings.sslEnabled && !root.settings.useSshTunnel() : true
                                     Layout.columnSpan: 2
                                 }
@@ -201,7 +201,7 @@ Dialog {
                                 BetterRadioButton {
                                     id: sslRadioButton
                                     Layout.columnSpan: 2
-                                    text: qsTr("SSL")
+                                    text: qsTranslate("RDM","SSL")
                                     checked: root.settings ? root.settings.sslEnabled : false
                                     Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
                                     onCheckedChanged: {
@@ -223,38 +223,38 @@ Dialog {
                                     columns: 2
                                     Layout.fillWidth: true
 
-                                    Label { text: qsTr("Public Key:") }
+                                    Label { text: qsTranslate("RDM","Public Key:") }
 
                                     FilePathInput {
                                         id: sslLocalCertPath
                                         Layout.fillWidth: true
-                                        placeholderText: qsTr("(Optional) Public Key in PEM format")
+                                        placeholderText: qsTranslate("RDM","(Optional) Public Key in PEM format")
                                         nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
-                                        title: qsTr("Select public key in PEM format")
+                                        title: qsTranslate("RDM","Select public key in PEM format")
                                         path: root.settings ? root.settings.sslLocalCertPath : ""
                                         onPathChanged: root.settings.sslLocalCertPath = path
                                     }
 
-                                    Label { text: qsTr("Private Key:") }
+                                    Label { text: qsTranslate("RDM", "Private Key") + ":" }
 
                                     FilePathInput {
                                         id: sslPrivateKeyPath
                                         Layout.fillWidth: true
-                                        placeholderText: qsTr("(Optional) Private Key in PEM format")
+                                        placeholderText: qsTranslate("RDM","(Optional) Private Key in PEM format")
                                         nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
-                                        title: qsTr("Select private key in PEM format")
+                                        title: qsTranslate("RDM","Select private key in PEM format")
                                         path: root.settings ? root.settings.sslPrivateKeyPath : ""
                                         onPathChanged: root.settings.sslPrivateKeyPath = path
                                     }
 
-                                    Label { text: qsTr("Authority:") }
+                                    Label { text: qsTranslate("RDM","Authority:") }
 
                                     FilePathInput {
                                         id: sslCaCertPath
                                         Layout.fillWidth: true
-                                        placeholderText: qsTr("(Optional) Authority in PEM format")
+                                        placeholderText: qsTranslate("RDM","(Optional) Authority in PEM format")
                                         nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
-                                        title: qsTr("Select authority file in PEM format")
+                                        title: qsTranslate("RDM","Select authority file in PEM format")
                                         path: root.settings ? root.settings.sslCaCertPath : ""
                                         onPathChanged: root.settings.sslCaCertPath = path
                                     }
@@ -264,7 +264,7 @@ Dialog {
                                     id: sshRadioButton
                                     objectName: "rdm_connection_security_ssh_radio_button"
                                     Layout.columnSpan: 2
-                                    text: qsTr("SSH Tunnel")
+                                    text: qsTranslate("RDM","SSH Tunnel")
                                     checked: root.settings ? root.settings.useSshTunnel() : false
                                     Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
                                     onCheckedChanged: {
@@ -287,11 +287,11 @@ Dialog {
                                     columns: 2
                                     Layout.fillWidth: true
 
-                                    Label { text: qsTr("SSH Address:") }
+                                    Label { text: qsTranslate("RDM","SSH Address:") }
 
                                     AddressInput {
                                         id: sshAddress
-                                        placeholderText: qsTr("Remote Host with SSH server")
+                                        placeholderText: qsTranslate("RDM","Remote Host with SSH server")
                                         port: root.settings ? root.settings.sshPort : 22
                                         host: root.settings ? root.settings.sshHost : ""
                                         Component.onCompleted: root.sshItems.push(sshAddress)
@@ -299,20 +299,20 @@ Dialog {
                                         onPortChanged: root.settings.sshPort = port
                                     }
 
-                                    Label { text: qsTr("SSH User:") }
+                                    Label { text: qsTranslate("RDM","SSH User:") }
 
                                     TextField {
                                         id: sshUser
                                         objectName: "rdm_connection_security_ssh_user_field"
                                         Layout.fillWidth: true
-                                        placeholderText: qsTr("Valid SSH User Name")
+                                        placeholderText: qsTranslate("RDM","Valid SSH User Name")
                                         text: root.settings ? root.settings.sshUser : ""
                                         Component.onCompleted: root.sshItems.push(sshUser)
                                         onTextChanged: root.settings.sshUser = text
                                     }
 
                                     BetterGroupbox {
-                                        labelText: qsTr("Private Key")
+                                        labelText: qsTranslate("RDM","Private Key")
                                         objectName: "rdm_connection_security_ssh_key_group_box"
                                         checked: root.settings ? root.settings.sshPrivateKey : false
 
@@ -328,9 +328,9 @@ Dialog {
 
                                                 Layout.fillWidth: true
 
-                                                placeholderText: qsTr("Path to Private Key in PEM format")
+                                                placeholderText: qsTranslate("RDM","Path to Private Key in PEM format")
                                                 nameFilters: [ "Private key in PEM format (*)" ]
-                                                title: qsTr("Select private key in PEM format")
+                                                title: qsTranslate("RDM","Select private key in PEM format")
                                                 path: root.settings ? root.settings.sshPrivateKey : ""
                                                 onPathChanged: root.settings.sshPrivateKey = path
                                             }
@@ -338,12 +338,12 @@ Dialog {
                                             Label {
                                                 visible: PlatformUtils.isOSX()
                                                 Layout.fillWidth: true;
-                                                text: qsTr("<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
+                                                text: qsTranslate("RDM","<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
                                         }
                                     }
 
                                     BetterGroupbox {
-                                        labelText: qsTr("Password")
+                                        labelText: qsTranslate("RDM","Password")
                                         objectName: "rdm_connection_security_ssh_password_group_box"
                                         checked: root.settings ? root.settings.sshPassword : true
 
@@ -354,7 +354,7 @@ Dialog {
                                             id: sshPassword
                                             objectName: "rdm_connection_security_ssh_password_field"
                                             anchors.fill: parent
-                                            placeholderText: qsTr("SSH User Password")
+                                            placeholderText: qsTranslate("RDM","SSH User Password")
                                             text: root.settings ? root.settings.sshPassword : ""
                                             onTextChanged: root.settings.sshPassword = text
                                         }
@@ -367,7 +367,7 @@ Dialog {
                 }
 
                 Tab {
-                    title: qsTr("Advanced Settings")
+                    title: qsTranslate("RDM","Advanced Settings")
 
                        GridLayout {
                             anchors.fill: parent
@@ -376,35 +376,35 @@ Dialog {
                             columns: 2
 
                             SettingsGroupTitle {
-                                text: qsTr("Keys loading")                                
+                                text: qsTranslate("RDM","Keys loading")                                
                                 Layout.columnSpan: 2
                             }
 
-                            Label { text: qsTr("Default filter:") }
+                            Label { text: qsTranslate("RDM","Default filter:") }
 
                             TextField
                             {
                                 id: keysPattern
                                 Layout.fillWidth: true
-                                placeholderText: qsTr("Pattern which defines loaded keys from redis-server")
+                                placeholderText: qsTranslate("RDM","Pattern which defines loaded keys from redis-server")
                                 text: root.settings ? root.settings.keysPattern : ""
                                 Component.onCompleted: root.items.push(keysPattern)
                                 onTextChanged: root.settings.keysPattern = text
                             }
 
-                            Label { text: qsTr("Namespace Separator:") }
+                            Label { text: qsTranslate("RDM","Namespace Separator:") }
 
                             TextField
                             {
                                 id: namespaceSeparator
                                 Layout.fillWidth: true
                                 objectName: "rdm_advanced_settings_namespace_separator_field"
-                                placeholderText: qsTr("Separator used for namespace extraction from keys")
+                                placeholderText: qsTranslate("RDM","Separator used for namespace extraction from keys")
                                 text: root.settings ? root.settings.namespaceSeparator : ""
                                 onTextChanged: root.settings.namespaceSeparator = text
                             }
 
-                            Label { text: qsTr("Use server-side optimized keys loading (experimental):")}
+                            Label { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
 
                             BetterCheckbox {
                                 id: luaKeysLoading
@@ -415,11 +415,11 @@ Dialog {
                             }
 
                             SettingsGroupTitle {
-                                text: qsTr("Timeouts & Limits")                               
+                                text: qsTranslate("RDM","Timeouts & Limits")                               
                                 Layout.columnSpan: 2
                             }
 
-                            Label { text: qsTr("Connection Timeout (sec):") }
+                            Label { text: qsTranslate("RDM","Connection Timeout (sec):") }
 
                             SpinBox {
                                 id: executeTimeout
@@ -432,7 +432,7 @@ Dialog {
                                 onValueChanged: root.settings.executeTimeout = value * 1000
                             }
 
-                            Label { text: qsTr("Execution Timeout (sec):")}
+                            Label { text: qsTranslate("RDM","Execution Timeout (sec):")}
 
                             SpinBox {
                                 id: connectionTimeout
@@ -443,7 +443,7 @@ Dialog {
                                 onValueChanged: root.settings.connectionTimeout = value * 1000
                             }
 
-                            Label { text: qsTr("Databases discovery limit:") }
+                            Label { text: qsTranslate("RDM","Databases discovery limit:") }
 
                             SpinBox {
                                 id: dbScanLimit
@@ -457,11 +457,11 @@ Dialog {
                             }
 
                             SettingsGroupTitle {
-                                text: qsTr("Cluster")                                
+                                text: qsTranslate("RDM","Cluster")                                
                                 Layout.columnSpan: 2
                             }
 
-                            Label { text: qsTr("Change host on cluster redirects:")}
+                            Label { text: qsTranslate("RDM","Change host on cluster redirects:")}
 
                             BetterCheckbox {
                                 id: overrideClusterHost
@@ -489,7 +489,7 @@ Dialog {
                 RowLayout {
                     anchors.centerIn: parent
                     Image {source: "qrc:/images/alert.svg"}
-                    Text { text: qsTr("Invalid settings detected!")}
+                    Text { text: qsTranslate("RDM","Invalid settings detected!")}
                 }
             }
 
@@ -499,7 +499,7 @@ Dialog {
                 Button {
                     objectName: "rdm_connection_settings_dialog_test_btn"
                     iconSource: "qrc:/images/offline.svg"
-                    text: qsTr("Test Connection")
+                    text: qsTranslate("RDM","Test Connection")
                     onClicked: {
                         showLoader()
                         root.testConnection(root.settings)
@@ -519,7 +519,7 @@ Dialog {
 
                 Button {
                     objectName: "rdm_connection_settings_dialog_ok_btn"
-                    text: qsTr("OK")
+                    text: qsTranslate("RDM","OK")
                     onClicked: {
                         if (root.validate()) {                            
                             root.saveConnection(root.settings)
@@ -531,7 +531,7 @@ Dialog {
                 }
 
                 Button {
-                    text: qsTr("Cancel")
+                    text: qsTranslate("RDM","Cancel")
                     onClicked: root.close()
                 }
             }

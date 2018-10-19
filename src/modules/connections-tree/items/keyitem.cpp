@@ -1,5 +1,6 @@
 #include "keyitem.h"
 #include <qredisclient/utils/text.h>
+#include <QCoreApplication>
 #include <QMenu>
 #include <QMessageBox>
 
@@ -26,13 +27,17 @@ KeyItem::KeyItem(const QByteArray& fullPath, unsigned short dbIndex,
   });
 
   m_eventHandlers.insert("delete", [this]() {
-    confirmAction(
-        nullptr, QObject::tr("Do you really want to delete this key?"),
-        [this]() {
-          m_operations->deleteDbKey(*this, [](const QString& error) {
-            QMessageBox::warning(nullptr, QObject::tr("Key error"), error);
-          });
-        });
+    confirmAction(nullptr,
+                  QCoreApplication::translate(
+                      "RDM", "Do you really want to delete this key?"),
+                  [this]() {
+                    m_operations->deleteDbKey(*this, [](const QString& error) {
+                      QMessageBox::warning(
+                          nullptr,
+                          QCoreApplication::translate("RDM", "Key error"),
+                          error);
+                    });
+                  });
   });
 }
 

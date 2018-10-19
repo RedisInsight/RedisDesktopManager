@@ -8,7 +8,7 @@ import "./editors/editor.js" as Editor
 
 Dialog {
     id: root
-    title: qsTr("Add New Key")
+    title: qsTranslate("RDM","Add New Key")
     visible: false
 
     standardButtons: StandardButton.NoButton
@@ -23,7 +23,7 @@ Dialog {
             anchors.margins: 5
 
             Text {
-                text: qsTr("Key:")
+                text: qsTranslate("RDM","Key:")
             }
             TextField {
                 id: newKeyName
@@ -32,7 +32,7 @@ Dialog {
             }
 
             Text {
-                text: qsTr("Type:")
+                text: qsTranslate("RDM","Type:")
             }
             ComboBox {
                 id: typeSelector
@@ -63,7 +63,7 @@ Dialog {
                     Layout.fillWidth: true
                 }
                 Button {
-                    text: qsTr("Save")
+                    text: qsTranslate("RDM","Save")
 
                     onClicked: {
                         if (!valueAddEditor.item)
@@ -96,7 +96,7 @@ Dialog {
                 }
 
                 Button {
-                    text: qsTr("Cancel")
+                    text: qsTranslate("RDM","Cancel")
                     onClicked: root.close()
                 }
             }
@@ -107,7 +107,7 @@ Dialog {
 
         MessageDialog {
             id: addError
-            title: qsTr("Error")
+            title: qsTranslate("RDM","Error")
             text: ""
             visible: false
             modality: Qt.ApplicationModal

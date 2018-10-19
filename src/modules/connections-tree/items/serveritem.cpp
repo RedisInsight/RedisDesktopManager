@@ -46,8 +46,10 @@ ServerItem::ServerItem(const QString& name,
 
     if (m_operations->isConnected()) {
       confirmAction(nullptr,
-                    tr("Value and Console tabs related to this "
-                       "connection will be closed. Do you want to continue?"),
+                    QCoreApplication::translate(
+                        "RDM",
+                        "Value and Console tabs related to this "
+                        "connection will be closed. Do you want to continue?"),
                     unloadAction);
     } else {
       unloadAction();
@@ -55,7 +57,9 @@ ServerItem::ServerItem(const QString& name,
   });
 
   m_eventHandlers.insert("delete", [this]() {
-    confirmAction(nullptr, tr("Do you really want to delete connection?"),
+    confirmAction(nullptr,
+                  QCoreApplication::translate(
+                      "RDM", "Do you really want to delete connection?"),
                   [this]() {
                     unload();
                     emit deleteActionRequested();

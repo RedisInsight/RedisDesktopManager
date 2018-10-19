@@ -51,7 +51,7 @@ var json = {
         try {
             return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_PLAIN_TEXT)
         } catch (e) {
-            return callback(qsTr("Error: Invalid JSON: ") + e)
+            return callback(qsTranslate("RDM", "Invalid JSON: ") + e)
         }
     },    
 
@@ -59,7 +59,7 @@ var json = {
         try {
             return callback("", JSONFormatter.minify(formatted))
         } catch (e) {
-            return callback(qsTr("Error: ") + e)
+            return callback(qsTranslate("RDM", "Error") + ": " + e)
         }
     }
 }

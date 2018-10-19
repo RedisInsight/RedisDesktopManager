@@ -18,9 +18,9 @@ InlineMenu {
 
     model:
         [
-            {'icon': "qrc:/images/refresh.svg", "event": "reload", "help": qsTr("Reload Namespace")},
-            {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTr("Copy Namespace Pattern")},
-            {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTr("Delete Namespace")}
+            {'icon': "qrc:/images/refresh.svg", "event": "reload", "help": qsTranslate("RDM","Reload Namespace")},
+            {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTranslate("RDM","Copy Namespace Pattern")},
+            {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTranslate("RDM","Delete Namespace")}
         ]
 }
 

@@ -1,5 +1,6 @@
 #include "consolemodel.h"
 #include <qredisclient/redisclient.h>
+#include <QCoreApplication>
 
 using namespace Console;
 
@@ -7,9 +8,12 @@ Model::Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex)
     : TabModel(connection, dbIndex), m_current_db(dbIndex) {
   QObject::connect(this, &TabModel::initialized, [this]() {
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
-      emit addOutput(QObject::tr("Connected to cluster.\n"), "complete");
+      emit addOutput(
+          QCoreApplication::translate("RDM", "Connected to cluster.\n"),
+          "complete");
     } else {
-      emit addOutput(QObject::tr("Connected.\n"), "complete");
+      emit addOutput(QCoreApplication::translate("RDM", "Connected.\n"),
+                     "complete");
     }
 
     updatePrompt(true);
@@ -34,13 +38,17 @@ void Model::executeCommand(const QString& cmd) {
 
   if (command.isSubscriptionCommand()) {
     emit addOutput(
-        "Switch to Pub/Sub mode. Close console tab to stop listen for "
-        "messages.",
+        QCoreApplication::translate(
+            "RDM",
+            "Switch to Pub/Sub mode. Close console tab to stop listen for "
+            "messages."),
         "part");
 
     command.setCallBack(this, [this](Response result, QString err) {
       if (!err.isEmpty()) {
-        emit addOutput(QObject::tr("Subscribe error: %1").arg(err), "error");
+        emit addOutput(
+            QCoreApplication::translate("RDM", "Subscribe error: %1").arg(err),
+            "error");
         return;
       }
 
@@ -56,9 +64,9 @@ void Model::executeCommand(const QString& cmd) {
     try {
       result = m_connection->commandSync(command);
     } catch (Connection::Exception& e) {
-      emit addOutput(
-          QString(QObject::tr("Connection error:")) + QString(e.what()),
-          "error");
+      emit addOutput(QCoreApplication::translate("RDM", "Connection error: ") +
+                         QString(e.what()),
+                     "error");
       return;
     }
 

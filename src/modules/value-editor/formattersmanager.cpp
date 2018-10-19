@@ -1,6 +1,7 @@
 #include "formattersmanager.h"
 #include "app/models/configmanager.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
@@ -147,12 +148,13 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName,
                                             QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
-        QObject::tr("Can't find formatter with name: %1").arg(formatterName));
+        QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
+            .arg(formatterName));
     return;
   }
 
   if (!jsCallback.isCallable()) {
-    emit error(QObject::tr("Invalid callback"));
+    emit error(QCoreApplication::translate("RDM", "Invalid callback"));
     return;
   }
 
@@ -167,7 +169,8 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName,
 
   if (outputObj.isEmpty()) {
     jsCallback.call(
-        QJSValueList{QObject::tr("Cannot decode value using %1 formatter. ")
+        QJSValueList{QCoreApplication::translate(
+                         "RDM", "Cannot decode value using %1 formatter. ")
                          .arg(formatterName)});
 
     return;
@@ -183,7 +186,8 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
                                              QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
-        QObject::tr("Can't find formatter with name: %1").arg(formatterName));
+        QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
+            .arg(formatterName));
     return;
   }
 
@@ -197,7 +201,8 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
       readJsonFromExternalProcess(cmd, formatter["cwd"].toString());
 
   if (outputObj.isEmpty()) {
-    emit error(QObject::tr("Cannot validate value using %1 formatter.")
+    emit error(QCoreApplication::translate(
+                   "RDM", "Cannot validate value using %1 formatter.")
                    .arg(formatterName));
     return;
   }
@@ -213,7 +218,8 @@ void ValueEditor::FormattersManager::encode(const QString &formatterName,
                                             QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
-        QObject::tr("Can't find formatter with name: %1").arg(formatterName));
+        QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
+            .arg(formatterName));
     return;
   }
 
@@ -227,10 +233,9 @@ void ValueEditor::FormattersManager::encode(const QString &formatterName,
       readStdoutFromExternalProcess(cmd, formatter["cwd"].toString());
 
   if (output.isEmpty()) {
-    emit error(
-        QObject::tr(
-            "Cannot encode value using %1 formatter. See log for more details.")
-            .arg(formatterName));
+    emit error(QCoreApplication::translate(
+                   "RDM", "Cannot encode value using %1 formatter. ")
+                   .arg(formatterName));
     return;
   }
 

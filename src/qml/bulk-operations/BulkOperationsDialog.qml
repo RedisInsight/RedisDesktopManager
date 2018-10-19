@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 
 Dialog {
     id: root
-    title: qsTr("Bulk Operations Manager")
+    title: qsTranslate("RDM","Bulk Operations Manager")
     modality: Qt.ApplicationModal
 
     property string operationName: "delete_keys"
@@ -51,12 +51,12 @@ Dialog {
         states: [
             State {
                 name: "delete_keys"
-                PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
+                PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Delete keys") }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
             },
             State {
                 name: "copy_keys"
-                PropertyChanges { target: operationLabel; text: qsTr("Copy keys") }
+                PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Copy keys") }
                 PropertyChanges { target: targetConnectionSettings; visible: true }
             }
         ]
@@ -84,7 +84,7 @@ Dialog {
                     columns: 2
 
                     Label {
-                        text: qsTr("Redis Server:")
+                        text: qsTranslate("RDM","Redis Server:")
                     }
 
                     Label {
@@ -92,7 +92,7 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTr("Database number:")
+                        text: qsTranslate("RDM","Database number:")
                     }
 
                     Label {
@@ -100,7 +100,7 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTr("Key pattern:")
+                        text: qsTranslate("RDM","Key pattern:")
                     }
 
                     Label {
@@ -116,7 +116,7 @@ Dialog {
                     columns: 2
 
                     Label {
-                        text: qsTr("Destination Redis Server:")
+                        text: qsTranslate("RDM","Destination Redis Server:")
                     }
 
                     ComboBox {
@@ -124,7 +124,7 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTr("Destination Redis Server Database Index:")
+                        text: qsTranslate("RDM","Destination Redis Server Database Index:")
                     }
 
                     ComboBox {
@@ -143,7 +143,7 @@ Dialog {
                 Layout.fillHeight: true
 
                 Text {
-                    text: qsTr("Affected keys:")
+                    text: qsTranslate("RDM","Affected keys:")
                 }
                 Rectangle {
                     id: listContainer
@@ -181,7 +181,7 @@ Dialog {
                         onOperationFinished: {
                             affectedKeysListView.model = []
                             uiBlocker.visible = false
-                            bulkSuccessNotification.text = qsTr("Bulk Operation finished.")
+                            bulkSuccessNotification.text = qsTranslate("RDM","Bulk Operation finished.")
                             bulkSuccessNotification.open()
                         }
 
@@ -204,12 +204,12 @@ Dialog {
                 Item { Layout.fillWidth: true; }
 
                 Button {
-                    text: qsTr("Delete Keys")
+                    text: qsTranslate("RDM","Delete Keys")
                     onClicked: bulkConfirmation.open()
                 }
 
                 Button {
-                    text: qsTr("Cancel")
+                    text: qsTranslate("RDM","Cancel")
                     onClicked: root.close()
                 }
             }
@@ -263,8 +263,8 @@ Dialog {
 
         MessageDialog {
             id: bulkConfirmation
-            title: qsTr("Confirmation")
-            text: qsTr("Do you really want to perform bulk operation?")
+            title: qsTranslate("RDM","Confirmation")
+            text: qsTranslate("RDM","Do you really want to perform bulk operation?")
             onYes: {
                 bulkOperations.runOperation()
             }

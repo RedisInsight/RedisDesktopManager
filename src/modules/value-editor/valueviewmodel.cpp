@@ -1,4 +1,5 @@
 #include "valueviewmodel.h"
+#include <QCoreApplication>
 #include <QDebug>
 #include <QSettings>
 
@@ -48,7 +49,7 @@ void ValueEditor::ValueViewModel::reload() {
   m_model->reloadRowsCount();
 
   if (m_model->rowsCount() <= 0) {
-    emit error(tr("Cannot reload key value"));
+    emit error(QCoreApplication::translate("RDM", "Cannot reload key value"));
     return;
   }
 
@@ -79,7 +80,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int limit) {
     return;
   }
 
-  QString msg = QString(QObject::tr("Cannot load key value: %1"));
+  QString msg = QCoreApplication::translate("RDM", "Cannot load key value: %1");
 
   try {
     // NOTE(u_glide): Do so for proper rendering of QML table

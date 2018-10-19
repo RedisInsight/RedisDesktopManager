@@ -63,7 +63,7 @@ Repeater {
 
             Dialog {
                 id: closeConfirmation
-                title: qsTr("Confirm Action")
+                title: qsTranslate("RDM","Confirm Action")
 
                 width: 520
 
@@ -72,7 +72,7 @@ Repeater {
                     implicitHeight: 100
                     width: 500
 
-                    Text { text: qsTr("Do you really want to close console with running command?") }
+                    Text { text: qsTranslate("RDM","Do you really want to close console with running command?") }
                 }
 
                 onYes: redisConsole.close()

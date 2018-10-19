@@ -126,11 +126,11 @@ Repeater {
                     }
 
                     Button {
-                        text: qsTr("Rename")
+                        text: qsTranslate("RDM","Rename")
 
                         Dialog {
                             id: renameConfirmation
-                            title: qsTr("Rename key")
+                            title: qsTranslate("RDM","Rename key")
 
                             width: 520
 
@@ -139,7 +139,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Text { text: qsTr("New name:") }
+                                Text { text: qsTranslate("RDM","New name:") }
                                 TextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
@@ -169,17 +169,17 @@ Repeater {
                     Item { visible: isMultiRow; Layout.preferredWidth: 5}
                     Text {
                         visible: isMultiRow;
-                        text:  qsTr("Size: ") + (keyTab.keyModel? keyTab.keyModel.totalRowCount : "0")
+                        text:  qsTranslate("RDM","Size: ") + (keyTab.keyModel? keyTab.keyModel.totalRowCount : "0")
                     }
                     Item { Layout.preferredWidth: 5}
 
                     Button {
-                        text: qsTr("TTL:") + keyTtl
+                        text: qsTranslate("RDM","TTL:") + keyTtl
                         objectName: "rdm_key_ttl_value"
 
                         Dialog {
                             id: setTTLConfirmation
-                            title: qsTr("Set key TTL")
+                            title: qsTranslate("RDM","Set key TTL")
 
                             width: 520
 
@@ -188,7 +188,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Text { text: qsTr("New TTL:") }
+                                Text { text: qsTranslate("RDM","New TTL:") }
                                 TextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
@@ -219,13 +219,13 @@ Repeater {
                     Item { Layout.preferredWidth: 5}                    
 
                     Button {
-                        text: qsTr("Delete")
+                        text: qsTranslate("RDM","Delete")
                         iconSource: "qrc:/images/delete.svg"
 
                         MessageDialog {
                             id: deleteConfirmation
-                            title: qsTr("Delete key")
-                            text: qsTr("Do you really want to delete this key?")
+                            title: qsTranslate("RDM","Delete key")
+                            text: qsTranslate("RDM","Do you really want to delete this key?")
                             onYes: {
                                 console.log("remove key")
                                 valuesModel.removeKey(keyTab.tabIndex)
@@ -242,7 +242,7 @@ Repeater {
                     }
 
                     Button {
-                        text: qsTr("Reload Value")
+                        text: qsTranslate("RDM","Reload Value")
                         action: reLoadAction
                         visible: !isMultiRow
                         iconSource: "qrc:/images/refresh.svg"
@@ -425,7 +425,7 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: qsTr("Add Row");
+                                text: qsTranslate("RDM","Add Row");
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
                                     addRowDialog.open()
@@ -433,7 +433,7 @@ Repeater {
 
                                 Dialog {
                                     id: addRowDialog
-                                    title: qsTr("Add Row")
+                                    title: qsTranslate("RDM","Add Row")
 
                                     width: 550
                                     height: 400
@@ -490,15 +490,15 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: qsTr("Delete row")
+                                text: qsTranslate("RDM","Delete row")
                                 iconSource: "qrc:/images/delete.svg"
                                 enabled: table.currentRow != -1
 
                                 onClicked: {
                                     if (keyTab.keyModel.totalRowCount === 1) {
-                                        deleteRowConfirmation.text = qsTr("The row is the last one in the key. After removing it key will be deleted.")
+                                        deleteRowConfirmation.text = qsTranslate("RDM","The row is the last one in the key. After removing it key will be deleted.")
                                     } else {
-                                        deleteRowConfirmation.text = qsTr("Do you really want to remove this row?")
+                                        deleteRowConfirmation.text = qsTranslate("RDM","Do you really want to remove this row?")
                                     }
 
                                     var rowIndex = table.model.getOriginalRowIndex(table.currentRow)
@@ -510,7 +510,7 @@ Repeater {
 
                                 MessageDialog {
                                     id: deleteRowConfirmation
-                                    title: qsTr("Delete row")
+                                    title: qsTranslate("RDM","Delete row")
                                     text: ""
                                     onYes: {
                                         console.log("remove row in key")
@@ -527,7 +527,7 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: qsTr("Reload Value")
+                                text: qsTranslate("RDM","Reload Value")
                                 iconSource: "qrc:/images/refresh.svg"
                                 action: reLoadAction
 
@@ -553,7 +553,7 @@ Repeater {
                                 id: searchField
 
                                 Layout.preferredWidth: 195
-                                placeholderText: qsTr("Search on page...")
+                                placeholderText: qsTranslate("RDM","Search on page...")
 
                                 Component.onCompleted: {
                                     table.searchField = searchField
@@ -629,11 +629,11 @@ Repeater {
                             Layout.minimumHeight: 40
                             Item { Layout.fillWidth: true}
                             Button {
-                                text: qsTr("Save")
+                                text: qsTranslate("RDM","Save")
 
                                 onClicked: {
                                     if (!valueEditor.item || !valueEditor.item.isEdited()) {
-                                        savingConfirmation.text = qsTr("Nothing to save")
+                                        savingConfirmation.text = qsTranslate("RDM","Nothing to save")
                                         savingConfirmation.open()
                                         return
                                     }
@@ -646,7 +646,7 @@ Repeater {
                                         var value = valueEditor.item.getValue()                                        
                                         keyTab.keyModel.updateRow(valueEditor.currentRow, value)
 
-                                        savingConfirmation.text = qsTr("Value was updated!")
+                                        savingConfirmation.text = qsTranslate("RDM","Value was updated!")
                                         savingConfirmation.open()
                                     })
                                 }
@@ -654,7 +654,7 @@ Repeater {
 
                             MessageDialog {
                                 id: savingConfirmation
-                                title: qsTr("Save value")
+                                title: qsTranslate("RDM","Save value")
                                 text: ""
                                 visible: false
                                 modality: Qt.ApplicationModal
