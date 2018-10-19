@@ -35,8 +35,7 @@ SOURCES += \
 
 HEADERS  += \
     $$PWD/app/app.h \
-    $$PWD/app/events.h \
-    $$PWD/app/logger.h \
+    $$PWD/app/events.h \    
     $$PWD/app/qmlutils.h \
     $$PWD/app/models/*.h \
     $$PWD/app/models/key-models/*.h \
@@ -141,8 +140,11 @@ RESOURCES += \
     $$PWD/resources/images.qrc \
     $$PWD/resources/fonts.qrc \    
     $$PWD/qml/qml.qrc \
-    $$PWD/resources/tr.qrc \
-    resources/commands.qrc
+    $$PWD/resources/commands.qrc
+
+exists( $$PWD/resources/translations/rdm.qm ) {
+    $$PWD/resources/tr.qrc
+}
 
 OTHER_FILES += \
     qt.conf \
