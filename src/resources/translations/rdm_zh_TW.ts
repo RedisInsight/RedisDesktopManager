@@ -75,7 +75,7 @@
         <location filename="../../app/models/treeoperations.cpp" line="77"/>
         <location filename="../../modules/console/consolemodel.cpp" line="67"/>
         <source>Connection error: </source>
-        <translation type="unfinished">連接錯誤：</translation>
+        <translation type="unfinished">連線錯誤：</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="99"/>
@@ -91,17 +91,17 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="28"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
-        <translation type="unfinished">無法載入鍵 %1，連接發生錯誤：%2</translation>
+        <translation type="unfinished">無法載入鍵 %1，連線發生錯誤：%2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="39"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
-        <translation type="unfinished">無法載入鍵 %1，資料庫中不存在該鍵，請重載連接樹後重試。</translation>
+        <translation type="unfinished">無法載入鍵 %1，資料庫中不存在該鍵，請重載連線樹後重試。</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="52"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
-        <translation type="unfinished">無法載入鍵 %1 的 TTL 值，連接發生錯誤: %2</translation>
+        <translation type="unfinished">無法載入鍵 %1 的 TTL 值，連線發生錯誤: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="70"/>
@@ -126,7 +126,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="48"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
-        <translation type="unfinished">無法連接到伺服器 &apos;%1&apos; 。細節請查看記錄檔。</translation>
+        <translation type="unfinished">無法連線到伺服器 &apos;%1&apos; 。細節請查看記錄檔。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="172"/>
@@ -156,7 +156,7 @@
     <message>
         <location filename="../../modules/common/tabmodel.cpp" line="42"/>
         <source>Invalid Connection. Check connection settings.</source>
-        <translation type="unfinished">無效連接，請檢查連接設定。</translation>
+        <translation type="unfinished">無效連線，請檢查連線設定。</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="34"/>
@@ -311,24 +311,24 @@
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="49"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
-        <translation type="unfinished">所有與該連接相關的鍵值對話方塊和指令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
+        <translation type="unfinished">所有與該連線相關的鍵值對話方塊和指令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="61"/>
         <source>Do you really want to delete connection?</source>
-        <translation type="unfinished">確定要刪除連接？</translation>
+        <translation type="unfinished">確定要刪除連線？</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="12"/>
         <source>Connected to cluster.
 </source>
-        <translation type="unfinished">已連接到叢集伺服器。</translation>
+        <translation type="unfinished">已連線到叢集伺服器。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="15"/>
         <source>Connected.
 </source>
-        <translation type="unfinished">已連接。
+        <translation type="unfinished">已連線。
 </translation>
     </message>
     <message>
@@ -396,7 +396,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="49"/>
         <source>Connection error. Can&apos;t open value tab. </source>
-        <translation type="unfinished">連接錯誤，無法打開鍵值對話方塊。</translation>
+        <translation type="unfinished">連線錯誤，無法打開鍵值對話方塊。</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="149"/>
@@ -436,19 +436,19 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="14"/>
         <source>Connect to Redis Server</source>
-        <translation type="unfinished">連接 Redis 伺服器</translation>
+        <translation type="unfinished">連線到 Redis 伺服器</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="26"/>
         <location filename="../../qml/AppToolBar.qml" line="33"/>
         <location filename="../../qml/AppToolBar.qml" line="49"/>
         <source>Import Connections</source>
-        <translation type="unfinished">匯入連接</translation>
+        <translation type="unfinished">匯入連線</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="42"/>
         <source>Export Connections</source>
-        <translation type="unfinished">匯出連接</translation>
+        <translation type="unfinished">匯出連線</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="62"/>
@@ -489,12 +489,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="12"/>
         <source>New Connection Settings</source>
-        <translation type="unfinished">新連接設定</translation>
+        <translation type="unfinished">新連線設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="141"/>
         <source>Connection Settings</source>
-        <translation type="unfinished">連接設定</translation>
+        <translation type="unfinished">連線設定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="149"/>
@@ -509,7 +509,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="160"/>
         <source>Connection Name</source>
-        <translation type="unfinished">連接名稱</translation>
+        <translation type="unfinished">連線名稱</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="166"/>
@@ -681,7 +681,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="422"/>
         <source>Connection Timeout (sec):</source>
-        <translation type="unfinished">連接逾時 (秒)：</translation>
+        <translation type="unfinished">連線逾時 (秒)：</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="435"/>
@@ -711,7 +711,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="502"/>
         <source>Test Connection</source>
-        <translation type="unfinished">測試連接</translation>
+        <translation type="unfinished">測試連線</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="522"/>
@@ -763,7 +763,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="75"/>
         <source>Connections Tree</source>
-        <translation type="unfinished">連接列表</translation>
+        <translation type="unfinished">連線列表</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="86"/>
@@ -819,12 +819,12 @@
     <message>
         <location filename="../../qml/app.qml" line="81"/>
         <source>Successful connection to redis-server</source>
-        <translation type="unfinished">連接成功！</translation>
+        <translation type="unfinished">連線成功！</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="84"/>
         <source>Can&apos;t connect to redis-server</source>
-        <translation type="unfinished">無法連接！</translation>
+        <translation type="unfinished">無法連線！</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="8"/>
@@ -988,7 +988,7 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="12"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="35"/>
         <source>Edit Connection Settings</source>
-        <translation type="unfinished">編輯連接設定</translation>
+        <translation type="unfinished">編輯連線設定</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="39"/>
@@ -998,7 +998,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="43"/>
         <source>Delete Connection</source>
-        <translation type="unfinished">刪除連接</translation>
+        <translation type="unfinished">刪除連線</translation>
     </message>
     <message>
         <location filename="../../qml/console/Consoles.qml" line="66"/>
@@ -1013,7 +1013,7 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="20"/>
         <source>Connecting...</source>
-        <translation type="unfinished">連接中...</translation>
+        <translation type="unfinished">連線中...</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="192"/>
@@ -1049,7 +1049,7 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="83"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="391"/>
         <source>Clients</source>
-        <translation type="unfinished">連接數</translation>
+        <translation type="unfinished">連線數</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="98"/>
