@@ -155,7 +155,13 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
-        TextEdit { text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
+        TextEdit {
+            Layout.preferredWidth: 150
+            text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
+            readOnly: true;
+            selectByMouse: true
+            color: "#ccc"
+        }
         Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
 
