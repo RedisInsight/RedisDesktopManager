@@ -2,6 +2,7 @@
 #include <qredisclient/redisclient.h>
 #include <qredisclient/utils/text.h>
 #include <QByteArray>
+#include <QCoreApplication>
 #include <QDebug>
 
 #include <QPair>
@@ -72,7 +73,8 @@ class KeyModel : public ValueEditor::Model {
     }
 
     if (result.getValue().toInt() == 0) {
-      throw Exception(QObject::tr(
+      throw Exception(QCoreApplication::translate(
+          "RDM",
           "Key with new name already exist in database or original key was "
           "removed"));
     }
@@ -96,7 +98,9 @@ class KeyModel : public ValueEditor::Model {
     }
 
     if (result.getValue().toInt() == 0) {
-      throw Exception(QObject::tr("Not support TTL at this key"));
+      throw Exception(
+          QCoreApplication::translate("RDM", "Cannot set TTL for key %1")
+              .arg(getKeyName()));
     }
     if (ttl >= 0)
       m_ttl = ttl;

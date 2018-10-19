@@ -27,7 +27,7 @@
 #include "modules/value-editor/valueviewmodel.h"
 #include "qmlutils.h"
 
-Application::Application(int &argc, char **argv)
+Application::Application(int& argc, char** argv)
     : QApplication(argc, argv),
       m_engine(this),
       m_qmlUtils(QSharedPointer<QmlUtils>(new QmlUtils())),
@@ -48,11 +48,14 @@ void Application::initModels() {
 
   if (config.isNull()) {
     QMessageBox::critical(
-        nullptr, QObject::tr("Settings directory is not writable"),
-        QString(QObject::tr(
+        nullptr,
+        QCoreApplication::translate("RDM",
+                                    "Settings directory is not writable"),
+        QCoreApplication::translate(
+            "RDM",
             "RDM can't save connections file to settings directory. "
             "Please change file permissions or restart RDM as "
-            "administrator.")));
+            "administrator."));
 
     throw std::runtime_error("invalid connections config");
   }
@@ -191,8 +194,8 @@ void Application::initQml() {
 
 void Application::initUpdater() {
   m_updater = QSharedPointer<Updater>(new Updater());
-  connect(m_updater.data(), SIGNAL(updateUrlRetrived(QString &)), this,
-          SLOT(OnNewUpdateAvailable(QString &)));
+  connect(m_updater.data(), SIGNAL(updateUrlRetrived(QString&)), this,
+          SLOT(OnNewUpdateAvailable(QString&)));
 }
 
 void Application::installTranslator() {
@@ -214,7 +217,7 @@ void Application::installTranslator() {
     locale = preferredLocale;
   }
 
-  QTranslator *translator = new QTranslator((QObject *)this);
+  QTranslator* translator = new QTranslator((QObject*)this);
   if (translator->load(QString(":/translations/rdm_") + locale)) {
     qDebug() << "Load translations file for locale:" << locale;
     QCoreApplication::installTranslator(translator);
@@ -243,10 +246,10 @@ void Application::processCmdArgs() {
   m_renderingBackend = parser.value(renderingBackend);
 }
 
-void Application::OnNewUpdateAvailable(QString &url) {
+void Application::OnNewUpdateAvailable(QString& url) {
   QMessageBox::information(
       nullptr, "New update available",
-      QString(QObject::tr(
-                  "Please download new version of Redis Desktop Manager: %1"))
+      QCoreApplication::translate(
+          "RDM", "Please download new version of Redis Desktop Manager: %1")
           .arg(url));
 }

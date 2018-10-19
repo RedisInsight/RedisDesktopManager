@@ -78,10 +78,10 @@ ApplicationWindow {
         onTestConnection: {                       
             if (connectionsManager.testConnectionSettings(settings)) {
                 hideLoader()
-                showMsg(qsTr("Successful connection to redis-server"))
+                showMsg(qsTranslate("RDM","Successful connection to redis-server"))
             } else {
                 hideLoader()
-                showError(qsTr("Can't connect to redis-server"))
+                showError(qsTranslate("RDM","Can't connect to redis-server"))
             }            
         }
 

@@ -50,7 +50,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: qsTr("Redis Version")
+                        text: qsTranslate("RDM","Redis Version")
                         font.pointSize: 12
                         color: "grey"                        
                     }
@@ -65,7 +65,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: qsTr("Used memory")
+                        text: qsTranslate("RDM","Used memory")
                         font.pointSize: 12
                         color: "grey"                        
                     }
@@ -80,7 +80,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: qsTr("Clients")
+                        text: qsTranslate("RDM","Clients")
                         font.pointSize: 12
                         color: "grey"                        
                     }
@@ -95,7 +95,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: qsTr("Commands Processed")
+                        text: qsTranslate("RDM","Commands Processed")
                         font.pointSize: 12
                         color: "grey"
                         wrapMode: Text.WordWrap                        
@@ -112,7 +112,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.width / 5
 
-                        text: qsTr("Uptime")
+                        text: qsTranslate("RDM","Uptime")
                         font.pointSize: 12
                         color: "grey"                        
                     }
@@ -132,7 +132,7 @@ Repeater {
                             redisVersionLabel.text = getValue("server", "redis_version")
                             connectedClientsLabel.text = getValue("clients", "connected_clients")
                             totalCommandsProcessedLabel.text = getValue("stats", "total_commands_processed")
-                            uptimeLabel.text = getValue("server", "uptime_in_days") + qsTr(" day(s)")
+                            uptimeLabel.text = getValue("server", "uptime_in_days") + qsTranslate("RDM"," day(s)")
                         }
 
                         function getValue(cat, prop) {
@@ -152,14 +152,14 @@ Repeater {
                     Layout.rightMargin: 50
 
                     Tab {
-                        title: qsTr("Memory Usage")
+                        title: qsTranslate("RDM","Memory Usage")
 
                         ChartView {
                             id: view
 
                             anchors.fill: parent
 
-                            title: qsTr("Memory Usage")
+                            title: qsTranslate("RDM","Memory Usage")
                             antialiasing: true
 
                             DateTimeAxis {
@@ -171,7 +171,7 @@ Repeater {
                             ValueAxis {
                                 id: axisY
                                 min: 0
-                                titleText: qsTr("Mb")
+                                titleText: qsTranslate("RDM","Mb")
                             }
 
                             function toMsecsSinceEpoch(date) {
@@ -231,7 +231,7 @@ Repeater {
                     }
 
                     Tab {
-                        title: qsTr("Server Info")
+                        title: qsTranslate("RDM","Server Info")
 
                         ColumnLayout {
 
@@ -245,7 +245,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTr("Auto Refresh")
+                                label: qsTranslate("RDM","Auto Refresh")
                             }
 
                             TabView {
@@ -268,13 +268,13 @@ Repeater {
 
                                             TableViewColumn {
                                                 role: "name"
-                                                title: qsTr("Property")
+                                                title: qsTranslate("RDM","Property")
                                                 width: 250
                                             }
 
                                             TableViewColumn {
                                                 role: "value"
-                                                title: qsTr("Value")
+                                                title: qsTranslate("RDM","Value")
                                                 width: 350
                                             }
                                         }
@@ -330,7 +330,7 @@ Repeater {
                     }
 
                     Tab {
-                        title: qsTr("Slowlog")
+                        title: qsTranslate("RDM","Slowlog")
 
                         ColumnLayout {
 
@@ -342,7 +342,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTr("Auto Refresh")
+                                label: qsTranslate("RDM","Auto Refresh")
 
                                 onValueChanged: {
                                     tab.model.refreshSlowLog = value
@@ -357,7 +357,7 @@ Repeater {
 
                                 TableViewColumn {
                                     role: "cmd"
-                                    title: qsTr("Command")
+                                    title: qsTranslate("RDM","Command")
                                     width: 600
 
                                     delegate: Text {
@@ -374,13 +374,13 @@ Repeater {
 
                                 TableViewColumn {
                                     role: "time"
-                                    title: qsTr("Processed at")
+                                    title: qsTranslate("RDM","Processed at")
                                     width: 150
                                 }
 
                                 TableViewColumn {
                                     role: "exec_time"
-                                    title: qsTr("Execution Time (μs)")
+                                    title: qsTranslate("RDM","Execution Time (μs)")
                                     width: 150
                                 }
                             }
@@ -388,7 +388,7 @@ Repeater {
                     }
 
                     Tab {
-                        title: qsTr("Clients")
+                        title: qsTranslate("RDM","Clients")
 
                         ColumnLayout {
 
@@ -400,7 +400,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTr("Auto Refresh")
+                                label: qsTranslate("RDM","Auto Refresh")
 
                                 onValueChanged: {
                                     tab.model.refreshClients = value
@@ -415,31 +415,31 @@ Repeater {
 
                                 TableViewColumn {
                                     role: "addr"
-                                    title: qsTr("Client Address")
+                                    title: qsTranslate("RDM","Client Address")
                                     width: 200
                                 }
 
                                 TableViewColumn {
                                     role: "age"
-                                    title: qsTr("Age (sec)")
+                                    title: qsTranslate("RDM","Age (sec)")
                                     width: 75
                                 }
 
                                 TableViewColumn {
                                     role: "idle"
-                                    title: qsTr("Idle")
+                                    title: qsTranslate("RDM","Idle")
                                     width: 75
                                 }
 
                                 TableViewColumn {
                                     role: "flags"
-                                    title: qsTr("Flags")
+                                    title: qsTranslate("RDM","Flags")
                                     width: 75
                                 }
 
                                 TableViewColumn {
                                     role: "db"
-                                    title: qsTr("Current Database")
+                                    title: qsTranslate("RDM","Current Database")
                                     width: 120
                                 }
                             }

@@ -1,6 +1,7 @@
 #include "tabsmodel.h"
 #include <qredisclient/connection.h>
 #include <qredisclient/utils/text.h>
+#include <QCoreApplication>
 #include <QDebug>
 #include <QQmlEngine>
 #include "connections-tree/items/keyitem.h"
@@ -21,7 +22,8 @@ void ValueEditor::TabsModel::openTab(
                                const QString& error) {
           if (keyModel.isNull() || !error.isEmpty()) {
             emit keyError(-1, QString("<b>%1</b>:\n%2")
-                                  .arg(QObject::tr("Cannot open value tab"))
+                                  .arg(QCoreApplication::translate(
+                                      "RDM", "Cannot open value tab"))
                                   .arg(error));
             return;
           }
@@ -44,7 +46,8 @@ void ValueEditor::TabsModel::openTab(
                   });
         });
   } catch (...) {
-    emit keyError(-1, QObject::tr("Connection error. Can't open value tab. "));
+    emit keyError(-1, QCoreApplication::translate(
+                          "RDM", "Connection error. Can't open value tab. "));
   }
 }
 
@@ -142,8 +145,9 @@ void ValueEditor::TabsModel::addKey(QString keyName, QString keyType,
     m_newKeyRequest = NewKeyRequest();
   } catch (const Model::Exception& e) {
     if (jsCallback.isCallable())
-      jsCallback.call(
-          QJSValueList{QObject::tr("Can't add new key: ") + QString(e.what())});
+      jsCallback.call(QJSValueList{
+          QCoreApplication::translate("RDM", "Can't add new key: ") +
+          QString(e.what())});
   }
 }
 
@@ -156,7 +160,8 @@ void ValueEditor::TabsModel::renameKey(int i, const QString& newKeyName) {
     model->setKeyName(printableStringToBinary(newKeyName));
     emit dataChanged(index(i, 0), index(i, 0));
   } catch (const Model::Exception& e) {
-    emit keyError(i, QObject::tr("Can't rename key: ") + QString(e.what()));
+    emit keyError(i, QCoreApplication::translate("RDM", "Can't rename key: ") +
+                         QString(e.what()));
   }
 }
 
@@ -168,7 +173,8 @@ void ValueEditor::TabsModel::removeKey(int i) {
   try {
     model->removeKey();
   } catch (const Model::Exception& e) {
-    emit keyError(i, QObject::tr("Can't remove key: ") + QString(e.what()));
+    emit keyError(i, QCoreApplication::translate("RDM", "Can't remove key: ") +
+                         QString(e.what()));
   }
 }
 
@@ -181,7 +187,8 @@ void ValueEditor::TabsModel::setTTL(int i, const QString& newTTL) {
     model->setTTL(newTTL.toLong());
     emit dataChanged(index(i, 0), index(i, 0));
   } catch (const Model::Exception& e) {
-    emit keyError(i, QObject::tr("Can't set key ttl: ") + QString(e.what()));
+    emit keyError(i, QCoreApplication::translate("RDM", "Can't set key ttl: ") +
+                         QString(e.what()));
   }
 }
 
@@ -196,7 +203,9 @@ void ValueEditor::TabsModel::closeTab(int i) {
 
     model.clear();
   } catch (const Model::Exception& e) {
-    emit keyError(i, QObject::tr("Can't close key tab: ") + QString(e.what()));
+    emit keyError(i,
+                  QCoreApplication::translate("RDM", "Can't close key tab: ") +
+                      QString(e.what()));
   }
 }
 

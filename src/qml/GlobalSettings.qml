@@ -10,7 +10,7 @@ import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root
-    title: qsTr("Settings")
+    title: qsTranslate("RDM","Settings")
 
     contentItem: Item {
         implicitWidth: 800
@@ -21,7 +21,7 @@ Dialog {
             anchors.margins: 20
 
             SettingsGroupTitle {
-                text: qsTr("General")                
+                text: qsTranslate("RDM","General")                
             }
 
             ComboboxOption {
@@ -32,8 +32,8 @@ Dialog {
 
                 model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU"]
                 value: "system"
-                label: qsTr("Language")
-                description: qsTr("Application restart is needed to apply this setting.")
+                label: qsTranslate("RDM","Language")
+                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
             }
 
             ComboboxOption {
@@ -44,8 +44,8 @@ Dialog {
 
                 value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                 model: Qt.fontFamilies()
-                label: qsTr("Font")
-                description: qsTr("Application restart is needed to apply this setting.")
+                label: qsTranslate("RDM","Font")
+                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
             }
 
             ComboboxOption {
@@ -56,8 +56,8 @@ Dialog {
 
                 model: ["8", "9", "10", "11", "12"]
                 value: Qt.platform.os == "osx"? "12" : "11"
-                label: qsTr("Font Size")
-                description: qsTr("Application restart is needed to apply this setting.")
+                label: qsTranslate("RDM","Font Size")
+                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
             }
 
             BoolOption {
@@ -67,12 +67,12 @@ Dialog {
                 Layout.preferredHeight: 40
 
                 value: false
-                label: qsTr("Use system proxy settings")
-                description: qsTr("Application restart is needed to apply this setting.")
+                label: qsTranslate("RDM","Use system proxy settings")
+                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
             }
 
             SettingsGroupTitle {
-                text: qsTr("Connections Tree")
+                text: qsTranslate("RDM","Connections Tree")
                 Layout.topMargin: 20
             }
 
@@ -83,8 +83,8 @@ Dialog {
                 Layout.preferredHeight: 40
 
                 value: true
-                label: qsTr("Reopen namespaces on reload")
-                description: qsTr("(Disable to improve treeview performance)")
+                label: qsTranslate("RDM","Reopen namespaces on reload")
+                description: qsTranslate("RDM","(Disable to improve treeview performance)")
             }
 
             BoolOption {
@@ -94,8 +94,8 @@ Dialog {
                 Layout.preferredHeight: 40
 
                 value: true
-                label: qsTr("Enable key sorting in tree")
-                description: qsTr("(Disable to improve treeview performance)")
+                label: qsTranslate("RDM","Enable key sorting in tree")
+                description: qsTranslate("RDM","(Disable to improve treeview performance)")
             }
 
             IntOption {
@@ -107,7 +107,7 @@ Dialog {
                 min: 100
                 max: 100000
                 value: 1000
-                label: qsTr("Live update maximum allowed keys")
+                label: qsTranslate("RDM","Live update maximum allowed keys")
                 description: ""
             }
 
@@ -120,16 +120,16 @@ Dialog {
                 min: 3
                 max: 100000
                 value: 10
-                label: qsTr("Live update interval (in seconds)")
+                label: qsTranslate("RDM","Live update interval (in seconds)")
                 description: ""
             }               
 
             SettingsGroupTitle {
-                text: qsTr("Custom Value View Formatters")                
+                text: qsTranslate("RDM","Custom Value View Formatters")                
             }
 
             Text {
-                text: qsTr("Formatters path: %0").arg(formattersManager.formattersPath())
+                text: qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath())
                 font.pixelSize: 12
                 color: "grey"
             }
@@ -163,7 +163,7 @@ Dialog {
 
                 Item { Layout.fillWidth: true; }
                 Button {
-                    text: qsTr("OK")
+                    text: qsTranslate("RDM","OK")
                     onClicked: root.close()
                 }
             }

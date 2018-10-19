@@ -17,6 +17,6 @@ RowLayout {
 
     BetterCheckbox {
         id: passwordMask
-        text: qsTr("Show password")
+        text: qsTranslate("RDM","Show password")
     }
 }

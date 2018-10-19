@@ -14,7 +14,7 @@ ColumnLayout
     property string textColor
     property string backgroundColor
     property bool showFormatters: true
-    property string fieldLabel: qsTr("Value:")    
+    property string fieldLabel: qsTranslate("RDM","Value") + ":"
     property bool isEdited: false
     property var value    
     property int valueSizeLimit: 150000
@@ -100,7 +100,7 @@ ColumnLayout
             if (error || !formatted) {
                 uiBlocker.visible = false
                 formatterSelector.currentIndex = isBin? 2 : 0 // Reset formatter to plain text
-                notification.showError(error || qsTr("Unknown formatter error (Empty response)"))
+                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
                 return
             }
 
@@ -155,13 +155,13 @@ ColumnLayout
         Layout.fillWidth: true
 
         Text { text: root.fieldLabel }
-        TextEdit { text: qsTr("size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
-        Text { id: binaryFlag; text: qsTr("[Binary]"); visible: false; color: "green"; }        
+        TextEdit { text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value)); readOnly: true; color: "#ccc"  }
+        Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }        
         Item { Layout.fillWidth: true }
 
         ImageButton {
             iconSource: "qrc:/images/copy.svg"
-            tooltip: qsTr("Copy to Clipboard")
+            tooltip: qsTranslate("RDM","Copy to Clipboard")
 
             onClicked: {
                 if (textView.model) {
@@ -170,7 +170,7 @@ ColumnLayout
             }
         }
 
-        Text { visible: showFormatters; text: qsTr("View as:") }
+        Text { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
         ComboBox {
             id: formatterSelector
@@ -189,7 +189,7 @@ ColumnLayout
             }
         }
 
-        Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTr("Large value (>150kB). Formatters is not available."); color: "red"; }
+        Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
     }
 
     Rectangle {

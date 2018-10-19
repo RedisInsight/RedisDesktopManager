@@ -1,4 +1,5 @@
 #include "serverstatsmodel.h"
+#include <QCoreApplication>
 
 ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
                           int dbIndex)
@@ -14,7 +15,8 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
     m_connection->command(
         {"INFO", "all"}, this, [this](RedisClient::Response r, QString err) {
           if (!err.isEmpty()) {
-            emit error(QObject::tr("Cannot update server info tab. Error: %0")
+            emit error(QCoreApplication::translate(
+                           "RDM", "Cannot update server info tab. Error: %0")
                            .arg(err));
             return;
           }
@@ -30,8 +32,9 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
         {"SLOWLOG", "GET", "15"}, this,
         [this](RedisClient::Response r, QString err) {
           if (!err.isEmpty()) {
-            emit error(
-                QObject::tr("Cannot update slowlog. Error: %0").arg(err));
+            emit error(QCoreApplication::translate(
+                           "RDM", "Cannot update slowlog. Error: %0")
+                           .arg(err));
             return;
           }
 
@@ -55,8 +58,9 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
     m_connection->command(
         {"CLIENT", "LIST"}, this, [this](RedisClient::Response r, QString err) {
           if (!err.isEmpty()) {
-            emit error(
-                QObject::tr("Cannot update clients list. Error: %0").arg(err));
+            emit error(QCoreApplication::translate(
+                           "RDM", "Cannot update clients list. Error: %0")
+                           .arg(err));
             return;
           }
 
@@ -100,7 +104,7 @@ ServerStats::Model::~Model() {
 }
 
 QString ServerStats::Model::getName() const {
-  return QString(QObject::tr("Server %0"))
+  return QCoreApplication::translate("RDM", "Server %0")
       .arg(m_connection->getConfig().name());
 }
 

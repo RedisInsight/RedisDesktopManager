@@ -88,7 +88,7 @@ TreeView {
                     objectName: "rdm_tree_view_item_text"
                     anchors.left: itemIcon.right
                     anchors.verticalCenter: parent.verticalCenter
-                    text: wrapper.itemEnabled ? styleData.value["name"] : styleData.value["name"] + qsTr(" (Removed)")
+                    text: wrapper.itemEnabled ? styleData.value["name"] : styleData.value["name"] + qsTranslate("RDM"," (Removed)")
                     color: wrapper.itemEnabled ? "black": "#ccc"
                 }
 

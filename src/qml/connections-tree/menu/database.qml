@@ -51,29 +51,29 @@ RowLayout {
 
         model: [
             {
-                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTr("Open Keys Filter"),
+                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTranslate("RDM","Open Keys Filter"),
                 "shortcut": PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
             },
             {
-                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTr("Reload Keys in Database"),
+                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RDM","Reload Keys in Database"),
                 "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
             },
             {
-                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTr("Add New Key"),
+                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RDM","Add New Key"),
                 "shortcut": PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
             },
             {
                 'icon': styleData.value["live_update"]? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg",
                 'callback': 'live_update',
-                "help": styleData.value["live_update"]? qsTr("Disable Live Update") : qsTr("Enable Live Update"),
+                "help": styleData.value["live_update"]? qsTranslate("RDM","Disable Live Update") : qsTranslate("RDM","Enable Live Update"),
                 "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
             },
             {
-                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTr("Open Console"),
+                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RDM","Open Console"),
                 "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
             },
             {
-                'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTr("Flush DB"),
+                'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),
                 "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
             },
         ]
@@ -91,7 +91,7 @@ RowLayout {
 
             Layout.fillWidth: true
 
-            placeholderText: qsTr("Enter Filter")
+            placeholderText: qsTranslate("RDM","Enter Filter")
             objectName: "rdm_inline_menu_filter_field"
 
             text: styleData.value["filter"]

@@ -31,21 +31,26 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
   m_eventHandlers.insert("add_key", [this]() {
     m_operations->openNewKeyDialog(m_dbIndex, [this]() {
       confirmAction(nullptr,
-                    QObject::tr("Key was added. Do you want to reload keys in "
-                                "selected database?"),
+                    QCoreApplication::translate(
+                        "RDM",
+                        "Key was added. Do you want to reload keys in "
+                        "selected database?"),
                     [this]() {
                       reload();
                       m_keysCount++;
                     },
-                    QObject::tr("Key was added"));
+                    QCoreApplication::translate("RDM", "Key was added"));
     });
   });
 
   m_eventHandlers.insert("reload", [this]() {
     if (isLocked()) {
       QMessageBox::warning(
-          nullptr, QObject::tr("Another operation is currently in progress"),
-          QObject::tr("Please wait until another operation will be finised."));
+          nullptr,
+          QCoreApplication::translate(
+              "RDM", "Another operation is currently in progress"),
+          QCoreApplication::translate(
+              "RDM", "Please wait until another operation will be finised."));
       return;
     }
 
@@ -55,8 +60,8 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
   m_eventHandlers.insert("flush", [this]() {
     confirmAction(
         nullptr,
-        QObject::tr(
-            "Do you really want to remove all keys from this database?"),
+        QCoreApplication::translate(
+            "RDM", "Do you really want to remove all keys from this database?"),
         [this]() {
           m_operations->flushDb(m_dbIndex,
                                 [this](const QString&) { unload(); });
@@ -118,8 +123,9 @@ void DatabaseItem::loadKeys(std::function<void()> callback) {
     m_operations->getDatabases(dbLoadCallback);
   } catch (const ConnectionsTree::Operations::Exception& e) {
     unlock();
-    emit m_model.error(QObject::tr("Cannot load databases:\n\n") +
-                       QString(e.what()));
+    emit m_model.error(
+        QCoreApplication::translate("RDM", "Cannot load databases:\n\n") +
+        QString(e.what()));
   }
 
   m_operations->loadNamespaceItems(
@@ -203,10 +209,13 @@ void DatabaseItem::performLiveUpdate() {
       liveUpdateTimer()->stop();
       emit m_model.itemChanged(getSelf());
       QMessageBox::warning(
-          nullptr, QObject::tr("Live update was disabled"),
-          QObject::tr("Live update was disabled due to exceeded keys limit. "
-                      "Please specify filter more carrfully or change limit in "
-                      "settings."));
+          nullptr,
+          QCoreApplication::translate("RDM", "Live update was disabled"),
+          QCoreApplication::translate(
+              "RDM",
+              "Live update was disabled due to exceeded keys limit. "
+              "Please specify filter more carrfully or change limit in "
+              "settings."));
     } else {
       liveUpdateTimer()->start();
       emit m_model.itemChanged(getSelf());

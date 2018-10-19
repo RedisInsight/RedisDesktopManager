@@ -11,7 +11,7 @@ ToolBar {
         anchors.fill: parent
         Button {
             iconSource: "qrc:/images/add.svg"
-            text: qsTr("Connect to Redis Server")
+            text: qsTranslate("RDM","Connect to Redis Server")
             objectName: "rdm_connect_to_redis_server_btn"
             Layout.preferredWidth: 230
 
@@ -23,14 +23,14 @@ ToolBar {
 
         ToolButton {
             iconSource: "qrc:/images/import.svg"
-            text: qsTr("Import Connections")
+            text: qsTranslate("RDM","Import Connections")
             tooltip: text
 
             onClicked: importConnectionsDialog.open()
 
             FileDialog {
                 id: importConnectionsDialog
-                title: qsTr("Import Connections")
+                title: qsTranslate("RDM","Import Connections")
                 nameFilters: ["RDM Connections (*.xml *.json)"]
                 selectExisting: true
                 onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(fileUrl))
@@ -39,14 +39,14 @@ ToolBar {
 
         ToolButton {
             iconSource: "qrc:/images/export.svg"
-            text: qsTr("Export Connections")
+            text: qsTranslate("RDM","Export Connections")
             tooltip: text
 
             onClicked: exportConnectionsDialog.open()
 
             FileDialog {
                 id: exportConnectionsDialog
-                title: qsTr("Import Connections")
+                title: qsTranslate("RDM","Import Connections")
                 nameFilters: ["RDM Connections (*.json)"]
                 selectExisting: false
                 onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
@@ -59,36 +59,36 @@ ToolBar {
 
         ToolButton {
             iconSource: "qrc:/images/alert.svg"
-            text: qsTr("Report issue")
-            tooltip: qsTr("Report issue")
+            text: qsTranslate("RDM","Report issue")
+            tooltip: qsTranslate("RDM","Report issue")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/issues")
         }
 
         ToolButton {
             iconSource: "qrc:/images/help.svg"
-            text: qsTr("Documentation")
-            tooltip: qsTr("Documentation")
+            text: qsTranslate("RDM","Documentation")
+            tooltip: qsTranslate("RDM","Documentation")
             onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/")
         }
 
         ToolButton {
             iconSource: "qrc:/images/telegram.svg"
-            text: qsTr("Join Telegram Chat")
-            tooltip: qsTr("Join Telegram Chat")
+            text: qsTranslate("RDM","Join Telegram Chat")
+            tooltip: qsTranslate("RDM","Join Telegram Chat")
             onClicked: Qt.openUrlExternally("https://t.me/RedisDesktopManager")
         }
 
         ToolButton {
             iconSource: "qrc:/images/twi.svg"
-            text: qsTr("Follow")
-            tooltip: qsTr("Follow")
+            text: qsTranslate("RDM","Follow")
+            tooltip: qsTranslate("RDM","Follow")
             onClicked: Qt.openUrlExternally("https://twitter.com/RedisDesktop")
         }
 
         ToolButton {
             iconSource: "qrc:/images/github.svg"
-            text: qsTr("Star on Github!")
-            tooltip: qsTr("Star on Github!")
+            text: qsTranslate("RDM","Star on Github!")
+            tooltip: qsTranslate("RDM","Star on Github!")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager")
         }
 
@@ -96,7 +96,7 @@ ToolBar {
 
         Button {
             iconSource: "qrc:/images/settings.svg"
-            text: qsTr("Settings")
+            text: qsTranslate("RDM","Settings")
 
             onClicked: {
                 settingsDialog.open()

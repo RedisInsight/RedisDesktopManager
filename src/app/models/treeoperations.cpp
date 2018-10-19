@@ -28,22 +28,25 @@ bool TreeOperations::loadDatabases(
       m_connection->refreshServerInfo();
     } catch (const RedisClient::Connection::Exception& e) {
       emit m_events->error(
-          (QObject::tr("Connection error: ") + QString(e.what())));
+          QCoreApplication::translate("RDM", "Connection error: ") +
+          QString(e.what()));
       return false;
     }
   } else {
     try {
       connected = m_connection->connect(true);
     } catch (const RedisClient::Connection::Exception& e) {
-      emit m_events->error(QObject::tr("Connection error: ") +
-                           QString(e.what()));
+      emit m_events->error(
+          QCoreApplication::translate("RDM", "Connection error: ") +
+          QString(e.what()));
       return false;
     }
   }
 
   if (!connected) {
     emit m_events->error(
-        QObject::tr("Cannot connect to server '%1'. Check log for details.")
+        QCoreApplication::translate(
+            "RDM", "Cannot connect to server '%1'. Check log for details.")
             .arg(m_connection->getConfig().name()));
     return false;
   }
@@ -71,7 +74,8 @@ bool TreeOperations::loadDatabases(
               m_connection->commandSync("select", QString::number(index));
         } catch (const RedisClient::Connection::Exception& e) {
           throw ConnectionsTree::Operations::Exception(
-              QObject::tr("Connection error: ") + QString(e.what()));
+              QCoreApplication::translate("RDM", "Connection error: ") +
+              QString(e.what()));
         }
 
         if (!scanningResp.isOkMessage()) {
@@ -165,7 +169,8 @@ void TreeOperations::loadNamespaceItems(
     }
 
   } catch (const RedisClient::Connection::Exception& error) {
-    callback(QString(QObject::tr("Cannot load keys: %1")).arg(error.what()));
+    callback(QCoreApplication::translate("RDM", "Cannot load keys: %1")
+                 .arg(error.what()));
   }
 }
 
@@ -213,7 +218,8 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
                                                    const RedisClient::Response&,
                                                    const QString& error) {
     if (!error.isEmpty()) {
-      callback(QString(QObject::tr("Cannot remove key: %1")).arg(error));
+      callback(QCoreApplication::translate("RDM", "Cannot remove key: %1")
+                   .arg(error));
       return;
     }
 
@@ -227,7 +233,8 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
                           key.getDbIndex());
   } catch (const RedisClient::Connection::Exception& e) {
     throw ConnectionsTree::Operations::Exception(
-        QObject::tr("Delete key error: ") + QString(e.what()));
+        QCoreApplication::translate("RDM", "Delete key error: ") +
+        QString(e.what()));
   }
 }
 
@@ -255,7 +262,8 @@ void TreeOperations::flushDb(int dbIndex,
     m_connection->flushDbKeys(dbIndex, callback);
   } catch (const RedisClient::Connection::Exception& e) {
     throw ConnectionsTree::Operations::Exception(
-        QObject::tr("FlushDB error: ") + QString(e.what()));
+        QCoreApplication::translate("RDM", "Cannot flush database: ") +
+        QString(e.what()));
   }
 }
 

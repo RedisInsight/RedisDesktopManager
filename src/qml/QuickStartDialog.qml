@@ -8,7 +8,7 @@ import "./common/platformutils.js" as PlatformUtils
 Dialog {
     id: root
     objectName: "rdm_quick_start_dialog"
-    title: qsTr("Explore Redis Desktop Manager")
+    title: qsTranslate("RDM","Explore Redis Desktop Manager")
 
     contentItem: Item {
         id: rootItem
@@ -34,8 +34,8 @@ Dialog {
 
                 RichTextWithLinks {
                     wrapMode: Text.WrapAnywhere
-                    html: "<p style='font-size: 13pt;'>" + qsTr("Before using Redis Desktop Manager (RDM) take a look on the %1").arg(
-                              "<a href='http://docs.redisdesktop.com/en/latest/quick-start/'>" + qsTr("Quick Start Guide")+ "</a>") + "</p>"
+                    html: "<p style='font-size: 13pt;'>" + qsTranslate("RDM","Before using Redis Desktop Manager (RDM) take a look on the %1").arg(
+                              "<a href='http://docs.redisdesktop.com/en/latest/quick-start/'>" + qsTranslate("RDM","Quick Start Guide")+ "</a>") + "</p>"
 
                     Component.onCompleted: {
                         if (!PlatformUtils.isOSX()) {
@@ -51,7 +51,7 @@ Dialog {
                 Item { Layout.fillWidth: true; }
                 Button {
                     objectName: "rdm_quick_start_dialog_ok_btn"
-                    text: qsTr("OK")
+                    text: qsTranslate("RDM","OK")
                     onClicked: root.close()
                 }
             }
