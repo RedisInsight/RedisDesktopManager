@@ -13,7 +13,6 @@ class QmlUtils;
 class Events;
 class ConnectionsManager;
 class Updater;
-class LogHandler;
 class TabViewModel;
 namespace ValueEditor {
 class TabsModel;
@@ -61,7 +60,6 @@ class Application : public QApplication {
   QSharedPointer<TabViewModel> m_consoleModel;
   QSharedPointer<TabViewModel> m_serverStatsModel;
   QSharedPointer<Console::AutocompleteModel> m_consoleAutocompleteModel;
-  LogHandler *m_logger;
   QString m_settingsDir;
   QString m_renderingBackend;
 };

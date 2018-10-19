@@ -31,8 +31,7 @@ Application::Application(int &argc, char **argv)
     : QApplication(argc, argv),
       m_engine(this),
       m_qmlUtils(QSharedPointer<QmlUtils>(new QmlUtils())),
-      m_events(QSharedPointer<Events>(new Events())),
-      m_logger(nullptr) {
+      m_events(QSharedPointer<Events>(new Events())) {
   // Init components required for models and qml
   initAppInfo();
   processCmdArgs();
