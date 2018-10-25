@@ -21,6 +21,8 @@ class FormattersManager : public QAbstractListModel {
 
   QHash<int, QByteArray> roleNames() const;
 
+  void setPath(const QString& path);
+
  signals:
   void error(const QString& msg);
 
@@ -52,6 +54,7 @@ class FormattersManager : public QAbstractListModel {
  private:
   QList<QVariantMap> m_formattersData;
   QHash<QString, int> m_mapping;
+  QString m_formattersPath;
 };
 
 }  // namespace ValueEditor
