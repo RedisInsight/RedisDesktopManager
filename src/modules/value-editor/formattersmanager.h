@@ -13,8 +13,7 @@ class FormattersManager : public QAbstractListModel {
  public:
   FormattersManager();
 
-  void loadFormatters(
-      bool ignoreCache = false);  // TODO make async with callback & invokable
+  void loadFormatters();  // TODO make async with callback & invokable
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
@@ -43,9 +42,11 @@ class FormattersManager : public QAbstractListModel {
   void fillMapping();
 
   QByteArray readStdoutFromExternalProcess(const QStringList& cmd,
+                                           const QByteArray& processInput,
                                            const QString& wd);
 
   QJsonObject readJsonFromExternalProcess(const QStringList& cmd,
+                                          const QByteArray& processInput,
                                           const QString& wd);
 
  private:

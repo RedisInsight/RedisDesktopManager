@@ -12,10 +12,16 @@
 ValueEditor::FormattersManager::FormattersManager() {}
 
 QByteArray ValueEditor::FormattersManager::readStdoutFromExternalProcess(
-    const QStringList &cmd, const QString &wd) {
+    const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
   QProcess formatterProcess;
   formatterProcess.setWorkingDirectory(wd);
   formatterProcess.start(cmd[0], cmd.mid(1));
+
+  if (processInput.size()) {
+    formatterProcess.write(processInput.constData(), processInput.size());
+    formatterProcess.waitForBytesWritten();
+    formatterProcess.closeWriteChannel();
+  }
 
   if (!formatterProcess.waitForStarted(3000)) {
     emit error(QString("Cannot start process %1: %2")
@@ -36,10 +42,10 @@ QByteArray ValueEditor::FormattersManager::readStdoutFromExternalProcess(
 }
 
 QJsonObject ValueEditor::FormattersManager::readJsonFromExternalProcess(
-    const QStringList &cmd, const QString &wd) {
+    const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
   qDebug() << cmd;
 
-  QByteArray result = readStdoutFromExternalProcess(cmd, wd);
+  QByteArray result = readStdoutFromExternalProcess(cmd, processInput, wd);
 
   if (result.isEmpty()) return QJsonObject();
 
@@ -54,15 +60,8 @@ QJsonObject ValueEditor::FormattersManager::readJsonFromExternalProcess(
   return output.object();
 }
 
-void ValueEditor::FormattersManager::loadFormatters(bool ignoreCache) {
-  if (!ignoreCache) {
-    // Try to load data from cache
-    // fillMapping();
-    // if still empty - continue loading
-  }
-
+void ValueEditor::FormattersManager::loadFormatters() {
   // Load formatters from file system
-
   QDir fd(formattersPath());
   fd.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 
@@ -84,7 +83,8 @@ void ValueEditor::FormattersManager::loadFormatters(bool ignoreCache) {
       QJsonDocument cmd = QJsonDocument::fromJson(usageRawJson.toUtf8(), &err);
 
       if (err.error != QJsonParseError::NoError || !cmd.isArray()) {
-        emit error(QString("Formatter %1 has invalid usage.json file"));
+        emit error(QString("Formatter %1 has invalid usage.json file")
+                       .arg(it.filePath()));
         continue;
       }
 
@@ -92,10 +92,15 @@ void ValueEditor::FormattersManager::loadFormatters(bool ignoreCache) {
       QStringList versionCmd(fullCmd);
       versionCmd.append("--version");
 
-      QByteArray result =
-          readStdoutFromExternalProcess(versionCmd, it.filePath());
+      QByteArray result = readStdoutFromExternalProcess(
+          versionCmd, QByteArray(), it.filePath());
 
-      if (result.isEmpty()) continue;
+      if (result.isEmpty()) {
+        emit error(
+            QString("Formatter %1 returned invalid output for version command")
+                .arg(it.filePath()));
+        continue;
+      }
 
       QVariantMap data;
       data["name"] = it.fileName();
@@ -162,10 +167,9 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName,
 
   QStringList cmd = formatter["cmd_list"].toStringList();
   cmd.append("decode");
-  cmd.append(data.toBase64());
 
-  QJsonObject outputObj =
-      readJsonFromExternalProcess(cmd, formatter["cwd"].toString());
+  QJsonObject outputObj = readJsonFromExternalProcess(
+      cmd, data.toBase64(), formatter["cwd"].toString());
 
   if (outputObj.isEmpty()) {
     jsCallback.call(
@@ -195,10 +199,9 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
 
   QStringList cmd = formatter["cmd_list"].toStringList();
   cmd.append("is_valid");
-  cmd.append(data.toBase64());
 
-  QJsonObject outputObj =
-      readJsonFromExternalProcess(cmd, formatter["cwd"].toString());
+  QJsonObject outputObj = readJsonFromExternalProcess(
+      cmd, data.toBase64(), formatter["cwd"].toString());
 
   if (outputObj.isEmpty()) {
     emit error(QCoreApplication::translate(
@@ -227,10 +230,9 @@ void ValueEditor::FormattersManager::encode(const QString &formatterName,
 
   QStringList cmd = formatter["cmd_list"].toStringList();
   cmd.append("encode");
-  cmd.append(data.toBase64());
 
-  QByteArray output =
-      readStdoutFromExternalProcess(cmd, formatter["cwd"].toString());
+  QByteArray output = readStdoutFromExternalProcess(
+      cmd, data.toBase64(), formatter["cwd"].toString());
 
   if (output.isEmpty()) {
     emit error(QCoreApplication::translate(
