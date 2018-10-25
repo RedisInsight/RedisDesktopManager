@@ -7,12 +7,12 @@
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="309"/>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="337"/>
         <source>Cannot connect to cluster node %1:%2</source>
-        <translation type="unfinished"></translation>
+        <translation>无法连接集群节点 %1:%2</translation>
     </message>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="346"/>
         <source>Cannot flush db (%1): %2</source>
-        <translation type="unfinished"></translation>
+        <translation>无法刷新库 (%1): %2</translation>
     </message>
 </context>
 <context>
@@ -35,12 +35,12 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="76"/>
         <source>Key with new name already exist in database or original key was removed</source>
-        <translation type="unfinished"></translation>
+        <translation>相同命名的键已经存在或原来的键已被删除</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="102"/>
         <source>Cannot set TTL for key %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法给键 %1 设置 TTL</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="43"/>
@@ -221,7 +221,7 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="172"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="158"/>
         <source>Size: </source>
-        <translation type="unfinished"></translation>
+        <translation>大小：</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="177"/>
@@ -322,18 +322,18 @@
         <location filename="../../modules/console/consolemodel.cpp" line="12"/>
         <source>Connected to cluster.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>已连接到集群。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="15"/>
         <source>Connected.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>已连接。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="41"/>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">切换到推送/订阅模式，关闭标签页来停止接收信息。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="50"/>
@@ -348,12 +348,12 @@
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="35"/>
         <source>Cannot update slowlog. Error: %0</source>
-        <translation type="unfinished"></translation>
+        <translation>无法更新慢查询日志，错误：%0</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="61"/>
         <source>Cannot update clients list. Error: %0</source>
-        <translation type="unfinished"></translation>
+        <translation>无法更新客户端列表，错误：%0</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="107"/>
@@ -370,17 +370,17 @@
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="157"/>
         <source>Invalid callback</source>
-        <translation type="unfinished"></translation>
+        <translation>无效回调</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="172"/>
         <source>Cannot decode value using %1 formatter. </source>
-        <translation type="unfinished"></translation>
+        <translation>无法使用 %1 格式化配置来解析值。</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="204"/>
         <source>Cannot validate value using %1 formatter.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法使用 %1 格式化配置来效验值。</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/formattersmanager.cpp" line="236"/>
@@ -425,7 +425,7 @@
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="52"/>
         <source>Cannot reload key value</source>
-        <translation type="unfinished"></translation>
+        <translation>无法重载键值</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="83"/>
@@ -453,31 +453,31 @@
         <location filename="../../qml/AppToolBar.qml" line="62"/>
         <location filename="../../qml/AppToolBar.qml" line="63"/>
         <source>Report issue</source>
-        <translation type="unfinished"></translation>
+        <translation>报告错误</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="69"/>
         <location filename="../../qml/AppToolBar.qml" line="70"/>
         <source>Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>文档</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="76"/>
         <location filename="../../qml/AppToolBar.qml" line="77"/>
         <source>Join Telegram Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>加入 Telegram 聊天组</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="83"/>
         <location filename="../../qml/AppToolBar.qml" line="84"/>
         <source>Follow</source>
-        <translation type="unfinished"></translation>
+        <translation>关注</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="90"/>
         <location filename="../../qml/AppToolBar.qml" line="91"/>
         <source>Star on Github!</source>
-        <translation type="unfinished"></translation>
+        <translation>给我们的Github加个星星吧！</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="99"/>
@@ -717,7 +717,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="166"/>
         <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
-        <translation>好</translation>
+        <translation>确定</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="534"/>
@@ -965,7 +965,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>断开连接</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
@@ -992,7 +992,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="39"/>
         <source>Duplicate Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>复制连接</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="43"/>
@@ -1063,7 +1063,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="135"/>
         <source> day(s)</source>
-        <translation type="unfinished"></translation>
+        <translation> 天</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="155"/>
@@ -1081,7 +1081,7 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="345"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="403"/>
         <source>Auto Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>自动刷新</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="271"/>
@@ -1097,47 +1097,47 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="333"/>
         <source>Slowlog</source>
-        <translation type="unfinished"></translation>
+        <translation>慢查询日志</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="360"/>
         <source>Command</source>
-        <translation type="unfinished"></translation>
+        <translation>指令</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="377"/>
         <source>Processed at</source>
-        <translation type="unfinished"></translation>
+        <translation>处理于</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="383"/>
         <source>Execution Time (μs)</source>
-        <translation type="unfinished"></translation>
+        <translation>执行时长 (μs)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="418"/>
         <source>Client Address</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端地址</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
         <source>Age (sec)</source>
-        <translation type="unfinished"></translation>
+        <translation>时长 (sec)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="430"/>
         <source>Idle</source>
-        <translation type="unfinished"></translation>
+        <translation>空闲</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="436"/>
         <source>Flags</source>
-        <translation type="unfinished"></translation>
+        <translation>标记</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="442"/>
         <source>Current Database</source>
-        <translation type="unfinished"></translation>
+        <translation>当前库</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="26"/>
