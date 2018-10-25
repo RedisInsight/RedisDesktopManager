@@ -99,6 +99,12 @@ void Application::initModels() {
 
   m_formattersManager = QSharedPointer<ValueEditor::FormattersManager>(
       new ValueEditor::FormattersManager());
+
+  connect(m_formattersManager.data(), &ValueEditor::FormattersManager::error,
+          this, [](const QString& msg) {
+            qDebug() << QString("Formatters: %1").arg(msg);
+          });
+
   m_formattersManager->loadFormatters();
 
   m_consoleAutocompleteModel = QSharedPointer<Console::AutocompleteModel>(
