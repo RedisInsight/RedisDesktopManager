@@ -148,6 +148,10 @@ QHash<int, QByteArray> ValueEditor::FormattersManager::roleNames() const {
   return roles;
 }
 
+void ValueEditor::FormattersManager::setPath(const QString &path) {
+  m_formattersPath = path;
+}
+
 void ValueEditor::FormattersManager::decode(const QString &formatterName,
                                             const QByteArray &data,
                                             QJSValue jsCallback) {
@@ -251,8 +255,12 @@ QStringList ValueEditor::FormattersManager::getPlainList() {
 }
 
 QString ValueEditor::FormattersManager::formattersPath() {
-  return QDir::toNativeSeparators(
-      QString("%1/%2").arg(ConfigManager::getConfigPath()).arg("formatters"));
+  if (m_formattersPath.isEmpty()) {
+    return QDir::toNativeSeparators(
+        QString("%1/%2").arg(ConfigManager::getConfigPath()).arg("formatters"));
+  } else {
+    return m_formattersPath;
+  }
 }
 
 void ValueEditor::FormattersManager::fillMapping() {

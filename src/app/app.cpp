@@ -105,6 +105,10 @@ void Application::initModels() {
             qDebug() << QString("Formatters: %1").arg(msg);
           });
 
+  if (!m_formattersDir.isEmpty()) {
+    m_formattersManager->setPath(m_formattersDir);
+  }
+
   m_formattersManager->loadFormatters();
 
   m_consoleAutocompleteModel = QSharedPointer<Console::AutocompleteModel>(
@@ -238,6 +242,11 @@ void Application::processCmdArgs() {
                                  "(Optional) Directory where RDM looks/saves "
                                  ".rdm directory with connections.json file",
                                  "settingsDir", QDir::homePath());
+  QCommandLineOption formattersDir(
+      "formatters-dir",
+      "(Optional) Directory where RDM looks for native value formatters",
+      "formattersDir", QString());
+
   QCommandLineOption renderingBackend(
       "rendering-backend",
       "(Optional) QML rendering backend [software|opengl|d3d12|'']",
@@ -245,10 +254,12 @@ void Application::processCmdArgs() {
   parser.addHelpOption();
   parser.addVersionOption();
   parser.addOption(settingsDir);
+  parser.addOption(formattersDir);
   parser.addOption(renderingBackend);
   parser.process(*this);
 
   m_settingsDir = parser.value(settingsDir);
+  m_formattersDir = parser.value(formattersDir);
   m_renderingBackend = parser.value(renderingBackend);
 }
 
