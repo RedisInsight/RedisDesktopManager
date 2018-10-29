@@ -2,7 +2,7 @@
 ***
 
 
-After you [install](install.md)  RDM the first you need to do in order to start using it is create Connection to your Redis server. On the main screen press button **Connect to Redis Server**. 
+After you [install](install.md) RDM the first you need to do in order to start using it is create Connection to your Redis server. On the main screen press button **Connect to Redis Server**. 
 
 ![](http://redisdesktop.com/static/docs/rdm_main.png)
 
@@ -40,9 +40,9 @@ To connect Redis Labs instance with SSL/TLS encryption do following steps:
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
 SSH tab is supposed to allow you using SSH tunnel. It's useful if your redis-server is not publicly accessible via a network.
-To use SSH tunnel select checkbox "Use SSH Tunnel". There are different security options: you can use a plain password or openssh private key. 
+To use SSH tunnel select checkbox "Use SSH Tunnel". There are different security options: you can use a plain password or OpenSSH private key. 
 
-!!! note "for Windows users:" 
+>!!! note "for Windows users:" 
     Your private key is must be in .pem format.
 
 <img src="http://redisdesktop.com/static/docs/rdm_ssh.png" height="300" />
@@ -63,7 +63,7 @@ After that [connect to your Redis ElastiCache through EC2](#how-to-connect-to-re
 
 ## Connect to UNIX socket
 
-Redis Desktop Manager [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of local socket to the unix domain socket, for instance with [socat](http://sourceforge.net/projects/socat):
+Redis Desktop Manager [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of local socket to the unix domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
 
 ```
 socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock
