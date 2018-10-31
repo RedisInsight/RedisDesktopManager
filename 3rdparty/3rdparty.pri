@@ -7,7 +7,18 @@
 OTHER_FILES += $$PWD/../src/resources/qml/3rdparty/php-unserialize-js/phpUnserialize.js
 
 # qredisclient
-include($$PWD/qredisclient/qredisclient.pri)
+if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
+    message("Using prebuilt qredisclient")
+    INCLUDEPATH += $$PWD/qredisclient/src/
+    LIBS += $$PWD/qredisclient/qredisclient.lib
+} else:unix*:exists( $$PWD/qredisclient/libqredisclient.a ) {
+    message("Using prebuilt qredisclient")
+    INCLUDEPATH += $$PWD/qredisclient/src/
+    LIBS += $$PWD/qredisclient/libqredisclient.a
+} else {
+    include($$PWD/qredisclient/qredisclient.pri)
+}
+
 
 # Asyncfuture
 include($$PWD/asyncfuture/asyncfuture.pri)
