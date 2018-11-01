@@ -8,9 +8,10 @@ OTHER_FILES += $$PWD/../src/resources/qml/3rdparty/php-unserialize-js/phpUnseria
 
 # qredisclient
 if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
-    message("Using prebuilt qredisclient")
-    INCLUDEPATH += $$PWD/qredisclient/src/
-    LIBS += $$PWD/qredisclient/qredisclient.lib
+    message("Using prebuilt qredisclient")    
+    INCLUDEPATH += $$PWD/qredisclient/src/    
+    OPENSSL_LIB_PATH = C:\OpenSSL-Win32\lib\VC\static   
+    LIBS += -L$$OPENSSL_LIB_PATH -llibeay32MD $$PWD/qredisclient/qredisclient.lib $$PWD/qredisclient/botan.lib
 } else:unix*:exists( $$PWD/qredisclient/libqredisclient.a ) {
     message("Using prebuilt qredisclient")
     INCLUDEPATH += $$PWD/qredisclient/src/
