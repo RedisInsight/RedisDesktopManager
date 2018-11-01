@@ -11,7 +11,7 @@ if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
     message("Using prebuilt qredisclient")    
     INCLUDEPATH += $$PWD/qredisclient/src/    
     OPENSSL_LIB_PATH = C:\OpenSSL-Win32\lib\VC\static   
-    LIBS += -L$$OPENSSL_LIB_PATH -llibeay32MD -L$$PWD/qredisclient/ -lqredisclient -lbotan -llibssh2
+    LIBS += -L$$OPENSSL_LIB_PATH -llibeay32MD -L$$PWD/qredisclient/ -lqredisclient -lbotan -llibssh2 -lgdi32 -lws2_32 -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32
 } else:unix*:exists( $$PWD/qredisclient/libqredisclient.a ) {
     message("Using prebuilt qredisclient")
     INCLUDEPATH += $$PWD/qredisclient/src/
