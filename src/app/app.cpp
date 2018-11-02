@@ -101,8 +101,8 @@ void Application::initModels() {
       new ValueEditor::FormattersManager());
 
   connect(m_formattersManager.data(), &ValueEditor::FormattersManager::error,
-          this, [](const QString& msg) {
-            qDebug() << QString("Formatters: %1").arg(msg);
+          this, [this](const QString& msg) {
+            m_events->log(QString("Formatters: %1").arg(msg));
           });
 
   if (!m_formattersDir.isEmpty()) {
