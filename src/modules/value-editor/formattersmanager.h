@@ -8,7 +8,7 @@ class FormattersManager : public QAbstractListModel {
   Q_OBJECT
 
  public:
-  enum Roles { name = Qt::UserRole + 1, version, cmd };
+  enum Roles { name = Qt::UserRole + 1, version, description, cmd };
 
  public:
   FormattersManager();
@@ -40,12 +40,14 @@ class FormattersManager : public QAbstractListModel {
 
   Q_INVOKABLE QString formattersPath();
 
+  Q_INVOKABLE bool isInstalled(const QString& name);
+
  private:
   void fillMapping();
 
-  QByteArray readStdoutFromExternalProcess(const QStringList& cmd,
-                                           const QByteArray& processInput,
-                                           const QString& wd);
+  QPair<QByteArray, QByteArray> readOutputFromExternalProcess(
+      const QStringList& cmd, const QByteArray& processInput,
+      const QString& wd);
 
   QJsonObject readJsonFromExternalProcess(const QStringList& cmd,
                                           const QByteArray& processInput,

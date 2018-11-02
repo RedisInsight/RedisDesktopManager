@@ -140,15 +140,22 @@ Dialog {
 
                 TableViewColumn {
                     role: "name"
-                    title: "Name"
+                    title: qsTranslate("RDM","Name")
                 }
                 TableViewColumn {
                     role: "version"
-                    title: "Version"
+                    width: 75
+                    title: qsTranslate("RDM","Version")
                 }
                 TableViewColumn {
                     role: "cmd"
-                    title: "Command"
+                    title: qsTranslate("RDM","Command")
+                }
+
+                TableViewColumn {
+                    width: 250
+                    role: "description"
+                    title: qsTranslate("RDM","Description")
                 }
 
                 model: formattersManager
