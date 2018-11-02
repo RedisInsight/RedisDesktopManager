@@ -11,7 +11,8 @@
 
 ValueEditor::FormattersManager::FormattersManager() {}
 
-QByteArray ValueEditor::FormattersManager::readStdoutFromExternalProcess(
+QPair<QByteArray, QByteArray>
+ValueEditor::FormattersManager::readOutputFromExternalProcess(
     const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
   QProcess formatterProcess;
   formatterProcess.setWorkingDirectory(wd);
@@ -27,7 +28,7 @@ QByteArray ValueEditor::FormattersManager::readStdoutFromExternalProcess(
     emit error(QString("Cannot start process %1: %2")
                    .arg(cmd.join(" "))
                    .arg(formatterProcess.errorString()));
-    return QByteArray();
+    return {QByteArray(), QByteArray()};
   }
 
   if (!formatterProcess.waitForFinished(3000)) {
@@ -35,25 +36,31 @@ QByteArray ValueEditor::FormattersManager::readStdoutFromExternalProcess(
     emit error(QString("Process %1 was killed by timeout: %2")
                    .arg(cmd.join(" "))
                    .arg(formatterProcess.errorString()));
-    return QByteArray();
+    return {QByteArray(), QByteArray()};
   }
 
-  return formatterProcess.readAllStandardOutput();
+  return {formatterProcess.readAllStandardOutput(),
+          formatterProcess.readAllStandardError()};
 }
 
 QJsonObject ValueEditor::FormattersManager::readJsonFromExternalProcess(
     const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
   qDebug() << cmd;
 
-  QByteArray result = readStdoutFromExternalProcess(cmd, processInput, wd);
+  auto result = readOutputFromExternalProcess(cmd, processInput, wd);
 
-  if (result.isEmpty()) return QJsonObject();
+  if (result.second.size() > 0)
+    emit error(
+        QString("%2: %1").arg(QString::fromLocal8Bit(result.second)).arg(wd));
+
+  if (result.first.isEmpty()) return QJsonObject();
 
   QJsonParseError err;
-  QJsonDocument output = QJsonDocument::fromJson(result, &err);
+  QJsonDocument output = QJsonDocument::fromJson(result.first, &err);
 
   if (err.error != QJsonParseError::NoError || !output.isObject()) {
-    emit error(QString("Formatter returned invalid json"));
+    emit error(QString("Formatter returned invalid json: %1")
+                   .arg(QString::fromLocal8Bit(result.first)));
     return QJsonObject();
   }
 
@@ -90,21 +97,22 @@ void ValueEditor::FormattersManager::loadFormatters() {
 
       QStringList fullCmd = cmd.toVariant().toStringList();
       QStringList versionCmd(fullCmd);
-      versionCmd.append("--version");
+      versionCmd.append("info");
 
-      QByteArray result = readStdoutFromExternalProcess(
-          versionCmd, QByteArray(), it.filePath());
+      QJsonObject outputObj =
+          readJsonFromExternalProcess(versionCmd, QByteArray(), it.filePath());
 
-      if (result.isEmpty()) {
+      if (outputObj.isEmpty()) {
         emit error(
-            QString("Formatter %1 returned invalid output for version command")
+            QString("Formatter %1 returned empty output for info command")
                 .arg(it.filePath()));
         continue;
       }
 
       QVariantMap data;
       data["name"] = it.fileName();
-      data["version"] = result.simplified();
+      data["version"] = outputObj["version"].toString();
+      data["description"] = outputObj["description"].toString();
       data["cmd"] = fullCmd.join(" ");
       data["cmd_list"] = fullCmd;
       data["cwd"] = it.filePath();
@@ -135,6 +143,8 @@ QVariant ValueEditor::FormattersManager::data(const QModelIndex &index,
     return data["version"];
   } else if (role == cmd) {
     return data["cmd"];
+  } else if (role == description) {
+    return data["description"];
   }
 
   return QVariant();
@@ -144,6 +154,7 @@ QHash<int, QByteArray> ValueEditor::FormattersManager::roleNames() const {
   QHash<int, QByteArray> roles;
   roles[name] = "name";
   roles[version] = "version";
+  roles[description] = "description";
   roles[cmd] = "cmd";
   return roles;
 }
@@ -202,7 +213,7 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
   QVariantMap formatter = m_formattersData[m_mapping[formatterName]];
 
   QStringList cmd = formatter["cmd_list"].toStringList();
-  cmd.append("is_valid");
+  cmd.append("validate");
 
   QJsonObject outputObj = readJsonFromExternalProcess(
       cmd, data.toBase64(), formatter["cwd"].toString());
@@ -215,8 +226,7 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
   }
 
   if (jsCallback.isCallable()) {
-    jsCallback.call(QJSValueList{outputObj["valid"].toBool(),
-                                 outputObj["message"].toString()});
+    jsCallback.call(QJSValueList{outputObj["valid"].toBool()});
   }
 }
 
@@ -235,10 +245,10 @@ void ValueEditor::FormattersManager::encode(const QString &formatterName,
   QStringList cmd = formatter["cmd_list"].toStringList();
   cmd.append("encode");
 
-  QByteArray output = readStdoutFromExternalProcess(
-      cmd, data.toBase64(), formatter["cwd"].toString());
+  auto result = readJsonFromExternalProcess(cmd, data.toBase64(),
+                                            formatter["cwd"].toString());
 
-  if (output.isEmpty()) {
+  if (result.isEmpty()) {
     emit error(QCoreApplication::translate(
                    "RDM", "Cannot encode value using %1 formatter. ")
                    .arg(formatterName));
@@ -246,7 +256,7 @@ void ValueEditor::FormattersManager::encode(const QString &formatterName,
   }
 
   if (jsCallback.isCallable()) {
-    jsCallback.call(QJSValueList{QString::fromUtf8(output)});
+    jsCallback.call(QJSValueList{result["output"].toString()});
   }
 }
 
@@ -261,6 +271,10 @@ QString ValueEditor::FormattersManager::formattersPath() {
   } else {
     return m_formattersPath;
   }
+}
+
+bool ValueEditor::FormattersManager::isInstalled(const QString &name) {
+  return m_mapping.contains(name);
 }
 
 void ValueEditor::FormattersManager::fillMapping() {

@@ -67,8 +67,11 @@ ColumnLayout
     }
 
     function loadFormattedValue(val) {
+        var guessFormatter = false
+
         if (val) {
             root.value = val
+            guessFormatter = true
         }
 
         if (!root.value) {
@@ -87,13 +90,47 @@ ColumnLayout
         binaryFlag.visible = isBin
 
         // If current formatter is plain text - try to guess formatter
-        if (formatterSelector.currentIndex == 0) {
-            formatterSelector.currentIndex = Formatters.guessFormatter(isBin)
+        if (guessFormatter && formatterSelector.currentIndex == 0) {
+            _guessFormatter(isBin, function() {
+                _loadFormatter(isBin)
+            })
+        } else {
+            _loadFormatter(isBin)
         }
+    }
 
+    function _guessFormatter(isBin, callback) {
+        console.log("Guessing formatter")
+
+        var candidates = Formatters.guessFormatter(isBin)
+
+        console.log("candidates:", candidates)
+
+        if (Array.isArray(candidates)) {
+
+            for (var index in candidates) {
+                var cFormatter = formatterSelector.model[candidates[index]]
+
+                cFormatter.instance.isValid(root.value, function (isValid) {
+                    if (isValid && formatterSelector.currentIndex == 0) {
+                        formatterSelector.currentIndex = candidates[index]
+                        callback()
+                    }
+                })
+
+                if (formatterSelector.currentIndex !== 0)
+                    break
+            }
+        } else {
+            formatterSelector.currentIndex = candidates
+            callback()
+        }
+    }
+
+    function _loadFormatter(isBin) {
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
-        uiBlocker.visible = true                
+        uiBlocker.visible = true
 
         formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
@@ -113,7 +150,7 @@ ColumnLayout
                     root.isEdited = false
                     uiBlocker.visible = false
                 })
-            } else {                
+            } else {
                 textView.model = qmlUtils.wrapLargeText(formatted)
                 textView.readOnly = isReadOnly
                 root.isEdited = false
