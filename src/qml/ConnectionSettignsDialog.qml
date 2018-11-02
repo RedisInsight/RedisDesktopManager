@@ -138,18 +138,25 @@ Dialog {
 
                 Tab {
                     id: mainTab
+                    anchors.fill: parent
+                    anchors.margins: 10
                     title: qsTranslate("RDM","Connection Settings")
 
                     ScrollView {
-                        ColumnLayout {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.margins: PlatformUtils.isOSX()? 5 : 10
+                        id: mainSettingsScrollView
+                        width: settingsTabs.width - 20
+                        height: settingsTabs.height
+
+                        ColumnLayout {                                                        
+                            width: mainSettingsScrollView.width
+                            height: children.height
 
                             SettingsGroupTitle { text: qsTranslate("RDM","Main Settings") }
 
                             GridLayout {
                                 columns: 2
+
+                                Layout.fillWidth: true
 
                                 Label { text: qsTranslate("RDM","Name:") }
 
@@ -202,7 +209,7 @@ Dialog {
                                     id: sslRadioButton
                                     Layout.columnSpan: 2
                                     text: qsTranslate("RDM","SSL")
-                                    checked: root.settings ? root.settings.sslEnabled : false
+                                    checked: root.settings ? root.settings.sslEnabled && !root.sshEnabled : false
                                     Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
                                     onCheckedChanged: {
                                         root.settings.sslEnabled = checked
@@ -358,6 +365,16 @@ Dialog {
                                             text: root.settings ? root.settings.sshPassword : ""
                                             onTextChanged: root.settings.sshPassword = text
                                         }
+                                    }                                   
+
+                                    BetterCheckbox {
+                                        id: sshTLSoverSSHCheckbox
+                                        objectName: "rdm_connection_security_ssh_tls_over_ssh"
+                                        Layout.fillWidth: true
+                                        Layout.columnSpan: 2
+                                        text: qsTranslate("RDM","Enable TLS-over-SSH (<b>AWS ElastiCache</b> <b>Encryption in-transit</b>)")
+                                        checked: root.settings ? root.settings.sslEnabled && root.sshEnabled : false
+                                        onCheckedChanged: root.settings.sslEnabled = checked
                                     }
                                 }
                             }
