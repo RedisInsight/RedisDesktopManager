@@ -14,8 +14,6 @@ TEMPLATE = app
     DEFINES += RDM_VERSION=\\\"0.9.999\\\"
 }
 
-DEFINES += CORE_LIBRARY ELPP_QT_LOGGING ELPP_STL_LOGGING ELPP_DISABLE_DEFAULT_CRASH_HANDLING
-
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/app/app.cpp \
@@ -143,7 +141,8 @@ RESOURCES += \
     $$PWD/resources/commands.qrc
 
 exists( $$PWD/resources/translations/rdm.qm ) {
-    $$PWD/resources/tr.qrc
+    message("Translations found")
+    RESOURCES += $$PWD/resources/tr.qrc
 }
 
 OTHER_FILES += \
