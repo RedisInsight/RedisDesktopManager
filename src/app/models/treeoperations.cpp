@@ -21,40 +21,30 @@ TreeOperations::TreeOperations(
 
 bool TreeOperations::loadDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
-  bool connected = m_connection->isConnected();
+  auto connection = m_connection->clone();
 
-  if (connected) {
-    try {
-      m_connection->refreshServerInfo();
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_events->error(
-          QCoreApplication::translate("RDM", "Connection error: ") +
-          QString(e.what()));
-      return false;
-    }
-  } else {
-    try {
-      connected = m_connection->connect(true);
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_events->error(
-          QCoreApplication::translate("RDM", "Connection error: ") +
-          QString(e.what()));
-      return false;
-    }
+  bool connected = false;
+
+  try {
+    connected = connection->connect(true);
+  } catch (const RedisClient::Connection::Exception& e) {
+    emit m_events->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return false;
   }
 
   if (!connected) {
     emit m_events->error(
         QCoreApplication::translate(
             "RDM", "Cannot connect to server '%1'. Check log for details.")
-            .arg(m_connection->getConfig().name()));
+            .arg(connection->getConfig().name()));
     return false;
   }
 
-  RedisClient::DatabaseList availableDatabeses =
-      m_connection->getKeyspaceInfo();
+  RedisClient::DatabaseList availableDatabeses = connection->getKeyspaceInfo();
 
-  if (m_connection->mode() != RedisClient::Connection::Mode::Cluster) {
+  if (connection->mode() != RedisClient::Connection::Mode::Cluster) {
     // detect all databases
     RedisClient::Response scanningResp;
     int lastDbIndex =
@@ -65,13 +55,13 @@ bool TreeOperations::loadDatabases(
         availableDatabeses.insert(index, 0);
       }
     } else {
-      uint dbScanLimit = static_cast<ServerConfig>(m_connection->getConfig())
+      uint dbScanLimit = static_cast<ServerConfig>(connection->getConfig())
                              .databaseScanLimit();
 
       for (int index = lastDbIndex; index < dbScanLimit; index++) {
         try {
           scanningResp =
-              m_connection->commandSync("select", QString::number(index));
+              connection->commandSync("select", QString::number(index));
         } catch (const RedisClient::Connection::Exception& e) {
           throw ConnectionsTree::Operations::Exception(
               QCoreApplication::translate("RDM", "Connection error: ") +
