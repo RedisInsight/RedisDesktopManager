@@ -22,6 +22,8 @@ ConnectionsManager::ConnectionsManager(const QString& configPath,
           [this](RedisClient::ConnectionConfig config) {
             addNewConnection(config);
           });
+  connect(this, &ConnectionsTree::Model::error, m_events.data(),
+          &Events::error);
 }
 
 ConnectionsManager::~ConnectionsManager(void) {}
