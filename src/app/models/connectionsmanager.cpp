@@ -193,12 +193,8 @@ void ConnectionsManager::createServerItemForConnection(
 
 QSharedPointer<RedisClient::Connection> ConnectionsManager::cloneConnection(
     QSharedPointer<RedisClient::Connection> c) {
-  RedisClient::ConnectionConfig config = c->getConfig();
-  auto copy = QSharedPointer<RedisClient::Connection>(
-      new RedisClient::Connection(config));
-
+  auto copy = c->clone();
   registerLoggerForConnection(*copy.data());
-
   return copy;
 }
 

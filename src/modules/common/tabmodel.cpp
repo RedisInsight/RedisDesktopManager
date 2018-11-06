@@ -4,10 +4,7 @@
 TabModel::TabModel(QSharedPointer<RedisClient::Connection> connection,
                    int dbIndex)
     : m_dbIndex(dbIndex) {
-  // Clone connection
-  RedisClient::ConnectionConfig config = connection->getConfig();
-  m_connection = QSharedPointer<RedisClient::Connection>(
-      new RedisClient::Connection(config));
+  m_connection = connection->clone();
 }
 
 TabModel::~TabModel() {
