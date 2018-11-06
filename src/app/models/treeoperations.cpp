@@ -10,7 +10,6 @@
 #include <algorithm>
 
 #include "app/events.h"
-#include "app/models/connectionconf.h"
 #include "connections-tree/items/namespaceitem.h"
 #include "connections-tree/keysrendering.h"
 
@@ -55,8 +54,7 @@ bool TreeOperations::loadDatabases(
         availableDatabeses.insert(index, 0);
       }
     } else {
-      uint dbScanLimit = static_cast<ServerConfig>(connection->getConfig())
-                             .databaseScanLimit();
+      uint dbScanLimit = conf().databaseScanLimit();
 
       for (int index = lastDbIndex; index < dbScanLimit; index++) {
         try {
@@ -83,21 +81,24 @@ bool TreeOperations::loadDatabases(
   return true;
 }
 
+ServerConfig TreeOperations::conf() const {
+  return static_cast<ServerConfig>(m_connection->getConfig());
+}
+
 QFuture<bool> TreeOperations::getDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
   QFuture<bool> result =
       QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
 
-  AsyncFuture::observe(result).subscribe(
-      []() {},
-      [this]() {
-        QtConcurrent::run([this]() {
-          auto oldConnection = m_connection;
-          m_connection = QSharedPointer<RedisClient::Connection>(
-              new RedisClient::Connection(oldConnection->getConfig()));
-          oldConnection->disconnect();
-        });
-      });
+  AsyncFuture::observe(result).subscribe([]() {},
+                                         [this]() {
+                                           QtConcurrent::run([this]() {
+                                             auto oldConnection = m_connection;
+                                             m_connection =
+                                                 oldConnection->clone();
+                                             oldConnection->disconnect();
+                                           });
+                                         });
 
   return result;
 }
@@ -106,10 +107,7 @@ void TreeOperations::loadNamespaceItems(
     QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
     const QString& filter, std::function<void(const QString& err)> callback,
     QSet<QByteArray> expandedNs) {
-  QString keyPattern =
-      filter.isEmpty()
-          ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern()
-          : filter;
+  QString keyPattern = filter.isEmpty() ? conf().keysPattern() : filter;
 
   auto renderingCallback =
       [this, callback, filter, parent, expandedNs](
@@ -147,8 +145,7 @@ void TreeOperations::loadNamespaceItems(
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
       m_connection->getClusterKeys(renderingCallback, keyPattern);
     } else {
-      if (static_cast<ServerConfig>(m_connection->getConfig())
-              .luaKeysLoading()) {
+      if (conf().luaKeysLoading()) {
         m_connection->getNamespaceItems(thinRenderingCallback,
                                         getNamespaceSeparator(), filter,
                                         parent->getDbIndex());
@@ -167,13 +164,10 @@ void TreeOperations::loadNamespaceItems(
 void TreeOperations::disconnect() { m_connection->disconnect(); }
 
 QString TreeOperations::getNamespaceSeparator() {
-  return static_cast<ServerConfig>(m_connection->getConfig())
-      .namespaceSeparator();
+  return conf().namespaceSeparator();
 }
 
-QString TreeOperations::defaultFilter() {
-  return static_cast<ServerConfig>(m_connection->getConfig()).keysPattern();
-}
+QString TreeOperations::defaultFilter() { return conf().keysPattern(); }
 
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key,
                                 bool openInNewTab) {
@@ -229,11 +223,9 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
 }
 
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
-  QString pattern =
-      QString("%1%2*")
-          .arg(QString::fromUtf8(ns.getFullPath()))
-          .arg(static_cast<ServerConfig>(m_connection->getConfig())
-                   .namespaceSeparator());
+  QString pattern = QString("%1%2*")
+                        .arg(QString::fromUtf8(ns.getFullPath()))
+                        .arg(conf().namespaceSeparator());
   QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
   int dbIndex = ns.getDbIndex();
