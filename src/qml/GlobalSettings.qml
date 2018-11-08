@@ -13,165 +13,177 @@ Dialog {
     title: qsTranslate("RDM","Settings")
 
     contentItem: Item {
+        id: dialogRoot
         implicitWidth: 800
         implicitHeight: PlatformUtils.isOSX()? 680 : Math.min(750, Screen.desktopAvailableHeight - 100)
 
-        ColumnLayout {
+        Item {
             anchors.fill: parent
             anchors.margins: 20
 
-            SettingsGroupTitle {
-                text: qsTranslate("RDM","General")                
-            }
+            ScrollView {
+                id: globalSettingsScrollView
+                width: parent.width
+                height: parent.height
 
-            ComboboxOption {
-                id: appLang
+                ColumnLayout {
+                    width: globalSettingsScrollView.width - 20
+                    height: children.height
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                    SettingsGroupTitle {
+                        text: qsTranslate("RDM","General")
+                    }
 
-                model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU"]
-                value: "system"
-                label: qsTranslate("RDM","Language")
-                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
-            }
+                    ComboboxOption {
+                        id: appLang
 
-            ComboboxOption {
-                id: appFont
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                        model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU"]
+                        value: "system"
+                        label: qsTranslate("RDM","Language")
+                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                    }
 
-                value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
-                model: Qt.fontFamilies()
-                label: qsTranslate("RDM","Font")
-                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
-            }
+                    ComboboxOption {
+                        id: appFont
 
-            ComboboxOption {
-                id: appFontSize
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                        value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
+                        model: Qt.fontFamilies()
+                        label: qsTranslate("RDM","Font")
+                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                    }
 
-                model: ["8", "9", "10", "11", "12"]
-                value: Qt.platform.os == "osx"? "12" : "11"
-                label: qsTranslate("RDM","Font Size")
-                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
-            }
+                    ComboboxOption {
+                        id: appFontSize
 
-            BoolOption {
-                id: systemProxy
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                        model: ["8", "9", "10", "11", "12"]
+                        value: Qt.platform.os == "osx"? "12" : "11"
+                        label: qsTranslate("RDM","Font Size")
+                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                    }
 
-                value: false
-                label: qsTranslate("RDM","Use system proxy settings")
-                description: qsTranslate("RDM","Application restart is needed to apply this setting.")
-            }
+                    BoolOption {
+                        id: systemProxy
 
-            SettingsGroupTitle {
-                text: qsTranslate("RDM","Connections Tree")
-                Layout.topMargin: 20
-            }
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-            BoolOption {
-                id: nsReload
+                        value: false
+                        label: qsTranslate("RDM","Use system proxy settings")
+                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                    }
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                    SettingsGroupTitle {
+                        text: qsTranslate("RDM","Connections Tree")
+                        Layout.topMargin: 20
+                    }
 
-                value: true
-                label: qsTranslate("RDM","Reopen namespaces on reload")
-                description: qsTranslate("RDM","(Disable to improve treeview performance)")
-            }
+                    BoolOption {
+                        id: nsReload
 
-            BoolOption {
-                id: keySorting
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                        value: true
+                        label: qsTranslate("RDM","Reopen namespaces on reload")
+                        description: qsTranslate("RDM","(Disable to improve treeview performance)")
+                    }
 
-                value: true
-                label: qsTranslate("RDM","Enable key sorting in tree")
-                description: qsTranslate("RDM","(Disable to improve treeview performance)")
-            }
+                    BoolOption {
+                        id: keySorting
 
-            IntOption {
-                id: liveKeyLimit
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                        value: true
+                        label: qsTranslate("RDM","Enable key sorting in tree")
+                        description: qsTranslate("RDM","(Disable to improve treeview performance)")
+                    }
 
-                min: 100
-                max: 100000
-                value: 1000
-                label: qsTranslate("RDM","Live update maximum allowed keys")
-                description: ""
-            }
+                    IntOption {
+                        id: liveKeyLimit
 
-            IntOption {
-                id: liveUpdateInterval
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+                        min: 100
+                        max: 100000
+                        value: 1000
+                        label: qsTranslate("RDM","Live update maximum allowed keys")
+                        description: ""
+                    }
 
-                min: 3
-                max: 100000
-                value: 10
-                label: qsTranslate("RDM","Live update interval (in seconds)")
-                description: ""
-            }               
+                    IntOption {
+                        id: liveUpdateInterval
 
-            SettingsGroupTitle {
-                text: qsTranslate("RDM","Custom Value View Formatters")                
-            }
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
 
-            Text {
-                text: qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath())
-                font.pixelSize: 12
-                color: "grey"
-            }
+                        min: 3
+                        max: 100000
+                        value: 10
+                        label: qsTranslate("RDM","Live update interval (in seconds)")
+                        description: ""
+                    }
 
-            TableView {
-                Layout.fillWidth: true                
-                verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+                    SettingsGroupTitle {
+                        text: qsTranslate("RDM","Custom Value View Formatters")
+                    }
 
-                TableViewColumn {
-                    role: "name"
-                    title: qsTranslate("RDM","Name")
-                }
-                TableViewColumn {
-                    role: "version"
-                    width: 75
-                    title: qsTranslate("RDM","Version")
-                }
-                TableViewColumn {
-                    role: "cmd"
-                    title: qsTranslate("RDM","Command")
-                }
+                    Text {
+                        text: qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath())
+                        font.pixelSize: 12
+                        color: "grey"
+                    }
 
-                TableViewColumn {
-                    width: 250
-                    role: "description"
-                    title: qsTranslate("RDM","Description")
-                }
+                    TableView {
+                        Layout.fillWidth: true
+                        verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
 
-                model: formattersManager
-            }
+                        TableViewColumn {
+                            role: "name"
+                            title: qsTranslate("RDM","Name")
+                        }
+                        TableViewColumn {
+                            role: "version"
+                            width: 75
+                            title: qsTranslate("RDM","Version")
+                        }
+                        TableViewColumn {
+                            role: "cmd"
+                            title: qsTranslate("RDM","Command")
+                        }
 
-            Item {
-                Layout.fillHeight: true
-            }
+                        TableViewColumn {
+                            width: 250
+                            role: "description"
+                            title: qsTranslate("RDM","Description")
+                        }
 
-            RowLayout {
-                Layout.fillWidth: true
+                        model: formattersManager
+                    }
 
-                Item { Layout.fillWidth: true; }
-                Button {
-                    text: qsTranslate("RDM","OK")
-                    onClicked: root.close()
+                    Item {
+                        Layout.fillHeight: true
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+
+                        Item { Layout.fillWidth: true; }
+                        Button {
+                            text: qsTranslate("RDM","OK")
+                            onClicked: root.close()
+                        }
+                    }
                 }
             }
         }
