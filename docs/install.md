@@ -31,6 +31,10 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
     git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm && cd ./rdm
     ```
 
+> !!! warning "SSH Tunneling support"
+    Since 0.9.9 RDM by default do not include SSH Tunneling support. If you need it please checkout 0.9.8 tag.
+    `git checkout 0.9.8`
+
 ### Build on Linux
 
 #### Ubuntu
