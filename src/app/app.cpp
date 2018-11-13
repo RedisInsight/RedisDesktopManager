@@ -245,7 +245,12 @@ void Application::processCmdArgs() {
   QCommandLineOption formattersDir(
       "formatters-dir",
       "(Optional) Directory where RDM looks for native value formatters",
-      "formattersDir", QString());
+      "formattersDir",
+#ifdef Q_OS_WIN32
+      QString("%1/formatters").arg(QCoreApplication::applicationDirPath()));
+#else
+      QString());
+#endif
 
   QCommandLineOption renderingBackend(
       "rendering-backend",
