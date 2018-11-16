@@ -7,40 +7,39 @@
 #include <QDirIterator>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QProcess>
 
 ValueEditor::FormattersManager::FormattersManager() {}
 
 QPair<QByteArray, QByteArray>
 ValueEditor::FormattersManager::readOutputFromExternalProcess(
     const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
-  QProcess formatterProcess;
-  formatterProcess.setWorkingDirectory(wd);
-  formatterProcess.start(cmd[0], cmd.mid(1));
+  auto formatterProcess = createProcess();
+  formatterProcess->setWorkingDirectory(wd);
+  formatterProcess->start(cmd[0], cmd.mid(1));
 
   if (processInput.size()) {
-    formatterProcess.write(processInput.constData(), processInput.size());
-    formatterProcess.waitForBytesWritten();
-    formatterProcess.closeWriteChannel();
+    formatterProcess->write(processInput.constData(), processInput.size());
+    formatterProcess->waitForBytesWritten();
+    formatterProcess->closeWriteChannel();
   }
 
-  if (!formatterProcess.waitForStarted(3000)) {
+  if (!formatterProcess->waitForStarted(3000)) {
     emit error(QString("Cannot start process %1: %2")
                    .arg(cmd.join(" "))
-                   .arg(formatterProcess.errorString()));
+                   .arg(formatterProcess->errorString()));
     return {QByteArray(), QByteArray()};
   }
 
-  if (!formatterProcess.waitForFinished(3000)) {
-    formatterProcess.kill();
+  if (!formatterProcess->waitForFinished(3000)) {
+    formatterProcess->kill();
     emit error(QString("Process %1 was killed by timeout: %2")
                    .arg(cmd.join(" "))
-                   .arg(formatterProcess.errorString()));
+                   .arg(formatterProcess->errorString()));
     return {QByteArray(), QByteArray()};
   }
 
-  return {formatterProcess.readAllStandardOutput(),
-          formatterProcess.readAllStandardError()};
+  return {formatterProcess->readAllStandardOutput(),
+          formatterProcess->readAllStandardError()};
 }
 
 QJsonObject ValueEditor::FormattersManager::readJsonFromExternalProcess(
@@ -284,4 +283,18 @@ void ValueEditor::FormattersManager::fillMapping() {
     m_mapping[f["name"].toString()] = index;
     index++;
   }
+}
+
+QSharedPointer<QProcess> ValueEditor::FormattersManager::createProcess() {
+  auto process = QSharedPointer<QProcess>(new QProcess());
+
+#ifdef Q_OS_WIN32
+  QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+  env.insert("PATH", QString("%1/python;%2")
+                         .arg(QCoreApplication::applicationDirPath())
+                         .arg(env.value("PATH", "")));
+  process->setProcessEnvironment(env);
+#endif
+
+  return process;
 }

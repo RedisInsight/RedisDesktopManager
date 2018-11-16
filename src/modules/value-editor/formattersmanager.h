@@ -1,6 +1,7 @@
 #pragma once
 #include <QAbstractListModel>
 #include <QJSValue>
+#include <QProcess>
 
 namespace ValueEditor {
 
@@ -44,6 +45,8 @@ class FormattersManager : public QAbstractListModel {
 
  private:
   void fillMapping();
+
+  QSharedPointer<QProcess> createProcess();
 
   QPair<QByteArray, QByteArray> readOutputFromExternalProcess(
       const QStringList& cmd, const QByteArray& processInput,
