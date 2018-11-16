@@ -12,10 +12,13 @@ Dialog {
     id: root
     title: qsTranslate("RDM","Settings")
 
-    contentItem: Item {
+    contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 800
-        implicitHeight: PlatformUtils.isOSX()? 680 : Math.min(750, Screen.desktopAvailableHeight - 100)
+        implicitHeight: PlatformUtils.isOSX()? 680 : approot.height
+
+        border.color: "#eeeeee"
+        border.width: 1
 
         Item {
             anchors.fill: parent
@@ -27,8 +30,9 @@ Dialog {
                 height: parent.height
 
                 ColumnLayout {
+                    id: innerLayout
                     width: globalSettingsScrollView.width - 20
-                    height: children.height
+                    height: (dialogRoot.height - 50 > implicitHeight) ? dialogRoot.height - 50 : implicitHeight
 
                     SettingsGroupTitle {
                         text: qsTranslate("RDM","General")
@@ -146,6 +150,7 @@ Dialog {
 
                     TableView {
                         Layout.fillWidth: true
+                        Layout.fillHeight: true
                         verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
 
                         TableViewColumn {
