@@ -19,7 +19,7 @@ function build_breakpad {
 }
 
 function build_libssh2 {
-    if [ ! -d "$DEPS_DIR/qredisclient/3rdparty/qsshclient" ]; then
+    if [ -d "$DEPS_DIR/qredisclient/3rdparty/qsshclient" ]; then
         pushd $DEPS_DIR/qredisclient/3rdparty/qsshclient && ./configure && popd
     fi
 }
