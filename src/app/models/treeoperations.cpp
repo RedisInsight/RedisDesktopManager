@@ -16,11 +16,14 @@
 TreeOperations::TreeOperations(
     QSharedPointer<RedisClient::Connection> connection,
     QSharedPointer<Events> events)
-    : m_connection(connection), m_events(events), m_dbCount(0) {}
+    : m_connection(connection), m_events(events), m_dbCount(0) {
+  m_events->registerLoggerForConnection(*connection);
+}
 
 bool TreeOperations::loadDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
   auto connection = m_connection->clone();
+  m_events->registerLoggerForConnection(*connection);
 
   bool connected = false;
 
@@ -90,15 +93,15 @@ QFuture<bool> TreeOperations::getDatabases(
   QFuture<bool> result =
       QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
 
-  AsyncFuture::observe(result).subscribe([]() {},
-                                         [this]() {
-                                           QtConcurrent::run([this]() {
-                                             auto oldConnection = m_connection;
-                                             m_connection =
-                                                 oldConnection->clone();
-                                             oldConnection->disconnect();
-                                           });
-                                         });
+  AsyncFuture::observe(result).subscribe(
+      []() {},
+      [this]() {
+        QtConcurrent::run([this]() {
+          auto oldConnection = m_connection;
+          setConnection(oldConnection->clone());
+          oldConnection->disconnect();
+        });
+      });
 
   return result;
 }
@@ -263,4 +266,5 @@ bool TreeOperations::isConnected() const { return m_connection->isConnected(); }
 
 void TreeOperations::setConnection(QSharedPointer<RedisClient::Connection> c) {
   m_connection = c;
+  m_events->registerLoggerForConnection(*c);
 }
