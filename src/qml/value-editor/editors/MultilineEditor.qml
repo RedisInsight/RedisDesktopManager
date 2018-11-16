@@ -128,6 +128,11 @@ ColumnLayout
     }
 
     function _loadFormatter(isBin) {
+        if (!(0 < formatterSelector.currentIndex
+              && formatterSelector.currentIndex < formatterSelector.count)) {
+            formatterSelector.currentIndex = isBin? 2 : 0
+        }
+
         var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
         uiBlocker.visible = true
