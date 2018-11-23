@@ -15,7 +15,7 @@ if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
 } else:unix*:exists( $$PWD/qredisclient/libqredisclient.a ) {
     message("Using prebuilt qredisclient")
     INCLUDEPATH += $$PWD/qredisclient/src/
-    LIBS += -L$$PWD/qredisclient/ -lqredisclient -lbotan-2 -lssh2 
+    LIBS += -L$$PWD/qredisclient/ -lqredisclient -lbotan-2 -lssh2 -lz
 } else {
     include($$PWD/qredisclient/qredisclient.pri)
 }
