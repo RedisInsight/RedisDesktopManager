@@ -1,6 +1,7 @@
 #pragma once
 #include <QAbstractListModel>
 #include <QJSValue>
+#include <QProcess>
 
 namespace ValueEditor {
 
@@ -8,19 +9,20 @@ class FormattersManager : public QAbstractListModel {
   Q_OBJECT
 
  public:
-  enum Roles { name = Qt::UserRole + 1, version, cmd };
+  enum Roles { name = Qt::UserRole + 1, version, description, cmd };
 
  public:
   FormattersManager();
 
-  void loadFormatters(
-      bool ignoreCache = false);  // TODO make async with callback & invokable
+  void loadFormatters();  // TODO make async with callback & invokable
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
   QVariant data(const QModelIndex& index, int role) const;
 
   QHash<int, QByteArray> roleNames() const;
+
+  void setPath(const QString& path);
 
  signals:
   void error(const QString& msg);
@@ -39,18 +41,25 @@ class FormattersManager : public QAbstractListModel {
 
   Q_INVOKABLE QString formattersPath();
 
+  Q_INVOKABLE bool isInstalled(const QString& name);
+
  private:
   void fillMapping();
 
-  QByteArray readStdoutFromExternalProcess(const QStringList& cmd,
-                                           const QString& wd);
+  QSharedPointer<QProcess> createProcess();
+
+  QPair<QByteArray, QByteArray> readOutputFromExternalProcess(
+      const QStringList& cmd, const QByteArray& processInput,
+      const QString& wd);
 
   QJsonObject readJsonFromExternalProcess(const QStringList& cmd,
+                                          const QByteArray& processInput,
                                           const QString& wd);
 
  private:
   QList<QVariantMap> m_formattersData;
   QHash<QString, int> m_mapping;
+  QString m_formattersPath;
 };
 
 }  // namespace ValueEditor

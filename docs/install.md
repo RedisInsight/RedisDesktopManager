@@ -12,7 +12,7 @@
 2. Mount dmg image
 3. Run rdm.app
 
-## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / ArchLinux / Other Linux di
+## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / ArchLinux / Other Linux
 
 1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager)
 
@@ -30,6 +30,10 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
     ```
     git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm && cd ./rdm
     ```
+
+> !!! warning "SSH Tunneling support"
+    Since 0.9.9 RDM by default do not include SSH Tunneling support. If you need it please checkout 0.9.8 tag.
+    `git checkout 0.9.8`
 
 ### Build on Linux
 
@@ -73,21 +77,9 @@ sudo mv qt.conf qt.backup
 
 2. Install [Qt 5.9](https://www.qt.io/download)
 
-3. Install [Win32 OpenSSL 1.0.X](https://slproweb.com/products/Win32OpenSSL.html)
+3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply patch to fix compilation on Windows:
+`git apply ../hiredis-win.patch`
 
-    Try **Win32 OpenSSL v1.0.2p (20MB)** version.  Install to `C:\OpenSSL-Win32` folder.
+4. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.6 MSVC2015 32bit > Release` profile.
 
-4. Install [CMake](https://cmake.org/)
-
-5. Build `libssh2` library in folder `3rdparty/qredisclient/3rdparty/qsshclient/3rdparty/libssh2` using CMake
-
-    ```
-    cmake -DCRYPTO_BACKEND=WinCNG -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=./output --build .
-    cmake --build . --target install
-    mkdir build\src\release
-    copy output\lib\* build\src\release
-    ```
-
-6. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.6 MSVC2015 32bit > Release` profile.
-
-7. Run build. ( Just hit `Ctrl-B` )
+5. Run build. ( Just hit `Ctrl-B` )

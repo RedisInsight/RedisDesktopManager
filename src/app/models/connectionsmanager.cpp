@@ -22,6 +22,8 @@ ConnectionsManager::ConnectionsManager(const QString& configPath,
           [this](RedisClient::ConnectionConfig config) {
             addNewConnection(config);
           });
+  connect(this, &ConnectionsTree::Model::error, m_events.data(),
+          &Events::error);
 }
 
 ConnectionsManager::~ConnectionsManager(void) {}
@@ -38,7 +40,7 @@ void ConnectionsManager::addNewConnection(const ServerConfig& config,
 
   // add connection to connection tree
   auto treeModel = QSharedPointer<TreeOperations>(
-      new TreeOperations(cloneConnection(connection), m_events));
+      new TreeOperations(connection->clone(), m_events));
   createServerItemForConnection(connection, treeModel);
 
   if (saveToConfig) saveConfig();
@@ -61,7 +63,7 @@ void ConnectionsManager::updateConnection(const ServerConfig& config) {
 
   if (!operations) return;
 
-  operations->setConnection(cloneConnection(connection));
+  operations->setConnection(connection->clone());
 
   emit dataChanged(index(serverItem->row(), 0, QModelIndex()),
                    index(serverItem->row(), 0, QModelIndex()));
@@ -126,7 +128,7 @@ bool ConnectionsManager::saveConnectionsConfigToFile(
 
 bool ConnectionsManager::testConnectionSettings(const ServerConfig& config) {
   RedisClient::Connection testConnection(config);
-  registerLoggerForConnection(testConnection);
+  m_events->registerLoggerForConnection(testConnection);
 
   try {
     return testConnection.connect();
@@ -189,28 +191,4 @@ void ConnectionsManager::createServerItemForConnection(
 
   m_connectionMapping.insert(connection, serverItem);
   addRootItem(serverItem);
-}
-
-QSharedPointer<RedisClient::Connection> ConnectionsManager::cloneConnection(
-    QSharedPointer<RedisClient::Connection> c) {
-  RedisClient::ConnectionConfig config = c->getConfig();
-  auto copy = QSharedPointer<RedisClient::Connection>(
-      new RedisClient::Connection(config));
-
-  registerLoggerForConnection(*copy.data());
-
-  return copy;
-}
-
-void ConnectionsManager::registerLoggerForConnection(
-    RedisClient::Connection& c) {
-  QObject::connect(&c, &RedisClient::Connection::log,
-                   [this](const QString& info) {
-                     emit m_events->log(QString("Connection: %1").arg(info));
-                   });
-
-  QObject::connect(&c, &RedisClient::Connection::error,
-                   [this](const QString& error) {
-                     emit m_events->log(QString("Connection: %1").arg(error));
-                   });
 }

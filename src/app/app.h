@@ -61,5 +61,6 @@ class Application : public QApplication {
   QSharedPointer<TabViewModel> m_serverStatsModel;
   QSharedPointer<Console::AutocompleteModel> m_consoleAutocompleteModel;
   QString m_settingsDir;
+  QString m_formattersDir;
   QString m_renderingBackend;
 };

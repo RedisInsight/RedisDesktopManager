@@ -60,11 +60,6 @@ class ConnectionsManager : public ConnectionsTree::Model,
       QSharedPointer<RedisClient::Connection> connection,
       QSharedPointer<TreeOperations> treeModel);
 
-  QSharedPointer<RedisClient::Connection> cloneConnection(
-      QSharedPointer<RedisClient::Connection> c);
-
-  void registerLoggerForConnection(RedisClient::Connection& c);
-
  private:
   QString m_configPath;
   QList<QSharedPointer<RedisClient::Connection>> m_connections;

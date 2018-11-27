@@ -14,6 +14,9 @@ class KeyItem;
 class Events : public QObject {
   Q_OBJECT
 
+ public:
+  void registerLoggerForConnection(RedisClient::Connection& c);
+
  signals:
 
   // Tabs

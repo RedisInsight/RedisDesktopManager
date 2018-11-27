@@ -149,5 +149,5 @@ elif [[ $OSTYPE == darwin* ]]; then
     export OPENSSL_ROOT_DIR=/usr/local/opt/openssl/
     build_libssh2    
 else
-    echo "Your operational system is not supported!"
+    echo "Your operating system is not supported!"
 fi

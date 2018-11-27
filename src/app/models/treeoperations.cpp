@@ -10,51 +10,43 @@
 #include <algorithm>
 
 #include "app/events.h"
-#include "app/models/connectionconf.h"
 #include "connections-tree/items/namespaceitem.h"
 #include "connections-tree/keysrendering.h"
 
 TreeOperations::TreeOperations(
     QSharedPointer<RedisClient::Connection> connection,
     QSharedPointer<Events> events)
-    : m_connection(connection), m_events(events), m_dbCount(0) {}
+    : m_connection(connection), m_events(events), m_dbCount(0) {
+  m_events->registerLoggerForConnection(*connection);
+}
 
 bool TreeOperations::loadDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
-  bool connected = m_connection->isConnected();
+  auto connection = m_connection->clone();
+  m_events->registerLoggerForConnection(*connection);
 
-  if (connected) {
-    try {
-      m_connection->refreshServerInfo();
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_events->error(
-          QCoreApplication::translate("RDM", "Connection error: ") +
-          QString(e.what()));
-      return false;
-    }
-  } else {
-    try {
-      connected = m_connection->connect(true);
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_events->error(
-          QCoreApplication::translate("RDM", "Connection error: ") +
-          QString(e.what()));
-      return false;
-    }
+  bool connected = false;
+
+  try {
+    connected = connection->connect(true);
+  } catch (const RedisClient::Connection::Exception& e) {
+    emit m_events->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return false;
   }
 
   if (!connected) {
     emit m_events->error(
         QCoreApplication::translate(
             "RDM", "Cannot connect to server '%1'. Check log for details.")
-            .arg(m_connection->getConfig().name()));
+            .arg(connection->getConfig().name()));
     return false;
   }
 
-  RedisClient::DatabaseList availableDatabeses =
-      m_connection->getKeyspaceInfo();
+  RedisClient::DatabaseList availableDatabeses = connection->getKeyspaceInfo();
 
-  if (m_connection->mode() != RedisClient::Connection::Mode::Cluster) {
+  if (connection->mode() != RedisClient::Connection::Mode::Cluster) {
     // detect all databases
     RedisClient::Response scanningResp;
     int lastDbIndex =
@@ -65,13 +57,12 @@ bool TreeOperations::loadDatabases(
         availableDatabeses.insert(index, 0);
       }
     } else {
-      uint dbScanLimit = static_cast<ServerConfig>(m_connection->getConfig())
-                             .databaseScanLimit();
+      uint dbScanLimit = conf().databaseScanLimit();
 
       for (int index = lastDbIndex; index < dbScanLimit; index++) {
         try {
           scanningResp =
-              m_connection->commandSync("select", QString::number(index));
+              connection->commandSync("select", QString::number(index));
         } catch (const RedisClient::Connection::Exception& e) {
           throw ConnectionsTree::Operations::Exception(
               QCoreApplication::translate("RDM", "Connection error: ") +
@@ -93,6 +84,10 @@ bool TreeOperations::loadDatabases(
   return true;
 }
 
+ServerConfig TreeOperations::conf() const {
+  return static_cast<ServerConfig>(m_connection->getConfig());
+}
+
 QFuture<bool> TreeOperations::getDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
   QFuture<bool> result =
@@ -103,8 +98,7 @@ QFuture<bool> TreeOperations::getDatabases(
       [this]() {
         QtConcurrent::run([this]() {
           auto oldConnection = m_connection;
-          m_connection = QSharedPointer<RedisClient::Connection>(
-              new RedisClient::Connection(oldConnection->getConfig()));
+          setConnection(oldConnection->clone());
           oldConnection->disconnect();
         });
       });
@@ -116,10 +110,7 @@ void TreeOperations::loadNamespaceItems(
     QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
     const QString& filter, std::function<void(const QString& err)> callback,
     QSet<QByteArray> expandedNs) {
-  QString keyPattern =
-      filter.isEmpty()
-          ? static_cast<ServerConfig>(m_connection->getConfig()).keysPattern()
-          : filter;
+  QString keyPattern = filter.isEmpty() ? conf().keysPattern() : filter;
 
   auto renderingCallback =
       [this, callback, filter, parent, expandedNs](
@@ -157,8 +148,7 @@ void TreeOperations::loadNamespaceItems(
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
       m_connection->getClusterKeys(renderingCallback, keyPattern);
     } else {
-      if (static_cast<ServerConfig>(m_connection->getConfig())
-              .luaKeysLoading()) {
+      if (conf().luaKeysLoading()) {
         m_connection->getNamespaceItems(thinRenderingCallback,
                                         getNamespaceSeparator(), filter,
                                         parent->getDbIndex());
@@ -177,13 +167,10 @@ void TreeOperations::loadNamespaceItems(
 void TreeOperations::disconnect() { m_connection->disconnect(); }
 
 QString TreeOperations::getNamespaceSeparator() {
-  return static_cast<ServerConfig>(m_connection->getConfig())
-      .namespaceSeparator();
+  return conf().namespaceSeparator();
 }
 
-QString TreeOperations::defaultFilter() {
-  return static_cast<ServerConfig>(m_connection->getConfig()).keysPattern();
-}
+QString TreeOperations::defaultFilter() { return conf().keysPattern(); }
 
 void TreeOperations::openKeyTab(ConnectionsTree::KeyItem& key,
                                 bool openInNewTab) {
@@ -239,11 +226,9 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
 }
 
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
-  QString pattern =
-      QString("%1%2*")
-          .arg(QString::fromUtf8(ns.getFullPath()))
-          .arg(static_cast<ServerConfig>(m_connection->getConfig())
-                   .namespaceSeparator());
+  QString pattern = QString("%1%2*")
+                        .arg(QString::fromUtf8(ns.getFullPath()))
+                        .arg(conf().namespaceSeparator());
   QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
   int dbIndex = ns.getDbIndex();
@@ -281,4 +266,5 @@ bool TreeOperations::isConnected() const { return m_connection->isConnected(); }
 
 void TreeOperations::setConnection(QSharedPointer<RedisClient::Connection> c) {
   m_connection = c;
+  m_events->registerLoggerForConnection(*c);
 }

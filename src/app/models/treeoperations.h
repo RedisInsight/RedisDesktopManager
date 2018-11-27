@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <functional>
+#include "app/models/connectionconf.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 #include "modules/connections-tree/items/keyitem.h"
 #include "modules/connections-tree/operations.h"
@@ -61,6 +62,8 @@ class TreeOperations : public QObject,
 
  protected:
   bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);
+
+  ServerConfig conf() const;
 
  private:
   QSharedPointer<RedisClient::Connection> m_connection;
