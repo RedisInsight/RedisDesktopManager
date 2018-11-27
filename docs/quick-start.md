@@ -57,6 +57,10 @@ ssh SSH_HOST -L 7000:localhost:6379
 Follow instructions from [this blog post](https://userify.com/blog/howto-connect-redis-ec2-ssh-tunnel-elasticache/)
 
 ### How to connect to Redis ElastiCache with In-Transit Encryption through EC2
+#### Using RedisDesktopManager >=0.9.9
+Click on "Enable TLS-over-SSH" in SSH connection settings
+
+#### Using RedisDesktopManager <0.9.9
 Follow instructions from [this documentation section to setup `stunnel` on EC2 instance](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html#connect-tls)
 
 After that [connect to your Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2)
