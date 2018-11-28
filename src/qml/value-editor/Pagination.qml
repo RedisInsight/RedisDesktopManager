@@ -11,12 +11,10 @@ ColumnLayout {
             wrapMode: Text.WrapAnywhere
         }
 
-        TextField {
+        Text {
             id: pageField;
             text: table.currentPage;
-            Layout.maximumWidth: 60;            
-            readOnly: false
-            validator: IntValidator {bottom: 1; top: table.totalPages}
+            Layout.maximumWidth: 60;
         }
 
         Text {
@@ -24,13 +22,6 @@ ColumnLayout {
             text: " of " + table.totalPages
             wrapMode: Text.WrapAnywhere
         }
-    }
-
-    Button {        
-        Layout.maximumWidth: 200
-        Layout.fillWidth: true
-        text: qsTranslate("RDM","Set Page")
-        onClicked: table.goToPage(pageField.text)
     }
 
     RowLayout {        

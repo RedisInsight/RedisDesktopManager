@@ -15,6 +15,6 @@ class ListLikeKeyModel : public KeyModel<QByteArray> {
   enum Roles { RowNumber = Qt::UserRole + 1, Value };
 
  protected:
-  void addLoadedRowsToCache(const QVariantList& rows,
-                            QVariant rowStart) override;
+  int addLoadedRowsToCache(const QVariantList& rows,
+                           QVariant rowStart) override;
 };

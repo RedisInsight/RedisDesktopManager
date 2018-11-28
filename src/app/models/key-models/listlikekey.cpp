@@ -30,12 +30,13 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole) {
   return QVariant();
 }
 
-void ListLikeKeyModel::addLoadedRowsToCache(const QVariantList &rows,
-                                            QVariant rowStartId) {
+int ListLikeKeyModel::addLoadedRowsToCache(const QVariantList &rows,
+                                           QVariant rowStartId) {
   QList<QByteArray> result;
   auto rowStart = rowStartId.toLongLong();
 
   foreach (QVariant row, rows) { result.push_back(row.toByteArray()); }
 
   m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1}, result);
+  return result.size();
 }

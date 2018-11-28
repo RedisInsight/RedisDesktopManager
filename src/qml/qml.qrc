@@ -19,6 +19,7 @@
         <file>value-editor/ValueTabs.qml</file>
         <file>value-editor/Pagination.qml</file>
         <file>value-editor/editors/HashItemEditor.qml</file>
+        <file>value-editor/editors/StreamItemEditor.qml</file>
         <file>value-editor/editors/SingleItemEditor.qml</file>
         <file>value-editor/editors/SortedSetItemEditor.qml</file>
         <file>value-editor/editors/AbstractEditor.qml</file>

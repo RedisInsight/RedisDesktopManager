@@ -18,7 +18,7 @@ class ReJSONKeyModel : public KeyModel<QByteArray> {
   void removeRow(int, ValueEditor::Model::Callback c) override;
 
  protected:
-  void addLoadedRowsToCache(const QVariantList&, QVariant) override {}
+  int addLoadedRowsToCache(const QVariantList&, QVariant) override { return 1; }
 
  private:
   enum Roles { Value = Qt::UserRole + 1 };
