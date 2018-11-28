@@ -17,70 +17,67 @@ void KeyFactory::loadKey(
     int dbIndex,
     std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
         callback) {
-  RedisClient::Command typeCmd(
-      {"type", keyFullPath}, this,
-      [this, connection, keyFullPath, dbIndex, callback](
-          RedisClient::Response resp, QString) {
-        QSharedPointer<ValueEditor::Model> result;
+  auto loadModel = [this, connection, keyFullPath, dbIndex, callback](
+                       RedisClient::Response resp, QString) {
+    QSharedPointer<ValueEditor::Model> result;
 
-        if (resp.isErrorMessage() ||
-            resp.getType() != RedisClient::Response::Type::Status) {
-          QString msg(QCoreApplication::translate(
-              "RDM", "Cannot load key %1, connection error occurred: %2"));
-          callback(
-              result,
-              msg.arg(printableString(keyFullPath)).arg(resp.toRawString()));
-          return;
-        }
+    if (resp.isErrorMessage() ||
+        resp.getType() != RedisClient::Response::Type::Status) {
+      QString msg(QCoreApplication::translate(
+          "RDM", "Cannot load key %1, connection error occurred: %2"));
+      callback(result,
+               msg.arg(printableString(keyFullPath)).arg(resp.toRawString()));
+      return;
+    }
 
-        QString type = resp.getValue().toString();
+    QString type = resp.getValue().toString();
 
-        if (type == "none") {
-          QString msg(QCoreApplication::translate(
-              "RDM",
-              "Cannot load key %1 because it doesn't exist in database."
-              " Please reload connection tree and try again."));
-          callback(result, msg.arg(printableString(keyFullPath)));
-          return;
-        }
+    if (type == "none") {
+      QString msg(QCoreApplication::translate(
+          "RDM",
+          "Cannot load key %1 because it doesn't exist in database."
+          " Please reload connection tree and try again."));
+      callback(result, msg.arg(printableString(keyFullPath)));
+      return;
+    }
 
-        RedisClient::Response ttlResult;
+    RedisClient::Response ttlResult;
 
-        try {
-          ttlResult = connection->commandSync({"ttl", keyFullPath}, dbIndex);
-        } catch (const RedisClient::Connection::Exception& e) {
-          QString msg(QCoreApplication::translate(
-              "RDM",
-              "Cannot load TTL for key %1, connection error occurred: %2"));
-          callback(
-              result,
-              msg.arg(printableString(keyFullPath)).arg(QString(e.what())));
-          return;
-        }
+    try {
+      ttlResult = connection->commandSync({"ttl", keyFullPath}, dbIndex);
+    } catch (const RedisClient::Connection::Exception& e) {
+      QString msg(QCoreApplication::translate(
+          "RDM", "Cannot load TTL for key %1, connection error occurred: %2"));
+      callback(result,
+               msg.arg(printableString(keyFullPath)).arg(QString(e.what())));
+      return;
+    }
 
-        long long ttl = -1;
+    long long ttl = -1;
 
-        if (ttlResult.getType() == RedisClient::Response::Integer) {
-          ttl = ttlResult.getValue().toLongLong();
-        }
+    if (ttlResult.getType() == RedisClient::Response::Integer) {
+      ttl = ttlResult.getValue().toLongLong();
+    }
 
-        result = createModel(type, connection, keyFullPath, dbIndex, ttl);
+    result = createModel(type, connection, keyFullPath, dbIndex, ttl);
 
-        if (!result)
-          return callback(result, QCoreApplication::translate(
-                                      "RDM", "Unsupported Redis Data type %1")
-                                      .arg(type));
+    if (!result)
+      return callback(result, QCoreApplication::translate(
+                                  "RDM", "Unsupported Redis Data type %1")
+                                  .arg(type));
 
-        callback(result, QString());
-      },
-      dbIndex);
+    callback(result, QString());
+  };
+
+  RedisClient::Command typeCmd({"type", keyFullPath}, this, loadModel, dbIndex);
 
   try {
     connection->runCommand(typeCmd);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(
+    callback(
+        QSharedPointer<ValueEditor::Model>(),
         QCoreApplication::translate("RDM", "Cannot retrive type of the key: ") +
-        QString(e.what()));
+            QString(e.what()));
   }
 }
 

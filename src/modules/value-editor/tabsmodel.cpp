@@ -15,36 +15,44 @@ ValueEditor::TabsModel::~TabsModel() { m_viewModels.clear(); }
 void ValueEditor::TabsModel::openTab(
     QSharedPointer<RedisClient::Connection> connection,
     ConnectionsTree::KeyItem& key, bool inNewTab) {
+  auto loadingHandler = [this, inNewTab, &key](QSharedPointer<Model> keyModel,
+                                               const QString& error) {
+    if (keyModel.isNull() || !error.isEmpty()) {
+      emit keyError(-1, QString("<b>%1</b>:\n%2")
+                            .arg(QCoreApplication::translate(
+                                "RDM", "Cannot open value tab"))
+                            .arg(error));
+      return;
+    }
+
+    auto viewModel = loadModel(keyModel, inNewTab);
+    auto weakKeyModel = viewModel.toWeakRef();
+
+    auto removeHandler = [this, weakKeyModel, &key]() {
+      // NOTE(u_glide): React in 100 ms to make sure that keymodel
+      // update is finished
+      QTimer::singleShot(100, [this, weakKeyModel, &key]() {
+        auto keyModel = weakKeyModel.toStrongRef();
+
+        if (!keyModel) return;
+
+        removeModel(keyModel);
+        key.setRemoved();  // Disable key in connections tree
+      });
+    };
+
+    int keyIndex = m_viewModels.count();
+
+    connect(keyModel->getConnector().data(), &ModelSignals::removed, this,
+            removeHandler);
+    connect(
+        keyModel->getConnector().data(), &ModelSignals::error, this,
+        [this, keyIndex](const QString& err) { emit keyError(keyIndex, err); });
+  };
+
   try {
-    m_keyFactory->loadKey(
-        connection, key.getFullPath(), key.getDbIndex(),
-        [this, inNewTab, &key](QSharedPointer<Model> keyModel,
-                               const QString& error) {
-          if (keyModel.isNull() || !error.isEmpty()) {
-            emit keyError(-1, QString("<b>%1</b>:\n%2")
-                                  .arg(QCoreApplication::translate(
-                                      "RDM", "Cannot open value tab"))
-                                  .arg(error));
-            return;
-          }
-
-          auto viewModel = loadModel(keyModel, inNewTab);
-          auto weakKeyModel = viewModel.toWeakRef();
-
-          connect(keyModel->getConnector().data(), &ModelSignals::removed, this,
-                  [this, weakKeyModel, &key]() {
-                    // NOTE(u_glide): React in 100 ms to make sure that keymodel
-                    // update is finished
-                    QTimer::singleShot(100, [this, weakKeyModel, &key]() {
-                      auto keyModel = weakKeyModel.toStrongRef();
-
-                      if (!keyModel) return;
-
-                      removeModel(keyModel);
-                      key.setRemoved();  // Disable key in connections tree
-                    });
-                  });
-        });
+    m_keyFactory->loadKey(connection, key.getFullPath(), key.getDbIndex(),
+                          loadingHandler);
   } catch (...) {
     emit keyError(-1, QCoreApplication::translate(
                           "RDM", "Connection error. Can't open value tab. "));
@@ -135,20 +143,13 @@ void ValueEditor::TabsModel::addKey(QString keyName, QString keyType,
     return;
   }
 
-  try {
-    m_keyFactory->addKey(connection, keyName.toUtf8(), m_newKeyRequest.second,
-                         keyType, row);
-    m_newKeyCallback();
+  m_keyFactory->addKey(connection, keyName.toUtf8(), m_newKeyRequest.second,
+                       keyType, row);
+  m_newKeyCallback();
 
-    if (jsCallback.isCallable()) jsCallback.call(QJSValueList{});
+  if (jsCallback.isCallable()) jsCallback.call(QJSValueList{});
 
-    m_newKeyRequest = NewKeyRequest();
-  } catch (const Model::Exception& e) {
-    if (jsCallback.isCallable())
-      jsCallback.call(QJSValueList{
-          QCoreApplication::translate("RDM", "Can't add new key: ") +
-          QString(e.what())});
-  }
+  m_newKeyRequest = NewKeyRequest();
 }
 
 void ValueEditor::TabsModel::renameKey(int i, const QString& newKeyName) {
@@ -156,13 +157,8 @@ void ValueEditor::TabsModel::renameKey(int i, const QString& newKeyName) {
 
   auto model = m_viewModels.at(i)->model();
 
-  try {
-    model->setKeyName(printableStringToBinary(newKeyName));
-    emit dataChanged(index(i, 0), index(i, 0));
-  } catch (const Model::Exception& e) {
-    emit keyError(i, QCoreApplication::translate("RDM", "Can't rename key: ") +
-                         QString(e.what()));
-  }
+  model->setKeyName(printableStringToBinary(newKeyName));
+  emit dataChanged(index(i, 0), index(i, 0));
 }
 
 void ValueEditor::TabsModel::removeKey(int i) {
@@ -170,12 +166,7 @@ void ValueEditor::TabsModel::removeKey(int i) {
 
   auto model = m_viewModels.at(i)->model();
 
-  try {
-    model->removeKey();
-  } catch (const Model::Exception& e) {
-    emit keyError(i, QCoreApplication::translate("RDM", "Can't remove key: ") +
-                         QString(e.what()));
-  }
+  model->removeKey();
 }
 
 void ValueEditor::TabsModel::setTTL(int i, const QString& newTTL) {
@@ -183,30 +174,19 @@ void ValueEditor::TabsModel::setTTL(int i, const QString& newTTL) {
 
   auto model = m_viewModels.at(i)->model();
 
-  try {
-    model->setTTL(newTTL.toLong());
-    emit dataChanged(index(i, 0), index(i, 0));
-  } catch (const Model::Exception& e) {
-    emit keyError(i, QCoreApplication::translate("RDM", "Can't set key ttl: ") +
-                         QString(e.what()));
-  }
+  model->setTTL(newTTL.toLong());
+  emit dataChanged(index(i, 0), index(i, 0));
 }
 
 void ValueEditor::TabsModel::closeTab(int i) {
   if (!isIndexValid(index(i, 0))) return;
 
-  try {
-    beginRemoveRows(QModelIndex(), i, i);
-    auto model = m_viewModels[i];
-    m_viewModels.removeAt(i);
-    endRemoveRows();
+  beginRemoveRows(QModelIndex(), i, i);
+  auto model = m_viewModels[i];
+  m_viewModels.removeAt(i);
+  endRemoveRows();
 
-    model.clear();
-  } catch (const Model::Exception& e) {
-    emit keyError(i,
-                  QCoreApplication::translate("RDM", "Can't close key tab: ") +
-                      QString(e.what()));
-  }
+  model.clear();
 }
 
 void ValueEditor::TabsModel::setCurrentTab(int i) { m_currentTabIndex = i; }

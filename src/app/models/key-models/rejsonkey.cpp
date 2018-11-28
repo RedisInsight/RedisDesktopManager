@@ -4,8 +4,7 @@
 ReJSONKeyModel::ReJSONKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
     int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl, false, QByteArray(),
-               QByteArray(), QByteArray()) {}
+    : KeyModel(connection, fullPath, dbIndex, ttl) {}
 
 QString ReJSONKeyModel::getType() { return "ReJSON"; }
 
@@ -42,8 +41,10 @@ void ReJSONKeyModel::updateRow(int rowIndex, const QVariantMap& row) {
     result = m_connection->commandSync({"JSON.SET", m_keyFullPath, ".", value},
                                        m_dbIndex);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return;
   }
 
   if (result.isOkMessage()) {
@@ -55,7 +56,7 @@ void ReJSONKeyModel::updateRow(int rowIndex, const QVariantMap& row) {
 
 void ReJSONKeyModel::addRow(const QVariantMap& row) { updateRow(0, row); }
 
-void ReJSONKeyModel::loadRows(unsigned long, unsigned long,
+void ReJSONKeyModel::loadRows(QVariant, unsigned long,
                               std::function<void(const QString&)> callback) {
   try {
     m_connection->command(
@@ -73,8 +74,9 @@ void ReJSONKeyModel::loadRows(unsigned long, unsigned long,
         },
         m_dbIndex);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
   }
 }
 

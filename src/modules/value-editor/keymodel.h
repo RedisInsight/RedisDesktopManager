@@ -16,10 +16,10 @@ class ModelSignals : public QObject {
  signals:
   void dataLoaded();
   void removed();
+  void error(const QString&);
 };
 
 class Model : public QEnableSharedFromThis<Model> {
-  ADD_EXCEPTION
  public:
   Model() {}
   virtual QString getKeyName() = 0;
@@ -40,7 +40,7 @@ class Model : public QEnableSharedFromThis<Model> {
   virtual void updateRow(int rowIndex, const QVariantMap&) = 0;  // async
   virtual unsigned long rowsCount() = 0;
   virtual void loadRows(
-      unsigned long rowStart, unsigned long count,
+      QVariant rowStart, unsigned long count,
       std::function<void(const QString&)> callback) = 0;  // async
   virtual void clearRowCache() = 0;
   virtual void removeRow(int) = 0;  // async

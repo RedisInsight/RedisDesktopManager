@@ -4,13 +4,15 @@
 SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection,
                          QByteArray fullPath, int dbIndex, long long ttl)
     : ListLikeKeyModel(connection, fullPath, dbIndex, ttl, "SCARD",
-                       "SSCAN %1 0 COUNT 10000", QByteArray(), false) {}
+                       "SSCAN %1 0 COUNT 10000") {}
 
 QString SetKeyModel::getType() { return "set"; }
 
 void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
-  if (!isRowLoaded(rowIndex) || !isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
+  if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return;
+  }
 
   QByteArray cachedRow = m_rowsCache[rowIndex];
   QByteArray newRow(row["value"].toByteArray());
@@ -21,8 +23,9 @@ void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
 }
 
 void SetKeyModel::addRow(const QVariantMap &row) {
-  if (!isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
+  if (!isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+  }
 
   addSetRow(row["value"].toByteArray());
   m_rowCount++;
@@ -44,8 +47,9 @@ void SetKeyModel::addSetRow(const QByteArray &value) {
   try {
     m_connection->commandSync({"SADD", m_keyFullPath, value}, m_dbIndex);
   } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
   }
 }
 
@@ -53,7 +57,8 @@ RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value) {
   try {
     return m_connection->commandSync({"SREM", m_keyFullPath, value}, m_dbIndex);
   } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
   }
 }

@@ -82,46 +82,34 @@ void ValueEditor::ValueViewModel::loadRows(int start, int limit) {
 
   QString msg = QCoreApplication::translate("RDM", "Cannot load key value: %1");
 
-  try {
-    // NOTE(u_glide): Do so for proper rendering of QML table
-    m_lastLoadedRowFrameSize = totalRowCount() - start;
-    m_model->loadRows(start, limit,
-                      [this, start, limit, loaded, msg](const QString& err) {
-                        if (!err.isEmpty()) {
-                          emit error(msg.arg(err));
-                          return;
-                        }
+  // NOTE(u_glide): Do so for proper rendering of QML table
+  m_lastLoadedRowFrameSize = totalRowCount() - start;
+  m_model->loadRows(start, limit,
+                    [this, start, limit, loaded, msg](const QString& err) {
+                      if (!err.isEmpty()) {
+                        emit error(msg.arg(err));
+                        return;
+                      }
 
-                        m_lastLoadedRowFrameSize = loaded;
-                        m_startFramePosition = start;
+                      m_lastLoadedRowFrameSize = loaded;
+                      m_startFramePosition = start;
 
-                        emit layoutAboutToBeChanged();
-                        emit rowsLoaded(start, loaded);
-                        emit layoutChanged();
-                      });
-  } catch (const ValueEditor::Model::Exception& e) {
-    emit error(msg.arg(e.what()));
-  }
+                      emit layoutAboutToBeChanged();
+                      emit rowsLoaded(start, loaded);
+                      emit layoutChanged();
+                    });
 }
 
 void ValueEditor::ValueViewModel::addRow(const QVariantMap& row) {
-  try {
-    m_model->addRow(row);
-    emit layoutChanged();
-  } catch (const Model::Exception& e) {
-    emit error(QString(e.what()));
-  }
+  m_model->addRow(row);
+  emit layoutChanged();
 }
 
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap& row) {
   int targetRow = mapRowIndex(i);
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
-  try {
-    m_model->updateRow(targetRow, row);
-  } catch (const Model::Exception& e) {
-    emit error(QString(e.what()));
-  }
+  m_model->updateRow(targetRow, row);
 
   emit dataChanged(index(i, 0), index(i, 0));
 }
@@ -131,17 +119,12 @@ void ValueEditor::ValueViewModel::deleteRow(int i) {
 
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
-  try {
-    emit beginRemoveRows(QModelIndex(), i, i);
-    m_model->removeRow(targetRow);
-    emit endRemoveRows();
+  emit beginRemoveRows(QModelIndex(), i, i);
+  m_model->removeRow(targetRow);
+  emit endRemoveRows();
 
-    if (targetRow < m_model->rowsCount())
-      emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
-
-  } catch (const Model::Exception& e) {
-    emit error(QString(e.what()));
-  }
+  if (targetRow < m_model->rowsCount())
+    emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
 }
 
 int ValueEditor::ValueViewModel::totalRowCount() {

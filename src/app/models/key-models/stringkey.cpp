@@ -4,8 +4,7 @@
 StringKeyModel::StringKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
     int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl, false, QByteArray(),
-               QByteArray(), QByteArray()) {}
+    : KeyModel(connection, fullPath, dbIndex, ttl) {}
 
 QString StringKeyModel::getType() { return "string"; }
 
@@ -42,8 +41,10 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row) {
     result =
         m_connection->commandSync({"SET", m_keyFullPath, value}, m_dbIndex);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return;
   }
 
   if (result.isOkMessage()) {
@@ -55,7 +56,7 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row) {
 
 void StringKeyModel::addRow(const QVariantMap& row) { updateRow(0, row); }
 
-void StringKeyModel::loadRows(unsigned long, unsigned long,
+void StringKeyModel::loadRows(QVariant, unsigned long,
                               std::function<void(const QString&)> callback) {
   try {
     m_connection->command(
@@ -73,8 +74,9 @@ void StringKeyModel::loadRows(unsigned long, unsigned long,
         },
         m_dbIndex);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
   }
 }
 

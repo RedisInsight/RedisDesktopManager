@@ -16,27 +16,19 @@ template <typename T>
 class KeyModel : public ValueEditor::Model {
  public:
   KeyModel(QSharedPointer<RedisClient::Connection> connection,
-           QByteArray fullPath, int dbIndex, int ttl, bool isMultiRow,
-           QByteArray rowsCountCmd, QByteArray partialLoadingCmd,
-           QByteArray fullLoadingCmd = QByteArray(),
-           bool fullLoadingCmdSupportsRanges = false)
+           QByteArray fullPath, int dbIndex, int ttl,
+           QByteArray rowsCountCmd = QByteArray(),
+           QByteArray rowsLoadCmd = QByteArray())
       : m_connection(connection),
         m_keyFullPath(fullPath),
         m_dbIndex(dbIndex),
         m_ttl(ttl),
         m_rowCount(-1),
-        m_isMultiRow(isMultiRow),
+        m_isMultiRow(!rowsCountCmd.isEmpty()),
         m_rowsCountCmd(rowsCountCmd),
-        m_partialLoadingCmd(partialLoadingCmd),
-        m_fullLoadingCmd(fullLoadingCmd),
-        m_fullLoadingCmdSupportsRanges(fullLoadingCmdSupportsRanges),
+        m_rowsLoadCmd(rowsLoadCmd),
         m_notifier(new ValueEditor::ModelSignals(), &QObject::deleteLater) {
-    try {
-      loadRowsCount();
-    } catch (const ValueEditor::Model::Exception& e) {
-      qDebug() << "Connection error:"
-               << e.what();  // TODO(u_glide): Notify user about error
-    }
+    loadRowsCount();
   }
 
   virtual ~KeyModel() { m_notifier.clear(); }
@@ -69,14 +61,21 @@ class KeyModel : public ValueEditor::Model {
       result = m_connection->commandSync(
           {"RENAMENX", m_keyFullPath, newKeyName}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-      throw Exception("Connection error: " + QString(e.what()));
+      emit m_notifier->error(
+          QCoreApplication::translate("RDM", "Cannot rename key %1: %2")
+              .arg(getKeyName())
+              .arg(e.what()));
+      return;
     }
 
     if (result.getValue().toInt() == 0) {
-      throw Exception(QCoreApplication::translate(
-          "RDM",
-          "Key with new name already exist in database or original key was "
-          "removed"));
+      emit m_notifier->error(
+          QCoreApplication::translate("RDM",
+                                      "Key with new name %1 already exist in "
+                                      "database or original key was "
+                                      "removed")
+              .arg(getKeyName()));
+      return;
     }
 
     m_keyFullPath = newKeyName;
@@ -94,13 +93,18 @@ class KeyModel : public ValueEditor::Model {
         result =
             m_connection->commandSync({"PERSIST", m_keyFullPath}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-      throw Exception("Connection error: " + QString(e.what()));
+      emit m_notifier->error(
+          QCoreApplication::translate("RDM", "Cannot set TTL for key %1: %2")
+              .arg(getKeyName())
+              .arg(e.what()));
+      return;
     }
 
     if (result.getValue().toInt() == 0) {
-      throw Exception(
+      emit m_notifier->error(
           QCoreApplication::translate("RDM", "Cannot set TTL for key %1")
               .arg(getKeyName()));
+      return;
     }
     if (ttl >= 0)
       m_ttl = ttl;
@@ -114,29 +118,20 @@ class KeyModel : public ValueEditor::Model {
     try {
       result = m_connection->commandSync({"DEL", m_keyFullPath}, m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-      throw Exception("Connection error: " + QString(e.what()));
+      emit m_notifier->error(
+          QCoreApplication::translate("RDM", "Cannot remove key %1: %2")
+              .arg(getKeyName())
+              .arg(e.what()));
+      return;
     }
 
     m_notifier->removed();
   }
 
-  virtual void loadRows(unsigned long rowStart, unsigned long count,
+  virtual void loadRows(QVariant rowStart, unsigned long count,
                         std::function<void(const QString&)> callback) override {
-    if (m_fullLoadingCmdSupportsRanges) {
-      QVariantList rows;
-      try {
-        rows = getRowsRange(m_fullLoadingCmd, rowStart, count).toList();
-      } catch (const KeyModel::Exception& e) {
-        callback(QString(e.what()));
-      }
-      try {
-        addLoadedRowsToCache(rows, rowStart);
-      } catch (const std::runtime_error& e) {
-        callback(QString(e.what()));
-      }
-      callback(QString());
-    } else {
-      QList<QByteArray> cmdParts = m_partialLoadingCmd.split(' ');
+    if (m_rowsLoadCmd.mid(1, 4).toLower() == "scan") {
+      QList<QByteArray> cmdParts = m_rowsLoadCmd.split(' ');
       cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
 
       RedisClient::ScanCommand cmd(cmdParts, m_dbIndex);
@@ -161,6 +156,15 @@ class KeyModel : public ValueEditor::Model {
       } catch (const RedisClient::Connection::Exception& e) {
         callback(QString(e.what()));
       }
+    } else {
+      getRowsRange(
+          getRangeCmd(rowStart, count),
+          [this, callback, rowStart](const QString& err, QVariantList result) {
+            if (!err.isEmpty()) return callback(err);
+
+            addLoadedRowsToCache(result, rowStart);
+            callback(QString());
+          });
     }
   }
 
@@ -183,37 +187,46 @@ class KeyModel : public ValueEditor::Model {
  protected:
   // multi row internal operations
   void loadRowsCount() {
-    if (isMultiRow()) {
-      m_rowCount = getRowCount(m_rowsCountCmd);
-    } else {
+    if (!isMultiRow()) {
       m_rowCount = 1;
+      return;
     }
-  }
-
-  int getRowCount(const QByteArray& countCmd) {
-    RedisClient::Response result;
 
     try {
-      result = m_connection->commandSync({countCmd, m_keyFullPath}, m_dbIndex);
+      m_connection->command(
+          {m_rowsCountCmd, m_keyFullPath}, getConnector().data(),
+          [this](RedisClient::Response r, QString e) {
+            if (!e.isEmpty()) {
+              emit m_notifier->error(
+                  QCoreApplication::translate(
+                      "RDM", "Cannot load rows count for key %1: %2")
+                      .arg(getKeyName())
+                      .arg(e));
+            }
+
+            if (r.getType() == RedisClient::Response::Integer) {
+              m_rowCount = r.getValue().toUInt();
+            }
+          },
+          m_dbIndex);
+
     } catch (const RedisClient::Connection::Exception& e) {
-      throw Exception("Connection error: " + QString(e.what()));
+      emit m_notifier->error(QCoreApplication::translate(
+                                 "RDM", "Cannot load rows count for key %1: %2")
+                                 .arg(getKeyName())
+                                 .arg(e.what()));
     }
-
-    if (result.getType() == RedisClient::Response::Integer) {
-      return result.getValue().toUInt();
-    }
-
-    return -1;
   }
 
-  QVariant getRowsRange(const QByteArray& baseCmd, unsigned long rowStart,
-                        unsigned long count) {
+  virtual QList<QByteArray> getRangeCmd(QVariant rowStartId,
+                                        unsigned long count) {
     QList<QByteArray> cmd;
 
+    unsigned long rowStart = rowStartId.toULongLong();
     unsigned long rowEnd = std::min(m_rowCount, rowStart + count) - 1;
 
-    if (baseCmd.contains(' ')) {
-      QList<QByteArray> suffixCmd(baseCmd.split(' '));
+    if (m_rowsLoadCmd.contains(' ')) {
+      QList<QByteArray> suffixCmd(m_rowsLoadCmd.split(' '));
 
       cmd << suffixCmd.takeFirst();
       cmd << m_keyFullPath << QString::number(rowStart).toLatin1()
@@ -221,23 +234,41 @@ class KeyModel : public ValueEditor::Model {
       cmd += suffixCmd;
 
     } else {
-      cmd << baseCmd << m_keyFullPath << QString::number(rowStart).toLatin1()
+      cmd << m_rowsLoadCmd << m_keyFullPath
+          << QString::number(rowStart).toLatin1()
           << QString::number(rowEnd).toLatin1();
     }
+    return cmd;
+  }
 
-    RedisClient::Response result;
-
+  virtual void getRowsRange(
+      const QList<QByteArray>& rangeCmd,
+      std::function<void(const QString&, QVariantList)> callback) {
     try {
-      result = m_connection->commandSync(cmd, m_dbIndex);
+      m_connection->command(
+          rangeCmd, getConnector().data(),
+          [this, callback](RedisClient::Response r, QString e) {
+            if (!e.isEmpty()) {
+              return callback(e, QVariantList());
+            }
+
+            if (r.getType() != RedisClient::Response::MultiBulk) {
+              return callback(QCoreApplication::translate(
+                                  "RDM", "Cannot load rows for key %1: %2")
+                                  .arg(getKeyName()),
+                              QVariantList());
+            }
+
+            return callback(QString(), r.getValue().toList());
+          },
+          m_dbIndex);
     } catch (const RedisClient::Connection::Exception& e) {
-      throw Exception("Connection error: " + QString(e.what()));
+      callback(
+          QCoreApplication::translate("RDM", "Cannot load rows for key %1: %2")
+              .arg(getKeyName())
+              .arg(e.what()),
+          QVariantList());
     }
-
-    if (result.getType() != RedisClient::Response::MultiBulk) {
-      throw Exception("getRowsRange() error - can't load values from server");
-    }
-
-    return result.getValue();
   }
 
   // row validator
@@ -265,7 +296,8 @@ class KeyModel : public ValueEditor::Model {
     }
   }
 
-  virtual void addLoadedRowsToCache(const QVariantList& rows, int rowStart) = 0;
+  virtual void addLoadedRowsToCache(const QVariantList& rows,
+                                    QVariant rowStart) = 0;
 
  protected:
   QSharedPointer<RedisClient::Connection> m_connection;
@@ -277,9 +309,7 @@ class KeyModel : public ValueEditor::Model {
 
   // CMD strings
   QByteArray m_rowsCountCmd;
-  QByteArray m_partialLoadingCmd;
-  QByteArray m_fullLoadingCmd;
-  bool m_fullLoadingCmdSupportsRanges;
+  QByteArray m_rowsLoadCmd;
 
   MappedCache<T> m_rowsCache;
   QSharedPointer<ValueEditor::ModelSignals> m_notifier;
