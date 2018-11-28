@@ -40,7 +40,7 @@ class FakeKeyModel : public ValueEditor::Model {
 
   unsigned long rowsCount() override { return 1; }
 
-  void loadRows(unsigned long, unsigned long,
+  void loadRows(QVariant, unsigned long,
                 std::function<void(const QString &)>) override {}
 
   void clearRowCache() override {}

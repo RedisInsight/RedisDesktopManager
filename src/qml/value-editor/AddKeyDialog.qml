@@ -8,8 +8,9 @@ import "./editors/editor.js" as Editor
 
 Dialog {
     id: root
-    title: qsTranslate("RDM","Add New Key")
+    title: qsTranslate("RDM","Add New Key to ") + request.dbIdString
     visible: false
+    property var request
 
     standardButtons: StandardButton.NoButton
 
@@ -29,6 +30,7 @@ Dialog {
                 id: newKeyName
                 Layout.fillWidth: true
                 objectName: "rdm_add_key_name_field"
+                text: request? request.keyName : ''
             }
 
             Text {
@@ -73,18 +75,16 @@ Dialog {
                             if (!result)
                                 return;
 
-                            var row = valueAddEditor.item.getValue()
-                            valuesModel.addKey(
-                                newKeyName.text,
-                                typeSelector.model[typeSelector.currentIndex],
-                                row, afterSave
-                            );
+                            root.request.keyName = newKeyName.text
+                            root.request.keyType = typeSelector.model[typeSelector.currentIndex]
+                            root.request.value = valueAddEditor.item.getValue()
+                            keyFactory.submitNewKeyRequest(root.request, afterSave)
                         })
                     }
 
                     function afterSave(err) {
                         if (!err) {
-                            newKeyName.text = ''
+                            root.request = null
                             valueAddEditor.item.reset()
                             valueAddEditor.item.initEmpty()
                             root.close()

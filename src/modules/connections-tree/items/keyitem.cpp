@@ -20,7 +20,7 @@ QSharedPointer<AbstractNamespaceItem> parentTreeItemToNs(QWeakPointer<TreeItem> 
      return parentNs.staticCast<AbstractNamespaceItem>();
 }
 
-KeyItem::KeyItem(const QByteArray& fullPath,                 
+KeyItem::KeyItem(const QByteArray& fullPath,
                  QWeakPointer<TreeItem> parent, Model& model)
     : TreeItem(model),
       m_fullPath(fullPath),
@@ -87,7 +87,8 @@ QHash<QString, std::function<void ()> > KeyItem::eventHandlers()
         if (!parentNs || !parentNs->operations())
             return;
 
-      parentNs->operations()->openKeyTab(*this, false);
+      parentNs->operations()->openKeyTab(
+                  getSelf().toStrongRef().staticCast<KeyItem>(), false);
     });
 
     events.insert("mid-click", [this]() {
@@ -98,7 +99,8 @@ QHash<QString, std::function<void ()> > KeyItem::eventHandlers()
       if (!parentNs || !parentNs->operations())
           return;
 
-      parentNs->operations()->openKeyTab(*this, true);
+      parentNs->operations()->openKeyTab(
+                  getSelf().toStrongRef().staticCast<KeyItem>(), true);
     });
 
     events.insert("delete", [this]() {

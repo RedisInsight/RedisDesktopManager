@@ -43,7 +43,7 @@ Repeater {
         property var valueEditor
         property var searchModel
 
-        property variant keyModel: keyName ? valuesModel.value(keyIndex) : null
+        property variant keyModel: keyViewModel
 
         onKeyModelChanged: {
             // On tab reload
@@ -74,9 +74,6 @@ Repeater {
         }
 
         Keys.onPressed: {
-            if (!keyModel)
-                return
-
             var reloadKey = event.key == Qt.Key_F5
                     || (event.key == Qt.Key_R && (event.modifiers & Qt.ControlModifier))
                     || (event.key == Qt.Key_R && (event.modifiers & Qt.MetaModifier))
@@ -395,7 +392,7 @@ Repeater {
                             function loadValue() {
                                 console.log("Load value")
                                 if (!keyTab.keyModel) {
-                                    console.log("Model is not ready")
+                                    console.log("Model is not ready", keyViewModel)
                                     return
                                 }
 

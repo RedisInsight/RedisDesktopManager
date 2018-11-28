@@ -4,8 +4,8 @@
 SortedSetKeyModel::SortedSetKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
     int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl, true, "ZCARD", QByteArray(),
-               "ZRANGE WITHSCORES", true) {}
+    : KeyModel(connection, fullPath, dbIndex, ttl, "ZCARD",
+               "ZRANGE WITHSCORES") {}
 
 QString SortedSetKeyModel::type() { return "zset"; }
 
@@ -38,9 +38,11 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole) {
   return QVariant();
 }
 
-void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
-  if (!isRowLoaded(rowIndex) || !isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
+void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback) {
+  if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return;
+  }
 
   QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
@@ -58,9 +60,11 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
   m_rowsCache.replace(rowIndex, newRow);
 }
 
-void SortedSetKeyModel::addRow(const QVariantMap &row) {
-  if (!isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
+void SortedSetKeyModel::addRow(const QVariantMap &row, Callback) {
+  if (!isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return;
+  }
 
   QPair<QByteArray, QByteArray> cachedRow(row["value"].toByteArray(),
                                           row["score"].toByteArray());
@@ -71,7 +75,7 @@ void SortedSetKeyModel::addRow(const QVariantMap &row) {
   }
 }
 
-void SortedSetKeyModel::removeRow(int i) {
+void SortedSetKeyModel::removeRow(int i, Callback) {
   if (!isRowLoaded(i)) return;
 
   QByteArray value = m_rowsCache[i].first;
@@ -79,8 +83,10 @@ void SortedSetKeyModel::removeRow(int i) {
   try {
     m_connection->commandSync({"ZREM", m_keyFullPath, value}, m_dbIndex);
   } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return;
   }
 
   m_rowCount--;
@@ -95,8 +101,10 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value,
     result = m_connection->commandSync({"ZADD", m_keyFullPath, score, value},
                                        m_dbIndex);
   } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return false;
   }
 
   return result.value().toInt() == 1;
@@ -106,13 +114,14 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value) {
   try {
     m_connection->commandSync({"ZREM", m_keyFullPath, value}, m_dbIndex);
   } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
   }
 }
 
 void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
-                                             int rowStart) {
+                                             QVariant rowStartId) {
   QList<QPair<QByteArray, QByteArray>> result;
 
   for (QVariantList::const_iterator item = rows.begin(); item != rows.end();
@@ -121,13 +130,16 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
     value.first = item->toByteArray();
     ++item;
 
-    if (item == rows.end())
-      throw Exception(QCoreApplication::translate(
+    if (item == rows.end()) {
+      emit m_notifier->error(QCoreApplication::translate(
           "RDM", "Data was loaded from server partially."));
+      return;
+    }
 
     value.second = item->toByteArray();
     result.push_back(value);
   }
 
+  auto rowStart = rowStartId.toULongLong();
   m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1}, result);
 }

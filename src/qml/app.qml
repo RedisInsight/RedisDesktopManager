@@ -241,6 +241,15 @@ ApplicationWindow {
                 }
 
                 Connections {
+                    target: keyFactory
+
+                    onNewKeyDialog: {
+                        addNewKeyDialog.request = r
+                        addNewKeyDialog.open()
+                    }
+                }
+
+                Connections {
                     target: valuesModel
                     onKeyError: {
                         if (index != -1)
@@ -252,8 +261,6 @@ ApplicationWindow {
                     onRowsInserted: {
                         if (welcomeTab) welcomeTab.closeIfOpened()
                     }
-
-                    onNewKeyDialog: addNewKeyDialog.open()
                 }
             }
 

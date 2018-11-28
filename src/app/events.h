@@ -1,5 +1,6 @@
 #pragma once
 #include <qredisclient/connection.h>
+#include <QEnableSharedFromThis>
 #include <QObject>
 #include <QRegExp>
 #include <QSharedPointer>
@@ -11,7 +12,7 @@ namespace ConnectionsTree {
 class KeyItem;
 }
 
-class Events : public QObject {
+class Events : public QObject, public QEnableSharedFromThis<Events> {
   Q_OBJECT
 
  public:
@@ -21,7 +22,8 @@ class Events : public QObject {
 
   // Tabs
   void openValueTab(QSharedPointer<RedisClient::Connection> connection,
-                    ConnectionsTree::KeyItem& key, bool inNewTab);
+                    QSharedPointer<ConnectionsTree::KeyItem> key,
+                    bool inNewTab);
 
   void openConsole(QSharedPointer<RedisClient::Connection> connection,
                    int dbIndex);

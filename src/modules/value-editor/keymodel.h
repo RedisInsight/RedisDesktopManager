@@ -14,13 +14,14 @@ class ModelSignals : public QObject {
  public:
   ModelSignals() {}
  signals:
-  void dataLoaded();
   void removed();
+  void error(const QString&);
 };
 
 class Model : public QEnableSharedFromThis<Model> {
-  ADD_EXCEPTION
  public:
+  typedef std::function<void(const QString&)> Callback;
+
   Model() {}
   virtual QString getKeyName() = 0;
   virtual QString getKeyTitle() = 0;
@@ -31,22 +32,23 @@ class Model : public QEnableSharedFromThis<Model> {
   virtual QHash<int, QByteArray> getRoles() = 0;
   virtual QVariant getData(int rowIndex, int dataRole) = 0;
 
-  virtual void setKeyName(const QByteArray&) = 0;  // async
-  virtual void setTTL(const long long) = 0;        // async
-  virtual void removeKey() = 0;
+  virtual void setKeyName(const QByteArray&, Callback) = 0;  // async
+  virtual void setTTL(const long long, Callback) = 0;        // async
+  virtual void removeKey(Callback) = 0;
 
   // rows operations
-  virtual void addRow(const QVariantMap&) = 0;
-  virtual void updateRow(int rowIndex, const QVariantMap&) = 0;  // async
+  virtual void addRow(const QVariantMap&, Callback) = 0;
+  virtual void updateRow(int rowIndex, const QVariantMap&,
+                         Callback) = 0;  // async
   virtual unsigned long rowsCount() = 0;
-  virtual void loadRows(
-      unsigned long rowStart, unsigned long count,
-      std::function<void(const QString&)> callback) = 0;  // async
+  virtual void loadRows(QVariant rowStart, unsigned long count,
+                        std::function<void(const QString&, unsigned long)>
+                            callback) = 0;  // async
   virtual void clearRowCache() = 0;
-  virtual void removeRow(int) = 0;  // async
+  virtual void removeRow(int, Callback) = 0;  // async
   virtual bool isRowLoaded(int) = 0;
   virtual bool isMultiRow() const = 0;
-  virtual void reloadRowsCount() = 0;
+  virtual void loadRowsCount(Callback callback) = 0;
 
   virtual QSharedPointer<ModelSignals> getConnector() const = 0;
   virtual QSharedPointer<RedisClient::Connection> getConnection() const = 0;

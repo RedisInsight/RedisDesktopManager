@@ -9,9 +9,9 @@ public:
 
     QString type() override;
 
-    void addRow(const QVariantMap&) override;
-    virtual void updateRow(int rowIndex, const QVariantMap &) override;
-    void removeRow(int) override;
+    void addRow(const QVariantMap&, Callback) override;
+    virtual void updateRow(int rowIndex, const QVariantMap &, Callback) override;
+    void removeRow(int, Callback) override;
 
 private:    
     void addSetRow(const QByteArray &value);

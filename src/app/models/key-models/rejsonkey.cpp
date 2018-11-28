@@ -4,8 +4,7 @@
 ReJSONKeyModel::ReJSONKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
     int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl, false, QByteArray(),
-               QByteArray(), QByteArray()) {}
+    : KeyModel(connection, fullPath, dbIndex, ttl) {}
 
 QString ReJSONKeyModel::type() { return "ReJSON"; }
 
@@ -27,7 +26,8 @@ QVariant ReJSONKeyModel::getData(int rowIndex, int dataRole) {
   return QVariant();
 }
 
-void ReJSONKeyModel::updateRow(int rowIndex, const QVariantMap& row) {
+void ReJSONKeyModel::updateRow(int rowIndex, const QVariantMap& row,
+                               Callback c) {
   if (rowIndex > 0 || !isRowValid(row)) {
     qDebug() << "Row is not valid";
     return;
@@ -42,43 +42,47 @@ void ReJSONKeyModel::updateRow(int rowIndex, const QVariantMap& row) {
     result = m_connection->commandSync({"JSON.SET", m_keyFullPath, ".", value},
                                        m_dbIndex);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
+    return;
   }
 
   if (result.isOkMessage()) {
     m_rowsCache.clear();
     m_rowsCache.addLoadedRange({0, 0}, (QList<QByteArray>() << value));
-    m_notifier->dataLoaded();
   }
 }
 
-void ReJSONKeyModel::addRow(const QVariantMap& row) { updateRow(0, row); }
+void ReJSONKeyModel::addRow(const QVariantMap& row, Callback c) {
+  updateRow(0, row, c);
+}
 
-void ReJSONKeyModel::loadRows(unsigned long, unsigned long,
-                              std::function<void(const QString&)> callback) {
+void ReJSONKeyModel::loadRows(
+    QVariant, unsigned long,
+    std::function<void(const QString&, unsigned long)> callback) {
   try {
     m_connection->command(
         {"JSON.GET", m_keyFullPath}, getConnector().data(),
         [this, callback](RedisClient::Response r, QString e) {
           if (r.type() != RedisClient::Response::String || !e.isEmpty()) {
-            return callback(QString("Cannot load value"));
+            return callback(QString("Cannot load value"), 0);
           }
 
           m_rowsCache.clear();
           m_rowsCache.push_back(r.value().toByteArray());
-          m_notifier->dataLoaded();
 
-          callback(QString());
+          callback(QString(), 1);
         },
         m_dbIndex);
   } catch (const RedisClient::Connection::Exception& e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
+    emit m_notifier->error(
+        QCoreApplication::translate("RDM", "Connection error: ") +
+        QString(e.what()));
   }
 }
 
-void ReJSONKeyModel::removeRow(int) {
+void ReJSONKeyModel::removeRow(int, Callback c) {
   m_rowCount--;
   setRemovedIfEmpty();
 }

@@ -34,6 +34,7 @@ Application::Application(int& argc, char** argv)
       m_events(QSharedPointer<Events>(new Events())) {
   // Init components required for models and qml
   initAppInfo();
+  initProxySettings();
   processCmdArgs();
   initAppFonts();
   initRedisClient();
@@ -60,16 +61,16 @@ void Application::initModels() {
     throw std::runtime_error("invalid connections config");
   }
 
-  QSharedPointer<KeyFactory> keyFactory(new KeyFactory());
+  m_keyFactory = QSharedPointer<KeyFactory>(new KeyFactory());
 
   m_keyValues =
       QSharedPointer<ValueEditor::TabsModel>(new ValueEditor::TabsModel(
-          keyFactory.staticCast<ValueEditor::AbstractKeyFactory>()));
+          m_keyFactory.staticCast<ValueEditor::AbstractKeyFactory>()));
 
   connect(m_events.data(), &Events::openValueTab, m_keyValues.data(),
           &ValueEditor::TabsModel::openTab);
-  connect(m_events.data(), &Events::newKeyDialog, m_keyValues.data(),
-          &ValueEditor::TabsModel::openNewKeyDialog);
+  connect(m_events.data(), &Events::newKeyDialog, m_keyFactory.data(),
+          &KeyFactory::createNewKeyRequest);
   connect(m_events.data(), &Events::closeDbKeys, m_keyValues.data(),
           &ValueEditor::TabsModel::closeDbKeys);
 
@@ -168,6 +169,7 @@ void Application::registerQmlRootObjects() {
   m_engine.rootContext()->setContextProperty("qmlUtils", m_qmlUtils.data());
   m_engine.rootContext()->setContextProperty("connectionsManager",
                                              m_connections.data());
+  m_engine.rootContext()->setContextProperty("keyFactory", m_keyFactory.data());
   m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
   m_engine.rootContext()->setContextProperty("formattersManager",
                                              m_formattersManager.data());

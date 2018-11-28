@@ -32,7 +32,7 @@ class TreeOperations : public QObject,
 
   QString defaultFilter() override;
 
-  void openKeyTab(ConnectionsTree::KeyItem& key,
+  void openKeyTab(QSharedPointer<ConnectionsTree::KeyItem> key,
                   bool openInNewTab = false) override;
 
   void openConsoleTab(int dbIndex = 0) override;
