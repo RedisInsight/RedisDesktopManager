@@ -8,6 +8,7 @@
 #include "rejsonkey.h"
 #include "setkey.h"
 #include "sortedsetkey.h"
+#include "stream.h"
 #include "stringkey.h"
 
 KeyFactory::KeyFactory() {}
@@ -128,6 +129,9 @@ QSharedPointer<ValueEditor::Model> KeyFactory::createModel(
   } else if (type == "ReJSON-RL") {
     return QSharedPointer<ValueEditor::Model>(
         new ReJSONKeyModel(connection, keyFullPath, dbIndex, ttl));
+  } else if (type == "stream") {
+    return QSharedPointer<ValueEditor::Model>(
+        new StreamKeyModel(connection, keyFullPath, dbIndex, ttl));
   }
 
   return QSharedPointer<ValueEditor::Model>();

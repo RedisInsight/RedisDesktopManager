@@ -20,6 +20,7 @@ ColumnLayout
     property int valueSizeLimit: 150000
     property int valueCompression: 0
     property string formatterSettingsCategory: "formatters_value"    
+    property alias readOnly: textView.readOnly
 
     function initEmpty() {
         // init editor with empty model
@@ -46,7 +47,7 @@ ColumnLayout
             if (valid) {
                 hideValidationError()
             } else {
-                showValidationError("Enter value")
+                showValidationError(qsTranslate("RDM", "Enter valid value"))
             }
 
             return callback(valid)

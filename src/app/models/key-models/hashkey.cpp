@@ -4,8 +4,7 @@
 
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
                            QByteArray fullPath, int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl, "HLEN",
-               "HSCAN %1 0 COUNT 10000") {}
+    : KeyModel(connection, fullPath, dbIndex, ttl, "HLEN", "HSCAN") {}
 
 QString HashKeyModel::type() { return "hash"; }
 
@@ -40,7 +39,7 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole) {
 
 void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
-    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    c(QCoreApplication::translate("RDM", "Invalid row"));
     return;
   }
 
@@ -73,16 +72,17 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
 
 void HashKeyModel::addRow(const QVariantMap &row, Callback c) {
   if (!isRowValid(row)) {
-    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    c(QCoreApplication::translate("RDM", "Invalid row"));
     return;
   }
 
-  setHashRow(row["key"].toByteArray(), row["value"].toByteArray(),
-             [this, c](const QString &err) {
-               if (err.isEmpty()) m_rowCount++;
-               return c(err);
-             },
-             false);
+  setHashRow(
+      row["key"].toByteArray(), row["value"].toByteArray(),
+      [this, c](const QString &err) {
+        if (err.isEmpty()) m_rowCount++;
+        return c(err);
+      },
+      false);
 }
 
 void HashKeyModel::removeRow(int i, Callback c) {
@@ -122,8 +122,8 @@ void HashKeyModel::deleteHashRow(const QByteArray &hashKey, Callback c) {
   executeCmd({"HDEL", m_keyFullPath, hashKey}, c);
 }
 
-void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
-                                        QVariant rowStartId) {
+int HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
+                                       QVariant rowStartId) {
   QList<QPair<QByteArray, QByteArray>> result;
 
   for (QVariantList::const_iterator item = rows.begin(); item != rows.end();
@@ -135,7 +135,7 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
     if (item == rows.end()) {
       emit m_notifier->error(QCoreApplication::translate(
           "RDM", "Data was loaded from server partially."));
-      return;
+      return 0;
     }
 
     value.second = item->toByteArray();
@@ -144,4 +144,6 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
 
   auto rowStart = rowStartId.toLongLong();
   m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1}, result);
+
+  return result.size();
 }

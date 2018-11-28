@@ -77,19 +77,14 @@ void SortedSetKeyModel::addRow(const QVariantMap &row, Callback c) {
     return c(QCoreApplication::translate("RDM", "Invalid row"));
   }
 
-  QPair<QByteArray, QByteArray> cachedRow(row["value"].toByteArray(),
-                                          row["score"].toByteArray());
-
-  auto onAdded = [this, c, cachedRow](const QString &err) {
-    if (err.isEmpty()) {
-      m_rowsCache.push_back(cachedRow);
-      m_rowCount++;
-    }
+  auto onAdded = [this, c](const QString &err) {
+    if (err.isEmpty()) m_rowCount++;
 
     return c(err);
   };
 
-  addSortedSetRow(cachedRow.first, cachedRow.second, onAdded);
+  addSortedSetRow(row["value"].toByteArray(), row["score"].toByteArray(),
+                  onAdded);
 }
 
 void SortedSetKeyModel::removeRow(int i, Callback c) {
@@ -127,8 +122,8 @@ void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value,
   executeCmd({"ZREM", m_keyFullPath, value}, c);
 }
 
-void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
-                                             QVariant rowStartId) {
+int SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
+                                            QVariant rowStartId) {
   QList<QPair<QByteArray, QByteArray>> result;
 
   for (QVariantList::const_iterator item = rows.begin(); item != rows.end();
@@ -140,7 +135,7 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
     if (item == rows.end()) {
       emit m_notifier->error(QCoreApplication::translate(
           "RDM", "Data was loaded from server partially."));
-      return;
+      return 0;
     }
 
     value.second = item->toByteArray();
@@ -149,4 +144,6 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
 
   auto rowStart = rowStartId.toLongLong();
   m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1}, result);
+
+  return result.size();
 }

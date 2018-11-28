@@ -280,7 +280,7 @@ Repeater {
 
                             model: searchModel ? searchModel : null
 
-                            property int currentStart: 0
+                            property var currentStart: 0
                             property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize : 100
                             property int currentPage: currentStart / maxItemsOnPage + 1
                             property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount / maxItemsOnPage) : 0
@@ -446,52 +446,64 @@ Repeater {
                                     height: 400
                                     modality: Qt.ApplicationModal
 
-                                    Loader {
-                                        id: valueAddEditor
-                                        width: 500
-                                        height: 350
-                                        anchors.centerIn: parent
-                                        property int currentRow: -1
-                                        objectName: "rdm_add_row_dialog"
+                                    contentItem: Rectangle {
+                                        implicitWidth: 800
+                                        implicitHeight: PlatformUtils.isOSX()? 680 : 600
 
-                                        source: Editor.getEditorByTypeString(keyType)
+                                        ColumnLayout {
+                                            anchors.fill: parent
+                                            anchors.margins: 10
 
-                                        onLoaded: {
-                                            item.state = "add"
-                                            item.initEmpty()
-                                        }
-                                    }
+                                            Loader {
+                                                id: valueAddEditor
 
-                                    Timer {
-                                        id: reOpenTimer
-                                        onTriggered: {
-                                            addRowDialog.open()
-                                        }
-                                        repeat: false
-                                        interval: 50
-                                    }
+                                                Layout.fillWidth: true
+                                                Layout.fillHeight: true
 
-                                    onAccepted: {
-                                        if (!valueAddEditor.item)
-                                            return false
+                                                property int currentRow: -1
+                                                objectName: "rdm_add_row_dialog"
 
-                                        valueAddEditor.item.validateValue(function (result){
-                                            if (!result) {
-                                                reOpenTimer.start();
-                                                return;
+                                                source: Editor.getEditorByTypeString(keyType)
+
+                                                onLoaded: {
+                                                    item.state = "add"
+                                                    item.initEmpty()
+                                                }
                                             }
 
-                                            var row = valueAddEditor.item.getValue()                                            
+                                            RowLayout {
+                                                Layout.fillWidth: true
 
-                                            keyTab.keyModel.addRow(row)
-                                            keyTab.keyModel.reload()
-                                            valueAddEditor.item.reset()
-                                            valueAddEditor.item.initEmpty()
-                                        });
+                                                Item {
+                                                    Layout.fillWidth: true
+                                                }
+
+                                                Button {
+                                                    text: qsTranslate("RDM","Add")
+
+                                                    onClicked: {
+                                                        if (!valueAddEditor.item)
+                                                            return false
+
+                                                        valueAddEditor.item.validateValue(function (result){
+                                                            if (!result) {
+                                                                return;
+                                                            }
+
+                                                            var row = valueAddEditor.item.getValue()
+
+                                                            keyTab.keyModel.addRow(row)
+                                                            keyTab.keyModel.reload()
+                                                            valueAddEditor.item.reset()
+                                                            valueAddEditor.item.initEmpty()
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
 
                                     visible: false
-                                    standardButtons: StandardButton.Ok | StandardButton.Cancel
                                 }
                             }
 
@@ -638,6 +650,8 @@ Repeater {
                             Item { Layout.fillWidth: true}
                             Button {
                                 text: qsTranslate("RDM","Save")
+
+                                enabled: keyType != "stream"
 
                                 onClicked: {
                                     if (!valueEditor.item || !valueEditor.item.isEdited()) {
