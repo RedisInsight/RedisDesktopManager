@@ -474,7 +474,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="90"/>
         <location filename="../../qml/AppToolBar.qml" line="91"/>
-        <source>Star on Github!</source>
+        <source>Star on GitHub!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

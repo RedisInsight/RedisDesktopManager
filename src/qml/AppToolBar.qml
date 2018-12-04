@@ -87,8 +87,8 @@ ToolBar {
 
         ToolButton {
             iconSource: "qrc:/images/github.svg"
-            text: qsTranslate("RDM","Star on Github!")
-            tooltip: qsTranslate("RDM","Star on Github!")
+            text: qsTranslate("RDM","Star on GitHub!")
+            tooltip: qsTranslate("RDM","Star on GitHub!")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager")
         }
 

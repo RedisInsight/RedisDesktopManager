@@ -1,11 +1,11 @@
 
 ## IMPORTANT: HOW TO ADD ISSUES
 
-* Github issues **SHOULD ONLY BE USED to report bugs**, and for DETAILED feature
+* GitHub issues **SHOULD ONLY BE USED to report bugs**, and for DETAILED feature
   requests. Everything else belongs to the [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager)
 
   **PLEASE DO NOT POST GENERAL QUESTIONS** that are not about bugs or suspected
-  bugs in the Github issues system. We'll be very happy to help you and provide
+  bugs in the GitHub issues system. We'll be very happy to help you and provide
   all the support in the [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/uglide/RedisDesktopManager) 
 
 ### Bug report template:
