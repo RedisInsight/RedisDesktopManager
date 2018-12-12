@@ -25,7 +25,7 @@
     <message>
         <location filename="../../app/app.cpp" line="55"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favorcambia los permisos de fichero o reinicia RDM como administrador.</translation>
+        <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos de fichero o reinicia RDM como administrador.</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="253"/>
