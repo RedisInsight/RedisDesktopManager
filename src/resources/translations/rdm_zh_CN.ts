@@ -476,8 +476,8 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="90"/>
         <location filename="../../qml/AppToolBar.qml" line="91"/>
-        <source>Star on Github!</source>
-        <translation>给我们的Github加个星星吧！</translation>
+        <source>Star on GitHub!</source>
+        <translation>给我们的GitHub加个星星吧！</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="99"/>
