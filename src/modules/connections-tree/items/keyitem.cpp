@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QMessageBox>
 
+#include "app/apputils.h"
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
 
@@ -42,7 +43,13 @@ KeyItem::KeyItem(const QByteArray& fullPath, unsigned short dbIndex,
 }
 
 QString KeyItem::getDisplayName() const {
-  return printableString(m_fullPath, true);
+  QString title = printableString(m_fullPath, true);
+
+  if (m_usedMemory > 0) {
+    title.append(QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));
+  }
+
+  return title;
 }
 
 QByteArray KeyItem::getName() const { return m_fullPath; }
@@ -77,4 +84,16 @@ void KeyItem::setRemoved() {
   m_removed = true;
 
   emit m_model.itemChanged(getSelf());
+}
+
+QFuture<qlonglong> KeyItem::getMemoryUsage() {
+  QFuture<qlonglong> future =
+      m_operations->getUsedMemory(getFullPath(), getDbIndex());
+
+  AsyncFuture::observe(future).subscribe([this](qlonglong result) {
+    m_usedMemory = result;
+    emit m_model.itemChanged(getSelf());
+  });
+
+  return future;
 }

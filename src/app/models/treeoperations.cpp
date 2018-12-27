@@ -61,8 +61,8 @@ bool TreeOperations::loadDatabases(
 
       for (int index = lastDbIndex; index < dbScanLimit; index++) {
         try {
-          scanningResp =
-              connection->commandSync("select", QString::number(index));
+          scanningResp = connection->commandSync(
+              {"select", QString::number(index).toLatin1()});
         } catch (const RedisClient::Connection::Exception& e) {
           throw ConnectionsTree::Operations::Exception(
               QCoreApplication::translate("RDM", "Connection error: ") +
@@ -88,22 +88,9 @@ ServerConfig TreeOperations::conf() const {
   return static_cast<ServerConfig>(m_connection->getConfig());
 }
 
-QFuture<bool> TreeOperations::getDatabases(
+QFuture<void> TreeOperations::getDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
-  QFuture<bool> result =
-      QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
-
-  AsyncFuture::observe(result).subscribe(
-      []() {},
-      [this]() {
-        QtConcurrent::run([this]() {
-          auto oldConnection = m_connection;
-          setConnection(oldConnection->clone());
-          oldConnection->disconnect();
-        });
-      });
-
-  return result;
+  return QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
 }
 
 void TreeOperations::loadNamespaceItems(
@@ -165,6 +152,14 @@ void TreeOperations::loadNamespaceItems(
 }
 
 void TreeOperations::disconnect() { m_connection->disconnect(); }
+
+void TreeOperations::resetConnection() {
+  QtConcurrent::run([this]() {
+    auto oldConnection = m_connection;
+    setConnection(oldConnection->clone());
+    oldConnection->disconnect();
+  });
+}
 
 QString TreeOperations::getNamespaceSeparator() {
   return conf().namespaceSeparator();
@@ -250,6 +245,42 @@ void TreeOperations::flushDb(int dbIndex,
         QCoreApplication::translate("RDM", "Cannot flush database: ") +
         QString(e.what()));
   }
+}
+
+QFuture<qlonglong> TreeOperations::getUsedMemory(const QByteArray& key,
+                                                 int dbIndex) {
+  auto d = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
+      new AsyncFuture::Deferred<qlonglong>());
+
+  RedisClient::Command::Callback cmdCallback =
+      [this, key, d](RedisClient::Response r, const QString& error) {
+        if (!error.isEmpty()) {
+          QString errorMsg = QCoreApplication::translate(
+                                 "RDM", "Cannot used memory for key: %1")
+                                 .arg(error);
+          m_events->error(errorMsg);
+          d->complete(0);
+          return;
+        }
+
+        QVariant result = r.getValue();
+
+        if (result.canConvert(QVariant::LongLong)) {
+          d->complete(result.toLongLong());
+        } else {
+          d->complete(0);
+        }
+      };
+
+  try {
+    m_connection->command({"MEMORY", "USAGE", key}, this, cmdCallback, dbIndex);
+  } catch (const RedisClient::Connection::Exception& e) {
+    d->complete(0);
+    m_events->log(
+        QString("Cannot load memory usage for key: %1").arg(e.what()));
+  }
+
+  return d->future();
 }
 
 QString TreeOperations::mode() {
