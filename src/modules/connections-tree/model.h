@@ -80,6 +80,8 @@ class Model : public QAbstractItemModel {
 
   void expandItem(QWeakPointer<TreeItem> item);
 
+  void itemLayoutChanged(QWeakPointer<TreeItem> item);
+
  protected slots:
   void onItemChanged(QWeakPointer<TreeItem>);
 
@@ -88,6 +90,8 @@ class Model : public QAbstractItemModel {
   void onItemChildsUnloaded(QWeakPointer<TreeItem> item);
 
   void onExpandItem(QWeakPointer<TreeItem> item);
+
+  void onItemLayoutChanged(QWeakPointer<TreeItem> item);
 
  public slots:
   QVariant getMetadata(const QModelIndex &index, const QString &metaKey);

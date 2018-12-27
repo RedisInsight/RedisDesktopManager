@@ -74,7 +74,7 @@ class TreeItem {
   Model& m_model;  
   QWeakPointer<TreeItem> m_selfPtr;
   bool m_locked;
-  QFuture<bool> m_currentOperation;
+  QFuture<void> m_currentOperation;
 };
 
 typedef QList<QSharedPointer<TreeItem>> TreeItems;

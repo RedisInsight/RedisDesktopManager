@@ -16,6 +16,8 @@ Model::Model(QObject *parent)
   QObject::connect(this, &Model::itemChildsUnloaded, this,
                    &Model::onItemChildsUnloaded);
   QObject::connect(this, &Model::expandItem, this, &Model::onExpandItem);
+  QObject::connect(this, &Model::itemLayoutChanged, this,
+                   &Model::onItemLayoutChanged);
 
   qRegisterMetaType<QWeakPointer<TreeItem>>("QWeakPointer<TreeItem>");
 }
@@ -185,8 +187,7 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item) {
       qDebug() << "Namespace reopening is disabled in settings";
       m_expanded.clear();
     }
-  } else if (treeItem->type() == "server" ||
-             treeItem->type() == "namespace") {
+  } else if (treeItem->type() == "server" || treeItem->type() == "namespace") {
     emit expand(index);
     emit dataChanged(index, index);
   }
@@ -211,6 +212,17 @@ void Model::onExpandItem(QWeakPointer<TreeItem> item) {
   if (!index.isValid()) return;
 
   emit expand(index);
+}
+
+void Model::onItemLayoutChanged(QWeakPointer<TreeItem> item) {
+  if (!item) return;
+
+  auto index = getIndexFromItem(item);
+
+  if (!index.isValid()) return;
+
+  emit layoutAboutToBeChanged({index});
+  emit layoutChanged({index});
 }
 
 QVariant Model::getMetadata(const QModelIndex &index, const QString &metaKey) {

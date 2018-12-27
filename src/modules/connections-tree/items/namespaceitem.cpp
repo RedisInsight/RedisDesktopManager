@@ -2,6 +2,7 @@
 #include <qredisclient/utils/text.h>
 #include <QMenu>
 #include <QMessageBox>
+#include "app/apputils.h"
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
 #include "databaseitem.h"
@@ -15,19 +16,24 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              uint dbIndex, QRegExp filter)
     : AbstractNamespaceItem(model, parent, operations, dbIndex, filter),
       m_fullPath(fullPath),
-      m_removed(false)
-{
-}
+      m_removed(false),
+      m_combinator(nullptr) {}
 
 QString NamespaceItem::getDisplayName() const {
-  return QString("%1 (%2)")
-      .arg(printableString(getName(), true))
-      .arg(childCount(true));
+  QString title = QString("%1 (%2)")
+                      .arg(printableString(getName(), true))
+                      .arg(childCount(true));
+
+  if (m_usedMemory > 0) {
+    title.append(QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));
+  }
+
+  return title;
 }
 
 QByteArray NamespaceItem::getName() const {
-    return m_fullPath.mid(
-                m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
+  return m_fullPath.mid(
+      m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 }
 
 bool NamespaceItem::isEnabled() const { return m_removed == false; }
@@ -57,36 +63,108 @@ void NamespaceItem::load() {
         emit m_model.itemChanged(getSelf());
         emit m_model.expandItem(getSelf());
       },
-  m_model.m_expanded);
+      m_model.m_expanded);
 }
 
-QHash<QString, std::function<void ()> > NamespaceItem::eventHandlers()
-{
-    auto events = TreeItem::eventHandlers();
+bool compareChilds(QSharedPointer<TreeItem> first,
+                   QSharedPointer<TreeItem> second) {
+  auto firstMemoryItem = first.dynamicCast<MemoryUsage>();
+  auto secondMemoryItem = second.dynamicCast<MemoryUsage>();
 
-    events.insert("click", [this]() {
-      if (m_childItems.size() == 0) {
-        lock();
-        load();
-      } else if (!isExpanded()) {
-        setExpanded(true);
-        emit m_model.itemChanged(getSelf());
-        emit m_model.expandItem(getSelf());
-      }
-    });
+  return firstMemoryItem && secondMemoryItem &&
+         firstMemoryItem->usedMemory() > secondMemoryItem->usedMemory();
+}
 
-    events.insert("reload", [this]() {
+void NamespaceItem::sortChilds() {
+  qSort(m_childItems.begin(), m_childItems.end(), compareChilds);
+  emit m_model.itemLayoutChanged(getSelf());
+}
+
+QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
+  auto events = TreeItem::eventHandlers();
+
+  events.insert("click", [this]() {
+    if (m_childItems.size() == 0) {
       lock();
-
-      if (m_childItems.size()) {
-        clear();
-      }
-
       load();
+    } else if (!isExpanded()) {
+      setExpanded(true);
+      emit m_model.itemChanged(getSelf());
+      emit m_model.expandItem(getSelf());
+    }
+  });
+
+  events.insert("analyze_memory_usage", [this]() {
+    lock();
+
+    getMemoryUsage();
+
+    m_currentOperation = m_combinator->future();
+
+    AsyncFuture::observe(m_currentOperation)
+        .subscribe(
+            [this]() {
+              qDebug() << "Unlocking on success";
+              unlock();
+            },
+            [this]() {
+              qDebug() << "Trying to cancel memory usage analysis ";
+              m_operations->resetConnection();
+              unlock();
+            });
+  });
+
+  events.insert("reload", [this]() {
+    lock();
+
+    if (m_childItems.size()) {
+      clear();
+    }
+
+    load();
+  });
+
+  events.insert("delete", [this]() { m_operations->deleteDbNamespace(*this); });
+
+  return events;
+}
+
+QFuture<qlonglong> NamespaceItem::getMemoryUsage() {
+  m_usedMemory = 0;
+
+  auto d = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
+      new AsyncFuture::Deferred<qlonglong>());
+
+  if (!m_combinator)
+    m_combinator = QSharedPointer<AsyncFuture::Combinator>(
+        new AsyncFuture::Combinator(AsyncFuture::AllSettled));
+
+  m_combinator->subscribe([d, this]() {
+    sortChilds();
+    return d->complete(m_usedMemory);
+  });
+
+  for (QSharedPointer<TreeItem> child : m_childItems) {
+    if (m_combinator->future().isCanceled()) break;
+
+    if (!child) continue;
+
+    auto memoryItem = child.dynamicCast<MemoryUsage>();
+
+    if (!memoryItem) continue;
+
+    auto future = memoryItem->getMemoryUsage();
+
+    AsyncFuture::observe(future).subscribe([this](qlonglong result) {
+      QMutexLocker locker(&m_updateUsedMemoryMutex);
+      Q_UNUSED(locker);
+
+      m_usedMemory += result;
+      emit m_model.itemChanged(getSelf());
     });
 
-    events.insert("delete",
-                           [this]() { m_operations->deleteDbNamespace(*this); });
+    *m_combinator << future;
+  }
 
-    return events;
+  return d->future();
 }

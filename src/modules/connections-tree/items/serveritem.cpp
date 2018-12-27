@@ -82,7 +82,11 @@ void ServerItem::load() {
 
   if (m_currentOperation.isRunning()) {
     AsyncFuture::observe(m_currentOperation)
-        .subscribe([this]() { unlock(); }, [this]() { unlock(); });
+        .subscribe([this]() { unlock(); },
+                   [this]() {
+                     m_operations->resetConnection();
+                     unlock();
+                   });
   } else {
     unlock();
   }

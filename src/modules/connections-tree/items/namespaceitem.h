@@ -1,38 +1,49 @@
 #pragma once
 #include "abstractnamespaceitem.h"
+#include "memoryusage.h"
 
 namespace ConnectionsTree {
 
-class NamespaceItem : public QObject, public AbstractNamespaceItem
-{
-     Q_OBJECT
+class NamespaceItem : public QObject,
+                      public AbstractNamespaceItem,
+                      public MemoryUsage {
+  Q_OBJECT
 
-public:
-    NamespaceItem(const QByteArray& fullPath,                  
-                  QSharedPointer<Operations> operations,
-                  QWeakPointer<TreeItem> parent,
-                  Model& model,
-                  uint dbIndex, QRegExp filter);
+ public:
+  NamespaceItem(const QByteArray& fullPath,
+                QSharedPointer<Operations> operations,
+                QWeakPointer<TreeItem> parent, Model& model, uint dbIndex);
 
-    QString getDisplayName() const override;    
+ public:
+  NamespaceItem(const QByteArray& fullPath,
+                QSharedPointer<Operations> operations,
+                QWeakPointer<TreeItem> parent, Model& model, uint dbIndex,
+                QRegExp filter);
 
-    QByteArray getName() const override;
+  QString getDisplayName() const override;
 
-    QByteArray getFullPath() const override;
+  QByteArray getName() const override;
 
-    QString type() const override { return "namespace"; }    
+  QByteArray getFullPath() const override;
 
-    bool isEnabled() const override;        
+  QString type() const override { return "namespace"; }
 
-    void setRemoved();
+  bool isEnabled() const override;
 
-protected:
-    void load();
+  void setRemoved();
 
-    QHash<QString, std::function<void()>> eventHandlers() override;
+  QFuture<qlonglong> getMemoryUsage() override;
 
-private:
-    QByteArray m_fullPath;
-    bool m_removed;    
+ protected:
+  void load();
+
+  void sortChilds();
+
+  QHash<QString, std::function<void()>> eventHandlers() override;
+
+ private:
+  QByteArray m_fullPath;
+  bool m_removed;
+  QSharedPointer<AsyncFuture::Combinator> m_combinator;
 };
-}
+}  // namespace ConnectionsTree
