@@ -65,9 +65,10 @@ void NamespaceItem::setRemoved() {
 }
 
 void NamespaceItem::load() {
-  QString nsFilter = QString("%1%2*")
-                         .arg(QString::fromUtf8(m_fullPath))
-                         .arg(m_operations->getNamespaceSeparator());
+  QString nsFilter = QString("%1%2%3")
+                       .arg(QString::fromUtf8(m_fullPath))
+                       .arg(m_operations->getNamespaceSeparator())
+                       .arg(getFilter().pattern());
 
   m_operations->loadNamespaceItems(
       qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()), nsFilter,

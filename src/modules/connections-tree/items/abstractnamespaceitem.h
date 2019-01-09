@@ -28,6 +28,8 @@ class AbstractNamespaceItem : public TreeItem {
 
   QWeakPointer<TreeItem> parent() const override;
 
+  QRegExp getFilter() const;
+
   virtual void append(QSharedPointer<TreeItem> item) {
     m_childItems.append(item);
   }

@@ -28,6 +28,16 @@ QSharedPointer<TreeItem> AbstractNamespaceItem::child(uint row) const {
   return QSharedPointer<TreeItem>();
 }
 
+QRegExp AbstractNamespaceItem::getFilter() const {
+  QSharedPointer<AbstractNamespaceItem> parentItem = qSharedPointerDynamicCast<AbstractNamespaceItem>(m_parent);
+
+  if ((!m_filter.isEmpty() && m_filter.pattern().compare(m_operations->defaultFilter()) != 0) || parentItem == 0)  {
+    return m_filter;
+  }
+
+  return parentItem->getFilter();
+}
+
 QWeakPointer<TreeItem> AbstractNamespaceItem::parent() const {
   return m_parent;
 }
