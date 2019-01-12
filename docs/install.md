@@ -12,9 +12,13 @@
 2. Mount dmg image
 3. Run rdm.app
 
-## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / ArchLinux / Other Linux
+## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / Other Linux
 
 1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager)
+
+## ArchLinux
+
+1. Install RedisDesktopManager via [AUR](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
 ## Other platforms
 
