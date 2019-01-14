@@ -1,4 +1,4 @@
-# [Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
+# [Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")  
 
 [Install & Run](http://docs.redisdesktop.com/en/latest/install/) | 
 [Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/) |
