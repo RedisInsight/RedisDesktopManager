@@ -20,7 +20,7 @@ public:
 
     QByteArray getFullPath() const;
 
-    QString getType() const override { return "namespace"; }    
+    QString type() const override { return "namespace"; }    
 
     bool isEnabled() const override;        
 
@@ -28,6 +28,8 @@ public:
 
 protected:
     void load();
+
+    QHash<QString, std::function<void()>> eventHandlers() override;
 
 private:
     QByteArray m_fullPath;    

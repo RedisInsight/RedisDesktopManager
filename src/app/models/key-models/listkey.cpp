@@ -6,7 +6,7 @@ ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
     : ListLikeKeyModel(connection, fullPath, dbIndex, ttl, "LLEN", QByteArray(),
                        "LRANGE", true) {}
 
-QString ListKeyModel::getType() { return "list"; }
+QString ListKeyModel::type() { return "list"; }
 
 void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row))
@@ -70,7 +70,7 @@ bool ListKeyModel::isActualPositionChanged(int row) {
                     QString(e.what()));
   }
 
-  QVariantList currentState = result.getValue().toList();
+  QVariantList currentState = result.value().toList();
 
   return currentState.size() != 1 ||
          currentState[0].toByteArray() != QString(cachedValue);

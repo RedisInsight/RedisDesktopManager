@@ -1,8 +1,7 @@
 #include "treeitem.h"
 #include "connections-tree/model.h"
 
-ConnectionsTree::TreeItem::TreeItem(Model &m) : m_model(m), m_locked(false) {
-  m_eventHandlers["cancel"] = [this]() { cancelCurrentOperation(); };
+ConnectionsTree::TreeItem::TreeItem(Model &m) : m_model(m), m_locked(false) {  
 }
 
 QVariant ConnectionsTree::TreeItem::metadata(const QString &key) const {
@@ -15,7 +14,7 @@ QVariantMap ConnectionsTree::TreeItem::metadata() const {
   QVariantMap meta;
   meta["name"] = getDisplayName();
   meta["full_name"] = getName();
-  meta["type"] = getType();
+  meta["type"] = type();
   meta["locked"] = isLocked();
   meta["state"] = isEnabled();
   return meta;
@@ -59,8 +58,15 @@ void ConnectionsTree::TreeItem::unlock() {
   emit m_model.itemChanged(getSelf());
 }
 
+QHash<QString, std::function<void ()> > ConnectionsTree::TreeItem::eventHandlers()
+{
+    QHash<QString, std::function<void()>> events;
+    events["cancel"] = [this]() { cancelCurrentOperation(); };
+    return events;
+}
+
 void ConnectionsTree::TreeItem::handleEvent(QString event) {
-  if (!m_eventHandlers.contains(event)) return;
+  if (!eventHandlers().contains(event)) return;
 
   if (isLocked() && event != "cancel") {
     qDebug() << "Item is locked. Ignore event: " << event;
@@ -69,7 +75,7 @@ void ConnectionsTree::TreeItem::handleEvent(QString event) {
   }
 
   try {
-    m_eventHandlers[event]();
+    eventHandlers()[event]();
   } catch (...) {
     qWarning() << "Error on event processing: " << event;
   }

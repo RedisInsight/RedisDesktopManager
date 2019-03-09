@@ -7,7 +7,7 @@ public:
     ReJSONKeyModel(QSharedPointer<RedisClient::Connection> connection,
                    QByteArray fullPath, int dbIndex, long long ttl);
 
-    QString getType() override;
+    QString type() override;
     QStringList getColumnNames() override;
     QHash<int, QByteArray> getRoles() override;
     QVariant getData(int rowIndex, int dataRole) override;

@@ -56,7 +56,7 @@ void KeysTreeRenderer::renderNamespaceItems(QSharedPointer<Operations> operation
     }   
 
     for (QByteArray fullKey : items.second) {
-        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey, parent->getDbIndex(), operations,
+        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey,
                                                    currentParent, parent->model()));
         parent->append(newKey);
     }
@@ -85,7 +85,7 @@ void KeysTreeRenderer::renderLazily(
     int indexOfNaspaceSeparator = (settings.nsSeparator.isEmpty())? -1 : notProcessedKeyPart.indexOf(settings.nsSeparator);
 
     if (indexOfNaspaceSeparator == -1) {
-        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey, settings.dbIndex, m_operations,
+        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey,
                                                    currentParent, parent->model()));
         parent->append(newKey);
         return;

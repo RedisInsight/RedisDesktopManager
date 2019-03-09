@@ -101,7 +101,7 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
     case keyTTL:
       return model->getTTL();
     case keyType:
-      return model->getType();
+      return model->type();
     case isMultiRow:
       return model->isMultiRow();
   }
@@ -211,7 +211,7 @@ void ValueEditor::TabsModel::closeTab(int i) {
 
 void ValueEditor::TabsModel::setCurrentTab(int i) { m_currentTabIndex = i; }
 
-QObject* ValueEditor::TabsModel::getValue(int i) {
+QObject* ValueEditor::TabsModel::value(int i) {
   if (!isIndexValid(index(i, 0))) return nullptr;
 
   QObject* modelPtr = qobject_cast<QObject*>(m_viewModels.at(i).data());

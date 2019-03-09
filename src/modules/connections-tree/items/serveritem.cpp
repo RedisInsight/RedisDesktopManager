@@ -16,55 +16,7 @@ using namespace ConnectionsTree;
 ServerItem::ServerItem(const QString& name,
                        QSharedPointer<Operations> operations, Model& model)
     : TreeItem(model), m_name(name), m_row(0), m_operations(operations) {
-  m_eventHandlers.insert("click", [this]() {
-    if (isDatabaseListLoaded()) return;
 
-    load();
-  });
-
-  m_eventHandlers.insert("console",
-                         [this]() { m_operations->openConsoleTab(); });
-
-  m_eventHandlers.insert("server_info",
-                         [this]() { m_operations->openServerStats(); });
-
-  m_eventHandlers.insert("duplicate",
-                         [this]() { m_operations->duplicateConnection(); });
-
-  m_eventHandlers.insert("reload", [this]() {
-    reload();
-    emit m_model.itemChanged(getSelf());
-  });
-
-  m_eventHandlers.insert("unload", [this]() { unload(); });
-
-  m_eventHandlers.insert("edit", [this]() {
-    auto unloadAction = [this]() {
-      unload();
-      emit editActionRequested();
-    };
-
-    if (m_operations->isConnected()) {
-      confirmAction(nullptr,
-                    QCoreApplication::translate(
-                        "RDM",
-                        "Value and Console tabs related to this "
-                        "connection will be closed. Do you want to continue?"),
-                    unloadAction);
-    } else {
-      unloadAction();
-    }
-  });
-
-  m_eventHandlers.insert("delete", [this]() {
-    confirmAction(nullptr,
-                  QCoreApplication::translate(
-                      "RDM", "Do you really want to delete connection?"),
-                  [this]() {
-                    unload();
-                    emit deleteActionRequested();
-                  });
-  });
 }
 
 ServerItem::~ServerItem() {}
@@ -165,6 +117,63 @@ void ServerItem::remove() {
 }
 
 void ServerItem::openConsole() { m_operations->openConsoleTab(); }
+
+QHash<QString, std::function<void ()> > ServerItem::eventHandlers()
+{
+    auto events = TreeItem::eventHandlers();
+
+    events.insert("click", [this]() {
+      if (isDatabaseListLoaded()) return;
+
+      load();
+    });
+
+    events.insert("console",
+                           [this]() { m_operations->openConsoleTab(); });
+
+    events.insert("server_info",
+                           [this]() { m_operations->openServerStats(); });
+
+    events.insert("duplicate",
+                           [this]() { m_operations->duplicateConnection(); });
+
+    events.insert("reload", [this]() {
+      reload();
+      emit m_model.itemChanged(getSelf());
+    });
+
+    events.insert("unload", [this]() { unload(); });
+
+    events.insert("edit", [this]() {
+      auto unloadAction = [this]() {
+        unload();
+        emit editActionRequested();
+      };
+
+      if (m_operations->isConnected()) {
+        confirmAction(nullptr,
+                      QCoreApplication::translate(
+                          "RDM",
+                          "Value and Console tabs related to this "
+                          "connection will be closed. Do you want to continue?"),
+                      unloadAction);
+      } else {
+        unloadAction();
+      }
+    });
+
+    events.insert("delete", [this]() {
+      confirmAction(nullptr,
+                    QCoreApplication::translate(
+                        "RDM", "Do you really want to delete connection?"),
+                    [this]() {
+                      unload();
+                      emit deleteActionRequested();
+                    });
+    });
+
+    return events;
+}
 
 void ServerItem::setName(const QString& name) { m_name = name; }
 

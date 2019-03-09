@@ -72,7 +72,7 @@ class KeyModel : public ValueEditor::Model {
       throw Exception("Connection error: " + QString(e.what()));
     }
 
-    if (result.getValue().toInt() == 0) {
+    if (result.value().toInt() == 0) {
       throw Exception(QCoreApplication::translate(
           "RDM",
           "Key with new name already exist in database or original key was "
@@ -97,7 +97,7 @@ class KeyModel : public ValueEditor::Model {
       throw Exception("Connection error: " + QString(e.what()));
     }
 
-    if (result.getValue().toInt() == 0) {
+    if (result.value().toInt() == 0) {
       throw Exception(
           QCoreApplication::translate("RDM", "Cannot set TTL for key %1")
               .arg(getKeyName()));
@@ -199,8 +199,8 @@ class KeyModel : public ValueEditor::Model {
       throw Exception("Connection error: " + QString(e.what()));
     }
 
-    if (result.getType() == RedisClient::Response::Integer) {
-      return result.getValue().toUInt();
+    if (result.type() == RedisClient::Response::Integer) {
+      return result.value().toUInt();
     }
 
     return -1;
@@ -233,11 +233,11 @@ class KeyModel : public ValueEditor::Model {
       throw Exception("Connection error: " + QString(e.what()));
     }
 
-    if (result.getType() != RedisClient::Response::MultiBulk) {
+    if (result.type() != RedisClient::Response::Array) {
       throw Exception("getRowsRange() error - can't load values from server");
     }
 
-    return result.getValue();
+    return result.value();
   }
 
   // row validator

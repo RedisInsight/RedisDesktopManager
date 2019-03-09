@@ -19,7 +19,7 @@ class DatabaseItem : public AbstractNamespaceItem {
 
   QString getDisplayName() const override;
 
-  QString getType() const override { return "database"; }
+  QString type() const override { return "database"; }
 
   bool isEnabled() const override;
 
@@ -36,6 +36,8 @@ class DatabaseItem : public AbstractNamespaceItem {
   void performLiveUpdate();
   void filterKeys(const QRegExp& filter);
   void resetFilter();
+
+  QHash<QString, std::function<void()>> eventHandlers() override;
 
  private:
   QSharedPointer<QTimer> liveUpdateTimer();

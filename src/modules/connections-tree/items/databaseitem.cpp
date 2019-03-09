@@ -21,55 +21,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
                            QSharedPointer<Operations> operations,
                            QWeakPointer<TreeItem> parent, Model& model)
     : AbstractNamespaceItem(model, parent, operations, index),
-      m_keysCount(keysCount) {
-  m_eventHandlers.insert("click", [this]() {
-    if (m_childItems.size() != 0) return;
-
-    loadKeys();
-  });
-
-  m_eventHandlers.insert("add_key", [this]() {
-    m_operations->openNewKeyDialog(m_dbIndex, [this]() {
-      confirmAction(nullptr,
-                    QCoreApplication::translate(
-                        "RDM",
-                        "Key was added. Do you want to reload keys in "
-                        "selected database?"),
-                    [this]() {
-                      reload();
-                      m_keysCount++;
-                    },
-                    QCoreApplication::translate("RDM", "Key was added"));
-    });
-  });
-
-  m_eventHandlers.insert("reload", [this]() {
-    if (isLocked()) {
-      QMessageBox::warning(
-          nullptr,
-          QCoreApplication::translate(
-              "RDM", "Another operation is currently in progress"),
-          QCoreApplication::translate(
-              "RDM", "Please wait until another operation will be finised."));
-      return;
-    }
-
-    reload();
-  });
-
-  m_eventHandlers.insert("flush", [this]() {
-    confirmAction(
-        nullptr,
-        QCoreApplication::translate(
-            "RDM", "Do you really want to remove all keys from this database?"),
-        [this]() {
-          m_operations->flushDb(m_dbIndex,
-                                [this](const QString&) { unload(); });
-        });
-  });
-
-  m_eventHandlers.insert("console",
-                         [this]() { m_operations->openConsoleTab(m_dbIndex); });
+      m_keysCount(keysCount) {  
 }
 
 DatabaseItem::~DatabaseItem() {
@@ -233,6 +185,62 @@ void DatabaseItem::resetFilter() {
   m_filter = QRegExp(m_operations->defaultFilter());
   emit m_model.itemChanged(getSelf());
   reload();
+}
+
+QHash<QString, std::function<void ()> > DatabaseItem::eventHandlers()
+{
+    auto events = TreeItem::eventHandlers();
+
+    events.insert("click", [this]() {
+      if (m_childItems.size() != 0) return;
+
+      loadKeys();
+    });
+
+    events.insert("add_key", [this]() {
+      m_operations->openNewKeyDialog(m_dbIndex, [this]() {
+        confirmAction(nullptr,
+                      QCoreApplication::translate(
+                          "RDM",
+                          "Key was added. Do you want to reload keys in "
+                          "selected database?"),
+                      [this]() {
+                        reload();
+                        m_keysCount++;
+                      },
+                      QCoreApplication::translate("RDM", "Key was added"));
+      });
+    });
+
+    events.insert("reload", [this]() {
+      if (isLocked()) {
+        QMessageBox::warning(
+            nullptr,
+            QCoreApplication::translate(
+                "RDM", "Another operation is currently in progress"),
+            QCoreApplication::translate(
+                "RDM", "Please wait until another operation will be finised."));
+        return;
+      }
+
+      reload();
+    });
+
+    events.insert("flush", [this]() {
+      confirmAction(
+          nullptr,
+          QCoreApplication::translate(
+              "RDM", "Do you really want to remove all keys from this database?"),
+          [this]() {
+            m_operations->flushDb(m_dbIndex,
+                                  [this](const QString&) { unload(); });
+          });
+    });
+
+    events.insert("console",
+                           [this]() { m_operations->openConsoleTab(m_dbIndex); });
+
+    return events;
 }
 
 QSharedPointer<QTimer> DatabaseItem::liveUpdateTimer() {

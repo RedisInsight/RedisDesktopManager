@@ -7,7 +7,7 @@ HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
     : KeyModel(connection, fullPath, dbIndex, ttl, true, "HLEN",
                "HSCAN %1 0 COUNT 10000") {}
 
-QString HashKeyModel::getType() { return "hash"; }
+QString HashKeyModel::type() { return "hash"; }
 
 QStringList HashKeyModel::getColumnNames() {
   return QStringList() << "row"
@@ -95,7 +95,7 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey,
                     QString(e.what()));
   }
 
-  if (updateIfNotExist == false && result.getValue().toInt() == 0)
+  if (updateIfNotExist == false && result.value().toInt() == 0)
     throw Exception(QCoreApplication::translate(
         "RDM", "Value with the same key already exist"));
 }

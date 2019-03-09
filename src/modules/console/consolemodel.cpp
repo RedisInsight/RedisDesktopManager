@@ -52,7 +52,7 @@ void Model::executeCommand(const QString& cmd) {
         return;
       }
 
-      QVariant value = result.getValue();
+      QVariant value = result.value();
       emit addOutput(RedisClient::Response::valueToHumanReadString(value),
                      "part");
     });
@@ -75,7 +75,7 @@ void Model::executeCommand(const QString& cmd) {
       m_current_db = m_connection->dbIndex();
       updatePrompt(false);
     }
-    QVariant value = result.getValue();
+    QVariant value = result.value();
     emit addOutput(RedisClient::Response::valueToHumanReadString(value),
                    "complete");
   }

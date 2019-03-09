@@ -25,7 +25,7 @@ class Model : public QEnableSharedFromThis<Model> {
   virtual QString getKeyName() = 0;
   virtual QString getKeyTitle() = 0;
 
-  virtual QString getType() = 0;
+  virtual QString type() = 0;
   virtual long long getTTL() = 0;
   virtual QStringList getColumnNames() = 0;
   virtual QHash<int, QByteArray> getRoles() = 0;

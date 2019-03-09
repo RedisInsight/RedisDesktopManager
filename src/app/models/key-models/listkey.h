@@ -8,7 +8,7 @@ public:
     ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
                  QByteArray fullPath, int dbIndex, long long ttl);
 
-    QString getType() override;
+    QString type() override;
 
     void addRow(const QVariantMap&) override;
     virtual void updateRow(int rowIndex, const QVariantMap &) override;

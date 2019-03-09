@@ -21,7 +21,7 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
             return;
           }
 
-          m_serverInfo = RedisClient::ServerInfo::fromString(r.toRawString(-1))
+          m_serverInfo = RedisClient::ServerInfo::fromString(QString::fromUtf8(r.value().toByteArray()))
                              .parsed.toVariantMap();
           emit serverInfoChanged();
         });
@@ -40,7 +40,7 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
 
           QVariantList processed;
 
-          for (QVariant item : r.getValue().toList()) {
+          for (QVariant item : r.value().toList()) {
             auto itemList = item.toList();
             QVariantMap row;
             row.insert("time", itemList[1]);
@@ -64,7 +64,7 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
             return;
           }
 
-          QVariant result = r.getValue();
+          QVariant result = r.value();
           QStringList lines = result.toString().split("\r\n");
 
           QVariantList parsedClients;
