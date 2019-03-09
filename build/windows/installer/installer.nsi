@@ -25,6 +25,7 @@ SetCompressor /SOLID /FINAL lzma
 
 # Included files
 !include "nsProcess.nsh"
+!include "x64.nsh"
 !include "install_vcredist_x64.nsh"
 !include Sections.nsh
 !include MUI2.nsh
@@ -47,7 +48,7 @@ Var StartMenuGroup
 
 # Installer attributes
 OutFile redis-desktop-manager-${VERSION}.exe
-InstallDir $PROGRAMFILES\RedisDesktopManager
+InstallDir $PROGRAMFILES64\RedisDesktopManager
 CRCCheck on
 XPStyle on
 ShowInstDetails show
@@ -67,13 +68,17 @@ ShowUninstDetails show
 Section -Main SEC0000
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
 
+    ${IfNot} ${RunningX64}
+        MessageBox MB_OK "Starting from 2019.0.0 version RDM doesn't support 32-bit Windows"
+        Quit
+    ${EndIf}
+
     IfFileExists $INSTDIR\uninstall.exe alredy_installed not_installed
     alredy_installed:
     ExecWait '$INSTDIR\uninstall.exe /S'
     Sleep 3000
 
     not_installed:
-
     SetOutPath $INSTDIR
     File ..\..\..\bin\windows\release\crashreporter.exe
     File /r resources\*
