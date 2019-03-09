@@ -43,7 +43,7 @@ Repeater {
         property var valueEditor
         property var searchModel
 
-        property variant keyModel: keyName ? valuesModel.getValue(keyIndex) : null
+        property variant keyModel: keyName ? valuesModel.value(keyIndex) : null
 
         onKeyModelChanged: {
             // On tab reload

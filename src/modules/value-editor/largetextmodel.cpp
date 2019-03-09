@@ -47,7 +47,7 @@ void ValueEditor::LargeTextWrappingModel::setText(const QString &text)
 
 void ValueEditor::LargeTextWrappingModel::cleanUp()
 {
-    emit beginRemoveRows(QModelIndex(), 0, rowCount());
+    emit beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
     m_textRows.clear();
     emit endRemoveRows();
 }
