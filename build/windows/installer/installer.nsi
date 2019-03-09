@@ -25,7 +25,7 @@ SetCompressor /SOLID /FINAL lzma
 
 # Included files
 !include "nsProcess.nsh"
-!include "install_vcredist_x86.nsh"
+!include "install_vcredist_x64.nsh"
 !include Sections.nsh
 !include MUI2.nsh
 
