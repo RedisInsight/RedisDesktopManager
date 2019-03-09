@@ -6,7 +6,7 @@ SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection,
     : ListLikeKeyModel(connection, fullPath, dbIndex, ttl, "SCARD",
                        "SSCAN %1 0 COUNT 10000", QByteArray(), false) {}
 
-QString SetKeyModel::getType() { return "set"; }
+QString SetKeyModel::type() { return "set"; }
 
 void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row))

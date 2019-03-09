@@ -19,29 +19,7 @@ NamespaceItem::NamespaceItem(const QByteArray &fullPath,
   m_displayName = m_fullPath.mid(
       m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
 
-  m_eventHandlers.insert("click", [this]() {
-    if (m_childItems.size() == 0) {
-      lock();
-      load();
-    } else if (!isExpanded()) {
-      setExpanded(true);
-      emit m_model.itemChanged(getSelf());
-      emit m_model.expandItem(getSelf());
-    }
-  });
 
-  m_eventHandlers.insert("reload", [this]() {
-    lock();
-
-    if (m_childItems.size()) {
-      clear();
-    }
-
-    load();
-  });
-
-  m_eventHandlers.insert("delete",
-                         [this]() { m_operations->deleteDbNamespace(*this); });
 }
 
 QString NamespaceItem::getDisplayName() const {
@@ -79,5 +57,36 @@ void NamespaceItem::load() {
         emit m_model.itemChanged(getSelf());
         emit m_model.expandItem(getSelf());
       },
-      m_model.m_expanded);
+  m_model.m_expanded);
+}
+
+QHash<QString, std::function<void ()> > NamespaceItem::eventHandlers()
+{
+    auto events = TreeItem::eventHandlers();
+
+    events.insert("click", [this]() {
+      if (m_childItems.size() == 0) {
+        lock();
+        load();
+      } else if (!isExpanded()) {
+        setExpanded(true);
+        emit m_model.itemChanged(getSelf());
+        emit m_model.expandItem(getSelf());
+      }
+    });
+
+    events.insert("reload", [this]() {
+      lock();
+
+      if (m_childItems.size()) {
+        clear();
+      }
+
+      load();
+    });
+
+    events.insert("delete",
+                           [this]() { m_operations->deleteDbNamespace(*this); });
+
+    return events;
 }

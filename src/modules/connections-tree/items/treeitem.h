@@ -27,7 +27,7 @@ class TreeItem {
 
   virtual QByteArray getFullPath() const { return QByteArray(); }
 
-  virtual QString getType() const = 0;
+  virtual QString type() const = 0;
 
   virtual QList<QSharedPointer<TreeItem>> getAllChilds() const = 0;
 
@@ -68,10 +68,10 @@ class TreeItem {
  protected:
   void lock();
   void unlock();
+  virtual QHash<QString, std::function<void()>> eventHandlers();
 
  protected:
-  Model& m_model;
-  QHash<QString, std::function<void()>> m_eventHandlers;
+  Model& m_model;  
   QWeakPointer<TreeItem> m_selfPtr;
   bool m_locked;
   QFuture<bool> m_currentOperation;

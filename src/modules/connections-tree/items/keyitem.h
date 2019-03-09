@@ -9,8 +9,6 @@ class KeyItem : public TreeItem
 {
 public:
     KeyItem(const QByteArray& fullPath,
-            unsigned short int dbIndex,
-            QSharedPointer<Operations> operations,
             QWeakPointer<TreeItem> parent,
             Model &model);
 
@@ -18,7 +16,7 @@ public:
 
     QByteArray getName() const override;    
 
-    QString getType() const override { return "key"; }    
+    QString type() const override { return "key"; }    
 
     QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
@@ -38,12 +36,12 @@ public:
 
     void setRemoved();
 
+protected:
+    QHash<QString, std::function<void()>> eventHandlers() override;
+
 private:
     QByteArray m_fullPath;
-    unsigned short int m_dbIndex;
-    QSharedPointer<Operations> m_operations;
-    QWeakPointer<TreeItem> m_parent;
-    QSharedPointer<QObject> m_signalReciever;
+    QWeakPointer<TreeItem> m_parent;    
     bool m_removed;
 };
 

@@ -47,7 +47,7 @@ class TabsModel : public QAbstractListModel {
   Q_INVOKABLE void setTTL(int i, const QString& newTTL);
   Q_INVOKABLE void closeTab(int i);
   Q_INVOKABLE void setCurrentTab(int i);
-  Q_INVOKABLE QObject* getValue(int i);
+  Q_INVOKABLE QObject* value(int i);
 
  signals:
   void keyError(int index, const QString& error);

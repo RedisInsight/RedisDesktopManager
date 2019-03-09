@@ -24,16 +24,18 @@ void KeyFactory::loadKey(
         QSharedPointer<ValueEditor::Model> result;
 
         if (resp.isErrorMessage() ||
-            resp.getType() != RedisClient::Response::Type::Status) {
+            resp.type() != RedisClient::Response::Type::Status) {
           QString msg(QCoreApplication::translate(
               "RDM", "Cannot load key %1, connection error occurred: %2"));
           callback(
               result,
-              msg.arg(printableString(keyFullPath)).arg(resp.toRawString()));
+              msg.arg(printableString(keyFullPath)).arg(
+                          RedisClient::Response::valueToHumanReadString(resp.value()))
+                      );
           return;
         }
 
-        QString type = resp.getValue().toString();
+        QString type = resp.value().toString();
 
         if (type == "none") {
           QString msg(QCoreApplication::translate(
@@ -60,8 +62,8 @@ void KeyFactory::loadKey(
 
         long long ttl = -1;
 
-        if (ttlResult.getType() == RedisClient::Response::Integer) {
-          ttl = ttlResult.getValue().toLongLong();
+        if (ttlResult.type() == RedisClient::Response::Integer) {
+          ttl = ttlResult.value().toLongLong();
         }
 
         result = createModel(type, connection, keyFullPath, dbIndex, ttl);

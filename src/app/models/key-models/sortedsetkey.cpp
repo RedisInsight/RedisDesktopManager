@@ -7,7 +7,7 @@ SortedSetKeyModel::SortedSetKeyModel(
     : KeyModel(connection, fullPath, dbIndex, ttl, true, "ZCARD", QByteArray(),
                "ZRANGE WITHSCORES", true) {}
 
-QString SortedSetKeyModel::getType() { return "zset"; }
+QString SortedSetKeyModel::type() { return "zset"; }
 
 QStringList SortedSetKeyModel::getColumnNames() {
   return QStringList() << "row"
@@ -99,7 +99,7 @@ bool SortedSetKeyModel::addSortedSetRow(const QByteArray &value,
                     QString(e.what()));
   }
 
-  return result.getValue().toInt() == 1;
+  return result.value().toInt() == 1;
 }
 
 void SortedSetKeyModel::deleteSortedSetRow(const QByteArray &value) {

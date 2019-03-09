@@ -29,7 +29,7 @@ QVariant Model::data(const QModelIndex &index, int role) const {
     case itemName:
       return item->getDisplayName();
     case itemType:
-      return item->getType();
+      return item->type();
     case itemIsInitiallyExpanded:
       return item->isExpanded();
     case itemMetaData:
@@ -107,9 +107,9 @@ bool Model::hasChildren(const QModelIndex &parent) {
 
   if (!parentItem) return m_treeItems.size() > 0;
 
-  if (parentItem->getType() == "key") return false;
+  if (parentItem->type() == "key") return false;
 
-  if (parentItem->getType() == "namespace" || parentItem->getType() == "server")
+  if (parentItem->type() == "namespace" || parentItem->type() == "server")
     return true;
 
   return parentItem->childCount() > 0;
@@ -126,7 +126,7 @@ QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item) {
     return QModelIndex();
   }
 
-  if (sRef->getType() == "server") {
+  if (sRef->type() == "server") {
     return index(sRef->row(), 0, QModelIndex());
   }
 
@@ -175,7 +175,7 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item) {
 
   emit dataChanged(index, index);
 
-  if (treeItem->getType() == "database") {
+  if (treeItem->type() == "database") {
     emit expand(index);
 
     QSettings settings;
@@ -185,8 +185,8 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item) {
       qDebug() << "Namespace reopening is disabled in settings";
       m_expanded.clear();
     }
-  } else if (treeItem->getType() == "server" ||
-             treeItem->getType() == "namespace") {
+  } else if (treeItem->type() == "server" ||
+             treeItem->type() == "namespace") {
     emit expand(index);
     emit dataChanged(index, index);
   }
@@ -243,7 +243,7 @@ unsigned int Model::size() { return m_treeItems.size(); }
 void Model::setExpanded(const QModelIndex &index) {
   TreeItem *item = getItemFromIndex(index);
 
-  if (!item || item->getType() != "namespace") return;
+  if (!item || item->type() != "namespace") return;
 
   m_expanded.insert(item->getFullPath());
 }
@@ -251,7 +251,7 @@ void Model::setExpanded(const QModelIndex &index) {
 void Model::setCollapsed(const QModelIndex &index) {
   TreeItem *item = getItemFromIndex(index);
 
-  if (!item || item->getType() != "namespace") return;
+  if (!item || item->type() != "namespace") return;
 
   // TODO: remove child ns
 

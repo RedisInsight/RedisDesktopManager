@@ -7,7 +7,7 @@ StringKeyModel::StringKeyModel(
     : KeyModel(connection, fullPath, dbIndex, ttl, false, QByteArray(),
                QByteArray(), QByteArray()) {}
 
-QString StringKeyModel::getType() { return "string"; }
+QString StringKeyModel::type() { return "string"; }
 
 QStringList StringKeyModel::getColumnNames() {
   return QStringList();  // Single value type - No columns
@@ -61,12 +61,12 @@ void StringKeyModel::loadRows(unsigned long, unsigned long,
     m_connection->command(
         {"GET", m_keyFullPath}, getConnector().data(),
         [this, callback](RedisClient::Response r, QString e) {
-          if (r.getType() != RedisClient::Response::Bulk || !e.isEmpty()) {
+          if (r.type() != RedisClient::Response::String || !e.isEmpty()) {
             return callback(QString("Cannot load value"));
           }
 
           m_rowsCache.clear();
-          m_rowsCache.push_back(r.getValue().toByteArray());
+          m_rowsCache.push_back(r.value().toByteArray());
           m_notifier->dataLoaded();
 
           callback(QString());

@@ -18,7 +18,7 @@ class ServerItem : public QObject, public TreeItem {
 
   QString getDisplayName() const override;
 
-  QString getType() const override { return "server"; }
+  QString type() const override { return "server"; }
 
   QVariantMap metadata() const;
 
@@ -55,6 +55,9 @@ class ServerItem : public QObject, public TreeItem {
  signals:
   void editActionRequested();
   void deleteActionRequested();
+
+ protected:
+  QHash<QString, std::function<void()>> eventHandlers() override;
 
  private:
   QString m_name;

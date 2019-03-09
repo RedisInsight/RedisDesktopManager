@@ -57,6 +57,8 @@ class AbstractNamespaceItem : public TreeItem {
 
   virtual uint getDbIndex() { return m_dbIndex; }
 
+  QSharedPointer<Operations> operations() { return m_operations; }
+
  protected:
   void showLoadingError(const QString& err);
 
