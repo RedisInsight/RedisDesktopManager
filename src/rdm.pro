@@ -169,5 +169,6 @@ TRANSLATIONS = \
     $$PWD/resources/translations/rdm_zh_CN.ts \
     $$PWD/resources/translations/rdm_zh_TW.ts \
     $$PWD/resources/translations/rdm_ru_RU.ts \
+    $$PWD/resources/translations/rdm_es_ES.ts \
 
 CODECFORSRC = UTF-8
