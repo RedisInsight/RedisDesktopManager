@@ -282,14 +282,27 @@ ApplicationWindow {
                     title: "Log"
                     icon: "qrc:/images/log.svg"
 
-                    BaseConsole {
-                        id: logTab
-                        readOnly: true
-                        textColor: "#6D6D6E"
+                    ListView {
+                        id: logListView
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        cacheBuffer: 0
+
+                        model: ListModel {
+                            id: logModel
+                        }
 
                         Connections {
                             target: appEvents
-                            onLog: logTab.append(msg)
+                            onLog: {
+                                logModel.append({"msg": msg})
+                                logListView.positionViewAtEnd()
+                            }
+                        }
+
+                        delegate: Text {
+                            color: "#6D6D6E"
+                            text: msg
                         }
                     }
                 }

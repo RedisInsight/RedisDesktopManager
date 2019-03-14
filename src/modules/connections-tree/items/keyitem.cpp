@@ -23,7 +23,7 @@ QSharedPointer<AbstractNamespaceItem> parentTreeItemToNs(QWeakPointer<TreeItem> 
 KeyItem::KeyItem(const QByteArray& fullPath,                 
                  QWeakPointer<TreeItem> parent, Model& model)
     : TreeItem(model),
-      m_fullPath(qCompress(fullPath, 5)),      
+      m_fullPath(fullPath),
       m_parent(parent),
       m_removed(false) {
 
@@ -57,7 +57,7 @@ bool KeyItem::isEnabled() const {
   }
 }
 
-QByteArray KeyItem::getFullPath() const { return qUncompress(m_fullPath); }
+QByteArray KeyItem::getFullPath() const { return m_fullPath; }
 
 int KeyItem::getDbIndex() const {
     auto parentNs = parentTreeItemToNs(m_parent);

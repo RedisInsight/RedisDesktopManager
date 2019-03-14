@@ -12,23 +12,23 @@ using namespace ConnectionsTree;
 NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              QSharedPointer<Operations> operations,
                              QWeakPointer<TreeItem> parent, Model &model,
-                             uint dbIndex)
-    : AbstractNamespaceItem(model, parent, operations, dbIndex),
+                             uint dbIndex, QRegExp filter)
+    : AbstractNamespaceItem(model, parent, operations, dbIndex, filter),
       m_fullPath(fullPath),
-      m_removed(false) {
-  m_displayName = m_fullPath.mid(
-      m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
-
-
+      m_removed(false)
+{
 }
 
 QString NamespaceItem::getDisplayName() const {
   return QString("%1 (%2)")
-      .arg(printableString(m_displayName, true))
+      .arg(printableString(getName(), true))
       .arg(childCount(true));
 }
 
-QByteArray NamespaceItem::getName() const { return m_displayName; }
+QByteArray NamespaceItem::getName() const {
+    return m_fullPath.mid(
+                m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
+}
 
 bool NamespaceItem::isEnabled() const { return m_removed == false; }
 

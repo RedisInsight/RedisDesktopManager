@@ -16,7 +16,8 @@ class Model;
 class AbstractNamespaceItem : public TreeItem {
  public:
   AbstractNamespaceItem(Model& model, QWeakPointer<TreeItem> parent,
-                        QSharedPointer<Operations> operations, uint dbIndex);
+                        QSharedPointer<Operations> operations, uint dbIndex,
+                        QRegExp filter=QRegExp());
 
   virtual ~AbstractNamespaceItem() {}
 
@@ -57,7 +58,9 @@ class AbstractNamespaceItem : public TreeItem {
 
   virtual uint getDbIndex() { return m_dbIndex; }
 
-  QSharedPointer<Operations> operations() { return m_operations; }
+  virtual QSharedPointer<Operations> operations() { return m_operations; }
+
+  virtual QRegExp getFilter() const { return m_filter; }
 
  protected:
   void showLoadingError(const QString& err);

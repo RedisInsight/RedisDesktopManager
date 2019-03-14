@@ -26,7 +26,9 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
         unprocessedPartStart = parent->getFullPath().size() + settings.nsSeparator.length();
     }
 
-    for (QByteArray rawKey : keys) {
+    QByteArray rawKey;
+    while (!keys.isEmpty()) {
+        rawKey = keys.takeFirst();
         renderLazily(parent, rawKey.mid(unprocessedPartStart), rawKey, operations, settings,
                      expandedNamespaces);
     }
@@ -47,7 +49,7 @@ void KeysTreeRenderer::renderNamespaceItems(QSharedPointer<Operations> operation
     for (QPair<QByteArray, ulong> ns : items.first) {        
         auto namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(ns.first,
                                                                              operations, currentParent,                                                                             parent->model(),
-                                                                             parent->getDbIndex()));
+                                                                             parent->getDbIndex(), parent->getFilter()));
         if (expandedNamespaces.contains(ns.first)) {
             namespaceItem->setExpanded(true);
         }
@@ -100,7 +102,7 @@ void KeysTreeRenderer::renderLazily(
         QByteArray namespaceFullPath = fullKey.mid(0, nsPos);
         namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(namespaceFullPath,
                                                                         m_operations, currentParent,
-                                                                        parent->model(), settings.dbIndex));
+                                                                        parent->model(), settings.dbIndex, settings.filter));
 
         if (expandedNamespaces.contains(namespaceFullPath)) {
             namespaceItem->setExpanded(true);
