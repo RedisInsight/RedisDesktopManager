@@ -8,6 +8,6 @@ TextArea {
         text = ""
     }
 
-    wrapMode: TextEdit.Wrap
+    wrapMode: TextEdit.WrapAnywhere
     textFormat: TextEdit.PlainText
 }
