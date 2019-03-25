@@ -79,7 +79,7 @@ sudo mv qt.conf qt.backup
 
 1. Install Visual Studio 2015 Community with Updates
 
-2. Install [Qt 5.9](https://www.qt.io/download)
+2. Install [Qt 5.9.6](https://www.qt.io/download)
 
 3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply patch to fix compilation on Windows:
 `git apply ../hiredis-win.patch`
