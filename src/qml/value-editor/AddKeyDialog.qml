@@ -8,7 +8,7 @@ import "./editors/editor.js" as Editor
 
 Dialog {
     id: root
-    title: qsTranslate("RDM","Add New Key to ") + request.dbIdString
+    title: qsTranslate("RDM","Add New Key to ") + (request? request.dbIdString: "")
     visible: false
     property var request
 
