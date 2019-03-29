@@ -26,7 +26,8 @@ QVariant StringKeyModel::getData(int rowIndex, int dataRole) {
   return QVariant();
 }
 
-void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row, Callback) {
+void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row,
+                               Callback c) {
   if (rowIndex > 0 || !isRowValid(row)) {
     qDebug() << "Row is not valid";
     return;
@@ -36,46 +37,36 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row, Callback) {
 
   if (value.isEmpty()) return;
 
-  RedisClient::Response result;
-  try {
-    result =
-        m_connection->commandSync({"SET", m_keyFullPath, value}, m_dbIndex);
-  } catch (const RedisClient::Connection::Exception& e) {
-    emit m_notifier->error(
-        QCoreApplication::translate("RDM", "Connection error: ") +
-        QString(e.what()));
-    return;
-  }
+  executeCmd(
+      {"SET", m_keyFullPath, value}, [this, c, value](const QString& err) {
+        if (err.isEmpty()) {
+          m_rowsCache.clear();
+          m_rowsCache.addLoadedRange({0, 0}, (QList<QByteArray>() << value));
+        }
 
-  if (result.isOkMessage()) {
-    m_rowsCache.clear();
-    m_rowsCache.addLoadedRange({0, 0}, (QList<QByteArray>() << value));
-  }
+        return c(err);
+      });
 }
 
-void StringKeyModel::addRow(const QVariantMap& row, Callback c) { updateRow(0, row, c); }
+void StringKeyModel::addRow(const QVariantMap& row, Callback c) {
+  updateRow(0, row, c);
+}
 
 void StringKeyModel::loadRows(QVariant, unsigned long,
-                              std::function<void(const QString&, unsigned long)> callback) {
-  try {
-    m_connection->command(
-        {"GET", m_keyFullPath}, getConnector().data(),
-        [this, callback](RedisClient::Response r, QString e) {
-          if (r.type() != RedisClient::Response::String || !e.isEmpty()) {
-            return callback(QString("Cannot load value"), 0);
-          }
+                              LoadRowsCallback callback) {
+  auto onConnectionError = [callback](const QString& err) {
+    return callback(err, 0);
+  };
 
-          m_rowsCache.clear();
-          m_rowsCache.push_back(r.value().toByteArray());
+  auto responseHandler = [this, callback](RedisClient::Response r, Callback) {
+    m_rowsCache.clear();
+    m_rowsCache.push_back(r.value().toByteArray());
 
-          callback(QString(), 1);
-        },
-        m_dbIndex);
-  } catch (const RedisClient::Connection::Exception& e) {
-    emit m_notifier->error(
-        QCoreApplication::translate("RDM", "Connection error: ") +
-        QString(e.what()));
-  }
+    callback(QString(), 1);
+  };
+
+  executeCmd({"JSON.GET", m_keyFullPath}, onConnectionError, CmdHandler(),
+             RedisClient::Response::String);
 }
 
 void StringKeyModel::removeRow(int, Callback) {

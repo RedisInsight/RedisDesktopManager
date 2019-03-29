@@ -11,11 +11,11 @@ class StringKeyModel : public KeyModel<QByteArray> {
   QHash<int, QByteArray> getRoles() override;
   QVariant getData(int rowIndex, int dataRole) override;
 
-  void addRow(const QVariantMap&, Callback) override;
-  virtual void updateRow(int rowIndex, const QVariantMap& row, Callback) override;
-  void loadRows(QVariant, unsigned long,
-                std::function<void(const QString&, unsigned long)> callback) override;
-  void removeRow(int, Callback) override;
+  void addRow(const QVariantMap&, Callback c) override;
+  virtual void updateRow(int rowIndex, const QVariantMap& row,
+                         Callback c) override;
+  void loadRows(QVariant, unsigned long, LoadRowsCallback callback) override;
+  void removeRow(int, Callback c) override;
 
  protected:
   void addLoadedRowsToCache(const QVariantList&, QVariant) override {}

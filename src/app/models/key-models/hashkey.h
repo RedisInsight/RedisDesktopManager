@@ -23,6 +23,6 @@ class HashKeyModel : public KeyModel<QPair<QByteArray, QByteArray>> {
   enum Roles { RowNumber = Qt::UserRole + 1, Key, Value };
 
   void setHashRow(const QByteArray &hashKey, const QByteArray &hashValue,
-                  bool updateIfNotExist = true);
-  void deleteHashRow(const QByteArray &hashKey);
+                  Callback c, bool updateIfNotExist = true);
+  void deleteHashRow(const QByteArray &hashKey, Callback c);
 };

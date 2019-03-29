@@ -41,9 +41,11 @@ class Model : public QEnableSharedFromThis<Model> {
   virtual void updateRow(int rowIndex, const QVariantMap&,
                          Callback) = 0;  // async
   virtual unsigned long rowsCount() = 0;
+
+  typedef std::function<void(const QString&, unsigned long)> LoadRowsCallback;
   virtual void loadRows(QVariant rowStart, unsigned long count,
-                        std::function<void(const QString&, unsigned long)>
-                            callback) = 0;  // async
+                        LoadRowsCallback c) = 0;  // async
+
   virtual void clearRowCache() = 0;
   virtual void removeRow(int, Callback) = 0;  // async
   virtual bool isRowLoaded(int) = 0;

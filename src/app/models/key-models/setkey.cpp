@@ -8,7 +8,7 @@ SetKeyModel::SetKeyModel(QSharedPointer<RedisClient::Connection> connection,
 
 QString SetKeyModel::type() { return "set"; }
 
-void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback) {
+void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
     emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
     return;
@@ -17,48 +17,52 @@ void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback) {
   QByteArray cachedRow = m_rowsCache[rowIndex];
   QByteArray newRow(row["value"].toByteArray());
 
-  deleteSetRow(cachedRow);
-  addSetRow(newRow);
-  m_rowsCache.replace(rowIndex, newRow);
+  auto onRowAdded = [this, c, rowIndex, newRow](const QString &err) {
+    if (err.isEmpty()) m_rowsCache.replace(rowIndex, newRow);
+    return c(err);
+  };
+
+  deleteSetRow(cachedRow, [this, c, newRow, onRowAdded](const QString &err) {
+    if (err.size() > 0) return c(err);
+
+    addSetRow(newRow, onRowAdded);
+  });
 }
 
-void SetKeyModel::addRow(const QVariantMap &row, Callback) {
+void SetKeyModel::addRow(const QVariantMap &row, Callback c) {
   if (!isRowValid(row)) {
-    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return c(QCoreApplication::translate("RDM", "Invalid row"));
   }
 
-  addSetRow(row["value"].toByteArray());
-  m_rowCount++;
+  addSetRow(row["value"].toByteArray(), [this, c](const QString &err) {
+    if (err.isEmpty()) {
+      m_rowCount++;
+    }
+
+    return c(err);
+  });
 }
 
-void SetKeyModel::removeRow(int i, Callback) {
+void SetKeyModel::removeRow(int i, Callback c) {
   if (!isRowLoaded(i)) return;
 
   QByteArray value = m_rowsCache[i];
-  deleteSetRow(value);
+  deleteSetRow(value, [this, c, i](const QString &err) {
+    if (err.isEmpty()) {
+      m_rowCount--;
+      m_rowsCache.removeAt(i);
 
-  m_rowCount--;
-  m_rowsCache.removeAt(i);
+      setRemovedIfEmpty();
+    }
 
-  setRemovedIfEmpty();
+    return c(err);
+  });
 }
 
-void SetKeyModel::addSetRow(const QByteArray &value) {
-  try {
-    m_connection->commandSync({"SADD", m_keyFullPath, value}, m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    emit m_notifier->error(
-        QCoreApplication::translate("RDM", "Connection error: ") +
-        QString(e.what()));
-  }
+void SetKeyModel::addSetRow(const QByteArray &value, Callback c) {
+  executeCmd({"SADD", m_keyFullPath, value}, c);
 }
 
-RedisClient::Response SetKeyModel::deleteSetRow(const QByteArray &value) {
-  try {
-    return m_connection->commandSync({"SREM", m_keyFullPath, value}, m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    emit m_notifier->error(
-        QCoreApplication::translate("RDM", "Connection error: ") +
-        QString(e.what()));
-  }
+void SetKeyModel::deleteSetRow(const QByteArray &value, Callback c) {
+  executeCmd({"SREM", m_keyFullPath, value}, c);
 }

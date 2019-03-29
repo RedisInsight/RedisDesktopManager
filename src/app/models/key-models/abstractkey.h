@@ -126,9 +126,8 @@ class KeyModel : public ValueEditor::Model {
     m_notifier->removed();
   }
 
-  virtual void loadRows(
-      QVariant rowStart, unsigned long count,
-      std::function<void(const QString&, unsigned long)> callback) override {
+  virtual void loadRows(QVariant rowStart, unsigned long count,
+                        LoadRowsCallback callback) override {
     if (m_rowsLoadCmd.mid(1, 4).toLower() == "scan") {
       QList<QByteArray> cmdParts = m_rowsLoadCmd.split(' ');
       cmdParts.replace(cmdParts.indexOf("%1"), m_keyFullPath);
@@ -292,6 +291,34 @@ class KeyModel : public ValueEditor::Model {
     if (m_rowCount == 0) {
       m_notifier->removed();
     }
+  }
+
+  typedef std::function<void(RedisClient::Response r, Callback c)> CmdHandler;
+
+  virtual void executeCmd(QList<QByteArray> cmd, Callback c,
+                          CmdHandler handler = CmdHandler(),
+                          RedisClient::Response::Type expectedType =
+                              RedisClient::Response::Type::Unknown) {
+    m_connection->cmd(
+        cmd, m_notifier.data(), m_dbIndex,
+        [c, handler, expectedType](RedisClient::Response r) {
+          if (expectedType != RedisClient::Response::Type::Unknown &&
+              r.type() != expectedType) {
+            return c(QCoreApplication::translate(
+                         "RDM", "Server returned unexpected response: ") +
+                     r.value().toString());
+          }
+
+          if (handler) {
+            return handler(r, c);
+          } else {
+            return c(QString());
+          }
+        },
+        [c](QString err) {
+          return c(QCoreApplication::translate("RDM", "Connection error: ") +
+                   err);
+        });
   }
 
   virtual void addLoadedRowsToCache(const QVariantList& rows,

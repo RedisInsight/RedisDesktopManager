@@ -11,9 +11,9 @@ class SortedSetKeyModel : public KeyModel<QPair<QByteArray, QByteArray>> {
   QHash<int, QByteArray> getRoles() override;
   QVariant getData(int rowIndex, int dataRole) override;
 
-  void addRow(const QVariantMap&, Callback) override;
-  virtual void updateRow(int rowIndex, const QVariantMap&, Callback) override;
-  void removeRow(int, Callback) override;
+  void addRow(const QVariantMap&, Callback c) override;
+  virtual void updateRow(int rowIndex, const QVariantMap&, Callback c) override;
+  void removeRow(int, Callback c) override;
 
  protected:
   void addLoadedRowsToCache(const QVariantList& list,
@@ -22,6 +22,7 @@ class SortedSetKeyModel : public KeyModel<QPair<QByteArray, QByteArray>> {
  private:
   enum Roles { RowNumber = Qt::UserRole + 1, Value, Score };
 
-  bool addSortedSetRow(const QByteArray& value, QByteArray score);
-  void deleteSortedSetRow(const QByteArray& value);
+  void addSortedSetRow(const QByteArray& value, QByteArray score, Callback c,
+                       bool updateExisting = false);
+  void deleteSortedSetRow(const QByteArray& value, Callback c);
 };

@@ -14,9 +14,7 @@ class ReJSONKeyModel : public KeyModel<QByteArray> {
   void addRow(const QVariantMap&, ValueEditor::Model::Callback c) override;
   virtual void updateRow(int rowIndex, const QVariantMap& row,
                          ValueEditor::Model::Callback c) override;
-  void loadRows(
-      QVariant, unsigned long,
-      std::function<void(const QString&, unsigned long)> callback) override;
+  void loadRows(QVariant, unsigned long, LoadRowsCallback callback) override;
   void removeRow(int, ValueEditor::Model::Callback c) override;
 
  protected:

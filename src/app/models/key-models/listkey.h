@@ -15,8 +15,8 @@ class ListKeyModel : public ListLikeKeyModel {
   void removeRow(int, ValueEditor::Model::Callback c) override;
 
  private:
-  bool isActualPositionChanged(int row);
-  void addListRow(const QByteArray &value);
-  void setListRow(int pos, const QByteArray &value);
-  void deleteListRow(int count, const QByteArray &value);
+  void verifyListItemPosistion(int row, Callback c);
+  void addListRow(const QByteArray &value, Callback c);
+  void setListRow(int pos, const QByteArray &value, Callback c);
+  void deleteListRow(int count, const QByteArray &value, Callback c);
 };

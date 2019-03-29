@@ -25,8 +25,9 @@ void KeyFactory::loadKey(
         resp.type() != RedisClient::Response::Type::Status) {
       QString msg(QCoreApplication::translate(
           "RDM", "Cannot load key %1, connection error occurred: %2"));
-      callback(result,
-               msg.arg(printableString(keyFullPath)).arg(resp.value().toString()));
+      callback(
+          result,
+          msg.arg(printableString(keyFullPath)).arg(resp.value().toString()));
       return;
     }
 
@@ -95,11 +96,14 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r, QJSValue jsCallback) {
 
   if (!result) return;
 
-  result->addRow(r.value(), [this, r, &jsCallback](const QString& err) {
-      // TODO: add error handling
-      r.callback();
+  result->addRow(r.value(), [r, &jsCallback](const QString& err) {
+    if (err.size() > 0) {
+      if (jsCallback.isCallable()) jsCallback.call(QJSValueList{err});
+      return;
+    }
 
-      if (jsCallback.isCallable()) jsCallback.call(QJSValueList{});
+    if (jsCallback.isCallable()) jsCallback.call(QJSValueList{});
+    r.callback();
   });
 }
 
