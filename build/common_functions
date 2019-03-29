@@ -8,7 +8,7 @@ DEPS_DIR=$RDM_DIR/3rdparty/
 
 function build_breakpad {
     cd $DEPS_DIR/gbreakpad/
-    git clone --depth 1 -v https://github.com/RedisDesktop/linux-syscall-support.git src/third_party/lss || true
+    git clone --depth 1 -v git@github.com:RedisDesktop/linux-syscall-support.git src/third_party/lss || true
     if [ ! -d "src/third_party/lss" ]; then
         echo "Cannot clone linux-syscall-support repo"
         exit 2
