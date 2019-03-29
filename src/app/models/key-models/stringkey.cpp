@@ -20,7 +20,6 @@ QHash<int, QByteArray> StringKeyModel::getRoles() {
 
 QVariant StringKeyModel::getData(int rowIndex, int dataRole) {
   if (!isRowLoaded(rowIndex)) return QVariant();
-
   if (dataRole == Roles::Value) return m_rowsCache[rowIndex];
 
   return QVariant();
@@ -65,7 +64,7 @@ void StringKeyModel::loadRows(QVariant, unsigned long,
     callback(QString(), 1);
   };
 
-  executeCmd({"JSON.GET", m_keyFullPath}, onConnectionError, CmdHandler(),
+  executeCmd({"GET", m_keyFullPath}, onConnectionError, responseHandler,
              RedisClient::Response::String);
 }
 

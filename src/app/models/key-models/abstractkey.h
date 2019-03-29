@@ -136,22 +136,23 @@ class KeyModel : public ValueEditor::Model {
       auto self = ValueEditor::Model::sharedFromThis().toWeakRef();
 
       try {
-        m_connection->retrieveCollection(cmd, [this, callback, rowStart, self](
-                                                  QVariant result, QString) {
-          if (!self) {
-            return;
-          }
+        m_connection->retrieveCollection(
+            cmd, [this, callback, rowStart, self](QVariant result, QString) {
+              if (!self) {
+                return;
+              }
 
-          if (result.type() == QVariant::Type::List) {
-            try {
-              auto loadedRows = result.toList();
-              addLoadedRowsToCache(loadedRows, rowStart);
-              callback(QString(), loadedRows.size() / getColumnNames().size());
-            } catch (const std::runtime_error& e) {
-              callback(QString(e.what()), 0);
-            }
-          }
-        });
+              if (result.type() == QVariant::Type::List) {
+                try {
+                  auto loadedRows = result.toList();
+                  addLoadedRowsToCache(loadedRows, rowStart);
+                  callback(QString(),
+                           loadedRows.size() / (getColumnNames().size() - 1));
+                } catch (const std::runtime_error& e) {
+                  callback(QString(e.what()), 0);
+                }
+              }
+            });
       } catch (const RedisClient::Connection::Exception& e) {
         callback(QString(e.what()), 0);
       }

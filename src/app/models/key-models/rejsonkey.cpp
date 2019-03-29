@@ -67,7 +67,7 @@ void ReJSONKeyModel::loadRows(QVariant, unsigned long,
     callback(QString(), 1);
   };
 
-  executeCmd({"JSON.GET", m_keyFullPath}, onConnectionError, CmdHandler(),
+  executeCmd({"JSON.GET", m_keyFullPath}, onConnectionError, responseHandler,
              RedisClient::Response::String);
 }
 

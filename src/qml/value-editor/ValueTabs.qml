@@ -61,7 +61,7 @@ Repeater {
 
         property Component searchModelComponent: Component {
             SortFilterProxyModel {
-                source: keyTab.keyModel
+                source: keyViewModel
                 sortOrder: table.sortIndicatorOrder
                 sortCaseSensitivity: Qt.CaseInsensitive
                 sortRole: keyTab.keyModel ? table.getColumn(table.sortIndicatorColumn).role : ""
@@ -407,9 +407,11 @@ Repeater {
 
                             Connections {
                                 target: table.selection
-                                onSelectionChanged:{
-                                    console.log("Selection changed", table.currentRow)
-                                    return valueEditor.loadRowValue(table.model.getOriginalRowIndex(table.currentRow))
+                                onSelectionChanged:{                                   
+                                    if (table.currentRow !== -1) {
+                                        console.log("Selection changed", table.currentRow)
+                                        return valueEditor.loadRowValue(table.model.getOriginalRowIndex(table.currentRow))
+                                    }
                                 }
                             }
                         }
@@ -601,6 +603,7 @@ Repeater {
                             source: Editor.getEditorByTypeString(keyType)
 
                             function loadRowValue(row) {
+                                console.log("loading row value", row)
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row, true)
                                     valueEditor.currentRow = row
