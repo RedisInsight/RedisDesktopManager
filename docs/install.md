@@ -12,6 +12,17 @@
 2. Mount dmg image
 3. Run rdm.app
 
+## Install with homebrew on Mac OS X
+
+1. Install rdm
+    ```
+    brew install rdm
+    ```
+2. Run rdm
+    ```
+    rdm
+    ```
+
 ## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / Other Linux
 
 1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager)
