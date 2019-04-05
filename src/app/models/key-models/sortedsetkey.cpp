@@ -114,7 +114,7 @@ void SortedSetKeyModel::addSortedSetRow(const QByteArray &value,
   QList<QByteArray> cmd;
 
   if (updateExisting) {
-    cmd = {"ZADD", "XX", m_keyFullPath, score, value};
+    cmd = {"ZADD", m_keyFullPath, "XX", score, value};
   } else {
     cmd = {"ZADD", m_keyFullPath, score, value};
   }
