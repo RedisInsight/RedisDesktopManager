@@ -398,7 +398,19 @@ Repeater {
 
                                 keyModelConnections.target = keyTab.keyModel
                                 wrapper.showLoader()
-                                keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+
+                                if (keyTab.keyModel.totalRowCount === 0) {
+                                    keyTab.keyModel.loadRowsCount(function (err) {
+                                        if (err) {
+                                            notification.showError(err)
+                                            return
+                                        }
+
+                                        keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+                                    })
+                                } else {
+                                    keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+                                }
                             }
 
                             onRowCountChanged: wrapper.hideLoader()

@@ -185,33 +185,15 @@ class KeyModel : public ValueEditor::Model {
   virtual void loadRowsCount(ValueEditor::Model::Callback c) override {
     if (!isMultiRow()) {
       m_rowCount = 1;
-      return;
+      return c(QString());
     }
 
-    try {
-      m_connection->command(
-          {m_rowsCountCmd, m_keyFullPath}, getConnector().data(),
-          [this](RedisClient::Response r, QString e) {
-            if (!e.isEmpty()) {
-              emit m_notifier->error(
-                  QCoreApplication::translate(
-                      "RDM", "Cannot load rows count for key %1: %2")
-                      .arg(getKeyName())
-                      .arg(e));
-            }
-
-            if (r.type() == RedisClient::Response::Integer) {
-              m_rowCount = r.value().toUInt();
-            }
-          },
-          m_dbIndex);
-
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_notifier->error(QCoreApplication::translate(
-                                 "RDM", "Cannot load rows count for key %1: %2")
-                                 .arg(getKeyName())
-                                 .arg(e.what()));
-    }
+    executeCmd({m_rowsCountCmd, m_keyFullPath}, c,
+               [this](RedisClient::Response r, Callback c) {
+                 m_rowCount = r.value().toUInt();
+                 c(QString());
+               },
+               RedisClient::Response::Type::Integer);
   }
 
  protected:

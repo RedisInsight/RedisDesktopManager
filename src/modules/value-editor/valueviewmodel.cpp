@@ -34,18 +34,16 @@ QSharedPointer<ValueEditor::Model> ValueEditor::ValueViewModel::model() {
 void ValueEditor::ValueViewModel::renameKey(const QString& newKeyName,
                                             QJSValue jsCallback) {
   m_model->setKeyName(printableStringToBinary(newKeyName),
-                      [jsCallback](const QString& error)
-  {
-      // TBD
-  });
+                      [jsCallback](const QString& error) {
+                        // TBD
+                      });
   emit keyRenamed();
 }
 
 void ValueEditor::ValueViewModel::setTTL(const QString& newTTL,
                                          QJSValue jsCallback) {
-  m_model->setTTL(newTTL.toLong(), [jsCallback](const QString& error)
-  {
-      // TBD
+  m_model->setTTL(newTTL.toLong(), [jsCallback](const QString& error) {
+    // TBD
   });
   emit keyTTLChanged();
 }
@@ -68,19 +66,20 @@ QVariantList ValueEditor::ValueViewModel::columnNames() {
 
 void ValueEditor::ValueViewModel::reload() {
   m_model->clearRowCache();
-  m_model->loadRowsCount([this](const QString& err)
-  {
-      if (err.size() > 0 || m_model->rowsCount() <= 0) {
-        emit error(QCoreApplication::translate("RDM", "Cannot reload key value: %1").arg(err));
-        return;
-      }
+  m_model->loadRowsCount([this](const QString& err) {
+    if (err.size() > 0 || m_model->rowsCount() <= 0) {
+      emit error(
+          QCoreApplication::translate("RDM", "Cannot reload key value: %1")
+              .arg(err));
+      return;
+    }
 
-      emit totalRowCountChanged();
-      emit pageSizeChanged();
+    emit totalRowCountChanged();
+    emit pageSizeChanged();
 
-      loadRows(m_startFramePosition, m_model->rowsCount() < pageSize()
-                                         ? m_model->rowsCount()
-                                         : pageSize());
+    loadRows(m_startFramePosition, m_model->rowsCount() < pageSize()
+                                       ? m_model->rowsCount()
+                                       : pageSize());
   });
 }
 
@@ -125,10 +124,10 @@ void ValueEditor::ValueViewModel::loadRows(int start, int limit) {
 }
 
 void ValueEditor::ValueViewModel::addRow(const QVariantMap& row) {
-    m_model->addRow(row, [this](const QString& err) {
-        // TODO: error handling
-        emit layoutChanged();
-    });
+  m_model->addRow(row, [this](const QString& err) {
+    // TODO: error handling
+    emit layoutChanged();
+  });
 }
 
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap& row) {
@@ -136,8 +135,8 @@ void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap& row) {
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
   m_model->updateRow(targetRow, row, [this, i](const QString& err) {
-      // TODO: error handling
-      emit dataChanged(index(i, 0), index(i, 0));
+    // TODO: error handling
+    emit dataChanged(index(i, 0), index(i, 0));
   });
 }
 
@@ -147,12 +146,12 @@ void ValueEditor::ValueViewModel::deleteRow(int i) {
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
   m_model->removeRow(targetRow, [this, i, targetRow](const QString& err) {
-      // TODO: error handling
-      emit beginRemoveRows(QModelIndex(), i, i);
-      emit endRemoveRows();
+    // TODO: error handling
+    emit beginRemoveRows(QModelIndex(), i, i);
+    emit endRemoveRows();
 
-      if (targetRow < m_model->rowsCount())
-        emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
+    if (targetRow < m_model->rowsCount())
+      emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
   });
 }
 
@@ -175,5 +174,16 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row) {
 }
 
 void ValueEditor::ValueViewModel::loadRowsCount(QJSValue jsCallback) {
-  //m_model->
+  m_model->loadRowsCount([this, &jsCallback](const QString& err) {
+    emit totalRowCountChanged();
+
+    if (!jsCallback.isCallable()) return;
+
+    if (err.size() > 0) {
+      jsCallback.call({err});
+      return;
+    }
+
+    jsCallback.call({});
+  });
 }
