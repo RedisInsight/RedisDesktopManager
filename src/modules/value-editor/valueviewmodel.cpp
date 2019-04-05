@@ -34,21 +34,44 @@ QSharedPointer<ValueEditor::Model> ValueEditor::ValueViewModel::model() {
 void ValueEditor::ValueViewModel::renameKey(const QString& newKeyName,
                                             QJSValue jsCallback) {
   m_model->setKeyName(printableStringToBinary(newKeyName),
-                      [jsCallback](const QString& error) {
-                        // TBD
+                      [this, &jsCallback](const QString& error) {
+                        if (error.size() > 0 && jsCallback.isCallable()) {
+                          jsCallback.call({error});
+                          return;
+                        }
+
+                        emit keyRenamed();
+
+                        if (jsCallback.isCallable()) jsCallback.call({});
                       });
-  emit keyRenamed();
 }
 
 void ValueEditor::ValueViewModel::setTTL(const QString& newTTL,
                                          QJSValue jsCallback) {
-  m_model->setTTL(newTTL.toLong(), [jsCallback](const QString& error) {
-    // TBD
+  m_model->setTTL(newTTL.toLong(), [this, &jsCallback](const QString& error) {
+    if (error.size() > 0 && jsCallback.isCallable()) {
+      jsCallback.call({error});
+      return;
+    }
+
+    emit keyTTLChanged();
+
+    if (jsCallback.isCallable()) jsCallback.call({});
   });
-  emit keyTTLChanged();
 }
 
-void ValueEditor::ValueViewModel::removeKey() {}
+void ValueEditor::ValueViewModel::removeKey(QJSValue jsCallback) {
+  m_model->removeKey([this, &jsCallback](const QString& error) {
+    if (error.size() > 0 && jsCallback.isCallable()) {
+      jsCallback.call({error});
+      return;
+    }
+
+    emit keyRemoved();
+
+    if (jsCallback.isCallable()) jsCallback.call({});
+  });
+}
 
 int ValueEditor::ValueViewModel::mapRowIndex(int i) {
   return m_startFramePosition + i;
@@ -125,7 +148,10 @@ void ValueEditor::ValueViewModel::loadRows(int start, int limit) {
 
 void ValueEditor::ValueViewModel::addRow(const QVariantMap& row) {
   m_model->addRow(row, [this](const QString& err) {
-    // TODO: error handling
+    if (err.size() > 0) {
+      emit error(err);
+      return;
+    }
     emit layoutChanged();
   });
 }
@@ -135,7 +161,10 @@ void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap& row) {
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
   m_model->updateRow(targetRow, row, [this, i](const QString& err) {
-    // TODO: error handling
+    if (err.size() > 0) {
+      emit error(err);
+      return;
+    }
     emit dataChanged(index(i, 0), index(i, 0));
   });
 }
@@ -146,12 +175,18 @@ void ValueEditor::ValueViewModel::deleteRow(int i) {
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
   m_model->removeRow(targetRow, [this, i, targetRow](const QString& err) {
-    // TODO: error handling
+    if (err.size() > 0) {
+      emit error(err);
+      return;
+    }
+
     emit beginRemoveRows(QModelIndex(), i, i);
     emit endRemoveRows();
 
     if (targetRow < m_model->rowsCount())
       emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
+
+    if (m_model->rowsCount() == 0) emit keyRemoved();
   });
 }
 

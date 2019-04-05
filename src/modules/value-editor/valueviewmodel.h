@@ -30,7 +30,7 @@ class ValueViewModel : public BaseListModel {
   // general key operations
   Q_INVOKABLE void renameKey(const QString& newKeyName, QJSValue jsCallback);
   Q_INVOKABLE void setTTL(const QString& newTTL, QJSValue jsCallback);
-  Q_INVOKABLE void removeKey();
+  Q_INVOKABLE void removeKey(QJSValue jsCallback);
 
   // single row operations
   Q_INVOKABLE bool isRowLoaded(int i);
