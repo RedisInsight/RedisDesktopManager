@@ -54,76 +54,49 @@ class KeyModel : public ValueEditor::Model {
 
   virtual void setKeyName(const QByteArray& newKeyName,
                           ValueEditor::Model::Callback c) override {
-    RedisClient::Response result;
+    executeCmd({"RENAMENX", m_keyFullPath, newKeyName}, c,
+               [this, newKeyName](RedisClient::Response r, Callback c) {
+                 if (r.value().toInt() == 0) {
+                   return c(QCoreApplication::translate(
+                                "RDM",
+                                "Key with new name %1 already exist in "
+                                "database or original key was "
+                                "removed")
+                                .arg(getKeyName()));
+                 }
 
-    try {
-      result = m_connection->commandSync(
-          {"RENAMENX", m_keyFullPath, newKeyName}, m_dbIndex);
-    } catch (const RedisClient::Connection::Exception& e) {
-      return c(QCoreApplication::translate("RDM", "Cannot rename key %1: %2")
-                   .arg(getKeyName())
-                   .arg(e.what()));
-    }
-
-    if (result.value().toInt() == 0) {
-      emit m_notifier->error(
-          QCoreApplication::translate("RDM",
-                                      "Key with new name %1 already exist in "
-                                      "database or original key was "
-                                      "removed")
-              .arg(getKeyName()));
-      return;
-    }
-
-    m_keyFullPath = newKeyName;
+                 m_keyFullPath = newKeyName;
+                 c(QString());
+               },
+               RedisClient::Response::Type::Integer);
   }
 
   virtual void setTTL(const long long ttl,
                       ValueEditor::Model::Callback c) override {
-    RedisClient::Response result;
-    qDebug() << QString("TTL=%1").arg(ttl);
-    try {
-      if (ttl >= 0)
-        result = m_connection->commandSync(
-            {"EXPIRE", m_keyFullPath, QString::number(ttl).toLatin1()},
-            m_dbIndex);
-      else
-        result =
-            m_connection->commandSync({"PERSIST", m_keyFullPath}, m_dbIndex);
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_notifier->error(
-          QCoreApplication::translate("RDM", "Cannot set TTL for key %1: %2")
-              .arg(getKeyName())
-              .arg(e.what()));
-      return;
-    }
+    executeCmd({"EXPIRE", m_keyFullPath, QString::number(ttl).toLatin1()}, c,
+               [this, ttl](RedisClient::Response r, Callback c) {
+                 if (r.value().toInt() == 0) {
+                   return c(QCoreApplication::translate(
+                                "RDM", "Cannot set TTL for key %1")
+                                .arg(getKeyName()));
+                 }
 
-    if (result.value().toInt() == 0) {
-      emit m_notifier->error(
-          QCoreApplication::translate("RDM", "Cannot set TTL for key %1")
-              .arg(getKeyName()));
-      return;
-    }
-    if (ttl >= 0)
-      m_ttl = ttl;
-    else
-      m_ttl = -1;
+                 if (ttl >= 0)
+                   m_ttl = ttl;
+                 else
+                   m_ttl = -1;
+
+                 c(QString());
+               },
+               RedisClient::Response::Type::Integer);
   }
 
   virtual void removeKey(ValueEditor::Model::Callback c) override {
-    RedisClient::Response result;
-
-    try {
-      result = m_connection->commandSync({"DEL", m_keyFullPath}, m_dbIndex);
-    } catch (const RedisClient::Connection::Exception& e) {
-      emit m_notifier->error(
-          QCoreApplication::translate("RDM", "Cannot remove key %1: %2")
-              .arg(getKeyName())
-              .arg(e.what()));
-      return;
-    }
-
-    m_notifier->removed();
+    executeCmd({"DEL", m_keyFullPath}, c,
+               [this](RedisClient::Response r, Callback c) {
+                 m_notifier->removed();
+                 c(QString());
+               });
   }
 
   virtual void loadRows(QVariant rowStart, unsigned long count,
@@ -163,7 +136,7 @@ class KeyModel : public ValueEditor::Model {
             if (!err.isEmpty()) return callback(err, 0);
 
             addLoadedRowsToCache(result, rowStart);
-            callback(QString(), result.size());
+            callback(QString(), result.size() / (getColumnNames().size() - 1));
           });
     }
   }

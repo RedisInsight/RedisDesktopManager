@@ -172,7 +172,12 @@ void ValueEditor::TabsModel::loadModel(
   }
 
   connect(viewModel.data(), &ValueViewModel::keyRenamed, this,
-          [this, viewModel] { tabChanged(viewModel); });
+          [this, viewModel, key] {
+            tabChanged(viewModel);
+            if (key && viewModel->model())
+              key.toStrongRef()->setFullPath(
+                  viewModel->model()->getKeyName().toUtf8());
+          });
 
   connect(viewModel.data(), &ValueViewModel::keyTTLChanged, this,
           [this, viewModel] { tabChanged(viewModel); });

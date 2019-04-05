@@ -149,7 +149,12 @@ Repeater {
                                     return open()
                                 }
 
-                                valuesModel.renameKey(keyTab.tabIndex, newKeyName.text)
+                                keyTab.keyModel.renameKey(newKeyName.text, function (err) {
+                                    if (err) {
+                                        notification.showError(err)
+                                        return
+                                    }
+                                })
                             }
 
                             visible: false
@@ -198,7 +203,12 @@ Repeater {
                                     return open()
                                 }
 
-                                valuesModel.setTTL(keyTab.tabIndex, newTTL.text)
+                                keyTab.keyModel.setTTL(newTTL.text, function (err) {
+                                    if (err) {
+                                        notification.showError(err)
+                                        return
+                                    }
+                                })
                             }
 
                             visible: false
@@ -225,7 +235,12 @@ Repeater {
                             text: qsTranslate("RDM","Do you really want to delete this key?")
                             onYes: {
                                 console.log("remove key")
-                                valuesModel.removeKey(keyTab.tabIndex)
+                                keyTab.keyModel.removeKey(function (err) {
+                                    if (err) {
+                                        notification.showError(err)
+                                        return
+                                    }
+                                })
                             }
                             visible: false
                             modality: Qt.ApplicationModal
