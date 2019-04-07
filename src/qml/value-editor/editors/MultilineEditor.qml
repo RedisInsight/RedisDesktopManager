@@ -146,26 +146,15 @@ ColumnLayout
                 return
             }
 
-            if (format === "json") {
-                // 1 is JSON
-                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-                    textView.model = qmlUtils.wrapLargeText(formattedJson)
-                    textView.readOnly = isReadOnly
-                    textView.textFormat = TextEdit.PlainText
-                    root.isEdited = false
-                    uiBlocker.visible = false
-                })
+            if (format === "json" || format === "html") {
+                textView.textFormat = TextEdit.RichText
             } else {
-                textView.model = qmlUtils.wrapLargeText(formatted)
-                textView.readOnly = isReadOnly
-                root.isEdited = false
-
-                if (format === "html")
-                    textView.textFormat = TextEdit.RichText
-                else
-                    textView.textFormat = TextEdit.PlainText
+                textView.textFormat = TextEdit.PlainText
             }
 
+            textView.model = qmlUtils.wrapLargeText(formatted)
+            textView.readOnly = isReadOnly
+            root.isEdited = false
             uiBlocker.visible = false
         })
     }
