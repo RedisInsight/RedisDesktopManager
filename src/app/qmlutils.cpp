@@ -5,6 +5,7 @@
 #include <qredisclient/utils/text.h>
 #include <QtCharts/QDateTimeAxis>
 #include <QDateTime>
+#include <qtextdocumentfragment.h>
 
 #include "value-editor/largetextmodel.h"
 
@@ -175,4 +176,9 @@ void QmlUtils::deleteTextWrapper(QObject *w)
 QString QmlUtils::escapeHtmlEntities(const QString &t)
 {
     return t.toHtmlEscaped();
+}
+
+QString QmlUtils::htmlToPlainText(const QString& html)
+{
+    return QTextDocumentFragment::fromHtml( html ).toPlainText();
 }

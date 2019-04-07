@@ -16,7 +16,7 @@ ColumnLayout
     property bool showFormatters: true
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
     property bool isEdited: false
-    property var value    
+    property var value
     property int valueSizeLimit: 150000
     property string formatterSettingsCategory: "formatters_value"
 
@@ -33,12 +33,12 @@ ColumnLayout
     }
 
     function validate(callback) {
-        loadRawValue(function (error, raw) {            
+        loadRawValue(function (error, raw) {
 
-            if (error) {                
+            if (error) {
                 notification.showError(error)
                 return callback(false);
-            }            
+            }
 
             var valid = validationRule(raw)
 
@@ -146,25 +146,15 @@ ColumnLayout
                 return
             }
 
-            if (format === "json") {
-                // 1 is JSON
-                return formatterSelector.model[1].instance.getFormatted(formatted, function (formattedJson, r, f) {
-                    textView.model = qmlUtils.wrapLargeText(formattedJson)
-                    textView.readOnly = isReadOnly
-                    textView.textFormat = TextEdit.PlainText
-                    root.isEdited = false
-                    uiBlocker.visible = false
-                })
+            if (format === "json" || format === "html") {
+                textView.textFormat = TextEdit.RichText
             } else {
-                textView.textFormat = (format === "html")
-                    ? TextEdit.RichText
-                    : TextEdit.PlainText;
-
-                textView.model = qmlUtils.wrapLargeText(formatted)
-                textView.readOnly = isReadOnly
-                root.isEdited = false
+                textView.textFormat = TextEdit.PlainText
             }
 
+            textView.model = qmlUtils.wrapLargeText(formatted)
+            textView.readOnly = isReadOnly
+            root.isEdited = false
             uiBlocker.visible = false
         })
     }
@@ -203,7 +193,7 @@ ColumnLayout
             selectByMouse: true
             color: "#ccc"
         }
-        Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }        
+        Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
         Item { Layout.fillWidth: true }
 
         ImageButton {
@@ -243,7 +233,7 @@ ColumnLayout
         id: texteditorWrapper
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 100        
+        Layout.preferredHeight: 100
 
         color: "white"
         border.color: "#cccccc"
@@ -280,7 +270,7 @@ ColumnLayout
                         }
                     }
                 }
-            }            
+            }
     }
 
     Text {
@@ -301,5 +291,5 @@ ColumnLayout
         }
 
         MouseArea { anchors.fill: parent }
-    }    
+    }
 }

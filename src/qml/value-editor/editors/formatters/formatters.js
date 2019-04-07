@@ -61,7 +61,7 @@ var json = {
 
     getFormatted: function (raw, callback) {
         try {
-            return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_PLAIN_TEXT)
+            return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_JSON)
         } catch (e) {
             return callback(qsTranslate("RDM", "Invalid JSON: ") + e)
         }
@@ -78,7 +78,8 @@ var json = {
 
     getRaw: function (formatted, callback) {
         try {
-            return callback("", JSONFormatter.minify(formatted))
+            var plainText = qmlUtils.htmlToPlainText(formatted)
+            return callback("", JSONFormatter.minify(plainText))
         } catch (e) {
             return callback(qsTranslate("RDM", "Error") + ": " + e)
         }
