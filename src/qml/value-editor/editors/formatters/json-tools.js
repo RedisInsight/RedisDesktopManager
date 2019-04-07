@@ -88,7 +88,6 @@ var prettyPrint = function( json ) {
 
     var highlighted = syntaxHighlight(out);
 
-//    return out;
     return '<pre id="value">' + highlighted + '</pre>';
 };
 
