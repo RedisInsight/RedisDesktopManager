@@ -650,7 +650,7 @@ Repeater {
                                         if (!result)
                                             return;
 
-                                        var value = valueEditor.item.getValue()                                        
+                                        var value = valueEditor.item.getValue()
                                         keyTab.keyModel.updateRow(valueEditor.currentRow, value)
 
                                         savingConfirmation.text = qsTranslate("RDM","Value was updated!")
