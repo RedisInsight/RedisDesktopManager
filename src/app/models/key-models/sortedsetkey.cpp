@@ -147,6 +147,6 @@ void SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
     result.push_back(value);
   }
 
-  auto rowStart = rowStartId.toULongLong();
+  auto rowStart = rowStartId.toLongLong();
   m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1}, result);
 }

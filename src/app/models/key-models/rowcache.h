@@ -4,7 +4,7 @@
 #include <QPair>
 #include <exception>
 
-typedef long RowIndex;
+typedef qlonglong RowIndex;
 
 class CacheRange : public QPair<RowIndex, RowIndex> {
  public:

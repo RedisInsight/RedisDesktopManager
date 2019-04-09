@@ -33,7 +33,7 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole) {
 void ListLikeKeyModel::addLoadedRowsToCache(const QVariantList &rows,
                                             QVariant rowStartId) {
   QList<QByteArray> result;
-  auto rowStart = rowStartId.toULongLong();
+  auto rowStart = rowStartId.toLongLong();
 
   foreach (QVariant row, rows) { result.push_back(row.toByteArray()); }
 

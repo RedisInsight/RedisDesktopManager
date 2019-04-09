@@ -16,7 +16,7 @@ template <typename T>
 class KeyModel : public ValueEditor::Model {
  public:
   KeyModel(QSharedPointer<RedisClient::Connection> connection,
-           QByteArray fullPath, int dbIndex, int ttl,
+           QByteArray fullPath, int dbIndex, long long ttl,
            QByteArray rowsCountCmd = QByteArray(),
            QByteArray rowsLoadCmd = QByteArray())
       : m_connection(connection),
@@ -98,7 +98,7 @@ class KeyModel : public ValueEditor::Model {
 
   virtual void removeKey(ValueEditor::Model::Callback c) override {
     executeCmd({"DEL", m_keyFullPath}, c,
-               [this](RedisClient::Response r, Callback c) {
+               [this](RedisClient::Response, Callback c) {
                  m_notifier->removed();
                  c(QString());
                });
