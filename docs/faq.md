@@ -6,4 +6,4 @@
 **Linux** `$HOME/.rdm/connections.json`
 
 ## What info is sent to developers when the app crashes?
-You can find answer here http://oops.redisdesktop.com/help/
+You can find answer here [https://oops.redisdesktop.com/help/](https://oops.redisdesktop.com/help/)
