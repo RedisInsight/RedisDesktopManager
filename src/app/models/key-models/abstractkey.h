@@ -50,7 +50,12 @@ class KeyModel : public ValueEditor::Model {
     return m_rowsCache.isRowLoaded(rowIndex);
   }
 
-  virtual unsigned long rowsCount() override { return m_rowCount; }
+  virtual unsigned long rowsCount() override {
+    if (isMultiRow())
+      return m_rowCount;
+    else
+      return 1;
+  }
 
   virtual void setKeyName(const QByteArray& newKeyName,
                           ValueEditor::Model::Callback c) override {

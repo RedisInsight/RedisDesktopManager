@@ -50,9 +50,9 @@ void TestTreeOperations::testGetDatabases() {
       });
 
   // then
-  wait(5);
+  wait(100);
   QCOMPARE(callbackCalled, true);
-  QCOMPARE(result.size(), 10);
+  QCOMPARE(result.size(), 13);
 }
 
 void TestTreeOperations::testLoadNamespaceItems() {

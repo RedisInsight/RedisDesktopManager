@@ -29,8 +29,7 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
     if (m_positive_mode) {
       for (QByteArray key : keys) {
         parent->append(QSharedPointer<ConnectionsTree::KeyItem>(
-            new ConnectionsTree::KeyItem(key, 0, QSharedPointer<Operations>(),
-                                         parent, parent->model())));
+            new ConnectionsTree::KeyItem(key, parent, parent->model())));
       }
       parent->notifyModel();
 
@@ -52,7 +51,8 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
 
   void disconnect() {}
 
-  virtual void openKeyTab(ConnectionsTree::KeyItem&, bool) override {}
+  virtual void openKeyTab(QSharedPointer<ConnectionsTree::KeyItem>,
+                          bool) override {}
 
   virtual void openConsoleTab(int dbIndex = 0) override {}
 

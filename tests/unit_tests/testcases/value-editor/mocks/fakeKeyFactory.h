@@ -1,4 +1,6 @@
+#include <QJSValue>
 #include <QTest>
+#include "app/models/key-models/newkeyrequest.h"
 #include "modules/value-editor/abstractkeyfactory.h"
 #include "modules/value-editor/keymodel.h"
 
@@ -10,7 +12,7 @@ class FakeKeyModel : public ValueEditor::Model {
 
   QString getKeyTitle() override { return QString("fake"); }
 
-  QString getType() override { return QString("fake"); }
+  QString type() override { return QString("fake"); }
 
   long long getTTL() override { return -1; }
 
@@ -28,24 +30,24 @@ class FakeKeyModel : public ValueEditor::Model {
     return QVariant(QString("fake value"));
   }
 
-  void setKeyName(const QByteArray &) override {}
+  void setKeyName(const QByteArray &, Callback) override {}
 
-  void setTTL(const long long) override {}
+  void setTTL(const long long, Callback) override {}
 
-  void removeKey() override {}
+  void removeKey(Callback) override {}
 
-  void addRow(const QVariantMap &) override {}
+  void addRow(const QVariantMap &, Callback) override {}
 
-  void updateRow(int, const QVariantMap &) override {}
+  void updateRow(int, const QVariantMap &, Callback) override {}
 
   unsigned long rowsCount() override { return 1; }
 
   void loadRows(QVariant, unsigned long,
-                std::function<void(const QString &)>) override {}
+                std::function<void(const QString &, unsigned long)>) override {}
 
   void clearRowCache() override {}
 
-  void removeRow(int) override {}
+  void removeRow(int, Callback) override {}
 
   bool isRowLoaded(int) override { return true; }
 
@@ -61,7 +63,7 @@ class FakeKeyModel : public ValueEditor::Model {
 
   unsigned int dbIndex() const override { return 0u; }
 
-  void reloadRowsCount() override {}
+  void loadRowsCount(Callback) override {}
 
  private:
   QSharedPointer<ValueEditor::ModelSignals> m_notifier;
@@ -81,17 +83,10 @@ class FakeKeyFactory : public ValueEditor::AbstractKeyFactory {
     callback(QSharedPointer<ValueEditor::Model>(new FakeKeyModel()), QString());
   }
 
-  void addKey(QSharedPointer<RedisClient::Connection> connection,
-              QByteArray keyFullPath, int dbIndex, QString type,
-              const QVariantMap &row) override {
-    addKeyCalled++;
-    QVERIFY(connection.isNull() == false);
-    QVERIFY(keyFullPath.isEmpty() == false);
-    QVERIFY(dbIndex >= 0);
-    QVERIFY(type.isEmpty() == false);
-    QVERIFY(row.isEmpty() == false);
+  void submitNewKeyRequest(NewKeyRequest r, QJSValue jsCallback) {
+    submitNewKeyRequestCalled++;
   }
 
   uint loadKeyCalled;
-  uint addKeyCalled;
+  uint submitNewKeyRequestCalled;
 };
