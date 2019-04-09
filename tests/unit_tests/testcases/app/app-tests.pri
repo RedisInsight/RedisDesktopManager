@@ -19,6 +19,7 @@ HEADERS  += \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.h \
     $$APP_SRC_DIR/models/key-models/hashkey.h \            
     $$APP_SRC_DIR/models/key-models/rejsonkey.h \
+    $$APP_SRC_DIR/models/key-models/newkeyrequest.h \
 
 SOURCES += \
     $$PWD/test_*.cpp \

@@ -14,7 +14,6 @@
 #include "testcases/connections-tree/test_serveritem.h"
 #include "testcases/console/test_console.h"
 #include "testcases/console/test_consolemodel.h"
-#include "testcases/value-editor/test_viewmodel.h"
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
@@ -36,10 +35,7 @@ int main(int argc, char *argv[]) {
                        QTest::qExec(new TestConsoleOperations, argc, argv) +
                        QTest::qExec(new TestTreeOperations, argc, argv) +
                        QTest::qExec(new TestKeyModels, argc, argv) +
-                       QTest::qExec(new TestAbstractKey, argc, argv)
-
-                       // value-editor module
-                       + QTest::qExec(new TestViewModel, argc, argv);
+                       QTest::qExec(new TestAbstractKey, argc, argv);
 
   if (allTestsResult == 0)
     qDebug() << "[Tests PASS]";

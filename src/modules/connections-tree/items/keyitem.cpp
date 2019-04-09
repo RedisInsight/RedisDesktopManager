@@ -4,30 +4,28 @@
 #include <QMenu>
 #include <QMessageBox>
 
+#include "connections-tree/items/abstractnamespaceitem.h"
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
-#include "connections-tree/items/abstractnamespaceitem.h"
 
 using namespace ConnectionsTree;
 
-QSharedPointer<AbstractNamespaceItem> parentTreeItemToNs(QWeakPointer<TreeItem> p)
-{
-     auto parentNs = p.toStrongRef();
+QSharedPointer<AbstractNamespaceItem> parentTreeItemToNs(
+    QWeakPointer<TreeItem> p) {
+  auto parentNs = p.toStrongRef();
 
-     if (!parentNs || !parentNs.staticCast<AbstractNamespaceItem>())
-         return QSharedPointer<AbstractNamespaceItem>();
+  if (!parentNs || !parentNs.staticCast<AbstractNamespaceItem>())
+    return QSharedPointer<AbstractNamespaceItem>();
 
-     return parentNs.staticCast<AbstractNamespaceItem>();
+  return parentNs.staticCast<AbstractNamespaceItem>();
 }
 
-KeyItem::KeyItem(const QByteArray& fullPath,                 
-                 QWeakPointer<TreeItem> parent, Model& model)
+KeyItem::KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
+                 Model& model)
     : TreeItem(model),
       m_fullPath(fullPath),
       m_parent(parent),
-      m_removed(false) {
-
-}
+      m_removed(false) {}
 
 QString KeyItem::getDisplayName() const {
   return printableString(getFullPath(), true);
@@ -60,13 +58,13 @@ bool KeyItem::isEnabled() const {
 QByteArray KeyItem::getFullPath() const { return m_fullPath; }
 
 int KeyItem::getDbIndex() const {
-    auto parentNs = parentTreeItemToNs(m_parent);
+  auto parentNs = parentTreeItemToNs(m_parent);
 
-    if (!parentNs) {
-        return -1;
-    }
+  if (!parentNs) {
+    return -1;
+  }
 
-    return parentNs->getDbIndex();
+  return parentNs->getDbIndex();
 }
 
 void KeyItem::setRemoved() {
@@ -75,50 +73,53 @@ void KeyItem::setRemoved() {
   emit m_model.itemChanged(getSelf());
 }
 
-QHash<QString, std::function<void ()> > KeyItem::eventHandlers()
-{
-    auto events = TreeItem::eventHandlers();
+void KeyItem::setFullPath(const QByteArray& p) {
+  m_fullPath = p;
 
-    events.insert("click", [this]() {
-        if (!isEnabled()) return;
+  emit m_model.itemChanged(getSelf());
+}
 
-        auto parentNs = parentTreeItemToNs(m_parent);
+QHash<QString, std::function<void()>> KeyItem::eventHandlers() {
+  auto events = TreeItem::eventHandlers();
 
-        if (!parentNs || !parentNs->operations())
-            return;
+  events.insert("click", [this]() {
+    if (!isEnabled()) return;
 
-      parentNs->operations()->openKeyTab(*this, false);
-    });
+    auto parentNs = parentTreeItemToNs(m_parent);
 
-    events.insert("mid-click", [this]() {
-      if (!isEnabled()) return;
+    if (!parentNs || !parentNs->operations()) return;
 
-      auto parentNs = parentTreeItemToNs(m_parent);
+    parentNs->operations()->openKeyTab(
+        getSelf().toStrongRef().staticCast<KeyItem>(), false);
+  });
 
-      if (!parentNs || !parentNs->operations())
-          return;
+  events.insert("mid-click", [this]() {
+    if (!isEnabled()) return;
 
-      parentNs->operations()->openKeyTab(*this, true);
-    });
+    auto parentNs = parentTreeItemToNs(m_parent);
 
-    events.insert("delete", [this]() {
-      confirmAction(nullptr,
-                    QCoreApplication::translate(
-                        "RDM", "Do you really want to delete this key?"),
-                    [this]() {
+    if (!parentNs || !parentNs->operations()) return;
 
-                      auto parentNs = parentTreeItemToNs(m_parent);
+    parentNs->operations()->openKeyTab(
+        getSelf().toStrongRef().staticCast<KeyItem>(), true);
+  });
 
-                      if (!parentNs || !parentNs->operations())
-                          return;
+  events.insert("delete", [this]() {
+    confirmAction(
+        nullptr,
+        QCoreApplication::translate("RDM",
+                                    "Do you really want to delete this key?"),
+        [this]() {
+          auto parentNs = parentTreeItemToNs(m_parent);
 
-                      parentNs->operations()->deleteDbKey(*this, [](const QString& error) {
-                        QMessageBox::warning(
-                            nullptr,
-                            QCoreApplication::translate("RDM", "Key error"),
-                            error);
-                      });
-                    });
-    });
-    return events;
+          if (!parentNs || !parentNs->operations()) return;
+
+          parentNs->operations()->deleteDbKey(*this, [](const QString& error) {
+            QMessageBox::warning(
+                nullptr, QCoreApplication::translate("RDM", "Key error"),
+                error);
+          });
+        });
+  });
+  return events;
 }

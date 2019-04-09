@@ -1,10 +1,11 @@
 #include "valueviewmodel.h"
+#include <qredisclient/utils/text.h>
 #include <QCoreApplication>
 #include <QDebug>
 #include <QSettings>
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<Model> model)
-    : BaseListModel((QObject*)model->getConnector().data()),
+    : BaseListModel(),
       m_model(model),
       m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0) {}
@@ -30,6 +31,48 @@ QSharedPointer<ValueEditor::Model> ValueEditor::ValueViewModel::model() {
   return m_model;
 }
 
+void ValueEditor::ValueViewModel::renameKey(const QString& newKeyName,
+                                            QJSValue jsCallback) {
+  m_model->setKeyName(printableStringToBinary(newKeyName),
+                      [this, &jsCallback](const QString& error) {
+                        if (error.size() > 0 && jsCallback.isCallable()) {
+                          jsCallback.call({error});
+                          return;
+                        }
+
+                        emit keyRenamed();
+
+                        if (jsCallback.isCallable()) jsCallback.call({});
+                      });
+}
+
+void ValueEditor::ValueViewModel::setTTL(const QString& newTTL,
+                                         QJSValue jsCallback) {
+  m_model->setTTL(newTTL.toLong(), [this, &jsCallback](const QString& error) {
+    if (error.size() > 0 && jsCallback.isCallable()) {
+      jsCallback.call({error});
+      return;
+    }
+
+    emit keyTTLChanged();
+
+    if (jsCallback.isCallable()) jsCallback.call({});
+  });
+}
+
+void ValueEditor::ValueViewModel::removeKey(QJSValue jsCallback) {
+  m_model->removeKey([this, &jsCallback](const QString& error) {
+    if (error.size() > 0 && jsCallback.isCallable()) {
+      jsCallback.call({error});
+      return;
+    }
+
+    emit keyRemoved();
+
+    if (jsCallback.isCallable()) jsCallback.call({});
+  });
+}
+
 int ValueEditor::ValueViewModel::mapRowIndex(int i) {
   return m_startFramePosition + i;
 }
@@ -46,19 +89,21 @@ QVariantList ValueEditor::ValueViewModel::columnNames() {
 
 void ValueEditor::ValueViewModel::reload() {
   m_model->clearRowCache();
-  m_model->reloadRowsCount();
+  m_model->loadRowsCount([this](const QString& err) {
+    if (err.size() > 0 || m_model->rowsCount() <= 0) {
+      emit error(
+          QCoreApplication::translate("RDM", "Cannot reload key value: %1")
+              .arg(err));
+      return;
+    }
 
-  if (m_model->rowsCount() <= 0) {
-    emit error(QCoreApplication::translate("RDM", "Cannot reload key value"));
-    return;
-  }
+    emit totalRowCountChanged();
+    emit pageSizeChanged();
 
-  emit totalRowCountChanged();
-  emit pageSizeChanged();
-
-  loadRows(m_startFramePosition, m_model->rowsCount() < pageSize()
-                                     ? m_model->rowsCount()
-                                     : pageSize());
+    loadRows(m_startFramePosition, m_model->rowsCount() < pageSize()
+                                       ? m_model->rowsCount()
+                                       : pageSize());
+  });
 }
 
 bool ValueEditor::ValueViewModel::isRowLoaded(int i) {
@@ -82,48 +127,46 @@ void ValueEditor::ValueViewModel::loadRows(int start, int limit) {
 
   QString msg = QCoreApplication::translate("RDM", "Cannot load key value: %1");
 
-  try {
-    // NOTE(u_glide): Do so for proper rendering of QML table
-    m_lastLoadedRowFrameSize = totalRowCount() - start;
-    m_model->loadRows(start, limit,
-                      [this, start, limit, loaded, msg](const QString& err) {
-                        if (!err.isEmpty()) {
-                          emit error(msg.arg(err));
-                          return;
-                        }
+  // NOTE(u_glide): Do so for proper rendering of QML table
+  m_lastLoadedRowFrameSize = totalRowCount() - start;
+  m_model->loadRows(
+      start, limit,
+      [this, start, msg](const QString& err, unsigned long rowsCount) {
+        if (!err.isEmpty()) {
+          emit error(msg.arg(err));
+          return;
+        }
 
-                        m_lastLoadedRowFrameSize = loaded;
-                        m_startFramePosition = start;
+        m_lastLoadedRowFrameSize = rowsCount;
+        m_startFramePosition = start;
 
-                        emit layoutAboutToBeChanged();
-                        emit rowsLoaded(start, loaded);
-                        emit layoutChanged();
-                      });
-  } catch (const ValueEditor::Model::Exception& e) {
-    emit error(msg.arg(e.what()));
-  }
+        emit layoutAboutToBeChanged();
+        emit rowsLoaded(start, rowsCount);
+        emit layoutChanged();
+      });
 }
 
 void ValueEditor::ValueViewModel::addRow(const QVariantMap& row) {
-  try {
-    m_model->addRow(row);
+  m_model->addRow(row, [this](const QString& err) {
+    if (err.size() > 0) {
+      emit error(err);
+      return;
+    }
     emit layoutChanged();
-  } catch (const Model::Exception& e) {
-    emit error(QString(e.what()));
-  }
+  });
 }
 
 void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap& row) {
   int targetRow = mapRowIndex(i);
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
-  try {
-    m_model->updateRow(targetRow, row);
-  } catch (const Model::Exception& e) {
-    emit error(QString(e.what()));
-  }
-
-  emit dataChanged(index(i, 0), index(i, 0));
+  m_model->updateRow(targetRow, row, [this, i](const QString& err) {
+    if (err.size() > 0) {
+      emit error(err);
+      return;
+    }
+    emit dataChanged(index(i, 0), index(i, 0));
+  });
 }
 
 void ValueEditor::ValueViewModel::deleteRow(int i) {
@@ -131,17 +174,20 @@ void ValueEditor::ValueViewModel::deleteRow(int i) {
 
   if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
 
-  try {
+  m_model->removeRow(targetRow, [this, i, targetRow](const QString& err) {
+    if (err.size() > 0) {
+      emit error(err);
+      return;
+    }
+
     emit beginRemoveRows(QModelIndex(), i, i);
-    m_model->removeRow(targetRow);
     emit endRemoveRows();
 
     if (targetRow < m_model->rowsCount())
       emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
 
-  } catch (const Model::Exception& e) {
-    emit error(QString(e.what()));
-  }
+    if (m_model->rowsCount() == 0) emit keyRemoved();
+  });
 }
 
 int ValueEditor::ValueViewModel::totalRowCount() {
@@ -160,4 +206,19 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row) {
 
   QVariantMap res = getRowRaw(row);
   return res;
+}
+
+void ValueEditor::ValueViewModel::loadRowsCount(QJSValue jsCallback) {
+  m_model->loadRowsCount([this, &jsCallback](const QString& err) {
+    emit totalRowCountChanged();
+
+    if (!jsCallback.isCallable()) return;
+
+    if (err.size() > 0) {
+      jsCallback.call({err});
+      return;
+    }
+
+    jsCallback.call({});
+  });
 }

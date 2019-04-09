@@ -36,6 +36,7 @@ void TestTreeOperations::testGetDatabases() {
                                 "+OK\r\n", "+OK\r\n", "-ERROR\r\n"};
   auto connection = getFakeConnection();
   connection->setFakeResponses(expectedResponses);
+  connection->setClone(connection);
   bool callbackCalled = false;
   RedisClient::DatabaseList result;
 
@@ -49,9 +50,8 @@ void TestTreeOperations::testGetDatabases() {
       });
 
   // then
-  wait(5);
+  wait(100);
   QCOMPARE(callbackCalled, true);
-  QCOMPARE(connection->runCommandCalled, 5u);
   QCOMPARE(result.size(), 13);
 }
 

@@ -241,6 +241,15 @@ ApplicationWindow {
                 }
 
                 Connections {
+                    target: keyFactory
+
+                    onNewKeyDialog: {
+                        addNewKeyDialog.request = r
+                        addNewKeyDialog.open()
+                    }
+                }
+
+                Connections {
                     target: valuesModel
                     onKeyError: {
                         if (index != -1)
@@ -252,8 +261,6 @@ ApplicationWindow {
                     onRowsInserted: {
                         if (welcomeTab) welcomeTab.closeIfOpened()
                     }
-
-                    onNewKeyDialog: addNewKeyDialog.open()
                 }
             }
 
@@ -282,27 +289,35 @@ ApplicationWindow {
                     title: "Log"
                     icon: "qrc:/images/log.svg"
 
-                    ListView {
-                        id: logListView
+                    ScrollView {
                         anchors.fill: parent
                         anchors.margins: 5
-                        cacheBuffer: 0
 
-                        model: ListModel {
-                            id: logModel
-                        }
+                        ListView {
+                            id: logListView
+                            anchors.fill: parent
+                            anchors.topMargin: 10
+                            anchors.bottomMargin: 5
+                            anchors.leftMargin: 5
+                            anchors.rightMargin: 5
+                            cacheBuffer: 0
 
-                        Connections {
-                            target: appEvents
-                            onLog: {
-                                logModel.append({"msg": msg})
-                                logListView.positionViewAtEnd()
+                            model: ListModel {
+                                id: logModel
                             }
-                        }
 
-                        delegate: Text {
-                            color: "#6D6D6E"
-                            text: msg
+                            Connections {
+                                target: appEvents
+                                onLog: {
+                                    logModel.append({"msg": msg})
+                                    logListView.positionViewAtEnd()
+                                }
+                            }
+
+                            delegate: Text {
+                                color: "#6D6D6E"
+                                text: msg
+                            }
                         }
                     }
                 }
