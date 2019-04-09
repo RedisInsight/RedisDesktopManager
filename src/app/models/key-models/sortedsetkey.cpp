@@ -65,7 +65,7 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row,
         cachedRow.first, [this, c, onRowAdded, newRow](const QString &err) {
           if (err.size() > 0) return c(err);
 
-          addSortedSetRow(newRow.first, newRow.second, onRowAdded, true);
+          addSortedSetRow(newRow.first, newRow.second, onRowAdded, false);
         });
   } else {
     addSortedSetRow(newRow.first, newRow.second, onRowAdded, true);

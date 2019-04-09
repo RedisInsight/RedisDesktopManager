@@ -83,6 +83,7 @@ Dialog {
                     }
 
                     function afterSave(err) {
+                        console.log("Key added:", err)
                         if (!err) {
                             root.request = null
                             valueAddEditor.item.reset()
