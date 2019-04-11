@@ -149,12 +149,7 @@ Repeater {
                                     return open()
                                 }
 
-                                keyTab.keyModel.renameKey(newKeyName.text, function (err) {
-                                    if (err) {
-                                        notification.showError(err)
-                                        return
-                                    }
-                                })
+                                keyTab.keyModel.renameKey(newKeyName.text)
                             }
 
                             visible: false
@@ -203,12 +198,7 @@ Repeater {
                                     return open()
                                 }
 
-                                keyTab.keyModel.setTTL(newTTL.text, function (err) {
-                                    if (err) {
-                                        notification.showError(err)
-                                        return
-                                    }
-                                })
+                                keyTab.keyModel.setTTL(newTTL.text)
                             }
 
                             visible: false
@@ -233,14 +223,8 @@ Repeater {
                             id: deleteConfirmation
                             title: qsTranslate("RDM","Delete key")
                             text: qsTranslate("RDM","Do you really want to delete this key?")
-                            onYes: {
-                                console.log("remove key")
-                                keyTab.keyModel.removeKey(function (err) {
-                                    if (err) {
-                                        notification.showError(err)
-                                        return
-                                    }
-                                })
+                            onYes: {                                
+                                keyTab.keyModel.removeKey()
                             }
                             visible: false
                             modality: Qt.ApplicationModal
@@ -346,6 +330,10 @@ Repeater {
                                     valueErrorNotification.open()
                                 }
 
+                                onTotalRowCountChanged: {
+                                    keyTab.keyModel.loadRows(table.currentStart, table.maxItemsOnPage)
+                                }
+
                                 onRowsLoaded: {
                                     console.log("rows loaded")
 
@@ -415,14 +403,7 @@ Repeater {
                                 wrapper.showLoader()
 
                                 if (keyTab.keyModel.totalRowCount === 0) {
-                                    keyTab.keyModel.loadRowsCount(function (err) {
-                                        if (err) {
-                                            notification.showError(err)
-                                            return
-                                        }
-
-                                        keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
-                                    })
+                                    keyTab.keyModel.loadRowsCount()
                                 } else {
                                     keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
                                 }
@@ -666,7 +647,6 @@ Repeater {
                                     }
 
                                     valueEditor.item.validateValue(function (result){
-
                                         if (!result)
                                             return;
 

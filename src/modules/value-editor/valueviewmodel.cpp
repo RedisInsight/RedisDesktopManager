@@ -2,6 +2,7 @@
 #include <qredisclient/utils/text.h>
 #include <QCoreApplication>
 #include <QDebug>
+#include <QQmlEngine>
 #include <QSettings>
 
 ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<Model> model)
@@ -31,45 +32,37 @@ QSharedPointer<ValueEditor::Model> ValueEditor::ValueViewModel::model() {
   return m_model;
 }
 
-void ValueEditor::ValueViewModel::renameKey(const QString& newKeyName,
-                                            QJSValue jsCallback) {
+void ValueEditor::ValueViewModel::renameKey(const QString& newKeyName) {
   m_model->setKeyName(printableStringToBinary(newKeyName),
-                      [this, &jsCallback](const QString& error) {
-                        if (error.size() > 0 && jsCallback.isCallable()) {
-                          jsCallback.call({error});
+                      [this](const QString& err) {
+                        if (err.size() > 0) {
+                          emit error(err);
                           return;
                         }
 
                         emit keyRenamed();
-
-                        if (jsCallback.isCallable()) jsCallback.call({});
                       });
 }
 
-void ValueEditor::ValueViewModel::setTTL(const QString& newTTL,
-                                         QJSValue jsCallback) {
-  m_model->setTTL(newTTL.toLong(), [this, &jsCallback](const QString& error) {
-    if (error.size() > 0 && jsCallback.isCallable()) {
-      jsCallback.call({error});
+void ValueEditor::ValueViewModel::setTTL(const QString& newTTL) {
+  m_model->setTTL(newTTL.toLong(), [this](const QString& err) {
+    if (err.size() > 0) {
+      emit error(err);
       return;
     }
 
     emit keyTTLChanged();
-
-    if (jsCallback.isCallable()) jsCallback.call({});
   });
 }
 
-void ValueEditor::ValueViewModel::removeKey(QJSValue jsCallback) {
-  m_model->removeKey([this, &jsCallback](const QString& error) {
-    if (error.size() > 0 && jsCallback.isCallable()) {
-      jsCallback.call({error});
+void ValueEditor::ValueViewModel::removeKey() {
+  m_model->removeKey([this](const QString& err) {
+    if (err.size() > 0) {
+      emit error(err);
       return;
     }
 
     emit keyRemoved();
-
-    if (jsCallback.isCallable()) jsCallback.call({});
   });
 }
 
@@ -208,17 +201,13 @@ QVariantMap ValueEditor::ValueViewModel::getRow(int row) {
   return res;
 }
 
-void ValueEditor::ValueViewModel::loadRowsCount(QJSValue jsCallback) {
-  m_model->loadRowsCount([this, &jsCallback](const QString& err) {
-    emit totalRowCountChanged();
-
-    if (!jsCallback.isCallable()) return;
-
+void ValueEditor::ValueViewModel::loadRowsCount() {
+  m_model->loadRowsCount([this](const QString& err) {
     if (err.size() > 0) {
-      jsCallback.call({err});
+      emit error(err);
       return;
     }
 
-    jsCallback.call({});
+    emit totalRowCountChanged();
   });
 }

@@ -28,9 +28,9 @@ class ValueViewModel : public BaseListModel {
 
  public:
   // general key operations
-  Q_INVOKABLE void renameKey(const QString& newKeyName, QJSValue jsCallback);
-  Q_INVOKABLE void setTTL(const QString& newTTL, QJSValue jsCallback);
-  Q_INVOKABLE void removeKey(QJSValue jsCallback);
+  Q_INVOKABLE void renameKey(const QString& newKeyName);
+  Q_INVOKABLE void setTTL(const QString& newTTL);
+  Q_INVOKABLE void removeKey();
 
   // single row operations
   Q_INVOKABLE bool isRowLoaded(int i);
@@ -40,7 +40,7 @@ class ValueViewModel : public BaseListModel {
   Q_INVOKABLE QVariantMap getRow(int i);
 
   // multi row operations
-  Q_INVOKABLE void loadRowsCount(QJSValue jsCallback);
+  Q_INVOKABLE void loadRowsCount();
   Q_INVOKABLE void loadRows(int start, int limit);
   Q_INVOKABLE void reload();
 
