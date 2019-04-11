@@ -146,11 +146,9 @@ ColumnLayout
                 return
             }
 
-            if (format === "json" || format === "html") {
-                textView.textFormat = TextEdit.RichText
-            } else {
-                textView.textFormat = TextEdit.PlainText
-            }
+            textView.textFormat = (format === "json" || format === "html")
+                ? TextEdit.RichText
+                : TextEdit.PlainText;
 
             textView.model = qmlUtils.wrapLargeText(formatted)
             textView.readOnly = isReadOnly
