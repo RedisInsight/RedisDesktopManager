@@ -20,7 +20,7 @@ If you want to connect to redis-server with SSL you need to enable SSL on the se
 <img src="http://redisdesktop.com/static/docs/rdm_ssl.png" height="300" />
 
 
-### Windows Azure Redis Cache <br /> <img src="https://azure.microsoft.com/svghandler/redis-cache/?width=600&height=315" height="100" />
+### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" height="100" />
 
 1. Create connection with all requested information 
  <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png" height="300" />
