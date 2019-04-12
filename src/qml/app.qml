@@ -219,6 +219,7 @@ ApplicationWindow {
                     target: serverStatsModel
 
                     onRowsInserted: if (welcomeTab) welcomeTab.closeIfOpened()
+                    onError: notification.showError(error)
                 }
 
                 ValueTabs {

@@ -445,6 +445,41 @@ Repeater {
                             }
                         }
                     }
+
+                    Tab {
+                        title: qsTranslate("RDM","Pub/Sub Channels")
+
+                        ColumnLayout {
+
+                            anchors.fill: parent
+                            anchors.margins: 10
+
+                            BoolOption {
+                                Layout.preferredWidth: 200
+                                Layout.preferredHeight: 40
+
+                                value: true
+                                label: qsTranslate("RDM","Enable")
+
+                                onValueChanged: {
+                                    tab.model.refreshPubSubMonitor = value
+                                }
+                            }
+
+                            TableView {
+                                Layout.fillHeight: true
+                                Layout.fillWidth: true
+
+                                model: tab.model.pubSubChannels ? tab.model.pubSubChannels : []
+
+                                TableViewColumn {
+                                    role: "addr"
+                                    title: qsTranslate("RDM","Channel Name")
+                                    width: 200
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
