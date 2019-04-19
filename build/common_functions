@@ -8,6 +8,7 @@ DEPS_DIR=$RDM_DIR/3rdparty/
 
 function build_breakpad {
     cd $DEPS_DIR/gbreakpad/
+    git apply ../breakpad_osx.patch
     git clone --depth 1 -v git@github.com:RedisDesktop/linux-syscall-support.git src/third_party/lss \
 	    || git clone --depth 1 https://github.com/RedisDesktop/linux-syscall-support.git src/third_party/lss \
 	    || true
