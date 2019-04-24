@@ -39,17 +39,17 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="63"/>
         <source>Cannot rename key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede renombrar la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="70"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
-        <translation type="unfinished"></translation>
+        <translation>La clave con el nombre nuevo %1 ya existe en la base de datos o la clave original fue borrada</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="95"/>
         <source>Cannot set TTL for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede asignar el TTL para la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="103"/>
@@ -59,19 +59,19 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="120"/>
         <source>Cannot remove key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede borrar la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="197"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="210"/>
         <source>Cannot load rows count for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede cargar el número de filas para la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="254"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se pueden cargar las filas para la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="43"/>
@@ -452,7 +452,7 @@
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="74"/>
         <source>Cannot reload key value: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede recargar el valor de la clave: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="106"/>
@@ -641,7 +641,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="348"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; para mostrar ficheros y carpetas ocultas en el diálogo</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="245"/>
@@ -671,7 +671,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar TLS sobre SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encriptación en tránsito&lt;/b&gt;)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="387"/>
@@ -839,12 +839,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="158"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="163"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
@@ -1148,7 +1148,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="383"/>
         <source>Execution Time (μs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo de ejecución (μs)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="167"/>
@@ -1193,7 +1193,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="11"/>
         <source>Add New Key to </source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir Nueva Clave a </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="27"/>
