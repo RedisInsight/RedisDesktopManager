@@ -36,8 +36,9 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
     ```
 
 > !!! warning "SSH Tunneling support"
-    Since 0.9.9 RDM by default do not include SSH Tunneling support. If you need it please checkout 0.9.8 tag.
-    `git checkout 0.9.8`
+    Since 0.9.9 RDM by default does not include SSH Tunneling support. If you need it please checkout 0.9.8 tag,
+    i.e. `git checkout 0.9.8`. Or you can create a SSH tunnel to your Redis server manually and connect to `localhost`:
+    `ssh -L 6379:REDIS_HOST:6379 SSH_USER@SSH_HOST -P SSH_PORT -i SSH_KEY -T -N`
 
 ### Build on Linux
 
