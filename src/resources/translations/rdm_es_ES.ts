@@ -39,17 +39,17 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="63"/>
         <source>Cannot rename key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede renombrar la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="70"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
-        <translation type="unfinished"></translation>
+        <translation>La clave con el nombre nuevo %1 ya existe en la base de datos o la clave original fue borrada</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="95"/>
         <source>Cannot set TTL for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede asignar el TTL para la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="103"/>
@@ -59,19 +59,19 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="120"/>
         <source>Cannot remove key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede borrar la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="197"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="210"/>
         <source>Cannot load rows count for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede cargar el número de filas para la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="254"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>No se pueden cargar las filas para la clave %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="43"/>
