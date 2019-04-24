@@ -32,7 +32,7 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 2. Get source code:
 
     ```
-    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm && cd ./rdm
+    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2019 rdm && cd ./rdm
     ```
 
 > !!! warning "SSH Tunneling support"
