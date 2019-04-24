@@ -79,8 +79,7 @@ Section -Main SEC0000
     Sleep 3000
 
     not_installed:
-    SetOutPath $INSTDIR
-    File ..\..\..\bin\windows\release\crashreporter.exe
+    SetOutPath $INSTDIR    
     File /r resources\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
     !insertmacro InstallVCredist
