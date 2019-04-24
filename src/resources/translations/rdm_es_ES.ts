@@ -54,7 +54,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="103"/>
         <source>Cannot set TTL for key %1</source>
-        <translation>No se pudo asignar el TTL para la clave %1</translation>
+        <translation>No se puede asignar el TTL para la clave %1</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="120"/>
