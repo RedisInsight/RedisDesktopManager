@@ -39,17 +39,17 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="63"/>
         <source>Cannot rename key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>無法重新命名鍵 %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="70"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
-        <translation type="unfinished"></translation>
+        <translation>鍵名 %1 已經存在或是原鍵已被移除</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="95"/>
         <source>Cannot set TTL for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>無法設定鍵 %1 的 TTL: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="103"/>
@@ -59,19 +59,19 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="120"/>
         <source>Cannot remove key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>無法重新命名鍵 %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="197"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="210"/>
         <source>Cannot load rows count for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>無法載入鍵 %1 的總行數: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="254"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>無法載入鍵 %1 的行: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="43"/>
@@ -455,7 +455,7 @@
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="74"/>
         <source>Cannot reload key value: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>無法重新載入鍵值: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="106"/>
@@ -670,7 +670,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用 TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="387"/>
@@ -838,12 +838,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="158"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名稱</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="163"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>版本</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
@@ -1188,7 +1188,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="11"/>
         <source>Add New Key to </source>
-        <translation type="unfinished"></translation>
+        <translation>新增鍵到</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="27"/>
