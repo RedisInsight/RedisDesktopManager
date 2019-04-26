@@ -11,6 +11,8 @@ Dialog {
     id: root    
     title: isNewConnection ? qsTranslate("RDM","New Connection Settings") : qsTranslate("RDM","Edit Connection Settings") + settings.name
 
+    modality: Qt.ApplicationModal
+
     property bool isNewConnection: !settings || !settings.name
     property var settings
     property string quickStartGuideUrl: "http://docs.redisdesktop.com/en/latest/quick-start/"

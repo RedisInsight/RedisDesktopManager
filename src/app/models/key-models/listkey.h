@@ -1,22 +1,22 @@
 #pragma once
-#include "listlikekey.h"
 #include <QByteArray>
+#include "listlikekey.h"
 
-class ListKeyModel : public ListLikeKeyModel
-{
-public:
-    ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
-                 QByteArray fullPath, int dbIndex, long long ttl);
+class ListKeyModel : public ListLikeKeyModel {
+ public:
+  ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
+               QByteArray fullPath, int dbIndex, long long ttl);
 
-    QString getType() override;
+  QString type() override;
 
-    void addRow(const QVariantMap&) override;
-    virtual void updateRow(int rowIndex, const QVariantMap &) override;
-    void removeRow(int) override;
+  void addRow(const QVariantMap &, ValueEditor::Model::Callback c) override;
+  virtual void updateRow(int rowIndex, const QVariantMap &,
+                         ValueEditor::Model::Callback c) override;
+  void removeRow(int, ValueEditor::Model::Callback c) override;
 
-private:       
-    bool isActualPositionChanged(int row);
-    void addListRow(const QByteArray &value);
-    void setListRow(int pos, const QByteArray &value);
-    void deleteListRow(int count, const QByteArray &value);
+ private:
+  void verifyListItemPosistion(int row, Callback c);
+  void addListRow(const QByteArray &value, Callback c);
+  void setListRow(int pos, const QByteArray &value, Callback c);
+  void deleteListRow(int count, const QByteArray &value, Callback c);
 };

@@ -156,14 +156,13 @@ ColumnLayout
                     uiBlocker.visible = false
                 })
             } else {
+                textView.textFormat = (format === "html")
+                    ? TextEdit.RichText
+                    : TextEdit.PlainText;
+
                 textView.model = qmlUtils.wrapLargeText(formatted)
                 textView.readOnly = isReadOnly
                 root.isEdited = false
-
-                if (format === "html")
-                    textView.textFormat = TextEdit.RichText
-                else
-                    textView.textFormat = TextEdit.PlainText
             }
 
             uiBlocker.visible = false

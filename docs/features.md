@@ -55,3 +55,7 @@ To verify that the formatter is installed go to Settings and check the table tit
 ### How to use
 
 Click on the key to open the value editor and choose the appropriate formatter from the "View as:" drop-down menu.
+
+### Thirdparty formatters
+
+You can find more formatters on [Github](https://github.com/search?q=redis+desktop+manager+formatter).

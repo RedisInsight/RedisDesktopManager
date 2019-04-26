@@ -26,9 +26,16 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
         unprocessedPartStart = parent->getFullPath().size() + settings.nsSeparator.length();
     }
 
-    for (QByteArray rawKey : keys) {
-        renderLazily(parent, rawKey.mid(unprocessedPartStart), rawKey, operations, settings,
-                     expandedNamespaces);
+    QByteArray rawKey;
+    while (!keys.isEmpty()) {
+        rawKey = keys.takeFirst();
+        try {
+            renderLazily(parent, rawKey.mid(unprocessedPartStart), rawKey, operations, settings,
+                         expandedNamespaces);
+        } catch (std::bad_alloc&) {
+            parent->showLoadingError("Not enough memory to render all keys");
+            break;
+        }
     }
     qDebug() << "Tree builded in: " << timer.elapsed() << " ms";
 
@@ -44,21 +51,26 @@ void KeysTreeRenderer::renderNamespaceItems(QSharedPointer<Operations> operation
 
     qDebug() << "loaded ns items:" << items;
 
-    for (QPair<QByteArray, ulong> ns : items.first) {        
-        auto namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(ns.first,
-                                                                             operations, currentParent,                                                                             parent->model(),
-                                                                             parent->getDbIndex()));
-        if (expandedNamespaces.contains(ns.first)) {
-            namespaceItem->setExpanded(true);
+    try {
+        for (QPair<QByteArray, ulong> ns : items.first) {
+            auto namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(ns.first,
+                                                                                 operations, currentParent,                                                                             parent->model(),
+                                                                                 parent->getDbIndex(), parent->getFilter()));
+            if (expandedNamespaces.contains(ns.first)) {
+                namespaceItem->setExpanded(true);
+            }
+
+            parent->appendNamespace(namespaceItem);
         }
 
-        parent->appendNamespace(namespaceItem);
-    }   
+        for (QByteArray fullKey : items.second) {
+            QSharedPointer<KeyItem> newKey(new KeyItem(fullKey,
+                                                       currentParent, parent->model()));
+            parent->append(newKey);
+        }
 
-    for (QByteArray fullKey : items.second) {
-        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey, parent->getDbIndex(), operations,
-                                                   currentParent, parent->model()));
-        parent->append(newKey);
+    } catch (std::bad_alloc&) {
+        parent->showLoadingError("Not enough memory to render all keys");
     }
 
     parent->notifyModel();
@@ -85,7 +97,7 @@ void KeysTreeRenderer::renderLazily(
     int indexOfNaspaceSeparator = (settings.nsSeparator.isEmpty())? -1 : notProcessedKeyPart.indexOf(settings.nsSeparator);
 
     if (indexOfNaspaceSeparator == -1) {
-        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey, settings.dbIndex, m_operations,
+        QSharedPointer<KeyItem> newKey(new KeyItem(fullKey,
                                                    currentParent, parent->model()));
         parent->append(newKey);
         return;
@@ -100,7 +112,7 @@ void KeysTreeRenderer::renderLazily(
         QByteArray namespaceFullPath = fullKey.mid(0, nsPos);
         namespaceItem = QSharedPointer<NamespaceItem>(new NamespaceItem(namespaceFullPath,
                                                                         m_operations, currentParent,
-                                                                        parent->model(), settings.dbIndex));
+                                                                        parent->model(), settings.dbIndex, settings.filter));
 
         if (expandedNamespaces.contains(namespaceFullPath)) {
             namespaceItem->setExpanded(true);

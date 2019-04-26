@@ -1,108 +1,109 @@
 #include "listkey.h"
 #include <qredisclient/connection.h>
 
+const static QByteArray LIST_ITEM_REMOVAL_STUB("---VALUE_REMOVED_BY_RDM---");
+
 ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
                            QByteArray fullPath, int dbIndex, long long ttl)
-    : ListLikeKeyModel(connection, fullPath, dbIndex, ttl, "LLEN", QByteArray(),
-                       "LRANGE", true) {}
+    : ListLikeKeyModel(connection, fullPath, dbIndex, ttl, "LLEN", "LRANGE") {}
 
-QString ListKeyModel::getType() { return "list"; }
+QString ListKeyModel::type() { return "list"; }
 
-void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
-  if (!isRowLoaded(rowIndex) || !isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
-
-  if (isActualPositionChanged(rowIndex))
-    throw Exception(
-        QCoreApplication::translate("RDM",
-                                    "The row has been changed and can't be "
-                                    "updated now. Reload and try again."));
+void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
+  if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
+    return c(QCoreApplication::translate("RDM", "Invalid row"));
+  }
 
   QByteArray newRow(row["value"].toByteArray());
-  setListRow(rowIndex, newRow);
-  m_rowsCache.replace(rowIndex, newRow);
+
+  auto afterRowUpdate = [this, rowIndex, newRow, c](const QString &err) {
+    if (err.isEmpty()) m_rowsCache.replace(rowIndex, newRow);
+
+    return c(err);
+  };
+
+  verifyListItemPosistion(rowIndex, [this, rowIndex, c, newRow,
+                                     afterRowUpdate](const QString &err) {
+    if (err.size() > 0) return c(err);
+
+    setListRow(rowIndex, newRow, afterRowUpdate);
+  });
 }
 
-void ListKeyModel::addRow(const QVariantMap &row) {
-  if (!isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
+void ListKeyModel::addRow(const QVariantMap &row, Callback c) {
+  if (!isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return;
+  }
 
-  addListRow(row["value"].toByteArray());
-  m_rowCount++;
+  addListRow(row["value"].toByteArray(), [this, c](const QString &err) {
+    if (err.isEmpty()) m_rowCount++;
+
+    return c(err);
+  });
 }
 
-void ListKeyModel::removeRow(int i) {
+void ListKeyModel::removeRow(int i, ValueEditor::Model::Callback c) {
   if (!isRowLoaded(i)) return;
 
-  if (isActualPositionChanged(i))
-    throw Exception(
-        QCoreApplication::translate("RDM",
-                                    "The row has been changed and can't be "
-                                    "deleted now. Reload and try again."));
+  auto onItemRemoval = [this, c, i](const QString &err) {
+    if (err.isEmpty()) {
+      m_rowCount--;
+      m_rowsCache.removeAt(i);
+      setRemovedIfEmpty();
+    };
 
-  // Replace value by system string
-  QString customSystemValue("---VALUE_REMOVED_BY_RDM---");
-  setListRow(i, customSystemValue.toUtf8());
+    return c(err);
+  };
 
-  // Remove all system values from list
-  deleteListRow(0, customSystemValue.toUtf8());
+  auto onItemHidding = [this, c, onItemRemoval](const QString &err) {
+    if (err.size() > 0) return c(err);
 
-  m_rowCount--;
-  m_rowsCache.removeAt(i);
-  setRemovedIfEmpty();
+    // Remove all system values from list
+    deleteListRow(0, LIST_ITEM_REMOVAL_STUB, onItemRemoval);
+  };
+
+  verifyListItemPosistion(i, [this, i, c, onItemHidding](const QString &err) {
+    if (err.size() > 0) return c(err);
+
+    // Replace value by system string
+    setListRow(i, LIST_ITEM_REMOVAL_STUB, onItemHidding);
+  });
 }
 
-bool ListKeyModel::isActualPositionChanged(int row) {
-  using namespace RedisClient;
+void ListKeyModel::verifyListItemPosistion(int row, Callback c) {
+  auto verifyResponse = [this, row](RedisClient::Response r, Callback c) {
+    QVariantList currentState = r.value().toList();
+    QByteArray cachedValue = m_rowsCache[row];
 
-  QByteArray cachedValue = m_rowsCache[row];
+    bool isChanged = currentState.size() != 1 ||
+                     currentState[0].toByteArray() != QString(cachedValue);
 
-  // check position update
-  Response result;
+    if (isChanged) {
+      return c(QCoreApplication::translate("RDM",
+                                           "The row has been changed on server."
+                                           "Reload and try again."));
+    } else {
+      return c(QString());
+    }
+  };
 
-  try {
-    result = m_connection->commandSync(
-        {"LRANGE", m_keyFullPath, QString::number(row).toLatin1(),
-         QString::number(row).toLatin1()},
-        m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
-  }
-
-  QVariantList currentState = result.getValue().toList();
-
-  return currentState.size() != 1 ||
-         currentState[0].toByteArray() != QString(cachedValue);
+  executeCmd({"LRANGE", m_keyFullPath, QString::number(row).toLatin1(),
+              QString::number(row).toLatin1()},
+             c, verifyResponse);
 }
 
-void ListKeyModel::addListRow(const QByteArray &value) {
-  try {
-    m_connection->commandSync({"LPUSH", m_keyFullPath, value}, m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
-  }
+void ListKeyModel::addListRow(const QByteArray &value, Callback c) {
+  executeCmd({"LPUSH", m_keyFullPath, value}, c);
 }
 
-void ListKeyModel::setListRow(int pos, const QByteArray &value) {
-  try {
-    m_connection->commandSync(
-        {"LSET", m_keyFullPath, QString::number(pos).toLatin1(), value},
-        m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
-  }
+void ListKeyModel::setListRow(int pos, const QByteArray &value, Callback c) {
+  executeCmd({"LSET", m_keyFullPath, QString::number(pos).toLatin1(), value},
+             c);
 }
 
-void ListKeyModel::deleteListRow(int count, const QByteArray &value) {
-  try {
-    m_connection->commandSync(
-        {"LREM", m_keyFullPath, QString::number(count).toLatin1(), value},
-        m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
-  }
+void ListKeyModel::deleteListRow(int count, const QByteArray &value,
+                                 Callback c) {
+  executeCmd({"LREM", m_keyFullPath, QString::number(count).toLatin1(), value},
+             c);
 }

@@ -4,10 +4,10 @@
 
 HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
                            QByteArray fullPath, int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl, true, "HLEN",
+    : KeyModel(connection, fullPath, dbIndex, ttl, "HLEN",
                "HSCAN %1 0 COUNT 10000") {}
 
-QString HashKeyModel::getType() { return "hash"; }
+QString HashKeyModel::type() { return "hash"; }
 
 QStringList HashKeyModel::getColumnNames() {
   return QStringList() << "row"
@@ -38,9 +38,11 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole) {
   return QVariant();
 }
 
-void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
-  if (!isRowLoaded(rowIndex) || !isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
+void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
+  if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return;
+  }
 
   QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
@@ -51,66 +53,77 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row) {
       (keyChanged) ? row["key"].toByteArray() : cachedRow.first,
       (valueChanged) ? row["value"].toByteArray() : cachedRow.second);
 
+  auto afterValueUpdate = [this, c, rowIndex, newRow](const QString &err) {
+    if (err.isEmpty()) m_rowsCache.replace(rowIndex, newRow);
+
+    return c(err);
+  };
+
   if (keyChanged) {
-    deleteHashRow(cachedRow.first);
+    deleteHashRow(cachedRow.first,
+                  [this, c, newRow, afterValueUpdate](const QString &err) {
+                    if (err.size() > 0) return c(err);
+
+                    setHashRow(newRow.first, newRow.second, afterValueUpdate);
+                  });
+  } else {
+    setHashRow(newRow.first, newRow.second, afterValueUpdate);
+  }
+}
+
+void HashKeyModel::addRow(const QVariantMap &row, Callback c) {
+  if (!isRowValid(row)) {
+    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    return;
   }
 
-  setHashRow(newRow.first, newRow.second);
-  m_rowsCache.replace(rowIndex, newRow);
+  setHashRow(row["key"].toByteArray(), row["value"].toByteArray(),
+             [this, c](const QString &err) {
+               if (err.isEmpty()) m_rowCount++;
+               return c(err);
+             },
+             false);
 }
 
-void HashKeyModel::addRow(const QVariantMap &row) {
-  if (!isRowValid(row))
-    throw Exception(QCoreApplication::translate("RDM", "Invalid row"));
-
-  setHashRow(row["key"].toByteArray(), row["value"].toByteArray(), false);
-  m_rowCount++;
-}
-
-void HashKeyModel::removeRow(int i) {
+void HashKeyModel::removeRow(int i, Callback c) {
   if (!isRowLoaded(i)) return;
 
   QPair<QByteArray, QByteArray> row = m_rowsCache[i];
 
-  deleteHashRow(row.first);
+  deleteHashRow(row.first, [this, i, c](const QString &err) {
+    if (err.isEmpty()) {
+      m_rowCount--;
+      m_rowsCache.removeAt(i);
+      setRemovedIfEmpty();
+    }
 
-  m_rowCount--;
-  m_rowsCache.removeAt(i);
-  setRemovedIfEmpty();
+    return c(err);
+  });
 }
 
 void HashKeyModel::setHashRow(const QByteArray &hashKey,
-                              const QByteArray &hashValue,
+                              const QByteArray &hashValue, Callback c,
                               bool updateIfNotExist) {
-  using namespace RedisClient;
+  QList<QByteArray> rawCmd{(updateIfNotExist) ? "HSET" : "HSETNX",
+                           m_keyFullPath, hashKey, hashValue};
 
-  Response result;
-
-  try {
-    result = m_connection->commandSync({(updateIfNotExist) ? "HSET" : "HSETNX",
-                                        m_keyFullPath, hashKey, hashValue},
-                                       m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
-  }
-
-  if (updateIfNotExist == false && result.getValue().toInt() == 0)
-    throw Exception(QCoreApplication::translate(
-        "RDM", "Value with the same key already exist"));
+  executeCmd(rawCmd, c,
+             [updateIfNotExist](RedisClient::Response r, Callback c) {
+               if (updateIfNotExist == false && r.value().toInt() == 0) {
+                 return c(QCoreApplication::translate(
+                     "RDM", "Value with the same key already exist"));
+               } else {
+                 return c(QString());
+               }
+             });
 }
 
-void HashKeyModel::deleteHashRow(const QByteArray &hashKey) {
-  try {
-    m_connection->commandSync({"HDEL", m_keyFullPath, hashKey}, m_dbIndex);
-  } catch (const RedisClient::Connection::Exception &e) {
-    throw Exception(QCoreApplication::translate("RDM", "Connection error: ") +
-                    QString(e.what()));
-  }
+void HashKeyModel::deleteHashRow(const QByteArray &hashKey, Callback c) {
+  executeCmd({"HDEL", m_keyFullPath, hashKey}, c);
 }
 
 void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
-                                        int rowStart) {
+                                        QVariant rowStartId) {
   QList<QPair<QByteArray, QByteArray>> result;
 
   for (QVariantList::const_iterator item = rows.begin(); item != rows.end();
@@ -119,13 +132,16 @@ void HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
     value.first = item->toByteArray();
     ++item;
 
-    if (item == rows.end())
-      throw Exception(QCoreApplication::translate(
+    if (item == rows.end()) {
+      emit m_notifier->error(QCoreApplication::translate(
           "RDM", "Data was loaded from server partially."));
+      return;
+    }
 
     value.second = item->toByteArray();
     result.push_back(value);
   }
 
+  auto rowStart = rowStartId.toLongLong();
   m_rowsCache.addLoadedRange({rowStart, rowStart + result.size() - 1}, result);
 }

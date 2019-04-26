@@ -1,0 +1,13 @@
+diff --git a/src/client/mac/sender/Breakpad.xib b/src/client/mac/sender/Breakpad.xib
+index 7966f895..3ad3882c 100644
+--- a/src/client/mac/sender/Breakpad.xib
++++ b/src/client/mac/sender/Breakpad.xib
+@@ -1114,7 +1114,7 @@ UXVpc3F1ZSBtaS4gRHVpcyBsZWN0dXMuA</string>
+ 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
+ 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
+ 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+-			<integer value="1050" key="NS.object.0"/>
++			<integer value="1060" key="NS.object.0"/>
+ 		</object>
+ 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
+ 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>

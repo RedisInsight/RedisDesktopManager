@@ -8,13 +8,12 @@
 
 using namespace ConnectionsTree;
 
-AbstractNamespaceItem::AbstractNamespaceItem(
-    Model& model, QWeakPointer<TreeItem> parent,
-    QSharedPointer<Operations> operations, uint dbIndex)
+AbstractNamespaceItem::AbstractNamespaceItem(Model& model, QWeakPointer<TreeItem> parent,
+    QSharedPointer<Operations> operations, uint dbIndex, QRegExp filter)
     : TreeItem(model),
       m_parent(parent),
       m_operations(operations),
-      m_filter(operations->defaultFilter()),
+      m_filter(filter.isEmpty()? QRegExp(operations->defaultFilter()) : filter),
       m_expanded(false),
       m_dbIndex(dbIndex) {}
 

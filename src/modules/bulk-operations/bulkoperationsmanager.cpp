@@ -40,7 +40,7 @@ void BulkOperations::Manager::runOperation(int, int) {
 
     if (r.isErrorMessage()) {
       emit error(QCoreApplication::translate("RDM", "Bulk operation error: %1")
-                     .arg(r.getValue().toString()));
+                     .arg(r.value().toString()));
       return;
     }
 

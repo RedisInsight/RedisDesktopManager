@@ -43,7 +43,7 @@ Repeater {
         property var valueEditor
         property var searchModel
 
-        property variant keyModel: keyName ? valuesModel.getValue(keyIndex) : null
+        property variant keyModel: keyViewModel
 
         onKeyModelChanged: {
             // On tab reload
@@ -61,7 +61,7 @@ Repeater {
 
         property Component searchModelComponent: Component {
             SortFilterProxyModel {
-                source: keyTab.keyModel
+                source: keyViewModel
                 sortOrder: table.sortIndicatorOrder
                 sortCaseSensitivity: Qt.CaseInsensitive
                 sortRole: keyTab.keyModel ? table.getColumn(table.sortIndicatorColumn).role : ""
@@ -74,9 +74,6 @@ Repeater {
         }
 
         Keys.onPressed: {
-            if (!keyModel)
-                return
-
             var reloadKey = event.key == Qt.Key_F5
                     || (event.key == Qt.Key_R && (event.modifiers & Qt.ControlModifier))
                     || (event.key == Qt.Key_R && (event.modifiers & Qt.MetaModifier))
@@ -152,7 +149,7 @@ Repeater {
                                     return open()
                                 }
 
-                                valuesModel.renameKey(keyTab.tabIndex, newKeyName.text)
+                                keyTab.keyModel.renameKey(newKeyName.text)
                             }
 
                             visible: false
@@ -201,7 +198,7 @@ Repeater {
                                     return open()
                                 }
 
-                                valuesModel.setTTL(keyTab.tabIndex, newTTL.text)
+                                keyTab.keyModel.setTTL(newTTL.text)
                             }
 
                             visible: false
@@ -226,9 +223,8 @@ Repeater {
                             id: deleteConfirmation
                             title: qsTranslate("RDM","Delete key")
                             text: qsTranslate("RDM","Do you really want to delete this key?")
-                            onYes: {
-                                console.log("remove key")
-                                valuesModel.removeKey(keyTab.tabIndex)
+                            onYes: {                                
+                                keyTab.keyModel.removeKey()
                             }
                             visible: false
                             modality: Qt.ApplicationModal
@@ -334,6 +330,10 @@ Repeater {
                                     valueErrorNotification.open()
                                 }
 
+                                onTotalRowCountChanged: {
+                                    keyTab.keyModel.loadRows(table.currentStart, table.maxItemsOnPage)
+                                }
+
                                 onRowsLoaded: {
                                     console.log("rows loaded")
 
@@ -395,13 +395,18 @@ Repeater {
                             function loadValue() {
                                 console.log("Load value")
                                 if (!keyTab.keyModel) {
-                                    console.log("Model is not ready")
+                                    console.log("Model is not ready", keyViewModel)
                                     return
                                 }
 
                                 keyModelConnections.target = keyTab.keyModel
                                 wrapper.showLoader()
-                                keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+
+                                if (keyTab.keyModel.totalRowCount === 0) {
+                                    keyTab.keyModel.loadRowsCount()
+                                } else {
+                                    keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+                                }
                             }
 
                             onRowCountChanged: wrapper.hideLoader()
@@ -410,9 +415,11 @@ Repeater {
 
                             Connections {
                                 target: table.selection
-                                onSelectionChanged:{
-                                    console.log("Selection changed", table.currentRow)
-                                    return valueEditor.loadRowValue(table.model.getOriginalRowIndex(table.currentRow))
+                                onSelectionChanged:{                                   
+                                    if (table.currentRow !== -1) {
+                                        console.log("Selection changed", table.currentRow)
+                                        return valueEditor.loadRowValue(table.model.getOriginalRowIndex(table.currentRow))
+                                    }
                                 }
                             }
                         }
@@ -604,6 +611,7 @@ Repeater {
                             source: Editor.getEditorByTypeString(keyType)
 
                             function loadRowValue(row) {
+                                console.log("loading row value", row)
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row, true)
                                     valueEditor.currentRow = row
@@ -639,7 +647,6 @@ Repeater {
                                     }
 
                                     valueEditor.item.validateValue(function (result){
-
                                         if (!result)
                                             return;
 

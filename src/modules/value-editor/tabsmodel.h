@@ -1,7 +1,6 @@
 #pragma once
 #include <QAbstractListModel>
 #include <QByteArray>
-#include <QJSValue>
 #include <QPair>
 #include <QSharedPointer>
 #include <QString>
@@ -26,39 +25,32 @@ class TabsModel : public QAbstractListModel {
     keyTTL,
     keyType,
     isMultiRow,
+    keyModel,
   };
 
  public:
   TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory);
 
-  ~TabsModel();
+  ~TabsModel() override;
 
   QModelIndex index(int row, int column = 0,
-                    const QModelIndex& parent = QModelIndex()) const;
-  int rowCount(const QModelIndex& parent = QModelIndex()) const;
-  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+                    const QModelIndex& parent = QModelIndex()) const override;
+  int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+  QVariant data(const QModelIndex& index,
+                int role = Qt::DisplayRole) const override;
   QHash<int, QByteArray> roleNames() const override;
 
  public:  // methods exported to QML
-  Q_INVOKABLE void addKey(QString keyName, QString keyType,
-                          const QVariantMap& row, QJSValue jsCallback);
-  Q_INVOKABLE void renameKey(int index, const QString& newKeyName);
-  Q_INVOKABLE void removeKey(int i);
-  Q_INVOKABLE void setTTL(int i, const QString& newTTL);
   Q_INVOKABLE void closeTab(int i);
   Q_INVOKABLE void setCurrentTab(int i);
-  Q_INVOKABLE QObject* getValue(int i);
 
  signals:
-  void keyError(int index, const QString& error);
+  void tabError(int index, const QString& error);
   void replaceTab(int index);
-  void newKeyDialog(QString dbIdentificationString, QString keyPrefix);
 
  public slots:
-  void openNewKeyDialog(QSharedPointer<RedisClient::Connection> connection,
-                        std::function<void()>, int dbIndex, QString keyPrefix);
   void openTab(QSharedPointer<RedisClient::Connection> connection,
-               ConnectionsTree::KeyItem& key, bool inNewTab);
+               QSharedPointer<ConnectionsTree::KeyItem> key, bool inNewTab);
   void closeDbKeys(QSharedPointer<RedisClient::Connection> connection,
                    int dbIndex, const QRegExp& filter);
 
@@ -67,14 +59,12 @@ class TabsModel : public QAbstractListModel {
   QSharedPointer<AbstractKeyFactory> m_keyFactory;
   int m_currentTabIndex;
 
-  typedef QPair<QWeakPointer<RedisClient::Connection>, int> NewKeyRequest;
-  NewKeyRequest m_newKeyRequest;
-  std::function<void()> m_newKeyCallback;
-
   bool isIndexValid(const QModelIndex& index) const;
-  QSharedPointer<ValueViewModel> loadModel(QSharedPointer<Model> model,
-                                           bool openNewTab = false);
-  void removeModel(QSharedPointer<ValueViewModel> model);
+  void loadModel(QSharedPointer<Model> model,
+                 QWeakPointer<ConnectionsTree::KeyItem> key,
+                 bool openNewTab = false);
+  void tabChanged(QSharedPointer<ValueViewModel> m);
+  void tabRemoved(QSharedPointer<ValueViewModel> m);
 };
 
 }  // namespace ValueEditor

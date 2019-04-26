@@ -13,6 +13,7 @@ class QmlUtils;
 class Events;
 class ConnectionsManager;
 class Updater;
+class KeyFactory;
 class TabViewModel;
 namespace ValueEditor {
 class TabsModel;
@@ -54,6 +55,7 @@ class Application : public QApplication {
   QSharedPointer<Events> m_events;
   QSharedPointer<ConnectionsManager> m_connections;
   QSharedPointer<Updater> m_updater;
+  QSharedPointer<KeyFactory> m_keyFactory;
   QSharedPointer<ValueEditor::TabsModel> m_keyValues;
   QSharedPointer<ValueEditor::FormattersManager> m_formattersManager;
   QSharedPointer<BulkOperations::Manager> m_bulkOperations;

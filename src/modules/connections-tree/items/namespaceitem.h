@@ -12,15 +12,15 @@ public:
                   QSharedPointer<Operations> operations,
                   QWeakPointer<TreeItem> parent,
                   Model& model,
-                  uint dbIndex);
+                  uint dbIndex, QRegExp filter);
 
     QString getDisplayName() const override;    
 
     QByteArray getName() const override;
 
-    QByteArray getFullPath() const;
+    QByteArray getFullPath() const override;
 
-    QString getType() const override { return "namespace"; }    
+    QString type() const override { return "namespace"; }    
 
     bool isEnabled() const override;        
 
@@ -29,9 +29,10 @@ public:
 protected:
     void load();
 
+    QHash<QString, std::function<void()>> eventHandlers() override;
+
 private:
-    QByteArray m_fullPath;    
-    QByteArray m_displayName;
+    QByteArray m_fullPath;
     bool m_removed;    
 };
 }

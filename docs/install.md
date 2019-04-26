@@ -2,9 +2,9 @@
 
 ## Windows
 
-0. Install [Microsoft Visual C++ 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe)  (If you have not already)
-1. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download) **(Requires subscription)**
-2. Run downloaded installer
+1. Install [Microsoft Visual C++ 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe)  (If you have not already)
+2. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download) **(Requires subscription)**
+3. Run downloaded installer
 
 ## Mac OS X
 
@@ -12,9 +12,13 @@
 2. Mount dmg image
 3. Run rdm.app
 
-## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / ArchLinux / Other Linux
+## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / Other Linux
 
 1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager)
+
+## ArchLinux
+
+1. Install RedisDesktopManager via [AUR](https://aur.archlinux.org/packages/redis-desktop-manager/)
 
 ## Other platforms
 
@@ -28,12 +32,13 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
 2. Get source code:
 
     ```
-    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 0.9 rdm && cd ./rdm
+    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2019 rdm && cd ./rdm
     ```
 
 > !!! warning "SSH Tunneling support"
-    Since 0.9.9 RDM by default do not include SSH Tunneling support. If you need it please checkout 0.9.8 tag.
-    `git checkout 0.9.8`
+    Since 0.9.9 RDM by default does not include SSH Tunneling support. If you need it please checkout 0.9.8 tag,
+    i.e. `git checkout 0.9.8`. Or you can create a SSH tunnel to your Redis server manually and connect to `localhost`:
+    `ssh -L 6379:REDIS_HOST:6379 SSH_USER@SSH_HOST -P SSH_PORT -i SSH_KEY -T -N`
 
 ### Build on Linux
 

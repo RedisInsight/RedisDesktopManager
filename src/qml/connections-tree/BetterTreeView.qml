@@ -46,7 +46,7 @@ TreeView {
 
                 property bool itemEnabled: styleData.value["state"] === true
                 property bool itemLocked: styleData.value["locked"] === true
-                property string itemType: styleData.value["type"]
+                property string itemType: styleData.value["type"] ? styleData.value["type"] : ""
                 property string itemIconSource: {
                     if (itemLocked) {
                         return "qrc:/images/wait.svg"

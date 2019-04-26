@@ -11,7 +11,7 @@ TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"0.9.999\\\"
+    DEFINES += RDM_VERSION=\\\"2019.0.0\\\"
 }
 
 SOURCES += \
@@ -169,5 +169,6 @@ TRANSLATIONS = \
     $$PWD/resources/translations/rdm_zh_CN.ts \
     $$PWD/resources/translations/rdm_zh_TW.ts \
     $$PWD/resources/translations/rdm_ru_RU.ts \
+    $$PWD/resources/translations/rdm_es_ES.ts \
 
 CODECFORSRC = UTF-8

@@ -1,50 +1,48 @@
 #pragma once
 
-#include "treeitem.h"
 #include "connections-tree/operations.h"
+#include "treeitem.h"
 
 namespace ConnectionsTree {
 
-class KeyItem : public TreeItem
-{
-public:
-    KeyItem(const QByteArray& fullPath,
-            unsigned short int dbIndex,
-            QSharedPointer<Operations> operations,
-            QWeakPointer<TreeItem> parent,
-            Model &model);
+class KeyItem : public TreeItem {
+ public:
+  KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
+          Model& model);
 
-    QString getDisplayName() const override;
+  QString getDisplayName() const override;
 
-    QByteArray getName() const override;    
+  QByteArray getName() const override;
 
-    QString getType() const override { return "key"; }    
+  QString type() const override { return "key"; }
 
-    QList<QSharedPointer<TreeItem>> getAllChilds() const override;
+  QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
-    bool supportChildItems() const override;
+  bool supportChildItems() const override;
 
-    uint childCount(bool recursive = false) const override;
+  uint childCount(bool recursive = false) const override;
 
-    QSharedPointer<TreeItem> child(uint) const override;
+  QSharedPointer<TreeItem> child(uint) const override;
 
-    QWeakPointer<TreeItem> parent() const override;
+  QWeakPointer<TreeItem> parent() const override;
 
-    bool isEnabled() const;
+  bool isEnabled() const;
 
-    QByteArray getFullPath() const;
+  QByteArray getFullPath() const;
 
-    int getDbIndex() const;
+  int getDbIndex() const;
 
-    void setRemoved();
+  void setRemoved();
 
-private:
-    QByteArray m_fullPath;
-    unsigned short int m_dbIndex;
-    QSharedPointer<Operations> m_operations;
-    QWeakPointer<TreeItem> m_parent;
-    QSharedPointer<QObject> m_signalReciever;
-    bool m_removed;
+  void setFullPath(const QByteArray& p);
+
+ protected:
+  QHash<QString, std::function<void()>> eventHandlers() override;
+
+ private:
+  QByteArray m_fullPath;
+  QWeakPointer<TreeItem> m_parent;
+  bool m_removed;
 };
 
-}
+}  // namespace ConnectionsTree

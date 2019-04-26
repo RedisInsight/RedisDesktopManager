@@ -16,10 +16,15 @@ class Model : public TabModel {
   Q_PROPERTY(QVariant clients READ clients NOTIFY clientsChanged)
   Q_PROPERTY(bool refreshClients READ refreshClients WRITE setRefreshClients)
 
+  Q_PROPERTY(
+      QVariant pubSubChannels READ pubSubChannels NOTIFY pubSubChannelsChanged)
+  Q_PROPERTY(bool refreshPubSubMonitor READ refreshPubSubMonitor WRITE
+                 setRefreshPubSubMonitor)
+
  public:
   Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
 
-  ~Model();
+  ~Model() override;
 
   QString getName() const override;
 
@@ -29,23 +34,34 @@ class Model : public TabModel {
 
   QVariant clients();
 
+  QVariant pubSubChannels();
+
   bool refreshSlowLog();
   void setRefreshSlowLog(bool v);
 
   bool refreshClients();
   void setRefreshClients(bool v);
 
+  bool refreshPubSubMonitor();
+  void setRefreshPubSubMonitor(bool v);
+
  signals:
   void serverInfoChanged();
   void slowLogChanged();
   void clientsChanged();
+  void pubSubChannelsChanged();
+
+ protected:
+  void cmdErrorHander(const QString& err);
 
  private:
   QTimer m_serverInfoUpdateTimer;
   QTimer m_slowLogUpdateTimer;
   QTimer m_clientsUpdateTimer;
+  QSharedPointer<RedisClient::Connection> m_pubSubMonitorConnection;
   QVariantMap m_serverInfo;
   QVariant m_slowLog;
   QVariant m_clients;
+  QSet<QByteArray> m_pubSubChannels;
 };
 }  // namespace ServerStats

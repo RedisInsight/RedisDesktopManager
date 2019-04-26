@@ -7,9 +7,9 @@
 [Known issues](http://docs.redisdesktop.com/en/latest/known-issues/) |
 [**Telegram Chat**](https://t.me/RedisDesktopManager)
 
-[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=0.9)](https://travis-ci.org/uglide/RedisDesktopManager) 
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/3pwtjfl9yioyom9t?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/0.9)
-[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=0.9)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=0.9)
+[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=2019)](https://travis-ci.org/uglide/RedisDesktopManager) 
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/3pwtjfl9yioyom9t?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/2019)
+[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=2019)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=2019)
 [![Snap Status](https://build.snapcraft.io/badge/RedisDesktop/redisdesktopmanager-snap.svg)](https://build.snapcraft.io/user/RedisDesktop/redisdesktopmanager-snap)
 [![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.redisdesktop.com/en/latest/?badge=latest)
 
