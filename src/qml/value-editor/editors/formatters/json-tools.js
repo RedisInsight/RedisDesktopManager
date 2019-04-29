@@ -53,7 +53,43 @@ var prettyPrint = function( json ) {
         .replace( /\\(\d+)\\/g, pop ) // strings
         .replace( /\\(\d+)\\/g, pop ); // backslashes in strings
 
-    return out;
+    var colorMap = {
+            string: '#008000',
+            number: '#0000ff',
+            boolean: '#b22222',
+            null: '#808080',
+            key: '#000000'
+        };
+
+    // Highlight different value types
+    var syntaxHighlight = function(json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
+        }
+
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var type = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    type = 'key';
+                } else {
+                    type = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                type = 'boolean';
+            } else if (/null/.test(match)) {
+                type = 'null';
+            }
+            return '<font color="' + colorMap[type] + '">' + match + '</font>';
+        });
+    }
+
+    var highlighted = syntaxHighlight(out);
+
+//    return out;
+    return '<pre id="value">' + highlighted + '</pre>';
 };
 
 
