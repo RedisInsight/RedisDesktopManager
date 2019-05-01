@@ -66,18 +66,31 @@ void NamespaceItem::load() {
       m_model.m_expanded);
 }
 
+void NamespaceItem::reload() {
+  lock();
+
+  if (m_childItems.size()) {
+    clear();
+    m_usedMemory = 0;
+  }
+
+  load();
+}
+
 bool compareChilds(QSharedPointer<TreeItem> first,
                    QSharedPointer<TreeItem> second) {
   auto firstMemoryItem = first.dynamicCast<MemoryUsage>();
   auto secondMemoryItem = second.dynamicCast<MemoryUsage>();
 
-  return firstMemoryItem && secondMemoryItem &&
-         firstMemoryItem->usedMemory() > secondMemoryItem->usedMemory();
+  return (firstMemoryItem ? firstMemoryItem->usedMemory() : 0) >
+         (secondMemoryItem ? secondMemoryItem->usedMemory() : 0);
 }
 
 void NamespaceItem::sortChilds() {
-  qSort(m_childItems.begin(), m_childItems.end(), compareChilds);
+  emit m_model.beforeItemLayoutChanged(getSelf());
+  std::sort(m_childItems.begin(), m_childItems.end(), compareChilds);
   emit m_model.itemLayoutChanged(getSelf());
+  emit m_model.itemChanged(getSelf());
 }
 
 QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
@@ -94,7 +107,26 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
     }
   });
 
+  events.insert("add_key", [this]() {
+    m_operations->openNewKeyDialog(
+        m_dbIndex,
+        [this]() {
+          confirmAction(nullptr,
+                        QCoreApplication::translate(
+                            "RDM",
+                            "Key was added. Do you want to reload keys in "
+                            "selected namespace?"),
+                        [this]() { reload(); },
+                        QCoreApplication::translate("RDM", "Key was added"));
+        },
+        QString("%1%2")
+            .arg(QString::fromUtf8(getFullPath()))
+            .arg(m_operations->getNamespaceSeparator()));
+  });
+
   events.insert("analyze_memory_usage", [this]() {
+    if (m_usedMemory > 0) return;
+
     lock();
 
     getMemoryUsage();
@@ -114,15 +146,7 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
             });
   });
 
-  events.insert("reload", [this]() {
-    lock();
-
-    if (m_childItems.size()) {
-      clear();
-    }
-
-    load();
-  });
+  events.insert("reload", [this]() { reload(); });
 
   events.insert("delete", [this]() { m_operations->deleteDbNamespace(*this); });
 
@@ -140,8 +164,10 @@ QFuture<qlonglong> NamespaceItem::getMemoryUsage() {
         new AsyncFuture::Combinator(AsyncFuture::AllSettled));
 
   m_combinator->subscribe([d, this]() {
-    sortChilds();
-    return d->complete(m_usedMemory);
+    d->complete(m_usedMemory);
+    qDebug() << "Memory usage loaded for " << getFullPath();
+    // NOTE(u_glide): Wait here to ensure that view was updated for last item
+    QTimer::singleShot(100, [this]() { sortChilds(); });
   });
 
   for (QSharedPointer<TreeItem> child : m_childItems) {

@@ -16,6 +16,9 @@ Model::Model(QObject *parent)
   QObject::connect(this, &Model::itemChildsUnloaded, this,
                    &Model::onItemChildsUnloaded);
   QObject::connect(this, &Model::expandItem, this, &Model::onExpandItem);
+
+  QObject::connect(this, &Model::beforeItemLayoutChanged, this,
+                   &Model::onBeforeItemLayoutChanged);
   QObject::connect(this, &Model::itemLayoutChanged, this,
                    &Model::onItemLayoutChanged);
 
@@ -214,15 +217,53 @@ void Model::onExpandItem(QWeakPointer<TreeItem> item) {
   emit expand(index);
 }
 
-void Model::onItemLayoutChanged(QWeakPointer<TreeItem> item) {
+void Model::onBeforeItemLayoutChanged(QWeakPointer<TreeItem> item) {
   if (!item) return;
+
+  auto itemS = item.toStrongRef();
 
   auto index = getIndexFromItem(item);
 
   if (!index.isValid()) return;
 
-  emit layoutAboutToBeChanged({index});
-  emit layoutChanged({index});
+  emit layoutAboutToBeChanged({index}, QAbstractItemModel::VerticalSortHint);
+
+  m_pendingChanges.clear();
+
+  for (long rowIndex = 0; rowIndex < itemS->childCount(); rowIndex++) {
+    auto child = itemS->child(rowIndex);
+    m_pendingChanges.insert(child, getIndexFromItem(child));
+  }
+}
+
+void Model::onItemLayoutChanged(QWeakPointer<TreeItem> item) {
+  if (!item) return;
+
+  auto itemS = item.toStrongRef();
+
+  auto index = getIndexFromItem(item);
+
+  if (!index.isValid()) return;
+
+  for (long rowIndex = 0; rowIndex < itemS->childCount(); rowIndex++) {
+    auto child = itemS->child(rowIndex);
+
+    if (!m_pendingChanges.contains(child)) continue;
+
+    changePersistentIndex(m_pendingChanges.take(child),
+                          getIndexFromItem(child));
+  }
+
+  m_pendingChanges.clear();
+
+  emit layoutChanged({}, QAbstractItemModel::VerticalSortHint);
+
+  for (long rowIndex = 0; rowIndex < itemS->childCount(); rowIndex++) {
+    auto child = itemS->child(rowIndex);
+    auto childIndex = getIndexFromItem(child);
+
+    emit dataChanged(childIndex, childIndex);
+  }
 }
 
 QVariant Model::getMetadata(const QModelIndex &index, const QString &metaKey) {

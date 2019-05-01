@@ -37,6 +37,8 @@ class NamespaceItem : public QObject,
  protected:
   void load();
 
+  void reload();
+
   void sortChilds();
 
   QHash<QString, std::function<void()>> eventHandlers() override;

@@ -48,7 +48,7 @@ RowLayout {
                         return root.sendEvent(modelData['event'])
                 }
 
-                tooltip: modelData['help'] != undefined ? modelData['help'] + " (" + modelData["shortcut"] + ")"  : ""
+                tooltip: modelData['help'] != undefined ? modelData['help'] + (modelData["shortcut"]? " (" + modelData["shortcut"] + ")" : "")  : ""
 
                 objectName: {
                     if (modelData['event'] != undefined)
