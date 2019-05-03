@@ -438,7 +438,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="14"/>
         <source>Connect to Redis Server</source>
-        <translation>Redisサーバに接続できません</translation>
+        <translation>Redisサーバに接続</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="26"/>
