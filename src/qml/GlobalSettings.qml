@@ -44,7 +44,7 @@ Dialog {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 40
 
-                        model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES"]
+                        model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES", "ja_JP"]
                         value: "system"
                         label: qsTranslate("RDM","Language")
                         description: qsTranslate("RDM","Application restart is needed to apply this setting.")
