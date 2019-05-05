@@ -39,17 +39,17 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="63"/>
         <source>Cannot rename key %1: %2</source>
-        <translation type="unfinished">无法重命名键 %1: %2</translation>
+        <translation>无法重命名键 %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="70"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
-        <translation type="unfinished">新键 %1 已经存在或原始键已被删除</translation>
+        <translation>新键 %1 已经存在或原始键已被删除</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="95"/>
         <source>Cannot set TTL for key %1: %2</source>
-        <translation type="unfinished">无法给键设置 TTL %1: %2</translation>
+        <translation>无法给键设置 TTL %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="103"/>
@@ -59,19 +59,19 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="120"/>
         <source>Cannot remove key %1: %2</source>
-        <translation type="unfinished">无法删除键 %1: %2</translation>
+        <translation>无法删除键 %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="197"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="210"/>
         <source>Cannot load rows count for key %1: %2</source>
-        <translation type="unfinished">无法加载键行数 %1: %2</translation>
+        <translation>无法加载键行数 %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="254"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation type="unfinished">无法加载键内容 %1: %2</translation>
+        <translation>无法加载键内容 %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="43"/>
@@ -363,7 +363,7 @@
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="41"/>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
-        <translation type="unfinished">切换到推送/订阅模式，关闭标签页来停止接收信息。</translation>
+        <translation>切换到推送/订阅模式，关闭标签页来停止接收信息。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="50"/>
@@ -454,7 +454,7 @@
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="74"/>
         <source>Cannot reload key value: %1</source>
-        <translation type="unfinished">无法重载键值: %1</translation>
+        <translation>无法重载键值: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="106"/>
@@ -669,7 +669,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
-        <translation type="unfinished">启用 TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
+        <translation>启用 TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="387"/>
@@ -837,12 +837,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="158"/>
         <source>Name</source>
-        <translation type="unfinished">名称</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="163"/>
         <source>Version</source>
-        <translation type="unfinished">版本</translation>
+        <translation>版本</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
@@ -1187,7 +1187,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="11"/>
         <source>Add New Key to </source>
-        <translation type="unfinished">添加新键到 </translation>
+        <translation>添加新键到 </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="27"/>
