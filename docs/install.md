@@ -2,7 +2,7 @@
 
 ## Windows
 
-1. Install [Microsoft Visual C++ 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x86.exe)  (If you have not already)
+1. Install [Microsoft Visual C++ 2017 x64](https://aka.ms/vs/15/release/vc_redist.x64.exe)  (If you have not already)
 2. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download) **(Requires subscription)**
 3. Run downloaded installer
 
@@ -12,17 +12,13 @@
 2. Mount dmg image
 3. Run rdm.app
 
-## Ubuntu / Debian / Fedora / CentOS / OpenSUSE / Other Linux
+## Ubuntu / ArchLinux / Debian / Fedora / CentOS / OpenSUSE / etc
 
 1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager)
 
-## ArchLinux
-
-1. Install RedisDesktopManager via [AUR](https://aur.archlinux.org/packages/redis-desktop-manager/)
-
-## Other platforms
-
-You can [build Redis Desktop Manager from source](install.md#build-from-source).
+> !!! warning "SSH Keys"
+    To be able to access your ssh keys from RDM please connect `ssh-key` interface:
+    `sudo snap connect redis-desktop-manager:ssh-keys`
 
 ## Build from source
 
@@ -36,9 +32,8 @@ You can [build Redis Desktop Manager from source](install.md#build-from-source).
     ```
 
 > !!! warning "SSH Tunneling support"
-    Since 0.9.9 RDM by default does not include SSH Tunneling support. If you need it please checkout 0.9.8 tag,
-    i.e. `git checkout 0.9.8`. Or you can create a SSH tunnel to your Redis server manually and connect to `localhost`:
-    `ssh -L 6379:REDIS_HOST:6379 SSH_USER@SSH_HOST -P SSH_PORT -i SSH_KEY -T -N`
+    Since 0.9.9 RDM by default does not include SSH Tunneling support. You can create a SSH tunnel to your Redis server manually and connect to `localhost`:
+    `ssh -L 6379:REDIS_HOST:6379 SSH_USER@SSH_HOST -P SSH_PORT -i SSH_KEY -T -N` or [use pre-built binary for your OS](#quick-install)
 
 ### Build on Linux
 
@@ -78,13 +73,13 @@ sudo mv qt.conf qt.backup
 
 ### Build on Windows
 
-1. Install Visual Studio 2015 Community with Updates
+1. Install Visual Studio 2017 Community
 
 2. Install [Qt 5.9](https://www.qt.io/download)
 
 3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply patch to fix compilation on Windows:
 `git apply ../hiredis-win.patch`
 
-4. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.6 MSVC2015 32bit > Release` profile.
+4. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.x MSVC2017 64bit > Release` profile.
 
 5. Run build. ( Just hit `Ctrl-B` )
