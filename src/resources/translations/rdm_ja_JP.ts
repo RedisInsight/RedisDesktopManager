@@ -480,7 +480,7 @@
         <location filename="../../qml/AppToolBar.qml" line="90"/>
         <location filename="../../qml/AppToolBar.qml" line="91"/>
         <source>Star on GitHub!</source>
-        <translation>GitHubでスターをつける!</translation>
+        <translation>GitHubで貢献する!</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="99"/>
@@ -775,18 +775,18 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="100"/>
         <source>Reopen namespaces on reload</source>
-        <translation></translation>
+        <translation>リロード時にネームスペースを開きなおす</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="101"/>
         <location filename="../../qml/GlobalSettings.qml" line="112"/>
         <source>(Disable to improve treeview performance)</source>
-        <translation>(ツリービューのパフォーマンス最適化を無効にする)</translation>
+        <translation>(無効にするとツリービューが早くなります)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="111"/>
         <source>Enable key sorting in tree</source>
-        <translation>ツリー上でキーをソートできるようにする</translation>
+        <translation>ツリーのキーをソートする</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="124"/>
@@ -796,7 +796,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="137"/>
         <source>Live update interval (in seconds)</source>
-        <translation>ライブアップデートの頻度(秒)</translation>
+        <translation>ライブアップデートの更新頻度(秒)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="142"/>
@@ -926,12 +926,12 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="58"/>
         <source>Reload Keys in Database</source>
-        <translation>データベースでキーをリロード</translation>
+        <translation>データベースのキーをリロード</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="62"/>
         <source>Add New Key</source>
-        <translation>新しいキーを追加</translation>
+        <translation>キーを追加</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
@@ -947,12 +947,12 @@
         <location filename="../../qml/connections-tree/menu/database.qml" line="72"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Open Console</source>
-        <translation>Consoleを開く</translation>
+        <translation>コンソールを開く</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
         <source>Flush Database</source>
-        <translation>データベースをフラッシュ</translation>
+        <translation>データベースを初期化</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
@@ -1194,7 +1194,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="32"/>
         <source>Set Page</source>
-        <translation>ページ設定</translation>
+        <translation>ページ変更</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="145"/>
@@ -1214,7 +1214,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="221"/>
         <source>View as:</source>
-        <translation>形式を変えて参照:</translation>
+        <translation>表示形式:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="240"/>
