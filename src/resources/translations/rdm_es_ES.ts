@@ -25,12 +25,12 @@
     <message>
         <location filename="../../app/app.cpp" line="55"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos de fichero o reinicia RDM como administrador.</translation>
+        <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos del fichero o reinicia RDM como administrador.</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="276"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
-        <translation>Por favor descarga la nueva version de Redis Desktop Manager: %1</translation>
+        <translation>Por favor descarga la nueva versión de Redis Desktop Manager: %1</translation>
     </message>
     <message>
         <source>Key with new name already exist in database or original key was removed</source>
@@ -161,12 +161,12 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="162"/>
         <source>Cannot load keys: %1</source>
-        <translation>No se pueden cargar claves: %1</translation>
+        <translation>No se pueden cargar las claves: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="208"/>
         <source>Cannot remove key: %1</source>
-        <translation>No se puede borrar clave: %1</translation>
+        <translation>No se puede borrar la clave: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="223"/>
@@ -206,12 +206,12 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="221"/>
         <source>Please wait until another operation will be finised.</source>
-        <translation>Por favor espera hasta que la otrea operación finalice.</translation>
+        <translation>Por favor espera hasta que la otra operación finalice.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
         <source>Do you really want to remove all keys from this database?</source>
-        <translation>¿De verdad quieres borrar todas las claves de esta base de datos?</translation>
+        <translation>¿Seguro que quieres borrar todas las claves de esta base de datos?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="79"/>
@@ -228,7 +228,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="166"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation>Actualizaciónm automática se ha desactivado al superarse el límite de claves. Por favor especifica un filtro más restrictivo o cambia el límite en ajustes.</translation>
+        <translation>Actualización automática se ha desactivado al superarse el límite de claves. Por favor especifica un filtro más restrictivo o cambia el límite en ajustes.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="126"/>
@@ -238,7 +238,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="130"/>
         <source>Rename key</source>
-        <translation>Renombrar clave</translation>
+        <translation>Renombrar la clave</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="139"/>
@@ -281,7 +281,7 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="108"/>
         <source>Do you really want to delete this key?</source>
-        <translation>¿De verdad quieres borrar esta clave?</translation>
+        <translation>¿Seguro que quieres borrar esta clave?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
@@ -304,12 +304,12 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="496"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
-        <translation>Esta fila es la última en la clave. Despues de borrarla la clave será borrada.</translation>
+        <translation>Esta fila es la última en la clave. Después de borrarla, la clave será borrada.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="498"/>
         <source>Do you really want to remove this row?</source>
-        <translation>¿De verdad quieres borrar esta fila?</translation>
+        <translation>¿Seguro que quieres borrar esta fila?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="553"/>
@@ -324,7 +324,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="646"/>
         <source>Value was updated!</source>
-        <translation>Valor actualizado!</translation>
+        <translation>¡Valor actualizado!</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="654"/>
@@ -344,7 +344,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="167"/>
         <source>Do you really want to delete connection?</source>
-        <translation>¿De verdad quieres borrar la conexión?</translation>
+        <translation>¿Seguro que quieres borrar la conexión?</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="12"/>
@@ -504,7 +504,7 @@
         <location filename="../../qml/AppToolBar.qml" line="90"/>
         <location filename="../../qml/AppToolBar.qml" line="91"/>
         <source>Star on GitHub!</source>
-        <translation>Estrella en GitHub!</translation>
+        <translation>¡Estrella en GitHub!</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="99"/>
