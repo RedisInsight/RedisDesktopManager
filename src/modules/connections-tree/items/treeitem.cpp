@@ -1,8 +1,7 @@
 #include "treeitem.h"
 #include "connections-tree/model.h"
 
-ConnectionsTree::TreeItem::TreeItem(Model &m) : m_model(m), m_locked(false) {  
-}
+ConnectionsTree::TreeItem::TreeItem(Model &m) : m_model(m), m_locked(false) {}
 
 QVariant ConnectionsTree::TreeItem::metadata(const QString &key) const {
   if (!metadata().contains(key)) return QVariant();
@@ -58,11 +57,11 @@ void ConnectionsTree::TreeItem::unlock() {
   emit m_model.itemChanged(getSelf());
 }
 
-QHash<QString, std::function<void ()> > ConnectionsTree::TreeItem::eventHandlers()
-{
-    QHash<QString, std::function<void()>> events;
-    events["cancel"] = [this]() { cancelCurrentOperation(); };
-    return events;
+QHash<QString, std::function<void()>>
+ConnectionsTree::TreeItem::eventHandlers() {
+  QHash<QString, std::function<void()>> events;
+  events["cancel"] = [this]() { cancelCurrentOperation(); };
+  return events;
 }
 
 void ConnectionsTree::TreeItem::handleEvent(QString event) {
@@ -82,7 +81,5 @@ void ConnectionsTree::TreeItem::handleEvent(QString event) {
 }
 
 void ConnectionsTree::TreeItem::cancelCurrentOperation() {
-  if (m_currentOperation.isRunning()) {
-    m_currentOperation.cancel();
-  }
+  m_currentOperation.cancel();
 }

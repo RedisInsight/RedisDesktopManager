@@ -21,9 +21,6 @@ if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
     include($$PWD/qredisclient/qredisclient.pri)
 }
 
-# Asyncfuture
-include($$PWD/asyncfuture/asyncfuture.pri)
-
 # Google breakpad
 BREAKPADDIR = $$PWD/gbreakpad/src
 DEPENDPATH += $$BREAKPADDIR

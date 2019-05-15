@@ -7,9 +7,6 @@
 [submodule "3rdparty/gbreakpad"]
 	path = 3rdparty/gbreakpad
 	url = https://github.com/google/breakpad.git
-[submodule "3rdparty/asyncfuture"]
-	path = 3rdparty/asyncfuture
-	url = https://github.com/benlau/asyncfuture.git
 [submodule "3rdparty/qt-unix-signals"]
 	path = 3rdparty/qt-unix-signals
 	url = https://github.com/sijk/qt-unix-signals.git

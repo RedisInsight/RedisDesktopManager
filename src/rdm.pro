@@ -17,6 +17,7 @@ TEMPLATE = app
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/app/app.cpp \
+    $$PWD/app/apputils.cpp \
     $$PWD/app/events.cpp \
     $$PWD/app/qmlutils.cpp \
     $$PWD/app/models/*.cpp \
@@ -33,7 +34,8 @@ SOURCES += \
 
 HEADERS  += \
     $$PWD/app/app.h \
-    $$PWD/app/events.h \    
+    $$PWD/app/events.h \
+    $$PWD/app/apputils.h \
     $$PWD/app/qmlutils.h \
     $$PWD/app/models/*.h \
     $$PWD/app/models/key-models/*.h \

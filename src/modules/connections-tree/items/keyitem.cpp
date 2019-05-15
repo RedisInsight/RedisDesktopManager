@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QMessageBox>
 
+#include "app/apputils.h"
 #include "connections-tree/items/abstractnamespaceitem.h"
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
@@ -28,7 +29,13 @@ KeyItem::KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
       m_removed(false) {}
 
 QString KeyItem::getDisplayName() const {
-  return printableString(getFullPath(), true);
+  QString title = printableString(getFullPath(), true);
+
+  if (m_usedMemory > 0) {
+    title.append(QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));
+  }
+
+  return title;
 }
 
 QByteArray KeyItem::getName() const { return getFullPath(); }
@@ -71,6 +78,26 @@ void KeyItem::setRemoved() {
   m_removed = true;
 
   emit m_model.itemChanged(getSelf());
+}
+
+QFuture<qlonglong> KeyItem::getMemoryUsage(
+    QSharedPointer<AsyncFuture::Combinator> combinator) {
+  auto parentNs = parentTreeItemToNs(m_parent);
+
+  if (!parentNs || !parentNs->operations()) return QFuture<qlonglong>();
+
+  QFuture<qlonglong> future =
+      parentNs->operations()->getUsedMemory(getFullPath(), getDbIndex());
+
+  AsyncFuture::observe(future).subscribe([this](qlonglong result) {
+    m_usedMemory = result;
+    emit m_model.itemChanged(getSelf());
+  });
+
+  combinator->combine(future);
+  combinator->onCanceled([this]() { unlock(); });
+
+  return future;
 }
 
 void KeyItem::setFullPath(const QByteArray& p) {

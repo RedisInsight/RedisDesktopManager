@@ -1,11 +1,12 @@
 #pragma once
 
 #include "connections-tree/operations.h"
+#include "memoryusage.h"
 #include "treeitem.h"
 
 namespace ConnectionsTree {
 
-class KeyItem : public TreeItem {
+class KeyItem : public TreeItem, public MemoryUsage {
  public:
   KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
           Model& model);
@@ -26,15 +27,18 @@ class KeyItem : public TreeItem {
 
   QWeakPointer<TreeItem> parent() const override;
 
-  bool isEnabled() const;
+  bool isEnabled() const override;
 
-  QByteArray getFullPath() const;
+  QByteArray getFullPath() const override;
 
   int getDbIndex() const;
 
   void setRemoved();
 
   void setFullPath(const QByteArray& p);
+
+  QFuture<qlonglong> getMemoryUsage(
+      QSharedPointer<AsyncFuture::Combinator> combinator) override;
 
  protected:
   QHash<QString, std::function<void()>> eventHandlers() override;

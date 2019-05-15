@@ -29,6 +29,9 @@ class DatabaseItem : public AbstractNamespaceItem {
 
   void setMetadata(const QString&, QVariant) override;
 
+  QFuture<qlonglong> getMemoryUsage(
+      QSharedPointer<AsyncFuture::Combinator> combinator) override;
+
  protected:
   void loadKeys(std::function<void()> callback = std::function<void()>());
   void unload(bool notify = true);

@@ -18,7 +18,7 @@ class TreeOperations : public QObject,
   TreeOperations(QSharedPointer<RedisClient::Connection> connection,
                  QSharedPointer<Events> events);
 
-  QFuture<bool> getDatabases(
+  QFuture<void> getDatabases(
       std::function<void(RedisClient::DatabaseList)>) override;
 
   void loadNamespaceItems(
@@ -27,6 +27,8 @@ class TreeOperations : public QObject,
       QSet<QByteArray> expandedNs) override;
 
   void disconnect() override;
+
+  void resetConnection() override;
 
   QString getNamespaceSeparator() override;
 
@@ -54,6 +56,11 @@ class TreeOperations : public QObject,
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) override;
 
+  virtual QFuture<bool> connectionSupportsMemoryOperations() override;
+
+  virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
+                                           int dbIndex) override;
+
   virtual QString mode() override;
 
   virtual bool isConnected() const override;
@@ -64,6 +71,8 @@ class TreeOperations : public QObject,
   bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);
 
   ServerConfig conf() const;
+
+  void connect(QSharedPointer<RedisClient::Connection> c);
 
  private:
   QSharedPointer<RedisClient::Connection> m_connection;

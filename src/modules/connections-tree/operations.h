@@ -25,7 +25,7 @@ class Operations {
    * List of databases with keys counters
    * @emit databesesLoaded
    **/
-  virtual QFuture<bool> getDatabases(std::function<void(QMap<int, int>)>) = 0;
+  virtual QFuture<void> getDatabases(std::function<void(QMap<int, int>)>) = 0;
 
   /**
    * @brief loadNamespaceItems
@@ -43,6 +43,12 @@ class Operations {
    * @brief disconnect
    */
   virtual void disconnect() = 0;
+
+  /**
+    Cancel all operations & reconnect
+   * @brief resetConnection
+   */
+  virtual void resetConnection() = 0;
 
   /**
    * @brief getNamespaceSeparator
@@ -76,6 +82,11 @@ class Operations {
   virtual QString mode() = 0;
 
   virtual bool isConnected() const = 0;
+
+  virtual QFuture<bool> connectionSupportsMemoryOperations() = 0;
+
+  virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
+                                           int dbIndex) = 0;
 
   virtual ~Operations() {}
 };
