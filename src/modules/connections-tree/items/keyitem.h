@@ -27,9 +27,9 @@ class KeyItem : public TreeItem, public MemoryUsage {
 
   QWeakPointer<TreeItem> parent() const override;
 
-  bool isEnabled() const;
+  bool isEnabled() const override;
 
-  QByteArray getFullPath() const;
+  QByteArray getFullPath() const override;
 
   int getDbIndex() const;
 
@@ -37,7 +37,8 @@ class KeyItem : public TreeItem, public MemoryUsage {
 
   void setFullPath(const QByteArray& p);
 
-  QFuture<qlonglong> getMemoryUsage() override;
+  QFuture<qlonglong> getMemoryUsage(
+      QSharedPointer<AsyncFuture::Combinator> combinator) override;
 
  protected:
   QHash<QString, std::function<void()>> eventHandlers() override;

@@ -49,34 +49,45 @@ RowLayout {
             }
         }
 
-        model: [
-            {
-                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTranslate("RDM","Open Keys Filter"),
-                "shortcut": PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
-            },
-            {
-                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RDM","Reload Keys in Database"),
-                "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
-            },
-            {
-                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RDM","Add New Key"),
-                "shortcut": PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
-            },
-            {
-                'icon': styleData.value["live_update"]? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg",
-                'callback': 'live_update',
-                "help": styleData.value["live_update"]? qsTranslate("RDM","Disable Live Update") : qsTranslate("RDM","Enable Live Update"),
-                "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
-            },
-            {
-                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RDM","Open Console"),
-                "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
-            },
-            {
-                'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),
-                "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
-            },
-        ]
+        model: {
+            if (styleData.value["locked"] === true) {
+                return [
+                            {
+                                'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RDM","Disconnect"),
+                            },
+                        ]
+            } else {
+                return [
+                            {
+                                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTranslate("RDM","Open Keys Filter"),
+                                "shortcut": PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
+                            },
+                            {
+                                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RDM","Reload Keys in Database"),
+                                "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
+                            },
+                            {
+                                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RDM","Add New Key"),
+                                "shortcut": PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
+                            },
+                            {
+                                'icon': styleData.value["live_update"]? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg",
+                                'callback': 'live_update',
+                                "help": styleData.value["live_update"]? qsTranslate("RDM","Disable Live Update") : qsTranslate("RDM","Enable Live Update"),
+                                "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
+                            },
+                            {
+                                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RDM","Open Console"),
+                                "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
+                            },
+                            {'icon': "qrc:/images/memory_usage.svg", "event": "analyze_memory_usage", "help": qsTranslate("RDM","Analyze Used Memory")},
+                            {
+                                'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),
+                                "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
+                            },
+                        ]
+            }
+        }
     }
 
     RowLayout {

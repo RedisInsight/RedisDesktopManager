@@ -1,4 +1,5 @@
 #pragma once
+#include <QFuture>
 #include <QSharedPointer>
 #include <QString>
 #include <functional>
@@ -11,7 +12,8 @@ class MemoryUsage {
   MemoryUsage() : m_usedMemory(0) {}
   virtual ~MemoryUsage() {}
 
-  virtual QFuture<qlonglong> getMemoryUsage() = 0;
+  virtual QFuture<qlonglong> getMemoryUsage(
+      QSharedPointer<AsyncFuture::Combinator> combinator) = 0;
 
   qlonglong usedMemory() const { return m_usedMemory; }
 

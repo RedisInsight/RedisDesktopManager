@@ -56,6 +56,8 @@ class TreeOperations : public QObject,
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) override;
 
+  virtual QFuture<bool> connectionSupportsMemoryOperations() override;
+
   virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
                                            int dbIndex) override;
 
@@ -69,6 +71,8 @@ class TreeOperations : public QObject,
   bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);
 
   ServerConfig conf() const;
+
+  void connect(QSharedPointer<RedisClient::Connection> c);
 
  private:
   QSharedPointer<RedisClient::Connection> m_connection;

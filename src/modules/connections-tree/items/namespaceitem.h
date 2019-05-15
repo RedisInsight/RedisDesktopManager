@@ -1,12 +1,9 @@
 #pragma once
 #include "abstractnamespaceitem.h"
-#include "memoryusage.h"
 
 namespace ConnectionsTree {
 
-class NamespaceItem : public QObject,
-                      public AbstractNamespaceItem,
-                      public MemoryUsage {
+class NamespaceItem : public QObject, public AbstractNamespaceItem {
   Q_OBJECT
 
  public:
@@ -32,20 +29,15 @@ class NamespaceItem : public QObject,
 
   void setRemoved();
 
-  QFuture<qlonglong> getMemoryUsage() override;
-
  protected:
   void load();
 
   void reload();
-
-  void sortChilds();
 
   QHash<QString, std::function<void()>> eventHandlers() override;
 
  private:
   QByteArray m_fullPath;
   bool m_removed;
-  QSharedPointer<AsyncFuture::Combinator> m_combinator;
 };
 }  // namespace ConnectionsTree

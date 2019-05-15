@@ -80,7 +80,8 @@ void KeyItem::setRemoved() {
   emit m_model.itemChanged(getSelf());
 }
 
-QFuture<qlonglong> KeyItem::getMemoryUsage() {
+QFuture<qlonglong> KeyItem::getMemoryUsage(
+    QSharedPointer<AsyncFuture::Combinator> combinator) {
   auto parentNs = parentTreeItemToNs(m_parent);
 
   if (!parentNs || !parentNs->operations()) return QFuture<qlonglong>();
@@ -92,6 +93,9 @@ QFuture<qlonglong> KeyItem::getMemoryUsage() {
     m_usedMemory = result;
     emit m_model.itemChanged(getSelf());
   });
+
+  combinator->combine(future);
+  combinator->onCanceled([this]() { unlock(); });
 
   return future;
 }

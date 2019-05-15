@@ -83,6 +83,8 @@ class Operations {
 
   virtual bool isConnected() const = 0;
 
+  virtual QFuture<bool> connectionSupportsMemoryOperations() = 0;
+
   virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
                                            int dbIndex) = 0;
 
