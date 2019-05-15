@@ -11,13 +11,13 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
       : m_positive_mode(positive_mode) {}
 
   QMap<int, int> databases;
-  virtual QFuture<bool> getDatabases(
-      std::function<void(QMap<int, int>)> callback) {
+  virtual QFuture<void> getDatabases(
+      std::function<void(QMap<int, int>)> callback) override {
     if (m_positive_mode) {
       callback(databases);
-      return QFuture<bool>();
+      return QFuture<void>();
     } else {
-      return QFuture<bool>();
+      return QFuture<void>();
     }
   }
 
@@ -75,6 +75,16 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
   virtual bool isConnected() const { return true; }
 
   virtual void duplicateConnection() override {}
+
+  virtual QFuture<bool> connectionSupportsMemoryOperations() override {
+    return QFuture<bool>();
+  }
+
+  virtual QFuture<qlonglong> getUsedMemory(const QByteArray&, int) override {
+    return QFuture<qlonglong>();
+  }
+
+  void resetConnection() override {}
 
  protected:
   bool m_positive_mode;
