@@ -1,65 +1,79 @@
 #pragma once
-#include <functional>
+#include <qredisclient/response.h>
 #include <QObject>
+#include <QRegExp>
 #include <QSharedPointer>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
-#include <QRegExp>
-#include <qredisclient/response.h>
+#include <functional>
 
 #include "connections.h"
+#include "operations/abstractoperation.h"
 
 namespace BulkOperations {
 
-    class CurrentOperation;
+class Manager : public QObject {
+  Q_OBJECT
 
-    class Manager : public QObject
-    {
-        Q_OBJECT
+  Q_PROPERTY(
+      QString operationName READ operationName NOTIFY operationNameChanged)
+  Q_PROPERTY(
+      QString connectionName READ connectionName NOTIFY connectionNameChanged)
+  Q_PROPERTY(int dbIndex READ dbIndex NOTIFY dbIndexChanged)
+  Q_PROPERTY(QString keyPattern READ keyPattern WRITE setKeyPattern NOTIFY
+                 keyPatternChanged)
+  Q_PROPERTY(int operationProgress READ operationProgress NOTIFY
+                 operationProgressChanged)
+ public:
+  enum class Operation {
+    DELETE_KEYS,
+  };
 
-        Q_PROPERTY(QString connectionName READ connectionName NOTIFY connectionNameChanged)
-        Q_PROPERTY(int dbIndex READ dbIndex NOTIFY dbIndexChanged)
-        Q_PROPERTY(QString keyPattern READ keyPattern NOTIFY keyPatternChanged)
-        Q_PROPERTY(int operationProgress READ operationProgress NOTIFY operationProgressChanged)
-    public:
-        enum class Operation { DELETE_KEYS, COPY_KEYS };
+ public:
+  Manager(QSharedPointer<ConnectionsModel> model);
 
-    public:
-        Manager(QSharedPointer<ConnectionsModel> model);
+  Q_INVOKABLE bool hasOperation() const;
+  Q_INVOKABLE bool multiConnectionOperation() const;
+  Q_INVOKABLE bool clearOperation();
+  Q_INVOKABLE void runOperation(int targetConnection = -1, int targetDb = -1);
+  Q_INVOKABLE void getAffectedKeys();
+  Q_INVOKABLE QVariant getTargetConnections();
 
-        Q_INVOKABLE bool hasOperation() const;
-        Q_INVOKABLE bool multiConnectionOperation() const;
-        Q_INVOKABLE bool clearOperation();
-        Q_INVOKABLE void runOperation(int targetConnection = -1, int targetDb = -1);
-        Q_INVOKABLE void getAffectedKeys();
-        Q_INVOKABLE void notifyAboutOperationSuccess();
-        Q_INVOKABLE QVariant getTargetConnections();
+  Q_INVOKABLE void setOperationMetadata(const QVariantMap& meta);
 
-        // Property getters
-        QString connectionName() const;
-        int dbIndex() const;
-        QString keyPattern() const;
-        int operationProgress() const;
+  // Property getters
+  QString operationName() const;
 
-    signals:
-        void openDialog(const QString& operationName);
-        void affectedKeys(QVariant r);
-        void operationFinished();
-        void error(QString e);
+  QString connectionName() const;
 
-        // Property notifiers
-        void connectionNameChanged();
-        void dbIndexChanged();
-        void keyPatternChanged();
-        void operationProgressChanged();
+  int dbIndex() const;
 
-    public slots:
-        void requestBulkOperation(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
-                                  Operation op, QRegExp keyPattern, std::function<void()> callback);
+  QString keyPattern() const;
+  void setKeyPattern(const QString& p);
 
-    private:                
-        QSharedPointer<CurrentOperation> m_operation;
-        QSharedPointer<ConnectionsModel> m_model;
-    };
-}
+  int operationProgress() const;
+
+ signals:
+  void openDialog(const QString& operationName);
+  void affectedKeys(QVariant r);
+  void operationFinished();
+  void error(const QString& e);
+
+  // Property notifiers
+  void operationNameChanged();
+  void connectionNameChanged();
+  void dbIndexChanged();
+  void keyPatternChanged();
+  void operationProgressChanged();
+
+ public slots:
+  void requestBulkOperation(QSharedPointer<RedisClient::Connection> connection,
+                            int dbIndex, Operation op, QRegExp keyPattern,
+                            AbstractOperation::OperationCallback callback);
+
+ private:
+  QSharedPointer<AbstractOperation> m_operation;
+  QSharedPointer<ConnectionsModel> m_model;
+};
+}  // namespace BulkOperations

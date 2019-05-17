@@ -1,9 +1,8 @@
 #include "bulkoperationsmanager.h"
 #include <qredisclient/connection.h>
-#include <QCoreApplication>
 #include <QDebug>
 
-#include "bulkoperation.h"
+#include "operations/deleteoperation.h"
 
 BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model)
     : QObject(nullptr), m_model(model) {
@@ -21,7 +20,7 @@ bool BulkOperations::Manager::multiConnectionOperation() const {
 bool BulkOperations::Manager::clearOperation() {
   if (!hasOperation()) return true;
 
-  if (m_operation->m_currentState == CurrentOperation::State::RUNNING) {
+  if (m_operation->isRunning()) {
     return false;
   }
 
@@ -32,20 +31,7 @@ bool BulkOperations::Manager::clearOperation() {
 void BulkOperations::Manager::runOperation(int, int) {
   if (!hasOperation()) return;
 
-  m_operation->run([this](RedisClient::Response r, QString e) {
-    if (!e.isEmpty()) {
-      emit error(e);
-      return;
-    }
-
-    if (r.isErrorMessage()) {
-      emit error(QCoreApplication::translate("RDM", "Bulk operation error: %1")
-                     .arg(r.value().toString()));
-      return;
-    }
-
-    emit operationFinished();
-  });
+  m_operation->run();
 }
 
 void BulkOperations::Manager::getAffectedKeys() {
@@ -61,55 +47,85 @@ void BulkOperations::Manager::getAffectedKeys() {
   });
 }
 
-void BulkOperations::Manager::notifyAboutOperationSuccess() {
-  if (hasOperation()) emit m_operation->notifyCallerAboutSuccess();
-}
-
 QVariant BulkOperations::Manager::getTargetConnections() {
   return QVariant(m_model->getConnections());
+}
+
+void BulkOperations::Manager::setOperationMetadata(const QVariantMap& meta) {
+  if (hasOperation()) m_operation->setMetadata(meta);
+}
+
+QString BulkOperations::Manager::operationName() const {
+  if (!hasOperation()) return QString();
+
+  return m_operation->getTypeName();
 }
 
 QString BulkOperations::Manager::connectionName() const {
   if (!hasOperation()) return QString();
 
-  return m_operation->m_connection->getConfig().name();
+  return m_operation->getConnection()->getConfig().name();
 }
 
 int BulkOperations::Manager::dbIndex() const {
   if (!hasOperation()) return -1;
 
-  return m_operation->m_dbIndex;
+  return m_operation->getDbIndex();
 }
 
 QString BulkOperations::Manager::keyPattern() const {
   if (!hasOperation()) return QString();
 
-  return m_operation->m_keyPattern.pattern();
+  return m_operation->getKeyPattern().pattern();
+}
+
+void BulkOperations::Manager::setKeyPattern(const QString& p) {
+  if (!hasOperation()) return;
+
+  m_operation->setKeyPattern(QRegExp(p, Qt::CaseSensitive, QRegExp::Wildcard));
 }
 
 int BulkOperations::Manager::operationProgress() const {
   if (!hasOperation()) return -1;
 
-  return m_operation->m_progress;
+  return m_operation->currentProgress();
 }
 
 void BulkOperations::Manager::requestBulkOperation(
     QSharedPointer<RedisClient::Connection> connection, int dbIndex,
     BulkOperations::Manager::Operation op, QRegExp keyPattern,
-    std::function<void()> callback) {
+    AbstractOperation::OperationCallback callback) {
   if (hasOperation()) {
     qWarning() << "BulkOperationsManager already has bulk operation request";
     return;
   }
 
-  m_operation = QSharedPointer<BulkOperations::CurrentOperation>(
-      new BulkOperations::CurrentOperation(connection, dbIndex, op,
-                                           keyPattern));
+  auto callbackWrapper = [this, callback](QRegExp filter, long processed,
+                                          const QStringList& e) {
+    if (e.size() > 0) {
+      emit error(
+          QCoreApplication::translate("RDM",
+                                      "Failed to permorm actions on %1 keys. "
+                                      "You can find details in Log tab.")
+              .arg(e.size()));
+    } else {
+      emit operationFinished();
+    }
+
+    return callback(filter, processed, e);
+  };
+
+  if (op == Operation::DELETE_KEYS) {
+    m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
+        new BulkOperations::DeleteOperation(connection, dbIndex,
+                                            callbackWrapper, keyPattern));
+  }
 
   QObject::connect(m_operation.data(),
-                   &BulkOperations::CurrentOperation::notifyCallerAboutSuccess,
-                   this, [callback]() { callback(); });
+                   &BulkOperations::AbstractOperation::progress, this,
+                   [this](int) { emit operationProgressChanged(); });
 
+  emit operationNameChanged();
   emit connectionNameChanged();
   emit dbIndexChanged();
   emit keyPatternChanged();

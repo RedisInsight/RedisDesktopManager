@@ -12,7 +12,7 @@ class KeyFactory : public QObject, public ValueEditor::AbstractKeyFactory {
   void loadKey(
       QSharedPointer<RedisClient::Connection> connection,
       QByteArray keyFullPath, int dbIndex,
-      std::function<void(QSharedPointer<ValueEditor::Model>, const QString &)>
+      std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
           callback) override;
 
  public slots:
@@ -20,10 +20,12 @@ class KeyFactory : public QObject, public ValueEditor::AbstractKeyFactory {
                            std::function<void()> callback, int dbIndex,
                            QString keyPrefix);
 
-  void submitNewKeyRequest(NewKeyRequest r, QJSValue jsCallback);
+  void submitNewKeyRequest(NewKeyRequest r);
 
  signals:
   void newKeyDialog(NewKeyRequest r);
+  void keyAdded();
+  void error(const QString& err);
 
  private:
   QSharedPointer<ValueEditor::Model> createModel(

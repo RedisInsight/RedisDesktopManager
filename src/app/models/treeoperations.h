@@ -51,6 +51,8 @@ class TreeOperations : public QObject,
   void deleteDbKey(ConnectionsTree::KeyItem& key,
                    std::function<void(const QString&)> callback) override;
 
+  virtual void deleteDbKeys(ConnectionsTree::DatabaseItem& db) override;
+
   void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) override;
 
   virtual void flushDb(int dbIndex,

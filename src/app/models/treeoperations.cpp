@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include "app/events.h"
+#include "connections-tree/items/databaseitem.h"
 #include "connections-tree/items/namespaceitem.h"
 #include "connections-tree/keysrendering.h"
 
@@ -215,6 +216,19 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
       });
 }
 
+void TreeOperations::deleteDbKeys(ConnectionsTree::DatabaseItem& db) {
+  QRegExp filter(QString("*"), Qt::CaseSensitive, QRegExp::Wildcard);
+
+  int dbIndex = db.getDbIndex();
+
+  emit m_events->requestBulkOperation(
+      m_connection, dbIndex, BulkOperations::Manager::Operation::DELETE_KEYS,
+      filter, [this, dbIndex, &db](QRegExp filter, int, const QStringList&) {
+        db.reload();
+        emit m_events->closeDbKeys(m_connection, dbIndex, filter);
+      });
+}
+
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
   QString pattern = QString("%1%2*")
                         .arg(QString::fromUtf8(ns.getFullPath()))
@@ -225,8 +239,7 @@ void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
 
   emit m_events->requestBulkOperation(
       m_connection, dbIndex, BulkOperations::Manager::Operation::DELETE_KEYS,
-      filter, [this, dbIndex, filter, &ns]() {
-        ns.setRemoved();
+      filter, [this, dbIndex](QRegExp filter, int, const QStringList&) {
         emit m_events->closeDbKeys(m_connection, dbIndex, filter);
       });
 }
@@ -243,17 +256,7 @@ void TreeOperations::flushDb(int dbIndex,
 }
 
 QFuture<bool> TreeOperations::connectionSupportsMemoryOperations() {
-  auto d = QSharedPointer<AsyncFuture::Deferred<bool>>(
-      new AsyncFuture::Deferred<bool>());
-
-  m_connection->cmd(
-      {"MEMORY", "HELP"}, this, -1,
-      [d](RedisClient::Response r) {
-        d->complete(!r.isDisabledCommandErrorMessage());
-      },
-      [d](const QString&) { d->complete(false); });
-
-  return d->future();
+  return m_connection->isCommandSupported({"MEMORY", "HELP"});
 }
 
 QFuture<qlonglong> TreeOperations::getUsedMemory(const QByteArray& key,

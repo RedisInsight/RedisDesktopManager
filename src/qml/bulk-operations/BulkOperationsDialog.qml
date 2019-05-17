@@ -3,12 +3,14 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 
+import "./../common/"
+
 Dialog {
     id: root
-    title: qsTranslate("RDM","Bulk Operations Manager")
+    title: qsTr("Bulk Operations Manager")
     modality: Qt.ApplicationModal
 
-    property string operationName: "delete_keys"
+    property string operationName: bulkOperations.operationName
 
     standardButtons: StandardButton.NoButton
 
@@ -19,28 +21,15 @@ Dialog {
     onVisibleChanged: {
         if (visible == false) {
             bulkOperations.clearOperation();
-        } else {
-            if (!uiBlocker.visible) {
-                loadKeys();
-            }
+            resetKeysPreview()
         }
     }
 
-//    Timer {
-//        id: ignoreCloseTimer
-//        repeat: false
-//        interval: 100
-//        onTriggered: {
-//            open()
-//        }
-//    }
-
-//    onVisibleChanged: {
-//        if (visible === false) {
-//            console.log("ignore", visible)
-//            ignoreCloseTimer.start()
-//        }
-//    }
+    function resetKeysPreview() {
+        keysPreview.visible = false
+        btnShowAffectedKeys.visible = true
+        spacer.visible = true
+    }
 
     contentItem: Item {
         implicitWidth: 800
@@ -51,13 +40,17 @@ Dialog {
         states: [
             State {
                 name: "delete_keys"
-                PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Delete keys") }
+                PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
+                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: exportToFile; visible: false }
             },
             State {
-                name: "copy_keys"
-                PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Copy keys") }
-                PropertyChanges { target: targetConnectionSettings; visible: true }
+                name: "text_export"
+                PropertyChanges { target: operationLabel; text: qsTr("Export Keys as Text Commands") }
+                PropertyChanges { target: actionButton; text: qsTr("Export keys") }
+                PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: exportToFile; visible: true }
             }
         ]
 
@@ -84,7 +77,7 @@ Dialog {
                     columns: 2
 
                     Label {
-                        text: qsTranslate("RDM","Redis Server:")
+                        text: qsTr("Redis Server:")
                     }
 
                     Label {
@@ -92,7 +85,7 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTranslate("RDM","Database number:")
+                        text: qsTr("Database number:")
                     }
 
                     Label {
@@ -100,23 +93,24 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTranslate("RDM","Key pattern:")
+                        text: qsTr("Key pattern:")
                     }
 
-                    Label {
+                    BetterTextField {
                         text: bulkOperations.keyPattern
+                        onTextChanged: {
+                            bulkOperations.keyPattern = text
+                            root.resetKeysPreview()
+                        }
                     }
-
-
                 }
-
 
                 GridLayout {
                     id: targetConnectionSettings
                     columns: 2
 
                     Label {
-                        text: qsTranslate("RDM","Destination Redis Server:")
+                        text: qsTr("Destination Redis Server:")
                     }
 
                     ComboBox {
@@ -124,27 +118,37 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTranslate("RDM","Destination Redis Server Database Index:")
+                        text: qsTr("Destination Redis Server Database Index:")
                     }
+                }
+            }
+            Item { Layout.preferredHeight: 10 }
 
-                    ComboBox {
-
-                    }
-
+            Button {
+                id: btnShowAffectedKeys
+                text: qsTr("Show Affected keys")
+                onClicked: {
+                    uiBlocker.visible = true
+                    root.loadKeys()
+                    btnShowAffectedKeys.visible = false
+                    keysPreview.visible = true
+                    spacer.visible = false                    
                 }
             }
 
-            Item {
-                Layout.preferredHeight: 10
-            }
+            Item { id: spacer; Layout.fillHeight: true }
 
             ColumnLayout {
+                id: keysPreview
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
+                visible: false
+
                 Text {
-                    text: qsTranslate("RDM","Affected keys:")
+                    text: qsTr("Affected keys:")
                 }
+
                 Rectangle {
                     id: listContainer
                     color: "#eee"
@@ -181,12 +185,13 @@ Dialog {
                         onOperationFinished: {
                             affectedKeysListView.model = []
                             uiBlocker.visible = false
-                            bulkSuccessNotification.text = qsTranslate("RDM","Bulk Operation finished.")
+                            bulkSuccessNotification.text = qsTr("Bulk Operation finished.")
                             bulkSuccessNotification.open()
                         }
 
                         onError: {
                             uiBlocker.visible = false
+                            bulkErrorNotification.title = qsTr("Bulk Operation finished with errors")
                             bulkErrorNotification.text = e
                             bulkErrorNotification.open()
                         }
@@ -194,9 +199,17 @@ Dialog {
                 }
             }
 
-            Item {
-                Layout.fillHeight: true
-            }
+            RowLayout {
+                id: exportToFile
+
+                Layout.fillWidth: true
+
+                Label { text: "Export to file:" }
+
+                FilePathInput {
+                    id: exportFilePathField
+                }
+            }            
 
             RowLayout {
                 Layout.fillWidth: true
@@ -204,12 +217,26 @@ Dialog {
                 Item { Layout.fillWidth: true; }
 
                 Button {
-                    text: qsTranslate("RDM","Delete Keys")
-                    onClicked: bulkConfirmation.open()
+                    id: actionButton
+                    onClicked: {
+
+                        if (root.operationName == "text_export") {
+                            if (!exportFilePathField.path) {
+                                bulkErrorNotification.title = "Validation Error"
+                                bulkErrorNotification.text = "Please select file for exported keys."
+                                bulkErrorNotification.open()
+                                return
+                            } else {
+                                bulkOperations.setOperationMetadata({"path": exportFilePathField.path})
+                            }
+                        }
+
+                        bulkConfirmation.open()
+                    }
                 }
 
                 Button {
-                    text: qsTranslate("RDM","Cancel")
+                    text: qsTr("Cancel")
                     onClicked: root.close()
                 }
             }
@@ -224,12 +251,24 @@ Dialog {
 
             Item {
                 anchors.fill: parent
-                BusyIndicator { anchors.centerIn: parent; running: true }
+
+                ColumnLayout {
+                    anchors.centerIn: parent;
+
+                    BusyIndicator { running: true }
+                    Label {
+                        text: {
+                            if (bulkOperations.operationProgress > 0)
+                                return "Processed: " + bulkOperations.operationProgress
+                            else {
+                                return "Getting list of affected keys..."
+                            }
+                        }
+                    }
+                }
             }
 
-            MouseArea {
-                anchors.fill: parent
-            }
+            MouseArea { anchors.fill: parent }
         }
 
         MessageDialog {
@@ -254,18 +293,19 @@ Dialog {
                     cleanUp()
             }
 
-            function cleanUp() {
-                bulkOperations.notifyAboutOperationSuccess();
+            function cleanUp() {                
                 bulkOperations.clearOperation();
+                uiBlocker.visible = false
                 root.close()
             }
         }
 
         MessageDialog {
             id: bulkConfirmation
-            title: qsTranslate("RDM","Confirmation")
-            text: qsTranslate("RDM","Do you really want to perform bulk operation?")
+            title: qsTr("Confirmation")
+            text: qsTr("Do you really want to perform bulk operation?")
             onYes: {
+                uiBlocker.visible = true
                 bulkOperations.runOperation()
             }
             visible: false
@@ -275,3 +315,4 @@ Dialog {
         }
     }
 }
+

@@ -32,10 +32,11 @@ class DatabaseItem : public AbstractNamespaceItem {
   QFuture<qlonglong> getMemoryUsage(
       QSharedPointer<AsyncFuture::Combinator> combinator) override;
 
+  void reload(std::function<void()> callback = std::function<void()>());
+
  protected:
   void loadKeys(std::function<void()> callback = std::function<void()>());
   void unload(bool notify = true);
-  void reload(std::function<void()> callback = std::function<void()>());
   void performLiveUpdate();
   void filterKeys(const QRegExp& filter);
   void resetFilter();

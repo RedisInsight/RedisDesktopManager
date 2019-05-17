@@ -1,0 +1,4 @@
+#ifndef TTLOPERATION_H
+#define TTLOPERATION_H
+
+#endif // TTLOPERATION_H
