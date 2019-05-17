@@ -21,7 +21,12 @@ BetterTab {
                 spacing: 15
                 Layout.fillWidth: true
 
-                Image { id: logo; source: "qrc:/images/logo.png"}
+                Image {
+                    id: logo
+                    source: "qrc:/images/logo.png"
+                    Layout.preferredWidth: 120
+                    fillMode: Image.PreserveAspectFit
+                }
 
                 ColumnLayout {
                     RichTextWithLinks { html: '<span style="font-size:32pt;">Redis Desktop Manager</span>'}

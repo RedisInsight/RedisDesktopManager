@@ -60,7 +60,7 @@ include($$THIRDPARTYDIR/3rdparty.pri)
 
 win32 {
     CONFIG += c++11
-    RC_FILE += $$PWD/resources/rdm.rc
+    RC_ICONS = $$PWD/resources/images/logo.ico
 
     win32-msvc* {
         QMAKE_LFLAGS += /LARGEADDRESSAWARE
@@ -119,7 +119,8 @@ unix:!macx { # ubuntu & debian
     INSTALLS += data
 
     appicon.path = /usr/share/pixmaps/
-    appicon.files = $$PWD/resources/rdm.png
+    appicon.extra = cp $$PWD/resources/images/logo.png $$PWD/resources/images/rdm.png
+    appicon.files = $$PWD/resources/images/rdm.png
     INSTALLS += appicon
 
     deskicon.path = /usr/share/applications
