@@ -22,6 +22,8 @@ Dialog {
         if (visible == false) {
             bulkOperations.clearOperation();
             resetKeysPreview()
+        } else {
+            targetConnection.model = bulkOperations.getTargetConnections()
         }
     }
 
@@ -32,7 +34,8 @@ Dialog {
     }
 
     contentItem: Item {
-        implicitWidth: 800
+        id: contentWrapper
+        implicitWidth: 900
         implicitHeight: 600
 
         state: root.operationName
@@ -41,16 +44,26 @@ Dialog {
             State {
                 name: "delete_keys"
                 PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
-                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }
+                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }                
+                PropertyChanges { target: ttlField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: exportToFile; visible: false }
+                PropertyChanges { target: contentWrapper; implicitWidth: 600 }
             },
             State {
-                name: "text_export"
-                PropertyChanges { target: operationLabel; text: qsTr("Export Keys as Text Commands") }
-                PropertyChanges { target: actionButton; text: qsTr("Export keys") }
+                name: "ttl"
+                PropertyChanges { target: operationLabel; text: qsTr("Set TTL for multiple keys") }
+                PropertyChanges { target: actionButton; text: qsTr("Set TTL") }
+                PropertyChanges { target: ttlField; visible: true }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: exportToFile; visible: true }
+                PropertyChanges { target: contentWrapper; implicitWidth: 600 }
+            },
+            State {
+                name: "copy_keys"
+                PropertyChanges { target: operationLabel; text: qsTr("Copy keys to another database") }
+                PropertyChanges { target: actionButton; text:  qsTr("Copy keys") }
+                PropertyChanges { target: ttlField; visible: true }
+                PropertyChanges { target: targetConnectionSettings; visible: true }
+                PropertyChanges { target: contentWrapper; implicitWidth: 900 }
             }
         ]
 
@@ -78,6 +91,7 @@ Dialog {
 
                     Label {
                         text: qsTr("Redis Server:")
+                        Layout.preferredWidth: 250
                     }
 
                     Label {
@@ -86,6 +100,7 @@ Dialog {
 
                     Label {
                         text: qsTr("Database number:")
+                        Layout.preferredWidth: 250
                     }
 
                     Label {
@@ -94,7 +109,8 @@ Dialog {
 
                     Label {
                         text: qsTr("Key pattern:")
-                    }
+                        Layout.preferredWidth: 250
+                    }                    
 
                     BetterTextField {
                         text: bulkOperations.keyPattern
@@ -108,20 +124,66 @@ Dialog {
                 GridLayout {
                     id: targetConnectionSettings
                     columns: 2
+                    visible: bulkOperations.multiConnectionOperation()
 
                     Label {
                         text: qsTr("Destination Redis Server:")
                     }
 
                     ComboBox {
-
+                        id: targetConnection
                     }
 
                     Label {
                         text: qsTr("Destination Redis Server Database Index:")
                     }
+
+                    SpinBox {
+                        id: targetDatabaseIndex
+                        minimumValue: 0
+                        maximumValue: 10000000000
+                        value: 0
+                        decimals: 0
+                    }
                 }
             }
+
+            ColumnLayout {
+                RowLayout {
+                    id: ttlField
+
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "New TTL value (seconds):"
+                        Layout.preferredWidth: 250
+                    }
+
+                    SpinBox {
+                        id: ttlValue
+                        minimumValue: -1
+                        maximumValue: 10000000000
+                        value: 0
+                        decimals: 0
+                    }
+                }
+
+                RowLayout{
+                    id: replaceKeysField
+
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "Replace existing keys in target db:"
+                        Layout.preferredWidth: 250
+                    }
+
+                    BetterCheckbox {
+                        id: replaceKeys
+                    }
+                }
+            }
+
             Item { Layout.preferredHeight: 10 }
 
             Button {
@@ -193,23 +255,12 @@ Dialog {
                             uiBlocker.visible = false
                             bulkErrorNotification.title = qsTr("Bulk Operation finished with errors")
                             bulkErrorNotification.text = e
+                            bulkErrorNotification.detailedText = details
                             bulkErrorNotification.open()
                         }
                     }
                 }
-            }
-
-            RowLayout {
-                id: exportToFile
-
-                Layout.fillWidth: true
-
-                Label { text: "Export to file:" }
-
-                FilePathInput {
-                    id: exportFilePathField
-                }
-            }            
+            }           
 
             RowLayout {
                 Layout.fillWidth: true
@@ -219,17 +270,12 @@ Dialog {
                 Button {
                     id: actionButton
                     onClicked: {
-
-                        if (root.operationName == "text_export") {
-                            if (!exportFilePathField.path) {
-                                bulkErrorNotification.title = "Validation Error"
-                                bulkErrorNotification.text = "Please select file for exported keys."
-                                bulkErrorNotification.open()
-                                return
-                            } else {
-                                bulkOperations.setOperationMetadata({"path": exportFilePathField.path})
-                            }
-                        }
+                        bulkOperations.setOperationMetadata(
+                                    {
+                                        "ttl": ttlValue.value,
+                                        "replace": replaceKeys.checked ? "replace": ""
+                                    }
+                                    )
 
                         bulkConfirmation.open()
                     }
@@ -306,7 +352,7 @@ Dialog {
             text: qsTr("Do you really want to perform bulk operation?")
             onYes: {
                 uiBlocker.visible = true
-                bulkOperations.runOperation()
+                bulkOperations.runOperation(targetConnection.currentIndex, targetDatabaseIndex.value)
             }
             visible: false
             modality: Qt.ApplicationModal

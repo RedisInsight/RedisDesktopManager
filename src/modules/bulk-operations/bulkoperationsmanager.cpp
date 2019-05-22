@@ -2,7 +2,9 @@
 #include <qredisclient/connection.h>
 #include <QDebug>
 
+#include "operations/copyoperation.h"
 #include "operations/deleteoperation.h"
+#include "operations/ttloperation.h"
 
 BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model)
     : QObject(nullptr), m_model(model) {
@@ -28,10 +30,20 @@ bool BulkOperations::Manager::clearOperation() {
   return true;
 }
 
-void BulkOperations::Manager::runOperation(int, int) {
+void BulkOperations::Manager::runOperation(int connectionIndex, int dbIndex) {
   if (!hasOperation()) return;
 
-  m_operation->run();
+  if (m_operation->multiConnectionOperation()) {
+    if (!(connectionIndex >= 0 && dbIndex >= 0 &&
+          m_model->getByIndex(connectionIndex))) {
+      qWarning() << "invalid target connection";
+      return;
+    }
+
+    m_operation->run(m_model->getByIndex(connectionIndex), dbIndex);
+  } else {
+    m_operation->run();
+  }
 }
 
 void BulkOperations::Manager::getAffectedKeys() {
@@ -39,7 +51,7 @@ void BulkOperations::Manager::getAffectedKeys() {
 
   m_operation->getAffectedKeys([this](QVariant r, QString e) {
     if (!e.isEmpty()) {
-      emit error(e);
+      emit error(e, "");
       return;
     }
 
@@ -103,11 +115,10 @@ void BulkOperations::Manager::requestBulkOperation(
   auto callbackWrapper = [this, callback](QRegExp filter, long processed,
                                           const QStringList& e) {
     if (e.size() > 0) {
-      emit error(
-          QCoreApplication::translate("RDM",
-                                      "Failed to permorm actions on %1 keys. "
-                                      "You can find details in Log tab.")
-              .arg(e.size()));
+      emit error(QCoreApplication::translate(
+                     "RDM", "Failed to perform actions on %1 keys. ")
+                     .arg(e.size()),
+                 e.join("\n"));
     } else {
       emit operationFinished();
     }
@@ -119,6 +130,14 @@ void BulkOperations::Manager::requestBulkOperation(
     m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
         new BulkOperations::DeleteOperation(connection, dbIndex,
                                             callbackWrapper, keyPattern));
+  } else if (op == Operation::TTL) {
+    m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
+        new BulkOperations::TtlOperation(connection, dbIndex, callbackWrapper,
+                                         keyPattern));
+  } else if (op == Operation::COPY_KEYS) {
+    m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
+        new BulkOperations::CopyOperation(connection, dbIndex, callbackWrapper,
+                                          keyPattern));
   }
 
   QObject::connect(m_operation.data(),

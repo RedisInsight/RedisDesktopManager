@@ -256,6 +256,10 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
 
   events.insert("delete_keys", [this]() { m_operations->deleteDbKeys(*this); });
 
+  events.insert("copy_keys", [this]() { m_operations->copyKeys(*this); });
+
+  events.insert("ttl", [this]() { m_operations->setTTL(*this); });
+
   return events;
 }
 

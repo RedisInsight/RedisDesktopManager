@@ -41,6 +41,23 @@ void BulkOperations::AbstractOperation::getAffectedKeys(
   }
 }
 
+void BulkOperations::AbstractOperation::run(
+    QSharedPointer<RedisClient::Connection> targetConnection,
+    int targetDbIndex) {
+  if (!isMetadataValid()) {
+    qWarning() << QString("Invalid metadata for %1").arg(getTypeName());
+    return;
+  }
+
+  if (m_affectedKeys.size() > 0) {
+    performOperation(targetConnection, targetDbIndex);
+  } else {
+    getAffectedKeys([this, targetConnection, targetDbIndex](QVariant, QString) {
+      performOperation(targetConnection, targetDbIndex);
+    });
+  }
+}
+
 bool BulkOperations::AbstractOperation::isRunning() const {
   return m_currentState == State::RUNNING;
 }

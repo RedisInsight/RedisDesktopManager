@@ -40,5 +40,6 @@
         <file alias="bulk_operations.svg">images/bulk_operations.svg</file>
         <file alias="back.svg">images/back.svg</file>
         <file alias="ttl.svg">images/ttl.svg</file>
+        <file alias="db_copy.svg">images/db_copy.svg</file>
     </qresource>
 </RCC>

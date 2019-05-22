@@ -28,6 +28,8 @@ class Manager : public QObject {
  public:
   enum class Operation {
     DELETE_KEYS,
+    COPY_KEYS,
+    TTL,
   };
 
  public:
@@ -58,7 +60,7 @@ class Manager : public QObject {
   void openDialog(const QString& operationName);
   void affectedKeys(QVariant r);
   void operationFinished();
-  void error(const QString& e);
+  void error(const QString& e, const QString& details);
 
   // Property notifiers
   void operationNameChanged();

@@ -6,24 +6,9 @@ BulkOperations::DeleteOperation::DeleteOperation(
     : BulkOperations::AbstractOperation(connection, dbIndex, callback,
                                         keyPattern) {}
 
-void BulkOperations::DeleteOperation::run(
-    QSharedPointer<RedisClient::Connection>, int) {
-  if (m_affectedKeys.size() > 0) {
-    removeKeys();
-  } else {
-    getAffectedKeys([this](QVariant, QString) { removeKeys(); });
-  }
-}
-
-QString BulkOperations::DeleteOperation::getTypeName() const {
-  return QString("delete_keys");
-}
-
-bool BulkOperations::DeleteOperation::multiConnectionOperation() const {
-  return false;
-}
-
-void BulkOperations::DeleteOperation::removeKeys() {
+void BulkOperations::DeleteOperation::performOperation(
+    QSharedPointer<RedisClient::Connection> targetConnection,
+    int targetDbIndex) {
   m_combinator = QSharedPointer<AsyncFuture::Combinator>(
       new AsyncFuture::Combinator(AsyncFuture::FailFast));
 
@@ -50,7 +35,7 @@ void BulkOperations::DeleteOperation::removeKeys() {
           auto future = m_connection->cmd(
               {removalCmd, k.toUtf8()}, this, m_dbIndex,
               [this](const RedisClient::Response&) {
-                QMutexLocker l(&m_removedKeysMutex);
+                QMutexLocker l(&m_processedKeysMutex);
                 m_progress++;
                 emit progress(m_progress);
               },

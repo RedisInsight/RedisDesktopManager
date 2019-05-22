@@ -29,7 +29,7 @@ class AbstractOperation : public QObject {
 
   virtual void run(QSharedPointer<RedisClient::Connection> targetConnection =
                        QSharedPointer<RedisClient::Connection>(),
-                   int targetDbIndex = 0) = 0;
+                   int targetDbIndex = 0);
 
   virtual QString getTypeName() const = 0;
 
@@ -53,6 +53,13 @@ class AbstractOperation : public QObject {
   void progress(int processed);
 
  protected:
+  virtual bool isMetadataValid() const { return true; }
+
+  virtual void performOperation(
+      QSharedPointer<RedisClient::Connection> targetConnection,
+      int targetDbIndex) = 0;
+
+ protected:
   QSharedPointer<RedisClient::Connection> m_connection;
   int m_dbIndex;
   QRegExp m_keyPattern;
@@ -61,5 +68,9 @@ class AbstractOperation : public QObject {
   QStringList m_affectedKeys;
   QVariantMap m_metadata;
   OperationCallback m_callback;
+  QSharedPointer<AsyncFuture::Combinator> m_combinator;
+  QStringList m_errors;
+  QMutex m_errorsMutex;
+  QMutex m_processedKeysMutex;
 };
 }  // namespace BulkOperations

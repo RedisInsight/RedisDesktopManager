@@ -92,6 +92,20 @@ void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
   }
 }
 
+void TreeOperations::requestBulkOperation(
+    ConnectionsTree::AbstractNamespaceItem& ns,
+    BulkOperations::Manager::Operation op,
+    BulkOperations::AbstractOperation::OperationCallback callback) {
+  QString pattern =
+      QString("%1%2*")
+          .arg(QString::fromUtf8(ns.getFullPath()))
+          .arg(ns.getFullPath().size() > 0 ? conf().namespaceSeparator() : "");
+  QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+
+  emit m_events->requestBulkOperation(m_connection, ns.getDbIndex(), op, filter,
+                                      callback);
+}
+
 QFuture<void> TreeOperations::getDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
   return QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
@@ -217,31 +231,30 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
 }
 
 void TreeOperations::deleteDbKeys(ConnectionsTree::DatabaseItem& db) {
-  QRegExp filter(QString("*"), Qt::CaseSensitive, QRegExp::Wildcard);
-
-  int dbIndex = db.getDbIndex();
-
-  emit m_events->requestBulkOperation(
-      m_connection, dbIndex, BulkOperations::Manager::Operation::DELETE_KEYS,
-      filter, [this, dbIndex, &db](QRegExp filter, int, const QStringList&) {
-        db.reload();
-        emit m_events->closeDbKeys(m_connection, dbIndex, filter);
-      });
+  requestBulkOperation(db, BulkOperations::Manager::Operation::DELETE_KEYS,
+                       [this, &db](QRegExp filter, int, const QStringList&) {
+                         db.reload();
+                         emit m_events->closeDbKeys(m_connection,
+                                                    db.getDbIndex(), filter);
+                       });
 }
 
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
-  QString pattern = QString("%1%2*")
-                        .arg(QString::fromUtf8(ns.getFullPath()))
-                        .arg(conf().namespaceSeparator());
-  QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+  requestBulkOperation(ns, BulkOperations::Manager::Operation::DELETE_KEYS,
+                       [this, &ns](QRegExp filter, int, const QStringList&) {
+                         emit m_events->closeDbKeys(m_connection,
+                                                    ns.getDbIndex(), filter);
+                       });
+}
 
-  int dbIndex = ns.getDbIndex();
+void TreeOperations::setTTL(ConnectionsTree::AbstractNamespaceItem& ns) {
+  requestBulkOperation(ns, BulkOperations::Manager::Operation::TTL,
+                       [](QRegExp, int, const QStringList&) {});
+}
 
-  emit m_events->requestBulkOperation(
-      m_connection, dbIndex, BulkOperations::Manager::Operation::DELETE_KEYS,
-      filter, [this, dbIndex](QRegExp filter, int, const QStringList&) {
-        emit m_events->closeDbKeys(m_connection, dbIndex, filter);
-      });
+void TreeOperations::copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) {
+  requestBulkOperation(ns, BulkOperations::Manager::Operation::COPY_KEYS,
+                       [](QRegExp, int, const QStringList&) {});
 }
 
 void TreeOperations::flushDb(int dbIndex,

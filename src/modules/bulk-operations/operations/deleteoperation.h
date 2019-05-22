@@ -15,21 +15,13 @@ class DeleteOperation : public AbstractOperation {
                   QRegExp keyPattern = QRegExp("*", Qt::CaseSensitive,
                                                QRegExp::Wildcard));
 
-  void run(QSharedPointer<RedisClient::Connection> targetConnection =
-               QSharedPointer<RedisClient::Connection>(),
-           int targetDbIndex = 0) override;
+  QString getTypeName() const override { return QString("delete_keys"); }
 
-  QString getTypeName() const override;
-
-  bool multiConnectionOperation() const override;
+  bool multiConnectionOperation() const override { return false; }
 
  protected:
-  void removeKeys();
-
- private:
-  QSharedPointer<AsyncFuture::Combinator> m_combinator;
-  QStringList m_errors;
-  QMutex m_errorsMutex;
-  QMutex m_removedKeysMutex;
+  void performOperation(
+      QSharedPointer<RedisClient::Connection> targetConnection,
+      int targetDbIndex) override;
 };
 }  // namespace BulkOperations
