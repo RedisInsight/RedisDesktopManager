@@ -78,22 +78,25 @@ Dialog {
                             root.request.keyName = newKeyName.text
                             root.request.keyType = typeSelector.model[typeSelector.currentIndex]
                             root.request.value = valueAddEditor.item.getValue()
-                            keyFactory.submitNewKeyRequest(root.request, afterSave)
+                            keyFactory.submitNewKeyRequest(root.request)
                         })
                     }
 
-                    function afterSave(err) {
-                        console.log("Key added:", err)
-                        if (!err) {
+                    Connections {
+                        target: keyFactory
+
+                        onKeyAdded: {
                             root.request = null
                             valueAddEditor.item.reset()
                             valueAddEditor.item.initEmpty()
                             root.close()
-                        } else {
+                        }
+                        onError: {
                             addError.text = err
                             addError.open()
                         }
                     }
+
                 }
 
                 Button {

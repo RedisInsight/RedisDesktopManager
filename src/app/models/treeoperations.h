@@ -51,7 +51,13 @@ class TreeOperations : public QObject,
   void deleteDbKey(ConnectionsTree::KeyItem& key,
                    std::function<void(const QString&)> callback) override;
 
+  virtual void deleteDbKeys(ConnectionsTree::DatabaseItem& db) override;
+
   void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) override;
+
+  virtual void setTTL(ConnectionsTree::AbstractNamespaceItem& ns) override;
+
+  virtual void copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) override;
 
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) override;
@@ -73,6 +79,11 @@ class TreeOperations : public QObject,
   ServerConfig conf() const;
 
   void connect(QSharedPointer<RedisClient::Connection> c);
+
+  void requestBulkOperation(
+      ConnectionsTree::AbstractNamespaceItem& ns,
+      BulkOperations::Manager::Operation op,
+      BulkOperations::AbstractOperation::OperationCallback callback);
 
  private:
   QSharedPointer<RedisClient::Connection> m_connection;

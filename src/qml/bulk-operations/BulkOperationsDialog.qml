@@ -3,12 +3,14 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
 
+import "./../common/"
+
 Dialog {
     id: root
-    title: qsTranslate("RDM","Bulk Operations Manager")
+    title: qsTr("Bulk Operations Manager")
     modality: Qt.ApplicationModal
 
-    property string operationName: "delete_keys"
+    property string operationName: bulkOperations.operationName
 
     standardButtons: StandardButton.NoButton
 
@@ -19,31 +21,21 @@ Dialog {
     onVisibleChanged: {
         if (visible == false) {
             bulkOperations.clearOperation();
+            resetKeysPreview()
         } else {
-            if (!uiBlocker.visible) {
-                loadKeys();
-            }
+            targetConnection.model = bulkOperations.getTargetConnections()
         }
     }
 
-//    Timer {
-//        id: ignoreCloseTimer
-//        repeat: false
-//        interval: 100
-//        onTriggered: {
-//            open()
-//        }
-//    }
-
-//    onVisibleChanged: {
-//        if (visible === false) {
-//            console.log("ignore", visible)
-//            ignoreCloseTimer.start()
-//        }
-//    }
+    function resetKeysPreview() {
+        keysPreview.visible = false
+        btnShowAffectedKeys.visible = true
+        spacer.visible = true
+    }
 
     contentItem: Item {
-        implicitWidth: 800
+        id: contentWrapper
+        implicitWidth: 900
         implicitHeight: 600
 
         state: root.operationName
@@ -51,13 +43,27 @@ Dialog {
         states: [
             State {
                 name: "delete_keys"
-                PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Delete keys") }
+                PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
+                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }                
+                PropertyChanges { target: ttlField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: contentWrapper; implicitWidth: 600 }
+            },
+            State {
+                name: "ttl"
+                PropertyChanges { target: operationLabel; text: qsTr("Set TTL for multiple keys") }
+                PropertyChanges { target: actionButton; text: qsTr("Set TTL") }
+                PropertyChanges { target: ttlField; visible: true }
+                PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: contentWrapper; implicitWidth: 600 }
             },
             State {
                 name: "copy_keys"
-                PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Copy keys") }
+                PropertyChanges { target: operationLabel; text: qsTr("Copy keys to another database") }
+                PropertyChanges { target: actionButton; text:  qsTr("Copy keys") }
+                PropertyChanges { target: ttlField; visible: true }
                 PropertyChanges { target: targetConnectionSettings; visible: true }
+                PropertyChanges { target: contentWrapper; implicitWidth: 900 }
             }
         ]
 
@@ -84,7 +90,8 @@ Dialog {
                     columns: 2
 
                     Label {
-                        text: qsTranslate("RDM","Redis Server:")
+                        text: qsTr("Redis Server:")
+                        Layout.preferredWidth: 250
                     }
 
                     Label {
@@ -92,7 +99,8 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTranslate("RDM","Database number:")
+                        text: qsTr("Database number:")
+                        Layout.preferredWidth: 250
                     }
 
                     Label {
@@ -100,51 +108,109 @@ Dialog {
                     }
 
                     Label {
-                        text: qsTranslate("RDM","Key pattern:")
-                    }
+                        text: qsTr("Key pattern:")
+                        Layout.preferredWidth: 250
+                    }                    
 
-                    Label {
+                    BetterTextField {
                         text: bulkOperations.keyPattern
+                        onTextChanged: {
+                            bulkOperations.keyPattern = text
+                            root.resetKeysPreview()
+                        }
                     }
-
-
                 }
-
 
                 GridLayout {
                     id: targetConnectionSettings
                     columns: 2
+                    visible: bulkOperations.multiConnectionOperation()
 
                     Label {
-                        text: qsTranslate("RDM","Destination Redis Server:")
+                        text: qsTr("Destination Redis Server:")
                     }
 
                     ComboBox {
-
+                        id: targetConnection
                     }
 
                     Label {
-                        text: qsTranslate("RDM","Destination Redis Server Database Index:")
+                        text: qsTr("Destination Redis Server Database Index:")
                     }
 
-                    ComboBox {
-
+                    SpinBox {
+                        id: targetDatabaseIndex
+                        minimumValue: 0
+                        maximumValue: 10000000000
+                        value: 0
+                        decimals: 0
                     }
-
                 }
-            }
-
-            Item {
-                Layout.preferredHeight: 10
             }
 
             ColumnLayout {
+                RowLayout {
+                    id: ttlField
+
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "New TTL value (seconds):"
+                        Layout.preferredWidth: 250
+                    }
+
+                    SpinBox {
+                        id: ttlValue
+                        minimumValue: -1
+                        maximumValue: 10000000000
+                        value: 0
+                        decimals: 0
+                    }
+                }
+
+                RowLayout{
+                    id: replaceKeysField
+
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "Replace existing keys in target db:"
+                        Layout.preferredWidth: 250
+                    }
+
+                    BetterCheckbox {
+                        id: replaceKeys
+                    }
+                }
+            }
+
+            Item { Layout.preferredHeight: 10 }
+
+            Button {
+                id: btnShowAffectedKeys
+                text: qsTr("Show Affected keys")
+                onClicked: {
+                    uiBlocker.visible = true
+                    root.loadKeys()
+                    btnShowAffectedKeys.visible = false
+                    keysPreview.visible = true
+                    spacer.visible = false                    
+                }
+            }
+
+            Item { id: spacer; Layout.fillHeight: true }
+
+            ColumnLayout {
+                id: keysPreview
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
+                visible: false
+
                 Text {
-                    text: qsTranslate("RDM","Affected keys:")
+                    text: qsTr("Affected keys:")
                 }
+
                 Rectangle {
                     id: listContainer
                     color: "#eee"
@@ -181,22 +247,20 @@ Dialog {
                         onOperationFinished: {
                             affectedKeysListView.model = []
                             uiBlocker.visible = false
-                            bulkSuccessNotification.text = qsTranslate("RDM","Bulk Operation finished.")
+                            bulkSuccessNotification.text = qsTr("Bulk Operation finished.")
                             bulkSuccessNotification.open()
                         }
 
                         onError: {
                             uiBlocker.visible = false
+                            bulkErrorNotification.title = qsTr("Bulk Operation finished with errors")
                             bulkErrorNotification.text = e
+                            bulkErrorNotification.detailedText = details
                             bulkErrorNotification.open()
                         }
                     }
                 }
-            }
-
-            Item {
-                Layout.fillHeight: true
-            }
+            }           
 
             RowLayout {
                 Layout.fillWidth: true
@@ -204,12 +268,21 @@ Dialog {
                 Item { Layout.fillWidth: true; }
 
                 Button {
-                    text: qsTranslate("RDM","Delete Keys")
-                    onClicked: bulkConfirmation.open()
+                    id: actionButton
+                    onClicked: {
+                        bulkOperations.setOperationMetadata(
+                                    {
+                                        "ttl": ttlValue.value,
+                                        "replace": replaceKeys.checked ? "replace": ""
+                                    }
+                                    )
+
+                        bulkConfirmation.open()
+                    }
                 }
 
                 Button {
-                    text: qsTranslate("RDM","Cancel")
+                    text: qsTr("Cancel")
                     onClicked: root.close()
                 }
             }
@@ -224,12 +297,24 @@ Dialog {
 
             Item {
                 anchors.fill: parent
-                BusyIndicator { anchors.centerIn: parent; running: true }
+
+                ColumnLayout {
+                    anchors.centerIn: parent;
+
+                    BusyIndicator { running: true }
+                    Label {
+                        text: {
+                            if (bulkOperations.operationProgress > 0)
+                                return "Processed: " + bulkOperations.operationProgress
+                            else {
+                                return "Getting list of affected keys..."
+                            }
+                        }
+                    }
+                }
             }
 
-            MouseArea {
-                anchors.fill: parent
-            }
+            MouseArea { anchors.fill: parent }
         }
 
         MessageDialog {
@@ -254,19 +339,20 @@ Dialog {
                     cleanUp()
             }
 
-            function cleanUp() {
-                bulkOperations.notifyAboutOperationSuccess();
+            function cleanUp() {                
                 bulkOperations.clearOperation();
+                uiBlocker.visible = false
                 root.close()
             }
         }
 
         MessageDialog {
             id: bulkConfirmation
-            title: qsTranslate("RDM","Confirmation")
-            text: qsTranslate("RDM","Do you really want to perform bulk operation?")
+            title: qsTr("Confirmation")
+            text: qsTr("Do you really want to perform bulk operation?")
             onYes: {
-                bulkOperations.runOperation()
+                uiBlocker.visible = true
+                bulkOperations.runOperation(targetConnection.currentIndex, targetDatabaseIndex.value)
             }
             visible: false
             modality: Qt.ApplicationModal
@@ -275,3 +361,4 @@ Dialog {
         }
     }
 }
+

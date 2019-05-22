@@ -17,6 +17,7 @@ namespace ConnectionsTree {
 class KeyItem;
 class NamespaceItem;
 class AbstractNamespaceItem;
+class DatabaseItem;
 
 class Operations {
   ADD_EXCEPTION
@@ -74,7 +75,13 @@ class Operations {
   virtual void deleteDbKey(ConnectionsTree::KeyItem& key,
                            std::function<void(const QString&)> callback) = 0;
 
+  virtual void deleteDbKeys(ConnectionsTree::DatabaseItem& db) = 0;
+
   virtual void deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) = 0;
+
+  virtual void setTTL(ConnectionsTree::AbstractNamespaceItem& ns) = 0;
+
+  virtual void copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) = 0;
 
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) = 0;

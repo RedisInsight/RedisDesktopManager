@@ -10,6 +10,7 @@
 #include <algorithm>
 
 #include "app/events.h"
+#include "connections-tree/items/databaseitem.h"
 #include "connections-tree/items/namespaceitem.h"
 #include "connections-tree/keysrendering.h"
 
@@ -89,6 +90,20 @@ void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
         QString(e.what()));
     return;
   }
+}
+
+void TreeOperations::requestBulkOperation(
+    ConnectionsTree::AbstractNamespaceItem& ns,
+    BulkOperations::Manager::Operation op,
+    BulkOperations::AbstractOperation::OperationCallback callback) {
+  QString pattern =
+      QString("%1%2*")
+          .arg(QString::fromUtf8(ns.getFullPath()))
+          .arg(ns.getFullPath().size() > 0 ? conf().namespaceSeparator() : "");
+  QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+
+  emit m_events->requestBulkOperation(m_connection, ns.getDbIndex(), op, filter,
+                                      callback);
 }
 
 QFuture<void> TreeOperations::getDatabases(
@@ -215,20 +230,31 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
       });
 }
 
+void TreeOperations::deleteDbKeys(ConnectionsTree::DatabaseItem& db) {
+  requestBulkOperation(db, BulkOperations::Manager::Operation::DELETE_KEYS,
+                       [this, &db](QRegExp filter, int, const QStringList&) {
+                         db.reload();
+                         emit m_events->closeDbKeys(m_connection,
+                                                    db.getDbIndex(), filter);
+                       });
+}
+
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
-  QString pattern = QString("%1%2*")
-                        .arg(QString::fromUtf8(ns.getFullPath()))
-                        .arg(conf().namespaceSeparator());
-  QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+  requestBulkOperation(ns, BulkOperations::Manager::Operation::DELETE_KEYS,
+                       [this, &ns](QRegExp filter, int, const QStringList&) {
+                         emit m_events->closeDbKeys(m_connection,
+                                                    ns.getDbIndex(), filter);
+                       });
+}
 
-  int dbIndex = ns.getDbIndex();
+void TreeOperations::setTTL(ConnectionsTree::AbstractNamespaceItem& ns) {
+  requestBulkOperation(ns, BulkOperations::Manager::Operation::TTL,
+                       [](QRegExp, int, const QStringList&) {});
+}
 
-  emit m_events->requestBulkOperation(
-      m_connection, dbIndex, BulkOperations::Manager::Operation::DELETE_KEYS,
-      filter, [this, dbIndex, filter, &ns]() {
-        ns.setRemoved();
-        emit m_events->closeDbKeys(m_connection, dbIndex, filter);
-      });
+void TreeOperations::copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) {
+  requestBulkOperation(ns, BulkOperations::Manager::Operation::COPY_KEYS,
+                       [](QRegExp, int, const QStringList&) {});
 }
 
 void TreeOperations::flushDb(int dbIndex,
@@ -243,17 +269,7 @@ void TreeOperations::flushDb(int dbIndex,
 }
 
 QFuture<bool> TreeOperations::connectionSupportsMemoryOperations() {
-  auto d = QSharedPointer<AsyncFuture::Deferred<bool>>(
-      new AsyncFuture::Deferred<bool>());
-
-  m_connection->cmd(
-      {"MEMORY", "HELP"}, this, -1,
-      [d](RedisClient::Response r) {
-        d->complete(!r.isDisabledCommandErrorMessage());
-      },
-      [d](const QString&) { d->complete(false); });
-
-  return d->future();
+  return m_connection->isCommandSupported({"MEMORY", "HELP"});
 }
 
 QFuture<qlonglong> TreeOperations::getUsedMemory(const QByteArray& key,

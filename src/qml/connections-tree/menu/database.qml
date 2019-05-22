@@ -16,11 +16,19 @@ RowLayout {
         State {
             name: "menu"
             PropertyChanges { target: dbMenu; visible: true;}
+            PropertyChanges { target: bulkMenu; visible: false;}
+            PropertyChanges { target: filterMenu; visible: false;}            
+        },
+        State {
+            name: "bulk_menu"
+            PropertyChanges { target: dbMenu; visible: false;}
+            PropertyChanges { target: bulkMenu; visible: true;}
             PropertyChanges { target: filterMenu; visible: false;}
         },
         State {
             name: "filter"
             PropertyChanges { target: dbMenu; visible: false;}
+            PropertyChanges { target: bulkMenu; visible: false;}
             PropertyChanges { target: filterMenu; visible: true;}
         }
     ]
@@ -46,7 +54,10 @@ RowLayout {
                 } else {
                     connectionsManager.setMetadata(styleData.index, "live_update", true)
                 }
-            }
+            },
+            "bulk_menu": function() {
+                root.state = "bulk_menu"
+            },
         }
 
         model: {
@@ -82,12 +93,46 @@ RowLayout {
                             },
                             {'icon': "qrc:/images/memory_usage.svg", "event": "analyze_memory_usage", "help": qsTranslate("RDM","Analyze Used Memory")},
                             {
-                                'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),
-                                "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
+                                'icon': "qrc:/images/bulk_operations.svg", 'callback': 'bulk_menu', "help": qsTranslate("RDM","Bulk Operations"),
                             },
                         ]
             }
         }
+    }
+
+    InlineMenu {
+        id: bulkMenu
+
+        Layout.fillWidth: true
+
+        callbacks: {
+            "db_menu": function() {
+                root.state = "menu"
+            },
+        }
+
+        model: {
+            return [
+                        {
+                            'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
+                        },
+                        {
+                            'icon': "qrc:/images/cleanup_filtered.svg", 'event': 'delete_keys', "help": qsTranslate("RDM","Delete keys with filter"),
+                        },
+                        {
+                            'icon': "qrc:/images/ttl.svg", 'event': 'ttl', "help": qsTranslate("RDM","Set TTL for multiple keys"),
+                        },
+                        {
+                            'icon': "qrc:/images/db_copy.svg", 'event': 'copy_keys', "help": qsTranslate("RDM","Copy keys from this database to another"),
+                        },
+                        {
+                            'icon': "qrc:/images/back.svg", 'callback': 'db_menu', "help": qsTranslate("RDM","Back"),
+                        },
+
+                    ]
+        }
+
     }
 
     RowLayout {

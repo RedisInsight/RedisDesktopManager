@@ -29,6 +29,7 @@ SOURCES += \
     $$PWD/modules/crashhandler/*.cpp \
     $$PWD/modules/updater/*.cpp \
     $$PWD/modules/bulk-operations/*.cpp \
+    $$PWD/modules/bulk-operations/operations/*.cpp \
     $$PWD/modules/common/*.cpp \
     $$PWD/modules/server-stats/*.cpp \
 
@@ -47,6 +48,7 @@ HEADERS  += \
     $$PWD/modules/updater/*.h \
     $$PWD/modules/*.h \
     $$PWD/modules/bulk-operations/*.h \
+    $$PWD/modules/bulk-operations/operations/*.h \
     $$PWD/modules/common/*.h \
     $$PWD/modules/server-stats/*.h \
 

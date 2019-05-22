@@ -36,9 +36,10 @@ class Events : public QObject, public QEnableSharedFromThis<Events> {
                                                    QRegExp::Wildcard));
 
   // Dialogs
-  void requestBulkOperation(QSharedPointer<RedisClient::Connection> connection,
-                            int dbIndex, BulkOperations::Manager::Operation op,
-                            QRegExp keyPattern, std::function<void()> callback);
+  void requestBulkOperation(
+      QSharedPointer<RedisClient::Connection> connection, int dbIndex,
+      BulkOperations::Manager::Operation op, QRegExp keyPattern,
+      BulkOperations::AbstractOperation::OperationCallback callback);
 
   void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
                     std::function<void()> callback, int dbIndex,
