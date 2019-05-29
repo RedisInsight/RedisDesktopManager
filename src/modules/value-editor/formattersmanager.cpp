@@ -292,7 +292,10 @@ QSharedPointer<QProcess> ValueEditor::FormattersManager::createProcess() {
 #ifdef Q_OS_WIN  
   env.insert("PATH", QString("%1/python;%2")
                          .arg(QCoreApplication::applicationDirPath())
-                         .arg(env.value("PATH", "")));  
+                         .arg(env.value("PATH", "")));
+#elif defined Q_OS_MACOS
+   env.insert("PATH", QString("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:%1")                         
+                         .arg(env.value("PATH", "")));    
 #endif
   process->setProcessEnvironment(env);
   return process;
