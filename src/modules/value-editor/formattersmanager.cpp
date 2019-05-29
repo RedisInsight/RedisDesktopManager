@@ -288,13 +288,12 @@ void ValueEditor::FormattersManager::fillMapping() {
 QSharedPointer<QProcess> ValueEditor::FormattersManager::createProcess() {
   auto process = QSharedPointer<QProcess>(new QProcess());
 
-#ifdef Q_OS_WIN32
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+#ifdef Q_OS_WIN  
   env.insert("PATH", QString("%1/python;%2")
                          .arg(QCoreApplication::applicationDirPath())
-                         .arg(env.value("PATH", "")));
-  process->setProcessEnvironment(env);
+                         .arg(env.value("PATH", "")));  
 #endif
-
+  process->setProcessEnvironment(env);
   return process;
 }
