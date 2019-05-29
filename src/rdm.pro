@@ -125,9 +125,6 @@ unix:!macx { # ubuntu & debian
     data.files = $$PWD/lib/*
     INSTALLS += data
     
-    appicon_rename.extra = cp $$PWD/resources/images/logo.png $$PWD/resources/images/rdm.png    
-    INSTALLS += appicon_rename
-    
     appicon.path = /usr/share/pixmaps/
     appicon.files = $$PWD/resources/images/rdm.png
     INSTALLS += appicon
