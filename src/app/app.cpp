@@ -250,6 +250,8 @@ void Application::processCmdArgs() {
       "formattersDir",
 #ifdef Q_OS_WIN32
       QString("%1/formatters").arg(QCoreApplication::applicationDirPath()));
+#elif Q_OS_MACOS
+      QString("%1/../Resources/formatters").arg(QCoreApplication::applicationDirPath()));
 #else
       QString());
 #endif
