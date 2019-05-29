@@ -17,10 +17,10 @@ SetCompressor /SOLID /FINAL lzma
 !define APP_EXE "rdm.exe"
 
 # MUI Symbol Definitions
-!define MUI_ICON "..\..\..\src\resources\redis.ico"
+!define MUI_ICON "..\..\..\src\resources\images\logo.ico"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_FINISHPAGE_RUN $INSTDIR\${APP_EXE}
-!define MUI_UNICON "..\..\..\src\resources\redis.ico"
+!define MUI_UNICON "..\..\..\src\resources\images\logo.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP ".\images\main.bmp"
 
 # Included files
