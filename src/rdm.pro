@@ -11,7 +11,7 @@ TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"2019.0.0\\\"
+    DEFINES += RDM_VERSION=\\\"2019.2.0\\\"
 }
 
 SOURCES += \
