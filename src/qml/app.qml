@@ -310,6 +310,10 @@ ApplicationWindow {
                             Connections {
                                 target: appEvents
                                 onLog: {
+                                    if (logModel.count > 1500) {
+                                        logModel.remove(0, logModel.count - 1000)
+                                    }
+
                                     logModel.append({"msg": msg})
                                     logListView.positionViewAtEnd()
                                 }
