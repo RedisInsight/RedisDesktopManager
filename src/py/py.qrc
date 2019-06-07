@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/python">
+        <file>formatters/__init__.py</file>
+        <file>formatters/base.py</file>
+        <file>formatters/binary.py</file>
+        <file>formatters/cbor.py</file>
+        <file>formatters/msgpack.py</file>
+        <file>formatters/pickle.py</file>
+        <file>formatters/phpserialize.py</file>
+    </qresource>
+</RCC>

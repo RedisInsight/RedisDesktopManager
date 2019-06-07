@@ -27,6 +27,7 @@ ApplicationWindow {
     property double hRatio : (height * 1.0) / (Screen.height * 1.0)
 
     property var currentValueFormatter
+    property var embeddedFormatters
 
     Component.onCompleted: {
         if (hRatio > 1 || wRatio > 1) {
@@ -38,6 +39,11 @@ ApplicationWindow {
         if (PlatformUtils.isOSXRetina(Screen)) {
             bottomTabView.implicitHeight = 100
         }
+
+        embeddedFormattersManager.loadFormatters(function (result) {
+            approot.embeddedFormatters = result
+            console.log("Embedded formatters:", result);
+        });
     }
 
     Settings {

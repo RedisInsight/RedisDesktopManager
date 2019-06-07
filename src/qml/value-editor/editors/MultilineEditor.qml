@@ -18,6 +18,7 @@ ColumnLayout
     property bool isEdited: false
     property var value
     property int valueSizeLimit: 150000
+    property int valueCompression: 0
     property string formatterSettingsCategory: "formatters_value"
 
     function initEmpty() {
@@ -52,16 +53,24 @@ ColumnLayout
         });
     }
 
-    function loadRawValue(callback) {
+    function compress(val) {
+        if (valueCompression > 0) {
+            return qmlUtils.compress(val, valueCompression)
+        } else {
+            return val
+        }
+    }
+
+    function loadRawValue(callback) {                
         if (formatterSelector.visible) {
            var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
             formatter.instance.getRaw(textView.model.getText(), function (error, raw) {
-                root.value = raw
-                return callback(error, raw)
+                root.value = compress(raw)
+                return callback(error, compress(raw))
             })
         } else {
-            root.value = textView.model.getText()
+            root.value = compress(textView.model.getText())
             return callback("", root.value)
         }
     }
@@ -88,6 +97,13 @@ ColumnLayout
 
         var isBin = qmlUtils.isBinaryString(root.value)
         binaryFlag.visible = isBin
+
+        valueCompression = qmlUtils.isCompressed(root.value)
+
+        if (valueCompression > 0) {
+            root.value = qmlUtils.decompress(root.value)
+            isBin = qmlUtils.isBinaryString(root.value)
+        }
 
         // If current formatter is plain text - try to guess formatter
         if (guessFormatter && formatterSelector.currentIndex == 0) {
@@ -168,6 +184,7 @@ ColumnLayout
         textView.model = null
         root.value = ""
         root.isEdited = false
+        root.valueCompression = 0
         hideValidationError()
     }
 
@@ -192,6 +209,7 @@ ColumnLayout
             color: "#ccc"
         }
         Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
+        Text { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
         Item { Layout.fillWidth: true }
 
         ImageButton {

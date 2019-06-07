@@ -1,4 +1,4 @@
-#include "formattersmanager.h"
+#include "externalformattersmanager.h"
 #include "app/models/configmanager.h"
 
 #include <QCoreApplication>
@@ -8,10 +8,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-ValueEditor::FormattersManager::FormattersManager() {}
+ValueEditor::ExternalFormattersManager::ExternalFormattersManager() {}
 
 QPair<QByteArray, QByteArray>
-ValueEditor::FormattersManager::readOutputFromExternalProcess(
+ValueEditor::ExternalFormattersManager::readOutputFromExternalProcess(
     const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
   auto formatterProcess = createProcess();
   formatterProcess->setWorkingDirectory(wd);
@@ -42,7 +42,7 @@ ValueEditor::FormattersManager::readOutputFromExternalProcess(
           formatterProcess->readAllStandardError()};
 }
 
-QJsonObject ValueEditor::FormattersManager::readJsonFromExternalProcess(
+QJsonObject ValueEditor::ExternalFormattersManager::readJsonFromExternalProcess(
     const QStringList &cmd, const QByteArray &processInput, const QString &wd) {
   qDebug() << cmd;
 
@@ -66,7 +66,7 @@ QJsonObject ValueEditor::FormattersManager::readJsonFromExternalProcess(
   return output.object();
 }
 
-void ValueEditor::FormattersManager::loadFormatters() {
+void ValueEditor::ExternalFormattersManager::loadFormatters() {
   // Load formatters from file system
   QDir fd(formattersPath());
   fd.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
@@ -124,12 +124,13 @@ void ValueEditor::FormattersManager::loadFormatters() {
   fillMapping();
 }
 
-int ValueEditor::FormattersManager::rowCount(const QModelIndex &) const {
+int ValueEditor::ExternalFormattersManager::rowCount(
+    const QModelIndex &) const {
   return m_formattersData.size();
 }
 
-QVariant ValueEditor::FormattersManager::data(const QModelIndex &index,
-                                              int role) const {
+QVariant ValueEditor::ExternalFormattersManager::data(const QModelIndex &index,
+                                                      int role) const {
   if (!(0 <= index.row() && index.row() < rowCount())) {
     return QVariant();
   }
@@ -149,7 +150,8 @@ QVariant ValueEditor::FormattersManager::data(const QModelIndex &index,
   return QVariant();
 }
 
-QHash<int, QByteArray> ValueEditor::FormattersManager::roleNames() const {
+QHash<int, QByteArray> ValueEditor::ExternalFormattersManager::roleNames()
+    const {
   QHash<int, QByteArray> roles;
   roles[name] = "name";
   roles[version] = "version";
@@ -158,13 +160,12 @@ QHash<int, QByteArray> ValueEditor::FormattersManager::roleNames() const {
   return roles;
 }
 
-void ValueEditor::FormattersManager::setPath(const QString &path) {
+void ValueEditor::ExternalFormattersManager::setPath(const QString &path) {
   m_formattersPath = path;
 }
 
-void ValueEditor::FormattersManager::decode(const QString &formatterName,
-                                            const QByteArray &data,
-                                            QJSValue jsCallback) {
+void ValueEditor::ExternalFormattersManager::decode(
+    const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
         QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
@@ -199,9 +200,8 @@ void ValueEditor::FormattersManager::decode(const QString &formatterName,
       outputObj["read-only"].toBool(), outputObj["format"].toString()});
 }
 
-void ValueEditor::FormattersManager::isValid(const QString &formatterName,
-                                             const QByteArray &data,
-                                             QJSValue jsCallback) {
+void ValueEditor::ExternalFormattersManager::isValid(
+    const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
         QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
@@ -229,9 +229,8 @@ void ValueEditor::FormattersManager::isValid(const QString &formatterName,
   }
 }
 
-void ValueEditor::FormattersManager::encode(const QString &formatterName,
-                                            const QByteArray &data,
-                                            QJSValue jsCallback) {
+void ValueEditor::ExternalFormattersManager::encode(
+    const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
         QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
@@ -259,11 +258,11 @@ void ValueEditor::FormattersManager::encode(const QString &formatterName,
   }
 }
 
-QStringList ValueEditor::FormattersManager::getPlainList() {
+QStringList ValueEditor::ExternalFormattersManager::getPlainList() {
   return m_mapping.keys();
 }
 
-QString ValueEditor::FormattersManager::formattersPath() {
+QString ValueEditor::ExternalFormattersManager::formattersPath() {
   if (m_formattersPath.isEmpty()) {
     return QDir::toNativeSeparators(
         QString("%1/%2").arg(ConfigManager::getConfigPath()).arg("formatters"));
@@ -272,11 +271,11 @@ QString ValueEditor::FormattersManager::formattersPath() {
   }
 }
 
-bool ValueEditor::FormattersManager::isInstalled(const QString &name) {
+bool ValueEditor::ExternalFormattersManager::isInstalled(const QString &name) {
   return m_mapping.contains(name);
 }
 
-void ValueEditor::FormattersManager::fillMapping() {
+void ValueEditor::ExternalFormattersManager::fillMapping() {
   int index = 0;
 
   for (QVariantMap f : m_formattersData) {
@@ -285,17 +284,18 @@ void ValueEditor::FormattersManager::fillMapping() {
   }
 }
 
-QSharedPointer<QProcess> ValueEditor::FormattersManager::createProcess() {
+QSharedPointer<QProcess>
+ValueEditor::ExternalFormattersManager::createProcess() {
   auto process = QSharedPointer<QProcess>(new QProcess());
 
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-#ifdef Q_OS_WIN  
+#ifdef Q_OS_WIN
   env.insert("PATH", QString("%1/python;%2")
                          .arg(QCoreApplication::applicationDirPath())
                          .arg(env.value("PATH", "")));
 #elif defined Q_OS_MACOS
-   env.insert("PATH", QString("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:%1")                         
-                         .arg(env.value("PATH", "")));    
+  env.insert("PATH", QString("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:%1")
+                         .arg(env.value("PATH", "")));
 #endif
   process->setProcessEnvironment(env);
   return process;

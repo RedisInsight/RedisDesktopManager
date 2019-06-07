@@ -11,7 +11,7 @@ pages:
 - Home: 'index.md'
 - Install: 'install.md'
 - Quick Start: 'quick-start.md'
-- Features Overview: 'features.md'
+- Native Formatters: 'native-formatters.md'
 - FAQ: 'faq.md'
 - Known Issues: 'known-issues.md'
 - Known Issues (Chinese): 'known-issues_cn.md'

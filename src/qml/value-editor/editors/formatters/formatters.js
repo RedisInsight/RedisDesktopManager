@@ -96,6 +96,33 @@ function buildFormattersModel()
     for (var index in enabledFormatters) {
         var f = enabledFormatters[index]
         formatters.push({'name': f.title, 'type': "buildin", "instance": f})
+    }   
+
+
+    function createWrapperForEmbeddedFormatter(formatterName) {
+        return {
+            getFormatted: function (raw, callback) {
+                return embeddedFormattersManager.decode(formatterName, raw, function (response) {
+                    return callback(response[0], response[1], response[2], response[3])
+                })
+            },
+
+            getRaw: function (formatted, callback) {
+                return embeddedFormattersManager.encode(formatterName, formatted, callback)
+            },
+
+            isValid: function (raw, callback) {
+                return embeddedFormattersManager.isValid(formatterName, raw, callback)
+            }
+        }
+    }
+
+    for (var indx in approot.embeddedFormatters) {
+        formatters.push({
+                   'name': approot.embeddedFormatters[indx],
+                   'type': "embedded",
+                   'instance': createWrapperForEmbeddedFormatter(approot.embeddedFormatters[indx])
+               })
     }
 
     var nativeFormatters = formattersManager.getPlainList();
@@ -114,7 +141,7 @@ function buildFormattersModel()
                 return formattersManager.isValid(formatterName, raw, callback)
             }
         }
-    }
+    }       
 
     for (var index in nativeFormatters) {
         formatters.push({
