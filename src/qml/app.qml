@@ -27,6 +27,7 @@ ApplicationWindow {
     property double hRatio : (height * 1.0) / (Screen.height * 1.0)
 
     property var currentValueFormatter
+    property var embeddedFormatters
 
     Component.onCompleted: {
         if (hRatio > 1 || wRatio > 1) {
@@ -38,6 +39,11 @@ ApplicationWindow {
         if (PlatformUtils.isOSXRetina(Screen)) {
             bottomTabView.implicitHeight = 100
         }
+
+        embeddedFormattersManager.loadFormatters(function (result) {
+            approot.embeddedFormatters = result
+            console.log("Embedded formatters:", result);
+        });
     }
 
     Settings {
@@ -310,6 +316,10 @@ ApplicationWindow {
                             Connections {
                                 target: appEvents
                                 onLog: {
+                                    if (logModel.count > 1500) {
+                                        logModel.remove(0, logModel.count - 1000)
+                                    }
+
                                     logModel.append({"msg": msg})
                                     logListView.positionViewAtEnd()
                                 }

@@ -4,14 +4,14 @@
 #
 #-------------------------------------------------
 
-QT += core gui network concurrent widgets quick quickwidgets charts
+QT += core gui network concurrent widgets quick quickwidgets charts svg
 
 TARGET = rdm
 TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"2019.0.0\\\"
+    DEFINES += RDM_VERSION=\\\"2019.2.0\\\"
 }
 
 SOURCES += \
@@ -20,6 +20,7 @@ SOURCES += \
     $$PWD/app/apputils.cpp \
     $$PWD/app/events.cpp \
     $$PWD/app/qmlutils.cpp \
+    $$PWD/app/qcompress.cpp \
     $$PWD/app/models/*.cpp \
     $$PWD/app/models/key-models/*.cpp \
     $$PWD/modules/connections-tree/*.cpp \
@@ -38,6 +39,7 @@ HEADERS  += \
     $$PWD/app/events.h \
     $$PWD/app/apputils.h \
     $$PWD/app/qmlutils.h \
+    $$PWD/app/qcompress.h \
     $$PWD/app/models/*.h \
     $$PWD/app/models/key-models/*.h \
     $$PWD/modules/connections-tree/*.h \
@@ -147,6 +149,7 @@ RESOURCES += \
     $$PWD/resources/images.qrc \
     $$PWD/resources/fonts.qrc \    
     $$PWD/qml/qml.qrc \
+    $$PWD/py/py.qrc \
     $$PWD/resources/commands.qrc
 
 exists( $$PWD/resources/translations/rdm.qm ) {

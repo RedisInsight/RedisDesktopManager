@@ -10,3 +10,6 @@
 [submodule "3rdparty/qt-unix-signals"]
 	path = 3rdparty/qt-unix-signals
 	url = https://github.com/sijk/qt-unix-signals.git
+[submodule "3rdparty/pyotherside"]
+	path = 3rdparty/pyotherside
+	url = https://github.com/thp/pyotherside.git

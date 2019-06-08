@@ -5,22 +5,22 @@
 
 namespace ValueEditor {
 
-class FormattersManager : public QAbstractListModel {
+class ExternalFormattersManager : public QAbstractListModel {
   Q_OBJECT
 
  public:
   enum Roles { name = Qt::UserRole + 1, version, description, cmd };
 
  public:
-  FormattersManager();
+  ExternalFormattersManager();
 
   void loadFormatters();  // TODO make async with callback & invokable
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-  QVariant data(const QModelIndex& index, int role) const;
+  QVariant data(const QModelIndex& index, int role) const override;
 
-  QHash<int, QByteArray> roleNames() const;
+  QHash<int, QByteArray> roleNames() const override;
 
   void setPath(const QString& path);
 

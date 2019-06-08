@@ -1,14 +1,14 @@
 #include "qmlutils.h"
 #include <qredisclient/utils/text.h>
+#include <qtextdocumentfragment.h>
 #include <QApplication>
 #include <QClipboard>
 #include <QDateTime>
 #include <QDebug>
 #include <QtCharts/QDateTimeAxis>
-#include <QDateTime>
-#include <qtextdocumentfragment.h>
 
 #include "apputils.h"
+#include "qcompress.h"
 #include "value-editor/largetextmodel.h"
 
 bool QmlUtils::isBinaryString(const QVariant &value) {
@@ -25,6 +25,30 @@ long QmlUtils::binaryStringLength(const QVariant &value) {
   }
   QByteArray val = value.toByteArray();
   return val.size();
+}
+
+QVariant QmlUtils::decompress(const QVariant &value) {
+  if (!value.canConvert(QVariant::ByteArray)) {
+    return 0;
+  }
+
+  return qcompress::decompress(value.toByteArray());
+}
+
+QVariant QmlUtils::compress(const QVariant &value, unsigned alg) {
+  return qcompress::compress(value.toByteArray(), alg);
+}
+
+unsigned QmlUtils::isCompressed(const QVariant &value) {
+  if (!value.canConvert(QVariant::ByteArray)) {
+    return 0;
+  }
+
+  return qcompress::guessFormat(value.toByteArray());
+}
+
+QString QmlUtils::compressionAlgName(unsigned alg) {
+  return qcompress::nameOf(alg);
 }
 
 QString QmlUtils::humanSize(long size) { return humanReadableSize(size); }
@@ -144,7 +168,6 @@ QString QmlUtils::escapeHtmlEntities(const QString &t) {
   return t.toHtmlEscaped();
 }
 
-QString QmlUtils::htmlToPlainText(const QString& html)
-{
-    return QTextDocumentFragment::fromHtml( html ).toPlainText();
+QString QmlUtils::htmlToPlainText(const QString &html) {
+  return QTextDocumentFragment::fromHtml(html).toPlainText();
 }

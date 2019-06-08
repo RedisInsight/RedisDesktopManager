@@ -1,5 +1,6 @@
 #include "app.h"
 
+#include <qpython.h>
 #include <qredisclient/redisclient.h>
 #include <QMessageBox>
 #include <QNetworkProxyFactory>
@@ -22,7 +23,8 @@
 #include "modules/console/consolemodel.h"
 #include "modules/server-stats/serverstatsmodel.h"
 #include "modules/updater/updater.h"
-#include "modules/value-editor/formattersmanager.h"
+#include "modules/value-editor/embeddedformattersmanager.h"
+#include "modules/value-editor/externalformattersmanager.h"
 #include "modules/value-editor/tabsmodel.h"
 #include "modules/value-editor/valueviewmodel.h"
 #include "qmlutils.h"
@@ -40,6 +42,7 @@ Application::Application(int& argc, char** argv)
   initRedisClient();
   initUpdater();
   installTranslator();
+  initPython();
 }
 
 void Application::initModels() {
@@ -98,11 +101,21 @@ void Application::initModels() {
             m_serverStatsModel->openTab(c);
           });
 
-  m_formattersManager = QSharedPointer<ValueEditor::FormattersManager>(
-      new ValueEditor::FormattersManager());
+  m_formattersManager = QSharedPointer<ValueEditor::ExternalFormattersManager>(
+      new ValueEditor::ExternalFormattersManager());
 
-  connect(m_formattersManager.data(), &ValueEditor::FormattersManager::error,
-          this, [this](const QString& msg) {
+  m_embeddedFormatters = QSharedPointer<ValueEditor::EmbeddedFormattersManager>(
+      new ValueEditor::EmbeddedFormattersManager(m_python));
+
+  connect(m_formattersManager.data(),
+          &ValueEditor::ExternalFormattersManager::error, this,
+          [this](const QString& msg) {
+            m_events->log(QString("Formatters: %1").arg(msg));
+          });
+
+  connect(m_embeddedFormatters.data(),
+          &ValueEditor::EmbeddedFormattersManager::error, this,
+          [this](const QString& msg) {
             m_events->log(QString("Formatters: %1").arg(msg));
           });
 
@@ -173,6 +186,8 @@ void Application::registerQmlRootObjects() {
   m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
   m_engine.rootContext()->setContextProperty("formattersManager",
                                              m_formattersManager.data());
+  m_engine.rootContext()->setContextProperty("embeddedFormattersManager",
+                                             m_embeddedFormatters.data());
   m_engine.rootContext()->setContextProperty("consoleModel",
                                              m_consoleModel.data());
   m_engine.rootContext()->setContextProperty("serverStatsModel",
@@ -208,6 +223,13 @@ void Application::initUpdater() {
   m_updater = QSharedPointer<Updater>(new Updater());
   connect(m_updater.data(), SIGNAL(updateUrlRetrived(QString&)), this,
           SLOT(OnNewUpdateAvailable(QString&)));
+}
+
+void Application::initPython() {
+  m_python = QSharedPointer<QPython>(new QPython(this, 1, 5));
+  m_python->addImportPath("qrc:/python/");
+  m_python->addImportPath(applicationDirPath());
+  qDebug() << applicationDirPath();
 }
 
 void Application::installTranslator() {
