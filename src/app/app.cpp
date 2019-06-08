@@ -81,7 +81,7 @@ void Application::initModels() {
       new ConnectionsManager(config, m_events));
 
   m_bulkOperations = QSharedPointer<BulkOperations::Manager>(
-      new BulkOperations::Manager(m_connections));
+      new BulkOperations::Manager(m_connections, m_python));
 
   connect(m_events.data(), &Events::requestBulkOperation,
           m_bulkOperations.data(),

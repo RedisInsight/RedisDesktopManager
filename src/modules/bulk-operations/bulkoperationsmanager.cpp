@@ -2,12 +2,16 @@
 #include <qredisclient/connection.h>
 #include <QDebug>
 
+#include <qpython.h>
+
 #include "operations/copyoperation.h"
 #include "operations/deleteoperation.h"
+#include "operations/rdbimport.h"
 #include "operations/ttloperation.h"
 
-BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model)
-    : QObject(nullptr), m_model(model) {
+BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model,
+                                 QSharedPointer<QPython> p)
+    : QObject(nullptr), m_model(model), m_python(p) {
   Q_ASSERT(m_model);
 }
 
@@ -138,6 +142,10 @@ void BulkOperations::Manager::requestBulkOperation(
     m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
         new BulkOperations::CopyOperation(connection, dbIndex, callbackWrapper,
                                           keyPattern));
+  } else if (op == Operation::IMPORT_RDB_KEYS) {
+    m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
+        new BulkOperations::RDBImportOperation(
+            connection, dbIndex, callbackWrapper, m_python, keyPattern));
   }
 
   QObject::connect(m_operation.data(),

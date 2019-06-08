@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDateTime>
+#include <QFileInfo>
 #include <QDebug>
 #include <QtCharts/QDateTimeAxis>
 
@@ -104,7 +105,12 @@ QVariant QmlUtils::toUtf(const QVariant &value) {
 }
 
 QString QmlUtils::getPathFromUrl(const QUrl &url) {
-  return url.isLocalFile() ? url.toLocalFile() : url.path();
+    return url.isLocalFile() ? url.toLocalFile() : url.path();
+}
+
+bool QmlUtils::fileExists(const QString &path)
+{
+    return QFileInfo::exists(path);
 }
 
 void QmlUtils::copyToClipboard(const QString &text) {

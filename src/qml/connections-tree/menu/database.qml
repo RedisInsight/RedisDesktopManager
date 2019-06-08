@@ -127,6 +127,9 @@ RowLayout {
                             'icon': "qrc:/images/db_copy.svg", 'event': 'copy_keys', "help": qsTranslate("RDM","Copy keys from this database to another"),
                         },
                         {
+                            'icon': "qrc:/images/import.svg", 'event': 'rdb_import', "help": qsTranslate("RDM","Import keys from RDB file"),
+                        },
+                        {
                             'icon': "qrc:/images/back.svg", 'callback': 'db_menu', "help": qsTranslate("RDM","Back"),
                         },
 

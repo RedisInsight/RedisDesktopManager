@@ -7,5 +7,6 @@
         <file>formatters/msgpack.py</file>
         <file>formatters/pickle.py</file>
         <file>formatters/phpserialize.py</file>
+        <file>rdb.py</file>
     </qresource>
 </RCC>

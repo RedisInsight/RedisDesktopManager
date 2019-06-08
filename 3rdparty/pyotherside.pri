@@ -36,7 +36,8 @@ exists ($$PYOTHERSIDE_DIR/pythonlib.zip) {
     DEFINES *= HAVE_DLADDR
 }
 
-HEADERS += $$PYOTHERSIDE_DIR/pythonlib_loader.h
+HEADERS += $$PYOTHERSIDE_DIR/pythonlib_loader.h\
+    $$PWD/pyotherside/src/callback.h
 SOURCES += $$PYOTHERSIDE_DIR/pythonlib_loader.cpp
 
 # Python QML Object

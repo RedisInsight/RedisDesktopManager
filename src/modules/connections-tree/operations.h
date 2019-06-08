@@ -83,6 +83,8 @@ class Operations {
 
   virtual void copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) = 0;
 
+  virtual void importKeysFromRdb(ConnectionsTree::DatabaseItem& ns) = 0;
+
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) = 0;
 
