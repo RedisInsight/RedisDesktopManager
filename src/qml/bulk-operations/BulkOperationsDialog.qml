@@ -33,6 +33,35 @@ Dialog {
         spacer.visible = true
     }
 
+    function setMetadata() {
+        bulkOperations.setOperationMetadata(
+                    {
+                        "ttl": ttlValue.value,
+                        "replace": replaceKeys.checked ? "replace": "",
+                        "path": rdbPath.path,
+                        "db": rdbDb.value
+                    }
+                    )
+    }
+
+    function showError(title, text, details) {
+        uiBlocker.visible = false
+        bulkErrorNotification.title = title
+        bulkErrorNotification.text = text
+        if (details) {
+            bulkErrorNotification.detailedText = details
+        }
+        bulkErrorNotification.open()
+    }
+
+    function validate() {
+        if (root.operationName == "rdb_import" && !qmlUtils.fileExists(rdbPath.path)) {
+            showError(qsTr("Invalid RDB path"), qsTr("Please specify valid path to RDB file"), "")
+            return false;
+        }
+        return true;
+    }
+
     contentItem: Item {
         id: contentWrapper
         implicitWidth: 900
@@ -44,26 +73,43 @@ Dialog {
             State {
                 name: "delete_keys"
                 PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
-                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }                
+                PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }
                 PropertyChanges { target: ttlField; visible: false }
+                PropertyChanges { target: replaceKeysField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: contentWrapper; implicitWidth: 600 }
+                PropertyChanges { target: contentWrapper; width: 600 }
+                PropertyChanges { target: rdbImportFields; visible: false; }
             },
             State {
                 name: "ttl"
                 PropertyChanges { target: operationLabel; text: qsTr("Set TTL for multiple keys") }
                 PropertyChanges { target: actionButton; text: qsTr("Set TTL") }
                 PropertyChanges { target: ttlField; visible: true }
+                PropertyChanges { target: replaceKeysField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: contentWrapper; implicitWidth: 600 }
+                PropertyChanges { target: contentWrapper; width: 600 }
+                PropertyChanges { target: rdbImportFields; visible: false; }
             },
             State {
                 name: "copy_keys"
                 PropertyChanges { target: operationLabel; text: qsTr("Copy keys to another database") }
                 PropertyChanges { target: actionButton; text:  qsTr("Copy keys") }
                 PropertyChanges { target: ttlField; visible: true }
+                PropertyChanges { target: replaceKeysField; visible: true }
                 PropertyChanges { target: targetConnectionSettings; visible: true }
-                PropertyChanges { target: contentWrapper; implicitWidth: 900 }
+                PropertyChanges { target: contentWrapper; width: 1000 }
+                PropertyChanges { target: rdbImportFields; visible: false; }
+            },
+
+            State {
+                name: "rdb_import"
+                PropertyChanges { target: operationLabel; text: qsTr("Import data from rdb file") }
+                PropertyChanges { target: actionButton; text:  qsTr("Import") }
+                PropertyChanges { target: ttlField; visible: false }
+                PropertyChanges { target: replaceKeysField; visible: false }
+                PropertyChanges { target: targetConnectionSettings; visible: false }
+                PropertyChanges { target: contentWrapper; width: 600 }
+                PropertyChanges { target: rdbImportFields; visible: true; }
             }
         ]
 
@@ -107,16 +153,78 @@ Dialog {
                         text: bulkOperations.dbIndex
                     }
 
+                    GridLayout {
+                        id: rdbImportFields
+                        columns: 2
+                        Layout.rowSpan: 2
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+
+                        Label {
+                            id: rdbPathLabel
+                            text: qsTr("Path to RDB file:")
+                            Layout.preferredWidth: 250
+                        }
+
+                        FilePathInput {
+                            id: rdbPath
+                            placeholderText: qsTranslate("RDM","Path to dump.rdb file")
+                            nameFilters: [ "RDB (*.rdb)" ]
+                            title: qsTranslate("RDM","Select dump.rdb")
+                            path: ""
+                            onPathChanged: {
+                                console.log(rdbPath.path)
+                            }
+                        }
+
+                        Label {
+                            id: rdbDbLabel
+                            text: qsTr("Select DB in RDB file:")
+                            Layout.preferredWidth: 250
+                        }
+
+                        SpinBox {
+                            id: rdbDb
+                            minimumValue: 0
+                            maximumValue: 10000000000
+                            value: 0
+                            decimals: 0
+                            onValueChanged: {
+                                setMetadata()
+                                root.resetKeysPreview()
+                            }
+                        }
+                    }
+
                     Label {
-                        text: qsTr("Key pattern:")
+                        text: root.operationName == "rdb_import"? qsTr("Import keys that match <b>regex</b>:") : qsTr("Key pattern:")
                         Layout.preferredWidth: 250
-                    }                    
+                    }
 
                     BetterTextField {
                         text: bulkOperations.keyPattern
                         onTextChanged: {
                             bulkOperations.keyPattern = text
                             root.resetKeysPreview()
+                        }
+                    }
+
+                    RowLayout {
+                        id: ttlField
+
+                        Layout.columnSpan: 2
+
+                        Label {
+                            text: "New TTL value (seconds):"
+                            Layout.preferredWidth: 250
+                        }
+
+                        SpinBox {
+                            id: ttlValue
+                            minimumValue: -1
+                            maximumValue: 10000000000
+                            value: 0
+                            decimals: 0
                         }
                     }
                 }
@@ -145,60 +253,43 @@ Dialog {
                         value: 0
                         decimals: 0
                     }
-                }
-            }
 
-            ColumnLayout {
-                RowLayout {
-                    id: ttlField
+                    RowLayout{
+                        id: replaceKeysField
 
-                    Layout.fillWidth: true
+                        Layout.columnSpan: 2
 
-                    Label {
-                        text: "New TTL value (seconds):"
-                        Layout.preferredWidth: 250
-                    }
+                        Label {
+                            text: "Replace existing keys in target db:"
+                            Layout.preferredWidth: 250
+                        }
 
-                    SpinBox {
-                        id: ttlValue
-                        minimumValue: -1
-                        maximumValue: 10000000000
-                        value: 0
-                        decimals: 0
-                    }
-                }
-
-                RowLayout{
-                    id: replaceKeysField
-
-                    Layout.fillWidth: true
-
-                    Label {
-                        text: "Replace existing keys in target db:"
-                        Layout.preferredWidth: 250
-                    }
-
-                    BetterCheckbox {
-                        id: replaceKeys
+                        BetterCheckbox {
+                            id: replaceKeys
+                        }
                     }
                 }
             }
+
 
             Item { Layout.preferredHeight: 10 }
 
             Button {
                 id: btnShowAffectedKeys
-                text: qsTr("Show Affected keys")
+                text: root.operationName == "rdb_import"? qsTr("Show matched keys") : qsTr("Show Affected keys")
                 onClicked: {
+                    if (!validate()) {
+                        return;
+                    }
+
                     uiBlocker.visible = true
+                    setMetadata()
                     root.loadKeys()
                     btnShowAffectedKeys.visible = false
+                    spacer.visible = false
                     keysPreview.visible = true
-                    spacer.visible = false                    
                 }
             }
-
-            Item { id: spacer; Layout.fillHeight: true }
 
             ColumnLayout {
                 id: keysPreview
@@ -208,7 +299,7 @@ Dialog {
                 visible: false
 
                 Text {
-                    text: qsTr("Affected keys:")
+                    text: root.operationName == "rdb_import"? qsTr("Matched keys:")  : qsTr("Affected keys:")
                 }
 
                 Rectangle {
@@ -252,15 +343,13 @@ Dialog {
                         }
 
                         onError: {
-                            uiBlocker.visible = false
-                            bulkErrorNotification.title = qsTr("Bulk Operation finished with errors")
-                            bulkErrorNotification.text = e
-                            bulkErrorNotification.detailedText = details
-                            bulkErrorNotification.open()
+                            showError(qsTr("Bulk Operation finished with errors"), e, details)
                         }
                     }
                 }
-            }           
+            }
+
+            Item { id: spacer; Layout.fillHeight: true }
 
             RowLayout {
                 Layout.fillWidth: true
@@ -270,13 +359,11 @@ Dialog {
                 Button {
                     id: actionButton
                     onClicked: {
-                        bulkOperations.setOperationMetadata(
-                                    {
-                                        "ttl": ttlValue.value,
-                                        "replace": replaceKeys.checked ? "replace": ""
-                                    }
-                                    )
+                        if (!validate()) {
+                            return;
+                        }
 
+                        setMetadata()
                         bulkConfirmation.open()
                     }
                 }
@@ -339,7 +426,7 @@ Dialog {
                     cleanUp()
             }
 
-            function cleanUp() {                
+            function cleanUp() {
                 bulkOperations.clearOperation();
                 uiBlocker.visible = false
                 root.close()

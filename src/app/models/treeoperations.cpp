@@ -257,6 +257,13 @@ void TreeOperations::copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) {
                        [](QRegExp, int, const QStringList&) {});
 }
 
+void TreeOperations::importKeysFromRdb(ConnectionsTree::DatabaseItem& db) {
+  emit m_events->requestBulkOperation(
+      m_connection, db.getDbIndex(),
+      BulkOperations::Manager::Operation::IMPORT_RDB_KEYS, QRegExp(".*"),
+      [&db](QRegExp, int, const QStringList&) { db.reload(); });
+}
+
 void TreeOperations::flushDb(int dbIndex,
                              std::function<void(const QString&)> callback) {
   try {

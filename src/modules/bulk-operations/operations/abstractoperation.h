@@ -25,7 +25,7 @@ class AbstractOperation : public QObject {
 
   virtual ~AbstractOperation() {}
 
-  void getAffectedKeys(std::function<void(QVariant, QString)> callback);
+  virtual void getAffectedKeys(std::function<void(QVariant, QString)> callback);
 
   virtual void run(QSharedPointer<RedisClient::Connection> targetConnection =
                        QSharedPointer<RedisClient::Connection>(),

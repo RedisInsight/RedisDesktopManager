@@ -24,6 +24,8 @@ public:
     Q_INVOKABLE QVariant printableToValue(const QVariant &printable);
     Q_INVOKABLE QVariant toUtf(const QVariant &value);
     Q_INVOKABLE QString getPathFromUrl(const QUrl &url);
+    Q_INVOKABLE bool fileExists(const QString& path);
+
     Q_INVOKABLE void copyToClipboard(const QString &text);
     Q_INVOKABLE void addNewValueToDynamicChart(QtCharts::QXYSeries* series, double value);
     Q_INVOKABLE QObject* wrapLargeText(const QByteArray &text);

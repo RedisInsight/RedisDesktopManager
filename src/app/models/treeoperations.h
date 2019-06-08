@@ -59,6 +59,8 @@ class TreeOperations : public QObject,
 
   virtual void copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) override;
 
+  virtual void importKeysFromRdb(ConnectionsTree::DatabaseItem& ns) override;
+
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) override;
 

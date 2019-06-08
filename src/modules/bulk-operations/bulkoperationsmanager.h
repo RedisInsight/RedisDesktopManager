@@ -11,6 +11,8 @@
 #include "connections.h"
 #include "operations/abstractoperation.h"
 
+class QPython;
+
 namespace BulkOperations {
 
 class Manager : public QObject {
@@ -29,11 +31,12 @@ class Manager : public QObject {
   enum class Operation {
     DELETE_KEYS,
     COPY_KEYS,
+    IMPORT_RDB_KEYS,
     TTL,
   };
 
  public:
-  Manager(QSharedPointer<ConnectionsModel> model);
+  Manager(QSharedPointer<ConnectionsModel> model, QSharedPointer<QPython> p);
 
   Q_INVOKABLE bool hasOperation() const;
   Q_INVOKABLE bool multiConnectionOperation() const;
@@ -77,5 +80,6 @@ class Manager : public QObject {
  private:
   QSharedPointer<AbstractOperation> m_operation;
   QSharedPointer<ConnectionsModel> m_model;
+  QSharedPointer<QPython> m_python;
 };
 }  // namespace BulkOperations
