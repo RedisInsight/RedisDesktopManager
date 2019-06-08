@@ -114,8 +114,7 @@ RowLayout {
         model: {
             return [
                         {
-                            'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),
-                            "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
+                            'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),                            
                         },
                         {
                             'icon': "qrc:/images/cleanup_filtered.svg", 'event': 'delete_keys', "help": qsTranslate("RDM","Delete keys with filter"),
