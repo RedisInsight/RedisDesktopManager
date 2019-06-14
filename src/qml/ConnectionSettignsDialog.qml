@@ -119,19 +119,12 @@ Dialog {
     TextField { id: validStyleDisabled; visible: false; enabled: false}
 
     contentItem: Item {
-        implicitWidth: 600
-        implicitHeight: PlatformUtils.isOSX()? 650 : approot.height
+        implicitWidth: 800
+        implicitHeight: PlatformUtils.isOSX()? 650 : 600
 
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 5
-
-            Loader {
-                id: newsLoader
-                source: "https://redisdesktop.com/qml/ConnectionSuggestions.qml?app_version="
-                        + Qt.application.version + "&platform=" + Qt.platform.os
-                        + "&new=" + root.isNewConnection
-            }
 
             TabView {
                 id: settingsTabs

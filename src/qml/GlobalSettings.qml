@@ -15,7 +15,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 800
-        implicitHeight: PlatformUtils.isOSX()? 680 : approot.height
+        implicitHeight: PlatformUtils.isOSX()? 680 : 600
 
         border.color: "#eeeeee"
         border.width: 1
