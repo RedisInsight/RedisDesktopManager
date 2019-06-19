@@ -47,8 +47,6 @@ win32* {
     win32-g++ {
         # Workaround for mingw
         QMAKE_LFLAGS_RELEASE=
-    } else {
-        INCLUDEPATH += $$PWD/qredisclient/3rdparty/windows/rmt_zlib.1.2.8.5/build/native/include
     }
 
     HEADERS += $$BREAKPADDIR/common/windows/string_utils-inl.h
@@ -64,7 +62,9 @@ win32* {
     SOURCES += $$BREAKPADDIR/common/windows/guid_string.cc
     SOURCES += $$BREAKPADDIR/client/windows/crash_generation/crash_generation_client.cc
 
-    LIBS += -lz
+    ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native
+    INCLUDEPATH += $$ZLIBDIR/include
+    LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib
 }
 
 unix:macx { # OSX
