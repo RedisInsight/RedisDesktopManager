@@ -1,13 +1,12 @@
 
 # Python
-PYTHON_CONFIG = python3-config
-
-QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
-QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
-
 win32* {
     QMAKE_LIBS += -LC:\Python37\libs -lpython37
     INCLUDEPATH += C:\Python37\include\
+} else {
+    PYTHON_CONFIG = python3-config
+    QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
+    QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
 }
 
 include(pyotherside/pyotherside.pri)
