@@ -80,6 +80,10 @@ sudo mv qt.conf qt.backup
 3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply patch to fix compilation on Windows:
 `git apply ../hiredis-win.patch`
 
-4. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.x MSVC2017 64bit > Release` profile.
+4. Go to `3rdparty/` folder and install zlib with `nuget`: `nuget install zlib-msvc14-x64 -Version 1.2.11.7795`
 
-5. Run build. ( Just hit `Ctrl-B` )
+5. Install Python 3.7 amd64 to `C:\Python37-x64`
+
+6. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.x MSVC2017 64bit > Release` profile.
+
+7. Run build. ( Just hit `Ctrl-B` )
