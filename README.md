@@ -2,7 +2,7 @@
 
 [Install & Run](http://docs.redisdesktop.com/en/latest/install/) | 
 [Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/) |
-[Features](http://docs.redisdesktop.com/en/latest/features/) |
+[Native Formatters](http://docs.redisdesktop.com/en/latest/native-formatters/) |
 [Development Guide](http://docs.redisdesktop.com/en/latest/development/) |
 [Known issues](http://docs.redisdesktop.com/en/latest/known-issues/) |
 [**Telegram Chat**](https://t.me/RedisDesktopManager)
