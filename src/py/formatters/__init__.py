@@ -39,4 +39,20 @@ def validate(name, value):
 
 
 def encode(name, value):
-    pass
+    formatter = ENABLED_FORMATTERS[name]
+
+    if formatter.read_only:
+        return ["Formatter %s doesn't support encoding" % name]
+
+    error = ""
+
+    try:
+        result = formatter.encode(value)
+    except Exception as e:
+        error = (
+                "Embedded formatter %s error: %s (value: %s)"
+                % (name, str(e), value)
+        )
+        result = ""
+
+    return [error, result]

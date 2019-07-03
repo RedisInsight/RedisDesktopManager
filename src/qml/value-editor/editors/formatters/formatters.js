@@ -61,7 +61,7 @@ var json = {
 
     getFormatted: function (raw, callback) {
         try {
-            return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_JSON)
+            return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_HTML)
         } catch (e) {
             return callback(qsTranslate("RDM", "Invalid JSON: ") + e)
         }
@@ -108,11 +108,15 @@ function buildFormattersModel()
             },
 
             getRaw: function (formatted, callback) {
-                return embeddedFormattersManager.encode(formatterName, formatted, callback)
+                return embeddedFormattersManager.encode(formatterName, formatted, function (response) {
+                    return callback(response[0], response[1])
+                })
             },
 
             isValid: function (raw, callback) {
-                return embeddedFormattersManager.isValid(formatterName, raw, callback)
+                return embeddedFormattersManager.isValid(formatterName, raw, function (response) {
+                    return callback(response[0])
+                })
             }
         }
     }
@@ -176,10 +180,6 @@ function getFormatterIndex(name) {
 function guessFormatter(isBinary)
 {
     if (isBinary) {
-        if (formattersManager.isInstalled("python-decompresser")) {
-            return [getFormatterIndex("python-decompresser"), 2]
-        }
-
         return 2
     } else {
         return 0

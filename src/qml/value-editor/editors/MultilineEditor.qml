@@ -19,7 +19,7 @@ ColumnLayout
     property var value
     property int valueSizeLimit: 150000
     property int valueCompression: 0
-    property string formatterSettingsCategory: "formatters_value"
+    property string formatterSettingsCategory: "formatters_value"    
 
     function initEmpty() {
         // init editor with empty model
@@ -63,12 +63,27 @@ ColumnLayout
 
     function loadRawValue(callback) {                
         if (formatterSelector.visible) {
-           var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
-            formatter.instance.getRaw(textView.model.getText(), function (error, raw) {
-                root.value = compress(raw)
-                return callback(error, compress(raw))
-            })
+            function process(formattedValue) {
+                var formatter = formatterSelector.model[formatterSelector.currentIndex]
+
+                 formatter.instance.getRaw(formattedValue, function (error, raw) {
+                     root.value = compress(raw)
+                     return callback(error, compress(raw))
+                 })
+            }
+
+            if (textView.format === "json") {
+                Formatters.json.getRaw(textView.model.getText(), function (jsonError, plainText) {
+                    if (jsonError) {
+                        return callback(jsonError, "")
+                    }
+
+                    process(plainText)
+                })
+            } else {
+                process(textView.model.getText())
+            }
         } else {
             root.value = compress(textView.model.getText())
             return callback("", root.value)
@@ -155,21 +170,31 @@ ColumnLayout
 
         formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
-            if (error || !formatted) {
+            function process(error, formatted, stub, format) {
+                if (error || !formatted) {
+                    uiBlocker.visible = false
+                    formatterSelector.currentIndex = isBin? 2 : 0 // Reset formatter to plain text
+                    notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
+                    return
+                }
+
+                textView.textFormat = (format === "html")
+                    ? TextEdit.RichText
+                    : TextEdit.PlainText;
+
+                textView.model = qmlUtils.wrapLargeText(formatted)
+                textView.readOnly = isReadOnly
+                root.isEdited = false
                 uiBlocker.visible = false
-                formatterSelector.currentIndex = isBin? 2 : 0 // Reset formatter to plain text
-                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
-                return
             }
 
-            textView.textFormat = (format === "json" || format === "html")
-                ? TextEdit.RichText
-                : TextEdit.PlainText;
-
-            textView.model = qmlUtils.wrapLargeText(formatted)
-            textView.readOnly = isReadOnly
-            root.isEdited = false
-            uiBlocker.visible = false
+            if (format === "json") {
+                textView.format = format
+                Formatters.json.getFormatted(formatted, process)
+            } else {
+                textView.format = format
+                process(error, formatted, isReadOnly, format);
+            }
         })
     }
 
@@ -208,7 +233,7 @@ ColumnLayout
             selectByMouse: true
             color: "#ccc"
         }
-        Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
+        Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }        
         Text { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
         Item { Layout.fillWidth: true }
 
@@ -266,6 +291,7 @@ ColumnLayout
 
                 property int textFormat: TextEdit.PlainText
                 property bool readOnly: false
+                property string format
 
                 delegate:
                     NewTextArea {
