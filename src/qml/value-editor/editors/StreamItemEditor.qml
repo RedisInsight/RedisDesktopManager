@@ -53,7 +53,7 @@ AbstractEditor {
         Layout.fillHeight: true        
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
-        objectName: "rdm_key_hash_text_field"
+        objectName: "rdm_key_stream_text_field"
 
         fieldLabel: qsTranslate("RDM","Value (represented as JSON object)") + ":"
 
