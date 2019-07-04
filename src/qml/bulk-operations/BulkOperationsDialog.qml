@@ -358,6 +358,9 @@ Dialog {
 
                 Button {
                     id: actionButton
+                    objectName: "rdm_bulk_operations_dialog_action_button"
+
+
                     onClicked: {
                         if (!validate()) {
                             return;

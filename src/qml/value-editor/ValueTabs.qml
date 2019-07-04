@@ -479,6 +479,7 @@ Repeater {
                                                 }
 
                                                 Button {
+                                                    objectName: "rdb_add_row_dialog_add_button"
                                                     text: qsTranslate("RDM","Add")
 
                                                     onClicked: {
