@@ -168,6 +168,9 @@ Dialog {
 
                         FilePathInput {
                             id: rdbPath
+
+                            objectName: "rdm_bulk_operations_dialog_rdb_path"
+
                             placeholderText: qsTranslate("RDM","Path to dump.rdb file")
                             nameFilters: [ "RDB (*.rdb)" ]
                             title: qsTranslate("RDM","Select dump.rdb")
@@ -221,6 +224,9 @@ Dialog {
 
                         SpinBox {
                             id: ttlValue
+
+                            objectName: "rdm_bulk_operations_dialog_ttl_value"
+
                             minimumValue: -1
                             maximumValue: 10000000000
                             value: 0
@@ -248,6 +254,9 @@ Dialog {
 
                     SpinBox {
                         id: targetDatabaseIndex
+
+                        objectName: "rdm_bulk_operations_dialog_target_db_index"
+
                         minimumValue: 0
                         maximumValue: 10000000000
                         value: 0
