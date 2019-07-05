@@ -24,6 +24,8 @@ class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
 
   QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
+  QList<QSharedPointer<AbstractNamespaceItem>> getAllChildNamespaces() const;
+
   uint childCount(bool recursive = false) const override;
 
   QSharedPointer<TreeItem> child(uint row) const override;

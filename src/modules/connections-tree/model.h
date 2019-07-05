@@ -11,6 +11,7 @@
 namespace ConnectionsTree {
 
 class ServerItem;
+class AbstractNamespaceItem;
 
 class Model : public QAbstractItemModel {
   Q_OBJECT
@@ -114,9 +115,9 @@ class Model : public QAbstractItemModel {
  protected:
   void addRootItem(QSharedPointer<ServerItem> item);
 
-  void removeRootItem(QSharedPointer<ServerItem> item);
+  void removeRootItem(QSharedPointer<ServerItem> item);  
 
-  void restoreOpenedNamespaces(const QModelIndex &dbIndex);
+  void restoreOpenedNamespaces(QSharedPointer<AbstractNamespaceItem> ns);
 
  private:
   QList<QSharedPointer<TreeItem>> m_treeItems;

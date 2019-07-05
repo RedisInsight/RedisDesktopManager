@@ -4,6 +4,7 @@
 #include <QWeakPointer>
 #include <algorithm>
 #include "items/serveritem.h"
+#include "items/databaseitem.h"
 
 using namespace ConnectionsTree;
 
@@ -184,11 +185,10 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item) {
     emit expand(index);
 
     QSettings settings;
-    if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {
-      restoreOpenedNamespaces(index);
-    } else {
-      qDebug() << "Namespace reopening is disabled in settings";
-      m_expanded.clear();
+    m_expanded.clear();
+
+    if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {     
+      restoreOpenedNamespaces(treeItem.staticCast<AbstractNamespaceItem>());
     }
   } else if (treeItem->type() == "server" || treeItem->type() == "namespace") {
     emit expand(index);
@@ -334,13 +334,17 @@ void Model::removeRootItem(QSharedPointer<ServerItem> item) {
   endRemoveRows();
 }
 
-void Model::restoreOpenedNamespaces(const QModelIndex &dbIndex) {
-  m_expanded.clear();
+void Model::restoreOpenedNamespaces(QSharedPointer<AbstractNamespaceItem> ns)
+{
+    if (ns->type() == "namespace" && !ns->isExpanded())
+        return;
 
-  QModelIndex searchFrom = index(0, 0, dbIndex);
-  QModelIndexList matches =
-      match(searchFrom, itemIsInitiallyExpanded, true, -1,
-            Qt::MatchFixedString | Qt::MatchCaseSensitive | Qt::MatchRecursive);
+    if (ns->isExpanded())
+        emit expand(getIndexFromItem(ns.staticCast<TreeItem>().toWeakRef()));
 
-  foreach (QModelIndex i, matches) { emit expand(i); }
+    auto childs = ns->getAllChildNamespaces();
+
+    for (auto childNs : childs) {
+        restoreOpenedNamespaces(childNs);
+    }
 }

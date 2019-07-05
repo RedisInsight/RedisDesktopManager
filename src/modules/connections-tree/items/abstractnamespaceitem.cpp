@@ -21,7 +21,12 @@ AbstractNamespaceItem::AbstractNamespaceItem(
       m_combinator(nullptr) {}
 
 QList<QSharedPointer<TreeItem>> AbstractNamespaceItem::getAllChilds() const {
-  return m_childItems;
+    return m_childItems;
+}
+
+QList<QSharedPointer<AbstractNamespaceItem>> AbstractNamespaceItem::getAllChildNamespaces() const
+{
+    return m_childNamespaces.values();
 }
 
 QSharedPointer<TreeItem> AbstractNamespaceItem::child(uint row) const {
