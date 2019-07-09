@@ -48,8 +48,6 @@ ApplicationWindow {
 
     Settings {
         category: "windows_settings"
-        property alias x: approot.x
-        property alias y: approot.y
         property alias width: approot.width
         property alias height: approot.height
     }
