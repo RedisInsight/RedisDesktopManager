@@ -71,10 +71,6 @@ win32 {
     QMAKE_TARGET_DESCRIPTION = "Open source GUI management tool for Redis"
     QMAKE_TARGET_COPYRIGHT = "Igor Malinovskiy (C) 2013-2019"
 
-    win32-msvc* {
-        QMAKE_LFLAGS += /LARGEADDRESSAWARE
-    }
-
     release: DESTDIR = ./../bin/windows/release
     debug:   DESTDIR = ./../bin/windows/debug
 }
