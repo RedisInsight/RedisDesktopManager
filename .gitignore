@@ -79,3 +79,4 @@ tests/unit_tests/coverage*
 parts
 prime
 stage
+3rdparty/python*

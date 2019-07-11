@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <qpython.h>
+#include <pythonlib_loader.h>
 #include <qredisclient/redisclient.h>
 #include <QMessageBox>
 #include <QNetworkProxyFactory>
@@ -226,10 +227,12 @@ void Application::initUpdater() {
 }
 
 void Application::initPython() {
+#ifdef Q_OS_MACOS
+  PythonLibLoader::extractPythonLibrary();
+#endif
   m_python = QSharedPointer<QPython>(new QPython(this, 1, 5));
   m_python->addImportPath("qrc:/python/");
-  m_python->addImportPath(applicationDirPath());
-  qDebug() << applicationDirPath();
+  m_python->addImportPath(applicationDirPath());  
 }
 
 void Application::installTranslator() {
