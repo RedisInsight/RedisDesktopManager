@@ -4,7 +4,11 @@ win32* {
     QMAKE_LIBS += -LC:\Python37-x64\libs -lpython37
     INCLUDEPATH += C:\Python37-x64\include\
 } else {
-    PYTHON_CONFIG = python3-config
+    unix:macx {
+      PYTHON_CONFIG = $$PWD/python-3/bin/python3-config
+    } else {
+      PYTHON_CONFIG = python3-config
+    }
     QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
     QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
 }
