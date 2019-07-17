@@ -2,15 +2,154 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>BulkOperationsDialog</name>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
+        <source>Bulk Operations Manager</source>
+        <translation type="unfinished">批量操作管理</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
+        <source>Invalid RDB path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
+        <source>Please specify valid path to RDB file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="75"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="76"/>
+        <source>Delete keys</source>
+        <translation type="unfinished">删除键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="85"/>
+        <source>Set TTL for multiple keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="86"/>
+        <source>Set TTL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
+        <source>Copy keys to another database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="96"/>
+        <source>Copy keys</source>
+        <translation type="unfinished">复制键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="106"/>
+        <source>Import data from rdb file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="107"/>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="139"/>
+        <source>Redis Server:</source>
+        <translation type="unfinished">Redis 服务器：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="148"/>
+        <source>Database number:</source>
+        <translation type="unfinished">数据库编号：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="165"/>
+        <source>Path to RDB file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="185"/>
+        <source>Select DB in RDB file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="203"/>
+        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="203"/>
+        <source>Key pattern:</source>
+        <translation type="unfinished">键名表达式：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="244"/>
+        <source>Destination Redis Server:</source>
+        <translation type="unfinished">目标 Redis 服务器：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="252"/>
+        <source>Destination Redis Server Database Index:</source>
+        <translation type="unfinished">目标 Redis 数据库编号：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="288"/>
+        <source>Show matched keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="288"/>
+        <source>Show Affected keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="311"/>
+        <source>Matched keys:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="311"/>
+        <source>Affected keys:</source>
+        <translation type="unfinished">受影响的键：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="350"/>
+        <source>Bulk Operation finished.</source>
+        <translation type="unfinished">批量操作完成。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="355"/>
+        <source>Bulk Operation finished with errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="384"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="450"/>
+        <source>Confirmation</source>
+        <translation type="unfinished">确认</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="451"/>
+        <source>Do you really want to perform bulk operation?</source>
+        <translation type="unfinished">确认要执行批量操作？</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="297"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="325"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="265"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="294"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>无法连接集群节点 %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="334"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="303"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>无法刷新库 (%1): %2</translation>
     </message>
@@ -18,17 +157,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="53"/>
+        <location filename="../../app/app.cpp" line="59"/>
         <source>Settings directory is not writable</source>
         <translation>设置保存文件夹没有写入权限</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="55"/>
+        <location filename="../../app/app.cpp" line="61"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="276"/>
+        <location filename="../../app/app.cpp" line="309"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>请下载新版本的 Redis Desktop Manager: %1</translation>
     </message>
@@ -37,151 +176,155 @@
         <translation type="vanished">新键已经存在或原始键已被删除</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="63"/>
         <source>Cannot rename key %1: %2</source>
-        <translation>无法重命名键 %1: %2</translation>
+        <translation type="vanished">无法重命名键 %1: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="70"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="67"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
         <translation>新键 %1 已经存在或原始键已被删除</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="95"/>
-        <source>Cannot set TTL for key %1: %2</source>
-        <translation>无法给键设置 TTL %1: %2</translation>
+        <location filename="../../app/models/key-models/abstractkey.h" line="123"/>
+        <source>Cannot parse scan response</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="103"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="283"/>
+        <source>Server returned unexpected response: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot set TTL for key %1: %2</source>
+        <translation type="vanished">无法给键设置 TTL %1: %2</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="88"/>
         <source>Cannot set TTL for key %1</source>
         <translation>无法给键 %1 设置 TTL</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="120"/>
         <source>Cannot remove key %1: %2</source>
-        <translation>无法删除键 %1: %2</translation>
+        <translation type="vanished">无法删除键 %1: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="197"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="210"/>
         <source>Cannot load rows count for key %1: %2</source>
-        <translation>无法加载键行数 %1: %2</translation>
+        <translation type="vanished">无法加载键行数 %1: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="254"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="229"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="240"/>
         <source>Cannot load rows for key %1: %2</source>
         <translation>无法加载键内容 %1: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="43"/>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="66"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="12"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="31"/>
-        <location filename="../../app/models/key-models/setkey.cpp" line="13"/>
-        <location filename="../../app/models/key-models/setkey.cpp" line="27"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="43"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="65"/>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="42"/>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="75"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="14"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="35"/>
+        <location filename="../../app/models/key-models/setkey.cpp" line="12"/>
+        <location filename="../../app/models/key-models/setkey.cpp" line="33"/>
+        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="44"/>
+        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="77"/>
+        <location filename="../../app/models/key-models/stream.cpp" line="44"/>
+        <location filename="../../app/models/key-models/stream.cpp" line="55"/>
         <source>Invalid row</source>
         <translation>无效行</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="99"/>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="114"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="77"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="93"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="105"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="117"/>
-        <location filename="../../app/models/key-models/rejsonkey.cpp" line="46"/>
-        <location filename="../../app/models/key-models/rejsonkey.cpp" line="80"/>
-        <location filename="../../app/models/key-models/setkey.cpp" line="51"/>
-        <location filename="../../app/models/key-models/setkey.cpp" line="61"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="87"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="105"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="118"/>
-        <location filename="../../app/models/key-models/stringkey.cpp" line="45"/>
-        <location filename="../../app/models/key-models/stringkey.cpp" line="76"/>
-        <location filename="../../app/models/treeoperations.cpp" line="34"/>
-        <location filename="../../app/models/treeoperations.cpp" line="68"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="147"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="295"/>
+        <location filename="../../app/models/treeoperations.cpp" line="52"/>
+        <location filename="../../app/models/treeoperations.cpp" line="101"/>
         <location filename="../../modules/console/consolemodel.cpp" line="67"/>
         <source>Connection error: </source>
         <translation>连接错误：</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="105"/>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
         <source>Value with the same key already exist</source>
         <translation>相同键已经存在</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="130"/>
-        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="134"/>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="136"/>
+        <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
         <source>Data was loaded from server partially.</source>
         <translation>部分数据已经从服务器加载。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="26"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="27"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
         <translation>无法加载键 %1，连接发生错误：%2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="36"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="38"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
         <translation>无法加载键 %1，数据库中不存在该键，请重载连接树后重试。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="49"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="51"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
         <translation>无法加载键 %1 的 TTL 值，连接发生错误: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="65"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>数据格式不支持 %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="79"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="81"/>
         <source>Cannot retrive type of the key: </source>
         <translation>无法获取键类型：</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/listkey.cpp" line="18"/>
         <source>The row has been changed and can&apos;t be updated now. Reload and try again.</source>
-        <translation>此行数据已经更改，无法更新。请重载后重试。</translation>
+        <translation type="vanished">此行数据已经更改，无法更新。请重载后重试。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/listkey.cpp" line="44"/>
         <source>The row has been changed and can&apos;t be deleted now. Reload and try again.</source>
-        <translation>此行数据已经更改，无法删除。请重载后重试。</translation>
+        <translation type="vanished">此行数据已经更改，无法删除。请重载后重试。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="41"/>
+        <location filename="../../app/models/treeoperations.cpp" line="81"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>无法连接到服务器 &apos;%1&apos;，详情请查看日志。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="162"/>
+        <location filename="../../app/models/treeoperations.cpp" line="89"/>
+        <source>Open Source version of Redis Desktop Manager &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/treeoperations.cpp" line="181"/>
         <source>Cannot load keys: %1</source>
         <translation>无法加载键：%1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="208"/>
+        <location filename="../../app/models/treeoperations.cpp" line="239"/>
+        <source>Delete key error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/treeoperations.cpp" line="312"/>
+        <source>Cannot used memory for key: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Cannot remove key: %1</source>
-        <translation>无法删除键：%1</translation>
+        <translation type="vanished">无法删除键：%1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="223"/>
         <source>Delete key error: </source>
-        <translation>删除键错误：</translation>
+        <translation type="vanished">删除键错误：</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="250"/>
+        <location filename="../../app/models/treeoperations.cpp" line="285"/>
         <source>Cannot flush database: </source>
         <translation>清空库错误:</translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="42"/>
         <source>Bulk operation error: %1</source>
-        <translation>批量操作错误：%1</translation>
+        <translation type="vanished">批量操作错误：%1</translation>
     </message>
     <message>
         <location filename="../../modules/common/tabmodel.cpp" line="39"/>
@@ -189,32 +332,33 @@
         <translation>无效连接，请检查连接设置。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="203"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="217"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>键已经添加。需要重新加载该数据库的键名吗？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="211"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="225"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="102"/>
         <source>Key was added</source>
         <translation>键已经插入</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="219"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="233"/>
         <source>Another operation is currently in progress</source>
         <translation>另一个操作正在进行中</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="221"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="235"/>
         <source>Please wait until another operation will be finised.</source>
         <translation>请耐心等待另一个操作完成。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="246"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>确定要删除该数据库里面所有的键吗？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="79"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="78"/>
         <source>Cannot load databases:
 
 </source>
@@ -223,12 +367,12 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="165"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="179"/>
         <source>Live update was disabled</source>
         <translation>在线更新已经禁止</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="166"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="180"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
         <translation>由于超出加载键数量限制，在线更新功能已经关闭。请设置更精确的筛查条件或更改加载限制设定。</translation>
     </message>
@@ -249,7 +393,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="169"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="202"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="232"/>
         <source>Size: </source>
         <translation>大小：</translation>
     </message>
@@ -281,70 +425,75 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
-        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="108"/>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="137"/>
         <source>Do you really want to delete this key?</source>
         <translation>确定要删除该键？</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="527"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="241"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="550"/>
         <source>Reload Value</source>
         <translation>重载键值</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="425"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="433"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="435"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="443"/>
         <source>Add Row</source>
         <translation>插入行</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="490"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="510"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="483"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="513"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="533"/>
         <source>Delete row</source>
         <translation>删除行</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="496"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="519"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation>此行数据是该键最后一行数据。删除此行数据，该键将会被删除。</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="498"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="521"/>
         <source>Do you really want to remove this row?</source>
         <translation>确定要删除该行数据吗？</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="553"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="576"/>
         <source>Search on page...</source>
         <translation>页面搜索中...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="633"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
         <source>Nothing to save</source>
         <translation>不需要保存</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="646"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="671"/>
         <source>Value was updated!</source>
         <translation>键值已经更新！</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="654"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="679"/>
         <source>Save value</source>
         <translation>保存键值</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="120"/>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="146"/>
         <source>Key error</source>
         <translation>键错误</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="155"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="153"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>所有与该连接相关的键值对话框和命令操作对话框都将被关闭，确定要继续吗？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="167"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="165"/>
         <source>Do you really want to delete connection?</source>
         <translation>确定要删除连接？</translation>
     </message>
@@ -371,49 +520,46 @@
         <translation>订阅错误：%1</translation>
     </message>
     <message>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="18"/>
         <source>Cannot update server info tab. Error: %0</source>
-        <translation>无法刷新服务器信息窗口：%0</translation>
+        <translation type="vanished">无法刷新服务器信息窗口：%0</translation>
     </message>
     <message>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="35"/>
         <source>Cannot update slowlog. Error: %0</source>
-        <translation>无法更新慢查询日志，错误：%0</translation>
+        <translation type="vanished">无法更新慢查询日志，错误：%0</translation>
     </message>
     <message>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="61"/>
         <source>Cannot update clients list. Error: %0</source>
-        <translation>无法更新客户端列表，错误：%0</translation>
+        <translation type="vanished">无法更新客户端列表，错误：%0</translation>
     </message>
     <message>
-        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="107"/>
+        <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="94"/>
         <source>Server %0</source>
         <translation>服务器 %0</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="170"/>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="207"/>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="237"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="171"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="207"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="236"/>
         <source>Can&apos;t find formatter with name: %1</source>
         <translation>找不到格式化配置名：%1</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="176"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="177"/>
         <source>Invalid callback</source>
         <translation>无效回调</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="190"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="191"/>
         <source>Cannot decode value using %1 formatter. </source>
         <translation>无法使用 %1 格式化配置来解析值。</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="221"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="221"/>
         <source>Cannot validate value using %1 formatter.</source>
         <translation>无法使用 %1 格式化配置来效验值。</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/formattersmanager.cpp" line="251"/>
+        <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="250"/>
         <source>Cannot encode value using %1 formatter. </source>
         <translation>无法使用 %1 编码键值</translation>
     </message>
@@ -452,12 +598,12 @@
         <translation type="vanished">无法重载键值</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="74"/>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="88"/>
         <source>Cannot reload key value: %1</source>
         <translation>无法重载键值: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="106"/>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="121"/>
         <source>Cannot load key value: %1</source>
         <translation>无法加载键值：%1</translation>
     </message>
@@ -520,243 +666,242 @@
         <translation>新连接设置</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="143"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="138"/>
         <source>Connection Settings</source>
         <translation>连接设置</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="154"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="149"/>
         <source>Main Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="161"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="156"/>
         <source>Name:</source>
         <translation>名字：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="167"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="162"/>
         <source>Connection Name</source>
         <translation>连接名</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="173"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="168"/>
         <source>Address:</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="177"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="172"/>
         <source>redis-server host</source>
         <translation>Redis 服务器地址</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="185"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="180"/>
         <source>Auth:</source>
         <translation>验证：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="190"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="185"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(可选) Redis 服务器验证密码</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="196"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="191"/>
         <source>Security</source>
         <translation>安全</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="203"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="198"/>
         <source>None</source>
         <translation>无</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
         <source>SSL</source>
         <translation>SSL</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="233"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="228"/>
         <source>Public Key:</source>
         <translation>公钥：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="238"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="233"/>
         <source>(Optional) Public Key in PEM format</source>
         <translation>(可选) PEM 格式公钥</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="240"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
         <source>Select public key in PEM format</source>
         <translation>选择 PEM 格式公钥</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="250"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="245"/>
         <source>(Optional) Private Key in PEM format</source>
         <translation>(可选) PEM 格式私钥</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="252"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="340"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="247"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="335"/>
         <source>Select private key in PEM format</source>
         <translation>选择 PEM 格式私钥</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="257"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="252"/>
         <source>Authority:</source>
         <translation>授权：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="262"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="257"/>
         <source>(Optional) Authority in PEM format</source>
         <translation>(可选) PEM 格式授权</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="264"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="259"/>
         <source>Select authority file in PEM format</source>
         <translation>选择 PEM 格式授权文件</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="274"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="269"/>
         <source>SSH Tunnel</source>
         <translation>SSH 通道</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="297"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="292"/>
         <source>SSH Address:</source>
         <translation>SSH 地址：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="301"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="296"/>
         <source>Remote Host with SSH server</source>
         <translation>SSH 远程服务器</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="309"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="304"/>
         <source>SSH User:</source>
         <translation>SSH 用户：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="315"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="310"/>
         <source>Valid SSH User Name</source>
         <translation>验证 SSH 用户名</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="245"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="322"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="240"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="317"/>
         <source>Private Key</source>
         <translation>私钥</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="338"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="333"/>
         <source>Path to Private Key in PEM format</source>
         <translation>PEM 格式私钥路径</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="348"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="343"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
         <translation>&lt;b&gt;提示：&lt;/b&gt; 使用 &lt;code&gt;⌘ + Shift + .&lt;/code&gt; 在对话框中显示隐藏文件和文件夹</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="353"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="348"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="364"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="359"/>
         <source>SSH User Password</source>
         <translation>SSH 用户密码</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="375"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="370"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
         <translation>启用 TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="387"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="382"/>
         <source>Advanced Settings</source>
         <translation>高级设置</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="396"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="391"/>
         <source>Keys loading</source>
         <translation>键加载</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="400"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="395"/>
         <source>Default filter:</source>
         <translation>默认过滤：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="406"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="401"/>
         <source>Pattern which defines loaded keys from redis-server</source>
         <translation>指定加载键名表达式：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="412"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="407"/>
         <source>Namespace Separator:</source>
         <translation>命名空间分隔符：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="419"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="414"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation>键名中命名空间分隔符</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="424"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="419"/>
         <source>Use server-side optimized keys loading (experimental):</source>
         <translation>使用服务器端键加载优化（测试）：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="435"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="430"/>
         <source>Timeouts &amp; Limits</source>
         <translation>设置超时和限制</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="439"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="434"/>
         <source>Connection Timeout (sec):</source>
         <translation>连接超时 (秒)：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="447"/>
         <source>Execution Timeout (sec):</source>
         <translation>执行超时 (秒)：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="463"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="458"/>
         <source>Databases discovery limit:</source>
         <translation>数据库发现限制：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="477"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="472"/>
         <source>Cluster</source>
         <translation>集群</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="481"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="476"/>
         <source>Change host on cluster redirects:</source>
         <translation>修改集群重定向：</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="509"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="504"/>
         <source>Invalid settings detected!</source>
         <translation>检测到无效的设置！</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="519"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
         <source>Test Connection</source>
         <translation>测试连接</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="539"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="534"/>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="551"/>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="99"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="546"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -860,84 +1005,92 @@
         <translation>快速入门指南</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="81"/>
+        <location filename="../../qml/app.qml" line="87"/>
         <source>Successful connection to redis-server</source>
         <translation>连接 Redis 服务器成功</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="84"/>
+        <location filename="../../qml/app.qml" line="90"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>无法连接 Redis 服务器</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="8"/>
         <source>Bulk Operations Manager</source>
-        <translation>批量操作管理</translation>
+        <translation type="vanished">批量操作管理</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="54"/>
         <source>Delete keys</source>
-        <translation>删除键</translation>
+        <translation type="vanished">删除键</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
         <source>Copy keys</source>
-        <translation>复制键</translation>
+        <translation type="vanished">复制键</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="87"/>
         <source>Redis Server:</source>
-        <translation>Redis 服务器：</translation>
+        <translation type="vanished">Redis 服务器：</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
         <source>Database number:</source>
-        <translation>数据库编号：</translation>
+        <translation type="vanished">数据库编号：</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="103"/>
         <source>Key pattern:</source>
-        <translation>键名表达式：</translation>
+        <translation type="vanished">键名表达式：</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="119"/>
         <source>Destination Redis Server:</source>
-        <translation>目标 Redis 服务器：</translation>
+        <translation type="vanished">目标 Redis 服务器：</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="127"/>
         <source>Destination Redis Server Database Index:</source>
-        <translation>目标 Redis 数据库编号：</translation>
+        <translation type="vanished">目标 Redis 数据库编号：</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="146"/>
         <source>Affected keys:</source>
-        <translation>受影响的键：</translation>
+        <translation type="vanished">受影响的键：</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="184"/>
         <source>Bulk Operation finished.</source>
-        <translation>批量操作完成。</translation>
+        <translation type="vanished">批量操作完成。</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="207"/>
         <source>Delete Keys</source>
-        <translation>删除键</translation>
+        <translation type="vanished">删除键</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
         <source>Confirmation</source>
-        <translation>确认</translation>
+        <translation type="vanished">确认</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="267"/>
         <source>Do you really want to perform bulk operation?</source>
-        <translation>确认要执行批量操作？</translation>
+        <translation type="vanished">确认要执行批量操作？</translation>
     </message>
     <message>
-        <location filename="../../qml/common/PasswordInput.qml" line="20"/>
+        <location filename="../../modules/signin/qml/SignInDialog.qml" line="9"/>
+        <source>Sign in with RedisDesktop.com account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/signin/qml/SignInDialog.qml" line="130"/>
+        <source>Email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/signin/qml/SignInDialog.qml" line="141"/>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/signin/qml/SignInDialog.qml" line="160"/>
+        <location filename="../../qml/common/PasswordInput.qml" line="23"/>
         <source>Show password</source>
         <translation>显示密码</translation>
+    </message>
+    <message>
+        <location filename="../../modules/signin/qml/SignInDialog.qml" line="172"/>
+        <source>Sign In</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="91"/>
@@ -945,43 +1098,80 @@
         <translation> （删除）</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="54"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="73"/>
         <source>Open Keys Filter</source>
         <translation>打开键过滤器</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="58"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="77"/>
         <source>Reload Keys in Database</source>
         <translation>重载该数据库的键</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="62"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="81"/>
+        <location filename="../../qml/connections-tree/menu/namespace.qml" line="29"/>
         <source>Add New Key</source>
         <translation>添加新键</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="87"/>
         <source>Disable Live Update</source>
         <translation>关闭实时更新</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="87"/>
         <source>Enable Live Update</source>
         <translation>打开实时更新</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="72"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="91"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Open Console</source>
         <translation>打开控制台</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
+        <location filename="../../qml/connections-tree/menu/namespace.qml" line="31"/>
+        <source>Analyze Used Memory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="96"/>
+        <source>Bulk Operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="117"/>
         <source>Flush Database</source>
         <translation>清空数据库</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="120"/>
+        <source>Delete keys with filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="123"/>
+        <source>Set TTL for multiple keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="126"/>
+        <source>Copy keys from this database to another</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="129"/>
+        <source>Import keys from RDB file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="132"/>
+        <source>Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="152"/>
         <source>Enter Filter</source>
         <translation>输入过滤器</translation>
     </message>
@@ -991,21 +1181,23 @@
         <translation>复制键值</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/namespace.qml" line="21"/>
+        <location filename="../../qml/connections-tree/menu/namespace.qml" line="28"/>
         <source>Reload Namespace</source>
         <translation>重载命名空间</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/namespace.qml" line="22"/>
+        <location filename="../../qml/connections-tree/menu/namespace.qml" line="30"/>
         <source>Copy Namespace Pattern</source>
         <translation>复制命名空间模式</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
+        <location filename="../../qml/connections-tree/menu/namespace.qml" line="32"/>
         <source>Delete Namespace</source>
         <translation>删除命名空间</translation>
     </message>
     <message>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="67"/>
+        <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
         <source>Disconnect</source>
         <translation>断开连接</translation>
@@ -1144,6 +1336,21 @@
         <translation>慢查询日志</translation>
     </message>
     <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="450"/>
+        <source>Pub/Sub Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="462"/>
+        <source>Enable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="477"/>
+        <source>Channel Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="167"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="360"/>
         <source>Command</source>
@@ -1202,13 +1409,13 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="629"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="653"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="110"/>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="83"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="84"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -1218,32 +1425,41 @@
         <translation>页</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/Pagination.qml" line="32"/>
         <source>Set Page</source>
-        <translation>设置页码</translation>
+        <translation type="vanished">设置页码</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="145"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="50"/>
+        <source>Enter valid value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="178"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>未知的格式化错误（无响应）</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="207"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="237"/>
         <source>[Binary]</source>
         <translation>[二进制]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="212"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="238"/>
+        <source> [Compressed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="243"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="221"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="252"/>
         <source>View as:</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="240"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="271"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
         <translation>键值内容过大（&gt;150kB），格式化配置无效。</translation>
     </message>
@@ -1258,13 +1474,77 @@
         <source>Invalid JSON: </source>
         <translation>无效 JSON : </translation>
     </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="174"/>
+        <source>Path to dump.rdb file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="176"/>
+        <source>Select dump.rdb</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="17"/>
+        <source>ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="58"/>
+        <source>Value (represented as JSON object)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/listkey.cpp" line="83"/>
+        <source>The row has been changed on server.Reload and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="122"/>
+        <source>Failed to perform actions on %1 keys. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="29"/>
+        <source>Cannot copy key </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
+        <source>Cannot remove key </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="86"/>
+        <source>Cannot execute command </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="39"/>
+        <source>Cannot set TTL for key </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="165"/>
+        <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="97"/>
+        <source>Key was added. Do you want to reload keys in selected namespace?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/signin/signin_model.cpp" line="224"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RedisClient::CommandExecutor</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/utils/sync.cpp" line="69"/>
         <source>Command execution timeout</source>
-        <translation>命令执行超时</translation>
+        <translation type="vanished">命令执行超时</translation>
     </message>
 </context>
 </TS>
