@@ -37,7 +37,7 @@
 
 ### Build on Linux
 
-#### Ubuntu
+#### Ubuntu (outdated)
 
 ```
 cd src/
@@ -47,7 +47,7 @@ cd /opt/redis-desktop-manager/
 sudo mv qt.conf qt.backup
 ```
 
-#### Fedora & CentOS & OpenSUSE
+#### Fedora & CentOS & OpenSUSE (outdated)
 
 ```
 cd src/
@@ -65,11 +65,12 @@ sudo mv qt.conf qt.backup
 1. Install [XCode](https://developer.apple.com/xcode/) with Xcode build tools
 2. Install [Homebrew](http://brew.sh/)
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
-4. Building RDM dependencies require i.a. openssl and cmake. Install them: `brew install openssl cmake`
-5. Build RDM dependencies `./configure`
-6. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.9.x add Qt Charts module.
-7. Open ./src/rdm.pro in Qt Creator
-8. Run build
+4. Building RDM dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
+5. Install python requirements `pip3 install -r py/requirements.txt`
+6. Build RDM dependencies `./configure`
+7. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.9.x add Qt Charts module.
+8. Open ./src/rdm.pro in Qt Creator
+9. Run build
 
 ### Build on Windows
 
@@ -84,6 +85,8 @@ sudo mv qt.conf qt.backup
 
 5. Install Python 3.7 amd64 to `C:\Python37-x64`
 
-6. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.x MSVC2017 64bit > Release` profile.
+6. Install python requirements `pip3 install -r src/py/requirements.txt`
 
-7. Run build. ( Just hit `Ctrl-B` )
+7. Open `./src/rdm.pro` in **Qt Creator**.  Chooses `Desktop Qt 5.9.x MSVC2017 64bit > Release` profile.
+
+8. Run build. ( Just hit `Ctrl-B` )
