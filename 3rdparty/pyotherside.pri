@@ -5,7 +5,11 @@ win32* {
     INCLUDEPATH += C:\Python37-x64\include\
 } else {
     unix:macx {
-      PYTHON_CONFIG = $$PWD/python-3/bin/python3-config
+      exists($$PWD/python-3/bin/python3-config) {
+        PYTHON_CONFIG = $$PWD/python-3/bin/python3-config
+      } else {
+       PYTHON_CONFIG = /usr/local/bin/python3-config
+      }
     } else {
       PYTHON_CONFIG = python3-config
     }
