@@ -11,12 +11,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
         <source>Invalid RDB path</source>
-        <translation>Trayecto RDB inválido</translation>
+        <translation>Ruta RDB inválida</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
         <source>Please specify valid path to RDB file</source>
-        <translation>Por favor, especifique un trayecto válido a un fichero RDB</translation>
+        <translation>Por favor, especifique una ruta válida a un fichero RDB</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="75"/>
@@ -67,7 +67,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="165"/>
         <source>Path to RDB file:</source>
-        <translation>Trayecto a fichero RDB:</translation>
+        <translation>Ruta a fichero RDB:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="185"/>
@@ -187,7 +187,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="123"/>
         <source>Cannot parse scan response</source>
-        <translation>No se pùede interpretar la respuesta</translation>
+        <translation>No se puede interpretar la respuesta</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="283"/>
@@ -802,7 +802,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="333"/>
         <source>Path to Private Key in PEM format</source>
-        <translation>Trayecto a la Clave Privada en formato PEM</translation>
+        <translation>Ruta a la Clave Privada en formato PEM</translation>
     </message>
     <message>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;? + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
@@ -983,7 +983,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="146"/>
         <source>Formatters path: %0</source>
-        <translation>Trayecto a formateadores: %0</translation>
+        <translation>Ruta a formateadores: %0</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="158"/>
@@ -1164,7 +1164,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="126"/>
         <source>Copy keys from this database to another</source>
-        <translation>Copia claves desde esta base de datos a otra</translation>
+        <translation>Copiar claves desde esta base de datos a otra</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="129"/>
@@ -1487,7 +1487,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="174"/>
         <source>Path to dump.rdb file</source>
-        <translation>Trayecto al fichero dump.rdb</translation>
+        <translation>Ruta al fichero dump.rdb</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="176"/>
