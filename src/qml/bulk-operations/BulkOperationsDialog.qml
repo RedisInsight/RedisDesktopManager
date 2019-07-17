@@ -135,12 +135,15 @@ Dialog {
                     id: sourceConnectionSettings
                     columns: 2
 
+                    Layout.fillWidth: true
+
                     Label {
                         text: qsTr("Redis Server:")
                         Layout.preferredWidth: 250
                     }
 
                     Label {
+                        Layout.fillWidth: true
                         text: bulkOperations.connectionName
                     }
 
@@ -150,6 +153,7 @@ Dialog {
                     }
 
                     Label {
+                        Layout.fillWidth: true
                         text: bulkOperations.dbIndex
                     }
 
@@ -168,6 +172,8 @@ Dialog {
 
                         FilePathInput {
                             id: rdbPath
+
+                            Layout.fillWidth: true
 
                             objectName: "rdm_bulk_operations_dialog_rdb_path"
 
@@ -188,6 +194,9 @@ Dialog {
 
                         SpinBox {
                             id: rdbDb
+
+                            Layout.fillWidth: true
+
                             minimumValue: 0
                             maximumValue: 10000000000
                             value: 0
@@ -204,7 +213,9 @@ Dialog {
                         Layout.preferredWidth: 250
                     }
 
-                    BetterTextField {
+                    TextField {
+                        Layout.fillWidth: true
+
                         text: bulkOperations.keyPattern
                         onTextChanged: {
                             bulkOperations.keyPattern = text
@@ -215,6 +226,7 @@ Dialog {
                     RowLayout {
                         id: ttlField
 
+                        Layout.fillWidth: true
                         Layout.columnSpan: 2
 
                         Label {
@@ -224,6 +236,8 @@ Dialog {
 
                         SpinBox {
                             id: ttlValue
+
+                            Layout.fillWidth: true
 
                             objectName: "rdm_bulk_operations_dialog_ttl_value"
 
@@ -245,6 +259,8 @@ Dialog {
                     }
 
                     ComboBox {
+                        Layout.fillWidth: true
+
                         id: targetConnection
                     }
 
@@ -254,6 +270,8 @@ Dialog {
 
                     SpinBox {
                         id: targetDatabaseIndex
+
+                        Layout.fillWidth: true
 
                         objectName: "rdm_bulk_operations_dialog_target_db_index"
 
@@ -275,6 +293,8 @@ Dialog {
 
                         BetterCheckbox {
                             id: replaceKeys
+
+                            Layout.fillWidth: true
                         }
                     }
                 }
