@@ -5,16 +5,28 @@ win32* {
     INCLUDEPATH += C:\Python37-x64\include\
 } else {
     unix:macx {
-      exists($$PWD/python-3/bin/python3-config) {
-        PYTHON_CONFIG = $$PWD/python-3/bin/python3-config
+      exists($$PWD/python-3) {
+        message("Using Python from 3rdparty dir")
+        LIBS += $$PWD/python-3/lib/libpython3.7m.dylib
+        INCLUDEPATH += $$PWD/python-3/include/python3.7m
+
+        #deployment
+        PY_DATA_FILES.files = $$PWD/python-3/lib/libpython3.7m.dylib
+        PY_DATA_FILES.path = Contents/Frameworks
+        QMAKE_BUNDLE_DATA += PY_DATA_FILES
+
       } else {
        PYTHON_CONFIG = /usr/local/bin/python3-config
+       QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
+       QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
       }
     } else {
       PYTHON_CONFIG = python3-config
+
+      QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
+      QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
+      DEFINES *= HAVE_DLADDR
     }
-    QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
-    QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
 }
 
 include(pyotherside/pyotherside.pri)
@@ -32,17 +44,6 @@ HEADERS += $$PYOTHERSIDE_DIR/qpython_imageprovider.h
 
 # Importer from Qt Resources
 RESOURCES += $$PYOTHERSIDE_DIR/qrc_importer.qrc
-
-# Embedded Python Library (add pythonlib.zip if you want this)
-exists ($$PYOTHERSIDE_DIR/pythonlib.zip) {
-    message("Using Embedded Python Lib")
-    RESOURCES += $$PYOTHERSIDE_DIR/pythonlib_loader.qrc
-    DEFINES *= PYTHONLIB_LOADER_HAVE_PYTHONLIB_ZIP
-}
-
-!windows {
-    DEFINES *= HAVE_DLADDR
-}
 
 HEADERS += $$PYOTHERSIDE_DIR/pythonlib_loader.h\
     $$PWD/pyotherside/src/callback.h
@@ -78,4 +79,3 @@ HEADERS += $$PYOTHERSIDE_DIR/converter.h
 HEADERS += $$PYOTHERSIDE_DIR/qvariant_converter.h
 HEADERS += $$PYOTHERSIDE_DIR/pyobject_converter.h
 HEADERS += $$PYOTHERSIDE_DIR/qml_python_bridge.h
-
