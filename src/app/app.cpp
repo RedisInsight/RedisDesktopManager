@@ -227,12 +227,14 @@ void Application::initUpdater() {
 }
 
 void Application::initPython() {
-#ifdef Q_OS_MACOS
-  PythonLibLoader::extractPythonLibrary();
-#endif
   m_python = QSharedPointer<QPython>(new QPython(this, 1, 5));
   m_python->addImportPath("qrc:/python/");
-  m_python->addImportPath(applicationDirPath());  
+
+#ifdef Q_OS_MACOS
+  m_python->addImportPath(applicationDirPath() + "/../Resources/py");
+#else
+  m_python->addImportPath(applicationDirPath());
+#endif
 }
 
 void Application::installTranslator() {
