@@ -35,6 +35,7 @@ RESOURCES += $$PYOTHERSIDE_DIR/qrc_importer.qrc
 
 # Embedded Python Library (add pythonlib.zip if you want this)
 exists ($$PYOTHERSIDE_DIR/pythonlib.zip) {
+    message("Using Embedded Python Lib")
     RESOURCES += $$PYOTHERSIDE_DIR/pythonlib_loader.qrc
     DEFINES *= PYTHONLIB_LOADER_HAVE_PYTHONLIB_ZIP
 }
