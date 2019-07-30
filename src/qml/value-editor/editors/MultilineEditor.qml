@@ -285,6 +285,8 @@ ColumnLayout
             anchors.fill: parent
             anchors.margins: 5
 
+            verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+
             ListView {
                 id: textView
                 anchors.fill: parent
@@ -298,7 +300,7 @@ ColumnLayout
                     NewTextArea {
                         id: textAreaPart
                         objectName: "rdm_key_multiline_text_field_" + index
-                        width: textView.width
+                        width: texteditorWrapper.width
                         height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
 
                         enabled: root.enabled

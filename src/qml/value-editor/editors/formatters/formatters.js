@@ -61,7 +61,8 @@ var json = {
 
     getFormatted: function (raw, callback) {
         try {
-            return callback("", JSONFormatter.prettyPrint(String(raw)), false, FORMAT_HTML)
+            // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
+            return callback("", JSONFormatter.prettyPrint(JSONFormatter.minify(String(raw))), false, FORMAT_HTML)
         } catch (e) {
             return callback(qsTranslate("RDM", "Invalid JSON: ") + e)
         }
