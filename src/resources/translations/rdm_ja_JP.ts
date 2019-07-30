@@ -55,87 +55,87 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="139"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="141"/>
         <source>Redis Server:</source>
         <translation type="unfinished">Redisサーバ:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="148"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="151"/>
         <source>Database number:</source>
         <translation type="unfinished">データベース番号:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="165"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="169"/>
         <source>Path to RDB file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="185"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="191"/>
         <source>Select DB in RDB file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="203"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
         <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="203"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
         <source>Key pattern:</source>
         <translation type="unfinished">キーパターン:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="244"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="258"/>
         <source>Destination Redis Server:</source>
         <translation type="unfinished">Redisサーバの接続先:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="252"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="268"/>
         <source>Destination Redis Server Database Index:</source>
         <translation type="unfinished">Redisデータベースインデックスの接続先:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="288"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="308"/>
         <source>Show matched keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="288"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="308"/>
         <source>Show Affected keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="311"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="331"/>
         <source>Matched keys:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="311"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="331"/>
         <source>Affected keys:</source>
         <translation type="unfinished">影響するキー:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="350"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="370"/>
         <source>Bulk Operation finished.</source>
         <translation type="unfinished">バッチ処理が完了しました。</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="355"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="375"/>
         <source>Bulk Operation finished with errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="384"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="404"/>
         <source>Cancel</source>
         <translation type="unfinished">キャンセル</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="450"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="470"/>
         <source>Confirmation</source>
         <translation type="unfinished">確認</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="451"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="471"/>
         <source>Do you really want to perform bulk operation?</source>
         <translation type="unfinished">バッチ処理を本当に実行しますか?</translation>
     </message>
@@ -157,17 +157,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="59"/>
+        <location filename="../../app/app.cpp" line="57"/>
         <source>Settings directory is not writable</source>
         <translation>設定したディレクトリは書き込みできません</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="61"/>
+        <location filename="../../app/app.cpp" line="59"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="309"/>
+        <location filename="../../app/app.cpp" line="306"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
     </message>
@@ -373,108 +373,114 @@
         <translation>キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="126"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="127"/>
         <source>Rename</source>
         <translation>名前の変更</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="130"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="131"/>
         <source>Rename key</source>
         <translation>キー名の変更</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="139"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="140"/>
         <source>New name:</source>
         <translation>新しい名前:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="169"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="170"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="232"/>
         <source>Size: </source>
         <translation>サイズ: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="174"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="175"/>
         <source>TTL:</source>
         <translation>TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="179"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="180"/>
         <source>Set key TTL</source>
         <translation>キーのTTLを設定</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="188"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="189"/>
         <source>New TTL:</source>
         <translation>新しいTTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="219"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="220"/>
         <source>Delete</source>
         <translation>削除</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="224"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
         <source>Delete key</source>
         <translation>キーを削除</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="226"/>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="137"/>
         <source>Do you really want to delete this key?</source>
         <translation>このキーを本当に削除してもよろしいですか?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="241"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="550"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="553"/>
         <source>Reload Value</source>
         <translation>値をリロード</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="435"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="443"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="436"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="445"/>
         <source>Add Row</source>
         <translation>ROWを追加</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="483"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="444"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
+        <source>Add Element to HLL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="513"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="533"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="516"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
         <source>Delete row</source>
         <translation>ROWを削除</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="519"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="522"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation>このROWはこのキーの最後の1つです。削除後はキーも削除されます。</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="521"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="524"/>
         <source>Do you really want to remove this row?</source>
         <translation>このROWを本当に削除しますか?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="576"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="579"/>
         <source>Search on page...</source>
         <translation>ページを検索...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="673"/>
         <source>Nothing to save</source>
         <translation>保存できるデータがありません</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="671"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="685"/>
         <source>Value was updated!</source>
         <translation>値を更新しました!</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="679"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="693"/>
         <source>Save value</source>
         <translation>値を保存</translation>
     </message>
@@ -979,12 +985,12 @@
         <translation>クイックスタート・ガイド</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="87"/>
+        <location filename="../../qml/app.qml" line="85"/>
         <source>Successful connection to redis-server</source>
         <translation>Redisサーバへの接続に成功</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="90"/>
+        <location filename="../../qml/app.qml" line="88"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>Redisサーバに接続できません</translation>
     </message>
@@ -1057,7 +1063,7 @@
     </message>
     <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="160"/>
-        <location filename="../../qml/common/PasswordInput.qml" line="23"/>
+        <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>パスワードを表示</translation>
     </message>
@@ -1383,13 +1389,13 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="653"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="667"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="84"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="85"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
@@ -1444,17 +1450,17 @@
         <translation>ソース</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="66"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="67"/>
         <source>Invalid JSON: </source>
         <translation>不正なJSON: </translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="174"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="180"/>
         <source>Path to dump.rdb file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="176"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="182"/>
         <source>Select dump.rdb</source>
         <translation type="unfinished"></translation>
     </message>

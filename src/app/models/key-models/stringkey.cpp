@@ -4,9 +4,9 @@
 StringKeyModel::StringKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
     int dbIndex, long long ttl)
-    : KeyModel(connection, fullPath, dbIndex, ttl) {}
+    : KeyModel(connection, fullPath, dbIndex, ttl), m_type("string") {}
 
-QString StringKeyModel::type() { return "string"; }
+QString StringKeyModel::type() { return m_type; }
 
 QStringList StringKeyModel::getColumnNames() {
   return QStringList();  // Single value type - No columns
@@ -19,7 +19,7 @@ QHash<int, QByteArray> StringKeyModel::getRoles() {
 }
 
 QVariant StringKeyModel::getData(int rowIndex, int dataRole) {
-  if (!isRowLoaded(rowIndex)) return QVariant();
+  if (rowIndex > 0 || !isRowLoaded(rowIndex)) return QVariant();
   if (dataRole == Roles::Value) return m_rowsCache[rowIndex];
 
   return QVariant();
@@ -48,7 +48,17 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row,
 }
 
 void StringKeyModel::addRow(const QVariantMap& row, Callback c) {
-  updateRow(0, row, c);
+  if (m_type == "hyperloglog") {
+      QByteArray value = row.value("value").toByteArray();
+
+      executeCmd(
+          {"PFADD", m_keyFullPath, value}, [this, c](const QString& err) {
+            m_rowCount++;
+            return c(err);
+          });
+  } else {
+    updateRow(0, row, c);
+  }
 }
 
 void StringKeyModel::loadRows(QVariant, unsigned long,
@@ -59,9 +69,25 @@ void StringKeyModel::loadRows(QVariant, unsigned long,
 
   auto responseHandler = [this, callback](RedisClient::Response r, Callback) {
     m_rowsCache.clear();
-    m_rowsCache.push_back(r.value().toByteArray());
 
-    callback(QString(), 1);
+    QByteArray value = r.value().toByteArray();
+
+    m_rowsCache.push_back(value);
+    m_rowCount = 1;
+
+    // Detect HyperLogLog
+    if (value.startsWith("HYLL")) {
+      executeCmd(
+          {"PFCOUNT", m_keyFullPath}, [callback](const QString&) { callback(QString(), 1); },
+          [this, callback](RedisClient::Response r, Callback) {
+            m_type = "hyperloglog";
+            m_rowCount = r.value().toUInt();
+            callback(QString(), m_rowCount);
+          },
+          RedisClient::Response::Integer);
+    } else {
+      callback(QString(), 1);
+    }
   };
 
   executeCmd({"GET", m_keyFullPath}, onConnectionError, responseHandler,
