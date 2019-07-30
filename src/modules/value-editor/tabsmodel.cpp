@@ -88,6 +88,8 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
       return model->getTTL();
     case keyType:
       return model->type();
+    case rowsCount:
+      return (qlonglong)model->rowsCount();
     case isMultiRow:
       return model->isMultiRow();
     case keyModel:
@@ -109,6 +111,7 @@ QHash<int, QByteArray> ValueEditor::TabsModel::roleNames() const {
   roles[keyTTL] = "keyTtl";
   roles[keyType] = "keyType";
   roles[isMultiRow] = "isMultiRow";
+  roles[rowsCount] = "keyRowsCount";
   roles[keyModel] = "keyViewModel";
   return roles;
 }
@@ -157,6 +160,11 @@ void ValueEditor::TabsModel::loadModel(
     QWeakPointer<ConnectionsTree::KeyItem> key, bool openNewTab) {
   auto viewModel = QSharedPointer<ValueViewModel>(new ValueViewModel(model),
                                                   &QObject::deleteLater);
+
+  connect(viewModel.data(), &ValueViewModel::rowsLoaded, this,
+          [this, viewModel] (int, int) {
+      qDebug() << "row loaded (tab model)"; tabChanged(viewModel);
+  });
 
   if (openNewTab || m_viewModels.count() == 0) {
     beginInsertRows(QModelIndex(), m_viewModels.count(), m_viewModels.count());

@@ -55,87 +55,87 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="139"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="141"/>
         <source>Redis Server:</source>
         <translation type="unfinished">Сервер Redis:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="148"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="151"/>
         <source>Database number:</source>
         <translation type="unfinished">Номер базы:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="165"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="169"/>
         <source>Path to RDB file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="185"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="191"/>
         <source>Select DB in RDB file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="203"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
         <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="203"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
         <source>Key pattern:</source>
         <translation type="unfinished">Шаблон ключа:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="244"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="258"/>
         <source>Destination Redis Server:</source>
         <translation type="unfinished">Redis cервер-адресат:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="252"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="268"/>
         <source>Destination Redis Server Database Index:</source>
         <translation type="unfinished">Индекс базы редис сервер адресата:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="288"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="308"/>
         <source>Show matched keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="288"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="308"/>
         <source>Show Affected keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="311"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="331"/>
         <source>Matched keys:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="311"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="331"/>
         <source>Affected keys:</source>
         <translation type="unfinished">Затронутые ключи:</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="350"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="370"/>
         <source>Bulk Operation finished.</source>
         <translation type="unfinished">Массовые операции закончены.</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="355"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="375"/>
         <source>Bulk Operation finished with errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="384"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="404"/>
         <source>Cancel</source>
         <translation type="unfinished">Отмена</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="450"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="470"/>
         <source>Confirmation</source>
         <translation type="unfinished">Подтверждение</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="451"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="471"/>
         <source>Do you really want to perform bulk operation?</source>
         <translation type="unfinished">Выполнить массовую операцию?</translation>
     </message>
@@ -157,17 +157,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="59"/>
+        <location filename="../../app/app.cpp" line="57"/>
         <source>Settings directory is not writable</source>
         <translation>Папка настроек недоступна для записи</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="61"/>
+        <location filename="../../app/app.cpp" line="59"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="309"/>
+        <location filename="../../app/app.cpp" line="306"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>Скачайте новую версию Redis Desktop Manager: %1</translation>
     </message>
@@ -357,108 +357,114 @@
         <translation>Обновление в реальном времени отключено из-за превышения лимита ключей. Уточните фильтр или поменяйте лимит в настройках.</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="126"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="127"/>
         <source>Rename</source>
         <translation>Переименовать</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="130"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="131"/>
         <source>Rename key</source>
         <translation>Переименовать ключ</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="139"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="140"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="169"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="170"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="232"/>
         <source>Size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="174"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="175"/>
         <source>TTL:</source>
         <translation>TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="179"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="180"/>
         <source>Set key TTL</source>
         <translation>установить ключ TTL</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="188"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="189"/>
         <source>New TTL:</source>
         <translation type="unfinished">Новый TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="219"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="220"/>
         <source>Delete</source>
         <translation type="unfinished">Удалить</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="224"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
         <source>Delete key</source>
         <translation type="unfinished">Удалить ключ</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="226"/>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="137"/>
         <source>Do you really want to delete this key?</source>
         <translation type="unfinished">Удалить ключ?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="241"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="550"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="553"/>
         <source>Reload Value</source>
         <translation type="unfinished">Обновить значение</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="435"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="443"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="436"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="445"/>
         <source>Add Row</source>
         <translation>Добавить строку</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="483"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="444"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
+        <source>Add Element to HLL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="513"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="533"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="516"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
         <source>Delete row</source>
         <translation type="unfinished">Удалить строку</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="519"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="522"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation type="unfinished">Эта строка последняя в ключе. После удаления ключ будет удален.</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="521"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="524"/>
         <source>Do you really want to remove this row?</source>
         <translation type="unfinished">Удалить строку?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="576"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="579"/>
         <source>Search on page...</source>
         <translation type="unfinished">Поиск на стр...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="673"/>
         <source>Nothing to save</source>
         <translation type="unfinished">Нечего сохранять</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="671"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="685"/>
         <source>Value was updated!</source>
         <translation>Значение обновлено!</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="679"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="693"/>
         <source>Save value</source>
         <translation type="unfinished">Сохранить значение</translation>
     </message>
@@ -975,12 +981,12 @@
         <translation type="unfinished">Краткое руководство</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="87"/>
+        <location filename="../../qml/app.qml" line="85"/>
         <source>Successful connection to redis-server</source>
         <translation type="unfinished">Подключение к серверу Redis установлено</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="90"/>
+        <location filename="../../qml/app.qml" line="88"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation type="unfinished">Ошибка при подключении к серверу Redis</translation>
     </message>
@@ -1053,7 +1059,7 @@
     </message>
     <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="160"/>
-        <location filename="../../qml/common/PasswordInput.qml" line="23"/>
+        <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation type="unfinished">Показать пароль</translation>
     </message>
@@ -1379,13 +1385,13 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="653"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="667"/>
         <source>Save</source>
         <translation type="unfinished">Сохранить</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="84"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="85"/>
         <source>Error</source>
         <translation type="unfinished">Ошибка</translation>
     </message>
@@ -1440,17 +1446,17 @@
         <translation type="unfinished">Счет</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="66"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="67"/>
         <source>Invalid JSON: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="174"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="180"/>
         <source>Path to dump.rdb file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="176"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="182"/>
         <source>Select dump.rdb</source>
         <translation type="unfinished"></translation>
     </message>

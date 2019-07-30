@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import "./editors/editor.js" as Editor
+import "./../common/platformutils.js" as PlatformUtils
 import "./../common"
 import rdm.models 1.0
 
@@ -165,8 +166,8 @@ Repeater {
 
                     Item { visible: isMultiRow; Layout.preferredWidth: 5}
                     Text {
-                        visible: isMultiRow;
-                        text:  qsTranslate("RDM","Size: ") + (keyTab.keyModel? keyTab.keyModel.totalRowCount : "0")
+                        visible: isMultiRow || keyType === "hyperloglog";
+                        text:  qsTranslate("RDM","Size: ") + keyRowsCount
                     }
                     Item { Layout.preferredWidth: 5}
 
@@ -432,7 +433,7 @@ Repeater {
 
                             Button {
                                 Layout.preferredWidth: 195
-                                text: qsTranslate("RDM","Add Row");
+                                text: qsTranslate("RDM","Add Row")
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
                                     addRowDialog.open()
@@ -440,7 +441,8 @@ Repeater {
 
                                 Dialog {
                                     id: addRowDialog
-                                    title: qsTranslate("RDM","Add Row")
+                                    title: keyType === "hyperloglog"? qsTranslate("RDM","Add Element to HLL")
+                                                                    : qsTranslate("RDM","Add Row")
 
                                     width: 550
                                     height: 400
@@ -494,9 +496,10 @@ Repeater {
                                                             var row = valueAddEditor.item.getValue()
 
                                                             keyTab.keyModel.addRow(row)
-                                                            keyTab.keyModel.reload()
+                                                            keyTab.keyModel.reload()                                                            
                                                             valueAddEditor.item.reset()
                                                             valueAddEditor.item.initEmpty()
+                                                            addRowDialog.close()
                                                         });
                                                     }
                                                 }
@@ -649,6 +652,17 @@ Repeater {
                             Layout.fillWidth: true
                             Layout.minimumHeight: 40
                             Item { Layout.fillWidth: true}
+
+                            Button {
+                                visible: keyType === "hyperloglog"
+                                Layout.preferredWidth: 195
+                                text: qsTranslate("RDM","Add Element to HLL");
+                                iconSource: "qrc:/images/add.svg"
+                                onClicked: {
+                                    addRowDialog.open()
+                                }
+                            }
+
                             Button {
                                 text: qsTranslate("RDM","Save")
 
