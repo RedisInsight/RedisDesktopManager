@@ -35,30 +35,6 @@
     Since 0.9.9 RDM by default does not include SSH Tunneling support. You can create a SSH tunnel to your Redis server manually and connect to `localhost`:
     `ssh -L 6379:REDIS_HOST:6379 SSH_USER@SSH_HOST -P SSH_PORT -i SSH_KEY -T -N` or [use pre-built binary for your OS](#quick-install)
 
-### Build on Linux
-
-#### Ubuntu (outdated)
-
-```
-cd src/
-./configure
-qmake && make && sudo make install
-cd /opt/redis-desktop-manager/
-sudo mv qt.conf qt.backup
-```
-
-#### Fedora & CentOS & OpenSUSE (outdated)
-
-```
-cd src/
-./configure
-qmake-qt5 && make && sudo make install
-cd /usr/share/redis-desktop-manager/bin
-sudo mv qt.conf qt.backup
-```
-
-> !!! tip "Tip: checkinstall"
-    Instead of `sudo make install` consider to use `sudo checkinstall -D --install` on **deb**-based OS and `sudo checkinstall -R --install` on **rpm**-based OS to generate package and install it into the system.
 
 ### Build on OS X
 
@@ -66,11 +42,10 @@ sudo mv qt.conf qt.backup
 2. Install [Homebrew](http://brew.sh/)
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
 4. Building RDM dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
-5. Install python requirements `pip3 install -t ../bin/osx/release -r py/requirements.txt`
-6. Build RDM dependencies `./configure`
-7. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.9.x add Qt Charts module.
-8. Open ./src/rdm.pro in Qt Creator
-9. Run build
+5. Install python requirements `pip3 install -t ../bin/osx/release -r py/requirements.tx`
+6. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.9.x add Qt Charts module.
+7. Open ./src/rdm.pro in Qt Creator
+8. Run build
 
 ### Build on Windows
 

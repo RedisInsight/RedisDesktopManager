@@ -71,7 +71,7 @@ void TestKeyModels::testKeyFactoryAddKey() {
   r.setKeyName("testKey");
   r.setKeyType(keyType);
   r.setValue(row);
-  factory.submitNewKeyRequest(r, QJSValue());
+  factory.submitNewKeyRequest(r);
   wait(100);
 
   // then
