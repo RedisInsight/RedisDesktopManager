@@ -12,6 +12,8 @@ Dialog {
     id: root
     title: qsTranslate("RDM","Settings")
 
+    property bool restartRequired: false
+
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 800
@@ -47,7 +49,9 @@ Dialog {
                         model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES", "ja_JP"]
                         value: "system"
                         label: qsTranslate("RDM","Language")
-                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+
+                        onValueChanged: root.restartRequired = true
                     }
 
                     ComboboxOption {
@@ -59,7 +63,9 @@ Dialog {
                         value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                         model: Qt.fontFamilies()
                         label: qsTranslate("RDM","Font")
-                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+
+                        onValueChanged: root.restartRequired = true
                     }
 
                     ComboboxOption {
@@ -71,7 +77,9 @@ Dialog {
                         model: ["8", "9", "10", "11", "12"]
                         value: Qt.platform.os == "osx"? "12" : "11"
                         label: qsTranslate("RDM","Font Size")
-                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+
+                        onValueChanged: root.restartRequired = true
                     }
 
                     BoolOption {
@@ -82,7 +90,9 @@ Dialog {
 
                         value: false
                         label: qsTranslate("RDM","Use system proxy settings")
-                        description: qsTranslate("RDM","Application restart is needed to apply this setting.")
+                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+
+                        onValueChanged: root.restartRequired = true
                     }
 
                     SettingsGroupTitle {
@@ -186,7 +196,15 @@ Dialog {
                         Item { Layout.fillWidth: true; }
                         Button {
                             text: qsTranslate("RDM","OK")
-                            onClicked: root.close()
+                            onClicked: {
+                                if (root.restartRequired) {
+                                    // restart app
+                                    Qt.exit(1000)
+                                }
+
+                                restartRequired = false
+                                root.close()
+                            }
                         }
                     }
                 }

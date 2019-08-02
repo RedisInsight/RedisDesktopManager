@@ -38,10 +38,6 @@ INCLUDEPATH += $$PWD/pyotherside/src
 
 PYOTHERSIDE_DIR = $$PWD/pyotherside/src/
 
-# QML Image Provider
-SOURCES += $$PYOTHERSIDE_DIR/qpython_imageprovider.cpp
-HEADERS += $$PYOTHERSIDE_DIR/qpython_imageprovider.h
-
 # Importer from Qt Resources
 RESOURCES += $$PYOTHERSIDE_DIR/qrc_importer.qrc
 

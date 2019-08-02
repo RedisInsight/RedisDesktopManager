@@ -1,4 +1,0 @@
-?package(redis-desktop-manager): needs=X11 \
-        section=Applications/Development \
-        title=RedisDesktopManager command=/usr/share/redis-desktop-manager/bin/rdm.sh \
-	icon=/usr/share/redis-desktop-manager/bin/rdm.png

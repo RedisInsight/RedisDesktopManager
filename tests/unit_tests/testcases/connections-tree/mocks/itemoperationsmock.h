@@ -86,6 +86,11 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
 
   void resetConnection() override {}
 
+  void deleteDbKeys(ConnectionsTree::DatabaseItem &db) override {};
+  void setTTL(ConnectionsTree::AbstractNamespaceItem &ns) override {};
+  void copyKeys(ConnectionsTree::AbstractNamespaceItem &ns) override {};
+  void importKeysFromRdb(ConnectionsTree::DatabaseItem &ns) override {};
+
  protected:
   bool m_positive_mode;
 };

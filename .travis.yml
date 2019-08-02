@@ -1,24 +1,36 @@
 language: cpp
-dist: trusty
+dist: bionic
 sudo: required
 
 os:
   - linux
   - osx
-  
+
+addons:
+  apt:
+    sources:
+      - ppa:chris-lea/redis-server
+    packages:
+    - redis-tools
+    - redis-server
+
+services:
+  - redis-server
+
 install:
 - if [ "$TRAVIS_OS_NAME" == "osx" ]; then 
        brew update > /dev/null
     && brew install qt5 > /dev/null
+    && brew install openssl > /dev/null
     && export PATH=/usr/local/opt/qt5/bin/:$PATH
     ;
   fi
-- pushd src && ./configure && popd
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-       source /opt/qt59/bin/qt59-env.sh
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then       
+       sudo apt-get install qt5-default qtdeclarative5-dev libqt5charts5-dev libssl1.0-dev  -y
        ;
   fi
 - qmake -v
+
 script:
   - git submodule update --init --recursive 
   - pushd tests
@@ -29,12 +41,11 @@ script:
        pushd src && qmake && make -s -j 2 && popd
        ; 
     fi
+
 after_success:
  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       pushd tests &&
       sudo pip install --upgrade cpp-coveralls &&
       coveralls -b `pwd`/unit_tests/ -r `readlink -m ./../` -e 3rdparty/ -e tests/ -E .+/moc_.* -E .+/qrc_.* -E .+/qxt.* -E .+/ui_.*
       ;
-   fi   
-services:
-  - redis-server
+   fi
