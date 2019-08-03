@@ -445,7 +445,7 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="444"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
         <source>Add Element to HLL</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir Elemento a HLL</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
