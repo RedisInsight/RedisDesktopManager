@@ -369,12 +369,12 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="179"/>
         <source>Live update was disabled</source>
-        <translation>在线更新已经禁止</translation>
+        <translation>实时更新已关闭</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="180"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation>由于超出加载键数量限制，在线更新功能已经关闭。请设置更精确的筛查条件或更改加载限制设定。</translation>
+        <translation>由于超出加载键数量限制，实时更新功能已经关闭。请设置更精确的筛查条件或更改加载限制设定。</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="127"/>
@@ -445,12 +445,12 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="444"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
         <source>Add Element to HLL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加元素到HLL</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="516"/>
@@ -968,12 +968,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="124"/>
         <source>Live update maximum allowed keys</source>
-        <translation>在线更新最大允许键数量</translation>
+        <translation>实时更新最大允许键数量</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="137"/>
         <source>Live update interval (in seconds)</source>
-        <translation>在线更新间隔 (秒)</translation>
+        <translation>实时更新间隔 (秒)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="142"/>
