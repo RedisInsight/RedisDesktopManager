@@ -6,138 +6,138 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
         <source>Bulk Operations Manager</source>
-        <translation type="unfinished">バッチ処理マネージャ</translation>
+        <translation>バッチ処理マネージャ</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
         <source>Invalid RDB path</source>
-        <translation type="unfinished"></translation>
+        <translation>不正なRDBのパスです</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="59"/>
         <source>Please specify valid path to RDB file</source>
-        <translation type="unfinished"></translation>
+        <translation>RDBファイルへの正しいパスを指定してください</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="75"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="76"/>
         <source>Delete keys</source>
-        <translation type="unfinished">キーを削除</translation>
+        <translation>キーを削除</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="85"/>
         <source>Set TTL for multiple keys</source>
-        <translation type="unfinished"></translation>
+        <translation>複数のキーのTTLを設定</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="86"/>
         <source>Set TTL</source>
-        <translation type="unfinished"></translation>
+        <translation>TTLを設定</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
         <source>Copy keys to another database</source>
-        <translation type="unfinished"></translation>
+        <translation>他のデータベースにキーをコピー</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="96"/>
         <source>Copy keys</source>
-        <translation type="unfinished">キーをコピー</translation>
+        <translation>キーをコピー</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="106"/>
         <source>Import data from rdb file</source>
-        <translation type="unfinished"></translation>
+        <translation>RDBファイルからデータをインポート</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="107"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>インポート</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="141"/>
         <source>Redis Server:</source>
-        <translation type="unfinished">Redisサーバ:</translation>
+        <translation>Redisサーバ:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="151"/>
         <source>Database number:</source>
-        <translation type="unfinished">データベース番号:</translation>
+        <translation>データベース番号:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="169"/>
         <source>Path to RDB file:</source>
-        <translation type="unfinished"></translation>
+        <translation>RDBファイルへのパス:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="191"/>
         <source>Select DB in RDB file:</source>
-        <translation type="unfinished"></translation>
+        <translation>RDBファイルからDBを選択</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
         <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;正規表現&lt;/b&gt;に一致するキーをインポート:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="212"/>
         <source>Key pattern:</source>
-        <translation type="unfinished">キーパターン:</translation>
+        <translation>キーパターン:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="258"/>
         <source>Destination Redis Server:</source>
-        <translation type="unfinished">Redisサーバの接続先:</translation>
+        <translation>Redisサーバの接続先:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="268"/>
         <source>Destination Redis Server Database Index:</source>
-        <translation type="unfinished">Redisデータベースインデックスの接続先:</translation>
+        <translation>Redisデータベースインデックスの接続先:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="308"/>
         <source>Show matched keys</source>
-        <translation type="unfinished"></translation>
+        <translation>一致するキーを表示</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="308"/>
         <source>Show Affected keys</source>
-        <translation type="unfinished"></translation>
+        <translation>影響するキーを表示</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="331"/>
         <source>Matched keys:</source>
-        <translation type="unfinished"></translation>
+        <translation>一致したキー:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="331"/>
         <source>Affected keys:</source>
-        <translation type="unfinished">影響するキー:</translation>
+        <translation>影響するキー:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="370"/>
         <source>Bulk Operation finished.</source>
-        <translation type="unfinished">バッチ処理が完了しました。</translation>
+        <translation>バッチ処理が完了しました。</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="375"/>
         <source>Bulk Operation finished with errors</source>
-        <translation type="unfinished"></translation>
+        <translation>バッチ処理でエラーが発生しました</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="404"/>
         <source>Cancel</source>
-        <translation type="unfinished">キャンセル</translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="470"/>
         <source>Confirmation</source>
-        <translation type="unfinished">確認</translation>
+        <translation>確認</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="471"/>
         <source>Do you really want to perform bulk operation?</source>
-        <translation type="unfinished">バッチ処理を本当に実行しますか?</translation>
+        <translation>バッチ処理を本当に実行しますか?</translation>
     </message>
 </context>
 <context>
@@ -172,10 +172,6 @@
         <translation>新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
     </message>
     <message>
-        <source>Cannot rename key %1: %2</source>
-        <translation type="vanished">キー名%1を変更できません: %2</translation>
-    </message>
-    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="67"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
         <translation>新しいキー%1はすでにデータベースに存在しているか、または元のキーが削除されました</translation>
@@ -183,29 +179,17 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="123"/>
         <source>Cannot parse scan response</source>
-        <translation type="unfinished"></translation>
+        <translation>スキャンのレスポンスをパースできません</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="283"/>
         <source>Server returned unexpected response: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot set TTL for key %1: %2</source>
-        <translation type="vanished">キー%1にTTLを設定できません: %2</translation>
+        <translation>サーバが不正なレスポンスを返しました:</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="88"/>
         <source>Cannot set TTL for key %1</source>
         <translation>キー%1にTTLを設定できません</translation>
-    </message>
-    <message>
-        <source>Cannot remove key %1: %2</source>
-        <translation type="vanished">キー%1を削除できません: %2</translation>
-    </message>
-    <message>
-        <source>Cannot load rows count for key %1: %2</source>
-        <translation type="vanished">キー%1のROW数を読むことができません: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="229"/>
@@ -273,14 +257,6 @@
         <translation>キーの型を取得できません: </translation>
     </message>
     <message>
-        <source>The row has been changed and can&apos;t be updated now. Reload and try again.</source>
-        <translation type="vanished">ROWが変更されているため現在更新できません。リロードしてから再度試してください。</translation>
-    </message>
-    <message>
-        <source>The row has been changed and can&apos;t be deleted now. Reload and try again.</source>
-        <translation type="vanished">ROWが変更されているため現在削除できません。リロードしてから再度試してください。</translation>
-    </message>
-    <message>
         <location filename="../../app/models/treeoperations.cpp" line="81"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>サーバー&apos;%1&apos;に接続できません。詳細はログを確認してください。</translation>
@@ -288,7 +264,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="89"/>
         <source>Open Source version of Redis Desktop Manager &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>オープンソース版のRedis Desktop ManagerはSSHトンネルをサポートして&lt;b&gt;いません&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;全ての機能を有効にするには&lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;でサブスクリプションに加入してください。&lt;br/&gt;&lt;br /&gt;ご加入の皆様からいただきました資金により、私たちは開発を続けることができ、皆様をサポートできます。&lt;br /&gt;もしご質問がございましたらお気軽に&lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;または&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;までお問い合わせください。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="181"/>
@@ -298,29 +274,17 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="239"/>
         <source>Delete key error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>キー削除エラー: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="312"/>
         <source>Cannot used memory for key: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot remove key: %1</source>
-        <translation type="vanished">キーを削除できません: %1</translation>
-    </message>
-    <message>
-        <source>Delete key error: </source>
-        <translation type="vanished">キーの削除でエラーが発生しました: </translation>
+        <translation>キーのメモリを使えませんでした: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="285"/>
         <source>Cannot flush database: </source>
         <translation>データベースをフラッシュできません: </translation>
-    </message>
-    <message>
-        <source>Bulk operation error: %1</source>
-        <translation type="vanished">バッチ操作エラー: %1</translation>
     </message>
     <message>
         <location filename="../../modules/common/tabmodel.cpp" line="39"/>
@@ -441,12 +405,12 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="444"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
         <source>Add Element to HLL</source>
-        <translation type="unfinished"></translation>
+        <translation>HLLに要素を追加</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>追加</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="516"/>
@@ -522,18 +486,6 @@
         <location filename="../../modules/console/consolemodel.cpp" line="50"/>
         <source>Subscribe error: %1</source>
         <translation>サブスクライブエラー: %1</translation>
-    </message>
-    <message>
-        <source>Cannot update server info tab. Error: %0</source>
-        <translation type="vanished">サーバー情報タブを更新できません。エラー: %0</translation>
-    </message>
-    <message>
-        <source>Cannot update slowlog. Error: %0</source>
-        <translation type="vanished">showlogを更新できません。エラー: %0</translation>
-    </message>
-    <message>
-        <source>Cannot update clients list. Error: %0</source>
-        <translation type="vanished">クライアントリストを更新できません。Error: %0</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="94"/>
@@ -995,71 +947,19 @@
         <translation>Redisサーバに接続できません</translation>
     </message>
     <message>
-        <source>Bulk Operations Manager</source>
-        <translation type="vanished">バッチ処理マネージャ</translation>
-    </message>
-    <message>
-        <source>Delete keys</source>
-        <translation type="vanished">キーを削除</translation>
-    </message>
-    <message>
-        <source>Copy keys</source>
-        <translation type="vanished">キーをコピー</translation>
-    </message>
-    <message>
-        <source>Redis Server:</source>
-        <translation type="vanished">Redisサーバ:</translation>
-    </message>
-    <message>
-        <source>Database number:</source>
-        <translation type="vanished">データベース番号:</translation>
-    </message>
-    <message>
-        <source>Key pattern:</source>
-        <translation type="vanished">キーパターン:</translation>
-    </message>
-    <message>
-        <source>Destination Redis Server:</source>
-        <translation type="vanished">Redisサーバの接続先:</translation>
-    </message>
-    <message>
-        <source>Destination Redis Server Database Index:</source>
-        <translation type="vanished">Redisデータベースインデックスの接続先:</translation>
-    </message>
-    <message>
-        <source>Affected keys:</source>
-        <translation type="vanished">影響するキー:</translation>
-    </message>
-    <message>
-        <source>Bulk Operation finished.</source>
-        <translation type="vanished">バッチ処理が完了しました。</translation>
-    </message>
-    <message>
-        <source>Delete Keys</source>
-        <translation type="vanished">キーを削除</translation>
-    </message>
-    <message>
-        <source>Confirmation</source>
-        <translation type="vanished">確認</translation>
-    </message>
-    <message>
-        <source>Do you really want to perform bulk operation?</source>
-        <translation type="vanished">バッチ処理を本当に実行しますか?</translation>
-    </message>
-    <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="9"/>
         <source>Sign in with RedisDesktop.com account</source>
-        <translation type="unfinished"></translation>
+        <translation>RedisDesktop.comのアカウントでサインイン</translation>
     </message>
     <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="130"/>
         <source>Email:</source>
-        <translation type="unfinished"></translation>
+        <translation>Email:</translation>
     </message>
     <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="141"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>パスワード</translation>
     </message>
     <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="160"/>
@@ -1070,7 +970,7 @@
     <message>
         <location filename="../../modules/signin/qml/SignInDialog.qml" line="172"/>
         <source>Sign In</source>
-        <translation type="unfinished"></translation>
+        <translation>サインイン</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="91"/>
@@ -1113,12 +1013,12 @@
         <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="31"/>
         <source>Analyze Used Memory</source>
-        <translation type="unfinished"></translation>
+        <translation>メモリを分析</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="96"/>
         <source>Bulk Operations</source>
-        <translation type="unfinished"></translation>
+        <translation>バッチ処理</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="117"/>
@@ -1128,27 +1028,27 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="120"/>
         <source>Delete keys with filter</source>
-        <translation type="unfinished"></translation>
+        <translation>フィルタを用いてキーを削除</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="123"/>
         <source>Set TTL for multiple keys</source>
-        <translation type="unfinished"></translation>
+        <translation>複数のキーにTTLを設定</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="126"/>
         <source>Copy keys from this database to another</source>
-        <translation type="unfinished"></translation>
+        <translation>このデータベースから別のデータベースへキーをコピー</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="129"/>
         <source>Import keys from RDB file</source>
-        <translation type="unfinished"></translation>
+        <translation>RDBファイルからキーをインポート</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="132"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>戻る</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="152"/>
@@ -1202,7 +1102,7 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="12"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="35"/>
         <source>Edit Connection Settings</source>
-        <translation>接続設定を編集</translation>
+        <translation>接続情報を編集</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="39"/>
@@ -1264,12 +1164,12 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="83"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="391"/>
         <source>Clients</source>
-        <translation>クライアント</translation>
+        <translation>クライアント数</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="98"/>
         <source>Commands Processed</source>
-        <translation>実行中のコマンド</translation>
+        <translation>実行コマンド数</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="115"/>
@@ -1318,17 +1218,17 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="450"/>
         <source>Pub/Sub Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Pub/Subチャンネル</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="462"/>
         <source>Enable</source>
-        <translation type="unfinished"></translation>
+        <translation>有効</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="477"/>
         <source>Channel Name</source>
-        <translation type="unfinished"></translation>
+        <translation>チャンネル名</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="167"/>
@@ -1405,13 +1305,9 @@
         <translation>ページ</translation>
     </message>
     <message>
-        <source>Set Page</source>
-        <translation type="vanished">ページ変更</translation>
-    </message>
-    <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="50"/>
         <source>Enter valid value</source>
-        <translation type="unfinished"></translation>
+        <translation>有効な値を入力</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="178"/>
@@ -1426,7 +1322,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="238"/>
         <source> [Compressed: </source>
-        <translation type="unfinished"></translation>
+        <translation> [圧縮: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="243"/>
@@ -1457,74 +1353,67 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="180"/>
         <source>Path to dump.rdb file</source>
-        <translation type="unfinished"></translation>
+        <translation>dump.rdbファイルへのパス</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="182"/>
         <source>Select dump.rdb</source>
-        <translation type="unfinished"></translation>
+        <translation>dump.rdbを選択</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="17"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="58"/>
         <source>Value (represented as JSON object)</source>
-        <translation type="unfinished"></translation>
+        <translation>値(JSONオブジェクト形式)</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/listkey.cpp" line="83"/>
         <source>The row has been changed on server.Reload and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>サーバ上のROWが更新されました。リロードしてからやりなおしてください。</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="122"/>
         <source>Failed to perform actions on %1 keys. </source>
-        <translation type="unfinished"></translation>
+        <translation>%1キーに対する処理が失敗しました</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="29"/>
         <source>Cannot copy key </source>
-        <translation type="unfinished"></translation>
+        <translation>キーをコピーできません</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
         <source>Cannot remove key </source>
-        <translation type="unfinished"></translation>
+        <translation>キーを削除できません</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="86"/>
         <source>Cannot execute command </source>
-        <translation type="unfinished"></translation>
+        <translation>コマンドを実行できません</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="39"/>
         <source>Cannot set TTL for key </source>
-        <translation type="unfinished"></translation>
+        <translation>TTLをキーに設定できません</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="165"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>あなたのRedisサーバは&lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;コマンドをサポートしていません。</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="97"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
-        <translation type="unfinished"></translation>
+        <translation>キーを追加しました。選択されているネームスペースのキーをリロードしますか?</translation>
     </message>
     <message>
         <location filename="../../modules/signin/signin_model.cpp" line="224"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>RedisClient::CommandExecutor</name>
-    <message>
-        <source>Command execution timeout</source>
-        <translation type="vanished">コマンド実行のタイムアウト</translation>
+        <translation>ログインできません - %1。&lt;br/&gt; もう一度実行するか、&lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;までご連絡ください。</translation>
     </message>
 </context>
 </TS>
