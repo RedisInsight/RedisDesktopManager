@@ -14,7 +14,6 @@ pages:
 - Native Formatters: 'native-formatters.md'
 - FAQ: 'faq.md'
 - Known Issues: 'known-issues.md'
-- Known Issues (Chinese): 'known-issues_cn.md'
 - Development Guide: 'development.md'
 markdown_extensions:
   - markdown.extensions.admonition
