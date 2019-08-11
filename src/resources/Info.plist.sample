@@ -14,16 +14,16 @@
 	<string>com.redisdesktop.rdm</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-    <key>CFBundleName</key>
+        <key>CFBundleName</key>
 	<string>RDM</string>
-    <key>CFBundlePackageType</key>
+        <key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>0.0.0</string>
 	<key>CFBundleVersion</key>
 	<string>0.0.0</string>
-    <key>NSHumanReadableCopyright</key>
-    <string>© 2013-2019, Igor Malinovskiy.</string>
+        <key>NSHumanReadableCopyright</key>
+        <string>© 2013-2019, Igor Malinovskiy.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSHighResolutionCapable</key>
@@ -36,5 +36,7 @@
 	<string>public.app-category.developer-tools</string>
 	<key>CFBundleSupportedPlatforms</key>
 	<array><string>MacOSX</string></array>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.14.0</string>
 </dict>
 </plist>
