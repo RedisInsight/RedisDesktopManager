@@ -1,6 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
-        <file alias="redisBigIcon.png">images/redis_big_icon.png</file>
+    <qresource prefix="/images">        
         <file alias="logo.png">images/logo.png</file>
         <file alias="twi.svg">images/twi.svg</file>
         <file alias="github.svg">images/github.svg</file>
