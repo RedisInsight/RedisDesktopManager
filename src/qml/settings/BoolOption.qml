@@ -14,6 +14,8 @@ Item {
         }
     }
 
+    signal clicked
+
     RowLayout {
         anchors.fill: parent
 
@@ -37,7 +39,11 @@ Item {
             id: val
 
             onCheckedChanged: {
-                root.value = checked
+                root.value = checked                
+            }
+
+            onClicked: {
+                root.clicked()
             }
         }
     }
