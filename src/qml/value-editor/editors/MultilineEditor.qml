@@ -96,7 +96,12 @@ ColumnLayout
 
         if (val) {
             root.value = val
-            guessFormatter = true
+
+            if (defaultFormatterSettings.defaultFormatterIndex === 0) {
+                guessFormatter = true
+            } else {
+                formatterSelector.currentIndex = defaultFormatterSettings.defaultFormatterIndex
+            }
         }
 
         if (!root.value) {
@@ -122,7 +127,7 @@ ColumnLayout
         }
 
         // If current formatter is plain text - try to guess formatter
-        if (guessFormatter && formatterSelector.currentIndex == 0) {
+        if (guessFormatter && formatterSelector.currentIndex === 0) {
             _guessFormatter(isBin, function() {
                 _loadFormatter(isBin)
             })
@@ -183,10 +188,11 @@ ColumnLayout
                     ? TextEdit.RichText
                     : TextEdit.PlainText;
 
+                defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
                 textView.model = qmlUtils.wrapLargeText(formatted)
                 textView.readOnly = isReadOnly
                 root.isEdited = false
-                uiBlocker.visible = false
+                uiBlocker.visible = false                
             }
 
             if (format === "json") {
@@ -195,7 +201,7 @@ ColumnLayout
             } else {
                 textView.format = format
                 process(error, formatted, isReadOnly, format);
-            }
+            }            
         })
     }
 
@@ -251,6 +257,12 @@ ColumnLayout
 
         Text { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
+        Settings {
+            id: defaultFormatterSettings
+            category: formatterSettingsCategory
+            property int defaultFormatterIndex
+        }
+
         ComboBox {
             id: formatterSelector
             visible: showFormatters
@@ -260,12 +272,6 @@ ColumnLayout
             objectName: "rdm_value_editor_formatter_combobox"
 
             onCurrentIndexChanged: loadFormattedValue()
-
-            Settings {
-                id: defaultFormatterSettings
-                category: formatterSettingsCategory
-                property alias defaultFormatterIndex: formatterSelector.currentIndex
-            }
         }
 
         Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
