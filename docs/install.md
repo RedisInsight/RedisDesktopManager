@@ -42,7 +42,7 @@
 2. Install [Homebrew](http://brew.sh/)
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`
 4. Building RDM dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
-5. Install python requirements `pip3 install -t ../bin/osx/release -r py/requirements.tx`
+5. Install python requirements `pip3 install -t ../bin/osx/release -r py/requirements.txt`
 6. Install [Qt 5.9](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.9.x add Qt Charts module.
 7. Open ./src/rdm.pro in Qt Creator
 8. Run build
