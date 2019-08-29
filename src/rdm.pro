@@ -60,6 +60,11 @@ THIRDPARTYDIR = $$PWD/../3rdparty/
 
 include($$THIRDPARTYDIR/3rdparty.pri)
 
+exists( $$PWD/modules/crashpad/crashpad.pri ) {
+    message("Build with Crashpad")
+    include($$PWD/modules/crashpad/crashpad.pri)
+}
+
 win32 {
     CONFIG += c++11
 
