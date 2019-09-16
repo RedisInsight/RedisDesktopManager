@@ -1,15 +1,15 @@
 from __future__ import print_function
-import sys
+from sys import argv, exit
 
 
-if len(sys.argv) != 2:
+if len(argv) != 2:
     print("Usage: %version%")
-    quit()	
+    exit(1)
 
 print(
     """
 #ifndef RDM_VERSION
     #define RDM_VERSION "{0}"
 #endif // !RDM_VERSION
-""".format(sys.argv[1])
+""".format(argv[1])
 )
