@@ -23,7 +23,7 @@ If you want to connect to redis-server with SSL you need to enable SSL on the se
 ### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" height="100" />
 
 1. Create connection with all requested information 
- <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png" height="300" />
+ <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png" width="300" />
 2. Make sure that "Use SSL Protocol" checkbox is enabled
 3. Your Azure Redis connection is ready to use
 
@@ -58,7 +58,9 @@ Follow instructions from [this blog post](https://userify.com/blog/howto-connect
 
 ### How to connect to Redis ElastiCache with In-Transit Encryption through EC2
 #### Using RedisDesktopManager >=0.9.9
-Click on "Enable TLS-over-SSH" in SSH connection settings
+
+Click on "Enable TLS-over-SSH" in SSH connection settings and follow instructions from section [How to connect to Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2)
+
 
 #### Using RedisDesktopManager <0.9.9
 Follow instructions from [this documentation section to setup `stunnel` on EC2 instance](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html#connect-tls)
