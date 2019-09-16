@@ -60,7 +60,7 @@ Follow instructions from [this blog post](https://userify.com/blog/howto-connect
 ### How to connect to Redis ElastiCache with In-Transit Encryption through EC2
 #### Using RedisDesktopManager >=0.9.9
 
-Click on "Enable TLS-over-SSH" in the SSH connection settings and follow instructions from section [How to connect to Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2)
+Click on "Enable TLS-over-SSH" in the the SSH connection settings and follow instructions from section [How to connect to Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2)
 
 
 #### Using RedisDesktopManager <0.9.9
