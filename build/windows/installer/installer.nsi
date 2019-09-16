@@ -69,12 +69,12 @@ Section -Main SEC0000
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
 
     ${IfNot} ${RunningX64}
-        MessageBox MB_OK "Starting from 2019.0.0 version RDM doesn't support 32-bit Windows"
+        MessageBox MB_OK "Starting from version 2019.0.0, Redis Desktop Manager doesn't support 32-bit Windows"
         Quit
     ${EndIf}
 
-    IfFileExists $INSTDIR\uninstall.exe alredy_installed not_installed
-    alredy_installed:
+    IfFileExists $INSTDIR\uninstall.exe already_installed not_installed
+    already_installed:
     ExecWait '$INSTDIR\uninstall.exe /S'
     Sleep 3000
 
