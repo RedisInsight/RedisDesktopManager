@@ -19,6 +19,9 @@
 > !!! warning "SSH Keys"
     To be able to access your ssh keys from RDM please connect `ssh-key` interface:
     `sudo snap connect redis-desktop-manager:ssh-keys`
+    
+> > !!! tip "How to Run"
+    If RDM icon hasn't appeared in your application launcher you can run RDM from terminal `/snap/bin/redis-desktop-manager.rdm`
 
 ## Build from source
 
