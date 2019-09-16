@@ -24,9 +24,10 @@ Instructions for certain cloud services are below:
 ### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" height="100" />
 
 1. Create a connection with all requested information.
- <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png" height="300" />
+ <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png" width="300" />
 2. Make sure that the "Use SSL Protocol" checkbox is enabled.
 3. Your Azure Redis connection is ready to use.
+
 
 ### Redis Labs <br /> <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Redis_Labs_Logo.png" height="75" />
 To connect to a Redis Labs instance with SSL/TLS encryption, follow the steps below:
