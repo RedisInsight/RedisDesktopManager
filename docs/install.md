@@ -24,10 +24,7 @@
 
 ### Get source
 
-1. Install git: 
-    ```
-    sudo apt install git
-    ```
+1. Install git using the instructions here: https://git-scm.com/download/linux 
     
 2. Get the source code:
     ```
