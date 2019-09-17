@@ -59,25 +59,26 @@ void Model::executeCommand(const QString& cmd) {
 
     m_connection->command(command);
   } else {
-    Response result;
+      bool isSelect = command.isSelectCommand();
+      command.setCallBack(this, [this, isSelect](Response result, QString err) {
+        if (!err.isEmpty()) {
+            emit addOutput(QCoreApplication::translate("RDM", "Connection error: ") +
+                               QString(err),
+                           "error");
+          return;
+        }
 
-    try {
-      result = m_connection->commandSync(command);
-    } catch (Connection::Exception& e) {
-      emit addOutput(QCoreApplication::translate("RDM", "Connection error: ") +
-                         QString(e.what()),
-                     "error");
-      return;
-    }
+        if (isSelect || m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+          m_current_db = m_connection->dbIndex();
+          updatePrompt(false);
+        }
 
-    if (command.isSelectCommand() ||
-        m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
-      m_current_db = m_connection->dbIndex();
-      updatePrompt(false);
-    }
-    QVariant value = result.value();
-    emit addOutput(RedisClient::Response::valueToHumanReadString(value),
-                   "complete");
+        QVariant value = result.value();
+        emit addOutput(RedisClient::Response::valueToHumanReadString(value),
+                       "complete");
+      });
+
+      m_connection->command(command);
   }
 }
 
