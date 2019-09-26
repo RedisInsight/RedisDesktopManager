@@ -59,6 +59,8 @@ class AbstractOperation : public QObject {
       QSharedPointer<RedisClient::Connection> targetConnection,
       int targetDbIndex) = 0;
 
+  void incrementProgress();
+
  protected:
   QSharedPointer<RedisClient::Connection> m_connection;
   int m_dbIndex;
@@ -72,5 +74,6 @@ class AbstractOperation : public QObject {
   QStringList m_errors;
   QMutex m_errorsMutex;
   QMutex m_processedKeysMutex;
+  qint64 m_lastProgressNotification;
 };
 }  // namespace BulkOperations
