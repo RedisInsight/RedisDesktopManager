@@ -28,7 +28,6 @@ Instructions for certain cloud services are below:
 2. Make sure that the "Use SSL Protocol" checkbox is enabled.
 3. Your Azure Redis connection is ready to use.
 
-
 ### Redis Labs <br /> <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Redis_Labs_Logo.png" height="75" />
 To connect to a Redis Labs instance with SSL/TLS encryption, follow the steps below:
 
@@ -60,7 +59,8 @@ Follow instructions from [this blog post](https://userify.com/blog/howto-connect
 
 ### How to connect to Redis ElastiCache with In-Transit Encryption through EC2
 #### Using RedisDesktopManager >=0.9.9
-Click on "Enable TLS-over-SSH" in the SSH connection settings.
+Click on the "Enable TLS-over-SSH" option in the SSH connection settings and follow the instructions from the following link: [How to connect to Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2)
+
 
 #### Using RedisDesktopManager <0.9.9
 Follow instructions from [this documentation section to setup `stunnel` on an EC2 instance](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html#connect-tls)
@@ -68,7 +68,6 @@ Follow instructions from [this documentation section to setup `stunnel` on an EC
 After that [connect to your Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2).
 
 ## Connect to a UNIX socket
-
 Redis Desktop Manager [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
 
 ```
