@@ -1,6 +1,7 @@
 #include "rdbimport.h"
 #include <qpython.h>
 #include <QFileInfo>
+#include <QtConcurrent>
 
 BulkOperations::RDBImportOperation::RDBImportOperation(
     QSharedPointer<RedisClient::Connection> connection, int dbIndex,
@@ -63,36 +64,42 @@ void BulkOperations::RDBImportOperation::performOperation(
     return returnResults();
   }
 
+  auto processCommands = [this, returnResults](const QVariantList& commands) {    
+    for (QVariant cmd : commands) {
+      auto rawCmd = convertToByteArray(cmd);
+
+      if (rawCmd.at(0).toLower() == QByteArray("select")) {
+          continue;
+      }
+
+      auto future = m_connection->cmd(
+          rawCmd, this, -1,
+          [this](const RedisClient::Response&) { incrementProgress(); },
+          [this, rawCmd](const QString& err) {
+            QMutexLocker l(&m_errorsMutex);
+            m_errors.append(
+                QCoreApplication::translate("RDM", "Cannot execute command ") +
+                QString("%1: %2")
+                    .arg(QString::fromUtf8(rawCmd.join(QByteArray(" "))))
+                    .arg(err));
+          });
+
+      m_combinator->combine(future);
+    }
+    m_combinator->subscribe(returnResults, returnResults);
+  };
+
   m_python->call_native(
       "rdb.rdb_export_as_commands",
       QVariantList{m_metadata["path"].toString(), m_metadata["db"].toInt(),
                    m_keyPattern.pattern()},
-      [returnResults, this](QVariant v) {
+      [processCommands, this](QVariant v) {
         QVariantList commands = v.toList();
 
-        for (QVariant cmd : commands) {
-          auto rawCmd = convertToByteArray(cmd);
-
-          auto future = m_connection->cmd(
-              rawCmd, this, m_dbIndex,
-              [this](const RedisClient::Response&) {
-                QMutexLocker l(&m_processedKeysMutex);
-                m_progress++;
-                emit progress(m_progress);
-              },
-              [this, rawCmd](const QString& err) {
-                QMutexLocker l(&m_errorsMutex);
-                m_errors.append(
-                    QCoreApplication::translate("RDM",
-                                                "Cannot execute command ") +
-                    QString("%1: %2")
-                        .arg(QString::fromUtf8(rawCmd.join(QByteArray(" "))))
-                        .arg(err));
-              });
-
-          m_combinator->combine(future);
-        }
-
-        m_combinator->subscribe(returnResults, returnResults);
+        m_connection->cmd(
+                {"select", QByteArray::number(m_dbIndex)}, this, -1,
+                [processCommands, commands](const RedisClient::Response&) {
+            QtConcurrent::run(processCommands, commands);
+        }, [](const QString&) {});
       });
 }

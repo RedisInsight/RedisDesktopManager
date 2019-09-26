@@ -8,7 +8,8 @@ BulkOperations::AbstractOperation::AbstractOperation(
       m_keyPattern(keyPattern),
       m_currentState(State::READY),
       m_progress(0),
-      m_callback(callback) {}
+      m_callback(callback),
+      m_lastProgressNotification(0) {}
 
 void BulkOperations::AbstractOperation::getAffectedKeys(
     std::function<void(QVariant, QString)> callback) {
@@ -82,5 +83,17 @@ int BulkOperations::AbstractOperation::currentProgress() const {
 }
 
 void BulkOperations::AbstractOperation::setMetadata(const QVariantMap& meta) {
-  m_metadata = meta;
+    m_metadata = meta;
+}
+
+void BulkOperations::AbstractOperation::incrementProgress()
+{
+    QMutexLocker l(&m_processedKeysMutex);
+    m_progress++;
+
+    if (QDateTime::currentMSecsSinceEpoch() - m_lastProgressNotification >= 1000) {
+        qDebug() << "Notify UI about progress";
+        emit progress(m_progress);
+        m_lastProgressNotification = QDateTime::currentMSecsSinceEpoch();
+    }
 }

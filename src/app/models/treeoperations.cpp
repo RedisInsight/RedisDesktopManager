@@ -114,7 +114,8 @@ void TreeOperations::requestBulkOperation(
           .arg(ns.getFullPath().size() > 0 ? conf().namespaceSeparator() : "");
   QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
-  emit m_events->requestBulkOperation(m_connection, ns.getDbIndex(), op, filter,
+  // NOTE(u_glide): Use "clean" connection wihout logger here for better performance
+  emit m_events->requestBulkOperation(m_connection->clone(), ns.getDbIndex(), op, filter,
                                       callback);
 }
 
@@ -271,7 +272,7 @@ void TreeOperations::copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) {
 
 void TreeOperations::importKeysFromRdb(ConnectionsTree::DatabaseItem& db) {
   emit m_events->requestBulkOperation(
-      m_connection, db.getDbIndex(),
+      m_connection->clone(), db.getDbIndex(),
       BulkOperations::Manager::Operation::IMPORT_RDB_KEYS, QRegExp(".*"),
       [&db](QRegExp, int, const QStringList&) { db.reload(); });
 }
