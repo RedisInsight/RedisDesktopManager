@@ -9,7 +9,7 @@ import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root    
-    title: isNewConnection ? qsTranslate("RDM","New Connection Settings") : qsTranslate("RDM","Edit Connection Settings") + settings.name
+    title: isNewConnection ? qsTranslate("RDM","New Connection Settings") : qsTranslate("RDM","Edit Connection Settings") + " " + settings.name
 
     modality: Qt.ApplicationModal
 
@@ -139,11 +139,11 @@ Dialog {
 
                     ScrollView {
                         id: mainSettingsScrollView
-                        width: settingsTabs.width - 20
+                        width:  settingsTabs.width - 20
                         height: settingsTabs.height
 
                         ColumnLayout {                                                        
-                            width: mainSettingsScrollView.width
+                            width: PlatformUtils.isOSX()? mainSettingsScrollView.width - 20 : mainSettingsScrollView.width
                             height: children.height
 
                             SettingsGroupTitle { text: qsTranslate("RDM","Main Settings") }

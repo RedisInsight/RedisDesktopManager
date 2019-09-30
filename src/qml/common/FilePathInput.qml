@@ -2,6 +2,8 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
+import "./platformutils.js" as PlatformUtils
+
 
 RowLayout {
     id: root
@@ -14,11 +16,12 @@ RowLayout {
 
     TextField {
         id: textField
+        readOnly: PlatformUtils.isOSX()
         Layout.fillWidth: true
     }
 
     Button {
-        text: "..."
+        text: qsTranslate("RDM","Select File")
         onClicked: fileDialog.open()
     }
 

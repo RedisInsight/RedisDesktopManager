@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
 import "./../../common/platformutils.js" as PlatformUtils
 import "."
+import "./../../common/"
 
 RowLayout {
     id: root
@@ -160,7 +161,7 @@ RowLayout {
             }
         }
 
-        ToolButton {
+        ImageButton {
             id: filterOk
             iconSource: "qrc:/images/ok.svg"
             objectName: "rdm_inline_menu_button_apply_filter"
@@ -176,14 +177,20 @@ RowLayout {
             }
         }
 
-        ToolButton {
+        ImageButton {
             id: filterHelp
+
+            imgWidth: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+            imgHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
             iconSource: "qrc:/images/help.svg"
             onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/features/#search-in-connection-tree")
         }
 
-        ToolButton {
+        ImageButton {
             id: filterCancel
+
+            imgWidth: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+            imgHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
             iconSource: "qrc:/images/clear.svg"
             objectName: "rdm_inline_menu_button_reset_filter"
 

@@ -272,7 +272,7 @@ ApplicationWindow {
             BetterTabView {
                 id: bottomTabView
                 Layout.fillWidth: true
-                Layout.minimumHeight: PlatformUtils.isOSXRetina()? 15 : 30
+                Layout.minimumHeight: PlatformUtils.isOSXRetina(Screen)? 15 : 30
 
                 tabPosition: Qt.BottomEdge
 
