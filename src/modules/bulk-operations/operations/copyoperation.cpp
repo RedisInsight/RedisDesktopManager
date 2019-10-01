@@ -1,4 +1,5 @@
 #include "copyoperation.h"
+#include <QtConcurrent>
 
 BulkOperations::CopyOperation::CopyOperation(
     QSharedPointer<RedisClient::Connection> connection, int dbIndex,
@@ -35,34 +36,68 @@ void BulkOperations::CopyOperation::performOperation(
       QString::number(m_metadata["ttl"].toLongLong() * 1000).toUtf8();
   QByteArray replace = m_metadata["replace"].toString().toUpper().toUtf8();
 
-  for (QString k : m_affectedKeys) {
-    auto err = errCallback(k);
+  auto processKeys =
+      [this, errCallback, returnResults, ttl,
+       replace](QSharedPointer<RedisClient::Connection> targetConnection) {
+        for (QString k : m_affectedKeys) {
+          auto err = errCallback(k);
 
-    auto future = m_connection->cmd(
-        {"DUMP", k.toUtf8()}, this, m_dbIndex,
-        [=](const RedisClient::Response& r) {
-          QList<QByteArray> cmd = {"RESTORE", k.toUtf8(), ttl,
-                                   r.value().toByteArray()};
+          auto restoreKeyOnTargetServer = [=](const RedisClient::Response& r) {
+            QList<QByteArray> cmd = {"RESTORE", k.toUtf8(), ttl,
+                                     r.value().toByteArray()};
 
-          if (!replace.isEmpty()) {
-            cmd.append(replace);
-          }
+            if (!replace.isEmpty()) {
+              cmd.append(replace);
+            }
 
-          auto targetFuture = targetConnection->cmd(
-              cmd, this, targetDbIndex,
-              [this](const RedisClient::Response&) {
-                QMutexLocker l(&m_processedKeysMutex);
-                m_progress++;
-                emit progress(m_progress);
-              },
-              err);
+            auto targetFuture = targetConnection->cmd(
+                cmd, this, -1,
+                [this](const RedisClient::Response& r) {
+                  QMutexLocker l(&m_processedKeysMutex);
+                  m_progress++;
+                  emit progress(m_progress);
+                },
+                err);
 
-          m_combinator->combine(targetFuture);
+            m_combinator->combine(targetFuture);
+          };
+
+          auto future = m_connection->cmd({"DUMP", k.toUtf8()}, this, -1,
+                                          restoreKeyOnTargetServer, err);
+
+          m_combinator->combine(future);
+        }
+
+        m_combinator->subscribe(returnResults, returnResults);
+      };
+
+  auto verifySourceConnection = [this, processKeys, targetConnection,
+                                 returnResults]() {
+    m_connection->cmd(
+        {"select", QByteArray::number(m_dbIndex)}, this, -1,
+        [processKeys, targetConnection](const RedisClient::Response&) {
+          QtConcurrent::run(processKeys, targetConnection);
         },
-        err);
+        [this, returnResults](const QString& err) {
+          QMutexLocker l(&m_errorsMutex);
+          m_errors.append(
+              QCoreApplication::translate(
+                  "RDM", "Cannot connect to source redis-server: %1")
+                  .arg(err));
+          returnResults();
+        });
+  };
 
-    m_combinator->combine(future);
-  }
-
-  m_combinator->subscribe(returnResults, returnResults);
+  targetConnection->cmd(
+      {"select", QByteArray::number(targetDbIndex)}, this, -1,
+      [verifySourceConnection](const RedisClient::Response&) {
+        verifySourceConnection();
+      },
+      [this, returnResults](const QString& err) {
+        QMutexLocker l(&m_errorsMutex);
+        m_errors.append(QCoreApplication::translate(
+                            "RDM", "Cannot connect to target redis-server: %1")
+                            .arg(err));
+        returnResults();
+      });
 }
