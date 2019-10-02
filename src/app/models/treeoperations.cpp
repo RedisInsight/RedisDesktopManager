@@ -255,6 +255,7 @@ void TreeOperations::deleteDbKeys(ConnectionsTree::DatabaseItem& db) {
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
   requestBulkOperation(ns, BulkOperations::Manager::Operation::DELETE_KEYS,
                        [this, &ns](QRegExp filter, int, const QStringList&) {
+                         ns.setRemoved();
                          emit m_events->closeDbKeys(m_connection,
                                                     ns.getDbIndex(), filter);
                        });
