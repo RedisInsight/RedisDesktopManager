@@ -120,7 +120,7 @@ Dialog {
 
     contentItem: Item {
         implicitWidth: 800
-        implicitHeight: PlatformUtils.isOSX()? 650 : 600
+        implicitHeight: 650
 
         ColumnLayout {
             anchors.fill: parent
@@ -143,10 +143,8 @@ Dialog {
                         height: settingsTabs.height
 
                         ColumnLayout {                                                        
-                            width: PlatformUtils.isOSX()? mainSettingsScrollView.width - 20 : mainSettingsScrollView.width
+                            width: mainSettingsScrollView.width - 20
                             height: children.height
-
-                            SettingsGroupTitle { text: qsTranslate("RDM","Main Settings") }
 
                             GridLayout {
                                 columns: 2
@@ -195,15 +193,10 @@ Dialog {
                                 columns: 2
 
                                 BetterRadioButton {
-                                    text: qsTranslate("RDM","None")
-                                    checked: root.settings ? !root.settings.sslEnabled && !root.settings.useSshTunnel() : true
-                                    Layout.columnSpan: 2
-                                }
-
-                                BetterRadioButton {
                                     id: sslRadioButton
                                     Layout.columnSpan: 2
                                     text: qsTranslate("RDM","SSL")
+                                    allowUncheck: true
                                     checked: root.settings ? root.settings.sslEnabled && !root.sshEnabled : false
                                     Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
                                     onCheckedChanged: {
@@ -267,6 +260,7 @@ Dialog {
                                     objectName: "rdm_connection_security_ssh_radio_button"
                                     Layout.columnSpan: 2
                                     text: qsTranslate("RDM","SSH Tunnel")
+                                    allowUncheck: true
                                     checked: root.settings ? root.settings.useSshTunnel() : false
                                     Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
                                     onCheckedChanged: {

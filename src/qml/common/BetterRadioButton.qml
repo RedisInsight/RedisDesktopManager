@@ -4,6 +4,23 @@ import QtQuick.Controls 2.2
 RadioButton {
     id: root
 
+    property bool allowUncheck: false
+
+    property bool _uncheck: false
+
+    onPressed: {
+        if (allowUncheck && checked) {
+            _uncheck = true
+        }
+    }
+
+    onReleased: {
+        if (_uncheck) {
+            checked = false
+            _uncheck = false
+        }
+    }
+
     indicator: Rectangle {
            implicitWidth: 16
            implicitHeight: 16
