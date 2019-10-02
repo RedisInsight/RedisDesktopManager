@@ -21,6 +21,7 @@ RowLayout {
     }
 
     Button {
+        objectName: root.objectName? root.objectName + "_button" : ""
         text: qsTranslate("RDM","Select File")
         onClicked: fileDialog.open()
     }
