@@ -50,4 +50,14 @@ unix:!macx { # ubuntu & debian
     }
 
     LIBS += -lz
+
+    # Unix signal watcher
+    defined(LINUX_SIGNALS, var) {
+        message("Build with qt-unix-signals")
+
+        DEFINES += LINUX_SIGNALS
+        HEADERS += $$PWD/qt-unix-signals/sigwatch.h
+        SOURCES += $$PWD/qt-unix-signals/sigwatch.cpp
+        INCLUDEPATH += $$PWD/qt-unix-signals/
+    }
 }
