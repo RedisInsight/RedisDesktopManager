@@ -9,6 +9,7 @@ RequestExecutionLevel admin
 
 SetCompress force
 SetCompressor /SOLID /FINAL lzma
+ManifestDPIAware true
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(Name)"
