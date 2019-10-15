@@ -4,8 +4,8 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDateTime>
-#include <QFileInfo>
 #include <QDebug>
+#include <QFileInfo>
 #include <QtCharts/QDateTimeAxis>
 
 #include "apputils.h"
@@ -105,12 +105,11 @@ QVariant QmlUtils::toUtf(const QVariant &value) {
 }
 
 QString QmlUtils::getPathFromUrl(const QUrl &url) {
-    return url.isLocalFile() ? url.toLocalFile() : url.path();
+  return url.isLocalFile() ? url.toLocalFile() : url.path();
 }
 
-bool QmlUtils::fileExists(const QString &path)
-{
-    return QFileInfo::exists(path);
+bool QmlUtils::fileExists(const QString &path) {
+  return QFileInfo::exists(path);
 }
 
 void QmlUtils::copyToClipboard(const QString &text) {
@@ -157,9 +156,17 @@ void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series,
 }
 
 QObject *QmlUtils::wrapLargeText(const QByteArray &text) {
-  // NOTE(u_glide): Use 150Kb chunks
-  auto w =
-      new ValueEditor::LargeTextWrappingModel(QString::fromUtf8(text), 153600);
+  // NOTE(u_glide): Use 150Kb chunks by default
+
+  int chunkSize = 153600;
+
+  // Work-around to prevent html corruption
+  if (text.startsWith("<pre")) {
+    chunkSize = text.size();
+  }
+
+  auto w = new ValueEditor::LargeTextWrappingModel(QString::fromUtf8(text),
+                                                   chunkSize);
   w->setParent(this);
   return w;
 }
