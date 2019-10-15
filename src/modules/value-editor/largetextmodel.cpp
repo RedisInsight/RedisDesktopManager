@@ -16,8 +16,10 @@ QHash<int, QByteArray> ValueEditor::LargeTextWrappingModel::roleNames() const {
 }
 
 int ValueEditor::LargeTextWrappingModel::rowCount(const QModelIndex &) const {
-  return m_text.size() / m_chunkSize +
+  int size= m_text.size() / m_chunkSize +
          (m_text.size() % m_chunkSize == 0 ? 0 : 1);
+
+  return size > 0 ? size : 1;
 }
 
 QVariant ValueEditor::LargeTextWrappingModel::data(const QModelIndex &index,

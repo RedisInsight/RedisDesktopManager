@@ -26,7 +26,7 @@ ColumnLayout
         // init editor with empty model
         textView.model = qmlUtils.wrapLargeText("")
         textView.readOnly = false
-        textView.textFormat = TextEdit.PlainText
+        textView.textFormat = TextEdit.PlainText            
     }
 
     function validationRule(raw)
@@ -322,21 +322,26 @@ ColumnLayout
                 property string format
 
                 delegate:
-                    NewTextArea {
-                        id: textAreaPart
-                        objectName: "rdm_key_multiline_text_field_" + index
+                    Item {
                         width: texteditorWrapper.width
                         height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
 
-                        enabled: root.enabled
-                        text: value
+                        NewTextArea {
+                            anchors.fill: parent
+                            id: textAreaPart
+                            objectName: "rdm_key_multiline_text_field_" + index
 
-                        textFormat: textView.textFormat
-                        readOnly: textView.readOnly
 
-                        onTextChanged: {
-                            root.isEdited = true
-                            textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                            enabled: root.enabled
+                            text: value
+
+                            textFormat: textView.textFormat
+                            readOnly: textView.readOnly
+
+                            onTextChanged: {
+                                root.isEdited = true
+                                textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                            }
                         }
                     }
                 }
