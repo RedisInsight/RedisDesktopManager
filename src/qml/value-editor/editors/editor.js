@@ -16,7 +16,7 @@ function getEditorByTypeString(keyType) {
         return "./editors/HashItemEditor.qml"
     } else if (keyType === "stream") {
         return "./editors/StreamItemEditor.qml"
-    } else {
+    } else if (keyType) {
         console.error("Editor for type " + keyType + " is not defined!")
     }
 }

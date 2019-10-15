@@ -60,21 +60,11 @@ var json = {
     title: "JSON",
 
     getFormatted: function (raw, callback) {
-        try {
-            // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
-            return callback("", JSONFormatter.prettyPrint(JSONFormatter.minify(String(raw))), false, FORMAT_HTML)
-        } catch (e) {
-            return callback(qsTranslate("RDM", "Invalid JSON: ") + e)
-        }
+        console.error("Call JSON worker script")
     },
 
     isValid: function (raw, callback) {
-        try {
-            JSONFormatter.prettyPrint(String(raw))
-            return callback(true)
-        } catch (e) {
-            return callback(false)
-        }
+        console.error("Call JSON worker script")
     },
 
     getRaw: function (formatted, callback) {

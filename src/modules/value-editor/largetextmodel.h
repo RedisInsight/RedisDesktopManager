@@ -1,42 +1,42 @@
 #pragma once
 #include <QAbstractListModel>
-#include <QSharedPointer>
 #include <QHash>
 #include <QList>
+#include <QSharedPointer>
 
 namespace ValueEditor {
 
-class LargeTextWrappingModel : public QAbstractListModel
-{
-    // TODO(u_glide): Process out of memory exceptions
+class LargeTextWrappingModel : public QAbstractListModel {
+  // TODO(u_glide): Process out of memory exceptions
 
-    Q_OBJECT
-public:
-    LargeTextWrappingModel(const QString& text=QString(), uint chunkSize=10000);
+  Q_OBJECT
+ public:
+  LargeTextWrappingModel(const QString &text = QString(),
+                         uint chunkSize = 10000);
 
-    ~LargeTextWrappingModel();
+  ~LargeTextWrappingModel();
 
-    QHash<int, QByteArray> roleNames() const;
+  QHash<int, QByteArray> roleNames() const;
 
-    int rowCount(const QModelIndex &parent= QModelIndex()) const override;
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index, int role) const;
+  QVariant data(const QModelIndex &index, int role) const;
 
-    void setText(const QString& text);
+  void setText(const QString &text);
 
-public slots:
-    void cleanUp();
+ public slots:
+  void cleanUp();
 
-    QString getText();
+  QString getText();
 
-    void setTextChunk(uint row, QString text);
+  void setTextChunk(uint row, QString text);
 
-private:
-    bool isIndexValid(const QModelIndex &index) const;
+ private:
+  bool isIndexValid(const QModelIndex &index) const;
 
-private:
-    uint m_chunkSize;
-    QList<QString> m_textRows;
+ private:
+  uint m_chunkSize;
+  QString m_text;
 };
 
-}
+}  // namespace ValueEditor
