@@ -30,10 +30,11 @@ Dialog {
                 id: globalSettingsScrollView
                 width: parent.width
                 height: parent.height
+                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
                 ColumnLayout {
                     id: innerLayout
-                    width: globalSettingsScrollView.width - 20
+                    width: globalSettingsScrollView.width - 25
                     height: (dialogRoot.height - 50 > implicitHeight) ? dialogRoot.height - 50 : implicitHeight
 
                     SettingsGroupTitle {
