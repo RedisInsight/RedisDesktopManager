@@ -142,8 +142,10 @@ Dialog {
                         width:  settingsTabs.width - 20
                         height: settingsTabs.height
 
+                        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+
                         ColumnLayout {                                                        
-                            width: mainSettingsScrollView.width - 20
+                            width: mainSettingsScrollView.width - 25
                             height: children.height
 
                             GridLayout {

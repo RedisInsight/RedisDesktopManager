@@ -1,6 +1,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QScreen>
 
 #ifdef CRASHPAD_INTEGRATION
 #include "crashpad/handler.h"
@@ -15,10 +16,7 @@
 #define RESTART_CODE 1000
 
 int main(int argc, char *argv[])
-{           
-#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif    
+{             
     int returnCode = 0;
 
 #ifdef CRASHPAD_INTEGRATION
@@ -27,9 +25,26 @@ int main(int argc, char *argv[])
     startCrashpad(appDir);
 #endif
 
+    bool scalingSetup = false;
+
     do
     {
         Application a(argc, argv);
+
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+        if (!scalingSetup) {
+            if (QGuiApplication::primaryScreen() && QGuiApplication::primaryScreen()->availableSize().width() <= 1920
+                    && QGuiApplication::primaryScreen()->devicePixelRatio() > 1
+                    && !QGuiApplication::testAttribute(Qt::AA_DisableHighDpiScaling)) {
+                QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+            } else {
+                QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+            }
+            returnCode = RESTART_CODE;
+            scalingSetup = true;
+            continue;
+        }
+#endif
 
 #ifdef LINUX_SIGNALS
         UnixSignalWatcher sigwatch;
