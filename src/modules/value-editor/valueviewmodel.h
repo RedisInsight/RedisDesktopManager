@@ -11,6 +11,7 @@ namespace ValueEditor {
 class ValueViewModel : public BaseListModel {
   Q_OBJECT
 
+  Q_PROPERTY(bool singlePageMode READ singlePageMode WRITE setSinglePageMode NOTIFY singlePageModeChanged)
   Q_PROPERTY(int totalRowCount READ totalRowCount NOTIFY totalRowCountChanged)
   Q_PROPERTY(int pageSize READ pageSize NOTIFY pageSizeChanged)
   Q_PROPERTY(
@@ -44,6 +45,9 @@ class ValueViewModel : public BaseListModel {
   Q_INVOKABLE void loadRows(int start, int limit);
   Q_INVOKABLE void reload();
 
+  void setSinglePageMode(bool v);
+  bool singlePageMode() const;
+
   int totalRowCount();
   int pageSize();
   QVariantList columnNames();
@@ -57,6 +61,7 @@ class ValueViewModel : public BaseListModel {
   void keyRenamed();
   void keyRemoved();
   void keyTTLChanged();
+  void singlePageModeChanged();
 
  protected:
   int mapRowIndex(int i);
@@ -65,6 +70,7 @@ class ValueViewModel : public BaseListModel {
   QSharedPointer<Model> m_model;
   int m_startFramePosition;
   int m_lastLoadedRowFrameSize;
+  bool m_singlePageMode;
 };
 
 }  // namespace ValueEditor

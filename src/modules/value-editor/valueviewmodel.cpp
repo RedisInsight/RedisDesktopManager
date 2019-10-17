@@ -9,12 +9,17 @@ ValueEditor::ValueViewModel::ValueViewModel(QSharedPointer<Model> model)
     : BaseListModel(),
       m_model(model),
       m_startFramePosition(0),
-      m_lastLoadedRowFrameSize(0) {}
+      m_lastLoadedRowFrameSize(0),
+      m_singlePageMode(false) {}
 
 int ValueEditor::ValueViewModel::rowCount(const QModelIndex& parent) const {
   Q_UNUSED(parent);
 
-  return m_lastLoadedRowFrameSize;
+  if (m_singlePageMode) {
+    return m_model->rowsCount();
+  } else {
+    return m_lastLoadedRowFrameSize;
+  }
 }
 
 QVariant ValueEditor::ValueViewModel::data(const QModelIndex& index,
@@ -97,6 +102,16 @@ void ValueEditor::ValueViewModel::reload() {
                                        ? m_model->rowsCount()
                                        : pageSize());
   });
+}
+
+void ValueEditor::ValueViewModel::setSinglePageMode(bool v) {
+  m_singlePageMode = v;
+  emit singlePageModeChanged();
+}
+
+bool ValueEditor::ValueViewModel::singlePageMode() const
+{
+    return m_singlePageMode;
 }
 
 bool ValueEditor::ValueViewModel::isRowLoaded(int i) {
