@@ -27,11 +27,15 @@ int main(int argc, char *argv[])
 
     bool scalingSetup = false;
 
+#if defined(Q_OS_LINUX)
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
     do
     {
         Application a(argc, argv);
 
-#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+#if defined(Q_OS_WIN)
         if (!scalingSetup) {
             if (QGuiApplication::primaryScreen() && QGuiApplication::primaryScreen()->availableSize().width() <= 1920
                     && QGuiApplication::primaryScreen()->devicePixelRatio() > 1
