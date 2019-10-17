@@ -476,7 +476,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
         <source>Search in All values</source>
-        <translation type="unfinished"></translation>
+        <translation>搜尋全部的鍵值</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="714"/>
@@ -936,7 +936,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>程式將會重新啟動以套用新的設定</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="66"/>
@@ -987,11 +987,11 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="154"/>
         <source>External Value View Formatters</source>
-        <translation type="unfinished"></translation>
+        <translation>外部的值格式化工具</translation>
     </message>
     <message>
         <source>Custom Value View Formatters</source>
-        <translation type="vanished">自訂值格式化工具</translation>
+        <translation type="vanished">自訂的值格式化工具</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="159"/>
@@ -1525,12 +1525,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="84"/>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>無法連線到來源 Redis 伺服器: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="98"/>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>無法連線到目標 Redis 伺服器: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
@@ -1564,7 +1564,7 @@
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="25"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇檔案</translation>
     </message>
 </context>
 <context>
