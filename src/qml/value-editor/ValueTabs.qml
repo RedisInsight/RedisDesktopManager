@@ -71,6 +71,13 @@ Repeater {
                 filterSyntax: SortFilterProxyModel.Wildcard
                 filterCaseSensitivity: Qt.CaseInsensitive
                 filterRole: keyTab.keyModel ? table.getColumn(1).role : ""
+
+                Component.onCompleted:  {
+                    if (keyTab.keyModel && keyTab.keyModel.singlePageMode) {
+                        // NOTE(u_glide): disable live search in all values
+                        filterString = table.searchField.text
+                    }
+                }
             }
         }
 
@@ -572,14 +579,48 @@ Repeater {
                                 }
                             }
 
-                            TextField {
-                                id: searchField
+                            RowLayout {
+                                Layout.preferredWidth: 195
+
+                                TextField {
+                                    id: searchField
+
+                                    Layout.fillWidth: true
+
+                                    readOnly: keyTab.keyModel.singlePageMode
+                                    placeholderText: qsTranslate("RDM","Search on page...")
+
+                                    Component.onCompleted: {
+                                        table.searchField = searchField
+                                    }
+                                }
+
+                                Button {
+                                    id: clearGlobalSearch
+                                    visible: keyTab.keyModel.singlePageMode
+
+                                    iconSource: "qrc:/images/clear.svg"
+
+                                    onClicked: {
+                                        wrapper.showLoader()
+                                        searchField.text = ""
+                                        keyTab.keyModel.singlePageMode = false
+                                        reLoadAction.trigger()
+                                    }
+                                }
+                            }
+
+                            Button {
+                                id: globalSearch
 
                                 Layout.preferredWidth: 195
-                                placeholderText: qsTranslate("RDM","Search on page...")
+                                iconSource: "qrc:/images/execute.svg"
+                                text: qsTranslate("RDM","Search through All values")
 
-                                Component.onCompleted: {
-                                    table.searchField = searchField
+                                onClicked: {
+                                    wrapper.showLoader()
+                                    keyTab.keyModel.singlePageMode = true
+                                    keyTab.keyModel.loadRows(0, keyTab.keyModel.totalRowCount)
                                 }
                             }
 

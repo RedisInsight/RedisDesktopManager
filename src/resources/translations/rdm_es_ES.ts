@@ -143,13 +143,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="265"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="294"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="264"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="293"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>No se puede conectar al nodo del cluster %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="303"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="302"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>No se puede vaciar db (%1): %2</translation>
     </message>
@@ -157,17 +157,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="60"/>
+        <location filename="../../app/app.cpp" line="57"/>
         <source>Settings directory is not writable</source>
         <translation>El directorio de ajustes no es grabable</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="62"/>
+        <location filename="../../app/app.cpp" line="59"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos del fichero o reinicia RDM como administrador.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="314"/>
+        <location filename="../../app/app.cpp" line="306"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>Por favor descarga la nueva versión de Redis Desktop Manager: %1</translation>
     </message>
@@ -236,7 +236,7 @@
         <location filename="../../app/models/key-models/abstractkey.h" line="295"/>
         <location filename="../../app/models/treeoperations.cpp" line="52"/>
         <location filename="../../app/models/treeoperations.cpp" line="101"/>
-        <location filename="../../modules/console/consolemodel.cpp" line="67"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="65"/>
         <source>Connection error: </source>
         <translation>Error de conexión: </translation>
     </message>
@@ -262,12 +262,12 @@
         <translation>No se puede cargar la clave %1 porque no existe en la base de datos. Por favor recarga el árbol de conexión e inténtalo de nuevo.</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="51"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="65"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
         <translation>No se puede cargar el TTL para la clave %1, error de conexión: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="57"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>Tipo de datos Redis no soportado %1</translation>
     </message>
@@ -295,17 +295,17 @@
         <translation>La versión Open Source de Redis Desktop Manager &lt;b&gt;no soporta túneles SSH&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; Para obtener todas las características, por favor, compra un suscripción en &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Cada suscripción individual nos proporciona fondos para continuar el proceso de desarrollo y proporcionar soporte a nuestros usuarios. &lt;br /&gt;Si tienes alguna pregunta, por favor, contacta con nosotros en &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Chat Telegram&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="181"/>
+        <location filename="../../app/models/treeoperations.cpp" line="182"/>
         <source>Cannot load keys: %1</source>
         <translation>No se pueden cargar las claves: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="239"/>
+        <location filename="../../app/models/treeoperations.cpp" line="240"/>
         <source>Delete key error: %1</source>
         <translation>Error: %1 borrando clave</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="312"/>
+        <location filename="../../app/models/treeoperations.cpp" line="314"/>
         <source>Cannot used memory for key: %1</source>
         <translation>No se puede hallar la memoria usada para la clave: %1</translation>
     </message>
@@ -318,7 +318,7 @@
         <translation type="vanished">Error de borrado de clave:</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="285"/>
+        <location filename="../../app/models/treeoperations.cpp" line="287"/>
         <source>Cannot flush database: </source>
         <translation>No se puede vaciar la base de datos: </translation>
     </message>
@@ -377,114 +377,119 @@
         <translation>Actualización automática se ha desactivado al superarse el límite de claves. Por favor especifica un filtro más restrictivo o cambia el límite en ajustes.</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="127"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="134"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="131"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="138"/>
         <source>Rename key</source>
         <translation>Renombrar la clave</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="140"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="147"/>
         <source>New name:</source>
         <translation>Nuevo nombre:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="170"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="232"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="177"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="257"/>
         <source>Size: </source>
         <translation>Tamaño: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="175"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="182"/>
         <source>TTL:</source>
         <translation>TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="180"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="187"/>
         <source>Set key TTL</source>
         <translation>Ajusta TTL de la clave</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="189"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="196"/>
         <source>New TTL:</source>
         <translation>Nuevo TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="220"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="227"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="225"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="232"/>
         <source>Delete key</source>
         <translation>Borrar Clave</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="226"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="233"/>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="137"/>
         <source>Do you really want to delete this key?</source>
         <translation>¿Seguro que quieres borrar esta clave?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="242"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="553"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="249"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="560"/>
         <source>Reload Value</source>
         <translation>Recargar Valor</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="436"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="445"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="443"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="452"/>
         <source>Add Row</source>
         <translation>Añadir Fila</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="444"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="659"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="451"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="700"/>
         <source>Add Element to HLL</source>
         <translation>Añadir Elemento a HLL</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="485"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="492"/>
         <source>Add</source>
         <translation>Añadir</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="516"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="536"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="523"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="543"/>
         <source>Delete row</source>
         <translation>Borrar Fila</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="522"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="529"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation>Esta fila es la última en la clave. Después de borrarla, la clave será borrada.</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="524"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="531"/>
         <source>Do you really want to remove this row?</source>
         <translation>¿Seguro que quieres borrar esta fila?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="579"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="591"/>
         <source>Search on page...</source>
         <translation>Buscar en la página...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="673"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
+        <source>Search in All values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="714"/>
         <source>Nothing to save</source>
         <translation>Nada que gurdar</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="685"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="726"/>
         <source>Value was updated!</source>
         <translation>¡Valor actualizado!</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="693"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="734"/>
         <source>Save value</source>
         <translation>Guardar valor</translation>
     </message>
@@ -606,12 +611,12 @@
         <translation type="vanished">No se puede recargar el valor de la clave</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="88"/>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="93"/>
         <source>Cannot reload key value: %1</source>
         <translation>No se puede recargar el valor de la clave: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="121"/>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="136"/>
         <source>Cannot load key value: %1</source>
         <translation>No se puede cargar el valor de la clave: %1</translation>
     </message>
@@ -679,9 +684,8 @@
         <translation>Ajustes de Conexión</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="149"/>
         <source>Main Settings</source>
-        <translation>Ajustes Principales</translation>
+        <translation type="vanished">Ajustes Principales</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="156"/>
@@ -719,94 +723,93 @@
         <translation>Seguridad</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="198"/>
         <source>None</source>
-        <translation>Ninguna</translation>
+        <translation type="vanished">Ninguna</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>SSL</source>
         <translation>SSL</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="228"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="223"/>
         <source>Public Key:</source>
         <translation>Clave Pública:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="233"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="228"/>
         <source>(Optional) Public Key in PEM format</source>
         <translation>(Opcional) Clave Pública en formato PEM</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="230"/>
         <source>Select public key in PEM format</source>
         <translation>Selecciona clave pública en formato PEM</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="245"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="240"/>
         <source>(Optional) Private Key in PEM format</source>
         <translation>(Opcional) Clave Privada en formato PEM</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="247"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="335"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="242"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="331"/>
         <source>Select private key in PEM format</source>
         <translation>Selecciona clave privada en formato PEM</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="252"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="247"/>
         <source>Authority:</source>
         <translation>Autoridad:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="257"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="252"/>
         <source>(Optional) Authority in PEM format</source>
         <translation>(Opcional) Autoridad en formato PEM</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="259"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="254"/>
         <source>Select authority file in PEM format</source>
         <translation>Selecciona autoridad en formato PEM</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="269"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="264"/>
         <source>SSH Tunnel</source>
         <translation>Túnel SSH</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="292"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="288"/>
         <source>SSH Address:</source>
         <translation>Dirección SSH:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="296"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="292"/>
         <source>Remote Host with SSH server</source>
         <translation>Host Remoto con servidor SSH</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="304"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="300"/>
         <source>SSH User:</source>
         <translation>Usuario SSH:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="310"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="306"/>
         <source>Valid SSH User Name</source>
         <translation>Nombre de Usuario SSH Válido</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="343"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="339"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
         <translation>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; para mostrar ficheros y carpetas ocultas en el diálogo</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="240"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="317"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="313"/>
         <source>Private Key</source>
         <translation>Clave Privada</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="333"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="329"/>
         <source>Path to Private Key in PEM format</source>
         <translation>Ruta a la Clave Privada en formato PEM</translation>
     </message>
@@ -815,189 +818,197 @@
         <translation type="vanished">&lt;b&gt;Consejo:&lt;/b&gt; Usa &lt;code&gt;? + Mayus + .&lt;/code&gt; para mostrar carpetas y ficheros ocultos en el diálogo</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="348"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="344"/>
         <source>Password</source>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="359"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="355"/>
         <source>SSH User Password</source>
         <translation>Contraseña Usuario SSH</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="370"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="366"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
         <translation>Activar TLS sobre SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encriptación en tránsito&lt;/b&gt;)</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="382"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="378"/>
         <source>Advanced Settings</source>
         <translation>Ajustes Avanzados</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="391"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="387"/>
         <source>Keys loading</source>
         <translation>Carga de claves</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="395"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="391"/>
         <source>Default filter:</source>
         <translation>Filtro por defecto:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="401"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="397"/>
         <source>Pattern which defines loaded keys from redis-server</source>
         <translation>Patrón que define las claves cargadas desde el servidor redis</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="407"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="403"/>
         <source>Namespace Separator:</source>
         <translation>Separador de Espacio de Nombres:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="414"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="410"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation>Separador usado para extracción de espacio de nombres de las claves</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="419"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="415"/>
         <source>Use server-side optimized keys loading (experimental):</source>
         <translation>Usar carga de claves optimizada en el lado del servidor (experimental):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="430"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="426"/>
         <source>Timeouts &amp; Limits</source>
         <translation>Timeouts y Límites</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="434"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="430"/>
         <source>Connection Timeout (sec):</source>
         <translation>Timeout de Conexión (seg):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="447"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="443"/>
         <source>Execution Timeout (sec):</source>
         <translation>Timeout de Ejecución (seg):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="458"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="454"/>
         <source>Databases discovery limit:</source>
         <translation>Límite de descubrimiento de Bases de datos:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="472"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="468"/>
         <source>Cluster</source>
         <translation>Cluster</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="476"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="472"/>
         <source>Change host on cluster redirects:</source>
         <translation>Cambiar host en redirección de cluster:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="504"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="500"/>
         <source>Invalid settings detected!</source>
         <translation>Ajustes inválidos detectados!</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="510"/>
         <source>Test Connection</source>
         <translation>Probar Conexión</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="534"/>
-        <location filename="../../qml/GlobalSettings.qml" line="188"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="530"/>
+        <location filename="../../qml/GlobalSettings.qml" line="202"/>
         <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="546"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="542"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="38"/>
+        <location filename="../../qml/GlobalSettings.qml" line="41"/>
         <source>General</source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="49"/>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="50"/>
-        <location filename="../../qml/GlobalSettings.qml" line="62"/>
-        <location filename="../../qml/GlobalSettings.qml" line="74"/>
-        <location filename="../../qml/GlobalSettings.qml" line="85"/>
         <source>Application restart is needed to apply this setting.</source>
-        <translation>Se necesita reiniciar la aplicación para aplicar este ajuste.</translation>
+        <translation type="vanished">Se necesita reiniciar la aplicación para aplicar este ajuste.</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="61"/>
+        <location filename="../../qml/GlobalSettings.qml" line="53"/>
+        <location filename="../../qml/GlobalSettings.qml" line="67"/>
+        <location filename="../../qml/GlobalSettings.qml" line="81"/>
+        <location filename="../../qml/GlobalSettings.qml" line="94"/>
+        <source>Application will be restarted to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="66"/>
         <source>Font</source>
         <translation>Fuente</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="73"/>
+        <location filename="../../qml/GlobalSettings.qml" line="80"/>
         <source>Font Size</source>
         <translation>Tamaño Fuente</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="84"/>
+        <location filename="../../qml/GlobalSettings.qml" line="93"/>
         <source>Use system proxy settings</source>
         <translation>Usar ajustes del proxy del sistema</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="89"/>
+        <location filename="../../qml/GlobalSettings.qml" line="100"/>
         <source>Connections Tree</source>
         <translation>Árbol de conexiones</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="100"/>
+        <location filename="../../qml/GlobalSettings.qml" line="111"/>
         <source>Reopen namespaces on reload</source>
         <translation>Reabrir espacios de nombres al recargar</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="101"/>
         <location filename="../../qml/GlobalSettings.qml" line="112"/>
+        <location filename="../../qml/GlobalSettings.qml" line="123"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>Desactivar para mejorar el rendimiento de la vista de árbol</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="111"/>
+        <location filename="../../qml/GlobalSettings.qml" line="122"/>
         <source>Enable key sorting in tree</source>
         <translation>Activar ordenamiento de claves en el árbol</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="124"/>
+        <location filename="../../qml/GlobalSettings.qml" line="135"/>
         <source>Live update maximum allowed keys</source>
         <translation>Máximo de claves permitidas en actualización automática</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="137"/>
+        <location filename="../../qml/GlobalSettings.qml" line="148"/>
         <source>Live update interval (in seconds)</source>
         <translation>Intervalo de actualización automática (en segundos)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="142"/>
-        <source>Custom Value View Formatters</source>
-        <translation>Formateadores personalizados de visor de valores</translation>
+        <location filename="../../qml/GlobalSettings.qml" line="154"/>
+        <source>External Value View Formatters</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="146"/>
+        <source>Custom Value View Formatters</source>
+        <translation type="vanished">Formateadores personalizados de visor de valores</translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="159"/>
         <source>Formatters path: %0</source>
         <translation>Ruta a formateadores: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="158"/>
+        <location filename="../../qml/GlobalSettings.qml" line="172"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="163"/>
+        <location filename="../../qml/GlobalSettings.qml" line="177"/>
         <source>Version</source>
         <translation>Versión</translation>
     </message>
@@ -1079,30 +1090,25 @@
         <translation type="vanished">¿De verdad quieres realizar la operación masiva?</translation>
     </message>
     <message>
-        <location filename="../../modules/signin/qml/SignInDialog.qml" line="9"/>
         <source>Sign in with RedisDesktop.com account</source>
-        <translation>Identificarse con una cuenta RedisDesktop</translation>
+        <translation type="vanished">Identificarse con una cuenta RedisDesktop</translation>
     </message>
     <message>
-        <location filename="../../modules/signin/qml/SignInDialog.qml" line="130"/>
         <source>Email:</source>
-        <translation>Email:</translation>
+        <translation type="vanished">Email:</translation>
     </message>
     <message>
-        <location filename="../../modules/signin/qml/SignInDialog.qml" line="141"/>
         <source>Password:</source>
-        <translation>Contraseña:</translation>
+        <translation type="vanished">Contraseña:</translation>
     </message>
     <message>
-        <location filename="../../modules/signin/qml/SignInDialog.qml" line="160"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>Mostrar contraseña</translation>
     </message>
     <message>
-        <location filename="../../modules/signin/qml/SignInDialog.qml" line="172"/>
         <source>Sign In</source>
-        <translation>Identificarse</translation>
+        <translation type="vanished">Identificarse</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="91"/>
@@ -1110,80 +1116,80 @@
         <translation> (Borrado)</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="73"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="74"/>
         <source>Open Keys Filter</source>
         <translation>Abrir Filtro de Claves</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="77"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="78"/>
         <source>Reload Keys in Database</source>
         <translation>Recargar Claves en la Base de Datos</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="81"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="82"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="29"/>
         <source>Add New Key</source>
         <translation>Añadir Nueva Clave</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="87"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="88"/>
         <source>Disable Live Update</source>
         <translation>Desactivar Actualización Automática</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="87"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="88"/>
         <source>Enable Live Update</source>
         <translation>Activar Actualización Automática</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="91"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="92"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Open Console</source>
         <translation>Abrir Consola</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="95"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="31"/>
         <source>Analyze Used Memory</source>
         <translation>Analizar Memoria Usada</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="96"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="97"/>
         <source>Bulk Operations</source>
         <translation>Operaciones Masivas</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="117"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="118"/>
         <source>Flush Database</source>
         <translation>Vaciar Base de Datos</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="120"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="121"/>
         <source>Delete keys with filter</source>
         <translation>Borrar claves con filtro</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="123"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
         <source>Set TTL for multiple keys</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="126"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="127"/>
         <source>Copy keys from this database to another</source>
         <translation>Copiar claves desde esta base de datos a otra</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="129"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="130"/>
         <source>Import keys from RDB file</source>
         <translation>Importar claves desde fichero RDB</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="132"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="133"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="152"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="153"/>
         <source>Enter Filter</source>
         <translation>Introducir Filtro</translation>
     </message>
@@ -1208,7 +1214,7 @@
         <translation>Borrar Espacio de Nombres</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="67"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
         <source>Disconnect</source>
@@ -1267,7 +1273,7 @@
         <translation>Argumentos</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="173"/>
+        <location filename="../../qml/GlobalSettings.qml" line="187"/>
         <location filename="../../qml/console/RedisConsole.qml" line="198"/>
         <source>Description</source>
         <translation>Descripción</translation>
@@ -1368,7 +1374,7 @@
         <translation>Nombre de Canal</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="167"/>
+        <location filename="../../qml/GlobalSettings.qml" line="181"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="360"/>
         <source>Command</source>
         <translation>Comando</translation>
@@ -1425,13 +1431,13 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="667"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="708"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="85"/>
+        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="75"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -1450,32 +1456,32 @@
         <translation>Introduzca un valor válido</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="178"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="234"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>Error desconocido de formateador (Respuesta vacía)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="237"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="262"/>
         <source>[Binary]</source>
         <translation>[Binario]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="238"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="263"/>
         <source> [Compressed: </source>
         <translation> [Comprimido: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="243"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="268"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar al Portapapeles</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="252"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="277"/>
         <source>View as:</source>
         <translation>Ver como:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="271"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="296"/>
         <source>Large value (&gt;150kB). Formatters is not available.</source>
         <translation>Valor grande (&gt;150kB). Formateadores no disponibles.</translation>
     </message>
@@ -1486,9 +1492,8 @@
         <translation>Score</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/formatters/formatters.js" line="67"/>
         <source>Invalid JSON: </source>
-        <translation>JSON Inválido: </translation>
+        <translation type="vanished">JSON Inválido: </translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="180"/>
@@ -1521,9 +1526,19 @@
         <translation>Fallo al realizar acciones en las claves: %1. </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="29"/>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="30"/>
         <source>Cannot copy key </source>
         <translation>No se puede copiar la clave </translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="84"/>
+        <source>Cannot connect to source redis-server: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="98"/>
+        <source>Cannot connect to target redis-server: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
@@ -1531,7 +1546,7 @@
         <translation>No se puede borrar la clave </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="86"/>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="81"/>
         <source>Cannot execute command </source>
         <translation>No se puede ejecutar el comando </translation>
     </message>
@@ -1551,9 +1566,13 @@
         <translation>Clave añadida. ¿Quiere recargar las claves en el namespace seleccionado?</translation>
     </message>
     <message>
-        <location filename="../../modules/signin/signin_model.cpp" line="224"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</source>
-        <translation>No se puede iniciar sesión - %1. &lt;br/&gt; Por favor, inténtalo de nuevo o contacta con &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</translation>
+        <translation type="vanished">No se puede iniciar sesión - %1. &lt;br/&gt; Por favor, inténtalo de nuevo o contacta con &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/FilePathInput.qml" line="25"/>
+        <source>Select File</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
