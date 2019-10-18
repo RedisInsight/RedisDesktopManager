@@ -338,7 +338,7 @@ ColumnLayout
                             textFormat: textView.textFormat
                             readOnly: textView.readOnly
 
-                            onTextChanged: {
+                            Keys.onReleased: {
                                 root.isEdited = true
                                 textView.model && textView.model.setTextChunk(index, textAreaPart.text)
                             }

@@ -36,7 +36,7 @@ class LargeTextWrappingModel : public QAbstractListModel {
 
  private:
   uint m_chunkSize;
-  QString m_text;
+  QList<QString> m_textRows;
 };
 
 }  // namespace ValueEditor
