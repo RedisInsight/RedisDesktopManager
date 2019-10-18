@@ -476,7 +476,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
         <source>Search in All values</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">搜索所有值</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="714"/>
@@ -934,7 +934,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>程序将重新启动以应用新的设置</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="66"/>
@@ -985,7 +985,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="154"/>
         <source>External Value View Formatters</source>
-        <translation type="unfinished"></translation>
+        <translation>外部的值格式化程序</translation>
     </message>
     <message>
         <source>Custom Value View Formatters</source>
@@ -1523,12 +1523,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="84"/>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法连接到源 Redis 服务器: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="98"/>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法连接到目标 Redis 服务器: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
@@ -1562,7 +1562,7 @@
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="25"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation>选择文件</translation>
     </message>
 </context>
 <context>
