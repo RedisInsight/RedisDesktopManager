@@ -126,13 +126,17 @@ done${UNSECTION_ID}:
 
 # Uninstaller sections
 Section /o -un.Main UNSEC0000
+    ${nsProcess::KillProcess} "${APP_EXE}" $R4
+    Sleep 1000
     Delete /REBOOTOK $INSTDIR\*
-    Delete /REBOOTOK $INSTDIR\platforms\*
+    RmDir /REBOOTOK /r $INSTDIR\*
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
 Section -un.post UNSEC0001
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
+    Delete /REBOOTOK "$DESKTOP\RedisDesktopManager.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\RedisDesktopManager.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     DeleteRegValue HKLM "${REGKEY}" Path
