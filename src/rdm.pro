@@ -11,7 +11,7 @@ TEMPLATE = app
 
 # Skip version file
 !exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"2019.4.0\\\"
+    DEFINES += RDM_VERSION=\\\"2019.5.0\\\"
 }
 
 SOURCES += \
@@ -79,6 +79,7 @@ win32 {
 }
 
 unix:macx { # OSX
+    TARGET = "Redis Desktop Manager"
     QT += svg
     CONFIG += c++11
 
