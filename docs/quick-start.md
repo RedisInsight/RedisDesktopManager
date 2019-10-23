@@ -21,7 +21,7 @@ Instructions for certain cloud services are below:
 <img src="http://redisdesktop.com/static/docs/rdm_ssl.png?v=2" />
 
 
-### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" height="100" />
+### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" width="100" />
 
 1. Create a connection with all requested information.
  <br /> <img src="http://redisdesktop.com/static/docs/rdm_ssl_azure.png?v=2" />
