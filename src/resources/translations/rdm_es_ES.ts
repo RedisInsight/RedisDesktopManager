@@ -143,13 +143,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="264"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="293"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="260"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="292"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>No se puede conectar al nodo del cluster %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="302"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="303"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="321"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>No se puede vaciar db (%1): %2</translation>
     </message>
@@ -475,7 +476,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
-        <source>Search in All values</source>
+        <source>Search through All values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -898,24 +899,34 @@
         <translation>Cambiar host en redirección de cluster:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="500"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
+        <source>TLS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="486"/>
+        <source>Ignore all SSL/TLS errors (&lt;b&gt;dangerous&lt;/b&gt;):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
         <source>Invalid settings detected!</source>
         <translation>Ajustes inválidos detectados!</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="510"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="524"/>
         <source>Test Connection</source>
         <translation>Probar Conexión</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="530"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="544"/>
         <location filename="../../qml/GlobalSettings.qml" line="202"/>
         <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="542"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="556"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>

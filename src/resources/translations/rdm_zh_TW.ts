@@ -143,13 +143,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="264"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="293"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="260"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="292"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>無法連接到叢集節點 %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="302"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="303"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="321"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>無法清空資料庫 (%1): %2</translation>
     </message>
@@ -475,8 +476,12 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
+        <source>Search through All values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Search in All values</source>
-        <translation>搜尋全部的鍵值</translation>
+        <translation type="vanished">搜尋全部的鍵值</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="714"/>
@@ -894,24 +899,34 @@
         <translation>在叢集重定向後改變 host :</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="500"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
+        <source>TLS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="486"/>
+        <source>Ignore all SSL/TLS errors (&lt;b&gt;dangerous&lt;/b&gt;):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
         <source>Invalid settings detected!</source>
         <translation>檢測到無效的設定！</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="510"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="524"/>
         <source>Test Connection</source>
         <translation>測試連線</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="530"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="544"/>
         <location filename="../../qml/GlobalSettings.qml" line="202"/>
         <location filename="../../qml/QuickStartDialog.qml" line="54"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="542"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="556"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <source>Cancel</source>
         <translation>取消</translation>
