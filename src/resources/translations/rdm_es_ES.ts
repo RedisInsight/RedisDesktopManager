@@ -477,7 +477,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
         <source>Search through All values</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar en Todos los valores</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="714"/>
@@ -800,8 +800,8 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="339"/>
-        <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; para mostrar ficheros y carpetas ocultas en el diálogo</translation>
+        <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;? + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
+        <translation>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;? + Shift + .&lt;/code&gt; para mostrar ficheros y carpetas ocultas en el diálogo</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
@@ -813,10 +813,6 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="329"/>
         <source>Path to Private Key in PEM format</source>
         <translation>Ruta a la Clave Privada en formato PEM</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;? + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation type="vanished">&lt;b&gt;Consejo:&lt;/b&gt; Usa &lt;code&gt;? + Mayus + .&lt;/code&gt; para mostrar carpetas y ficheros ocultos en el diálogo</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="344"/>
@@ -901,12 +897,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
         <source>TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>TLS</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="486"/>
         <source>Ignore all SSL/TLS errors (&lt;b&gt;dangerous&lt;/b&gt;):</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorar todos los errores SSL/TLS (&lt;b&gt;peligroso&lt;/b&gt;):</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
@@ -951,7 +947,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>La aplicación se reiniciara para aplicar este ajuste.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="66"/>
@@ -1002,7 +998,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="154"/>
         <source>External Value View Formatters</source>
-        <translation type="unfinished"></translation>
+        <translation>Formateadores Externos de Visor de Valores</translation>
     </message>
     <message>
         <source>Custom Value View Formatters</source>
@@ -1366,8 +1362,8 @@
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="383"/>
-        <source>Execution Time (μs)</source>
-        <translation>Tiempo de ejecución (μs)</translation>
+        <source>Execution Time (µs)</source>
+        <translation>Tiempo de ejecución (µs)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="450"/>
@@ -1544,12 +1540,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="84"/>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede conectar al servidor origen redis: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="98"/>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede conectar al servidor destino redis: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
@@ -1583,7 +1579,7 @@
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="25"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar Fichero</translation>
     </message>
 </context>
 <context>
