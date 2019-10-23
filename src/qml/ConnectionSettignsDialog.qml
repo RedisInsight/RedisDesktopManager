@@ -478,6 +478,20 @@ Dialog {
                                 onCheckedChanged: root.settings.overrideClusterHost = checked
                             }
 
+                            SettingsGroupTitle {
+                                text: qsTranslate("RDM","TLS")
+                                Layout.columnSpan: 2
+                            }
+
+                            Label { text: qsTranslate("RDM","Ignore all SSL/TLS errors (<b>dangerous</b>):")}
+
+                            BetterCheckbox {
+                                id: ignoreSSLErrors
+                                Layout.fillWidth: true
+                                checked: root.settings ? root.settings.ignoreSSLErrors : false
+                                onCheckedChanged: root.settings.ignoreSSLErrors = checked
+                            }
+
                             Item {
                                 Layout.columnSpan: 2
                                 Layout.fillHeight: true
