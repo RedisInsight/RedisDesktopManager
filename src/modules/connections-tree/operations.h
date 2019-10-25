@@ -88,6 +88,10 @@ class Operations {
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) = 0;
 
+  virtual void openKeyIfExists(const QByteArray& key,
+                               QSharedPointer<ConnectionsTree::DatabaseItem> parent,
+                               std::function<void(const QString&, bool)> callback) = 0;
+
   virtual QString mode() = 0;
 
   virtual bool isConnected() const = 0;

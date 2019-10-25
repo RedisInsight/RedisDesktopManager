@@ -109,9 +109,27 @@ void DatabaseItem::setMetadata(const QString& key, QVariant value) {
     else if (isResetValue)
       return;
 
-    QRegExp pattern(value.toString(), Qt::CaseSensitive,
-                    QRegExp::PatternSyntax::WildcardUnix);
-    return filterKeys(pattern);
+    auto applyFilter = [this, value]() {
+      QRegExp pattern(value.toString(), Qt::CaseSensitive,
+                      QRegExp::PatternSyntax::WildcardUnix);
+      filterKeys(pattern);
+    };
+
+    QByteArray val = value.toByteArray();
+
+    if (val.contains('*')) {
+      return applyFilter();
+    }
+
+    m_operations->openKeyIfExists(
+        val, getSelf().toStrongRef().dynamicCast<DatabaseItem>(),
+        [applyFilter](const QString&, bool result) {
+          if (!result) {
+            applyFilter();
+          }
+        });
+
+    return;
   } else if (key == "live_update") {
     if (liveUpdateTimer()->isActive() && isResetValue) {
       qDebug() << "Stop live update";
