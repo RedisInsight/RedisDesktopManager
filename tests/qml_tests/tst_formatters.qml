@@ -21,26 +21,5 @@ TestCase {
         plain.getRaw(testValue, function (error, plain){
             compare(plain, testValue)
         })
-    }    
-
-    function test_json() {
-        //given
-        // given
-        var formatter = Formatters.json
-        var testValue = '{"test": 123}'
-        var formattedValid = "{\n  \"test\": 123\n}"
-
-        // checks
-        verify(formatter.title.length !== 0, "title")
-
-        formatter.getFormatted(testValue, function (error, formatted, readOnly, format){
-            console.log(error)
-            compare(formatted, formattedValid)
-        })
-
-        formatter.getRaw(testValue, function (error, plain){
-            console.log(error)
-            compare(plain, testValue)
-        })
     }
 }
