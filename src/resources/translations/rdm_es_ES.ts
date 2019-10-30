@@ -800,8 +800,8 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="339"/>
-        <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;? + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;? + Shift + .&lt;/code&gt; para mostrar ficheros y carpetas ocultas en el diálogo</translation>
+        <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
+        <translation>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; para mostrar ficheros y carpetas ocultas en el diálogo</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
