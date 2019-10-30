@@ -65,7 +65,7 @@ void TestKeyModels::testKeyFactoryAddKey() {
   QFETCH(QVariantMap, row);
   auto connection = getRealConnectionWithDummyTransporter(testReplies);
   KeyFactory factory;
-  NewKeyRequest r(connection, 0, []() {});
+  NewKeyRequest r(connection, -1, []() {});
 
   // when
   r.setKeyName("testKey");
@@ -215,6 +215,7 @@ void TestKeyModels::testKeyModelModifyRows() {
   keyModel->addRow(row, [](QString) {});
   row["value"] = "fakeUpdate";
   keyModel->updateRow(0, row, [](QString) {});
+  wait(100);
   QVariant actualResult = keyModel->getData(0, role);
   keyModel->removeRow(0, [](QString) {});
 
@@ -301,7 +302,7 @@ QSharedPointer<ValueEditor::Model> TestKeyModels::getKeyModel(
     QSharedPointer<RedisClient::Connection> connection) {
   QSharedPointer<ValueEditor::Model> actualResult;
   KeyFactory factory;
-  factory.loadKey(connection, "testKey", 0,
+  factory.loadKey(connection, "testKey", -1,
                   [&actualResult](QSharedPointer<ValueEditor::Model> model,
                                   const QString&) { actualResult = model; });
 

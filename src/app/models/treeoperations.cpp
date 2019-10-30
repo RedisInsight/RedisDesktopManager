@@ -290,7 +290,36 @@ void TreeOperations::flushDb(int dbIndex,
 }
 
 QFuture<bool> TreeOperations::connectionSupportsMemoryOperations() {
-  return m_connection->isCommandSupported({"MEMORY", "HELP"});
+    return m_connection->isCommandSupported({"MEMORY", "HELP"});
+}
+
+void TreeOperations::openKeyIfExists(
+    const QByteArray& fullPath,
+    QSharedPointer<ConnectionsTree::DatabaseItem> parent,
+    std::function<void(const QString&, bool)> callback) {
+  if (!parent) {
+    qWarning() << "TreeOperations::openKeyIfExists > Invalid parent";
+    return;
+  }
+
+  m_connection->cmd(
+      {"exists", fullPath}, this, static_cast<int>(parent->getDbIndex()),
+      [this, parent, fullPath, callback](RedisClient::Response r) {
+        QVariant result = r.value();
+
+        if (result.toByteArray() == "1") {
+          auto key = QSharedPointer<ConnectionsTree::KeyItem>(
+              new ConnectionsTree::KeyItem(fullPath, parent.toWeakRef(),
+                                           parent->model()));
+
+          emit m_events->openValueTab(m_connection, key, true);
+
+          callback(QString(), true);
+        } else {
+          callback(QString(), false);
+        }
+      },
+      [callback](const QString& err) { callback(err, false); });
 }
 
 QFuture<qlonglong> TreeOperations::getUsedMemory(const QByteArray& key,

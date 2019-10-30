@@ -90,6 +90,9 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
   void setTTL(ConnectionsTree::AbstractNamespaceItem &ns) override {};
   void copyKeys(ConnectionsTree::AbstractNamespaceItem &ns) override {};
   void importKeysFromRdb(ConnectionsTree::DatabaseItem &ns) override {};
+  void openKeyIfExists(const QByteArray& key,
+                       QSharedPointer<ConnectionsTree::DatabaseItem> parent,
+                       std::function<void(const QString&, bool)> callback) override {};
 
  protected:
   bool m_positive_mode;

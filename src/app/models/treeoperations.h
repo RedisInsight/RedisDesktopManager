@@ -66,6 +66,10 @@ class TreeOperations : public QObject,
 
   virtual QFuture<bool> connectionSupportsMemoryOperations() override;
 
+  virtual void openKeyIfExists(const QByteArray& key,
+                               QSharedPointer<ConnectionsTree::DatabaseItem> parent,
+                               std::function<void(const QString&, bool)> callback) override;
+
   virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
                                            int dbIndex) override;
 
