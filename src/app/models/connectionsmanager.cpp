@@ -26,7 +26,15 @@ ConnectionsManager::ConnectionsManager(const QString& configPath,
           &Events::error);
 }
 
-ConnectionsManager::~ConnectionsManager(void) {}
+ConnectionsManager::~ConnectionsManager(void) {
+
+    for (auto connection : m_connections) {
+        if (connection) {
+            connection->disconnect();
+            connection->deleteLater();
+        }
+    }
+}
 
 void ConnectionsManager::addNewConnection(const ServerConfig& config,
                                           bool saveToConfig) {

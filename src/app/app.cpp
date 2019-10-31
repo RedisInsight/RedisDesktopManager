@@ -48,6 +48,11 @@ Application::Application(int& argc, char** argv)
   initPython();
 }
 
+Application::~Application()
+{
+    m_connections.clear();
+}
+
 void Application::initModels() {
   ConfigManager confManager(m_settingsDir);
 
