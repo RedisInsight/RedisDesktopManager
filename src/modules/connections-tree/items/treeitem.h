@@ -35,7 +35,7 @@ class TreeItem {
 
   virtual QSharedPointer<TreeItem> child(uint row) const = 0;
 
-  virtual QWeakPointer<TreeItem> parent() const = 0;
+  virtual QWeakPointer<TreeItem> parent() const { return QWeakPointer<TreeItem>(); }
 
   virtual bool supportChildItems() const { return true; }
 

@@ -79,9 +79,12 @@ void ServerItem::load() {
   m_currentOperation = m_operations->getDatabases(callback);
 
   if (m_currentOperation.isRunning()) {
+    auto wPtr = m_self;
+
     AsyncFuture::observe(m_currentOperation)
-        .subscribe([this]() { unlock(); },
-                   [this]() {
+        .subscribe([this, wPtr]() { if (!wPtr) return; unlock(); },
+                   [this, wPtr]() {
+                     if (!wPtr) return;
                      m_operations->resetConnection();
                      unlock();
                    });

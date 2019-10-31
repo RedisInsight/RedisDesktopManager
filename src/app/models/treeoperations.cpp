@@ -28,6 +28,8 @@ bool TreeOperations::loadDatabases(
 
   connect(connection);
 
+  if (!connection->isConnected()) return false;
+
   RedisClient::DatabaseList availableDatabeses = connection->getKeyspaceInfo();
 
   if (connection->mode() != RedisClient::Connection::Mode::Cluster) {
@@ -163,6 +165,8 @@ void TreeOperations::loadNamespaceItems(
       };
 
   connect(m_connection);
+
+  if (!m_connection->isConnected()) return;
 
   try {
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {

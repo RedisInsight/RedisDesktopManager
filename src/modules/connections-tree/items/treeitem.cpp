@@ -49,12 +49,14 @@ ConnectionsTree::Model &ConnectionsTree::TreeItem::model() { return m_model; }
 
 void ConnectionsTree::TreeItem::lock() {
   m_locked = true;
-  emit m_model.itemChanged(getSelf());
+  if (getSelf())
+    emit m_model.itemChanged(getSelf());
 }
 
 void ConnectionsTree::TreeItem::unlock() {
   m_locked = false;
-  emit m_model.itemChanged(getSelf());
+  if (getSelf())
+    emit m_model.itemChanged(getSelf());
 }
 
 QHash<QString, std::function<void()>>
