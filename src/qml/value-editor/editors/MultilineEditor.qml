@@ -112,6 +112,7 @@ ColumnLayout
         if (qmlUtils.binaryStringLength(root.value) > valueSizeLimit) {
             root.showFormatters = false
             formatterSelector.currentIndex = 0
+            guessFormatter = false
         } else {
             root.showFormatters = true
         }
@@ -290,7 +291,10 @@ ColumnLayout
             textRole: "name"
             objectName: "rdm_value_editor_formatter_combobox"
 
-            onCurrentIndexChanged: loadFormattedValue()
+            onActivated: {
+                currentIndex = index
+                loadFormattedValue()
+            }
         }
 
         Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
