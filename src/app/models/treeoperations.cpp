@@ -17,7 +17,8 @@
 TreeOperations::TreeOperations(
     QSharedPointer<RedisClient::Connection> connection,
     QSharedPointer<Events> events)
-    : m_connection(connection), m_events(events), m_dbCount(0) {
+    : m_connection(connection), m_events(events), m_dbCount(0),
+      m_connectionMode(RedisClient::Connection::Mode::Normal) {
   m_events->registerLoggerForConnection(*connection);
 }
 
@@ -85,6 +86,8 @@ void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
               .arg(m_connection->getConfig().name()));
       return;
     }
+
+    m_connectionMode = c->mode();
 
   } catch (const RedisClient::Connection::SSHSupportException& e) {
       emit m_events->error(
@@ -354,9 +357,9 @@ QFuture<qlonglong> TreeOperations::getUsedMemory(const QByteArray& key,
 }
 
 QString TreeOperations::mode() {
-  if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+  if (m_connectionMode == RedisClient::Connection::Mode::Cluster) {
     return QString("cluster");
-  } else if (m_connection->mode() == RedisClient::Connection::Mode::Sentinel) {
+  } else if (m_connectionMode == RedisClient::Connection::Mode::Sentinel) {
     return QString("sentinel");
   } else {
     return QString("standalone");

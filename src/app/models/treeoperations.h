@@ -95,4 +95,5 @@ class TreeOperations : public QObject,
   QSharedPointer<RedisClient::Connection> m_connection;
   QSharedPointer<Events> m_events;
   uint m_dbCount;
+  RedisClient::Connection::Mode m_connectionMode;
 };
