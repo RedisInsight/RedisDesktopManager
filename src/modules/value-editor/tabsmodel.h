@@ -8,6 +8,8 @@
 #include "abstractkeyfactory.h"
 #include "valueviewmodel.h"
 
+class Events;
+
 namespace ConnectionsTree {
 class KeyItem;
 }
@@ -27,10 +29,12 @@ class TabsModel : public QAbstractListModel {
     isMultiRow,
     rowsCount,
     keyModel,
+    showLoader,
   };
 
  public:
-  TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory);
+  TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory,
+            QSharedPointer<Events> events);
 
   ~TabsModel() override;
 
@@ -58,10 +62,11 @@ class TabsModel : public QAbstractListModel {
  private:
   QList<QSharedPointer<ValueViewModel>> m_viewModels;
   QSharedPointer<AbstractKeyFactory> m_keyFactory;
+  QSharedPointer<Events> m_events;
   int m_currentTabIndex;
 
   bool isIndexValid(const QModelIndex& index) const;
-  void loadModel(QSharedPointer<Model> model,
+  QSharedPointer<ValueViewModel> loadModel(const QString& loadingBanner,
                  QWeakPointer<ConnectionsTree::KeyItem> key,
                  bool openNewTab = false);
   void tabChanged(QSharedPointer<ValueViewModel> m);
