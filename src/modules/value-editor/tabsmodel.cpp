@@ -78,15 +78,18 @@ void ValueEditor::TabsModel::closeDbKeys(
 
     if (!model) continue;
 
-    if (model->getConnection() == connection && model->dbIndex() == dbIndex) {
-      if (model->getKeyName().contains(filter)) {
-        beginRemoveRows(QModelIndex(), index, index);
-        auto model = m_viewModels[index];
-        m_viewModels.removeAt(index);
-        endRemoveRows();
-        index--;
-        model.clear();
-      }
+    bool tabMatch =
+        (model->getConnection()->getConfig().id() ==
+             connection->getConfig().id() &&
+         model->dbIndex() == dbIndex && model->getKeyName().contains(filter));
+
+    if (tabMatch) {
+      beginRemoveRows(QModelIndex(), index, index);
+      auto model = m_viewModels[index];
+      m_viewModels.removeAt(index);
+      endRemoveRows();
+      index--;
+      model.clear();
     }
   }
 }
