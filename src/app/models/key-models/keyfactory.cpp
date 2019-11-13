@@ -13,10 +13,8 @@
 
 KeyFactory::KeyFactory() {}
 
-void KeyFactory::loadKey(
-    QSharedPointer<RedisClient::Connection> connection, QByteArray keyFullPath,
-    int dbIndex,
-    std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
+void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QByteArray keyFullPath,
+    int dbIndex, std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
         callback) {
   auto loadModel = [this, connection, keyFullPath, dbIndex, callback](
                        RedisClient::Response resp, QString) {

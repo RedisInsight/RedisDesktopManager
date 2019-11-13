@@ -43,12 +43,12 @@ Repeater {
         property var table
         property var valueEditor
         property var searchModel
-
+        property bool loadingModel: showLoader
         property variant keyModel: keyViewModel
 
         onKeyModelChanged: {
-            // On tab reload
-            if (keyModel && table) {
+            console.log("keyModel changed")
+            if (keyModel && keyModel.isLoaded) {
                 table.forceLoading = false
                 table.currentStart = 0
                 table.searchField.text = ""
@@ -65,15 +65,15 @@ Repeater {
                 source: keyViewModel
                 sortOrder: table.sortIndicatorOrder
                 sortCaseSensitivity: Qt.CaseInsensitive
-                sortRole: keyTab.keyModel ? table.getColumn(table.sortIndicatorColumn).role : ""
+                sortRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? table.getColumn(table.sortIndicatorColumn).role : ""
 
                 filterString: table.searchField.text
                 filterSyntax: SortFilterProxyModel.Wildcard
                 filterCaseSensitivity: Qt.CaseInsensitive
-                filterRole: keyTab.keyModel ? table.getColumn(1).role : ""
+                filterRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? table.getColumn(1).role : ""
 
                 Component.onCompleted:  {
-                    if (keyTab.keyModel && keyTab.keyModel.singlePageMode) {
+                    if (keyTab.keyModel && keyTab.keyModel.isLoaded && keyTab.keyModel.singlePageMode) {
                         // NOTE(u_glide): disable live search in all values
                         filterString = table.searchField.text
                     }
@@ -86,7 +86,7 @@ Repeater {
                     || (event.key == Qt.Key_R && (event.modifiers & Qt.ControlModifier))
                     || (event.key == Qt.Key_R && (event.modifiers & Qt.MetaModifier))
 
-            if (reloadKey) {
+            if (reloadKey && keyModel.isLoaded) {
                 console.log("Reload")
                 keyModel.reload()
             }
@@ -100,7 +100,7 @@ Repeater {
         Item {
             id: wrapper
             anchors.fill: parent
-            anchors.margins: 5
+            anchors.margins: 5            
 
             function showLoader() {
                 uiBlocker.visible = true
@@ -111,6 +111,7 @@ Repeater {
             }
 
             ColumnLayout {
+                visible: !loadingModel
                 anchors.fill: parent
                 spacing: 1
 
@@ -171,7 +172,7 @@ Repeater {
                         }
                     }
 
-                    Item { visible: isMultiRow; Layout.preferredWidth: 5}
+                    Item { visible: keyModel.isLoaded && isMultiRow; Layout.preferredWidth: 5}
                     Text {
                         visible: isMultiRow || keyType === "hyperloglog";
                         text:  qsTranslate("RDM","Size: ") + keyRowsCount
@@ -296,7 +297,6 @@ Repeater {
 
                             Component.onCompleted: {
                                 keyTab.table = table
-                                loadValue()
                             }
 
                             itemDelegate: Item {
@@ -333,9 +333,22 @@ Repeater {
                             Connections {
                                 id: keyModelConnections
 
+                                target: keyTab.keyModel
+
                                 onError: {
                                     valueErrorNotification.text = error
                                     valueErrorNotification.open()
+                                }
+
+                                onIsLoadedChanged: {
+                                    console.log("model loaded (qml)")
+                                    if (keyTab.keyModel.totalRowCount === 0) {
+                                        console.log("Load rows count")
+                                        keyTab.keyModel.loadRowsCount()
+                                    } else {
+                                        console.log("Load rows")
+                                        keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+                                    }
                                 }
 
                                 onTotalRowCountChanged: {
@@ -406,13 +419,12 @@ Repeater {
                                     console.log("Model is not ready", keyViewModel)
                                     return
                                 }
-
-                                keyModelConnections.target = keyTab.keyModel
                                 wrapper.showLoader()
-
-                                if (keyTab.keyModel.totalRowCount === 0) {
+                                if (isMultiRow && keyTab.keyModel.totalRowCount === 0) {
+                                    console.log("Load rows count")
                                     keyTab.keyModel.loadRowsCount()
                                 } else {
+                                    console.log("Load rows")
                                     keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
                                 }
                             }
@@ -746,13 +758,23 @@ Repeater {
 
             Rectangle {
                 id: uiBlocker
-                visible: false
+                visible: loadingModel
                 anchors.fill: parent
-                color: Qt.rgba(0, 0, 0, 0.1)
+                color: loadingModel? Qt.rgba(0, 0, 0, 0) : Qt.rgba(0, 0, 0, 0.1)
 
                 Item {
                     anchors.fill: parent
-                    BusyIndicator { anchors.centerIn: parent; running: true }
+
+                    ColumnLayout {
+                        anchors.centerIn: parent;
+
+                        BusyIndicator { Layout.alignment: Qt.AlignHCenter;  running: true }
+
+                        Text {
+                            visible: loadingModel
+                            text: keyTitle
+                        }
+                    }
                 }
 
                 MouseArea {

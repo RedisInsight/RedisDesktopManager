@@ -4,19 +4,30 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QQmlEngine>
+#include <QtConcurrent>
+#include "app/events.h"
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
 
-ValueEditor::TabsModel::TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory)
-    : m_keyFactory(keyFactory), m_currentTabIndex(0) {}
+ValueEditor::TabsModel::TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory,
+                                  QSharedPointer<Events> events)
+    : m_keyFactory(keyFactory), m_events(events), m_currentTabIndex(0) {}
 
 ValueEditor::TabsModel::~TabsModel() { m_viewModels.clear(); }
 
 void ValueEditor::TabsModel::openTab(
     QSharedPointer<RedisClient::Connection> connection,
     QSharedPointer<ConnectionsTree::KeyItem> key, bool inNewTab) {
-  auto loadingHandler = [this, inNewTab, key](QSharedPointer<Model> keyModel,
-                                              const QString& error) {
+  auto viewModel = loadModel(
+      QString(QCoreApplication::translate("RDM", "Loading key: %1 from db %2"))
+          .arg(QString::fromUtf8(key->getFullPath()))
+          .arg(key->getDbIndex()),
+      key.toWeakRef(), inNewTab);
+
+  auto viewModelWeekRef = viewModel.toWeakRef();
+
+  auto loadingHandler = [this, viewModelWeekRef](QSharedPointer<Model> keyModel,
+                                                 const QString& error) {
     if (keyModel.isNull() || !error.isEmpty()) {
       emit tabError(-1, QString("<b>%1</b>:\n%2")
                             .arg(QCoreApplication::translate(
@@ -25,12 +36,34 @@ void ValueEditor::TabsModel::openTab(
       return;
     }
 
-    loadModel(keyModel, key.toWeakRef(), inNewTab);
+    auto viewModel = viewModelWeekRef.toStrongRef();
+
+    if (viewModel) {
+      viewModel->setModel(keyModel);
+    }
   };
 
+  auto callbackWrapper = [loadingHandler](QSharedPointer<Model> keyModel,
+                                          const QString& error) {
+    QTimer::singleShot(1, [=]() { loadingHandler(keyModel, error); });
+  };
+
+  auto conn = connection->clone();
+  conn->disableAutoConnect();
+  m_events->registerLoggerForConnection(*conn);
+
+  QObject::connect(viewModel.data(), &ValueViewModel::tabClosed, [conn]() {
+    if (conn) {
+      conn->disconnect();
+    }
+  });
+
   try {
-    m_keyFactory->loadKey(connection, key->getFullPath(), key->getDbIndex(),
-                          loadingHandler);
+    QtConcurrent::run([this, conn, key, viewModelWeekRef, callbackWrapper]() {
+      conn->connect();
+      m_keyFactory->loadKey(conn, key->getFullPath(), key->getDbIndex(),
+                            callbackWrapper);
+    });
   } catch (...) {
     emit tabError(-1, QCoreApplication::translate(
                           "RDM", "Connection error. Can't open value tab. "));
@@ -43,15 +76,20 @@ void ValueEditor::TabsModel::closeDbKeys(
   for (int index = 0; 0 <= index && index < m_viewModels.size(); index++) {
     auto model = m_viewModels.at(index)->model();
 
-    if (model->getConnection() == connection && model->dbIndex() == dbIndex) {
-      if (model->getKeyName().contains(filter)) {
-        beginRemoveRows(QModelIndex(), index, index);
-        auto model = m_viewModels[index];
-        m_viewModels.removeAt(index);
-        endRemoveRows();
-        index--;
-        model.clear();
-      }
+    if (!model) continue;
+
+    bool tabMatch =
+        (model->getConnection()->getConfig().id() ==
+             connection->getConfig().id() &&
+         model->dbIndex() == dbIndex && model->getKeyName().contains(filter));
+
+    if (tabMatch) {
+      beginRemoveRows(QModelIndex(), index, index);
+      auto model = m_viewModels[index];
+      m_viewModels.removeAt(index);
+      endRemoveRows();
+      index--;
+      model.clear();
     }
   }
 }
@@ -75,7 +113,17 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
 
   QSharedPointer<Model> model = m_viewModels.at(index.row())->model();
 
-  if (!model) return QVariant();
+  if (!model) {
+    switch (role) {
+      case keyIndex:
+        return index.row();
+      case showLoader:
+        return true;
+      case keyDisplayName:
+        return m_viewModels.at(index.row())->tabLoadingTitle();
+    }
+    return QVariant();
+  }
 
   switch (role) {
     case keyIndex:
@@ -92,6 +140,8 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
       return (qlonglong)model->rowsCount();
     case isMultiRow:
       return model->isMultiRow();
+    case showLoader:
+      return false;
     case keyModel:
       QObject* modelPtr =
           static_cast<QObject*>(m_viewModels.at(index.row()).data());
@@ -113,6 +163,7 @@ QHash<int, QByteArray> ValueEditor::TabsModel::roleNames() const {
   roles[isMultiRow] = "isMultiRow";
   roles[rowsCount] = "keyRowsCount";
   roles[keyModel] = "keyViewModel";
+  roles[showLoader] = "showLoader";
   return roles;
 }
 
@@ -124,6 +175,7 @@ void ValueEditor::TabsModel::closeTab(int i) {
   m_viewModels.removeAt(i);
   endRemoveRows();
 
+  model->close();
   model.clear();
 }
 
@@ -152,19 +204,27 @@ void ValueEditor::TabsModel::tabRemoved(
   auto oldModel = m_viewModels[m_currentTabIndex];
   m_viewModels.removeAt(modelIndex);
   endRemoveRows();
+  oldModel->close();
   oldModel.clear();
 }
 
-void ValueEditor::TabsModel::loadModel(
-    QSharedPointer<ValueEditor::Model> model,
-    QWeakPointer<ConnectionsTree::KeyItem> key, bool openNewTab) {
-  auto viewModel = QSharedPointer<ValueViewModel>(new ValueViewModel(model),
-                                                  &QObject::deleteLater);
+QSharedPointer<ValueEditor::ValueViewModel> ValueEditor::TabsModel::loadModel(
+    const QString& loadingBanner, QWeakPointer<ConnectionsTree::KeyItem> key,
+    bool openNewTab) {
+  auto viewModel = QSharedPointer<ValueViewModel>(
+      new ValueViewModel(loadingBanner), &QObject::deleteLater);
 
   connect(viewModel.data(), &ValueViewModel::rowsLoaded, this,
-          [this, viewModel] (int, int) {
-      qDebug() << "row loaded (tab model)"; tabChanged(viewModel);
-  });
+          [this, viewModel](int, int) {
+            qDebug() << "row loaded (tab model)";
+            tabChanged(viewModel);
+          });
+
+  connect(viewModel.data(), &ValueViewModel::modelLoaded, this,
+          [this, viewModel]() {
+            qDebug() << "model loaded (tab model)";
+            tabChanged(viewModel);
+          });
 
   if (openNewTab || m_viewModels.count() == 0) {
     beginInsertRows(QModelIndex(), m_viewModels.count(), m_viewModels.count());
@@ -196,4 +256,6 @@ void ValueEditor::TabsModel::loadModel(
 
             if (key) key.toStrongRef()->setRemoved();
           });
+
+  return viewModel;
 }
