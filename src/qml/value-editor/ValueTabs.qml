@@ -302,8 +302,7 @@ Repeater {
                             itemDelegate: Item {
                                 Text {
                                     anchors.fill: parent
-                                    color: styleData.textColor
-                                    elide: styleData.elideMode
+                                    color: styleData.textColor                                    
                                     text: {
 
                                         if (styleData.value === "" || !isMultiRow) {
@@ -314,9 +313,14 @@ Repeater {
                                             return parseFloat(Number(styleData.value).toFixed(20))
                                         }
 
+                                        if (qmlUtils.binaryStringLength(styleData.value) > 1000) {
+                                            return qmlUtils.printable(styleData.value, false, 1000) + "..."
+                                        }
+
                                         return qmlUtils.printable(styleData.value)
                                                             + (lineCount > 1 ? '...' : '')
                                     }
+                                    elide: Text.ElideRight
                                     wrapMode: Text.WrapAnywhere
                                     maximumLineCount: 1
                                 }
@@ -351,7 +355,7 @@ Repeater {
                                     }
                                 }
 
-                                onTotalRowCountChanged: {
+                                onTotalRowCountChanged: {                                    
                                     keyTab.keyModel.loadRows(table.currentStart, table.maxItemsOnPage)
                                 }
 
@@ -363,7 +367,7 @@ Repeater {
                                     keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
 
                                     if (isMultiRow) {
-                                        var columns = keyTab.keyModel.columnNames
+                                        var columns = keyTab.keyModel.columnNames                                        
 
                                         for (var index = 0; index < 3; index++)
                                         {

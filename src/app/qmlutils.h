@@ -20,7 +20,7 @@ public:
     Q_INVOKABLE QString humanSize(long size);
     Q_INVOKABLE QVariant valueToBinary(const QVariant &value);
     Q_INVOKABLE QVariant binaryListToValue(const QVariantList& binaryList);
-    Q_INVOKABLE QVariant printable(const QVariant &value, bool htmlEscaped=false);
+    Q_INVOKABLE QVariant printable(const QVariant &value, bool htmlEscaped=false, int maxLength=-1);
     Q_INVOKABLE QVariant printableToValue(const QVariant &printable);
     Q_INVOKABLE QVariant toUtf(const QVariant &value);
     Q_INVOKABLE QString getPathFromUrl(const QUrl &url);

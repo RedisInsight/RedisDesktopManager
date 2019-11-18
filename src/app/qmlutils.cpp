@@ -74,11 +74,16 @@ QVariant QmlUtils::binaryListToValue(const QVariantList &binaryList) {
   return value;
 }
 
-QVariant QmlUtils::printable(const QVariant &value, bool htmlEscaped) {
+QVariant QmlUtils::printable(const QVariant &value, bool htmlEscaped, int maxLength) {
   if (!value.canConvert(QVariant::ByteArray)) {
     return QVariant();
   }
+
   QByteArray val = value.toByteArray();
+
+  if (maxLength > 0 && val.size() > maxLength) {
+    val.truncate(maxLength);
+  }
 
   if (htmlEscaped) {
     return printableString(val).toHtmlEscaped();
