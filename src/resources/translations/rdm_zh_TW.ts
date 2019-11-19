@@ -477,7 +477,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
         <source>Search through All values</source>
-        <translation type="unfinished"></translation>
+        <translation>搜尋全部的鍵值</translation>
     </message>
     <message>
         <source>Search in All values</source>
@@ -901,12 +901,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
         <source>TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>TLS</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="486"/>
         <source>Ignore all SSL/TLS errors (&lt;b&gt;dangerous&lt;/b&gt;):</source>
-        <translation type="unfinished"></translation>
+        <translation>忽略所有 SSL/TLS 錯誤</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
