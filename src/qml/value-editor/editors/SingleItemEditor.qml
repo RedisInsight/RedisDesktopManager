@@ -19,6 +19,7 @@ AbstractEditor {
         value: ""
         enabled: root.active || root.state !== "edit"
         showFormatters: root.state == "edit"
+        objectName: "rdm_key_value_field"
     }
 
     function initEmpty() {
