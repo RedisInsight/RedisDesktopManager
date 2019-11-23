@@ -437,7 +437,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="618"/>
         <source>Search through All values</source>
-        <translation type="unfinished"></translation>
+        <translation>すべての値を検索</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="714"/>
@@ -821,12 +821,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
         <source>TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>TLS</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="486"/>
         <source>Ignore all SSL/TLS errors (&lt;b&gt;dangerous&lt;/b&gt;):</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのSSL/TLSエラーを無視する(&lt;b&gt;検証用&lt;/b&gt;):</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
@@ -871,7 +871,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>設定を有効にするためアプリケーションは再起動されます。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="66"/>
@@ -921,8 +921,8 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="154"/>
-        <source>External Value View Formatters</source>
-        <translation type="unfinished"></translation>
+        <source>外部のValueビューフォーマッタ</source>
+        <translation></translation>
     </message>
     <message>
         <source>Custom Value View Formatters</source>
@@ -951,7 +951,7 @@
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="37"/>
         <source>Before using Redis Desktop Manager (RDM) take a look on the %1</source>
-        <translation>Redis Desktop Manager(RDM)使う前に%1を見てください</translation>
+        <translation>Redis Desktop Manager(RDM)のご利用前に%1をご覧ください</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="38"/>
@@ -1404,12 +1404,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="84"/>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>コピー元のredis-serverに接続できません: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="98"/>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>コピー先のredis-serverに接続できません: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
@@ -1443,7 +1443,7 @@
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="25"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを選択</translation>
     </message>
 </context>
 </TS>
