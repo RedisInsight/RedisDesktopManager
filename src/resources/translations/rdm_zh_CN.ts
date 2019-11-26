@@ -980,12 +980,12 @@
         <location filename="../../qml/GlobalSettings.qml" line="112"/>
         <location filename="../../qml/GlobalSettings.qml" line="123"/>
         <source>(Disable to improve treeview performance)</source>
-        <translation>(禁用树状试图提高性能)</translation>
+        <translation>(禁用树状视图提高性能)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="122"/>
         <source>Enable key sorting in tree</source>
-        <translation>打开树状试图键名排序功能</translation>
+        <translation>打开树状视图键名排序功能</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="135"/>
