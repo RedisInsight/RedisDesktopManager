@@ -20,7 +20,9 @@ namespace ValueEditor {
 class TabsModel;
 }
 namespace ValueEditor {
+#ifdef ENABLE_EXTERNAL_FORMATTERS
 class ExternalFormattersManager;
+#endif
 class EmbeddedFormattersManager;
 }  // namespace ValueEditor
 namespace BulkOperations {
@@ -63,7 +65,9 @@ class Application : public QApplication {
   QSharedPointer<Updater> m_updater;
   QSharedPointer<KeyFactory> m_keyFactory;
   QSharedPointer<ValueEditor::TabsModel> m_keyValues;
+#ifdef ENABLE_EXTERNAL_FORMATTERS
   QSharedPointer<ValueEditor::ExternalFormattersManager> m_formattersManager;
+#endif
   QSharedPointer<ValueEditor::EmbeddedFormattersManager> m_embeddedFormatters;
   QSharedPointer<BulkOperations::Manager> m_bulkOperations;
   QSharedPointer<TabViewModel> m_consoleModel;
