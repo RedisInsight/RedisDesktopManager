@@ -25,7 +25,9 @@
 #include "modules/server-stats/serverstatsmodel.h"
 #include "modules/updater/updater.h"
 #include "modules/value-editor/embeddedformattersmanager.h"
+#ifdef ENABLE_EXTERNAL_FORMATTERS
 #include "modules/value-editor/externalformattersmanager.h"
+#endif
 #include "modules/value-editor/tabsmodel.h"
 #include "modules/value-editor/valueviewmodel.h"
 #include "qmlutils.h"
