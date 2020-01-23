@@ -76,10 +76,11 @@ class MappedCache {
   }
 
   unsigned long long size() const {
-    unsigned long long size = 0;
+    unsigned long long cacheSize = 0;
     for (auto cachePage : m_mapping) {
-      size += cachePage.size();
+      cacheSize += cachePage.size();
     }
+    return cacheSize;
   }
 
   void clear() {
