@@ -52,7 +52,7 @@
 
 ### Build on Windows
 
-1. Install Visual Studio 2017 Community Edition.
+1. Install [Visual Studio 2017 Community Edition](https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes).
 2. Install [Qt 5.9](https://www.qt.io/download).
 3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply the patch to fix compilation on Windows:
 `git apply ../hiredis-win.patch`
