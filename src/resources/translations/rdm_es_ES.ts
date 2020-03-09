@@ -1178,7 +1178,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
         <source>Set TTL for multiple keys</source>
-        <translation></translation>
+        <translation>Asignar múltiples llaves TTL</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="127"/>
@@ -1393,12 +1393,12 @@
     </message>
     <message>
         <source>Execution Time (æs)</source>
-        <translation type="vanished">Tiempo Ejecución (æs)</translation>
+        <translation type="vanished">Tiempo de Ejecución (æs)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="418"/>
         <source>Client Address</source>
-        <translation>Dirección Cliente</translation>
+        <translation>Dirección del Cliente</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
@@ -1465,7 +1465,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="234"/>
         <source>Unknown formatter error (Empty response)</source>
-        <translation>Error desconocido de formateador (Respuesta vacía)</translation>
+        <translation>Error desconocido del formateador (Respuesta vacía)</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="262"/>
@@ -1540,12 +1540,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="84"/>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation>No se puede conectar al servidor origen redis: %1</translation>
+        <translation>No se puede conectar al servidor de origen redis: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="98"/>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation>No se puede conectar al servidor destino redis: %1</translation>
+        <translation>No se puede conectar al servidor de destino redis: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="45"/>
@@ -1565,7 +1565,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="165"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
-        <translation>El servidor redis-no soporta comandos &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;.</translation>
+        <translation>El servidor redis no soporta comandos &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="97"/>
