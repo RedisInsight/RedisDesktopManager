@@ -24,7 +24,7 @@ class Model : public QEnableSharedFromThis<Model> {
 
   Model() {}
   virtual QString getKeyName() = 0;
-  virtual QString getKeyTitle() = 0;
+  virtual QString getKeyTitle(int limit = -1) = 0;
 
   virtual QString type() = 0;
   virtual long long getTTL() = 0;

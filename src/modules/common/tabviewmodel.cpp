@@ -1,14 +1,15 @@
 #include "tabviewmodel.h"
+#include <QQmlEngine>
 
 TabViewModel::TabViewModel(const ModelFactory &modelFactory)
-    : m_currentTabIndex(0), m_modelFactory(modelFactory) {}
+    : m_modelFactory(modelFactory) {}
 
 QModelIndex TabViewModel::index(int row, int, const QModelIndex &) const {
   return createIndex(row, 0);
 }
 
 int TabViewModel::rowCount(const QModelIndex &parent) const {
-  Q_UNUSED(parent);
+  Q_UNUSED(parent)
   return m_models.count();
 }
 
@@ -24,6 +25,12 @@ QVariant TabViewModel::data(const QModelIndex &index, int role) const {
       return index.row();
     case tabName:
       return model->getName();
+    case tabModel:
+      QObject *modelPtr =
+          static_cast<QObject *>(m_models.at(index.row()).data());
+      QQmlEngine::setObjectOwnership(modelPtr, QQmlEngine::CppOwnership);
+
+      return QVariant::fromValue(modelPtr);
   }
 
   return QVariant();
@@ -33,6 +40,7 @@ QHash<int, QByteArray> TabViewModel::roleNames() const {
   QHash<int, QByteArray> roles;
   roles[tabIndex] = "tabIndex";
   roles[tabName] = "tabName";
+  roles[tabModel] = "tabModel";
   return roles;
 }
 
@@ -45,21 +53,12 @@ void TabViewModel::closeTab(int i) {
   endRemoveRows();
 }
 
-void TabViewModel::setCurrentTab(int i) { m_currentTabIndex = i; }
-
-QObject *TabViewModel::getValue(int i) {
-  if (!isIndexValid(index(i, 0))) return nullptr;
-
-  return qobject_cast<QObject *>(m_models.at(i).data());
-}
-
 int TabViewModel::tabsCount() const { return m_models.count(); }
 
 void TabViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
                            int dbIndex) {
   beginInsertRows(QModelIndex(), m_models.count(), m_models.count());
   m_models.append(m_modelFactory(connection, dbIndex));
-  setCurrentTab(m_models.size() - 1);
   emit changeCurrentTab(m_models.size() - 1);
   endInsertRows();
 }

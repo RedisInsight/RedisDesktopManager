@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include <QFile>
 
 Console::AutocompleteModel::AutocompleteModel()
 {

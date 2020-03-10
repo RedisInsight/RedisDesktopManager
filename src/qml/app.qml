@@ -1,6 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.13
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
@@ -9,7 +9,8 @@ import Qt.labs.settings 1.0
 import "."
 import "./common"
 import "./common/platformutils.js" as PlatformUtils
-import "./value-editor"
+import "./value-editor/"
+import "./value-editor/editors/formatters/"
 import "./connections-tree"
 import "./console"
 import "./server-info"
@@ -29,21 +30,22 @@ ApplicationWindow {
     property var currentValueFormatter
     property var embeddedFormatters
 
+    ValueFormatters {
+        id: valueFormattersModel
+
+        Component.onCompleted: {
+            loadEmbeddedFormatters();
+            loadExternalFormatters();
+        }
+    }
+
+
     Component.onCompleted: {
         if (hRatio > 1 || wRatio > 1) {
             console.log("Ratio > 1.0. Resize main window.")
             width = Screen.width * 0.9
             height = Screen.height * 0.8
-        }
-
-        if (PlatformUtils.isOSXRetina(Screen)) {
-            bottomTabView.implicitHeight = 100
-        }
-
-        embeddedFormattersManager.loadFormatters(function (result) {
-            approot.embeddedFormatters = result
-            console.log("Embedded formatters:", result);
-        });
+        }        
     }
 
     Settings {
@@ -54,6 +56,12 @@ ApplicationWindow {
 
     SystemPalette {
         id: sysPalette
+    }
+
+    SystemPalette {
+        id: inactiveSysPalette
+        colorGroup: SystemPalette.Inactive
+
     }
 
     FontLoader {
@@ -79,26 +87,23 @@ ApplicationWindow {
 
         objectName: "rdm_connection_settings_dialog"
 
-        onTestConnection: {                       
+        onTestConnection: {
             if (connectionsManager.testConnectionSettings(settings)) {
                 hideLoader()
                 showMsg(qsTranslate("RDM","Successful connection to redis-server"))
             } else {
                 hideLoader()
                 showError(qsTranslate("RDM","Can't connect to redis-server"))
-            }            
+            }
         }
 
         onSaveConnection: connectionsManager.updateConnection(settings)
     }
 
-    MessageDialog {
+    OkDialog {
         id: notification
         objectName: "rdm_qml_error_dialog"
         visible: false
-        modality: Qt.WindowModal
-        icon: StandardIcon.Warning
-        standardButtons: StandardButton.Ok
 
         function showError(msg) {
             icon = StandardIcon.Warning
@@ -110,6 +115,24 @@ ApplicationWindow {
             icon = StandardIcon.Information
             text = msg
             open()
+        }
+    }
+
+    AddKeyDialog {
+        id: addNewKeyDialog        
+    }
+
+    Connections {
+        target: serverStatsModel
+        onError: notification.showError(error)
+    }
+
+    Connections {
+        target: keyFactory
+
+        onNewKeyDialog: {
+            addNewKeyDialog.request = r
+            addNewKeyDialog.open()
         }
     }
 
@@ -148,53 +171,89 @@ ApplicationWindow {
         }
     }
 
-    toolBar: AppToolBar {}
+    header: AppToolBar {}
 
     BetterSplitView {
         anchors.fill: parent
-        orientation: Qt.Horizontal        
+        orientation: Qt.Horizontal
 
         BetterTreeView {
             id: connectionsTree
-            Layout.fillHeight: true
-            Layout.minimumWidth: 350
-            Layout.minimumHeight: 500
+            SplitView.fillHeight: true
+            SplitView.minimumWidth: 383
+            SplitView.minimumHeight: 500
         }
 
-        BetterSplitView {
-            orientation: Qt.Vertical
+        ColumnLayout {
+            SplitView.fillWidth: true
+            SplitView.fillHeight: true
 
-            BetterTabView {
+            TabBar {
+                id: tabBar
+                objectName: "rdm_main_tab_bar"
+                Layout.fillWidth: true
+                Layout.preferredHeight: 30
+
+                onCountChanged: {
+                    updateTimer.start()
+                }
+
+                function activateTabButton(item) {
+                    for (var btnIndex in contentChildren) {
+                        if (contentChildren[btnIndex] == item) {
+                            currentIndex = btnIndex;
+                            break;
+                        }
+                    }
+                }
+
+                Timer {
+                    id: updateTimer
+                    interval: 50;
+                    running: false;
+                    repeat: false
+                    onTriggered: {
+                        if (tabBar.count > 0) {
+                            tabs.activateTab(tabBar.itemAt(tabBar.currentIndex).tabRef)
+
+                            if (tabBar.currentIndex == 0 ) {
+                                tabBar.currentIndex = -1
+                                tabBar.currentIndex = 0
+                            }
+                        }
+                    }
+                }
+            }
+
+            StackLayout {
                 id: tabs
                 objectName: "rdm_qml_tabs"
-                currentIndex: 0
 
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.minimumWidth: 650
                 Layout.minimumHeight: 30
 
-                onCurrentIndexChanged: {
-                    var realIndex;
-                    if (tabs.getTab(currentIndex).tabType) {
-                        if (tabs.getTab(currentIndex).tabType === "value") {
+                onCountChanged: {
+                    if (count === 1) {
+                        currentIndex = 0;
+                    }
+                }
 
-                            realIndex = currentIndex - serverStatsModel.tabsCount();
-
-                            if (welcomeTab) {
-                                realIndex -= 1
-                            }
-
-                            valuesModel.setCurrentTab(realIndex);
-                        } else if (tabs.getTab(currentIndex).tabType === "server_info") {
-                            realIndex = currentIndex;
-
-                            if (welcomeTab) {
-                                realIndex -= 1
-                            }
-
-                            serverStatsModel.setCurrentTab(realIndex);
+                function activateTab(item) {
+                    var realIndex = 0;
+                    for (var tIndex in tabs.children) {
+                        if (!tabs.children[tIndex].__isTab) {
+                            continue;
                         }
+
+                        if (tabs.children[tIndex] === item) {
+                            tabs.currentIndex = realIndex;
+                            item.activate();
+                            break;
+                        }
+
+                        realIndex++;
                     }
                 }
 
@@ -202,28 +261,12 @@ ApplicationWindow {
                     id: welcomeTab
                     clip: true
                     objectName: "rdm_qml_welcome_tab"
-
-                    property bool not_mapped: true
-
-                    onClose: tabs.removeTab(index)
-
-                    function closeIfOpened() {
-                        var welcomeTab = tabs.getTab(0)
-
-                        if (welcomeTab && welcomeTab.not_mapped)
-                            tabs.removeTab(0)
-                    }
+                    visible: tabs.count == 1
                 }
 
                 ServerInfoTabs {
+                    objectName: "rdm_qml_server_info_tabs"
                     model: serverStatsModel
-                }
-
-                Connections {
-                    target: serverStatsModel
-
-                    onRowsInserted: if (welcomeTab) welcomeTab.closeIfOpened()
-                    onError: notification.showError(error)
                 }
 
                 ValueTabs {
@@ -231,106 +274,36 @@ ApplicationWindow {
                     model: valuesModel
                 }
 
-                AddKeyDialog {
-                    id: addNewKeyDialog
-                    objectName: "rdm_qml_new_key_dialog"
-
-                    width: approot.width * 0.7
-                    height: {
-                        if (approot.height > 500) {
-                            return approot.height * 0.7
-                        } else {
-                            return approot.height
-                        }
-                    }
-                }
-
-                Connections {
-                    target: keyFactory
-
-                    onNewKeyDialog: {
-                        addNewKeyDialog.request = r
-                        addNewKeyDialog.open()
-                    }
-                }
-
-                Connections {
-                    target: valuesModel
-                    onKeyError: {
-                        if (index != -1)
-                            tabs.currentIndex = index
-
-                        notification.showError(error)
-                    }
-
-                    onRowsInserted: {
-                        if (welcomeTab) welcomeTab.closeIfOpened()
-                    }
-                }
-            }
-
-            BetterTabView {
-                id: bottomTabView
-                Layout.fillWidth: true
-                Layout.minimumHeight: PlatformUtils.isOSXRetina(Screen)? 15 : 30
-
-                tabPosition: Qt.BottomEdge
-
                 Consoles {
                     objectName: "rdm_qml_console_tabs"
                     model: consoleModel
                 }
+            }
 
-                Connections {
-                    target: consoleModel
+            Connections {
+                target: valuesModel
+                onKeyError: {
+                    if (index != -1)
+                        tabs.currentIndex = index
 
-                    onChangeCurrentTab: {
-                        bottomTabView.currentIndex = i + 1
-                    }
-                }
-
-                BetterTab {
-                    closable: false
-                    title: "Log"
-                    icon: "qrc:/images/log.svg"
-
-                    ScrollView {
-                        anchors.fill: parent
-                        anchors.margins: 5
-
-                        ListView {
-                            id: logListView
-                            anchors.fill: parent
-                            anchors.topMargin: 10
-                            anchors.bottomMargin: 5
-                            anchors.leftMargin: 5
-                            anchors.rightMargin: 5
-                            cacheBuffer: 0
-
-                            model: ListModel {
-                                id: logModel
-                            }
-
-                            Connections {
-                                target: appEvents
-                                onLog: {
-                                    if (logModel.count > 1500) {
-                                        logModel.remove(0, logModel.count - 1000)
-                                    }
-
-                                    logModel.append({"msg": msg})
-                                    logListView.positionViewAtEnd()
-                                }
-                            }
-
-                            delegate: Text {
-                                color: "#6D6D6E"
-                                text: msg
-                            }
-                        }
-                    }
+                    notification.showError(error)
                 }
             }
         }
     }
+
+    Drawer {
+        id: logDrawer
+
+        width: 0.66 * approot.width
+        height: approot.height
+        position: 0.3
+        edge: Qt.LeftEdge
+
+        LogView {
+            anchors.fill: parent
+            eventsModel: appEvents
+        }
+    }
+
 }

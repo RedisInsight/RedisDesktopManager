@@ -45,6 +45,7 @@ void ConnectionsManager::addNewConnection(const ServerConfig& config,
   conf.setOwner(connection.toWeakRef());
   connection->setConnectionConfig(conf);
   m_connections.push_back(connection);
+  emit sizeChanged();
 
   // add connection to connection tree
   auto treeModel = QSharedPointer<TreeOperations>(
@@ -79,6 +80,7 @@ void ConnectionsManager::updateConnection(const ServerConfig& config) {
 
 bool ConnectionsManager::importConnections(const QString& path) {
   if (loadConnectionsConfigFromFile(path, true)) {
+      emit sizeChanged();
     return true;
   }
   return false;
@@ -192,6 +194,7 @@ void ConnectionsManager::createServerItemForConnection(
 
         emit connectionAboutToBeEdited(name);
         m_connections.removeAll(connection);
+        emit sizeChanged();
         m_connectionMapping.remove(connection);
         removeRootItem(serverItem);
         saveConfig();

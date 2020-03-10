@@ -8,15 +8,19 @@ BaseListModel::BaseListModel(QObject *parent)
 
 QVariantMap BaseListModel::getRowRaw(int row)
 {
-    QHash<int,QByteArray> names = roleNames();
+    QHash<int,QByteArray> names = roleNames();    
     QHashIterator<int, QByteArray> i(names);
     QVariantMap res;
 
     while (i.hasNext()) {
         i.next();
-        QModelIndex idx = index(row, 0);
-        QVariant data = idx.data(i.key());
-        res[i.value()] = data;
+
+        if (i.value() == "display")
+            continue;
+
+        QModelIndex idx = index(row);
+        QVariant d = data(idx, i.key());
+        res[i.value()] = d;
     }
     return res;
 }

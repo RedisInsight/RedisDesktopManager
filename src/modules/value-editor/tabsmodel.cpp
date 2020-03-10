@@ -9,6 +9,9 @@
 #include "connections-tree/items/keyitem.h"
 #include "value-editor/valueviewmodel.h"
 
+
+#define TAB_NAME_LIMIT 30
+
 ValueEditor::TabsModel::TabsModel(QSharedPointer<AbstractKeyFactory> keyFactory,
                                   QSharedPointer<Events> events)
     : m_keyFactory(keyFactory), m_events(events), m_currentTabIndex(0) {}
@@ -119,7 +122,7 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
         return index.row();
       case showLoader:
         return true;
-      case keyDisplayName:
+      case tabName:
         return m_viewModels.at(index.row())->tabLoadingTitle();
     }
     return QVariant();
@@ -130,8 +133,8 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
       return index.row();
     case keyNameRole:
       return model->getKeyName();
-    case keyDisplayName:
-      return model->getKeyTitle();
+    case tabName:
+      return model->getKeyTitle(TAB_NAME_LIMIT);
     case keyTTL:
       return model->getTTL();
     case keyType:
@@ -157,13 +160,13 @@ QHash<int, QByteArray> ValueEditor::TabsModel::roleNames() const {
   QHash<int, QByteArray> roles;
   roles[keyIndex] = "keyIndex";
   roles[keyNameRole] = "keyName";
-  roles[keyDisplayName] = "keyTitle";
   roles[keyTTL] = "keyTtl";
   roles[keyType] = "keyType";
   roles[isMultiRow] = "isMultiRow";
   roles[rowsCount] = "keyRowsCount";
   roles[keyModel] = "keyViewModel";
   roles[showLoader] = "showLoader";
+  roles[tabName] = "tabName";
   return roles;
 }
 
@@ -179,7 +182,11 @@ void ValueEditor::TabsModel::closeTab(int i) {
   model.clear();
 }
 
-void ValueEditor::TabsModel::setCurrentTab(int i) { m_currentTabIndex = i; }
+void ValueEditor::TabsModel::setCurrentTab(int i) {
+    if (0 <= i && i < rowCount()) {
+        m_currentTabIndex = i;
+    }
+}
 
 bool ValueEditor::TabsModel::isIndexValid(const QModelIndex& index) const {
   return 0 <= index.row() && index.row() < rowCount();
@@ -201,7 +208,7 @@ void ValueEditor::TabsModel::tabRemoved(
   if (modelIndex == -1) return;
 
   beginRemoveRows(QModelIndex(), modelIndex, modelIndex);
-  auto oldModel = m_viewModels[m_currentTabIndex];
+  auto oldModel = m_viewModels[modelIndex];
   m_viewModels.removeAt(modelIndex);
   endRemoveRows();
   oldModel->close();
@@ -232,6 +239,11 @@ QSharedPointer<ValueEditor::ValueViewModel> ValueEditor::TabsModel::loadModel(
     endInsertRows();
   } else {
     emit layoutAboutToBeChanged();
+
+    if (!(0 <= m_currentTabIndex && m_currentTabIndex < rowCount())) {
+        m_currentTabIndex = rowCount() - 1;
+    }
+
     auto oldModel = m_viewModels[m_currentTabIndex];
     m_viewModels.replace(m_currentTabIndex, viewModel);
     emit layoutChanged();

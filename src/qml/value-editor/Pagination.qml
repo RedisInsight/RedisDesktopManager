@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.13
+import "../common"
 
 ColumnLayout {    
     RowLayout {
@@ -27,13 +28,13 @@ ColumnLayout {
     RowLayout {        
         Layout.maximumWidth: 200
         Layout.fillWidth: true
-        spacing: 0
-        Button {
+        spacing: 1
+        BetterButton {
             Layout.fillWidth: true
             text: "⇦"
             onClicked: table.goToPrevPage()
         }
-        Button {
+        BetterButton {
             Layout.fillWidth: true
             text: "⇨"
             onClicked: table.goToNextPage()

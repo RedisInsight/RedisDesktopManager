@@ -23,7 +23,7 @@ TreeView {
 
         rowDelegate: Rectangle {
             height: PlatformUtils.isOSXRetina(Screen) ? 25 : 30
-            color: styleData.selected ? "#e2e2e2" : "white"
+            color: styleData.selected ? sysPalette.highlight : "transparent"
         }
     }
 
@@ -89,7 +89,7 @@ TreeView {
                     anchors.left: itemIcon.right
                     anchors.verticalCenter: parent.verticalCenter
                     text: wrapper.itemEnabled ? styleData.value["name"] : styleData.value["name"] + qsTranslate("RDM"," (Removed)")
-                    color: wrapper.itemEnabled ? "black": "#ccc"
+                    color: wrapper.itemEnabled ? sysPalette.windowText: inactiveSysPalette.windowText
                 }
 
                 Loader {

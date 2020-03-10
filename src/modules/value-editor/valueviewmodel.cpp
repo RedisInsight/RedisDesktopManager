@@ -25,6 +25,14 @@ int ValueEditor::ValueViewModel::rowCount(const QModelIndex& parent) const {
   }
 }
 
+int ValueEditor::ValueViewModel::columnCount(const QModelIndex& parent) const {
+    Q_UNUSED(parent);
+
+    if (!m_model) return 0;
+
+    return m_model->getColumnNames().size();
+}
+
 QString ValueEditor::ValueViewModel::tabLoadingTitle() const {
     return m_tabTitle;
 }
@@ -37,11 +45,19 @@ QVariant ValueEditor::ValueViewModel::data(const QModelIndex& index,
                                            int role) const {
   if (!isIndexValid(index)) return QVariant();
 
-  return m_model->getData(m_startFramePosition + index.row(), role);
+  int mappedRole = role;
+
+  if (role == Qt::DisplayRole) {
+      mappedRole = m_model->getRoles().key(m_model->getColumnNames().at(index.column()).toLatin1());
+  }
+
+  return m_model->getData(m_startFramePosition + index.row(), mappedRole);
 }
 
 QHash<int, QByteArray> ValueEditor::ValueViewModel::roleNames() const {
-  return m_model->getRoles();
+  auto roles = m_model->getRoles();
+  roles.insert(Qt::DisplayRole, "display");
+  return roles;
 }
 
 QSharedPointer<ValueEditor::Model> ValueEditor::ValueViewModel::model() {
@@ -105,10 +121,6 @@ void ValueEditor::ValueViewModel::removeKey() {
 void ValueEditor::ValueViewModel::close()
 {
     emit tabClosed();
-}
-
-int ValueEditor::ValueViewModel::mapRowIndex(int i) {
-  return m_startFramePosition + i;
 }
 
 QVariantList ValueEditor::ValueViewModel::columnNames() {
@@ -219,45 +231,42 @@ void ValueEditor::ValueViewModel::addRow(const QVariantMap& row) {
   });
 }
 
-void ValueEditor::ValueViewModel::updateRow(int i, const QVariantMap& row) {
+void ValueEditor::ValueViewModel::updateRow(int rowIndex, const QVariantMap& row) {
   if (!m_model) {
     qWarning() << "Model is not loaded";
     return;
   }
 
-  int targetRow = mapRowIndex(i);
-  if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
+  if (rowIndex < 0 || !m_model->isRowLoaded(rowIndex)) return;
 
-  m_model->updateRow(targetRow, row, [this, i](const QString& err) {
+  m_model->updateRow(rowIndex, row, [this, rowIndex](const QString& err) {
     if (err.size() > 0) {
       emit error(err);
       return;
     }
-    emit dataChanged(index(i, 0), index(i, 0));
+    emit dataChanged(index(rowIndex, 0), index(rowIndex, 0));
   });
 }
 
-void ValueEditor::ValueViewModel::deleteRow(int i) {
+void ValueEditor::ValueViewModel::deleteRow(int rowIndex) {
   if (!m_model) {
     qWarning() << "Model is not loaded";
     return;
   }
 
-  int targetRow = mapRowIndex(i);
+  if (rowIndex < 0 || !m_model->isRowLoaded(rowIndex)) return;
 
-  if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return;
-
-  m_model->removeRow(targetRow, [this, i, targetRow](const QString& err) {
+  m_model->removeRow(rowIndex, [this, rowIndex](const QString& err) {
     if (err.size() > 0) {
       emit error(err);
       return;
     }
 
-    emit beginRemoveRows(QModelIndex(), i, i);
+    emit beginRemoveRows(QModelIndex(), rowIndex, rowIndex);
     emit endRemoveRows();
 
-    if (targetRow < m_model->rowsCount())
-      emit dataChanged(index(i, 0), index(m_model->rowsCount() - 1, 0));
+    if (rowIndex < m_model->rowsCount())
+      emit dataChanged(index(rowIndex, 0), index(m_model->rowsCount() - 1, 0));
 
     if (m_model->rowsCount() == 0) emit keyRemoved();
   });
@@ -275,19 +284,31 @@ int ValueEditor::ValueViewModel::totalRowCount() {
 int ValueEditor::ValueViewModel::pageSize() {
   QSettings settings;
 
-  return settings.value("app/valueEditorPageSize", 1000).toInt();
+  return settings.value("app/valueEditorPageSize", 100).toInt();
 }
 
-QVariantMap ValueEditor::ValueViewModel::getRow(int row) {
+QVariantMap ValueEditor::ValueViewModel::getRow(int rowIndex) {
   if (!m_model) {
     qWarning() << "Model is not loaded";
     return QVariantMap();
   }
 
-  int targetRow = mapRowIndex(row);
-  if (targetRow < 0 || !m_model->isRowLoaded(targetRow)) return QVariantMap();
+  if (rowIndex < 0 || !m_model->isRowLoaded(rowIndex)) return QVariantMap();
 
-  QVariantMap res = getRowRaw(row);
+  QHash<int,QByteArray> names = roleNames();
+  QHashIterator<int, QByteArray> i(names);
+  QVariantMap res;
+
+  while (i.hasNext()) {
+      i.next();
+
+      if (i.value() == "display")
+          continue;
+
+      QVariant d = m_model->getData(rowIndex, i.key());
+      res[i.value()] = d;
+  }
+
   return res;
 }
 

@@ -9,7 +9,7 @@ ReJSONKeyModel::ReJSONKeyModel(
 QString ReJSONKeyModel::type() { return "ReJSON"; }
 
 QStringList ReJSONKeyModel::getColumnNames() {
-  return QStringList();  // Single value type - No columns
+  return QStringList() << "value";
 }
 
 QHash<int, QByteArray> ReJSONKeyModel::getRoles() {

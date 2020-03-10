@@ -5,6 +5,8 @@
 #include "namespaceitem.h"
 
 #include <QMessageBox>
+#include <QApplication>
+#include <QThread>
 
 using namespace ConnectionsTree;
 
@@ -101,51 +103,17 @@ void AbstractNamespaceItem::sortChilds() {
 QFuture<qlonglong> AbstractNamespaceItem::getMemoryUsage(
     QSharedPointer<AsyncFuture::Combinator> combinator) {
   m_usedMemory = 0;
-
+  combinator->onCanceled([this]() { unlock(); });
   lock();
 
   auto d = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
       new AsyncFuture::Deferred<qlonglong>());
 
-  auto childsCombinator = QSharedPointer<AsyncFuture::Combinator>(
-      new AsyncFuture::Combinator(AsyncFuture::FailFast));
-
-  combinator->onCanceled([this]() { unlock(); });
-
-  for (QSharedPointer<TreeItem> child : m_childItems) {
-    if (combinator->future().isCanceled() || d->future().isCanceled()) {
-      break;
-    }
-
-    if (!child) continue;
-
-    auto memoryItem = child.dynamicCast<MemoryUsage>();
-
-    if (!memoryItem) continue;
-
-    auto future = memoryItem->getMemoryUsage(combinator);
-
-    AsyncFuture::observe(future).subscribe([this](qlonglong result) {
-      QMutexLocker locker(&m_updateUsedMemoryMutex);
-      Q_UNUSED(locker);
-
-      m_usedMemory += result;
-      emit m_model.itemChanged(getSelf());
-    });
-
-    combinator->combine(future);
-    childsCombinator->combine(future);
+  if (QApplication::instance()->thread() == QThread::currentThread()) {
+    QtConcurrent::run(this, &AbstractNamespaceItem::calculateUsedMemory, combinator, d);
+  } else {
+    calculateUsedMemory(combinator, d);
   }
-
-  childsCombinator->subscribe(
-      [this, d]() {
-        d->complete(m_usedMemory);
-        unlock();
-      },
-      [this, d]() {
-        d->cancel();
-        unlock();
-      });
 
   return d->future();
 }
@@ -189,4 +157,46 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
   });
 
   return events;
+}
+
+void AbstractNamespaceItem::calculateUsedMemory(QSharedPointer<AsyncFuture::Combinator> combinator,
+                                                QSharedPointer<AsyncFuture::Deferred<qlonglong>> d)
+{
+  m_childsCombinator = QSharedPointer<AsyncFuture::Combinator>(
+      new AsyncFuture::Combinator(AsyncFuture::FailFast));
+
+  for (QSharedPointer<TreeItem> child : m_childItems) {
+    if (combinator->future().isCanceled() || d->future().isCanceled()) {
+      break;
+    }
+
+    if (!child) continue;
+
+    auto memoryItem = child.dynamicCast<MemoryUsage>();
+
+    if (!memoryItem) continue;
+
+    auto future = memoryItem->getMemoryUsage(combinator);
+
+    AsyncFuture::observe(future).subscribe([this](qlonglong result) {
+      QMutexLocker locker(&m_updateUsedMemoryMutex);
+      Q_UNUSED(locker);
+
+      m_usedMemory += result;
+      emit m_model.itemChanged(getSelf());
+    });
+
+    //combinator->combine(future);
+    m_childsCombinator->combine(future);
+  }
+
+  m_childsCombinator->subscribe(
+      [this, d]() {
+        d->complete(m_usedMemory);
+        unlock();
+      },
+      [this, d]() {
+        d->cancel();
+        unlock();
+      });
 }

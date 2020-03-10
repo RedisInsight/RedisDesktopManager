@@ -24,7 +24,7 @@ QVariant ListLikeKeyModel::getData(int rowIndex, int dataRole) {
     case Value:
       return m_rowsCache[rowIndex];
     case RowNumber:
-      return rowIndex + 1;
+      return rowIndex;
   }
 
   return QVariant();

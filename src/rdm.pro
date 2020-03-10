@@ -9,10 +9,12 @@ QT += core gui network concurrent widgets quick quickwidgets charts svg
 TARGET = rdm
 TEMPLATE = app
 
-# Skip version file
-!exists( $$PWD/version.h ) {    
-    DEFINES += RDM_VERSION=\\\"2019.5.0\\\"
+!defined(VERSION, var) {
+    VERSION=2020.0.0-dev
 }
+
+message($$VERSION)
+DEFINES += RDM_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += \
     $$PWD/main.cpp \
@@ -54,10 +56,6 @@ HEADERS  += \
     $$PWD/modules/bulk-operations/operations/*.h \
     $$PWD/modules/common/*.h \
     $$PWD/modules/server-stats/*.h \
-
-exists( $$PWD/version.h ) {
-    HEADERS  += $$PWD/version.h
-}
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
 

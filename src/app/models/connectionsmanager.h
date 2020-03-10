@@ -18,6 +18,8 @@ class ConnectionsManager : public ConnectionsTree::Model,
                            public BulkOperations::ConnectionsModel {
   Q_OBJECT
 
+  Q_PROPERTY(int connectionsCount READ size NOTIFY sizeChanged)
+
  public:
   ConnectionsManager(const QString& m_configPath,
                      QSharedPointer<Events> events);
@@ -50,6 +52,8 @@ class ConnectionsManager : public ConnectionsTree::Model,
   void editConnection(ServerConfig config);
 
   void connectionAboutToBeEdited(QString name);
+
+  void sizeChanged();
 
  protected:
   bool loadConnectionsConfigFromFile(const QString& config,

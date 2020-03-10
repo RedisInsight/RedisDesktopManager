@@ -1,28 +1,27 @@
 import QtQuick 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.3
+import "."
 
-RowLayout {
-
+RowLayout {    
     property alias placeholderText: textField.placeholderText
     property alias host: textField.text
     property alias port: portField.value
-    property alias style: textField.style
+    property alias validationError: textField.validationError
 
-    TextField {
+    BetterTextField {
         id: textField
         objectName: "rdm_connection_address_host_field"
-        Layout.fillWidth: true
+        Layout.fillWidth: true        
     }
 
     Label { text: ":" }
 
-    SpinBox {
+    BetterSpinBox {
         id: portField
         objectName: "rdm_connection_address_port_field"
-        minimumValue: 1
-        maximumValue: 10000000000
+        from: 1
+        to: 10000000
         value: 22
-        decimals: 0
     }
 }

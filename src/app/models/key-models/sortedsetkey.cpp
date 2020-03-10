@@ -33,7 +33,7 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole) {
   else if (dataRole == Roles::Score)
     return row.second.toDouble();
   else if (dataRole == Roles::RowNumber)
-    return rowIndex + 1;
+    return rowIndex;
 
   return QVariant();
 }

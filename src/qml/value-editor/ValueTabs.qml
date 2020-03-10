@@ -1,48 +1,40 @@
-import QtQuick 2.3
+import QtQuick 2.13
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.13
 import QtQuick.Controls.Styles 1.1
-import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import "./editors/editor.js" as Editor
 import "./../common/platformutils.js" as PlatformUtils
 import "./../common"
 import rdm.models 1.0
+import Qt.labs.qmlmodels 1.0
 
 Repeater {
 
     BetterTab {
         id: keyTab
-        width: approot.width
-        height: approot.height
-        icon: "qrc:/images/key.svg"
-        tabType: "value"
         objectName: "rdm_value_tab"
 
-        closable: true
-        onClose: {
-            //            console.log(valueEditor!=undefined)
+        Component {
+            id: valueTabButton
 
-            //            if (valueEditor != undefined && valueEditor.item && valueEditor.item.isValueChanged()) {
-            //                // TODO: show "Unsaved changes detected" warnings
-            //                return
-            //            }
-            valueEditor.clear()
-            valuesModel.closeTab(tabIndex)
+            BetterTabButton {
+                icon.source: "qrc:/images/key.svg"
+
+                text: tabName
+                ToolTip.text: keyName
+
+                onCloseClicked: {
+                    valuesModel.closeTab(keyIndex)
+                }
+            }
         }
 
-        title: {
-            var limit = 30
-            if (keyTitle.length <= limit)
-                return keyTitle
-
-            return keyTitle.substring(0, limit/2) + "..." + keyTitle.substring(keyTitle.length - limit/2)
-
-        }
         property int tabIndex: keyIndex
         property var table
         property var valueEditor
         property var searchModel
+        property var tabButton
         property bool loadingModel: showLoader
         property variant keyModel: keyViewModel
 
@@ -63,14 +55,18 @@ Repeater {
         property Component searchModelComponent: Component {
             SortFilterProxyModel {
                 source: keyViewModel
-                sortOrder: table.sortIndicatorOrder
+                //sortOrder: table.sortIndicatorOrder
                 sortCaseSensitivity: Qt.CaseInsensitive
-                sortRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? table.getColumn(table.sortIndicatorColumn).role : ""
+                sortRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? "value" : ""
 
                 filterString: table.searchField.text
                 filterSyntax: SortFilterProxyModel.Wildcard
                 filterCaseSensitivity: Qt.CaseInsensitive
-                filterRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? table.getColumn(1).role : ""
+                filterRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? "value" : ""
+
+                onFilterStringChanged: {
+                    table.resetCurrentRow()
+                }
 
                 Component.onCompleted:  {
                     if (keyTab.keyModel && keyTab.keyModel.isLoaded && keyTab.keyModel.singlePageMode) {
@@ -95,12 +91,26 @@ Repeater {
         Component.onCompleted: {
             keyTab.focus = true
             keyTab.forceActiveFocus()
+
+            // Update tabBar
+            if (!tabButton) {
+                tabButton = valueTabButton.createObject(keyTab);
+                tabButton.self = tabButton;
+                tabButton.tabRef = keyTab;
+                tabBar.addItem(tabButton)
+                tabBar.activateTabButton(tabButton)
+                tabs.activateTab(keyTab)
+            }
+        }
+
+        onActivate: {
+            valuesModel.setCurrentTab(keyIndex)
         }
 
         Item {
             id: wrapper
             anchors.fill: parent
-            anchors.margins: 5            
+            anchors.margins: 5
 
             function showLoader() {
                 uiBlocker.visible = true
@@ -113,28 +123,34 @@ Repeater {
             ColumnLayout {
                 visible: !loadingModel
                 anchors.fill: parent
-                spacing: 1
+                spacing: 5
 
                 RowLayout {
-                    Layout.preferredHeight: 40
-                    Layout.minimumHeight: 40
+                    Layout.preferredHeight: 30
+                    Layout.minimumHeight: 30
                     Layout.fillWidth: true
                     spacing: 5
 
-                    Text { text: keyType.toUpperCase() + ":"; font.bold: true }
+                    Text {
+                        Layout.preferredWidth: 70
+                        text: keyType.toUpperCase() + ":"; font.bold: true
+                    }
 
-                    TextField {
+                    BetterTextField {
                         id: keyNameField
                         Layout.fillWidth: true
                         text: keyName
                         readOnly: true
-                        objectName: "rdm_key_name_field"
+                        objectName: "rdm_key_name_field"                                               
                     }
 
-                    Button {
-                        text: qsTranslate("RDM","Rename")
+                    BetterButton {
+                        Layout.preferredWidth: 98
 
-                        Dialog {
+                        text: qsTranslate("RDM","Rename key")
+                        objectName: "rdm_key_rename_btn"
+
+                        BetterDialog {
                             id: renameConfirmation
                             title: qsTranslate("RDM","Rename key")
 
@@ -162,28 +178,22 @@ Repeater {
                             }
 
                             visible: false
-                            modality: Qt.ApplicationModal
                             standardButtons: StandardButton.Ok | StandardButton.Cancel
                         }
-
-                        onClicked: {
-                            newKeyName.text = keyNameField.text
-                            renameConfirmation.open()
-                        }
                     }
 
-                    Item { visible: keyModel.isLoaded && isMultiRow; Layout.preferredWidth: 5}
                     Text {
-                        visible: isMultiRow || keyType === "hyperloglog";
+                        visible: keyType === "hyperloglog";
                         text:  qsTranslate("RDM","Size: ") + keyRowsCount
                     }
-                    Item { Layout.preferredWidth: 5}
 
-                    Button {
+                    BetterButton {
+                        Layout.preferredWidth: 98
+
                         text: qsTranslate("RDM","TTL:") + keyTtl
                         objectName: "rdm_key_ttl_value"
 
-                        Dialog {
+                        BetterDialog {
                             id: setTTLConfirmation
                             title: qsTranslate("RDM","Set key TTL")
 
@@ -199,6 +209,7 @@ Repeater {
                                     id: newTTL;
                                     Layout.fillWidth: true;
                                     objectName: "rdm_set_ttl_key_field"
+                                    inputMethodHints: Qt.ImhDigitsOnly
                                 }
                             }
 
@@ -210,8 +221,7 @@ Repeater {
                                 keyTab.keyModel.setTTL(newTTL.text)
                             }
 
-                            visible: false
-                            modality: Qt.ApplicationModal
+                            visible: false                            
                             standardButtons: StandardButton.Ok | StandardButton.Cancel
                         }
 
@@ -221,24 +231,20 @@ Repeater {
                         }
                     }
 
-
-                    Item { Layout.preferredWidth: 5}                    
-
-                    Button {
+                    BetterButton {
+                        objectName: "rdm_value_tab_delete_btn"
+                        Layout.preferredWidth: 98
                         text: qsTranslate("RDM","Delete")
                         iconSource: "qrc:/images/delete.svg"
 
-                        MessageDialog {
+                        BetterMessageDialog {
                             id: deleteConfirmation
                             title: qsTranslate("RDM","Delete key")
                             text: qsTranslate("RDM","Do you really want to delete this key?")
-                            onYes: {                                
+                            onYesClicked: {
                                 keyTab.keyModel.removeKey()
                             }
                             visible: false
-                            modality: Qt.ApplicationModal
-                            icon: StandardIcon.Warning
-                            standardButtons: StandardButton.Yes | StandardButton.No
                         }
 
                         onClicked: {
@@ -246,12 +252,12 @@ Repeater {
                         }
                     }
 
-                    Button {
+                    BetterButton {
                         text: qsTranslate("RDM","Reload Value")
                         action: reLoadAction
                         visible: !isMultiRow
                         iconSource: "qrc:/images/refresh.svg"
-                    }                    
+                    }
                 }
 
                 SplitView {
@@ -259,190 +265,229 @@ Repeater {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
 
-                    handleDelegate: ColumnLayout {
-                        Item { Layout.fillWidth: true; Layout.preferredHeight: 2; }
-                        Rectangle { color: "#e2e2e2"; Layout.fillWidth: true; Layout.preferredHeight: 1; }
-                        Item { Layout.fillWidth: true; Layout.preferredHeight: 2;}
-                    }
-
                     // Table
                     RowLayout {
                         id: navigationTable
                         Layout.fillWidth: true
                         Layout.fillHeight: false
+                        Layout.bottomMargin: 10
+                        SplitView.minimumHeight: 250
                         visible: isMultiRow
 
-                        TableView {
-                            id: table
-
-                            property var searchField
-
+                        ColumnLayout {
+                            id: tableLayout
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             Layout.minimumHeight: 100
 
-                            sortIndicatorVisible: true
+                            RowLayout {
+                                Layout.minimumHeight: 15
+                                Layout.preferredHeight: 30
+                                Layout.fillWidth: true
+                                spacing: 1
 
-                            TableViewColumn{ width: 50 }
-                            TableViewColumn{ width: 150 }
-                            TableViewColumn{ width: table.width - 200}
+                                Repeater {
+                                    model: keyTab.keyModel? keyTab.keyModel.columnNames : []
 
-                            model: searchModel ? searchModel : null
+                                    Rectangle {
+                                        Layout.preferredHeight: 30
+                                        Layout.preferredWidth: 75
+                                        Layout.fillWidth: index !== 0
+                                        color: "lightgrey"
 
-                            property var currentStart: 0
-                            property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize : 100
-                            property int currentPage: currentStart / maxItemsOnPage + 1
-                            property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount / maxItemsOnPage) : 0
-                            property bool forceLoading: false
-
-                            Component.onCompleted: {
-                                keyTab.table = table
+                                        Text {
+                                            anchors.centerIn: parent
+                                            text: modelData
+                                        }
+                                    }
+                                }
                             }
 
-                            itemDelegate: Item {
-                                Text {
+                            Item {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.minimumHeight: 100
+
+                                ScrollView {
                                     anchors.fill: parent
-                                    color: styleData.textColor                                    
-                                    text: {
 
-                                        if (styleData.value === "" || !isMultiRow) {
-                                            return ""
-                                        }
+                                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                                    ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-                                        if (styleData.column === 2 && keyType == "zset") {
-                                            return parseFloat(Number(styleData.value).toFixed(20))
-                                        }
+                                    TableView {
+                                        id: table
+                                        objectName: "rdm_value_tab_table"
 
-                                        if (qmlUtils.binaryStringLength(styleData.value) > 1000) {
-                                            return qmlUtils.printable(styleData.value, false, 1000) + "..."
-                                        }
+                                        width: parent.width
+                                        onWidthChanged: forceLayout() 
+                                        clip: true
+                                        columnSpacing: 1
+                                        rowSpacing: 1
+                                        model: searchModel ? searchModel : null
 
-                                        return qmlUtils.printable(styleData.value)
-                                                            + (lineCount > 1 ? '...' : '')
-                                    }
-                                    elide: Text.ElideRight
-                                    wrapMode: Text.WrapAnywhere
-                                    maximumLineCount: 1
-                                }
-                            }
+                                        property int currentRow: -1
+                                        property var searchField
+                                        property var currentStart: 0
+                                        property int maxItemsOnPage: keyTab.keyModel ? keyTab.keyModel.pageSize : 100
+                                        property int currentPage: currentStart / maxItemsOnPage + 1
+                                        property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount / maxItemsOnPage) : 0
+                                        property bool forceLoading: false
+                                        property int firstColumnWidth: 75
+                                        property int valueColumnWidth: keyTab.keyModel.columnNames.length == 2? tableLayout.width - table.firstColumnWidth - table.columnSpacing
+                                                                                                              : (tableLayout.width - table.firstColumnWidth - table.columnSpacing) / 2
+                                        Component.onCompleted: keyTab.table = table
 
-                            MessageDialog {
-                                id: valueErrorNotification
-                                visible: false
-                                modality: Qt.ApplicationModal
-                                icon: StandardIcon.Warning
-                                standardButtons: StandardButton.Ok
-                            }
+                                        delegate: DelegateChooser {
 
-                            Connections {
-                                id: keyModelConnections
+                                            DelegateChoice {
+                                                column: 0
 
-                                target: keyTab.keyModel
-
-                                onError: {
-                                    valueErrorNotification.text = error
-                                    valueErrorNotification.open()
-                                }
-
-                                onIsLoadedChanged: {
-                                    console.log("model loaded (qml)")
-                                    if (keyTab.keyModel.totalRowCount === 0) {
-                                        console.log("Load rows count")
-                                        keyTab.keyModel.loadRowsCount()
-                                    } else {
-                                        console.log("Load rows")
-                                        keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
-                                    }
-                                }
-
-                                onTotalRowCountChanged: {                                    
-                                    keyTab.keyModel.loadRows(table.currentStart, table.maxItemsOnPage)
-                                }
-
-                                onRowsLoaded: {
-                                    console.log("rows loaded")
-
-                                    wrapper.hideLoader()
-
-                                    keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
-
-                                    if (isMultiRow) {
-                                        var columns = keyTab.keyModel.columnNames                                        
-
-                                        for (var index = 0; index < 3; index++)
-                                        {
-                                            var column = table.getColumn(index)
-
-                                            if (index >= columns.length) {
-                                                column.visible = false
-                                                continue
+                                                ValueTableCell {
+                                                    implicitWidth: table.firstColumnWidth
+                                                    implicitHeight: 30
+                                                    text: display
+                                                    selected: table.currentRow === row
+                                                    onClicked: table.currentRow = row
+                                                }
                                             }
 
-                                            column.role = columns[index]
-                                            column.title = columns[index]
-                                            //if (index > 0) column.width = table.width / (columns.length - 1) - 50
-                                            column.visible = true
-                                            column.resizeToContents()
+                                            DelegateChoice {
+                                                column: 1
+
+                                                ValueTableCell {
+                                                    implicitWidth: table.valueColumnWidth
+                                                    implicitHeight: 30
+                                                    text: renderText(display)
+                                                    selected: table.currentRow === row
+                                                    onClicked: table.currentRow = row
+                                                }
+                                            }
+
+                                            DelegateChoice {
+                                                column: 2
+
+                                                ValueTableCell {
+                                                    implicitWidth: table.valueColumnWidth
+                                                    implicitHeight: 30
+
+                                                    selected: table.currentRow === row
+                                                    onClicked: table.currentRow = row
+
+                                                    text: {
+                                                        if (display === "" || !isMultiRow) {
+                                                            return ""
+                                                        }
+
+                                                        if (keyType == "zset") {
+                                                            return parseFloat(Number(styleData.value).toFixed(20))
+                                                        }
+
+                                                        return renderText(display)
+                                                    }
+                                                }
+                                            }
                                         }
-                                        valueEditor.clear()
-                                    } else {
-                                        valueEditor.loadRowValue(0)
-                                    }
-                                }
-                            }
 
-                            function goToPage(page) {
-                                var firstItemOnPage = table.maxItemsOnPage * (page - 1)
+                                        OkDialog {
+                                            id: valueErrorNotification
+                                            visible: false                                                                                                                                    
+                                        }
 
-                                if (table.currentStart === firstItemOnPage)
-                                    return
+                                        Connections {
+                                            id: keyModelConnections
 
-                                table.currentStart = firstItemOnPage
-                                loadValue()
-                            }
+                                            target: keyTab.keyModel
 
-                            function goToPrevPage() {
-                                console.log('goto prev page')
-                                if (table.currentPage - 1 < 1)
-                                    return
+                                            onError: {
+                                                valueErrorNotification.text = error
+                                                valueErrorNotification.open()
+                                            }
 
-                                goToPage(table.currentPage - 1)
-                            }
+                                            onIsLoadedChanged: {
+                                                console.log("model loaded (qml)")
+                                                if (keyTab.keyModel.totalRowCount === 0) {
+                                                    console.log("Load rows count")
+                                                    keyTab.keyModel.loadRowsCount()
+                                                } else {
+                                                    console.log("Load rows")
+                                                    keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+                                                }
+                                            }
 
-                            function goToNextPage() {
-                                console.log('goto next page')
-                                if (table.totalPages < table.currentPage + 1)
-                                    return
+                                            onTotalRowCountChanged: {
+                                                keyTab.keyModel.loadRows(table.currentStart, table.maxItemsOnPage)
+                                            }
 
-                                goToPage(table.currentPage + 1)
-                            }
+                                            onRowsLoaded: {
+                                                console.log("rows loaded")
 
-                            function loadValue() {
-                                console.log("Load value")
-                                if (!keyTab.keyModel) {
-                                    console.log("Model is not ready", keyViewModel)
-                                    return
-                                }
-                                wrapper.showLoader()
-                                if (isMultiRow && keyTab.keyModel.totalRowCount === 0) {
-                                    console.log("Load rows count")
-                                    keyTab.keyModel.loadRowsCount()
-                                } else {
-                                    console.log("Load rows")
-                                    keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
-                                }
-                            }
+                                                wrapper.hideLoader()
+                                                keyTab.searchModel = keyTab.searchModelComponent.createObject(keyTab)
 
-                            onRowCountChanged: wrapper.hideLoader()
-                            onActivated: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
-                            onClicked: valueEditor.loadRowValue(table.model.getOriginalRowIndex(row))
+                                                if (isMultiRow) {
+                                                    valueEditor.clear()
+                                                } else {
+                                                    valueEditor.loadRowValue(0)
+                                                }
 
-                            Connections {
-                                target: table.selection
-                                onSelectionChanged:{                                   
-                                    if (table.currentRow !== -1) {
-                                        console.log("Selection changed", table.currentRow)
-                                        return valueEditor.loadRowValue(table.model.getOriginalRowIndex(table.currentRow))
+                                                table.forceLayout()
+                                            }
+                                        }
+
+                                        function goToPage(page) {
+                                            var firstItemOnPage = table.maxItemsOnPage * (page - 1)
+
+                                            if (table.currentStart === firstItemOnPage)
+                                                return
+
+                                            table.currentStart = firstItemOnPage
+                                            resetCurrentRow()
+                                            loadValue()
+                                        }
+
+                                        function goToPrevPage() {
+                                            console.log('goto prev page')
+                                            if (table.currentPage - 1 < 1)
+                                                return
+
+                                            goToPage(table.currentPage - 1)
+                                        }
+
+                                        function goToNextPage() {
+                                            console.log('goto next page')
+                                            if (table.totalPages < table.currentPage + 1)
+                                                return
+
+                                            goToPage(table.currentPage + 1)
+                                        }
+
+                                        function loadValue() {
+                                            console.log("Load value")
+                                            if (!keyTab.keyModel) {
+                                                console.log("Model is not ready", keyViewModel)
+                                                return
+                                            }
+                                            wrapper.showLoader()
+                                            if (isMultiRow && keyTab.keyModel.totalRowCount === 0) {
+                                                console.log("Load rows count")
+                                                keyTab.keyModel.loadRowsCount()
+                                            } else {
+                                                console.log("Load rows")
+                                                keyTab.keyModel.loadRows(currentStart, maxItemsOnPage)
+                                            }
+                                        }
+
+                                        function resetCurrentRow() {
+                                            table.currentRow = -1
+                                        }
+
+                                        onRowsChanged: wrapper.hideLoader()
+                                        onCurrentRowChanged: {
+                                            console.log("Current row in table changed: ", currentRow)
+                                            if (currentRow >= 0) {
+                                                valueEditor.loadRowValue(currentRow)
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -453,23 +498,24 @@ Repeater {
                             Layout.preferredWidth: 200
                             Layout.maximumWidth: 200
                             Layout.alignment: Qt.AlignTop
+                            Layout.bottomMargin: 10
 
-                            Button {
-                                Layout.preferredWidth: 195
+                            BetterButton {
+                                objectName: "rdm_value_tab_add_row_btn"
+                                Layout.fillWidth: true
                                 text: qsTranslate("RDM","Add Row")
                                 iconSource: "qrc:/images/add.svg"
                                 onClicked: {
                                     addRowDialog.open()
                                 }
 
-                                Dialog {
+                                BetterDialog {
                                     id: addRowDialog
                                     title: keyType === "hyperloglog"? qsTranslate("RDM","Add Element to HLL")
                                                                     : qsTranslate("RDM","Add Row")
 
                                     width: 550
-                                    height: 400
-                                    modality: Qt.ApplicationModal
+                                    height: 400                                    
 
                                     contentItem: Rectangle {
                                         implicitWidth: 800
@@ -495,38 +541,38 @@ Repeater {
                                                     item.initEmpty()
                                                 }
                                             }
+                                        }
+                                    }
 
-                                            RowLayout {
-                                                Layout.fillWidth: true
+                                    footer: DialogButtonBox {
+                                        Button {
+                                            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+                                            objectName: "rdb_add_row_dialog_add_button"
+                                            text: qsTranslate("RDM","Add")
 
-                                                Item {
-                                                    Layout.fillWidth: true
-                                                }
+                                            onClicked: {
+                                                if (!valueAddEditor.item)
+                                                    return false
 
-                                                Button {
-                                                    objectName: "rdb_add_row_dialog_add_button"
-                                                    text: qsTranslate("RDM","Add")
-
-                                                    onClicked: {
-                                                        if (!valueAddEditor.item)
-                                                            return false
-
-                                                        valueAddEditor.item.validateValue(function (result){
-                                                            if (!result) {
-                                                                return;
-                                                            }
-
-                                                            var row = valueAddEditor.item.getValue()
-
-                                                            keyTab.keyModel.addRow(row)
-                                                            keyTab.keyModel.reload()                                                            
-                                                            valueAddEditor.item.reset()
-                                                            valueAddEditor.item.initEmpty()
-                                                            addRowDialog.close()
-                                                        });
+                                                valueAddEditor.item.validateValue(function (result){
+                                                    if (!result) {
+                                                        return;
                                                     }
-                                                }
+
+                                                    var row = valueAddEditor.item.getValue()
+
+                                                    keyTab.keyModel.addRow(row)
+                                                    keyTab.keyModel.reload()
+                                                    valueAddEditor.item.reset()
+                                                    valueAddEditor.item.initEmpty()
+                                                    addRowDialog.close()
+                                                });
                                             }
+                                        }
+
+                                        Button {
+                                            text: qsTranslate("RDM", "Cancel")
+                                            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
                                         }
                                     }
 
@@ -534,8 +580,8 @@ Repeater {
                                 }
                             }
 
-                            Button {
-                                Layout.preferredWidth: 195
+                            BetterButton {
+                                Layout.fillWidth: true
                                 text: qsTranslate("RDM","Delete row")
                                 iconSource: "qrc:/images/delete.svg"
                                 enabled: table.currentRow != -1
@@ -545,34 +591,33 @@ Repeater {
                                         deleteRowConfirmation.text = qsTranslate("RDM","The row is the last one in the key. After removing it key will be deleted.")
                                     } else {
                                         deleteRowConfirmation.text = qsTranslate("RDM","Do you really want to remove this row?")
-                                    }
+                                    }                                   
 
-                                    var rowIndex = table.model.getOriginalRowIndex(table.currentRow)
-                                    console.log("Original row index in model:", rowIndex)
+                                    console.log("removing row", table.currentRow)
 
-                                    deleteRowConfirmation.rowToDelete = rowIndex
+                                    deleteRowConfirmation.rowToDelete = table.currentRow
                                     deleteRowConfirmation.open()
                                 }
 
-                                MessageDialog {
+                                BetterMessageDialog {
                                     id: deleteRowConfirmation
                                     title: qsTranslate("RDM","Delete row")
                                     text: ""
-                                    onYes: {
+                                    onYesClicked: {
                                         console.log("remove row in key")
                                         keyTab.keyModel.deleteRow(rowToDelete)
+                                        table.resetCurrentRow()
+                                        valueEditor.clear()
+                                        table.model.invalidate()
                                     }
                                     visible: false
-                                    modality: Qt.ApplicationModal
-                                    icon: StandardIcon.Warning
-                                    standardButtons: StandardButton.Yes | StandardButton.No
                                     property int rowToDelete
                                 }
 
                             }
 
-                            Button {
-                                Layout.preferredWidth: 195
+                            BetterButton {
+                                Layout.fillWidth: true
                                 text: qsTranslate("RDM","Reload Value")
                                 iconSource: "qrc:/images/refresh.svg"
                                 action: reLoadAction
@@ -586,6 +631,7 @@ Repeater {
 
                                         if (isMultiRow) {
                                             valueEditor.clear()
+                                            table.resetCurrentRow()
 
                                             if (table.currentPage > table.totalPages) {
                                                 table.goToPage(1)
@@ -596,9 +642,9 @@ Repeater {
                             }
 
                             RowLayout {
-                                Layout.preferredWidth: 195
+                                Layout.fillWidth: true
 
-                                TextField {
+                                BetterTextField {
                                     id: searchField
 
                                     Layout.fillWidth: true
@@ -611,7 +657,7 @@ Repeater {
                                     }
                                 }
 
-                                Button {
+                                BetterButton {
                                     id: clearGlobalSearch
                                     visible: keyTab.keyModel.singlePageMode
 
@@ -626,12 +672,12 @@ Repeater {
                                 }
                             }
 
-                            Button {
+                            BetterButton {
                                 id: globalSearch
 
-                                Layout.preferredWidth: 195
+                                Layout.fillWidth: true
                                 iconSource: "qrc:/images/execute.svg"
-                                text: qsTranslate("RDM","Search through All values")
+                                text: qsTranslate("RDM","Full Search")
 
                                 onClicked: {
                                     wrapper.showLoader()
@@ -645,9 +691,14 @@ Repeater {
                                 Layout.fillHeight: true
                             }
 
+                            Text {
+                                visible: isMultiRow
+                                text:  qsTranslate("RDM","Size: ") + keyRowsCount
+                            }
+
                             Pagination {
                                 id: pagination
-                                Layout.maximumWidth: 150
+                                Layout.fillWidth: true
                                 visible: isMultiRow
                             }
                         }
@@ -657,23 +708,18 @@ Repeater {
                     //Value editor
                     ColumnLayout {
                         id: editorWrapper
-                        Layout.fillWidth: true
-                        Layout.fillHeight: !isMultiRow
-                        spacing: 0
+                        SplitView.fillWidth: true
+                        SplitView.fillHeight: !isMultiRow
+                        Layout.topMargin: 10
+                        SplitView.minimumHeight: 230
+                        spacing: 10
 
                         Loader {
                             id: valueEditor
+                            Layout.topMargin: 5
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             Layout.minimumHeight: 180
-                            Layout.maximumHeight: {
-                                if (isMultiRow) {
-                                    return (approot.height - bottomTabView.height - navigationTable.height
-                                            - editorButtonsRow.height - 50)
-                                } else {
-                                    return approot.height - bottomTabView.height - editorButtonsRow.height - 50
-                                }
-                            }
 
                             Component.onCompleted: {
                                 keyTab.valueEditor = valueEditor
@@ -686,7 +732,7 @@ Repeater {
                             function loadRowValue(row) {
                                 console.log("loading row value", row)
                                 if (valueEditor.item) {
-                                    var rowValue = keyTab.keyModel.getRow(row, true)
+                                    var rowValue = keyTab.keyModel.getRow(row)
                                     valueEditor.currentRow = row
                                     valueEditor.item.setValue(rowValue)
                                 } else {
@@ -707,10 +753,10 @@ Repeater {
                         RowLayout {
                             id: editorButtonsRow
                             Layout.fillWidth: true
-                            Layout.minimumHeight: 40
+                            Layout.minimumHeight: 30
                             Item { Layout.fillWidth: true}
 
-                            Button {
+                            BetterButton {
                                 visible: keyType === "hyperloglog"
                                 Layout.preferredWidth: 195
                                 text: qsTranslate("RDM","Add Element to HLL");
@@ -720,8 +766,10 @@ Repeater {
                                 }
                             }
 
-                            Button {
+                            BetterButton {
                                 text: qsTranslate("RDM","Save")
+
+                                objectName: "rdm_value_editor_save_btn"
 
                                 enabled: keyType != "stream"
 
@@ -745,14 +793,11 @@ Repeater {
                                 }
                             }
 
-                            MessageDialog {
+                            OkDialog {
                                 id: savingConfirmation
                                 title: qsTranslate("RDM","Save value")
                                 text: ""
-                                visible: false
-                                modality: Qt.ApplicationModal
-                                icon: StandardIcon.Information
-                                standardButtons: StandardButton.Ok
+                                visible: false                                                                                                
                             }
                         }
                     }
@@ -776,7 +821,7 @@ Repeater {
 
                         Text {
                             visible: loadingModel
-                            text: keyTitle
+                            text: tabName
                         }
                     }
                 }

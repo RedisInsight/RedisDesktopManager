@@ -1,10 +1,10 @@
 import QtQuick 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.1
+import QtQuick.Layouts 1.13
+import QtQuick.Controls 2.13
+import QtQuick.Controls 1.4 as LC
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
-import QtCharts 2.0
+import QtCharts 2.3
 import "./../common"
 import "./../settings"
 
@@ -14,21 +14,37 @@ Repeater {
 
     BetterTab {
         id: tab
-        title: tabName
-        icon: "qrc:/images/console.svg"
-        tabType: "server_info"
 
-        property var model: serverStatsModel.getValue(tabIndex)
+        Component {
+            id: serverTabButton
+
+            BetterTabButton {
+                icon.source: "qrc:/images/database.svg"
+
+                text: tabName
+
+                onCloseClicked: {
+                    serverStatsModel.closeTab(tabIndex)
+                }
+            }
+        }
+
+        Component.onCompleted: {
+            var tabButton = serverTabButton.createObject(tab);
+            tabButton.self = tabButton;
+            tabButton.tabRef = tab;
+            tabBar.addItem(tabButton)
+            tabBar.activateTabButton(tabButton)
+            tabs.activateTab(tab)
+        }
+
+        property var model: tabModel
 
         onModelChanged: {
             if (!model)
                 return;
 
             tab.model.init()
-        }
-
-        onClose: {
-            serverStatsModel.closeTab(tabIndex)
         }
 
         Rectangle {
@@ -52,7 +68,7 @@ Repeater {
 
                         text: qsTranslate("RDM","Redis Version")
                         font.pointSize: 12
-                        color: "grey"                        
+                        color: "grey"
                     }
 
                     Label {
@@ -67,7 +83,7 @@ Repeater {
 
                         text: qsTranslate("RDM","Used memory")
                         font.pointSize: 12
-                        color: "grey"                        
+                        color: "grey"
                     }
 
                     Label {
@@ -82,7 +98,7 @@ Repeater {
 
                         text: qsTranslate("RDM","Clients")
                         font.pointSize: 12
-                        color: "grey"                        
+                        color: "grey"
                     }
 
                     Label {
@@ -98,7 +114,7 @@ Repeater {
                         text: qsTranslate("RDM","Commands Processed")
                         font.pointSize: 12
                         color: "grey"
-                        wrapMode: Text.WordWrap                        
+                        wrapMode: Text.WordWrap
                     }
 
                     Label {
@@ -114,7 +130,7 @@ Repeater {
 
                         text: qsTranslate("RDM","Uptime")
                         font.pointSize: 12
-                        color: "grey"                        
+                        color: "grey"
                     }
 
                     Label {
@@ -146,92 +162,114 @@ Repeater {
                     }
                 }
 
-                TabView {
+                TabBar {
+                    id: serverInfoTabBar
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 30
+
+                    TabButton {
+                        text: qsTranslate("RDM","Memory Usage")
+                    }
+
+                    TabButton {
+                        text: qsTranslate("RDM","Server Info")
+                    }
+
+                    TabButton {
+                        text: qsTranslate("RDM","Slowlog")
+                    }
+
+                    TabButton {
+                        text: qsTranslate("RDM","Clients")
+                    }
+
+                    TabButton {
+                        text: qsTranslate("RDM","Pub/Sub Channels")
+                    }
+                }
+
+                StackLayout {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     Layout.rightMargin: 50
 
-                    Tab {
+                    currentIndex: serverInfoTabBar.currentIndex
+
+                    ChartView {
+                        id: view
+
                         title: qsTranslate("RDM","Memory Usage")
+                        antialiasing: true
 
-                        ChartView {
-                            id: view
+                        DateTimeAxis {
+                            id: axisX
+                            min: new Date()
+                            format: "HH:mm:ss"
+                        }
 
-                            anchors.fill: parent
+                        ValueAxis {
+                            id: axisY
+                            min: 0
+                            titleText: qsTranslate("RDM","Mb")
+                        }
 
-                            title: qsTranslate("RDM","Memory Usage")
-                            antialiasing: true
+                        function toMsecsSinceEpoch(date) {
+                            var msecs = date.getTime();
+                            return msecs;
+                        }
 
-                            DateTimeAxis {
-                                id: axisX
-                                min: new Date()
-                                format: "HH:mm:ss"
-                            }
+                        SplineSeries {
+                            id: used_memory_series
+                            name: "used_memory"
+                            axisX: axisX
+                            axisY: axisY
+                        }
 
-                            ValueAxis {
-                                id: axisY
-                                min: 0
-                                titleText: qsTranslate("RDM","Mb")
-                            }
+                        SplineSeries {
+                            id: used_memory_rss_series
+                            name: "used_memory_rss"
+                            axisX: axisX
+                            axisY: axisY
+                        }
 
-                            function toMsecsSinceEpoch(date) {
-                                var msecs = date.getTime();
-                                return msecs;
-                            }
+                        SplineSeries {
+                            id: used_memory_lua_series
+                            name: "used_memory_lua"
+                            axisX: axisX
+                            axisY: axisY
+                        }
 
-                            SplineSeries {
-                                id: used_memory_series
-                                name: "used_memory"
-                                axisX: axisX
-                                axisY: axisY
-                            }
+                        SplineSeries {
+                            id: used_memory_peak_series
+                            name: "used_memory_peak"
+                            axisX: axisX
+                            axisY: axisY
+                        }
 
-                            SplineSeries {
-                                id: used_memory_rss_series
-                                name: "used_memory_rss"
-                                axisX: axisX
-                                axisY: axisY
-                            }
+                        Connections {
+                            target: tab.model? tab.model : null
 
-                            SplineSeries {
-                                id: used_memory_lua_series
-                                name: "used_memory_lua"
-                                axisX: axisX
-                                axisY: axisY
-                            }
-
-                            SplineSeries {
-                                id: used_memory_peak_series
-                                name: "used_memory_peak"
-                                axisX: axisX
-                                axisY: axisY
-                            }
-
-                            Connections {
-                                target: tab.model? tab.model : null
-
-                                onServerInfoChanged: {
-                                    if (uiBlocker.visible) {
-                                        uiBlocker.visible = false
-                                    }
-
-                                    var getValue = function (name) {
-                                        return parseFloat(tab.model.serverInfo["memory"][name] ) / (1024 * 1024)
-                                    }
-
-                                    qmlUtils.addNewValueToDynamicChart(used_memory_series, getValue("used_memory"))
-                                    qmlUtils.addNewValueToDynamicChart(used_memory_rss_series, getValue("used_memory_rss"))
-                                    qmlUtils.addNewValueToDynamicChart(used_memory_lua_series, getValue("used_memory_lua"))
-                                    qmlUtils.addNewValueToDynamicChart(used_memory_peak_series, getValue("used_memory_peak"))
-
-                                    axisY.max = getValue("used_memory_peak") + 1
+                            onServerInfoChanged: {
+                                if (uiBlocker.visible) {
+                                    uiBlocker.visible = false
                                 }
+
+                                var getValue = function (name) {
+                                    return parseFloat(tab.model.serverInfo["memory"][name] ) / (1024 * 1024)
+                                }
+
+                                qmlUtils.addNewValueToDynamicChart(used_memory_series, getValue("used_memory"))
+                                qmlUtils.addNewValueToDynamicChart(used_memory_rss_series, getValue("used_memory_rss"))
+                                qmlUtils.addNewValueToDynamicChart(used_memory_lua_series, getValue("used_memory_lua"))
+                                qmlUtils.addNewValueToDynamicChart(used_memory_peak_series, getValue("used_memory_peak"))
+
+                                axisY.max = getValue("used_memory_peak") + 1
                             }
                         }
                     }
 
-                    Tab {
-                        title: qsTranslate("RDM","Server Info")
+
+                    Item {
 
                         ColumnLayout {
 
@@ -248,53 +286,48 @@ Repeater {
                                 label: qsTranslate("RDM","Auto Refresh")
                             }
 
-                            TabView {
+                            TabBar {
+                                id: serverInfoDetailsTabBar
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 30
+
+                                currentIndex: 0
+
+                                Repeater {
+                                    id: serverInfoBuilderTabButtons
+                                    TabButton {
+                                        text: modelData['name']
+                                    }
+                                }
+                            }
+
+                            StackLayout {
                                 id: serverInfoTabs
 
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
+                                currentIndex: serverInfoDetailsTabBar.currentIndex
 
                                 Repeater {
                                     id: serverInfoBuilder
 
-                                    Tab {
-                                        anchors.fill: parent
-                                        title: modelData["name"]
+                                    LC.TableView {
 
-                                        TableView {
-                                            anchors.fill: parent
+                                        model: modelData['section_data']
 
-                                            model: modelData["section_data"]
+                                        LC.TableViewColumn {
+                                            role: "name"
+                                            title: qsTranslate("RDM","Property")
+                                            width: 250
+                                        }
 
-                                            TableViewColumn {
-                                                role: "name"
-                                                title: qsTranslate("RDM","Property")
-                                                width: 250
-                                            }
-
-                                            TableViewColumn {
-                                                role: "value"
-                                                title: qsTranslate("RDM","Value")
-                                                width: 350
-                                            }
+                                        LC.TableViewColumn {
+                                            role: "value"
+                                            title: qsTranslate("RDM","Value")
+                                            width: 350
                                         }
                                     }
-                                }
 
-                                Rectangle {
-                                    id: serverInfoUIBlocker
-                                    visible: !serverInfoBuilder.model
-                                    anchors.fill: parent
-                                    color: Qt.rgba(0, 0, 0, 0.1)
-
-                                    Item {
-                                        anchors.fill: parent
-                                        BusyIndicator { anchors.centerIn: parent; running: true }
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                    }
                                 }
 
                                 Connections {
@@ -322,15 +355,31 @@ Repeater {
 
                                         var currentTab = serverInfoTabs.currentIndex
                                         serverInfoBuilder.model = sections
-                                        serverInfoTabs.currentIndex = currentTab
+                                        serverInfoBuilderTabButtons.model = sections
+                                        serverInfoDetailsTabBar.currentIndex = currentTab
                                     }
                                 }
                             }
                         }
+
+                        Rectangle {
+                            id: serverInfoUIBlocker
+                            visible: !serverInfoBuilder.model
+                            anchors.fill: parent
+                            color: Qt.rgba(0, 0, 0, 0.1)
+
+                            Item {
+                                anchors.fill: parent
+                                BusyIndicator { anchors.centerIn: parent; running: true }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                            }
+                        }
                     }
 
-                    Tab {
-                        title: qsTranslate("RDM","Slowlog")
+                    Item {
 
                         ColumnLayout {
 
@@ -349,13 +398,13 @@ Repeater {
                                 }
                             }
 
-                            TableView {
+                            LC.TableView {
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
 
                                 model: tab.model.slowLog ? tab.model.slowLog : []
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "cmd"
                                     title: qsTranslate("RDM","Command")
                                     width: 600
@@ -372,13 +421,13 @@ Repeater {
                                     }
                                 }
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "time"
                                     title: qsTranslate("RDM","Processed at")
                                     width: 150
                                 }
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "exec_time"
                                     title: qsTranslate("RDM","Execution Time (μs)")
                                     width: 150
@@ -387,8 +436,7 @@ Repeater {
                         }
                     }
 
-                    Tab {
-                        title: qsTranslate("RDM","Clients")
+                    Item {
 
                         ColumnLayout {
 
@@ -407,37 +455,37 @@ Repeater {
                                 }
                             }
 
-                            TableView {
+                            LC.TableView {
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
 
                                 model: tab.model.clients ? tab.model.clients : []
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "addr"
                                     title: qsTranslate("RDM","Client Address")
                                     width: 200
                                 }
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "age"
                                     title: qsTranslate("RDM","Age (sec)")
                                     width: 75
                                 }
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "idle"
                                     title: qsTranslate("RDM","Idle")
                                     width: 75
                                 }
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "flags"
                                     title: qsTranslate("RDM","Flags")
                                     width: 75
                                 }
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "db"
                                     title: qsTranslate("RDM","Current Database")
                                     width: 120
@@ -446,8 +494,7 @@ Repeater {
                         }
                     }
 
-                    Tab {
-                        title: qsTranslate("RDM","Pub/Sub Channels")
+                    Item {
 
                         ColumnLayout {
 
@@ -466,13 +513,13 @@ Repeater {
                                 }
                             }
 
-                            TableView {
+                            LC.TableView {
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
 
                                 model: tab.model.pubSubChannels ? tab.model.pubSubChannels : []
 
-                                TableViewColumn {
+                                LC.TableViewColumn {
                                     role: "addr"
                                     title: qsTranslate("RDM","Channel Name")
                                     width: 200

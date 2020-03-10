@@ -75,6 +75,9 @@ class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
 
   QHash<QString, std::function<void()>> eventHandlers() override;
 
+  void calculateUsedMemory(QSharedPointer<AsyncFuture::Combinator> c,
+                           QSharedPointer<AsyncFuture::Deferred<qlonglong> > d);
+
  protected:
   QWeakPointer<TreeItem> m_parent;
   QSharedPointer<Operations> m_operations;
@@ -84,5 +87,6 @@ class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
   bool m_expanded;
   uint m_dbIndex;
   QSharedPointer<AsyncFuture::Combinator> m_combinator;
+  QSharedPointer<AsyncFuture::Combinator> m_childsCombinator;
 };
 }  // namespace ConnectionsTree

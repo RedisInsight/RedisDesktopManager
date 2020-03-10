@@ -1,19 +1,21 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
 import "."
+import "./common"
 
 ToolBar {
     RowLayout {
         anchors.fill: parent
-        Button {
+
+        BetterButton {
+            Layout.preferredWidth: 190
             iconSource: "qrc:/images/add.svg"
             text: qsTranslate("RDM","Connect to Redis Server")
             objectName: "rdm_connect_to_redis_server_btn"
-            Layout.preferredWidth: 230
 
             onClicked: {
                 connectionSettingsDialog.settings = connectionsManager.createEmptyConfig()
@@ -21,10 +23,12 @@ ToolBar {
             }
         }
 
-        ToolButton {
+        BetterButton {
+            Layout.preferredWidth: 90
             iconSource: "qrc:/images/import.svg"
-            text: qsTranslate("RDM","Import Connections")
-            tooltip: text
+            text: qsTranslate("RDM","Import")
+            tooltip: qsTranslate("RDM","Import Connections")
+            objectName: "rdm_import_connections_btn"
 
             onClicked: importConnectionsDialog.open()
 
@@ -37,10 +41,12 @@ ToolBar {
             }
         }
 
-        ToolButton {
+        BetterButton {
+            Layout.preferredWidth: 90
             iconSource: "qrc:/images/export.svg"
-            text: qsTranslate("RDM","Export Connections")
-            tooltip: text
+            text: qsTranslate("RDM","Export")
+            tooltip: qsTranslate("RDM","Export Connections")
+            objectName: "rdm_export_connections_btn"
 
             onClicked: exportConnectionsDialog.open()
 
@@ -57,50 +63,57 @@ ToolBar {
 
         Item { Layout.fillWidth: true }
 
-        ToolButton {
-            iconSource: "qrc:/images/alert.svg"
-            text: qsTranslate("RDM","Report issue")
+        BetterButton {
+            implicitWidth: 40
+            iconSource: "qrc:/images/alert.svg"            
             tooltip: qsTranslate("RDM","Report issue")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/issues")
         }
 
-        ToolButton {
-            iconSource: "qrc:/images/help.svg"
-            text: qsTranslate("RDM","Documentation")
+        BetterButton {
+            implicitWidth: 40
+            iconSource: "qrc:/images/help.svg"            
             tooltip: qsTranslate("RDM","Documentation")
             onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/")
         }
 
-        ToolButton {
-            iconSource: "qrc:/images/telegram.svg"
-            text: qsTranslate("RDM","Join Telegram Chat")
+        BetterButton {
+            implicitWidth: 40
+            iconSource: "qrc:/images/telegram.svg"            
             tooltip: qsTranslate("RDM","Join Telegram Chat")
             onClicked: Qt.openUrlExternally("https://t.me/RedisDesktopManager")
         }
 
-        ToolButton {
-            iconSource: "qrc:/images/twi.svg"
-            text: qsTranslate("RDM","Follow")
+        BetterButton {
+            implicitWidth: 40
+            iconSource: "qrc:/images/twi.svg"            
             tooltip: qsTranslate("RDM","Follow")
             onClicked: Qt.openUrlExternally("https://twitter.com/RedisDesktop")
         }
 
-        ToolButton {
-            iconSource: "qrc:/images/github.svg"
-            text: qsTranslate("RDM","Star on GitHub!")
+        BetterButton {
+            implicitWidth: 40
+            iconSource: "qrc:/images/github.svg"            
             tooltip: qsTranslate("RDM","Star on GitHub!")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager")
         }
 
         Item { Layout.fillWidth: true }
 
-        Button {
+        BetterButton {
             iconSource: "qrc:/images/settings.svg"
             text: qsTranslate("RDM","Settings")
 
             onClicked: {
                 settingsDialog.open()
             }
+        }
+
+        BetterButton {
+            iconSource: "qrc:/images/log.svg"
+            text: qsTranslate("RDM","Log")
+
+            onClicked: logDrawer.open()
         }
     }
 }

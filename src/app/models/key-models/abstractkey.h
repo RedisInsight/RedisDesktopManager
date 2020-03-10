@@ -36,11 +36,19 @@ class KeyModel : public ValueEditor::Model {
     return printableString(m_keyFullPath);
   }
 
-  virtual QString getKeyTitle() override {
-    return QString("%1::db%2::%3")
+  virtual QString getKeyTitle(int limit=-1) override {
+    QString fullTitle = QString("%1::db%2::%3")
         .arg(m_connection->getConfig().name())
         .arg(m_dbIndex)
         .arg(getKeyName());
+
+    int length = fullTitle.size();
+
+    if (limit == -1 || length <= limit){
+        return fullTitle;
+    } else {
+        return QString("%1 ... %2").arg(fullTitle.mid(0, limit/2)).arg(fullTitle.mid(length - limit/2));
+    }
   }
 
   virtual long long getTTL() override { return m_ttl; }

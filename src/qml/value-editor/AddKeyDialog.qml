@@ -1,22 +1,20 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.1
-import QtQuick.Dialogs 1.2
-import QtQuick.Window 2.2
+import QtQuick.Controls 2.12
+import "./../common"
 import "./editors/editor.js" as Editor
 
-Dialog {
+BetterDialog {
     id: root
     title: qsTranslate("RDM","Add New Key to ") + (request? request.dbIdString: "")
     visible: false
     property var request
 
-    standardButtons: StandardButton.NoButton
+    footer: null
 
     Item {
         anchors.fill: parent
-        implicitHeight: 500
+        implicitHeight: 400
         implicitWidth: 600
 
         ColumnLayout {
@@ -109,14 +107,11 @@ Dialog {
             }
         }
 
-        MessageDialog {
+        OkDialog {
             id: addError
             title: qsTranslate("RDM","Error")
             text: ""
             visible: false
-            modality: Qt.ApplicationModal
-            icon: StandardIcon.Warning
-            standardButtons: StandardButton.Ok
         }
     }
 }

@@ -24,7 +24,6 @@
         <file>value-editor/editors/SortedSetItemEditor.qml</file>
         <file>value-editor/editors/AbstractEditor.qml</file>
         <file>value-editor/editors/MultilineEditor.qml</file>
-        <file>value-editor/editors/formatters/formatters.js</file>
         <file>value-editor/editors/formatters/hexy.js</file>
         <file>value-editor/editors/editor.js</file>
         <file>console/RedisConsole.qml</file>
@@ -48,5 +47,15 @@
         <file>common/BetterRadioButton.qml</file>
         <file>common/BetterTextField.qml</file>
         <file>common/SettingsGroupTitle.qml</file>
+        <file>common/BetterButton.qml</file>
+        <file>LogView.qml</file>
+        <file>value-editor/ValueTableCell.qml</file>
+        <file>common/BetterTabButton.qml</file>
+        <file>common/BetterMessageDialog.qml</file>
+        <file>common/BetterDialog.qml</file>
+        <file>common/OkDialog.qml</file>
+        <file>common/BetterSpinBox.qml</file>
+        <file>common/BetterComboBox.qml</file>
+        <file>value-editor/editors/formatters/ValueFormatters.qml</file>
     </qresource>
 </RCC>

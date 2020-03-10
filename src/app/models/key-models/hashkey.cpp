@@ -32,7 +32,7 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole) {
   else if (dataRole == Roles::Value)
     return row.second;
   else if (dataRole == Roles::RowNumber)
-    return rowIndex + 1;
+    return rowIndex;
 
   return QVariant();
 }

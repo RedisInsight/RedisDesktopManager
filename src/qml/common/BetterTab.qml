@@ -1,16 +1,10 @@
 import QtQuick 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.1
+import QtQuick.Controls 2.3
 
-Tab {
-    property string icon
-    property bool closable: true
-    property string tabType
+Item {
 
-    signal close(int index)
+    property bool __isTab: true
 
-    function closeTab(index) {
-        close(index)
-    }
+    signal activate()
+
 }

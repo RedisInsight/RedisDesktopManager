@@ -1,14 +1,13 @@
 import QtQuick 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.13
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.3
 import "./common"
 import "./common/platformutils.js" as PlatformUtils
 
 Dialog {
-    id: root    
+    id: root
     title: isNewConnection ? qsTranslate("RDM","New Connection Settings") : qsTranslate("RDM","Edit Connection Settings") + " " + settings.name
 
     modality: Qt.ApplicationModal
@@ -29,10 +28,8 @@ Dialog {
     function cleanStyle() {
         function clean(items_array) {
             for (var index=0; index < items_array.length; index++)
-                if (items_array[index].enabled)
-                    items_array[index].style = validStyleEnabled.style
-                else
-                    items_array[index].style = validStyleDisabled.style
+                if (items_array[index].validationError !== undefined)
+                    items_array[index].validationError = false
         }
 
         clean(items)
@@ -97,428 +94,428 @@ Dialog {
 
     onVisibleChanged: {
         if (visible)
-            settingsTabs.currentIndex = 0
+            connectionSettingsTabBar.currentIndex = 0
     }
 
-    Component {
-        id: invalidStyle
-
-        TextFieldStyle {
-            textColor: "red"
-            background: Rectangle {
-                radius: 2
-                implicitWidth: 100
-                implicitHeight: 24
-                border.color: "red"
-                border.width: 1
-            }
-        }
-    }
-
-    TextField { id: validStyleEnabled; visible: false}
-    TextField { id: validStyleDisabled; visible: false; enabled: false}
 
     contentItem: Item {
-        implicitWidth: 800
-        implicitHeight: 650
+        implicitWidth: 700
+        implicitHeight: 630
 
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 5
 
-            TabView {
-                id: settingsTabs
+            TabBar {
+                id: connectionSettingsTabBar
                 Layout.fillWidth: true
-                Layout.fillHeight: true                
 
-                Tab {
-                    id: mainTab
-                    anchors.fill: parent
-                    anchors.margins: 10
-                    title: qsTranslate("RDM","Connection Settings")
-
-                    ScrollView {
-                        id: mainSettingsScrollView
-                        width:  settingsTabs.width - 20
-                        height: settingsTabs.height
-
-                        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
-
-                        ColumnLayout {                                                        
-                            width: mainSettingsScrollView.width - 25
-                            height: children.height
-
-                            GridLayout {
-                                columns: 2
-
-                                Layout.fillWidth: true
-
-                                Label { text: qsTranslate("RDM","Name:") }
-
-                                TextField {
-                                    id: connectionName
-                                    objectName: "rdm_connection_name_field"
-                                    Layout.fillWidth: true
-                                    placeholderText: qsTranslate("RDM","Connection Name")
-                                    text: root.settings ? root.settings.name : ""
-                                    Component.onCompleted: root.items.push(connectionName)
-                                    onTextChanged: root.settings.name = text
-                                }
-
-                                Label { text: qsTranslate("RDM","Address:") }
-
-                                AddressInput {
-                                    id: connectionAddress
-                                    placeholderText: qsTranslate("RDM","redis-server host")
-                                    host: root.settings ? root.settings.host : ""
-                                    port: root.settings ? root.settings.port : 0
-                                    Component.onCompleted: root.items.push(connectionAddress)
-                                    onHostChanged: if (root.settings) root.settings.host = host
-                                    onPortChanged: if (root.settings) root.settings.port = port
-                                }
-
-                                Label { text: qsTranslate("RDM","Auth:") }
-
-                                PasswordInput {
-                                    id: connectionAuth
-                                    Layout.fillWidth: true
-                                    placeholderText: qsTranslate("RDM","(Optional) redis-server authentication password")
-                                    text: root.settings ? root.settings.auth : ""
-                                    onTextChanged: root.settings.auth = text
-                                }
-                            }
-
-                            SettingsGroupTitle { text: qsTranslate("RDM","Security") }
-
-                            GridLayout {
-                                objectName: "rdm_connection_group_box_security"
-                                columns: 2
-
-                                BetterRadioButton {
-                                    id: sslRadioButton
-                                    Layout.columnSpan: 2
-                                    text: qsTranslate("RDM","SSL")
-                                    allowUncheck: true
-                                    checked: root.settings ? root.settings.sslEnabled && !root.sshEnabled : false
-                                    Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
-                                    onCheckedChanged: {
-                                        root.settings.sslEnabled = checked
-                                        root.cleanStyle()
-
-                                        if (!checked) {
-                                            sslLocalCertPath.path = ""
-                                            sslPrivateKeyPath.path = ""
-                                            sslCaCertPath.path = ""
-                                        }
-                                    }
-                                }
-
-                                Item { Layout.preferredWidth: 20 }
-
-                                GridLayout {
-                                    enabled: sslRadioButton.checked
-                                    columns: 2
-                                    Layout.fillWidth: true
-
-                                    Label { text: qsTranslate("RDM","Public Key:") }
-
-                                    FilePathInput {
-                                        id: sslLocalCertPath
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTranslate("RDM","(Optional) Public Key in PEM format")
-                                        nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
-                                        title: qsTranslate("RDM","Select public key in PEM format")
-                                        path: root.settings ? root.settings.sslLocalCertPath : ""
-                                        onPathChanged: root.settings.sslLocalCertPath = path
-                                    }
-
-                                    Label { text: qsTranslate("RDM", "Private Key") + ":" }
-
-                                    FilePathInput {
-                                        id: sslPrivateKeyPath
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTranslate("RDM","(Optional) Private Key in PEM format")
-                                        nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
-                                        title: qsTranslate("RDM","Select private key in PEM format")
-                                        path: root.settings ? root.settings.sslPrivateKeyPath : ""
-                                        onPathChanged: root.settings.sslPrivateKeyPath = path
-                                    }
-
-                                    Label { text: qsTranslate("RDM","Authority:") }
-
-                                    FilePathInput {
-                                        id: sslCaCertPath
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTranslate("RDM","(Optional) Authority in PEM format")
-                                        nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
-                                        title: qsTranslate("RDM","Select authority file in PEM format")
-                                        path: root.settings ? root.settings.sslCaCertPath : ""
-                                        onPathChanged: root.settings.sslCaCertPath = path
-                                    }
-                                }
-
-                                BetterRadioButton {
-                                    id: sshRadioButton
-                                    objectName: "rdm_connection_security_ssh_radio_button"
-                                    Layout.columnSpan: 2
-                                    text: qsTranslate("RDM","SSH Tunnel")
-                                    allowUncheck: true
-                                    checked: root.settings ? root.settings.useSshTunnel() : false
-                                    Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
-                                    onCheckedChanged: {
-                                        root.cleanStyle()
-
-                                        if (!checked) {
-                                            sshAddress.host = ""
-                                            sshAddress.port = 22
-                                            sshUser.text = ""
-                                            sshPrivateKey.path = ""
-                                            sshPassword.text = ""
-                                        }
-                                    }
-                                }
-
-                                Item { Layout.preferredWidth: 20 }
-
-                                GridLayout {
-                                    enabled: sshRadioButton.checked
-                                    columns: 2
-                                    Layout.fillWidth: true
-
-                                    Label { text: qsTranslate("RDM","SSH Address:") }
-
-                                    AddressInput {
-                                        id: sshAddress
-                                        placeholderText: qsTranslate("RDM","Remote Host with SSH server")
-                                        port: root.settings ? root.settings.sshPort : 22
-                                        host: root.settings ? root.settings.sshHost : ""
-                                        Component.onCompleted: root.sshItems.push(sshAddress)
-                                        onHostChanged: root.settings.sshHost = host
-                                        onPortChanged: root.settings.sshPort = port
-                                    }
-
-                                    Label { text: qsTranslate("RDM","SSH User:") }
-
-                                    TextField {
-                                        id: sshUser
-                                        objectName: "rdm_connection_security_ssh_user_field"
-                                        Layout.fillWidth: true
-                                        placeholderText: qsTranslate("RDM","Valid SSH User Name")
-                                        text: root.settings ? root.settings.sshUser : ""
-                                        Component.onCompleted: root.sshItems.push(sshUser)
-                                        onTextChanged: root.settings.sshUser = text
-                                    }
-
-                                    BetterGroupbox {
-                                        labelText: qsTranslate("RDM","Private Key")
-                                        objectName: "rdm_connection_security_ssh_key_group_box"
-                                        checked: root.settings ? root.settings.sshPrivateKey : false
-
-                                        Layout.columnSpan: 2
-                                        Layout.fillWidth: true
-
-                                        ColumnLayout {
-                                            anchors.fill: parent
-
-                                            FilePathInput {
-                                                id: sshPrivateKey
-                                                objectName: "rdm_connection_security_ssh_key_path_field"
-
-                                                Layout.fillWidth: true
-
-                                                placeholderText: qsTranslate("RDM","Path to Private Key in PEM format")
-                                                nameFilters: [ "Private key in PEM format (*)" ]
-                                                title: qsTranslate("RDM","Select private key in PEM format")
-                                                path: root.settings ? root.settings.sshPrivateKey : ""
-                                                onPathChanged: root.settings.sshPrivateKey = path
-                                            }
-
-                                            Label {
-                                                visible: PlatformUtils.isOSX()
-                                                Layout.fillWidth: true;
-                                                text: qsTranslate("RDM","<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
-                                        }
-                                    }
-
-                                    BetterGroupbox {
-                                        labelText: qsTranslate("RDM","Password")
-                                        objectName: "rdm_connection_security_ssh_password_group_box"
-                                        checked: root.settings ? root.settings.sshPassword : true
-
-                                        Layout.columnSpan: 2
-                                        Layout.fillWidth: true
-
-                                        PasswordInput {
-                                            id: sshPassword
-                                            objectName: "rdm_connection_security_ssh_password_field"
-                                            anchors.fill: parent
-                                            placeholderText: qsTranslate("RDM","SSH User Password")
-                                            text: root.settings ? root.settings.sshPassword : ""
-                                            onTextChanged: root.settings.sshPassword = text
-                                        }
-                                    }                                   
-
-                                    BetterCheckbox {
-                                        id: sshTLSoverSSHCheckbox
-                                        objectName: "rdm_connection_security_ssh_tls_over_ssh"
-                                        Layout.fillWidth: true
-                                        Layout.columnSpan: 2
-                                        text: qsTranslate("RDM","Enable TLS-over-SSH (<b>AWS ElastiCache</b> <b>Encryption in-transit</b>)")
-                                        checked: root.settings ? root.settings.sslEnabled && root.sshEnabled : false
-                                        onCheckedChanged: root.settings.sslEnabled = checked
-                                    }
-                                }
-                            }
-
-                        }
-                    }
+                TabButton {
+                    objectName: "rdm_connection_settings_dialog_basic_settings_tab"
+                    text: qsTranslate("RDM","Connection Settings")
                 }
 
-                Tab {
-                    title: qsTranslate("RDM","Advanced Settings")
-
-                       GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 10
-
-                            columns: 2
-
-                            SettingsGroupTitle {
-                                text: qsTranslate("RDM","Keys loading")                                
-                                Layout.columnSpan: 2
-                            }
-
-                            Label { text: qsTranslate("RDM","Default filter:") }
-
-                            TextField
-                            {
-                                id: keysPattern
-                                Layout.fillWidth: true
-                                placeholderText: qsTranslate("RDM","Pattern which defines loaded keys from redis-server")
-                                text: root.settings ? root.settings.keysPattern : ""
-                                Component.onCompleted: root.items.push(keysPattern)
-                                onTextChanged: root.settings.keysPattern = text
-                            }
-
-                            Label { text: qsTranslate("RDM","Namespace Separator:") }
-
-                            TextField
-                            {
-                                id: namespaceSeparator
-                                Layout.fillWidth: true
-                                objectName: "rdm_advanced_settings_namespace_separator_field"
-                                placeholderText: qsTranslate("RDM","Separator used for namespace extraction from keys")
-                                text: root.settings ? root.settings.namespaceSeparator : ""
-                                onTextChanged: root.settings.namespaceSeparator = text
-                            }
-
-                            Label { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
-
-                            BetterCheckbox {
-                                id: luaKeysLoading
-                                Layout.fillWidth: true
-                                checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
-                                onCheckedChanged: root.settings.luaKeysLoading = checked
-
-                            }
-
-                            SettingsGroupTitle {
-                                text: qsTranslate("RDM","Timeouts & Limits")                               
-                                Layout.columnSpan: 2
-                            }
-
-                            Label { text: qsTranslate("RDM","Connection Timeout (sec):") }
-
-                            SpinBox {
-                                id: executeTimeout
-                                Layout.fillWidth: true
-                                minimumValue: 30
-                                maximumValue: 100000
-                                value: {
-                                    return root.settings ? (root.settings.executeTimeout / 1000.0) : 0
-                                }
-                                onValueChanged: root.settings.executeTimeout = value * 1000
-                            }
-
-                            Label { text: qsTranslate("RDM","Execution Timeout (sec):")}
-
-                            SpinBox {
-                                id: connectionTimeout
-                                Layout.fillWidth: true
-                                minimumValue: 30
-                                maximumValue: 100000
-                                value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
-                                onValueChanged: root.settings.connectionTimeout = value * 1000
-                            }
-
-                            Label { text: qsTranslate("RDM","Databases discovery limit:") }
-
-                            SpinBox {
-                                id: dbScanLimit
-                                Layout.fillWidth: true
-                                minimumValue: 1
-                                maximumValue: 100000
-                                value: {
-                                    return root.settings ? root.settings.databaseScanLimit : 1
-                                }
-                                onValueChanged: root.settings.databaseScanLimit = value
-                            }
-
-                            SettingsGroupTitle {
-                                text: qsTranslate("RDM","Cluster")                                
-                                Layout.columnSpan: 2
-                            }
-
-                            Label { text: qsTranslate("RDM","Change host on cluster redirects:")}
-
-                            BetterCheckbox {
-                                id: overrideClusterHost
-                                Layout.fillWidth: true
-                                checked: root.settings ? root.settings.overrideClusterHost : false
-                                onCheckedChanged: root.settings.overrideClusterHost = checked
-                            }
-
-                            SettingsGroupTitle {
-                                text: qsTranslate("RDM","TLS")
-                                Layout.columnSpan: 2
-                            }
-
-                            Label { text: qsTranslate("RDM","Ignore all SSL/TLS errors (<b>dangerous</b>):")}
-
-                            BetterCheckbox {
-                                id: ignoreSSLErrors
-                                Layout.fillWidth: true
-                                checked: root.settings ? root.settings.ignoreSSLErrors : false
-                                onCheckedChanged: root.settings.ignoreSSLErrors = checked
-                            }
-
-                            Item {
-                                Layout.columnSpan: 2
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                            }
-                        }
+                TabButton {
+                    objectName: "rdm_connection_settings_dialog_advanced_settings_tab"
+                    text:  qsTranslate("RDM","Advanced Settings")
                 }
             }
 
-            Item {
-                id: validationWarning
-                visible: false
+            StackLayout {
+                id: settingsTabs
                 Layout.fillWidth: true
+                Layout.fillHeight: true
+                currentIndex: connectionSettingsTabBar.currentIndex
 
-                implicitHeight: 25
+                BetterTab {
+                    id: mainTab
 
-                RowLayout {
-                    anchors.centerIn: parent
-                    Image {source: "qrc:/images/alert.svg"}
-                    Text { text: qsTranslate("RDM","Invalid settings detected!")}
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.margins: 30
+                    clip: true
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 10
+
+                        GridLayout {
+                            columns: 2
+
+                            Layout.fillWidth: true
+
+                            Label { text: qsTranslate("RDM","Name:") }
+
+                            BetterTextField {
+                                id: connectionName
+                                objectName: "rdm_connection_name_field"
+                                Layout.fillWidth: true
+                                placeholderText: qsTranslate("RDM","Connection Name")
+                                text: root.settings ? root.settings.name : ""
+                                Component.onCompleted: root.items.push(connectionName)
+                                onTextChanged: root.settings.name = text
+                            }
+
+                            Label { text: qsTranslate("RDM","Address:") }
+
+                            AddressInput {
+                                id: connectionAddress
+                                placeholderText: qsTranslate("RDM","redis-server host")
+                                host: root.settings ? root.settings.host : ""
+                                port: root.settings ? root.settings.port : 0
+                                Component.onCompleted: root.items.push(connectionAddress)
+                                onHostChanged: if (root.settings) root.settings.host = host
+                                onPortChanged: if (root.settings) root.settings.port = port
+                            }
+
+                            Label { text: qsTranslate("RDM","Auth:") }
+
+                            PasswordInput {
+                                id: connectionAuth
+                                Layout.fillWidth: true
+                                placeholderText: qsTranslate("RDM","(Optional) redis-server authentication password")
+                                text: root.settings ? root.settings.auth : ""
+                                onTextChanged: root.settings.auth = text
+                            }
+                        }
+
+                        Item { Layout.preferredWidth: 10 }
+
+                        SettingsGroupTitle { text: qsTranslate("RDM","Security") }
+
+                        GridLayout {
+                            objectName: "rdm_connection_group_box_security"
+                            columns: 2
+
+                            BetterRadioButton {
+                                id: sslRadioButton
+                                Layout.columnSpan: 2
+                                text: qsTranslate("RDM","SSL / TLS")
+                                allowUncheck: true
+                                checked: root.settings ? root.settings.sslEnabled && !root.sshEnabled : false
+                                Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
+                                onCheckedChanged: {
+                                    root.settings.sslEnabled = checked
+                                    root.cleanStyle()
+
+                                    if (!checked) {
+                                        sslLocalCertPath.path = ""
+                                        sslPrivateKeyPath.path = ""
+                                        sslCaCertPath.path = ""
+                                    }
+                                }
+                            }
+
+                            Item { Layout.preferredWidth: 20 }
+
+                            GridLayout {
+                                enabled: sslRadioButton.checked
+                                visible: sslRadioButton.checked
+                                columns: 2
+                                Layout.fillWidth: true
+
+                                Label { text: qsTranslate("RDM","Public Key:") }
+
+                                FilePathInput {
+                                    id: sslLocalCertPath
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTranslate("RDM","(Optional) Public Key in PEM format")
+                                    nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
+                                    title: qsTranslate("RDM","Select public key in PEM format")
+                                    path: root.settings ? root.settings.sslLocalCertPath : ""
+                                    onPathChanged: root.settings.sslLocalCertPath = path
+                                }
+
+                                Label { text: qsTranslate("RDM", "Private Key") + ":" }
+
+                                FilePathInput {
+                                    id: sslPrivateKeyPath
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTranslate("RDM","(Optional) Private Key in PEM format")
+                                    nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
+                                    title: qsTranslate("RDM","Select private key in PEM format")
+                                    path: root.settings ? root.settings.sslPrivateKeyPath : ""
+                                    onPathChanged: root.settings.sslPrivateKeyPath = path
+                                }
+
+                                Label { text: qsTranslate("RDM","Authority:") }
+
+                                FilePathInput {
+                                    id: sslCaCertPath
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTranslate("RDM","(Optional) Authority in PEM format")
+                                    nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
+                                    title: qsTranslate("RDM","Select authority file in PEM format")
+                                    path: root.settings ? root.settings.sslCaCertPath : ""
+                                    onPathChanged: root.settings.sslCaCertPath = path
+                                }
+
+                                Label { text: qsTranslate("RDM","Enable strict mode:")}
+
+                                BetterCheckbox {
+                                    id: ignoreSSLErrors
+                                    Layout.fillWidth: true
+                                    checked: root.settings ? !root.settings.ignoreSSLErrors : false
+                                    onCheckedChanged: root.settings.ignoreSSLErrors = !checked
+                                }
+                            }
+
+                            BetterRadioButton {
+                                id: sshRadioButton
+                                objectName: "rdm_connection_security_ssh_radio_button"
+                                Layout.columnSpan: 2
+                                text: qsTranslate("RDM","SSH Tunnel")
+                                allowUncheck: true
+                                checked: root.settings ? root.settings.useSshTunnel() : false
+                                Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
+                                onCheckedChanged: {
+                                    root.cleanStyle()
+
+                                    if (!checked) {
+                                        sshAddress.host = ""
+                                        sshAddress.port = 22
+                                        sshUser.text = ""
+                                        sshPrivateKey.path = ""
+                                        sshPassword.text = ""
+                                    }
+                                }
+                            }
+
+                            Item { Layout.preferredWidth: 20 }
+
+                            GridLayout {
+                                visible: sshRadioButton.checked
+                                enabled: sshRadioButton.checked
+                                columns: 2
+                                Layout.fillWidth: true
+
+                                Label { text: qsTranslate("RDM","SSH Address:") }
+
+                                AddressInput {
+                                    id: sshAddress
+                                    placeholderText: qsTranslate("RDM","Remote Host with SSH server")
+                                    port: root.settings ? root.settings.sshPort : 22
+                                    host: root.settings ? root.settings.sshHost : ""
+                                    Component.onCompleted: root.sshItems.push(sshAddress)
+                                    onHostChanged: root.settings.sshHost = host
+                                    onPortChanged: root.settings.sshPort = port
+                                }
+
+                                Label { text: qsTranslate("RDM","SSH User:") }
+
+                                BetterTextField {
+                                    id: sshUser
+                                    objectName: "rdm_connection_security_ssh_user_field"
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTranslate("RDM","Valid SSH User Name")
+                                    text: root.settings ? root.settings.sshUser : ""
+                                    Component.onCompleted: root.sshItems.push(sshUser)
+                                    onTextChanged: root.settings.sshUser = text
+                                }
+
+                                BetterGroupbox {
+                                    labelText: qsTranslate("RDM","Private Key")
+                                    objectName: "rdm_connection_security_ssh_key_group_box"
+                                    checked: root.settings ? root.settings.sshPrivateKey : false
+
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+
+                                    ColumnLayout {
+                                        anchors.fill: parent
+
+                                        FilePathInput {
+                                            id: sshPrivateKey
+                                            objectName: "rdm_connection_security_ssh_key_path_field"
+
+                                            Layout.fillWidth: true
+
+                                            placeholderText: qsTranslate("RDM","Path to Private Key in PEM format")
+                                            nameFilters: [ "Private key in PEM format (*)" ]
+                                            title: qsTranslate("RDM","Select private key in PEM format")
+                                            path: root.settings ? root.settings.sshPrivateKey : ""
+                                            onPathChanged: root.settings.sshPrivateKey = path
+                                        }
+
+                                        Label {
+                                            visible: PlatformUtils.isOSX()
+                                            Layout.fillWidth: true;
+                                            text: qsTranslate("RDM","<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
+                                    }
+                                }
+
+                                BetterGroupbox {
+                                    labelText: qsTranslate("RDM","Password")
+                                    objectName: "rdm_connection_security_ssh_password_group_box"
+                                    checked: root.settings ? root.settings.sshPassword : true
+
+                                    Layout.columnSpan: 2
+                                    Layout.fillWidth: true
+
+                                    PasswordInput {
+                                        id: sshPassword
+                                        objectName: "rdm_connection_security_ssh_password_field"
+                                        anchors.fill: parent
+                                        placeholderText: qsTranslate("RDM","SSH User Password")
+                                        text: root.settings ? root.settings.sshPassword : ""
+                                        onTextChanged: root.settings.sshPassword = text
+                                    }
+                                }
+
+                                BetterCheckbox {
+                                    id: sshTLSoverSSHCheckbox
+                                    objectName: "rdm_connection_security_ssh_tls_over_ssh"
+                                    Layout.fillWidth: true
+                                    Layout.columnSpan: 2
+                                    text: qsTranslate("RDM","Enable TLS-over-SSH (<b>AWS ElastiCache</b> <b>Encryption in-transit</b>)")
+                                    checked: root.settings ? root.settings.sslEnabled && root.sshEnabled : false
+                                    onCheckedChanged: root.settings.sslEnabled = checked
+                                }
+                            }
+                        }
+                        Item { Layout.fillHeight: true }
+                    }
+
+                }
+
+                BetterTab {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.margins: 30
+
+                    GridLayout {
+                        anchors.fill: parent
+                        anchors.margins: 10
+
+                        columns: 2
+
+                        SettingsGroupTitle {
+                            text: qsTranslate("RDM","Keys loading")
+                            Layout.columnSpan: 2
+                        }
+
+                        Label { text: qsTranslate("RDM","Default filter:") }
+
+                        BetterTextField
+                        {
+                            id: keysPattern
+                            Layout.fillWidth: true
+                            placeholderText: qsTranslate("RDM","Pattern which defines loaded keys from redis-server")
+                            text: root.settings ? root.settings.keysPattern : ""
+                            Component.onCompleted: root.items.push(keysPattern)
+                            onTextChanged: root.settings.keysPattern = text
+                        }
+
+                        Label { text: qsTranslate("RDM","Namespace Separator:") }
+
+                        BetterTextField
+                        {
+                            id: namespaceSeparator
+                            Layout.fillWidth: true
+                            objectName: "rdm_advanced_settings_namespace_separator_field"
+                            placeholderText: qsTranslate("RDM","Separator used for namespace extraction from keys")
+                            text: root.settings ? root.settings.namespaceSeparator : ""
+                            onTextChanged: root.settings.namespaceSeparator = text
+                        }
+
+                        Label { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
+
+                        BetterCheckbox {
+                            id: luaKeysLoading
+                            Layout.fillWidth: true
+                            checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
+                            onCheckedChanged: root.settings.luaKeysLoading = checked
+
+                        }
+
+                        SettingsGroupTitle {
+                            text: qsTranslate("RDM","Timeouts & Limits")
+                            Layout.columnSpan: 2
+                        }
+
+                        Label { text: qsTranslate("RDM","Connection Timeout (sec):") }
+
+                        BetterSpinBox {
+                            id: executeTimeout
+                            Layout.fillWidth: true
+                            from: 10
+                            to: 100000
+                            value: {
+                                return root.settings ? (root.settings.executeTimeout / 1000.0) : 0
+                            }
+                            onValueChanged: root.settings.executeTimeout = value * 1000
+                        }
+
+                        Label { text: qsTranslate("RDM","Execution Timeout (sec):")}
+
+                        BetterSpinBox {
+                            id: connectionTimeout
+                            Layout.fillWidth: true
+                            from: 10
+                            to: 100000
+                            value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
+                            onValueChanged: root.settings.connectionTimeout = value * 1000
+                        }
+
+                        Label { text: qsTranslate("RDM","Databases discovery limit:") }
+
+                        BetterSpinBox {
+                            id: dbScanLimit
+                            Layout.fillWidth: true
+                            from: 1
+                            to: 100000
+                            value: {
+                                return root.settings ? root.settings.databaseScanLimit : 1
+                            }
+                            onValueChanged: root.settings.databaseScanLimit = value
+                        }
+
+                        SettingsGroupTitle {
+                            text: qsTranslate("RDM","Cluster")
+                            Layout.columnSpan: 2
+                        }
+
+                        Label { text: qsTranslate("RDM","Change host on cluster redirects:")}
+
+                        BetterCheckbox {
+                            id: overrideClusterHost
+                            Layout.fillWidth: true
+                            checked: root.settings ? root.settings.overrideClusterHost : false
+                            onCheckedChanged: root.settings.overrideClusterHost = checked
+                        }
+
+                        Item {
+                            Layout.columnSpan: 2
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                        }
+                    }
                 }
             }
 
             RowLayout {
-                Layout.fillWidth: true
+                id: validationWarning
+                visible: false
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-                Button {
+                Image {
+                    width: 15
+                    height: 15
+                    sourceSize.width: 30
+                    sourceSize.height: 30
+                    source: "qrc:/images/alert.svg"
+                }
+                Text {
+                    text: qsTranslate("RDM","Invalid settings detected!")
+                }
+
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 30
+
+                BetterButton {
                     objectName: "rdm_connection_settings_dialog_test_btn"
                     iconSource: "qrc:/images/offline.svg"
                     text: qsTranslate("RDM","Test Connection")
@@ -539,11 +536,11 @@ Dialog {
 
                 Item { Layout.fillWidth: true }
 
-                Button {
+                BetterButton {
                     objectName: "rdm_connection_settings_dialog_ok_btn"
                     text: qsTranslate("RDM","OK")
                     onClicked: {
-                        if (root.validate()) {                            
+                        if (root.validate()) {
                             root.saveConnection(root.settings)
                             root.close()
                         } else {
@@ -552,7 +549,7 @@ Dialog {
                     }
                 }
 
-                Button {
+                BetterButton {
                     text: qsTranslate("RDM","Cancel")
                     onClicked: root.close()
                 }

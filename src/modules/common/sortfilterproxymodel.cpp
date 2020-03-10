@@ -90,12 +90,6 @@ void SortFilterProxyModel::componentComplete()
         QSortFilterProxyModel::setFilterRole(roleKey(m_filterRole));
 }
 
-int SortFilterProxyModel::getOriginalRowIndex(int i)
-{
-    QModelIndex proxyIndex = index(i, 0);
-    return mapToSource(proxyIndex).row();
-}
-
 int SortFilterProxyModel::roleKey(const QByteArray &role) const
 {
     QHash<int, QByteArray> roles = roleNames();

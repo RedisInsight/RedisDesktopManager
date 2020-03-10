@@ -1,18 +1,15 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
+import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.1
 import Qt.labs.settings 1.0
 import "../../common/"
-import "./formatters/formatters.js" as Formatters
 
-ColumnLayout
+Item
 {
     id: root
 
     property bool enabled
     property string textColor
-    property string backgroundColor
     property bool showFormatters: true
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
     property bool isEdited: false
@@ -68,7 +65,7 @@ ColumnLayout
             function process(formattedValue) {
                 var formatter = formatterSelector.model[formatterSelector.currentIndex]
 
-                 formatter.instance.getRaw(formattedValue, function (error, raw) {
+                 formatter.getRaw(formattedValue, function (error, raw) {
                      root.value = compress(raw)
                      return callback(error, compress(raw))
                  })
@@ -140,7 +137,7 @@ ColumnLayout
     function _guessFormatter(isBin, callback) {
         console.log("Guessing formatter")
 
-        var candidates = Formatters.guessFormatter(isBin)
+        var candidates = valueFormattersModel.guessFormatter(isBin)
 
         console.log("candidates:", candidates)
 
@@ -149,7 +146,7 @@ ColumnLayout
             for (var index in candidates) {
                 var cFormatter = formatterSelector.model[candidates[index]]
 
-                cFormatter.instance.isValid(root.value, function (isValid) {
+                cFormatter.isValid(root.value, function (isValid) {
                     if (isValid && formatterSelector.currentIndex == 0) {
                         formatterSelector.currentIndex = candidates[index]
                         callback()
@@ -171,14 +168,14 @@ ColumnLayout
             formatterSelector.currentIndex = isBin? 2 : 0
         }
 
-        var formatter = formatterSelector.model[formatterSelector.currentIndex]
+        var formatter = formatterSelector.model.get(formatterSelector.currentIndex)
 
         uiBlocker.visible = true
 
         if (formatter['name'] === 'JSON') {
             jsonFormattingWorker.sendMessage(String(root.value))
         } else {
-            formatter.instance.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
+            formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
                 function process(error, formatted, stub, format) {
                     jsonFormattingWorker.processFormatted(error, formatted, stub, format)
@@ -249,113 +246,124 @@ ColumnLayout
     }
 
 
-    RowLayout{
-        Layout.fillWidth: true
+    ColumnLayout {
+        anchors.fill: parent
 
-        Text { text: root.fieldLabel }
-        TextEdit {
-            Layout.preferredWidth: 150
-            text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
-            readOnly: true;
-            selectByMouse: true
-            color: "#ccc"
-        }
-        Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }        
-        Text { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
-        Item { Layout.fillWidth: true }
+        RowLayout{
+            Layout.fillWidth: true
 
-        ImageButton {
-            iconSource: "qrc:/images/copy.svg"
-            tooltip: qsTranslate("RDM","Copy to Clipboard")
+            Text { text: root.fieldLabel }
+            TextEdit {
+                Layout.preferredWidth: 150
+                text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
+                readOnly: true;
+                selectByMouse: true
+                color: "#ccc"
+            }
+            Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
+            Text { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
+            Item { Layout.fillWidth: true }
 
-            onClicked: {
-                if (textView.model) {
-                    qmlUtils.copyToClipboard(textView.model.getText())
+            ImageButton {
+                iconSource: "qrc:/images/copy.svg"
+                tooltip: qsTranslate("RDM","Copy to Clipboard")
+
+                onClicked: {
+                    if (textView.model) {
+                        qmlUtils.copyToClipboard(textView.model.getText())
+                    }
                 }
             }
-        }
 
-        Text { visible: showFormatters; text: qsTranslate("RDM","View as:") }
+            Text { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
-        Settings {
-            id: defaultFormatterSettings
-            category: formatterSettingsCategory
-            property int defaultFormatterIndex
-        }
-
-        ComboBox {
-            id: formatterSelector
-            visible: showFormatters
-            width: 200
-            model: Formatters.buildFormattersModel()
-            textRole: "name"
-            objectName: "rdm_value_editor_formatter_combobox"
-
-            onActivated: {
-                currentIndex = index
-                loadFormattedValue()
+            Settings {
+                id: defaultFormatterSettings
+                category: formatterSettingsCategory
+                property int defaultFormatterIndex
             }
+
+            BetterComboBox {
+                id: formatterSelector
+                visible: showFormatters
+                width: 200
+                model: valueFormattersModel
+                textRole: "name"
+                objectName: "rdm_value_editor_formatter_combobox"
+
+                onActivated: {
+                    currentIndex = index
+                    loadFormattedValue()
+                }
+            }
+
+            Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
         }
 
-        Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
-    }
+        Rectangle {
+            id: texteditorWrapper
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredHeight: 100
 
-    Rectangle {
-        id: texteditorWrapper
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.preferredHeight: 100
+            color: "white"
+            border.color: "#cccccc"
+            border.width: 1
+            clip: true
 
-        color: "white"
-        border.color: "#cccccc"
-        border.width: 1
-
-        ScrollView {
-            anchors.fill: parent
-            anchors.margins: 5
-
-            verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-
-            ListView {
-                id: textView
+            ScrollView {
                 anchors.fill: parent
-                cacheBuffer: 0
+                anchors.margins: 5
 
-                property int textFormat: TextEdit.PlainText
-                property bool readOnly: false
-                property string format
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
-                delegate:
-                    Item {
-                        width: texteditorWrapper.width
-                        height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
+                ListView {
+                    id: textView
+                    anchors.fill: parent
+                    cacheBuffer: 0
 
-                        NewTextArea {
-                            anchors.fill: parent
-                            id: textAreaPart
-                            objectName: "rdm_key_multiline_text_field_" + index
+                    property int textFormat: TextEdit.PlainText
+                    property bool readOnly: false
+                    property string format
+
+                    delegate:
+                        Item {
+                            width: texteditorWrapper.width
+                            height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
+
+                            NewTextArea {
+                                anchors.fill: parent
+                                id: textAreaPart
+                                objectName: "rdm_key_multiline_text_field_" + index
 
 
-                            enabled: root.enabled
-                            text: value
+                                enabled: root.enabled
+                                text: value
 
-                            textFormat: textView.textFormat
-                            readOnly: textView.readOnly
+                                textFormat: textView.textFormat
+                                readOnly: textView.readOnly
 
-                            Keys.onReleased: {
-                                root.isEdited = true
-                                textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                                onPreeditTextChanged: {
+                                    root.isEdited = true
+                                    textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                                }
+
+                                onEditingFinished: {
+                                    root.isEdited = true
+                                    textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                                }                                                                
                             }
                         }
                     }
                 }
-            }
-    }
+        }
 
-    Text {
-        id: validationError
-        color: "red"
-        visible: false
+        Text {
+            id: validationError
+            color: "red"
+            visible: false
+        }
+
     }
 
     Rectangle {

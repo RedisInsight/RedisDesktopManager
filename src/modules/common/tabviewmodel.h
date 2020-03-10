@@ -10,6 +10,7 @@ class TabViewModel : public QAbstractListModel {
   enum Roles {
     tabName = Qt::UserRole + 1,
     tabIndex,
+    tabModel,
   };
 
   typedef std::function<QSharedPointer<TabModel>(
@@ -20,20 +21,17 @@ class TabViewModel : public QAbstractListModel {
   TabViewModel(const ModelFactory& modelFactory);
 
   QModelIndex index(int row, int column = 0,
-                    const QModelIndex& parent = QModelIndex()) const;
+                    const QModelIndex& parent = QModelIndex()) const override;
 
-  int rowCount(const QModelIndex& parent = QModelIndex()) const;
+  int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+  QVariant data(const QModelIndex& index,
+                int role = Qt::DisplayRole) const override;
 
   QHash<int, QByteArray> roleNames() const override;
 
  public:  // methods exported to QML
   Q_INVOKABLE void closeTab(int i);
-
-  Q_INVOKABLE void setCurrentTab(int i);
-
-  Q_INVOKABLE QObject* getValue(int i);
 
   Q_INVOKABLE int tabsCount() const;
 
@@ -49,7 +47,6 @@ class TabViewModel : public QAbstractListModel {
 
  private:
   QList<QSharedPointer<TabModel>> m_models;
-  int m_currentTabIndex;
   ModelFactory m_modelFactory;
 
   bool isIndexValid(const QModelIndex& index) const;

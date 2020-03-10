@@ -23,6 +23,9 @@ class ValueViewModel : public BaseListModel {
   ~ValueViewModel() override {}
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+
+  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
   QVariant data(const QModelIndex& index, int role) const;
   QHash<int, QByteArray> roleNames() const;
 
@@ -72,9 +75,6 @@ class ValueViewModel : public BaseListModel {
   void singlePageModeChanged();
   void modelLoaded();
   void tabClosed();
-
- protected:
-  int mapRowIndex(int i);
 
  private:
   QSharedPointer<Model> m_model;

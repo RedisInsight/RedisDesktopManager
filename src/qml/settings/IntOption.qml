@@ -1,14 +1,15 @@
 import QtQuick 2.3
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.3
+import "./../common"
 
 Item {
     id: root
     property string label
     property string description
     property int value
-    property alias min: val.minimumValue
-    property alias max: val.maximumValue
+    property alias min: val.from
+    property alias max: val.to
 
     onValueChanged: {
         if (val.value != root.value) {
@@ -34,7 +35,7 @@ Item {
             }
         }
 
-        SpinBox {
+        BetterSpinBox {
             id: val
 
             Layout.minimumWidth: 80

@@ -32,7 +32,7 @@ QVariant StreamKeyModel::getData(int rowIndex, int dataRole) {
     case ID:
       return m_rowsCache[rowIndex].first;
     case RowNumber:
-      return rowIndex + 1;
+      return rowIndex;
   }
 
   return QVariant();

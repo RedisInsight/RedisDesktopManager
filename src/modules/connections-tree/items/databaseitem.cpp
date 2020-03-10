@@ -77,6 +77,7 @@ void DatabaseItem::loadKeys(std::function<void()> callback) {
     emit m_model.error(
         QCoreApplication::translate("RDM", "Cannot load databases:\n\n") +
         QString(e.what()));
+    return;
   }
 
   m_operations->loadNamespaceItems(

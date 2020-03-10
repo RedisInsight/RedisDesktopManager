@@ -9,7 +9,7 @@ StringKeyModel::StringKeyModel(
 QString StringKeyModel::type() { return m_type; }
 
 QStringList StringKeyModel::getColumnNames() {
-  return QStringList();  // Single value type - No columns
+  return QStringList() << "value";
 }
 
 QHash<int, QByteArray> StringKeyModel::getRoles() {

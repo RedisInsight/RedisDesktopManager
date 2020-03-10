@@ -22,7 +22,6 @@ class TabsModel : public QAbstractListModel {
  public:
   enum Roles {
     keyNameRole = Qt::UserRole + 1,
-    keyDisplayName,
     keyIndex,
     keyTTL,
     keyType,
@@ -30,6 +29,7 @@ class TabsModel : public QAbstractListModel {
     rowsCount,
     keyModel,
     showLoader,
+    tabName,
   };
 
  public:
