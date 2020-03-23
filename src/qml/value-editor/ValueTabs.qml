@@ -150,11 +150,13 @@ Repeater {
                         text: qsTranslate("RDM","Rename key")
                         objectName: "rdm_key_rename_btn"
 
+                        onClicked: renameConfirmation.open()
+
                         BetterDialog {
                             id: renameConfirmation
                             title: qsTranslate("RDM","Rename key")
 
-                            width: 520
+                            width: 520                                                      
 
                             RowLayout {
                                 implicitWidth: 500
@@ -162,10 +164,11 @@ Repeater {
                                 width: 500
 
                                 Text { text: qsTranslate("RDM","New name:") }
-                                TextField {
+                                BetterTextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
                                     objectName: "rdm_rename_key_field"
+                                    text: keyName
                                 }
                             }
 
@@ -205,7 +208,7 @@ Repeater {
                                 width: 500
 
                                 Text { text: qsTranslate("RDM","New TTL:") }
-                                TextField {
+                                BetterTextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
                                     objectName: "rdm_set_ttl_key_field"
@@ -379,7 +382,7 @@ Repeater {
                                                         }
 
                                                         if (keyType == "zset") {
-                                                            return parseFloat(Number(styleData.value).toFixed(20))
+                                                            return parseFloat(Number(display).toFixed(20))
                                                         }
 
                                                         return renderText(display)

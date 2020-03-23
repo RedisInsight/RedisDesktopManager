@@ -5,7 +5,6 @@ TextField {
     id: control
     property bool validationError: false
     selectByMouse: true
-    mouseSelectionMode: TextInput.SelectWords
 
     background: Rectangle {
         implicitWidth: 200
