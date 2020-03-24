@@ -19,6 +19,7 @@ Repeater {
             id: valueTabButton
 
             BetterTabButton {
+                objectName: "rdm_value_tab_btn"
                 icon.source: "qrc:/images/key.svg"
 
                 text: tabName
@@ -241,6 +242,7 @@ Repeater {
                         iconSource: "qrc:/images/delete.svg"
 
                         BetterMessageDialog {
+                            objectName: "rdm_value_editor_delete_row_btn"
                             id: deleteConfirmation
                             title: qsTranslate("RDM","Delete key")
                             text: qsTranslate("RDM","Do you really want to delete this key?")
