@@ -101,6 +101,7 @@ ToolBar {
         Item { Layout.fillWidth: true }
 
         BetterButton {
+            objectName: "rdm_global_settings_btn"
             iconSource: "qrc:/images/settings.svg"
             text: qsTranslate("RDM","Settings")
 
