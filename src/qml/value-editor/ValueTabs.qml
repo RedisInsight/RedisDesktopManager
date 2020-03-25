@@ -242,7 +242,6 @@ Repeater {
                         iconSource: "qrc:/images/delete.svg"
 
                         BetterMessageDialog {
-                            objectName: "rdm_value_editor_delete_row_btn"
                             id: deleteConfirmation
                             title: qsTranslate("RDM","Delete key")
                             text: qsTranslate("RDM","Do you really want to delete this key?")
@@ -586,6 +585,7 @@ Repeater {
                             }
 
                             BetterButton {
+                                objectName: "rdm_value_editor_delete_row_btn"
                                 Layout.fillWidth: true
                                 text: qsTranslate("RDM","Delete row")
                                 iconSource: "qrc:/images/delete.svg"
