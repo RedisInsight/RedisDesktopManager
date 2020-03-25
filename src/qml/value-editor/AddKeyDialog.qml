@@ -63,6 +63,7 @@ BetterDialog {
                     Layout.fillWidth: true
                 }
                 Button {
+                    objectName: "rdm_add_key_save_btn"
                     text: qsTranslate("RDM","Save")
 
                     onClicked: {

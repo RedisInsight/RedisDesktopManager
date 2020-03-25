@@ -196,6 +196,7 @@ Repeater {
                     currentIndex: serverInfoTabBar.currentIndex
 
                     ChartView {
+                        objectName: "rdm_server_info_tab_memory_usage"
                         id: view
 
                         title: qsTranslate("RDM","Memory Usage")
