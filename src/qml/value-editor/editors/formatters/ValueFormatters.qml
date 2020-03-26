@@ -8,8 +8,13 @@ ListModel {
 
     function guessFormatter(isBinary)
     {
+        return getDefaultFormatter(isBinary)
+    }
+
+    function getDefaultFormatter(isBinary)
+    {
         if (isBinary) {
-            return 2
+            return 1
         } else {
             return 0
         }

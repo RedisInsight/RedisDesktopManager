@@ -106,16 +106,16 @@ Item
             return;
         }
 
+        var isBin = qmlUtils.isBinaryString(root.value)
+        binaryFlag.visible = isBin
+
         if (qmlUtils.binaryStringLength(root.value) > valueSizeLimit) {
             root.showFormatters = false
-            formatterSelector.currentIndex = 0
+            formatterSelector.currentIndex = formatterSelector.model.getDefaultFormatter(isBin)
             guessFormatter = false
         } else {
             root.showFormatters = true
         }
-
-        var isBin = qmlUtils.isBinaryString(root.value)
-        binaryFlag.visible = isBin
 
         valueCompression = qmlUtils.isCompressed(root.value)
 
@@ -163,9 +163,9 @@ Item
     }
 
     function _loadFormatter(isBin) {
-        if (!(0 < formatterSelector.currentIndex
+        if (!(0 <= formatterSelector.currentIndex
               && formatterSelector.currentIndex < formatterSelector.count)) {
-            formatterSelector.currentIndex = isBin? 2 : 0
+            formatterSelector.currentIndex = formatterSelector.model.getDefaultFormatter(isBin)
         }
 
         var formatter = formatterSelector.model.get(formatterSelector.currentIndex)
@@ -228,7 +228,7 @@ Item
         function processFormatted(error, formatted, isReadOnly, format) {
             if (error || !formatted) {
                 uiBlocker.visible = false
-                formatterSelector.currentIndex = isBin? 2 : 0 // Reset formatter to plain text
+                formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
                 notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
                 return
             }
@@ -320,7 +320,7 @@ Item
                 ListView {
                     id: textView
                     anchors.fill: parent
-                    cacheBuffer: 0
+                    cacheBuffer: 4
 
                     property int textFormat: TextEdit.PlainText
                     property bool readOnly: false
@@ -336,22 +336,16 @@ Item
                                 id: textAreaPart
                                 objectName: "rdm_key_multiline_text_field_" + index
 
-
                                 enabled: root.enabled
                                 text: value
 
                                 textFormat: textView.textFormat
                                 readOnly: textView.readOnly
 
-                                onPreeditTextChanged: {
+                                Keys.onReleased: {
                                     root.isEdited = true
                                     textView.model && textView.model.setTextChunk(index, textAreaPart.text)
                                 }
-
-                                onEditingFinished: {
-                                    root.isEdited = true
-                                    textView.model && textView.model.setTextChunk(index, textAreaPart.text)
-                                }                                                                
                             }
                         }
                     }

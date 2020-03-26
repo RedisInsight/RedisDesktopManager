@@ -15,6 +15,7 @@ Item {
         border.color: root.selected ? sysPalette.mid : "lightgrey"
         border.width: 1
         color: root.selected ? sysPalette.highlight : "transparent"
+        clip: true
 
         Text {
             id: textItem

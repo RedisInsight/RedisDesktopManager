@@ -161,9 +161,8 @@ void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series,
 }
 
 QObject *QmlUtils::wrapLargeText(const QByteArray &text) {
-  // NOTE(u_glide): Use 150Kb chunks by default
-
-  int chunkSize = 153600;
+  // NOTE(u_glide): Use 50Kb chunks by default
+  int chunkSize = 50000;
 
   // Work-around to prevent html corruption
   if (text.startsWith("<pre")) {
