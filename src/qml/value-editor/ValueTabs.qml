@@ -349,7 +349,7 @@ Repeater {
                                                 ValueTableCell {
                                                     implicitWidth: table.firstColumnWidth
                                                     implicitHeight: 30
-                                                    text: display
+                                                    text: Number(display) + 1
                                                     selected: table.currentRow === row
                                                     onClicked: table.currentRow = row
                                                 }
