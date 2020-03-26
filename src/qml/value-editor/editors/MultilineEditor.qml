@@ -63,7 +63,7 @@ Item
         if (formatterSelector.visible) {
 
             function process(formattedValue) {
-                var formatter = formatterSelector.model[formatterSelector.currentIndex]
+                var formatter = formatterSelector.model.get(formatterSelector.currentIndex)
 
                  formatter.getRaw(formattedValue, function (error, raw) {
                      root.value = compress(raw)
