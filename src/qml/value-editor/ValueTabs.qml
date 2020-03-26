@@ -182,7 +182,6 @@ Repeater {
                             }
 
                             visible: false
-                            standardButtons: StandardButton.Ok | StandardButton.Cancel
                         }
                     }
 
@@ -226,7 +225,6 @@ Repeater {
                             }
 
                             visible: false                            
-                            standardButtons: StandardButton.Ok | StandardButton.Cancel
                         }
 
                         onClicked: {
