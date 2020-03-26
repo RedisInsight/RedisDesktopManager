@@ -244,7 +244,7 @@ void ValueEditor::ValueViewModel::updateRow(int rowIndex, const QVariantMap& row
       emit error(err);
       return;
     }
-    emit dataChanged(index(rowIndex, 0), index(rowIndex, 0));
+    emit dataChanged(index(rowIndex, 0), index(rowIndex, m_model->getColumnNames().size() - 1));
   });
 }
 
