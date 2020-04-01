@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.13
+import QtQuick.Controls 1.4 as LC
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
 import QtQuick.Window 2.3
@@ -29,8 +30,8 @@ Dialog {
             ScrollView {
                 id: globalSettingsScrollView
                 width: parent.width
-                height: parent.height
-                horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+                height: parent.height                
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                 ColumnLayout {
                     id: innerLayout
@@ -156,32 +157,32 @@ Dialog {
 
                     Text {
                         visible: !PlatformUtils.isOSX()
-                        text: qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath())
+                        text: formattersManager? qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath()) : ""
                         font.pixelSize: 12
                         color: "grey"
                     }
 
-                    TableView {
+                    LC.TableView {
                         visible: !PlatformUtils.isOSX()
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
 
-                        TableViewColumn {
+                        LC.TableViewColumn {
                             role: "name"
                             title: qsTranslate("RDM","Name")
                         }
-                        TableViewColumn {
+                        LC.TableViewColumn {
                             role: "version"
                             width: 75
                             title: qsTranslate("RDM","Version")
                         }
-                        TableViewColumn {
+                        LC.TableViewColumn {
                             role: "cmd"
                             title: qsTranslate("RDM","Command")
                         }
 
-                        TableViewColumn {
+                        LC.TableViewColumn {
                             width: 250
                             role: "description"
                             title: qsTranslate("RDM","Description")
@@ -198,10 +199,10 @@ Dialog {
                         Layout.fillWidth: true
 
                         Item { Layout.fillWidth: true; }
-                        Button {
+                        BetterButton {
                             text: qsTranslate("RDM","OK")
                             onClicked: {
-                                if (root.restartRequired) {
+                                if (root.restartRequired === true) {
                                     // restart app
                                     Qt.exit(1000)
                                 }
@@ -209,6 +210,10 @@ Dialog {
                                 restartRequired = false
                                 root.close()
                             }
+                        }
+                        BetterButton {
+                            text: qsTr("Cancel")
+                            onClicked: root.close()
                         }
                     }
                 }
