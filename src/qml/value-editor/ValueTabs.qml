@@ -23,7 +23,7 @@ Repeater {
                 icon.source: "qrc:/images/key.svg"
 
                 text: tabName
-                ToolTip.text: keyModel? keyName : ""
+                ToolTip.text: keyModel && tabName <= keyName? keyName : ""
 
                 onCloseClicked: {
                     valuesModel.closeTab(keyIndex)
