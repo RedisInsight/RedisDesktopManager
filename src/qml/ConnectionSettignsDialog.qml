@@ -58,7 +58,7 @@ Dialog {
 
                 if (value != undefined && value.length == 0) {
                     errors++
-                    items_array[index].style = invalidStyle
+                    items_array[index].validationError = true
                 }
             }
 
