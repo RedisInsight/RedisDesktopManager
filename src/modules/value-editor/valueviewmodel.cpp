@@ -265,8 +265,8 @@ void ValueEditor::ValueViewModel::deleteRow(int rowIndex) {
     emit beginRemoveRows(QModelIndex(), rowIndex, rowIndex);
     emit endRemoveRows();
 
-    if (rowIndex < m_model->rowsCount())
-      emit dataChanged(index(rowIndex, 0), index(m_model->rowsCount() - 1, 0));
+    if (m_lastLoadedRowFrameSize > 0)
+        m_lastLoadedRowFrameSize -= 1;
 
     if (m_model->rowsCount() == 0) emit keyRemoved();
   });
