@@ -50,8 +50,8 @@ void ConfigManager::setPermissions(QFile &file) {
   qt_ntfs_permission_lookup++;
 #endif
 
-  if (file.setPermissions(QFile::ReadUser | QFile::WriteUser))
-    qDebug() << "Permission changed";
+  if (!file.setPermissions(QFile::ReadUser | QFile::WriteUser))
+    qWarning() << "Cannot set permissions for config folder";
 
 #ifdef Q_OS_WIN
   qt_ntfs_permission_lookup--;

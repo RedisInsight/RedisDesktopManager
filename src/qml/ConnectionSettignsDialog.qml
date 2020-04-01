@@ -403,7 +403,7 @@ Dialog {
                             placeholderText: qsTranslate("RDM","Pattern which defines loaded keys from redis-server")
                             text: root.settings ? root.settings.keysPattern : ""
                             Component.onCompleted: root.items.push(keysPattern)
-                            onTextChanged: root.settings.keysPattern = text
+                            onTextChanged: if (root.settings) { root.settings.keysPattern = text }
                         }
 
                         Label { text: qsTranslate("RDM","Namespace Separator:") }
@@ -415,7 +415,7 @@ Dialog {
                             objectName: "rdm_advanced_settings_namespace_separator_field"
                             placeholderText: qsTranslate("RDM","Separator used for namespace extraction from keys")
                             text: root.settings ? root.settings.namespaceSeparator : ""
-                            onTextChanged: root.settings.namespaceSeparator = text
+                            onTextChanged: if (root.settings) { root.settings.namespaceSeparator = text }
                         }
 
                         Label { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
@@ -424,7 +424,7 @@ Dialog {
                             id: luaKeysLoading
                             Layout.fillWidth: true
                             checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
-                            onCheckedChanged: root.settings.luaKeysLoading = checked
+                            onCheckedChanged: if (root.settings) { root.settings.luaKeysLoading = checked }
 
                         }
 
@@ -443,7 +443,7 @@ Dialog {
                             value: {
                                 return root.settings ? (root.settings.executeTimeout / 1000.0) : 0
                             }
-                            onValueChanged: root.settings.executeTimeout = value * 1000
+                            onValueChanged: if (root.settings) { root.settings.executeTimeout = value * 1000 }
                         }
 
                         Label { text: qsTranslate("RDM","Execution Timeout (sec):")}
@@ -454,7 +454,7 @@ Dialog {
                             from: 10
                             to: 100000
                             value: root.settings ? (root.settings.connectionTimeout / 1000.0) : 0
-                            onValueChanged: root.settings.connectionTimeout = value * 1000
+                            onValueChanged: if (root.settings) { root.settings.connectionTimeout = value * 1000 }
                         }
 
                         Label { text: qsTranslate("RDM","Databases discovery limit:") }
@@ -467,7 +467,7 @@ Dialog {
                             value: {
                                 return root.settings ? root.settings.databaseScanLimit : 1
                             }
-                            onValueChanged: root.settings.databaseScanLimit = value
+                            onValueChanged: if (root.settings) { root.settings.databaseScanLimit = value }
                         }
 
                         SettingsGroupTitle {
@@ -481,7 +481,7 @@ Dialog {
                             id: overrideClusterHost
                             Layout.fillWidth: true
                             checked: root.settings ? root.settings.overrideClusterHost : false
-                            onCheckedChanged: root.settings.overrideClusterHost = checked
+                            onCheckedChanged: if (root.settings) { root.settings.overrideClusterHost = checked }
                         }
 
                         Item {

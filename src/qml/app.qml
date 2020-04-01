@@ -124,6 +124,7 @@ ApplicationWindow {
 
     Connections {
         target: serverStatsModel
+        ignoreUnknownSignals: true
         onError: notification.showError(error)
     }
 
@@ -282,6 +283,7 @@ ApplicationWindow {
 
             Connections {
                 target: valuesModel
+                ignoreUnknownSignals: true
                 onKeyError: {
                     if (index != -1)
                         tabs.currentIndex = index

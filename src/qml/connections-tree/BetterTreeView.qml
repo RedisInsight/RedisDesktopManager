@@ -79,7 +79,7 @@ TreeView {
                     anchors.verticalCenter: parent.verticalCenter
                     sourceSize.width: 25
                     sourceSize.height: 25
-                    source: wrapper.itemIconSource
+                    source: wrapper? wrapper.itemIconSource : ""
                     cache: true
                     asynchronous: true
                 }

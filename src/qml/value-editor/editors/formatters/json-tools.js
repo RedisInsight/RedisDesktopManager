@@ -123,13 +123,14 @@ var minify =  function(json) {
                 .replace(/\]\s{0,},\s{0,}\[/g,'],[');
 };
 
-
-WorkerScript.onMessage = function(msg) {
-    WorkerScript.sendMessage({
-        'error': "",
-         // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
-        'formatted': prettyPrint(minify(String(msg))),
-        'isReadOnly': false,
-        'format': "html"
-    });
+if (typeof WorkerScript !== "undefined") {
+    WorkerScript.onMessage = function(msg) {
+        WorkerScript.sendMessage({
+            'error': "",
+             // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
+            'formatted': prettyPrint(minify(String(msg))),
+            'isReadOnly': false,
+            'format': "html"
+        });
+    }
 }

@@ -23,7 +23,7 @@ Repeater {
                 icon.source: "qrc:/images/key.svg"
 
                 text: tabName
-                ToolTip.text: keyName
+                ToolTip.text: keyModel? keyName : ""
 
                 onCloseClicked: {
                     valuesModel.closeTab(keyIndex)
@@ -134,13 +134,14 @@ Repeater {
 
                     Text {
                         Layout.preferredWidth: 70
-                        text: keyType.toUpperCase() + ":"; font.bold: true
+                        text: keyModel? keyType.toUpperCase() + ":" : "";
+                        font.bold: true
                     }
 
                     BetterTextField {
                         id: keyNameField
                         Layout.fillWidth: true
-                        text: keyName
+                        text: keyModel? keyName : ""
                         readOnly: true
                         objectName: "rdm_key_name_field"                                               
                     }
@@ -169,7 +170,7 @@ Repeater {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
                                     objectName: "rdm_rename_key_field"
-                                    text: keyName
+                                    text: keyModel? keyName : ""
                                 }
                             }
 
@@ -182,7 +183,7 @@ Repeater {
                             }
 
                             visible: false
-                            standardButtons: StandardButton.Ok | StandardButton.Cancel
+                            standardButtons: Dialog.Ok | Dialog.Cancel
                         }
                     }
 
@@ -226,7 +227,7 @@ Repeater {
                             }
 
                             visible: false                            
-                            standardButtons: StandardButton.Ok | StandardButton.Cancel
+                            standardButtons: Dialog.Ok | Dialog.Cancel
                         }
 
                         onClicked: {
@@ -276,7 +277,7 @@ Repeater {
                         Layout.fillHeight: false
                         Layout.bottomMargin: 10
                         SplitView.minimumHeight: 250
-                        visible: isMultiRow
+                        visible: keyModel? isMultiRow : false
 
                         ColumnLayout {
                             id: tableLayout
@@ -337,7 +338,7 @@ Repeater {
                                         property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount / maxItemsOnPage) : 0
                                         property bool forceLoading: false
                                         property int firstColumnWidth: 75
-                                        property int valueColumnWidth: keyTab.keyModel.columnNames.length == 2? tableLayout.width - table.firstColumnWidth - table.columnSpacing
+                                        property int valueColumnWidth:  keyTab.keyModel && keyTab.keyModel.columnNames.length == 2? tableLayout.width - table.firstColumnWidth - table.columnSpacing
                                                                                                               : (tableLayout.width - table.firstColumnWidth - table.columnSpacing) / 2
                                         Component.onCompleted: keyTab.table = table
 
@@ -399,8 +400,9 @@ Repeater {
 
                                         Connections {
                                             id: keyModelConnections
+                                            ignoreUnknownSignals: true
 
-                                            target: keyTab.keyModel
+                                            target: keyTab.keyModel ? keyTab.keyModel : null
 
                                             onError: {
                                                 valueErrorNotification.text = error
@@ -538,7 +540,7 @@ Repeater {
                                                 property int currentRow: -1
                                                 objectName: "rdm_add_row_dialog"
 
-                                                source: Editor.getEditorByTypeString(keyType)
+                                                source: keyTab.keyModel ? Editor.getEditorByTypeString(keyType) : ""
 
                                                 onLoaded: {
                                                     item.state = "add"
@@ -654,7 +656,7 @@ Repeater {
 
                                     Layout.fillWidth: true
 
-                                    readOnly: keyTab.keyModel.singlePageMode
+                                    readOnly: keyTab.keyModel ? keyTab.keyModel.singlePageMode : false
                                     placeholderText: qsTranslate("RDM","Search on page...")
 
                                     Component.onCompleted: {
@@ -664,7 +666,7 @@ Repeater {
 
                                 BetterButton {
                                     id: clearGlobalSearch
-                                    visible: keyTab.keyModel.singlePageMode
+                                    visible: keyTab.keyModel ? keyTab.keyModel.singlePageMode : false
 
                                     iconSource: "qrc:/images/clear.svg"
 
@@ -697,14 +699,14 @@ Repeater {
                             }
 
                             Text {
-                                visible: isMultiRow
+                                visible: keyTab.keyModel? isMultiRow : false
                                 text:  qsTranslate("RDM","Size: ") + keyRowsCount
                             }
 
                             Pagination {
                                 id: pagination
                                 Layout.fillWidth: true
-                                visible: isMultiRow
+                                visible: keyTab.keyModel ? isMultiRow : false
                             }
                         }
                     }
@@ -732,7 +734,7 @@ Repeater {
 
                             property int currentRow: -1
 
-                            source: Editor.getEditorByTypeString(keyType)
+                            source: keyTab.keyModel? Editor.getEditorByTypeString(keyType) : ""
 
                             function loadRowValue(row) {
                                 console.log("loading row value", row)
