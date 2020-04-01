@@ -1,6 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.13
 import QtQuick.Dialogs 1.2
 
 import "./../common/"
@@ -56,9 +56,11 @@ Dialog {
 
     function validate() {
         if (root.operationName == "rdb_import" && !qmlUtils.fileExists(rdbPath.path)) {
+            rdbPath.validationError = true
             showError(qsTr("Invalid RDB path"), qsTr("Please specify valid path to RDB file"), "")
             return false;
         }
+        rdbPath.validationError = false
         return true;
     }
 
@@ -77,7 +79,6 @@ Dialog {
                 PropertyChanges { target: ttlField; visible: false }
                 PropertyChanges { target: replaceKeysField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: contentWrapper; width: 600 }
                 PropertyChanges { target: rdbImportFields; visible: false; }
             },
             State {
@@ -87,7 +88,6 @@ Dialog {
                 PropertyChanges { target: ttlField; visible: true }
                 PropertyChanges { target: replaceKeysField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: contentWrapper; width: 600 }
                 PropertyChanges { target: rdbImportFields; visible: false; }
             },
             State {
@@ -97,7 +97,6 @@ Dialog {
                 PropertyChanges { target: ttlField; visible: true }
                 PropertyChanges { target: replaceKeysField; visible: true }
                 PropertyChanges { target: targetConnectionSettings; visible: true }
-                PropertyChanges { target: contentWrapper; width: 1000 }
                 PropertyChanges { target: rdbImportFields; visible: false; }
             },
 
@@ -108,7 +107,6 @@ Dialog {
                 PropertyChanges { target: ttlField; visible: false }
                 PropertyChanges { target: replaceKeysField; visible: false }
                 PropertyChanges { target: targetConnectionSettings; visible: false }
-                PropertyChanges { target: contentWrapper; width: 600 }
                 PropertyChanges { target: rdbImportFields; visible: true; }
             }
         ]
@@ -128,182 +126,185 @@ Dialog {
                 Layout.fillWidth: true
             }
 
-            RowLayout {
+            Item {
+                Layout.preferredHeight: 5
+            }
+
+            GridLayout {
+                id: sourceConnectionSettings
+                columns: 2
+
                 Layout.fillWidth: true
 
-                GridLayout {
-                    id: sourceConnectionSettings
-                    columns: 2
+                Label {
+                    text: qsTr("Redis Server:")
+                    Layout.preferredWidth: 250
+                    Layout.preferredHeight: 25
+                }
 
+                Label {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 25
+                    text: bulkOperations.connectionName
+                }
+
+                Label {
+                    text: qsTr("Database number:")
+                    Layout.preferredWidth: 250
+                    Layout.preferredHeight: 25
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 25
+                    text: bulkOperations.dbIndex
+                }
+
+                GridLayout {
+                    id: rdbImportFields
+                    columns: 2
+                    Layout.rowSpan: 2
+                    Layout.columnSpan: 2
                     Layout.fillWidth: true
 
                     Label {
-                        text: qsTr("Redis Server:")
+                        id: rdbPathLabel
+                        text: qsTr("Path to RDB file:")
                         Layout.preferredWidth: 250
                     }
 
-                    Label {
+                    FilePathInput {
+                        id: rdbPath
+
                         Layout.fillWidth: true
-                        text: bulkOperations.connectionName
+
+                        objectName: "rdm_bulk_operations_dialog_rdb_path"
+
+                        placeholderText: qsTranslate("RDM","Path to dump.rdb file")
+                        nameFilters: [ "RDB (*.rdb)" ]
+                        title: qsTranslate("RDM","Select dump.rdb")
+                        path: ""
+                        onPathChanged: {
+                            console.log(rdbPath.path)
+                        }
                     }
 
                     Label {
-                        text: qsTr("Database number:")
+                        id: rdbDbLabel
+                        text: qsTr("Select DB in RDB file:")
                         Layout.preferredWidth: 250
                     }
 
-                    Label {
-                        Layout.fillWidth: true
-                        text: bulkOperations.dbIndex
-                    }
+                    BetterSpinBox {
+                        id: rdbDb
 
-                    GridLayout {
-                        id: rdbImportFields
-                        columns: 2
-                        Layout.rowSpan: 2
-                        Layout.columnSpan: 2
                         Layout.fillWidth: true
 
-                        Label {
-                            id: rdbPathLabel
-                            text: qsTr("Path to RDB file:")
-                            Layout.preferredWidth: 250
-                        }
-
-                        FilePathInput {
-                            id: rdbPath
-
-                            Layout.fillWidth: true
-
-                            objectName: "rdm_bulk_operations_dialog_rdb_path"
-
-                            placeholderText: qsTranslate("RDM","Path to dump.rdb file")
-                            nameFilters: [ "RDB (*.rdb)" ]
-                            title: qsTranslate("RDM","Select dump.rdb")
-                            path: ""
-                            onPathChanged: {
-                                console.log(rdbPath.path)
-                            }
-                        }
-
-                        Label {
-                            id: rdbDbLabel
-                            text: qsTr("Select DB in RDB file:")
-                            Layout.preferredWidth: 250
-                        }
-
-                        SpinBox {
-                            id: rdbDb
-
-                            Layout.fillWidth: true
-
-                            minimumValue: 0
-                            maximumValue: 10000000000
-                            value: 0
-                            decimals: 0
-                            onValueChanged: {
-                                setMetadata()
-                                root.resetKeysPreview()
-                            }
-                        }
-                    }
-
-                    Label {
-                        text: root.operationName == "rdb_import"? qsTr("Import keys that match <b>regex</b>:") : qsTr("Key pattern:")
-                        Layout.preferredWidth: 250
-                    }
-
-                    TextField {
-                        Layout.fillWidth: true
-
-                        text: bulkOperations.keyPattern
-                        onTextChanged: {
-                            bulkOperations.keyPattern = text
+                        from: 0
+                        to: 10000000
+                        value: 0
+                        onValueChanged: {
+                            setMetadata()
                             root.resetKeysPreview()
-                        }
-                    }
-
-                    RowLayout {
-                        id: ttlField
-
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-
-                        Label {
-                            text: "New TTL value (seconds):"
-                            Layout.preferredWidth: 250
-                        }
-
-                        SpinBox {
-                            id: ttlValue
-
-                            Layout.fillWidth: true
-
-                            objectName: "rdm_bulk_operations_dialog_ttl_value"
-
-                            minimumValue: -1
-                            maximumValue: 10000000000
-                            value: 0
-                            decimals: 0
                         }
                     }
                 }
 
-                GridLayout {
-                    id: targetConnectionSettings
-                    columns: 2
-                    visible: bulkOperations.multiConnectionOperation()
+                Label {
+                    text: root.operationName == "rdb_import"? qsTr("Import keys that match <b>regex</b>:") : qsTr("Key pattern:")
+                    Layout.preferredWidth: 250
+                }
+
+                BetterTextField {
+                    Layout.fillWidth: true
+
+                    text: bulkOperations.keyPattern
+                    onTextChanged: {
+                        bulkOperations.keyPattern = text
+                        root.resetKeysPreview()
+                    }
+                }
+
+                RowLayout {
+                    id: ttlField
+
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
 
                     Label {
-                        text: qsTr("Destination Redis Server:")
+                        text: "New TTL value (seconds):"
+                        Layout.preferredWidth: 250
                     }
 
-                    ComboBox {
-                        Layout.fillWidth: true
-
-                        id: targetConnection
-                    }
-
-                    Label {
-                        text: qsTr("Destination Redis Server Database Index:")
-                    }
-
-                    SpinBox {
-                        id: targetDatabaseIndex
+                    BetterSpinBox {
+                        id: ttlValue
 
                         Layout.fillWidth: true
 
-                        objectName: "rdm_bulk_operations_dialog_target_db_index"
+                        objectName: "rdm_bulk_operations_dialog_ttl_value"
 
-                        minimumValue: 0
-                        maximumValue: 10000000000
+                        from: -1
+                        to: 10000000
                         value: 0
-                        decimals: 0
-                    }
-
-                    RowLayout{
-                        id: replaceKeysField
-
-                        Layout.columnSpan: 2
-
-                        Label {
-                            text: "Replace existing keys in target db:"
-                            Layout.preferredWidth: 250
-                        }
-
-                        BetterCheckbox {
-                            id: replaceKeys
-
-                            Layout.fillWidth: true
-                        }
                     }
                 }
             }
 
+            GridLayout {
+                id: targetConnectionSettings
+                columns: 2
+                Layout.fillWidth: true
+                visible: bulkOperations.multiConnectionOperation()
+
+                Label {
+                    Layout.preferredWidth: 250
+                    text: qsTr("Destination Redis Server:")
+                }
+
+                BetterComboBox {
+                    Layout.fillWidth: true
+
+                    id: targetConnection
+                }
+
+                Label {
+                    Layout.preferredWidth: 250
+                    text: qsTr("Destination Redis Server Database Index:")
+                }
+
+                BetterSpinBox {
+                    id: targetDatabaseIndex
+
+                    Layout.fillWidth: true
+
+                    objectName: "rdm_bulk_operations_dialog_target_db_index"
+
+                    from: 0
+                    to: 10000000
+                    value: 0
+                }
+
+                RowLayout{
+                    id: replaceKeysField
+
+                    Layout.columnSpan: 2
+
+                    Label {
+                        text: "Replace existing keys in target db:"
+                        Layout.preferredWidth: 250
+                    }
+
+                    BetterCheckbox {
+                        id: replaceKeys
+
+                        Layout.fillWidth: true
+                    }
+                }
+            }
 
             Item { Layout.preferredHeight: 10 }
 
-            Button {
+            BetterButton {
                 id: btnShowAffectedKeys
                 text: root.operationName == "rdb_import"? qsTr("Show matched keys") : qsTr("Show Affected keys")
                 onClicked: {
@@ -345,7 +346,7 @@ Dialog {
                         anchors.fill: parent
                         anchors.margins: 10
 
-                        verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+                        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
                         ListView {
                             id: affectedKeysListView
@@ -385,7 +386,7 @@ Dialog {
 
                 Item { Layout.fillWidth: true; }
 
-                Button {
+                BetterButton {
                     id: actionButton
                     objectName: "rdm_bulk_operations_dialog_action_button"
 
@@ -400,7 +401,7 @@ Dialog {
                     }
                 }
 
-                Button {
+                BetterButton {
                     text: qsTr("Cancel")
                     onClicked: root.close()
                 }
@@ -436,24 +437,18 @@ Dialog {
             MouseArea { anchors.fill: parent }
         }
 
-        MessageDialog {
+        OkDialog {
             id: bulkErrorNotification
+            modality: Qt.NonModal
             visible: false
-            modality: Qt.WindowModal
-            icon: StandardIcon.Warning
-            standardButtons: StandardButton.Ok
         }
 
-        MessageDialog {
+        OkDialog {
             id: bulkSuccessNotification
             visible: false
-            modality: Qt.WindowModal
-            icon: StandardIcon.Information
-            standardButtons: StandardButton.Ok
-
             onAccepted: cleanUp()
 
-            onVisibilityChanged: {
+            onVisibleChanged: {
                 if (visible == false)
                     cleanUp()
             }
@@ -465,18 +460,15 @@ Dialog {
             }
         }
 
-        MessageDialog {
+        BetterMessageDialog {
             id: bulkConfirmation
             title: qsTr("Confirmation")
             text: qsTr("Do you really want to perform bulk operation?")
-            onYes: {
+            onAccepted: {
                 uiBlocker.visible = true
                 bulkOperations.runOperation(targetConnection.currentIndex, targetDatabaseIndex.value)
             }
             visible: false
-            modality: Qt.ApplicationModal
-            icon: StandardIcon.Warning
-            standardButtons: StandardButton.Yes | StandardButton.No
         }
     }
 }

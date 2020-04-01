@@ -1,8 +1,14 @@
 import QtQuick 2.0
-import Qt.labs.platform 1.1 as NativeDialogs
+import QtQuick.Dialogs 1.3
 
-NativeDialogs.MessageDialog {
+MessageDialog {
     id: root
 
-    buttons: NativeDialogs.MessageDialog.Yes | NativeDialogs.MessageDialog.No
+    standardButtons: StandardButton.Yes | StandardButton.No
+
+    signal yesClicked
+
+    onYes: {
+        yesClicked()
+    }
 }
