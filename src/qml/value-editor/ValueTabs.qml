@@ -328,6 +328,7 @@ Repeater {
                                         clip: true
                                         columnSpacing: 1
                                         rowSpacing: 1
+                                        reuseItems: false
                                         model: searchModel ? searchModel : null
 
                                         property int currentRow: -1
@@ -348,11 +349,12 @@ Repeater {
                                                 column: 0
 
                                                 ValueTableCell {
+                                                    objectName: "rdm_value_table_cell_col1"
                                                     implicitWidth: table.firstColumnWidth
                                                     implicitHeight: 30
                                                     text: Number(display) + 1
                                                     selected: table.currentRow === row
-                                                    onClicked: table.currentRow = row
+                                                    onClicked: table.currentRow = row                                                  
                                                 }
                                             }
 
@@ -360,6 +362,7 @@ Repeater {
                                                 column: 1
 
                                                 ValueTableCell {
+                                                    objectName: "rdm_value_table_cell_col2"
                                                     implicitWidth: table.valueColumnWidth
                                                     implicitHeight: 30
                                                     text: renderText(display)
@@ -372,6 +375,7 @@ Repeater {
                                                 column: 2
 
                                                 ValueTableCell {
+                                                    objectName: "rdm_value_table_cell_col3"
                                                     implicitWidth: table.valueColumnWidth
                                                     implicitHeight: 30
 
