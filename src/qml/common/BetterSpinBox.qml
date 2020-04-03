@@ -5,5 +5,7 @@ import QtQuick.Controls 2.3
 SpinBox {
     implicitHeight: 30
     editable: true
-    textFromValue: function(value, locale) { return value }
+    textFromValue: renderText
+
+    function renderText(value, locale) { return value }
 }
