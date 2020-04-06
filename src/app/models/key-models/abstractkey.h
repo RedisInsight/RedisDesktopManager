@@ -125,7 +125,7 @@ class KeyModel : public ValueEditor::Model {
       auto self = ValueEditor::Model::sharedFromThis().toWeakRef();
 
       m_connection->cmd(
-          cmdParts, m_notifier.data(), m_dbIndex,
+          cmdParts, m_notifier.data(), -1,
           [this, callback, rowStart, self](RedisClient::Response r) {
             if (!r.isValidScanResponse()) {
               callback(QCoreApplication::translate(
@@ -242,7 +242,7 @@ class KeyModel : public ValueEditor::Model {
 
             return callback(QString(), r.value().toList());
           },
-          m_dbIndex);
+          -1);
     } catch (const RedisClient::Connection::Exception& e) {
       callback(
           QCoreApplication::translate("RDM", "Cannot load rows for key %1: %2")
@@ -284,7 +284,7 @@ class KeyModel : public ValueEditor::Model {
                           RedisClient::Response::Type expectedType =
                               RedisClient::Response::Type::Unknown) {
     m_connection->cmd(
-        cmd, m_notifier.data(), m_dbIndex,
+        cmd, m_notifier.data(), -1,
         [c, handler, expectedType](RedisClient::Response r) {
           if (expectedType != RedisClient::Response::Type::Unknown &&
               r.type() != expectedType) {

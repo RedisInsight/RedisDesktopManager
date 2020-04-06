@@ -65,7 +65,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QBy
       callback(result, msg.arg(printableString(keyFullPath)).arg(err));
     };
 
-    connection->cmd({"ttl", keyFullPath}, this, dbIndex, parseTtl,
+    connection->cmd({"ttl", keyFullPath}, this, -1, parseTtl,
                     processTtlError);
   };
 
