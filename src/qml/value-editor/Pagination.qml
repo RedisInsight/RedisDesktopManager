@@ -23,6 +23,10 @@ ColumnLayout {
             text: " of " + table.totalPages
             wrapMode: Text.WrapAnywhere
         }
+
+        Text {
+            text:  qsTranslate("RDM","Size: ") + keyRowsCount
+        }
     }
 
     RowLayout {        

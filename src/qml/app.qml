@@ -23,6 +23,8 @@ ApplicationWindow {
     title: "Redis Desktop Manager " + Qt.application.version
     width: 1100
     height: 800
+    minimumWidth: 1100
+    minimumHeight: 700
 
     property double wRatio : (width * 1.0) / (Screen.width * 1.0)
     property double hRatio : (height * 1.0) / (Screen.height * 1.0)

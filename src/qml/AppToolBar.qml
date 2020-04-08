@@ -101,6 +101,13 @@ ToolBar {
         Item { Layout.fillWidth: true }
 
         BetterButton {
+            iconSource: "qrc:/images/log.svg"
+            text: qsTranslate("RDM","Log")
+
+            onClicked: logDrawer.open()
+        }
+
+        BetterButton {
             objectName: "rdm_global_settings_btn"
             iconSource: "qrc:/images/settings.svg"
             text: qsTranslate("RDM","Settings")
@@ -108,14 +115,7 @@ ToolBar {
             onClicked: {
                 settingsDialog.open()
             }
-        }
-
-        BetterButton {
-            iconSource: "qrc:/images/log.svg"
-            text: qsTranslate("RDM","Log")
-
-            onClicked: logDrawer.open()
-        }
+        }   
     }
 }
 

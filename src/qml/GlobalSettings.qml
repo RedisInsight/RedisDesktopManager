@@ -18,7 +18,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 800
-        implicitHeight: PlatformUtils.isOSX()? 500 : 600
+        implicitHeight: PlatformUtils.isOSX()? 500 : 620
 
         border.color: "#eeeeee"
         border.width: 1
@@ -35,7 +35,7 @@ Dialog {
 
                 ColumnLayout {
                     id: innerLayout
-                    width: globalSettingsScrollView.width - 25
+                    width: PlatformUtils.isOSX()? globalSettingsScrollView.width - 25 : globalSettingsScrollView.width
                     height: (dialogRoot.height - 50 > implicitHeight) ? dialogRoot.height - 50 : implicitHeight
 
                     SettingsGroupTitle {
@@ -46,7 +46,7 @@ Dialog {
                         id: appLang
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES", "ja_JP"]
                         value: "system"
@@ -60,7 +60,7 @@ Dialog {
                         id: appFont
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                         model: Qt.fontFamilies()
@@ -74,7 +74,7 @@ Dialog {
                         id: appFontSize
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         model: ["8", "9", "10", "11", "12"]
                         value: Qt.platform.os == "osx"? "12" : "11"
@@ -88,7 +88,7 @@ Dialog {
                         id: systemProxy
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         value: false
                         label: qsTranslate("RDM","Use system proxy settings")
@@ -106,7 +106,7 @@ Dialog {
                         id: nsReload
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         value: true
                         label: qsTranslate("RDM","Reopen namespaces on reload")
@@ -117,7 +117,7 @@ Dialog {
                         id: keySorting
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         value: true
                         label: qsTranslate("RDM","Enable key sorting in tree")
@@ -128,7 +128,7 @@ Dialog {
                         id: liveKeyLimit
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         min: 100
                         max: 100000
@@ -141,7 +141,7 @@ Dialog {
                         id: liveUpdateInterval
 
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 40
+                        Layout.preferredHeight: 30
 
                         min: 3
                         max: 100000
@@ -164,6 +164,7 @@ Dialog {
 
                     LC.TableView {
                         visible: !PlatformUtils.isOSX()
+
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
@@ -204,7 +205,7 @@ Dialog {
                             onClicked: {
                                 if (root.restartRequired === true) {
                                     // restart app
-                                    Qt.exit(1000)
+                                    Qt.exit(1001)
                                 }
 
                                 restartRequired = false
@@ -240,5 +241,9 @@ Dialog {
         category: "formatters"
 
         property var formatters
+    }
+
+    Component.onCompleted: {
+        restartRequired = false
     }
 }

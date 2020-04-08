@@ -702,11 +702,6 @@ Repeater {
                                 Layout.fillHeight: true
                             }
 
-                            Text {
-                                visible: keyTab.keyModel? isMultiRow : false
-                                text:  qsTranslate("RDM","Size: ") + keyRowsCount
-                            }
-
                             Pagination {
                                 id: pagination
                                 Layout.fillWidth: true

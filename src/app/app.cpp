@@ -154,6 +154,9 @@ void Application::initAppFonts() {
 #ifdef Q_OS_MAC
   QString defaultFontName("Helvetica Neue");
   int defaultFontSize = 12;
+#elif defined(Q_OS_WINDOWS)
+  QString defaultFontName("Segoe UI");
+  int defaultFontSize = 11;
 #else
   QString defaultFontName("Open Sans");
   int defaultFontSize = 11;
@@ -162,15 +165,18 @@ void Application::initAppFonts() {
   QString appFont = settings.value("app/appFont", defaultFontName).toString();
   int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
-#ifdef Q_OS_LINUX
+
   if (appFont == "Open Sans") {
+#if defined(Q_OS_LINUX)
     int result = QFontDatabase::addApplicationFont("://fonts/OpenSans.ttc");
 
     if (result == -1) {
       appFont = "Ubuntu";
     }
-  }
+#elif defined (Q_OS_WINDOWS)
+    appFont = defaultFontName;
 #endif
+  }
 
   qDebug() << "App font:" << appFont << appFontSize;
   QFont defaultFont(appFont, appFontSize);
