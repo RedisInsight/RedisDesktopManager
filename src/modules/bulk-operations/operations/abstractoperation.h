@@ -68,6 +68,7 @@ class AbstractOperation : public QObject {
   State m_currentState;
   int m_progress;
   QStringList m_affectedKeys;
+  QStringList m_keysWithErrors;
   QVariantMap m_metadata;
   OperationCallback m_callback;
   QSharedPointer<AsyncFuture::Combinator> m_combinator;

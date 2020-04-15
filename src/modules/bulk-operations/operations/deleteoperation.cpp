@@ -1,4 +1,5 @@
 #include "deleteoperation.h"
+#include <QtConcurrent>
 
 BulkOperations::DeleteOperation::DeleteOperation(
     QSharedPointer<RedisClient::Connection> connection, int dbIndex,
@@ -16,6 +17,7 @@ void BulkOperations::DeleteOperation::performOperation(
   m_errors.clear();
 
   auto returnResults = [this]() {
+      qDebug() << "Processed keys: " << m_progress;
     m_callback(m_keyPattern, m_progress, m_errors);
   };
 
@@ -31,24 +33,41 @@ void BulkOperations::DeleteOperation::performOperation(
           removalCmd = "UNLINK";
         }
 
-        for (QString k : m_affectedKeys) {
-          auto future = m_connection->cmd(
-              {removalCmd, k.toUtf8()}, this, m_dbIndex,
-              [this](const RedisClient::Response&) {
-                QMutexLocker l(&m_processedKeysMutex);
-                m_progress++;
-                emit progress(m_progress);
-              },
-              [this, k](const QString& err) {
-                QMutexLocker l(&m_errorsMutex);
-                m_errors.append(
-                    QCoreApplication::translate("RDM", "Cannot remove key ") +
-                    QString("%1: %2").arg(k).arg(err));
-              });
+        QtConcurrent::run(this, &DeleteOperation::deleteKeys,
+                          m_affectedKeys, removalCmd, [this, removalCmd, returnResults](){
+            // Retry on keys with errors
+            if (m_keysWithErrors.size() > 0) {
+                m_errors.clear();
+                deleteKeys(QStringList(m_keysWithErrors), removalCmd, returnResults);
+            } else {
+                returnResults();
+            }
+        });
+  });
+}
 
-          m_combinator->combine(future);
-        }
+void BulkOperations::DeleteOperation::deleteKeys(
+        const QStringList &keys,
+        const QByteArray &rmCmd, std::function<void()> callback)
+{
+    for (QString k : keys) {
+      auto future = m_connection->cmd(
+          {rmCmd, k.toUtf8()}, this, -1,
+          [this](const RedisClient::Response&) {
+            QMutexLocker l(&m_processedKeysMutex);
+            m_progress++;
+            emit progress(m_progress);
+          },
+          [this, k](const QString& err) {
+            QMutexLocker l(&m_errorsMutex);
+            m_keysWithErrors.append(k);
+            m_errors.append(
+                QCoreApplication::translate("RDM", "Cannot remove key ") +
+                QString("%1: %2").arg(k).arg(err));
+          });
 
-        m_combinator->subscribe(returnResults, returnResults);
-      });
+      m_combinator->combine(future);
+    }
+
+    m_combinator->subscribe(callback, callback);
 }

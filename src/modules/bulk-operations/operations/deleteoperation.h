@@ -23,5 +23,9 @@ class DeleteOperation : public AbstractOperation {
   void performOperation(
       QSharedPointer<RedisClient::Connection> targetConnection,
       int targetDbIndex) override;
+
+  void deleteKeys(const QStringList& keys,
+                  const QByteArray& rmCmd,
+                  std::function<void()> callback);
 };
 }  // namespace BulkOperations
