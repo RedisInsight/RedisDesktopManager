@@ -332,29 +332,15 @@ Dialog {
                     text: root.operationName == "rdb_import"? qsTr("Matched keys:")  : qsTr("Affected keys:")
                 }
 
-                Rectangle {
-                    id: listContainer
+                FastTextView {
+                    id: affectedKeysListView
                     color: "#eee"
 
                     border.color: "#ccc"
                     border.width: 1
 
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    ScrollView {
-                        anchors.fill: parent
-                        anchors.margins: 10
-
-                        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-
-                        ListView {
-                            id: affectedKeysListView
-                            width: listContainer.width * 0.9
-
-                            delegate: Text { text: (index+1) + ". " + modelData}
-                        }
-                    }
+                    Layout.fillHeight: true                    
 
                     Connections {
                         target: bulkOperations

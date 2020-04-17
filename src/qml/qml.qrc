@@ -57,5 +57,6 @@
         <file>common/BetterSpinBox.qml</file>
         <file>common/BetterComboBox.qml</file>
         <file>value-editor/editors/formatters/ValueFormatters.qml</file>
+        <file>common/FastTextView.qml</file>
     </qresource>
 </RCC>
