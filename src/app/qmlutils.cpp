@@ -12,6 +12,8 @@
 #include "qcompress.h"
 #include "value-editor/largetextmodel.h"
 
+#define MAX_CHART_DATA_POINTS 1000
+
 bool QmlUtils::isBinaryString(const QVariant &value) {
   if (!value.canConvert(QVariant::ByteArray)) {
     return false;
@@ -144,18 +146,44 @@ QtCharts::QDateTimeAxis *findDateTimeAxis(QtCharts::QXYSeries *series) {
 }
 
 void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series,
-                                         double value) {
+                                         qreal value) {
   using namespace QtCharts;
 
   QDateTimeAxis *ax = findDateTimeAxis(series);
 
-  if (series->count() == 0 && ax) {
+  if (!(ax && series)) {
+      qWarning() << "Cannot add value to dynamic chart. Invalid pointers.";
+      return;
+  }
+
+  int totalPoints = series->count();
+
+  if (totalPoints == 0) {
     ax->setMin(QDateTime::currentDateTime());
   }
 
-  series->append(QDateTime::currentDateTime().toMSecsSinceEpoch(), value);
+  bool dataNotChangedLastFivePoints = (
+              totalPoints > 10
+              && value
+               == series->at(totalPoints - 1).y()
+               == series->at(totalPoints - 2).y()
+               == series->at(totalPoints - 3).y()
+               == series->at(totalPoints - 4).y()
+               == series->at(totalPoints - 5).y()
+              );
 
-  if (series->attachedAxes().size() > 0 && ax) {
+  if (dataNotChangedLastFivePoints) {
+    series->replace(totalPoints - 1, QDateTime::currentDateTime().toMSecsSinceEpoch(), value);
+  } else {
+    series->append(QDateTime::currentDateTime().toMSecsSinceEpoch(), value);
+  }
+
+  if (totalPoints > MAX_CHART_DATA_POINTS) {
+      series->removePoints(0, totalPoints - MAX_CHART_DATA_POINTS);
+      ax->setMin(QDateTime::fromMSecsSinceEpoch(series->at(0).x()));
+  }
+
+  if (series->attachedAxes().size() > 0) {
     ax->setMax(QDateTime::currentDateTime());
   }
 }
