@@ -236,6 +236,9 @@ void Application::initQml() {
     m_engine.load(QUrl(QStringLiteral("qrc:///app.qml")));
   }
 
+  updatePalette();
+  connect(this, &QGuiApplication::paletteChanged, this, &Application::updatePalette);
+
   qDebug() << "Rendering backend:" << QQuickWindow::sceneGraphBackend();
 }
 
@@ -324,5 +327,16 @@ void Application::OnNewUpdateAvailable(QString& url) {
       nullptr, "New update available",
       QCoreApplication::translate(
           "RDM", "Please download new version of Redis Desktop Manager: %1")
-          .arg(url));
+              .arg(url));
+}
+
+void Application::updatePalette()
+{
+    if (m_engine.rootObjects().size() == 0) {
+        qWarning() << "Cannot update palette. Root object is not loaded.";
+        return;
+    }
+
+    m_engine.rootObjects().at(0)->setProperty(
+                "palette", QGuiApplication::palette());
 }

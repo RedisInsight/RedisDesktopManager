@@ -56,6 +56,12 @@ ApplicationWindow {
         property alias height: approot.height
     }
 
+    Settings {
+        id: appSettings
+        category: "app"
+        property string valueEditorFontSize
+    }
+
     SystemPalette {
         id: sysPalette
     }
@@ -64,13 +70,6 @@ ApplicationWindow {
         id: inactiveSysPalette
         colorGroup: SystemPalette.Inactive
 
-    }
-
-    FontLoader {
-        id: monospacedFont
-        Component.onCompleted: {
-            source = "qrc:/fonts/Inconsolata-Regular.ttf"
-        }
     }
 
     QuickStartDialog {
@@ -176,8 +175,15 @@ ApplicationWindow {
 
     header: AppToolBar {}
 
+    Rectangle {
+        anchors.fill: parent
+        color: sysPalette.base
+        border.color: sysPalette.mid
+        border.width: 1
+
     BetterSplitView {
         anchors.fill: parent
+        anchors.topMargin: 1
         orientation: Qt.Horizontal
 
         BetterTreeView {
@@ -185,17 +191,20 @@ ApplicationWindow {
             SplitView.fillHeight: true
             SplitView.minimumWidth: 383
             SplitView.minimumHeight: 500
-        }
+        }      
 
         ColumnLayout {
             SplitView.fillWidth: true
             SplitView.fillHeight: true
-
             TabBar {
                 id: tabBar
                 objectName: "rdm_main_tab_bar"
                 Layout.fillWidth: true
                 Layout.preferredHeight: 30
+
+                background: Rectangle {
+                    color: sysPalette.base
+                }
 
                 onCountChanged: {
                     updateTimer.start()
@@ -293,6 +302,7 @@ ApplicationWindow {
                     notification.showError(error)
                 }
             }
+        }
         }
     }
 

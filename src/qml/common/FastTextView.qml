@@ -17,7 +17,7 @@ Rectangle {
             id: listView
             width: root.width * 0.9
 
-            delegate: Text { text: (index+1) + ". " + modelData}
+            delegate: Label { text: (index+1) + ". " + modelData}
         }
     }
 

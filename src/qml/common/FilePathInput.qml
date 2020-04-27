@@ -20,7 +20,7 @@ RowLayout {
         Layout.fillWidth: true
     }
 
-    Button {
+    BetterButton {
         implicitHeight: 30
         objectName: root.objectName? root.objectName + "_button" : ""
         text: qsTranslate("RDM","Select File")

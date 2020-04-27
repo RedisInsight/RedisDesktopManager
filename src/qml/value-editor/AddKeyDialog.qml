@@ -21,7 +21,7 @@ BetterDialog {
             anchors.fill: parent
             anchors.margins: 5
 
-            Text {
+            Label {
                 text: qsTranslate("RDM","Key:")
             }
             TextField {
@@ -31,10 +31,11 @@ BetterDialog {
                 text: request? request.keyName : ''
             }
 
-            Text {
+            Label {
                 text: qsTranslate("RDM","Type:")
             }
-            ComboBox {
+
+            BetterComboBox {
                 id: typeSelector
                 model: Editor.getSupportedKeyTypes()
                 Layout.fillWidth: true
@@ -62,7 +63,7 @@ BetterDialog {
                 Item {
                     Layout.fillWidth: true
                 }
-                Button {
+                BetterButton {
                     objectName: "rdm_add_key_save_btn"
                     text: qsTranslate("RDM","Save")
 
@@ -98,7 +99,7 @@ BetterDialog {
 
                 }
 
-                Button {
+                BetterButton {
                     text: qsTranslate("RDM","Cancel")
                     onClicked: root.close()
                 }

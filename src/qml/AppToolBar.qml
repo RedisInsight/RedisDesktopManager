@@ -12,7 +12,7 @@ ToolBar {
         anchors.fill: parent
 
         BetterButton {
-            Layout.preferredWidth: 190
+            Layout.preferredWidth: 193
             iconSource: "qrc:/images/add.svg"
             text: qsTranslate("RDM","Connect to Redis Server")
             objectName: "rdm_connect_to_redis_server_btn"
@@ -24,7 +24,7 @@ ToolBar {
         }
 
         BetterButton {
-            Layout.preferredWidth: 90
+            Layout.preferredWidth: 88
             iconSource: "qrc:/images/import.svg"
             text: qsTranslate("RDM","Import")
             tooltip: qsTranslate("RDM","Import Connections")
@@ -42,7 +42,7 @@ ToolBar {
         }
 
         BetterButton {
-            Layout.preferredWidth: 90
+            Layout.preferredWidth: 88
             iconSource: "qrc:/images/export.svg"
             text: qsTranslate("RDM","Export")
             tooltip: qsTranslate("RDM","Export Connections")
@@ -59,7 +59,7 @@ ToolBar {
             }
         }
 
-        Rectangle { width: 1; color: "lightgrey"; Layout.fillHeight: true;}
+        Rectangle { width: 1; color: sysPalette.mid; Layout.fillHeight: true;}
 
         Item { Layout.fillWidth: true }
 

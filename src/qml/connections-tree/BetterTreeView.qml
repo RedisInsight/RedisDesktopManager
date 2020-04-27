@@ -19,6 +19,8 @@ TreeView {
     model: connectionsManager
 
     style: TreeViewStyle {
+        frame: Item {}
+
         indentation: 12
 
         rowDelegate: Rectangle {
