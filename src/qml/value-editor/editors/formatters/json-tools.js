@@ -8,7 +8,7 @@
     http://www.opensource.org/licenses/mit-license.php
 */
 
-var prettyPrint = function( json ) {
+var prettyPrint = function( json, style ) {
     var p = []
     var out = ""
     var indent = 0;
@@ -90,7 +90,7 @@ var prettyPrint = function( json ) {
 
     var highlighted = syntaxHighlight(out);
 
-    return '<pre id="value" style="width:97%; white-space: pre-wrap;">' + highlighted + '</pre>';
+    return '<pre id="value" style="width:97%; white-space: pre-wrap;' + style + '">' + highlighted + '</pre>';
 };
 
 
@@ -128,7 +128,7 @@ if (typeof WorkerScript !== "undefined") {
         WorkerScript.sendMessage({
             'error': "",
              // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
-            'formatted': prettyPrint(minify(String(msg))),
+            'formatted': prettyPrint(minify(String(msg['data'])), msg['style']),
             'isReadOnly': false,
             'format': "html"
         });

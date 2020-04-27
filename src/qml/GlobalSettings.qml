@@ -20,10 +20,10 @@ Dialog {
         implicitWidth: 800
         implicitHeight: PlatformUtils.isOSX()? 500 : 620
 
-        border.color: "#eeeeee"
-        border.width: 1
+        color: sysPalette.base
 
-        Item {
+        Control {
+            palette: approot.palette
             anchors.fill: parent
             anchors.margins: 20
 
@@ -76,9 +76,23 @@ Dialog {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 30
 
-                        model: ["8", "9", "10", "11", "12"]
+                        model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                         value: Qt.platform.os == "osx"? "12" : "11"
                         label: qsTranslate("RDM","Font Size")
+                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+
+                        onValueChanged: root.restartRequired = true
+                    }
+
+                    ComboboxOption {
+                        id: valueEditorFontSize
+
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 30
+
+                        model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
+                        value: Qt.platform.os == "osx"? "12" : "11"
+                        label: qsTranslate("RDM","Value Editor Font Size")
                         description: qsTranslate("RDM","Application will be restarted to apply this setting.")
 
                         onValueChanged: root.restartRequired = true
@@ -232,6 +246,7 @@ Dialog {
         property alias liveUpdateInterval: liveUpdateInterval.value
         property alias appFont: appFont.value
         property alias appFontSize: appFontSize.value
+        property alias valueEditorFontSize: valueEditorFontSize.value
         property alias locale: appLang.value
         property alias useSystemProxy: systemProxy.value
     }

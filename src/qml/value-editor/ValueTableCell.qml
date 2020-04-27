@@ -12,9 +12,9 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        border.color: root.selected ? sysPalette.mid : "lightgrey"
+        border.color: root.selected ? sysPalette.midlight : sysPalette.mid
         border.width: 1
-        color: root.selected ? sysPalette.highlight : "transparent"
+        color: root.selected ? sysPalette.highlight : sysPalette.base
         clip: true
 
         Text {

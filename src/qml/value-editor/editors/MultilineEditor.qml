@@ -3,6 +3,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.1
 import Qt.labs.settings 1.0
 import "../../common/"
+import "../../common/platformutils.js" as PlatformUtils
 
 Item
 {
@@ -18,6 +19,12 @@ Item
     property int valueCompression: 0
     property string formatterSettingsCategory: "formatters_value"    
     property alias readOnly: textView.readOnly
+    property string _jsFormatterStyles: {
+        return "font-size: "
+                + appSettings.valueEditorFontSize
+                + "px; font-family: "
+                + PlatformUtils.monospacedFontFamily()
+    }
 
     function initEmpty() {
         // init editor with empty model
@@ -173,7 +180,7 @@ Item
         uiBlocker.visible = true
 
         if (formatter['name'] === 'JSON') {
-            jsonFormattingWorker.sendMessage(String(root.value))
+            jsonFormattingWorker.sendMessage({"data": String(root.value), "style": _jsFormatterStyles})
         } else {
             formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
@@ -184,7 +191,7 @@ Item
                 textView.format = format
 
                 if (format === "json") {
-                    jsonFormattingWorker.sendMessage(String(formatted))
+                    jsonFormattingWorker.sendMessage({"data": String(formatted), "style": _jsFormatterStyles})
                 } else {
                     process(error, formatted, isReadOnly, format);
                 }
@@ -252,7 +259,7 @@ Item
         RowLayout{
             Layout.fillWidth: true
 
-            Text { text: root.fieldLabel }
+            Label { text: root.fieldLabel }
             TextEdit {
                 Layout.preferredWidth: 150
                 text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
@@ -260,8 +267,8 @@ Item
                 selectByMouse: true
                 color: "#ccc"
             }
-            Text { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
-            Text { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
+            Label { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
+            Label { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
             Item { Layout.fillWidth: true }
 
             ImageButton {
@@ -275,7 +282,7 @@ Item
                 }
             }
 
-            Text { visible: showFormatters; text: qsTranslate("RDM","View as:") }
+            Label { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
             Settings {
                 id: defaultFormatterSettings
@@ -297,7 +304,7 @@ Item
                 }
             }
 
-            Text { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
+            Label { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
         }
 
         Rectangle {
@@ -306,8 +313,8 @@ Item
             Layout.fillHeight: true
             Layout.preferredHeight: 100
 
-            color: "white"
-            border.color: "#cccccc"
+            color: sysPalette.base
+            border.color: sysPalette.mid
             border.width: 1
             clip: true
 
@@ -352,7 +359,7 @@ Item
                 }
         }
 
-        Text {
+        Label {
             id: validationError
             color: "red"
             visible: false

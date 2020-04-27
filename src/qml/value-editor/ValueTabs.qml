@@ -108,8 +108,9 @@ Repeater {
             valuesModel.setCurrentTab(keyIndex)
         }
 
-        Item {
+        Rectangle {
             id: wrapper
+            color: sysPalette.base
             anchors.fill: parent
             anchors.margins: 5
 
@@ -132,7 +133,7 @@ Repeater {
                     Layout.fillWidth: true
                     spacing: 5
 
-                    Text {
+                    Label {
                         Layout.preferredWidth: 70
                         text: keyModel? keyType.toUpperCase() + ":" : "";
                         font.bold: true
@@ -165,7 +166,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Text { text: qsTranslate("RDM","New name:") }
+                                Label { text: qsTranslate("RDM","New name:") }
                                 BetterTextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
@@ -187,7 +188,7 @@ Repeater {
                         }
                     }
 
-                    Text {
+                    Label {
                         visible: keyType === "hyperloglog";
                         text:  qsTranslate("RDM","Size: ") + keyRowsCount
                     }
@@ -209,7 +210,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Text { text: qsTranslate("RDM","New TTL:") }
+                                Label { text: qsTranslate("RDM","New TTL:") }
                                 BetterTextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
@@ -298,11 +299,12 @@ Repeater {
                                         Layout.preferredHeight: 30
                                         Layout.preferredWidth: 75
                                         Layout.fillWidth: index !== 0
-                                        color: "lightgrey"
+                                        color: sysPalette.alternateBase
 
-                                        Text {
+                                        Label {
                                             anchors.centerIn: parent
                                             text: modelData
+                                            color: sysPalette.windowText
                                         }
                                     }
                                 }
@@ -528,6 +530,7 @@ Repeater {
                                     height: 400                                    
 
                                     contentItem: Rectangle {
+                                        color: sysPalette.window
                                         implicitWidth: 800
                                         implicitHeight: PlatformUtils.isOSX()? 680 : 600
 
@@ -825,7 +828,7 @@ Repeater {
 
                         BusyIndicator { Layout.alignment: Qt.AlignHCenter;  running: true }
 
-                        Text {
+                        Label {
                             visible: loadingModel
                             text: tabName
                         }

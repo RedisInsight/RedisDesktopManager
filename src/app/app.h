@@ -56,6 +56,7 @@ class Application : public QApplication {
 
  private slots:
   void OnNewUpdateAvailable(QString &url);
+  void updatePalette();
 
  private:
   QQmlApplicationEngine m_engine;

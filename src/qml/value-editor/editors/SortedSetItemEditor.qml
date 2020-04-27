@@ -12,7 +12,7 @@ AbstractEditor {
 
     property bool active: false
 
-    Text {
+    Label {
         Layout.fillWidth: true
         text: qsTranslate("RDM", "Score")
     }

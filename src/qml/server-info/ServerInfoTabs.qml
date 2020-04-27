@@ -50,7 +50,7 @@ Repeater {
         Rectangle {
             anchors.fill: parent
 
-            color: "white"
+            color: sysPalette.base
 
             ColumnLayout {
 

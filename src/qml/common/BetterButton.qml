@@ -13,8 +13,20 @@ Button {
     icon.color: "transparent"
     implicitHeight: 30
 
+    palette.windowText: sysPalette.text
+    palette.buttonText: sysPalette.text
 
     ToolTip.visible: root.tooltip && hovered
     ToolTip.text: root.tooltip
+
+    Connections {
+        target: approot
+
+        onPaletteChanged: {
+            root.palette = approot.palette
+            root.palette.windowText = sysPalette.text
+            root.palette.buttonText = sysPalette.text
+        }
+    }
 }
 
