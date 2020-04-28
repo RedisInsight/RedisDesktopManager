@@ -1,5 +1,6 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
+import "."
 
 Dialog {
     id: root
@@ -14,7 +15,12 @@ Dialog {
         root.close()
     }
 
-    footer: DialogButtonBox {
-      standardButtons: Dialog.Save | Dialog.Cancel
+    background: Rectangle {
+        color: sysPalette.base
+        border.color: root.palette.dark
+    }
+
+    footer: BetterDialogButtonBox {
+        standardButtons: Dialog.Save | Dialog.Cancel
     }
 }

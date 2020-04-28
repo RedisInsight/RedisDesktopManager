@@ -557,7 +557,7 @@ Repeater {
                                         }
                                     }
 
-                                    footer: DialogButtonBox {
+                                    footer: BetterDialogButtonBox {
                                         Button {
                                             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
                                             objectName: "rdb_add_row_dialog_add_button"

@@ -189,7 +189,7 @@ ApplicationWindow {
         BetterTreeView {
             id: connectionsTree
             SplitView.fillHeight: true
-            SplitView.minimumWidth: 383
+            SplitView.minimumWidth: 404
             SplitView.minimumHeight: 500
         }      
 
