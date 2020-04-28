@@ -299,7 +299,7 @@ Repeater {
                                         Layout.preferredHeight: 30
                                         Layout.preferredWidth: 75
                                         Layout.fillWidth: index !== 0
-                                        color: sysPalette.alternateBase
+                                        color: sysPalette.window
 
                                         Label {
                                             anchors.centerIn: parent
@@ -530,7 +530,7 @@ Repeater {
                                     height: 400                                    
 
                                     contentItem: Rectangle {
-                                        color: sysPalette.window
+                                        color: sysPalette.base
                                         implicitWidth: 800
                                         implicitHeight: PlatformUtils.isOSX()? 680 : 600
 
