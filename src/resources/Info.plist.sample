@@ -38,7 +38,5 @@
 	<array><string>MacOSX</string></array>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.14.0</string>
-	<key>NSRequiresAquaSystemAppearance</key>
-        <string>true</string>
 </dict>
 </plist>
