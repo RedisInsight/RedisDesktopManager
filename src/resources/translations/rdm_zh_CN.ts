@@ -486,7 +486,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="694"/>
         <source>Full Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">全文搜索</translation>
     </message>
     <message>
         <source>Search through All values</source>
@@ -595,7 +595,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="25"/>
         <source>Loading key: %1 from db %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">从 db %2 加载 key: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="36"/>
@@ -661,7 +661,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="47"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">导出</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="48"/>
@@ -696,7 +696,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="105"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">日志</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="113"/>
@@ -866,12 +866,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="198"/>
         <source>SSL / TLS</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SSL / TLS</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="258"/>
         <source>Enable strict mode:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">打开严格模式: </translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="398"/>
@@ -1001,7 +1001,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="95"/>
         <source>Value Editor Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">编辑器字体大小</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="108"/>
