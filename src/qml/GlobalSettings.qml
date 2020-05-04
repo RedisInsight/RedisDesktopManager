@@ -42,6 +42,11 @@ Dialog {
                         text: qsTranslate("RDM","General")
                     }
 
+                    Label {
+                        color: "grey"
+                        text: qsTranslate("RDM","Application will be restarted to apply this setting.")
+                    }
+
                     ComboboxOption {
                         id: appLang
 
@@ -51,8 +56,6 @@ Dialog {
                         model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES", "ja_JP"]
                         value: "system"
                         label: qsTranslate("RDM","Language")
-                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
-
                         onValueChanged: root.restartRequired = true
                     }
 
@@ -64,8 +67,7 @@ Dialog {
 
                         value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                         model: Qt.fontFamilies()
-                        label: qsTranslate("RDM","Font")
-                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+                        label: qsTranslate("RDM","Font")                        
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -78,8 +80,7 @@ Dialog {
 
                         model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                         value: Qt.platform.os == "osx"? "12" : "11"
-                        label: qsTranslate("RDM","Font Size")
-                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+                        label: qsTranslate("RDM","Font Size")                        
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -92,8 +93,7 @@ Dialog {
 
                         model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                         value: Qt.platform.os == "osx"? "12" : "11"
-                        label: qsTranslate("RDM","Value Editor Font Size")
-                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+                        label: qsTranslate("RDM","Value Editor Font Size")                        
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -105,8 +105,7 @@ Dialog {
                         Layout.preferredHeight: 30
 
                         value: false
-                        label: qsTranslate("RDM","Use system proxy settings")
-                        description: qsTranslate("RDM","Application will be restarted to apply this setting.")
+                        label: qsTranslate("RDM","Use system proxy settings")                        
 
                         onValueChanged: root.restartRequired = true
                     }
