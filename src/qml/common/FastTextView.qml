@@ -6,6 +6,11 @@ Rectangle {
 
     property alias model: listView.model
     property alias delegate: listView.delegate
+    property bool showLineNumbers: true
+
+    function positionViewAtEnd() {
+        listView.positionViewAtEnd()
+    }
 
     ScrollView {
         anchors.fill: parent
@@ -15,9 +20,19 @@ Rectangle {
 
         ListView {
             id: listView
-            width: root.width * 0.9
+            width: root.width - 20
 
-            delegate: Label { text: (index+1) + ". " + modelData}
+            delegate: Label {
+                width: listView.width
+                text: {
+                    if (root.showLineNumbers) {
+                        return (index+1) + ". " + modelData
+                    } else {
+                        return modelData
+                    }
+                }
+                wrapMode: Text.WrapAnywhere
+            }
         }
     }
 

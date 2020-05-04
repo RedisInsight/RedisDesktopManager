@@ -308,7 +308,7 @@ ApplicationWindow {
 
     Drawer {
         id: logDrawer
-
+        dragMargin: 0
         width: 0.66 * approot.width
         height: approot.height
         position: 0.3
