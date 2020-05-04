@@ -199,6 +199,16 @@ Repeater {
                         objectName: "rdm_server_info_tab_memory_usage"
                         id: view
 
+                        theme: {
+                            if (sysPalette.base.hslLightness < 0.4) {
+                                return ChartView.ChartThemeDark
+                            } else {
+                                return ChartView.ChartThemeLight
+                            }
+                        }
+
+                        backgroundColor: sysPalette.base
+
                         title: qsTranslate("RDM","Memory Usage")
                         antialiasing: true
 
