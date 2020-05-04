@@ -24,7 +24,7 @@ TreeOperations::TreeOperations(
 
 bool TreeOperations::loadDatabases(
     std::function<void(RedisClient::DatabaseList)> callback) {
-  auto connection = m_connection->clone();
+  auto connection = m_connection->clone(false);
   m_events->registerLoggerForConnection(*connection);
 
   connect(connection);
