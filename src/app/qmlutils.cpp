@@ -5,6 +5,7 @@
 #include <QClipboard>
 #include <QDateTime>
 #include <QDebug>
+#include <QFile>
 #include <QFileInfo>
 #include <QScreen>
 #include <QtCharts/QDateTimeAxis>
@@ -128,6 +129,24 @@ void QmlUtils::copyToClipboard(const QString &text) {
   cb->clear();
   cb->setText(text);
 }
+
+bool QmlUtils::saveToFile(const QVariant &value, const QString &path) {
+  if (!value.canConvert(QVariant::ByteArray)) {
+    return false;
+  }
+
+  QByteArray val = value.toByteArray();
+
+  QFile outputFile(path);
+  if (outputFile.open(QIODevice::WriteOnly)) {
+    QDataStream outStream(&outputFile);
+    outStream.writeRawData(val, val.size());
+    outputFile.close();
+    return true;
+  }
+  return false;
+}
+
 
 QtCharts::QDateTimeAxis *findDateTimeAxis(QtCharts::QXYSeries *series) {
   using namespace QtCharts;

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
+import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import Qt.labs.settings 1.0
 import "../../common/"
@@ -312,6 +313,35 @@ Item
             Label { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
             Label { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
             Item { Layout.fillWidth: true }
+
+            ImageButton {
+                iconSource: "qrc:/images/save_as.png"
+                tooltip: qsTranslate("RDM","Save to File")
+                objectName: "rdm_save_value_to_file_btn"
+                onClicked: {
+                    saveValueToFileDialog.open()
+                }
+
+                FileDialog {
+                    id: saveValueToFileDialog
+                    title: qsTranslate("RDM","Save Value")
+                    nameFilters: ["All files (*)"]
+                    selectExisting: false
+                    onAccepted: {
+                        if (qmlUtils.saveToFile(value, qmlUtils.getPathFromUrl(fileUrl))) {
+                            savingConfirmation.text = qsTranslate("RDM","Value was saved to file")
+                            savingConfirmation.open()
+                        }
+                    }
+                }
+            }
+
+            OkDialog {
+                id: saveToFileConfirmation
+                title: qsTranslate("RDM","Save value to file")
+                text: ""
+                visible: false
+            }
 
             ImageButton {
                 iconSource: "qrc:/images/copy.svg"
