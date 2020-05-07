@@ -259,6 +259,7 @@ Repeater {
                     }
 
                     BetterButton {
+                        objectName: "rdm_value_editor_reload_value_btn"
                         text: qsTranslate("RDM","Reload Value")
                         action: reLoadAction
                         visible: !isMultiRow
@@ -631,6 +632,7 @@ Repeater {
                             }
 
                             BetterButton {
+                                objectName: "rdm_value_editor_reload_value_btn"
                                 Layout.fillWidth: true
                                 text: qsTranslate("RDM","Reload Value")
                                 iconSource: "qrc:/images/refresh.svg"
