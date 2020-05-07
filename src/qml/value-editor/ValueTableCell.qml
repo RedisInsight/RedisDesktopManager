@@ -24,6 +24,7 @@ Item {
             wrapMode: Text.WrapAnywhere
             maximumLineCount: 1
             color: root.selected ? sysPalette.highlightText : sysPalette.text
+            textFormat: Text.PlainText
         }
     }
 
@@ -31,8 +32,8 @@ Item {
         if (t === "")
             return t
 
-        if (qmlUtils.binaryStringLength(t) > 1000) {
-            return qmlUtils.printable(t, false, 1000) + "..."
+        if (qmlUtils.binaryStringLength(t) > 100) {
+            return qmlUtils.printable(t, false, 100) + "..."
         }
 
         return qmlUtils.printable(t)
