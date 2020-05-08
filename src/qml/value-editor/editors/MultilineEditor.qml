@@ -304,7 +304,7 @@ Item
                 }
             }
 
-            Label { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters is not available."); color: "red"; }
+            Label { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters are not available."); color: "red"; }
         }
 
         Rectangle {

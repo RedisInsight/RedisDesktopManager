@@ -1465,7 +1465,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="307"/>
-        <source>Large value (&gt;150kB). Formatters is not available.</source>
+        <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation type="unfinished">Показ невозможен (&gt;150kB). Форматирование недоступно.</translation>
     </message>
     <message>
