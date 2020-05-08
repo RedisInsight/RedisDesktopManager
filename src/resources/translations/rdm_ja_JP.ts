@@ -1353,7 +1353,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="296"/>
-        <source>Large value (&gt;150kB). Formatters is not available.</source>
+        <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>値が大きすぎます(&gt;150kB)。フォーマッタは使用できません。</translation>
     </message>
     <message>
