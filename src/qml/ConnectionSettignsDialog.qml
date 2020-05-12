@@ -496,25 +496,7 @@ Dialog {
                             }
                         }
                     }
-                }
-
-                RowLayout {
-                    id: validationWarning
-                    visible: false
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-                    Image {
-                        width: 15
-                        height: 15
-                        sourceSize.width: 30
-                        sourceSize.height: 30
-                        source: "qrc:/images/alert.svg"
-                    }
-                    Text {
-                        text: qsTranslate("RDM","Invalid settings detected!")
-                    }
-
-                }
+                }                
 
                 RowLayout {
                     Layout.fillWidth: true
@@ -537,6 +519,25 @@ Dialog {
                         imgHeight: 30
                         imgWidth: 30
                         onClicked: Qt.openUrlExternally(root.quickStartGuideUrl)
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    RowLayout {
+                        id: validationWarning
+                        visible: false
+                        Layout.fillWidth: true
+
+                        Image {
+                            width: 15
+                            height: 15
+                            sourceSize.width: 30
+                            sourceSize.height: 30
+                            source: "qrc:/images/alert.svg"
+                        }
+                        Label {
+                            text: qsTranslate("RDM","Invalid settings detected!")
+                        }
                     }
 
                     Item { Layout.fillWidth: true }
