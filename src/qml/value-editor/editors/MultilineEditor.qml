@@ -25,6 +25,25 @@ Item
                 + "px; font-family: "
                 + PlatformUtils.monospacedFontFamily()
     }
+    property var _jsFormatterColorMap: {
+        if (sysPalette.base.hslLightness < 0.4) {
+            return {
+                string: '#05a605',
+                number: '#008cff',
+                boolean: '#d62929',
+                null: '#a8a8a8',
+                key: '#fcfcfc'
+            };
+        } else {
+            return {
+                string: '#008000',
+                number: '#0000ff',
+                boolean: '#b22222',
+                null: '#808080',
+                key: '#000000'
+            };
+        }
+    }
 
     function initEmpty() {
         // init editor with empty model
@@ -180,7 +199,9 @@ Item
         uiBlocker.visible = true
 
         if (formatter['name'] === 'JSON') {
-            jsonFormattingWorker.sendMessage({"data": String(root.value), "style": _jsFormatterStyles})
+            jsonFormattingWorker.sendMessage({"data": String(root.value),
+                                              "style": _jsFormatterStyles,
+                                              "color_map": _jsFormatterColorMap})
         } else {
             formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
@@ -191,7 +212,9 @@ Item
                 textView.format = format
 
                 if (format === "json") {
-                    jsonFormattingWorker.sendMessage({"data": String(formatted), "style": _jsFormatterStyles})
+                    jsonFormattingWorker.sendMessage({"data": String(formatted),
+                                                      "style": _jsFormatterStyles,
+                                                      "color_map": _jsFormatterColorMap})
                 } else {
                     process(error, formatted, isReadOnly, format);
                 }

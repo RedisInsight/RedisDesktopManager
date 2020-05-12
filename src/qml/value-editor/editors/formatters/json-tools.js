@@ -8,7 +8,7 @@
     http://www.opensource.org/licenses/mit-license.php
 */
 
-var prettyPrint = function( json, style ) {
+var prettyPrint = function( json, style, colorMap) {
     var p = []
     var out = ""
     var indent = 0;
@@ -54,14 +54,6 @@ var prettyPrint = function( json, style ) {
         .replace( /\[[\d,\s]+?\]/g, function(m){ return m.replace(/\s/g,''); } )
         .replace( /\\(\d+)\\/g, pop ) // strings
         .replace( /\\(\d+)\\/g, pop ); // backslashes in strings
-
-    var colorMap = {
-            string: '#008000',
-            number: '#0000ff',
-            boolean: '#b22222',
-            null: '#808080',
-            key: '#000000'
-        };
 
     // Highlight different value types
     var syntaxHighlight = function(json) {
@@ -157,7 +149,7 @@ if (typeof WorkerScript !== "undefined") {
         WorkerScript.sendMessage({
             'error': "",
              // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
-            'formatted': prettyPrint(minify(String(msg['data'])), msg['style']),
+            'formatted': prettyPrint(minify(String(msg['data'])), msg['style'], msg['color_map']),
             'isReadOnly': false,
             'format': "html"
         });
