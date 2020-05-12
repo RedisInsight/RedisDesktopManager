@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import "../common"
+import "../common/platformutils.js" as PlatformUtils
 import "."
 import rdm.models 1.0
 
@@ -41,9 +42,13 @@ Rectangle {
     function addOutput(text, type) {
 
         if (type == "error") {
-            textArea.append("<span style='color: red'>" + qmlUtils.escapeHtmlEntities(text) + '</span>')
+            textArea.append("<span style='color: red; font-family: "
+                            + PlatformUtils.monospacedFontFamily() + "'>"
+                            + qmlUtils.escapeHtmlEntities(text) + '</span>')
         } else {
-            textArea.append("<pre style='color: white'>" + qmlUtils.escapeHtmlEntities(text) + '</pre>')
+            textArea.append("<pre style='color: white; font-family: "
+                            + PlatformUtils.monospacedFontFamily() + "'>"
+                            + qmlUtils.escapeHtmlEntities(text) + '</pre>')
         }
 
         if (type == "complete" || type == "error") {
