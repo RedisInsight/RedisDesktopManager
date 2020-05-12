@@ -575,13 +575,12 @@ Dialog {
                 MouseArea {
                     anchors.fill: parent
                 }
-            }
-
+            }            
             MessageDialog {
                 id: dialog_notification
                 objectName: "rdm_qml_connection_settings_error_dialog"
                 visible: false
-                modality: Qt.WindowModal
+                modality: Qt.NonModal
                 icon: StandardIcon.Warning
                 standardButtons: StandardButton.Ok
 
