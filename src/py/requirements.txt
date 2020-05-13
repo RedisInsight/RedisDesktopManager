@@ -4,3 +4,5 @@ msgpack
 phpserialize
 rdbtools
 python-lzf
+ddt
+nose
