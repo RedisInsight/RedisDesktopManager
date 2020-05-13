@@ -104,6 +104,8 @@ var minify = function(json) {
 
     tokenizer.lastIndex = 0;
 
+    json = json.concat("\n");
+
     while (tmp = tokenizer.exec(json)) {
         lc = RegExp.leftContext;
         rc = RegExp.rightContext;
