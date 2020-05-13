@@ -1,5 +1,8 @@
-import msgpack
+import base64
+from datetime import datetime
 import json
+
+import msgpack
 
 from .base import BaseFormatter
 
@@ -12,8 +15,12 @@ class MsgpackFormatter(BaseFormatter):
 
     def decode(self, value):
         try:
-            return json.dumps(msgpack.unpackb(value, raw=False),
-                              default=self.default)
+            unpacked = msgpack.unpackb(value, raw=False, timestamp=3)
+        except Exception as e:
+            return json.dumps(f'Formatting error: {e}')
+
+        try:
+            return json.dumps(unpacked, default=self.default)
         except Exception as e:
             return json.dumps(e)
 
@@ -22,6 +29,17 @@ class MsgpackFormatter(BaseFormatter):
 
     def default(self, o):
         self.read_only = True
-        if isinstance(o, msgpack.Timestamp):
 
+        if isinstance(o, msgpack.Timestamp):
+            return o.to_datetime().isoformat()
+
+        elif isinstance(o, datetime):
+            return o.isoformat()
+
+        elif isinstance(o, bytes):
+            try:
+                return o.decode()
+            except UnicodeDecodeError:
+                return base64.b64encode(o)
+        else:
             return str(o)
