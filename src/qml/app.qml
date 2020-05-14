@@ -54,6 +54,15 @@ ApplicationWindow {
             y = Screen.height / 2 - height / 2
         }
 
+        if (Qt.platform.os == "osx") {
+            // Qt BUG: https://bugreports.qt.io/browse/QTBUG-63829
+            flags = Qt.Window | Qt.WindowFullscreenButtonHint
+                    | Qt.WindowTitleHint | Qt.WindowSystemMenuHint
+                    | Qt.WindowMinMaxButtonsHint
+                    | Qt.WindowCloseButtonHint
+                    | Qt.WindowFullscreenButtonHint;
+        }
+
         appSplitView.restoreState(windowSettings.splitView)
     }
 
