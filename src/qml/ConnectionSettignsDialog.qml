@@ -101,8 +101,14 @@ Dialog {
     contentItem: Rectangle {
         color: sysPalette.base
         implicitWidth: 700
-        implicitHeight: 630
-
+        implicitHeight: {
+            if (screen.devicePixelRatio === 1) {
+                return connectionSettingsTabBar.implicitHeight
+                        + sshSettingsGrid.implicitHeight + 350
+            } else {
+                return 630
+            }
+        }
         Control {
             palette: approot.palette
             anchors.fill: parent
@@ -189,6 +195,7 @@ Dialog {
                             SettingsGroupTitle { text: qsTranslate("RDM","Security") }
 
                             GridLayout {
+                                id: tlsSettingsGrid
                                 objectName: "rdm_connection_group_box_security"
                                 columns: 2
 
@@ -289,6 +296,7 @@ Dialog {
                                 Item { Layout.preferredWidth: 20 }
 
                                 GridLayout {
+                                    id: sshSettingsGrid
                                     visible: sshRadioButton.checked
                                     enabled: sshRadioButton.checked
                                     columns: 2

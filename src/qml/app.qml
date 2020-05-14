@@ -47,13 +47,24 @@ ApplicationWindow {
             console.log("Ratio > 1.0. Resize main window.")
             width = Screen.width * 0.9
             height = Screen.height * 0.8
-        }        
+        }
+
+        if (Qt.platform.os == "windows") {
+            x = Screen.width / 2 - width / 2
+            y = Screen.height / 2 - height / 2
+        }
+
+        appSplitView.restoreState(windowSettings.splitView)
     }
 
+    Component.onDestruction: windowSettings.splitView = appSplitView.saveState()
+
     Settings {
+        id: windowSettings
         category: "windows_settings"
         property alias width: approot.width
         property alias height: approot.height
+        property var splitView
     }
 
     Settings {
@@ -182,6 +193,7 @@ ApplicationWindow {
         border.width: 1
 
     BetterSplitView {
+        id: appSplitView
         anchors.fill: parent
         anchors.topMargin: 1
         orientation: Qt.Horizontal

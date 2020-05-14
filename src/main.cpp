@@ -2,6 +2,7 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QDebug>
 
 #if defined(Q_OS_WIN) | defined(Q_OS_LINUX)
 #include <QProcess>
@@ -28,16 +29,21 @@ int main(int argc, char *argv[])
     startCrashpad(appDir);
 #endif
 
-#if defined(Q_OS_LINUX)
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+    bool disableAutoScaling = false;
 
-#if defined(Q_OS_WIN)
-    if (QGuiApplication::primaryScreen() && QGuiApplication::primaryScreen()->availableSize().width() <= 1920
-            && QGuiApplication::primaryScreen()->devicePixelRatio() > 1
-            && !QGuiApplication::testAttribute(Qt::AA_DisableHighDpiScaling)) {
+    {
+        QGuiApplication tmp(argc, argv);
+        disableAutoScaling = QGuiApplication::primaryScreen()
+                        && QGuiApplication::primaryScreen()->availableSize().width() <= 1920
+                        && QGuiApplication::primaryScreen()->devicePixelRatio() == 1;
+    }
+
+    if (disableAutoScaling) {
+        qDebug() << "Disable auto-scaling";
         QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
     } else {
+        qDebug() << "Enable auto-scaling";
         QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     }
 #endif
