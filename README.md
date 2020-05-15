@@ -26,7 +26,7 @@ Open source cross-platform Redis Desktop Manager based on Qt 5
 <img height="50"  src="https://redisdesktop.com/static/img/v2/app-store-badge.svg" alt="Download from Apple App Store">
 </a>
 <a href="https://snapcraft.io/redis-desktop-manager">
-<img alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
+<img height="50" alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
 </a>
 
 **Supported Redis versions**: 2.8+ (for old redis-servers use [RedisDesktopManager 0.8.8](https://github.com/uglide/RedisDesktopManager/releases/tag/0.8.8))
