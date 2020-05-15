@@ -24,7 +24,13 @@ def decode(name, value):
     error = ""
     try:
         result = formatter.decode(value)
+        if type(result) is dict:
+            result_dict = result
+            result = result_dict.get('output', '')
+            error = result_dict.get('error', error)
+
     except Exception as e:
+        formatter.read_only = True
         error = (
             "Embedded formatter %s error: %s (value: %s)"
             % (name, str(e), value)
