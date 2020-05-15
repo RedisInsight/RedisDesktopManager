@@ -1,3 +1,4 @@
+import io
 import json
 import unittest
 
@@ -20,8 +21,33 @@ class TestMsgpackFormatter(unittest.TestCase):
         [1, msgpack.ExtType(code=1, data=b'\x94\x01\x02\x03\x04')],
     )
     def test_formatting(self, val):
-        msgpack_val = msgpack.packb(val)
-        formatted = self.formatter.decode(msgpack_val)
-        json_val = json.dumps(val, default=self.formatter.default)
+        expected_output = json.dumps(val, default=self.formatter.default)
+        msgpacked_val = msgpack.packb(val)
 
-        self.assertEqual(formatted, json_val)
+        formatter_response_dict = self.formatter.decode(msgpacked_val)
+
+        self.assertIn('output', formatter_response_dict)
+
+        actual_output = formatter_response_dict['output']
+        self.assertEqual(actual_output, expected_output)
+
+    @data(
+        {'valid': ['valid', 'bytes'], 'extra': ['extra', 'bytes']},
+        {'valid': [], 'extra': ['extra', 'bytes']},
+        {'valid': msgpack.Timestamp(1, 1), 'extra': ['extra', 'bytes']},
+    )
+    def test_stream_formatting(self, stream):
+        expected_output = json.dumps(stream['valid'],
+                                     default=self.formatter.default)
+        buf = io.BytesIO()
+
+        buf.write(msgpack.packb(stream['valid'], use_bin_type=True))
+        buf.write(msgpack.packb(stream['extra'], use_bin_type=True))
+
+        broken_val = buf.getvalue()[:-5]
+        formatter_response_dict = self.formatter.decode(broken_val)
+
+        self.assertIn('output', formatter_response_dict)
+
+        actual_output = formatter_response_dict['output']
+        self.assertEqual(actual_output, expected_output)
