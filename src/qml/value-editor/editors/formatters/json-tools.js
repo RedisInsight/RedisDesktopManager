@@ -149,7 +149,7 @@ var minify = function(json) {
 if (typeof WorkerScript !== "undefined") {
     WorkerScript.onMessage = function(msg) {
         WorkerScript.sendMessage({
-            'error': "",
+            'error': msg['error'],
              // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
             'formatted': prettyPrint(minify(String(msg['data'])), msg['style'], msg['color_map']),
             'isReadOnly': false,
