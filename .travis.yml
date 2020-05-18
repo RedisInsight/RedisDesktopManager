@@ -34,6 +34,8 @@ install:
 script:
   - git submodule update --init --recursive 
   - pushd tests
+  - python3 -m pip install -r ../src/py/requirements.txt
+  - python3 -m nose -v py_tests
   - qmake DEFINES+=INTEGRATION_TESTS && make -s -j 2
   - ./../bin/tests/tests -platform minimal -txt
   - popd
