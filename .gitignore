@@ -80,3 +80,4 @@ parts
 prime
 stage
 3rdparty/python*
+__pycache__/
