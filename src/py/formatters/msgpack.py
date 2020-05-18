@@ -15,6 +15,7 @@ class MsgpackFormatter(BaseFormatter):
     decode_format = "json"
 
     def decode(self, value):
+        self.read_only = self.__class__.read_only
         unpacked = ''
         error = ''
 
