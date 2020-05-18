@@ -198,7 +198,7 @@ Item
 
         uiBlocker.visible = true
 
-        if (formatter['name'] === 'JSON') {
+        if (formatter["name"] === "JSON") {
             jsonFormattingWorker.sendMessage({"data": String(root.value),
                                               "style": _jsFormatterStyles,
                                               "color_map": _jsFormatterColorMap})
@@ -212,7 +212,8 @@ Item
                 textView.format = format
 
                 if (format === "json") {
-                    jsonFormattingWorker.sendMessage({"data": String(formatted),
+                    jsonFormattingWorker.sendMessage({"error": error,
+                                                      "data": String(formatted),
                                                       "style": _jsFormatterStyles,
                                                       "color_map": _jsFormatterColorMap})
                 } else {
@@ -256,16 +257,24 @@ Item
         }
 
         function processFormatted(error, formatted, isReadOnly, format) {
-            if (error || !formatted) {
-                uiBlocker.visible = false
-                formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
-                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
-                return
-            }
-
             textView.textFormat = (format === "html")
                 ? TextEdit.RichText
                 : TextEdit.PlainText;
+
+            if (error || !formatted) {
+                if (formatted) {
+                    defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
+                    textView.model = qmlUtils.wrapLargeText(formatted)
+                    textView.readOnly = isReadOnly
+                    root.isEdited = false
+                } else {
+                    var isBin = false
+                    formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
+                }
+                uiBlocker.visible = false
+                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
+                return
+            }
 
             defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
             textView.model = qmlUtils.wrapLargeText(formatted)
