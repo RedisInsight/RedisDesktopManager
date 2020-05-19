@@ -20,7 +20,7 @@ class TestMsgpackFormatter(unittest.TestCase):
         [1, msgpack.ExtType(code=1, data=b'text')],
         [1, msgpack.ExtType(code=1, data=b'\x94\x01\x02\x03\x04')],
     )
-    def test_formatting(self, val):
+    def test_decode(self, val):
         expected_output = json.dumps(val, default=self.formatter.default)
         msgpacked_val = msgpack.packb(val)
 
@@ -36,7 +36,7 @@ class TestMsgpackFormatter(unittest.TestCase):
         {'valid': [], 'extra': ['extra', 'bytes']},
         {'valid': msgpack.Timestamp(1, 1), 'extra': ['extra', 'bytes']},
     )
-    def test_stream_formatting(self, stream):
+    def test_decode_stream(self, stream):
         expected_output = json.dumps(stream['valid'],
                                      default=self.formatter.default)
         buf = io.BytesIO()
@@ -51,3 +51,10 @@ class TestMsgpackFormatter(unittest.TestCase):
 
         actual_output = formatter_response_dict['output']
         self.assertEqual(actual_output, expected_output)
+
+    def test_encode(self):
+        val = json.dumps('test')
+        expected_output = msgpack.packb('test')
+
+        output = self.formatter.encode(val)
+        self.assertEqual(output, expected_output)
