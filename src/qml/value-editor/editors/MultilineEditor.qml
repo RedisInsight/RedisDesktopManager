@@ -98,7 +98,7 @@ Item
             }
 
             if (textView.format === "json") {
-                Formatters.json.getRaw(textView.model.getText(), function (jsonError, plainText) {
+                formatterSelector.model.getJSONFormatter().getRaw(textView.model.getText(), function (jsonError, plainText) {
                     if (jsonError) {
                         return callback(jsonError, "")
                     }
@@ -252,7 +252,6 @@ Item
 
         source: "./formatters/json-tools.js"
         onMessage: {
-            textView.format = messageObject.format
             processFormatted(messageObject.error, messageObject.formatted, messageObject.isReadOnly, messageObject.format);
         }
 

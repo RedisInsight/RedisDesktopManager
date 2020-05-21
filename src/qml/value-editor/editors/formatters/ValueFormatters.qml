@@ -20,6 +20,10 @@ ListModel {
         }
     }
 
+    function getJSONFormatter() {
+        return rootModel.get(3)
+    }
+
     function getFormatterIndex(name) {
         var indexInNativeFormatters = -1
 
@@ -59,6 +63,7 @@ ListModel {
                             return callback(response[0], response[1])
                         })
                     }
+                    return r
                 };
 
                 var isValid = function (formatterName) {
@@ -67,7 +72,8 @@ ListModel {
                             return callback(response[0])
                         })
                     }
-                }
+                    return r
+                };
 
                 rootModel.append({'name': formatterName, 'type': "embedded",})
                 rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
@@ -97,13 +103,15 @@ ListModel {
                 var r = function (formatted, callback) {
                     return formattersManager.encode(formatterName, formatted, callback)
                 }
+                return r
             };
 
             var isValid = function (formatterName) {
                 var r = function (raw, callback) {
                     return formattersManager.isValid(formatterName, raw, callback)
                 }
-            }
+                return r
+            };
 
             rootModel.append({'name': formatterName, 'type': "external"})
             rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
