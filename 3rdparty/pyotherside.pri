@@ -23,7 +23,7 @@ win32* {
     } else {
       PYTHON_CONFIG = python3-config
 
-      QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
+      QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs --embed)
       QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
       DEFINES *= HAVE_DLADDR
     }
