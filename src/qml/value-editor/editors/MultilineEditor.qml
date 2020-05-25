@@ -115,6 +115,7 @@ Item
     }
 
     function loadFormattedValue(val) {
+        textView.readOnly = false
         var guessFormatter = false
 
         if (val) {
