@@ -50,6 +50,8 @@ def encode(name, value):
     formatter = ENABLED_FORMATTERS[name]
 
     if formatter.read_only:
+        if not formatter.__class__.read_only:
+            return ["Formatted value is read-only".format(name)]
         return ["Formatter %s doesn't support encoding" % name]
 
     error = ""
