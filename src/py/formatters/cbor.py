@@ -8,4 +8,4 @@ class CBORFormatter(BaseFormatter):
     decode_format = "json"
 
     def decode(self, value):
-        return json.dumps(cbor.loads(value))
+        return json.dumps(cbor.loads(value), ensure_ascii=False)

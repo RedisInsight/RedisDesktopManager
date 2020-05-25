@@ -11,7 +11,8 @@ class PhpSerializeFormatter(BaseFormatter):
     decode_format = "json"
 
     def decode(self, value):
-        return json.dumps(phpserialize.loads(value, decode_strings=True))
+        return json.dumps(phpserialize.loads(value, decode_strings=True),
+                          ensure_ascii=False)
 
     def encode(self, value):
         return phpserialize.dumps(json.loads(value))
