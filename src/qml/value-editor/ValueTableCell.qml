@@ -23,7 +23,7 @@ Item {
             elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
             maximumLineCount: 1
-            color: root.selected ? sysPalette.highlightText : sysPalette.text
+            color: root.selected ? sysPalette.highlightedText : sysPalette.text
             textFormat: Text.PlainText
         }
     }
