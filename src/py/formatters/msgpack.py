@@ -33,7 +33,8 @@ class MsgpackFormatter(BaseFormatter):
                          .format(extra_len=len(e.extra)))
                 break
 
-        return {'output': json.dumps(unpacked, default=self.default),
+        return {'output': json.dumps(unpacked,
+                                     default=self.default, ensure_ascii=False),
                 'error': error}
 
     def encode(self, value):
