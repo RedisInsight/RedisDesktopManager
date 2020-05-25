@@ -14,19 +14,26 @@ class TestPhpSerializeFormatter(unittest.TestCase):
     @data(
         'test',
         {'a': 1, 'b': 'ъъъ', 'c': None, 'd': '✓', 'e': {'f': {'g': '🔫',
-                                                              'h': '喂'}}}
+                                                              'h': '喂'}}},
     )
     def test_decode(self, val):
         expected_output = json.dumps(val, ensure_ascii=False)
         serialized_val = phpserialize.dumps(val)
 
-        actual_output = self.formatter.decode(serialized_val)
+        formatter_response_dict = self.formatter.decode(serialized_val)
 
+        self.assertIn('output', formatter_response_dict)
+
+        actual_output = formatter_response_dict['output']
         self.assertEqual(actual_output, expected_output)
 
-    def test_encode(self):
-        val = json.dumps({'喂': 'test'})
-        expected_output = phpserialize.dumps({'喂': 'test'})
+    @data(
+        'test',
+        {'喂': 'test'},
+    )
+    def test_encode(self, val):
+        formatter_input = json.dumps(val, ensure_ascii=False)
+        expected_output = phpserialize.dumps(val)
 
-        output = self.formatter.encode(val)
+        output = self.formatter.encode(formatter_input)
         self.assertEqual(output, expected_output)
