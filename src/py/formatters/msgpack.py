@@ -28,8 +28,10 @@ class MsgpackFormatter(BaseFormatter):
             unpacker = msgpack.Unpacker(buf, raw=False)
             for data in unpacker:
                 unpacked = data
-                error = f'First object from the stream is shown, ' \
-                        f'value was truncated by {len(e.extra)} bytes.'
+                error = ('First object from the stream is shown, value was '
+                         'truncated by {extra_len} bytes.'
+                         .format(extra_len=len(e.extra)))
+                break
 
         return {'output': json.dumps(unpacked, default=self.default),
                 'error': error}
