@@ -152,7 +152,7 @@ if (typeof WorkerScript !== "undefined") {
             'error': msg['error'],
              // NOTE(u_glide): Minify json before processing to get rid of double formatted JSON
             'formatted': prettyPrint(minify(String(msg['data'])), msg['style'], msg['color_map']),
-            'isReadOnly': false,
+            'isReadOnly': msg['isReadOnly'],
             'format': "html"
         });
     }
