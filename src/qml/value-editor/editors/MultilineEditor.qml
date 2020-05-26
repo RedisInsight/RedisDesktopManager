@@ -115,7 +115,6 @@ Item
     }
 
     function loadFormattedValue(val) {
-        textView.readOnly = false
         var guessFormatter = false
 
         if (val) {
@@ -200,7 +199,8 @@ Item
         uiBlocker.visible = true
 
         if (formatter["name"] === "JSON") {
-            jsonFormattingWorker.sendMessage({"data": String(root.value),
+            jsonFormattingWorker.sendMessage({"isReadOnly": false,
+                                              "data": String(root.value),
                                               "style": _jsFormatterStyles,
                                               "color_map": _jsFormatterColorMap})
         } else {
@@ -214,6 +214,7 @@ Item
 
                 if (format === "json") {
                     jsonFormattingWorker.sendMessage({"error": error,
+                                                      "isReadOnly": isReadOnly,
                                                       "data": String(formatted),
                                                       "style": _jsFormatterStyles,
                                                       "color_map": _jsFormatterColorMap})
@@ -265,12 +266,12 @@ Item
                 if (formatted) {
                     defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
                     textView.model = qmlUtils.wrapLargeText(formatted)
-                    textView.readOnly = isReadOnly
-                    root.isEdited = false
                 } else {
                     var isBin = false
                     formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
                 }
+                textView.readOnly = isReadOnly
+                root.isEdited = false
                 uiBlocker.visible = false
                 notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
                 return

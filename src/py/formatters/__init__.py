@@ -30,6 +30,7 @@ def decode(name, value):
             result_dict = result
             result = result_dict.get('output', '')
             error = result_dict.get('error', error)
+            read_only = result_dict.get('read-only', read_only)
 
     except Exception as e:
         read_only = True
@@ -50,8 +51,6 @@ def encode(name, value):
     formatter = ENABLED_FORMATTERS[name]
 
     if formatter.read_only:
-        if not formatter.__class__.read_only:
-            return ["Formatted value is read-only".format(name)]
         return ["Formatter %s doesn't support encoding" % name]
 
     error = ""
