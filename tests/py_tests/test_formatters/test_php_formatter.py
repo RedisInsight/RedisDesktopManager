@@ -15,10 +15,17 @@ class TestPhpSerializeFormatter(unittest.TestCase):
         'test',
         {'a': 1, 'b': 'ъъъ', 'c': None, 'd': '✓', 'e': {'f': {'g': '🔫',
                                                               'h': '喂'}}},
+        b'O:8:"stdClass":2:{s:3:"foo";s:3:"bar";s:3:"bar";s:3:"baz";}'
     )
     def test_decode(self, val):
-        expected_output = json.dumps(val, ensure_ascii=False)
-        serialized_val = phpserialize.dumps(val)
+        if type(val) == bytes:
+            serialized_val = val
+            val = phpserialize.loads(val, decode_strings=True,
+                                     object_hook=phpserialize.phpobject)
+            expected_output = json.dumps(val._asdict(), ensure_ascii=False)
+        else:
+            serialized_val = phpserialize.dumps(val)
+            expected_output = json.dumps(val, ensure_ascii=False)
 
         formatter_response_dict = self.formatter.decode(serialized_val)
 
