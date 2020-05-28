@@ -18,8 +18,6 @@ class PhpSerializeFormatter(BaseFormatter):
         try:
             deserialized = phpserialize.loads(
                 value, decode_strings=True, object_hook=phpserialize.phpobject)
-            if hasattr(deserialized, '_asdict'):
-                deserialized = deserialized._asdict()
 
         except ValueError as e:
             read_only = True
@@ -27,10 +25,16 @@ class PhpSerializeFormatter(BaseFormatter):
                 e, value)
 
         return {
-            'output': json.dumps(deserialized, ensure_ascii=False),
+            'output': json.dumps(deserialized, ensure_ascii=False,
+                                 default=self.default),
             'read-only': read_only,
             'error': error
         }
 
     def encode(self, value):
         return phpserialize.dumps(json.loads(value))
+
+    @staticmethod
+    def default(o):
+        if isinstance(o, phpserialize.phpobject):
+            return o._asdict()
