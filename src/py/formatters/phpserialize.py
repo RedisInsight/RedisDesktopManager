@@ -16,7 +16,11 @@ class PhpSerializeFormatter(BaseFormatter):
         error = ''
 
         try:
-            deserialized = phpserialize.loads(value, decode_strings=True)
+            deserialized = phpserialize.loads(
+                value, decode_strings=True, object_hook=phpserialize.phpobject)
+            if hasattr(deserialized, '_asdict'):
+                deserialized = deserialized._asdict()
+
         except ValueError as e:
             read_only = True
             error = 'Value cannot be unserialized: {} (value: {})'.format(
