@@ -436,6 +436,7 @@ Dialog {
 
             OkDialog {
                 id: bulkSuccessNotification
+                modality: Qt.ApplicationModal
                 visible: false
                 onAccepted: cleanUp()
 
@@ -455,7 +456,7 @@ Dialog {
                 id: bulkConfirmation
                 title: qsTr("Confirmation")
                 text: qsTr("Do you really want to perform bulk operation?")
-                onAccepted: {
+                onYesClicked: {
                     uiBlocker.visible = true
                     bulkOperations.runOperation(targetConnection.currentIndex, targetDatabaseIndex.value)
                 }

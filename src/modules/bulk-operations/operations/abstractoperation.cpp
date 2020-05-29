@@ -30,6 +30,11 @@ void BulkOperations::AbstractOperation::getAffectedKeys(
       };
 
   try {
+    if (!m_connection->connect(true)) {
+      return callback(QVariant(), QCoreApplication::translate(
+                                      "RDM", "Cannot connect to redis-server"));
+    }
+
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
       m_connection->getClusterKeys(processingCallback, m_keyPattern.pattern());
     } else {
@@ -83,17 +88,17 @@ int BulkOperations::AbstractOperation::currentProgress() const {
 }
 
 void BulkOperations::AbstractOperation::setMetadata(const QVariantMap& meta) {
-    m_metadata = meta;
+  m_metadata = meta;
 }
 
-void BulkOperations::AbstractOperation::incrementProgress()
-{
-    QMutexLocker l(&m_processedKeysMutex);
-    m_progress++;
+void BulkOperations::AbstractOperation::incrementProgress() {
+  QMutexLocker l(&m_processedKeysMutex);
+  m_progress++;
 
-    if (QDateTime::currentMSecsSinceEpoch() - m_lastProgressNotification >= 1000) {
-        qDebug() << "Notify UI about progress";
-        emit progress(m_progress);
-        m_lastProgressNotification = QDateTime::currentMSecsSinceEpoch();
-    }
+  if (QDateTime::currentMSecsSinceEpoch() - m_lastProgressNotification >=
+      1000) {
+    qDebug() << "Notify UI about progress";
+    emit progress(m_progress);
+    m_lastProgressNotification = QDateTime::currentMSecsSinceEpoch();
+  }
 }

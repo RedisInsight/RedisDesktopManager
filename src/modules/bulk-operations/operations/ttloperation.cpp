@@ -19,6 +19,8 @@ void BulkOperations::TtlOperation::performOperation(
     m_callback(m_keyPattern, m_progress, m_errors);
   };
 
+  m_combinator->subscribe(returnResults, returnResults);
+
   if (m_affectedKeys.size() == 0) {
     return returnResults();
   }
@@ -42,6 +44,4 @@ void BulkOperations::TtlOperation::performOperation(
 
     m_combinator->combine(future);
   }
-
-  m_combinator->subscribe(returnResults, returnResults);
 }

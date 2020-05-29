@@ -39,6 +39,9 @@ void BulkOperations::CopyOperation::performOperation(
   auto processKeys =
       [this, errCallback, returnResults, ttl,
        replace](QSharedPointer<RedisClient::Connection> targetConnection) {
+
+        m_combinator->subscribe(returnResults, returnResults);
+
         for (QString k : m_affectedKeys) {
           auto err = errCallback(k);
 
@@ -67,8 +70,6 @@ void BulkOperations::CopyOperation::performOperation(
 
           m_combinator->combine(future);
         }
-
-        m_combinator->subscribe(returnResults, returnResults);
       };
 
   auto verifySourceConnection = [this, processKeys, targetConnection,
