@@ -1,5 +1,4 @@
 import base64
-from datetime import datetime
 import io
 import json
 
@@ -20,12 +19,12 @@ class MsgpackFormatter(BaseFormatter):
         error = ''
 
         try:
-            unpacked = msgpack.unpackb(value, raw=False, timestamp=3)
+            unpacked = msgpack.loads(value, raw=False, strict_map_key=False)
         except msgpack.ExtraData as e:
             read_only = True
 
             buf = io.BytesIO(value)
-            unpacker = msgpack.Unpacker(buf, raw=False)
+            unpacker = msgpack.Unpacker(buf, raw=False, strict_map_key=False)
             for data in unpacker:
                 unpacked = data
                 error = ('First object from the stream is shown, value was '
@@ -42,15 +41,12 @@ class MsgpackFormatter(BaseFormatter):
         }
 
     def encode(self, value):
-        return msgpack.packb(json.loads(value))
+        return msgpack.dumps(json.loads(value))
 
     @staticmethod
     def default(o):
         if isinstance(o, msgpack.Timestamp):
             return o.to_datetime().isoformat()
-
-        elif isinstance(o, datetime):
-            return o.isoformat()
 
         elif isinstance(o, bytes):
             try:
