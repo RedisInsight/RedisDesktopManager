@@ -50,6 +50,8 @@ void BulkOperations::DeleteOperation::deleteKeys(
         const QStringList &keys,
         const QByteArray &rmCmd, std::function<void()> callback)
 {
+    m_combinator->subscribe(callback, callback);
+
     for (QString k : keys) {
       auto future = m_connection->cmd(
           {rmCmd, k.toUtf8()}, this, -1,
@@ -68,6 +70,4 @@ void BulkOperations::DeleteOperation::deleteKeys(
 
       m_combinator->combine(future);
     }
-
-    m_combinator->subscribe(callback, callback);
 }

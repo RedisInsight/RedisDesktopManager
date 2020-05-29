@@ -64,7 +64,9 @@ void BulkOperations::RDBImportOperation::performOperation(
     return returnResults();
   }
 
-  auto processCommands = [this, returnResults](const QVariantList& commands) {    
+  auto processCommands = [this, returnResults](const QVariantList& commands) {
+    m_combinator->subscribe(returnResults, returnResults);
+
     for (QVariant cmd : commands) {
       auto rawCmd = convertToByteArray(cmd);
 
@@ -86,7 +88,6 @@ void BulkOperations::RDBImportOperation::performOperation(
 
       m_combinator->combine(future);
     }
-    m_combinator->subscribe(returnResults, returnResults);
   };
 
   m_python->call_native(
