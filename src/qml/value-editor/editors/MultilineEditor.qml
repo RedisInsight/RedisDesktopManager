@@ -395,6 +395,7 @@ Item
                 anchors.margins: 5
 
                 ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                ScrollBar.vertical.minimumSize: 0.05
 
                 ListView {
                     id: textView
@@ -416,7 +417,7 @@ Item
                                 objectName: "rdm_key_multiline_text_field_" + index
 
                                 enabled: root.enabled
-                                text: value
+                                text: qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > valueSizeLimit ? qsTranslate("RDM", "Value is too large to display.") : value;
 
                                 textFormat: textView.textFormat
                                 readOnly: textView.readOnly
