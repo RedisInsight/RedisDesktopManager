@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
-import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import Qt.labs.settings 1.0
 import "../../common/"
@@ -159,6 +158,12 @@ Item
         } else {
             _loadFormatter(isBin)
         }
+
+        if (isBin && qmlUtils.binaryStringLength(root.value) > valueSizeLimit) {
+            largeValueDialog.visible = true
+        } else {
+            largeValueDialog.visible = false
+        }
     }
 
     function _guessFormatter(isBin, callback) {
@@ -314,33 +319,8 @@ Item
             Label { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
             Item { Layout.fillWidth: true }
 
-            ImageButton {
-                iconSource: "qrc:/images/save_as.png"
-                tooltip: qsTranslate("RDM","Save to File")
+            SaveToFileButton {
                 objectName: "rdm_save_value_to_file_btn"
-                onClicked: {
-                    saveValueToFileDialog.open()
-                }
-
-                FileDialog {
-                    id: saveValueToFileDialog
-                    title: qsTranslate("RDM","Save Value")
-                    nameFilters: ["All files (*)"]
-                    selectExisting: false
-                    onAccepted: {
-                        if (qmlUtils.saveToFile(value, qmlUtils.getPathFromUrl(fileUrl))) {
-                            savingConfirmation.text = qsTranslate("RDM","Value was saved to file")
-                            savingConfirmation.open()
-                        }
-                    }
-                }
-            }
-
-            OkDialog {
-                id: saveToFileConfirmation
-                title: qsTranslate("RDM","Save value to file")
-                text: ""
-                visible: false
             }
 
             ImageButton {
@@ -397,6 +377,8 @@ Item
                 ScrollBar.vertical.policy: ScrollBar.AlwaysOn
                 ScrollBar.vertical.minimumSize: 0.05
 
+                enabled: !(qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > valueSizeLimit)
+
                 ListView {
                     id: textView
                     anchors.fill: parent
@@ -417,7 +399,8 @@ Item
                                 objectName: "rdm_key_multiline_text_field_" + index
 
                                 enabled: root.enabled
-                                text: qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > valueSizeLimit ? qsTranslate("RDM", "Value is too large to display.") : value;
+                                text: qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > valueSizeLimit ?
+                                          qmlUtils.printable(value, false, 50000) : value;  // Show first 50KB to fit chunkSize
 
                                 textFormat: textView.textFormat
                                 readOnly: textView.readOnly
@@ -438,6 +421,24 @@ Item
             visible: false
         }
 
+    }
+
+    BetterDialog {
+        id: largeValueDialog
+        title: qsTranslate("RDM","Binary value is too large to display")
+        visible: false
+        footer: null
+
+        RowLayout {
+            Text {
+                color: sysPalette.text
+                text: qsTranslate("RDM","Save value to file: ")
+            }
+
+            SaveToFileButton {
+                objectName: "rdm_save_large_value_to_file_dialog_btn"
+            }
+        }
     }
 
     Rectangle {
