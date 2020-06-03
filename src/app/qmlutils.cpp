@@ -9,6 +9,7 @@
 #include <QFileInfo>
 #include <QScreen>
 #include <QtCharts/QDateTimeAxis>
+#include <QtConcurrent>
 
 #include "apputils.h"
 #include "qcompress.h"
@@ -135,16 +136,20 @@ bool QmlUtils::saveToFile(const QVariant &value, const QString &path) {
     return false;
   }
 
-  QByteArray val = value.toByteArray();
+  QtConcurrent::run([value, path]() {
+    QByteArray val = value.toByteArray();
 
-  QFile outputFile(path);
-  if (outputFile.open(QIODevice::WriteOnly)) {
-    QDataStream outStream(&outputFile);
-    outStream.writeRawData(val, val.size());
-    outputFile.close();
-    return true;
-  }
-  return false;
+    QFile outputFile(path);
+    if (outputFile.open(QIODevice::WriteOnly)) {
+      QDataStream outStream(&outputFile);
+      outStream.writeRawData(val, val.size());
+      outputFile.close();
+      return true;
+    }
+    return false;
+  });
+
+  return true;
 }
 
 
