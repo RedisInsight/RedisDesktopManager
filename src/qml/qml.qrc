@@ -60,5 +60,6 @@
         <file>common/FastTextView.qml</file>
         <file>common/BetterDialogButtonBox.qml</file>
         <file>common/BetterToolTip.qml</file>
+        <file>common/SaveToFileButton.qml</file>
     </qresource>
 </RCC>
