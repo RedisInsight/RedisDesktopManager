@@ -13,6 +13,7 @@ class PickleFormatter(BaseFormatter):
 
     def decode(self, value):
         read_only = self.read_only
+        decode_format = self.decode_format
         deserialized = ''
         error = ''
 
@@ -23,10 +24,22 @@ class PickleFormatter(BaseFormatter):
             error = 'Value cannot be deserialized with pickle: {} ' \
                     '(value: {})'.format(e, value)
 
+        if isinstance(deserialized, pd.DataFrame):
+            html = deserialized.to_html(render_links=True, border=0)
+            output = self.format_html_output(deserialized, html)
+            decode_format = 'html'
+        elif isinstance(deserialized, np.ndarray):
+            html = pd.DataFrame(deserialized).to_html(render_links=True,
+                                                      border=0)
+            output = self.format_html_output(deserialized, html)
+            decode_format = 'html'
+        else:
+            output = json.dumps(deserialized,
+                                default=self.default,
+                                ensure_ascii=False)
         return {
-            'output': json.dumps(deserialized,
-                                 default=self.default,
-                                 ensure_ascii=False),
+            'output': output,
+            'decode-format': decode_format,
             'read-only': read_only,
             'error': error
         }
@@ -43,3 +56,10 @@ class PickleFormatter(BaseFormatter):
             return json.loads(o.to_json(orient='index', date_format='iso'))
         else:
             return str(o)
+
+    @staticmethod
+    def format_html_output(data, html):
+        style = '<style type="text/css">' \
+                'th, td { padding: 5px 15px 5px 0px; ' \
+                'text-align: left; }</style>'
+        return '{}<p><b>{}</b></p>{}'.format(style, str(type(data))[1:-1], html)
