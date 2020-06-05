@@ -41,7 +41,6 @@
         <file alias="back.svg">images/back.svg</file>
         <file alias="ttl.svg">images/ttl.svg</file>
         <file alias="db_copy.svg">images/db_copy.svg</file>
-        <file alias="save.png">images/save.png</file>
-        <file alias="save_as.png">images/save_as.png</file>
+        <file alias="document.svg">images/document.svg</file>
     </qresource>
 </RCC>
