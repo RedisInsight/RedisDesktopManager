@@ -28,6 +28,7 @@ var Hexy = function (buffer, config) {
     self.offset = config.offset || 0
     self.length = config.length || -1
     self.display_offset = config.display_offset || 0
+    self.font = config.font || "monospace"
     if (self.offset) {
         if (self.offset < self.buffer.length) {
             self.buffer = self.buffer.slice(self.offset)
@@ -43,7 +44,7 @@ var Hexy = function (buffer, config) {
     }
     var pos = 0
     this.toString = function () {
-        var str = "<style> * { font-family: 'monospace'}</style>"
+        var str = "<style> * { font-family: '"+ self.font + "'}</style>"
         if (self.html) { str += "<table border='1'>\n"}
         //split up into line of max `self.width`
         var line_arr = lines()

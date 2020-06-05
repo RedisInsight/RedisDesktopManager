@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQml.Models 2.13
 import "./hexy.js" as Hexy
 import "./json-tools.js" as JSONFormatter
+import "../../../common/platformutils.js" as PlatformUtils
 
 ListModel {
     id: rootModel
@@ -166,7 +167,10 @@ ListModel {
         }
 
         property var getFormatted: function (raw, callback) {
-            return callback("", Hexy.hexy(qmlUtils.valueToBinary(raw), {'html': true}), true, "html")
+            return callback("", Hexy.hexy(
+                                qmlUtils.valueToBinary(raw),
+                                {'html': true, 'font': PlatformUtils.monospacedFontFamily()}),
+                            true, "html")
         }
     }
 

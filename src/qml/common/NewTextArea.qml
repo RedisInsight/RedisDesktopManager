@@ -2,7 +2,7 @@ import QtQuick 2.7
 import "./platformutils.js" as PlatformUtils
 
 TextEdit {
-    color: sysPalette.text
+    color: PlatformUtils.isOSX() ? sysPalette.text : "#3b3a3a"
     wrapMode: TextEdit.WrapAnywhere
     font {
         family: PlatformUtils.monospacedFontFamily()
