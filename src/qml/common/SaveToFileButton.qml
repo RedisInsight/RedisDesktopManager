@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Dialogs 1.2
 
 ImageButton {
-    iconSource: "qrc:/images/save_as.png"
+    iconSource: "qrc:/images/document.svg"
     tooltip: qsTranslate("RDM","Save to File")
 
     onClicked: {
