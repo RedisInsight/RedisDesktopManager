@@ -40,10 +40,3 @@ class TestPickleFormatter(unittest.TestCase):
 
         actual_output = formatter_response_dict['output']
         self.assertEqual(actual_output, expected_output)
-
-    def test_encode(self):
-        val = json.dumps('test')
-        expected_output = pickle.dumps('test')
-
-        output = self.formatter.encode(val)
-        self.assertEqual(output, expected_output)
