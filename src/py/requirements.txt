@@ -6,3 +6,5 @@ rdbtools
 python-lzf
 ddt
 nose
+numpy
+pandas
