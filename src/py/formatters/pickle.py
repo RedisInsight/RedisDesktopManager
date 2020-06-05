@@ -1,5 +1,8 @@
-import pickle
 import json
+import pickle
+
+import numpy as np
+import pandas as pd
 
 from .base import BaseFormatter
 
@@ -23,10 +26,25 @@ class PickleFormatter(BaseFormatter):
                     '(value: {})'.format(e, value)
 
         return {
-            'output': json.dumps(deserialized, ensure_ascii=False),
+            'output': json.dumps(deserialized,
+                                 default=self.default,
+                                 ensure_ascii=False),
             'read-only': read_only,
             'error': error
         }
 
     def encode(self, value):
         return pickle.dumps(json.loads(value))
+
+    @staticmethod
+    def default(o):
+        if isinstance(o, pd.Timestamp):
+            return o.isoformat()
+        if isinstance(o, np.ndarray):
+            return o.tolist()
+        if isinstance(o, pd.Series):
+            return o.to_list()
+        if isinstance(o, pd.DataFrame):
+            return json.loads(o.to_json(orient='index', date_format='iso'))
+        else:
+            return str(o)
