@@ -9,8 +9,6 @@ from .base import BaseFormatter
 
 class PickleFormatter(BaseFormatter):
 
-    read_only = False
-
     decode_format = "json"
 
     def decode(self, value):
@@ -32,9 +30,6 @@ class PickleFormatter(BaseFormatter):
             'read-only': read_only,
             'error': error
         }
-
-    def encode(self, value):
-        return pickle.dumps(json.loads(value))
 
     @staticmethod
     def default(o):
