@@ -23,8 +23,10 @@ public:
     Q_INVOKABLE QVariant printable(const QVariant &value, bool htmlEscaped=false, int maxLength=-1);
     Q_INVOKABLE QVariant printableToValue(const QVariant &printable);
     Q_INVOKABLE QVariant toUtf(const QVariant &value);
+    Q_INVOKABLE QString getNativePath(const QString &path);
     Q_INVOKABLE QString getPathFromUrl(const QUrl &url);
-    Q_INVOKABLE QString getFileDir(const QString &path);
+    Q_INVOKABLE QString getUrlFromPath(const QString &path);
+    Q_INVOKABLE QString getDir(const QString &path);
     Q_INVOKABLE bool fileExists(const QString& path);
 
     Q_INVOKABLE void copyToClipboard(const QString &text);
