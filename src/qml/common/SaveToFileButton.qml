@@ -7,7 +7,9 @@ ImageButton {
     id: root
     iconSource: "qrc:/images/document.svg"
     tooltip: qsTranslate("RDM","Save to File")
+
     property string path
+    property string folder
 
     onClicked: {
         saveValueToFileDialog.open()
@@ -21,6 +23,8 @@ ImageButton {
 
         onAccepted: {
             root.path = qmlUtils.getPathFromUrl(fileUrl)
+            root.folder = qmlUtils.getFileDir(root.path)
+
             if (qmlUtils.saveToFile(value, root.path)) {
                 saveToFileConfirmation.open()
             }
@@ -33,6 +37,7 @@ ImageButton {
         visible: false
 
         contentItem: Rectangle {
+            objectName: "rdm_save_to_file_confirmation_dialog"
             color: sysPalette.base
             anchors.fill: parent
 
@@ -53,6 +58,7 @@ ImageButton {
                     }
 
                     TextEdit {
+                        objectName: "rdm_save_to_file_confirmation_dialog_path"
                         Layout.fillWidth: true
                         text: root.path
                         color: sysPalette.text
@@ -69,7 +75,13 @@ ImageButton {
                                 Layout.fillHeight: true
 
                                 RichTextWithLinks {
+                                    Layout.fillWidth: true
                                     html: "<a href='file://" + root.path + "'>Open File</a>"
+                                }
+
+                                RichTextWithLinks {
+                                    Layout.fillWidth: true
+                                    html: "<a href='file://" + root.folder + "'>Open Folder</a>"
                                 }
                             }
                         }
@@ -81,6 +93,7 @@ ImageButton {
                         Item { Layout.fillWidth: true; }
 
                         BetterButton {
+                            objectName: "rdm_save_to_file_confirmation_dialog_ok_btn"
                             text: qsTranslate("RDM","OK")
                             onClicked: saveToFileConfirmation.close()
                         }
