@@ -8,8 +8,10 @@ ImageButton {
     iconSource: "qrc:/images/document.svg"
     tooltip: qsTranslate("RDM","Save to File")
 
+    property string fileUrl
+    property string folderUrl
     property string path
-    property string folder
+
 
     onClicked: {
         saveValueToFileDialog.open()
@@ -22,8 +24,11 @@ ImageButton {
         selectExisting: false
 
         onAccepted: {
-            root.path = qmlUtils.getPathFromUrl(fileUrl)
-            root.folder = qmlUtils.getFileDir(root.path)
+            root.fileUrl = fileUrl
+
+            var path = qmlUtils.getPathFromUrl(fileUrl)
+            root.folderUrl = qmlUtils.getUrlFromPath(qmlUtils.getDir(path))
+            root.path = qmlUtils.getNativePath(path)
 
             if (qmlUtils.saveToFile(value, root.path)) {
                 saveToFileConfirmation.open()
@@ -73,15 +78,18 @@ ImageButton {
                         Control {
                             RowLayout {
                                 Layout.fillHeight: true
+                                spacing: 15
 
                                 RichTextWithLinks {
                                     Layout.fillWidth: true
-                                    html: "<a href='file://" + root.path + "'>Open File</a>"
+                                    wrapMode: Text.NoWrap
+                                    html: "<a href='" + root.fileUrl + "'>Open File</a>"
                                 }
 
                                 RichTextWithLinks {
                                     Layout.fillWidth: true
-                                    html: "<a href='file://" + root.folder + "'>Open Folder</a>"
+                                    wrapMode: Text.NoWrap
+                                    html: "<a href='" + root.folderUrl + "'>Open Folder</a>"
                                 }
                             }
                         }

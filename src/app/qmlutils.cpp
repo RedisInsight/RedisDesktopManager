@@ -5,11 +5,13 @@
 #include <QClipboard>
 #include <QDateTime>
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QScreen>
 #include <QtCharts/QDateTimeAxis>
 #include <QtConcurrent>
+#include <QUrl>
 
 #include "apputils.h"
 #include "qcompress.h"
@@ -114,11 +116,19 @@ QVariant QmlUtils::toUtf(const QVariant &value) {
   return QVariant(result);
 }
 
+QString QmlUtils::getNativePath(const QString &path) {
+  return QDir::toNativeSeparators(path);
+}
+
 QString QmlUtils::getPathFromUrl(const QUrl &url) {
   return url.isLocalFile() ? url.toLocalFile() : url.path();
 }
 
-QString QmlUtils::getFileDir(const QString &path) {
+QString QmlUtils::getUrlFromPath(const QString &path) {
+  return QUrl::fromLocalFile(path).toString();
+}
+
+QString QmlUtils::getDir(const QString &path) {
   return QFileInfo(path).absoluteDir().absolutePath();
 }
 
@@ -155,7 +165,6 @@ bool QmlUtils::saveToFile(const QVariant &value, const QString &path) {
 
   return true;
 }
-
 
 QtCharts::QDateTimeAxis *findDateTimeAxis(QtCharts::QXYSeries *series) {
   using namespace QtCharts;
