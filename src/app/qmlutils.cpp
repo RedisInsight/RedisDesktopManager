@@ -118,6 +118,10 @@ QString QmlUtils::getPathFromUrl(const QUrl &url) {
   return url.isLocalFile() ? url.toLocalFile() : url.path();
 }
 
+QString QmlUtils::getFileDir(const QString &path) {
+  return QFileInfo(path).absoluteDir().absolutePath();
+}
+
 bool QmlUtils::fileExists(const QString &path) {
   return QFileInfo::exists(path);
 }

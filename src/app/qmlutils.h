@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE QVariant printableToValue(const QVariant &printable);
     Q_INVOKABLE QVariant toUtf(const QVariant &value);
     Q_INVOKABLE QString getPathFromUrl(const QUrl &url);
+    Q_INVOKABLE QString getFileDir(const QString &path);
     Q_INVOKABLE bool fileExists(const QString& path);
 
     Q_INVOKABLE void copyToClipboard(const QString &text);
