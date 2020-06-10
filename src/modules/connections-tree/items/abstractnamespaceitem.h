@@ -14,7 +14,8 @@ class Operations;
 class AbstractNamespaceItem;
 class Model;
 
-class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
+class AbstractNamespaceItem : public QObject, public TreeItem, public MemoryUsage {
+
  public:
   AbstractNamespaceItem(Model& model, QWeakPointer<TreeItem> parent,
                         QSharedPointer<Operations> operations, uint dbIndex,
@@ -34,6 +35,10 @@ class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
 
   virtual void append(QSharedPointer<TreeItem> item) {
     m_childItems.append(item);
+  }
+
+  virtual void appendRawKey(const QByteArray& k) {
+    m_rawChildKeys.append(k);
   }
 
   virtual void appendNamespace(QSharedPointer<AbstractNamespaceItem> item) {
@@ -65,8 +70,7 @@ class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
 
   void cancelCurrentOperation() override;
 
-  QFuture<qlonglong> getMemoryUsage(
-      QSharedPointer<AsyncFuture::Combinator> combinator) override;
+  void getMemoryUsage(std::function<void(qlonglong)>) override;
 
  protected:
   virtual void clear();
@@ -75,18 +79,17 @@ class AbstractNamespaceItem : public TreeItem, public MemoryUsage {
 
   QHash<QString, std::function<void()>> eventHandlers() override;
 
-  void calculateUsedMemory(QSharedPointer<AsyncFuture::Combinator> c,
-                           QSharedPointer<AsyncFuture::Deferred<qlonglong> > d);
+  void calculateUsedMemory(QSharedPointer<AsyncFuture::Deferred<qlonglong>> parentD, std::function<void(qlonglong)> callback);
 
  protected:
   QWeakPointer<TreeItem> m_parent;
   QSharedPointer<Operations> m_operations;
   QList<QSharedPointer<TreeItem>> m_childItems;
   QHash<QByteArray, QSharedPointer<AbstractNamespaceItem>> m_childNamespaces;
+  QList<QByteArray> m_rawChildKeys;
   QRegExp m_filter;
   bool m_expanded;
   uint m_dbIndex;
-  QSharedPointer<AsyncFuture::Combinator> m_combinator;
-  QSharedPointer<AsyncFuture::Combinator> m_childsCombinator;
+  QSharedPointer<AsyncFuture::Deferred<qlonglong>> m_runningOperation;
 };
 }  // namespace ConnectionsTree

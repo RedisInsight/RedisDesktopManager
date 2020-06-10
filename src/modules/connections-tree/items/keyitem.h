@@ -37,8 +37,7 @@ class KeyItem : public TreeItem, public MemoryUsage {
 
   void setFullPath(const QByteArray& p);
 
-  QFuture<qlonglong> getMemoryUsage(
-      QSharedPointer<AsyncFuture::Combinator> combinator) override;
+  void getMemoryUsage(std::function<void(qlonglong)> callback) override;
 
  protected:
   QHash<QString, std::function<void()>> eventHandlers() override;

@@ -437,16 +437,6 @@ Dialog {
                                 onTextChanged: if (root.settings) { root.settings.namespaceSeparator = text }
                             }
 
-                            BetterLabel { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
-
-                            BetterCheckbox {
-                                id: luaKeysLoading
-                                Layout.fillWidth: true
-                                checked: root.settings ? (root.settings.luaKeysLoading / 1000.0) : true
-                                onCheckedChanged: if (root.settings) { root.settings.luaKeysLoading = checked }
-
-                            }
-
                             SettingsGroupTitle {
                                 text: qsTranslate("RDM","Timeouts & Limits")
                                 Layout.columnSpan: 2

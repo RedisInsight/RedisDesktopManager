@@ -5,6 +5,7 @@
 #include "app/apputils.h"
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
+#include "connections-tree/keysrendering.h"
 #include "databaseitem.h"
 #include "keyitem.h"
 
@@ -48,6 +49,28 @@ void NamespaceItem::setRemoved() {
 }
 
 void NamespaceItem::load() {
+  if (m_rawChildKeys.size() > 0) {
+      // NOTE(u_glide): No need to sort keys here because it was sorted on load
+      auto settings = ConnectionsTree::KeysTreeRenderer::RenderingSettigns{
+          m_filter, m_operations->getNamespaceSeparator(), m_dbIndex, false
+      };
+
+      AsyncFuture::observe(
+          QtConcurrent::run(&ConnectionsTree::KeysTreeRenderer::renderKeys,
+                            m_operations, m_rawChildKeys, qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()), settings,
+                            m_model.m_expanded))
+          .subscribe([this]() {
+          m_rawChildKeys.clear();
+          unlock();
+
+          setExpanded(true);
+          emit m_model.itemChanged(getSelf());
+          emit m_model.expandItem(getSelf());
+
+      });
+      return;
+  }
+
   QString nsFilter = QString("%1%2*")
                          .arg(QString::fromUtf8(m_fullPath))
                          .arg(m_operations->getNamespaceSeparator());

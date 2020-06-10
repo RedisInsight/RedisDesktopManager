@@ -1,11 +1,13 @@
 #pragma once
 #include <qredisclient/connection.h>
+
 #include <QFuture>
 #include <QMap>
 #include <QSharedPointer>
 #include <QString>
 #include <QStringList>
 #include <functional>
+
 #include "exception.h"
 
 namespace Console {
@@ -88,9 +90,10 @@ class Operations {
   virtual void flushDb(int dbIndex,
                        std::function<void(const QString&)> callback) = 0;
 
-  virtual void openKeyIfExists(const QByteArray& key,
-                               QSharedPointer<ConnectionsTree::DatabaseItem> parent,
-                               std::function<void(const QString&, bool)> callback) = 0;
+  virtual void openKeyIfExists(
+      const QByteArray& key,
+      QSharedPointer<ConnectionsTree::DatabaseItem> parent,
+      std::function<void(const QString&, bool)> callback) = 0;
 
   virtual QString mode() = 0;
 
@@ -98,8 +101,9 @@ class Operations {
 
   virtual QFuture<bool> connectionSupportsMemoryOperations() = 0;
 
-  virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
-                                           int dbIndex) = 0;
+  virtual void getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
+                             std::function<void(qlonglong)> result,
+                             std::function<void(qlonglong)> progress) = 0;
 
   virtual ~Operations() {}
 };

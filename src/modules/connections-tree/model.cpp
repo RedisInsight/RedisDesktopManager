@@ -203,6 +203,9 @@ void Model::onItemChildsUnloaded(QWeakPointer<TreeItem> item) {
 
   if (!index.isValid()) return;
 
+  if (item.toStrongRef()->childCount() == 0)
+      return;
+
   emit beginRemoveRows(index, 0, item.toStrongRef()->childCount() - 1);
   emit endRemoveRows();
 }

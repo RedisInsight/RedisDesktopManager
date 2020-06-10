@@ -3,7 +3,7 @@
 
 namespace ConnectionsTree {
 
-class NamespaceItem : public QObject, public AbstractNamespaceItem {
+class NamespaceItem : public AbstractNamespaceItem {
   Q_OBJECT
 
  public:
