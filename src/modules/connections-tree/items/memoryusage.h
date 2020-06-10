@@ -12,8 +12,7 @@ class MemoryUsage {
   MemoryUsage() : m_usedMemory(0) {}
   virtual ~MemoryUsage() {}
 
-  virtual QFuture<qlonglong> getMemoryUsage(
-      QSharedPointer<AsyncFuture::Combinator> combinator) = 0;
+  virtual void getMemoryUsage(std::function<void(qlonglong)> callback) = 0;
 
   qlonglong usedMemory() const { return m_usedMemory; }
 

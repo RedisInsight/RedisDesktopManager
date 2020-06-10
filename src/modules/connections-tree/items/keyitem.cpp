@@ -80,24 +80,17 @@ void KeyItem::setRemoved() {
   emit m_model.itemChanged(getSelf());
 }
 
-QFuture<qlonglong> KeyItem::getMemoryUsage(
-    QSharedPointer<AsyncFuture::Combinator> combinator) {
+void KeyItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
   auto parentNs = parentTreeItemToNs(m_parent);
 
-  if (!parentNs || !parentNs->operations()) return QFuture<qlonglong>();
+  if (!parentNs || !parentNs->operations()) return callback(0);
 
-  QFuture<qlonglong> future =
-      parentNs->operations()->getUsedMemory(getFullPath(), getDbIndex());
-
-  AsyncFuture::observe(future).subscribe([this](qlonglong result) {
-    m_usedMemory = result;
-    emit m_model.itemChanged(getSelf());
-  });
-
-  combinator->combine(future);
-  combinator->onCanceled([this]() { unlock(); });
-
-  return future;
+  parentNs->operations()->getUsedMemory({getFullPath()}, getDbIndex(),
+          [this, callback](qlonglong result) {
+      m_usedMemory = result;
+      callback(result);
+      emit m_model.itemChanged(getSelf());
+  }, [](qlonglong){});
 }
 
 void KeyItem::setFullPath(const QByteArray& p) {

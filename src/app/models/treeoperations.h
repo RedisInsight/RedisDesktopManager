@@ -70,8 +70,9 @@ class TreeOperations : public QObject,
                                QSharedPointer<ConnectionsTree::DatabaseItem> parent,
                                std::function<void(const QString&, bool)> callback) override;
 
-  virtual QFuture<qlonglong> getUsedMemory(const QByteArray& key,
-                                           int dbIndex) override;
+  virtual void getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
+      std::function<void(qlonglong)> result,
+      std::function<void(qlonglong)> progress) override;
 
   virtual QString mode() override;
 

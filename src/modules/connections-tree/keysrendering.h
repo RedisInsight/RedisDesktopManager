@@ -18,6 +18,7 @@ namespace ConnectionsTree {
             QRegExp filter;
             QString nsSeparator;
             uint dbIndex;
+            bool sortKeys;
         };
 
     public:
@@ -27,11 +28,6 @@ namespace ConnectionsTree {
                                RenderingSettigns settings,
                                const QSet<QByteArray> &expandedNamespaces);
 
-        static void renderNamespaceItems(QSharedPointer<Operations> operations,
-                                         RedisClient::Connection::NamespaceItems items,
-                                         QSharedPointer<AbstractNamespaceItem> parent,
-                                         const QSet<QByteArray> &expandedNamespaces);
-
     private:
         static void renderLazily(QSharedPointer<AbstractNamespaceItem> parent,
                                  const QByteArray &notProcessedKeyPart,
@@ -39,7 +35,8 @@ namespace ConnectionsTree {
                                  QSharedPointer<Operations> operations,
                                  const RenderingSettigns& settings,
                                  const QSet<QByteArray> &expandedNamespaces,
-                                 unsigned long level=0);
+                                 unsigned long level=0,
+                                 const QByteArray &nextKey=QByteArray());
     };
 
 }

@@ -144,27 +144,14 @@ void TreeOperations::loadNamespaceItems(
         }
 
         auto settings = ConnectionsTree::KeysTreeRenderer::RenderingSettigns{
-            QRegExp(filter), getNamespaceSeparator(), parent->getDbIndex()};
+            QRegExp(filter), getNamespaceSeparator(), parent->getDbIndex(),
+            true};
 
         AsyncFuture::observe(
             QtConcurrent::run(&ConnectionsTree::KeysTreeRenderer::renderKeys,
                               sharedFromThis(), keylist, parent, settings,
                               expandedNs))
             .subscribe([callback]() { callback(QString()); });
-      };
-
-  auto thinRenderingCallback =
-      [this, callback, parent, expandedNs](
-          const RedisClient::Connection::NamespaceItems& items,
-          const QString& err) {
-        if (!err.isEmpty()) {
-          return callback(err);
-        }
-
-        ConnectionsTree::KeysTreeRenderer::renderNamespaceItems(
-            sharedFromThis(), items, parent, expandedNs);
-
-        callback(QString());
       };
 
   connect(m_connection);
@@ -175,14 +162,8 @@ void TreeOperations::loadNamespaceItems(
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
       m_connection->getClusterKeys(renderingCallback, keyPattern);
     } else {
-      if (conf().luaKeysLoading()) {
-        m_connection->getNamespaceItems(thinRenderingCallback,
-                                        getNamespaceSeparator(), filter,
-                                        parent->getDbIndex());
-      } else {
-        m_connection->getDatabaseKeys(renderingCallback, keyPattern,
-                                      parent->getDbIndex());
-      }
+      m_connection->getDatabaseKeys(renderingCallback, keyPattern,
+                                    parent->getDbIndex());
     }
 
   } catch (const RedisClient::Connection::Exception& error) {
@@ -329,31 +310,50 @@ void TreeOperations::openKeyIfExists(
       [callback](const QString& err) { callback(err, false); });
 }
 
-QFuture<qlonglong> TreeOperations::getUsedMemory(const QByteArray& key,
-                                                 int dbIndex) {
-  auto d = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
-      new AsyncFuture::Deferred<qlonglong>());
+void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
+                                   std::function<void(qlonglong)> result,
+                                   std::function<void(qlonglong)> progress) {
+  QList<QList<QByteArray>> commands;
 
-  m_connection->cmd(
-      {"MEMORY", "USAGE", key}, this, dbIndex,
-      [d](RedisClient::Response r) {
-        QVariant result = r.value();
+  for (int index = 0; index < keys.size(); ++index) {
+    commands.append({"MEMORY", "USAGE", keys[index]});
+  }
 
-        if (result.canConvert(QVariant::LongLong)) {
-          d->complete(result.toLongLong());
+  int expectedResponses = commands.size();
+  auto processedResponses = QSharedPointer<int>(new int(0));
+  auto totalMemory = QSharedPointer<qlonglong>(new qlonglong(0));
+
+  m_connection->pipelinedCmd(
+      commands, this, dbIndex,
+      [this, expectedResponses, processedResponses, totalMemory, progress,
+       result](RedisClient::Response r, QString err) {
+        if (!err.isEmpty()) {
+          QString errorMsg = QCoreApplication::translate(
+                                 "RDM", "Cannot used memory for key: %1")
+                                 .arg(err);
+          m_events->error(errorMsg);          
         } else {
-          d->complete(0);
-        }
-      },
-      [this, d](const QString& err) {
-        QString errorMsg =
-            QCoreApplication::translate("RDM", "Cannot used memory for key: %1")
-                .arg(err);
-        m_events->error(errorMsg);
-        d->complete(0);
-      });
+          QVariant incrResult = r.value();
 
-  return d->future();
+          if (incrResult.canConvert(QVariant::LongLong)) {
+            (*totalMemory) += incrResult.toLongLong();
+            (*processedResponses)++;
+          } else if (incrResult.canConvert(QVariant::List)) {
+            auto responses = incrResult.toList();
+
+            for (auto resp : responses) {
+              (*totalMemory) += resp.toLongLong();
+              (*processedResponses)++;
+            }
+          }
+
+          progress(*totalMemory);
+
+          if ((*processedResponses) >= expectedResponses) {
+            result(*totalMemory);
+          }
+        }
+      });
 }
 
 QString TreeOperations::mode() {

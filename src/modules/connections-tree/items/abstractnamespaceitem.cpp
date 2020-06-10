@@ -1,12 +1,13 @@
 #include "abstractnamespaceitem.h"
+
+#include <QApplication>
+#include <QMessageBox>
+#include <QThread>
+
 #include "connections-tree/model.h"
 #include "connections-tree/operations.h"
 #include "keyitem.h"
 #include "namespaceitem.h"
-
-#include <QMessageBox>
-#include <QApplication>
-#include <QThread>
 
 using namespace ConnectionsTree;
 
@@ -20,15 +21,15 @@ AbstractNamespaceItem::AbstractNamespaceItem(
                                 : filter),
       m_expanded(false),
       m_dbIndex(dbIndex),
-      m_combinator(nullptr) {}
+      m_runningOperation(nullptr) {}
 
 QList<QSharedPointer<TreeItem>> AbstractNamespaceItem::getAllChilds() const {
-    return m_childItems;
+  return m_childItems;
 }
 
-QList<QSharedPointer<AbstractNamespaceItem>> AbstractNamespaceItem::getAllChildNamespaces() const
-{
-    return m_childNamespaces.values();
+QList<QSharedPointer<AbstractNamespaceItem>>
+AbstractNamespaceItem::getAllChildNamespaces() const {
+  return m_childNamespaces.values();
 }
 
 QSharedPointer<TreeItem> AbstractNamespaceItem::child(uint row) const {
@@ -42,7 +43,17 @@ QWeakPointer<TreeItem> AbstractNamespaceItem::parent() const {
 }
 
 uint AbstractNamespaceItem::childCount(bool recursive) const {
-  if (!recursive) return m_childItems.size();
+  if (!recursive) {
+    if (m_rawChildKeys.size() > 0) {
+      return 0;
+    }
+
+    return m_childItems.size();
+  }
+
+  if (m_rawChildKeys.size() > 0) {
+    return m_rawChildKeys.size();
+  }
 
   uint count = 0;
   for (auto item : m_childItems) {
@@ -59,6 +70,7 @@ void AbstractNamespaceItem::clear() {
   emit m_model.itemChildsUnloaded(getSelf());
   m_childItems.clear();
   m_childNamespaces.clear();
+  m_rawChildKeys.clear();
   m_usedMemory = 0;
 }
 
@@ -74,8 +86,10 @@ void AbstractNamespaceItem::showLoadingError(const QString& err) {
 }
 
 void AbstractNamespaceItem::cancelCurrentOperation() {
-  if (m_combinator) {
-    m_combinator->future().cancel();
+  if (m_runningOperation) {
+    m_runningOperation->future().cancel();
+    m_operations->resetConnection();
+    unlock();
   }
 }
 
@@ -100,24 +114,6 @@ void AbstractNamespaceItem::sortChilds() {
   emit m_model.itemChanged(getSelf());
 }
 
-QFuture<qlonglong> AbstractNamespaceItem::getMemoryUsage(
-    QSharedPointer<AsyncFuture::Combinator> combinator) {
-  m_usedMemory = 0;
-  combinator->onCanceled([this]() { unlock(); });
-  lock();
-
-  auto d = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
-      new AsyncFuture::Deferred<qlonglong>());
-
-  if (QApplication::instance()->thread() == QThread::currentThread()) {
-    QtConcurrent::run(this, &AbstractNamespaceItem::calculateUsedMemory, combinator, d);
-  } else {
-    calculateUsedMemory(combinator, d);
-  }
-
-  return d->future();
-}
-
 QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
@@ -139,64 +135,91 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
         return;
       }
 
-      m_combinator = QSharedPointer<AsyncFuture::Combinator>(
-          new AsyncFuture::Combinator(AsyncFuture::FailFast));
-
-      getMemoryUsage(m_combinator);
-
-      m_combinator->subscribe(
-          [this]() {
-            sortChilds();
-            unlock();
-          },
-          [this]() {
-            m_operations->resetConnection();
-            unlock();
-          });
+      getMemoryUsage([this](qlonglong r) {
+        sortChilds();
+        unlock();
+        m_runningOperation.clear();
+      });
     });
   });
 
   return events;
 }
 
-void AbstractNamespaceItem::calculateUsedMemory(QSharedPointer<AsyncFuture::Combinator> combinator,
-                                                QSharedPointer<AsyncFuture::Deferred<qlonglong>> d)
-{
-  m_childsCombinator = QSharedPointer<AsyncFuture::Combinator>(
-      new AsyncFuture::Combinator(AsyncFuture::FailFast));
+void AbstractNamespaceItem::getMemoryUsage(
+    std::function<void(qlonglong)> callback) {
+  m_usedMemory = 0;
 
-  for (QSharedPointer<TreeItem> child : m_childItems) {
-    if (combinator->future().isCanceled() || d->future().isCanceled()) {
-      break;
-    }
+  m_runningOperation = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
+      new AsyncFuture::Deferred<qlonglong>());
 
-    if (!child) continue;
+  QtConcurrent::run(this, &AbstractNamespaceItem::calculateUsedMemory,
+                    m_runningOperation, callback);
 
-    auto memoryItem = child.dynamicCast<MemoryUsage>();
+  return;
+}
 
-    if (!memoryItem) continue;
-
-    auto future = memoryItem->getMemoryUsage(combinator);
-
-    AsyncFuture::observe(future).subscribe([this](qlonglong result) {
-      QMutexLocker locker(&m_updateUsedMemoryMutex);
-      Q_UNUSED(locker);
-
-      m_usedMemory += result;
-      emit m_model.itemChanged(getSelf());
-    });
-
-    //combinator->combine(future);
-    m_childsCombinator->combine(future);
+void AbstractNamespaceItem::calculateUsedMemory(
+    QSharedPointer<AsyncFuture::Deferred<qlonglong>> parentDeffered,
+    std::function<void(qlonglong)> callback) {
+  if (parentDeffered && parentDeffered->future().isCanceled()) {
+    return;
   }
 
-  m_childsCombinator->subscribe(
-      [this, d]() {
-        d->complete(m_usedMemory);
-        unlock();
-      },
-      [this, d]() {
-        d->cancel();
-        unlock();
-      });
+  if (m_rawChildKeys.size() > 0) {
+    operations()->getUsedMemory(
+        m_rawChildKeys, m_dbIndex,
+        [this, callback](qlonglong result) {
+          m_usedMemory = result;
+          emit m_model.itemChanged(getSelf());
+          callback(result);
+        },
+        [this](qlonglong progress) {
+          m_usedMemory = progress;
+          emit m_model.itemChanged(getSelf());
+        });
+    return;
+  } else {
+    auto resultsRemaining = QSharedPointer<qlonglong>(new qlonglong(0));
+
+    auto updateUsedMemoryValue = [this, resultsRemaining,
+                                  callback](qlonglong result) {
+      QMutexLocker locker(&m_updateUsedMemoryMutex);
+      Q_UNUSED(locker);
+      m_usedMemory += result;
+      emit m_model.itemChanged(getSelf());
+
+      (*resultsRemaining)--;
+
+      if (*resultsRemaining <= 0) {
+        callback(m_usedMemory);
+      }
+    };
+
+    (*resultsRemaining) += m_childNamespaces.size();
+
+    for (auto childNs : m_childNamespaces) {
+      if (parentDeffered->future().isCanceled()) {
+        return;
+      }
+      childNs->calculateUsedMemory(parentDeffered, updateUsedMemoryValue);
+    }
+
+    QMutexLocker locker(&m_updateUsedMemoryMutex);
+
+    for (QSharedPointer<TreeItem> child : m_childItems) {
+      if (parentDeffered->future().isCanceled()) {
+        return;
+      }
+
+      if (!child || child->type() != "key") continue;
+
+      auto memoryItem = child.dynamicCast<MemoryUsage>();
+
+      if (!memoryItem) continue;
+
+      (*resultsRemaining)++;
+      memoryItem->getMemoryUsage(updateUsedMemoryValue);
+    }
+  }
 }

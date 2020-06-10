@@ -31,16 +31,6 @@ void ServerConfig::setNamespaceSeparator(QString ns)
     return setParam<QString>("namespace_separator", ns);
 }
 
-bool ServerConfig::luaKeysLoading() const
-{
-    return param<bool>("lua_keys_loading", DEFAULT_LUA_KEYS_LOADING);
-}
-
-void ServerConfig::setLuaKeysLoading(bool value)
-{
-    return setParam<bool>("lua_keys_loading", value);
-}
-
 uint ServerConfig::databaseScanLimit() const
 {
     return param<uint>("db_scan_limit", DEFAULT_DB_SCAN_LIMIT);

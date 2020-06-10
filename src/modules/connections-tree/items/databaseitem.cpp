@@ -144,18 +144,16 @@ void DatabaseItem::setMetadata(const QString& key, QVariant value) {
   }
 }
 
-QFuture<qlonglong> DatabaseItem::getMemoryUsage(
-    QSharedPointer<AsyncFuture::Combinator> combinator) {
+void DatabaseItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
   if (m_childItems.size() == 0) {
     auto d = QSharedPointer<AsyncFuture::Deferred<qlonglong>>(
         new AsyncFuture::Deferred<qlonglong>());
-    loadKeys([this, d, combinator]() {
+    loadKeys([this, callback]() {
       lock();
-      d->complete(AbstractNamespaceItem::getMemoryUsage(combinator));
-    });
-    return d->future();
+      AbstractNamespaceItem::getMemoryUsage(callback);
+    });    
   } else {
-    return AbstractNamespaceItem::getMemoryUsage(combinator);
+    AbstractNamespaceItem::getMemoryUsage(callback);
   }
 }
 

@@ -40,5 +40,16 @@ def convert_redis_io_commands(path):
             json.dump(converted, fres)
 
 
+def detect_key_positions(path):
+    with open(path) as f:
+        commands = json.load(f)
+
+        for cmd, info in commands.items():
+            for index, arg in enumerate(info.get('arguments', [])):
+                if 'type' in arg and arg['type'] == 'key':
+                    print('{"%s", %s},' % (cmd, index))
+
+
 if __name__ == "__main__":
     convert_redis_io_commands("commands.json")
+    #detect_key_positions("commands_raw.json")    
