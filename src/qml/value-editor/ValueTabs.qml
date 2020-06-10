@@ -56,9 +56,9 @@ Repeater {
         property Component searchModelComponent: Component {
             SortFilterProxyModel {
                 source: keyViewModel
-                //sortOrder: table.sortIndicatorOrder
+                sortOrder: Qt.AscendingOrder
                 sortCaseSensitivity: Qt.CaseInsensitive
-                sortRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? "value" : ""
+                sortRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? "row" : ""
 
                 filterString: table.searchField.text
                 filterSyntax: SortFilterProxyModel.Wildcard
@@ -304,6 +304,19 @@ Repeater {
                                             anchors.centerIn: parent
                                             text: modelData
                                             color: sysPalette.windowText
+                                        }
+
+                                        MouseArea {
+                                            anchors.fill: parent
+
+                                            onClicked: {
+                                                var role = keyTab.keyModel.columnNames[index]
+                                                var order = (role == table.model.sortRole ? 1 - table.model.sortOrder : Qt.AscendingOrder)
+
+                                                table.model.setSortRole(role)
+                                                table.model.setSortOrder(order)
+
+                                            }
                                         }
                                     }
                                 }
