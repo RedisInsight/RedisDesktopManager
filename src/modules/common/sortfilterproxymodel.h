@@ -26,9 +26,9 @@ public:
     void setSource(QObject *source);
 
     QByteArray sortRole() const;
-    void setSortRole(const QByteArray &role);
+    Q_INVOKABLE void setSortRole(const QByteArray &role);
 
-    void setSortOrder(Qt::SortOrder order);
+    Q_INVOKABLE void setSortOrder(Qt::SortOrder order);
 
     QByteArray filterRole() const;
     void setFilterRole(const QByteArray &role);
