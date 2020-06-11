@@ -292,6 +292,7 @@ Repeater {
                                 spacing: 1
 
                                 Repeater {
+                                    id: tableHeader
                                     model: keyTab.keyModel? keyTab.keyModel.columnNames : []
 
                                     Rectangle {
@@ -306,16 +307,30 @@ Repeater {
                                             color: sysPalette.windowText
                                         }
 
+                                        Label {  // sort indicator
+                                            anchors.margins: 10
+                                            anchors.right: parent.right
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            font.pointSize: 8
+                                            text: "▲"
+                                            color: sysPalette.mid
+                                            visible: false
+                                        }
+
                                         MouseArea {
                                             anchors.fill: parent
 
                                             onClicked: {
-                                                var role = keyTab.keyModel.columnNames[index]
-                                                var order = (role == table.model.sortRole ? 1 - table.model.sortOrder : Qt.AscendingOrder)
+                                                var role = tableHeader.model[index]
+                                                var order = (role == table.model.sortRole) ? 1 - table.model.sortOrder : Qt.AscendingOrder
 
-                                                table.model.setSortRole(role)
-                                                table.model.setSortOrder(order)
+                                                for (var i = 0; i < tableHeader.model.length; i++) {
+                                                    tableHeader.itemAt(i).children[1].visible = false
+                                                }
+                                                tableHeader.itemAt(index).children[1].text = (order === Qt.AscendingOrder) ? "▲" : "▼"
+                                                tableHeader.itemAt(index).children[1].visible = true
 
+                                                table.sort(role, order)
                                             }
                                         }
                                     }
@@ -503,6 +518,11 @@ Repeater {
 
                                         function resetCurrentRow() {
                                             table.currentRow = -1
+                                        }
+
+                                        function sort(role, order) {
+                                            table.model.setSortRole(role)
+                                            table.model.setSortOrder(order)
                                         }
 
                                         onRowsChanged: wrapper.hideLoader()
