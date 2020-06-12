@@ -18,6 +18,7 @@ AbstractEditor {
         Layout.fillHeight: true
         value: ""
         enabled: root.active || root.state !== "edit"
+        showSaveBtn: root.state == "edit"
         showFormatters: root.state == "edit"
         objectName: "rdm_key_value_field"
     }
