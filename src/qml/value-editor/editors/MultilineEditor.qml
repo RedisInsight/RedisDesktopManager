@@ -11,13 +11,14 @@ Item
 
     property bool enabled
     property string textColor
+    property bool showSaveBtn: false
     property bool showFormatters: true
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
     property bool isEdited: false
     property var value
     property int valueSizeLimit: 150000
     property int valueCompression: 0
-    property string formatterSettingsCategory: "formatters_value"    
+    property string formatterSettingsCategory: "formatters_value"
     property alias readOnly: textView.readOnly
     property string _jsFormatterStyles: {
         return "font-size: "
@@ -49,7 +50,7 @@ Item
         // init editor with empty model
         textView.model = qmlUtils.wrapLargeText("")
         textView.readOnly = false
-        textView.textFormat = TextEdit.PlainText            
+        textView.textFormat = TextEdit.PlainText
     }
 
     function validationRule(raw)
@@ -85,7 +86,7 @@ Item
         }
     }
 
-    function loadRawValue(callback) {                
+    function loadRawValue(callback) {
         if (formatterSelector.visible) {
 
             function process(formattedValue) {
@@ -318,6 +319,40 @@ Item
             Label { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
             Label { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
             Item { Layout.fillWidth: true }
+
+            ImageButton {
+                objectName: "rdm_value_editor_save_btn"
+                iconSource: "qrc:/images/save.svg"
+                tooltip: qsTranslate("RDM","Save")
+                enabled: keyType != "stream"
+                visible: showSaveBtn
+
+                onClicked: {
+                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
+                        savingConfirmation.text = qsTranslate("RDM","Nothing to save")
+                        savingConfirmation.open()
+                        return
+                    }
+
+                    valueEditor.item.validateValue(function (result) {
+                        if (!result)
+                            return;
+
+                        var value = valueEditor.item.getValue()
+                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+
+                        savingConfirmation.text = qsTranslate("RDM","Value was updated!")
+                        savingConfirmation.open()
+                    })
+                }
+
+                OkDialog {
+                    id: savingConfirmation
+                    title: qsTranslate("RDM","Save value")
+                    text: ""
+                    visible: false
+                }
+            }
 
             SaveToFileButton {
                 objectName: "rdm_save_value_to_file_btn"

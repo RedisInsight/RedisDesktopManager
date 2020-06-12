@@ -807,40 +807,6 @@ Repeater {
                                     addRowDialog.open()
                                 }
                             }
-
-                            BetterButton {
-                                text: qsTranslate("RDM","Save")
-
-                                objectName: "rdm_value_editor_save_btn"
-
-                                enabled: keyType != "stream"
-
-                                onClicked: {
-                                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
-                                        savingConfirmation.text = qsTranslate("RDM","Nothing to save")
-                                        savingConfirmation.open()
-                                        return
-                                    }
-
-                                    valueEditor.item.validateValue(function (result){
-                                        if (!result)
-                                            return;
-
-                                        var value = valueEditor.item.getValue()
-                                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
-
-                                        savingConfirmation.text = qsTranslate("RDM","Value was updated!")
-                                        savingConfirmation.open()
-                                    })
-                                }
-                            }
-
-                            OkDialog {
-                                id: savingConfirmation
-                                title: qsTranslate("RDM","Save value")
-                                text: ""
-                                visible: false
-                            }
                         }
                     }
                     //Value editor end
