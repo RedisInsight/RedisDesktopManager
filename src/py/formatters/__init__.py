@@ -22,10 +22,11 @@ def decode(name, value):
     formatter = ENABLED_FORMATTERS[name]
 
     error = ""
+    read_only = formatter.read_only
+    decode_format = formatter.decode_format
+
     try:
         result = formatter.decode(value)
-        read_only = formatter.read_only
-        decode_format = formatter.decode_format
 
         if type(result) is dict:
             result_dict = result
