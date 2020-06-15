@@ -32,4 +32,5 @@ public:
     Q_INVOKABLE void deleteTextWrapper(QObject* w);
     Q_INVOKABLE QString escapeHtmlEntities(const QString& t);
     Q_INVOKABLE QString htmlToPlainText(const QString& html);
+    Q_INVOKABLE double getScreenScaleFactor();
 };
