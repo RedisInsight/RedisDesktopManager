@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QFileInfo>
+#include <QScreen>
 #include <QtCharts/QDateTimeAxis>
 
 #include "apputils.h"
@@ -215,4 +216,8 @@ QString QmlUtils::escapeHtmlEntities(const QString &t) {
 
 QString QmlUtils::htmlToPlainText(const QString &html) {
   return QTextDocumentFragment::fromHtml(html).toPlainText();
+}
+
+double QmlUtils::getScreenScaleFactor() {
+  return QApplication::primaryScreen()->logicalDotsPerInch() / 96;
 }
