@@ -16,9 +16,6 @@ Button {
     palette.windowText: sysPalette.text
     palette.buttonText: sysPalette.text
 
-    ToolTip.visible: root.tooltip && hovered
-    ToolTip.text: root.tooltip
-
     Connections {
         target: approot
 
@@ -27,6 +24,10 @@ Button {
             root.palette.windowText = sysPalette.text
             root.palette.buttonText = sysPalette.text
         }
+    }
+
+    BetterToolTip {
+        title: root.tooltip
     }
 }
 

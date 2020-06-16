@@ -17,10 +17,18 @@ Dialog {
 
     background: Rectangle {
         color: sysPalette.base
-        border.color: root.palette.dark
+        border.color: root.palette.mid
     }
 
     footer: BetterDialogButtonBox {
-        standardButtons: Dialog.Save | Dialog.Cancel
+        BetterButton {
+            text: qsTranslate("RDM","Save")
+            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+        }
+
+        BetterButton {
+            text: qsTranslate("RDM","Cancel")
+            onClicked: root.close()
+        }
     }
 }

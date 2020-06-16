@@ -336,6 +336,10 @@ ApplicationWindow {
         height: approot.height
         position: 0.3
         edge: Qt.LeftEdge
+        background: Rectangle {
+            color: sysPalette.base
+            border.color: sysPalette.mid
+        }
 
         LogView {
             anchors.fill: parent

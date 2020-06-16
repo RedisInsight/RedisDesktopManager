@@ -10,10 +10,10 @@ TabButton {
     icon.width: 18
     icon.height: 18
     icon.color: "transparent"
-    ToolTip.visible: ToolTip.text && hovered
 
     property var self
     property var tabRef
+    property string tooltip
 
     signal closeClicked()
 
@@ -38,5 +38,9 @@ TabButton {
             }
             root.closeClicked()
         }
+    }
+
+    BetterToolTip {
+        title: tooltip
     }
 }

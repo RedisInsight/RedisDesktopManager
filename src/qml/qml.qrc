@@ -59,5 +59,6 @@
         <file>value-editor/editors/formatters/ValueFormatters.qml</file>
         <file>common/FastTextView.qml</file>
         <file>common/BetterDialogButtonBox.qml</file>
+        <file>common/BetterToolTip.qml</file>
     </qresource>
 </RCC>

@@ -2,13 +2,13 @@ import QtQuick 2.9
 import QtQuick.Controls 2.3
 
 Button {
-    id: root    
+    id: root
 
     implicitWidth: 18
     implicitHeight: 18
     property alias imgWidth: img.width
     property alias imgHeight: img.height
-    property alias imgSource: img.source    
+    property alias imgSource: img.source
     property alias iconSource: img.source
 
     property string tooltip
@@ -33,8 +33,8 @@ Button {
         radius: 5
    }
 
-   ToolTip.visible: root.tooltip && hovered
-   ToolTip.text: root.tooltip
-
+   BetterToolTip {
+       title: root.tooltip
+   }
 }
 

@@ -21,7 +21,7 @@ Repeater {
                 icon.source: "qrc:/images/console.svg"
 
                 text: tabName
-                ToolTip.text: tabName
+                tooltip: tabName
 
                 onCloseClicked: {
                     consoleModel.closeTab(tabIndex)
