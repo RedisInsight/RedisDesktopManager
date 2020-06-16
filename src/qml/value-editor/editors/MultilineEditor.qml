@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.1
+import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
 import "../../common/"
 import "../../common/platformutils.js" as PlatformUtils
@@ -11,6 +12,8 @@ Item
 
     property bool enabled
     property string textColor
+    property int imgBtnWidth: PlatformUtils.isOSXRetina(Screen)? 18 : 22
+    property int imgBtnHeight: PlatformUtils.isOSXRetina(Screen)? 18 : 22
     property bool showSaveBtn: false
     property bool showFormatters: true
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
@@ -305,8 +308,9 @@ Item
     ColumnLayout {
         anchors.fill: parent
 
-        RowLayout{
+        RowLayout {
             Layout.fillWidth: true
+            spacing: 5
 
             Label { text: root.fieldLabel }
             TextEdit {
@@ -319,55 +323,6 @@ Item
             Label { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
             Label { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
             Item { Layout.fillWidth: true }
-
-            ImageButton {
-                objectName: "rdm_value_editor_save_btn"
-                iconSource: "qrc:/images/save.svg"
-                tooltip: qsTranslate("RDM","Save")
-                enabled: keyType != "stream"
-                visible: showSaveBtn
-
-                onClicked: {
-                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
-                        savingConfirmation.text = qsTranslate("RDM","Nothing to save")
-                        savingConfirmation.open()
-                        return
-                    }
-
-                    valueEditor.item.validateValue(function (result) {
-                        if (!result)
-                            return;
-
-                        var value = valueEditor.item.getValue()
-                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
-
-                        savingConfirmation.text = qsTranslate("RDM","Value was updated!")
-                        savingConfirmation.open()
-                    })
-                }
-
-                OkDialog {
-                    id: savingConfirmation
-                    title: qsTranslate("RDM","Save value")
-                    text: ""
-                    visible: false
-                }
-            }
-
-            SaveToFileButton {
-                objectName: "rdm_save_value_to_file_btn"
-            }
-
-            ImageButton {
-                iconSource: "qrc:/images/copy.svg"
-                tooltip: qsTranslate("RDM","Copy to Clipboard")
-
-                onClicked: {
-                    if (textView.model) {
-                        qmlUtils.copyToClipboard(textView.model.getText())
-                    }
-                }
-            }
 
             Label { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
@@ -391,7 +346,86 @@ Item
                 }
             }
 
-            Label { visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit; text: qsTranslate("RDM","Large value (>150kB). Formatters are not available."); color: "red"; }
+            Label {
+                visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit
+                text: qsTranslate("RDM","Large value (>150kB). Formatters are not available.")
+                color: "red"
+            }
+
+            ImageButton {
+                iconSource: "qrc:/images/copy.svg"
+                implicitWidth: imgBtnWidth
+                implicitHeight: imgBtnHeight
+                imgWidth: imgBtnWidth
+                imgHeight: imgBtnHeight
+
+                tooltip: qsTranslate("RDM","Copy to Clipboard")
+                enabled: root.value !== ""
+
+                onClicked: {
+                    if (textView.model) {
+                        qmlUtils.copyToClipboard(textView.model.getText())
+                    }
+                }
+            }
+
+            SaveToFileButton {
+                objectName: "rdm_save_value_to_file_btn"
+
+                implicitWidth: imgBtnWidth
+                implicitHeight: imgBtnHeight
+                imgWidth: imgBtnWidth
+                imgHeight: imgBtnHeight
+
+                enabled: root.value !== ""
+            }
+
+            ImageButton {
+                objectName: "rdm_value_editor_save_btn"
+
+                iconSource: "qrc:/images/save.svg"
+                implicitWidth: imgBtnWidth
+                implicitHeight: imgBtnHeight
+                imgWidth: imgBtnWidth
+                imgHeight: imgBtnHeight
+
+                tooltip: qsTranslate("RDM","Save Changes")
+                enabled: root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
+                visible: showSaveBtn
+
+                onClicked: {
+                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
+                        savingConfirmation.text = qsTranslate("RDM","Nothing to save")
+                        savingConfirmation.open()
+                        return
+                    }
+
+                    valueEditor.item.validateValue(function (result) {
+                        if (!result)
+                            return;
+
+                        var value = valueEditor.item.getValue()
+                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+
+                        root.isEdited = false
+
+                        savingConfirmation.text = qsTranslate("RDM","Value was updated!")
+                        savingConfirmation.open()
+                    })
+                }
+
+                OkDialog {
+                    id: savingConfirmation
+                    title: qsTranslate("RDM","Save value")
+                    text: ""
+                    visible: false
+                }
+            }
+
+            Item {
+                width: imgBtnWidth
+                visible: !showSaveBtn && keyType == "hash"
+            }
         }
 
         Rectangle {
@@ -462,7 +496,12 @@ Item
         id: largeValueDialog
         title: qsTranslate("RDM","Binary value is too large to display")
         visible: false
-        footer: null
+        footer: BetterDialogButtonBox {
+            BetterButton {
+                text: qsTranslate("RDM","OK")
+                onClicked: largeValueDialog.close()
+            }
+        }
 
         RowLayout {
             Text {
