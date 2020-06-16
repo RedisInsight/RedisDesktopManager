@@ -23,7 +23,7 @@ Repeater {
                 icon.source: "qrc:/images/key.svg"
 
                 text: tabName
-                ToolTip.text: keyModel && tabName <= keyName? keyName : ""
+                tooltip: keyModel && tabName <= keyName? keyName : ""
 
                 onCloseClicked: {
                     valuesModel.closeTab(keyIndex)
@@ -144,7 +144,7 @@ Repeater {
                         Layout.fillWidth: true
                         text: keyModel? keyName : ""
                         readOnly: true
-                        objectName: "rdm_key_name_field"                                               
+                        objectName: "rdm_key_name_field"
                     }
 
                     BetterButton {
@@ -159,7 +159,7 @@ Repeater {
                             id: renameConfirmation
                             title: qsTranslate("RDM","Rename key")
 
-                            width: 520                                                      
+                            width: 520
 
                             RowLayout {
                                 implicitWidth: 500
@@ -184,7 +184,6 @@ Repeater {
                             }
 
                             visible: false
-                            standardButtons: Dialog.Ok | Dialog.Cancel
                         }
                     }
 
@@ -227,8 +226,7 @@ Repeater {
                                 keyTab.keyModel.setTTL(newTTL.text)
                             }
 
-                            visible: false                            
-                            standardButtons: Dialog.Ok | Dialog.Cancel
+                            visible: false
                         }
 
                         onClicked: {
@@ -327,7 +325,7 @@ Repeater {
                                         objectName: "rdm_value_tab_table"
 
                                         width: parent.width
-                                        onWidthChanged: forceLayout() 
+                                        onWidthChanged: forceLayout()
                                         clip: true
                                         columnSpacing: 1
                                         rowSpacing: 1
@@ -357,7 +355,7 @@ Repeater {
                                                     implicitHeight: 30
                                                     text: Number(display) + 1
                                                     selected: table.currentRow === row
-                                                    onClicked: table.currentRow = row                                                  
+                                                    onClicked: table.currentRow = row
                                                 }
                                             }
 
@@ -402,7 +400,7 @@ Repeater {
 
                                         OkDialog {
                                             id: valueErrorNotification
-                                            visible: false                                                                                                                                    
+                                            visible: false
                                         }
 
                                         Connections {
@@ -528,7 +526,7 @@ Repeater {
                                                                     : qsTranslate("RDM","Add Row")
 
                                     width: 550
-                                    height: 400                                    
+                                    height: 400
 
                                     contentItem: Rectangle {
                                         color: sysPalette.base
@@ -559,7 +557,7 @@ Repeater {
                                     }
 
                                     footer: BetterDialogButtonBox {
-                                        Button {
+                                        BetterButton {
                                             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
                                             objectName: "rdb_add_row_dialog_add_button"
                                             text: qsTranslate("RDM","Add")
@@ -584,7 +582,7 @@ Repeater {
                                             }
                                         }
 
-                                        Button {
+                                        BetterButton {
                                             text: qsTranslate("RDM", "Cancel")
                                             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
                                         }
@@ -606,7 +604,7 @@ Repeater {
                                         deleteRowConfirmation.text = qsTranslate("RDM","The row is the last one in the key. After removing it key will be deleted.")
                                     } else {
                                         deleteRowConfirmation.text = qsTranslate("RDM","Do you really want to remove this row?")
-                                    }                                   
+                                    }
 
                                     console.log("removing row", table.currentRow)
 
@@ -808,7 +806,7 @@ Repeater {
                                 id: savingConfirmation
                                 title: qsTranslate("RDM","Save value")
                                 text: ""
-                                visible: false                                                                                                
+                                visible: false
                             }
                         }
                     }
@@ -844,4 +842,3 @@ Repeater {
         }
     }
 }
-
