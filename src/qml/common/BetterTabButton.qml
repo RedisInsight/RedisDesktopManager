@@ -30,12 +30,6 @@ TabButton {
         }
 
         onClicked: {
-            for (var btnIndex in tabBar.contentChildren) {
-                if (tabBar.contentChildren[btnIndex] === self) {
-                    tabBar.removeItem(btnIndex)
-                    break
-                }
-            }
             root.closeClicked()
         }
     }
