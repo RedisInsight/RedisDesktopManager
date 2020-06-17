@@ -26,7 +26,24 @@ Repeater {
                 tooltip: keyModel && tabName <= keyName? keyName : ""
 
                 onCloseClicked: {
-                    valuesModel.closeTab(keyIndex)
+                    if (valueEditor.item && valueEditor.item.isEdited() && keyType != "stream") {
+                        closeConfirmation.open()
+                    } else {
+                        valuesModel.closeTab(keyIndex)
+                    }
+                }
+
+                BetterMessageDialog {
+                    id: closeConfirmation
+                    title: qsTranslate("RDM","Close key tab")
+                    text: qsTranslate("RDM","Value was updated. Close key tab without saving changes?")
+
+                    modality: Qt.WindowModal
+                    visible: false
+
+                    onYesClicked: {
+                        valuesModel.closeTab(keyIndex)
+                    }
                 }
             }
         }
