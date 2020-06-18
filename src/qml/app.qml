@@ -126,9 +126,10 @@ ApplicationWindow {
         objectName: "rdm_qml_error_dialog"
         visible: false
 
-        function showError(msg) {
+        function showError(msg, details="") {
             icon = StandardIcon.Warning
             text = msg
+            detailedText = details
             open()
         }
 

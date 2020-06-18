@@ -273,7 +273,16 @@ Item
                 textView.readOnly = isReadOnly
                 root.isEdited = false
                 uiBlocker.visible = false
-                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"))
+
+                var details
+                if (error.length > 200) {
+                    details = error
+                    error = qsTranslate("RDM","Formatting error")
+                } else {
+                    details = ""
+                }
+
+                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"), details)
                 return
             }
 
