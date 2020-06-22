@@ -52,6 +52,7 @@ AbstractEditor {
         Layout.fillWidth: true
         Layout.fillHeight: true        
         enabled: root.active || root.state !== "edit"
+        showToolBar: root.state == "edit"
         showSaveBtn: root.state == "edit"
         showFormatters: root.state == "edit"
         objectName: "rdm_key_stream_text_field"
