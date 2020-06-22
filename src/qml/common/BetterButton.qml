@@ -12,9 +12,10 @@ Button {
     icon.height: 18
     icon.color: "transparent"
     implicitHeight: 30
+    opacity: root.enabled ? 1.0 : 0.8
 
     palette.windowText: sysPalette.text
-    palette.buttonText: sysPalette.text
+    palette.buttonText: enabled ? sysPalette.text : disabledSysPalette.text
 
     Connections {
         target: approot

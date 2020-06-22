@@ -90,7 +90,11 @@ ApplicationWindow {
     SystemPalette {
         id: inactiveSysPalette
         colorGroup: SystemPalette.Inactive
+    }
 
+    SystemPalette {
+        id: disabledSysPalette
+        colorGroup: SystemPalette.Disabled
     }
 
     QuickStartDialog {

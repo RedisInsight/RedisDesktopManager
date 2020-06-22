@@ -21,12 +21,13 @@ Button {
         height: 18
         sourceSize.width: width * 2
         sourceSize.height: height * 2
+        opacity: root.enabled? 1.0: 0.8
     }
 
     background: Rectangle {
         implicitWidth: root.implicitWidth + 3
         implicitHeight: root.implicitHeight + 3
-        opacity: enabled ? 1 : 0.3
+        opacity: root.enabled ? 1 : 0.3
         color: root.hovered ? "#eee" : "transparent"
         border.width: root.hovered ? 1 : 0
         border.color: "#eee"
