@@ -151,7 +151,7 @@ Repeater {
                     spacing: 5
 
                     Label {
-                        Layout.preferredWidth: 70
+                        Layout.preferredWidth: isMultiRow ? 70 : 90
                         text: keyModel? keyType.toUpperCase() + ":" : "";
                         font.bold: true
                     }
@@ -764,7 +764,7 @@ Repeater {
                     }
                     // Table end
 
-                    //Value editor
+                    // Value editor
                     ColumnLayout {
                         id: editorWrapper
                         SplitView.fillWidth: true
@@ -808,25 +808,8 @@ Repeater {
 
                             onLoaded: clear()
                         }
-
-                        RowLayout {
-                            id: editorButtonsRow
-                            Layout.fillWidth: true
-                            Layout.minimumHeight: 30
-                            Item { Layout.fillWidth: true}
-
-                            BetterButton {
-                                visible: keyType === "hyperloglog"
-                                Layout.preferredWidth: 195
-                                text: qsTranslate("RDM","Add Element to HLL");
-                                iconSource: "qrc:/images/add.svg"
-                                onClicked: {
-                                    addRowDialog.open()
-                                }
-                            }
-                        }
                     }
-                    //Value editor end
+                    // Value editor end
                 }
             }
 
