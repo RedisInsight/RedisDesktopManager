@@ -355,13 +355,28 @@ Item
 
             RowLayout {
                 id: valueEditorToolBar
-                Layout.preferredWidth: 200
-                Layout.maximumWidth: 200
+                Layout.preferredWidth: isMultiRow ? 200 : 208
+                Layout.maximumWidth: isMultiRow ? 200 : 208
 
                 visible: showToolBar
 
                 Item {
                     Layout.fillWidth: true
+                }
+
+                ImageButton {
+                    iconSource: "qrc:/images/add.svg"
+                    implicitWidth: imgBtnWidth
+                    implicitHeight: imgBtnHeight
+                    imgWidth: imgBtnWidth
+                    imgHeight: imgBtnHeight
+
+                    tooltip: qsTranslate("RDM","Add Element to HLL");
+                    visible: keyType === "hyperloglog"
+
+                    onClicked: {
+                        addRowDialog.open()
+                    }
                 }
 
                 ImageButton {
