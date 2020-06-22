@@ -14,6 +14,7 @@ Item
     property string textColor
     property int imgBtnWidth: PlatformUtils.isOSXRetina(Screen)? 18 : 22
     property int imgBtnHeight: PlatformUtils.isOSXRetina(Screen)? 18 : 22
+    property bool showToolBar: false
     property bool showSaveBtn: false
     property bool showFormatters: true
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
@@ -352,80 +353,91 @@ Item
                 color: "red"
             }
 
-            ImageButton {
-                iconSource: "qrc:/images/copy.svg"
-                implicitWidth: imgBtnWidth
-                implicitHeight: imgBtnHeight
-                imgWidth: imgBtnWidth
-                imgHeight: imgBtnHeight
+            RowLayout {
+                id: valueEditorToolBar
+                Layout.preferredWidth: 200
+                Layout.maximumWidth: 200
 
-                tooltip: qsTranslate("RDM","Copy to Clipboard")
-                enabled: root.value !== ""
+                visible: showToolBar
 
-                onClicked: {
-                    if (textView.model) {
-                        qmlUtils.copyToClipboard(textView.model.getText())
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                ImageButton {
+                    iconSource: "qrc:/images/copy.svg"
+                    implicitWidth: imgBtnWidth
+                    implicitHeight: imgBtnHeight
+                    imgWidth: imgBtnWidth
+                    imgHeight: imgBtnHeight
+
+                    tooltip: qsTranslate("RDM","Copy to Clipboard")
+                    enabled: root.value !== ""
+
+                    onClicked: {
+                        if (textView.model) {
+                            qmlUtils.copyToClipboard(textView.model.getText())
+                        }
                     }
                 }
-            }
 
-            SaveToFileButton {
-                objectName: "rdm_save_value_to_file_btn"
+                SaveToFileButton {
+                    objectName: "rdm_save_value_to_file_btn"
 
-                implicitWidth: imgBtnWidth
-                implicitHeight: imgBtnHeight
-                imgWidth: imgBtnWidth
-                imgHeight: imgBtnHeight
+                    implicitWidth: imgBtnWidth
+                    implicitHeight: imgBtnHeight
+                    imgWidth: imgBtnWidth
+                    imgHeight: imgBtnHeight
 
-                enabled: root.value !== ""
-            }
+                    enabled: root.value !== ""
+                }
 
-            ImageButton {
-                objectName: "rdm_value_editor_save_btn"
+                BetterButton {
+                    objectName: "rdm_value_editor_save_btn"
 
-                iconSource: "qrc:/images/save.svg"
-                implicitWidth: imgBtnWidth
-                implicitHeight: imgBtnHeight
-                imgWidth: imgBtnWidth
-                imgHeight: imgBtnHeight
+                    iconSource: "qrc:/images/save.svg"
+                    implicitWidth: isMultiRow ? 100 : 105
 
-                tooltip: qsTranslate("RDM","Save Changes")
-                enabled: root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
-                visible: showSaveBtn
+                    text: qsTranslate("RDM","Save")
+                    tooltip: qsTranslate("RDM","Save Changes")
+                    enabled: root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
+                    visible: showSaveBtn
 
-                onClicked: {
-                    if (!valueEditor.item || !valueEditor.item.isEdited()) {
-                        savingConfirmation.text = qsTranslate("RDM","Nothing to save")
-                        savingConfirmation.open()
-                        return
+                    onClicked: {
+                        if (!valueEditor.item || !valueEditor.item.isEdited()) {
+                            savingConfirmation.text = qsTranslate("RDM","Nothing to save")
+                            savingConfirmation.open()
+                            return
+                        }
+
+                        valueEditor.item.validateValue(function (result) {
+                            if (!result)
+                                return;
+
+                            var value = valueEditor.item.getValue()
+                            keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+
+                            root.isEdited = false
+
+                            savingConfirmation.text = qsTranslate("RDM","Value was updated!")
+                            savingConfirmation.open()
+                        })
                     }
 
-                    valueEditor.item.validateValue(function (result) {
-                        if (!result)
-                            return;
-
-                        var value = valueEditor.item.getValue()
-                        keyTab.keyModel.updateRow(valueEditor.currentRow, value)
-
-                        root.isEdited = false
-
-                        savingConfirmation.text = qsTranslate("RDM","Value was updated!")
-                        savingConfirmation.open()
-                    })
+                    OkDialog {
+                        id: savingConfirmation
+                        title: qsTranslate("RDM","Save value")
+                        text: ""
+                        visible: false
+                    }
                 }
 
-                OkDialog {
-                    id: savingConfirmation
-                    title: qsTranslate("RDM","Save value")
-                    text: ""
-                    visible: false
+                Item {
+                    width: 100
+                    visible: !showSaveBtn && keyType == "hash"
                 }
             }
 
-            Item {
-                width: imgBtnWidth
-                visible: !showSaveBtn && keyType == "hash"
-            }
         }
 
         Rectangle {
