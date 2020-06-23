@@ -6,14 +6,17 @@ import QtQuick.Layouts 1.1
 ImageButton {
     id: root
     iconSource: "qrc:/images/document.svg"
-    tooltip: qsTranslate("RDM","Save to File")
+    tooltip: qsTranslate("RDM","Save to File") + " (" + shortcutText + ")"
 
     property string fileUrl
     property string folderUrl
     property string path
+    property string shortcutText: ""
 
 
-    onClicked: {
+    onClicked: saveToFile()
+
+    function saveToFile() {
         saveValueToFileDialog.open()
     }
 

@@ -463,7 +463,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="575"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="374"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="376"/>
         <source>Add Element to HLL</source>
         <translation type="unfinished">添加元素到HLL</translation>
     </message>
@@ -507,17 +507,17 @@
         <translation type="obsolete">在所有值中搜索</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="428"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="440"/>
         <source>Nothing to save</source>
         <translation>不需要保存</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="442"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="454"/>
         <source>Value was updated!</source>
         <translation>键值已经更新！</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="449"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="461"/>
         <source>Save value</source>
         <translation>保存键值</translation>
     </message>
@@ -965,8 +965,8 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="555"/>
         <location filename="../../qml/GlobalSettings.qml" line="217"/>
         <location filename="../../qml/QuickStartDialog.qml" line="61"/>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="105"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="538"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="568"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -1497,7 +1497,7 @@
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="25"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="417"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="429"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1542,22 +1542,22 @@
         <translation type="unfinished">[压缩的：</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="389"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="394"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="418"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="430"/>
         <source>Save Changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="534"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="564"/>
         <source>Binary value is too large to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="546"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Save value to file: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1666,17 +1666,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="22"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="25"/>
         <source>Save Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="41"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
         <source>Save value to file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="62"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="65"/>
         <source>Value was saved to file:</source>
         <translation type="unfinished"></translation>
     </message>
