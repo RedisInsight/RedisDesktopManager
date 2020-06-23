@@ -435,12 +435,12 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="38"/>
-        <source>Close key tab</source>
+        <source>Changes are not saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="39"/>
-        <source>Value was updated. Close key tab without saving changes?</source>
+        <source>Do you want to close key tab without saving changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

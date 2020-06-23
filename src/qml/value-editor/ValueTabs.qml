@@ -35,8 +35,8 @@ Repeater {
 
                 BetterMessageDialog {
                     id: closeConfirmation
-                    title: qsTranslate("RDM","Close key tab")
-                    text: qsTranslate("RDM","Value was updated. Close key tab without saving changes?")
+                    title: qsTranslate("RDM","Changes are not saved")
+                    text: qsTranslate("RDM","Do you want to close key tab without saving changes?")
 
                     modality: Qt.WindowModal
                     visible: false
