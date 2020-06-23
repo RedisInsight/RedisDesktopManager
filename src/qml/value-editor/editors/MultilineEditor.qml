@@ -358,53 +358,65 @@ Item
                 Layout.preferredWidth: isMultiRow ? 200 : 208
                 Layout.maximumWidth: isMultiRow ? 200 : 208
 
-                visible: showToolBar
+                visible: showToolBar                
 
-                Item {
+                RowLayout {
                     Layout.fillWidth: true
-                }
+                    Layout.preferredWidth: 98
 
-                ImageButton {
-                    iconSource: "qrc:/images/add.svg"
-                    implicitWidth: imgBtnWidth
-                    implicitHeight: imgBtnHeight
-                    imgWidth: imgBtnWidth
-                    imgHeight: imgBtnHeight
+                    ImageButton {
+                        iconSource: "qrc:/images/add.svg"
+                        implicitWidth: imgBtnWidth
+                        implicitHeight: imgBtnHeight
+                        imgWidth: imgBtnWidth
+                        imgHeight: imgBtnHeight
 
-                    tooltip: qsTranslate("RDM","Add Element to HLL");
-                    visible: keyType === "hyperloglog"
+                        Layout.alignment: Qt.AlignHCenter
 
-                    onClicked: {
-                        addRowDialog.open()
-                    }
-                }
+                        tooltip: qsTranslate("RDM","Add Element to HLL");
+                        visible: keyType === "hyperloglog"
 
-                ImageButton {
-                    iconSource: "qrc:/images/copy.svg"
-                    implicitWidth: imgBtnWidth
-                    implicitHeight: imgBtnHeight
-                    imgWidth: imgBtnWidth
-                    imgHeight: imgBtnHeight
-
-                    tooltip: qsTranslate("RDM","Copy to Clipboard")
-                    enabled: root.value !== ""
-
-                    onClicked: {
-                        if (textView.model) {
-                            qmlUtils.copyToClipboard(textView.model.getText())
+                        onClicked: {
+                            addRowDialog.open()
                         }
                     }
-                }
 
-                SaveToFileButton {
-                    objectName: "rdm_save_value_to_file_btn"
+                    ImageButton {
+                        id: copyValueToClipboardBtn
+                        iconSource: "qrc:/images/copy.svg"
+                        implicitWidth: imgBtnWidth
+                        implicitHeight: imgBtnHeight
+                        imgWidth: imgBtnWidth
+                        imgHeight: imgBtnHeight
 
-                    implicitWidth: imgBtnWidth
-                    implicitHeight: imgBtnHeight
-                    imgWidth: imgBtnWidth
-                    imgHeight: imgBtnHeight
+                        Layout.alignment: Qt.AlignHCenter
 
-                    enabled: root.value !== ""
+                        tooltip: qsTranslate("RDM","Copy to Clipboard")
+                        enabled: root.value !== ""
+
+                        onClicked: copyValue()
+
+                        function copyValue() {
+                            console.log(textView.model)
+                            if (textView.model) {
+                                qmlUtils.copyToClipboard(textView.model.getText())
+                            }
+                        }
+                    }
+
+                    SaveToFileButton {
+                        id: saveAsBtn
+                        objectName: "rdm_save_value_to_file_btn"
+
+                        Layout.alignment: Qt.AlignHCenter
+
+                        implicitWidth: imgBtnWidth
+                        implicitHeight: imgBtnHeight
+                        imgWidth: imgBtnWidth
+                        imgHeight: imgBtnHeight
+
+                        enabled: root.value !== ""
+                    }
                 }
 
                 BetterButton {
@@ -415,11 +427,11 @@ Item
                     implicitWidth: isMultiRow ? 100 : 105
 
                     text: qsTranslate("RDM","Save")
-                    tooltip: qsTranslate("RDM","Save Changes") + " (" + saveBtn.saveShortcut + ")"
+                    tooltip: qsTranslate("RDM","Save Changes") + " (" + shortcutText + ")"
                     enabled: root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
                     visible: showSaveBtn
 
-                    property string saveShortcut: PlatformUtils.isOSX()? "Meta+S" : "Ctrl+S"
+                    property string shortcutText: ""
 
                     onClicked: saveChanges()
 
@@ -449,11 +461,6 @@ Item
                         title: qsTranslate("RDM","Save value")
                         text: ""
                         visible: false
-                    }
-
-                    Shortcut {
-                        sequence: StandardKey.Save
-                        onActivated: saveBtn.saveChanges()
                     }
                 }
 
@@ -514,6 +521,29 @@ Item
                                 Keys.onReleased: {
                                     root.isEdited = true
                                     textView.model && textView.model.setTextChunk(index, textAreaPart.text)
+                                }
+
+                                Keys.forwardTo: [saveShortcut, saveAsShortcut]
+
+                            }
+
+                            Shortcut {
+                                id: saveShortcut
+                                sequence: StandardKey.Save
+                                onActivated: saveBtn.saveChanges()
+
+                                Component.onCompleted: {
+                                    saveBtn.shortcutText = saveShortcut.nativeText
+                                }
+                            }
+
+                            Shortcut {
+                                id: saveAsShortcut
+                                sequence: StandardKey.SaveAs
+                                onActivated: saveAsBtn.saveToFile()
+
+                                Component.onCompleted: {
+                                    saveAsBtn.shortcutText = saveAsShortcut.nativeText
                                 }
                             }
                         }
