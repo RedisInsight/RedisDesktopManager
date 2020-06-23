@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
@@ -408,17 +408,22 @@ Item
                 }
 
                 BetterButton {
+                    id: saveBtn
                     objectName: "rdm_value_editor_save_btn"
 
                     iconSource: "qrc:/images/save.svg"
                     implicitWidth: isMultiRow ? 100 : 105
 
                     text: qsTranslate("RDM","Save")
-                    tooltip: qsTranslate("RDM","Save Changes")
+                    tooltip: qsTranslate("RDM","Save Changes") + " (" + saveBtn.saveShortcut + ")"
                     enabled: root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
                     visible: showSaveBtn
 
-                    onClicked: {
+                    property string saveShortcut: PlatformUtils.isOSX()? "Meta+S" : "Ctrl+S"
+
+                    onClicked: saveChanges()
+
+                    function saveChanges() {
                         if (!valueEditor.item || !valueEditor.item.isEdited()) {
                             savingConfirmation.text = qsTranslate("RDM","Nothing to save")
                             savingConfirmation.open()
@@ -444,6 +449,11 @@ Item
                         title: qsTranslate("RDM","Save value")
                         text: ""
                         visible: false
+                    }
+
+                    Shortcut {
+                        sequence: StandardKey.Save
+                        onActivated: saveBtn.saveChanges()
                     }
                 }
 
