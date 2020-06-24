@@ -24,7 +24,11 @@ class PickleFormatter(BaseFormatter):
             error = 'Value cannot be deserialized with pickle: {} ' \
                     '(value: {})'.format(e, value)
 
-        if isinstance(deserialized, pd.DataFrame):
+        if isinstance(deserialized, pd.Series):
+            output = f'{str(type(deserialized))[1:-1]}\n' \
+                     f'{deserialized.to_string()}'
+            decode_format = 'plain_text'
+        elif isinstance(deserialized, pd.DataFrame):
             html = deserialized.to_html(render_links=True, border=0)
             output = self.format_html_output(deserialized, html)
             decode_format = 'html'
@@ -51,7 +55,7 @@ class PickleFormatter(BaseFormatter):
         if isinstance(o, np.ndarray):
             return o.tolist()
         if isinstance(o, pd.Series):
-            return o.to_list()
+            return o.to_json()
         if isinstance(o, pd.DataFrame):
             return json.loads(o.to_json(orient='index', date_format='iso'))
         else:
