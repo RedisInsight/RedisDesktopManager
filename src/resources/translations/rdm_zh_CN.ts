@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="270"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="302"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="272"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="304"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>无法连接集群节点 %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="313"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="331"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="315"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="333"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>无法刷新库 (%1): %2</translation>
     </message>
@@ -973,7 +973,6 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="567"/>
         <location filename="../../qml/common/BetterDialog.qml" line="30"/>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="208"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="636"/>
         <source>Cancel</source>
@@ -1250,19 +1249,9 @@
         <translation type="unfinished">返回</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="154"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="153"/>
         <source>Enter Filter</source>
         <translation>输入过滤器</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="174"/>
-        <source>Apply</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="195"/>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
