@@ -1,7 +1,7 @@
 bitstring
 cbor
 msgpack
--e git+https://github.com/mrnom/phpserialize.git#egg=phpserialize
+git+https://github.com/mrnom/phpserialize.git#egg=phpserialize
 rdbtools
 python-lzf
 ddt
