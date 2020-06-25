@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.3
+import "../common"
 
 Item {
     id: root
@@ -23,7 +24,7 @@ Item {
             Layout.fillWidth: true
             spacing: 1
 
-            Label {
+            BetterLabel {
                 Layout.fillWidth: true
                 text: root.label
             }

@@ -14,6 +14,8 @@ RadioButton {
         }
     }
 
+    palette.windowText: sysPalette.windowText
+
     onReleased: {
         if (_uncheck) {
             checked = false

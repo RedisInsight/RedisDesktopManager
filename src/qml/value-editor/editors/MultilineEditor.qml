@@ -313,7 +313,7 @@ Item
             Layout.fillWidth: true
             spacing: 5
 
-            Label { text: root.fieldLabel }
+            BetterLabel { text: root.fieldLabel }
             TextEdit {
                 Layout.preferredWidth: 150
                 text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
@@ -321,11 +321,11 @@ Item
                 selectByMouse: true
                 color: "#ccc"
             }
-            Label { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
-            Label { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
+            BetterLabel { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
+            BetterLabel { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
             Item { Layout.fillWidth: true }
 
-            Label { visible: showFormatters; text: qsTranslate("RDM","View as:") }
+            BetterLabel { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
             Settings {
                 id: defaultFormatterSettings
@@ -347,7 +347,7 @@ Item
                 }
             }
 
-            Label {
+            BetterLabel {
                 visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit
                 text: qsTranslate("RDM","Large value (>150kB). Formatters are not available.")
                 color: "red"
@@ -551,7 +551,7 @@ Item
                 }
         }
 
-        Label {
+        BetterLabel {
             id: validationError
             color: "red"
             visible: false

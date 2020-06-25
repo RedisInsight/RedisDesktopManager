@@ -6,16 +6,20 @@ TextField {
     property bool validationError: false
     selectByMouse: true
 
+    color: sysPalette.text
+    selectionColor: sysPalette.highlight
+    selectedTextColor: control.palette.highlightedText
+
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 30
-        color: control.palette.base
+        color: sysPalette.button
         border.width: control.validationError? 2 : 1
         border.color: {
             if (control.validationError)
                 return "#d12f24"
 
-            return control.activeFocus ? control.palette.highlight : control.palette.mid
+            return control.activeFocus ? sysPalette.highlight : sysPalette.mid
         }
     }
 }

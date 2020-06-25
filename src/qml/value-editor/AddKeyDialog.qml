@@ -21,17 +21,17 @@ BetterDialog {
             anchors.fill: parent
             anchors.margins: 5
 
-            Label {
+            BetterLabel {
                 text: qsTranslate("RDM","Key:")
             }
-            TextField {
+            BetterTextField {
                 id: newKeyName
                 Layout.fillWidth: true
                 objectName: "rdm_add_key_name_field"
                 text: request? request.keyName : ''
             }
 
-            Label {
+            BetterLabel {
                 text: qsTranslate("RDM","Type:")
             }
 

@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 
 import "."
+import "../../common"
 
 AbstractEditor {
     id: root
@@ -12,12 +13,12 @@ AbstractEditor {
 
     property bool active: false
 
-    Label {
+    BetterLabel {
         Layout.fillWidth: true
         text: qsTranslate("RDM","ID")
     }
 
-    TextField {
+    BetterTextField {
             id: idValue
 
             Layout.fillWidth: true

@@ -120,7 +120,7 @@ Dialog {
                 anchors.fill: parent
                 anchors.margins: 20
 
-                Label {
+                BetterLabel {
                     id: operationLabel
                     font.pixelSize: 20
                 }
@@ -141,25 +141,25 @@ Dialog {
 
                     Layout.fillWidth: true
 
-                    Label {
+                    BetterLabel {
                         text: qsTr("Redis Server:")
                         Layout.preferredWidth: 250
                         Layout.preferredHeight: 25
                     }
 
-                    Label {
+                    BetterLabel {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 25
                         text: bulkOperations.connectionName
                     }
 
-                    Label {
+                    BetterLabel {
                         text: qsTr("Database number:")
                         Layout.preferredWidth: 250
                         Layout.preferredHeight: 25
                     }
 
-                    Label {
+                    BetterLabel {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 25
                         text: bulkOperations.dbIndex
@@ -172,7 +172,7 @@ Dialog {
                         Layout.columnSpan: 2
                         Layout.fillWidth: true
 
-                        Label {
+                        BetterLabel {
                             id: rdbPathLabel
                             text: qsTr("Path to RDB file:")
                             Layout.preferredWidth: 250
@@ -194,7 +194,7 @@ Dialog {
                             }
                         }
 
-                        Label {
+                        BetterLabel {
                             id: rdbDbLabel
                             text: qsTr("Select DB in RDB file:")
                             Layout.preferredWidth: 250
@@ -215,7 +215,7 @@ Dialog {
                         }
                     }
 
-                    Label {
+                    BetterLabel {
                         text: root.operationName == "rdb_import"? qsTr("Import keys that match <b>regex</b>:") : qsTr("Key pattern:")
                         Layout.preferredWidth: 250
                     }
@@ -236,7 +236,7 @@ Dialog {
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
 
-                        Label {
+                        BetterLabel {
                             text: "New TTL value (seconds):"
                             Layout.preferredWidth: 250
                         }
@@ -261,7 +261,7 @@ Dialog {
                     Layout.fillWidth: true
                     visible: bulkOperations.multiConnectionOperation()
 
-                    Label {
+                    BetterLabel {
                         Layout.preferredWidth: 250
                         text: qsTr("Destination Redis Server:")
                     }
@@ -272,7 +272,7 @@ Dialog {
                         id: targetConnection
                     }
 
-                    Label {
+                    BetterLabel {
                         Layout.preferredWidth: 250
                         text: qsTr("Destination Redis Server Database Index:")
                     }
@@ -294,7 +294,7 @@ Dialog {
 
                         Layout.columnSpan: 2
 
-                        Label {
+                        BetterLabel {
                             text: "Replace existing keys in target db:"
                             Layout.preferredWidth: 250
                         }
@@ -333,7 +333,7 @@ Dialog {
 
                     visible: false
 
-                    Label {
+                    BetterLabel {
                         text: root.operationName == "rdb_import"? qsTr("Matched keys:")  : qsTr("Affected keys:")
                     }
 
@@ -413,7 +413,7 @@ Dialog {
                         anchors.centerIn: parent;
 
                         BusyIndicator { running: true }
-                        Label {
+                        BetterLabel {
                             text: {
                                 if (bulkOperations.operationProgress > 0)
                                     return "Processed: " + bulkOperations.operationProgress

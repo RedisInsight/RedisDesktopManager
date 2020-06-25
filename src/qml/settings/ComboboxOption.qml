@@ -24,7 +24,7 @@ Item {
             Layout.fillWidth: true
             spacing: 1
 
-            Label {
+            BetterLabel {
                 Layout.fillWidth: true
                 text: root.label
             }
