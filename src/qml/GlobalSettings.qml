@@ -30,20 +30,21 @@ Dialog {
             ScrollView {
                 id: globalSettingsScrollView
                 width: parent.width
-                height: parent.height                
+                height: parent.height
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                 ColumnLayout {
                     id: innerLayout
                     width: PlatformUtils.isOSX()? globalSettingsScrollView.width - 25 : globalSettingsScrollView.width
                     height: (dialogRoot.height - 50 > implicitHeight) ? dialogRoot.height - 50 : implicitHeight
+                    spacing: 8
 
                     SettingsGroupTitle {
                         text: qsTranslate("RDM","General")
                     }
 
                     BetterLabel {
-                        color: "grey"
+                        color: disabledSysPalette.text
                         text: qsTranslate("RDM","Application will be restarted to apply this setting.")
                     }
 
@@ -67,7 +68,7 @@ Dialog {
 
                         value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                         model: Qt.fontFamilies()
-                        label: qsTranslate("RDM","Font")                        
+                        label: qsTranslate("RDM","Font")
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -80,7 +81,7 @@ Dialog {
 
                         model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                         value: Qt.platform.os == "osx"? "12" : "11"
-                        label: qsTranslate("RDM","Font Size")                        
+                        label: qsTranslate("RDM","Font Size")
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -93,7 +94,7 @@ Dialog {
 
                         model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                         value: Qt.platform.os == "osx"? "12" : "11"
-                        label: qsTranslate("RDM","Value Editor Font Size")                        
+                        label: qsTranslate("RDM","Value Editor Font Size")
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -105,7 +106,7 @@ Dialog {
                         Layout.preferredHeight: 30
 
                         value: false
-                        label: qsTranslate("RDM","Use system proxy settings")                        
+                        label: qsTranslate("RDM","Use system proxy settings")
 
                         onValueChanged: root.restartRequired = true
                     }

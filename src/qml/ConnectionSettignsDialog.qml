@@ -121,6 +121,12 @@ Dialog {
                     id: connectionSettingsTabBar
                     Layout.fillWidth: true
 
+                    palette.brightText: sysPalette.text
+                    palette.dark: sysPalette.button
+                    palette.mid: sysPalette.window
+                    palette.window: sysPalette.base
+                    palette.windowText: sysPalette.windowText
+
                     TabButton {
                         objectName: "rdm_connection_settings_dialog_basic_settings_tab"
                         text: qsTranslate("RDM","Connection Settings")
