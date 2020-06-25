@@ -35,11 +35,13 @@ ColumnLayout {
         spacing: 1
         BetterButton {
             Layout.fillWidth: true
+            palette.buttonText: sysPalette.dark
             text: "❮"
             onClicked: table.goToPrevPage()
         }
         BetterButton {
             Layout.fillWidth: true
+            palette.buttonText: sysPalette.dark
             text: "❯"
             onClicked: table.goToNextPage()
             objectName: "rdm_value_editor_next_page_button"

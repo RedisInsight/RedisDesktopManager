@@ -282,7 +282,7 @@ Repeater {
                     }
                 }
 
-                SplitView {
+                BetterSplitView {
                     orientation: Qt.Vertical
                     Layout.fillHeight: true
                     Layout.fillWidth: true
@@ -312,7 +312,7 @@ Repeater {
                                     id: tableHeader
                                     model: keyTab.keyModel? keyTab.keyModel.columnNames : []
 
-                                    Rectangle {
+                                    Rectangle {  // Table header cell
                                         Layout.preferredHeight: 30
                                         Layout.preferredWidth: 75
                                         Layout.fillWidth: index !== 0
@@ -324,7 +324,7 @@ Repeater {
                                             color: sysPalette.windowText
                                         }
 
-                                        BetterLabel {  // sort indicator
+                                        BetterLabel {  // Sort indicator
                                             anchors.margins: 10
                                             anchors.right: parent.right
                                             anchors.verticalCenter: parent.verticalCenter
@@ -350,7 +350,7 @@ Repeater {
                                                 table.sort(role, order)
                                             }
                                         }
-                                    }
+                                    }  // Table header cell end
                                 }
                             }
 

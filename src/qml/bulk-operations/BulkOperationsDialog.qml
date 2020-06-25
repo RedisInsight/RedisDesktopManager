@@ -126,7 +126,7 @@ Dialog {
                 }
 
                 Rectangle {
-                    color: "#e2e2e2"
+                    color: sysPalette.mid
                     Layout.preferredHeight: 1
                     Layout.fillWidth: true
                 }
