@@ -61,5 +61,6 @@
         <file>common/BetterDialogButtonBox.qml</file>
         <file>common/BetterToolTip.qml</file>
         <file>common/SaveToFileButton.qml</file>
+        <file>common/BetterLabel.qml</file>
     </qresource>
 </RCC>

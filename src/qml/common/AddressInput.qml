@@ -15,7 +15,7 @@ RowLayout {
         Layout.fillWidth: true        
     }
 
-    Label { text: ":" }
+    BetterLabel { text: ":" }
 
     BetterSpinBox {
         id: portField

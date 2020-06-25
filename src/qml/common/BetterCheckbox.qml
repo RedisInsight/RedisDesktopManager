@@ -4,6 +4,8 @@ import QtQuick.Controls 2.3
 CheckBox {
     id: checkBox
 
+    palette.windowText: sysPalette.windowText
+
     indicator: Rectangle {
            implicitWidth: 16
            implicitHeight: 16

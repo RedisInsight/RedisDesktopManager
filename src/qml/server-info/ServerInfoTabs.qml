@@ -71,7 +71,7 @@ Repeater {
                         color: "grey"
                     }
 
-                    Label {
+                    BetterLabel {
                         id: redisVersionLabel
                         text: "N/A"
                         font.pointSize: 12
@@ -86,7 +86,7 @@ Repeater {
                         color: "grey"
                     }
 
-                    Label {
+                    BetterLabel {
                         id: usedMemoryLabel;
                         text: "N/A";
                         font.pointSize: 12
@@ -101,7 +101,7 @@ Repeater {
                         color: "grey"
                     }
 
-                    Label {
+                    BetterLabel {
                         id: connectedClientsLabel;
                         text: "N/A";
                         font.pointSize: 12
@@ -117,7 +117,7 @@ Repeater {
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    BetterLabel {
                         id: totalCommandsProcessedLabel;
                         text: "N/A";
                         font.pointSize: 12
@@ -133,7 +133,7 @@ Repeater {
                         color: "grey"
                     }
 
-                    Label {
+                    BetterLabel {
                         id: uptimeLabel;
                         text: "N/A";
                         font.pointSize: 12

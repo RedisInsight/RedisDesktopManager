@@ -155,7 +155,7 @@ Dialog {
 
                                 Layout.fillWidth: true
 
-                                Label { text: qsTranslate("RDM","Name:") }
+                                BetterLabel { text: qsTranslate("RDM","Name:") }
 
                                 BetterTextField {
                                     id: connectionName
@@ -167,7 +167,7 @@ Dialog {
                                     onTextChanged: root.settings.name = text
                                 }
 
-                                Label { text: qsTranslate("RDM","Address:") }
+                                BetterLabel { text: qsTranslate("RDM","Address:") }
 
                                 AddressInput {
                                     id: connectionAddress
@@ -179,7 +179,7 @@ Dialog {
                                     onPortChanged: if (root.settings) root.settings.port = port
                                 }
 
-                                Label { text: qsTranslate("RDM","Auth:") }
+                                BetterLabel { text: qsTranslate("RDM","Auth:") }
 
                                 PasswordInput {
                                     id: connectionAuth
@@ -226,7 +226,7 @@ Dialog {
                                     columns: 2
                                     Layout.fillWidth: true
 
-                                    Label { text: qsTranslate("RDM","Public Key:") }
+                                    BetterLabel { text: qsTranslate("RDM","Public Key:") }
 
                                     FilePathInput {
                                         id: sslLocalCertPath
@@ -238,7 +238,7 @@ Dialog {
                                         onPathChanged: root.settings.sslLocalCertPath = path
                                     }
 
-                                    Label { text: qsTranslate("RDM", "Private Key") + ":" }
+                                    BetterLabel { text: qsTranslate("RDM", "Private Key") + ":" }
 
                                     FilePathInput {
                                         id: sslPrivateKeyPath
@@ -250,7 +250,7 @@ Dialog {
                                         onPathChanged: root.settings.sslPrivateKeyPath = path
                                     }
 
-                                    Label { text: qsTranslate("RDM","Authority:") }
+                                    BetterLabel { text: qsTranslate("RDM","Authority:") }
 
                                     FilePathInput {
                                         id: sslCaCertPath
@@ -262,7 +262,7 @@ Dialog {
                                         onPathChanged: root.settings.sslCaCertPath = path
                                     }
 
-                                    Label { text: qsTranslate("RDM","Enable strict mode:")}
+                                    BetterLabel { text: qsTranslate("RDM","Enable strict mode:")}
 
                                     BetterCheckbox {
                                         id: ignoreSSLErrors
@@ -302,7 +302,7 @@ Dialog {
                                     columns: 2
                                     Layout.fillWidth: true
 
-                                    Label { text: qsTranslate("RDM","SSH Address:") }
+                                    BetterLabel { text: qsTranslate("RDM","SSH Address:") }
 
                                     AddressInput {
                                         id: sshAddress
@@ -314,7 +314,7 @@ Dialog {
                                         onPortChanged: root.settings.sshPort = port
                                     }
 
-                                    Label { text: qsTranslate("RDM","SSH User:") }
+                                    BetterLabel { text: qsTranslate("RDM","SSH User:") }
 
                                     BetterTextField {
                                         id: sshUser
@@ -350,7 +350,7 @@ Dialog {
                                                 onPathChanged: root.settings.sshPrivateKey = path
                                             }
 
-                                            Label {
+                                            BetterLabel {
                                                 visible: PlatformUtils.isOSX()
                                                 Layout.fillWidth: true;
                                                 text: qsTranslate("RDM","<b>Tip:</b> Use <code>⌘ + Shift + .</code> to show hidden files and folders in dialog") }
@@ -407,7 +407,7 @@ Dialog {
                                 Layout.columnSpan: 2
                             }
 
-                            Label { text: qsTranslate("RDM","Default filter:") }
+                            BetterLabel { text: qsTranslate("RDM","Default filter:") }
 
                             BetterTextField
                             {
@@ -419,7 +419,7 @@ Dialog {
                                 onTextChanged: if (root.settings) { root.settings.keysPattern = text }
                             }
 
-                            Label { text: qsTranslate("RDM","Namespace Separator:") }
+                            BetterLabel { text: qsTranslate("RDM","Namespace Separator:") }
 
                             BetterTextField
                             {
@@ -431,7 +431,7 @@ Dialog {
                                 onTextChanged: if (root.settings) { root.settings.namespaceSeparator = text }
                             }
 
-                            Label { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
+                            BetterLabel { text: qsTranslate("RDM","Use server-side optimized keys loading (experimental):")}
 
                             BetterCheckbox {
                                 id: luaKeysLoading
@@ -446,7 +446,7 @@ Dialog {
                                 Layout.columnSpan: 2
                             }
 
-                            Label { text: qsTranslate("RDM","Connection Timeout (sec):") }
+                            BetterLabel { text: qsTranslate("RDM","Connection Timeout (sec):") }
 
                             BetterSpinBox {
                                 id: executeTimeout
@@ -459,7 +459,7 @@ Dialog {
                                 onValueChanged: if (root.settings) { root.settings.executeTimeout = value * 1000 }
                             }
 
-                            Label { text: qsTranslate("RDM","Execution Timeout (sec):")}
+                            BetterLabel { text: qsTranslate("RDM","Execution Timeout (sec):")}
 
                             BetterSpinBox {
                                 id: connectionTimeout
@@ -470,7 +470,7 @@ Dialog {
                                 onValueChanged: if (root.settings) { root.settings.connectionTimeout = value * 1000 }
                             }
 
-                            Label { text: qsTranslate("RDM","Databases discovery limit:") }
+                            BetterLabel { text: qsTranslate("RDM","Databases discovery limit:") }
 
                             BetterSpinBox {
                                 id: dbScanLimit
@@ -488,7 +488,7 @@ Dialog {
                                 Layout.columnSpan: 2
                             }
 
-                            Label { text: qsTranslate("RDM","Change host on cluster redirects:")}
+                            BetterLabel { text: qsTranslate("RDM","Change host on cluster redirects:")}
 
                             BetterCheckbox {
                                 id: overrideClusterHost
@@ -543,7 +543,7 @@ Dialog {
                             sourceSize.height: 30
                             source: "qrc:/images/alert.svg"
                         }
-                        Label {
+                        BetterLabel {
                             text: qsTranslate("RDM","Invalid settings detected!")
                         }
                     }

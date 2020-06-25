@@ -7,24 +7,24 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true
 
-        Label {
+        BetterLabel {
             text: qsTranslate("RDM","Page") + " "
             wrapMode: Text.WrapAnywhere
         }
 
-        Label {
+        BetterLabel {
             id: pageField;
             text: table.currentPage;
             Layout.maximumWidth: 60;
         }
 
-        Label {
+        BetterLabel {
             Layout.maximumWidth: 130
             text: " of " + table.totalPages
             wrapMode: Text.WrapAnywhere
         }
 
-        Label {
+        BetterLabel {
             text:  qsTranslate("RDM","Size: ") + keyRowsCount
         }
     }

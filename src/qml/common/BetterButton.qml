@@ -14,18 +14,9 @@ Button {
     implicitHeight: 30
     opacity: root.enabled ? 1.0 : 0.8
 
+    palette.button: sysPalette.button
     palette.windowText: sysPalette.text
     palette.buttonText: enabled ? sysPalette.text : disabledSysPalette.text
-
-    Connections {
-        target: approot
-
-        onPaletteChanged: {
-            root.palette = approot.palette
-            root.palette.windowText = sysPalette.text
-            root.palette.buttonText = sysPalette.text
-        }
-    }
 
     BetterToolTip {
         title: root.tooltip

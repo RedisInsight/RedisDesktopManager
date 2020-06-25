@@ -42,7 +42,7 @@ Dialog {
                         text: qsTranslate("RDM","General")
                     }
 
-                    Label {
+                    BetterLabel {
                         color: "grey"
                         text: qsTranslate("RDM","Application will be restarted to apply this setting.")
                     }

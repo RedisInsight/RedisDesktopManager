@@ -21,6 +21,9 @@ TabButton {
         tabs.activateTab(tabRef)
     }
 
+    palette.window: sysPalette.window
+    palette.windowText: sysPalette.text
+
     ImageButton {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter

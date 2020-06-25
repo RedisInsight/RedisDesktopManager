@@ -22,7 +22,7 @@ Rectangle {
             id: listView
             width: root.width - 20
 
-            delegate: Label {
+            delegate: BetterLabel {
                 width: listView.width
                 text: {
                     if (root.showLineNumbers) {

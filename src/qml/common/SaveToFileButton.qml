@@ -60,7 +60,7 @@ ImageButton {
                 ColumnLayout {
                     anchors.fill: parent
 
-                    Label {
+                    BetterLabel {
                         Layout.fillWidth: true
                         text: qsTranslate("RDM","Value was saved to file:")
                     }

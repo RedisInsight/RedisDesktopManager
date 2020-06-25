@@ -150,7 +150,7 @@ Repeater {
                     Layout.fillWidth: true
                     spacing: 5
 
-                    Label {
+                    BetterLabel {
                         Layout.preferredWidth: isMultiRow ? 70 : 90
                         text: keyModel? keyType.toUpperCase() + ":" : "";
                         font.bold: true
@@ -183,7 +183,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Label { text: qsTranslate("RDM","New name:") }
+                                BetterLabel { text: qsTranslate("RDM","New name:") }
                                 BetterTextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
@@ -204,7 +204,7 @@ Repeater {
                         }
                     }
 
-                    Label {
+                    BetterLabel {
                         visible: keyType === "hyperloglog";
                         text:  qsTranslate("RDM","Size: ") + keyRowsCount
                     }
@@ -226,7 +226,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                Label { text: qsTranslate("RDM","New TTL:") }
+                                BetterLabel { text: qsTranslate("RDM","New TTL:") }
                                 BetterTextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
@@ -318,13 +318,13 @@ Repeater {
                                         Layout.fillWidth: index !== 0
                                         color: sysPalette.window
 
-                                        Label {
+                                        BetterLabel {
                                             anchors.centerIn: parent
                                             text: modelData
                                             color: sysPalette.windowText
                                         }
 
-                                        Label {  // sort indicator
+                                        BetterLabel {  // sort indicator
                                             anchors.margins: 10
                                             anchors.right: parent.right
                                             anchors.verticalCenter: parent.verticalCenter
@@ -827,7 +827,7 @@ Repeater {
 
                         BusyIndicator { Layout.alignment: Qt.AlignHCenter;  running: true }
 
-                        Label {
+                        BetterLabel {
                             visible: loadingModel
                             text: tabName
                         }
