@@ -1,13 +1,17 @@
 !include LogicLib.nsh
 
 !macro InstallVCredist
-  !define VCplus_URL "https://aka.ms/vs/15/release/vc_redist.x64.exe"
+  !define VCplus_URL "https://aka.ms/vs/16/release/VC_redist.x64.exe"
 
-  ReadRegDWORD $0 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" Bld
-  IntCmp $0 27024 VCInstalled VCDownload
+  ReadRegDWORD $0 HKLM "SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" Bld
+  ${If} $0 >= 27033
+    goto VCInstalled
+  ${Else}
+    goto VCDownload
+  ${EndIf}
 
   VCDownload:
-  DetailPrint "Beginning download of VC++ 2017 Redistributable."
+  DetailPrint "Beginning download of VC++ 2015-2019 Redistributable."
   inetc::get /TIMEOUT=30000 ${VCplus_URL} "$TEMP\vc_redist.x64.exe" /END
   Pop $0
   DetailPrint "Result: $0"
