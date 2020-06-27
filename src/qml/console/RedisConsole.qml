@@ -166,7 +166,7 @@ Rectangle {
 
     ColumnLayout {
         height: 150
-        width: root.width * 0.6
+        width: root.width - x - 50
 
         x: textArea.cursorRectangle? textArea.cursorRectangle.x : 0
         y: textArea.cursorRectangle? textArea.cursorRectangle.y + 20 : 0

@@ -48,6 +48,8 @@ public:
     void classBegin();
     void componentComplete();
 
+    Q_INVOKABLE int getOriginalRowIndex(int i);
+
 signals:
     void filterStringChanged();
 
