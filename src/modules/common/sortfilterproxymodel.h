@@ -17,6 +17,8 @@ class SortFilterProxyModel : public QSortFilterProxyModel, public QQmlParserStat
     Q_PROPERTY(QString filterString READ filterString WRITE setFilterString NOTIFY filterStringChanged)
     Q_PROPERTY(FilterSyntax filterSyntax READ filterSyntax WRITE setFilterSyntax)
 
+    Q_PROPERTY(int filterKeyColumn READ filterKeyColumn WRITE setFilterKeyColumn)
+
     Q_ENUMS(FilterSyntax)
 
 public:

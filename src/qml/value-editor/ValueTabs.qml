@@ -80,7 +80,7 @@ Repeater {
                 filterString: table.searchField.text
                 filterSyntax: SortFilterProxyModel.Wildcard
                 filterCaseSensitivity: Qt.CaseInsensitive
-                filterRole: keyTab.keyModel && keyTab.keyModel.isLoaded ? "value" : ""
+                filterKeyColumn: -1
 
                 onFilterStringChanged: {
                     table.resetCurrentRow()
@@ -398,7 +398,7 @@ Repeater {
                                                     objectName: "rdm_value_table_cell_col1"
                                                     implicitWidth: table.firstColumnWidth
                                                     implicitHeight: 30
-                                                    text: Number(display) + 1
+                                                    text: Number(row) + 1
                                                     selected: table.currentRow === row
                                                     onClicked: table.currentRow = row
                                                 }

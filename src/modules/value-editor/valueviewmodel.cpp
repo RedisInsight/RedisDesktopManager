@@ -47,7 +47,7 @@ QVariant ValueEditor::ValueViewModel::data(const QModelIndex& index,
 
   int mappedRole = role;
 
-  if (role == Qt::DisplayRole) {
+  if (role == Qt::DisplayRole && index.column() > 0) {
       mappedRole = m_model->getRoles().key(m_model->getColumnNames().at(index.column()).toLatin1());
   }
 
