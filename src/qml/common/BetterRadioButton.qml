@@ -29,7 +29,8 @@ RadioButton {
            x: root.leftPadding
            y: parent.height / 2 - height / 2
            radius: 8
-           border.color: root.down ? "grey" : "#ccccc"
+           color: root.down ? sysPalette.dark : sysPalette.base
+           border.color: sysPalette.dark
 
            Rectangle {
                width: 10
@@ -37,7 +38,7 @@ RadioButton {
                x: 3
                y: 3
                radius: 5
-               color: root.down ? "grey" : "#ccccc"
+               color: root.down ? sysPalette.dark : sysPalette.text
                visible: root.checked
            }
        }
