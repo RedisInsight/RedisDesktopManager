@@ -5,6 +5,9 @@ GroupBox {
     property string labelText
     property bool checked: false
 
+    palette.windowText: sysPalette.windowText
+    palette.mid: sysPalette.mid
+
     label: BetterCheckbox {
             id: checkBox
             objectName: "checkbox"

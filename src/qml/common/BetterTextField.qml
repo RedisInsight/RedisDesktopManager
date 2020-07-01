@@ -8,7 +8,7 @@ TextField {
 
     color: sysPalette.text
     selectionColor: sysPalette.highlight
-    selectedTextColor: control.palette.highlightedText
+    selectedTextColor: sysPalette.highlightedText
 
     background: Rectangle {
         implicitWidth: 200
