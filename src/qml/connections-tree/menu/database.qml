@@ -141,9 +141,10 @@ RowLayout {
     RowLayout {
         id: filterMenu
 
-        spacing: 0
-
         Layout.fillWidth: true
+
+        property int btnWidth: PlatformUtils.isOSXRetina(Screen)? 18 : 22
+        property int btnHeight: PlatformUtils.isOSXRetina(Screen)? 18 : 22
 
         TextField {
             id: filterText
@@ -163,6 +164,11 @@ RowLayout {
 
         ImageButton {
             id: filterOk
+
+            implicitWidth: filterMenu.btnWidth
+            implicitHeight: filterMenu.btnHeight
+            imgWidth: filterMenu.btnWidth
+            imgHeight: filterMenu.btnHeight
             iconSource: "qrc:/images/ok.svg"
             objectName: "rdm_inline_menu_button_apply_filter"
 
@@ -180,8 +186,10 @@ RowLayout {
         ImageButton {
             id: filterHelp
 
-            imgWidth: PlatformUtils.isOSXRetina(Screen)? 20 : 25
-            imgHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+            implicitWidth: filterMenu.btnWidth
+            implicitHeight: filterMenu.btnHeight
+            imgWidth: filterMenu.btnWidth
+            imgHeight: filterMenu.btnHeight
             iconSource: "qrc:/images/help.svg"
             onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/features/#search-in-connection-tree")
         }
@@ -189,8 +197,10 @@ RowLayout {
         ImageButton {
             id: filterCancel
 
-            imgWidth: PlatformUtils.isOSXRetina(Screen)? 20 : 25
-            imgHeight: PlatformUtils.isOSXRetina(Screen)? 20 : 25
+            implicitWidth: filterMenu.btnWidth
+            implicitHeight: filterMenu.btnHeight
+            imgWidth: filterMenu.btnWidth
+            imgHeight: filterMenu.btnHeight
             iconSource: "qrc:/images/clear.svg"
             objectName: "rdm_inline_menu_button_reset_filter"
 
