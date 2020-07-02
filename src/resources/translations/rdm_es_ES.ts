@@ -145,7 +145,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="229"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
@@ -436,12 +436,12 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="38"/>
         <source>Changes are not saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambios no guardados</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="39"/>
         <source>Do you want to close key tab without saving changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Quieres cerrar la pestaña de claves sin guardar los cambios?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="264"/>
@@ -496,7 +496,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="744"/>
         <source>Full Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Búsqueda Completa</translation>
     </message>
     <message>
         <source>Search through All values</source>
@@ -603,7 +603,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="25"/>
         <source>Loading key: %1 from db %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando clave: %1 desde db %2</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="36"/>
@@ -657,7 +657,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="34"/>
         <source>Import</source>
-        <translation type="unfinished">Importar</translation>
+        <translation>Importar</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="35"/>
@@ -669,7 +669,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="52"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="53"/>
@@ -704,7 +704,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="111"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Log</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="119"/>
@@ -813,7 +813,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="265"/>
         <source>Enable strict mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar modo estricto:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="279"/>
@@ -879,7 +879,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="205"/>
         <source>SSL / TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL / TLS</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="406"/>
@@ -1008,7 +1008,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="96"/>
         <source>Value Editor Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño de Fuente para Editor de Valores</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="108"/>
@@ -1421,7 +1421,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="446"/>
         <source>Execution Time (μs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo de Ejecución (μs)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="523"/>
@@ -1519,7 +1519,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="291"/>
         <source>Formatting error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de Formateo</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="296"/>
@@ -1544,17 +1544,17 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="430"/>
         <source>Save Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Cambios</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="564"/>
         <source>Binary value is too large to display</source>
-        <translation type="unfinished"></translation>
+        <translation>El valor binario es demasiado grande para mostrarse</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Save value to file: </source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar valor a fichero:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="328"/>
@@ -1658,27 +1658,27 @@
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save to File</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar a Fichero</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="25"/>
         <source>Save Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
         <source>Save value to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar valor a fichero</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="65"/>
         <source>Value was saved to file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor guardado en fichero:</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
         <source>Cannot connect to redis-server</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede conectar al servidor Redis</translation>
     </message>
 </context>
 <context>
