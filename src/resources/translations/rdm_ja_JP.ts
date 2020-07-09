@@ -392,12 +392,12 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="38"/>
         <source>Changes are not saved</source>
-        <translation">変更は保存されていません</translation>
+        <translation>変更は保存されていません</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="39"/>
         <source>Do you want to close key tab without saving changes?</source>
-        <translation">変更を保存せずにキーのタブを閉じますか?</translation>
+        <translation>変更を保存せずにキーのタブを閉じますか?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="264"/>
@@ -1319,7 +1319,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="291"/>
         <source>Formatting error</source>
-        <translation">フォーマットエラー</translation>
+        <translation>フォーマットエラー</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="296"/>
