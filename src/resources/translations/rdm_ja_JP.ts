@@ -392,12 +392,12 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="38"/>
         <source>Changes are not saved</source>
-        <translation type="unfinished"></translation>
+        <translation">変更は保存されていません</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="39"/>
         <source>Do you want to close key tab without saving changes?</source>
-        <translation type="unfinished"></translation>
+        <translation">変更を保存せずにキーのタブを閉じますか?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="264"/>
@@ -1319,7 +1319,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="291"/>
         <source>Formatting error</source>
-        <translation type="unfinished"></translation>
+        <translation">フォーマットエラー</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="296"/>
@@ -1344,17 +1344,17 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="430"/>
         <source>Save Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>変更を保存</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="564"/>
         <source>Binary value is too large to display</source>
-        <translation type="unfinished"></translation>
+        <translation>バイナリが大きすぎるため表示できません</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Save value to file: </source>
-        <translation type="unfinished"></translation>
+        <translation>値をファイルに保存: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="328"/>
@@ -1450,27 +1450,27 @@
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save to File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルに保存</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="25"/>
         <source>Save Value</source>
-        <translation type="unfinished"></translation>
+        <translation>値を保存</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
         <source>Save value to file</source>
-        <translation type="unfinished"></translation>
+        <translation>値をファイルに保存</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="65"/>
         <source>Value was saved to file:</source>
-        <translation type="unfinished"></translation>
+        <translation>値をファイルに保存しました:</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
         <source>Cannot connect to redis-server</source>
-        <translation type="unfinished"></translation>
+        <translation>redis-serverに接続できません</translation>
     </message>
 </context>
 </TS>
