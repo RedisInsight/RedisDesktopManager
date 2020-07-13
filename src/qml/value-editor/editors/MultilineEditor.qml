@@ -27,7 +27,7 @@ Item
     property string _jsFormatterStyles: {
         return "font-size: "
                 + appSettings.valueEditorFontSize
-                + "px; font-family: "
+                + "pt; font-family: "
                 + appSettings.valueEditorFont
     }
     property var _jsFormatterColorMap: {
