@@ -89,6 +89,12 @@ Rectangle {
                 return
             }
 
+            if (event.key == Qt.Key_Left && cursorPosition <= commandStartPos) {
+                event.accepted = true
+                console.log("Block left arrow")
+                return
+            }
+
             if (((event.modifiers == Qt.NoModifier) || (event.modifiers & Qt.ShiftModifier))
                     && cursorInReadOnlyArea) {
                 cursorPosition = length
