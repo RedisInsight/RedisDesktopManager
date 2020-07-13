@@ -11,6 +11,7 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(QString host READ host WRITE setHost)
     Q_PROPERTY(uint port READ port WRITE setPort)
     Q_PROPERTY(QString auth READ auth WRITE setAuth)
+    Q_PROPERTY(QString username READ username WRITE setUsername)
 
     /* SSL settings */
     Q_PROPERTY(bool sslEnabled READ useSsl WRITE setSsl)
