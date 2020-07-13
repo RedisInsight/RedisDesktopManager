@@ -71,7 +71,11 @@ TreeView {
                     } else if (type === "namespace" && styleData.isExpanded) {
                         return "qrc:/images/" + type + "_open.svg"
                     } else {
-                        return "qrc:/images/" + type + ".svg"
+                        if (type !== "") {
+                            return "qrc:/images/" + type + ".svg"
+                        } else {
+                            return ""
+                        }
                     }
                 }                
 
