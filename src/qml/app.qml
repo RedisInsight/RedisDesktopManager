@@ -71,6 +71,7 @@ ApplicationWindow {
     Settings {
         id: appSettings
         category: "app"
+        property string valueEditorFont
         property string valueEditorFontSize
     }
 
