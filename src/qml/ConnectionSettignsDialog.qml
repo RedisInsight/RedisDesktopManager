@@ -194,6 +194,16 @@ Dialog {
                                     text: root.settings ? root.settings.auth : ""
                                     onTextChanged: root.settings.auth = text
                                 }
+
+                                BetterLabel { text: qsTranslate("RDM","Username:") }
+
+                                BetterTextField {
+                                    id: connectionUsername
+                                    Layout.fillWidth: true
+                                    placeholderText: qsTranslate("RDM","(Optional) redis-server authentication username (Redis >6.0)")
+                                    text: root.settings ? root.settings.username : ""
+                                    onTextChanged: if (root.settings) root.settings.username = text
+                                }
                             }
 
                             Item { Layout.preferredWidth: 10 }
