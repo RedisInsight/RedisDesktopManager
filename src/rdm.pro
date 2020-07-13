@@ -10,7 +10,7 @@ TARGET = rdm
 TEMPLATE = app
 
 !defined(VERSION, var) {
-    VERSION=2020.1.0-dev
+    VERSION=2020.2.0-dev
 }
 
 message($$VERSION)
@@ -23,18 +23,18 @@ SOURCES += \
     $$PWD/app/events.cpp \
     $$PWD/app/qmlutils.cpp \
     $$PWD/app/qcompress.cpp \
-    $$PWD/app/models/*.cpp \
-    $$PWD/app/models/key-models/*.cpp \
-    $$PWD/modules/connections-tree/*.cpp \
-    $$PWD/modules/connections-tree/items/*.cpp \
-    $$PWD/modules/console/*.cpp \
-    $$PWD/modules/value-editor/*model.cpp \
-    $$PWD/modules/value-editor/embedded*.cpp \
-    $$PWD/modules/updater/*.cpp \
-    $$PWD/modules/bulk-operations/*.cpp \
-    $$PWD/modules/bulk-operations/operations/*.cpp \
-    $$PWD/modules/common/*.cpp \
-    $$PWD/modules/server-stats/*.cpp \
+    $$files($$PWD/app/models/*.cpp) \
+    $$files($$PWD/app/models/key-models/*.cpp) \
+    $$files($$PWD/modules/connections-tree/*.cpp) \
+    $$files($$PWD/modules/connections-tree/items/*.cpp) \
+    $$files($$PWD/modules/console/*.cpp) \
+    $$files($$PWD/modules/value-editor/*model.cpp) \
+    $$files($$PWD/modules/value-editor/embedded*.cpp) \
+    $$files($$PWD/modules/updater/*.cpp) \
+    $$files($$PWD/modules/bulk-operations/*.cpp) \
+    $$files($$PWD/modules/bulk-operations/operations/*.cpp) \
+    $$files($$PWD/modules/common/*.cpp) \
+    $$files($$PWD/modules/server-stats/*.cpp) \
 
 HEADERS  += \
     $$PWD/app/app.h \
@@ -42,20 +42,20 @@ HEADERS  += \
     $$PWD/app/apputils.h \
     $$PWD/app/qmlutils.h \
     $$PWD/app/qcompress.h \
-    $$PWD/app/models/*.h \
-    $$PWD/app/models/key-models/*.h \
-    $$PWD/modules/connections-tree/*.h \
-    $$PWD/modules/connections-tree/items/*.h \
-    $$PWD/modules/console/*.h \
-    $$PWD/modules/value-editor/*factory.h \
-    $$PWD/modules/value-editor/*model.h \
-    $$PWD/modules/value-editor/embedded*.h \
-    $$PWD/modules/updater/*.h \
-    $$PWD/modules/*.h \
-    $$PWD/modules/bulk-operations/*.h \
-    $$PWD/modules/bulk-operations/operations/*.h \
-    $$PWD/modules/common/*.h \
-    $$PWD/modules/server-stats/*.h \
+    $$files($$PWD/app/models/*.h) \
+    $$files($$PWD/app/models/key-models/*.h) \
+    $$files($$PWD/modules/connections-tree/*.h) \
+    $$files($$PWD/modules/connections-tree/items/*.h) \
+    $$files($$PWD/modules/console/*.h) \
+    $$files($$PWD/modules/value-editor/*factory.h) \
+    $$files($$PWD/modules/value-editor/*model.h) \
+    $$files($$PWD/modules/value-editor/embedded*.h) \
+    $$files($$PWD/modules/updater/*.h) \
+    $$files($$PWD/modules/*.h) \
+    $$files($$PWD/modules/bulk-operations/*.h) \
+    $$files($$PWD/modules/bulk-operations/operations/*.h) \
+    $$files($$PWD/modules/common/*.h) \
+    $$files($$PWD/modules/server-stats/*.h) \
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
 
