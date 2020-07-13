@@ -153,18 +153,20 @@ void Application::initAppFonts() {
   QSettings settings;
 #ifdef Q_OS_MAC
   QString defaultFontName("Helvetica Neue");
+  QString defaultMonospacedFont("Monaco");
   int defaultFontSize = 12;
 #elif defined(Q_OS_WINDOWS)
   QString defaultFontName("Segoe UI");
+  QString defaultMonospacedFont("Consolas");
   int defaultFontSize = 11;
 #else
   QString defaultFontName("Open Sans");
-  int defaultFontSize = 11;
+  QString defaultMonospacedFont("Ubuntu Mono");
+  int defaultFontSize = 11;  
 #endif
 
   QString appFont = settings.value("app/appFont", defaultFontName).toString();
   int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
-
 
   if (appFont == "Open Sans") {
 #if defined(Q_OS_LINUX)
@@ -178,7 +180,16 @@ void Application::initAppFonts() {
 #endif
   }
 
+  QString valuesFont = settings.value("app/valueEditorFont", defaultMonospacedFont).toString();
+  int valuesFontSize = settings.value("app/valueEditorFontSize", defaultFontSize).toInt();
+
+  settings.setValue("app/appFont", appFont);
+  settings.setValue("app/appFontSize", appFontSize);
+  settings.setValue("app/valueEditorFont", valuesFont);
+  settings.setValue("app/valueEditorFontSize", valuesFontSize);
+
   qDebug() << "App font:" << appFont << appFontSize;
+  qDebug() << "Values font:" << valuesFont;
   QFont defaultFont(appFont, appFontSize);
   QApplication::setFont(defaultFont);
 }

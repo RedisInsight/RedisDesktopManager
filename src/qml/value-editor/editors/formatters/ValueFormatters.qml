@@ -169,7 +169,7 @@ ListModel {
         property var getFormatted: function (raw, callback) {
             return callback("", Hexy.hexy(
                                 qmlUtils.valueToBinary(raw),
-                                {'html': true, 'font': PlatformUtils.monospacedFontFamily()}),
+                                {'html': true, 'font': appSettings.valueEditorFont}),
                             true, "html")
         }
     }
