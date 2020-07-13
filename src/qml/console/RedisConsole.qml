@@ -43,11 +43,11 @@ Rectangle {
 
         if (type == "error") {
             textArea.append("<span style='color: red; font-family: "
-                            + PlatformUtils.monospacedFontFamily() + "'>"
+                            + appSettings.valueEditorFont + "'>"
                             + qmlUtils.escapeHtmlEntities(text) + '</span>')
         } else {
             textArea.append("<pre style='color: white; font-family: "
-                            + PlatformUtils.monospacedFontFamily() + "'>"
+                            + appSettings.valueEditorFont + "'>"
                             + qmlUtils.escapeHtmlEntities(text) + '</pre>')
         }
 

@@ -28,7 +28,7 @@ Item
         return "font-size: "
                 + appSettings.valueEditorFontSize
                 + "px; font-family: "
-                + PlatformUtils.monospacedFontFamily()
+                + appSettings.valueEditorFont
     }
     property var _jsFormatterColorMap: {
         if (sysPalette.base.hslLightness < 0.4) {

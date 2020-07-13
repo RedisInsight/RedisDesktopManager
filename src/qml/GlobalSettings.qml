@@ -18,7 +18,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 800
-        implicitHeight: PlatformUtils.isOSX()? 500 : 680
+        implicitHeight: PlatformUtils.isOSX()? 500 : 700
 
         color: sysPalette.base
 
@@ -66,7 +66,6 @@ Dialog {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 30
 
-                        value: Qt.platform.os == "osx"? "Helvetica Neue" : "Open Sans"
                         model: Qt.fontFamilies()
                         label: qsTranslate("RDM","Font")
 
@@ -80,8 +79,19 @@ Dialog {
                         Layout.preferredHeight: 30
 
                         model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
-                        value: Qt.platform.os == "osx"? "12" : "11"
                         label: qsTranslate("RDM","Font Size")
+
+                        onValueChanged: root.restartRequired = true
+                    }
+
+                    ComboboxOption {
+                        id: valueEditorFont
+
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 30
+
+                        model: Qt.fontFamilies()
+                        label: qsTranslate("RDM","Value Editor Font")
 
                         onValueChanged: root.restartRequired = true
                     }
@@ -246,6 +256,7 @@ Dialog {
         property alias liveUpdateInterval: liveUpdateInterval.value
         property alias appFont: appFont.value
         property alias appFontSize: appFontSize.value
+        property alias valueEditorFont: valueEditorFont.value
         property alias valueEditorFontSize: valueEditorFontSize.value
         property alias locale: appLang.value
         property alias useSystemProxy: systemProxy.value

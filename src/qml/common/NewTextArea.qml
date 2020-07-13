@@ -5,7 +5,7 @@ TextEdit {
     color: PlatformUtils.isOSX() ? sysPalette.text : "#3b3a3a"
     wrapMode: TextEdit.WrapAnywhere
     font {
-        family: PlatformUtils.monospacedFontFamily()
+        family: appSettings.valueEditorFont
         pointSize: appSettings.valueEditorFontSize
     }
     selectByMouse: true
