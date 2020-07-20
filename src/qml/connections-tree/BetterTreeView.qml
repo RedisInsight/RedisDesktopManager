@@ -27,6 +27,8 @@ TreeView {
             height: PlatformUtils.isOSXRetina(Screen) ? 25 : 30
             color: styleData.selected ? sysPalette.highlight : "transparent"
         }
+
+        transientScrollBars: true
     }
 
     TableViewColumn {
