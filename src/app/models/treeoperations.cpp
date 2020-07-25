@@ -223,7 +223,7 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
         QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
         emit m_events->closeDbKeys(m_connection, key.getDbIndex(), filter);
       },
-      [this, &callback](const QString& err) {
+      [this, callback](const QString& err) {
         QString errorMsg =
             QCoreApplication::translate("RDM", "Delete key error: %1").arg(err);
         callback(errorMsg);

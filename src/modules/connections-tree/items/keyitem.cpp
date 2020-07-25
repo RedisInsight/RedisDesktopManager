@@ -133,11 +133,8 @@ QHash<QString, std::function<void()>> KeyItem::eventHandlers() {
           auto parentNs = parentTreeItemToNs(m_parent);
 
           if (!parentNs || !parentNs->operations()) return;
-
           parentNs->operations()->deleteDbKey(*this, [](const QString& error) {
-            QMessageBox::warning(
-                nullptr, QCoreApplication::translate("RDM", "Key error"),
-                error);
+            qDebug() << error;
           });
         });
   });
