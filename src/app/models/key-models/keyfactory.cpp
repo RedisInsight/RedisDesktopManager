@@ -72,7 +72,10 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QBy
   RedisClient::Command typeCmd({"type", keyFullPath}, this, loadModel, dbIndex);
 
   try {
-    connection->runCommand(typeCmd);
+    RedisClient::Response typeResult = connection->runCommand(typeCmd);
+    if (typeResult.value().toByteArray().startsWith("NOPERM")) {
+        emit error(typeResult.value().toString());
+    }
   } catch (const RedisClient::Connection::Exception& e) {
     callback(
         QSharedPointer<ValueEditor::Model>(),
