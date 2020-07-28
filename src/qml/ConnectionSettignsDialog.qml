@@ -157,6 +157,7 @@ Dialog {
                             anchors.margins: 10
 
                             GridLayout {
+                                objectName: "rdm_connection_basic_settings"
                                 columns: 2
 
                                 Layout.fillWidth: true
@@ -177,6 +178,7 @@ Dialog {
 
                                 AddressInput {
                                     id: connectionAddress
+                                    objectName: "rdm_connection_address_input"
                                     placeholderText: qsTranslate("RDM","redis-server host")
                                     host: root.settings ? root.settings.host : ""
                                     port: root.settings ? root.settings.port : 0
@@ -189,6 +191,7 @@ Dialog {
 
                                 PasswordInput {
                                     id: connectionAuth
+                                    objectName: "rdm_connection_auth_field"
                                     Layout.fillWidth: true
                                     placeholderText: qsTranslate("RDM","(Optional) redis-server authentication password")
                                     text: root.settings ? root.settings.auth : ""
@@ -199,8 +202,9 @@ Dialog {
 
                                 BetterTextField {
                                     id: connectionUsername
+                                    objectName: "rdm_connection_username_field"
                                     Layout.fillWidth: true
-                                    placeholderText: qsTranslate("RDM","(Optional) redis-server authentication username (Redis >6.0)")
+                                    placeholderText: qsTranslate("RDM","(Optional) redis-server authentication username" + " (Redis >6.0)")
                                     text: root.settings ? root.settings.username : ""
                                     onTextChanged: if (root.settings) root.settings.username = text
                                 }
@@ -590,7 +594,7 @@ Dialog {
                 MouseArea {
                     anchors.fill: parent
                 }
-            }            
+            }
             MessageDialog {
                 id: dialog_notification
                 objectName: "rdm_qml_connection_settings_error_dialog"
