@@ -73,7 +73,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QBy
 
   try {
     RedisClient::Response typeResult = connection->runCommand(typeCmd);
-    if (typeResult.value().toByteArray().startsWith("NOPERM")) {
+    if (typeResult.isPermissionError()) {
         emit error(typeResult.value().toString());
     }
   } catch (const RedisClient::Connection::Exception& e) {
