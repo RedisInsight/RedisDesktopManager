@@ -877,12 +877,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="201"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>使用者名稱:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="207"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
-        <translation type="unfinished"></translation>
+        <translation>(可選) Redis 伺服器認證使用者名稱 (Redis &gt;6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
@@ -1020,7 +1020,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Value Editor Font</source>
-        <translation type="unfinished"></translation>
+        <translation>鍵值編輯器的字型</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="107"/>
