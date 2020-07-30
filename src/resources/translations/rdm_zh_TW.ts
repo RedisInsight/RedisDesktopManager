@@ -1020,7 +1020,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Value Editor Font</source>
-        <translation>鍵值編輯器的字型</translation>
+        <translation>鍵值編輯器的字體</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="107"/>
