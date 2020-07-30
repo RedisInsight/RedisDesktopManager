@@ -875,12 +875,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="201"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">用户名:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="207"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">可选：服务端认证用户名 (Redis &gt;6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
@@ -1018,7 +1018,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Value Editor Font</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">编辑器字体</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="107"/>
