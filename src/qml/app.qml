@@ -24,11 +24,10 @@ ApplicationWindow {
     width: 1100
     height: 800
     minimumWidth: 1100
-    minimumHeight: 700
+    minimumHeight: 650
 
-    property double scaleFactor: qmlUtils.getScreenScaleFactor()
-    property double wRatio : (width * 1.0) / (Screen.width / scaleFactor * 1.0)
-    property double hRatio : (height * 1.0) / (Screen.height / scaleFactor * 1.0)
+    property double wRatio : (width * 1.0) / (Screen.width * 1.0)
+    property double hRatio : (height * 1.0) / (Screen.height * 1.0)
 
     property var currentValueFormatter
     property var embeddedFormatters
@@ -46,8 +45,8 @@ ApplicationWindow {
     Component.onCompleted: {
         if (hRatio > 1 || wRatio > 1) {
             console.log("Ratio > 1.0. Resize main window.")
-            width = Screen.width / scaleFactor * 0.9
-            height = Screen.height / scaleFactor * 0.8
+            width = Screen.width * 0.9
+            height = Screen.height * 0.8
         }
 
         if (Qt.platform.os == "windows") {
