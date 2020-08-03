@@ -27,5 +27,10 @@ class CopyOperation : public AbstractOperation {
   void performOperation(
       QSharedPointer<RedisClient::Connection> targetConnection,
       int targetDbIndex) override;
+
+ private:
+   QList<QList<QByteArray>> m_restoreBuffer;
+   int m_dumpedKeys;
+
 };
 }  // namespace BulkOperations
