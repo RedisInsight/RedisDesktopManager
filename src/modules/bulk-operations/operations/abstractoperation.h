@@ -61,6 +61,8 @@ class AbstractOperation : public QObject {
 
   void incrementProgress();
 
+  void processError(const QString& err);
+
  protected:
   QSharedPointer<RedisClient::Connection> m_connection;
   int m_dbIndex;
@@ -71,10 +73,10 @@ class AbstractOperation : public QObject {
   QStringList m_keysWithErrors;
   QVariantMap m_metadata;
   OperationCallback m_callback;
-  QSharedPointer<AsyncFuture::Combinator> m_combinator;
   QStringList m_errors;
   QMutex m_errorsMutex;
   QMutex m_processedKeysMutex;
   qint64 m_lastProgressNotification;
+  QString m_errorMessagePrefix;
 };
 }  // namespace BulkOperations

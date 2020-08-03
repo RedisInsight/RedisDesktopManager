@@ -1,5 +1,7 @@
 #include "rdbimport.h"
+
 #include <qpython.h>
+
 #include <QFileInfo>
 #include <QtConcurrent>
 
@@ -10,6 +12,8 @@ BulkOperations::RDBImportOperation::RDBImportOperation(
                                         keyPattern),
       m_python(p) {
   m_python->importModule_sync("rdb");
+  m_errorMessagePrefix =
+      QCoreApplication::translate("RDM", "Cannot execute command ");
 }
 
 void BulkOperations::RDBImportOperation::getAffectedKeys(
@@ -50,9 +54,6 @@ QList<QByteArray> convertToByteArray(QVariant v) {
 
 void BulkOperations::RDBImportOperation::performOperation(
     QSharedPointer<RedisClient::Connection>, int) {
-  m_combinator = QSharedPointer<AsyncFuture::Combinator>(
-      new AsyncFuture::Combinator(AsyncFuture::FailFast));
-
   m_progress = 0;
   m_errors.clear();
 
@@ -65,29 +66,47 @@ void BulkOperations::RDBImportOperation::performOperation(
   }
 
   auto processCommands = [this, returnResults](const QVariantList& commands) {
-    m_combinator->subscribe(returnResults, returnResults);
+    QList<QList<QByteArray>> rawCmds;
 
     for (QVariant cmd : commands) {
       auto rawCmd = convertToByteArray(cmd);
 
       if (rawCmd.at(0).toLower() == QByteArray("select")) {
-          continue;
+        continue;
       }
 
-      auto future = m_connection->cmd(
-          rawCmd, this, -1,
-          [this](const RedisClient::Response&) { incrementProgress(); },
-          [this, rawCmd](const QString& err) {
-            QMutexLocker l(&m_errorsMutex);
-            m_errors.append(
-                QCoreApplication::translate("RDM", "Cannot execute command ") +
-                QString("%1: %2")
-                    .arg(QString::fromUtf8(rawCmd.join(QByteArray(" "))))
-                    .arg(err));
-          });
-
-      m_combinator->combine(future);
+      rawCmds.append(rawCmd);
     }
+
+    int expectedResponses = rawCmds.size();
+
+    m_connection->pipelinedCmd(
+        rawCmds, this, -1,
+        [this, returnResults, expectedResponses](const RedisClient::Response& r,
+                                                 const QString& err) {
+          if (!err.isEmpty()) {
+            return processError(err);
+          }
+
+          QMutexLocker l(&m_processedKeysMutex);
+          QVariant incrResult = r.value();
+
+          if (incrResult.canConvert(QVariant::ByteArray)) {
+            m_progress++;
+          } else if (incrResult.canConvert(QVariant::List)) {
+            auto responses = incrResult.toList();
+
+            for (auto resp : responses) {
+              m_progress++;
+            }
+          }
+
+          emit progress(m_progress);
+
+          if (m_progress >= expectedResponses) {
+            returnResults();
+          }
+        });
   };
 
   m_python->call_native(
@@ -98,9 +117,10 @@ void BulkOperations::RDBImportOperation::performOperation(
         QVariantList commands = v.toList();
 
         m_connection->cmd(
-                {"select", QByteArray::number(m_dbIndex)}, this, -1,
-                [processCommands, commands](const RedisClient::Response&) {
-            QtConcurrent::run(processCommands, commands);
-        }, [](const QString&) {});
+            {"ping", QByteArray::number(m_dbIndex)}, this, -1,
+            [processCommands, commands](const RedisClient::Response&) {
+              QtConcurrent::run(processCommands, commands);
+            },
+            [](const QString&) {});
       });
 }
