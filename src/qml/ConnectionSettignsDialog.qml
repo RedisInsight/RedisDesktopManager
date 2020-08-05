@@ -187,6 +187,16 @@ Dialog {
                                     onPortChanged: if (root.settings) root.settings.port = port
                                 }
 
+                                BetterLabel {
+                                    id: windowsLocalhostWarning
+                                    Layout.columnSpan: 2
+                                    text: qsTranslate("RDM", "For better network performance please use 127.0.0.1")
+                                    visible: !root.sshEnabled && !root.sslEnabled
+                                             && String(connectionAddress.host).toLowerCase() === "localhost"
+                                             && Qt.platform.os == "windows"
+
+                                }
+
                                 BetterLabel { text: qsTranslate("RDM","Auth:") }
 
                                 PasswordInput {
