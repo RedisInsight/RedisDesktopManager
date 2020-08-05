@@ -305,7 +305,6 @@ Item
         }
     }
 
-
     ColumnLayout {
         anchors.fill: parent
 
@@ -437,8 +436,6 @@ Item
 
                     function saveChanges() {
                         if (!valueEditor.item || !valueEditor.item.isEdited()) {
-                            savingConfirmation.text = qsTranslate("RDM","Nothing to save")
-                            savingConfirmation.open()
                             return
                         }
 
@@ -447,20 +444,45 @@ Item
                                 return;
 
                             var value = valueEditor.item.getValue()
+                            saveBtnTimer.start()
                             keyTab.keyModel.updateRow(valueEditor.currentRow, value)
-
-                            root.isEdited = false
-
-                            savingConfirmation.text = qsTranslate("RDM","Value was updated!")
-                            savingConfirmation.open()
                         })
                     }
 
-                    OkDialog {
-                        id: savingConfirmation
-                        title: qsTranslate("RDM","Save value")
-                        text: ""
-                        visible: false
+                    states: [
+                        State {
+                            name: "saving"
+
+                            PropertyChanges {
+                                target: saveBtn
+                                iconSource: "qrc:/images/wait.svg"
+                                enabled: false
+                            }
+                        }
+                    ]
+
+                    Connections {
+                        target: keyTab.keyModel
+
+                        onValueUpdated: {
+                            root.isEdited = false
+                            saveBtnTimer.resetSaveBtn()
+                        }
+
+                        onError: saveBtnTimer.resetSaveBtn()
+                    }
+
+                    Timer {
+                        id: saveBtnTimer
+                        interval: 500
+                        repeat: true
+                        triggeredOnStart: true
+                        onTriggered: saveBtn.state = "saving"
+
+                        function resetSaveBtn() {
+                            saveBtnTimer.stop()
+                            saveBtn.state = ""
+                        }
                     }
                 }
 
@@ -518,7 +540,7 @@ Item
                                 textFormat: textView.textFormat
                                 readOnly: textView.readOnly
 
-                                Keys.onReleased: {
+                                onTextChanged: {
                                     root.isEdited = true
                                     textView.model && textView.model.setTextChunk(index, textAreaPart.text)
                                 }

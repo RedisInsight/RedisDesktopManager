@@ -75,6 +75,7 @@ class ValueViewModel : public BaseListModel {
   void singlePageModeChanged();
   void modelLoaded();
   void tabClosed();
+  void valueUpdated();
 
  private:
   QSharedPointer<Model> m_model;
