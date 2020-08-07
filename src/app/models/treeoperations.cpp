@@ -221,32 +221,48 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
       [this, &key](RedisClient::Response) {
         key.setRemoved();
         QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
-        emit m_events->closeDbKeys(m_connection, key.getDbIndex(), filter);
+        if (m_events) m_events->closeDbKeys(m_connection, key.getDbIndex(), filter);
       },
       [this, callback](const QString& err) {
         QString errorMsg =
             QCoreApplication::translate("RDM", "Delete key error: %1").arg(err);
         callback(errorMsg);
-        m_events->error(errorMsg);
+        if (m_events) m_events->error(errorMsg);
       });
 }
 
 void TreeOperations::deleteDbKeys(ConnectionsTree::DatabaseItem& db) {
-  requestBulkOperation(db, BulkOperations::Manager::Operation::DELETE_KEYS,
-                       [this, &db](QRegExp filter, int, const QStringList&) {
-                         db.reload();
-                         emit m_events->closeDbKeys(m_connection,
-                                                    db.getDbIndex(), filter);
-                       });
+  auto self = sharedFromThis().toWeakRef();
+  requestBulkOperation(
+      db, BulkOperations::Manager::Operation::DELETE_KEYS,
+      [self, this, &db](QRegExp filter, int, const QStringList&) {
+        if (!self) {
+          return;
+        }
+
+        db.reload();
+
+        if (m_events) {
+          emit m_events->closeDbKeys(m_connection, db.getDbIndex(), filter);
+        }
+      });
 }
 
 void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
-  requestBulkOperation(ns, BulkOperations::Manager::Operation::DELETE_KEYS,
-                       [this, &ns](QRegExp filter, int, const QStringList&) {
-                         ns.setRemoved();
-                         emit m_events->closeDbKeys(m_connection,
-                                                    ns.getDbIndex(), filter);
-                       });
+  auto self = sharedFromThis().toWeakRef();
+  requestBulkOperation(
+      ns, BulkOperations::Manager::Operation::DELETE_KEYS,
+      [this, self, &ns](QRegExp filter, int, const QStringList&) {
+        if (!self) {
+          return;
+        }
+
+        ns.setRemoved();
+
+        if (m_events) {
+          emit m_events->closeDbKeys(m_connection, ns.getDbIndex(), filter);
+        }
+      });
 }
 
 void TreeOperations::setTTL(ConnectionsTree::AbstractNamespaceItem& ns) {

@@ -59,11 +59,15 @@ void BulkOperations::DeleteOperation::deleteKeys(
   int expectedResponses = rawCmds.size();
 
   m_connection->pipelinedCmd(
-      rawCmds, this, -1,
+      rawCmds, this, m_dbIndex,
       [this, expectedResponses, callback](const RedisClient::Response &r,
                                           QString err) {
         if (!err.isEmpty()) {
           return processError(err);
+        }
+
+        if (r.isErrorMessage()) {
+          return processError(r.value().toByteArray());
         }
 
         QMutexLocker l(&m_processedKeysMutex);
