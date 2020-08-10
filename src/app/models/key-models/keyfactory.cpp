@@ -98,7 +98,7 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r) {
 
   if (!result) return;
 
-  result->addRow(r.value(), [this, r, result](const QString& err) {
+  auto onRowAdded = [this, r, result](const QString& err) {
     if (err.size() > 0) {
       emit error(err);
       return;
@@ -106,7 +106,21 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r) {
 
     r.callback();
     emit keyAdded();
-  });
+  };
+
+  r.connection()->cmd(
+      {"PING"}, this, r.dbIndex(),
+      [onRowAdded](const RedisClient::Response& resp) {
+        auto testResp = resp.value().toByteArray();
+        if (testResp != "PONG") {
+          return onRowAdded(testResp);
+        }
+
+        onRowAdded(QString());
+      },
+      onRowAdded);
+
+  result->addRow(r.value(), onRowAdded);
 }
 
 QSharedPointer<ValueEditor::Model> KeyFactory::createModel(
