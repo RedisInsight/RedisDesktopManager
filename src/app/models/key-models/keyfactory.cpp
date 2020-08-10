@@ -1,8 +1,10 @@
 #include "keyfactory.h"
+
 #include <qredisclient/redisclient.h>
 #include <qredisclient/utils/text.h>
 
 #include <QObject>
+
 #include "hashkey.h"
 #include "listkey.h"
 #include "rejsonkey.h"
@@ -13,8 +15,10 @@
 
 KeyFactory::KeyFactory() {}
 
-void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QByteArray keyFullPath,
-    int dbIndex, std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
+void KeyFactory::loadKey(
+    QSharedPointer<RedisClient::Connection> connection, QByteArray keyFullPath,
+    int dbIndex,
+    std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
         callback) {
   auto loadModel = [this, connection, keyFullPath, dbIndex, callback](
                        RedisClient::Response resp, QString) {
@@ -65,8 +69,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QBy
       callback(result, msg.arg(printableString(keyFullPath)).arg(err));
     };
 
-    connection->cmd({"ttl", keyFullPath}, this, -1, parseTtl,
-                    processTtlError);
+    connection->cmd({"ttl", keyFullPath}, this, -1, parseTtl, processTtlError);
   };
 
   RedisClient::Command typeCmd({"type", keyFullPath}, this, loadModel, dbIndex);
@@ -74,7 +77,7 @@ void KeyFactory::loadKey(QSharedPointer<RedisClient::Connection> connection, QBy
   try {
     RedisClient::Response typeResult = connection->runCommand(typeCmd);
     if (typeResult.isPermissionError()) {
-        emit error(typeResult.value().toString());
+      emit error(typeResult.value().toString());
     }
   } catch (const RedisClient::Connection::Exception& e) {
     callback(
@@ -110,17 +113,15 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r) {
 
   r.connection()->cmd(
       {"PING"}, this, r.dbIndex(),
-      [onRowAdded](const RedisClient::Response& resp) {
+      [onRowAdded, result, r](const RedisClient::Response& resp) {
         auto testResp = resp.value().toByteArray();
         if (testResp != "PONG") {
           return onRowAdded(testResp);
         }
 
-        onRowAdded(QString());
+        result->addRow(r.value(), onRowAdded);
       },
       onRowAdded);
-
-  result->addRow(r.value(), onRowAdded);
 }
 
 QSharedPointer<ValueEditor::Model> KeyFactory::createModel(

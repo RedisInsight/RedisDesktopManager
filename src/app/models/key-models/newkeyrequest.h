@@ -38,7 +38,7 @@ class NewKeyRequest {
 
   void setKeyType(QString k) { m_keyType = k; }
 
-  QVariantMap value() { return m_value; }
+  QVariantMap value() const { return m_value; }
 
   void setValue(const QVariantMap& v) { m_value = v; }
 
