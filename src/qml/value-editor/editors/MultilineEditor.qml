@@ -462,7 +462,7 @@ Item
                     ]
 
                     Connections {
-                        target: keyTab.keyModel
+                        target: keyTab.keyModel ? keyTab.keyModel : null
 
                         onValueUpdated: {
                             root.isEdited = false

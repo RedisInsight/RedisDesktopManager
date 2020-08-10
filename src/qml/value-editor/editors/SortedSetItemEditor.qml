@@ -26,18 +26,26 @@ AbstractEditor {
 
         text: ""
         enabled: root.active || root.state !== "edit"
-        property string valueHash: ""
+
         placeholderText: qsTranslate("RDM","Score")
         validator: DoubleValidator { locale: "C"; notation: DoubleValidator.StandardNotation } // force point as decimal separator
         objectName: "rdm_key_zset_score_field"
 
-        function setValue(v) {
-            valueHash = Qt.md5(v)
-            text = parseFloat(Number(v).toFixed(20))
+        property bool isEdited: false
+
+        onTextChanged: {
+            scoreText.isEdited = true
         }
 
-        function isEdited() {
-            return Qt.md5(text) != valueHash
+        function setValue(v) {
+            text = parseFloat(Number(v).toFixed(20))
+            scoreText.isEdited = false
+        }
+
+        Connections {
+            target: keyTab.keyModel ? keyTab.keyModel : null
+
+            onValueUpdated: scoreText.isEdited = false
         }
 
         function reset() {
@@ -75,7 +83,7 @@ AbstractEditor {
     }
 
     function isEdited() {
-        return textArea.isEdited || scoreText.isEdited()
+        return textArea.isEdited || scoreText.isEdited
     }
 
     function getValue() {
