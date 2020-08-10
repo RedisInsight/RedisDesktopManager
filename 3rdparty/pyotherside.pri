@@ -23,7 +23,17 @@ win32* {
     } else {
       PYTHON_CONFIG = python3-config
 
-      QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
+      PYTHON_VERSION = $$str_member($$system(python3 --version), 7, 11)
+
+      message("Python version $$PYTHON_VERSION")
+
+      versionAtLeast(PYTHON_VERSION, "3.8.0") {
+        message("Python >=3.8 needs --embed flag")
+        QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs --embed)
+      } else {
+        QMAKE_LIBS += $$system($$PYTHON_CONFIG --ldflags --libs)
+      }
+
       QMAKE_CXXFLAGS += $$system($$PYTHON_CONFIG --includes)
       DEFINES *= HAVE_DLADDR
     }
