@@ -221,8 +221,8 @@ Dialog {
                     }
 
                     BetterTextField {
+                        objectName: "rdm_bulk_operations_dialog_key_pattern"
                         Layout.fillWidth: true
-
                         text: bulkOperations.keyPattern
                         onTextChanged: {
                             bulkOperations.keyPattern = text
@@ -243,10 +243,10 @@ Dialog {
 
                         BetterSpinBox {
                             id: ttlValue
+                            objectName: "rdm_bulk_operations_dialog_ttl_value"
 
                             Layout.fillWidth: true
 
-                            objectName: "rdm_bulk_operations_dialog_ttl_value"
 
                             from: -1
                             to: 10000000
@@ -267,9 +267,9 @@ Dialog {
                     }
 
                     BetterComboBox {
-                        Layout.fillWidth: true
-
                         id: targetConnection
+                        objectName: "rdm_bulk_operations_dialog_connection_combobox"
+                        Layout.fillWidth: true
                     }
 
                     BetterLabel {
@@ -301,7 +301,7 @@ Dialog {
 
                         BetterCheckbox {
                             id: replaceKeys
-
+                            objectName: "rdm_bulk_operations_dialog_replace_keys"
                             Layout.fillWidth: true
                         }
                     }
