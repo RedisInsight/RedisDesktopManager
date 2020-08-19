@@ -2,7 +2,7 @@
 
 ## Windows
 
-1. Install [Microsoft Visual C++ 2017 x64](https://aka.ms/vs/15/release/vc_redist.x64.exe)  (If you have not already).
+1. Install [Microsoft Visual C++ 2015-2019 x64](https://aka.ms/vs/16/release/vc_redist.x64.exe)  (If you have not already).
 2. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download). **(Requires subscription)**
 3. Run the downloaded installer.
 
