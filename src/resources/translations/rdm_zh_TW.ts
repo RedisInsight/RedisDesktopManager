@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="356"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="388"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="375"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="407"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>無法連接到叢集節點 %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="399"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="417"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="436"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>無法清空資料庫 (%1): %2</translation>
     </message>
@@ -176,7 +176,7 @@
         <translation>RDM 無法儲存設定檔。請更改檔寫入權限或者以管理員模式啟動 RDM。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="339"/>
+        <location filename="../../app/app.cpp" line="350"/>
         <source>Please download new version of Redis Desktop Manager: %1</source>
         <translation>請下載新版本的 Redis Desktop Manager: %1</translation>
     </message>
@@ -245,7 +245,7 @@
         <location filename="../../app/models/key-models/abstractkey.h" line="303"/>
         <location filename="../../app/models/treeoperations.cpp" line="55"/>
         <location filename="../../app/models/treeoperations.cpp" line="106"/>
-        <location filename="../../modules/console/consolemodel.cpp" line="65"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="88"/>
         <source>Connection error: </source>
         <translation>連線錯誤: </translation>
     </message>
@@ -261,27 +261,27 @@
         <translation>部分資料已經從伺服器載入。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="25"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="29"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
         <translation>無法載入鍵 %1，連線發生錯誤: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="36"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="40"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
         <translation>無法載入鍵 %1，資料庫中不存在該鍵，請重新載入連線樹後重試。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="63"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
         <translation>無法載入鍵 %1 的 TTL 值，連線發生錯誤: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="55"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>不支援的 Redis 資料類型 %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="82"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
         <source>Cannot retrive type of the key: </source>
         <translation>無法獲取鍵類型: </translation>
     </message>
@@ -314,7 +314,7 @@
         <translation>刪除鍵時發生錯誤:</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="331"/>
+        <location filename="../../app/models/treeoperations.cpp" line="347"/>
         <source>Cannot used memory for key: %1</source>
         <translation>無法分析鍵的記憶體用量: %1</translation>
     </message>
@@ -327,7 +327,7 @@
         <translation type="vanished">刪除鍵錯誤: </translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="275"/>
+        <location filename="../../app/models/treeoperations.cpp" line="291"/>
         <source>Cannot flush database: </source>
         <translation>無法清空資料庫: </translation>
     </message>
@@ -403,7 +403,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="28"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="209"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="319"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="318"/>
         <source>Size: </source>
         <translation>大小: </translation>
     </message>
@@ -463,7 +463,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="575"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="376"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="375"/>
         <source>Add Element to HLL</source>
         <translation>新增元素到 HHL</translation>
     </message>
@@ -507,19 +507,16 @@
         <translation type="vanished">搜尋全部的鍵值</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="440"/>
         <source>Nothing to save</source>
-        <translation>不需要儲存</translation>
+        <translation type="vanished">不需要儲存</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="454"/>
         <source>Value was updated!</source>
-        <translation>鍵值已經更新！</translation>
+        <translation type="vanished">鍵值已經更新！</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="461"/>
         <source>Save value</source>
-        <translation>儲存鍵值</translation>
+        <translation type="vanished">儲存鍵值</translation>
     </message>
     <message>
         <source>Key error</source>
@@ -536,26 +533,26 @@
         <translation>確定要刪除連線？</translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="12"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="13"/>
         <source>Connected to cluster.
 </source>
         <translation>已連線到叢集伺服器。
 </translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="15"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="16"/>
         <source>Connected.
 </source>
         <translation>已連線。
 </translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="41"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="64"/>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
         <translation>切斷到 發布/訂閱 模式。關閉控制台以停止監聽訊息。</translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="50"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="73"/>
         <source>Subscribe error: %1</source>
         <translation>訂閱錯誤: %1</translation>
     </message>
@@ -750,17 +747,17 @@
         <translation>Redis 伺服器位址</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="190"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Auth:</source>
         <translation>密碼:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="196"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(可選) Redis 伺服器的認證密碼</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="215"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
         <source>Security</source>
         <translation>安全設定</translation>
     </message>
@@ -773,99 +770,99 @@
         <translation type="vanished">SSL</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="249"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="259"/>
         <source>Public Key:</source>
         <translation>公鑰:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="254"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="264"/>
         <source>(Optional) Public Key in PEM format</source>
         <translation>(可選) PEM 格式的公鑰</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="256"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="266"/>
         <source>Select public key in PEM format</source>
         <translation>選擇 PEM 格式的公鑰</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="266"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="276"/>
         <source>(Optional) Private Key in PEM format</source>
         <translation>(可選) PEM 格式的私鑰</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="268"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="368"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="278"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="378"/>
         <source>Select private key in PEM format</source>
         <translation>選擇 PEM 格式的私鑰</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="273"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="283"/>
         <source>Authority:</source>
         <translation>授權證書:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="278"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="288"/>
         <source>(Optional) Authority in PEM format</source>
         <translation>(可選) PEM 格式的授權證書</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="280"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="290"/>
         <source>Select authority file in PEM format</source>
         <translation>選擇 PEM 格式的授權證書</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="299"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="309"/>
         <source>SSH Tunnel</source>
         <translation>SSH 隧道</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="325"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="335"/>
         <source>SSH Address:</source>
         <translation>SSH 位址:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="329"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="339"/>
         <source>Remote Host with SSH server</source>
         <translation>SSH 遠端伺服器位址</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="337"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="347"/>
         <source>SSH User:</source>
         <translation>SSH 使用者:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="343"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="353"/>
         <source>Valid SSH User Name</source>
         <translation>有效的 SSH 使用者名稱</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="261"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="350"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="271"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="360"/>
         <source>Private Key</source>
         <translation>私鑰</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="366"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="376"/>
         <source>Path to Private Key in PEM format</source>
         <translation>PEM 格式私鑰路徑</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="376"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="386"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
         <translation>&lt;b&gt;提示: &lt;/b&gt; &lt;code&gt;⌘ + Shift + .&lt;/code&gt; 可以顯示隱藏的檔案與資料夾</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="381"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="391"/>
         <source>Password</source>
         <translation>密碼</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="392"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="402"/>
         <source>SSH User Password</source>
         <translation>SSH 使用者密碼</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="403"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="413"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
         <translation>啟用 TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
     </message>
@@ -875,47 +872,52 @@
         <translation>進階設定</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="201"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
+        <source>For better network performance please use 127.0.0.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
         <source>Username:</source>
         <translation>使用者名稱:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="207"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="217"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
         <translation>(可選) Redis 伺服器認證使用者名稱 (Redis &gt;6.0)</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
         <source>SSL / TLS</source>
         <translation>SSL / TLS</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="285"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="295"/>
         <source>Enable strict mode:</source>
         <translation>啟用嚴格模式:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="426"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="436"/>
         <source>Keys loading</source>
         <translation>鍵的載入</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="430"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="440"/>
         <source>Default filter:</source>
         <translation>預設篩選器:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="436"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="446"/>
         <source>Pattern which defines loaded keys from redis-server</source>
         <translation>指定載入鍵名運算式:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="442"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
         <source>Namespace Separator:</source>
         <translation>命名空間的分隔符號:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="449"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="459"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation>從鍵名中提取命名空間用的分隔符號</translation>
     </message>
@@ -924,32 +926,32 @@
         <translation type="vanished">使用伺服端最佳化的方式載入鍵 (實驗性):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="455"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
         <source>Timeouts &amp; Limits</source>
         <translation>超時 &amp; 限制</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="459"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="469"/>
         <source>Connection Timeout (sec):</source>
         <translation>連線逾時 (秒):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="472"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
         <source>Execution Timeout (sec):</source>
         <translation>執行超時 (秒):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="483"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="493"/>
         <source>Databases discovery limit:</source>
         <translation>資料庫探索上限:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="497"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="507"/>
         <source>Cluster</source>
         <translation>叢集</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="501"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="511"/>
         <source>Change host on cluster redirects:</source>
         <translation>在叢集重定向後改變 host :</translation>
     </message>
@@ -962,26 +964,26 @@
         <translation type="vanished">忽略所有 SSL/TLS 錯誤</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="557"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="567"/>
         <source>Invalid settings detected!</source>
         <translation>檢測到無效的設定！</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="526"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="536"/>
         <source>Test Connection</source>
         <translation>測試連線</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="565"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="575"/>
         <location filename="../../qml/GlobalSettings.qml" line="228"/>
         <location filename="../../qml/QuickStartDialog.qml" line="61"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="568"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="590"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="577"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="587"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="636"/>
@@ -1103,12 +1105,12 @@
         <translation>快速入門指南</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="111"/>
+        <location filename="../../qml/app.qml" line="110"/>
         <source>Successful connection to redis-server</source>
         <translation>成功連線到 Redis 伺服器</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="114"/>
+        <location filename="../../qml/app.qml" line="113"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>無法連線到 Redis 伺服器</translation>
     </message>
@@ -1422,6 +1424,11 @@
         <translation>值</translation>
     </message>
     <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="552"/>
+        <source>Subscribe in Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
         <source>Slowlog</source>
         <translation>慢紀錄</translation>
@@ -1437,7 +1444,7 @@
         <translation>啟用</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="538"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="542"/>
         <source>Channel Name</source>
         <translation>頻道名稱</translation>
     </message>
@@ -1501,7 +1508,7 @@
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="429"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="428"/>
         <source>Save</source>
         <translation>儲存</translation>
     </message>
@@ -1536,42 +1543,42 @@
         <translation>未知格式化錯誤 (沒有回應)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="323"/>
         <source>[Binary]</source>
         <translation>[二進位制內容]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="325"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
         <source> [Compressed: </source>
         <translation>[被壓縮的: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="394"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="393"/>
         <source>Copy to Clipboard</source>
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="430"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="429"/>
         <source>Save Changes</source>
         <translation>儲存變更</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="564"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="586"/>
         <source>Binary value is too large to display</source>
         <translation>二進位制內容過長而無法顯示</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="598"/>
         <source>Save value to file: </source>
         <translation>儲存值到檔案: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="328"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="327"/>
         <source>View as:</source>
         <translation>以...開啟:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="352"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="351"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>內容過大 (&gt;150kB) 無法格式化。</translation>
     </message>
@@ -1616,32 +1623,40 @@
         <translation>無法在鍵 %1 上執行動作。 </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="30"/>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="12"/>
         <source>Cannot copy key </source>
         <translation>無法複製鍵 </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="85"/>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
+        <source>Source connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
+        <source>Target connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation>無法連線到來源 Redis 伺服器: %1</translation>
+        <translation type="vanished">無法連線到來源 Redis 伺服器: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="99"/>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation>無法連線到目標 Redis 伺服器: %1</translation>
+        <translation type="vanished">無法連線到目標 Redis 伺服器: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="67"/>
+        <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="11"/>
         <source>Cannot remove key </source>
         <translation>無法刪除鍵 </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="83"/>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="16"/>
         <source>Cannot execute command </source>
         <translation>無法執行指令 </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="41"/>
+        <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="10"/>
         <source>Cannot set TTL for key </source>
         <translation>無法設定 TTL 給鍵 </translation>
     </message>

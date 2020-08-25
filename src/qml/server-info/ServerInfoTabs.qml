@@ -531,13 +531,33 @@ Repeater {
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
 
-                                model: tab.model.pubSubChannels ? tab.model.pubSubChannels : []
+                                model: tab.model.pubSubChannels ? tab.model.pubSubChannels : []                                
+
+                                rowDelegate: Item {
+                                    height: 50
+                                }
 
                                 LC.TableViewColumn {
                                     role: "addr"
                                     title: qsTranslate("RDM","Channel Name")
                                     width: 200
                                 }
+
+                                LC.TableViewColumn {
+                                    role: "addr"
+                                    width: 200
+                                    delegate: Item {
+                                        BetterButton {
+                                            anchors.centerIn: parent
+                                            text: qsTranslate("RDM","Subscribe in Console")
+                                            onClicked: {
+                                                console.log(styleData.value)
+                                                tab.model.subscribeToChannel(styleData.value)
+                                            }
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }

@@ -14,7 +14,7 @@ class TabViewModel : public QAbstractListModel {
   };
 
   typedef std::function<QSharedPointer<TabModel>(
-      QSharedPointer<RedisClient::Connection>, int dbIndex)>
+      QSharedPointer<RedisClient::Connection>, int dbIndex, QList<QByteArray> initCmd)>
       ModelFactory;
 
  public:
@@ -40,7 +40,7 @@ class TabViewModel : public QAbstractListModel {
 
  public slots:
   void openTab(QSharedPointer<RedisClient::Connection> connection,
-               int dbIndex = 0);
+               int dbIndex = 0, QList<QByteArray> initCmd=QList<QByteArray>());
 
   void closeAllTabsWithConnection(
       QSharedPointer<RedisClient::Connection> connection);
@@ -55,8 +55,8 @@ class TabViewModel : public QAbstractListModel {
 template <class T>
 TabViewModel::ModelFactory getTabModelFactory() {
   return TabViewModel::ModelFactory(
-      [](QSharedPointer<RedisClient::Connection> c, int dbIndex) {
-        return QSharedPointer<TabModel>(new T(c, dbIndex),
+      [](QSharedPointer<RedisClient::Connection> c, int dbIndex, QList<QByteArray> initCmd) {
+        return QSharedPointer<TabModel>(new T(c, dbIndex, initCmd),
                                         &QObject::deleteLater);
       });
 }

@@ -8,7 +8,7 @@ class Model : public TabModel {
   Q_OBJECT
   ADD_EXCEPTION
  public:
-  Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
+  Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex, QList<QByteArray> initCmd);
 
   QString getName() const override;
 
@@ -24,5 +24,6 @@ class Model : public TabModel {
 
  private:
   void updatePrompt(bool showPrompt);
+  void execCmd(QList<QByteArray> cmd);
 };
 }  // namespace Console

@@ -103,8 +103,19 @@ void Application::initModels() {
   connect(m_events.data(), &Events::openConsole, m_consoleModel.data(),
           &TabViewModel::openTab);
 
+  auto srvStatsFactory = [this](QSharedPointer<RedisClient::Connection> c,
+                                int dbIndex, QList<QByteArray> initCmd) {
+    auto rawModelPtr = new ServerStats::Model(c, dbIndex, initCmd);
+    auto model = QSharedPointer<TabModel>(rawModelPtr, &QObject::deleteLater);
+
+    QObject::connect(rawModelPtr, &ServerStats::Model::openConsoleTerminal,
+                     m_events.data(), &Events::openConsole);
+
+    return model;
+  };
+
   m_serverStatsModel = QSharedPointer<TabViewModel>(
-      new TabViewModel(getTabModelFactory<ServerStats::Model>()));
+      new TabViewModel(srvStatsFactory));
 
   connect(m_events.data(), &Events::openServerStats, this,
           [this](QSharedPointer<RedisClient::Connection> c) {

@@ -22,7 +22,7 @@ class Model : public TabModel {
                  setRefreshPubSubMonitor)
 
  public:
-  Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex);
+  Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex, QList<QByteArray>);
 
   ~Model() override;
 
@@ -45,11 +45,15 @@ class Model : public TabModel {
   bool refreshPubSubMonitor();
   void setRefreshPubSubMonitor(bool v);
 
+  Q_INVOKABLE void subscribeToChannel(const QString& c);
+
  signals:
   void serverInfoChanged();
   void slowLogChanged();
   void clientsChanged();
   void pubSubChannelsChanged();
+  void openConsoleTerminal(QSharedPointer<RedisClient::Connection> c,
+                           int db, QList<QByteArray> cmd);
 
  protected:
   void cmdErrorHander(const QString& err);

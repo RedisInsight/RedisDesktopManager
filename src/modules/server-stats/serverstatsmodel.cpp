@@ -3,7 +3,7 @@
 #include <QCoreApplication>
 
 ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
-                          int dbIndex)
+                          int dbIndex, QList<QByteArray>)
     : TabModel(connection, dbIndex) {
   m_serverInfoUpdateTimer.setInterval(5000);
   m_serverInfoUpdateTimer.setSingleShot(false);
@@ -154,6 +154,11 @@ void ServerStats::Model::setRefreshPubSubMonitor(bool v) {
         },
         [this](const QString& e) { cmdErrorHander(e); });
   }
+}
+
+void ServerStats::Model::subscribeToChannel(const QString &c)
+{
+    emit openConsoleTerminal(m_connection, m_dbIndex, {"SUBSCRIBE", c.toUtf8()});
 }
 
 void ServerStats::Model::cmdErrorHander(const QString& err) { emit error(err); }
