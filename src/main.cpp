@@ -48,6 +48,10 @@ int main(int argc, char *argv[])
     }
 #endif
 
+#ifdef Q_OS_MAC
+    qputenv("QT_SSL_USE_TEMPORARY_KEYCHAIN", QByteArray::number(1));
+#endif
+
     Application a(argc, argv);
 
 #ifdef LINUX_SIGNALS
@@ -55,7 +59,7 @@ int main(int argc, char *argv[])
     sigwatch.watchForSignal(SIGINT);
     sigwatch.watchForSignal(SIGTERM);
     QObject::connect(&sigwatch, SIGNAL(unixSignal(int)), &a, SLOT(quit()));
-#endif
+#endif    
     a.initModels();
     a.initQml();
     returnCode = a.exec();
