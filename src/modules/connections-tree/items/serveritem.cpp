@@ -1,5 +1,7 @@
 #include "serveritem.h"
+
 #include <asyncfuture.h>
+
 #include <QAction>
 #include <QDebug>
 #include <QMenu>
@@ -13,13 +15,15 @@
 
 using namespace ConnectionsTree;
 
-ServerItem::ServerItem(const QString& name,
-                       QSharedPointer<Operations> operations, Model& model)
-    : TreeItem(model), m_name(name), m_row(0), m_operations(operations) {}
+ServerItem::ServerItem(QSharedPointer<Operations> operations, Model& model,
+                       QWeakPointer<TreeItem> parent)
+    : SortableTreeItem(model),
+      m_operations(operations),
+      m_parent(parent) {}
 
 ServerItem::~ServerItem() {}
 
-QString ServerItem::getDisplayName() const { return m_name; }
+QString ServerItem::getDisplayName() const { return m_operations->connectionName(); }
 
 QList<QSharedPointer<TreeItem> > ServerItem::getAllChilds() const {
   return m_databases;
@@ -38,20 +42,28 @@ QSharedPointer<TreeItem> ServerItem::child(uint row) const {
 }
 
 QWeakPointer<TreeItem> ServerItem::parent() const {
-  return QWeakPointer<TreeItem>();
+    return m_parent;
 }
 
-int ServerItem::row() const { return m_row; }
-
-void ServerItem::setRow(int r) { m_row = r; }
-
-bool ServerItem::isEnabled() const { return true; }
+void ServerItem::setParent(QWeakPointer<TreeItem> p)
+{
+    m_parent = p;
+}
 
 bool ServerItem::isDatabaseListLoaded() const {
   return isLocked() == false && m_databases.size() > 0;
 }
 
 QSharedPointer<Operations> ServerItem::getOperations() { return m_operations; }
+
+int ServerItem::row() const
+{
+    if (!parent()) {
+        return m_row;
+    }
+
+    return TreeItem::row();
+}
 
 void ServerItem::load() {
   lock();
@@ -82,12 +94,16 @@ void ServerItem::load() {
     auto wPtr = m_self;
 
     AsyncFuture::observe(m_currentOperation)
-        .subscribe([this, wPtr]() { if (!wPtr) return; unlock(); },
-                   [this, wPtr]() {
-                     if (!wPtr) return;
-                     m_operations->resetConnection();
-                     unlock();
-                   });
+        .subscribe(
+            [this, wPtr]() {
+              if (!wPtr) return;
+              unlock();
+            },
+            [this, wPtr]() {
+              if (!wPtr) return;
+              m_operations->resetConnection();
+              unlock();
+            });
   } else {
     unlock();
   }
@@ -175,8 +191,6 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
 
   return events;
 }
-
-void ServerItem::setName(const QString& name) { m_name = name; }
 
 void ServerItem::setWeakPointer(QWeakPointer<ServerItem> self) {
   m_self = self;

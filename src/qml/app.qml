@@ -117,6 +117,20 @@ ApplicationWindow {
         onSaveConnection: connectionsManager.updateConnection(settings)
     }
 
+    ConnectionGroupDialog {
+        id: connectionGroupDialog
+
+        objectName: "rdm_connection_group_dialog"
+
+        onAddNewGroup: {
+            connectionsManager.addNewGroup(name)
+        }
+
+        onEditGroup: {
+            connectionsManager.updateGroup(group)
+        }
+    }
+
     OkDialog {
         id: notification
         objectName: "rdm_qml_error_dialog"
@@ -184,6 +198,11 @@ ApplicationWindow {
             connectionSettingsDialog.open()
         }
 
+        onEditConnectionGroup: {
+            connectionGroupDialog.group = group
+            connectionGroupDialog.open()
+        }
+
         Component.onCompleted: {
             if (connectionsManager.size() == 0)
                 quickStartDialog.open()
@@ -204,12 +223,75 @@ ApplicationWindow {
         anchors.topMargin: 1
         orientation: Qt.Horizontal
 
-        BetterTreeView {
-            id: connectionsTree
+        ColumnLayout {
             SplitView.fillHeight: true
             SplitView.minimumWidth: 404
             SplitView.minimumHeight: 500
-        }      
+
+            BetterTreeView {
+                id: connectionsTree
+
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.margins: 10
+
+                BetterButton {
+                    id: addConnectionGroupBtn
+                    iconSource: "qrc:/images/add.svg"
+                    text: qsTranslate("RDM", "Add Group")
+
+                    Layout.fillWidth: true
+
+                    visible: sortButton.visible
+
+                    onClicked: {
+                        connectionGroupDialog.group = undefined
+                        connectionGroupDialog.open()
+                    }
+                }
+
+                BetterButton {
+                    id: sortButton
+                    text: qsTranslate("RDM", "Regroup connections")
+
+                    iconSource: "qrc:/images/sort.svg"
+
+                    Layout.fillWidth: true
+
+                    onClicked: {
+                        connectionsTree.sortConnections = true
+                        connectionsTree.selection.clear()
+                        connectionsTree.backgroundVisible = true
+
+                        connectionsManager.collapseRootItems()
+
+                        sortButton.visible = false
+                    }
+                }
+
+                BetterButton {
+                    id: sortApplyButton
+
+                    Layout.fillWidth: true
+
+                    text: qsTranslate("RDM", "Exit Regroup Mode")
+                    visible: !sortButton.visible
+
+                    iconSource: "qrc:/images/ok.svg"
+
+                    onClicked: {
+                        connectionsTree.sortConnections = false
+                        connectionsTree.backgroundVisible = false
+                        connectionsManager.applyGroupChanges()
+                        sortButton.visible = true
+                    }
+                }
+            }
+        }
 
         ColumnLayout {
             SplitView.fillWidth: true

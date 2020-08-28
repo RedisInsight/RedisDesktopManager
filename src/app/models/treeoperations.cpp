@@ -10,16 +10,26 @@
 #include <algorithm>
 
 #include "app/events.h"
+#include "connections-tree/items/serveritem.h"
 #include "connections-tree/items/databaseitem.h"
 #include "connections-tree/items/namespaceitem.h"
 #include "connections-tree/keysrendering.h"
 
-TreeOperations::TreeOperations(
-    QSharedPointer<RedisClient::Connection> connection,
+TreeOperations::TreeOperations(const ServerConfig &config,
     QSharedPointer<Events> events)
-    : m_connection(connection), m_events(events), m_dbCount(0),
-      m_connectionMode(RedisClient::Connection::Mode::Normal) {
-  m_events->registerLoggerForConnection(*connection);
+    : m_events(events), m_dbCount(0),
+      m_connectionMode(RedisClient::Connection::Mode::Normal),
+      m_config(config){
+  m_connection = QSharedPointer<RedisClient::Connection>(
+              new RedisClient::Connection(config));
+  m_events->registerLoggerForConnection(*m_connection);
+}
+
+TreeOperations::~TreeOperations() {
+  if (m_connection) {
+    m_connection->disconnect();
+    m_connection->deleteLater();
+  }
 }
 
 bool TreeOperations::loadDatabases(
@@ -44,7 +54,7 @@ bool TreeOperations::loadDatabases(
         availableDatabeses.insert(index, 0);
       }
     } else {
-      uint dbScanLimit = conf().databaseScanLimit();
+      uint dbScanLimit = m_config.databaseScanLimit();
 
       for (int index = lastDbIndex; index < dbScanLimit; index++) {
         try {
@@ -69,10 +79,6 @@ bool TreeOperations::loadDatabases(
 
   callback(availableDatabeses);
   return true;
-}
-
-ServerConfig TreeOperations::conf() const {
-  return static_cast<ServerConfig>(m_connection->getConfig());
 }
 
 void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
@@ -116,7 +122,7 @@ void TreeOperations::requestBulkOperation(
   QString pattern =
       QString("%1%2*")
           .arg(QString::fromUtf8(ns.getFullPath()))
-          .arg(ns.getFullPath().size() > 0 ? conf().namespaceSeparator() : "");
+          .arg(ns.getFullPath().size() > 0 ? m_config.namespaceSeparator() : "");
   QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
   // NOTE(u_glide): Use "clean" connection wihout logger here for better performance
@@ -133,7 +139,7 @@ void TreeOperations::loadNamespaceItems(
     QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
     const QString& filter, std::function<void(const QString& err)> callback,
     QSet<QByteArray> expandedNs) {
-  QString keyPattern = filter.isEmpty() ? conf().keysPattern() : filter;
+  QString keyPattern = filter.isEmpty() ? m_config.keysPattern() : filter;
 
   auto renderingCallback =
       [this, callback, filter, parent, expandedNs](
@@ -194,10 +200,15 @@ void TreeOperations::resetConnection() {
 }
 
 QString TreeOperations::getNamespaceSeparator() {
-  return conf().namespaceSeparator();
+  return m_config.namespaceSeparator();
 }
 
-QString TreeOperations::defaultFilter() { return conf().keysPattern(); }
+QString TreeOperations::defaultFilter() { return m_config.keysPattern(); }
+
+QString TreeOperations::connectionName() const
+{
+    return m_config.name();
+}
 
 void TreeOperations::openKeyTab(QSharedPointer<ConnectionsTree::KeyItem> key,
                                 bool openInNewTab) {
@@ -219,7 +230,7 @@ void TreeOperations::openServerStats() {
 }
 
 void TreeOperations::duplicateConnection() {
-  emit m_events->createNewConnection(m_connection->getConfig());
+  emit createNewConnection(m_config);
 }
 
 void TreeOperations::notifyDbWasUnloaded(int dbIndex) {
@@ -396,7 +407,26 @@ QString TreeOperations::mode() {
 
 bool TreeOperations::isConnected() const { return m_connection->isConnected(); }
 
+QSharedPointer<RedisClient::Connection> TreeOperations::connection()
+{
+    return m_connection;
+}
+
 void TreeOperations::setConnection(QSharedPointer<RedisClient::Connection> c) {
   m_connection = c;
   m_events->registerLoggerForConnection(*c);
+}
+
+ServerConfig TreeOperations::config()
+{
+    m_config.setOwner(sharedFromThis().toWeakRef());
+    return m_config;
+}
+
+void TreeOperations::setConfig(const ServerConfig &c)
+{
+    m_config = c;
+    m_config.setOwner(sharedFromThis().toWeakRef());
+    m_connection->setConnectionConfig(m_config);
+    emit configUpdated();
 }

@@ -23,6 +23,7 @@
         <file alias="ga.png">images/ga.png</file>
         <file alias="server.svg">images/server.svg</file>
         <file alias="server_offline.svg">images/server_offline.svg</file>
+        <file alias="server_group.svg">images/server_group.svg</file>
         <file alias="offline.svg">images/offline.svg</file>
         <file alias="settings.svg">images/settings.svg</file>
         <file alias="console.svg">images/console.svg</file>
@@ -43,5 +44,6 @@
         <file alias="db_copy.svg">images/db_copy.svg</file>
         <file alias="document.svg">images/document.svg</file>
         <file alias="save.svg">images/save.svg</file>
+        <file alias="sort.svg">images/sort.svg</file>
     </qresource>
 </RCC>

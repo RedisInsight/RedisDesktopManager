@@ -6,7 +6,7 @@
 #include <QSharedPointer>
 #include <QVariant>
 
-#include "items/treeitem.h"
+#include "items/sortabletreeitem.h"
 
 namespace ConnectionsTree {
 
@@ -112,14 +112,20 @@ class Model : public QAbstractItemModel {
 
   void setCollapsed(const QModelIndex &index);
 
- protected:
-  void addRootItem(QSharedPointer<ServerItem> item);
+  void collapseRootItems();
 
-  void removeRootItem(QSharedPointer<ServerItem> item);  
+  void dropItemAt(const QModelIndex &index, const QModelIndex &at);
+
+  virtual void applyGroupChanges();
+
+ protected:
+  void addRootItem(QSharedPointer<ConnectionsTree::SortableTreeItem> item);
+
+  void removeRootItem(QSharedPointer<TreeItem> item);
 
   void restoreOpenedNamespaces(QSharedPointer<AbstractNamespaceItem> ns);
 
- private:
+ protected:
   QList<QSharedPointer<TreeItem>> m_treeItems;
   QSharedPointer<QHash<TreeItem *, QWeakPointer<TreeItem>>> m_rawPointers;
   QHash<QSharedPointer<TreeItem>, QModelIndex> m_pendingChanges;

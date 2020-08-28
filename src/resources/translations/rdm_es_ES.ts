@@ -243,8 +243,8 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="155"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="303"/>
-        <location filename="../../app/models/treeoperations.cpp" line="55"/>
-        <location filename="../../app/models/treeoperations.cpp" line="106"/>
+        <location filename="../../app/models/treeoperations.cpp" line="65"/>
+        <location filename="../../app/models/treeoperations.cpp" line="112"/>
         <location filename="../../modules/console/consolemodel.cpp" line="88"/>
         <source>Connection error: </source>
         <translation>Error de conexión: </translation>
@@ -294,27 +294,27 @@
         <translation type="vanished">La fila ha cambiado y no puede borrarse ahora. Recarga e inténtalo de nuevo.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="84"/>
+        <location filename="../../app/models/treeoperations.cpp" line="90"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>No se puede conectar al servidor %1. Compruba el log para más detalles.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="94"/>
+        <location filename="../../app/models/treeoperations.cpp" line="100"/>
         <source>Open Source version of Redis Desktop Manager &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation>La versión Open Source de Redis Desktop Manager &lt;b&gt;no soporta túneles SSH&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; Para obtener todas las características, por favor, compra un suscripción en &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Cada suscripción individual nos proporciona fondos para continuar el proceso de desarrollo y proporcionar soporte a nuestros usuarios. &lt;br /&gt;Si tienes alguna pregunta, por favor, contacta con nosotros en &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Chat Telegram&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="170"/>
+        <location filename="../../app/models/treeoperations.cpp" line="167"/>
         <source>Cannot load keys: %1</source>
         <translation>No se pueden cargar las claves: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="228"/>
+        <location filename="../../app/models/treeoperations.cpp" line="251"/>
         <source>Delete key error: %1</source>
         <translation>Error: %1 borrando clave</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="347"/>
+        <location filename="../../app/models/treeoperations.cpp" line="370"/>
         <source>Cannot used memory for key: %1</source>
         <translation>No se puede hallar la memoria usada para la clave: %1</translation>
     </message>
@@ -327,7 +327,7 @@
         <translation type="vanished">Error de borrado de clave:</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="291"/>
+        <location filename="../../app/models/treeoperations.cpp" line="314"/>
         <source>Cannot flush database: </source>
         <translation>No se puede vaciar la base de datos: </translation>
     </message>
@@ -519,12 +519,12 @@
         <translation type="vanished">Error de clave</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="156"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="172"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>Las pestañas de Valor y Consola relacionadas con esta conexión deben cerrarse. ¿Quieres continuar?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="168"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="184"/>
         <source>Do you really want to delete connection?</source>
         <translation>¿Seguro que quieres borrar la conexión?</translation>
     </message>
@@ -981,6 +981,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="587"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="103"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="636"/>
         <source>Cancel</source>
@@ -1111,6 +1112,21 @@
         <translation>No se puede conectar a servidor redis</translation>
     </message>
     <message>
+        <location filename="../../qml/app.qml" line="245"/>
+        <source>Add Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/app.qml" line="259"/>
+        <source>Regroup connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/app.qml" line="281"/>
+        <source>Exit Regroup Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Bulk Operations Manager</source>
         <translation type="vanished">Administrador de Operaciones Masivas</translation>
     </message>
@@ -1184,7 +1200,7 @@
         <translation type="vanished">Identificarse</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="99"/>
+        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="183"/>
         <source> (Removed)</source>
         <translation> (Borrado)</translation>
     </message>
@@ -1511,12 +1527,29 @@
     </message>
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="428"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
+        <source>Edit Connections Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
+        <source>Add New Connections Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
+        <source>Group Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
         <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="195"/>
         <source>Error</source>
@@ -1707,6 +1740,21 @@
         <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
         <source>Cannot connect to redis-server</source>
         <translation>No se puede conectar al servidor Redis</translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
+        <source>Edit Connection Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
+        <source>Delete Connection Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
+        <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

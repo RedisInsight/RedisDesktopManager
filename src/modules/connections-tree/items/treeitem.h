@@ -55,7 +55,7 @@ class TreeItem {
 
   virtual bool isLocked() const { return m_locked; }
 
-  virtual bool isEnabled() const = 0;
+  virtual bool isEnabled() const { return true; };
 
   virtual bool isExpanded() const { return false; }
 

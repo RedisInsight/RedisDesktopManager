@@ -1,12 +1,15 @@
 #pragma once
 #include <qredisclient/connection.h>
+
 #include <QSharedPointer>
 #include <functional>
 
 #include "app/models/connectionconf.h"
+#include "connections-tree/items/servergroup.h"
 #include "bulk-operations/connections.h"
 #include "connections-tree/model.h"
 #include "treeoperations.h"
+#include "connectiongroup.h"
 
 namespace ValueEditor {
 class TabsModel;
@@ -27,7 +30,13 @@ class ConnectionsManager : public ConnectionsTree::Model,
   ~ConnectionsManager(void);
 
   Q_INVOKABLE void addNewConnection(const ServerConfig& config,
-                                    bool saveToConfig = true);
+                                    bool saveToConfig = true,
+                                    QSharedPointer<ConnectionsTree::ServerGroup> group =
+                                        QSharedPointer<ConnectionsTree::ServerGroup>());
+
+  Q_INVOKABLE void addNewGroup(const QString& name);
+
+  Q_INVOKABLE void updateGroup(const ConnectionGroup& group);
 
   Q_INVOKABLE void updateConnection(const ServerConfig& config);
 
@@ -48,8 +57,12 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
   QStringList getConnections() override;
 
+  void applyGroupChanges() override;
+
  signals:
   void editConnection(ServerConfig config);
+
+  void editConnectionGroup(ConnectionGroup group);
 
   void connectionAboutToBeEdited(QString name);
 
@@ -60,15 +73,15 @@ class ConnectionsManager : public ConnectionsTree::Model,
                                      bool saveChangesToFile = false);
 
  private:
-  void createServerItemForConnection(
-      QSharedPointer<RedisClient::Connection> connection,
-      QSharedPointer<TreeOperations> treeModel);
+  void createServerItemForConnection(const ServerConfig &config,
+      QSharedPointer<ConnectionsTree::ServerGroup> group=QSharedPointer<ConnectionsTree::ServerGroup>());
+
+  void addGroup(QSharedPointer<ConnectionsTree::ServerGroup> serverGroup);
+
+  void buildConnectionsCache();
 
  private:
   QString m_configPath;
-  QList<QSharedPointer<RedisClient::Connection>> m_connections;
-  QHash<QSharedPointer<RedisClient::Connection>,
-        QSharedPointer<ConnectionsTree::TreeItem>>
-      m_connectionMapping;
   QSharedPointer<Events> m_events;
+  QMap<QString, QSharedPointer<ConnectionsTree::ServerItem>> m_connectionsCache;
 };

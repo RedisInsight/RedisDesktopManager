@@ -1,18 +1,20 @@
 #pragma once
 #include <QList>
 #include <QObject>
+
 #include "connections-tree/operations.h"
-#include "treeitem.h"
+#include "sortabletreeitem.h"
 
 namespace ConnectionsTree {
 
 class Model;
 
-class ServerItem : public QObject, public TreeItem {
+class ServerItem : public QObject, public SortableTreeItem {
   Q_OBJECT
  public:
-  ServerItem(const QString &name, QSharedPointer<Operations> operations,
-             Model &model);
+  ServerItem(QSharedPointer<Operations> operations,
+             Model &model,
+             QWeakPointer<TreeItem> parent = QWeakPointer<TreeItem>());
 
   ~ServerItem();
 
@@ -20,7 +22,7 @@ class ServerItem : public QObject, public TreeItem {
 
   QString type() const override { return "server"; }
 
-  QVariantMap metadata() const;
+  QVariantMap metadata() const override;
 
   QList<QSharedPointer<TreeItem>> getAllChilds() const override;
 
@@ -30,13 +32,7 @@ class ServerItem : public QObject, public TreeItem {
 
   QWeakPointer<TreeItem> parent() const override;
 
-  int row() const override;
-
-  void setRow(int r);
-
-  bool isEnabled() const override;
-
-  void setName(const QString &name);
+  void setParent(QWeakPointer<TreeItem> p);
 
   void setWeakPointer(QWeakPointer<ServerItem>);
 
@@ -44,9 +40,13 @@ class ServerItem : public QObject, public TreeItem {
 
   QSharedPointer<Operations> getOperations();
 
+  int row() const override;
+
+ public slots:
+  void unload();
+
  private slots:
   void load();
-  void unload();
   void reload();
   void edit();
   void remove();
@@ -60,11 +60,10 @@ class ServerItem : public QObject, public TreeItem {
   QHash<QString, std::function<void()>> eventHandlers() override;
 
  private:
-  QString m_name;
-  int m_row;
   QSharedPointer<Operations> m_operations;
   QList<QSharedPointer<TreeItem>> m_databases;
   QWeakPointer<ServerItem> m_self;
+  QWeakPointer<TreeItem> m_parent;
   QModelIndex m_index;
 };
 }  // namespace ConnectionsTree

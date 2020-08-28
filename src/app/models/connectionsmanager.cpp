@@ -1,3 +1,5 @@
+#include "connectionsmanager.h"
+
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QFile>
@@ -6,7 +8,6 @@
 
 #include "app/events.h"
 #include "configmanager.h"
-#include "connectionsmanager.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 #include "modules/connections-tree/items/serveritem.h"
 #include "modules/value-editor/tabsmodel.h"
@@ -18,69 +19,63 @@ ConnectionsManager::ConnectionsManager(const QString& configPath,
     loadConnectionsConfigFromFile(configPath);
   }
 
-  connect(m_events.data(), &Events::createNewConnection, this,
-          [this](RedisClient::ConnectionConfig config) {
-            addNewConnection(config);
-          });
   connect(this, &ConnectionsTree::Model::error, m_events.data(),
           &Events::error);
 }
 
-ConnectionsManager::~ConnectionsManager(void) {
+ConnectionsManager::~ConnectionsManager(void) {}
 
-    for (auto connection : m_connections) {
-        if (connection) {
-            connection->disconnect();
-            connection->deleteLater();
-        }
-    }
-}
-
-void ConnectionsManager::addNewConnection(const ServerConfig& config,
-                                          bool saveToConfig) {
-  // add connection to internal container
-  QSharedPointer<RedisClient::Connection> connection(
-      new RedisClient::Connection(config));
-  ServerConfig conf = config;
-  conf.setOwner(connection.toWeakRef());
-  connection->setConnectionConfig(conf);
-  m_connections.push_back(connection);
-  emit sizeChanged();
-
-  // add connection to connection tree
-  auto treeModel = QSharedPointer<TreeOperations>(
-      new TreeOperations(connection->clone(), m_events));
-  createServerItemForConnection(connection, treeModel);
+void ConnectionsManager::addNewConnection(
+    const ServerConfig& config, bool saveToConfig,
+    QSharedPointer<ConnectionsTree::ServerGroup> group) {
+  createServerItemForConnection(config, group);
 
   if (saveToConfig) saveConfig();
+
+  buildConnectionsCache();
+}
+
+void ConnectionsManager::addNewGroup(const QString& name) {
+  auto group = QSharedPointer<ConnectionsTree::ServerGroup>(
+      new ConnectionsTree::ServerGroup(
+          name, *static_cast<ConnectionsTree::Model*>(this)));
+
+  addGroup(group);
+
+  saveConfig();
+}
+
+void ConnectionsManager::updateGroup(const ConnectionGroup &group)
+{
+    auto serverGroup = group.serverGroup();
+
+    if (!serverGroup){
+        qWarning() << "invalid server group";
+        return;
+    }
+
+    onItemChanged(serverGroup);
+
+    saveConfig();
+
+    buildConnectionsCache();
 }
 
 void ConnectionsManager::updateConnection(const ServerConfig& config) {
-  if (!config.getOwner()) return addNewConnection(config);
+  if (!config.owner()) return addNewConnection(config);
 
-  QSharedPointer<RedisClient::Connection> connection =
-      config.getOwner().toStrongRef();
-  connection->setConnectionConfig(config);
+  auto treeOperations = config.owner().toStrongRef();
+
+  if (!treeOperations) return;
+
+  treeOperations->setConfig(config);
+
   saveConfig();
-  auto serverItem = m_connectionMapping[connection]
-                        .dynamicCast<ConnectionsTree::ServerItem>();
-
-  if (!serverItem) return;
-
-  serverItem->setName(config.name());
-  auto operations = serverItem->getOperations().dynamicCast<TreeOperations>();
-
-  if (!operations) return;
-
-  operations->setConnection(connection->clone());
-
-  emit dataChanged(index(serverItem->row(), 0, QModelIndex()),
-                   index(serverItem->row(), 0, QModelIndex()));
 }
 
 bool ConnectionsManager::importConnections(const QString& path) {
   if (loadConnectionsConfigFromFile(path, true)) {
-      emit sizeChanged();
+    emit sizeChanged();
     return true;
   }
   return false;
@@ -110,7 +105,32 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
   for (QJsonValue connection : connections) {
     if (!connection.isObject()) continue;
 
-    ServerConfig conf = ServerConfig::fromJsonObject(connection.toObject());
+    auto obj = connection.toObject();
+
+    if (obj.contains("type") && obj.contains("connections") &&
+        obj.contains("name") && obj["connections"].isArray() &&
+        obj["type"].toString().toLower() == "group") {
+      auto groupConnections = obj["connections"].toArray();
+
+      auto group = QSharedPointer<ConnectionsTree::ServerGroup>(
+          new ConnectionsTree::ServerGroup(
+              obj["name"].toString(),
+              *static_cast<ConnectionsTree::Model*>(this)));
+
+      for (QJsonValue c : groupConnections) {
+        if (!c.isObject()) continue;
+
+        ServerConfig conf(c.toObject().toVariantHash());
+
+        if (conf.isNull()) continue;
+
+        addNewConnection(conf, false, group);
+      }
+
+      addGroup(group);
+    }
+
+    ServerConfig conf(obj.toVariantHash());
 
     if (conf.isNull()) continue;
 
@@ -118,6 +138,8 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
   }
 
   if (saveChangesToFile) saveConfig();
+
+  buildConnectionsCache();
 
   return true;
 }
@@ -129,8 +151,38 @@ void ConnectionsManager::saveConfig() {
 bool ConnectionsManager::saveConnectionsConfigToFile(
     const QString& pathToFile) {
   QJsonArray connections;
-  for (auto c : m_connections) {
-    connections.push_back(QJsonValue(c->getConfig().toJsonObject()));
+
+  auto addConfig = [](QSharedPointer<ConnectionsTree::TreeItem> i,
+                      QJsonArray& connections) {
+    auto srvItem = i.dynamicCast<ConnectionsTree::ServerItem>();
+
+    if (!srvItem) return;
+
+    auto op = srvItem->getOperations().dynamicCast<TreeOperations>();
+
+    if (!op) return;
+
+    connections.push_back(QJsonValue(op->config().toJsonObject()));
+  };
+
+  for (auto item : m_treeItems) {
+    if (item->type() == "server_group") {
+      QJsonObject group;
+      group["type"] = "group";
+      group["name"] = item->getDisplayName();
+
+      QJsonArray groupConnections;
+
+      for (auto srv : item->getAllChilds()) {
+        addConfig(srv, groupConnections);
+      }
+
+      group["connections"] = groupConnections;
+      connections.push_back(QJsonValue(group));
+
+    } else if (item->type() == "server") {
+      addConfig(item, connections);
+    }
   }
 
   return saveJsonArrayToFile(connections, pathToFile);
@@ -151,55 +203,153 @@ ServerConfig ConnectionsManager::createEmptyConfig() const {
   return ServerConfig();
 }
 
-int ConnectionsManager::size() { return m_connections.length(); }
+int ConnectionsManager::size() {
+  int connectionsCount = 0;
+
+  for (auto item : m_treeItems) {
+    if (item->type() == "server_group") {
+      connectionsCount += item->childCount();
+    } else if (item->type() == "server") {
+      connectionsCount++;
+    }
+  }
+  return connectionsCount;
+}
 
 QSharedPointer<RedisClient::Connection> ConnectionsManager::getByIndex(
     int index) {
-  return m_connections[index];
+  auto op = m_connectionsCache.values().at(index)->getOperations();
+
+  if (!op) return QSharedPointer<RedisClient::Connection>();
+
+  auto treeOp = op.dynamicCast<TreeOperations>();
+
+  if (!treeOp) return QSharedPointer<RedisClient::Connection>();
+
+  return treeOp->connection();
 }
 
 QStringList ConnectionsManager::getConnections() {
-  QStringList result;
+  return m_connectionsCache.keys();
+}
 
-  for (QSharedPointer<RedisClient::Connection> c : m_connections) {
-    result.append(c->getConfig().name());
-  }
+void ConnectionsManager::applyGroupChanges() {
+  ConnectionsTree::Model::applyGroupChanges();
 
-  return result;
+  buildConnectionsCache();
+
+  saveConfig();
 }
 
 void ConnectionsManager::createServerItemForConnection(
-    QSharedPointer<RedisClient::Connection> connection,
-    QSharedPointer<TreeOperations> treeModel) {
+    const ServerConfig& config,
+    QSharedPointer<ConnectionsTree::ServerGroup> group) {
   using namespace ConnectionsTree;
-  QString name = connection->getConfig().name();
+
+  auto treeModel =
+      QSharedPointer<TreeOperations>(new TreeOperations(config, m_events));
+
+  connect(treeModel.data(), &TreeOperations::createNewConnection, this,
+          [this](const ServerConfig& config) { addNewConnection(config); });
+
+  QWeakPointer<TreeItem> parent;
+
+  if (group) {
+    parent = group.toWeakRef();
+  }
+
   auto serverItem = QSharedPointer<ServerItem>(
-      new ServerItem(name, treeModel.dynamicCast<ConnectionsTree::Operations>(),
-                     *static_cast<ConnectionsTree::Model*>(this)));
+      new ServerItem(treeModel.dynamicCast<ConnectionsTree::Operations>(),
+                     *static_cast<ConnectionsTree::Model*>(this), parent));
+  serverItem->setWeakPointer(serverItem.toWeakRef());
 
-  QObject::connect(
-      serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested,
-      this, [this, connection, name]() {
-        emit connectionAboutToBeEdited(name);
-        emit editConnection(static_cast<ServerConfig>(connection->getConfig()));
-      });
-
-  QObject::connect(
-      serverItem.data(), &ConnectionsTree::ServerItem::deleteActionRequested,
-      this, [this, connection, name]() {
-        auto serverItem = m_connectionMapping[connection]
-                              .dynamicCast<ConnectionsTree::ServerItem>();
-
+  connect(
+      treeModel.data(), &TreeOperations::configUpdated, this,
+      [this, serverItem]() {
         if (!serverItem) return;
 
-        emit connectionAboutToBeEdited(name);
-        m_connections.removeAll(connection);
-        emit sizeChanged();
-        m_connectionMapping.remove(connection);
-        removeRootItem(serverItem);
-        saveConfig();
+        onItemChanged(
+            serverItem.dynamicCast<ConnectionsTree::TreeItem>().toWeakRef());
       });
 
-  m_connectionMapping.insert(connection, serverItem);
-  addRootItem(serverItem);
+  connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested,
+          this, [this, treeModel]() {
+            if (!treeModel) return;
+
+            emit connectionAboutToBeEdited(treeModel->config().name());            
+
+            emit editConnection(treeModel->config());
+          });
+
+  connect(serverItem.data(),
+          &ConnectionsTree::ServerItem::deleteActionRequested, this,
+          [this, serverItem, treeModel, group]() {
+            if (!serverItem || !treeModel) return;
+
+            emit connectionAboutToBeEdited(treeModel->config().name());
+
+            if (group) {
+              group->removeChild(serverItem);
+            } else {
+              removeRootItem(serverItem);
+            }
+
+            buildConnectionsCache();
+
+            emit sizeChanged();
+            saveConfig();
+          });
+
+  if (group) {
+    group->addServer(serverItem);
+  } else {
+    addRootItem(serverItem);
+  }
+}
+
+void ConnectionsManager::addGroup(
+    QSharedPointer<ConnectionsTree::ServerGroup> group) {
+  connect(group.data(), &ConnectionsTree::ServerGroup::editActionRequested,
+          this, [this, group]() {
+            if (!group) return;
+
+            ConnectionGroup g(group);
+
+            emit editConnectionGroup(g);
+          });
+
+  connect(group.data(), &ConnectionsTree::ServerGroup::deleteActionRequested,
+          this, [this, group]() {
+            if (!group) return;
+
+            removeRootItem(group);
+
+            buildConnectionsCache();
+
+            emit sizeChanged();
+            saveConfig();
+          });
+
+  addRootItem(group);
+
+  buildConnectionsCache();
+}
+
+void ConnectionsManager::buildConnectionsCache() {
+  m_connectionsCache.clear();
+
+  for (auto item : m_treeItems) {
+    if (item->type() == "server_group") {
+      QString nameTemplate = QString("[%1] %2").arg(item->getDisplayName());
+
+      for (auto srv : item->getAllChilds()) {
+        QString name = nameTemplate.arg(srv->getDisplayName());
+        m_connectionsCache[name] =
+            srv.dynamicCast<ConnectionsTree::ServerItem>();
+      }
+    } else if (item->type() == "server") {
+      m_connectionsCache[item->getDisplayName()] =
+          item.dynamicCast<ConnectionsTree::ServerItem>();
+    }
+  }
 }
