@@ -156,19 +156,31 @@ void TreeOperations::loadNamespaceItems(
 
   connect(m_connection);
 
+  auto processErr = [callback](const QString& err) {
+    return callback(
+        QCoreApplication::translate("RDM", "Cannot load keys: %1").arg(err));
+  };
+
   if (!m_connection->isConnected()) return;
 
   try {
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
       m_connection->getClusterKeys(renderingCallback, keyPattern);
     } else {
-      m_connection->getDatabaseKeys(renderingCallback, keyPattern,
-                                    parent->getDbIndex());
+      m_connection->cmd(
+          {"ping"}, this, parent->getDbIndex(),
+          [this, callback, renderingCallback, keyPattern,
+           processErr](const RedisClient::Response& r) {
+            if (r.isErrorMessage()) {
+              return processErr(r.value().toString());
+            }
+            m_connection->getDatabaseKeys(renderingCallback, keyPattern, -1);
+          },
+          [processErr](const QString& err) { return processErr(err); });
     }
 
   } catch (const RedisClient::Connection::Exception& error) {
-    callback(QCoreApplication::translate("RDM", "Cannot load keys: %1")
-                 .arg(error.what()));
+    processErr(error.what());
   }
 }
 
