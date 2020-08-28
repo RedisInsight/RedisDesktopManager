@@ -45,9 +45,6 @@ class Events : public QObject, public QEnableSharedFromThis<Events> {
                     std::function<void()> callback, int dbIndex,
                     QString keyPrefix);
 
-  // Connections
-  void createNewConnection(RedisClient::ConnectionConfig config);
-
   // Notifications
   void error(const QString& msg);
 

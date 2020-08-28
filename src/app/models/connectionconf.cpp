@@ -1,14 +1,22 @@
 #include "connectionconf.h"
 
 ServerConfig::ServerConfig(const QString &host, const QString &auth, const uint port, const QString &name)
-    : RedisClient::ConnectionConfig(host, auth, port, name)
+    : RedisClient::ConnectionConfig(host, auth, port, name),
+      m_owner(QSharedPointer<TreeOperations>())
 {
 }
 
-ServerConfig::ServerConfig(const RedisClient::ConnectionConfig &other)
+ServerConfig::ServerConfig(const QVariantHash &options)
+    : RedisClient::ConnectionConfig(options),
+      m_owner(QSharedPointer<TreeOperations>())
 {
-    m_parameters = other.getInternalParameters();
-    m_owner = other.getOwner();
+
+}
+
+ServerConfig::ServerConfig(const ServerConfig &other)
+{
+    m_parameters = other.m_parameters;
+    m_owner = other.m_owner;
 }
 
 QString ServerConfig::keysPattern() const
@@ -44,4 +52,14 @@ void ServerConfig::setDatabaseScanLimit(uint limit)
 bool ServerConfig::useSshTunnel() const
 {
     return RedisClient::ConnectionConfig::useSshTunnel();
+}
+
+QWeakPointer<TreeOperations> ServerConfig::owner() const
+{
+    return m_owner;
+}
+
+void ServerConfig::setOwner(QWeakPointer<TreeOperations> o)
+{
+    m_owner = o;
 }

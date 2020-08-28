@@ -61,6 +61,8 @@ class Operations {
 
   virtual QString defaultFilter() = 0;
 
+  virtual QString connectionName() const = 0;
+
   virtual void openKeyTab(QSharedPointer<KeyItem> key, bool openInNewTab) = 0;
 
   virtual void openConsoleTab(int dbIndex = 0) = 0;

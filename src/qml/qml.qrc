@@ -62,5 +62,7 @@
         <file>common/BetterToolTip.qml</file>
         <file>common/SaveToFileButton.qml</file>
         <file>common/BetterLabel.qml</file>
+        <file>connections-tree/ConnectionGroupDialog.qml</file>
+        <file>connections-tree/menu/server_group.qml</file>
     </qresource>
 </RCC>

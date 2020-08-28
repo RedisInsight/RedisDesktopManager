@@ -5,18 +5,24 @@
 #include <functional>
 #include "app/models/connectionconf.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
-#include "modules/connections-tree/items/keyitem.h"
 #include "modules/connections-tree/operations.h"
+#include "connections-tree/items/keyitem.h"
 
 class Events;
+
+namespace ConnectionsTree {
+    class ServerItem;
+}
 
 class TreeOperations : public QObject,
                        public ConnectionsTree::Operations,
                        public QEnableSharedFromThis<TreeOperations> {
   Q_OBJECT
  public:
-  TreeOperations(QSharedPointer<RedisClient::Connection> connection,
+  TreeOperations(const ServerConfig& config,
                  QSharedPointer<Events> events);
+
+  ~TreeOperations();
 
   QFuture<void> getDatabases(
       std::function<void(RedisClient::DatabaseList)>) override;
@@ -33,6 +39,8 @@ class TreeOperations : public QObject,
   QString getNamespaceSeparator() override;
 
   QString defaultFilter() override;
+
+  QString connectionName() const override;
 
   void openKeyTab(QSharedPointer<ConnectionsTree::KeyItem> key,
                   bool openInNewTab = false) override;
@@ -78,12 +86,21 @@ class TreeOperations : public QObject,
 
   virtual bool isConnected() const override;
 
+  QSharedPointer<RedisClient::Connection> connection();
+
   void setConnection(QSharedPointer<RedisClient::Connection> c);
 
- protected:
-  bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);
+  ServerConfig config();
 
-  ServerConfig conf() const;
+  void setConfig(const ServerConfig& c);
+
+signals:
+  void createNewConnection(const ServerConfig& config);
+
+  void configUpdated();
+
+ protected:
+  bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);  
 
   void connect(QSharedPointer<RedisClient::Connection> c);
 
@@ -97,4 +114,6 @@ class TreeOperations : public QObject,
   QSharedPointer<Events> m_events;
   uint m_dbCount;
   RedisClient::Connection::Mode m_connectionMode;
+  ServerConfig m_config;
+  QWeakPointer<ConnectionsTree::ServerItem> m_serverItem;
 };

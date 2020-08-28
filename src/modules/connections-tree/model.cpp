@@ -4,6 +4,7 @@
 #include <QWeakPointer>
 #include <algorithm>
 #include "items/serveritem.h"
+#include "items/servergroup.h"
 #include "items/databaseitem.h"
 
 using namespace ConnectionsTree;
@@ -115,7 +116,9 @@ bool Model::hasChildren(const QModelIndex &parent) {
 
   if (parentItem->type() == "key") return false;
 
-  if (parentItem->type() == "namespace" || parentItem->type() == "server")
+  if (parentItem->type() == "namespace"
+          || parentItem->type() == "server"
+          || parentItem->type() == "server_group")
     return true;
 
   return parentItem->childCount() > 0;
@@ -132,7 +135,7 @@ QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item) {
     return QModelIndex();
   }
 
-  if (sRef->type() == "server") {
+  if (!sRef->parent()) {
     return index(sRef->row(), 0, QModelIndex());
   }
 
@@ -158,7 +161,7 @@ void Model::onItemChanged(QWeakPointer<TreeItem> item) {
 
   auto index = getIndexFromItem(item);
 
-  if (!index.isValid()) return;
+  if (!index.isValid()) return;  
 
   emit dataChanged(index, index);
 }
@@ -190,7 +193,9 @@ void Model::onItemChildsLoaded(QWeakPointer<TreeItem> item) {
     if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {     
       restoreOpenedNamespaces(treeItem.staticCast<AbstractNamespaceItem>());
     }
-  } else if (treeItem->type() == "server" || treeItem->type() == "namespace") {
+  } else if (treeItem->type() == "server"
+             || treeItem->type() == "server_group"
+             || treeItem->type() == "namespace") {
     emit expand(index);
     emit dataChanged(index, index);
   }
@@ -286,12 +291,13 @@ void Model::setMetadata(const QModelIndex &index, const QString &metaKey,
   item->setMetadata(metaKey, value);
 }
 
-void Model::sendEvent(const QModelIndex &index, QString event) {
-  qDebug() << "Event recieved:" << event;
-
+void Model::sendEvent(const QModelIndex &index, QString event) {  
   TreeItem *item = getItemFromIndex(index);
 
-  if (item) item->handleEvent(event);
+  if (!item)
+      return;
+
+  item->handleEvent(event);
 }
 
 unsigned int Model::size() { return m_treeItems.size(); }
@@ -314,22 +320,133 @@ void Model::setCollapsed(const QModelIndex &index) {
   m_expanded.remove(item->getFullPath());
 }
 
-void Model::addRootItem(QSharedPointer<ServerItem> serverItem) {
-  if (serverItem.isNull()) return;
+void Model::collapseRootItems()
+{
+    for (auto item : m_treeItems) {
+
+        auto server = item.dynamicCast<SortableTreeItem>();
+
+        if (!server)
+            continue;
+
+        server->unload();
+    }
+}
+
+void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
+{
+    if (!(index.isValid() && at.isValid()))
+        return;
+
+    auto item = getItemFromIndex(index);
+    auto targetItem = getItemFromIndex(at);
+
+    if (!(item && targetItem)) return;
+
+    if (!(item->type() == "server"
+          && targetItem->type() == "server_group"
+          && (!item->parent() || item->parent() != targetItem->getSelf()))) {        
+        return;
+    }      
+
+    int targetIndex = targetItem->childCount();
+
+    auto srcParent = QModelIndex();
+    auto targetParent = at;
+
+    if (item->parent()) {
+        srcParent = getIndexFromItem(item->parent());
+    }
+
+    bool res = beginMoveRows(srcParent, index.row(), index.row(),
+                             targetParent, targetIndex);
+
+    if (!res) {        
+        return;
+    }    
+
+    auto findRootItem = [](TreeItem* t, QList<QSharedPointer<TreeItem>> treeItems) {
+        for (auto rI : treeItems) {
+            if (t == rI.data())
+                return rI;
+        }
+
+        return QSharedPointer<TreeItem>();
+    };
+
+    QSharedPointer<TreeItem> srv;
+
+    if (item->parent()) {
+        srv = findRootItem(item, item->parent().toStrongRef()->getAllChilds());
+
+        auto sourceGroup = item->parent().toStrongRef().dynamicCast<ServerGroup>();
+
+        if (!sourceGroup) {
+            qDebug() << "invalid source group";
+            return;
+        }
+
+        sourceGroup->removeChild(srv);
+    } else {
+      srv = findRootItem(item, m_treeItems);      
+      m_treeItems.removeAll(srv);      
+    }
+
+    endMoveRows();
+
+    auto targetGroup = findRootItem(targetItem, m_treeItems).dynamicCast<ServerGroup>();
+
+    if (!targetGroup) {
+        qDebug() << "invalid target group";
+        return;
+    }
+
+    targetGroup->addServer(srv);
+
+    auto srvItem = srv.dynamicCast<ServerItem>();
+
+    if (!srvItem) {
+        qDebug() << "invalid srv item";
+        return;
+    }
+
+    srvItem->setParent(targetGroup.toWeakRef());    
+
+    emit layoutAboutToBeChanged();
+    emit layoutChanged();
+}
+
+void Model::applyGroupChanges()
+{
+    emit layoutAboutToBeChanged();        
+
+    // TBD
+
+    emit layoutChanged();
+}
+
+void Model::addRootItem(QSharedPointer<SortableTreeItem> item) {
+  if (item.isNull()) return;
 
   int insertIndex = m_treeItems.size();
 
   emit beginInsertRows(QModelIndex(), insertIndex, insertIndex);
 
-  serverItem->setRow(insertIndex);
-  serverItem->setWeakPointer(serverItem.toWeakRef());
+  item->setRow(insertIndex);
 
-  m_treeItems.push_back(serverItem);
+  m_treeItems.push_back(item);
 
   emit endInsertRows();
+
+  if (item->isExpanded() && item->childCount() > 0) {
+      QTimer::singleShot(100, this, [this, item]() {
+        if (item)
+            emit expand(getIndexFromItem(item));
+      });
+  }
 }
 
-void Model::removeRootItem(QSharedPointer<ServerItem> item) {
+void Model::removeRootItem(QSharedPointer<TreeItem> item) {
   if (!item) return;
 
   beginRemoveRows(QModelIndex(), item->row(), item->row());
