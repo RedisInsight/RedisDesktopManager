@@ -11,6 +11,7 @@ pages:
 - Home: 'index.md'
 - Install: 'install.md'
 - Quick Start: 'quick-start.md'
+- Working with large keyspaces: 'lg-keyspaces.md'
 - Native Formatters: 'native-formatters.md'
 - FAQ: 'faq.md'
 - Known Issues: 'known-issues.md'
