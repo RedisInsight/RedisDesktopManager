@@ -90,11 +90,12 @@ int StreamKeyModel::addLoadedRowsToCache(const QVariantList &rows,
     QVariantMap mappedVal;
 
     for (QVariantList::const_iterator valItem = valuesList.begin();
-         valItem != valuesList.end(); ++valItem) {
+         valItem != valuesList.end(); ++valItem) {               
       auto valKey = valItem->toByteArray();
       valItem++;
 
-      mappedVal[valKey] = valItem->toByteArray();
+      // NOTE(u_glide): Temporary workaround for https://bugreports.qt.io/browse/QTBUG-84739
+      mappedVal[valKey] = QString::fromUtf8(valItem->toByteArray());
     }
 
     value.second = mappedVal;
