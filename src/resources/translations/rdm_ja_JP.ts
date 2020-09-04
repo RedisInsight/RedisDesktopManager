@@ -238,7 +238,7 @@
         <location filename="../../app/models/key-models/hashkey.cpp" line="136"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
         <source>Data was loaded from server partially.</source>
-        <translation>サーバーからデータが部分的にロードされました。</translation>
+        <translation>サーバからデータが部分的にロードされました。</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="29"/>
@@ -268,7 +268,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="84"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
-        <translation>サーバー&apos;%1&apos;に接続できません。詳細はログを確認してください。</translation>
+        <translation>サーバ&apos;%1&apos;に接続できません。詳細はログを確認してください。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="94"/>
@@ -507,7 +507,7 @@
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="94"/>
         <source>Server %0</source>
-        <translation>サーバー %0</translation>
+        <translation>サーバ %0</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="171"/>
@@ -652,12 +652,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="182"/>
         <source>redis-server host</source>
-        <translation>Redisサーバーのホスト</translation>
+        <translation>Redisサーバのホスト</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
         <source>For better network performance please use 127.0.0.1</source>
-        <translation type="unfinished"></translation>
+        <translation>127.0.0.1を使うとネットワークのパフォーマンスが向上します</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
@@ -672,12 +672,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="217"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
-        <translation type="unfinished"></translation>
+        <translation>(任意) Redisサーバ認証ユーザー名 (Redis &gt;6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
@@ -809,7 +809,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="446"/>
         <source>Pattern which defines loaded keys from redis-server</source>
-        <translation>Redisサーバーからロードしたキーを定義するパターン</translation>
+        <translation>Redisサーバからロードしたキーを定義するパターン</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
@@ -823,7 +823,7 @@
     </message>
     <message>
         <source>Use server-side optimized keys loading (experimental):</source>
-        <translation type="vanished">サーバー側のキー読み込み最適化機能を使用する(テスト版)</translation>
+        <translation type="vanished">サーバ側のキー読み込み最適化機能を使用する(テスト版)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
@@ -895,7 +895,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="48"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation>設定を有効にするためアプリケーションは再起動されます。</translation>
+        <translation>設定はアプリケーションの再起動後に有効になります。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
@@ -910,7 +910,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="94"/>
         <source>Value Editor Font</source>
-        <translation type="unfinished"></translation>
+        <translation>値エディタのフォント</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="107"/>
@@ -946,7 +946,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="160"/>
         <source>Live update maximum allowed keys</source>
-        <translation>ライブアップデートが許容するキーの最大数</translation>
+        <translation>ライブアップデートで読み込むキーの最大数</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="173"/>
@@ -1234,7 +1234,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="552"/>
         <source>Subscribe in Console</source>
-        <translation type="unfinished"></translation>
+        <translation>コンソール上でサブスクライブ</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
@@ -1430,20 +1430,20 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
         <source>Source connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>ソース接続エラー</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
         <source>Target connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>ターゲット接続エラー</translation>
     </message>
     <message>
         <source>Cannot connect to source redis-server: %1</source>
-        <translation type="vanished">コピー元のredis-serverに接続できません: %1</translation>
+        <translation type="vanished">コピー元のRedisサーバに接続できません: %1</translation>
     </message>
     <message>
         <source>Cannot connect to target redis-server: %1</source>
-        <translation type="vanished">コピー先のredis-serverに接続できません: %1</translation>
+        <translation type="vanished">コピー先のRedisサーバに接続できません: %1</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="11"/>
@@ -1498,7 +1498,7 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
         <source>Cannot connect to redis-server</source>
-        <translation>redis-serverに接続できません</translation>
+        <translation>Redisサーバに接続できません</translation>
     </message>
 </context>
 </TS>
