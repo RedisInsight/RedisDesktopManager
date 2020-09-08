@@ -540,12 +540,9 @@ Dialog {
                         }
                     }
 
-                    ImageButton {
-                        Layout.preferredWidth: 25
-                        Layout.preferredHeight: 25
-                        imgSource: "qrc:/images/help.svg"
-                        imgHeight: 30
-                        imgWidth: 30
+                    BetterButton {
+                        iconSource: "qrc:/images/help.svg"
+                        text: qsTranslate("RDM","Quick Start Guide")
                         onClicked: Qt.openUrlExternally(root.quickStartGuideUrl)
                     }
 
