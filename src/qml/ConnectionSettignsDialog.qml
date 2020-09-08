@@ -197,7 +197,7 @@ Dialog {
 
                                 }
 
-                                BetterLabel { text: qsTranslate("RDM","Auth:") }
+                                BetterLabel { text: qsTranslate("RDM","Password:") }
 
                                 PasswordInput {
                                     id: connectionAuth
