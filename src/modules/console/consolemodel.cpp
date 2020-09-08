@@ -19,7 +19,8 @@ Model::Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
 
     updatePrompt(true);
 
-    execCmd(initCmd);
+    if (initCmd.size() > 0)
+        execCmd(initCmd);
   });
 
   QObject::connect(this, &TabModel::error, [this](const QString& msg) {

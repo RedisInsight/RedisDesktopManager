@@ -20,18 +20,22 @@ TabModel::~TabModel() {
 void TabModel::init() {
   auto weekPointer = sharedFromThis().toWeakRef();
 
-  QObject::connect(m_connection.data(), &RedisClient::Connection::connected,
-                   [this, weekPointer]() {
-                     if (!weekPointer) {
-                       return;
-                     }
+  m_connection->callAfterConnect([this, weekPointer](const QString& err) {
+    if (!weekPointer) {
+      return;
+    }
 
-                     if (m_dbIndex) {
-                       m_connection->command({"PING"}, m_dbIndex);
-                     }
+    if (!err.isEmpty()) {
+        emit error(err);
+        return;
+    }
 
-                     emit initialized();
-                   });
+    if (m_dbIndex) {
+      m_connection->command({"PING"}, m_dbIndex);
+    }
+
+    emit initialized();
+  });
 
   try {
     m_connection->connect(false);
