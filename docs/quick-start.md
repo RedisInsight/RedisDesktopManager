@@ -37,6 +37,13 @@ To connect to a Redis Labs instance with SSL/TLS encryption, follow the steps be
 4. Select `garantia_user_private.key` in the "Private key" field.
 5. Select `garantia_ca.pem` in the "Authority" field.
 
+### Digital Ocean Managed Redis <br /> <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/DigitalOcean_logo.svg" width="100">
+Digital Ocean connection settings is a bit confusing. To connect to a Digital Ocean Managed Redis you need to follow steps bellow:
+
+1. Copy host, port and password information to RDM
+2. **Leave Username field in RDM empty** (Important!)
+3. Enable SSL/TLS checkox
+
 
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
