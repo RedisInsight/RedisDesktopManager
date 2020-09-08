@@ -802,6 +802,11 @@ Repeater {
                             function clear() {
                                 if (valueEditor.item) {
                                     currentRow = -1
+
+                                    if (valueEditor.item.keyType !== undefined) {
+                                        valueEditor.item.keyType = keyType
+                                    }
+
                                     valueEditor.item.reset()
                                 }
                             }

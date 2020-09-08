@@ -34,8 +34,6 @@ void StringKeyModel::updateRow(int rowIndex, const QVariantMap& row,
 
   QByteArray value = row.value("value").toByteArray();
 
-  if (value.isEmpty()) return;
-
   executeCmd(
       {"SET", m_keyFullPath, value}, [this, c, value](const QString& err) {
         if (err.isEmpty()) {
