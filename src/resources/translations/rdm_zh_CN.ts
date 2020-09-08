@@ -872,7 +872,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
         <source>For better network performance please use 127.0.0.1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请使用127.0.0.1获得更好的网络连接速度</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
@@ -1424,7 +1424,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="552"/>
         <source>Subscribe in Console</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">控制台订阅</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
@@ -1628,12 +1628,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
         <source>Source connection error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">源连接错误</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
         <source>Target connection error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">目标连接错误</translation>
     </message>
     <message>
         <source>Cannot connect to source redis-server: %1</source>
