@@ -1608,7 +1608,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="61"/>
         <source>Value (represented as JSON object)</source>
-        <translation type="unfinished">值 (表示为 JDON 对象)</translation>
+        <translation type="unfinished">值 (表示为 JSON 对象)</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/listkey.cpp" line="83"/>
