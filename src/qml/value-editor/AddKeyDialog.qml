@@ -53,6 +53,8 @@ BetterDialog {
 
                 onLoaded: {
                     item.state = "new"
+                    if (item.keyType !== undefined)
+                        item.keyType = typeSelector.model[typeSelector.currentIndex]
                     item.initEmpty()
                 }
             }
