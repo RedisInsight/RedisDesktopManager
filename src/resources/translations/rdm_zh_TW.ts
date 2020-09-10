@@ -874,7 +874,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
         <source>For better network performance please use 127.0.0.1</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 127.0.0.1 以提高網路性能</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
@@ -1118,17 +1118,17 @@
     <message>
         <location filename="../../qml/app.qml" line="245"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation>新增分組</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="259"/>
         <source>Regroup connections</source>
-        <translation type="unfinished"></translation>
+        <translation>重組連線</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="281"/>
         <source>Exit Regroup Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>離開分組模式</translation>
     </message>
     <message>
         <source>Bulk Operations Manager</source>
@@ -1442,7 +1442,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="552"/>
         <source>Subscribe in Console</source>
-        <translation type="unfinished"></translation>
+        <translation>在控制台中訂閱</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
@@ -1532,17 +1532,17 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Edit Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation>編輯連線的組別</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Add New Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation>新增連線組別</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
         <source>Group Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>組別名稱:</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
@@ -1663,12 +1663,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
         <source>Source connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>來源連線錯誤</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
         <source>Target connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>目標連線錯誤</translation>
     </message>
     <message>
         <source>Cannot connect to source redis-server: %1</source>
@@ -1740,17 +1740,17 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
         <source>Edit Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation>編輯連線組別</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
         <source>Delete Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation>刪除連線組別</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>您真的要刪除組別&lt;b&gt;以及其中的連線&lt;/b&gt;嗎？</translation>
     </message>
 </context>
 <context>
