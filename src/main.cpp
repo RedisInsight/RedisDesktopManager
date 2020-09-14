@@ -32,12 +32,19 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     bool disableAutoScaling = false;
 
+
+#ifndef DISABLE_SCALING_TEST
     {
         QGuiApplication tmp(argc, argv);
         disableAutoScaling = QGuiApplication::primaryScreen()
                         && QGuiApplication::primaryScreen()->availableSize().width() <= 1920
                         && QGuiApplication::primaryScreen()->devicePixelRatio() == 1;
     }
+#endif
+
+#if defined (Q_OS_LINUX) && defined(DISABLE_SCALING_TEST)
+    disableAutoScaling = true;
+#endif
 
     if (disableAutoScaling) {
         qDebug() << "Disable auto-scaling";
