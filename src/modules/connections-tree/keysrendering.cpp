@@ -24,7 +24,7 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
   timer.restart();
 
   int unprocessedPartStart = 0;
-  if (parent->getFullPath().size() > 0) {
+  if (parent->getFullPath().size() > 0 || parent->type() == "namespace") {
     unprocessedPartStart =
         parent->getFullPath().size() + settings.nsSeparator.length();
   }
