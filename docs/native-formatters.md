@@ -1,8 +1,7 @@
 ## Native value formatters
 
 > !!! warning "macOS"
-    This feature is not available in the Apple AppStore version due to sandboxing restrictions. 
-    DMG version supports it only if binary was launched from terminal.    
+    This feature is not available in the Apple AppStore version due to sandboxing restrictions.    
 
 Native value formatters are scripts or executables developed in different programming languages which allow
  to display in readable form the key values of various formats inside the RDM value editor. You can easily implement any formatter for your own purposes as well. 
