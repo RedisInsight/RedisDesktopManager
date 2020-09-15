@@ -129,7 +129,8 @@ void Application::initModels() {
   connect(m_formattersManager.data(),
           &ValueEditor::ExternalFormattersManager::error, this,
           [this](const QString& msg) {
-            m_events->log(QString("Formatters: %1").arg(msg));
+            qDebug() << "External formatters:" << msg;
+            m_events->log(QString("External: %1").arg(msg));
           });
 
   if (!m_formattersDir.isEmpty()) {
@@ -322,8 +323,7 @@ void Application::processCmdArgs() {
 #ifdef Q_OS_WIN32
       QString("%1/formatters").arg(QCoreApplication::applicationDirPath()));
 #elif defined Q_OS_MACOS
-      QString("%1/../Resources/formatters")
-          .arg(QCoreApplication::applicationDirPath()));
+      QString("%1/.rdm/formatters").arg(QDir::homePath()));
 #else
       QString());
 #endif

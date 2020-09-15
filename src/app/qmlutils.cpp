@@ -256,5 +256,14 @@ QString QmlUtils::htmlToPlainText(const QString &html) {
 }
 
 double QmlUtils::getScreenScaleFactor() {
-  return QApplication::primaryScreen()->logicalDotsPerInch() / 96;
+    return QApplication::primaryScreen()->logicalDotsPerInch() / 96;
+}
+
+bool QmlUtils::isAppStoreBuild()
+{
+#ifdef RDM_APPSTORE
+    return true;
+#else
+    return false;
+#endif
 }
