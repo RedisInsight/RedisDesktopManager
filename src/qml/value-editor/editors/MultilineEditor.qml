@@ -321,7 +321,12 @@ Item
                 color: "#ccc"
             }
             BetterLabel { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
-            BetterLabel { text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]"; visible: root.valueCompression > 0; color: "red"; }
+            BetterLabel {
+                objectName: "rdm_value_editor_compressed_value_label"
+                text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]";
+                visible: root.valueCompression > 0;
+                color: "red";
+            }
             Item { Layout.fillWidth: true }
 
             BetterLabel { visible: showFormatters; text: qsTranslate("RDM","View as:") }
