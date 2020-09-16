@@ -184,6 +184,7 @@ Repeater {
                     }
 
                     TabButton {
+                        objectName: "rdm_server_info_tab_btn_pub_sub_channels"
                         text: qsTranslate("RDM","Pub/Sub Channels")
                     }
                 }
@@ -548,6 +549,7 @@ Repeater {
                                     width: 200
                                     delegate: Item {
                                         BetterButton {
+                                            objectName: "rdm_server_info_pub_sub_subscribe_to_channel_btn"
                                             anchors.centerIn: parent
                                             text: qsTranslate("RDM","Subscribe in Console")
                                             onClicked: {
