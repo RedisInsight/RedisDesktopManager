@@ -96,9 +96,9 @@ Item
             function process(formattedValue) {
                 var formatter = formatterSelector.model.get(formatterSelector.currentIndex)
 
-                 formatter.getRaw(formattedValue, function (error, raw) {
-                     root.value = compress(raw)
-                     return callback(error, compress(raw))
+                 formatter.getRaw(formattedValue, function (error, raw) {                     
+                     root.value = compress(qmlUtils.b64toByteArray(raw))
+                     return callback(error, root.value)
                  })
             }
 
@@ -449,6 +449,7 @@ Item
                                 return;
 
                             var value = valueEditor.item.getValue()
+
                             saveBtnTimer.start()
                             keyTab.keyModel.updateRow(valueEditor.currentRow, value)
                         })

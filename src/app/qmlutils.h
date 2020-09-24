@@ -10,7 +10,8 @@ class QmlUtils : public QObject
     Q_OBJECT
 public:    
     Q_INVOKABLE bool isBinaryString(const QVariant &value);
-    Q_INVOKABLE long binaryStringLength(const QVariant &value);
+    Q_INVOKABLE long binaryStringLength(const QVariant &value);    
+    Q_INVOKABLE QVariant b64toByteArray(const QVariant &value);
 
     Q_INVOKABLE unsigned isCompressed(const QVariant &value);
     Q_INVOKABLE QVariant decompress(const QVariant &value);
