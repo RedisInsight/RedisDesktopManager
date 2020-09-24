@@ -46,18 +46,18 @@
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`.
 4. Building RDM dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
 5. Install Python requirements `pip3 install -t ../bin/osx/release -r py/requirements.txt`
-6. Install [Qt 5.13](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.13.x add Qt Charts module.
+6. Install [Qt 5.15](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.15.x add Qt Charts module.
 7. Open `./src/rdm.pro` in **Qt Creator**.
 8. Run build. 
 
 ### Build on Windows
 
-1. Install [Visual Studio 2017 Community Edition](https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes).
-2. Install [Qt 5.13](https://www.qt.io/download).
+1. Install [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/).
+2. Install [Qt 5.15](https://www.qt.io/download).
 3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply the patch to fix compilation on Windows:
 `git apply ../hiredis-win.patch`
 4. Go to the `3rdparty/` folder and install zlib with `nuget`: `nuget install zlib-msvc14-x64 -Version 1.2.11.7795`
 5. Install Python 3.7 amd64 to `C:\Python37-x64`.
 6. Install Python requirements `pip3 install -r src/py/requirements.txt`.
-7. Open `./src/rdm.pro` in **Qt Creator**.  Choose the `Desktop Qt 5.13.x MSVC2017 64bit > Release` build profile.
+7. Open `./src/rdm.pro` in **Qt Creator**.  Choose the `Desktop Qt 5.15.x MSVC2019 64bit > Release` build profile.
 8. Run build. (Just hit `Ctrl-B`)
