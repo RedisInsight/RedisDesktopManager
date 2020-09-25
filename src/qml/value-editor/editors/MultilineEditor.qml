@@ -17,6 +17,7 @@ Item
     property bool showToolBar: false
     property bool showSaveBtn: false
     property bool showFormatters: true
+    property bool showOnlyRWformatters: false
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
     property bool isEdited: false
     property var value
@@ -91,31 +92,29 @@ Item
     }
 
     function loadRawValue(callback) {
-        if (formatterSelector.visible) {
+        function process(formattedValue) {
+            var formatter = valueFormattersModel.get(formatterSelector.currentIndex)
 
-            function process(formattedValue) {
-                var formatter = formatterSelector.model.get(formatterSelector.currentIndex)
+             formatter.getRaw(formattedValue, function (error, raw) {
+                 if (formatter.type === "external") {
+                    root.value = compress(qmlUtils.b64toByteArray(raw))
+                 } else {
+                    root.value = compress(raw)
+                 }
+                 return callback(error, root.value)
+             })
+        }
 
-                 formatter.getRaw(formattedValue, function (error, raw) {                     
-                     root.value = compress(qmlUtils.b64toByteArray(raw))
-                     return callback(error, root.value)
-                 })
-            }
+        if (textView.format === "json") {
+            formatterSelector.model.getJSONFormatter().getRaw(textView.model.getText(), function (jsonError, plainText) {
+                if (jsonError) {
+                    return callback(jsonError, "")
+                }
 
-            if (textView.format === "json") {
-                formatterSelector.model.getJSONFormatter().getRaw(textView.model.getText(), function (jsonError, plainText) {
-                    if (jsonError) {
-                        return callback(jsonError, "")
-                    }
-
-                    process(plainText)
-                })
-            } else {
-                process(textView.model.getText())
-            }
+                process(plainText)
+            })
         } else {
-            root.value = compress(textView.model.getText())
-            return callback("", root.value)
+            process(textView.model.getText())
         }
     }
 
@@ -339,7 +338,7 @@ Item
 
             BetterComboBox {
                 id: formatterSelector
-                visible: showFormatters
+                visible: showFormatters && !showOnlyRWformatters
                 width: 200
                 model: valueFormattersModel
                 textRole: "name"
@@ -348,6 +347,19 @@ Item
                 onActivated: {
                     currentIndex = index
                     loadFormattedValue()
+                }
+            }
+
+            BetterComboBox {
+                id: rwFormatterSelector
+                visible: showFormatters && showOnlyRWformatters
+                width: 200
+                model: valueFormattersModel.rwFormatters
+                textRole: "name"
+                objectName: "rdm_value_editor_rw_formatter_combobox"
+
+                onActivated: {
+                    formatterSelector.currentIndex = valueFormattersModel.getFormatterIndex(currentText);
                 }
             }
 
@@ -432,7 +444,7 @@ Item
 
                     text: qsTranslate("RDM","Save")
                     tooltip: qsTranslate("RDM","Save Changes") + " (" + shortcutText + ")"
-                    enabled: root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
+                    enabled: !showOnlyRWformatters && root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
                     visible: showSaveBtn
 
                     property string shortcutText: ""

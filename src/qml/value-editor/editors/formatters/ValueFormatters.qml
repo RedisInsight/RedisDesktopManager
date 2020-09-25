@@ -25,29 +25,26 @@ ListModel {
         return rootModel.get(3)
     }
 
+    property var rwFormatters
+
     function getFormatterIndex(name) {
-        var indexInNativeFormatters = -1
+        for (var index=0; index < rootModel.count; ++index) {
+            var formatter = get(index);
 
-        if (!formattersManager.isInstalled(name))
-            return indexInNativeFormatters
-
-        var plainList = formattersManager.getPlainList()
-
-        for (var index in plainList) {
-            if (plainList[index] === name) {
-                indexInNativeFormatters = index
-                break
+            if (formatter['name'] == name) {
+                return index;
             }
         }
 
-        return parseInt(indexInNativeFormatters)
+        return 0;
     }
 
     function loadEmbeddedFormatters()
     {
         embeddedFormattersManager.loadFormatters(function (result) {
             for (var indx in result) {
-                var formatterName = result[indx];
+                var formatterName = result[indx][0];
+                var readOnly = result[indx][1];
 
                 var getFormatted = function (formatterName) {
                     var r = function (raw, callback) {
@@ -80,6 +77,8 @@ ListModel {
                 rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
                 rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterName))
                 rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterName))
+                rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
+
             }
 
             console.log("Embedded formatters:", result);
@@ -91,7 +90,10 @@ ListModel {
         var nativeFormatters = formattersManager.getPlainList();
 
         for (var index in nativeFormatters) {
-            var formatterName = nativeFormatters[index];
+            var formatter = nativeFormatters[index];
+
+            var formatterName = formatter["name"];
+            var readOnly = formatter["read_only"];
 
             var getFormatted = function (formatterName) {
                 var r = function (raw, callback) {
@@ -118,13 +120,32 @@ ListModel {
             rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
             rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterName))
             rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterName))
+            rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
         }
+    }
+
+    function updateRWFormatters() {
+        var result = [];
+
+        for (var index=0; index < rootModel.count; ++index) {
+            var formatter = get(index);
+
+            console.log(formatter, formatter['name'], formatter['readOnly'])
+
+            if (formatter['readOnly'] == false) {
+                result.push(formatter);
+            }
+        }
+
+        rwFormatters = result;
     }
 
     ListElement {
         property string name: "Plain Text"
 
         property string type: "buildin"
+
+        property string readOnly: false
 
         property var getFormatted: function (raw, callback) {
             return callback("", raw, false, "plain")
@@ -144,6 +165,8 @@ ListModel {
 
         property string type: "buildin"
 
+        property string readOnly: true
+
         property var getFormatted: function (raw, callback) {
             return callback("", qmlUtils.printable(raw), false, "plain")
         }
@@ -162,6 +185,8 @@ ListModel {
 
         property string type: "buildin"
 
+        property string readOnly: true
+
         property var isValid: function (raw, callback) {
             return callback(true)
         }
@@ -178,6 +203,8 @@ ListModel {
         property string name: "JSON"
 
         property string type: "buildin"
+
+        property string readOnly: false
 
         property var getFormatted: function (raw, callback) {
             console.error("Call JSON worker script")

@@ -37,7 +37,7 @@ class ExternalFormattersManager : public QAbstractListModel {
   Q_INVOKABLE void encode(const QString& formatterName, const QByteArray& data,
                           QJSValue jsCallback);
 
-  Q_INVOKABLE QStringList getPlainList();
+  Q_INVOKABLE QVariantList getPlainList();
 
   Q_INVOKABLE QString formattersPath();
 

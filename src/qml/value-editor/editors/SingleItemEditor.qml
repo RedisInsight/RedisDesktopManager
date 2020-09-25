@@ -21,7 +21,8 @@ AbstractEditor {
         enabled: root.active || root.state !== "edit"
         showToolBar: root.state == "edit"
         showSaveBtn: root.state == "edit"
-        showFormatters: root.state == "edit"
+        showFormatters: true
+        showOnlyRWformatters: root.state == "add" || root.state == "new"
         objectName: "rdm_key_value_field"
 
         function validationRule(raw) {

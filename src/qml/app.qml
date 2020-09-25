@@ -38,6 +38,7 @@ ApplicationWindow {
         Component.onCompleted: {
             loadEmbeddedFormatters();
             loadExternalFormatters();
+            updateRWFormatters();
         }
     }
 

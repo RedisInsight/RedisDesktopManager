@@ -123,6 +123,12 @@ void ValueEditor::ExternalFormattersManager::loadFormatters() {
       data["cmd_list"] = fullCmd;
       data["cwd"] = it.filePath();
 
+      if (outputObj.contains("read-only")) {
+        data["read_only"] = outputObj["read-only"].toBool();
+      } else {
+        data["read_only"] = true;
+      }
+
       m_formattersData.append(data);
       usageFile.close();
     }
@@ -264,8 +270,12 @@ void ValueEditor::ExternalFormattersManager::encode(
   }
 }
 
-QStringList ValueEditor::ExternalFormattersManager::getPlainList() {
-  return m_mapping.keys();
+QVariantList ValueEditor::ExternalFormattersManager::getPlainList() {
+    QList<QVariant> r;
+    foreach (QVariantMap v, m_formattersData) {
+        r.append(v);
+    }
+    return r;
 }
 
 QString ValueEditor::ExternalFormattersManager::formattersPath() {

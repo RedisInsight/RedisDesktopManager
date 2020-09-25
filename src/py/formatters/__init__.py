@@ -15,7 +15,8 @@ ENABLED_FORMATTERS = {
 
 
 def get_formatters_list():
-    return list(ENABLED_FORMATTERS.keys())
+    return [(name, f.read_only)
+            for name, f in ENABLED_FORMATTERS]
 
 
 def decode(name, value):
