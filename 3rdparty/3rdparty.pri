@@ -29,17 +29,20 @@ if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
 #PyOtherSide
 include($$PWD/pyotherside.pri)
 
+#LZ4
+LZ4DIR = $$PWD/lz4/
+INCLUDEPATH += $$LZ4DIR/lib
 
 win32* {
-    ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native
+    ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native    
     INCLUDEPATH += $$ZLIBDIR/include
-    LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib
+    LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/liblz4.lib
 }
 
 unix:macx { # OSX
     LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
     LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
-    LIBS += -lz
+    LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a
 }
 
 unix:!macx { # ubuntu & debian   
@@ -53,7 +56,7 @@ unix:!macx { # ubuntu & debian
         #QMAKE_LFLAGS = -Wl,-rpath=/home/user/Qt5.9.3/5.9.3/gcc_64/lib
     }
 
-    LIBS += -lz
+    LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a
 
     # Unix signal watcher
     defined(LINUX_SIGNALS, var) {
