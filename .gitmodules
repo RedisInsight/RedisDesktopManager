@@ -13,3 +13,6 @@
 [submodule "3rdparty/pyotherside"]
 	path = 3rdparty/pyotherside
 	url = https://github.com/uglide/pyotherside.git
+[submodule "3rdparty/lz4"]
+	path = 3rdparty/lz4
+	url = https://github.com/lz4/lz4.git

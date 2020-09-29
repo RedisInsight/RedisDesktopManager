@@ -1,13 +1,48 @@
 #include "qcompress.h"
+
+#include <lz4frame.h>
 #include <zlib.h>
+
+#include <QDebug>
 
 #define ZLIB_WINDOW_BIT 15 + 16
 #define ZLIB_CHUNK_SIZE 32 * 1024
 #define ZLIB_LEVEL 6
 
+struct LZ4FCleanUp {
+  static inline void cleanup(LZ4F_dctx *p) { LZ4F_freeDecompressionContext(p); }
+};
+
 unsigned qcompress::guessFormat(const QByteArray &val) {
   if (val.size() > 2 && val.startsWith(QByteArray::fromHex("x1fx8b"))) {
     return qcompress::GZIP;
+  } else if (val.size() > 4 &&
+             val.startsWith(QByteArray::fromHex("x04x22x4dx18"))) {
+    LZ4F_dctx *lz4_dctx = nullptr;
+    LZ4F_createDecompressionContext(&lz4_dctx, LZ4F_VERSION);
+
+    if (!lz4_dctx) {
+      qWarning() << "LZ4 error. Cannot initialize context";
+      return qcompress::UNKNOWN;
+    }
+
+    QScopedPointer<LZ4F_dctx, LZ4FCleanUp> dctx(lz4_dctx);
+
+    LZ4F_frameInfo_t lz4_frameinfo;
+    size_t buffSize = val.size();
+
+    size_t res = LZ4F_getFrameInfo(dctx.data(), &lz4_frameinfo,
+                                   static_cast<const void *>(val.constData()),
+                                   static_cast<size_t *>(&buffSize));
+
+    if (LZ4F_isError(res)) {
+      qWarning() << "LZ4 error. Cannot retrive frame info";
+      return qcompress::UNKNOWN;
+    }
+
+    if (lz4_frameinfo.contentSize > 0) {
+      return qcompress::LZ4;
+    }
   }
 
   return qcompress::UNKNOWN;
@@ -73,10 +108,58 @@ QByteArray gzipDecode(const QByteArray &val) {
   }
 }
 
+QByteArray lz4Decode(const QByteArray &val) {
+  LZ4F_dctx *lz4_dctx = nullptr;
+  LZ4F_createDecompressionContext(&lz4_dctx, LZ4F_VERSION);
+
+  if (!lz4_dctx) {
+    qWarning() << "LZ4 error. Cannot initialize context";
+    return QByteArray();
+  }
+
+  QScopedPointer<LZ4F_dctx, LZ4FCleanUp> dctx(lz4_dctx);
+
+  LZ4F_frameInfo_t lz4_frameinfo;
+  size_t buffSize = val.size();
+
+  size_t res = LZ4F_getFrameInfo(dctx.data(), &lz4_frameinfo,
+                                 static_cast<const void *>(val.constData()),
+                                 static_cast<size_t *>(&buffSize));
+
+  if (LZ4F_isError(res)) {
+    qWarning() << "LZ4 error. Cannot retrive frame info";
+    return QByteArray();
+  }
+
+  size_t contentSize = lz4_frameinfo.contentSize;
+  size_t srcSize = val.size();
+
+  if (!(0 < contentSize && contentSize <= 255 * srcSize)) {
+    return QByteArray();
+  }
+
+  QByteArray dst(contentSize, '\x00');
+  size_t dstSize = dst.size();
+
+  static constexpr const LZ4F_decompressOptions_t opt{};
+
+  res = LZ4F_decompress(dctx.data(), dst.data(), &dstSize,
+                        val.data() + buffSize, &srcSize, &opt);
+
+  if (LZ4F_isError(res)) {
+    qWarning() << "LZ4 error. Cannot decode frame" << LZ4F_getErrorName(res);
+    return QByteArray();
+  }
+
+  return dst;
+}
+
 QByteArray qcompress::decompress(const QByteArray &val) {
   switch (guessFormat(val)) {
     case qcompress::GZIP:
       return gzipDecode(val);
+    case qcompress::LZ4:
+      return lz4Decode(val);
     default:
       return QByteArray();
   }
@@ -140,10 +223,29 @@ QByteArray gzipEncode(const QByteArray &val) {
   }
 }
 
+QByteArray lz4Encode(const QByteArray &val) {
+  QByteArray dst;
+  LZ4F_preferences_t opt{};
+  opt.frameInfo.contentSize = val.size();
+  dst.resize(LZ4F_compressFrameBound(val.size(), &opt));
+
+  size_t res =
+      LZ4F_compressFrame(dst.data(), dst.size(), val.data(), val.size(), &opt);
+
+  if (LZ4F_isError(res)) {
+    qWarning() << "LZ4 error. Cannot compress frame" << LZ4F_getErrorName(res);
+    return QByteArray();
+  }
+
+  return dst;
+}
+
 QByteArray qcompress::compress(const QByteArray &val, unsigned algo) {
   switch (algo) {
     case qcompress::GZIP:
       return gzipEncode(val);
+    case qcompress::LZ4:
+      return lz4Encode(val);
     default:
       return QByteArray();
   }
@@ -153,6 +255,8 @@ QString qcompress::nameOf(unsigned alg) {
   switch (alg) {
     case GZIP:
       return "gzip";
+    case LZ4:
+      return "lz4";
     case UNKNOWN:
     default:
       return "unknown";
