@@ -102,6 +102,22 @@ void ValueEditor::ValueViewModel::setTTL(const QString& newTTL) {
   });
 }
 
+void ValueEditor::ValueViewModel::persistKey() {
+    if (!m_model) {
+      qWarning() << "Model is not loaded";
+      return;
+    }
+
+    m_model->persistKey([this](const QString& err) {
+      if (err.size() > 0) {
+        emit error(err);
+        return;
+      }
+
+      emit keyTTLChanged();
+    });
+}
+
 void ValueEditor::ValueViewModel::removeKey() {
   if (!m_model) {
     qWarning() << "Model is not loaded";

@@ -34,6 +34,7 @@ class Model : public QEnableSharedFromThis<Model> {
 
   virtual void setKeyName(const QByteArray&, Callback) = 0;  // async
   virtual void setTTL(const long long, Callback) = 0;        // async
+  virtual void persistKey(Callback) = 0;        // async
   virtual void removeKey(Callback) = 0;
 
   // rows operations

@@ -40,6 +40,7 @@ class ValueViewModel : public BaseListModel {
   // general key operations
   Q_INVOKABLE void renameKey(const QString& newKeyName);
   Q_INVOKABLE void setTTL(const QString& newTTL);
+  Q_INVOKABLE void persistKey();
   Q_INVOKABLE void removeKey();
 
   // single row operations

@@ -107,6 +107,25 @@ class KeyModel : public ValueEditor::Model {
         RedisClient::Response::Type::Integer);
   }
 
+  virtual void persistKey(Callback c) {
+    executeCmd(
+        {"PERSIST", m_keyFullPath}, c,
+        [this](RedisClient::Response r, Callback c) {
+          if (r.value().toInt() == 0) {
+            return c(QCoreApplication::translate(
+                         "RDM",
+                         "Cannot persist key '%1'. <br> Key does not exist or "
+                         "does not have an associated timeout")
+                         .arg(getKeyName()));
+          }
+
+          m_ttl = -1;
+
+          c(QString());
+        },
+        RedisClient::Response::Type::Integer);
+  }
+
   virtual void removeKey(ValueEditor::Model::Callback c) override {
     executeCmd({"DEL", m_keyFullPath}, c,
                [this](RedisClient::Response, Callback c) {

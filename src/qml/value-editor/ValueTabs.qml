@@ -232,6 +232,27 @@ Repeater {
                                     Layout.fillWidth: true;
                                     objectName: "rdm_set_ttl_key_field"
                                     inputMethodHints: Qt.ImhDigitsOnly
+                                    validator: IntValidator{bottom: 1}
+                                }
+                            }
+
+                            footer: BetterDialogButtonBox {
+                                BetterButton {
+                                    text: qsTranslate("RDM","Save")
+                                    DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+                                }
+
+                                BetterButton {
+                                    text: qsTranslate("RDM","Persist key")
+                                    onClicked: {
+                                        keyTab.keyModel.persistKey()
+                                        setTTLConfirmation.close()
+                                    }
+                                }
+
+                                BetterButton {
+                                    text: qsTranslate("RDM","Cancel")
+                                    onClicked: setTTLConfirmation.close()
                                 }
                             }
 
@@ -247,7 +268,12 @@ Repeater {
                         }
 
                         onClicked: {
-                            newTTL.text = ""+keyTtl
+                            if (keyTtl > 0) {
+                                newTTL.text = ""+keyTtl
+                            } else {
+                                newTTL.text = ""
+                            }
+
                             setTTLConfirmation.open()
                         }
                     }
