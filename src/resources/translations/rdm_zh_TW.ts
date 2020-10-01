@@ -196,7 +196,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="115"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>無法將鍵持久化 &apos;%1&apos; &lt;br&gt; 鍵不存在或是不會逾時</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="150"/>
@@ -451,7 +451,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="246"/>
         <source>Persist key</source>
-        <translation type="unfinished"></translation>
+        <translation>將鍵持久化</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="290"/>
