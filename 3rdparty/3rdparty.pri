@@ -36,7 +36,7 @@ INCLUDEPATH += $$LZ4DIR/lib
 win32* {
     ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native    
     INCLUDEPATH += $$ZLIBDIR/include
-    LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/liblz4.lib
+    LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/Release/lz4.lib
 }
 
 unix:macx { # OSX
