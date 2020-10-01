@@ -4,7 +4,8 @@ import QtQuick.Controls 2.13
 import "../common"
 
 ColumnLayout {    
-    RowLayout {
+    GridLayout {
+        columns: 3
         Layout.fillWidth: true
 
         BetterLabel {
@@ -25,6 +26,7 @@ ColumnLayout {
         }
 
         BetterLabel {
+            Layout.columnSpan: 3
             text:  qsTranslate("RDM","Size: ") + keyRowsCount
         }
     }
