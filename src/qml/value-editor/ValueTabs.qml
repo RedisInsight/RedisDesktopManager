@@ -386,14 +386,18 @@ Repeater {
                                 Layout.minimumHeight: 100
 
                                 ScrollView {
+                                    id: tableScrollView
                                     anchors.fill: parent
 
                                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                                    ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                                    ScrollBar.vertical.policy: ScrollBar.AlwaysOn                                    
+
 
                                     TableView {
                                         id: table
                                         objectName: "rdm_value_tab_table"
+
+                                        focus: true
 
                                         width: parent.width
                                         onWidthChanged: forceLayout()
@@ -426,7 +430,10 @@ Repeater {
                                                     implicitHeight: 30
                                                     text: Number(row) + 1
                                                     selected: table.currentRow === row
-                                                    onClicked: table.currentRow = row
+                                                    onClicked: {
+                                                        table.currentRow = row
+                                                        table.forceActiveFocus()
+                                                    }
                                                 }
                                             }
 
@@ -439,7 +446,10 @@ Repeater {
                                                     implicitHeight: 30
                                                     text: renderText(display)
                                                     selected: table.currentRow === row
-                                                    onClicked: table.currentRow = row
+                                                    onClicked: {
+                                                        table.currentRow = row
+                                                        table.forceActiveFocus()
+                                                    }
                                                 }
                                             }
 
@@ -452,7 +462,10 @@ Repeater {
                                                     implicitHeight: 30
 
                                                     selected: table.currentRow === row
-                                                    onClicked: table.currentRow = row
+                                                    onClicked: {
+                                                        table.currentRow = row
+                                                        table.forceActiveFocus()
+                                                    }
 
                                                     text: {
                                                         if (display === "" || !isMultiRow) {
@@ -575,7 +588,7 @@ Repeater {
                                                 valueEditor.loadRowValue(currentRow)
                                             }
                                         }
-                                    }
+                                    }                                    
                                 }
                             }
                         }
