@@ -412,10 +412,9 @@ Item
 
                         onClicked: copyValue()
 
-                        function copyValue() {
-                            console.log(textView.model)
-                            if (textView.model) {
-                                qmlUtils.copyToClipboard(textView.model.getText())
+                        function copyValue() {                            
+                            if (value) {
+                                qmlUtils.copyToClipboard(value)
                             }
                         }
                     }
