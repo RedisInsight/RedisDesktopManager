@@ -223,4 +223,44 @@ ListModel {
             }
         }
     }
+
+    ListElement {
+        property string name: "BASE64 to Text"
+
+        property string type: "buildin"
+
+        property string readOnly: true
+
+        property var getFormatted: function (raw, callback) {
+            return callback("", Qt.atob(raw), false, "plain")
+        }
+
+        property var isValid: function (raw, callback) {
+            return callback(true)
+        }
+
+        property var getRaw: function (formatted, callback) {
+            return callback("", Qt.btoa(formatted))
+        }
+    }
+
+    ListElement {
+        property string name: "BASE64 to JSON"
+
+        property string type: "buildin"
+
+        property string readOnly: true
+
+        property var getFormatted: function (raw, callback) {
+            return callback("", Qt.atob(raw), false, "json")
+        }
+
+        property var isValid: function (raw, callback) {
+            return callback(true)
+        }
+
+        property var getRaw: function (formatted, callback) {
+            return callback("", Qt.btoa(formatted))
+        }
+    }
 }
