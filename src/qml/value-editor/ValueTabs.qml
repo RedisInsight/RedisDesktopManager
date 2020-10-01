@@ -472,8 +472,8 @@ Repeater {
                                                             return ""
                                                         }
 
-                                                        if (keyType == "zset") {
-                                                            return parseFloat(Number(display).toFixed(20))
+                                                        if (keyType == "zset") {                                                            
+                                                            return Number(display)
                                                         }
 
                                                         return renderText(display)

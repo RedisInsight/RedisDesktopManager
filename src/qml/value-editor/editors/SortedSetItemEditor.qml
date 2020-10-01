@@ -38,7 +38,7 @@ AbstractEditor {
         }
 
         function setValue(v) {
-            text = parseFloat(Number(v).toFixed(20))
+            text = Number(v)
             scoreText.isEdited = false
         }
 
