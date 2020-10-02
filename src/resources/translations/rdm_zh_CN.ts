@@ -196,7 +196,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="115"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法持久化键 &apos;%1&apos;. &lt;br&gt; 键不存在或没有关联的超时时间</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="150"/>
@@ -451,7 +451,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="246"/>
         <source>Persist key</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">持久化键</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="290"/>
@@ -1127,17 +1127,17 @@
     <message>
         <location filename="../../qml/app.qml" line="246"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加组</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="260"/>
         <source>Regroup connections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重组连接</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="282"/>
         <source>Exit Regroup Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">退出重组模式</translation>
     </message>
     <message>
         <source>Bulk Operations Manager</source>
@@ -1543,17 +1543,17 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Edit Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">编辑连接组</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Add New Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">添加连接组</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
         <source>Group Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">组名:</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
@@ -1751,17 +1751,17 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
         <source>Edit Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">编辑连接组</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
         <source>Delete Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">删除连接组</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">真的要删除组内&lt;b&gt;所有连接&lt;/b&gt;吗？</translation>
     </message>
 </context>
 <context>
