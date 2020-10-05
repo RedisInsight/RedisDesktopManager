@@ -85,7 +85,7 @@ socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock
 
 ## Advanced connection settings
 The **Advanced settings** tab allows you to customise the namespace separator and other advanced settings.
-<img src="http://redisdesktop.com/static/docs/rdm_advanced_settings.png?v=2" />
+<img src="http://redisdesktop.com/static/docs/rdm_advanced_settings.png?v=3" />
 
 ## Next steps
 Now you can test a connection or create a connection right away. 
