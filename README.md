@@ -15,7 +15,7 @@
 
 Open source cross-platform Redis Desktop Manager based on Qt 5
 
-![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2019)
+![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2020)
 
 
 **Officially Supported platforms**:
