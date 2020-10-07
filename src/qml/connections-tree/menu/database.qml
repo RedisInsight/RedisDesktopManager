@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.13
 import QtQuick.Window 2.2
 import "./../../common/platformutils.js" as PlatformUtils
 import "."
@@ -146,15 +146,34 @@ RowLayout {
         property int btnWidth: PlatformUtils.isOSXRetina(Screen)? 18 : 22
         property int btnHeight: PlatformUtils.isOSXRetina(Screen)? 18 : 22
 
-        TextField {
-            id: filterText
-
-            Layout.fillWidth: true
-
-            placeholderText: qsTranslate("RDM","Enter Filter")
+        BetterComboBox {
+            id: filterCombobox
             objectName: "rdm_inline_menu_filter_field"
+            editable: true
+            Layout.fillWidth: true
+            indicator.width: 30
+            selectTextByMouse: true
+            editText: styleData.value["filter"]
+            model: styleData.value["filterHistory"]
 
-            text: styleData.value["filter"]
+            palette.highlightedText: sysPalette.highlightedText
+
+            delegate: ItemDelegate {
+                height: filterCombobox.height
+                width: filterCombobox.width
+                highlighted: filterCombobox.highlightedIndex === index
+                contentItem: Text {
+                    text: modelData
+                    color: parent.highlighted ? sysPalette.buttonText : sysPalette.text
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+
+                    BetterToolTip {
+                        title: modelData
+                        visible: parent.truncated && title && hovered
+                    }
+                }
+            }
 
             onAccepted: {
                 filterOk.setFilter()
@@ -178,7 +197,7 @@ RowLayout {
                 if (!connectionsManager)
                     return
 
-                connectionsManager.setMetadata(styleData.index, "filter", filterText.text)
+                connectionsManager.setMetadata(styleData.index, "filter", filterCombobox.editText)
                 root.state = "menu"
             }
         }

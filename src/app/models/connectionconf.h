@@ -39,7 +39,6 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(uint databaseScanLimit READ databaseScanLimit WRITE setDatabaseScanLimit)
 
 
-
 public:
     static const char DEFAULT_NAMESPACE_SEPARATOR = ':';
     static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
@@ -70,6 +69,9 @@ public:
 
     QWeakPointer<TreeOperations> owner() const;
     void setOwner(QWeakPointer<TreeOperations> o);
+
+    QVariantMap filterHistory();
+    void setFilterHistory(QVariantMap filterHistory);
 
 private:
     QWeakPointer<TreeOperations> m_owner;

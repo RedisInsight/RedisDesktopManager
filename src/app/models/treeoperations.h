@@ -40,6 +40,8 @@ class TreeOperations : public QObject,
 
   QString defaultFilter() override;
 
+  QVariantMap getFilterHistory() override;
+
   QString connectionName() const override;
 
   void openKeyTab(QSharedPointer<ConnectionsTree::KeyItem> key,
@@ -99,6 +101,8 @@ signals:
 
   void configUpdated();
 
+  void filterHistoryUpdated();
+
  protected:
   bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);  
 
@@ -115,5 +119,6 @@ signals:
   uint m_dbCount;
   RedisClient::Connection::Mode m_connectionMode;
   ServerConfig m_config;
+  QVariantMap m_filterHistory;
   QWeakPointer<ConnectionsTree::ServerItem> m_serverItem;
 };

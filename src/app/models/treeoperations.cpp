@@ -141,6 +141,14 @@ void TreeOperations::loadNamespaceItems(
     QSet<QByteArray> expandedNs) {
   QString keyPattern = filter.isEmpty() ? m_config.keysPattern() : filter;
 
+  if (m_filterHistory.contains(keyPattern)) {
+      m_filterHistory[keyPattern] = m_filterHistory[keyPattern].toInt() + 1;
+  } else {
+      m_filterHistory[keyPattern] = 1;
+  }
+  m_config.setFilterHistory(m_filterHistory);
+  emit filterHistoryUpdated();
+
   auto renderingCallback =
       [this, callback, filter, parent, expandedNs](
           const RedisClient::Connection::RawKeysList& keylist,
@@ -205,8 +213,12 @@ QString TreeOperations::getNamespaceSeparator() {
 
 QString TreeOperations::defaultFilter() { return m_config.keysPattern(); }
 
-QString TreeOperations::connectionName() const
-{
+QVariantMap TreeOperations::getFilterHistory() {
+    m_filterHistory = m_config.filterHistory();
+    return m_filterHistory;
+}
+
+QString TreeOperations::connectionName() const {
     return m_config.name();
 }
 
