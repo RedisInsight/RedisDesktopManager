@@ -5,6 +5,8 @@ namespace ConnectionsTree {
 
 class ServerItem;
 
+typedef QPair<QString, int> FilterUsage;
+
 class DatabaseItem : public AbstractNamespaceItem {
  public:
   DatabaseItem(unsigned int index, int keysCount,
@@ -45,10 +47,12 @@ class DatabaseItem : public AbstractNamespaceItem {
  private:
   QSharedPointer<QTimer> liveUpdateTimer();
   bool isLiveUpdateEnabled() const;
+  QVariantList filterHistoryList() const;
 
  private:
   unsigned int m_keysCount;
   QSharedPointer<QTimer> m_liveUpdateTimer;
+  QVariantMap m_filterHistory;
 };
 
 }  // namespace ConnectionsTree

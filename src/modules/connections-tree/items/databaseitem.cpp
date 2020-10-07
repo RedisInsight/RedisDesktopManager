@@ -54,6 +54,11 @@ void DatabaseItem::loadKeys(std::function<void()> callback) {
   lock();
 
   QString filter = (m_filter.isEmpty()) ? "" : m_filter.pattern();
+  if (m_filterHistory.contains(filter)) {
+      m_filterHistory[filter] = m_filterHistory[filter].toInt() + 1;
+  } else {
+      m_filterHistory[filter] = 1;
+  }
 
   auto self = getSelf().toStrongRef();
 
@@ -96,6 +101,7 @@ void DatabaseItem::loadKeys(std::function<void()> callback) {
 QVariantMap DatabaseItem::metadata() const {
   QVariantMap metadata = TreeItem::metadata();
   metadata["filter"] = m_filter.pattern();
+  metadata["filterHistory"] = filterHistoryList();
   metadata["live_update"] = isLiveUpdateEnabled();
   return metadata;
 }
@@ -303,4 +309,25 @@ QSharedPointer<QTimer> DatabaseItem::liveUpdateTimer() {
 
 bool DatabaseItem::isLiveUpdateEnabled() const {
   return m_liveUpdateTimer && m_liveUpdateTimer->isActive();
+}
+
+// Top 10 filters
+QVariantList DatabaseItem::filterHistoryList() const {
+    QList<FilterUsage> filterHistoryRating;
+    QVariantMap::const_iterator i(m_filterHistory.begin());
+    while (i != m_filterHistory.end()) {
+        FilterUsage filterUsage;
+        filterUsage.first = i.key();
+        filterUsage.second = i.value().toInt();
+        filterHistoryRating.append(filterUsage);
+        ++i;
+    }
+    std::sort(filterHistoryRating.begin(), filterHistoryRating.end(), [](FilterUsage i, FilterUsage j) { return (i.second > j.second); });
+
+    QVariantList filterHistory;
+    for (int i = 0; filterHistoryRating.size(); i++) {
+        if (i >= 10) break;
+        filterHistory.append(filterHistoryRating.takeFirst().first);
+    }
+    return filterHistory;
 }
