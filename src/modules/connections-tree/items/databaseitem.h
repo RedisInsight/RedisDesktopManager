@@ -45,6 +45,7 @@ class DatabaseItem : public AbstractNamespaceItem {
  private:
   QSharedPointer<QTimer> liveUpdateTimer();
   bool isLiveUpdateEnabled() const;
+  QVariantList filterHistoryTop10() const;
 
  private:
   unsigned int m_keysCount;

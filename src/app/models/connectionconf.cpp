@@ -63,3 +63,13 @@ void ServerConfig::setOwner(QWeakPointer<TreeOperations> o)
 {
     m_owner = o;
 }
+
+QVariantMap ServerConfig::filterHistory()
+{
+    return param<QVariantMap>("filter_history");
+}
+
+void ServerConfig::setFilterHistory(QVariantMap filterHistory)
+{
+    setParam<QVariantMap>("filter_history", filterHistory);
+}

@@ -272,6 +272,11 @@ void ConnectionsManager::createServerItemForConnection(
             serverItem.dynamicCast<ConnectionsTree::TreeItem>().toWeakRef());
       });
 
+  connect(treeModel.data(), &TreeOperations::filterHistoryUpdated,
+          this, [this]() {
+      saveConfig();
+  });
+
   connect(serverItem.data(), &ConnectionsTree::ServerItem::editActionRequested,
           this, [this, treeModel]() {
             if (!treeModel) return;
