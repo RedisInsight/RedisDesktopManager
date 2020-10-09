@@ -30,10 +30,8 @@ if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {
 include($$PWD/pyotherside.pri)
 
 #LZ4
-!defined(SYSTEM_LZ4, var) {
-    LZ4DIR = $$PWD/lz4/
-    INCLUDEPATH += $$LZ4DIR/lib
-}
+LZ4DIR = $$PWD/lz4/
+INCLUDEPATH += $$LZ4DIR/lib
 
 win32* {
     ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native    
