@@ -1,4 +1,4 @@
-## Redis Desktop Manager Backers
+## RDM Backers
 
 1.  peters
 2.  WillPerone

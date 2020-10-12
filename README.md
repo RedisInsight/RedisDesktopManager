@@ -1,4 +1,4 @@
-# [Redis Desktop Manager](http://redisdesktop.com "Redis Desktop Manager Offical Site")
+# [RDM](http://redisdesktop.com "Redis Desktop Manager Offical Site")
 
 [Install & Run](http://docs.redisdesktop.com/en/latest/install/) | 
 [Quick Start](http://docs.redisdesktop.com/en/latest/quick-start/) |
@@ -13,7 +13,7 @@
 [![Snap Status](https://build.snapcraft.io/badge/RedisDesktop/redisdesktopmanager-snap.svg)](https://build.snapcraft.io/user/RedisDesktop/redisdesktopmanager-snap)
 [![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.redisdesktop.com/en/latest/?badge=latest)
 
-Open source cross-platform Redis Desktop Manager based on Qt 5
+Open source cross-platform Desktop Manager for Redis &reg; based on Qt 5
 
 ![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2020)
 
