@@ -14,7 +14,7 @@ Dialog {
 
     property bool isNewConnection: !settings || !settings.name
     property var settings
-    property string quickStartGuideUrl: "http://docs.redisdesktop.com/en/latest/quick-start/"
+    property string quickStartGuideUrl: "http://docs.rdm.dev/en/latest/quick-start/"
 
     signal testConnection
     signal saveConnection(var settings)

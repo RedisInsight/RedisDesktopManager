@@ -3,12 +3,12 @@
 ## Windows
 
 1. Install [Microsoft Visual C++ 2015-2019 x64](https://aka.ms/vs/16/release/vc_redist.x64.exe)  (If you have not already).
-2. Download Windows Installer from [http://redisdesktop.com/download](http://redisdesktop.com/download). **(Requires subscription)**
+2. Download Windows Installer from [http://rdm.dev/download](http://rdm.dev/download). **(Requires subscription)**
 3. Run the downloaded installer.
 
 ## Mac OS X
 
-1. Download dmg image from [http://redisdesktop.com/download](http://redisdesktop.com/download). **(Requires subscription)**
+1. Download dmg image from [http://rdm.dev/download](http://rdm.dev/download). **(Requires subscription)**
 2. Mount the DMG image.
 3. Run rdm.app.
 

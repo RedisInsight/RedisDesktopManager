@@ -14,7 +14,7 @@ ManifestDPIAware true
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(Name)"
 !define COMPANY "Igor Malinovskiy"
-!define URL redisdesktop.com
+!define URL rdm.dev
 !define APP_EXE "rdm.exe"
 
 # MUI Symbol Definitions

@@ -86,7 +86,7 @@ ToolBar {
             implicitWidth: 40
             iconSource: "qrc:/images/help.svg"
             tooltip: qsTranslate("RDM","Documentation")
-            onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/")
+            onClicked: Qt.openUrlExternally("http://docs.rdm.dev/en/latest/")
         }
 
         BetterButton {
