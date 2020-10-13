@@ -2,7 +2,7 @@
 ***
 
 
-After you've [installed](install.md) Redis Desktop Manager, the first thing you need to do in order to get going is to create a connection to your Redis server. On the main window, press the button labelled **Connect to Redis Server**. 
+After you've [installed](install.md) RDM, the first thing you need to do in order to get going is to create a connection to your Redis server. On the main window, press the button labelled **Connect to Redis Server**. 
 
 ![](http://rdm.dev/static/docs/rdm_main.png?v=2)
 
@@ -65,19 +65,19 @@ ssh SSH_HOST -L 7000:localhost:6379
 Follow instructions from [this blog post](https://userify.com/blog/howto-connect-redis-ec2-ssh-tunnel-elasticache/)
 
 ### How to connect to Redis ElastiCache with In-Transit Encryption through EC2
-#### Using RedisDesktopManager >=0.9.9
+#### Using RDM >=0.9.9
 
 Click on "Enable TLS-over-SSH" in the the SSH connection settings and follow instructions from section [How to connect to Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2)
 
 
-#### Using RedisDesktopManager <0.9.9
+#### Using RDM <0.9.9
 Follow instructions from [this documentation section to setup `stunnel` on an EC2 instance](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html#connect-tls)
 
 After that [connect to your Redis ElastiCache through EC2](#how-to-connect-to-redis-elasticache-through-ec2).
 
 ## Connect to a UNIX socket
 
-Redis Desktop Manager [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
+RDM [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
 
 ```
 socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock

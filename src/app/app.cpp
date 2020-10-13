@@ -348,7 +348,7 @@ void Application::OnNewUpdateAvailable(QString& url) {
   QMessageBox::information(
       nullptr, "New update available",
       QCoreApplication::translate(
-          "RDM", "Please download new version of Redis Desktop Manager: %1")
+          "RDM", "Please download new version of RDM: %1")
               .arg(url));
 }
 

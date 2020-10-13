@@ -1,7 +1,7 @@
 !addincludedir .\include
 !addplugindir .\plugin
 
-Name "Redis Desktop Manager"
+Name "RDM"
 
 BrandingText "Open source GUI management tool for Redis"
 
@@ -49,12 +49,12 @@ Var StartMenuGroup
 
 # Installer attributes
 OutFile redis-desktop-manager-${VERSION}.exe
-InstallDir $PROGRAMFILES64\RedisDesktopManager
+InstallDir $PROGRAMFILES64\RDM
 CRCCheck on
 XPStyle on
 ShowInstDetails show
 VIProductVersion ${VERSION}.0
-VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "Redis Desktop Manager"
+VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "RDM"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyWebsite "${URL}"
@@ -70,7 +70,7 @@ Section -Main SEC0000
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
 
     ${IfNot} ${RunningX64}
-        MessageBox MB_OK "Starting from version 2019.0.0, Redis Desktop Manager doesn't support 32-bit Windows"
+        MessageBox MB_OK "Starting from version 2019.0.0, RDM doesn't support 32-bit Windows"
         Quit
     ${EndIf}
 
@@ -93,12 +93,12 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     SetOutPath $SMPROGRAMS\$StartMenuGroup
     
-    CreateShortCut "$DESKTOP\RedisDesktopManager.lnk" "$INSTDIR\${APP_EXE}" ""
+    CreateShortCut "$DESKTOP\RDM.lnk" "$INSTDIR\${APP_EXE}" ""
     
     IfSilent 0 +2
         Exec "$INSTDIR\${APP_EXE}"
 
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\RedisDesktopManager.lnk" "$INSTDIR\${APP_EXE}"
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\RDM.lnk" "$INSTDIR\${APP_EXE}"
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
 
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
@@ -135,8 +135,8 @@ SectionEnd
 
 Section -un.post UNSEC0001
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
-    Delete /REBOOTOK "$DESKTOP\RedisDesktopManager.lnk"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\RedisDesktopManager.lnk"
+    Delete /REBOOTOK "$DESKTOP\RDM.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\RDM.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     DeleteRegValue HKLM "${REGKEY}" Path
@@ -149,14 +149,14 @@ SectionEnd
 # Installer functions
 Function .onInit
     InitPluginsDir
-    StrCpy $StartMenuGroup RedisDesktopManager
+    StrCpy $StartMenuGroup RDM
 FunctionEnd
 
 # Uninstaller functions
 Function un.onInit
     SetAutoClose true
     ReadRegStr $INSTDIR HKLM "${REGKEY}" Path
-    StrCpy $StartMenuGroup RedisDesktopManager
+    StrCpy $StartMenuGroup RDM
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
 
