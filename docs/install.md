@@ -14,7 +14,7 @@
 
 ## Ubuntu / ArchLinux / Debian / Fedora / CentOS / OpenSUSE / etc
 
-1. Install RedisDesktopManager using [Snapcraft](https://snapcraft.io/redis-desktop-manager).
+1. Install RDM using [Snapcraft](https://snapcraft.io/redis-desktop-manager).
 
 > !!! warning "SSH Keys"
     To be able to access your ssh keys from RDM please connect `ssh-key` interface:

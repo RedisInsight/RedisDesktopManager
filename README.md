@@ -1,4 +1,4 @@
-# [RDM](http://rdm.dev "Redis Desktop Manager Official Site")
+# [RDM](http://rdm.dev "RDM Official Site")
 
 [Install & Run](http://docs.rdm.dev/en/latest/install/) | 
 [Quick Start](http://docs.rdm.dev/en/latest/quick-start/) |
@@ -15,7 +15,7 @@
 
 Open source cross-platform Desktop Manager for Redis &reg; based on Qt 5
 
-![Redis Desktop Manager screenshoot](http://rdm.dev/static/img/features/all.png?v2020)
+![RDM screenshot](http://rdm.dev/static/img/features/all.png?v2020)
 
 
 **Officially Supported platforms**:

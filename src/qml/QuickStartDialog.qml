@@ -8,7 +8,7 @@ import "./common/platformutils.js" as PlatformUtils
 BetterDialog {
     id: root
     objectName: "rdm_quick_start_dialog"
-    title: qsTranslate("RDM","Explore Redis Desktop Manager")
+    title: qsTranslate("RDM","Explore RDM")
 
     footer: null
 
@@ -42,7 +42,7 @@ BetterDialog {
                     RichTextWithLinks {
                         Layout.fillWidth: true
                         wrapMode: Text.WrapAnywhere
-                        html: "<p style='font-size: 13pt;'>" + qsTranslate("RDM","Before using Redis Desktop Manager (RDM) take a look on the %1").arg(
+                        html: "<p style='font-size: 13pt;'>" + qsTranslate("RDM","Before using RDM take a look on the %1").arg(
                                   "<a href='http://docs.rdm.dev/en/latest/quick-start/'>" + qsTranslate("RDM","Quick Start Guide")+ "</a>") + "</p>"
 
                         Component.onCompleted: {

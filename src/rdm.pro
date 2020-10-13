@@ -77,8 +77,8 @@ win32 {
 
     RC_ICONS = $$PWD/resources/images/logo.ico
     QMAKE_TARGET_COMPANY = rdm.dev
-    QMAKE_TARGET_PRODUCT = RedisDesktopManager
-    QMAKE_TARGET_DESCRIPTION = "Open source GUI management tool for Redis"
+    QMAKE_TARGET_PRODUCT = RDM
+    QMAKE_TARGET_DESCRIPTION = "Open source GUI management tool for Redis®"
     QMAKE_TARGET_COPYRIGHT = "Igor Malinovskiy (C) 2013-2020"
 
     release: DESTDIR = ./../bin/windows/release
@@ -86,7 +86,7 @@ win32 {
 }
 
 unix:macx { # OSX
-    TARGET = "Redis Desktop Manager"
+    TARGET = "RDM"
     QT += svg
     CONFIG += c++11
 

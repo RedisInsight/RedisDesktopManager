@@ -97,7 +97,7 @@ void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
 
   } catch (const RedisClient::Connection::SSHSupportException& e) {
       emit m_events->error(
-          QCoreApplication::translate("RDM", "Open Source version of Redis Desktop Manager <b>doesn't support SSH tunneling</b>.<br /><br /> "
+          QCoreApplication::translate("RDM", "Open Source version of RDM <b>doesn't support SSH tunneling</b>.<br /><br /> "
                                              "To get fully-featured application, please buy subscription on "
                                              "<a href='https://rdm.dev/subscriptions'>rdm.dev</a>. <br/><br />"
                                              "Every single subscription gives us funds to continue "

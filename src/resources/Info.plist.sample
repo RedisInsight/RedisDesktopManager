@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en-US</string>
 	<key>CFBundleDisplayName</key>
-	<string>Redis Desktop Manager</string>
+	<string>RDM</string>
 	<key>CFBundleExecutable</key>
-	<string>Redis Desktop Manager</string>
+	<string>RDM</string>
 	<key>CFBundleIconFile</key>
 	<string>rdm.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
         <key>CFBundleName</key>
-	<string>Redis Desktop Manager</string>
+	<string>RDM</string>
         <key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
