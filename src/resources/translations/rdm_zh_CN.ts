@@ -305,8 +305,8 @@
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="100"/>
-        <source>Open Source version of Redis Desktop Manager &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation type="unfinished">开源版本的 Redis Desktop Manager &lt;b&gt; 不支持 SSH 通道连接&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 请从 &lt;a href=&apos;https://redisdesktop.com/subscriptions&apos;&gt;redisdesktop.com&lt;/a&gt; 购买订阅来获取完整功能的版本。&lt;br/&gt;&lt;br /&gt;每份订阅都会为开发组筹集资金来继续完成后续的开发，为我们的用户提供支持。&lt;br /&gt;如果您有任何问题，欢迎直接联系我们：&lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;或者加入&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天组&lt;/a&gt;。</translation>
+        <source>Open Source version of Redis Desktop Manager &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation type="unfinished">开源版本的 Redis Desktop Manager &lt;b&gt; 不支持 SSH 通道连接&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 请从 &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt; 购买订阅来获取完整功能的版本。&lt;br/&gt;&lt;br /&gt;每份订阅都会为开发组筹集资金来继续完成后续的开发，为我们的用户提供支持。&lt;br /&gt;如果您有任何问题，欢迎直接联系我们：&lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;或者加入&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天组&lt;/a&gt;。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="167"/>
@@ -1192,8 +1192,8 @@
         <translation type="vanished">确认要执行批量操作？</translation>
     </message>
     <message>
-        <source>Sign in with RedisDesktop.com account</source>
-        <translation type="obsolete">使用 RedisDesktop.com 账号登陆</translation>
+        <source>Sign in with rdm.dev account</source>
+        <translation type="obsolete">使用 rdm.dev 账号登陆</translation>
     </message>
     <message>
         <source>Email:</source>
@@ -1715,8 +1715,8 @@
         <translation type="unfinished">键已经添加。需要重新加载选中的命名空间中的键吗？</translation>
     </message>
     <message>
-        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</source>
-        <translation type="obsolete">无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@redisdesktop.com&apos;&gt;support@redisdesktop.com&lt;/a&gt;</translation>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
+        <translation type="obsolete">无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="26"/>

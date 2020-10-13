@@ -191,7 +191,7 @@ RowLayout {
             imgWidth: filterMenu.btnWidth
             imgHeight: filterMenu.btnHeight
             iconSource: "qrc:/images/help.svg"
-            onClicked: Qt.openUrlExternally("http://docs.redisdesktop.com/en/latest/features/#search-in-connection-tree")
+            onClicked: Qt.openUrlExternally("http://docs.rdm.dev/en/latest/features/#search-in-connection-tree")
         }
 
         ImageButton {

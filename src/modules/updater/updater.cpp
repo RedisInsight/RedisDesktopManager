@@ -25,7 +25,7 @@ Updater::Updater()
     
     QUrl updateUrl(
         QString("http://%1/get-update?version=%2&platform=%3")
-            .arg("redisdesktop.com")
+            .arg("rdm.dev")
             .arg(QCoreApplication::applicationVersion())
             .arg(platform)
         );
