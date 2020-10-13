@@ -4,6 +4,12 @@
 #
 #-------------------------------------------------
 
+CCACHE_BIN = $$system(which ccache)
+!isEmpty(CCACHE_BIN) {
+  load(ccache)
+  CONFIG+=ccache
+}
+
 QT += core gui network concurrent widgets quick quickwidgets charts svg
 
 TARGET = rdm
