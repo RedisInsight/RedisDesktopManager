@@ -9,7 +9,7 @@ InlineMenu {
     model: {
         return [
                     {
-                        'icon': "qrc:/images/editdb.svg", 'event': 'edit', "help": qsTranslate("RDM","Edit Connection Group"),
+                        'icon': "qrc:/images/settings.svg", 'event': 'edit', "help": qsTranslate("RDM","Edit Connection Group"),
                         "shortcut": Qt.platform.os == "osx"? "Meta+E" : "Ctrl+E",
                     },
                     {

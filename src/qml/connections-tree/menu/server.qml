@@ -32,7 +32,7 @@ InlineMenu {
                             "shortcut": Qt.platform.os == "osx"? "Meta+U" : "Ctrl+U",
                         },
                         {
-                            'icon': "qrc:/images/editdb.svg", 'event': 'edit', "help": qsTranslate("RDM","Edit Connection Settings"),
+                            'icon': "qrc:/images/settings.svg", 'event': 'edit', "help": qsTranslate("RDM","Edit Connection Settings"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+E" : "Ctrl+E",
                         },
                         {
