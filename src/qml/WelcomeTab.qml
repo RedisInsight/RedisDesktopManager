@@ -26,7 +26,7 @@ BetterTab {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size:30px;">Desktop Manager for Redis®</span>'}
+                RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size:30px;">RDM - GUI for Redis®</span>'}
                 RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size: 13px;"><b>Version</b> ' + Qt.application.version +'</span>' }
                 RichTextWithLinks { Layout.fillWidth: true;  html:  '<span style="font-size: 11px;">Powered by awesome <a href="https://github.com/uglide/RedisDesktopManager/tree/2019/3rdparty">open-source software</a> and '
                                                                     + '<br /><a href="http://icons8.com/">icons from icons8.com</a>.</span>'}
