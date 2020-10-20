@@ -48,7 +48,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile redis-desktop-manager-${VERSION}.exe
+OutFile rdm-${VERSION}.exe
 InstallDir $PROGRAMFILES64\RDM
 CRCCheck on
 XPStyle on
