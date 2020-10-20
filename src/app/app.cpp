@@ -177,6 +177,8 @@ void Application::initAppFonts() {
   int defaultFontSize = 11;  
 #endif
 
+  int defaultValueSizeLimit = 150000;
+
   QString appFont = settings.value("app/appFont", defaultFontName).toString();
   int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
@@ -194,11 +196,13 @@ void Application::initAppFonts() {
 
   QString valuesFont = settings.value("app/valueEditorFont", defaultMonospacedFont).toString();
   int valuesFontSize = settings.value("app/valueEditorFontSize", defaultFontSize).toInt();
+  int valueSizeLimit = settings.value("app/valueSizeLimit", defaultValueSizeLimit).toInt();
 
   settings.setValue("app/appFont", appFont);
   settings.setValue("app/appFontSize", appFontSize);
   settings.setValue("app/valueEditorFont", valuesFont);
   settings.setValue("app/valueEditorFontSize", valuesFontSize);
+  settings.setValue("app/valueSizeLimit", valueSizeLimit);
 
   qDebug() << "App font:" << appFont << appFontSize;
   qDebug() << "Values font:" << valuesFont;

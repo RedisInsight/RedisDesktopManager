@@ -20,8 +20,7 @@ Item
     property bool showOnlyRWformatters: false
     property string fieldLabel: qsTranslate("RDM","Value") + ":"
     property bool isEdited: false
-    property var value
-    property int valueSizeLimit: 150000
+    property var value    
     property int valueCompression: 0
     property string formatterSettingsCategory: "formatters_value"
     property alias readOnly: textView.readOnly
@@ -139,7 +138,7 @@ Item
         var isBin = qmlUtils.isBinaryString(root.value)
         binaryFlag.visible = isBin
 
-        if (qmlUtils.binaryStringLength(root.value) > valueSizeLimit) {
+        if (qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
             root.showFormatters = false
             formatterSelector.currentIndex = formatterSelector.model.getDefaultFormatter(isBin)
             guessFormatter = false
@@ -163,7 +162,7 @@ Item
             _loadFormatter(isBin)
         }
 
-        if (isBin && qmlUtils.binaryStringLength(root.value) > valueSizeLimit) {
+        if (isBin && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
             largeValueDialog.visible = true
         } else {
             largeValueDialog.visible = false
@@ -364,7 +363,7 @@ Item
             }
 
             BetterLabel {
-                visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > valueSizeLimit
+                visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit
                 text: qsTranslate("RDM","Large value (>150kB). Formatters are not available.")
                 color: "red"
             }
@@ -529,7 +528,7 @@ Item
                 ScrollBar.vertical.policy: ScrollBar.AlwaysOn
                 ScrollBar.vertical.minimumSize: 0.05
 
-                enabled: !(qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > valueSizeLimit)
+                enabled: !(qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit)
 
                 ListView {
                     id: textView
@@ -551,7 +550,7 @@ Item
                                 objectName: "rdm_key_multiline_text_field_" + index
 
                                 enabled: root.enabled
-                                text: qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > valueSizeLimit ?
+                                text: qmlUtils.isBinaryString(root.value) && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit ?
                                           qmlUtils.printable(value, false, 50000) : value;  // Show first 50KB to fit chunkSize
 
                                 textFormat: textView.textFormat

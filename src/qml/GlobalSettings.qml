@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.15
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.13
 import QtQuick.Controls 1.4 as LC
@@ -18,7 +18,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 800
-        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 550 : 700
+        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 550 : 750
 
         color: sysPalette.base
 
@@ -107,6 +107,19 @@ Dialog {
                         label: qsTranslate("RDM","Value Editor Font Size")
 
                         onValueChanged: root.restartRequired = true
+                    }
+
+                    IntOption {
+                        id: valueSizeLimit
+
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 30
+
+                        min: 1
+                        max: 2000000
+                        value: 150000
+                        label: qsTranslate("RDM","Maximum Formatted Value Size")
+                        description: qsTranslate("RDM", "Size in bytes")
                     }
 
                     BoolOption {
@@ -261,6 +274,7 @@ Dialog {
         property alias appFontSize: appFontSize.value
         property alias valueEditorFont: valueEditorFont.value
         property alias valueEditorFontSize: valueEditorFontSize.value
+        property alias valueSizeLimit: valueSizeLimit.value
         property alias locale: appLang.value
         property alias useSystemProxy: systemProxy.value
     }
