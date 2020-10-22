@@ -1041,12 +1041,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="121"/>
         <source>Maximum Formatted Value Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">最大格式化长度</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="122"/>
         <source>Size in bytes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">字节长度</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="132"/>
