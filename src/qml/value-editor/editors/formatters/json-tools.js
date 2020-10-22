@@ -1,7 +1,13 @@
 .pragma library
 
 var prettyPrint = function( json, style, colorMap) {
-    var out = JSON.parse(json);
+    var out;
+
+    try {
+        out = JSON.parse(json);
+    } catch (exc) {
+        out = json
+    }
 
     // Highlight different value types
     var syntaxHighlight = function(json) {
