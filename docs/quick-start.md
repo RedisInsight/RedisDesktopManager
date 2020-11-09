@@ -20,6 +20,19 @@ Instructions for certain cloud services are below:
 
 <img src="http://rdm.dev/static/docs/rdm_ssl.png?v=2" />
 
+### AWS ElastiCache
+AWS ElastiCache is not accessible outside of your VPC. In order to connect to your ElastiCache remotely, you need to use one of the following options:
+1. Setup VPN connection **[Recommended]**
+https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/accessing-elasticache.html#access-from-outside-aws
+2. Setup SSH proxying host and connect through SSH tunnel. **[Slow network performance. Not recommended]**
+3. Setup NAT instance for exposing your AWS ElastiCache to the Internet **[Firewall rules should be configured very carefully. Not recommended.]**
+
+#### How to connect to AWS ElastiCache with In-Transit Encryption
+##### VPN / NAT
+Enable SSL/TLS checkox and connect to your AWS ElastiCache with In-Transit Encryption.
+
+##### SSH tunnel
+Click on "Enable TLS-over-SSH" checkbox in the the SSH connection settings and connect to your AWS ElastiCache with In-Transit Encryption.
 
 ### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" width="100" />
 
