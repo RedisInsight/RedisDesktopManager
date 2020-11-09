@@ -13,6 +13,7 @@ On the first tab (Connection Settings), put in general information regarding the
 * **Host** - redis-server host (example: localhost)
 * **Port** - redis-server port (example: 6379)
 * **Password** - redis-server authentication password (if any) ([http://redis.io/commands/AUTH](http://redis.io/commands/AUTH))
+* **Username** - only for redis-servers >= 6.0 with configured [ACL](https://redis.io/topics/acl), for older redis-server leave empty
 
 ## Connect to a public redis-server with SSL
 If you want to connect to a redis-server instance with SSL you need to enable SSL on the second tab and provide a public key in PEM format. 
