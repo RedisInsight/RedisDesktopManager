@@ -25,7 +25,7 @@ Instructions for certain cloud services are below:
 AWS ElastiCache is not accessible outside of your VPC. In order to connect to your ElastiCache remotely, you need to use one of the following options:
 
 *  Setup VPN connection **[Recommended]**
-https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/accessing-elasticache.html#access-from-outside-aws
+[https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/accessing-elasticache.html#access-from-outside-aws](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/accessing-elasticache.html#access-from-outside-aws)
 *  Setup SSH proxying host and connect through SSH tunnel. **[Slow network performance. Not recommended]**
 *  Setup NAT instance for exposing your AWS ElastiCache to the Internet **[Firewall rules should be configured very carefully. Not recommended.]**
 
