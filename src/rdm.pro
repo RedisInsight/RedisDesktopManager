@@ -16,7 +16,7 @@ TARGET = rdm
 TEMPLATE = app
 
 !defined(VERSION, var) {
-    VERSION=2020.5.0-dev
+    VERSION=2020.6.0-dev
 }
 
 message($$VERSION)
