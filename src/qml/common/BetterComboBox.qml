@@ -14,4 +14,14 @@ ComboBox {
     palette.mid: sysPalette.mid
     palette.dark: sysPalette.dark
     palette.window: sysPalette.window
+
+    function selectItem(txt) {
+        var index = find(txt)
+
+        console.log("Index:", index)
+
+        if (index !== -1) {
+            currentIndex = index;
+        }
+    }
 }
