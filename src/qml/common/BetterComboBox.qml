@@ -23,5 +23,7 @@ ComboBox {
         if (index !== -1) {
             currentIndex = index;
         }
+
+        activated(index)
     }
 }
