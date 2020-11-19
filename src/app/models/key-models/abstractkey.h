@@ -68,22 +68,33 @@ class KeyModel : public ValueEditor::Model {
 
   virtual void setKeyName(const QByteArray& newKeyName,
                           ValueEditor::Model::Callback c) override {
+    // NOTE(u_glide): DUMP + RESTORE + DEL is cluster compatible alternative to RENAME command
     executeCmd(
-        {"RENAMENX", m_keyFullPath, newKeyName}, c,
+        {"DUMP", m_keyFullPath}, c,
         [this, newKeyName](RedisClient::Response r, Callback c) {
-          if (r.value().toInt() == 0) {
-            return c(QCoreApplication::translate(
-                         "RDM",
-                         "Key with new name %1 already exist in "
-                         "database or original key was "
-                         "removed")
-                         .arg(getKeyName()));
-          }
+          executeCmd(
+              {"RESTORE", newKeyName,
+               QString::number(m_ttl > 0 ? m_ttl : 0).toLatin1(),
+               r.value().toByteArray()},
+              c,
+              [this, newKeyName](RedisClient::Response r, Callback c) {
+                if (!r.isOkMessage()) {
+                  return c(QCoreApplication::translate(
+                               "RDM", "Cannot rename key %1: %2")
+                               .arg(getKeyName())
+                               .arg(r.value().toString()));
+                }
 
-          m_keyFullPath = newKeyName;
-          c(QString());
+                executeCmd(
+                    {"DEL", m_keyFullPath}, [](const QString&) {},
+                    [](RedisClient::Response, Callback) {});
+
+                m_keyFullPath = newKeyName;
+                c(QString());
+              },
+              RedisClient::Response::Type::Status);
         },
-        RedisClient::Response::Type::Integer);
+        RedisClient::Response::Type::String);
   }
 
   virtual void setTTL(const long long ttl,
