@@ -10,6 +10,14 @@ FastTextView {
 
     model: ListModel {}
 
+    function dumpText() {
+        var allStrings = "";
+        for (var ind=0; ind < root.model.count; ind++) {
+            allStrings += root.model.get(ind)["msg"] + "\n"
+        }
+        return allStrings
+    }
+
     color: sysPalette.base
     border.color: sysPalette.shadow
     border.width: 1

@@ -12,6 +12,14 @@ Rectangle {
         listView.positionViewAtEnd()
     }
 
+    function dumpText() {        
+        var allStrings = "";
+        for (var id in root.model) {
+            allStrings += root.model[id] + "\n"
+        }
+        return allStrings
+    }
+
     ScrollView {
         anchors.fill: parent
         anchors.margins: 10
@@ -22,8 +30,11 @@ Rectangle {
             id: listView
             width: root.width - 20
 
-            delegate: BetterLabel {
+            delegate: TextEdit {
+                color: sysPalette.text
                 width: listView.width
+                readOnly: true
+                selectByMouse: true
                 text: {
                     if (root.showLineNumbers) {
                         return (index+1) + ". " + modelData
@@ -56,13 +67,8 @@ Rectangle {
             icon.source: "qrc:/images/copy.svg"
             icon.color: "transparent"
 
-            onTriggered: {
-                var allStrings = "";
-                for (var id in affectedKeysListView.model) {
-                    allStrings += affectedKeysListView.model[id] + "\n"
-                }
-                qmlUtils.copyToClipboard(allStrings)
-                allStrings = ""
+            onTriggered: {                
+                qmlUtils.copyToClipboard(root.dumpText())
             }
         }
     }
