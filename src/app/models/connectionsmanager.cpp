@@ -124,6 +124,7 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
 
         if (conf.isNull()) continue;
 
+        conf.setId(QUuid::createUuid().toByteArray());
         addNewConnection(conf, false, group);
       }
 

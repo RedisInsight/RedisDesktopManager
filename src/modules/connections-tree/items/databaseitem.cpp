@@ -23,9 +23,7 @@ DatabaseItem::DatabaseItem(unsigned int index, int keysCount,
     : AbstractNamespaceItem(model, parent, operations, index),
       m_keysCount(keysCount) {}
 
-DatabaseItem::~DatabaseItem() {
-  if (m_operations) m_operations->notifyDbWasUnloaded(m_dbIndex);
-}
+DatabaseItem::~DatabaseItem() {}
 
 QByteArray DatabaseItem::getName() const { return QByteArray(); }
 

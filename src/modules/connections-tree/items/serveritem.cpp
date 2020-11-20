@@ -117,6 +117,15 @@ void ServerItem::unload() {
   emit m_model.itemChildsUnloaded(m_self);
 
   m_operations->disconnect();
+
+  for (auto db : m_databases) {
+      auto dbItem = db.staticCast<DatabaseItem>();
+
+      if (dbItem && m_operations) {
+          m_operations->notifyDbWasUnloaded(dbItem->getDbIndex());
+      }
+  }
+
   m_databases.clear();
 
   unlock();
