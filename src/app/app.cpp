@@ -11,6 +11,7 @@
 #include <QSysInfo>
 #include <QUrl>
 #include <QtQml>
+#include <QSslSocket>
 
 #include "common/tabviewmodel.h"
 #include "events.h"
@@ -159,6 +160,8 @@ void Application::initAppInfo() {
   setOrganizationDomain("redisdesktop.com");
   setOrganizationName("redisdesktop");
   setWindowIcon(QIcon(":/images/logo.png"));
+
+  qDebug() << "TLS support:" << QSslSocket::sslLibraryVersionString();
 }
 
 void Application::initAppFonts() {
