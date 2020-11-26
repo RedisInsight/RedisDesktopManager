@@ -15,6 +15,7 @@ pages:
 - Native Formatters: 'native-formatters.md'
 - FAQ: 'faq.md'
 - Known Issues: 'known-issues.md'
+- AppStore Limitations: 'app-store.md'
 - Development Guide: 'development.md'
 markdown_extensions:
   - markdown.extensions.admonition
