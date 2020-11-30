@@ -37,9 +37,7 @@ bool TreeOperations::loadDatabases(
   auto connection = m_connection->clone(false);
   m_events->registerLoggerForConnection(*connection);
 
-  connect(connection);
-
-  if (!connection->isConnected()) return false;
+  if (!connect(connection)) return false;
 
   RedisClient::DatabaseList availableDatabeses = connection->getKeyspaceInfo();
 
@@ -81,8 +79,8 @@ bool TreeOperations::loadDatabases(
   return true;
 }
 
-void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
-  if (c->isConnected()) return;
+bool TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
+  if (c->isConnected()) return true;
 
   try {
     if (!c->connect(true)) {
@@ -90,7 +88,7 @@ void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
           QCoreApplication::translate(
               "RDM", "Cannot connect to server '%1'. Check log for details.")
               .arg(m_connection->getConfig().name()));
-      return;
+      return false;
     }
 
     m_connectionMode = c->mode();
@@ -106,12 +104,12 @@ void TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
                                              "at <a href='mailto:support@rdm.dev'>support@rdm.dev</a> "
                                              "or join <a href='https://t.me/RedisDesktopManager'>Telegram chat</a>.")
       );
-      return;
+      return false;
   } catch (const RedisClient::Connection::Exception& e) {
     emit m_events->error(
         QCoreApplication::translate("RDM", "Connection error: ") +
         QString(e.what()));
-    return;
+    return false;
   }
 }
 
@@ -168,14 +166,12 @@ void TreeOperations::loadNamespaceItems(
             .subscribe([callback]() { callback(QString()); });
       };
 
-  connect(m_connection);
+  if (!connect(m_connection)) return;
 
   auto processErr = [callback](const QString& err) {
     return callback(
         QCoreApplication::translate("RDM", "Cannot load keys: %1").arg(err));
-  };
-
-  if (!m_connection->isConnected()) return;
+  };  
 
   try {
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {

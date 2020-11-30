@@ -106,7 +106,7 @@ signals:
  protected:
   bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);  
 
-  void connect(QSharedPointer<RedisClient::Connection> c);
+  bool connect(QSharedPointer<RedisClient::Connection> c);
 
   void requestBulkOperation(
       ConnectionsTree::AbstractNamespaceItem& ns,
