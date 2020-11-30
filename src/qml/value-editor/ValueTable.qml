@@ -6,6 +6,7 @@ import QtQuick.Window 2.2
 import "./editors/editor.js" as Editor
 import "./../common/platformutils.js" as PlatformUtils
 import "./../common"
+import "./filters"
 import rdm.models 1.0
 import Qt.labs.qmlmodels 1.0
 
@@ -286,6 +287,16 @@ RowLayout {
                 }
             }
         }
+
+        Loader {
+            id: filtersLoader
+
+            Layout.fillWidth: true
+            Layout.preferredHeight: 40
+
+            source: keyModel && keyType === "list"? "./filters/ListFilters.qml"  : ""
+        }
+
     }
 
     ValueTableActions {}

@@ -344,3 +344,23 @@ void ValueEditor::ValueViewModel::loadRowsCount() {
     emit totalRowCountChanged();
   });
 }
+
+QVariant ValueEditor::ValueViewModel::filter(const QString& key) const
+{
+    if (!m_model) {
+      qWarning() << "Model is not loaded";
+      return QVariant();
+    }
+
+    return m_model->filter(key);
+}
+
+void ValueEditor::ValueViewModel::setFilter(const QString& key, QVariant v)
+{
+    if (!m_model) {
+      qWarning() << "Model is not loaded";
+      return;
+    }
+
+    return m_model->setFilter(key, v);
+}

@@ -66,5 +66,6 @@
         <file>connections-tree/menu/server_group.qml</file>
         <file>value-editor/ValueTable.qml</file>
         <file>value-editor/ValueTableActions.qml</file>
+        <file>value-editor/filters/ListFilters.qml</file>
     </qresource>
 </RCC>

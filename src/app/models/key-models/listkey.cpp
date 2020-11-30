@@ -14,6 +14,12 @@ void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
     return c(QCoreApplication::translate("RDM", "Invalid row"));
   }
 
+  int dbRowIndex = rowIndex;
+
+  if (isReverseOrder()) {
+    dbRowIndex = -rowIndex - 1;
+  }
+
   QByteArray newRow(row["value"].toByteArray());
 
   auto afterRowUpdate = [this, rowIndex, newRow, c](const QString &err) {
@@ -22,11 +28,11 @@ void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
     return c(err);
   };
 
-  verifyListItemPosistion(rowIndex, [this, rowIndex, c, newRow,
-                                     afterRowUpdate](const QString &err) {
+  verifyListItemPosistion(dbRowIndex, [this, dbRowIndex, c, newRow,
+                                       afterRowUpdate](const QString &err) {
     if (err.size() > 0) return c(err);
 
-    setListRow(rowIndex, newRow, afterRowUpdate);
+    setListRow(dbRowIndex, newRow, afterRowUpdate);
   });
 }
 
@@ -63,18 +69,56 @@ void ListKeyModel::removeRow(int i, ValueEditor::Model::Callback c) {
     deleteListRow(0, LIST_ITEM_REMOVAL_STUB, onItemRemoval);
   };
 
-  verifyListItemPosistion(i, [this, i, c, onItemHidding](const QString &err) {
-    if (err.size() > 0) return c(err);
+  int dbRowIndex = i;
 
-    // Replace value by system string
-    setListRow(i, LIST_ITEM_REMOVAL_STUB, onItemHidding);
-  });
+  if (isReverseOrder()) {
+    dbRowIndex = -i - 1;
+  }
+
+  verifyListItemPosistion(
+      dbRowIndex, [this, dbRowIndex, c, onItemHidding](const QString &err) {
+        if (err.size() > 0) return c(err);
+
+        // Replace value by system string
+        setListRow(dbRowIndex, LIST_ITEM_REMOVAL_STUB, onItemHidding);
+      });
+}
+
+QList<QByteArray> ListKeyModel::getRangeCmd(QVariant rowStartId, unsigned long count)
+{
+    if (isReverseOrder()) {
+        long rowStart = -rowStartId.toLongLong() - 1;
+        long rowStop = rowStart - count + 1;
+
+        QList<QByteArray> cmd {m_rowsLoadCmd, m_keyFullPath,
+                              QString::number(rowStop).toLatin1(),
+                              QString::number(rowStart).toLatin1()};
+        return cmd;
+    } else {
+        return KeyModel::getRangeCmd(rowStartId, count);
+    }
+}
+
+int ListKeyModel::addLoadedRowsToCache(const QVariantList &rows,
+                                       QVariant rowStartId) {
+  if (isReverseOrder()) {
+    return ListLikeKeyModel::addLoadedRowsToCache(
+        QList<QVariant>(rows.rbegin(), rows.rend()), rowStartId);
+  } else {
+    return ListLikeKeyModel::addLoadedRowsToCache(rows, rowStartId);
+  }
 }
 
 void ListKeyModel::verifyListItemPosistion(int row, Callback c) {
   auto verifyResponse = [this, row](RedisClient::Response r, Callback c) {
-    QVariantList currentState = r.value().toList();
-    QByteArray cachedValue = m_rowsCache[row];
+    QVariantList currentState = r.value().toList();        
+    QByteArray cachedValue;
+
+    if (isReverseOrder()) {
+        cachedValue = m_rowsCache[-row - 1];
+    } else {
+        cachedValue = m_rowsCache[row];
+    }
 
     bool isChanged = currentState.size() != 1 ||
                      currentState[0].toByteArray() != QString(cachedValue);
@@ -106,4 +150,9 @@ void ListKeyModel::deleteListRow(int count, const QByteArray &value,
                                  Callback c) {
   executeCmd({"LREM", m_keyFullPath, QString::number(count).toLatin1(), value},
              c);
+}
+
+bool ListKeyModel::isReverseOrder() const
+{
+    return m_filters.value("order", "default") == "reverse";
 }

@@ -55,6 +55,10 @@ class ValueViewModel : public BaseListModel {
   Q_INVOKABLE void loadRows(int start, int limit);
   Q_INVOKABLE void reload();
 
+  // filters
+  Q_INVOKABLE QVariant filter(const QString& key) const;
+  Q_INVOKABLE void setFilter(const QString&, QVariant);
+
   void setSinglePageMode(bool v);
   bool singlePageMode() const;
 
