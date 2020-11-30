@@ -338,6 +338,15 @@ class KeyModel : public ValueEditor::Model {
   virtual int addLoadedRowsToCache(const QVariantList& rows,
                                    QVariant rowStart) = 0;
 
+  QVariant filter(const QString& key) const {
+    return m_filters.value(key, QVariant());
+  };
+
+  void setFilter(const QString& k, QVariant v) {
+      m_filters[k] = v;
+      qDebug() << "filter:" << k << v;
+  }
+
  protected:
   QSharedPointer<RedisClient::Connection> m_connection;
   QByteArray m_keyFullPath;
@@ -353,4 +362,6 @@ class KeyModel : public ValueEditor::Model {
   MappedCache<T> m_rowsCache;
   long long m_scanCursor;
   QSharedPointer<ValueEditor::ModelSignals> m_notifier;
+
+  QVariantMap m_filters;
 };

@@ -125,6 +125,20 @@ Repeater {
             valuesModel.setCurrentTab(keyIndex)
         }
 
+        function reloadValue() {
+            console.log("Reload value in tab")
+            keyTab.keyModel.reload()
+
+            if (isMultiRow) {
+                valueEditor.clear()
+                table.resetCurrentRow()
+
+                if (table.currentPage > table.totalPages) {
+                    table.goToPage(1)
+                }
+            }
+        }
+
         Rectangle {
             id: wrapper
             color: sysPalette.base
@@ -302,7 +316,7 @@ Repeater {
                     BetterButton {
                         objectName: "rdm_value_editor_reload_value_btn"
                         text: qsTranslate("RDM","Reload Value")
-                        action: reLoadAction
+                        onClicked: reloadValue()
                         visible: !isMultiRow
                         iconSource: "qrc:/images/refresh.svg"
                     }

@@ -43,6 +43,10 @@ class Model : public QEnableSharedFromThis<Model> {
                          Callback) = 0;  // async
   virtual unsigned long rowsCount() = 0;
 
+  //filters
+  virtual QVariant filter(const QString& key) const = 0;
+  virtual void setFilter(const QString&, QVariant) = 0;
+
   typedef std::function<void(const QString&, unsigned long)> LoadRowsCallback;
   virtual void loadRows(QVariant rowStart, unsigned long count,
                         LoadRowsCallback c) = 0;  // async
