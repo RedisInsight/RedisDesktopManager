@@ -92,7 +92,7 @@ bool TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
     }
 
     m_connectionMode = c->mode();
-
+    return true;
   } catch (const RedisClient::Connection::SSHSupportException& e) {
       emit m_events->error(
           QCoreApplication::translate("RDM", "Open Source version of RDM <b>doesn't support SSH tunneling</b>.<br /><br /> "
