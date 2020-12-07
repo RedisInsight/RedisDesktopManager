@@ -40,8 +40,6 @@ win32* {
 }
 
 unix:macx { # OSX
-    LIBS += /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
-    LIBS += /System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
     LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a
 }
 
