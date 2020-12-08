@@ -225,12 +225,13 @@ Dialog {
                             SettingsGroupTitle { text: qsTranslate("RDM","Security") }
 
                             GridLayout {
-                                id: tlsSettingsGrid
+                                id: securityGrid
                                 objectName: "rdm_connection_group_box_security"
                                 columns: 2
 
                                 BetterRadioButton {
                                     id: sslRadioButton
+                                    objectName: "rdm_connection_security_ssl_radio_button"
                                     Layout.columnSpan: 2
                                     text: qsTranslate("RDM","SSL / TLS")
                                     allowUncheck: true
@@ -241,9 +242,7 @@ Dialog {
                                         root.cleanStyle()
 
                                         if (!checked) {
-                                            sslLocalCertPath.path = ""
-                                            sslPrivateKeyPath.path = ""
-                                            sslCaCertPath.path = ""
+                                            root.sslEnabled = false
                                         }
                                     }
                                 }
@@ -251,6 +250,8 @@ Dialog {
                                 Item { Layout.preferredWidth: 20 }
 
                                 GridLayout {
+                                    id: tlsSettingsGrid
+                                    objectName: "rdm_connection_security_ssl_grid"
                                     enabled: sslRadioButton.checked
                                     visible: sslRadioButton.checked
                                     columns: 2
@@ -260,6 +261,7 @@ Dialog {
 
                                     FilePathInput {
                                         id: sslLocalCertPath
+                                        objectName: "rdm_connection_security_ssl_local_cert_path_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTranslate("RDM","(Optional) Public Key in PEM format")
                                         nameFilters: [ "Public Key in PEM format (*.pem *.crt)" ]
@@ -272,6 +274,7 @@ Dialog {
 
                                     FilePathInput {
                                         id: sslPrivateKeyPath
+                                        objectName: "rdm_connection_security_ssl_private_key_path_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTranslate("RDM","(Optional) Private Key in PEM format")
                                         nameFilters: [ "Private Key in PEM format (*.pem *.key)" ]
@@ -284,6 +287,7 @@ Dialog {
 
                                     FilePathInput {
                                         id: sslCaCertPath
+                                        objectName: "rdm_connection_security_ssl_ca_cert_path_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTranslate("RDM","(Optional) Authority in PEM format")
                                         nameFilters: [ "Authority file in PEM format (*.pem *.crt)" ]
@@ -314,11 +318,7 @@ Dialog {
                                         root.cleanStyle()
 
                                         if (!checked) {
-                                            sshAddress.host = ""
-                                            sshAddress.port = 22
-                                            sshUser.text = ""
-                                            sshPrivateKey.path = ""
-                                            sshPassword.text = ""
+                                            root.sshEnabled = false
                                         }
                                     }
                                 }
@@ -327,6 +327,7 @@ Dialog {
 
                                 GridLayout {
                                     id: sshSettingsGrid
+                                    objectName: "rdm_connection_security_ssh_grid"
                                     visible: sshRadioButton.checked
                                     enabled: sshRadioButton.checked
                                     columns: 2
@@ -524,7 +525,7 @@ Dialog {
                             }
                         }
                     }
-                }                
+                }
 
                 RowLayout {
                     Layout.fillWidth: true
@@ -573,6 +574,7 @@ Dialog {
                         onClicked: {
                             if (root.validate()) {
                                 root.saveConnection(root.settings)
+                                root.settings = connectionsManager.createEmptyConfig()
                                 root.close()
                             } else {
                                 validationWarning.visible = true
@@ -581,8 +583,12 @@ Dialog {
                     }
 
                     BetterButton {
+                        objectName: "rdm_connection_settings_dialog_cancel_btn"
                         text: qsTranslate("RDM","Cancel")
-                        onClicked: root.close()
+                        onClicked: {
+                            root.settings = connectionsManager.createEmptyConfig()
+                            root.close()
+                        }
                     }
                 }
             }

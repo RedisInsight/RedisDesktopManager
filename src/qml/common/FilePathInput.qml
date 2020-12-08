@@ -16,6 +16,7 @@ RowLayout {
 
     BetterTextField {
         id: textField
+        objectName: root.objectName? root.objectName + "_text" : ""
         readOnly: PlatformUtils.isOSX()
         Layout.fillWidth: true
     }
