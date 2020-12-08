@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="375"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="407"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="364"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="396"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>クラスタノードに書き込みできません&#x3000;%1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="436"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="407"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="425"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>DBをフラッシュできません&#x3000;(%1): %2</translation>
     </message>
@@ -166,48 +166,52 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="66"/>
+        <location filename="../../app/app.cpp" line="67"/>
         <source>Settings directory is not writable</source>
         <translation>設定したディレクトリは書き込みできません</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="68"/>
+        <location filename="../../app/app.cpp" line="69"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="354"/>
+        <location filename="../../app/app.cpp" line="357"/>
         <source>Please download new version of RDM: %1</source>
         <translation>新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="75"/>
         <source>Key with new name %1 already exist in database or original key was removed</source>
-        <translation>新しいキー%1はすでにデータベースに存在しているか、または元のキーが削除されました</translation>
+        <translation type="vanished">新しいキー%1はすでにデータベースに存在しているか、または元のキーが削除されました</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="115"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="150"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
         <source>Cannot parse scan response</source>
         <translation>スキャンのレスポンスをパースできません</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="310"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="321"/>
         <source>Server returned unexpected response: </source>
         <translation>サーバが不正なレスポンスを返しました:</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="96"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="107"/>
         <source>Cannot set TTL for key %1</source>
         <translation>キー%1にTTLを設定できません</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="256"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="82"/>
+        <source>Cannot rename key %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="267"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="278"/>
         <source>Cannot load rows for key %1: %2</source>
         <translation>キー%1のROWを読むことができません: %2</translation>
     </message>
@@ -215,7 +219,7 @@
         <location filename="../../app/models/key-models/hashkey.cpp" line="42"/>
         <location filename="../../app/models/key-models/hashkey.cpp" line="75"/>
         <location filename="../../app/models/key-models/listkey.cpp" line="14"/>
-        <location filename="../../app/models/key-models/listkey.cpp" line="35"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="41"/>
         <location filename="../../app/models/key-models/setkey.cpp" line="12"/>
         <location filename="../../app/models/key-models/setkey.cpp" line="33"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="44"/>
@@ -226,10 +230,10 @@
         <translation>不正なROWです</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="174"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="322"/>
-        <location filename="../../app/models/treeoperations.cpp" line="65"/>
-        <location filename="../../app/models/treeoperations.cpp" line="112"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
+        <location filename="../../app/models/treeoperations.cpp" line="63"/>
+        <location filename="../../app/models/treeoperations.cpp" line="110"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>接続エラー: </translation>
@@ -271,32 +275,32 @@
         <translation>キーの型を取得できません: </translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="90"/>
+        <location filename="../../app/models/treeoperations.cpp" line="88"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>サーバ&apos;%1&apos;に接続できません。詳細はログを確認してください。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="100"/>
+        <location filename="../../app/models/treeoperations.cpp" line="98"/>
         <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation>オープンソース版のRedis Desktop ManagerはSSHトンネルをサポートして&lt;b&gt;いません&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;全ての機能を有効にするには&lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;でサブスクリプションに加入してください。&lt;br/&gt;&lt;br /&gt;ご加入の皆様からいただきました資金により、私たちは開発を続けることができ、皆様をサポートできます。&lt;br /&gt;もしご質問がございましたらお気軽に&lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;または&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;までお問い合わせください。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="167"/>
+        <location filename="../../app/models/treeoperations.cpp" line="173"/>
         <source>Cannot load keys: %1</source>
         <translation>キーをロードできません: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="251"/>
+        <location filename="../../app/models/treeoperations.cpp" line="259"/>
         <source>Delete key error: %1</source>
         <translation>キー削除エラー: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="370"/>
+        <location filename="../../app/models/treeoperations.cpp" line="378"/>
         <source>Cannot used memory for key: %1</source>
         <translation>キーのメモリを使えませんでした: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="314"/>
+        <location filename="../../app/models/treeoperations.cpp" line="322"/>
         <source>Cannot flush database: </source>
         <translation>データベースをフラッシュできません: </translation>
     </message>
@@ -306,33 +310,33 @@
         <translation>不正な接続です。接続の設定を確認してください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="234"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>キーを追加しました。選択したデータベースのキーをリロードしますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="242"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
         <source>Key was added</source>
         <translation>キーを追加しました。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="250"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="255"/>
         <source>Another operation is currently in progress</source>
         <translation>別の処理が動作しています。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="252"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="257"/>
         <source>Please wait until another operation will be finised.</source>
         <translation>処理が終わるまでお待ちください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="263"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="268"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>このデータベースから全てのキーを削除しても本当によろしいですか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="78"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="76"/>
         <source>Cannot load databases:
 
 </source>
@@ -341,56 +345,56 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="195"/>
         <source>Live update was disabled</source>
         <translation>ライブ・アップデートは無効です</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="197"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
         <translation>キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="170"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="177"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="184"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="191"/>
         <source>Rename key</source>
         <translation>キー名の変更</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="186"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="200"/>
         <source>New name:</source>
         <translation>新しい名前:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="30"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="209"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
         <source>Size: </source>
         <translation>サイズ: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="215"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="229"/>
         <source>TTL:</source>
         <translation>TTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="220"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="234"/>
         <source>Set key TTL</source>
         <translation>キーのTTLを設定</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="229"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="243"/>
         <source>New TTL:</source>
         <translation>新しいTTL:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="284"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="298"/>
         <source>Delete</source>
         <translation>削除</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="289"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="303"/>
         <source>Delete key</source>
         <translation>キーを削除</translation>
     </message>
@@ -405,62 +409,62 @@
         <translation>変更を保存せずにキーのタブを閉じますか?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="246"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="260"/>
         <source>Persist key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="290"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="130"/>
         <source>Do you really want to delete this key?</source>
         <translation>このキーを本当に削除してもよろしいですか?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="724"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="140"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="318"/>
         <source>Reload Value</source>
         <translation>値をリロード</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="606"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="615"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="22"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="31"/>
         <source>Add Row</source>
         <translation>ROWを追加</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="614"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="391"/>
         <source>Add Element to HLL</source>
         <translation>HLLに要素を追加</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="652"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="68"/>
         <source>Add</source>
         <translation>追加</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="687"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="706"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="103"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="122"/>
         <source>Delete row</source>
         <translation>ROWを削除</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="693"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="109"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation>このROWはこのキーの最後の1つです。削除後はキーも削除されます。</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="695"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="111"/>
         <source>Do you really want to remove this row?</source>
         <translation>このROWを本当に削除しますか?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="756"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="164"/>
         <source>Search on page...</source>
         <translation>ページを検索...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="783"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="191"/>
         <source>Full Search</source>
         <translation>すべて検索</translation>
     </message>
@@ -481,12 +485,12 @@
         <translation type="vanished">キーエラー</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="172"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="181"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>この接続に関連する値とコンソールのタブを閉じます。続行しますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="184"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="193"/>
         <source>Do you really want to delete connection?</source>
         <translation>接続を本当に削除しますか?</translation>
     </message>
@@ -893,8 +897,8 @@
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="105"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="254"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="675"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
@@ -1124,9 +1128,8 @@
         <translation>戻る</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="154"/>
         <source>Enter Filter</source>
-        <translation>フィルターを入力</translation>
+        <translation type="vanished">フィルターを入力</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
@@ -1359,7 +1362,7 @@
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="70"/>
-        <location filename="../../qml/value-editor/ValueTabs.qml" line="241"/>
+        <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="443"/>
         <source>Save</source>
         <translation>保存</translation>
@@ -1473,7 +1476,7 @@
         <translation>値(JSONオブジェクト形式)</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/listkey.cpp" line="83"/>
+        <location filename="../../app/models/key-models/listkey.cpp" line="127"/>
         <source>The row has been changed on server.Reload and try again.</source>
         <translation>サーバ上のROWが更新されました。リロードしてからやりなおしてください。</translation>
     </message>
@@ -1573,6 +1576,21 @@
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
+        <source>Order of elements:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/ListFilters.qml" line="20"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
+        <source>Reverse</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
