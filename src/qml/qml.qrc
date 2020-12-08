@@ -67,5 +67,6 @@
         <file>value-editor/ValueTable.qml</file>
         <file>value-editor/ValueTableActions.qml</file>
         <file>value-editor/filters/ListFilters.qml</file>
+        <file>value-editor/filters/StreamFilters.qml</file>
     </qresource>
 </RCC>

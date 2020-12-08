@@ -419,7 +419,9 @@ RowLayout {
             Layout.preferredHeight: 40
             visible: status === Loader.Ready
 
-            source: keyModel && keyType === "list"? "./filters/ListFilters.qml"  : ""
+            source: keyModel && (keyType === "list" || keyType === "stream") ?
+                        "./filters/" + String(keyType)[0].toUpperCase()
+                        + String(keyType).substring(1) +"Filters.qml"  : ""
         }
 
     }
