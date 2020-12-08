@@ -25,7 +25,7 @@ FastTextView {
 
     Connections {
         id: modelConnections
-        onLog: {
+        function onLog(msg) {
             if (model.count > 1500) {
                 model.remove(0, model.count - 1000)
             }
