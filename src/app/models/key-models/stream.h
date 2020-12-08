@@ -18,6 +18,8 @@ class StreamKeyModel : public KeyModel<QPair<QByteArray, QVariant>> {
 
   void removeRow(int, Callback) override;
 
+   void loadRowsCount(ValueEditor::Model::Callback c) override;
+
  protected:
   int addLoadedRowsToCache(const QVariantList &list,
                            QVariant rowStart) override;

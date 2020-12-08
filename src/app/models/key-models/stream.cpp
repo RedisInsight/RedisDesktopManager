@@ -76,6 +76,45 @@ void StreamKeyModel::removeRow(int i, ValueEditor::Model::Callback c) {
   executeCmd({"XDEL", m_keyFullPath, m_rowsCache[i].first}, c);
 }
 
+void StreamKeyModel::loadRowsCount(ValueEditor::Model::Callback c)
+{
+  executeCmd(
+      {"XINFO", "STREAM", m_keyFullPath}, c,
+      [this](RedisClient::Response r, Callback c) {
+        auto info = r.value().toList();
+        auto it = info.begin();
+
+        while (it != info.end()) {
+          if (!it->canConvert(QMetaType::QByteArray)) {
+            continue;
+          }
+
+          QByteArray propertyName = it->toByteArray();
+
+          it++;
+
+          if (it == info.end())
+              break;
+
+          if (propertyName == QByteArray("length")) {
+            m_rowCount = it->toLongLong();
+          } else if (propertyName == QByteArray("first-entry") ||
+                     propertyName == QByteArray("last-entry")) {
+            auto list = it->toList();
+
+            if (list.size() > 0) {
+              m_filters[QString::fromLatin1(propertyName)] = list[0];
+            }
+          }
+
+          it++;
+        }
+
+        c(QString());
+      },
+      RedisClient::Response::Type::Array);
+}
+
 int StreamKeyModel::addLoadedRowsToCache(const QVariantList &rows,
                                          QVariant rowStartId) {
   QList<QPair<QByteArray, QVariant>> result;
