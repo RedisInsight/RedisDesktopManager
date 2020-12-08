@@ -350,20 +350,20 @@ Dialog {
                         Connections {
                             target: bulkOperations
 
-                            onAffectedKeys: {
+                            function onAffectedKeys(r) {
                                 console.log("Affected keys loaded")
                                 affectedKeysListView.model = r
                                 uiBlocker.visible = false
                             }
 
-                            onOperationFinished: {
+                            function onOperationFinished() {
                                 affectedKeysListView.model = []
                                 uiBlocker.visible = false
                                 bulkSuccessNotification.text = qsTr("Bulk Operation finished.")
                                 bulkSuccessNotification.open()
                             }
 
-                            onError: {
+                            function onError(e) {
                                 showError(qsTr("Bulk Operation finished with errors"), e, details)
                             }
                         }

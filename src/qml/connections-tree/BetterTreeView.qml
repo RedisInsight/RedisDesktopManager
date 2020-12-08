@@ -241,7 +241,13 @@ TreeView {
 
     Connections {
         target: connectionsManager
-        onExpand: !root.isExpanded(index) && root.expand(index)
+
+        function onExpand(index) {
+            if (root.isExpanded(index))
+                return
+
+            root.expand(index)
+        }
     }
 
 

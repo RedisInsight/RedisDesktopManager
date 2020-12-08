@@ -159,13 +159,13 @@ ApplicationWindow {
     Connections {
         target: serverStatsModel
         ignoreUnknownSignals: true
-        onError: notification.showError(error)
+        function onError(error) { notification.showError(error) }
     }
 
     Connections {
         target: keyFactory
 
-        onNewKeyDialog: {
+        function onNewKeyDialog(r) {
             addNewKeyDialog.request = r
             addNewKeyDialog.open()
         }
@@ -178,7 +178,7 @@ ApplicationWindow {
     Connections {
         target: bulkOperations
 
-        onOpenDialog: {
+        function onOpenDialog(operationName) {
             bulkOperationDialog.operationName = operationName
             bulkOperationDialog.open()
         }
@@ -187,7 +187,7 @@ ApplicationWindow {
     Connections {
         target: appEvents
 
-        onError: {
+        function onError(msg) {
             notification.showError(msg)
         }
     }
@@ -195,18 +195,18 @@ ApplicationWindow {
     Connections {
         target: connectionsManager
 
-        onEditConnection: {
+        function onEditConnection(config) {
             connectionSettingsDialog.settings = config
             connectionSettingsDialog.open()
         }
 
-        onEditConnectionGroup: {
+        function onEditConnectionGroup(group) {
             connectionGroupDialog.group = group
             connectionGroupDialog.open()
         }
 
         Component.onCompleted: {
-            if (connectionsManager.size() == 0)
+            if (connectionsManager.size() === 0)
                 quickStartDialog.open()
         }
     }
@@ -397,7 +397,8 @@ ApplicationWindow {
             Connections {
                 target: valuesModel
                 ignoreUnknownSignals: true
-                onKeyError: {
+
+                function onKeyError(error) {
                     if (index != -1)
                         tabs.currentIndex = index
 

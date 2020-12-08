@@ -87,13 +87,14 @@ BetterDialog {
                     Connections {
                         target: keyFactory
 
-                        onKeyAdded: {
+                        function onKeyAdded() {
                             root.request = null
                             valueAddEditor.item.reset()
                             valueAddEditor.item.initEmpty()
                             root.close()
                         }
-                        onError: {
+
+                        function onError(err) {
                             addError.text = err
                             addError.open()
                         }

@@ -50,7 +50,6 @@ RowLayout {
                         anchors.margins: 10
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 8
                         text: "▲"
                         color: sysPalette.mid
                         visible: false
@@ -189,12 +188,12 @@ RowLayout {
 
                         target: keyTab.keyModel ? keyTab.keyModel : null
 
-                        onError: {
+                        function onError(error) {
                             valueErrorNotification.text = error
                             valueErrorNotification.open()
                         }
 
-                        onIsLoadedChanged: {
+                        function onIsLoadedChanged() {
                             console.log("model loaded (qml)")
                             if (keyTab.keyModel.totalRowCount === 0) {
                                 console.log("Load rows count")
@@ -205,11 +204,11 @@ RowLayout {
                             }
                         }
 
-                        onTotalRowCountChanged: {
+                        function onTotalRowCountChanged() {
                             keyTab.keyModel.loadRows(table.currentStart, table.maxItemsOnPage)
                         }
 
-                        onRowsLoaded: {
+                        function onRowsLoaded() {
                             console.log("rows loaded")
 
                             wrapper.hideLoader()
@@ -293,6 +292,7 @@ RowLayout {
 
             Layout.fillWidth: true
             Layout.preferredHeight: 40
+            visible: status === Loader.Ready
 
             source: keyModel && keyType === "list"? "./filters/ListFilters.qml"  : ""
         }

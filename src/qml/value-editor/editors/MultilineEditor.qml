@@ -480,12 +480,12 @@ Item
                     Connections {
                         target: keyTab.keyModel ? keyTab.keyModel : null
 
-                        onValueUpdated: {
+                        function valueUpdated() {
                             root.isEdited = false
                             saveBtnTimer.resetSaveBtn()
                         }
 
-                        onError: saveBtnTimer.resetSaveBtn()
+                        function error() { saveBtnTimer.resetSaveBtn() }
                     }
 
                     Timer {
