@@ -1775,17 +1775,17 @@
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
         <source>Order of elements:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">要素排序</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="20"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">反向</translation>
     </message>
 </context>
 <context>
