@@ -1554,17 +1554,17 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Edit Connections Group</source>
-        <translation>編輯連線的組別</translation>
+        <translation>編輯連線的群組</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Add New Connections Group</source>
-        <translation>新增連線組別</translation>
+        <translation>新增連線群組</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
         <source>Group Name:</source>
-        <translation>組別名稱:</translation>
+        <translation>群組名稱:</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
@@ -1762,32 +1762,32 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
         <source>Edit Connection Group</source>
-        <translation>編輯連線組別</translation>
+        <translation>編輯連線群組</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
         <source>Delete Connection Group</source>
-        <translation>刪除連線組別</translation>
+        <translation>刪除連線群組</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation>您真的要刪除組別&lt;b&gt;以及其中的連線&lt;/b&gt;嗎？</translation>
+        <translation>您真的要刪除群組&lt;b&gt;以及其中的連線&lt;/b&gt;嗎？</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
         <source>Order of elements:</source>
-        <translation type="unfinished"></translation>
+        <translation>元素排序:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="20"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>預設</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
-        <translation type="unfinished"></translation>
+        <translation>倒序</translation>
     </message>
 </context>
 <context>
