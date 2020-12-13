@@ -2,16 +2,25 @@ from .binary import BinaryFormatter
 from .cbor import CBORFormatter
 from .msgpack import MsgpackFormatter
 from .phpserialize import PhpSerializeFormatter
-from .pickle import PickleFormatter
 
+try:
+    from .pickle import PickleFormatter
+    pickle_formatter_loaded = True
+except Exception:
+    pickle_formatter_loaded = False
 
 ENABLED_FORMATTERS = {
     "binary": BinaryFormatter(),
     "cbor": CBORFormatter(),
     "msgpack": MsgpackFormatter(),
     "php": PhpSerializeFormatter(),
-    "pickle": PickleFormatter(),
 }
+
+# NOTE(u_glide): Numpy doesn't work on Windows 20.04
+# For more info and progress on this issue see
+# https://github.com/numpy/numpy/issues/16744
+if pickle_formatter_loaded:
+    ENABLED_FORMATTERS["pickle"] = PickleFormatter()
 
 
 def get_formatters_list():
