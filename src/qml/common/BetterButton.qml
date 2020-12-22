@@ -13,6 +13,7 @@ Button {
     icon.color: "transparent"
     implicitHeight: 30
     opacity: root.enabled ? 1.0 : 0.8
+    font.capitalization: Font.Capitalize
 
     palette.button: sysPalette.button
     palette.windowText: sysPalette.text
