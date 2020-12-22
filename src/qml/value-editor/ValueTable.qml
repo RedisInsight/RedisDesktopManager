@@ -16,7 +16,7 @@ RowLayout {
     Layout.fillWidth: true
     Layout.fillHeight: false
     Layout.bottomMargin: 10
-    SplitView.minimumHeight: 250
+    SplitView.minimumHeight: 260
     visible: keyModel? isMultiRow : false
 
     property var resizeGuide: null

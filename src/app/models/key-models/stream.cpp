@@ -150,15 +150,25 @@ int StreamKeyModel::addLoadedRowsToCache(const QVariantList &rows,
 QList<QByteArray> StreamKeyModel::getRangeCmd(QVariant rowStartId,
                                               unsigned long count) {
   QList<QByteArray> cmd;
+  cmd << "XREVRANGE" << m_keyFullPath;
 
-  unsigned long rowStart = rowStartId.toULongLong();
-
-  QByteArray startFrom = "+";
-
-  if (isRowLoaded(rowStart - 1)) {
-    startFrom = m_rowsCache[rowStart - 1].first;
+  if (filter("end").isNull()) {  // end
+    cmd << "+";
+  } else {
+    cmd << QString::number(filter("end").toLongLong()).toLatin1();
   }
 
-  return (cmd << "XREVRANGE" << m_keyFullPath << startFrom << "-"
-              << "COUNT" << QString::number(count).toLatin1());
+  if (filter("start").isNull()) {  // start
+    unsigned long rowStart = rowStartId.toULongLong();
+
+    if (isRowLoaded(rowStart - 1)) {
+      cmd << m_rowsCache[rowStart - 1].first;
+    } else {
+       cmd << "-";
+    }
+  } else {
+    cmd << QString::number(filter("start").toLongLong()).toLatin1();
+  }
+
+  return cmd << "COUNT" << QString::number(count).toLatin1();
 }

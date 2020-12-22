@@ -166,17 +166,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="67"/>
+        <location filename="../../app/app.cpp" line="80"/>
         <source>Settings directory is not writable</source>
         <translation>設定したディレクトリは書き込みできません</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="69"/>
+        <location filename="../../app/app.cpp" line="82"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="357"/>
+        <location filename="../../app/app.cpp" line="370"/>
         <source>Please download new version of RDM: %1</source>
         <translation>新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
     </message>
@@ -1600,6 +1600,16 @@
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
+        <source>Start date should be less than End date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
+        <source>Apply filter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

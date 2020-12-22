@@ -166,17 +166,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="67"/>
+        <location filename="../../app/app.cpp" line="80"/>
         <source>Settings directory is not writable</source>
         <translation>El directorio de ajustes no es grabable</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="69"/>
+        <location filename="../../app/app.cpp" line="82"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos del fichero o reinicia RDM como administrador.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="357"/>
+        <location filename="../../app/app.cpp" line="370"/>
         <source>Please download new version of RDM: %1</source>
         <translation>Por favor descarga la nueva versión de RDM: %1</translation>
     </message>
@@ -1796,6 +1796,16 @@
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
+        <source>Start date should be less than End date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
+        <source>Apply filter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
