@@ -28,7 +28,7 @@ void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
     return c(err);
   };
 
-  verifyListItemPosistion(dbRowIndex, [this, dbRowIndex, c, newRow,
+  verifyListItemPosition(dbRowIndex, [this, dbRowIndex, c, newRow,
                                        afterRowUpdate](const QString &err) {
     if (err.size() > 0) return c(err);
 
@@ -75,7 +75,7 @@ void ListKeyModel::removeRow(int i, ValueEditor::Model::Callback c) {
     dbRowIndex = -i - 1;
   }
 
-  verifyListItemPosistion(
+  verifyListItemPosition(
       dbRowIndex, [this, dbRowIndex, c, onItemHidding](const QString &err) {
         if (err.size() > 0) return c(err);
 
@@ -109,7 +109,7 @@ int ListKeyModel::addLoadedRowsToCache(const QVariantList &rows,
   }
 }
 
-void ListKeyModel::verifyListItemPosistion(int row, Callback c) {
+void ListKeyModel::verifyListItemPosition(int row, Callback c) {
   auto verifyResponse = [this, row](RedisClient::Response r, Callback c) {
     QVariantList currentState = r.value().toList();        
     QByteArray cachedValue;
