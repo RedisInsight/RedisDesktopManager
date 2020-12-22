@@ -23,7 +23,7 @@ protected:
 
 
  private:
-  void verifyListItemPosistion(int row, Callback c);
+  void verifyListItemPosition(int row, Callback c);
   void addListRow(const QByteArray &value, Callback c);
   void setListRow(int pos, const QByteArray &value, Callback c);
   void deleteListRow(int count, const QByteArray &value, Callback c);
