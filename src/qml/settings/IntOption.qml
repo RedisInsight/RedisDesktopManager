@@ -26,12 +26,14 @@ Item {
 
             BetterLabel {
                 Layout.fillWidth: true
+                Layout.fillHeight: !root.description
                 text: root.label
             }
 
             Text {
                 color: "#cccccc"
                 text: root.description
+                visible: !!text
             }
         }
 
