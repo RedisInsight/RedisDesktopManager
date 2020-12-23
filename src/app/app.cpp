@@ -13,6 +13,11 @@
 #include <QtQml>
 #include <QSslSocket>
 
+#if defined(Q_OS_WINDOWS)
+#include "win_darkmode.h"
+#include <QStyleFactory>
+#endif
+
 #include "common/tabviewmodel.h"
 #include "events.h"
 #include "models/configmanager.h"
@@ -43,6 +48,14 @@ Application::Application(int& argc, char** argv)
   initProxySettings();
   processCmdArgs();
   initAppFonts();
+
+#if defined(Q_OS_WINDOWS)
+  if (isWindowsDarkThemeEnabled()) {
+    setStyle(QStyleFactory::create("Fusion"));
+    setPalette(createDarkModePalette());
+  }
+#endif
+
   initRedisClient();
 #ifndef RDM_APPSTORE
   initUpdater();
