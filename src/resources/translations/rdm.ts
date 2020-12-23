@@ -143,7 +143,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="256"/>
+        <location filename="../../qml/GlobalSettings.qml" line="286"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="364"/>
-        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="396"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="357"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="389"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="407"/>
-        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="425"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="400"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
         <source>Cannot flush db (%1): %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -670,99 +670,99 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="259"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="260"/>
         <source>Public Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="264"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="266"/>
         <source>(Optional) Public Key in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="266"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="268"/>
         <source>Select public key in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="276"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="279"/>
         <source>(Optional) Private Key in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="278"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="378"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="281"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="379"/>
         <source>Select private key in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="283"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="286"/>
         <source>Authority:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="288"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="292"/>
         <source>(Optional) Authority in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="290"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="294"/>
         <source>Select authority file in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="309"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="313"/>
         <source>SSH Tunnel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="335"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="336"/>
         <source>SSH Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="339"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="340"/>
         <source>Remote Host with SSH server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="347"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="348"/>
         <source>SSH User:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="353"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="354"/>
         <source>Valid SSH User Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="271"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="360"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="273"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="361"/>
         <source>Private Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="376"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="377"/>
         <source>Path to Private Key in PEM format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="386"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="387"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="391"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="392"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="402"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="403"/>
         <source>SSH User Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="413"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="414"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -777,83 +777,83 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="236"/>
         <source>SSL / TLS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="295"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="299"/>
         <source>Enable strict mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="436"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="437"/>
         <source>Keys loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="440"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="441"/>
         <source>Default filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="446"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="447"/>
         <source>Pattern which defines loaded keys from redis-server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="453"/>
         <source>Namespace Separator:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="459"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="460"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="466"/>
         <source>Timeouts &amp; Limits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="469"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="470"/>
         <source>Connection Timeout (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="482"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="483"/>
         <source>Execution Timeout (sec):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="493"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="494"/>
         <source>Databases discovery limit:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="507"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="508"/>
         <source>Cluster</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="511"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="512"/>
         <source>Change host on cluster redirects:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="564"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="565"/>
         <source>Invalid settings detected!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="536"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="537"/>
         <source>Test Connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="572"/>
-        <location filename="../../qml/GlobalSettings.qml" line="244"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="573"/>
+        <location filename="../../qml/GlobalSettings.qml" line="274"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="606"/>
@@ -861,113 +861,110 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="584"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="587"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="105"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="106"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="43"/>
+        <location filename="../../qml/GlobalSettings.qml" line="47"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="59"/>
+        <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="48"/>
-        <source>Application will be restarted to apply this setting.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="70"/>
+        <location filename="../../qml/GlobalSettings.qml" line="93"/>
+        <location filename="../../qml/GlobalSettings.qml" line="128"/>
         <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="82"/>
+        <location filename="../../qml/GlobalSettings.qml" line="105"/>
+        <location filename="../../qml/GlobalSettings.qml" line="141"/>
         <source>Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="94"/>
-        <source>Value Editor Font</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="107"/>
-        <source>Value Editor Font Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="121"/>
+        <location filename="../../qml/GlobalSettings.qml" line="155"/>
         <source>Maximum Formatted Value Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="122"/>
+        <location filename="../../qml/GlobalSettings.qml" line="156"/>
         <source>Size in bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="132"/>
+        <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="138"/>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply this settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="113"/>
+        <source>Value Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="162"/>
         <source>Connections Tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="149"/>
+        <location filename="../../qml/GlobalSettings.qml" line="178"/>
         <source>Reopen namespaces on reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="150"/>
-        <location filename="../../qml/GlobalSettings.qml" line="161"/>
+        <location filename="../../qml/GlobalSettings.qml" line="179"/>
+        <location filename="../../qml/GlobalSettings.qml" line="190"/>
         <source>(Disable to improve treeview performance)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="160"/>
+        <location filename="../../qml/GlobalSettings.qml" line="189"/>
         <source>Enable key sorting in tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="173"/>
+        <location filename="../../qml/GlobalSettings.qml" line="202"/>
         <source>Live update maximum allowed keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="186"/>
+        <location filename="../../qml/GlobalSettings.qml" line="214"/>
         <source>Live update interval (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="192"/>
+        <location filename="../../qml/GlobalSettings.qml" line="222"/>
         <source>External Value View Formatters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="197"/>
+        <location filename="../../qml/GlobalSettings.qml" line="227"/>
         <source>Formatters path: %0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="213"/>
+        <location filename="../../qml/GlobalSettings.qml" line="243"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="218"/>
+        <location filename="../../qml/GlobalSettings.qml" line="248"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -982,7 +979,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="545"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="546"/>
         <location filename="../../qml/QuickStartDialog.qml" line="46"/>
         <source>Quick Start Guide</source>
         <translation type="unfinished"></translation>
@@ -1165,7 +1162,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="228"/>
+        <location filename="../../qml/GlobalSettings.qml" line="258"/>
         <location filename="../../qml/console/RedisConsole.qml" line="209"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
@@ -1266,7 +1263,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="222"/>
+        <location filename="../../qml/GlobalSettings.qml" line="252"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
@@ -1348,7 +1345,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="116"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="117"/>
         <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="222"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
@@ -1490,7 +1487,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/common/FilePathInput.qml" line="26"/>
+        <location filename="../../qml/common/FilePathInput.qml" line="27"/>
         <source>Select File</source>
         <translation type="unfinished"></translation>
     </message>
