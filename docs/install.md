@@ -31,7 +31,7 @@
     
 2. Get the source code:
     ```
-    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2020 rdm && cd ./rdm
+    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2021 rdm && cd ./rdm
     ```
 
 > !!! warning "SSH Tunneling support"
