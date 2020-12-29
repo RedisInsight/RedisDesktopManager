@@ -11,12 +11,15 @@ import rdm.models 1.0
 import Qt.labs.qmlmodels 1.0
 
 RowLayout {
+    id: root
 
     Layout.fillWidth: true
     Layout.fillHeight: false
     Layout.bottomMargin: 10
     SplitView.minimumHeight: 250
     visible: keyModel? isMultiRow : false
+
+    property var resizeGuide: null
 
     ColumnLayout {
         id: tableLayout
@@ -36,8 +39,16 @@ RowLayout {
 
                 Rectangle {  // Table header cell
                     Layout.preferredHeight: 30
-                    Layout.preferredWidth: 75
-                    Layout.fillWidth: index !== 0
+                    Layout.minimumWidth: {
+                        if (table.valueColumnWidthOverrides && table.valueColumnWidthOverrides[index] !== undefined) {
+                            return table.valueColumnWidthOverrides[index];
+                        }
+
+                        if (index === 0)
+                            return table.firstColumnWidth
+                        else
+                            return table.valueColumnWidth
+                    }
                     color: sysPalette.window
 
                     BetterLabel {
@@ -71,6 +82,79 @@ RowLayout {
                             table.sort(role, order)
                         }
                     }
+
+
+                    Rectangle {
+                        id: resizeHandler
+
+                        visible: index > 0 && index < keyTab.keyModel.columnNames.length - 1
+
+                        color: "transparent"
+
+                        height: parent.height
+                        implicitWidth: 5
+
+                        anchors {
+                            top: parent.top
+                            topMargin: 2
+                            bottom: parent.bottom
+                            bottomMargin: 2
+                            right: parent.right
+                        }
+
+                        MouseArea {
+                            id: resizeMouseArea
+
+                            anchors.fill: parent
+
+                            cursorShape: Qt.SizeHorCursor
+                            hoverEnabled: true
+                            drag {
+                                target: resizeHandler
+                                minimumX: 20
+                                smoothed: false
+                            }
+
+                            onPressed: {
+                                resizeHandler.anchors.right = undefined;
+                                if (root.resizeGuide !== null) {
+                                    root.resizeGuide.destroy();
+                                }
+                                var guide = resizeMarker.createObject(resizeHandler);
+                                root.resizeGuide = guide;
+                                guide.open();
+                            }
+
+                            onReleased: {
+                                if (resizeHandler.x > 0) {
+                                    table.setColumnWidth(index, resizeHandler.x);
+                                }
+                                resizeHandler.anchors.right = resizeHandler.parent.right;
+                                if (root.resizeGuide !== null) {
+                                    root.resizeGuide.destroy();
+                                }
+                            }
+                        }
+
+                    }
+
+                    Component {
+                        id: resizeMarker
+
+                        Popup {
+                            y: resizeHandler.y + parent.height - 6
+
+                            height: table.height + 6
+                            width: 2
+
+                            background: Rectangle {
+                                color: sysPalette.window
+                            }
+
+                            contentItem: Item {}
+                        }
+                    }
+
                 }  // Table header cell end
             }
         }
@@ -111,7 +195,48 @@ RowLayout {
                     property bool forceLoading: false
                     property int firstColumnWidth: 75
                     property int valueColumnWidth:  keyTab.keyModel && keyTab.keyModel.columnNames.length == 2? tableLayout.width - table.firstColumnWidth - table.columnSpacing
-                                                                                                              : (tableLayout.width - table.firstColumnWidth - table.columnSpacing) / 2
+                                                                                                              : (tableLayout.width - table.firstColumnWidth - table.columnSpacing) / 2                    
+                    property var valueColumnWidthOverrides: QtObject {}
+
+                    columnWidthProvider: function (column) {
+                        if (column === 0) {
+                            return firstColumnWidth
+                        }
+
+                        if (valueColumnWidthOverrides && valueColumnWidthOverrides[column] !== undefined) {
+                            return valueColumnWidthOverrides[column]
+                        }
+
+                        return valueColumnWidth
+                    }
+
+                    property int minColWidth: 50
+
+                    function setColumnWidth(index, width) {
+                        if (width < minColWidth)
+                            width = minColWidth
+
+                        if (keyTab.keyModel.columnNames.length == 2) {
+                            table.valueColumnWidthOverrides[index] = width;
+                        } else {
+                            for (var i=1; i < 3; i++)
+                            {
+                                if (i === index) {
+                                    table.valueColumnWidthOverrides[i] = width;
+                                } else {
+                                    table.valueColumnWidthOverrides[i] = tableLayout.width - table.firstColumnWidth - table.columnSpacing - width;
+
+                                    if (table.valueColumnWidthOverrides[i] < minColWidth)
+                                        return setColumnWidth(i, minColWidth)
+                                }
+                            }
+                        }
+
+                        table.forceLayout()
+                        tableHeader.model = []
+                        tableHeader.model = keyTab.keyModel.columnNames
+                    }
+
                     Component.onCompleted: keyTab.table = table
 
                     delegate: DelegateChooser {
