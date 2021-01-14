@@ -4,6 +4,10 @@ import QtQuick.Controls 2.3
 TextField {
     id: control
     property bool validationError: false
+    property int  bgImplicitWidth: 200
+    property int  bgImplicitHeight: 30
+    property string tooltip
+
     selectByMouse: true
 
     color: sysPalette.text
@@ -11,8 +15,8 @@ TextField {
     selectedTextColor: sysPalette.highlightedText
 
     background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: 30
+        implicitWidth: control.bgImplicitWidth
+        implicitHeight: control.bgImplicitHeight
         color: sysPalette.button
         border.width: control.validationError? 2 : 1
         border.color: {
@@ -21,5 +25,9 @@ TextField {
 
             return control.activeFocus ? sysPalette.highlight : sysPalette.mid
         }
+    }
+
+    BetterToolTip {
+        title: control.tooltip
     }
 }

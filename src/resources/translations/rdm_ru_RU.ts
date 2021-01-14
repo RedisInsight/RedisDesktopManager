@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="357"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="389"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="357"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="389"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="400"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="400"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="418"/>
         <source>Cannot flush db (%1): %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -386,7 +386,12 @@
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/Pagination.qml" line="30"/>
+        <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
+        <source>Total pages: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
         <source>Size: </source>
