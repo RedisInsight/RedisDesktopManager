@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="357"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="389"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="357"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="389"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>无法连接集群节点 %1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="400"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="400"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="418"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>无法刷新库 (%1): %2</translation>
     </message>
@@ -166,17 +166,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="67"/>
+        <location filename="../../app/app.cpp" line="80"/>
         <source>Settings directory is not writable</source>
         <translation>设置保存文件夹没有写入权限</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="69"/>
+        <location filename="../../app/app.cpp" line="82"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="357"/>
+        <location filename="../../app/app.cpp" line="370"/>
         <source>Please download new version of RDM: %1</source>
         <translation>请下载新版本的 RDM: %1</translation>
     </message>
@@ -406,7 +406,12 @@
         <translation>新名称：</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/Pagination.qml" line="30"/>
+        <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
+        <source>Total pages: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
         <source>Size: </source>

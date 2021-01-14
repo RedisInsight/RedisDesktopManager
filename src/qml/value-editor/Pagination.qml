@@ -5,28 +5,43 @@ import "../common"
 
 ColumnLayout {    
     GridLayout {
-        columns: 3
+        columns: 2
         Layout.fillWidth: true
 
         BetterLabel {
-            text: qsTranslate("RDM","Page") + " "
+            text: qsTranslate("RDM","Page") + ":"
             wrapMode: Text.WrapAnywhere
         }
 
-        BetterLabel {
+        BetterTextField {
             id: pageField;
+
             text: table.currentPage;
-            Layout.maximumWidth: 60;
+
+            tooltip: qsTranslate("RDM", "Total pages: ") + table.totalPages
+
+            Layout.fillWidth: true
+
+            validator: IntValidator {
+              locale: pageField.locale.name
+              bottom: 1
+              top: table.totalPages
+            }
+
+            onFocusChanged: {
+                if (focus)
+                    return;
+
+                text = Qt.binding(function() { return table.currentPage; });
+            }
+
+            onAccepted: {
+                table.goToPage(text)
+            }
         }
 
         BetterLabel {
-            Layout.maximumWidth: 130
-            text: " of " + table.totalPages
-            wrapMode: Text.WrapAnywhere
-        }
-
-        BetterLabel {
-            Layout.columnSpan: 3
+            Layout.columnSpan: 2
             text:  qsTranslate("RDM","Size: ") + keyRowsCount
         }
     }

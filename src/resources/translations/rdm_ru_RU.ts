@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="357"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="389"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="357"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="389"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="400"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="400"/>
+        <location filename="../../../../qredisclient/src/qredisclient/connection.cpp" line="418"/>
         <source>Cannot flush db (%1): %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -166,17 +166,17 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="67"/>
+        <location filename="../../app/app.cpp" line="80"/>
         <source>Settings directory is not writable</source>
         <translation>Папка настроек недоступна для записи</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="69"/>
+        <location filename="../../app/app.cpp" line="82"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="357"/>
+        <location filename="../../app/app.cpp" line="370"/>
         <source>Please download new version of RDM: %1</source>
         <translation>Скачайте новую версию RDM: %1</translation>
     </message>
@@ -386,7 +386,12 @@
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/Pagination.qml" line="30"/>
+        <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
+        <source>Total pages: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
         <source>Size: </source>
