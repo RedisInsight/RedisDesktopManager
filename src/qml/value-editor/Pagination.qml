@@ -13,10 +13,14 @@ ColumnLayout {
             wrapMode: Text.WrapAnywhere
         }
 
-        BetterLabel {
+        BetterTextField {
             id: pageField;
             text: table.currentPage;
             Layout.maximumWidth: 60;
+
+            onAccepted: {
+                table.goToPage(text)
+            }
         }
 
         BetterLabel {
