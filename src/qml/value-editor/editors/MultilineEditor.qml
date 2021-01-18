@@ -437,12 +437,11 @@ Item
                     id: saveBtn
                     objectName: "rdm_value_editor_save_btn"
 
-                    iconSource: "qrc:/images/save.svg"
+                    state: "default"
                     implicitWidth: isMultiRow ? 100 : 105
 
                     text: qsTranslate("RDM","Save")
                     tooltip: qsTranslate("RDM","Save Changes") + " (" + shortcutText + ")"
-                    enabled: !showOnlyRWformatters && root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
                     visible: showSaveBtn
 
                     property string shortcutText: ""
@@ -467,6 +466,15 @@ Item
 
                     states: [
                         State {
+                            name: "default"
+
+                            PropertyChanges {
+                                target: saveBtn
+                                iconSource: "qrc:/images/save.svg"
+                                enabled: !showOnlyRWformatters && root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
+                            }
+                        },
+                        State {
                             name: "saving"
 
                             PropertyChanges {
@@ -480,12 +488,12 @@ Item
                     Connections {
                         target: keyTab.keyModel ? keyTab.keyModel : null
 
-                        function valueUpdated() {
+                        function onValueUpdated() {
                             root.isEdited = false
                             saveBtnTimer.resetSaveBtn()
                         }
 
-                        function error() { saveBtnTimer.resetSaveBtn() }
+                        function onError() { saveBtnTimer.resetSaveBtn() }
                     }
 
                     Timer {
@@ -497,7 +505,7 @@ Item
 
                         function resetSaveBtn() {
                             saveBtnTimer.stop()
-                            saveBtn.state = ""
+                            saveBtn.state = "default"
                         }
                     }
                 }
