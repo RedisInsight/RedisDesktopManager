@@ -330,6 +330,12 @@ Repeater {
                     // Table
                     ValueTable {
                         id: navigationTable
+
+                        Layout.fillWidth: true
+                        Layout.fillHeight: false
+                        Layout.bottomMargin: 10
+                        SplitView.minimumHeight: 275
+                        visible: keyModel? isMultiRow : false
                     }
 
                     // Value editor
