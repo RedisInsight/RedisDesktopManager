@@ -3,6 +3,7 @@
 #include <QCoreApplication>
 #include <QMenu>
 #include <QMessageBox>
+#include <QSettings>
 
 #include "app/apputils.h"
 #include "connections-tree/items/abstractnamespaceitem.h"
@@ -26,10 +27,25 @@ KeyItem::KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
     : TreeItem(model),
       m_fullPath(fullPath),
       m_parent(parent),
-      m_removed(false) {}
+      m_removed(false) {
+  QSettings settings;
+  m_shortRendering =
+      settings.value("app/namespacedKeysShortName", true).toBool();
+}
 
 QString KeyItem::getDisplayName() const {
-  QString title = printableString(getFullPath(), true);
+  QString title;
+
+  if (m_parent && m_parent.toStrongRef()->type() == "namespace" &&
+      m_shortRendering) {
+    auto parent = parentTreeItemToNs(m_parent);
+
+    title = printableString(getFullPath().mid(
+        parent->getFullPath().size() +
+        parent->operations()->getNamespaceSeparator().size()));
+  } else {
+    title = printableString(getFullPath(), true);
+  }
 
   if (m_usedMemory > 0) {
     title.append(QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));

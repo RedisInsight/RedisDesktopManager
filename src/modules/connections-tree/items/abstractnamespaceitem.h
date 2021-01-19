@@ -41,10 +41,7 @@ class AbstractNamespaceItem : public QObject, public TreeItem, public MemoryUsag
     m_rawChildKeys.append(k);
   }
 
-  virtual void appendNamespace(QSharedPointer<AbstractNamespaceItem> item) {
-    m_childNamespaces[item->getName()] = item;
-    m_childItems.append(item.staticCast<TreeItem>());
-  }
+  virtual void appendNamespace(QSharedPointer<AbstractNamespaceItem> item);
 
   virtual QSharedPointer<AbstractNamespaceItem> findChildNamespace(
       const QByteArray& name) {

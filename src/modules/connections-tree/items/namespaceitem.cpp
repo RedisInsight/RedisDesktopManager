@@ -32,8 +32,13 @@ QString NamespaceItem::getDisplayName() const {
 }
 
 QByteArray NamespaceItem::getName() const {
-  return m_fullPath.mid(
-      m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator()) + 1);
+  qsizetype pos = m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator());
+
+  if (pos >= 0) {
+      return m_fullPath.mid(pos + m_operations->getNamespaceSeparator().size());
+  } else {
+      return m_fullPath;
+  }
 }
 
 bool NamespaceItem::isEnabled() const { return m_removed == false; }

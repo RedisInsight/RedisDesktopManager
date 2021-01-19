@@ -42,16 +42,32 @@ QWeakPointer<TreeItem> AbstractNamespaceItem::parent() const {
   return m_parent;
 }
 
+bool compareNamespaces(QSharedPointer<TreeItem> first,
+                       QSharedPointer<TreeItem> second) {
+
+  if (first->type() != second->type())
+      return first->type() > second->type();
+
+  return first->getDisplayName() < second->getDisplayName();
+}
+
+void AbstractNamespaceItem::appendNamespace(QSharedPointer<AbstractNamespaceItem> item) {
+    m_childNamespaces[item->getName()] = item;
+    m_childItems.append(item.staticCast<TreeItem>());
+
+    std::sort(m_childItems.begin(), m_childItems.end(), compareNamespaces);
+}
+
 uint AbstractNamespaceItem::childCount(bool recursive) const {
-  if (!recursive) {
-    if (m_rawChildKeys.size() > 0) {
-      return 0;
+    if (!recursive) {
+        if (m_rawChildKeys.size() > 0) {
+            return 0;
+        }
+
+        return m_childItems.size();
     }
 
-    return m_childItems.size();
-  }
-
-  if (m_rawChildKeys.size() > 0) {
+    if (m_rawChildKeys.size() > 0) {
     return m_rawChildKeys.size();
   }
 

@@ -180,14 +180,13 @@ Dialog {
                         }
 
                         BoolOption {
-                            id: keySorting
+                            id: namespacedKeysShortName
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
                             value: true
-                            label: qsTranslate("RDM","Enable key sorting in tree")
-                            description: qsTranslate("RDM","(Disable to improve treeview performance)")
+                            label: qsTranslate("RDM","Show only last part for namespaced keys")
                         }
 
                         IntOption {
@@ -296,8 +295,8 @@ Dialog {
         id: globalSettings
         category: "app"
 
-        property alias reopenNamespacesOnReload: nsReload.value
-        property alias enableKeySortingInTree: keySorting.value
+        property alias reopenNamespacesOnReload: nsReload.value        
+        property alias namespacedKeysShortName: namespacedKeysShortName.value
         property alias liveUpdateKeysLimit: liveKeyLimit.value
         property alias liveUpdateInterval: liveUpdateInterval.value
         property alias appFont: appFont.value

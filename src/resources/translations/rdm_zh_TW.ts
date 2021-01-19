@@ -143,7 +143,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="286"/>
+        <location filename="../../qml/GlobalSettings.qml" line="285"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -352,7 +352,7 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="141"/>
         <source>Key was added</source>
         <translation>已經插入鍵</translation>
     </message>
@@ -460,7 +460,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
-        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="130"/>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="146"/>
         <source>Do you really want to delete this key?</source>
         <translation>確定要刪除該鍵？</translation>
     </message>
@@ -989,10 +989,10 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="573"/>
-        <location filename="../../qml/GlobalSettings.qml" line="274"/>
+        <location filename="../../qml/GlobalSettings.qml" line="273"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="606"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
         <source>OK</source>
         <translation>確定</translation>
     </message>
@@ -1081,27 +1081,30 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="179"/>
-        <location filename="../../qml/GlobalSettings.qml" line="190"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(停用樹狀檢視以提高性能)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="189"/>
-        <source>Enable key sorting in tree</source>
-        <translation>打開樹狀檢視鍵名排序功能</translation>
+        <source>Show only last part for namespaced keys</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="202"/>
+        <source>Enable key sorting in tree</source>
+        <translation type="vanished">打開樹狀檢視鍵名排序功能</translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="201"/>
         <source>Live update maximum allowed keys</source>
         <translation>同步更新最大允許鍵數量</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="214"/>
+        <location filename="../../qml/GlobalSettings.qml" line="213"/>
         <source>Live update interval (in seconds)</source>
         <translation>同步更新時間 (秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="222"/>
+        <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>External Value View Formatters</source>
         <translation>外部的值格式化工具</translation>
     </message>
@@ -1110,17 +1113,17 @@
         <translation type="vanished">自訂的值格式化工具</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="227"/>
+        <location filename="../../qml/GlobalSettings.qml" line="226"/>
         <source>Formatters path: %0</source>
         <translation>格式化工具路徑: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="243"/>
+        <location filename="../../qml/GlobalSettings.qml" line="242"/>
         <source>Name</source>
         <translation>名稱</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="248"/>
+        <location filename="../../qml/GlobalSettings.qml" line="247"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
@@ -1399,7 +1402,7 @@
         <translation>參數</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="258"/>
+        <location filename="../../qml/GlobalSettings.qml" line="257"/>
         <location filename="../../qml/console/RedisConsole.qml" line="209"/>
         <source>Description</source>
         <translation>描述</translation>
@@ -1500,7 +1503,7 @@
         <translation>頻道名稱</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="252"/>
+        <location filename="../../qml/GlobalSettings.qml" line="251"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
         <source>Command</source>
         <translation>指令</translation>
@@ -1632,12 +1635,12 @@
         <translation>儲存變更</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="602"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
         <source>Binary value is too large to display</source>
         <translation>二進位制內容過長而無法顯示</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
         <source>Save value to file: </source>
         <translation>儲存值到檔案: </translation>
     </message>
@@ -1730,12 +1733,12 @@
         <translation>無法設定 TTL 給鍵 </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="129"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="145"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation>你的 Redis 伺服器不支援 &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; 指令。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="131"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
         <translation>已新增鍵。你想要重新載入命名空間中的鍵嗎？</translation>
     </message>

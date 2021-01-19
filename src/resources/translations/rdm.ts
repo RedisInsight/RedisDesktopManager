@@ -143,7 +143,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="286"/>
+        <location filename="../../qml/GlobalSettings.qml" line="285"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -312,7 +312,7 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="141"/>
         <source>Key was added</source>
         <translation type="unfinished"></translation>
     </message>
@@ -414,7 +414,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
-        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="130"/>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="146"/>
         <source>Do you really want to delete this key?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -858,10 +858,10 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="573"/>
-        <location filename="../../qml/GlobalSettings.qml" line="274"/>
+        <location filename="../../qml/GlobalSettings.qml" line="273"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="606"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -908,6 +908,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="189"/>
+        <source>Show only last part for namespaced keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation type="unfinished"></translation>
@@ -934,42 +939,36 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="179"/>
-        <location filename="../../qml/GlobalSettings.qml" line="190"/>
         <source>(Disable to improve treeview performance)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="189"/>
-        <source>Enable key sorting in tree</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="202"/>
+        <location filename="../../qml/GlobalSettings.qml" line="201"/>
         <source>Live update maximum allowed keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="214"/>
+        <location filename="../../qml/GlobalSettings.qml" line="213"/>
         <source>Live update interval (in seconds)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="222"/>
+        <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>External Value View Formatters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="227"/>
+        <location filename="../../qml/GlobalSettings.qml" line="226"/>
         <source>Formatters path: %0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="243"/>
+        <location filename="../../qml/GlobalSettings.qml" line="242"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="248"/>
+        <location filename="../../qml/GlobalSettings.qml" line="247"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1167,7 +1166,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="258"/>
+        <location filename="../../qml/GlobalSettings.qml" line="257"/>
         <location filename="../../qml/console/RedisConsole.qml" line="209"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
@@ -1268,7 +1267,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="252"/>
+        <location filename="../../qml/GlobalSettings.qml" line="251"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
@@ -1396,12 +1395,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="602"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
         <source>Binary value is too large to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
         <source>Save value to file: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1482,12 +1481,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="129"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="145"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="131"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
         <translation type="unfinished"></translation>
     </message>
