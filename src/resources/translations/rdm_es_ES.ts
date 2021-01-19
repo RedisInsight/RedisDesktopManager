@@ -143,7 +143,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="286"/>
+        <location filename="../../qml/GlobalSettings.qml" line="285"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -352,7 +352,7 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="141"/>
         <source>Key was added</source>
         <translation>Clave añadida</translation>
     </message>
@@ -460,7 +460,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
-        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="130"/>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="146"/>
         <source>Do you really want to delete this key?</source>
         <translation>¿Seguro que quieres borrar esta clave?</translation>
     </message>
@@ -985,10 +985,10 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="573"/>
-        <location filename="../../qml/GlobalSettings.qml" line="274"/>
+        <location filename="../../qml/GlobalSettings.qml" line="273"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="606"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1073,27 +1073,30 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="179"/>
-        <location filename="../../qml/GlobalSettings.qml" line="190"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>Desactivar para mejorar el rendimiento de la vista de árbol</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="189"/>
-        <source>Enable key sorting in tree</source>
-        <translation>Activar ordenamiento de claves en el árbol</translation>
+        <source>Show only last part for namespaced keys</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="202"/>
+        <source>Enable key sorting in tree</source>
+        <translation type="vanished">Activar ordenamiento de claves en el árbol</translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="201"/>
         <source>Live update maximum allowed keys</source>
         <translation>Máximo de claves permitidas en actualización automática</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="214"/>
+        <location filename="../../qml/GlobalSettings.qml" line="213"/>
         <source>Live update interval (in seconds)</source>
         <translation>Intervalo de actualización automática (en segundos)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="222"/>
+        <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>External Value View Formatters</source>
         <translation>Formateadores Externos de Visor de Valores</translation>
     </message>
@@ -1102,17 +1105,17 @@
         <translation type="vanished">Formateadores personalizados de visor de valores</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="227"/>
+        <location filename="../../qml/GlobalSettings.qml" line="226"/>
         <source>Formatters path: %0</source>
         <translation>Ruta a formateadores: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="243"/>
+        <location filename="../../qml/GlobalSettings.qml" line="242"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="248"/>
+        <location filename="../../qml/GlobalSettings.qml" line="247"/>
         <source>Version</source>
         <translation>Versión</translation>
     </message>
@@ -1391,7 +1394,7 @@
         <translation>Argumentos</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="258"/>
+        <location filename="../../qml/GlobalSettings.qml" line="257"/>
         <location filename="../../qml/console/RedisConsole.qml" line="209"/>
         <source>Description</source>
         <translation>Descripción</translation>
@@ -1501,7 +1504,7 @@
         <translation>Nombre de Canal</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="252"/>
+        <location filename="../../qml/GlobalSettings.qml" line="251"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
         <source>Command</source>
         <translation>Comando</translation>
@@ -1632,12 +1635,12 @@
         <translation>Guardar Cambios</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="602"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
         <source>Binary value is too large to display</source>
         <translation>El valor binario es demasiado grande para mostrarse</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
         <source>Save value to file: </source>
         <translation>Guardar valor a fichero:</translation>
     </message>
@@ -1730,12 +1733,12 @@
         <translation>No se puede asignar el TTL a la clave </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="129"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="145"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation>El servidor redis no soporta comandos &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="131"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
         <translation>Clave añadida. ¿Quiere recargar las claves en el namespace seleccionado?</translation>
     </message>

@@ -46,6 +46,7 @@ class KeyItem : public TreeItem, public MemoryUsage {
   QByteArray m_fullPath;
   QWeakPointer<TreeItem> m_parent;
   bool m_removed;
+  bool m_shortRendering;
 };
 
 }  // namespace ConnectionsTree
