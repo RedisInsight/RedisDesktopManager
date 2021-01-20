@@ -181,13 +181,9 @@
         <translation>新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
     </message>
     <message>
-        <source>Key with new name %1 already exist in database or original key was removed</source>
-        <translation type="vanished">新しいキー%1はすでにデータベースに存在しているか、または元のキーが削除されました</translation>
-    </message>
-    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>キー&apos;%1&apos;を永続化できません。&lt;br&gt; キーが存在しないか、または有効期限が設定されていません。</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
@@ -207,7 +203,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="82"/>
         <source>Cannot rename key %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>キー%1を変更できません: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="267"/>
@@ -340,9 +336,7 @@
         <source>Cannot load databases:
 
 </source>
-        <translation>データベースをロードできません:
-
-</translation>
+        <translation>データベースをロードできません:</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="195"/>
@@ -368,7 +362,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
         <source>Total pages: </source>
-        <translation type="unfinished"></translation>
+        <translation>総ページ数: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
@@ -416,7 +410,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="260"/>
         <source>Persist key</source>
-        <translation type="unfinished"></translation>
+        <translation>永続化キー</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
@@ -474,22 +468,6 @@
         <translation>すべて検索</translation>
     </message>
     <message>
-        <source>Nothing to save</source>
-        <translation type="vanished">保存できるデータがありません</translation>
-    </message>
-    <message>
-        <source>Value was updated!</source>
-        <translation type="vanished">値を更新しました!</translation>
-    </message>
-    <message>
-        <source>Save value</source>
-        <translation type="vanished">値を保存</translation>
-    </message>
-    <message>
-        <source>Key error</source>
-        <translation type="vanished">キーエラー</translation>
-    </message>
-    <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="181"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>この接続に関連する値とコンソールのタブを閉じます。続行しますか?</translation>
@@ -503,15 +481,13 @@
         <location filename="../../modules/console/consolemodel.cpp" line="13"/>
         <source>Connected to cluster.
 </source>
-        <translation>クラスタに接続しました。
-</translation>
+        <translation>クラスタに接続しました。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
         <source>Connected.
 </source>
-        <translation>接続しました。
-</translation>
+        <translation>接続しました。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
@@ -679,10 +655,6 @@
         <translation>127.0.0.1を使うとネットワークのパフォーマンスが向上します</translation>
     </message>
     <message>
-        <source>Auth:</source>
-        <translation type="vanished">認証:</translation>
-    </message>
-    <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(任意) Redisサーバ認証パスワード</translation>
@@ -807,7 +779,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>パスワード:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="236"/>
@@ -843,10 +815,6 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="460"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation>キーから抽出するネームスペースに使用するセパレータ</translation>
-    </message>
-    <message>
-        <source>Use server-side optimized keys loading (experimental):</source>
-        <translation type="vanished">サーバ側のキー読み込み最適化機能を使用する(テスト版)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="466"/>
@@ -918,10 +886,6 @@
         <translation>言語</translation>
     </message>
     <message>
-        <source>Application will be restarted to apply this setting.</source>
-        <translation type="vanished">設定はアプリケーションの再起動後に有効になります。</translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="93"/>
         <location filename="../../qml/GlobalSettings.qml" line="128"/>
         <source>Font</source>
@@ -934,22 +898,14 @@
         <translation>フォントサイズ</translation>
     </message>
     <message>
-        <source>Value Editor Font</source>
-        <translation type="vanished">値エディタのフォント</translation>
-    </message>
-    <message>
-        <source>Value Editor Font Size</source>
-        <translation type="vanished">値エディタのフォントサイズ</translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="155"/>
         <source>Maximum Formatted Value Size</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーマット済み値の最大サイズ</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="156"/>
         <source>Size in bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>バイト数</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
@@ -959,12 +915,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Application will be restarted to apply this settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションを再起動して設定を反映します。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="113"/>
         <source>Value Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>値エディタ</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="162"/>
@@ -1046,17 +1002,17 @@
     <message>
         <location filename="../../qml/app.qml" line="247"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループ追加</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="261"/>
         <source>Regroup connections</source>
-        <translation type="unfinished"></translation>
+        <translation>接続の再グループ化</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="283"/>
         <source>Exit Regroup Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>再グループモードを終了</translation>
     </message>
     <message>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
@@ -1140,10 +1096,6 @@
         <location filename="../../qml/connections-tree/menu/database.qml" line="133"/>
         <source>Back</source>
         <translation>戻る</translation>
-    </message>
-    <message>
-        <source>Enter Filter</source>
-        <translation type="vanished">フィルターを入力</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
@@ -1384,17 +1336,17 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Edit Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation>接続グループを編集</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Add New Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation>接続グループの新規追加</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
         <source>Group Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>グループ名:</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
@@ -1515,14 +1467,6 @@
         <translation>ターゲット接続エラー</translation>
     </message>
     <message>
-        <source>Cannot connect to source redis-server: %1</source>
-        <translation type="vanished">コピー元のRedisサーバに接続できません: %1</translation>
-    </message>
-    <message>
-        <source>Cannot connect to target redis-server: %1</source>
-        <translation type="vanished">コピー先のRedisサーバに接続できません: %1</translation>
-    </message>
-    <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="11"/>
         <source>Cannot remove key </source>
         <translation>キーを削除できません</translation>
@@ -1580,42 +1524,42 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
         <source>Edit Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation>接続グループの編集</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
         <source>Delete Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation>接続グループの削除</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;全ての接続情報と共に&lt;/b&gt;、グループを本当に削除してもよろしいですか？</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
         <source>Order of elements:</source>
-        <translation type="unfinished"></translation>
+        <translation>要素の順序:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="20"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルト</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
-        <translation type="unfinished"></translation>
+        <translation>降順</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
         <source>Start date should be less than End date</source>
-        <translation type="unfinished"></translation>
+        <translation>開始日は終了日より前でなければなりません</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
-        <translation type="unfinished"></translation>
+        <translation>フィルタを適用</translation>
     </message>
 </context>
 </TS>
