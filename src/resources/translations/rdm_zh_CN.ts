@@ -408,7 +408,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
         <source>Total pages: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">总页数: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
@@ -1060,12 +1060,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Application will be restarted to apply this settings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重启软件来启用新的设置。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="113"/>
         <source>Value Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">内容编辑器</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="162"/>
@@ -1085,7 +1085,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="189"/>
         <source>Show only last part for namespaced keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅显示命名空间中键名最后一部分内容</translation>
     </message>
     <message>
         <source>Enable key sorting in tree</source>
@@ -1807,12 +1807,12 @@
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
         <source>Start date should be less than End date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">开始时间应该早于结束时间</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">应用筛选条件</translation>
     </message>
 </context>
 <context>
