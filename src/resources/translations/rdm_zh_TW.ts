@@ -1062,12 +1062,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Application will be restarted to apply this settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>程式將會重新啟動以套用此設定</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="113"/>
         <source>Value Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>值編輯器</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="162"/>
