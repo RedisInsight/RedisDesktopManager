@@ -21,6 +21,7 @@ QPalette createDarkModePalette() {
   QPalette p(alt, base);
 
   p.setColor(QPalette::Light, QColor(76,76,76));
+  p.setColor(QPalette::Dark, QColor(235,235,235));
   p.setColor(QPalette::Midlight, QColor(76,76,76));
   p.setColor(QPalette::Mid, QColor(66,66,66));
   p.setColor(QPalette::Window, base);
