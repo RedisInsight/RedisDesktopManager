@@ -196,7 +196,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>La clave &apos;%1&apos; no se pudo persistir. &lt;br&gt; La llave no parece existir o tener un tiempo de espera asociado</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
@@ -408,7 +408,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
         <source>Total pages: </source>
-        <translation type="unfinished"></translation>
+        <translation>Total de páginas: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
@@ -456,7 +456,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="260"/>
         <source>Persist key</source>
-        <translation type="unfinished"></translation>
+        <translation>Persistir clave</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
@@ -760,7 +760,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
         <source>For better network performance please use 127.0.0.1</source>
-        <translation type="unfinished"></translation>
+        <translation>Para obtener un mejor despempeño usa 127.0.0.1</translation>
     </message>
     <message>
         <source>Auth:</source>
@@ -774,12 +774,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de usuario:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="217"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Opcional) Nombre de usuario de autenticación de redis-server (Redis &gt;6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
@@ -1039,12 +1039,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="155"/>
         <source>Maximum Formatted Value Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Máximo tamaño de valor formateado</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="156"/>
         <source>Size in bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño en bytes</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
@@ -1054,12 +1054,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Application will be restarted to apply this settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>La aplicación será reiniciada al aplicar las configuraciones.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="113"/>
         <source>Value Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor de editor</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="162"/>
@@ -1079,7 +1079,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="189"/>
         <source>Show only last part for namespaced keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar únicamete la última parte de claves con nombres de espacio</translation>
     </message>
     <message>
         <source>Enable key sorting in tree</source>
@@ -1148,17 +1148,17 @@
     <message>
         <location filename="../../qml/app.qml" line="247"/>
         <source>Add Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar grupo</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="261"/>
         <source>Regroup connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Reagrupar conexiones</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="283"/>
         <source>Exit Regroup Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir del modo de reagrupación</translation>
     </message>
     <message>
         <source>Bulk Operations Manager</source>
@@ -1472,7 +1472,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="554"/>
         <source>Subscribe in Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Suscribirse en la consola</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
@@ -1571,17 +1571,17 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Edit Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar grupo de conexión</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Add New Connections Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar nuevo grupo de conexión</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
         <source>Group Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del grupo:</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
@@ -1702,12 +1702,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
         <source>Source connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en la conexión de partida</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
         <source>Target connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en la conexión de destino</translation>
     </message>
     <message>
         <source>Cannot connect to source redis-server: %1</source>
@@ -1779,42 +1779,42 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
         <source>Edit Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar grupo de conexión</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
         <source>Delete Connection Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar grupo de conexión</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Realmente deseas borrar el grupo &lt;b&gt;con todas sus conexiones&lt;/b&gt;?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
         <source>Order of elements:</source>
-        <translation type="unfinished"></translation>
+        <translation>Órden de elementos:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="20"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Por defecto</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertir</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
         <source>Start date should be less than End date</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha de inicio debe ser menor a la fecha de fin</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicar filtro</translation>
     </message>
 </context>
 <context>
