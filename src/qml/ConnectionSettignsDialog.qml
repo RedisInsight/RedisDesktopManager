@@ -240,10 +240,6 @@ Dialog {
                                     onCheckedChanged: {
                                         root.settings.sslEnabled = checked
                                         root.cleanStyle()
-
-                                        if (!checked) {
-                                            root.sslEnabled = false
-                                        }
                                     }
                                 }
 
@@ -316,10 +312,6 @@ Dialog {
                                     Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
                                     onCheckedChanged: {
                                         root.cleanStyle()
-
-                                        if (!checked) {
-                                            root.sshEnabled = false
-                                        }
                                     }
                                 }
 
@@ -412,8 +404,21 @@ Dialog {
                                         Layout.fillWidth: true
                                         Layout.columnSpan: 2
                                         text: qsTranslate("RDM","Enable TLS-over-SSH (<b>AWS ElastiCache</b> <b>Encryption in-transit</b>)")
-                                        checked: root.settings ? root.settings.sslEnabled && root.sshEnabled : false
+                                        checked: root.settings ? root.settings.sslEnabled : false
                                         onCheckedChanged: root.settings.sslEnabled = checked
+
+                                        Connections {
+                                            target: root
+
+                                            function onSslEnabledChanged() {
+                                                // NOTE(u_glide): Workaround for case when user enabled plain TLS
+                                                // and then selected SSH again.
+                                                if (!root.sslEnabled && root.settings.sshHost
+                                                        && sshTLSoverSSHCheckbox.checked) {
+                                                    root.settings.sslEnabled = true
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
