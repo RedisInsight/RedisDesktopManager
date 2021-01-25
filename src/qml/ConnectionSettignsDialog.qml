@@ -411,8 +411,8 @@ Dialog {
                                             target: root
 
                                             function onSslEnabledChanged() {
-                                                // NOTE(u_glide): Workaround for case when user enabled plain TLS
-                                                // and then selected SSH again.
+                                                // NOTE(u_glide): Workaround for case when user enables plain TLS
+                                                // on existing TLS-over-SSH connection and then selects SSH again.
                                                 if (!root.sslEnabled && root.settings.sshHost
                                                         && sshTLSoverSSHCheckbox.checked) {
                                                     root.settings.sslEnabled = true
