@@ -63,7 +63,7 @@ ToolBar {
 
                 FileDialog {
                     id: exportConnectionsDialog
-                    title: qsTranslate("RDM","Import Connections")
+                    title: qsTranslate("RDM","Export Connections")
                     nameFilters: ["RDM Connections (*.json)"]
                     selectExisting: false
                     onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
