@@ -18,7 +18,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 950
-        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 550 : 650
+        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 550 : 680
 
         color: sysPalette.base
 
@@ -93,6 +93,16 @@ Dialog {
                             label: qsTranslate("RDM","Font")
 
                             onValueChanged: root.restartRequired = true
+                        }
+
+                        BoolOption {
+                            id: disableProxyForRedisConnections
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            value: false
+                            label: qsTranslate("RDM","Use system proxy only for HTTP(S) requests")
                         }
 
                         ComboboxOption {
@@ -306,6 +316,7 @@ Dialog {
         property alias valueSizeLimit: valueSizeLimit.value
         property alias locale: appLang.value
         property alias useSystemProxy: systemProxy.value
+        property alias disableProxyForRedisConnections: disableProxyForRedisConnections.value
     }
 
     Settings {
