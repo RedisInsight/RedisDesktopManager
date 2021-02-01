@@ -408,7 +408,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
         <source>Total pages: </source>
-        <translation type="unfinished"></translation>
+        <translation>總頁數: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
@@ -1067,7 +1067,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
         <source>Use system proxy only for HTTP(S) requests</source>
-        <translation type="unfinished"></translation>
+        <translation>只為 HTTP(S) 使用系統的代理</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="123"/>
@@ -1092,7 +1092,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="199"/>
         <source>Show only last part for namespaced keys</source>
-        <translation type="unfinished"></translation>
+        <translation>對有命名空間的鍵只顯示最後一部分</translation>
     </message>
     <message>
         <source>Enable key sorting in tree</source>
@@ -1814,12 +1814,12 @@
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
         <source>Start date should be less than End date</source>
-        <translation type="unfinished"></translation>
+        <translation>起始日期必須早於終止日期</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
-        <translation type="unfinished"></translation>
+        <translation>套用過濾器</translation>
     </message>
 </context>
 <context>
