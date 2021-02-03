@@ -1065,7 +1065,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
         <source>Use system proxy only for HTTP(S) requests</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">只对HTTP(S)请求使用系统代理设置</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="123"/>
