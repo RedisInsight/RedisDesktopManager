@@ -45,10 +45,16 @@
 2. Install [Homebrew](http://brew.sh/).
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`.
 4. Building RDM dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
-5. Install Python requirements `pip3 install -t ../bin/osx/release -r py/requirements.txt`
-6. Install [Qt 5.15](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.15.x add Qt Charts module.
-7. Open `./src/rdm.pro` in **Qt Creator**.
-8. Run build. 
+5. Build lz4 lib
+```
+cd 3rdparty/lz4/build/cmake
+cmake -DLZ4_BUNDLED_MODE=ON  .
+make
+```
+6. Install Python requirements `pip3 install -t ../bin/osx/release -r py/requirements.txt`
+7. Install [Qt 5.15](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.15.x add Qt Charts module.
+8. Open `./src/rdm.pro` in **Qt Creator**.
+9. Run build. 
 
 ### Build on Windows
 
@@ -57,7 +63,13 @@
 3. Go to `3rdparty/qredisclient/3rdparty/hiredis` and apply the patch to fix compilation on Windows:
 `git apply ../hiredis-win.patch`
 4. Go to the `3rdparty/` folder and install zlib with `nuget`: `nuget install zlib-msvc14-x64 -Version 1.2.11.7795`
-5. Install Python 3.7 amd64 to `C:\Python37-x64`.
-6. Install Python requirements `pip3 install -r src/py/requirements.txt`.
-7. Open `./src/rdm.pro` in **Qt Creator**.  Choose the `Desktop Qt 5.15.x MSVC2019 64bit > Release` build profile.
-8. Run build. (Just hit `Ctrl-B`)
+5. Build lz4 lib
+```
+cd 3rdparty/lz4/build/cmake
+cmake -DLZ4_BUNDLED_MODE=ON  .
+make
+```
+6. Install Python 3.7 amd64 to `C:\Python37-x64`.
+7. Install Python requirements `pip3 install -r src/py/requirements.txt`.
+8. Open `./src/rdm.pro` in **Qt Creator**.  Choose the `Desktop Qt 5.15.x MSVC2019 64bit > Release` build profile.
+9. Run build. (Just hit `Ctrl-B`)
