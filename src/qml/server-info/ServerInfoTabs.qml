@@ -15,6 +15,8 @@ Repeater {
     BetterTab {
         id: tab
 
+        property int colWidth: tab.width / 7
+
         Component {
             id: serverTabButton
 
@@ -64,7 +66,7 @@ Repeater {
                     flow: GridLayout.TopToBottom
 
                     Text {
-                        Layout.preferredWidth: tab.width / 5
+                        Layout.preferredWidth: tab.colWidth
 
                         text: qsTranslate("RDM","Redis Version")
                         font.pointSize: 12
@@ -79,7 +81,7 @@ Repeater {
                     }
 
                     Text {
-                        Layout.preferredWidth: tab.width / 5
+                        Layout.preferredWidth: tab.colWidth
 
                         text: qsTranslate("RDM","Used memory")
                         font.pointSize: 12
@@ -94,7 +96,7 @@ Repeater {
                     }
 
                     Text {
-                        Layout.preferredWidth: tab.width / 5
+                        Layout.preferredWidth: tab.colWidth
 
                         text: qsTranslate("RDM","Clients")
                         font.pointSize: 12
@@ -109,7 +111,7 @@ Repeater {
                     }
 
                     Text {
-                        Layout.preferredWidth: tab.width / 5
+                        Layout.preferredWidth: tab.colWidth
 
                         text: qsTranslate("RDM","Commands Processed")
                         font.pointSize: 12
@@ -126,7 +128,7 @@ Repeater {
 
 
                     Text {
-                        Layout.preferredWidth: tab.width / 5
+                        Layout.preferredWidth: tab.colWidth
 
                         text: qsTranslate("RDM","Uptime")
                         font.pointSize: 12
@@ -140,6 +142,36 @@ Repeater {
                         objectName: "rdm_server_info_uptime"
                     }
 
+                    Text {
+                        Layout.preferredWidth: tab.colWidth
+
+                        text: qsTranslate("RDM","Total Keys")
+                        font.pointSize: 12
+                        color: "grey"
+                    }
+
+                    BetterLabel {
+                        id: totalKeysLabel;
+                        text: "N/A";
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_total_keys"
+                    }
+
+                    Text {
+                        Layout.preferredWidth: tab.colWidth
+
+                        text: qsTranslate("RDM","Hit Ratio")
+                        font.pointSize: 12
+                        color: "grey"
+                    }
+
+                    BetterLabel {
+                        id: hitRatioLabel;
+                        text: "N/A";
+                        font.pointSize: 12
+                        objectName: "rdm_server_info_hit_ratio"
+                    }
+
                     Connections {
                         target: tab.model? tab.model : null
 
@@ -149,6 +181,8 @@ Repeater {
                             connectedClientsLabel.text = getValue("clients", "connected_clients")
                             totalCommandsProcessedLabel.text = getValue("stats", "total_commands_processed")
                             uptimeLabel.text = getValue("server", "uptime_in_days") + qsTranslate("RDM"," day(s)")
+                            totalKeysLabel.text = getTotalKeysValue()
+                            hitRatioLabel.text = getHitRatio() + "%"
                         }
 
                         function getValue(cat, prop) {
@@ -158,6 +192,35 @@ Repeater {
                                 console.error("Cannot get server info '" + prop + "' from " + cat)
                                 return ""
                             }
+                        }
+
+                        function getIntValue(cat, prop) {
+                            var val = getValue(cat, prop)
+                            if (val != "") return parseInt(val)
+                            return 1
+                        }
+
+                        function getHitRatio() {
+                            var hits = getIntValue("stats", "keyspace_hits")
+                            var misses = getIntValue("stats", "keyspace_misses")
+                            var total = hits + misses
+                            if (total == 0) {
+                                return 0
+                            }
+                            return hits / total * 100
+                        }
+
+                        function getTotalKeysValue() {
+                            var total = 0;
+                            for (var i = 0; i <= 15; i++) {
+                                var line = getValue("keyspace", "db" + i)
+                                if (line) {
+                                    var parts = line.split(/[\:\=\,]/);
+                                    var count = parseInt(parts[1])
+                                    total += count
+                                }
+                            }
+                            return total
                         }
                     }
                 }
