@@ -1059,7 +1059,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
         <source>Use system proxy only for HTTP(S) requests</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar proxy del sistema sólo para peticiones HTTP(S)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="123"/>
