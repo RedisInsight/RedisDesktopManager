@@ -1,8 +1,12 @@
 import json
 import pickle
 
-import numpy as np
-import pandas as pd
+try:
+    import numpy as np
+    import pandas as pd
+    numpy_support = True
+except ImportError:
+    numpy_support = False
 
 from .base import BaseFormatter
 
@@ -15,6 +19,7 @@ class PickleFormatter(BaseFormatter):
         read_only = self.read_only
         decode_format = self.decode_format
         deserialized = ''
+        output = ''
         error = ''
 
         try:
@@ -24,19 +29,20 @@ class PickleFormatter(BaseFormatter):
             error = 'Value cannot be deserialized with pickle: {} ' \
                     '(value: {})'.format(e, value)
 
-        if isinstance(deserialized, pd.Series):
-            output = f'{str(type(deserialized))[1:-1]}\n' \
-                     f'{deserialized.to_string()}'
-            decode_format = 'plain_text'
-        elif isinstance(deserialized, pd.DataFrame):
-            html = deserialized.to_html(render_links=True, border=0)
-            output = self.format_html_output(deserialized, html)
-            decode_format = 'html'
-        elif isinstance(deserialized, np.ndarray):
-            html = pd.DataFrame(deserialized).to_html(render_links=True,
-                                                      border=0)
-            output = self.format_html_output(deserialized, html)
-            decode_format = 'html'
+        if numpy_support:
+            if isinstance(deserialized, pd.Series):
+                output = f'{str(type(deserialized))[1:-1]}\n' \
+                         f'{deserialized.to_string()}'
+                decode_format = 'plain_text'
+            elif isinstance(deserialized, pd.DataFrame):
+                html = deserialized.to_html(render_links=True, border=0)
+                output = self.format_html_output(deserialized, html)
+                decode_format = 'html'
+            elif isinstance(deserialized, np.ndarray):
+                html = pd.DataFrame(deserialized).to_html(render_links=True,
+                                                          border=0)
+                output = self.format_html_output(deserialized, html)
+                decode_format = 'html'
         else:
             output = json.dumps(deserialized,
                                 default=self.default,
@@ -50,14 +56,15 @@ class PickleFormatter(BaseFormatter):
 
     @staticmethod
     def default(o):
-        if isinstance(o, pd.Timestamp):
-            return o.isoformat()
-        if isinstance(o, np.ndarray):
-            return o.tolist()
-        if isinstance(o, pd.Series):
-            return o.to_json()
-        if isinstance(o, pd.DataFrame):
-            return json.loads(o.to_json(orient='index', date_format='iso'))
+        if numpy_support:
+            if isinstance(o, pd.Timestamp):
+                return o.isoformat()
+            if isinstance(o, np.ndarray):
+                return o.tolist()
+            if isinstance(o, pd.Series):
+                return o.to_json()
+            if isinstance(o, pd.DataFrame):
+                return json.loads(o.to_json(orient='index', date_format='iso'))
         else:
             return str(o)
 
