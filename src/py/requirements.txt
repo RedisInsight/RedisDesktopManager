@@ -4,7 +4,5 @@ msgpack
 git+https://github.com/mrnom/phpserialize.git#egg=phpserialize
 rdbtools
 python-lzf
-ddt
-nose
 numpy
 pandas
