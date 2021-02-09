@@ -151,7 +151,7 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
         return;
       }
 
-      getMemoryUsage([this](qlonglong r) {
+      getMemoryUsage([this](qlonglong) {
         sortChilds();
         unlock();
         m_runningOperation.clear();

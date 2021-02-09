@@ -65,7 +65,7 @@ void StreamKeyModel::addRow(const QVariantMap &row,
   executeCmd(cmd, c);
 }
 
-void StreamKeyModel::updateRow(int rowIndex, const QVariantMap &,
+void StreamKeyModel::updateRow(int, const QVariantMap &,
                                ValueEditor::Model::Callback) {
     //NOTE(u_glide): Redis Streams doesn't support editing (yet?)
 }

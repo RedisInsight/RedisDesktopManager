@@ -19,11 +19,11 @@ namespace Console {
 
         AutocompleteModel();
 
-        QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
+        QModelIndex index(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const override;
 
-        int rowCount(const QModelIndex& parent = QModelIndex()) const;
+        int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-        QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+        QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
         QHash<int, QByteArray> roleNames() const override;
 

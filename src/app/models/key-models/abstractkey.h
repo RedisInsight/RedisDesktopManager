@@ -118,7 +118,7 @@ class KeyModel : public ValueEditor::Model {
         RedisClient::Response::Type::Integer);
   }
 
-  virtual void persistKey(Callback c) {
+  virtual void persistKey(Callback c) override {
     executeCmd(
         {"PERSIST", m_keyFullPath}, c,
         [this](RedisClient::Response r, Callback c) {
@@ -338,11 +338,11 @@ class KeyModel : public ValueEditor::Model {
   virtual int addLoadedRowsToCache(const QVariantList& rows,
                                    QVariant rowStart) = 0;
 
-  QVariant filter(const QString& key) const {
+  QVariant filter(const QString& key) const override {
     return m_filters.value(key, QVariant());
   };
 
-  void setFilter(const QString& k, QVariant v) {
+  void setFilter(const QString& k, QVariant v) override {
       m_filters[k] = v;
       qDebug() << "filter:" << k << v;
   }

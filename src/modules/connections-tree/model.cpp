@@ -109,7 +109,7 @@ int Model::rowCount(const QModelIndex &parent) const {
   return parentItem->childCount();
 }
 
-bool Model::hasChildren(const QModelIndex &parent) {
+bool Model::hasChildren(const QModelIndex &parent) const {
   const TreeItem *parentItem = getItemFromIndex(parent);
 
   if (!parentItem) return m_treeItems.size() > 0;

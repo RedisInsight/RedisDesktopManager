@@ -26,8 +26,8 @@ class ValueViewModel : public BaseListModel {
 
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
-  QVariant data(const QModelIndex& index, int role) const;
-  QHash<int, QByteArray> roleNames() const;
+  QVariant data(const QModelIndex& index, int role) const override;
+  QHash<int, QByteArray> roleNames() const override;
 
   QSharedPointer<Model> model();
   void setModel(QSharedPointer<Model> model);

@@ -71,7 +71,7 @@ void ReJSONKeyModel::loadRows(QVariant, unsigned long,
              RedisClient::Response::String);
 }
 
-void ReJSONKeyModel::removeRow(int, Callback c) {
+void ReJSONKeyModel::removeRow(int, Callback) {
   m_rowCount--;
   setRemovedIfEmpty();
 }

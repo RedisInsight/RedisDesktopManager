@@ -43,7 +43,7 @@ class ServerItem : public QObject, public SortableTreeItem {
   int row() const override;
 
  public slots:
-  void unload();
+  void unload() override;
 
  private slots:
   void load();

@@ -16,11 +16,11 @@ class LargeTextWrappingModel : public QAbstractListModel {
 
   ~LargeTextWrappingModel();
 
-  QHash<int, QByteArray> roleNames() const;
+  QHash<int, QByteArray> roleNames() const override;
 
   int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-  QVariant data(const QModelIndex &index, int role) const;
+  QVariant data(const QModelIndex &index, int role) const override;
 
   void setText(const QString &text);
 

@@ -26,21 +26,21 @@ class Model : public QAbstractItemModel {
  public:
   explicit Model(QObject *parent = 0);
 
-  QVariant data(const QModelIndex &index, int role) const;
+  QVariant data(const QModelIndex &index, int role) const override;
 
   QHash<int, QByteArray> roleNames() const override;
 
-  Qt::ItemFlags flags(const QModelIndex &index) const;
+  Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-  QModelIndex index(int row, int column, const QModelIndex &parent) const;
+  QModelIndex index(int row, int column, const QModelIndex &parent) const override;
 
-  QModelIndex parent(const QModelIndex &index) const;
+  QModelIndex parent(const QModelIndex &index) const override;
 
-  int rowCount(const QModelIndex &parent = QModelIndex()) const;
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-  bool hasChildren(const QModelIndex &parent = QModelIndex());
+  bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
-  inline int columnCount(const QModelIndex &parent = QModelIndex()) const {
+  inline int columnCount(const QModelIndex &parent = QModelIndex()) const override {
     Q_UNUSED(parent);
     return 1;
   }
@@ -62,9 +62,9 @@ class Model : public QAbstractItemModel {
 
   QModelIndex getIndexFromItem(QWeakPointer<TreeItem>);
 
-  bool canFetchMore(const QModelIndex &parent) const;
+  bool canFetchMore(const QModelIndex &parent) const override;
 
-  void fetchMore(const QModelIndex &parent);
+  void fetchMore(const QModelIndex &parent) override;
 
   QSet<QByteArray> m_expanded;
 
