@@ -196,7 +196,14 @@ void Application::initAppFonts() {
   int defaultValueSizeLimit = 150000;
 
   QString appFont = settings.value("app/appFont", defaultFontName).toString();
+
+  if (appFont.isEmpty())
+    appFont = defaultFontName;
+
   int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
+
+  if (appFontSize < 5)
+    appFontSize = defaultFontSize;
 
   if (appFont == "Open Sans") {
 #if defined(Q_OS_LINUX)
@@ -211,8 +218,19 @@ void Application::initAppFonts() {
   }
 
   QString valuesFont = settings.value("app/valueEditorFont", defaultMonospacedFont).toString();
+
+  if (valuesFont.isEmpty())
+    valuesFont = defaultMonospacedFont;
+
   int valuesFontSize = settings.value("app/valueEditorFontSize", defaultFontSize).toInt();
+
+  if (valuesFontSize < 5)
+    valuesFontSize = defaultFontSize;
+
   int valueSizeLimit = settings.value("app/valueSizeLimit", defaultValueSizeLimit).toInt();
+
+  if (valueSizeLimit < 1000)
+    valueSizeLimit = defaultValueSizeLimit;
 
   settings.setValue("app/appFont", appFont);
   settings.setValue("app/appFontSize", appFontSize);
