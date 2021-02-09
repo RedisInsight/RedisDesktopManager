@@ -32,51 +32,73 @@ TreeOperations::~TreeOperations() {
   }
 }
 
-bool TreeOperations::loadDatabases(
-    std::function<void(RedisClient::DatabaseList)> callback) {
+void TreeOperations::loadDatabases(
+    std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
   auto connection = m_connection->clone(false);
   m_events->registerLoggerForConnection(*connection);
 
-  if (!connect(connection)) return false;
+  if (!connect(connection)) {
+    return callback(RedisClient::DatabaseList(),
+                    QString("Cannot connect to redis-server"));
+  }
 
   RedisClient::DatabaseList availableDatabeses = connection->getKeyspaceInfo();
 
-  if (connection->mode() != RedisClient::Connection::Mode::Cluster) {
-    // detect all databases
-    RedisClient::Response scanningResp;
-    int lastDbIndex =
-        (availableDatabeses.size() == 0) ? 0 : availableDatabeses.lastKey() + 1;
-
-    if (m_dbCount > 0) {
-      for (int index = lastDbIndex; index < m_dbCount; index++) {
-        availableDatabeses.insert(index, 0);
-      }
-    } else {
-      uint dbScanLimit = m_config.databaseScanLimit();
-
-      for (int index = lastDbIndex; index < dbScanLimit; index++) {
-        try {
-          scanningResp = connection->commandSync(
-              {"select", QString::number(index).toLatin1()});
-        } catch (const RedisClient::Connection::Exception& e) {
-          throw ConnectionsTree::Operations::Exception(
-              QCoreApplication::translate("RDM", "Connection error: ") +
-              QString(e.what()));
-        }
-
-        if (!scanningResp.isOkMessage()) {
-          break;
-        }
-
-        availableDatabeses.insert(index, 0);
-        ++lastDbIndex;
-      }
-      m_dbCount = lastDbIndex;
-    }
+  if (connection->mode() == RedisClient::Connection::Mode::Cluster) {
+    return callback(availableDatabeses, QString());
   }
 
-  callback(availableDatabeses);
-  return true;
+  // detect all databases
+  RedisClient::Response scanningResp;
+  int lastDbIndex =
+      (availableDatabeses.size() == 0) ? 0 : availableDatabeses.lastKey() + 1;
+
+  if (m_dbCount > 0) {
+    for (int index = lastDbIndex; index < m_dbCount; index++) {
+      availableDatabeses.insert(index, 0);
+    }
+
+    return callback(availableDatabeses, QString());
+  } else {
+    m_dbCount = lastDbIndex;
+
+    auto collectedDatabases = QSharedPointer<RedisClient::DatabaseList>(
+        new RedisClient::DatabaseList(availableDatabeses));
+
+    recursiveSelectScan(connection, collectedDatabases, callback);
+  }
+}
+
+void TreeOperations::recursiveSelectScan(
+    QSharedPointer<RedisClient::Connection> c,
+    QSharedPointer<RedisClient::DatabaseList> dbList,
+    std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
+  if (m_dbCount >= m_config.databaseScanLimit() || !c) {
+    return callback(*dbList, QString());
+  }
+
+  auto errHandler = [callback, dbList](const QString& err) {
+    if (dbList && dbList->size() > 0) {
+      callback(*dbList, QString());
+    } else {
+      callback(RedisClient::DatabaseList(), err);
+    }
+  };
+
+  c->cmd(
+      {"select", QString::number(m_dbCount).toLatin1()}, this, -1,
+      [this, dbList, c, callback](const RedisClient::Response& scanningResp) {
+        if (!scanningResp.isOkMessage()) {
+          callback(*dbList, QString());
+          return;
+        }
+
+        dbList->insert(m_dbCount, 0);
+        m_dbCount++;
+
+        recursiveSelectScan(c, dbList, callback);
+      },
+      errHandler);
 }
 
 bool TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
@@ -129,7 +151,7 @@ void TreeOperations::requestBulkOperation(
 }
 
 QFuture<void> TreeOperations::getDatabases(
-    std::function<void(RedisClient::DatabaseList)> callback) {
+    std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
   return QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
 }
 
