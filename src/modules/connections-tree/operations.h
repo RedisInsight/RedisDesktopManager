@@ -28,7 +28,7 @@ class Operations {
    * List of databases with keys counters
    * @emit databesesLoaded
    **/
-  virtual QFuture<void> getDatabases(std::function<void(QMap<int, int>)>) = 0;
+  virtual QFuture<void> getDatabases(std::function<void(QMap<int, int>, const QString&)>) = 0;
 
   /**
    * @brief loadNamespaceItems

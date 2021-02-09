@@ -68,8 +68,16 @@ int ServerItem::row() const
 void ServerItem::load() {
   lock();
 
-  std::function<void(RedisClient::DatabaseList)> callback =
-      [this](RedisClient::DatabaseList databases) {
+  std::function<void(RedisClient::DatabaseList, const QString&)> callback =
+      [this](RedisClient::DatabaseList databases, const QString& err) {
+        if (err.size() > 0) {
+          unlock();
+          emit m_model.error(
+              QCoreApplication::translate("RDM", "Cannot load databases:\n\n") +
+              err);
+          return;
+        }
+
         if (databases.size() == 0) {
           unlock();
           return;

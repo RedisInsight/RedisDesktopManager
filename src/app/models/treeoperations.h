@@ -24,8 +24,7 @@ class TreeOperations : public QObject,
 
   ~TreeOperations();
 
-  QFuture<void> getDatabases(
-      std::function<void(RedisClient::DatabaseList)>) override;
+  QFuture<void> getDatabases(std::function<void (RedisClient::DatabaseList, const QString&)>) override;
 
   void loadNamespaceItems(
       QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
@@ -104,7 +103,11 @@ signals:
   void filterHistoryUpdated();
 
  protected:
-  bool loadDatabases(std::function<void(RedisClient::DatabaseList)> callback);  
+  void loadDatabases(std::function<void(RedisClient::DatabaseList, const QString&)> callback);
+
+  void recursiveSelectScan(QSharedPointer<RedisClient::Connection> c,
+                           QSharedPointer<RedisClient::DatabaseList> dbList,
+                           std::function<void(RedisClient::DatabaseList, const QString&)> callback);
 
   bool connect(QSharedPointer<RedisClient::Connection> c);
 
