@@ -33,7 +33,7 @@ TreeView {
             color: styleData.selected ? sysPalette.highlight : "transparent"
         }
 
-        transientScrollBars: PlatformUtils.isOSX() ? true : false
+        transientScrollBars: true
 
         backgroundColor: sysPalette.button
     }
