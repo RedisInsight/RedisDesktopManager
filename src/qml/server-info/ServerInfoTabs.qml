@@ -17,6 +17,43 @@ Repeater {
 
         property int colWidth: tab.width / 7
 
+        function getValue(cat, prop) {
+            try {
+                return tab.model.serverInfo[cat][prop]
+            } catch(e) {
+                console.error("Cannot get server info '" + prop + "' from " + cat)
+                return ""
+            }
+        }
+
+        function getIntValue(cat, prop) {
+            var val = getValue(cat, prop)
+            if (val !== "") return parseInt(val)
+            return 0
+        }
+
+        function getHitRatio() {
+            var hits = getIntValue("stats", "keyspace_hits")
+            var misses = getIntValue("stats", "keyspace_misses")
+            var total = hits + misses
+            if (total === 0) {
+                return 0
+            }
+            return hits / total * 100
+        }
+
+        function getTotalKeysValue() {
+            var total = 0;
+
+            for (var key in tab.model.serverInfo["keyspace"]) {
+                var line = tab.model.serverInfo["keyspace"][key]
+                var parts = line.split(/[\:\=\,]/);
+                var count = parseInt(parts[1])
+                total += count
+            }
+            return total
+        }
+
         Component {
             id: serverTabButton
 
@@ -175,53 +212,16 @@ Repeater {
                     Connections {
                         target: tab.model? tab.model : null
 
-                        onServerInfoChanged: {
-                            usedMemoryLabel.text = getValue("memory", "used_memory_human")
-                            redisVersionLabel.text = getValue("server", "redis_version")
-                            connectedClientsLabel.text = getValue("clients", "connected_clients")
-                            totalCommandsProcessedLabel.text = getValue("stats", "total_commands_processed")
-                            uptimeLabel.text = getValue("server", "uptime_in_days") + qsTranslate("RDM"," day(s)")
-                            totalKeysLabel.text = getTotalKeysValue()
-                            hitRatioLabel.text = getHitRatio() + "%"
+                        function onServerInfoChanged() {
+                            usedMemoryLabel.text = tab.getValue("memory", "used_memory_human")
+                            redisVersionLabel.text = tab.getValue("server", "redis_version")
+                            connectedClientsLabel.text = tab.getValue("clients", "connected_clients")
+                            totalCommandsProcessedLabel.text = tab.getValue("stats", "total_commands_processed")
+                            uptimeLabel.text = tab.getValue("server", "uptime_in_days") + qsTranslate("RDM"," day(s)")
+                            totalKeysLabel.text = tab.getTotalKeysValue()
+                            hitRatioLabel.text = tab.getHitRatio() + "%"
                         }
 
-                        function getValue(cat, prop) {
-                            try {
-                                return tab.model.serverInfo[cat][prop]
-                            } catch(e) {
-                                console.error("Cannot get server info '" + prop + "' from " + cat)
-                                return ""
-                            }
-                        }
-
-                        function getIntValue(cat, prop) {
-                            var val = getValue(cat, prop)
-                            if (val != "") return parseInt(val)
-                            return 1
-                        }
-
-                        function getHitRatio() {
-                            var hits = getIntValue("stats", "keyspace_hits")
-                            var misses = getIntValue("stats", "keyspace_misses")
-                            var total = hits + misses
-                            if (total == 0) {
-                                return 0
-                            }
-                            return hits / total * 100
-                        }
-
-                        function getTotalKeysValue() {
-                            var total = 0;
-                            for (var i = 0; i <= 15; i++) {
-                                var line = getValue("keyspace", "db" + i)
-                                if (line) {
-                                    var parts = line.split(/[\:\=\,]/);
-                                    var count = parseInt(parts[1])
-                                    total += count
-                                }
-                            }
-                            return total
-                        }
                     }
                 }
 
@@ -231,7 +231,7 @@ Repeater {
                     Layout.preferredHeight: 30
 
                     TabButton {
-                        text: qsTranslate("RDM","Memory Usage")
+                        text: qsTranslate("RDM","Info")
                     }
 
                     TabButton {
@@ -259,66 +259,255 @@ Repeater {
 
                     currentIndex: serverInfoTabBar.currentIndex
 
-                    ChartView {
-                        objectName: "rdm_server_info_tab_memory_usage"
-                        id: view
+                    Item {
+                        id: infoCharts
 
-                        theme: {
-                            if (sysPalette.base.hslLightness < 0.4) {
-                                return ChartView.ChartThemeDark
-                            } else {
-                                return ChartView.ChartThemeLight
+                        GridLayout {
+                            id: infoChartsGrid
+                            columns: 3
+                            columnSpacing: 0
+                            rowSpacing: 0
+
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+
+                            property int chartWidth: tab.width / 3
+                            property int chartHeight: (tab.height - 60) / 2
+
+                            function chartTheme() {
+                                if (sysPalette.base.hslLightness < 0.4) {
+                                    return ChartView.ChartThemeDark
+                                } else {
+                                    return ChartView.ChartThemeLight
+                                }
                             }
-                        }
 
-                        backgroundColor: sysPalette.base
+                            ChartView {
+                                id: chartCommandsPerSec
 
-                        title: qsTranslate("RDM","Memory Usage")
-                        antialiasing: true
+                                Layout.preferredWidth: parent.chartWidth
+                                Layout.preferredHeight: parent.chartHeight
 
-                        DateTimeAxis {
-                            id: axisX
-                            min: new Date()
-                            format: "HH:mm:ss"
-                        }
+                                legend.visible: false
+                                backgroundRoundness: 0
 
-                        ValueAxis {
-                            id: axisY
-                            min: 0
-                            titleText: qsTranslate("RDM","Mb")
-                        }
+                                theme: parent.chartTheme()
 
-                        function toMsecsSinceEpoch(date) {
-                            var msecs = date.getTime();
-                            return msecs;
-                        }
+                                backgroundColor: sysPalette.base
 
-                        SplineSeries {
-                            id: used_memory_series
-                            name: "used_memory"
-                            axisX: axisX
-                            axisY: axisY
-                        }
+                                title: qsTranslate("RDM","Commands Per Second")
+                                antialiasing: true
 
-                        SplineSeries {
-                            id: used_memory_rss_series
-                            name: "used_memory_rss"
-                            axisX: axisX
-                            axisY: axisY
-                        }
+                                DateTimeAxis {
+                                    id: axisXCommandsPerSec
+                                    min: new Date()
+                                    format: "HH:mm:ss"
+                                }
 
-                        SplineSeries {
-                            id: used_memory_lua_series
-                            name: "used_memory_lua"
-                            axisX: axisX
-                            axisY: axisY
-                        }
+                                ValueAxis {
+                                    id: axisYCommandsPerSec
+                                    min: 0
+                                    max: 100
+                                    labelFormat: "%d"
+                                    titleText: qsTranslate("RDM","Ops/s")
+                                }
 
-                        SplineSeries {
-                            id: used_memory_peak_series
-                            name: "used_memory_peak"
-                            axisX: axisX
-                            axisY: axisY
+                                LineSeries {
+                                    id: commands_per_sec_series
+                                    name: "commands_per_sec"
+                                    axisX: axisXCommandsPerSec
+                                    axisY: axisYCommandsPerSec
+                                }
+                            }
+
+                            ChartView {
+                                id: chartConnectedClients
+
+                                Layout.preferredWidth: parent.chartWidth
+                                Layout.preferredHeight: parent.chartHeight
+
+                                legend.visible: false
+                                backgroundRoundness: 0
+
+                                theme: parent.chartTheme()
+
+                                backgroundColor: sysPalette.base
+
+                                title: qsTranslate("RDM","Connected Clients")
+                                antialiasing: true
+
+                                DateTimeAxis {
+                                    id: axisXConnectedClients
+                                    min: new Date()
+                                    format: "HH:mm:ss"
+                                }
+
+                                ValueAxis {
+                                    id: axisYConnectedClients
+                                    min: 0
+                                    max: 100
+                                    labelFormat: "%d"
+                                    titleText: qsTranslate("RDM","Clients")
+                                }
+
+                                SplineSeries {
+                                    id: connected_clients_series
+                                    name: "connected_clients"
+                                    axisX: axisXConnectedClients
+                                    axisY: axisYConnectedClients
+                                }
+                            }
+
+                            ChartView {
+                                id: chartMemoryUsage
+                                objectName: "rdm_server_info_tab_memory_usage"
+
+                                Layout.preferredWidth: parent.chartWidth
+                                Layout.preferredHeight: parent.chartHeight
+
+                                legend.visible: false
+                                backgroundRoundness: 0
+
+                                theme: parent.chartTheme()
+                                backgroundColor: sysPalette.base
+
+                                title: qsTranslate("RDM","Memory Usage")
+                                antialiasing: true
+
+                                DateTimeAxis {
+                                    id: axisXMemoryUsage
+                                    min: new Date()
+                                    format: "HH:mm:ss"
+                                }
+
+                                ValueAxis {
+                                    id: axisYMemoryUsage
+                                    min: 0
+                                    titleText: qsTranslate("RDM","Mb")
+                                }
+
+                                function toMsecsSinceEpoch(date) {
+                                    var msecs = date.getTime();
+                                    return msecs;
+                                }
+
+                                SplineSeries {
+                                    id: used_memory_series
+                                    name: "used_memory"
+                                    axisX: axisXMemoryUsage
+                                    axisY: axisYMemoryUsage
+                                }
+                            }
+
+                            ChartView {
+                                id: chartNetworkInput
+
+                                Layout.preferredWidth: parent.chartWidth
+                                Layout.preferredHeight: parent.chartHeight
+
+                                legend.visible: false
+                                backgroundRoundness: 0
+
+                                theme: parent.chartTheme()
+
+                                backgroundColor: sysPalette.base
+
+                                title: qsTranslate("RDM","Network Input")
+                                antialiasing: true
+
+                                DateTimeAxis {
+                                    id: axisXNetworkInput
+                                    min: new Date()
+                                    format: "HH:mm:ss"
+                                }
+
+                                ValueAxis {
+                                    id: axisYNetworkInput
+                                    min: 0
+                                    titleText: qsTranslate("RDM","Kb/s")
+                                }
+
+                                LineSeries {
+                                    id: network_input_series
+                                    name: "network_input"
+                                    axisX: axisXNetworkInput
+                                    axisY: axisYNetworkInput
+                                }
+                            }
+
+                            ChartView {
+                                id: chartNetworkOutput
+
+                                Layout.preferredWidth: parent.chartWidth
+                                Layout.preferredHeight: parent.chartHeight
+
+                                legend.visible: false
+                                backgroundRoundness: 0
+
+                                theme: parent.chartTheme()
+
+                                backgroundColor: sysPalette.base
+
+                                title: qsTranslate("RDM","Network Output")
+                                antialiasing: true
+
+                                DateTimeAxis {
+                                    id: axisXNetworkOutput
+                                    min: new Date()
+                                    format: "HH:mm:ss"
+                                }
+
+                                ValueAxis {
+                                    id: axisYNetworkOutput
+                                    min: 0
+                                    titleText: qsTranslate("RDM","Kb/s")
+                                }
+
+                                LineSeries {
+                                    id: network_output_series
+                                    name: "network_output"
+                                    axisX: axisXNetworkOutput
+                                    axisY: axisYNetworkOutput
+                                }
+                            }
+
+                            ChartView {
+                                id: chartTotalKeys
+
+                                Layout.preferredWidth: parent.chartWidth
+                                Layout.preferredHeight: parent.chartHeight
+
+                                legend.visible: false
+                                backgroundRoundness: 0
+
+                                theme: parent.chartTheme()
+
+                                backgroundColor: sysPalette.base
+
+                                title: qsTranslate("RDM","Total Keys")
+                                antialiasing: true
+
+                                DateTimeAxis {
+                                    id: axisXTotalKeys
+                                    min: new Date()
+                                    format: "HH:mm:ss"
+                                }
+
+                                ValueAxis {
+                                    id: axisYTotalKeys
+                                    min: 0
+                                    max: 100
+                                    labelFormat: "%d"
+                                    titleText: qsTranslate("RDM","Keys")
+                                }
+
+                                LineSeries {
+                                    id: total_keys_series
+                                    name: "total_keys"
+                                    axisX: axisXTotalKeys
+                                    axisY: axisYTotalKeys
+                                }
+                            }
                         }
 
                         Connections {
@@ -329,23 +518,54 @@ Repeater {
                                     uiBlocker.visible = false
                                 }
 
-                                var getValue = function (name) {
+                                var getUsedMemory = function (name) {
                                     return Math.round(parseFloat(tab.model.serverInfo["memory"][name] ) / (1024 * 1024)  * 100) / 100;
                                 }
 
-                                qmlUtils.addNewValueToDynamicChart(used_memory_series, getValue("used_memory"))
-                                qmlUtils.addNewValueToDynamicChart(used_memory_rss_series, getValue("used_memory_rss"))
-                                qmlUtils.addNewValueToDynamicChart(used_memory_lua_series, getValue("used_memory_lua"))
-                                qmlUtils.addNewValueToDynamicChart(used_memory_peak_series, getValue("used_memory_peak"))
+                                // Commands per second
+                                var commandsPerSec = parseInt(tab.getValue("stats", "instantaneous_ops_per_sec"))
+                                var commandsPerSecMax = commandsPerSec + (10 - commandsPerSec % 10)
+                                if (commandsPerSecMax > axisYCommandsPerSec.max)
+                                    axisYCommandsPerSec.max = commandsPerSecMax
+                                qmlUtils.addNewValueToDynamicChart(commands_per_sec_series, commandsPerSec)
 
-                                axisY.max = Math.max(getValue("used_memory_peak"),
-                                                     getValue("used_memory"),
-                                                     getValue("used_memory_rss"),
-                                                     getValue("used_memory_lua")) + 2;
+                                // Connected clients
+                                var connectedClients = parseInt(tab.getValue("clients", "connected_clients"))
+                                var connectedClientsMax = connectedClients + (10 - connectedClients % 10)
+                                if (connectedClientsMax > axisYConnectedClients.max)
+                                    axisYConnectedClients.max = connectedClientsMax
+                                qmlUtils.addNewValueToDynamicChart(connected_clients_series, connectedClients)
+
+                                // Memory usage
+                                var usedMemory = getUsedMemory("used_memory")
+                                var memoryUsageMax = getUsedMemory("used_memory") + (10 - usedMemory % 10)
+                                if (memoryUsageMax > axisYMemoryUsage.max)
+                                    axisYMemoryUsage.max = memoryUsageMax
+                                qmlUtils.addNewValueToDynamicChart(used_memory_series, usedMemory)
+
+                                // Network input
+                                var networkInput = parseFloat(tab.getValue("stats", "instantaneous_input_kbps"))
+                                var networkInputMax = networkInput + (10 - networkInput % 10)
+                                if (networkInputMax > axisYNetworkInput.max)
+                                    axisYNetworkInput.max = networkInputMax
+                                qmlUtils.addNewValueToDynamicChart(network_input_series, networkInput)
+
+                                // Network output
+                                var networkOutput = parseFloat(tab.getValue("stats", "instantaneous_output_kbps"))
+                                var networkOutputMax = networkOutput + (10 - networkOutput % 10)
+                                if (networkOutputMax > axisYNetworkOutput.max)
+                                    axisYNetworkOutput.max = networkOutputMax
+                                qmlUtils.addNewValueToDynamicChart(network_output_series, networkOutput)
+
+                                // Total keys
+                                var totalKeys = parseInt(tab.getTotalKeysValue())
+                                var totalKeysMax = totalKeys + (10 - totalKeys % 10)
+                                if (totalKeysMax > axisYTotalKeys.max)
+                                    axisYTotalKeys.max = totalKeysMax
+                                qmlUtils.addNewValueToDynamicChart(total_keys_series, totalKeys)
                             }
                         }
                     }
-
 
                     Item {
 
@@ -595,7 +815,7 @@ Repeater {
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
 
-                                model: tab.model.pubSubChannels ? tab.model.pubSubChannels : []                                
+                                model: tab.model.pubSubChannels ? tab.model.pubSubChannels : []
 
                                 rowDelegate: Item {
                                     height: 50
