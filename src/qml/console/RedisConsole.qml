@@ -30,7 +30,7 @@ Rectangle {
     }
 
     function displayPrompt() {
-        textArea.insert(textArea.length, "<br/>" + prompt)
+        textArea.insert(textArea.length, prompt)
         promptPosition = textArea.length - promptLength
         //textArea.cursorPosition = textArea.length - 1
     }
@@ -53,6 +53,7 @@ Rectangle {
 
         if (type == "complete" || type == "error") {
             textArea.blockAllInput = false
+            textArea.append("<br/>")
             displayPrompt()
         }
     }
@@ -157,7 +158,14 @@ Rectangle {
                 var command = getText(commandStartPos, length)
                 blockAllInput = true
                 event.accepted = true
-                root.execCommand(command)
+
+                if (command.toLowerCase() === "clear") {
+                    root.clear()
+                    root.displayPrompt()
+                    blockAllInput = false
+                } else {
+                    root.execCommand(command)
+                }
 
                 commandsHistoryModel.appendCommand(command)
             }
@@ -167,6 +175,28 @@ Rectangle {
 
         Component.onCompleted: {
             textArea.text = root.initText
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.RightButton
+
+            onClicked: {
+                menu.popup()
+            }
+        }
+
+        Menu {
+            id: menu
+
+            MenuItem {
+                text: qsTranslate("RDM","Clear")
+                iconSource: "qrc:/images/cleanup.svg"
+                onTriggered: {
+                    root.clear()
+                    root.displayPrompt()
+                }
+            }
         }
     }
 
