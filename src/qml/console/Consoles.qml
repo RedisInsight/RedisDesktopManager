@@ -48,8 +48,8 @@ Repeater {
             Connections {
                 target: tabModel
 
-                onChangePrompt: redisConsole.setPrompt(text, showPrompt)
-                onAddOutput: redisConsole.addOutput(text, resultType)
+                function onChangePrompt(text, showPrompt) { redisConsole.setPrompt(text, showPrompt) }
+                function onAddOutput(text, resultType) { redisConsole.addOutput(text, resultType) }
             }
 
             onExecCommand: tabModel.executeCommand(command)
