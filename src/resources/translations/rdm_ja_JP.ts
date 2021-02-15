@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="357"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="389"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="388"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation>クラスタノードに書き込みできません&#x3000;%1:%2</translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="400"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="399"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="426"/>
         <source>Cannot flush db (%1): %2</source>
         <translation>DBをフラッシュできません&#x3000;(%1): %2</translation>
     </message>
@@ -176,7 +176,7 @@
         <translation>RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="370"/>
+        <location filename="../../app/app.cpp" line="388"/>
         <source>Please download new version of RDM: %1</source>
         <translation>新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
     </message>
@@ -228,8 +228,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
-        <location filename="../../app/models/treeoperations.cpp" line="63"/>
-        <location filename="../../app/models/treeoperations.cpp" line="110"/>
+        <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>接続エラー: </translation>
@@ -271,32 +270,32 @@
         <translation>キーの型を取得できません: </translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="88"/>
+        <location filename="../../app/models/treeoperations.cpp" line="110"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>サーバ&apos;%1&apos;に接続できません。詳細はログを確認してください。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="98"/>
+        <location filename="../../app/models/treeoperations.cpp" line="120"/>
         <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation>オープンソース版のRedis Desktop ManagerはSSHトンネルをサポートして&lt;b&gt;いません&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;全ての機能を有効にするには&lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;でサブスクリプションに加入してください。&lt;br/&gt;&lt;br /&gt;ご加入の皆様からいただきました資金により、私たちは開発を続けることができ、皆様をサポートできます。&lt;br /&gt;もしご質問がございましたらお気軽に&lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;または&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;までお問い合わせください。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="173"/>
+        <location filename="../../app/models/treeoperations.cpp" line="195"/>
         <source>Cannot load keys: %1</source>
         <translation>キーをロードできません: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="259"/>
+        <location filename="../../app/models/treeoperations.cpp" line="281"/>
         <source>Delete key error: %1</source>
         <translation>キー削除エラー: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="378"/>
+        <location filename="../../app/models/treeoperations.cpp" line="400"/>
         <source>Cannot used memory for key: %1</source>
         <translation>キーのメモリを使えませんでした: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="322"/>
+        <location filename="../../app/models/treeoperations.cpp" line="344"/>
         <source>Cannot flush database: </source>
         <translation>データベースをフラッシュできません: </translation>
     </message>
@@ -332,7 +331,8 @@
         <translation>このデータベースから全てのキーを削除しても本当によろしいですか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="76"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="68"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="76"/>
         <source>Cannot load databases:
 
 </source>
@@ -468,12 +468,12 @@
         <translation>すべて検索</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="181"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>この接続に関連する値とコンソールのタブを閉じます。続行しますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="193"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="201"/>
         <source>Do you really want to delete connection?</source>
         <translation>接続を本当に削除しますか?</translation>
     </message>
@@ -1134,7 +1134,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="175"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="238"/>
         <source>Server Info</source>
         <translation>サーバ情報</translation>
     </message>
@@ -1170,149 +1170,206 @@
         <translation>接続中...</translation>
     </message>
     <message>
-        <location filename="../../qml/console/RedisConsole.qml" line="203"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="193"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/console/RedisConsole.qml" line="233"/>
         <source>Arguments</source>
         <translation>パラメーター</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="267"/>
-        <location filename="../../qml/console/RedisConsole.qml" line="209"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation>説明</translation>
     </message>
     <message>
-        <location filename="../../qml/console/RedisConsole.qml" line="215"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="245"/>
         <source>Available since</source>
         <translation>利用可能</translation>
     </message>
     <message>
-        <location filename="../../qml/console/RedisConsole.qml" line="266"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="296"/>
         <source>Close</source>
         <translation>閉じる</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="69"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="108"/>
         <source>Redis Version</source>
         <translation>Redisバージョン</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="84"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="123"/>
         <source>Used memory</source>
         <translation>消費メモリ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="99"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="183"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="138"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="246"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="350"/>
         <source>Clients</source>
         <translation>クライアント数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="114"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="153"/>
         <source>Commands Processed</source>
         <translation>実行コマンド数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="131"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="170"/>
         <source>Uptime</source>
         <translation>稼働時間</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="151"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
+        <source>Total Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
+        <source>Hit Ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
         <source> day(s)</source>
         <translation> 日</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="171"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="213"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
+        <source>Commands Per Second</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
+        <source>Ops/s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
+        <source>Connected Clients</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
         <source>Memory Usage</source>
         <translation>メモリ消費量</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="225"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="386"/>
         <source>Mb</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="301"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="409"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="466"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
+        <source>Network Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
+        <source>Kb/s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
+        <source>Network Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
+        <source>Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="692"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="749"/>
         <source>Auto Refresh</source>
         <translation>自動リフレッシュ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="335"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="618"/>
         <source>Property</source>
         <translation>プロパティ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="341"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="21"/>
         <source>Value</source>
         <translation>値</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="554"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="837"/>
         <source>Subscribe in Console</source>
         <translation>コンソール上でサブスクライブ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="242"/>
         <source>Slowlog</source>
         <translation>Slowlog</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="188"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="251"/>
         <source>Pub/Sub Channels</source>
         <translation>Pub/Subチャンネル</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="524"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="807"/>
         <source>Enable</source>
         <translation>有効</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="543"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="826"/>
         <source>Channel Name</source>
         <translation>チャンネル名</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="261"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
         <translation>コマンド</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="441"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="724"/>
         <source>Processed at</source>
         <translation>処理</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="447"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
         <source>Execution Time (μs)</source>
         <translation>実行時間(μs)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="481"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="764"/>
         <source>Client Address</source>
         <translation>クライアントのアドレス</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="770"/>
         <source>Age (sec)</source>
         <translation>経過時間(秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="493"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="776"/>
         <source>Idle</source>
         <translation>アイドル</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="499"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="782"/>
         <source>Flags</source>
         <translation>フラグ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="505"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="788"/>
         <source>Current Database</source>
         <translation>現在のデータベース</translation>
     </message>
