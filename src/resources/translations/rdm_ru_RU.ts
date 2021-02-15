@@ -151,14 +151,14 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="357"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="389"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="388"/>
         <source>Cannot connect to cluster node %1:%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="400"/>
-        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="418"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="399"/>
+        <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="426"/>
         <source>Cannot flush db (%1): %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -176,7 +176,7 @@
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="370"/>
+        <location filename="../../app/app.cpp" line="388"/>
         <source>Please download new version of RDM: %1</source>
         <translation>Скачайте новую версию RDM: %1</translation>
     </message>
@@ -228,8 +228,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
-        <location filename="../../app/models/treeoperations.cpp" line="63"/>
-        <location filename="../../app/models/treeoperations.cpp" line="110"/>
+        <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>Ошибка подключения: </translation>
@@ -279,27 +278,27 @@
         <translation type="vanished">Строка была изменена и не может быть удалена. Перезагрузите и попробуйте снова.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="88"/>
+        <location filename="../../app/models/treeoperations.cpp" line="110"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>Невозможно подключится к серверу &apos;%1&apos;. Для дельной информации смотрите логи.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="98"/>
+        <location filename="../../app/models/treeoperations.cpp" line="120"/>
         <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="173"/>
+        <location filename="../../app/models/treeoperations.cpp" line="195"/>
         <source>Cannot load keys: %1</source>
         <translation>Ошибка при загрузке ключей: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="259"/>
+        <location filename="../../app/models/treeoperations.cpp" line="281"/>
         <source>Delete key error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="378"/>
+        <location filename="../../app/models/treeoperations.cpp" line="400"/>
         <source>Cannot used memory for key: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -312,7 +311,7 @@
         <translation type="vanished">Ошибка при удалении: </translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="322"/>
+        <location filename="../../app/models/treeoperations.cpp" line="344"/>
         <source>Cannot flush database: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -352,7 +351,8 @@
         <translation>Удалить все ключи из этой базы?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="76"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="68"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="76"/>
         <source>Cannot load databases:
 
 </source>
@@ -510,12 +510,12 @@
         <translation type="obsolete">Ошибка ключа</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="181"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>Будут закрыты вкладки консоли и значений, имеющие отношение к этому подключению. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="193"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="201"/>
         <source>Do you really want to delete connection?</source>
         <translation type="unfinished">Удалить подключение?</translation>
     </message>
@@ -1286,7 +1286,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="175"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="238"/>
         <source>Server Info</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1330,149 +1330,206 @@
         <translation type="unfinished">Подключение...</translation>
     </message>
     <message>
-        <location filename="../../qml/console/RedisConsole.qml" line="203"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="193"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/console/RedisConsole.qml" line="233"/>
         <source>Arguments</source>
         <translation type="unfinished">Параметры</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="267"/>
-        <location filename="../../qml/console/RedisConsole.qml" line="209"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation type="unfinished">Описание</translation>
     </message>
     <message>
-        <location filename="../../qml/console/RedisConsole.qml" line="215"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="245"/>
         <source>Available since</source>
         <translation type="unfinished">Доступно с</translation>
     </message>
     <message>
-        <location filename="../../qml/console/RedisConsole.qml" line="266"/>
+        <location filename="../../qml/console/RedisConsole.qml" line="296"/>
         <source>Close</source>
         <translation type="unfinished">Закрыть</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="69"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="108"/>
         <source>Redis Version</source>
         <translation type="unfinished">Версия Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="84"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="123"/>
         <source>Used memory</source>
         <translation>Использовано памяти</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="99"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="183"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="138"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="246"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="350"/>
         <source>Clients</source>
         <translation type="unfinished">Клиенты</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="114"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="153"/>
         <source>Commands Processed</source>
         <translation type="unfinished">Обработано команд</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="131"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="170"/>
         <source>Uptime</source>
         <translation>Uptime</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="151"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
+        <source>Total Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
+        <source>Hit Ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
         <source> day(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="171"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="213"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
+        <source>Commands Per Second</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
+        <source>Ops/s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
+        <source>Connected Clients</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
         <source>Memory Usage</source>
         <translation type="unfinished">Использование памяти</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="225"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="386"/>
         <source>Mb</source>
         <translation type="unfinished">Мб</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="301"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="409"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="466"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
+        <source>Network Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
+        <source>Kb/s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
+        <source>Network Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
+        <source>Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="692"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="749"/>
         <source>Auto Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="335"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="618"/>
         <source>Property</source>
         <translation type="unfinished">Свойство</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="341"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="21"/>
         <source>Value</source>
         <translation>Значение</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="554"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="837"/>
         <source>Subscribe in Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="179"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="242"/>
         <source>Slowlog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="188"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="251"/>
         <source>Pub/Sub Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="524"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="807"/>
         <source>Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="543"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="826"/>
         <source>Channel Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="261"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="424"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="441"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="724"/>
         <source>Processed at</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="447"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
         <source>Execution Time (μs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="481"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="764"/>
         <source>Client Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="770"/>
         <source>Age (sec)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="493"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="776"/>
         <source>Idle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="499"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="782"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="505"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="788"/>
         <source>Current Database</source>
         <translation type="unfinished"></translation>
     </message>
