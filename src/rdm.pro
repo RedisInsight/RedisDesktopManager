@@ -36,7 +36,6 @@ SOURCES += \
     $$files($$PWD/modules/console/*.cpp) \
     $$files($$PWD/modules/value-editor/*model.cpp) \
     $$files($$PWD/modules/value-editor/embedded*.cpp) \
-    $$files($$PWD/modules/updater/*.cpp) \
     $$files($$PWD/modules/bulk-operations/*.cpp) \
     $$files($$PWD/modules/bulk-operations/operations/*.cpp) \
     $$files($$PWD/modules/common/*.cpp) \
@@ -57,7 +56,6 @@ HEADERS  += \
     $$files($$PWD/modules/value-editor/*factory.h) \
     $$files($$PWD/modules/value-editor/*model.h) \
     $$files($$PWD/modules/value-editor/embedded*.h) \
-    $$files($$PWD/modules/updater/*.h) \
     $$files($$PWD/modules/*.h) \
     $$files($$PWD/modules/bulk-operations/*.h) \
     $$files($$PWD/modules/bulk-operations/operations/*.h) \

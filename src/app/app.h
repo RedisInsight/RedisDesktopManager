@@ -46,7 +46,6 @@ class Application : public QApplication {
   void initAppInfo();
   void initAppFonts();
   void initProxySettings();
-  void initUpdater();
   void initPython();
 
   void registerQmlTypes();
@@ -55,7 +54,6 @@ class Application : public QApplication {
   void processCmdArgs();
 
  private slots:
-  void OnNewUpdateAvailable(QString &url);
   void updatePalette();
 
  private:
@@ -63,7 +61,6 @@ class Application : public QApplication {
   QSharedPointer<QmlUtils> m_qmlUtils;
   QSharedPointer<Events> m_events;
   QSharedPointer<ConnectionsManager> m_connections;
-  QSharedPointer<Updater> m_updater;
   QSharedPointer<KeyFactory> m_keyFactory;
   QSharedPointer<ValueEditor::TabsModel> m_keyValues;
 #ifdef ENABLE_EXTERNAL_FORMATTERS
