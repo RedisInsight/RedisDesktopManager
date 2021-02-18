@@ -29,7 +29,6 @@
 #include "modules/console/autocompletemodel.h"
 #include "modules/console/consolemodel.h"
 #include "modules/server-stats/serverstatsmodel.h"
-#include "modules/updater/updater.h"
 #include "modules/value-editor/embeddedformattersmanager.h"
 #ifdef ENABLE_EXTERNAL_FORMATTERS
 #include "modules/value-editor/externalformattersmanager.h"
@@ -57,9 +56,6 @@ Application::Application(int& argc, char** argv)
 #endif
 
   initRedisClient();
-#ifndef RDM_APPSTORE
-  initUpdater();
-#endif
   installTranslator();
   initPython();
 }
@@ -303,12 +299,6 @@ void Application::initQml() {
   qDebug() << "Rendering backend:" << QQuickWindow::sceneGraphBackend();
 }
 
-void Application::initUpdater() {
-  m_updater = QSharedPointer<Updater>(new Updater());
-  connect(m_updater.data(), SIGNAL(updateUrlRetrived(QString&)), this,
-          SLOT(OnNewUpdateAvailable(QString&)));
-}
-
 void Application::initPython() {
   m_python = QSharedPointer<QPython>(new QPython(this, 1, 5));
   m_python->addImportPath("qrc:/python/");
@@ -380,14 +370,6 @@ void Application::processCmdArgs() {
   m_settingsDir = parser.value(settingsDir);
   m_formattersDir = parser.value(formattersDir);
   m_renderingBackend = parser.value(renderingBackend);
-}
-
-void Application::OnNewUpdateAvailable(QString& url) {
-  QMessageBox::information(
-      nullptr, "New update available",
-      QCoreApplication::translate(
-          "RDM", "Please download new version of RDM: %1")
-              .arg(url));
 }
 
 void Application::updatePalette()
