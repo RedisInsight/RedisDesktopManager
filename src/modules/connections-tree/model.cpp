@@ -116,11 +116,6 @@ bool Model::hasChildren(const QModelIndex &parent) const {
 
   if (parentItem->type() == "key") return false;
 
-  if (parentItem->type() == "namespace"
-          || parentItem->type() == "server"
-          || parentItem->type() == "server_group")
-    return true;
-
   return parentItem->childCount() > 0;
 }
 
