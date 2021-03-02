@@ -16,6 +16,7 @@ Button {
     font.capitalization: Font.Capitalize
 
     palette.button: sysPalette.button
+    palette.brightText: sysPalette.highlightedText
     palette.windowText: sysPalette.text
     palette.buttonText: enabled ? sysPalette.text : disabledSysPalette.text
 
