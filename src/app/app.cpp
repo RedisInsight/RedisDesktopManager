@@ -100,6 +100,10 @@ void Application::initModels() {
   m_connections = QSharedPointer<ConnectionsManager>(
       new ConnectionsManager(config, m_events));
 
+  QTimer::singleShot(500, [this]() {
+    if (m_connections) m_connections->loadConnections();
+  });
+
   m_bulkOperations = QSharedPointer<BulkOperations::Manager>(
       new BulkOperations::Manager(m_connections, m_python));
 
@@ -147,7 +151,9 @@ void Application::initModels() {
     m_formattersManager->setPath(m_formattersDir);
   }
 
-  m_formattersManager->loadFormatters();
+  QTimer::singleShot(1000, [this]() {
+    if (m_formattersManager) m_formattersManager->loadFormatters();
+  });
 #endif
 
   m_embeddedFormatters = QSharedPointer<ValueEditor::EmbeddedFormattersManager>(

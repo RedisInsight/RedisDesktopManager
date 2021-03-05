@@ -29,6 +29,8 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
   ~ConnectionsManager(void);
 
+  void loadConnections();
+
   Q_INVOKABLE void addNewConnection(const ServerConfig& config,
                                     bool saveToConfig = true,
                                     QSharedPointer<ConnectionsTree::ServerGroup> group =
@@ -67,6 +69,8 @@ class ConnectionsManager : public ConnectionsTree::Model,
   void connectionAboutToBeEdited(QString name);
 
   void sizeChanged();
+
+  void connectionsLoaded();
 
  protected:
   bool loadConnectionsConfigFromFile(const QString& config,

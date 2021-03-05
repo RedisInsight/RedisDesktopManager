@@ -15,15 +15,19 @@
 ConnectionsManager::ConnectionsManager(const QString& configPath,
                                        QSharedPointer<Events> events)
     : ConnectionsTree::Model(), m_configPath(configPath), m_events(events) {
-  if (!configPath.isEmpty() && QFile::exists(configPath)) {
-    loadConnectionsConfigFromFile(configPath);
-  }
-
   connect(this, &ConnectionsTree::Model::error, m_events.data(),
           &Events::error);
 }
 
 ConnectionsManager::~ConnectionsManager(void) {}
+
+void ConnectionsManager::loadConnections() {
+  if (!m_configPath.isEmpty() && QFile::exists(m_configPath)) {
+    loadConnectionsConfigFromFile(m_configPath);
+  }
+
+  emit connectionsLoaded();
+}
 
 void ConnectionsManager::addNewConnection(
     const ServerConfig& config, bool saveToConfig,

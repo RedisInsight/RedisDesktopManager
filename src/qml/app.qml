@@ -205,7 +205,7 @@ ApplicationWindow {
             connectionGroupDialog.open()
         }
 
-        Component.onCompleted: {
+        function onConnectionsLoaded() {
             if (connectionsManager.size() === 0)
                 quickStartDialog.open()
         }
