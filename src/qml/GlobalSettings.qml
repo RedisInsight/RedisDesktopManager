@@ -18,7 +18,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 950
-        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 550 : 680
+        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 600 : 730
 
         color: sysPalette.base
 
@@ -179,6 +179,16 @@ Dialog {
                         columnSpacing: 20
 
                         BoolOption {
+                            id: nsOnTop
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            value: Qt.platform.os == "windiws"? true : false
+                            label: qsTranslate("RDM","Show namespaced keys on top")
+                        }
+
+                        BoolOption {
                             id: nsReload
 
                             Layout.fillWidth: true
@@ -305,6 +315,7 @@ Dialog {
         id: globalSettings
         category: "app"
 
+        property alias showNamespacesOnTop: nsOnTop.value
         property alias reopenNamespacesOnReload: nsReload.value        
         property alias namespacedKeysShortName: namespacedKeysShortName.value
         property alias liveUpdateKeysLimit: liveKeyLimit.value

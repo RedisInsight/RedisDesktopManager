@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>API::Client</name>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="621"/>
+        <source>Download was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="628"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BulkOperationsDialog</name>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
@@ -143,7 +156,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="295"/>
+        <location filename="../../qml/GlobalSettings.qml" line="305"/>
         <source>Cancel</source>
         <translation type="unfinished">Отмена</translation>
     </message>
@@ -176,9 +189,8 @@
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="388"/>
         <source>Please download new version of RDM: %1</source>
-        <translation>Скачайте новую версию RDM: %1</translation>
+        <translation type="vanished">Скачайте новую версию RDM: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
@@ -851,8 +863,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <source>Sign in with rdm.dev account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="143"/>
+        <source>Email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="159"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
+        <source>Application will be restarted to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="213"/>
+        <source>Sign In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -946,7 +979,7 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
-        <location filename="../../qml/GlobalSettings.qml" line="283"/>
+        <location filename="../../qml/GlobalSettings.qml" line="293"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
@@ -1000,6 +1033,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="204"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>Использовать прокси-сервер операционной системы</translation>
@@ -1026,16 +1060,21 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
+        <source>Show namespaced keys on top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="198"/>
         <source>Reopen namespaces on reload</source>
         <translation type="unfinished">Переоткрыть пространства имен при перезагрузке</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="189"/>
+        <location filename="../../qml/GlobalSettings.qml" line="199"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(Отключите для увеличения производительности)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="199"/>
+        <location filename="../../qml/GlobalSettings.qml" line="209"/>
         <source>Show only last part for namespaced keys</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1044,17 +1083,17 @@
         <translation type="obsolete">Включить сортировку ключей в дереве</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="211"/>
+        <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
         <translation type="unfinished">Обновление в реальном времени максимума разрешенных ключей</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="223"/>
+        <location filename="../../qml/GlobalSettings.qml" line="233"/>
         <source>Live update interval (in seconds)</source>
         <translation type="unfinished">Интервал обновления (в секундах)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="231"/>
+        <location filename="../../qml/GlobalSettings.qml" line="241"/>
         <source>External Value View Formatters</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1063,17 +1102,17 @@
         <translation type="obsolete">Пользовательские значения форматирования вывода</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="236"/>
+        <location filename="../../qml/GlobalSettings.qml" line="246"/>
         <source>Formatters path: %0</source>
         <translation type="unfinished">Путь к форматированию: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="252"/>
+        <location filename="../../qml/GlobalSettings.qml" line="262"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="257"/>
+        <location filename="../../qml/GlobalSettings.qml" line="267"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1171,6 +1210,7 @@
         <translation type="obsolete">Выполнить массовую операцию?</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="182"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation type="unfinished">Показать пароль</translation>
@@ -1340,7 +1380,7 @@
         <translation type="unfinished">Параметры</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="267"/>
+        <location filename="../../qml/GlobalSettings.qml" line="277"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation type="unfinished">Описание</translation>
@@ -1493,7 +1533,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="261"/>
+        <location filename="../../qml/GlobalSettings.qml" line="271"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
@@ -1711,7 +1751,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="145"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1788,6 +1828,11 @@
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="330"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

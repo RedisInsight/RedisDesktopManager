@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
+    <name>API::Client</name>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="621"/>
+        <source>Download was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="628"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BulkOperationsDialog</name>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
@@ -143,7 +156,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="295"/>
+        <location filename="../../qml/GlobalSettings.qml" line="305"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -176,9 +189,8 @@
         <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos del fichero o reinicia RDM como administrador.</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="388"/>
         <source>Please download new version of RDM: %1</source>
-        <translation>Por favor descarga la nueva versión de RDM: %1</translation>
+        <translation type="vanished">Por favor descarga la nueva versión de RDM: %1</translation>
     </message>
     <message>
         <source>Key with new name already exist in database or original key was removed</source>
@@ -985,7 +997,7 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
-        <location filename="../../qml/GlobalSettings.qml" line="283"/>
+        <location filename="../../qml/GlobalSettings.qml" line="293"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
@@ -1017,8 +1029,9 @@
         <translation type="vanished">Se necesita reiniciar la aplicación para aplicar este ajuste.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="vanished">La aplicación se reiniciara para aplicar este ajuste.</translation>
+        <translation>La aplicación se reiniciara para aplicar este ajuste.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="93"/>
@@ -1047,6 +1060,7 @@
         <translation>Tamaño en bytes</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="204"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>Usar ajustes del proxy del sistema</translation>
@@ -1073,16 +1087,21 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
+        <source>Show namespaced keys on top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="198"/>
         <source>Reopen namespaces on reload</source>
         <translation>Reabrir espacios de nombres al recargar</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="189"/>
+        <location filename="../../qml/GlobalSettings.qml" line="199"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>Desactivar para mejorar el rendimiento de la vista de árbol</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="199"/>
+        <location filename="../../qml/GlobalSettings.qml" line="209"/>
         <source>Show only last part for namespaced keys</source>
         <translation>Mostrar únicamete la última parte de claves con nombres de espacio</translation>
     </message>
@@ -1091,17 +1110,17 @@
         <translation type="vanished">Activar ordenamiento de claves en el árbol</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="211"/>
+        <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
         <translation>Máximo de claves permitidas en actualización automática</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="223"/>
+        <location filename="../../qml/GlobalSettings.qml" line="233"/>
         <source>Live update interval (in seconds)</source>
         <translation>Intervalo de actualización automática (en segundos)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="231"/>
+        <location filename="../../qml/GlobalSettings.qml" line="241"/>
         <source>External Value View Formatters</source>
         <translation>Formateadores Externos de Visor de Valores</translation>
     </message>
@@ -1110,17 +1129,17 @@
         <translation type="vanished">Formateadores personalizados de visor de valores</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="236"/>
+        <location filename="../../qml/GlobalSettings.qml" line="246"/>
         <source>Formatters path: %0</source>
         <translation>Ruta a formateadores: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="252"/>
+        <location filename="../../qml/GlobalSettings.qml" line="262"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="257"/>
+        <location filename="../../qml/GlobalSettings.qml" line="267"/>
         <source>Version</source>
         <translation>Versión</translation>
     </message>
@@ -1218,26 +1237,31 @@
         <translation type="vanished">¿De verdad quieres realizar la operación masiva?</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
         <source>Sign in with rdm.dev account</source>
-        <translation type="vanished">Identificarse con una cuenta rdm.dev</translation>
+        <translation>Identificarse con una cuenta rdm.dev</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="143"/>
         <source>Email:</source>
-        <translation type="vanished">Email:</translation>
+        <translation>Email:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="159"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
         <translation>Contraseña:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="182"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>Mostrar contraseña</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="213"/>
         <source>Sign In</source>
-        <translation type="vanished">Identificarse</translation>
+        <translation>Identificarse</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="183"/>
@@ -1404,7 +1428,7 @@
         <translation>Argumentos</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="267"/>
+        <location filename="../../qml/GlobalSettings.qml" line="277"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation>Descripción</translation>
@@ -1566,7 +1590,7 @@
         <translation>Nombre de Canal</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="261"/>
+        <location filename="../../qml/GlobalSettings.qml" line="271"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
         <translation>Comando</translation>
@@ -1795,7 +1819,7 @@
         <translation>No se puede asignar el TTL a la clave </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="145"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation>El servidor redis no soporta comandos &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;.</translation>
     </message>
@@ -1805,8 +1829,9 @@
         <translation>Clave añadida. ¿Quiere recargar las claves en el namespace seleccionado?</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="330"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
-        <translation type="vanished">No se puede iniciar sesión - %1. &lt;br/&gt; Por favor, inténtalo de nuevo o contacta con &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
+        <translation>No se puede iniciar sesión - %1. &lt;br/&gt; Por favor, inténtalo de nuevo o contacta con &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>

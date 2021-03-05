@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>API::Client</name>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="621"/>
+        <source>Download was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="628"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BulkOperationsDialog</name>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
@@ -143,7 +156,7 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="295"/>
+        <location filename="../../qml/GlobalSettings.qml" line="305"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -176,9 +189,8 @@
         <translation>RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="388"/>
         <source>Please download new version of RDM: %1</source>
-        <translation>请下载新版本的 RDM: %1</translation>
+        <translation type="vanished">请下载新版本的 RDM: %1</translation>
     </message>
     <message>
         <source>Key with new name already exist in database or original key was removed</source>
@@ -987,7 +999,7 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
-        <location filename="../../qml/GlobalSettings.qml" line="283"/>
+        <location filename="../../qml/GlobalSettings.qml" line="293"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
@@ -1019,8 +1031,9 @@
         <translation type="vanished">需要重启RDM来使设置生效。</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="obsolete">新设置将在软件重启后生效</translation>
+        <translation type="unfinished">新设置将在软件重启后生效</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="93"/>
@@ -1053,6 +1066,7 @@
         <translation type="unfinished">字节长度</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="204"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>使用系统代理设置</translation>
@@ -1079,16 +1093,21 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
+        <source>Show namespaced keys on top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="198"/>
         <source>Reopen namespaces on reload</source>
         <translation>重载时重新打开命名空间</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="189"/>
+        <location filename="../../qml/GlobalSettings.qml" line="199"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(禁用树状视图提高性能)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="199"/>
+        <location filename="../../qml/GlobalSettings.qml" line="209"/>
         <source>Show only last part for namespaced keys</source>
         <translation type="unfinished">仅显示命名空间中键名最后一部分内容</translation>
     </message>
@@ -1097,17 +1116,17 @@
         <translation type="vanished">打开树状视图键名排序功能</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="211"/>
+        <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
         <translation>实时更新最大允许键数量</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="223"/>
+        <location filename="../../qml/GlobalSettings.qml" line="233"/>
         <source>Live update interval (in seconds)</source>
         <translation>实时更新间隔 (秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="231"/>
+        <location filename="../../qml/GlobalSettings.qml" line="241"/>
         <source>External Value View Formatters</source>
         <translation type="unfinished">外部键值格式化配置</translation>
     </message>
@@ -1116,17 +1135,17 @@
         <translation type="vanished">自定义键值格式化配置</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="236"/>
+        <location filename="../../qml/GlobalSettings.qml" line="246"/>
         <source>Formatters path: %0</source>
         <translation>格式化配置路径：%0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="252"/>
+        <location filename="../../qml/GlobalSettings.qml" line="262"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="257"/>
+        <location filename="../../qml/GlobalSettings.qml" line="267"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
@@ -1224,26 +1243,31 @@
         <translation type="vanished">确认要执行批量操作？</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
         <source>Sign in with rdm.dev account</source>
-        <translation type="obsolete">使用 rdm.dev 账号登陆</translation>
+        <translation type="unfinished">使用 rdm.dev 账号登陆</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="143"/>
         <source>Email:</source>
-        <translation type="obsolete">邮箱：</translation>
+        <translation type="unfinished">邮箱：</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="159"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
         <translation type="unfinished">密码：</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="182"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="213"/>
         <source>Sign In</source>
-        <translation type="obsolete">登录</translation>
+        <translation type="unfinished">登录</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="183"/>
@@ -1410,7 +1434,7 @@
         <translation>参数</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="267"/>
+        <location filename="../../qml/GlobalSettings.qml" line="277"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation>描述</translation>
@@ -1563,7 +1587,7 @@
         <translation type="unfinished">通道名</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="261"/>
+        <location filename="../../qml/GlobalSettings.qml" line="271"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
         <translation>指令</translation>
@@ -1793,7 +1817,7 @@
         <translation type="unfinished">无法给该键设置TTL</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="145"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation type="unfinished">你的Redis服务端不支持 &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; 指令</translation>
     </message>
@@ -1803,8 +1827,9 @@
         <translation type="unfinished">键已经添加。需要重新加载选中的命名空间中的键吗？</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="330"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
-        <translation type="obsolete">无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
+        <translation type="unfinished">无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>

@@ -88,5 +88,6 @@ class AbstractNamespaceItem : public QObject, public TreeItem, public MemoryUsag
   bool m_expanded;
   uint m_dbIndex;
   QSharedPointer<AsyncFuture::Deferred<qlonglong>> m_runningOperation;
+  bool m_showNsOnTop;
 };
 }  // namespace ConnectionsTree
