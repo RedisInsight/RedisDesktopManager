@@ -28,8 +28,8 @@ BetterTab {
                 Layout.fillWidth: true
                 RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size:30px;">RDM.dev - GUI for Redis<sup>®</sup></span>'}
                 RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size: 13px;"><b>Version</b> ' + Qt.application.version +'</span>' }
-                RichTextWithLinks { Layout.fillWidth: true;  html:  '<span style="font-size: 11px;">Powered by awesome <a href="https://github.com/uglide/RedisDesktopManager/tree/2019/3rdparty">open-source software</a> and '
-                                                                    + '<br /><a href="http://icons8.com/">icons from icons8.com</a>.</span>'}
+                RichTextWithLinks { Layout.fillWidth: true;  html:  '<span style="font-size: 11px;">Powered by awesome <a href="https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty">open-source software</a> and '
+                                                                    + '<a href="http://icons8.com/">icons8</a>.</span>'}
             }
         }
                 
