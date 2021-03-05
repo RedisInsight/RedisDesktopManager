@@ -7,7 +7,7 @@ BrandingText "Open source GUI management tool for Redis"
 
 RequestExecutionLevel admin
 
-SetCompress force
+SetCompress auto
 SetCompressor /SOLID /FINAL lzma
 ManifestDPIAware true
 
@@ -76,8 +76,10 @@ Section -Main SEC0000
 
     IfFileExists $INSTDIR\uninstall.exe already_installed not_installed
     already_installed:
-    ExecWait '$INSTDIR\uninstall.exe /S'
-    Sleep 3000
+    CopyFiles /SILENT /FILESONLY "$INSTDIR\uninstall.exe" "$INSTDIR\uninstall_.exe"
+    ExecWait '"$INSTDIR\uninstall_.exe" /S _?=$INSTDIR'
+    Sleep 100
+    Delete /REBOOTOK $INSTDIR\uninstall_.exe
 
     not_installed:
     SetOutPath $INSTDIR    
