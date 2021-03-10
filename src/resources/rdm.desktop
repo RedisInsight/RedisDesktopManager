@@ -8,3 +8,4 @@ Exec=/opt/redis-desktop-manager/rdm.sh
 Terminal=false
 StartupNotify=true
 Icon=rdm
+Keywords=RDM;Redis;
