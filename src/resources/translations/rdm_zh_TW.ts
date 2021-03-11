@@ -6,12 +6,12 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="621"/>
         <source>Download was canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>下載已被取消</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="628"/>
         <source>Network error</source>
-        <translation type="unfinished"></translation>
+        <translation>網路錯誤</translation>
     </message>
 </context>
 <context>
@@ -1096,7 +1096,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation type="unfinished"></translation>
+        <translation>置頂有命名空間的鍵</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
@@ -1428,7 +1428,7 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="193"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>清除</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="233"/>
@@ -1482,12 +1482,12 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
         <source>Total Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>鍵總數</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>命中率</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
@@ -1497,22 +1497,22 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>資訊</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
         <source>Commands Per Second</source>
-        <translation type="unfinished"></translation>
+        <translation>每秒指令數</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
         <source>Ops/s</source>
-        <translation type="unfinished"></translation>
+        <translation>操作/秒</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
         <source>Connected Clients</source>
-        <translation type="unfinished"></translation>
+        <translation>已連接的客戶端</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
@@ -1527,23 +1527,23 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
         <source>Network Input</source>
-        <translation type="unfinished"></translation>
+        <translation>網路輸入</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
         <source>Kb/s</source>
-        <translation type="unfinished"></translation>
+        <translation>Kb/s</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
         <source>Network Output</source>
-        <translation type="unfinished"></translation>
+        <translation>網路輸出</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
         <source>Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>鍵數量</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
