@@ -6,12 +6,12 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="621"/>
         <source>Download was canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Se canceló la descarga</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="628"/>
         <source>Network error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de red</translation>
     </message>
 </context>
 <context>
@@ -1088,7 +1088,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar arriba las claves con espacio de nombres</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
@@ -1420,7 +1420,7 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="193"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpiar</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="233"/>
@@ -1474,12 +1474,12 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
         <source>Total Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Total de Claves</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>Ratio de Aciertos</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
@@ -1489,22 +1489,22 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
         <source>Commands Per Second</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandos Por Segundo</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
         <source>Ops/s</source>
-        <translation type="unfinished"></translation>
+        <translation>Ops/s</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
         <source>Connected Clients</source>
-        <translation type="unfinished"></translation>
+        <translation>Clientes Conectados</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
@@ -1519,23 +1519,23 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
         <source>Network Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrada de Red</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
         <source>Kb/s</source>
-        <translation type="unfinished"></translation>
+        <translation>Kb/s</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
         <source>Network Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Salida de Red</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
         <source>Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Claves</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
