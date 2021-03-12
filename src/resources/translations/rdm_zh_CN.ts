@@ -6,12 +6,12 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="621"/>
         <source>Download was canceled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下载已取消</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="628"/>
         <source>Network error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网络错误</translation>
     </message>
 </context>
 <context>
@@ -1094,7 +1094,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在头部展示命名空间键名</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
@@ -1426,7 +1426,7 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="193"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">清除</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="233"/>
@@ -1480,12 +1480,12 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
         <source>Total Keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">键总量</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">命中率</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
@@ -1495,22 +1495,22 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">信息</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
         <source>Commands Per Second</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">每秒执行命令数</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
         <source>Ops/s</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">每秒查询率</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
         <source>Connected Clients</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已连接的客户端数量</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
@@ -1525,23 +1525,23 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
         <source>Network Input</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网络输入</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
         <source>Kb/s</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kb/s</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
         <source>Network Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网络输出</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
         <source>Keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">键数量</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
