@@ -6,12 +6,12 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="621"/>
         <source>Download was canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードをキャンセルしました</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="628"/>
         <source>Network error</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークエラー</translation>
     </message>
 </context>
 <context>
@@ -791,12 +791,12 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
         <source>Sign in with rdm.dev account</source>
-        <translation type="unfinished"></translation>
+        <translation>rdm.devのアカウントでサインイン</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="143"/>
         <source>Email:</source>
-        <translation type="unfinished"></translation>
+        <translation>Email:</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="159"/>
@@ -807,12 +807,12 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>設定を有効にするためアプリケーションは再起動されます</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="213"/>
         <source>Sign In</source>
-        <translation type="unfinished"></translation>
+        <translation>サインイン</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="236"/>
@@ -837,7 +837,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
         <source>Pattern which defines loaded keys from redis-server</source>
-        <translation>Redisサーバからロードしたキーを定義するパターン</translation>
+        <translation>Redisサーバからロードするキー定義のパターン</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="458"/>
@@ -949,12 +949,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Application will be restarted to apply this settings.</source>
-        <translation>アプリケーションを再起動して設定を反映します。</translation>
+        <translation>アプリケーションを再起動すると設定が有効になります。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
         <source>Use system proxy only for HTTP(S) requests</source>
-        <translation type="unfinished"></translation>
+        <translation>HTTP(S)にシステムのプロキシ設定のみを使う</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="123"/>
@@ -969,7 +969,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation type="unfinished"></translation>
+        <translation>ネームスペース付きのキーを上に表示</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
@@ -984,7 +984,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="209"/>
         <source>Show only last part for namespaced keys</source>
-        <translation type="unfinished"></translation>
+        <translation>ネームスペース付きのキーの末尾のみを表示</translation>
     </message>
     <message>
         <source>Enable key sorting in tree</source>
@@ -1049,17 +1049,17 @@
     <message>
         <location filename="../../qml/app.qml" line="247"/>
         <source>Add Group</source>
-        <translation>グループ追加</translation>
+        <translation>グループを追加</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="261"/>
         <source>Regroup connections</source>
-        <translation>接続の再グループ化</translation>
+        <translation>接続グループの編集</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="283"/>
         <source>Exit Regroup Mode</source>
-        <translation>再グループモードを終了</translation>
+        <translation>接続グループ編集モードを終了</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="182"/>
@@ -1212,7 +1212,7 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="193"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>消去</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="233"/>
@@ -1266,12 +1266,12 @@
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
         <source>Total Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>総キー数</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
-        <translation type="unfinished"></translation>
+        <translation>ヒット率</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
@@ -1281,22 +1281,22 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
         <source>Commands Per Second</source>
-        <translation type="unfinished"></translation>
+        <translation>コマンド数/秒</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
         <source>Ops/s</source>
-        <translation type="unfinished"></translation>
+        <translation>OP数/秒</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
         <source>Connected Clients</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント接続数</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
@@ -1311,23 +1311,23 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
         <source>Network Input</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク入力</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
         <source>Kb/s</source>
-        <translation type="unfinished"></translation>
+        <translation>KB/秒</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
         <source>Network Output</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク出力</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
         <source>Keys</source>
-        <translation type="unfinished"></translation>
+        <translation>キー</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
@@ -1639,7 +1639,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation>&lt;b&gt;全ての接続情報と共に&lt;/b&gt;、グループを本当に削除してもよろしいですか？</translation>
+        <translation>グループを本当に削除しますか？　&lt;b&gt;グループの接続情報もすべて失われます&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
