@@ -71,6 +71,11 @@ exists( $$PWD/modules/crashpad/crashpad.pri ) {
     include($$PWD/modules/crashpad/crashpad.pri)
 }
 
+release {
+    message("Enable qtquickcompiler")
+    CONFIG += qtquickcompiler
+}
+
 win32 {
     CONFIG += c++11
 

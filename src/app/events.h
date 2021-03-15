@@ -49,4 +49,9 @@ class Events : public QObject, public QEnableSharedFromThis<Events> {
   void error(const QString& msg);
 
   void log(const QString& msg);
+
+  void appRendered();
+
+  void externalFormattersLoaded();
+
 };
