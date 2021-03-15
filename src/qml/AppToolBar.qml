@@ -125,7 +125,7 @@ ToolBar {
             text: qsTranslate("RDM","Settings")
 
             onClicked: {
-                settingsDialog.open()
+                settingsDialog.item.open()
             }
         }
     }

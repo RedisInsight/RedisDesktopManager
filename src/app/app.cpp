@@ -12,6 +12,7 @@
 #include <QUrl>
 #include <QtQml>
 #include <QSslSocket>
+#include <QtConcurrent>
 
 #if defined(Q_OS_WINDOWS)
 #include "win_darkmode.h"
@@ -100,7 +101,7 @@ void Application::initModels() {
   m_connections = QSharedPointer<ConnectionsManager>(
       new ConnectionsManager(config, m_events));
 
-  QTimer::singleShot(500, [this]() {
+  connect(m_events.data(), &Events::appRendered, this, [this]() {
     if (m_connections) m_connections->loadConnections();
   });
 
@@ -151,8 +152,11 @@ void Application::initModels() {
     m_formattersManager->setPath(m_formattersDir);
   }
 
-  QTimer::singleShot(1000, [this]() {
-    if (m_formattersManager) m_formattersManager->loadFormatters();
+  connect(m_events.data(), &Events::appRendered, this, [this]() {
+    QtConcurrent::run([this]() {
+      if (m_formattersManager) m_formattersManager->loadFormatters();
+      if (m_events) emit m_events->externalFormattersLoaded();
+    });
   });
 #endif
 
@@ -303,6 +307,8 @@ void Application::initQml() {
   connect(this, &QGuiApplication::paletteChanged, this, &Application::updatePalette);
 
   qDebug() << "Rendering backend:" << QQuickWindow::sceneGraphBackend();
+
+  emit m_events->appRendered();
 }
 
 void Application::initPython() {

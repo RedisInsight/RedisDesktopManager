@@ -33,13 +33,7 @@ ApplicationWindow {
     property var embeddedFormatters
 
     ValueFormatters {
-        id: valueFormattersModel
-
-        Component.onCompleted: {
-            loadEmbeddedFormatters();
-            loadExternalFormatters();
-            updateRWFormatters();
-        }
+        id: valueFormattersModel        
     }
 
 
@@ -97,8 +91,11 @@ ApplicationWindow {
         width: PlatformUtils.isOSX() ? 600 : approot.width * 0.8
     }
 
-    GlobalSettings {
+    Loader {
         id: settingsDialog
+
+        asynchronous: true
+        source: "GlobalSettings.qml"
     }
 
     ConnectionSettignsDialog {
@@ -189,6 +186,16 @@ ApplicationWindow {
 
         function onError(msg) {
             notification.showError(msg)
+        }
+
+        function onAppRendered() {
+            valueFormattersModel.loadEmbeddedFormatters();            
+            valueFormattersModel.updateRWFormatters();
+        }
+
+        function onExternalFormattersLoaded() {
+            valueFormattersModel.loadExternalFormatters();
+            valueFormattersModel.updateRWFormatters();
         }
     }
 

@@ -48,6 +48,7 @@ BetterDialog {
                 Layout.fillHeight: true
                 Layout.preferredHeight: 300
 
+                asynchronous: true
                 source: Editor.getEditorByTypeString(
                             typeSelector.model[typeSelector.currentIndex])
 

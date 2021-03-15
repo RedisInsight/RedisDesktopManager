@@ -130,8 +130,6 @@ ListModel {
         for (var index=0; index < rootModel.count; ++index) {
             var formatter = get(index);
 
-            console.log(formatter, formatter['name'], formatter['readOnly'])
-
             if (formatter['readOnly'] == false) {
                 result.push(formatter);
             }
