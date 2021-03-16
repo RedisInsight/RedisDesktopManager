@@ -23,6 +23,35 @@ TreeView {
 
     backgroundVisible: false
 
+    /**
+      * NOTE(u_glide): Dirty hack to use build-in macOS style for scrollbars on all platforms
+      */
+    Component.onCompleted: {
+        if (!PlatformUtils.isOSX()) {
+            __scroller.verticalScrollBar.__panel.on = true
+        }
+    }
+
+    Connections {
+        target: !PlatformUtils.isOSX()? __scroller.verticalScrollBar.__panel : null
+
+        function onOnChanged() {
+            if (!__scroller.verticalScrollBar.__panel.on) {
+                __scroller.verticalScrollBar.__panel.on = true
+            }
+        }
+    }
+
+    Component {
+        id: patchedBackground
+
+        Item {
+            implicitWidth: 25
+            implicitHeight: 200
+        }
+    }
+    // hack-end
+
     style: TreeViewStyle {
         frame: Item {}
 
@@ -36,6 +65,8 @@ TreeView {
         transientScrollBars: true
 
         backgroundColor: sysPalette.button
+
+        scrollBarBackground: PlatformUtils.isOSX()? TreeViewStyle.scrollBarBackground : patchedBackground
     }
 
     TableViewColumn {
