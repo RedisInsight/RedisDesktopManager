@@ -82,7 +82,7 @@ void KeyFactory::loadKey(
   } catch (const RedisClient::Connection::Exception& e) {
     callback(
         QSharedPointer<ValueEditor::Model>(),
-        QCoreApplication::translate("RDM", "Cannot retrive type of the key: ") +
+        QCoreApplication::translate("RDM", "Cannot retrieve type of the key: ") +
             QString(e.what()));
   }
 }

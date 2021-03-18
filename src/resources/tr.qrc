@@ -5,5 +5,6 @@
         <file>translations/rdm_ru_RU.qm</file>
         <file>translations/rdm_es_ES.qm</file>
         <file>translations/rdm_ja_JP.qm</file>
+        <file>translations/rdm_uk_UA.qm</file>
     </qresource>
 </RCC>

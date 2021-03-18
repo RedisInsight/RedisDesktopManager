@@ -150,7 +150,7 @@ void DatabaseItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
     loadKeys([this, callback]() {
       lock();
       AbstractNamespaceItem::getMemoryUsage(callback);
-    });    
+    });
   } else {
     AbstractNamespaceItem::getMemoryUsage(callback);
   }
@@ -196,7 +196,7 @@ void DatabaseItem::performLiveUpdate() {
           QCoreApplication::translate(
               "RDM",
               "Live update was disabled due to exceeded keys limit. "
-              "Please specify filter more carrfully or change limit in "
+              "Please specify filter more carefully or change limit in "
               "settings."));
     } else {
       liveUpdateTimer()->start();
@@ -255,7 +255,7 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
           QCoreApplication::translate(
               "RDM", "Another operation is currently in progress"),
           QCoreApplication::translate(
-              "RDM", "Please wait until another operation will be finised."));
+              "RDM", "Please wait until another operation will be finished."));
       return;
     }
 

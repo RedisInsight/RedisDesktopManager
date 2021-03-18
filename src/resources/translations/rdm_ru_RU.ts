@@ -2,166 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
-    <name>API::Client</name>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="621"/>
-        <source>Download was canceled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="628"/>
-        <source>Network error</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>BulkOperationsDialog</name>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
-        <source>Bulk Operations Manager</source>
-        <translation type="unfinished">Менеджер массовых операций</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
-        <source>Invalid RDB path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
-        <source>Please specify valid path to RDB file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="83"/>
-        <source>Delete keys</source>
-        <translation type="unfinished">Удалить ключи</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="91"/>
-        <source>Set TTL for multiple keys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
-        <source>Set TTL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
-        <source>Copy keys to another database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
-        <source>Copy keys</source>
-        <translation type="unfinished">Копировать ключи</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
-        <source>Import data from rdb file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="111"/>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
-        <source>Redis Server:</source>
-        <translation type="unfinished">Сервер Redis:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="157"/>
-        <source>Database number:</source>
-        <translation type="unfinished">Номер базы:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
-        <source>Path to RDB file:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
-        <source>Select DB in RDB file:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
-        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
-        <source>Key pattern:</source>
-        <translation type="unfinished">Шаблон ключа:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
-        <source>Destination Redis Server:</source>
-        <translation type="unfinished">Redis cервер-адресат:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
-        <source>Destination Redis Server Database Index:</source>
-        <translation type="unfinished">Индекс базы редис сервер адресата:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
-        <source>Show matched keys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
-        <source>Show Affected keys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
-        <source>Matched keys:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
-        <source>Affected keys:</source>
-        <translation type="unfinished">Затронутые ключи:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
-        <source>Bulk Operation finished.</source>
-        <translation type="unfinished">Массовые операции закончены.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
-        <source>Bulk Operation finished with errors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
-        <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
-        <source>Confirmation</source>
-        <translation type="unfinished">Подтверждение</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
-        <source>Do you really want to perform bulk operation?</source>
-        <translation type="unfinished">Выполнить массовую операцию?</translation>
-    </message>
-</context>
-<context>
-    <name>GlobalSettings</name>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="305"/>
-        <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
@@ -179,23 +19,14 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="80"/>
+        <location filename="../../app/app.cpp" line="81"/>
         <source>Settings directory is not writable</source>
         <translation>Папка настроек недоступна для записи</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="82"/>
+        <location filename="../../app/app.cpp" line="83"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
-    </message>
-    <message>
-        <source>Please download new version of RDM: %1</source>
-        <translation type="vanished">Скачайте новую версию RDM: %1</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
-        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
@@ -215,6 +46,11 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="82"/>
         <source>Cannot rename key %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
+        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -238,17 +74,17 @@
         <translation>Неправильная строка</translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
+        <source>Value with the same key already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
         <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>Ошибка подключения: </translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
-        <source>Value with the same key already exist</source>
-        <translation>Значение с таким ключом уже есть</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="136"/>
@@ -272,22 +108,14 @@
         <translation>При загрузке TTL для ключа %1. Ошибка: %2</translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
+        <source>Cannot retrieve type of the key: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>Неизвестный тип данных %1</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
-        <source>Cannot retrive type of the key: </source>
-        <translation>Ошибка при получении типа ключа: </translation>
-    </message>
-    <message>
-        <source>The row has been changed and can&apos;t be updated now. Reload and try again.</source>
-        <translation type="vanished">Строка была изменена и не может быть обновлена.Перезагрузите и попробуйте снова.</translation>
-    </message>
-    <message>
-        <source>The row has been changed and can&apos;t be deleted now. Reload and try again.</source>
-        <translation type="vanished">Строка была изменена и не может быть удалена. Перезагрузите и попробуйте снова.</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="110"/>
@@ -310,17 +138,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="400"/>
-        <source>Cannot used memory for key: %1</source>
+        <location filename="../../app/models/treeoperations.cpp" line="401"/>
+        <source>Cannot determine amount of used memory by key: %1</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot remove key: %1</source>
-        <translation type="vanished">Ошибка при удалении ключа: %1</translation>
-    </message>
-    <message>
-        <source>Delete key error: </source>
-        <translation type="vanished">Ошибка при удалении: </translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="344"/>
@@ -328,13 +148,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bulk operation error: %1</source>
-        <translation type="vanished">Ошибка массовой операции: %1</translation>
-    </message>
-    <message>
         <location filename="../../modules/common/tabmodel.cpp" line="43"/>
         <source>Invalid Connection. Check connection settings.</source>
         <translation>Ошибка подключения. Проверьте настройки.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
+        <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
+        <translation>Обновление в реальном времени отключено из-за превышения лимита ключей. Уточните фильтр или поменяйте лимит в настройках.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
@@ -354,8 +175,12 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="257"/>
-        <source>Please wait until another operation will be finised.</source>
+        <source>Please wait until another operation will be finished.</source>
         <translation>Подождите завершения операции.</translation>
+    </message>
+    <message>
+        <source>Please wait until another operation will be finised.</source>
+        <translation type="vanished">Подождите завершения операции.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="268"/>
@@ -378,13 +203,8 @@
         <translation>Обновление в реальном времени отключено</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation>Обновление в реальном времени отключено из-за превышения лимита ключей. Уточните фильтр или поменяйте лимит в настройках.</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="vanished">Переименовать</translation>
+        <translation type="vanished">Обновление в реальном времени отключено из-за превышения лимита ключей. Уточните фильтр или поменяйте лимит в настройках.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="184"/>
@@ -506,22 +326,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Nothing to save</source>
-        <translation type="obsolete">Нечего сохранять</translation>
-    </message>
-    <message>
-        <source>Value was updated!</source>
-        <translation type="vanished">Значение обновлено!</translation>
-    </message>
-    <message>
-        <source>Save value</source>
-        <translation type="obsolete">Сохранить значение</translation>
-    </message>
-    <message>
-        <source>Key error</source>
-        <translation type="obsolete">Ошибка ключа</translation>
-    </message>
-    <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>Будут закрыты вкладки консоли и значений, имеющие отношение к этому подключению. Продолжить?</translation>
@@ -554,10 +358,6 @@
         <location filename="../../modules/console/consolemodel.cpp" line="74"/>
         <source>Subscribe error: %1</source>
         <translation type="unfinished">Ошибка подписки: %1</translation>
-    </message>
-    <message>
-        <source>Cannot update server info tab. Error: %0</source>
-        <translation type="obsolete">Ошибка при обноления вкладки с инфой о сервере. Ошибка: %0</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="94"/>
@@ -607,26 +407,6 @@
         <translation type="unfinished">Ошибка подключения. Невозможно открыть вкладку со значением. </translation>
     </message>
     <message>
-        <source>Can&apos;t add new key: </source>
-        <translation type="obsolete">Ошибка при добавлении нового ключа: </translation>
-    </message>
-    <message>
-        <source>Can&apos;t rename key: </source>
-        <translation type="obsolete">Ошибка при переименовании ключа: </translation>
-    </message>
-    <message>
-        <source>Can&apos;t remove key: </source>
-        <translation type="obsolete">Ошибка при удалении ключа: </translation>
-    </message>
-    <message>
-        <source>Can&apos;t set key ttl: </source>
-        <translation type="obsolete">Ошибка при смене ttl ключа: </translation>
-    </message>
-    <message>
-        <source>Can&apos;t close key tab: </source>
-        <translation type="obsolete">Ошибка при закрытии вкладки ключа: </translation>
-    </message>
-    <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="164"/>
         <source>Cannot reload key value: %1</source>
         <translation type="unfinished"></translation>
@@ -643,6 +423,7 @@
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="40"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="111"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
@@ -710,10 +491,6 @@
         <translation type="unfinished">Настройки подключения</translation>
     </message>
     <message>
-        <source>Main Settings</source>
-        <translation type="obsolete">Основные настройки</translation>
-    </message>
-    <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="165"/>
         <source>Name:</source>
         <translation type="unfinished">Название:</translation>
@@ -734,10 +511,6 @@
         <translation type="unfinished">хост сервера Redis</translation>
     </message>
     <message>
-        <source>Auth:</source>
-        <translation type="obsolete">Auth:</translation>
-    </message>
-    <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(Необязательно) пароль подключения к серверу Redis</translation>
@@ -746,14 +519,6 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
         <source>Security</source>
         <translation type="unfinished">Безопасность</translation>
-    </message>
-    <message>
-        <source>None</source>
-        <translation type="obsolete">Нет</translation>
-    </message>
-    <message>
-        <source>SSL</source>
-        <translation type="obsolete">SSL</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="256"/>
@@ -864,28 +629,76 @@
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="223"/>
         <source>Sign in with rdm.dev account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="143"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
+        <source>Renew your subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
+        <source>Your trial has ended.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
+        <source>To use this version you need to renew your subscription.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
+        <source>Please purchase a subscription to continue using RDM.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
+        <source>If you have any questions please contact support </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Renew Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
+        <source>Buy Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
         <source>Email:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="159"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
+        <source>Forgot password?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="299"/>
         <source>Application will be restarted to apply this setting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="213"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
         <source>Sign In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
+        <source>Please enter email &amp; password to sign in.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -932,10 +745,6 @@
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation type="unfinished">Разделитель для извлечения пространства имен из ключа</translation>
-    </message>
-    <message>
-        <source>Use server-side optimized keys loading (experimental):</source>
-        <translation type="vanished">Использовать загрузку ключей на стороне сервера (экспериментально):</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="471"/>
@@ -987,10 +796,13 @@
         <translation type="unfinished">ОК</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="200"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="592"/>
+        <location filename="../../qml/GlobalSettings.qml" line="305"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="106"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="107"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
@@ -1005,10 +817,6 @@
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation type="unfinished">Язык</translation>
-    </message>
-    <message>
-        <source>Application restart is needed to apply this setting.</source>
-        <translation type="obsolete">Для применения настроек перезапустите приложение.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="93"/>
@@ -1033,7 +841,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="204"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>Использовать прокси-сервер операционной системы</translation>
@@ -1079,10 +887,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable key sorting in tree</source>
-        <translation type="obsolete">Включить сортировку ключей в дереве</translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
         <translation type="unfinished">Обновление в реальном времени максимума разрешенных ключей</translation>
@@ -1098,10 +902,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Custom Value View Formatters</source>
-        <translation type="obsolete">Пользовательские значения форматирования вывода</translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="246"/>
         <source>Formatters path: %0</source>
         <translation type="unfinished">Путь к форматированию: %0</translation>
@@ -1113,6 +913,7 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="267"/>
+        <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1133,90 +934,169 @@
         <translation type="unfinished">Краткое руководство</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="112"/>
+        <location filename="../../qml/app.qml" line="109"/>
         <source>Successful connection to redis-server</source>
         <translation type="unfinished">Подключение к серверу Redis установлено</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="115"/>
+        <location filename="../../qml/app.qml" line="112"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation type="unfinished">Ошибка при подключении к серверу Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="247"/>
+        <location filename="../../qml/app.qml" line="254"/>
         <source>Add Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="261"/>
+        <location filename="../../qml/app.qml" line="268"/>
         <source>Regroup connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="283"/>
+        <location filename="../../qml/app.qml" line="290"/>
         <source>Exit Regroup Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
         <source>Bulk Operations Manager</source>
-        <translation type="obsolete">Менеджер массовых операций</translation>
+        <translation type="unfinished">Менеджер массовых операций</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
+        <source>Invalid RDB path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
+        <source>Please specify valid path to RDB file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="83"/>
         <source>Delete keys</source>
-        <translation type="obsolete">Удалить ключи</translation>
+        <translation type="unfinished">Удалить ключи</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
+        <source>Set TTL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
+        <source>Copy keys to another database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
         <source>Copy keys</source>
-        <translation type="obsolete">Копировать ключи</translation>
+        <translation type="unfinished">Копировать ключи</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
+        <source>Import data from rdb file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
         <source>Redis Server:</source>
-        <translation type="obsolete">Сервер Redis:</translation>
+        <translation type="unfinished">Сервер Redis:</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="157"/>
         <source>Database number:</source>
-        <translation type="obsolete">Номер базы:</translation>
+        <translation type="unfinished">Номер базы:</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
+        <source>Path to RDB file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
+        <source>Select DB in RDB file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
         <source>Key pattern:</source>
-        <translation type="obsolete">Шаблон ключа:</translation>
+        <translation type="unfinished">Шаблон ключа:</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
+        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
         <source>Destination Redis Server:</source>
-        <translation type="obsolete">Redis cервер-адресат:</translation>
+        <translation type="unfinished">Redis cервер-адресат:</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
         <source>Destination Redis Server Database Index:</source>
-        <translation type="obsolete">Индекс базы редис сервер адресата:</translation>
+        <translation type="unfinished">Индекс базы редис сервер адресата:</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
+        <source>Show matched keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
+        <source>Show Affected keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
         <source>Affected keys:</source>
-        <translation type="obsolete">Затронутые ключи:</translation>
+        <translation type="unfinished">Затронутые ключи:</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
+        <source>Matched keys:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
         <source>Bulk Operation finished.</source>
-        <translation type="obsolete">Массовые операции закончены.</translation>
+        <translation type="unfinished">Массовые операции закончены.</translation>
     </message>
     <message>
-        <source>Delete Keys</source>
-        <translation type="obsolete">Удалить ключи</translation>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
+        <source>Bulk Operation finished with errors</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
+        <source>Processed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
+        <source>Getting list of affected keys...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
         <source>Confirmation</source>
-        <translation type="obsolete">Подтверждение</translation>
+        <translation type="unfinished">Подтверждение</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
         <source>Do you really want to perform bulk operation?</source>
-        <translation type="obsolete">Выполнить массовую операцию?</translation>
+        <translation type="unfinished">Выполнить массовую операцию?</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="182"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="276"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation type="unfinished">Показать пароль</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="183"/>
+        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
         <source> (Removed)</source>
         <translation> (Удален)</translation>
     </message>
@@ -1274,6 +1154,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="91"/>
         <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
         <source>Set TTL for multiple keys</source>
         <translation type="unfinished"></translation>
@@ -1292,10 +1173,6 @@
         <location filename="../../qml/connections-tree/menu/database.qml" line="133"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter Filter</source>
-        <translation type="obsolete">Добавить фильтр</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
@@ -1355,14 +1232,6 @@
         <location filename="../../qml/connections-tree/menu/server.qml" line="43"/>
         <source>Delete Connection</source>
         <translation type="unfinished">Удалить подключение</translation>
-    </message>
-    <message>
-        <source>Confirm Action</source>
-        <translation type="obsolete">Подтвердить</translation>
-    </message>
-    <message>
-        <source>Do you really want to close console with running command?</source>
-        <translation type="obsolete">Вы точно хотите закрыть консоль с запущенной командой?</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="21"/>
@@ -1592,7 +1461,7 @@
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="70"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="443"/>
         <source>Save</source>
@@ -1615,8 +1484,8 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="117"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="222"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="220"/>
         <source>Error</source>
         <translation type="unfinished">Ошибка</translation>
     </message>
@@ -1624,10 +1493,6 @@
         <location filename="../../qml/value-editor/Pagination.qml" line="12"/>
         <source>Page</source>
         <translation type="unfinished">Страница</translation>
-    </message>
-    <message>
-        <source>Set Page</source>
-        <translation type="obsolete">Перейти к стр.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="78"/>
@@ -1667,11 +1532,6 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
         <source>Binary value is too large to display</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
-        <source>Save value to file: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1777,6 +1637,7 @@
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
         <source>Save value to file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1831,16 +1692,84 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="330"/>
+        <location filename="../../modules/api/api_client.cpp" line="146"/>
+        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="189"/>
+        <source>Invalid login or password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="196"/>
+        <source>Too many requests from your IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="199"/>
+        <source>Unknown error. Status code %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="219"/>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <source>Cannot parse server reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="336"/>
+        <source>Cannot validate token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="342"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>RedisClient::CommandExecutor</name>
     <message>
-        <source>Command execution timeout</source>
-        <translation type="vanished">Время исполнения команды истекло</translation>
+        <location filename="../../modules/api/api_client.cpp" line="576"/>
+        <location filename="../../modules/api/api_client.cpp" line="602"/>
+        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="654"/>
+        <source>Download was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="661"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
+        <source>Trial is active till</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
+        <source>Licensed to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
+        <source>Subscription is active until:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Manage Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/WelcomeTab.qml" line="31"/>
+        <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

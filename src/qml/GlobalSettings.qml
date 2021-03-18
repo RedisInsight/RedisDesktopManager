@@ -302,7 +302,7 @@ Dialog {
                             }
                         }
                         BetterButton {
-                            text: qsTr("Cancel")
+                            text: qsTranslate("RDM","Cancel")
                             onClicked: root.close()
                         }
                     }

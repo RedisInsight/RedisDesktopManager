@@ -126,7 +126,7 @@ class KeyModel : public ValueEditor::Model {
             return c(QCoreApplication::translate(
                          "RDM",
                          "Cannot persist key '%1'. <br> Key does not exist or "
-                         "does not have an associated timeout")
+                         "does not have an assigned TTL value")
                          .arg(getKeyName()));
           }
 

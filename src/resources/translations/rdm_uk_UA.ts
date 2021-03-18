@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<TS version="2.1" language="uk_UA">
 <context>
     <name>QObject</name>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="388"/>
         <source>Cannot connect to cluster node %1:%2</source>
-        <translation>無法連接到叢集節點 %1:%2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="399"/>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="426"/>
         <source>Cannot flush db (%1): %2</source>
-        <translation>無法清空資料庫 (%1): %2</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -21,43 +21,43 @@
     <message>
         <location filename="../../app/app.cpp" line="81"/>
         <source>Settings directory is not writable</source>
-        <translation>設定儲存資料夾沒有寫入權限</translation>
+        <translation>Каталог з налаштуваннями не доступний для запису</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="83"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM 無法儲存設定檔。請更改檔寫入權限或者以管理員模式啟動 RDM。</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="82"/>
-        <source>Cannot rename key %1: %2</source>
-        <translation>無法重新命名鍵 %1: %2</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
-        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
-        <translation>無法將鍵持久化 &apos;%1&apos; &lt;br&gt; 鍵不存在或是不會逾時</translation>
+        <translation>RDM не може зберегти файл підключень до каталогу налаштувань. Змініть дозволи на файли або перезапустіть RDM як адміністратор.</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
         <source>Cannot parse scan response</source>
-        <translation>無法解析 scan 的結果</translation>
+        <translation>Не вдається проаналізувати відповідь на команду SCAN</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="321"/>
         <source>Server returned unexpected response: </source>
-        <translation>伺服器返回未預期的回應: </translation>
+        <translation>Сервер повернув несподівану відповідь:</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="107"/>
         <source>Cannot set TTL for key %1</source>
-        <translation>無法設定鍵 %1 的 TTL</translation>
+        <translation>Не вдається встановити TTL для ключа %1</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="82"/>
+        <source>Cannot rename key %1: %2</source>
+        <translation>Не вдається перейменувати ключ %1: %2</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
+        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
+        <translation>Не вдається зробити ключ &apos;%1&apos; постійним. &lt;br&gt; Ключ не існує або не має присвоєного значення TTL</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="267"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="278"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation>無法載入鍵 %1 的資料: %2</translation>
+        <translation>Не вдається завантажити значення для ключа %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="42"/>
@@ -71,12 +71,12 @@
         <location filename="../../app/models/key-models/stream.cpp" line="44"/>
         <location filename="../../app/models/key-models/stream.cpp" line="55"/>
         <source>Invalid row</source>
-        <translation>無效資料</translation>
+        <translation>Неприпустимий рядок</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
         <source>Value with the same key already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Значення з тим самим ключем вже існує</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
@@ -84,104 +84,112 @@
         <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
-        <translation>連線錯誤: </translation>
+        <translation>Помилка з&apos;єднання: </translation>
+    </message>
+    <message>
+        <source>Value with the same key already exist</source>
+        <translation type="vanished">Значення з тим самим ключем вже існує</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="136"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="136"/>
         <source>Data was loaded from server partially.</source>
-        <translation>部分資料已經從伺服器載入。</translation>
+        <translation>Дані були завантажені з сервера частково.</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="29"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
-        <translation>無法載入鍵 %1，連線發生錯誤: %2</translation>
+        <translation>Не вдається завантажити ключ %1, сталася помилка підключення: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="40"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
-        <translation>無法載入鍵 %1，資料庫中不存在該鍵，請重新載入連線樹後重試。</translation>
+        <translation>Не вдається завантажити ключ %1, оскільки він не існує в базі даних. Перезавантажте дерево підключення та повторіть спробу.</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
-        <translation>無法載入鍵 %1 的 TTL 值，連線發生錯誤: %2</translation>
+        <translation>Не вдається завантажити TTL для ключа %1, сталася помилка підключення: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
         <source>Cannot retrieve type of the key: </source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається отримати тип ключа: </translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
         <source>Unsupported Redis Data type %1</source>
-        <translation>不支援的 Redis 資料類型 %1</translation>
+        <translation>Непідтримуваний тип даних Redis %1</translation>
+    </message>
+    <message>
+        <source>Cannot retrive type of the key: </source>
+        <translation type="vanished">Не вдається отримати тип ключа: </translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="110"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
-        <translation>無法連線到伺服器 &apos;%1&apos; 。細節請查看紀錄檔。</translation>
+        <translation>Не вдається підключитися до сервера &apos;%1&apos;. Перевірте журнал для деталей.</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="120"/>
         <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation>開源版本的 RDM &lt;b&gt;不支援 SSH 隧道功能&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;若要取得完整功能的程式，請在 &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt; 上購買訂閱。&lt;br/&gt;&lt;br /&gt;每個訂閱都是我們繼續開發以及支援使用者的原動力。&lt;br /&gt;如果你有任何問題，請聯絡 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; 或是加入 &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天群組&lt;/a&gt;。</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="195"/>
         <source>Cannot load keys: %1</source>
-        <translation>無法載入鍵: %1</translation>
+        <translation>Не вдається завантажити ключі: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="281"/>
         <source>Delete key error: %1</source>
-        <translation>刪除鍵時發生錯誤:</translation>
+        <translation>Помилка видалення ключа: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="401"/>
         <source>Cannot determine amount of used memory by key: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається визначити обсяг використаної пам&apos;яті за ключем: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="344"/>
         <source>Cannot flush database: </source>
-        <translation>無法清空資料庫: </translation>
+        <translation>Не вдається очистити базу даних: </translation>
     </message>
     <message>
         <location filename="../../modules/common/tabmodel.cpp" line="43"/>
         <source>Invalid Connection. Check connection settings.</source>
-        <translation>無效連線，請檢查連線設定。</translation>
+        <translation>Недійсне з’єднання. Перевірте налаштування підключення.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
-        <translation>由於超出載入鍵的數量限制，同步更新功能已經關閉。請設定更精確的篩選條件或更改載入限制設定。</translation>
+        <translation>Автоматичне Оновлення було вимкнено через перевищення ліміту ключів. Будь ласка, вкажіть фільтр більш ретельно або змініть обмеження в налаштуваннях.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
-        <translation>已經添加鍵。需要重新載入該資料庫的鍵名嗎？</translation>
+        <translation>Ключ додано. Хочете перезавантажити ключі у вибраній базі даних?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="141"/>
         <source>Key was added</source>
-        <translation>已經插入鍵</translation>
+        <translation>Ключ додано</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="255"/>
         <source>Another operation is currently in progress</source>
-        <translation>另一項操作正在進行中</translation>
+        <translation>Інша операція вже обробляється</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="257"/>
         <source>Please wait until another operation will be finished.</source>
-        <translation>請耐心等待另一項操作完成。</translation>
+        <translation>Зачекайте, доки не буде закінчена інша операція.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="268"/>
         <source>Do you really want to remove all keys from this database?</source>
-        <translation>確定要刪除該資料庫裡面所有的鍵嗎？</translation>
+        <translation>Ви дійсно хочете видалити всі ключі з цієї бази даних?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="68"/>
@@ -189,37 +197,37 @@
         <source>Cannot load databases:
 
 </source>
-        <translation>無法載入資料庫:
+        <translation>Не вдається завантажити бази даних:
 
 </translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="195"/>
         <source>Live update was disabled</source>
-        <translation>同步更新已經禁止</translation>
+        <translation>Автоматичне оновлення було вимкнено</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="184"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="191"/>
         <source>Rename key</source>
-        <translation>重新命名鍵</translation>
+        <translation>Перейменувати ключ</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="200"/>
         <source>New name:</source>
-        <translation>新名稱:</translation>
+        <translation>Нова назва:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="21"/>
         <source>Total pages: </source>
-        <translation>總頁數: </translation>
+        <translation>Всього сторінок: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
         <source>Size: </source>
-        <translation>大小: </translation>
+        <translation>Розмір:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="229"/>
@@ -229,405 +237,479 @@
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="234"/>
         <source>Set key TTL</source>
-        <translation>設定鍵的 TTL</translation>
+        <translation>Встановити TTL ключа</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="243"/>
         <source>New TTL:</source>
-        <translation>新的 TTL:</translation>
+        <translation>Новий TTL:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="298"/>
         <source>Delete</source>
-        <translation>刪除</translation>
+        <translation>Видалити</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="22"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="303"/>
         <source>Delete key</source>
-        <translation>刪除鍵</translation>
+        <translation>Видалити ключ</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="38"/>
         <source>Changes are not saved</source>
-        <translation>並未儲存變更</translation>
+        <translation>Зміни не зберігаються</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="39"/>
         <source>Do you want to close key tab without saving changes?</source>
-        <translation>要不儲存變更就關閉頁籤嗎？</translation>
+        <translation>Ви хочете закрити вкладку з ключем без збереження змін?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="260"/>
         <source>Persist key</source>
-        <translation>將鍵持久化</translation>
+        <translation>Зробити ключ постійним</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
         <location filename="../../modules/connections-tree/items/keyitem.cpp" line="146"/>
         <source>Do you really want to delete this key?</source>
-        <translation>確定要刪除該鍵？</translation>
+        <translation>Ви дійсно хочете видалити цей ключ?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="140"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="318"/>
         <source>Reload Value</source>
-        <translation>重新載入鍵值</translation>
+        <translation>Перезавантажити значення</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="22"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="31"/>
         <source>Add Row</source>
-        <translation>插入列</translation>
+        <translation>Додати рядок</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="391"/>
         <source>Add Element to HLL</source>
-        <translation>新增元素到 HHL</translation>
+        <translation>Додати елемент до HLL</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="68"/>
         <source>Add</source>
-        <translation>新增</translation>
+        <translation>Додати</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="103"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="122"/>
         <source>Delete row</source>
-        <translation>刪除列</translation>
+        <translation>Видалити рядок</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="109"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
-        <translation>此列資料是該鍵最後一列。刪除此列資料，該鍵將會被刪除。</translation>
+        <translation>Рядок - останній у ключі. Після його видалення ключ буде видалений.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="111"/>
         <source>Do you really want to remove this row?</source>
-        <translation>確定要刪除此列資料嗎？</translation>
+        <translation>Ви дійсно хочете видалити цей рядок?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="164"/>
         <source>Search on page...</source>
-        <translation>頁面搜尋...</translation>
+        <translation>Шукати на сторінці ...</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="191"/>
         <source>Full Search</source>
-        <translation>全文搜尋</translation>
+        <translation>Повний пошук</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
-        <translation>所有與該連線相關的鍵值對話方塊和指令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
+        <translation>Вкладки Значеннь та Консоль, пов’язані з цим з’єднанням, будуть закриті. Ви хочете продовжити?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="201"/>
         <source>Do you really want to delete connection?</source>
-        <translation>確定要刪除連線？</translation>
+        <translation>Ви дійсно хочете видалити з’єднання?</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="13"/>
         <source>Connected to cluster.
 </source>
-        <translation>已連線到叢集伺服器。
+        <translation>Підключено до кластера.
 </translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
         <source>Connected.
 </source>
-        <translation>已連線。
+        <translation>Підключено.
 </translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
-        <translation>切斷到 發布/訂閱 模式。關閉控制台以停止監聽訊息。</translation>
+        <translation>Перехід у режим Pub/Sub. Закрийте вкладку консолі, щоб зупинити прослуховування повідомлень.</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="74"/>
         <source>Subscribe error: %1</source>
-        <translation>訂閱錯誤: %1</translation>
+        <translation>Помилка підписки на канал: %1</translation>
     </message>
     <message>
         <location filename="../../modules/server-stats/serverstatsmodel.cpp" line="94"/>
         <source>Server %0</source>
-        <translation>伺服器 %0</translation>
+        <translation>Сервер %0</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="184"/>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="219"/>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="248"/>
         <source>Can&apos;t find formatter with name: %1</source>
-        <translation>找不到格式化工具: %1</translation>
+        <translation>Не вдається знайти форматування з ім&apos;ям: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="190"/>
         <source>Invalid callback</source>
-        <translation>無效回調</translation>
+        <translation>Недійсний зворотний виклик</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="204"/>
         <source>Cannot decode value using %1 formatter. </source>
-        <translation>無法使用格式化工具解碼值 %1</translation>
+        <translation>Не вдається декодувати значення за допомогою форматера %1. </translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="233"/>
         <source>Cannot validate value using %1 formatter.</source>
-        <translation>無法使用格式化工具驗證值 %1</translation>
+        <translation>Неможливо перевірити значення за допомогою форматера %1.</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="262"/>
         <source>Cannot encode value using %1 formatter. </source>
-        <translation>無法使用格式化工具編碼值 %1</translation>
+        <translation>Не вдається закодувати значення за допомогою форматера %1. </translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="25"/>
         <source>Loading key: %1 from db %2</source>
-        <translation>從資料庫 %2 中載入鍵 %1</translation>
+        <translation>Завантажую ключ:  %1 з БД %2</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="36"/>
         <source>Cannot open value tab</source>
-        <translation>無法打開鍵值對話方塊</translation>
+        <translation>Не вдається відкрити вкладку значення</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="71"/>
         <source>Connection error. Can&apos;t open value tab. </source>
-        <translation>連線錯誤，無法打開鍵值對話方塊。</translation>
+        <translation>Помилка з&apos;єднання. Не вдається відкрити вкладку значення. </translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="164"/>
         <source>Cannot reload key value: %1</source>
-        <translation>無法重新載入鍵值: %1</translation>
+        <translation>Не вдається перезавантажити значення ключа: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="216"/>
         <source>Cannot load key value: %1</source>
-        <translation>無法載入鍵值: %1</translation>
+        <translation>Не вдається завантажити значення ключа: %1</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="28"/>
         <source>Connect to Redis Server</source>
-        <translation>連線到 Redis 伺服器</translation>
+        <translation>Підключіться до сервера Redis</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="40"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="111"/>
         <source>Import</source>
-        <translation>匯入</translation>
+        <translation>Імпорт</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="41"/>
         <location filename="../../qml/AppToolBar.qml" line="48"/>
         <source>Import Connections</source>
-        <translation>匯入連線</translation>
+        <translation>Імпортувати підключення</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="58"/>
         <source>Export</source>
-        <translation>匯出</translation>
+        <translation>Експорт</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="59"/>
         <location filename="../../qml/AppToolBar.qml" line="66"/>
         <source>Export Connections</source>
-        <translation>匯出連線</translation>
+        <translation>Експорт підключень</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="81"/>
         <source>Report issue</source>
-        <translation>回報問題</translation>
+        <translation>Повідомити про баг</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="88"/>
         <source>Documentation</source>
-        <translation>說明文件</translation>
+        <translation>Документація</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="95"/>
         <source>Join Telegram Chat</source>
-        <translation>加入 Telegram 聊天群組</translation>
+        <translation>Приєднуйтесь до чату Telegram</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="102"/>
         <source>Follow</source>
-        <translation>追隨</translation>
+        <translation>Слідкувати</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="109"/>
         <source>Star on GitHub!</source>
-        <translation>在 GitHub 上給個 Star</translation>
+        <translation>Підтримати на GitHub!</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="117"/>
         <source>Log</source>
-        <translation>紀錄</translation>
+        <translation>Журнал</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="125"/>
         <location filename="../../qml/GlobalSettings.qml" line="14"/>
         <source>Settings</source>
-        <translation>設定</translation>
+        <translation>Налаштування</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="11"/>
         <source>New Connection Settings</source>
-        <translation>新連線設定</translation>
+        <translation>Нові налаштування підключення</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="132"/>
         <source>Connection Settings</source>
-        <translation>連線設定</translation>
+        <translation>Налаштування підключення</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="165"/>
         <source>Name:</source>
-        <translation>名稱:</translation>
+        <translation>Ім&apos;я:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="171"/>
         <source>Connection Name</source>
-        <translation>連線名稱</translation>
+        <translation>Назва підключення</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="177"/>
         <source>Address:</source>
-        <translation>位址:</translation>
+        <translation>Адреса:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="182"/>
         <source>redis-server host</source>
-        <translation>Redis 伺服器位址</translation>
+        <translation>Хост redis-сервера</translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
+        <source>For better network performance please use 127.0.0.1</source>
+        <translation>Для кращої роботи мережі використовуйте 127.0.0.1</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
         <source>(Optional) redis-server authentication password</source>
-        <translation>(可選) Redis 伺服器的認證密碼</translation>
+        <translation>(Необов’язково) пароль автентифікації сервера redis</translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
+        <source>Username:</source>
+        <translation>Ім&apos;я користувача:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="217"/>
+        <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
+        <translation>(Необов’язково) ім’я користувача для автентифікації сервера redis (Redis&gt; 6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="225"/>
         <source>Security</source>
-        <translation>安全設定</translation>
+        <translation>Безпека</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="256"/>
         <source>Public Key:</source>
-        <translation>公鑰:</translation>
+        <translation>Відкритий ключ:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="262"/>
         <source>(Optional) Public Key in PEM format</source>
-        <translation>(可選) PEM 格式的公鑰</translation>
+        <translation>(Необов’язково) Відкритий ключ у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="264"/>
         <source>Select public key in PEM format</source>
-        <translation>選擇 PEM 格式的公鑰</translation>
+        <translation>Виберіть відкритий ключ у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="275"/>
         <source>(Optional) Private Key in PEM format</source>
-        <translation>(可選) PEM 格式的私鑰</translation>
+        <translation>(Необов’язково) Закритий ключ у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="277"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="371"/>
         <source>Select private key in PEM format</source>
-        <translation>選擇 PEM 格式的私鑰</translation>
+        <translation>Виберіть закритий ключ у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="282"/>
         <source>Authority:</source>
-        <translation>授權證書:</translation>
+        <translation>АЦСК:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="288"/>
         <source>(Optional) Authority in PEM format</source>
-        <translation>(可選) PEM 格式的授權證書</translation>
+        <translation>(Необов’язково) Файл АЦСК у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="290"/>
         <source>Select authority file in PEM format</source>
-        <translation>選擇 PEM 格式的授權證書</translation>
+        <translation>Виберіть файл АЦСК у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="309"/>
         <source>SSH Tunnel</source>
-        <translation>SSH 隧道</translation>
+        <translation>SSH тунель</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="328"/>
         <source>SSH Address:</source>
-        <translation>SSH 位址:</translation>
+        <translation>Адреса SSH:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="332"/>
         <source>Remote Host with SSH server</source>
-        <translation>SSH 遠端伺服器位址</translation>
+        <translation>Віддалений хост із сервером SSH</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="340"/>
         <source>SSH User:</source>
-        <translation>SSH 使用者:</translation>
+        <translation>Користувач SSH:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="346"/>
         <source>Valid SSH User Name</source>
-        <translation>有效的 SSH 使用者名稱</translation>
+        <translation>Дійсне ім&apos;я користувача SSH</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="269"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="353"/>
         <source>Private Key</source>
-        <translation>私鑰</translation>
+        <translation>Приватний ключ</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="369"/>
         <source>Path to Private Key in PEM format</source>
-        <translation>PEM 格式私鑰路徑</translation>
+        <translation>Шлях до приватного ключа у форматі PEM</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="379"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation>&lt;b&gt;提示: &lt;/b&gt; &lt;code&gt;⌘ + Shift + .&lt;/code&gt; 可以顯示隱藏的檔案與資料夾</translation>
+        <translation>&lt;b&gt; Порада. &lt;/b&gt; Використовуйте &lt;code&gt; ⌘ + Shift +. &lt;/code&gt;, щоб показати приховані файли та папки у діалоговому вікні</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="384"/>
         <source>Password</source>
-        <translation>密碼</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="395"/>
         <source>SSH User Password</source>
-        <translation>SSH 使用者密碼</translation>
+        <translation>Пароль користувача SSH</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="406"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
-        <translation>啟用 TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
+        <translation>Увімкнути TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="137"/>
         <source>Advanced Settings</source>
-        <translation>進階設定</translation>
+        <translation>Розширені налаштування</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="193"/>
-        <source>For better network performance please use 127.0.0.1</source>
-        <translation>使用 127.0.0.1 以提高網路性能</translation>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="223"/>
+        <source>Sign in with rdm.dev account</source>
+        <translation>Увійдіть за допомогою облікового запису rdm.dev</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
-        <source>Username:</source>
-        <translation>使用者名稱:</translation>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
+        <source>Renew your subscription</source>
+        <translation>Поновити підписку</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="217"/>
-        <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
-        <translation>(可選) Redis 伺服器認證使用者名稱 (Redis &gt;6.0)</translation>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
+        <source>Your trial has ended.</source>
+        <translation>Ваш пробний період закінчився.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
+        <source>To use this version you need to renew your subscription.</source>
+        <translation>Для використання цієї версії вам потрібно поновити підписку.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
+        <source>Please purchase a subscription to continue using RDM.</source>
+        <translation>Будь ласка, придбайте передплату, щоб продовжити використання RDM.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
+        <source>If you have any questions please contact support </source>
+        <translation>Якщо у вас є які-небудь запитання, звертайтесь до служби підтримки </translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Renew Subscription</source>
+        <translation>Поновити підписку</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
+        <source>Buy Subscription</source>
+        <translation>Купити підписку</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
+        <source>Email:</source>
+        <translation>Електронна адреса:</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
+        <source>Password:</source>
+        <translation>Пароль:</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
+        <source>Forgot password?</source>
+        <translation>Забули пароль?</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="299"/>
+        <source>Application will be restarted to apply this setting.</source>
+        <translation>Додаток буде перезапущено, щоб застосувати цей параметр.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
+        <source>Sign In</source>
+        <translation>Увійти</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
+        <source>Please enter email &amp; password to sign in.</source>
+        <translation>Введіть електронну адресу та пароль для входу.</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="236"/>
@@ -637,72 +719,72 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="295"/>
         <source>Enable strict mode:</source>
-        <translation>啟用嚴格模式:</translation>
+        <translation>Увімкнути суворий режим:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="442"/>
         <source>Keys loading</source>
-        <translation>鍵的載入</translation>
+        <translation>Завантаження ключів</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="446"/>
         <source>Default filter:</source>
-        <translation>預設篩選器:</translation>
+        <translation>Фільтр за замовчуванням:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="452"/>
         <source>Pattern which defines loaded keys from redis-server</source>
-        <translation>指定載入鍵名運算式:</translation>
+        <translation>Шаблон, який визначає завантажені ключі з redis-сервера</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="458"/>
         <source>Namespace Separator:</source>
-        <translation>命名空間的分隔符號:</translation>
+        <translation>Розділювач неймспейсів:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
         <source>Separator used for namespace extraction from keys</source>
-        <translation>從鍵名中提取命名空間用的分隔符號</translation>
+        <translation>Розділювач, що отримання назв неймспейсів із ключів</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="471"/>
         <source>Timeouts &amp; Limits</source>
-        <translation>超時 &amp; 限制</translation>
+        <translation>Час очікування та ліміти</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="475"/>
         <source>Connection Timeout (sec):</source>
-        <translation>連線逾時 (秒):</translation>
+        <translation>Час очікування підключення (сек):</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="488"/>
         <source>Execution Timeout (sec):</source>
-        <translation>執行超時 (秒):</translation>
+        <translation>Час очікування виконання (сек):</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="499"/>
         <source>Databases discovery limit:</source>
-        <translation>資料庫探索上限:</translation>
+        <translation>Ліміт на завантаження баз данних:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="513"/>
         <source>Cluster</source>
-        <translation>叢集</translation>
+        <translation>Кластер</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="517"/>
         <source>Change host on cluster redirects:</source>
-        <translation>在叢集重定向後改變 host :</translation>
+        <translation>Змінювати хост при перенаправленнях кластера:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="570"/>
         <source>Invalid settings detected!</source>
-        <translation>檢測到無效的設定！</translation>
+        <translation>Виявлено невірні налаштування!</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="542"/>
         <source>Test Connection</source>
-        <translation>測試連線</translation>
+        <translation>Випробувати підключення</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
@@ -711,7 +793,7 @@
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
         <source>OK</source>
-        <translation>確定</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="200"/>
@@ -724,605 +806,400 @@
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="47"/>
         <source>General</source>
-        <translation>一般</translation>
+        <translation>Загальні</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
-        <translation>語言</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="299"/>
-        <source>Application will be restarted to apply this setting.</source>
-        <translation>程式將會重新啟動以套用新的設定</translation>
+        <translation>Мова</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="93"/>
         <location filename="../../qml/GlobalSettings.qml" line="138"/>
         <source>Font</source>
-        <translation>字體</translation>
+        <translation>Шрифт</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="115"/>
         <location filename="../../qml/GlobalSettings.qml" line="151"/>
         <source>Font Size</source>
-        <translation>字體大小</translation>
+        <translation>Розмір шрифту</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="165"/>
         <source>Maximum Formatted Value Size</source>
-        <translation>最大格式化長度</translation>
+        <translation>Максимальний розмір форматованого значення</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="166"/>
         <source>Size in bytes</source>
-        <translation>長度（位元組）</translation>
+        <translation>Розмір у байтах</translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="209"/>
+        <source>Show only last part for namespaced keys</source>
+        <translation>Показати лише останню частину ключів з неймспейсами</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
-        <translation>使用系統的代理設定</translation>
+        <translation>Використовувати налаштування системного проксі</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="52"/>
         <source>Application will be restarted to apply this settings.</source>
-        <translation>程式將會重新啟動以套用此設定</translation>
+        <translation>Додаток буде перезапущено, щоб застосувати зміни в налаштуваннях.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
         <source>Use system proxy only for HTTP(S) requests</source>
-        <translation>只為 HTTP(S) 使用系統的代理</translation>
+        <translation>Використовувати системний проксі лише для запитів HTTP(S)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="123"/>
         <source>Value Editor</source>
-        <translation>值編輯器</translation>
+        <translation>Редактор значень</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="172"/>
         <source>Connections Tree</source>
-        <translation>連線列表</translation>
+        <translation>Дерево підключень</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation>置頂有命名空間的鍵</translation>
+        <translation>Показувати спочатку ключі з неймспейсами</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
         <source>Reopen namespaces on reload</source>
-        <translation>重新載入時重新打開命名空間</translation>
+        <translation>Повторно відкрити неймспейси при перезавантаженні</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="199"/>
         <source>(Disable to improve treeview performance)</source>
-        <translation>(停用樹狀檢視以提高性能)</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="209"/>
-        <source>Show only last part for namespaced keys</source>
-        <translation>對有命名空間的鍵只顯示最後一部分</translation>
+        <translation>(Вимкніть, щоб пришвидшити роботу дерева ключів)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
-        <translation>同步更新最大允許鍵數量</translation>
+        <translation>Максимальна кількість ключів дозволена для авто оновлення</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="233"/>
         <source>Live update interval (in seconds)</source>
-        <translation>同步更新時間 (秒)</translation>
+        <translation>Інтервал автоматичного оновлення (у секундах)</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="241"/>
         <source>External Value View Formatters</source>
-        <translation>外部的值格式化工具</translation>
+        <translation>Зовнішні Форматери</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="246"/>
         <source>Formatters path: %0</source>
-        <translation>格式化工具路徑: %0</translation>
+        <translation>Шлях до форматерів:%0</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="262"/>
         <source>Name</source>
-        <translation>名稱</translation>
+        <translation>Ім&apos;я</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="267"/>
         <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>Version</source>
-        <translation>版本</translation>
+        <translation>Версія</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Explore RDM</source>
-        <translation>探索 RDM</translation>
+        <translation>Дослідіть RDM</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="45"/>
         <source>Before using RDM take a look on the %1</source>
-        <translation>在使用 RDM 之前，您可以先看看 %1</translation>
+        <translation>Перед використанням RDM ознайомтесь з %1</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="551"/>
         <location filename="../../qml/QuickStartDialog.qml" line="46"/>
         <source>Quick Start Guide</source>
-        <translation>快速入門指南</translation>
+        <translation>Інструкція для початківців</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="109"/>
         <source>Successful connection to redis-server</source>
-        <translation>成功連線到 Redis 伺服器</translation>
+        <translation>Успішне підключення до redis-сервера</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="112"/>
         <source>Can&apos;t connect to redis-server</source>
-        <translation>無法連線到 Redis 伺服器</translation>
+        <translation>Не вдається підключитися до redis-сервера</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="254"/>
         <source>Add Group</source>
-        <translation>新增分組</translation>
+        <translation>Додати групу</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="268"/>
         <source>Regroup connections</source>
-        <translation>重組連線</translation>
+        <translation>Перегрупувати з&apos;єднання</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="290"/>
         <source>Exit Regroup Mode</source>
-        <translation>離開分組模式</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
-        <source>Bulk Operations Manager</source>
-        <translation>批次操作管理器</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
-        <source>Invalid RDB path</source>
-        <translation type="unfinished">無效的 RDB 路徑</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
-        <source>Please specify valid path to RDB file</source>
-        <translation type="unfinished">請指定有效的 RDB 檔案</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="83"/>
-        <source>Delete keys</source>
-        <translation>刪除鍵</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
-        <source>Set TTL</source>
-        <translation type="unfinished">設定 TTL</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
-        <source>Copy keys to another database</source>
-        <translation type="unfinished">複製鍵到其他資料庫</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
-        <source>Copy keys</source>
-        <translation>複製鍵</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
-        <source>Import data from rdb file</source>
-        <translation type="unfinished">從 RDB 檔案中匯入資料</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
-        <source>Redis Server:</source>
-        <translation>Redis 伺服器:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="157"/>
-        <source>Database number:</source>
-        <translation>資料庫編號:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
-        <source>Path to RDB file:</source>
-        <translation type="unfinished">RDB 檔案的路徑:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
-        <source>Select DB in RDB file:</source>
-        <translation type="unfinished">選擇 RDB 檔案中的資料庫:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
-        <source>Key pattern:</source>
-        <translation>鍵名運算式:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
-        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation type="unfinished">匯入符合&lt;b&gt;正規表達式&lt;/b&gt;的鍵:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
-        <source>Destination Redis Server:</source>
-        <translation>目標 Redis 伺服器:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
-        <source>Destination Redis Server Database Index:</source>
-        <translation>目標資料庫編號:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
-        <source>Show matched keys</source>
-        <translation type="unfinished">顯示符合的鍵</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
-        <source>Show Affected keys</source>
-        <translation type="unfinished">顯示受影響的鍵</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
-        <source>Affected keys:</source>
-        <translation>受影響的鍵:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
-        <source>Matched keys:</source>
-        <translation type="unfinished">符合的鍵:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
-        <source>Bulk Operation finished.</source>
-        <translation>批次操作完成。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
-        <source>Bulk Operation finished with errors</source>
-        <translation type="unfinished">批次操作完成但途中曾發生錯誤</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
-        <source>Processed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
-        <source>Getting list of affected keys...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
-        <source>Confirmation</source>
-        <translation>確認</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
-        <source>Do you really want to perform bulk operation?</source>
-        <translation>確認要執行批次操作？</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="223"/>
-        <source>Sign in with rdm.dev account</source>
-        <translation>以 rdm.dev 的帳號登入</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
-        <source>Renew your subscription</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
-        <source>Your trial has ended.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
-        <source>To use this version you need to renew your subscription.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
-        <source>Please purchase a subscription to continue using RDM.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
-        <source>If you have any questions please contact support </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
-        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
-        <source>Renew Subscription</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
-        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
-        <source>Buy Subscription</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
-        <source>Email:</source>
-        <translation>Email:</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
-        <source>Password:</source>
-        <translation>密碼:</translation>
+        <translation>Вийти з режиму перегрупування</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="276"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
-        <translation>顯示密碼</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
-        <source>Forgot password?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
-        <source>Sign In</source>
-        <translation>登入</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
-        <source>Please enter email &amp; password to sign in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати пароль</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
         <source> (Removed)</source>
-        <translation> (移除)</translation>
+        <translation> (Видалено)</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="74"/>
         <source>Open Keys Filter</source>
-        <translation>打開鍵篩選器</translation>
+        <translation>Відкрити фільтр ключів</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="78"/>
         <source>Reload Keys in Database</source>
-        <translation>重新載入資料庫中的鍵</translation>
+        <translation>Перезавантажити ключі в базі даних</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="82"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="29"/>
         <source>Add New Key</source>
-        <translation>新增鍵</translation>
+        <translation>Додати новий ключ</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="88"/>
         <source>Disable Live Update</source>
-        <translation>停用同步更新</translation>
+        <translation>Вимкнути автоматичне оновлення</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="88"/>
         <source>Enable Live Update</source>
-        <translation>啟用同步更新</translation>
+        <translation>Увімкнути автоматине оновлення</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="92"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Open Console</source>
-        <translation>打開控制台</translation>
+        <translation>Відкрити консоль</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="95"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="31"/>
         <source>Analyze Used Memory</source>
-        <translation>分析記憶體用量</translation>
+        <translation>Проаналізувати використану пам’ять</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="97"/>
         <source>Bulk Operations</source>
-        <translation>批次操作</translation>
+        <translation>Масові операції</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="118"/>
         <source>Flush Database</source>
-        <translation>清空資料庫</translation>
+        <translation>Очистити базу даних</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="121"/>
         <source>Delete keys with filter</source>
-        <translation>使用篩選器來刪除鍵</translation>
+        <translation>Видалити ключі з фільтром</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="91"/>
         <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
         <source>Set TTL for multiple keys</source>
-        <translation>為多個鍵設定 TTL</translation>
+        <translation>Встановити TTL для кількох ключів</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="127"/>
         <source>Copy keys from this database to another</source>
-        <translation>從此資料庫中複製鍵到另一個資料庫</translation>
+        <translation>Скопіювати ключі з цієї бази даних в іншу</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="130"/>
         <source>Import keys from RDB file</source>
-        <translation>從 RDB 檔案中匯入鍵</translation>
+        <translation>Імпортувати ключі з файлу rdb</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="133"/>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/key.qml" line="21"/>
         <source>Copy Key Name</source>
-        <translation>複製鍵</translation>
+        <translation>Копіювати назву ключа</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="28"/>
         <source>Reload Namespace</source>
-        <translation>重新載入命名空間</translation>
+        <translation>Перезавантажити неймспейс</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="30"/>
         <source>Copy Namespace Pattern</source>
-        <translation>複製命名空間運算式</translation>
+        <translation>Скопіювати шаблон неймспейсу</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="32"/>
         <source>Delete Namespace</source>
-        <translation>刪除命名空間</translation>
+        <translation>Видалити неймспейс</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
         <source>Disconnect</source>
-        <translation>中斷連線</translation>
+        <translation>Від&apos;єднатись</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="238"/>
         <source>Server Info</source>
-        <translation>伺服器資訊</translation>
+        <translation>Інформація про сервер</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="27"/>
         <source>Reload Server</source>
-        <translation>重新載入伺服器</translation>
+        <translation>Перезавантажити з&apos;єднання</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="31"/>
         <source>Unload All Data</source>
-        <translation>卸載所有資料</translation>
+        <translation>Вивантажити всі дані</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="11"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="35"/>
         <source>Edit Connection Settings</source>
-        <translation>編輯連線設定</translation>
+        <translation>Редагувати налаштування підключення</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="39"/>
         <source>Duplicate Connection</source>
-        <translation>複製連線</translation>
+        <translation>Створити дублікат з&apos;єднання</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="43"/>
         <source>Delete Connection</source>
-        <translation>刪除連線</translation>
+        <translation>Видалити підключення</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="21"/>
         <source>Connecting...</source>
-        <translation>連線中...</translation>
+        <translation>Підключення ...</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="193"/>
         <source>Clear</source>
-        <translation>清除</translation>
+        <translation>Очистити</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="233"/>
         <source>Arguments</source>
-        <translation>參數</translation>
+        <translation>Параметри</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="277"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
-        <translation>描述</translation>
+        <translation>Опис</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="245"/>
         <source>Available since</source>
-        <translation>可用自</translation>
+        <translation>Доступно з</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="296"/>
         <source>Close</source>
-        <translation>關閉</translation>
+        <translation>Закрити</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="108"/>
         <source>Redis Version</source>
-        <translation>Redis 版本</translation>
+        <translation>Версія Redis</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="123"/>
         <source>Used memory</source>
-        <translation>已使用記憶體</translation>
+        <translation>Використана пам’ять</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="138"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="246"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="350"/>
         <source>Clients</source>
-        <translation>連線數</translation>
+        <translation>Клієнти</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="153"/>
         <source>Commands Processed</source>
-        <translation>已執行指令</translation>
+        <translation>Команд оброблено</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="170"/>
         <source>Uptime</source>
-        <translation>上線時間</translation>
+        <translation>Час роботи</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
         <source>Total Keys</source>
-        <translation>鍵總數</translation>
+        <translation>Усього ключів</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
-        <translation>命中率</translation>
+        <translation>Коефіцієнт потрапляння</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
         <source> day(s)</source>
-        <translation> 天</translation>
+        <translation>днів</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
         <source>Info</source>
-        <translation>資訊</translation>
+        <translation>Інформація</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
         <source>Commands Per Second</source>
-        <translation>每秒指令數</translation>
+        <translation>Команд на секунду</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
         <source>Ops/s</source>
-        <translation>操作/秒</translation>
+        <translation>Операцій/с</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
         <source>Connected Clients</source>
-        <translation>已連接的客戶端</translation>
+        <translation>Підключені клієнти</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
         <source>Memory Usage</source>
-        <translation>記憶體佔用</translation>
+        <translation>Використання пам&apos;яті</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="386"/>
@@ -1332,7 +1209,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
         <source>Network Input</source>
-        <translation>網路輸入</translation>
+        <translation>Вхідні данні</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
@@ -1343,112 +1220,112 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
         <source>Network Output</source>
-        <translation>網路輸出</translation>
+        <translation>Вихідні дані</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
         <source>Keys</source>
-        <translation>鍵數量</translation>
+        <translation>Ключі</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="692"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="749"/>
         <source>Auto Refresh</source>
-        <translation>自動重整</translation>
+        <translation>Автоматичне оновлення</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="618"/>
         <source>Property</source>
-        <translation>屬性</translation>
+        <translation>Властивість</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="21"/>
         <source>Value</source>
-        <translation>值</translation>
+        <translation>Значення</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="837"/>
         <source>Subscribe in Console</source>
-        <translation>在控制台中訂閱</translation>
+        <translation>Переглянути в консолі</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="242"/>
         <source>Slowlog</source>
-        <translation>慢紀錄</translation>
+        <translation>Slowlog</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="251"/>
         <source>Pub/Sub Channels</source>
-        <translation>發布/訂閱 頻道</translation>
+        <translation>Pub/Sub канали</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="807"/>
         <source>Enable</source>
-        <translation>啟用</translation>
+        <translation>Увімкнути</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="826"/>
         <source>Channel Name</source>
-        <translation>頻道名稱</translation>
+        <translation>Назва каналу</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="271"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
-        <translation>指令</translation>
+        <translation>Команда</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="724"/>
         <source>Processed at</source>
-        <translation>已處理於</translation>
+        <translation>Оброблено в</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
         <source>Execution Time (μs)</source>
-        <translation>執行時間 (微秒)</translation>
+        <translation>Час виконання (мкс)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="764"/>
         <source>Client Address</source>
-        <translation>客戶端位址</translation>
+        <translation>Адреса клієнта</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="770"/>
         <source>Age (sec)</source>
-        <translation>連線時長 (秒)</translation>
+        <translation>Вік (сек)</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="776"/>
         <source>Idle</source>
-        <translation>閒置</translation>
+        <translation>Незайнятий</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="782"/>
         <source>Flags</source>
-        <translation>旗標</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="788"/>
         <source>Current Database</source>
-        <translation>當前資料庫</translation>
+        <translation>Поточна база даних</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="9"/>
         <source>Add New Key to </source>
-        <translation>新增鍵到</translation>
+        <translation>Додати новий ключ до</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="25"/>
         <location filename="../../qml/value-editor/editors/HashItemEditor.qml" line="17"/>
         <source>Key:</source>
-        <translation>鍵:</translation>
+        <translation>Ключ:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="35"/>
         <source>Type:</source>
-        <translation>類型:</translation>
+        <translation>Тип:</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
@@ -1457,100 +1334,231 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="443"/>
         <source>Save</source>
-        <translation>儲存</translation>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Edit Connections Group</source>
-        <translation>編輯連線的群組</translation>
+        <translation>Редагувати групу підключень</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
         <source>Add New Connections Group</source>
-        <translation>新增連線群組</translation>
+        <translation>Додати нову групу підключень</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
         <source>Group Name:</source>
-        <translation>群組名稱:</translation>
+        <translation>Назва групи:</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
         <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="220"/>
         <source>Error</source>
-        <translation>錯誤</translation>
+        <translation>Помилка</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="12"/>
         <source>Page</source>
-        <translation>頁</translation>
+        <translation>Сторінка</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="78"/>
         <source>Enter valid value</source>
-        <translation>請輸入有效的值</translation>
+        <translation>Введіть дійсне значення</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="289"/>
         <source>Formatting error</source>
-        <translation>格式化錯誤</translation>
+        <translation>Помилка форматування</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="294"/>
         <source>Unknown formatter error (Empty response)</source>
-        <translation>未知格式化錯誤 (沒有回應)</translation>
+        <translation>Невідома помилка форматування (порожня відповідь)</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="321"/>
         <source>[Binary]</source>
-        <translation>[二進位制內容]</translation>
+        <translation>Бінарне значення</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
         <source> [Compressed: </source>
-        <translation>[被壓縮的: </translation>
+        <translation> [Стиснутий: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="409"/>
         <source>Copy to Clipboard</source>
-        <translation>複製到剪貼簿</translation>
+        <translation>Копіювати в буфер обміну</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="444"/>
         <source>Save Changes</source>
-        <translation>儲存變更</translation>
+        <translation>Зберегти зміни</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
         <source>Binary value is too large to display</source>
-        <translation>二進位制內容過長而無法顯示</translation>
+        <translation>Бінарне значення завелике для відображення</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="330"/>
         <source>View as:</source>
-        <translation>以...開啟:</translation>
+        <translation>Переглянути як:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
-        <translation>內容過大 (&gt;150kB) 無法格式化。</translation>
+        <translation>Велике значення (&gt; 150 кБ). Форматери недоступні.</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="18"/>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="30"/>
         <source>Score</source>
-        <translation>分數</translation>
+        <translation>Рахунок</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
+        <source>Bulk Operations Manager</source>
+        <translation>Менеджер масових операцій</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
+        <source>Invalid RDB path</source>
+        <translation>Недійсний шлях до RDB</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
+        <source>Please specify valid path to RDB file</source>
+        <translation>Вкажіть дійсний шлях до файлу RDB</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="83"/>
+        <source>Delete keys</source>
+        <translation>Видалити ключі</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
+        <source>Set TTL</source>
+        <translation>Встановити TTL</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
+        <source>Copy keys to another database</source>
+        <translation>Скопіювати ключі в іншу базу даних</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
+        <source>Copy keys</source>
+        <translation>Копіювати ключі</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
+        <source>Import data from rdb file</source>
+        <translation>Імпортувати дані з файлу rdb</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
+        <source>Redis Server:</source>
+        <translation>Сервер Redis:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="157"/>
+        <source>Database number:</source>
+        <translation>Номер бази даних:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
+        <source>Path to RDB file:</source>
+        <translation>Шлях до файлу RDB:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="188"/>
         <source>Path to dump.rdb file</source>
-        <translation>dump.rdb 的路徑</translation>
+        <translation>Шлях до файлу dump.rdb</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="190"/>
         <source>Select dump.rdb</source>
-        <translation>選擇 dump.rdb</translation>
+        <translation>Виберіть dump.rdb</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
+        <source>Select DB in RDB file:</source>
+        <translation>Виберіть БД у файлі RDB:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
+        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
+        <translation>Імпортувати ключі, що відповідають &lt;b&gt; регулярному виразу &lt;/b&gt;:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
+        <source>Key pattern:</source>
+        <translation>Шаблон клбючів:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
+        <source>Destination Redis Server:</source>
+        <translation>Цільовий Redis Server:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
+        <source>Destination Redis Server Database Index:</source>
+        <translation>Індекс бази даних сервера призначення Redis:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
+        <source>Show matched keys</source>
+        <translation>Показати ключі які будуть змінені</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
+        <source>Show Affected keys</source>
+        <translation>Показати ключі які будуть змінені</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
+        <source>Matched keys:</source>
+        <translation>Знайдені ключі:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
+        <source>Affected keys:</source>
+        <translation>Ключі, що зазнають впливу:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
+        <source>Bulk Operation finished.</source>
+        <translation>Масова операція закінчена.</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
+        <source>Bulk Operation finished with errors</source>
+        <translation>Массова Операція виконана з помилками</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
+        <source>Processed: </source>
+        <translation>Оброблено:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
+        <source>Getting list of affected keys...</source>
+        <translation>Отримання списку ключів які будуть змінені ...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
+        <source>Confirmation</source>
+        <translation>Підтвердження</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
+        <source>Do you really want to perform bulk operation?</source>
+        <translation>Ви дійсно хочете виконати групову операцію?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="18"/>
@@ -1560,208 +1568,208 @@
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="61"/>
         <source>Value (represented as JSON object)</source>
-        <translation>值 (以 JSON 物件表示)</translation>
+        <translation>Значення (представлене як об&apos;єкт JSON)</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/listkey.cpp" line="127"/>
         <source>The row has been changed on server.Reload and try again.</source>
-        <translation>此列資料已在伺服器上被修改，請重新載入後再試一次。</translation>
+        <translation>Рядок змінено на сервері. Перезавантажте та повторіть спробу.</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="122"/>
         <source>Failed to perform actions on %1 keys. </source>
-        <translation>無法在鍵 %1 上執行動作。 </translation>
+        <translation>Не вдалося виконати дії для %1 ключів. </translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="12"/>
         <source>Cannot copy key </source>
-        <translation>無法複製鍵 </translation>
+        <translation>Не вдається скопіювати ключ</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
         <source>Source connection error</source>
-        <translation>來源連線錯誤</translation>
+        <translation>Помилка підключення до серверу джерела</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
         <source>Target connection error</source>
-        <translation>目標連線錯誤</translation>
+        <translation>Помилка цільового з&apos;єднання</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="11"/>
         <source>Cannot remove key </source>
-        <translation>無法刪除鍵 </translation>
+        <translation>Не вдається видалити ключ </translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="16"/>
         <source>Cannot execute command </source>
-        <translation>無法執行指令 </translation>
+        <translation>Не вдається виконати команду </translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="10"/>
         <source>Cannot set TTL for key </source>
-        <translation>無法設定 TTL 給鍵 </translation>
+        <translation>Не вдається встановити TTL для ключа </translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
-        <translation>你的 Redis 伺服器不支援 &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; 指令。</translation>
+        <translation>Ваш redis сервер не підтримує команду &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
-        <translation>已新增鍵。你想要重新載入命名空間中的鍵嗎？</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="146"/>
-        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="189"/>
-        <source>Invalid login or password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="196"/>
-        <source>Too many requests from your IP</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="199"/>
-        <source>Unknown error. Status code %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="219"/>
-        <location filename="../../modules/api/api_client.cpp" line="321"/>
-        <source>Cannot parse server reply</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="336"/>
-        <source>Cannot validate token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="342"/>
-        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
-        <translation>無法登入 - %1 。&lt;br/&gt; 請再試一次或聯絡 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="576"/>
-        <location filename="../../modules/api/api_client.cpp" line="602"/>
-        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="654"/>
-        <source>Download was canceled</source>
-        <translation type="unfinished">下載已被取消</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="661"/>
-        <source>Network error</source>
-        <translation type="unfinished">網路錯誤</translation>
+        <translation>Ключ додано. Хочете перезавантажити ключі у вибраному неймспейсі?</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
         <source>Select File</source>
-        <translation>選擇檔案</translation>
+        <translation>Вибрати Файл</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save to File</source>
-        <translation>儲存到檔案</translation>
+        <translation>Зберегти у файл</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="25"/>
         <source>Save Value</source>
-        <translation>儲存值</translation>
+        <translation>Зберегти значення</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
         <source>Save value to file</source>
-        <translation>儲存值到檔案</translation>
+        <translation>Зберегти значення у файл</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="65"/>
         <source>Value was saved to file:</source>
-        <translation>已儲存值到檔案:</translation>
+        <translation>Значення було збережено у файл:</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
         <source>Cannot connect to redis-server</source>
-        <translation>無法連接到 Redis 伺服器</translation>
+        <translation>Не вдається підключитися до redis-server</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
         <source>Edit Connection Group</source>
-        <translation>編輯連線群組</translation>
+        <translation>Редагувати групу підключень</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="16"/>
         <source>Delete Connection Group</source>
-        <translation>刪除連線群組</translation>
+        <translation>Видалити групу підключень</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation>您真的要刪除群組&lt;b&gt;以及其中的連線&lt;/b&gt;嗎？</translation>
+        <translation>Ви дійсно хочете видалити групу &lt;b&gt;з усіма з’єднаннями&lt;/b&gt;?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
         <source>Order of elements:</source>
-        <translation>元素排序:</translation>
+        <translation>Порядок елементів:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="20"/>
         <source>Default</source>
-        <translation>預設</translation>
+        <translation>За замовчуванням</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="21"/>
         <source>Reverse</source>
-        <translation>倒序</translation>
+        <translation>Зворотний</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="28"/>
         <source>Start date should be less than End date</source>
-        <translation>起始日期必須早於終止日期</translation>
+        <translation>Дата початку має бути меншою за дату завершення</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
-        <translation>套用篩選器</translation>
+        <translation>Застосувати фільтр</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="146"/>
+        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
+        <translation>Мережа недоступна. Переконайтесь, що у вас є доступ до Інтернету, і повторіть спробу.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="189"/>
+        <source>Invalid login or password</source>
+        <translation>Недійсний логін або пароль</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="196"/>
+        <source>Too many requests from your IP</source>
+        <translation>Забагато запитів з вашого IP</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="199"/>
+        <source>Unknown error. Status code %1</source>
+        <translation>Невідома помилка. Код відповіді %1</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="219"/>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <source>Cannot parse server reply</source>
+        <translation>Не вдається проаналізувати відповідь сервера</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="336"/>
+        <source>Cannot validate token</source>
+        <translation>Не вдається перевірити токен</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="342"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
+        <translation>Не вдається ввійти -%1. &lt;br/&gt; Спробуйте ще раз або зв’яжіться з &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="576"/>
+        <location filename="../../modules/api/api_client.cpp" line="602"/>
+        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
+        <translation>Не вдається зберегти оновлення. Диск заповнений або папка для завантаження не доступна для запису.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="654"/>
+        <source>Download was canceled</source>
+        <translation>Завантаження скасовано</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="661"/>
+        <source>Network error</source>
+        <translation>Помилка мережі</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
         <source>Trial is active till</source>
-        <translation type="unfinished"></translation>
+        <translation>Пробна версія активна до</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
         <source>Licensed to</source>
-        <translation type="unfinished"></translation>
+        <translation>Ліцензія зареєстрована на</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
         <source>Subscription is active until:</source>
-        <translation type="unfinished"></translation>
+        <translation>Підписка активна до:</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Керувати підпискою</translation>
     </message>
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&quot;font-size: 11px;&quot;&gt;Використовується крутезне&lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;програмне забезпечення з відкритим кодом&lt;/a&gt; та &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</translation>
     </message>
 </context>
 </TS>
