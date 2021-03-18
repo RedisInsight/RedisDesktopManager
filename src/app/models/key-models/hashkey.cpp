@@ -111,7 +111,7 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey,
              [updateIfNotExist](RedisClient::Response r, Callback c) {
                if (updateIfNotExist == false && r.value().toInt() == 0) {
                  return c(QCoreApplication::translate(
-                     "RDM", "Value with the same key already exist"));
+                     "RDM", "Value with the same key already exists"));
                } else {
                  return c(QString());
                }

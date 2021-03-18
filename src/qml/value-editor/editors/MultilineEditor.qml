@@ -619,7 +619,7 @@ Item
         RowLayout {
             Text {
                 color: sysPalette.text
-                text: qsTranslate("RDM","Save value to file: ")
+                text: qsTranslate("RDM","Save value to file")+ ": "
             }
 
             SaveToFileButton {

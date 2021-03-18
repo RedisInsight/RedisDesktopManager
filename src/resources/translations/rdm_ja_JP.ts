@@ -2,166 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ja_JP">
 <context>
-    <name>API::Client</name>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="621"/>
-        <source>Download was canceled</source>
-        <translation>ダウンロードをキャンセルしました</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/api_client.cpp" line="628"/>
-        <source>Network error</source>
-        <translation>ネットワークエラー</translation>
-    </message>
-</context>
-<context>
-    <name>BulkOperationsDialog</name>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
-        <source>Bulk Operations Manager</source>
-        <translation>バッチ処理マネージャ</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
-        <source>Invalid RDB path</source>
-        <translation>不正なRDBのパスです</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
-        <source>Please specify valid path to RDB file</source>
-        <translation>RDBファイルへの正しいパスを指定してください</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="83"/>
-        <source>Delete keys</source>
-        <translation>キーを削除</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="91"/>
-        <source>Set TTL for multiple keys</source>
-        <translation>複数のキーのTTLを設定</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
-        <source>Set TTL</source>
-        <translation>TTLを設定</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
-        <source>Copy keys to another database</source>
-        <translation>他のデータベースにキーをコピー</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
-        <source>Copy keys</source>
-        <translation>キーをコピー</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
-        <source>Import data from rdb file</source>
-        <translation>RDBファイルからデータをインポート</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="111"/>
-        <source>Import</source>
-        <translation>インポート</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
-        <source>Redis Server:</source>
-        <translation>Redisサーバ:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="157"/>
-        <source>Database number:</source>
-        <translation>データベース番号:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
-        <source>Path to RDB file:</source>
-        <translation>RDBファイルへのパス:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
-        <source>Select DB in RDB file:</source>
-        <translation>RDBファイルからDBを選択</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
-        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation>&lt;b&gt;正規表現&lt;/b&gt;に一致するキーをインポート:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
-        <source>Key pattern:</source>
-        <translation>キーパターン:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
-        <source>Destination Redis Server:</source>
-        <translation>Redisサーバの接続先:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
-        <source>Destination Redis Server Database Index:</source>
-        <translation>Redisデータベースインデックスの接続先:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
-        <source>Show matched keys</source>
-        <translation>一致するキーを表示</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
-        <source>Show Affected keys</source>
-        <translation>影響するキーを表示</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
-        <source>Matched keys:</source>
-        <translation>一致したキー:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
-        <source>Affected keys:</source>
-        <translation>影響するキー:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
-        <source>Bulk Operation finished.</source>
-        <translation>バッチ処理が完了しました。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
-        <source>Bulk Operation finished with errors</source>
-        <translation>バッチ処理でエラーが発生しました</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
-        <source>Cancel</source>
-        <translation>キャンセル</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
-        <source>Confirmation</source>
-        <translation>確認</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
-        <source>Do you really want to perform bulk operation?</source>
-        <translation>バッチ処理を本当に実行しますか?</translation>
-    </message>
-</context>
-<context>
-    <name>GlobalSettings</name>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="305"/>
-        <source>Cancel</source>
-        <translation>キャンセル</translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
@@ -179,23 +19,14 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="80"/>
+        <location filename="../../app/app.cpp" line="81"/>
         <source>Settings directory is not writable</source>
         <translation>設定したディレクトリは書き込みできません</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="82"/>
+        <location filename="../../app/app.cpp" line="83"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
-    </message>
-    <message>
-        <source>Please download new version of RDM: %1</source>
-        <translation type="vanished">新バージョンのRedis Desktop Managerをダウンロードしてください: %1</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
-        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an associated timeout</source>
-        <translation>キー&apos;%1&apos;を永続化できません。&lt;br&gt; キーが存在しないか、または有効期限が設定されていません。</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
@@ -218,6 +49,11 @@
         <translation>キー%1を変更できません: %2</translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
+        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="267"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="278"/>
         <source>Cannot load rows for key %1: %2</source>
@@ -238,17 +74,17 @@
         <translation>不正なROWです</translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
+        <source>Value with the same key already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
         <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>接続エラー: </translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
-        <source>Value with the same key already exist</source>
-        <translation>同じキーを持つ値がすでに存在しています</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="136"/>
@@ -272,14 +108,14 @@
         <translation>キー%1のTTLがロードできません。接続エラーが発生しました: %2</translation>
     </message>
     <message>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
+        <source>Cannot retrieve type of the key: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>サポートしていないRedisのデータ型です&#x3000;%1</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
-        <source>Cannot retrive type of the key: </source>
-        <translation>キーの型を取得できません: </translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="110"/>
@@ -302,9 +138,9 @@
         <translation>キー削除エラー: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="400"/>
-        <source>Cannot used memory for key: %1</source>
-        <translation>キーのメモリを使えませんでした: %1</translation>
+        <location filename="../../app/models/treeoperations.cpp" line="401"/>
+        <source>Cannot determine amount of used memory by key: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="344"/>
@@ -315,6 +151,11 @@
         <location filename="../../modules/common/tabmodel.cpp" line="43"/>
         <source>Invalid Connection. Check connection settings.</source>
         <translation>不正な接続です。接続の設定を確認してください。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
+        <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
+        <translation>キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
@@ -334,8 +175,12 @@
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="257"/>
-        <source>Please wait until another operation will be finised.</source>
+        <source>Please wait until another operation will be finished.</source>
         <translation>処理が終わるまでお待ちください。</translation>
+    </message>
+    <message>
+        <source>Please wait until another operation will be finised.</source>
+        <translation type="vanished">処理が終わるまでお待ちください。</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="268"/>
@@ -356,9 +201,8 @@
         <translation>ライブ・アップデートは無効です</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carrfully or change limit in settings.</source>
-        <translation>キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
+        <translation type="vanished">キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="184"/>
@@ -575,6 +419,7 @@
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="40"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="111"/>
         <source>Import</source>
         <translation>インポート</translation>
     </message>
@@ -790,29 +635,77 @@
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="223"/>
         <source>Sign in with rdm.dev account</source>
         <translation>rdm.devのアカウントでサインイン</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="143"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
+        <source>Renew your subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
+        <source>Your trial has ended.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
+        <source>To use this version you need to renew your subscription.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
+        <source>Please purchase a subscription to continue using RDM.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
+        <source>If you have any questions please contact support </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Renew Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
+        <source>Buy Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
         <source>Email:</source>
         <translation>Email:</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="159"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
         <translation>パスワード:</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
+        <source>Forgot password?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="299"/>
         <source>Application will be restarted to apply this setting.</source>
         <translation>設定を有効にするためアプリケーションは再起動されます</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="213"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
         <source>Sign In</source>
         <translation>サインイン</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
+        <source>Please enter email &amp; password to sign in.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="236"/>
@@ -899,10 +792,13 @@
         <translation>OK</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="200"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="592"/>
+        <location filename="../../qml/GlobalSettings.qml" line="305"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="106"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="107"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
@@ -941,7 +837,7 @@
         <translation>バイト数</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="204"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>OSのプロキシ設定を使う</translation>
@@ -987,10 +883,6 @@
         <translation>ネームスペース付きのキーの末尾のみを表示</translation>
     </message>
     <message>
-        <source>Enable key sorting in tree</source>
-        <translation type="vanished">ツリーのキーをソートする</translation>
-    </message>
-    <message>
         <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
         <translation>ライブアップデートで読み込むキーの最大数</translation>
@@ -1017,6 +909,7 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="267"/>
+        <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>Version</source>
         <translation>バージョン</translation>
     </message>
@@ -1037,38 +930,38 @@
         <translation>クイックスタート・ガイド</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="112"/>
+        <location filename="../../qml/app.qml" line="109"/>
         <source>Successful connection to redis-server</source>
         <translation>Redisサーバへの接続に成功</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="115"/>
+        <location filename="../../qml/app.qml" line="112"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>Redisサーバに接続できません</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="247"/>
+        <location filename="../../qml/app.qml" line="254"/>
         <source>Add Group</source>
         <translation>グループを追加</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="261"/>
+        <location filename="../../qml/app.qml" line="268"/>
         <source>Regroup connections</source>
         <translation>接続グループの編集</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="283"/>
+        <location filename="../../qml/app.qml" line="290"/>
         <source>Exit Regroup Mode</source>
         <translation>接続グループ編集モードを終了</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="182"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="276"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>パスワードを表示</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="183"/>
+        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
         <source> (Removed)</source>
         <translation> (削除済)</translation>
     </message>
@@ -1126,6 +1019,7 @@
         <translation>フィルタを用いてキーを削除</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="91"/>
         <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
         <source>Set TTL for multiple keys</source>
         <translation>複数のキーにTTLを設定</translation>
@@ -1432,7 +1326,7 @@
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="70"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="443"/>
         <source>Save</source>
@@ -1455,8 +1349,8 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="117"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="222"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="220"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
@@ -1506,11 +1400,6 @@
         <translation>バイナリが大きすぎるため表示できません</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
-        <source>Save value to file: </source>
-        <translation>値をファイルに保存: </translation>
-    </message>
-    <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="330"/>
         <source>View as:</source>
         <translation>表示形式:</translation>
@@ -1527,6 +1416,62 @@
         <translation>ソース</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
+        <source>Bulk Operations Manager</source>
+        <translation type="unfinished">バッチ処理マネージャ</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
+        <source>Invalid RDB path</source>
+        <translation type="unfinished">不正なRDBのパスです</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
+        <source>Please specify valid path to RDB file</source>
+        <translation type="unfinished">RDBファイルへの正しいパスを指定してください</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="83"/>
+        <source>Delete keys</source>
+        <translation type="unfinished">キーを削除</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
+        <source>Set TTL</source>
+        <translation type="unfinished">TTLを設定</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
+        <source>Copy keys to another database</source>
+        <translation type="unfinished">他のデータベースにキーをコピー</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
+        <source>Copy keys</source>
+        <translation type="unfinished">キーをコピー</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
+        <source>Import data from rdb file</source>
+        <translation type="unfinished">RDBファイルからデータをインポート</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
+        <source>Redis Server:</source>
+        <translation type="unfinished">Redisサーバ:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="157"/>
+        <source>Database number:</source>
+        <translation type="unfinished">データベース番号:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
+        <source>Path to RDB file:</source>
+        <translation type="unfinished">RDBファイルへのパス:</translation>
+    </message>
+    <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="188"/>
         <source>Path to dump.rdb file</source>
         <translation>dump.rdbファイルへのパス</translation>
@@ -1535,6 +1480,81 @@
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="190"/>
         <source>Select dump.rdb</source>
         <translation>dump.rdbを選択</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
+        <source>Select DB in RDB file:</source>
+        <translation type="unfinished">RDBファイルからDBを選択</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
+        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
+        <translation type="unfinished">&lt;b&gt;正規表現&lt;/b&gt;に一致するキーをインポート:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
+        <source>Key pattern:</source>
+        <translation type="unfinished">キーパターン:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
+        <source>Destination Redis Server:</source>
+        <translation type="unfinished">Redisサーバの接続先:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
+        <source>Destination Redis Server Database Index:</source>
+        <translation type="unfinished">Redisデータベースインデックスの接続先:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
+        <source>Show matched keys</source>
+        <translation type="unfinished">一致するキーを表示</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
+        <source>Show Affected keys</source>
+        <translation type="unfinished">影響するキーを表示</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
+        <source>Matched keys:</source>
+        <translation type="unfinished">一致したキー:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
+        <source>Affected keys:</source>
+        <translation type="unfinished">影響するキー:</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
+        <source>Bulk Operation finished.</source>
+        <translation type="unfinished">バッチ処理が完了しました。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
+        <source>Bulk Operation finished with errors</source>
+        <translation type="unfinished">バッチ処理でエラーが発生しました</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
+        <source>Processed: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
+        <source>Getting list of affected keys...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
+        <source>Confirmation</source>
+        <translation type="unfinished">確認</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
+        <source>Do you really want to perform bulk operation?</source>
+        <translation type="unfinished">バッチ処理を本当に実行しますか?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="18"/>
@@ -1613,6 +1633,7 @@
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
         <source>Save value to file</source>
         <translation>値をファイルに保存</translation>
     </message>
@@ -1639,7 +1660,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation>グループを本当に削除しますか？　&lt;b&gt;グループの接続情報もすべて失われます&lt;/b&gt;</translation>
+        <translation>グループを本当に削除しますか？&#x3000;&lt;b&gt;グループの接続情報もすべて失われます&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
@@ -1667,8 +1688,83 @@
         <translation>フィルタを適用</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="330"/>
+        <location filename="../../modules/api/api_client.cpp" line="146"/>
+        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="189"/>
+        <source>Invalid login or password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="196"/>
+        <source>Too many requests from your IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="199"/>
+        <source>Unknown error. Status code %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="219"/>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <source>Cannot parse server reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="336"/>
+        <source>Cannot validate token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="342"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="576"/>
+        <location filename="../../modules/api/api_client.cpp" line="602"/>
+        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="654"/>
+        <source>Download was canceled</source>
+        <translation type="unfinished">ダウンロードをキャンセルしました</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="661"/>
+        <source>Network error</source>
+        <translation type="unfinished">ネットワークエラー</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
+        <source>Trial is active till</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
+        <source>Licensed to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
+        <source>Subscription is active until:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Manage Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/WelcomeTab.qml" line="31"/>
+        <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

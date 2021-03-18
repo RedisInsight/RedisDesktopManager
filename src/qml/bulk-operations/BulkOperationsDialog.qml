@@ -7,7 +7,7 @@ import "./../common/"
 
 Dialog {
     id: root
-    title: qsTr("Bulk Operations Manager")
+    title: qsTranslate("RDM","Bulk Operations Manager")
     modality: Qt.ApplicationModal
 
     property string operationName: bulkOperations.operationName
@@ -57,7 +57,7 @@ Dialog {
     function validate() {
         if (root.operationName == "rdb_import" && !qmlUtils.fileExists(rdbPath.path)) {
             rdbPath.validationError = true
-            showError(qsTr("Invalid RDB path"), qsTr("Please specify valid path to RDB file"), "")
+            showError(qsTranslate("RDM","Invalid RDB path"), qsTranslate("RDM","Please specify valid path to RDB file"), "")
             return false;
         }
         rdbPath.validationError = false
@@ -79,8 +79,8 @@ Dialog {
             states: [
                 State {
                     name: "delete_keys"
-                    PropertyChanges { target: operationLabel; text: qsTr("Delete keys") }
-                    PropertyChanges { target: actionButton; text:  qsTr("Delete keys") }
+                    PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Delete keys") }
+                    PropertyChanges { target: actionButton; text:  qsTranslate("RDM","Delete keys") }
                     PropertyChanges { target: ttlField; visible: false }
                     PropertyChanges { target: replaceKeysField; visible: false }
                     PropertyChanges { target: targetConnectionSettings; visible: false }
@@ -88,8 +88,8 @@ Dialog {
                 },
                 State {
                     name: "ttl"
-                    PropertyChanges { target: operationLabel; text: qsTr("Set TTL for multiple keys") }
-                    PropertyChanges { target: actionButton; text: qsTr("Set TTL") }
+                    PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Set TTL for multiple keys") }
+                    PropertyChanges { target: actionButton; text: qsTranslate("RDM","Set TTL") }
                     PropertyChanges { target: ttlField; visible: true }
                     PropertyChanges { target: replaceKeysField; visible: false }
                     PropertyChanges { target: targetConnectionSettings; visible: false }
@@ -97,8 +97,8 @@ Dialog {
                 },
                 State {
                     name: "copy_keys"
-                    PropertyChanges { target: operationLabel; text: qsTr("Copy keys to another database") }
-                    PropertyChanges { target: actionButton; text:  qsTr("Copy keys") }
+                    PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Copy keys to another database") }
+                    PropertyChanges { target: actionButton; text:  qsTranslate("RDM","Copy keys") }
                     PropertyChanges { target: ttlField; visible: true }
                     PropertyChanges { target: replaceKeysField; visible: true }
                     PropertyChanges { target: targetConnectionSettings; visible: true }
@@ -107,8 +107,8 @@ Dialog {
 
                 State {
                     name: "rdb_import"
-                    PropertyChanges { target: operationLabel; text: qsTr("Import data from rdb file") }
-                    PropertyChanges { target: actionButton; text:  qsTr("Import") }
+                    PropertyChanges { target: operationLabel; text: qsTranslate("RDM","Import data from rdb file") }
+                    PropertyChanges { target: actionButton; text:  qsTranslate("RDM","Import") }
                     PropertyChanges { target: ttlField; visible: false }
                     PropertyChanges { target: replaceKeysField; visible: false }
                     PropertyChanges { target: targetConnectionSettings; visible: false }
@@ -142,7 +142,7 @@ Dialog {
                     Layout.fillWidth: true
 
                     BetterLabel {
-                        text: qsTr("Redis Server:")
+                        text: qsTranslate("RDM","Redis Server:")
                         Layout.preferredWidth: 250
                         Layout.preferredHeight: 25
                     }
@@ -154,7 +154,7 @@ Dialog {
                     }
 
                     BetterLabel {
-                        text: qsTr("Database number:")
+                        text: qsTranslate("RDM","Database number:")
                         Layout.preferredWidth: 250
                         Layout.preferredHeight: 25
                     }
@@ -174,7 +174,7 @@ Dialog {
 
                         BetterLabel {
                             id: rdbPathLabel
-                            text: qsTr("Path to RDB file:")
+                            text: qsTranslate("RDM","Path to RDB file:")
                             Layout.preferredWidth: 250
                         }
 
@@ -196,7 +196,7 @@ Dialog {
 
                         BetterLabel {
                             id: rdbDbLabel
-                            text: qsTr("Select DB in RDB file:")
+                            text: qsTranslate("RDM","Select DB in RDB file:")
                             Layout.preferredWidth: 250
                         }
 
@@ -216,7 +216,7 @@ Dialog {
                     }
 
                     BetterLabel {
-                        text: root.operationName == "rdb_import"? qsTr("Import keys that match <b>regex</b>:") : qsTr("Key pattern:")
+                        text: root.operationName == "rdb_import"? qsTranslate("RDM","Import keys that match <b>regex</b>:") : qsTranslate("RDM","Key pattern:")
                         Layout.preferredWidth: 250
                     }
 
@@ -263,7 +263,7 @@ Dialog {
 
                     BetterLabel {
                         Layout.preferredWidth: 250
-                        text: qsTr("Destination Redis Server:")
+                        text: qsTranslate("RDM","Destination Redis Server:")
                     }
 
                     BetterComboBox {
@@ -274,7 +274,7 @@ Dialog {
 
                     BetterLabel {
                         Layout.preferredWidth: 250
-                        text: qsTr("Destination Redis Server Database Index:")
+                        text: qsTranslate("RDM","Destination Redis Server Database Index:")
                     }
 
                     BetterSpinBox {
@@ -311,7 +311,7 @@ Dialog {
 
                 BetterButton {
                     id: btnShowAffectedKeys
-                    text: root.operationName == "rdb_import"? qsTr("Show matched keys") : qsTr("Show Affected keys")
+                    text: root.operationName == "rdb_import"? qsTranslate("RDM","Show matched keys") : qsTranslate("RDM","Show Affected keys")
                     onClicked: {
                         if (!validate()) {
                             return;
@@ -334,7 +334,7 @@ Dialog {
                     visible: false
 
                     BetterLabel {
-                        text: root.operationName == "rdb_import"? qsTr("Matched keys:")  : qsTr("Affected keys:")
+                        text: root.operationName == "rdb_import"? qsTranslate("RDM","Matched keys:")  : qsTranslate("RDM","Affected keys:")
                     }
 
                     FastTextView {
@@ -359,12 +359,12 @@ Dialog {
                             function onOperationFinished() {
                                 affectedKeysListView.model = []
                                 uiBlocker.visible = false
-                                bulkSuccessNotification.text = qsTr("Bulk Operation finished.")
+                                bulkSuccessNotification.text = qsTranslate("RDM","Bulk Operation finished.")
                                 bulkSuccessNotification.open()
                             }
 
                             function onError(e) {
-                                showError(qsTr("Bulk Operation finished with errors"), e, details)
+                                showError(qsTranslate("RDM","Bulk Operation finished with errors"), e, details)
                             }
                         }
                     }
@@ -393,7 +393,7 @@ Dialog {
                     }
 
                     BetterButton {
-                        text: qsTr("Cancel")
+                        text: qsTranslate("RDM","Cancel")
                         onClicked: root.close()
                     }
                 }
@@ -416,9 +416,9 @@ Dialog {
                         BetterLabel {
                             text: {
                                 if (bulkOperations.operationProgress > 0)
-                                    return "Processed: " + bulkOperations.operationProgress
+                                    return qsTranslate("RDM","Processed: ") + bulkOperations.operationProgress
                                 else {
-                                    return "Getting list of affected keys..."
+                                    return qsTranslate("RDM", "Getting list of affected keys...")
                                 }
                             }
                         }
@@ -454,8 +454,8 @@ Dialog {
 
             BetterMessageDialog {
                 id: bulkConfirmation
-                title: qsTr("Confirmation")
-                text: qsTr("Do you really want to perform bulk operation?")
+                title: qsTranslate("RDM", "Confirmation")
+                text: qsTranslate("RDM", "Do you really want to perform bulk operation?")
                 onYesClicked: {
                     uiBlocker.visible = true
                     bulkOperations.runOperation(targetConnection.currentIndex, targetDatabaseIndex.value)

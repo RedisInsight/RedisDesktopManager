@@ -397,9 +397,10 @@ void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
       [this, expectedResponses, processedResponses, totalMemory, progress,
        result](RedisClient::Response r, QString err) {
         if (!err.isEmpty()) {
-          QString errorMsg = QCoreApplication::translate(
-                                 "RDM", "Cannot used memory for key: %1")
-                                 .arg(err);
+          QString errorMsg =
+              QCoreApplication::translate(
+                  "RDM", "Cannot determine amount of used memory by key: %1")
+                  .arg(err);
           m_events->error(errorMsg);          
         } else {
           QVariant incrResult = r.value();

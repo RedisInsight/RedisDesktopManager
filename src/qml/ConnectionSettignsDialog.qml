@@ -106,7 +106,7 @@ Dialog {
                 return connectionSettingsTabBar.implicitHeight
                         + sshSettingsGrid.implicitHeight + 350
             } else {
-                return 630
+                return 660
             }
         }
         Control {
