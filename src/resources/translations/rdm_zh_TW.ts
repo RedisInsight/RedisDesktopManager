@@ -241,7 +241,7 @@
         <location filename="../../app/models/key-models/abstractkey.h" line="267"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="278"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation>無法載入鍵 %1 的行: %2</translation>
+        <translation>無法載入鍵 %1 的資料: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="42"/>
@@ -255,7 +255,7 @@
         <location filename="../../app/models/key-models/stream.cpp" line="44"/>
         <location filename="../../app/models/key-models/stream.cpp" line="55"/>
         <source>Invalid row</source>
-        <translation>無效行</translation>
+        <translation>無效資料</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
@@ -303,11 +303,11 @@
     </message>
     <message>
         <source>The row has been changed and can&apos;t be updated now. Reload and try again.</source>
-        <translation type="vanished">此行資料已經更改，無法更新。請重新載入後重試。</translation>
+        <translation type="vanished">此列資料已經更改，無法更新。請重新載入後重試。</translation>
     </message>
     <message>
         <source>The row has been changed and can&apos;t be deleted now. Reload and try again.</source>
-        <translation type="vanished">此行資料已經更改，無法刪除。請重新載入後重試。</translation>
+        <translation type="vanished">此列資料已經更改，無法刪除。請重新載入後重試。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="110"/>
@@ -486,7 +486,7 @@
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="22"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="31"/>
         <source>Add Row</source>
-        <translation>插入行</translation>
+        <translation>插入列</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
@@ -503,17 +503,17 @@
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="103"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="122"/>
         <source>Delete row</source>
-        <translation>刪除行</translation>
+        <translation>刪除列</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="109"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
-        <translation>此行資料是該鍵最後一行。刪除此行資料，該鍵將會被刪除。</translation>
+        <translation>此列資料是該鍵最後一列。刪除此列資料，該鍵將會被刪除。</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="111"/>
         <source>Do you really want to remove this row?</source>
-        <translation>確定要刪除該行資料嗎？</translation>
+        <translation>確定要刪除此列資料嗎？</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="164"/>
@@ -1773,7 +1773,7 @@
     <message>
         <location filename="../../app/models/key-models/listkey.cpp" line="127"/>
         <source>The row has been changed on server.Reload and try again.</source>
-        <translation>該行已在伺服器上被修改，請重新載入後再試一次。</translation>
+        <translation>此列資料已在伺服器上被修改，請重新載入後再試一次。</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="122"/>
@@ -1831,7 +1831,7 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="330"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
-        <translation>無法登入 - %1 。&lt;br/&gt; 請再試一次或是聯絡 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
+        <translation>無法登入 - %1 。&lt;br/&gt; 請再試一次或聯絡 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
@@ -1901,14 +1901,14 @@
     <message>
         <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
         <source>Apply filter</source>
-        <translation>套用過濾器</translation>
+        <translation>套用篩選器</translation>
     </message>
 </context>
 <context>
     <name>RedisClient::CommandExecutor</name>
     <message>
         <source>Command execution timeout</source>
-        <translation type="vanished">指令執行超時</translation>
+        <translation type="vanished">指令執行逾時</translation>
     </message>
 </context>
 </TS>
