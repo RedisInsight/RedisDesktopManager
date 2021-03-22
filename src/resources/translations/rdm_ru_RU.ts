@@ -814,6 +814,11 @@
         <translation type="unfinished">Общее</translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply these settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation type="unfinished">Язык</translation>
@@ -845,11 +850,6 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>Использовать прокси-сервер операционной системы</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="52"/>
-        <source>Application will be restarted to apply this settings.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>

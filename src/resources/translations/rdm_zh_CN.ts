@@ -730,6 +730,11 @@
         <translation>通用</translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply these settings.</source>
+        <translation>重启软件来启用新的设置。</translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation>语言</translation>
@@ -766,11 +771,6 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>使用系统代理设置</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="52"/>
-        <source>Application will be restarted to apply this settings.</source>
-        <translation type="unfinished">重启软件来启用新的设置。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>

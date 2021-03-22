@@ -802,6 +802,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply these settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
@@ -837,11 +842,6 @@
         <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="52"/>
-        <source>Application will be restarted to apply this settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

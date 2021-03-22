@@ -7,13 +7,13 @@
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="388"/>
         <source>Cannot connect to cluster node %1:%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається підключитися до вузла кластера %1:%2</translation>
     </message>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="399"/>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="426"/>
         <source>Cannot flush db (%1): %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається очистити базу даних (%1): %2</translation>
     </message>
 </context>
 <context>
@@ -21,22 +21,22 @@
     <message>
         <location filename="../../app/app.cpp" line="81"/>
         <source>Settings directory is not writable</source>
-        <translation>Каталог з налаштуваннями не доступний для запису</translation>
+        <translation>Каталог з налаштуваннями недоступний для запису</translation>
     </message>
     <message>
         <location filename="../../app/app.cpp" line="83"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM не може зберегти файл підключень до каталогу налаштувань. Змініть дозволи на файли або перезапустіть RDM як адміністратор.</translation>
+        <translation>RDM не може зберегти файл підключень до каталогу налаштувань. Змініть файлові дозволи або перезапустіть RDM як адміністратор.</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
         <source>Cannot parse scan response</source>
-        <translation>Не вдається проаналізувати відповідь на команду SCAN</translation>
+        <translation>Не вдається розібрати відповідь на команду SCAN</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="321"/>
         <source>Server returned unexpected response: </source>
-        <translation>Сервер повернув несподівану відповідь:</translation>
+        <translation>Сервер повернув несподівану відповідь: </translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="107"/>
@@ -57,7 +57,7 @@
         <location filename="../../app/models/key-models/abstractkey.h" line="267"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="278"/>
         <source>Cannot load rows for key %1: %2</source>
-        <translation>Не вдається завантажити значення для ключа %1: %2</translation>
+        <translation>Не вдається завантажити рядки для ключа %1: %2</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="42"/>
@@ -76,7 +76,7 @@
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
         <source>Value with the same key already exists</source>
-        <translation>Значення з тим самим ключем вже існує</translation>
+        <translation>Значення з таким самим ключем вже існує</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
@@ -84,11 +84,7 @@
         <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
-        <translation>Помилка з&apos;єднання: </translation>
-    </message>
-    <message>
-        <source>Value with the same key already exist</source>
-        <translation type="vanished">Значення з тим самим ключем вже існує</translation>
+        <translation>Помилка підключення: </translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="136"/>
@@ -119,7 +115,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
         <source>Unsupported Redis Data type %1</source>
-        <translation>Непідтримуваний тип даних Redis %1</translation>
+        <translation>Тип даних Redis %1 не підтримується</translation>
     </message>
     <message>
         <source>Cannot retrive type of the key: </source>
@@ -163,12 +159,12 @@
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
-        <translation>Автоматичне Оновлення було вимкнено через перевищення ліміту ключів. Будь ласка, вкажіть фільтр більш ретельно або змініть обмеження в налаштуваннях.</translation>
+        <translation>Автоматичне оновлення було вимкнено через перевищення обмеження ключів. Будь ласка, вказуйте фільтр обережніше або змініть обмеження в налаштуваннях.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
-        <translation>Ключ додано. Хочете перезавантажити ключі у вибраній базі даних?</translation>
+        <translation>Ключ додано. Хочете перезавантажити ключі в обраній базі даних?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
@@ -227,7 +223,7 @@
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
         <source>Size: </source>
-        <translation>Розмір:</translation>
+        <translation>Розмір: </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="229"/>
@@ -318,7 +314,7 @@
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="164"/>
         <source>Search on page...</source>
-        <translation>Шукати на сторінці ...</translation>
+        <translation>Шукати на сторінці...</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="191"/>
@@ -328,12 +324,12 @@
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
-        <translation>Вкладки Значеннь та Консоль, пов’язані з цим з’єднанням, будуть закриті. Ви хочете продовжити?</translation>
+        <translation>Вкладки значень та консоль, пов’язані з цим з’єднанням, будуть закриті. Ви хочете продовжити?</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="201"/>
         <source>Do you really want to delete connection?</source>
-        <translation>Ви дійсно хочете видалити з’єднання?</translation>
+        <translation>Ви дійсно хочете видалити підключення?</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="13"/>
@@ -369,7 +365,7 @@
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="219"/>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="248"/>
         <source>Can&apos;t find formatter with name: %1</source>
-        <translation>Не вдається знайти форматування з ім&apos;ям: %1</translation>
+        <translation>Не вдається знайти форматер із назвою: %1</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/externalformattersmanager.cpp" line="190"/>
@@ -394,7 +390,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="25"/>
         <source>Loading key: %1 from db %2</source>
-        <translation>Завантажую ключ:  %1 з БД %2</translation>
+        <translation>Завантажується ключ: %1 з БД %2</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="36"/>
@@ -404,7 +400,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="71"/>
         <source>Connection error. Can&apos;t open value tab. </source>
-        <translation>Помилка з&apos;єднання. Не вдається відкрити вкладку значення. </translation>
+        <translation>Помилка підключення. Не вдається відкрити вкладку значення. </translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/valueviewmodel.cpp" line="164"/>
@@ -483,7 +479,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="11"/>
         <source>New Connection Settings</source>
-        <translation>Нові налаштування підключення</translation>
+        <translation>Налаштування нового підключення</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="132"/>
@@ -493,7 +489,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="165"/>
         <source>Name:</source>
-        <translation>Ім&apos;я:</translation>
+        <translation>Назва:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="171"/>
@@ -518,7 +514,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="206"/>
         <source>(Optional) redis-server authentication password</source>
-        <translation>(Необов’язково) пароль автентифікації сервера redis</translation>
+        <translation>(Необов’язково) Пароль автентифікації сервера redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="211"/>
@@ -615,7 +611,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="379"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
-        <translation>&lt;b&gt; Порада. &lt;/b&gt; Використовуйте &lt;code&gt; ⌘ + Shift +. &lt;/code&gt;, щоб показати приховані файли та папки у діалоговому вікні</translation>
+        <translation>&lt;b&gt; Порада: &lt;/b&gt; Використовуйте &lt;code&gt; ⌘ + Shift +. &lt;/code&gt;, щоб показати приховані файли та папки у діалоговому вікні</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="384"/>
@@ -666,7 +662,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
         <source>If you have any questions please contact support </source>
-        <translation>Якщо у вас є які-небудь запитання, звертайтесь до служби підтримки </translation>
+        <translation>Якщо у вас є будь-які запитання, звертайтесь до служби підтримки </translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
@@ -709,7 +705,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
         <source>Please enter email &amp; password to sign in.</source>
-        <translation>Введіть електронну адресу та пароль для входу.</translation>
+        <translation>Введіть адресу електронної пошти та пароль для входу.</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="236"/>
@@ -739,12 +735,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="458"/>
         <source>Namespace Separator:</source>
-        <translation>Розділювач неймспейсів:</translation>
+        <translation>Розділювач простору імен:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
         <source>Separator used for namespace extraction from keys</source>
-        <translation>Розділювач, що отримання назв неймспейсів із ключів</translation>
+        <translation>Розділювач для вилучення простору імен із ключів</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="471"/>
@@ -774,7 +770,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="517"/>
         <source>Change host on cluster redirects:</source>
-        <translation>Змінювати хост при перенаправленнях кластера:</translation>
+        <translation>Змінювати хост при переспрямуваннях кластера:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="570"/>
@@ -784,7 +780,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="542"/>
         <source>Test Connection</source>
-        <translation>Випробувати підключення</translation>
+        <translation>Тестове підключення</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
@@ -812,6 +808,11 @@
         <location filename="../../qml/GlobalSettings.qml" line="47"/>
         <source>General</source>
         <translation>Загальні</translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply these settings.</source>
+        <translation>Додаток буде перезапущено, щоб застосувати зміни в налаштуваннях.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
@@ -843,18 +844,13 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="209"/>
         <source>Show only last part for namespaced keys</source>
-        <translation>Показати лише останню частину ключів з неймспейсами</translation>
+        <translation>Показати лише останню частину ключів з простором імен</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>Використовувати налаштування системного проксі</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="52"/>
-        <source>Application will be restarted to apply this settings.</source>
-        <translation>Додаток буде перезапущено, щоб застосувати зміни в налаштуваннях.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
@@ -874,12 +870,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation>Показувати спочатку ключі з неймспейсами</translation>
+        <translation>Спочатку показувати ключі з простором імен</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
         <source>Reopen namespaces on reload</source>
-        <translation>Повторно відкрити неймспейси при перезавантаженні</translation>
+        <translation>Повторно відкрити простори імен при перезавантаженні</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="199"/>
@@ -889,7 +885,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="221"/>
         <source>Live update maximum allowed keys</source>
-        <translation>Максимальна кількість ключів дозволена для авто оновлення</translation>
+        <translation>Максимальна кількість ключів для автоматичного оновлення</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="233"/>
@@ -899,7 +895,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="241"/>
         <source>External Value View Formatters</source>
-        <translation>Зовнішні Форматери</translation>
+        <translation>Зовнішні форматери</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="246"/>
@@ -909,7 +905,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="262"/>
         <source>Name</source>
-        <translation>Ім&apos;я</translation>
+        <translation>Назва</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="267"/>
@@ -925,7 +921,7 @@
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="45"/>
         <source>Before using RDM take a look on the %1</source>
-        <translation>Перед використанням RDM ознайомтесь з %1</translation>
+        <translation>Перед використанням RDM ознайомтеся з %1</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="551"/>
@@ -951,7 +947,7 @@
     <message>
         <location filename="../../qml/app.qml" line="268"/>
         <source>Regroup connections</source>
-        <translation>Перегрупувати з&apos;єднання</translation>
+        <translation>Перегрупувати підключення</translation>
     </message>
     <message>
         <location filename="../../qml/app.qml" line="290"/>
@@ -1051,24 +1047,24 @@
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="28"/>
         <source>Reload Namespace</source>
-        <translation>Перезавантажити неймспейс</translation>
+        <translation>Перезавантажити простір імен</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="30"/>
         <source>Copy Namespace Pattern</source>
-        <translation>Скопіювати шаблон неймспейсу</translation>
+        <translation>Скопіювати шаблон простору імен</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="32"/>
         <source>Delete Namespace</source>
-        <translation>Видалити неймспейс</translation>
+        <translation>Видалити простір імен</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
         <source>Disconnect</source>
-        <translation>Від&apos;єднатись</translation>
+        <translation>Відключитися</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
@@ -1079,7 +1075,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="27"/>
         <source>Reload Server</source>
-        <translation>Перезавантажити з&apos;єднання</translation>
+        <translation>Перезавантажити підключення</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="31"/>
@@ -1095,7 +1091,7 @@
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="39"/>
         <source>Duplicate Connection</source>
-        <translation>Створити дублікат з&apos;єднання</translation>
+        <translation>Створити дублікат підключення</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="43"/>
@@ -1105,7 +1101,7 @@
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="21"/>
         <source>Connecting...</source>
-        <translation>Підключення ...</translation>
+        <translation>Підключення...</translation>
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="193"/>
@@ -1169,12 +1165,12 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
-        <translation>Коефіцієнт потрапляння</translation>
+        <translation>Коефіцієнт влучень</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
         <source> day(s)</source>
-        <translation>днів</translation>
+        <translation> днів</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
@@ -1209,7 +1205,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
         <source>Network Input</source>
-        <translation>Вхідні данні</translation>
+        <translation>Вхідні дані</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
@@ -1279,7 +1275,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="724"/>
         <source>Processed at</source>
-        <translation>Оброблено в</translation>
+        <translation>Оброблено за</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
@@ -1304,7 +1300,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="782"/>
         <source>Flags</source>
-        <translation type="unfinished"></translation>
+        <translation>Прапорці</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="788"/>
@@ -1314,7 +1310,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="9"/>
         <source>Add New Key to </source>
-        <translation>Додати новий ключ до</translation>
+        <translation>Додати новий ключ до </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="25"/>
@@ -1381,7 +1377,7 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="321"/>
         <source>[Binary]</source>
-        <translation>Бінарне значення</translation>
+        <translation>[Бінарне значення]</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
@@ -1417,7 +1413,7 @@
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="18"/>
         <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="30"/>
         <source>Score</source>
-        <translation>Рахунок</translation>
+        <translation>Бал</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
@@ -1493,12 +1489,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
         <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation>Імпортувати ключі, що відповідають &lt;b&gt; регулярному виразу &lt;/b&gt;:</translation>
+        <translation>Імпортувати ключі, що відповідають &lt;b&gt;регулярному виразу&lt;/b&gt;:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
         <source>Key pattern:</source>
-        <translation>Шаблон клбючів:</translation>
+        <translation>Шаблон ключів:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
@@ -1508,17 +1504,17 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="277"/>
         <source>Destination Redis Server Database Index:</source>
-        <translation>Індекс бази даних сервера призначення Redis:</translation>
+        <translation>Індекс цільової бази даних сервера Redis:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
         <source>Show matched keys</source>
-        <translation>Показати ключі які будуть змінені</translation>
+        <translation>Показати ключі, які будуть змінені</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
         <source>Show Affected keys</source>
-        <translation>Показати ключі які будуть змінені</translation>
+        <translation>Показати ключі, які будуть змінені</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
@@ -1538,17 +1534,17 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
         <source>Bulk Operation finished with errors</source>
-        <translation>Массова Операція виконана з помилками</translation>
+        <translation>Масова операція виконана з помилками</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
         <source>Processed: </source>
-        <translation>Оброблено:</translation>
+        <translation>Оброблено: </translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
         <source>Getting list of affected keys...</source>
-        <translation>Отримання списку ключів які будуть змінені ...</translation>
+        <translation>Отримання списку ключів які будуть змінені...</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
@@ -1558,7 +1554,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="458"/>
         <source>Do you really want to perform bulk operation?</source>
-        <translation>Ви дійсно хочете виконати групову операцію?</translation>
+        <translation>Ви дійсно хочете виконати масову операцію?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="18"/>
@@ -1583,7 +1579,7 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="12"/>
         <source>Cannot copy key </source>
-        <translation>Не вдається скопіювати ключ</translation>
+        <translation>Не вдається скопіювати ключ </translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="119"/>
@@ -1593,7 +1589,7 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/copyoperation.cpp" line="131"/>
         <source>Target connection error</source>
-        <translation>Помилка цільового з&apos;єднання</translation>
+        <translation>Помилка цільового підключення</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/deleteoperation.cpp" line="11"/>
@@ -1613,17 +1609,17 @@
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
-        <translation>Ваш redis сервер не підтримує команду &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;</translation>
+        <translation>Ваш redis сервер не підтримує команду &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
-        <translation>Ключ додано. Хочете перезавантажити ключі у вибраному неймспейсі?</translation>
+        <translation>Ключ додано. Хочете перезавантажити ключі в обраному неймспейсі?</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
         <source>Select File</source>
-        <translation>Вибрати Файл</translation>
+        <translation>Вибрати файл</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
@@ -1664,7 +1660,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/servergroup.cpp" line="58"/>
         <source>Do you really want to delete group &lt;b&gt;with all connections&lt;/b&gt;?</source>
-        <translation>Ви дійсно хочете видалити групу &lt;b&gt;з усіма з’єднаннями&lt;/b&gt;?</translation>
+        <translation>Ви дійсно хочете видалити групу &lt;b&gt;з усіма підключеннями&lt;/b&gt;?</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/filters/ListFilters.qml" line="8"/>
@@ -1715,7 +1711,7 @@
         <location filename="../../modules/api/api_client.cpp" line="219"/>
         <location filename="../../modules/api/api_client.cpp" line="321"/>
         <source>Cannot parse server reply</source>
-        <translation>Не вдається проаналізувати відповідь сервера</translation>
+        <translation>Не вдається розібрати відповідь сервера</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="336"/>
@@ -1731,7 +1727,7 @@
         <location filename="../../modules/api/api_client.cpp" line="576"/>
         <location filename="../../modules/api/api_client.cpp" line="602"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation>Не вдається зберегти оновлення. Диск заповнений або папка для завантаження не доступна для запису.</translation>
+        <translation>Не вдається зберегти оновлення. Диск заповнений або папка для завантаження недоступна для запису.</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="654"/>
