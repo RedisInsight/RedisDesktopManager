@@ -740,6 +740,11 @@
         <translation>General</translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply these settings.</source>
+        <translation>La aplicación será reiniciada al aplicar las configuraciones.</translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation>Idioma</translation>
@@ -776,11 +781,6 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>Usar ajustes del proxy del sistema</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="52"/>
-        <source>Application will be restarted to apply this settings.</source>
-        <translation>La aplicación será reiniciada al aplicar las configuraciones.</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
