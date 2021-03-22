@@ -49,7 +49,7 @@ Dialog {
 
                         BetterLabel {
                             color: disabledSysPalette.text
-                            text: qsTranslate("RDM","Application will be restarted to apply this settings.")
+                            text: qsTranslate("RDM","Application will be restarted to apply these settings.")
                         }
                     }
 

@@ -810,6 +810,11 @@
         <translation>一般</translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="52"/>
+        <source>Application will be restarted to apply these settings.</source>
+        <translation>アプリケーションを再起動すると設定が有効になります。</translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="70"/>
         <source>Language</source>
         <translation>言語</translation>
@@ -841,11 +846,6 @@
         <location filename="../../qml/GlobalSettings.qml" line="81"/>
         <source>Use system proxy settings</source>
         <translation>OSのプロキシ設定を使う</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="52"/>
-        <source>Application will be restarted to apply this settings.</source>
-        <translation>アプリケーションを再起動すると設定が有効になります。</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="105"/>
