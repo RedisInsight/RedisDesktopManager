@@ -103,13 +103,9 @@ void ServerItem::load() {
 
     AsyncFuture::observe(m_currentOperation)
         .subscribe(
+            []() {},
             [this, wPtr]() {
-              if (!wPtr) return;
-              unlock();
-            },
-            [this, wPtr]() {
-              if (!wPtr) return;
-              m_operations->resetConnection();
+              if (!wPtr) return;             
               unlock();
             });
   } else {

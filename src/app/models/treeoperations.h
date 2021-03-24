@@ -103,9 +103,11 @@ signals:
   void filterHistoryUpdated();
 
  protected:
-  void loadDatabases(std::function<void(RedisClient::DatabaseList, const QString&)> callback);
+  void loadDatabases(QSharedPointer<AsyncFuture::Deferred<void>> d,
+                     std::function<void(RedisClient::DatabaseList, const QString&)> callback);
 
-  void recursiveSelectScan(QSharedPointer<RedisClient::Connection> c,
+  void recursiveSelectScan(QSharedPointer<AsyncFuture::Deferred<void>> d,
+                           QSharedPointer<RedisClient::Connection> c,
                            QSharedPointer<RedisClient::DatabaseList> dbList,
                            std::function<void(RedisClient::DatabaseList, const QString&)> callback);
 
@@ -124,4 +126,5 @@ signals:
   ServerConfig m_config;
   QVariantMap m_filterHistory;
   QWeakPointer<ConnectionsTree::ServerItem> m_serverItem;
+  QSharedPointer<AsyncFuture::Deferred<void>> m_dbScanOp;
 };

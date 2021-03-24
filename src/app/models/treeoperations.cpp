@@ -33,13 +33,26 @@ TreeOperations::~TreeOperations() {
 }
 
 void TreeOperations::loadDatabases(
+    QSharedPointer<AsyncFuture::Deferred<void>> d,
     std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
+  if (!d)
+    return;
+
   auto connection = m_connection->clone(false);
+
+  d->onCanceled([connection](){
+      QtConcurrent::run([connection]() { if (connection) connection->disconnect(); });
+  });
+
   m_events->registerLoggerForConnection(*connection);
 
   if (!connect(connection)) {
     return callback(RedisClient::DatabaseList(),
                     QString("Cannot connect to redis-server"));
+  }
+
+  if (d && d->future().isCanceled()) {
+    return;
   }
 
   RedisClient::DatabaseList availableDatabeses = connection->getKeyspaceInfo();
@@ -65,14 +78,19 @@ void TreeOperations::loadDatabases(
     auto collectedDatabases = QSharedPointer<RedisClient::DatabaseList>(
         new RedisClient::DatabaseList(availableDatabeses));
 
-    recursiveSelectScan(connection, collectedDatabases, callback);
+    recursiveSelectScan(d, connection, collectedDatabases, callback);
   }
 }
 
 void TreeOperations::recursiveSelectScan(
+    QSharedPointer<AsyncFuture::Deferred<void>> d,
     QSharedPointer<RedisClient::Connection> c,
     QSharedPointer<RedisClient::DatabaseList> dbList,
     std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
+  if (d && d->future().isCanceled()) {
+    return;
+  }
+
   if (m_dbCount >= m_config.databaseScanLimit() || !c) {
     return callback(*dbList, QString());
   }
@@ -87,7 +105,11 @@ void TreeOperations::recursiveSelectScan(
 
   c->cmd(
       {"select", QString::number(m_dbCount).toLatin1()}, this, -1,
-      [this, dbList, c, callback](const RedisClient::Response& scanningResp) {
+      [this, dbList, c, callback, d](const RedisClient::Response& scanningResp) {
+        if (d && d->future().isCanceled()) {
+          return;
+        }
+
         if (!scanningResp.isOkMessage()) {
           callback(*dbList, QString());
           return;
@@ -96,7 +118,7 @@ void TreeOperations::recursiveSelectScan(
         dbList->insert(m_dbCount, 0);
         m_dbCount++;
 
-        recursiveSelectScan(c, dbList, callback);
+        recursiveSelectScan(d, c, dbList, callback);
       },
       errHandler);
 }
@@ -152,7 +174,12 @@ void TreeOperations::requestBulkOperation(
 
 QFuture<void> TreeOperations::getDatabases(
     std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
-  return QtConcurrent::run(this, &TreeOperations::loadDatabases, callback);
+  m_dbScanOp = QSharedPointer<AsyncFuture::Deferred<void>>(
+            new AsyncFuture::Deferred<void>());
+
+  QtConcurrent::run(this, &TreeOperations::loadDatabases, m_dbScanOp, callback);
+
+  return m_dbScanOp->future();
 }
 
 void TreeOperations::loadNamespaceItems(
