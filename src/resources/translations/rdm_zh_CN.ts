@@ -36,7 +36,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="126"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法持久化键 &apos;%1&apos;，&lt;br&gt; 键不存在或没有设置TTL时长</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="161"/>
@@ -76,7 +76,7 @@
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
         <source>Value with the same key already exists</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">同名键值已经存在</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
@@ -110,7 +110,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
         <source>Cannot retrieve type of the key: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法重设键类型：</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
@@ -993,12 +993,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
         <source>Processed: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">已处理：</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
         <source>Getting list of affected keys...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">获取受影响的键列表...</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
@@ -1019,39 +1019,39 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
         <source>Renew your subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">更新订阅</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
         <source>Your trial has ended.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">试用版已结束</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
         <source>To use this version you need to renew your subscription.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">要继续使用该版本，需要更新你的订阅。</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
         <source>Please purchase a subscription to continue using RDM.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请购买一份订阅来继续使用RDM。</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
         <source>If you have any questions please contact support </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">遇到任何问题，请联系支持。</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">更新订阅</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">购买订阅</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
@@ -1073,7 +1073,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
         <source>Forgot password?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">忘记密码？</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
@@ -1083,7 +1083,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
         <source>Please enter email &amp; password to sign in.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请输入邮箱和密码来登录。</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
@@ -1613,33 +1613,33 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="146"/>
         <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">网络无效，请确保已经连上互联网，然后重试。</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="189"/>
         <source>Invalid login or password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无效的账号或密码</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="196"/>
         <source>Too many requests from your IP</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">过多请求来源你的IP</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="199"/>
         <source>Unknown error. Status code %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未知错误，状态码 %1</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="219"/>
         <location filename="../../modules/api/api_client.cpp" line="321"/>
         <source>Cannot parse server reply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法解析服务器响应</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="336"/>
         <source>Cannot validate token</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法效验令牌</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="342"/>
@@ -1650,7 +1650,7 @@
         <location filename="../../modules/api/api_client.cpp" line="576"/>
         <location filename="../../modules/api/api_client.cpp" line="602"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法保存更新文件，磁盘已满或下载目录无法写入。</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="654"/>
@@ -1738,28 +1738,28 @@
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
         <source>Trial is active till</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">试用到</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
         <source>Licensed to</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">授权给</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
         <source>Subscription is active until:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">订阅到期时间为：</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">管理订阅</translation>
     </message>
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</translation>
     </message>
 </context>
 </TS>
