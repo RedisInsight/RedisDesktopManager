@@ -59,6 +59,23 @@ Digital Ocean connection settings is a bit confusing. To connect to a Digital Oc
 2. **Leave Username field in RDM empty** (Important!)
 3. Enable SSL/TLS checkox
 
+### Heroku Redis <br /> <img src="https://brand.heroku.com/static/media/heroku-logo-stroke.aa0b53be.svg" width="80">
+
+1. Get Redis connection string from terminal with command 
+```
+heroku config -a YOUR-APP-NAME | grep REDIS
+```
+or get it from Heroku website.
+
+Example output:
+```
+rediss://user:password@host:port
+```
+2. Enter connection settings in RDM Connection dialog:
+- If URL starts with `rediss` enable SSL/TLS checkox and **uncheck** "Enable strict mode" checkbox
+- Copy `user` to "Username" field
+- Copy `password` to "Password" field
+- Copy `host` and `port` to "Address" field in RDM
 
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
