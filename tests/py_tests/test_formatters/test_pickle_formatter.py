@@ -30,10 +30,19 @@ class TestPickleFormatter(unittest.TestCase):
                      columns=list('ABCD')),
     )
     def test_decode(self, val):
-        pickled_val = pickle.dumps(val)
-        expected_output = json.dumps(val, default=self.formatter.default,
-                                     ensure_ascii=False)
+        if isinstance(val, pd.Series):
+            expected_output = f'{str(type(val))[1:-1]}\n{val.to_string()}'
+        elif isinstance(val, pd.DataFrame):
+            html = val.to_html(render_links=True, border=0)
+            expected_output = self.formatter.format_html_output(val, html)
+        elif isinstance(val, np.ndarray):
+            html = pd.DataFrame(val).to_html(render_links=True, border=0)
+            expected_output = self.formatter.format_html_output(val, html)
+        else:
+            expected_output = json.dumps(val, default=self.formatter.default,
+                                         ensure_ascii=False)
 
+        pickled_val = pickle.dumps(val)
         formatter_response_dict = self.formatter.decode(pickled_val)
 
         self.assertIn('output', formatter_response_dict)

@@ -16,6 +16,11 @@ class PickleFormatter(BaseFormatter):
     decode_format = "json"
 
     def decode(self, value):
+        def get_json_output(deserialized_object):
+            return json.dumps(deserialized_object,
+                              default=self.default,
+                              ensure_ascii=False)
+
         read_only = self.read_only
         decode_format = self.decode_format
         deserialized = ''
@@ -43,10 +48,11 @@ class PickleFormatter(BaseFormatter):
                                                           border=0)
                 output = self.format_html_output(deserialized, html)
                 decode_format = 'html'
+            else:
+                output = get_json_output(deserialized)
         else:
-            output = json.dumps(deserialized,
-                                default=self.default,
-                                ensure_ascii=False)
+            output = get_json_output(deserialized)
+
         return {
             'output': output,
             'decode-format': decode_format,
