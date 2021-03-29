@@ -76,7 +76,7 @@
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
         <source>Value with the same key already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>已經存在同名的鍵</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
@@ -110,7 +110,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
         <source>Cannot retrieve type of the key: </source>
-        <translation type="unfinished"></translation>
+        <translation>無法取得鍵的類型: </translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
@@ -140,7 +140,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="401"/>
         <source>Cannot determine amount of used memory by key: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>無法判定鍵所消耗的記憶體: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="344"/>
@@ -889,12 +889,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
         <source>Invalid RDB path</source>
-        <translation type="unfinished">無效的 RDB 路徑</translation>
+        <translation>無效的 RDB 路徑</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
         <source>Please specify valid path to RDB file</source>
-        <translation type="unfinished">請指定有效的 RDB 檔案</translation>
+        <translation>請指定有效的 RDB 檔案</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="82"/>
@@ -905,12 +905,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="92"/>
         <source>Set TTL</source>
-        <translation type="unfinished">設定 TTL</translation>
+        <translation>設定 TTL</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
         <source>Copy keys to another database</source>
-        <translation type="unfinished">複製鍵到其他資料庫</translation>
+        <translation>複製鍵到其他資料庫</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
@@ -920,7 +920,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="110"/>
         <source>Import data from rdb file</source>
-        <translation type="unfinished">從 RDB 檔案中匯入資料</translation>
+        <translation>從 RDB 檔案中匯入資料</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="145"/>
@@ -935,12 +935,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
         <source>Path to RDB file:</source>
-        <translation type="unfinished">RDB 檔案的路徑:</translation>
+        <translation>RDB 檔案的路徑:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
         <source>Select DB in RDB file:</source>
-        <translation type="unfinished">選擇 RDB 檔案中的資料庫:</translation>
+        <translation>選擇 RDB 檔案中的資料庫:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
@@ -950,7 +950,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="219"/>
         <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation type="unfinished">匯入符合&lt;b&gt;正規表達式&lt;/b&gt;的鍵:</translation>
+        <translation>匯入符合&lt;b&gt;正規表達式&lt;/b&gt;的鍵:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="266"/>
@@ -965,12 +965,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
         <source>Show matched keys</source>
-        <translation type="unfinished">顯示符合的鍵</translation>
+        <translation>顯示符合的鍵</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="314"/>
         <source>Show Affected keys</source>
-        <translation type="unfinished">顯示受影響的鍵</translation>
+        <translation>顯示受影響的鍵</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
@@ -980,7 +980,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="337"/>
         <source>Matched keys:</source>
-        <translation type="unfinished">符合的鍵:</translation>
+        <translation>符合的鍵:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="362"/>
@@ -990,17 +990,17 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="367"/>
         <source>Bulk Operation finished with errors</source>
-        <translation type="unfinished">批次操作完成但途中曾發生錯誤</translation>
+        <translation>批次操作完成但途中曾發生錯誤</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
         <source>Processed: </source>
-        <translation type="unfinished"></translation>
+        <translation>已處理: </translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
         <source>Getting list of affected keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>正在取得受影響的鍵的清單...</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
@@ -1021,39 +1021,39 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
         <source>Renew your subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>續期您的訂閱</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
         <source>Your trial has ended.</source>
-        <translation type="unfinished"></translation>
+        <translation>您的試用已經到期</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
         <source>To use this version you need to renew your subscription.</source>
-        <translation type="unfinished"></translation>
+        <translation>您必須續期訂閱已繼續使用此版本。</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
         <source>Please purchase a subscription to continue using RDM.</source>
-        <translation type="unfinished"></translation>
+        <translation>請購買訂閱以繼續使用 RDM 。</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
         <source>If you have any questions please contact support </source>
-        <translation type="unfinished"></translation>
+        <translation>如果您有任何問題，請聯絡客服</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>續期訂閱</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>購買訂閱</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
@@ -1075,7 +1075,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
         <source>Forgot password?</source>
-        <translation type="unfinished"></translation>
+        <translation>忘記密碼？</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
@@ -1085,12 +1085,12 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
         <source>Please enter email &amp; password to sign in.</source>
-        <translation type="unfinished"></translation>
+        <translation>請輸入 email 與密碼登入。</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
         <source> (Removed)</source>
-        <translation> (移除)</translation>
+        <translation> (已移除)</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="74"/>
@@ -1615,33 +1615,33 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="146"/>
         <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>無法存取網路。請確認您可以存取網路後重新再試。</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="189"/>
         <source>Invalid login or password</source>
-        <translation type="unfinished"></translation>
+        <translation>無效的登入資料</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="196"/>
         <source>Too many requests from your IP</source>
-        <translation type="unfinished"></translation>
+        <translation>您的 IP 發起過多的請求</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="199"/>
         <source>Unknown error. Status code %1</source>
-        <translation type="unfinished"></translation>
+        <translation>未知錯誤。狀態碼 %1</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="219"/>
         <location filename="../../modules/api/api_client.cpp" line="321"/>
         <source>Cannot parse server reply</source>
-        <translation type="unfinished"></translation>
+        <translation>無法解析伺服器回應</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="336"/>
         <source>Cannot validate token</source>
-        <translation type="unfinished"></translation>
+        <translation>無法驗證權杖</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="342"/>
@@ -1652,17 +1652,17 @@
         <location filename="../../modules/api/api_client.cpp" line="576"/>
         <location filename="../../modules/api/api_client.cpp" line="602"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation type="unfinished"></translation>
+        <translation>無法保存更新檔，可能是硬碟已滿或是資料夾無法寫入。</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="654"/>
         <source>Download was canceled</source>
-        <translation type="unfinished">下載已被取消</translation>
+        <translation>下載已被取消</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="661"/>
         <source>Network error</source>
-        <translation type="unfinished">網路錯誤</translation>
+        <translation>網路錯誤</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
@@ -1740,28 +1740,28 @@
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
         <source>Trial is active till</source>
-        <translation type="unfinished"></translation>
+        <translation>試用到</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
         <source>Licensed to</source>
-        <translation type="unfinished"></translation>
+        <translation>授權給</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
         <source>Subscription is active until:</source>
-        <translation type="unfinished"></translation>
+        <translation>訂閱到:</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>管理訂閱</translation>
     </message>
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&quot;font-size: 11px;&quot;&gt;由卓越的 &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;開源軟體&lt;/a&gt; 以及 &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt; 驅動。</translation>
     </message>
 </context>
 </TS>
