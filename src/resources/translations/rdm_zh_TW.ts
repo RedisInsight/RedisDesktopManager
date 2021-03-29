@@ -1761,7 +1761,7 @@
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
-        <translation>&lt;span style=&quot;font-size: 11px;&quot;&gt;由卓越的 &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;開源軟體&lt;/a&gt; 以及 &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt; 驅動。</translation>
+        <translation>&lt;span style=&quot;font-size: 11px;&quot;&gt;由卓越的 &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;開源軟體&lt;/a&gt; 以及 &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt; 驅動。&lt;/span&gt;</translation>
     </message>
 </context>
 </TS>
