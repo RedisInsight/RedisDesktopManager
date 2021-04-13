@@ -71,6 +71,8 @@ class PickleFormatter(BaseFormatter):
                 return o.to_json()
             if isinstance(o, pd.DataFrame):
                 return json.loads(o.to_json(orient='index', date_format='iso'))
+            else:
+                return str(o)
         else:
             return str(o)
 
