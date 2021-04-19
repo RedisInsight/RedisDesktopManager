@@ -48,6 +48,8 @@ RowLayout {
         callbacks: {
             "filter": function() {
                 root.state = "filter"
+                filterCombobox.currentIndex = filterCombobox.find(styleData.value["filter"])
+                filterCombobox.editText = styleData.value["filter"]
             },
             "live_update": function () {
                 if (styleData.value["live_update"]) {
