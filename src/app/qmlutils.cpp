@@ -239,11 +239,6 @@ QObject *QmlUtils::wrapLargeText(const QByteArray &text) {
   // NOTE(u_glide): Use 50Kb chunks by default
   int chunkSize = 50000;
 
-  // Work-around to prevent html corruption
-  if (text.startsWith("<pre")) {
-    chunkSize = text.size();
-  }
-
   auto w = new ValueEditor::LargeTextWrappingModel(QString::fromUtf8(text),
                                                    chunkSize);
   w->setParent(this);
@@ -260,8 +255,8 @@ QString QmlUtils::escapeHtmlEntities(const QString &t) {
   return t.toHtmlEscaped();
 }
 
-QString QmlUtils::htmlToPlainText(const QString &html) {
-  return QTextDocumentFragment::fromHtml(html).toPlainText();
+QString QmlUtils::standardKeyToString(QKeySequence::StandardKey key) {
+  return QKeySequence(key).toString(QKeySequence::NativeText);
 }
 
 double QmlUtils::getScreenScaleFactor() {

@@ -63,6 +63,47 @@ void ValueEditor::LargeTextWrappingModel::setTextChunk(uint row, QString text) {
   }
 }
 
+/**
+ * @brief ValueEditor::LargeTextWrappingModel::searchText
+ * @param p
+ * @param from
+ * @param regex
+ * @return
+ * 1: TargetTextView
+ * 2: Raw Position
+ * 3: Relative position for search in TargetTextView
+ * 4. Length
+ */
+QVariantList ValueEditor::LargeTextWrappingModel::searchText(QString p, int from, bool regex)
+{
+    QString text = getText();
+
+    if (from < 0) {
+        from = 0;
+    }
+
+    qDebug() << "Search params:" << p << from << regex;
+
+    int res;
+    int length = 0;
+
+    if (regex) {
+        auto rx = QRegExp(p);
+        res = text.indexOf(rx, from);
+        length = rx.matchedLength();
+    } else {
+        res = text.indexOf(p, from, Qt::CaseInsensitive);
+        length = p.size();
+    }
+
+    if (res == -1) {        
+        return QVariantList {-1, -1, -1, -1};
+    } else {        
+        int row = (int)res / m_chunkSize;
+        return QVariantList {row, res, res % m_chunkSize, length};
+    }
+}
+
 bool ValueEditor::LargeTextWrappingModel::isIndexValid(
     const QModelIndex &index) const {
   return 0 <= index.row() && index.row() < rowCount();

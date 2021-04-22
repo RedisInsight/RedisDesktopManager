@@ -34,6 +34,8 @@
 #ifdef ENABLE_EXTERNAL_FORMATTERS
 #include "modules/value-editor/externalformattersmanager.h"
 #endif
+#include "modules/value-editor/syntaxhighlighter.h"
+#include "modules/value-editor/textcharformat.h"
 #include "modules/value-editor/tabsmodel.h"
 #include "modules/value-editor/valueviewmodel.h"
 #include "qmlutils.h"
@@ -259,6 +261,8 @@ void Application::initProxySettings() {
 void Application::registerQmlTypes() {
   qmlRegisterType<SortFilterProxyModel>("rdm.models", 1, 0,
                                         "SortFilterProxyModel");
+  qmlRegisterType<SyntaxHighlighter>("rdm.models", 1, 0, "SyntaxHighlighter");
+  qmlRegisterType<TextCharFormat>("rdm.models", 1, 0, "TextCharFormat");
   qRegisterMetaType<ServerConfig>();
 }
 

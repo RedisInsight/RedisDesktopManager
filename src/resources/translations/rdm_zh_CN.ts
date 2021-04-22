@@ -19,12 +19,12 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="81"/>
+        <location filename="../../app/app.cpp" line="83"/>
         <source>Settings directory is not writable</source>
         <translation>设置保存文件夹没有写入权限</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="83"/>
+        <location filename="../../app/app.cpp" line="85"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
     </message>
@@ -81,7 +81,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
-        <location filename="../../app/models/treeoperations.cpp" line="132"/>
+        <location filename="../../app/models/treeoperations.cpp" line="154"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>连接错误：</translation>
@@ -118,32 +118,32 @@
         <translation>数据格式不支持 %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="110"/>
+        <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>无法连接到服务器 &apos;%1&apos;，详情请查看日志。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="120"/>
+        <location filename="../../app/models/treeoperations.cpp" line="142"/>
         <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation type="unfinished">开源版本的 RDM &lt;b&gt; 不支持 SSH 通道连接&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 请从 &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt; 购买订阅来获取完整功能的版本。&lt;br/&gt;&lt;br /&gt;每份订阅都会为开发组筹集资金来继续完成后续的开发，为我们的用户提供支持。&lt;br /&gt;如果您有任何问题，欢迎直接联系我们：&lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;或者加入&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天组&lt;/a&gt;。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="195"/>
+        <location filename="../../app/models/treeoperations.cpp" line="222"/>
         <source>Cannot load keys: %1</source>
         <translation>无法加载键：%1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="281"/>
+        <location filename="../../app/models/treeoperations.cpp" line="308"/>
         <source>Delete key error: %1</source>
         <translation type="unfinished">删除键失败: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="401"/>
+        <location filename="../../app/models/treeoperations.cpp" line="428"/>
         <source>Cannot determine amount of used memory by key: %1</source>
         <translation type="unfinished">无法调用该键占用的内存: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="344"/>
+        <location filename="../../app/models/treeoperations.cpp" line="371"/>
         <source>Cannot flush database: </source>
         <translation>清空库错误:</translation>
     </message>
@@ -217,7 +217,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="292"/>
         <source>Size: </source>
         <translation>大小：</translation>
     </message>
@@ -282,7 +282,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="391"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
         <source>Add Element to HLL</source>
         <translation type="unfinished">添加元素到HLL</translation>
     </message>
@@ -318,12 +318,12 @@
         <translation type="unfinished">全文搜索</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="185"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>所有与该连接相关的键值对话框和命令操作对话框都将被关闭，确定要继续吗？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="201"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="197"/>
         <source>Do you really want to delete connection?</source>
         <translation>确定要删除连接？</translation>
     </message>
@@ -707,7 +707,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="293"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -1362,7 +1362,7 @@
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="21"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="22"/>
         <source>Value</source>
         <translation>键值</translation>
     </message>
@@ -1453,7 +1453,7 @@
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="443"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="421"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1475,7 +1475,7 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="220"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="219"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -1485,52 +1485,82 @@
         <translation>页</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="78"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="54"/>
         <source>Enter valid value</source>
         <translation type="unfinished">请输入有效的值</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="289"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="264"/>
         <source>Formatting error</source>
         <translation type="unfinished">格式化错误</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="294"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="269"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>未知的格式化错误（无响应）</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="321"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="297"/>
         <source>[Binary]</source>
         <translation>[二进制]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="300"/>
         <source> [Compressed: </source>
         <translation type="unfinished">[压缩的：</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="409"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="385"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="444"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="422"/>
         <source>Save Changes</source>
         <translation type="unfinished">保存更改</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="526"/>
+        <source>Search string</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
+        <source>Find Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="566"/>
+        <source>Regex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <source>Cannot find more results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <source>Cannot find any results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="690"/>
         <source>Binary value is too large to display</source>
         <translation type="unfinished">二进制内容太长无法展示</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="330"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="306"/>
         <source>View as:</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="343"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>键值内容过大（&gt;150kB），格式化配置无效。</translation>
     </message>
@@ -1637,28 +1667,28 @@
         <translation type="unfinished">无法解析服务器响应</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="336"/>
+        <location filename="../../modules/api/api_client.cpp" line="341"/>
         <source>Cannot validate token</source>
         <translation type="unfinished">无法效验令牌</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="342"/>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
         <translation type="unfinished">无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="576"/>
-        <location filename="../../modules/api/api_client.cpp" line="602"/>
+        <location filename="../../modules/api/api_client.cpp" line="581"/>
+        <location filename="../../modules/api/api_client.cpp" line="607"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
         <translation type="unfinished">无法保存更新文件，磁盘已满或下载目录无法写入。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="654"/>
+        <location filename="../../modules/api/api_client.cpp" line="659"/>
         <source>Download was canceled</source>
         <translation type="unfinished">下载已取消</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="661"/>
+        <location filename="../../modules/api/api_client.cpp" line="666"/>
         <source>Network error</source>
         <translation type="unfinished">网络错误</translation>
     </message>
@@ -1679,7 +1709,7 @@
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="702"/>
         <source>Save value to file</source>
         <translation type="unfinished">保存内容到文件</translation>
     </message>

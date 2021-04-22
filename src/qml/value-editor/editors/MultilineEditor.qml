@@ -3,6 +3,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
+import rdm.models 1.0
 import "../../common/"
 import "../../common/platformutils.js" as PlatformUtils
 
@@ -24,31 +25,6 @@ Item
     property int valueCompression: 0
     property string formatterSettingsCategory: "formatters_value"
     property alias readOnly: textView.readOnly
-    property string _jsFormatterStyles: {
-        return "font-size: "
-                + appSettings.valueEditorFontSize
-                + "pt; font-family: "
-                + appSettings.valueEditorFont
-    }
-    property var _jsFormatterColorMap: {
-        if (sysPalette.base.hslLightness < 0.4) {
-            return {
-                string: '#05a605',
-                number: '#008cff',
-                boolean: '#d62929',
-                null: '#a8a8a8',
-                key: '#fcfcfc'
-            };
-        } else {
-            return {
-                string: '#008000',
-                number: '#0000ff',
-                boolean: '#b22222',
-                null: '#808080',
-                key: '#000000'
-            };
-        }
-    }
 
     function initEmpty() {
         // init editor with empty model
@@ -209,9 +185,7 @@ Item
 
         if (formatter["name"] === "JSON") {
             jsonFormattingWorker.sendMessage({"isReadOnly": false,
-                                              "data": String(root.value),
-                                              "style": _jsFormatterStyles,
-                                              "color_map": _jsFormatterColorMap})
+                                              "data": String(root.value)})
         } else {
             formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
 
@@ -224,9 +198,7 @@ Item
                 if (format === "json") {
                     jsonFormattingWorker.sendMessage({"error": error,
                                                       "isReadOnly": isReadOnly,
-                                                      "data": String(formatted),
-                                                      "style": _jsFormatterStyles,
-                                                      "color_map": _jsFormatterColorMap})
+                                                      "data": String(formatted)})
                 } else {
                     process(error, formatted, isReadOnly, format);
                 }
@@ -271,6 +243,8 @@ Item
                 ? TextEdit.RichText
                 : TextEdit.PlainText;
 
+            console.log("format", format)
+
             if (error || !formatted) {
                 if (formatted) {
                     defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
@@ -280,6 +254,7 @@ Item
                     formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
                 }
                 textView.readOnly = isReadOnly
+                textView.format = "text"
                 root.isEdited = false
                 uiBlocker.visible = false
 
@@ -298,6 +273,7 @@ Item
             defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
             textView.model = qmlUtils.wrapLargeText(formatted)
             textView.readOnly = isReadOnly
+            textView.format = format
             root.isEdited = false
             uiBlocker.visible = false
         }
@@ -430,6 +406,8 @@ Item
                         imgHeight: imgBtnHeight
 
                         enabled: root.value !== ""
+
+                        shortcutText: qmlUtils.standardKeyToString(StandardKey.SaveAs)
                     }
                 }
 
@@ -444,7 +422,7 @@ Item
                     tooltip: qsTranslate("RDM","Save Changes") + " (" + shortcutText + ")"
                     visible: showSaveBtn
 
-                    property string shortcutText: ""
+                    property string shortcutText: qmlUtils.standardKeyToString(StandardKey.Save)
 
                     onClicked: saveChanges()
 
@@ -519,6 +497,108 @@ Item
         }
 
         Rectangle {
+            id: searchToolbar
+
+            property int lastSearchResultPosition: -1
+
+            color: sysPalette.base
+            border.color: sysPalette.mid
+            border.width: 1
+
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
+            visible: false
+
+            RowLayout {
+                anchors.fill: parent
+                anchors.rightMargin: 10
+                anchors.leftMargin: 10
+
+                Image {
+                    source: "qrc:/images/search.svg"
+                    Layout.preferredWidth: 20
+                    Layout.preferredHeight: 20
+                }
+
+                BetterTextField {
+                    id: searchField
+                    objectName: "rdm_value_editor_search_field"
+                    placeholderText: qsTranslate("RDM", "Search string")
+
+                    onTextChanged: {
+                        searchToolbar.lastSearchResultPosition = -1;
+                        noResults.visible = false;
+                    }
+
+                    onAccepted: submitSearchButton.performSearch()
+
+                    Layout.preferredWidth: 300
+                }
+                BetterButton {
+                    id: submitSearchButton
+                    objectName: "rdm_value_editor_search_btn"
+                    text: searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RDM","Find Next") : qsTranslate("RDM","Find")
+                    onClicked: {
+                        performSearch()
+                    }
+
+                    function performSearch() {
+                        noResults.visible = false;
+
+                        var result = textView.model.searchText(searchField.text,
+                                                               searchToolbar.lastSearchResultPosition,
+                                                               searchRegexInText.checked)
+                        console.log(result)
+
+                        if (result[0] >= 0) {
+                            textView.currentIndex = result[0];
+                            searchToolbar.lastSearchResultPosition = result[1] + result[3];
+                            textView.currentItem.selectSearchResult(result[2], result[3], searchField.text);
+                        } else {
+                            noResults.visible = true;
+                        }
+                    }
+                }
+
+                BetterCheckbox {
+                    id: searchRegexInText
+                    objectName: "rdm_value_editor_search_regex_checkbox"
+                    text: qsTranslate("RDM","Regex")
+                    onCheckedChanged: {
+                        searchToolbar.lastSearchResultPosition = -1;
+                        noResults.visible = false;
+                    }
+                }
+
+                BetterLabel {
+                    id: noResults
+                    objectName: "rdm_value_editor_search_no_results"
+                    text: searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RDM","Cannot find more results") : qsTranslate("RDM","Cannot find any results")
+                    visible: false
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                ImageButton {
+                    objectName: "rdm_value_editor_search_clear_btn"
+                    Layout.preferredWidth: 20
+                    Layout.preferredHeight: 20
+
+                    imgSource: "qrc:/images/clear.svg"
+                    onClicked: {
+                        searchToolbar.visible = false;
+                        searchToolbar.lastSearchResultPosition = -1;
+                        noResults.visible = false;
+                        // TODO: clear results & selections
+                    }
+
+                }
+            }
+        }
+
+        Rectangle {
             id: texteditorWrapper
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -527,9 +607,10 @@ Item
             color: sysPalette.base
             border.color: sysPalette.mid
             border.width: 1
-            clip: true
+            clip: true            
 
             ScrollView {
+                id: valueScrollView
                 anchors.fill: parent
                 anchors.margins: 5
 
@@ -542,15 +623,34 @@ Item
                     id: textView
                     anchors.fill: parent
                     cacheBuffer: 4
+                    highlightMoveDuration: 0                                       
+
+                    Keys.onPressed: {
+                       if (event.matches(StandardKey.Find)) {
+                           searchField.forceActiveFocus()
+                           searchToolbar.visible = true;
+                       } else if (event.matches(StandardKey.SaveAs)) {
+                           saveAsBtn.saveToFile()
+                       } else if (event.matches(StandardKey.Save)) {
+                           saveBtn.saveChanges()
+                       }
+                    }
 
                     property int textFormat: TextEdit.PlainText
                     property bool readOnly: false
                     property string format
 
                     delegate:
-                        Item {
+                        Rectangle {
+                            color: "transparent"
+
                             width: texteditorWrapper.width
                             height: textAreaPart.contentHeight < texteditorWrapper.height? texteditorWrapper.height - 5 : textAreaPart.contentHeight
+
+                            function selectSearchResult(from, len, txt) {
+                                textAreaPart.select(from, from + len)
+                                textView.contentY = textView.currentItem.y + textAreaPart.cursorRectangle.y
+                            }
 
                             NewTextArea {
                                 anchors.fill: parent
@@ -563,34 +663,14 @@ Item
 
                                 textFormat: textView.textFormat
                                 readOnly: textView.readOnly
+                                highlightJSON: textView.format === "json"
 
                                 onTextChanged: {
                                     root.isEdited = true
                                     textView.model && textView.model.setTextChunk(index, textAreaPart.text)
                                 }
 
-                                Keys.forwardTo: [saveShortcut, saveAsShortcut]
-
-                            }
-
-                            Shortcut {
-                                id: saveShortcut
-                                sequence: StandardKey.Save
-                                onActivated: saveBtn.saveChanges()
-
-                                Component.onCompleted: {
-                                    saveBtn.shortcutText = saveShortcut.nativeText
-                                }
-                            }
-
-                            Shortcut {
-                                id: saveAsShortcut
-                                sequence: StandardKey.SaveAs
-                                onActivated: saveAsBtn.saveToFile()
-
-                                Component.onCompleted: {
-                                    saveAsBtn.shortcutText = saveAsShortcut.nativeText
-                                }
+                                Keys.forwardTo: [textView]
                             }
                         }
                     }

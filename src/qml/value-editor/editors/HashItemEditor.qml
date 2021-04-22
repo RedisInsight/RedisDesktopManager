@@ -17,7 +17,7 @@ AbstractEditor {
         fieldLabel: qsTranslate("RDM","Key:")
         Layout.fillWidth: true
         Layout.minimumHeight: 30
-        Layout.preferredHeight: 90
+        Layout.preferredHeight: 140
 
         value: ""
         enabled: root.active || root.state !== "edit"

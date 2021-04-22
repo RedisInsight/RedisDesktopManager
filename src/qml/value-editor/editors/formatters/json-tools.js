@@ -1,42 +1,11 @@
 .pragma library
 
-var prettyPrint = function( json, style, colorMap) {
-    var out;
-
+var prettyPrint = function(json) {
     try {
-        out = JSON.parse(json);
+        return JSON.stringify(JSON.parse(json), undefined, 2)
     } catch (exc) {
-        out = json
+        return json
     }
-
-    // Highlight different value types
-    var syntaxHighlight = function(json) {
-        if (typeof json != 'string') {
-            json = JSON.stringify(json, undefined, 2);
-        }
-
-        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-            var type = 'number';
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    type = 'key';
-                } else {
-                    type = 'string';
-                }
-            } else if (/true|false/.test(match)) {
-                type = 'boolean';
-            } else if (/null/.test(match)) {
-                type = 'null';
-            }
-            return '<font color="' + colorMap[type] + '">' + match + '</font>';
-        });
-    }   
-
-    var highlighted = syntaxHighlight(out);
-
-    return '<pre id="value" style="width:97%; white-space: pre-wrap;' + style + '">' + highlighted + '</pre>';
 };
 
 /*!
@@ -104,9 +73,9 @@ if (typeof WorkerScript !== "undefined") {
     WorkerScript.onMessage = function(msg) {
         WorkerScript.sendMessage({
             'error': msg['error'],             
-            'formatted': prettyPrint(String(msg['data']), msg['style'], msg['color_map']),
+            'formatted': prettyPrint(String(msg['data'])),
             'isReadOnly': msg['isReadOnly'],
-            'format': "html"
+            'format': "json"
         });
     }
 }

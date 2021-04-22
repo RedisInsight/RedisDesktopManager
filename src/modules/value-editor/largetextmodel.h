@@ -31,6 +31,8 @@ class LargeTextWrappingModel : public QAbstractListModel {
 
   void setTextChunk(uint row, QString text);
 
+  QVariantList searchText(QString p, int from = 0, bool regex=false);
+
  private:
   bool isIndexValid(const QModelIndex &index) const;
 

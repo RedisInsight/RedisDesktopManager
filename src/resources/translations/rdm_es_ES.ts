@@ -19,12 +19,12 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="81"/>
+        <location filename="../../app/app.cpp" line="83"/>
         <source>Settings directory is not writable</source>
         <translation>El directorio de ajustes no es grabable</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="83"/>
+        <location filename="../../app/app.cpp" line="85"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM no puede grabar el fichero de conexiones en el directorio de ajustes. Por favor cambia los permisos del fichero o reinicia RDM como administrador.</translation>
     </message>
@@ -81,7 +81,7 @@
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
         <location filename="../../app/models/key-models/abstractkey.h" line="333"/>
-        <location filename="../../app/models/treeoperations.cpp" line="132"/>
+        <location filename="../../app/models/treeoperations.cpp" line="154"/>
         <location filename="../../modules/console/consolemodel.cpp" line="89"/>
         <source>Connection error: </source>
         <translation>Error de conexión: </translation>
@@ -118,32 +118,32 @@
         <translation>Tipo de datos Redis no soportado %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="110"/>
+        <location filename="../../app/models/treeoperations.cpp" line="132"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>No se puede conectar al servidor %1. Compruba el log para más detalles.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="120"/>
+        <location filename="../../app/models/treeoperations.cpp" line="142"/>
         <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation>La versión Open Source de RDM &lt;b&gt;no soporta túneles SSH&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; Para obtener todas las características, por favor, compra un suscripción en &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Cada suscripción individual nos proporciona fondos para continuar el proceso de desarrollo y proporcionar soporte a nuestros usuarios. &lt;br /&gt;Si tienes alguna pregunta, por favor, contacta con nosotros en &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Chat Telegram&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="195"/>
+        <location filename="../../app/models/treeoperations.cpp" line="222"/>
         <source>Cannot load keys: %1</source>
         <translation>No se pueden cargar las claves: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="281"/>
+        <location filename="../../app/models/treeoperations.cpp" line="308"/>
         <source>Delete key error: %1</source>
         <translation>Error: %1 borrando clave</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="401"/>
+        <location filename="../../app/models/treeoperations.cpp" line="428"/>
         <source>Cannot determine amount of used memory by key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="344"/>
+        <location filename="../../app/models/treeoperations.cpp" line="371"/>
         <source>Cannot flush database: </source>
         <translation>No se puede vaciar la base de datos: </translation>
     </message>
@@ -225,7 +225,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="316"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="292"/>
         <source>Size: </source>
         <translation>Tamaño: </translation>
     </message>
@@ -290,7 +290,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="391"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
         <source>Add Element to HLL</source>
         <translation>Añadir Elemento a HLL</translation>
     </message>
@@ -326,12 +326,12 @@
         <translation>Búsqueda Completa</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="189"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="185"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>Las pestañas de Valor y Consola relacionadas con esta conexión deben cerrarse. ¿Quieres continuar?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="201"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="197"/>
         <source>Do you really want to delete connection?</source>
         <translation>¿Seguro que quieres borrar la conexión?</translation>
     </message>
@@ -717,7 +717,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="293"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="614"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1372,7 +1372,7 @@
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="21"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="22"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
@@ -1463,7 +1463,7 @@
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="443"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="421"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
@@ -1485,7 +1485,7 @@
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="220"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="219"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -1495,52 +1495,82 @@
         <translation>Página</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="78"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="54"/>
         <source>Enter valid value</source>
         <translation>Introduzca un valor válido</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="289"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="264"/>
         <source>Formatting error</source>
         <translation>Error de Formateo</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="294"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="269"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>Error desconocido del formateador (Respuesta vacía)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="321"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="297"/>
         <source>[Binary]</source>
         <translation>[Binario]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="300"/>
         <source> [Compressed: </source>
         <translation> [Comprimido: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="409"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="385"/>
         <source>Copy to Clipboard</source>
         <translation>Copiar al Portapapeles</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="444"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="422"/>
         <source>Save Changes</source>
         <translation>Guardar Cambios</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="610"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="526"/>
+        <source>Search string</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
+        <source>Find Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="566"/>
+        <source>Regex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <source>Cannot find more results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <source>Cannot find any results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="690"/>
         <source>Binary value is too large to display</source>
         <translation>El valor binario es demasiado grande para mostrarse</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="330"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="306"/>
         <source>View as:</source>
         <translation>Ver como:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="343"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>Valor grande (&gt;150kB). Formateadores no disponibles.</translation>
     </message>
@@ -1647,28 +1677,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="336"/>
+        <location filename="../../modules/api/api_client.cpp" line="341"/>
         <source>Cannot validate token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="342"/>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
         <translation>No se puede iniciar sesión - %1. &lt;br/&gt; Por favor, inténtalo de nuevo o contacta con &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="576"/>
-        <location filename="../../modules/api/api_client.cpp" line="602"/>
+        <location filename="../../modules/api/api_client.cpp" line="581"/>
+        <location filename="../../modules/api/api_client.cpp" line="607"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="654"/>
+        <location filename="../../modules/api/api_client.cpp" line="659"/>
         <source>Download was canceled</source>
         <translation>Se canceló la descarga</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="661"/>
+        <location filename="../../modules/api/api_client.cpp" line="666"/>
         <source>Network error</source>
         <translation type="unfinished">Error de red</translation>
     </message>
@@ -1689,7 +1719,7 @@
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="622"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="702"/>
         <source>Save value to file</source>
         <translation>Guardar valor a fichero</translation>
     </message>
@@ -1744,6 +1774,11 @@
         <translation>Aplicar filtro</translation>
     </message>
     <message>
+        <location filename="../../qml/WelcomeTab.qml" line="31"/>
+        <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
@@ -1764,11 +1799,6 @@
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/WelcomeTab.qml" line="31"/>
-        <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
