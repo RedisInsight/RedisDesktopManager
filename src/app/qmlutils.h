@@ -4,6 +4,7 @@
 #include <QVariantList>
 #include <QUrl>
 #include <QtCharts/QXYSeries>
+#include <QKeySequence>
 
 class QmlUtils : public QObject
 {
@@ -36,7 +37,7 @@ public:
     Q_INVOKABLE QObject* wrapLargeText(const QByteArray &text);
     Q_INVOKABLE void deleteTextWrapper(QObject* w);
     Q_INVOKABLE QString escapeHtmlEntities(const QString& t);
-    Q_INVOKABLE QString htmlToPlainText(const QString& html);
+    Q_INVOKABLE QString standardKeyToString(QKeySequence::StandardKey key);
     Q_INVOKABLE double getScreenScaleFactor();    
     Q_INVOKABLE bool isAppStoreBuild();
 };

@@ -214,8 +214,7 @@ ListModel {
 
         property var getRaw: function (formatted, callback) {
             try {
-                var plainText = qmlUtils.htmlToPlainText(formatted)
-                return callback("", JSONFormatter.minify(plainText))
+                return callback("", JSONFormatter.minify(formatted))
             } catch (e) {
                 return callback(qsTranslate("RDM", "Error") + ": " + e)
             }

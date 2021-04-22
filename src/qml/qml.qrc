@@ -68,5 +68,6 @@
         <file>value-editor/ValueTableActions.qml</file>
         <file>value-editor/filters/ListFilters.qml</file>
         <file>value-editor/filters/StreamFilters.qml</file>
+        <file>common/JsonHighlighter.qml</file>
     </qresource>
 </RCC>
