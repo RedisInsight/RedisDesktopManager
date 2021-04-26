@@ -34,6 +34,7 @@ Item {
                     model: keyTab.keyModel? keyTab.keyModel.columnNames : []
 
                     Rectangle {  // Table header cell
+                        objectName: "rdm_value_tab_table_header_col" + index
                         Layout.preferredHeight: 30
                         Layout.minimumWidth: {
                             if (table.valueColumnWidthOverrides && table.valueColumnWidthOverrides[index] !== undefined) {
@@ -194,6 +195,22 @@ Item {
                                                                                                                   : (root.width - 200 - table.firstColumnWidth - table.columnSpacing) / 2
                         property var valueColumnWidthOverrides: QtObject {}
 
+                        Keys.onUpPressed: {
+                            if (currentRow > 0) {
+                                currentRow--;
+                            } else {
+                                currentRow = 0;
+                            }
+                        }
+
+                        Keys.onDownPressed: {
+                            if (currentRow < rows - 1) {
+                                currentRow++;
+                            } else {
+                                currentRow = rows - 1;
+                            }
+                        }
+
                         columnWidthProvider: function (column) {
                             if (column === 0) {
                                 return firstColumnWidth
@@ -254,9 +271,9 @@ Item {
                                     implicitWidth: table.firstColumnWidth
                                     implicitHeight: 30
                                     text: Number(row) + 1
-                                    selected: table.currentRow === row
+                                    selected: table.model.getOriginalRowIndex(table.currentRow) === row
                                     onClicked: {
-                                        table.currentRow = row
+                                        table.currentRow = table.model.getProxyRowIndex(row)
                                         table.forceActiveFocus()
                                     }
                                 }
@@ -270,9 +287,12 @@ Item {
                                     implicitWidth: table.valueColumnWidth
                                     implicitHeight: 30
                                     text: renderText(display)
-                                    selected: table.currentRow === row
+                                    selected: table.model.getOriginalRowIndex(table.currentRow) === row
                                     onClicked: {
-                                        table.currentRow = row
+                                        table.currentRow = table.model.getProxyRowIndex(row)
+
+                                        console.log(table.model.getProxyRowIndex(row), row)
+
                                         table.forceActiveFocus()
                                     }
                                 }
@@ -286,9 +306,9 @@ Item {
                                     implicitWidth: table.valueColumnWidth
                                     implicitHeight: 30
 
-                                    selected: table.currentRow === row
+                                    selected: table.model.getOriginalRowIndex(table.currentRow) === row
                                     onClicked: {
-                                        table.currentRow = row
+                                        table.currentRow = table.model.getProxyRowIndex(row)
                                         table.forceActiveFocus()
                                     }
 
@@ -410,7 +430,7 @@ Item {
                         onCurrentRowChanged: {
                             console.log("Current row in table changed: ", currentRow)
                             if (currentRow >= 0) {
-                                valueEditor.loadRowValue(currentRow)
+                                valueEditor.loadRowValue(table.model.getOriginalRowIndex(currentRow))
                             }
                         }
                     }

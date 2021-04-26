@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 Item {
     id: root
@@ -17,14 +18,14 @@ Item {
         color: root.selected ? sysPalette.highlight : sysPalette.base
         clip: true
 
-        Text {
+        TextInput {
             id: textItem
             anchors.centerIn: parent
-            elide: Text.ElideRight
             wrapMode: Text.WrapAnywhere
-            maximumLineCount: 1
-            color: root.selected ? sysPalette.highlightedText : sysPalette.text
-            textFormat: Text.PlainText
+            color: root.selected ? sysPalette.highlightedText : sysPalette.text            
+            readOnly: true
+            selectByMouse: true            
+            autoScroll: false
         }
     }
 
@@ -42,6 +43,7 @@ Item {
 
     MouseArea {
         anchors.fill: parent
+        enabled: !root.selected
 
         onClicked: {
             root.clicked()
