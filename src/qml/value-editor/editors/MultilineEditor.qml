@@ -555,6 +555,12 @@ Item
                             searchToolbar.lastSearchResultPosition = result[1] + result[3];
                             textView.currentItem.selectSearchResult(result[2], result[3], searchField.text);
                         } else {
+                            noResults.text = searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RDM","Cannot find more results")
+                                                                                       : qsTranslate("RDM","Cannot find any results");
+                            if (searchToolbar.lastSearchResultPosition>=0) {
+                                searchToolbar.lastSearchResultPosition = -1;
+                            }
+
                             noResults.visible = true;
                         }
                     }
@@ -573,7 +579,6 @@ Item
                 BetterLabel {
                     id: noResults
                     objectName: "rdm_value_editor_search_no_results"
-                    text: searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RDM","Cannot find more results") : qsTranslate("RDM","Cannot find any results")
                     visible: false
                 }
 
