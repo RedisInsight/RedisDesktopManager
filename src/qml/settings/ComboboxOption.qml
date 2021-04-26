@@ -10,6 +10,8 @@ Item {
     property string description
     property string value
     property alias model: val.model
+    property int popupMaxHeight: 350
+    property int popupWidth: val.width
 
     onValueChanged: {        
         if (val.currentText != root.value) {
@@ -57,6 +59,16 @@ Item {
                 if (model) {
                     currentIndex = val.find(root.value)
                 }
+
+                popup.contentItem.implicitHeight = Qt.binding(function () {
+                    return Math.min(root.popupMaxHeight,
+                                    val.popup.contentItem.contentHeight);
+                });
+
+                popup.width = Qt.binding(function () {
+                    return Math.max(root.popupWidth,
+                                    val.popup.contentItem.contentWidth);
+                });
             }
         }
     }

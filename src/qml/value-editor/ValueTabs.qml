@@ -333,8 +333,8 @@ Repeater {
 
                         Layout.fillWidth: true
                         Layout.fillHeight: false
-                        Layout.bottomMargin: 10
-                        SplitView.minimumHeight: 275
+                        Layout.bottomMargin: 20
+                        SplitView.minimumHeight: 300
                         visible: keyModel? isMultiRow : false
                     }
 
@@ -343,8 +343,8 @@ Repeater {
                         id: editorWrapper
                         SplitView.fillWidth: true
                         SplitView.fillHeight: !isMultiRow
-                        Layout.topMargin: 10
-                        SplitView.minimumHeight: 230
+                        Layout.topMargin: 20
+                        SplitView.minimumHeight: 220
                         spacing: 10
 
                         Loader {
