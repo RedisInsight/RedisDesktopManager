@@ -79,8 +79,11 @@ var Hexy = function (buffer, config) {
             str += "</td><td>"
             var padlen = 0
             switch(self.format) {
+            case "eights":
+                padlen = self.width*2 + Math.floor(self.width/4)
+                break
             case "fours":
-                padlen = self.width*2 + self.width/2
+                padlen = self.width*2 + Math.floor(self.width/2)
                 break
             case "twos":
                 padlen = self.width*3 + 2
@@ -92,15 +95,7 @@ var Hexy = function (buffer, config) {
             str += "</td><td>"
             if (self.annotate === "ascii") {
                 str+=" "
-                var ascii = raw.replace(/[\000-\040\177-\377]/g, ".")
-                var charCodes = ascii.split(',')
-                for (var index=0; index < charCodes.length; index++) {
-
-                    if (charCodes[index] == ".")
-                        continue
-
-                    str += String.fromCharCode(charCodes[index])
-                }
+                str += escape(raw.replace(/[\000-\040\177-\377]/g, "."))
             }
             if (self.html) {
                 str += "</td></tr>\n"
@@ -118,7 +113,7 @@ var Hexy = function (buffer, config) {
                     end = i+self.width >= self.buffer.length ? self.buffer.length : i+self.width,
                                                                slice = self.buffer.slice(begin, end),
                                                                hex = self.caps === "upper" ? hexu(slice) : hexl(slice),
-                                                                                             raw = slice.toString('ascii')
+                                                                                             raw = String.fromCharCode.apply(null, slice)
             hex_raw.push([hex,raw])
         }
         return hex_raw
@@ -145,7 +140,7 @@ var Hexy = function (buffer, config) {
         return s
     }
     var rpad = function(s, len) {
-        for (var n = len - s.length; n!=0; --n) {
+        for (var n = len - s.length; n>0; --n) {
             if (self.html) {
                 s += "&nbsp;"
             } else {
