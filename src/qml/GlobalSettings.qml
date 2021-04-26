@@ -18,7 +18,7 @@ Dialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 950
-        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 600 : 730
+        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 600 : 650
 
         color: sysPalette.base
 
@@ -35,7 +35,7 @@ Dialog {
 
                 ColumnLayout {
                     id: innerLayout
-                    width: PlatformUtils.isOSX()? globalSettingsScrollView.width - 25 : globalSettingsScrollView.width
+                    width: globalSettingsScrollView.width - 25
                     height: (dialogRoot.height - 50 > implicitHeight) ? dialogRoot.height - 50 : implicitHeight
                     spacing: 10
 
@@ -54,7 +54,7 @@ Dialog {
                     }
 
                     GridLayout {
-                        columns: 2
+                        columns: 3
                         Layout.fillWidth: true
                         rowSpacing: 10
                         columnSpacing: 15
@@ -71,38 +71,18 @@ Dialog {
                             onValueChanged: root.restartRequired = true
                         }
 
-                        BoolOption {
-                            id: systemProxy
-
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 30
-
-                            value: false
-                            label: qsTranslate("RDM","Use system proxy settings")
-
-                            onValueChanged: root.restartRequired = true
-                        }
-
                         ComboboxOption {
                             id: appFont
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
+                            popupWidth: 300
 
                             model: Qt.fontFamilies()
                             label: qsTranslate("RDM","Font")
 
                             onValueChanged: root.restartRequired = true
-                        }
 
-                        BoolOption {
-                            id: disableProxyForRedisConnections
-
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 30
-
-                            value: false
-                            label: qsTranslate("RDM","Use system proxy only for HTTP(S) requests")
                         }
 
                         ComboboxOption {
@@ -116,6 +96,29 @@ Dialog {
 
                             onValueChanged: root.restartRequired = true
                         }
+
+                        BoolOption {
+                            id: systemProxy
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            value: false
+                            label: qsTranslate("RDM","Use system proxy settings")
+
+                            onValueChanged: root.restartRequired = true
+                        }
+
+                        BoolOption {
+                            id: disableProxyForRedisConnections
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+                            Layout.columnSpan: 2
+
+                            value: false
+                            label: qsTranslate("RDM","Use system proxy only for HTTP(S) requests")
+                        }                        
                     }
 
                     SettingsGroupTitle {
@@ -133,6 +136,7 @@ Dialog {
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
+                            popupWidth: 300
 
                             model: Qt.fontFamilies()
                             label: qsTranslate("RDM","Font")
@@ -235,17 +239,24 @@ Dialog {
 
                     }
 
-                    SettingsGroupTitle {
+                    RowLayout {
                         Layout.topMargin: 10
-                        visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-                        text: qsTranslate("RDM","External Value View Formatters")
-                    }
 
-                    Text {
-                        visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-                        text: formattersManager? qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath()) : ""
-                        font.pixelSize: 12
-                        color: "grey"
+                        SettingsGroupTitle {
+                            visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
+                            text: qsTranslate("RDM","External Value View Formatters")
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
+                        Text {
+                            visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
+                            text: formattersManager? qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath()) : ""
+                            font.pixelSize: 12
+                            color: "grey"
+                        }
                     }
 
                     LC.TableView {
