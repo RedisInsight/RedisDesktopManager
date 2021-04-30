@@ -374,7 +374,7 @@ Item
 
                     ImageButton {
                         id: copyValueToClipboardBtn
-                        iconSource: "qrc:/images/copy.svg"
+                        iconSource: "qrc:/images/copy_2.svg"
                         implicitWidth: imgBtnWidth
                         implicitHeight: imgBtnHeight
                         imgWidth: imgBtnWidth

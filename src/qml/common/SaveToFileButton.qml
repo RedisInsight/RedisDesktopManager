@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.1
 
 ImageButton {
     id: root
-    iconSource: raw ? "qrc:/images/file.svg" : "qrc:/images/document.svg"
+    iconSource: raw ? "qrc:/images/binary_file.svg" : "qrc:/images/code_file.svg"
     tooltip: raw ? qsTranslate("RDM","Save Raw Value to File") : qsTranslate("RDM","Save Formatted Value to File") + " (" + shortcutText + ")"
 
     property string fileUrl
