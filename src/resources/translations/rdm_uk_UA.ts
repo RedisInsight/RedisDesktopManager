@@ -784,17 +784,17 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
-        <location filename="../../qml/GlobalSettings.qml" line="293"/>
+        <location filename="../../qml/GlobalSettings.qml" line="304"/>
         <location filename="../../qml/QuickStartDialog.qml" line="62"/>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="108"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="114"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="715"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="200"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="592"/>
-        <location filename="../../qml/GlobalSettings.qml" line="305"/>
+        <location filename="../../qml/GlobalSettings.qml" line="316"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
@@ -820,95 +820,95 @@
         <translation>Мова</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="93"/>
-        <location filename="../../qml/GlobalSettings.qml" line="138"/>
+        <location filename="../../qml/GlobalSettings.qml" line="82"/>
+        <location filename="../../qml/GlobalSettings.qml" line="142"/>
         <source>Font</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="115"/>
-        <location filename="../../qml/GlobalSettings.qml" line="151"/>
+        <location filename="../../qml/GlobalSettings.qml" line="95"/>
+        <location filename="../../qml/GlobalSettings.qml" line="155"/>
         <source>Font Size</source>
         <translation>Розмір шрифту</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="165"/>
+        <location filename="../../qml/GlobalSettings.qml" line="169"/>
         <source>Maximum Formatted Value Size</source>
         <translation>Максимальний розмір форматованого значення</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="166"/>
+        <location filename="../../qml/GlobalSettings.qml" line="170"/>
         <source>Size in bytes</source>
         <translation>Розмір у байтах</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="209"/>
+        <location filename="../../qml/GlobalSettings.qml" line="213"/>
         <source>Show only last part for namespaced keys</source>
         <translation>Показати лише останню частину ключів з простором імен</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
-        <location filename="../../qml/GlobalSettings.qml" line="81"/>
+        <location filename="../../qml/GlobalSettings.qml" line="107"/>
         <source>Use system proxy settings</source>
         <translation>Використовувати налаштування системного проксі</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="105"/>
+        <location filename="../../qml/GlobalSettings.qml" line="120"/>
         <source>Use system proxy only for HTTP(S) requests</source>
         <translation>Використовувати системний проксі лише для запитів HTTP(S)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="123"/>
+        <location filename="../../qml/GlobalSettings.qml" line="126"/>
         <source>Value Editor</source>
         <translation>Редактор значень</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="172"/>
+        <location filename="../../qml/GlobalSettings.qml" line="176"/>
         <source>Connections Tree</source>
         <translation>Дерево підключень</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="188"/>
+        <location filename="../../qml/GlobalSettings.qml" line="192"/>
         <source>Show namespaced keys on top</source>
         <translation>Спочатку показувати ключі з простором імен</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="198"/>
+        <location filename="../../qml/GlobalSettings.qml" line="202"/>
         <source>Reopen namespaces on reload</source>
         <translation>Повторно відкрити простори імен при перезавантаженні</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="199"/>
+        <location filename="../../qml/GlobalSettings.qml" line="203"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(Вимкніть, щоб пришвидшити роботу дерева ключів)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="221"/>
+        <location filename="../../qml/GlobalSettings.qml" line="225"/>
         <source>Live update maximum allowed keys</source>
         <translation>Максимальна кількість ключів для автоматичного оновлення</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="233"/>
+        <location filename="../../qml/GlobalSettings.qml" line="237"/>
         <source>Live update interval (in seconds)</source>
         <translation>Інтервал автоматичного оновлення (у секундах)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="241"/>
+        <location filename="../../qml/GlobalSettings.qml" line="247"/>
         <source>External Value View Formatters</source>
         <translation>Зовнішні форматери</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="246"/>
+        <location filename="../../qml/GlobalSettings.qml" line="256"/>
         <source>Formatters path: %0</source>
         <translation>Шлях до форматерів:%0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="262"/>
+        <location filename="../../qml/GlobalSettings.qml" line="273"/>
         <source>Name</source>
         <translation>Назва</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="267"/>
+        <location filename="../../qml/GlobalSettings.qml" line="278"/>
         <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>Version</source>
         <translation>Версія</translation>
@@ -966,76 +966,76 @@
         <translation> (Видалено)</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="74"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
         <source>Open Keys Filter</source>
         <translation>Відкрити фільтр ключів</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="78"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="80"/>
         <source>Reload Keys in Database</source>
         <translation>Перезавантажити ключі в базі даних</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="82"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="84"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="29"/>
         <source>Add New Key</source>
         <translation>Додати новий ключ</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="88"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="90"/>
         <source>Disable Live Update</source>
         <translation>Вимкнути автоматичне оновлення</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="88"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="90"/>
         <source>Enable Live Update</source>
         <translation>Увімкнути автоматине оновлення</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="92"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="23"/>
         <source>Open Console</source>
         <translation>Відкрити консоль</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="95"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="97"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="31"/>
         <source>Analyze Used Memory</source>
         <translation>Проаналізувати використану пам’ять</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="97"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="99"/>
         <source>Bulk Operations</source>
         <translation>Масові операції</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="118"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="120"/>
         <source>Flush Database</source>
         <translation>Очистити базу даних</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="121"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="123"/>
         <source>Delete keys with filter</source>
         <translation>Видалити ключі з фільтром</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="91"/>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="126"/>
         <source>Set TTL for multiple keys</source>
         <translation>Встановити TTL для кількох ключів</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="127"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="129"/>
         <source>Copy keys from this database to another</source>
         <translation>Скопіювати ключі з цієї бази даних в іншу</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="130"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="132"/>
         <source>Import keys from RDB file</source>
         <translation>Імпортувати ключі з файлу rdb</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="133"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="135"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
@@ -1060,7 +1060,7 @@
         <translation>Видалити простір імен</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="70"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="23"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="13"/>
         <source>Disconnect</source>
@@ -1114,7 +1114,7 @@
         <translation>Параметри</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="277"/>
+        <location filename="../../qml/GlobalSettings.qml" line="288"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation>Опис</translation>
@@ -1267,7 +1267,7 @@
         <translation>Назва каналу</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="271"/>
+        <location filename="../../qml/GlobalSettings.qml" line="282"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
         <source>Command</source>
         <translation>Команда</translation>
@@ -1328,7 +1328,7 @@
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="421"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="437"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
@@ -1390,42 +1390,42 @@
         <translation>Копіювати в буфер обміну</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="422"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="438"/>
         <source>Save Changes</source>
         <translation>Зберегти зміни</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="526"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="542"/>
         <source>Search string</source>
         <translation>Шукати строку</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
         <source>Find Next</source>
         <translation>Знайти далі</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
         <source>Find</source>
         <translation>Знайти</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="566"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="588"/>
         <source>Regex</source>
         <translation>Регулярний вираз</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="574"/>
         <source>Cannot find more results</source>
         <translation>Не вдається знайти більше результатів</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="575"/>
         <source>Cannot find any results</source>
         <translation>Не вдається знайти результати</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="690"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="711"/>
         <source>Binary value is too large to display</source>
         <translation>Бінарне значення завелике для відображення</translation>
     </message>
@@ -1652,23 +1652,50 @@
         <translation>Вибрати файл</translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save to File</source>
-        <translation>Зберегти у файл</translation>
+        <translation type="vanished">Зберегти у файл</translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="25"/>
         <source>Save Value</source>
-        <translation>Зберегти значення</translation>
+        <translation type="vanished">Зберегти значення</translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="44"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="702"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="723"/>
         <source>Save value to file</source>
         <translation>Зберегти значення у файл</translation>
     </message>
     <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="65"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
+        <source>Save Raw Value to File</source>
+        <translation>Зберегти необроблене значення у файл</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
+        <source>Save Formatted Value to File</source>
+        <translation>Зберегти відформатоване значення у файл</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
+        <source>Save Raw Value</source>
+        <translation>Зберегти необроблене значення</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
+        <source>Save Formatted Value</source>
+        <translation>Зберегти відформатоване значення</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
+        <source>Save raw value to file</source>
+        <translation>Зберегти необроблене значення у файл</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
+        <source>Save formatted value to file</source>
+        <translation>Зберегти відформатоване значення у файл</translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="71"/>
         <source>Value was saved to file:</source>
         <translation>Значення було збережено у файл:</translation>
     </message>
