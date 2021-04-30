@@ -5,13 +5,14 @@ import QtQuick.Layouts 1.1
 
 ImageButton {
     id: root
-    iconSource: "qrc:/images/document.svg"
-    tooltip: qsTranslate("RDM","Save to File") + " (" + shortcutText + ")"
+    iconSource: raw ? "qrc:/images/file.svg" : "qrc:/images/document.svg"
+    tooltip: raw ? qsTranslate("RDM","Save Raw Value to File") : qsTranslate("RDM","Save Formatted Value to File") + " (" + shortcutText + ")"
 
     property string fileUrl
     property string folderUrl
     property string path
     property string shortcutText: ""
+    property bool raw: false
 
 
     onClicked: saveToFile()
@@ -22,7 +23,7 @@ ImageButton {
 
     FileDialog {
         id: saveValueToFileDialog
-        title: qsTranslate("RDM","Save Value")
+        title: raw ? qsTranslate("RDM","Save Raw Value") : qsTranslate("RDM","Save Formatted Value")
         nameFilters: ["All files (*)"]
         selectExisting: false
 
@@ -32,16 +33,21 @@ ImageButton {
             var path = qmlUtils.getPathFromUrl(fileUrl)
             root.folderUrl = qmlUtils.getUrlFromPath(qmlUtils.getDir(path))
             root.path = qmlUtils.getNativePath(path)
-
-            if (qmlUtils.saveToFile(value, root.path)) {
-                saveToFileConfirmation.open()
+            if (raw) {
+                if (qmlUtils.saveToFile(value, root.path)) {
+                    saveToFileConfirmation.open()
+                }
+            } else {
+                if (qmlUtils.saveToFile(textView.model.getText(), root.path)) {
+                    saveToFileConfirmation.open()
+                }
             }
         }
     }
 
     Dialog {
         id: saveToFileConfirmation
-        title: qsTranslate("RDM","Save value to file")
+        title: raw ? qsTranslate("RDM","Save raw value to file") : qsTranslate("RDM","Save formatted value to file")
         visible: false
 
         contentItem: Rectangle {

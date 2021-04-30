@@ -387,9 +387,9 @@ Item
 
                         onClicked: copyValue()
 
-                        function copyValue() {                            
+                        function copyValue() {
                             if (value) {
-                                qmlUtils.copyToClipboard(value)
+                                qmlUtils.copyToClipboard(textView.model.getText())
                             }
                         }
                     }
@@ -408,6 +408,22 @@ Item
                         enabled: root.value !== ""
 
                         shortcutText: qmlUtils.standardKeyToString(StandardKey.SaveAs)
+                    }
+
+                    SaveToFileButton {
+                        id: saveAsRawBtn
+                        objectName: "rdm_save_raw_value_to_file_btn"
+
+                        raw: true
+
+                        Layout.alignment: Qt.AlignHCenter
+
+                        implicitWidth: imgBtnWidth
+                        implicitHeight: imgBtnHeight
+                        imgWidth: imgBtnWidth
+                        imgHeight: imgBtnHeight
+
+                        enabled: root.value !== ""
                     }
                 }
 
@@ -678,8 +694,8 @@ Item
                                 Keys.forwardTo: [textView]
                             }
                         }
-                    }
                 }
+            }
         }
 
         BetterLabel {
@@ -710,20 +726,25 @@ Item
             SaveToFileButton {
                 objectName: "rdm_save_large_value_to_file_dialog_btn"
             }
+
+            SaveToFileButton {
+                objectName: "rdm_save_large_raw_value_to_file_dialog_btn"
+                raw: true
+            }
         }
-    }
 
-    Rectangle {
-        id: uiBlocker
-        visible: false
-        anchors.fill: parent
-        color: Qt.rgba(0, 0, 0, 0.1)
-
-        Item {
+        Rectangle {
+            id: uiBlocker
+            visible: false
             anchors.fill: parent
-            BusyIndicator { anchors.centerIn: parent; running: true }
+            color: Qt.rgba(0, 0, 0, 0.1)
+    
+            Item {
+                anchors.fill: parent
+                BusyIndicator { anchors.centerIn: parent; running: true }
+            }
+    
+            MouseArea { anchors.fill: parent }
         }
-
-        MouseArea { anchors.fill: parent }
     }
 }
