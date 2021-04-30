@@ -45,5 +45,8 @@
         <file alias="sort.svg">images/sort.svg</file>
         <file alias="search.svg">images/search.svg</file>
         <file alias="file.svg">images/file.svg</file>
+        <file alias="copy_2.svg">images/copy_2.svg</file>
+        <file alias="code_file.svg">images/code_file.svg</file>
+        <file alias="binary_file.svg">images/binary_file.svg</file>
     </qresource>
 </RCC>
