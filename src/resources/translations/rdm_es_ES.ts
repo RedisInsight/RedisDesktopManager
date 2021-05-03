@@ -76,7 +76,7 @@
     <message>
         <location filename="../../app/models/key-models/hashkey.cpp" line="113"/>
         <source>Value with the same key already exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya existe un valor con la misma clave</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="185"/>
@@ -140,7 +140,7 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="428"/>
         <source>Cannot determine amount of used memory by key: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede determinar la memoria usada por la clave: %1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="371"/>
@@ -897,7 +897,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
         <source>Invalid RDB path</source>
-        <translation type="unfinished">Ruta RDB inválida</translation>
+        <translation>Ruta RDB inválida</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="60"/>
@@ -918,7 +918,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="100"/>
         <source>Copy keys to another database</source>
-        <translation type="unfinished">Copiar claves a otra base de datos</translation>
+        <translation>Copiar claves a otra base de datos</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="101"/>
@@ -943,7 +943,7 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="177"/>
         <source>Path to RDB file:</source>
-        <translation type="unfinished">Ruta a fichero RDB:</translation>
+        <translation>Ruta a fichero RDB:</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="199"/>
@@ -1003,12 +1003,12 @@
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="419"/>
         <source>Processed: </source>
-        <translation type="unfinished"></translation>
+        <translation>Procesado: </translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="421"/>
         <source>Getting list of affected keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Obteniendo lista de claves afectadas...</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="457"/>
@@ -1029,39 +1029,39 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
         <source>Renew your subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Renueva tu suscripción</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
         <source>Your trial has ended.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tu periodo de prueba ha finalizado.</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
         <source>To use this version you need to renew your subscription.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para usar esta version necesitas renovar tu suscripción.</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
         <source>Please purchase a subscription to continue using RDM.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor compra una suscripción para seguir usando RDM.</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
         <source>If you have any questions please contact support </source>
-        <translation type="unfinished"></translation>
+        <translation>Si tienes alguna pregunta por favor contacta con soporte </translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Renovar Suscripción</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprar Suscripción</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
@@ -1083,7 +1083,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
         <source>Forgot password?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Contraseña olvidada?</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
@@ -1093,7 +1093,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
         <source>Please enter email &amp; password to sign in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor introduce email &amp; contraseña para acceder.</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
@@ -1532,32 +1532,32 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="526"/>
         <source>Search string</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar cadena</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Encontrar Siguiente</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Encontrar</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="566"/>
         <source>Regex</source>
-        <translation type="unfinished"></translation>
+        <translation>Regex</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Cannot find more results</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede encontrar más resultados</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Cannot find any results</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede encontrar ningún resultado</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="690"/>
@@ -1653,33 +1653,33 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="146"/>
         <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Red no accesible. Por favor comprueba que tienes acceso a Internet y prueba otra vez.</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="189"/>
         <source>Invalid login or password</source>
-        <translation type="unfinished"></translation>
+        <translation>Login o password inválidos</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="196"/>
         <source>Too many requests from your IP</source>
-        <translation type="unfinished"></translation>
+        <translation>Demasiadas peticiones desde tu IP</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="199"/>
         <source>Unknown error. Status code %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error desconocido. Código estado %1</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="219"/>
         <location filename="../../modules/api/api_client.cpp" line="321"/>
         <source>Cannot parse server reply</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede interpretar la respuesta del servidor</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="341"/>
         <source>Cannot validate token</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede validar token</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="347"/>
@@ -1690,7 +1690,7 @@
         <location filename="../../modules/api/api_client.cpp" line="581"/>
         <location filename="../../modules/api/api_client.cpp" line="607"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede guardar la actualización. Disco lleno o no se puede escribir en la carpeta.</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="659"/>
@@ -1700,7 +1700,7 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="666"/>
         <source>Network error</source>
-        <translation type="unfinished">Error de red</translation>
+        <translation>Error de red</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
@@ -1776,30 +1776,30 @@
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&quot;font-size: 11px;&quot;&gt;Impulsado por asombroso &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;software open-source&lt;/a&gt; y &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
         <source>Trial is active till</source>
-        <translation type="unfinished"></translation>
+        <translation>Prueba activa hasta</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
         <source>Licensed to</source>
-        <translation type="unfinished"></translation>
+        <translation>Licenciado a</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
         <source>Subscription is active until:</source>
-        <translation type="unfinished"></translation>
+        <translation>Suscripción activa hasta:</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar Suscripción</translation>
     </message>
 </context>
 </TS>
