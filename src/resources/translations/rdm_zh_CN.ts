@@ -1522,32 +1522,32 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="526"/>
         <source>Search string</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">搜索字符串</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找下一条</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查找</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="566"/>
         <source>Regex</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">正则表达式</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Cannot find more results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">找不到更多的结果</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Cannot find any results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">找不到任何结果</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="690"/>
