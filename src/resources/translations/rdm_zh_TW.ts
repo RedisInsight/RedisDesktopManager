@@ -1524,32 +1524,32 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="526"/>
         <source>Search string</source>
-        <translation type="unfinished"></translation>
+        <translation>搜尋字串</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
         <source>Find Next</source>
-        <translation type="unfinished"></translation>
+        <translation>尋找下一筆</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="540"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>尋找</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="566"/>
         <source>Regex</source>
-        <translation type="unfinished"></translation>
+        <translation>正規表示式</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Cannot find more results</source>
-        <translation type="unfinished"></translation>
+        <translation>找不到更多結果</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="576"/>
         <source>Cannot find any results</source>
-        <translation type="unfinished"></translation>
+        <translation>找不到任何結果</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="690"/>
