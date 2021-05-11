@@ -10,7 +10,7 @@ RowLayout {
     objectName: "rdm_stream_filter"
 
     property bool enabled: streamRangeSlider.from < streamRangeSlider.to
-    property string dateTimeFormat: "yyyy-MM-dd hh:mm:ss.zzz"
+    property string dateTimeFormat: PlatformUtils.dateTimeFormat
     property string inputMask: "9999-99-99 99:99:99.999"
 
     function setStreamFilter() {

@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import QtCharts 2.3
 import "./../common"
+import "./../common/platformutils.js" as PlatformUtils
 import "./../settings"
 
 
@@ -723,6 +724,15 @@ Repeater {
                                     role: "time"
                                     title: qsTranslate("RDM","Processed at")
                                     width: 150
+
+                                    delegate: Text {
+                                        text: {
+                                            return new Date(modelData['time']*1000).toLocaleString(
+                                                        locale, PlatformUtils.dateTimeFormat);
+                                        }
+                                        elide: styleData.elideMode
+                                    }
+
                                 }
 
                                 LC.TableViewColumn {

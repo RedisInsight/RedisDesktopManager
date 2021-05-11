@@ -1,4 +1,6 @@
 
+var dateTimeFormat = "yyyy-MM-dd hh:mm:ss.zzz"
+
 function isOSX() {
     return Qt.platform.os == "osx"
 }
