@@ -665,12 +665,12 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="458"/>
         <source>Namespace Separator:</source>
-        <translation>Separador de Espacio de Nombres:</translation>
+        <translation>Separador de Namespace:</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="465"/>
         <source>Separator used for namespace extraction from keys</source>
-        <translation>Separador usado para extracción de espacio de nombres de las claves</translation>
+        <translation>Separador usado para extracción de namespace de las claves</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="471"/>
@@ -800,12 +800,12 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="188"/>
         <source>Show namespaced keys on top</source>
-        <translation>Mostrar arriba las claves con espacio de nombres</translation>
+        <translation>Mostrar arriba las claves con namespace</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="198"/>
         <source>Reopen namespaces on reload</source>
-        <translation>Reabrir espacios de nombres al recargar</translation>
+        <translation>Reabrir namespaces al recargar</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="199"/>
@@ -815,7 +815,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="209"/>
         <source>Show only last part for namespaced keys</source>
-        <translation>Mostrar únicamete la última parte de claves con nombres de espacio</translation>
+        <translation>Mostrar únicamete la última parte de claves con namespace</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="221"/>
@@ -1182,17 +1182,17 @@
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="28"/>
         <source>Reload Namespace</source>
-        <translation>Recargar Espacio de Nombres</translation>
+        <translation>Recargar Namespace</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="30"/>
         <source>Copy Namespace Pattern</source>
-        <translation>Copiar Patrón de Espacio de Nombres</translation>
+        <translation>Copiar Patrón de Namespace</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="32"/>
         <source>Delete Namespace</source>
-        <translation>Borrar Espacio de Nombres</translation>
+        <translation>Borrar Namespace</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/database.qml" line="68"/>
