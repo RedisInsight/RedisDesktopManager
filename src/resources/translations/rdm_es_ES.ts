@@ -419,7 +419,7 @@
     <message>
         <location filename="../../qml/AppToolBar.qml" line="28"/>
         <source>Connect to Redis Server</source>
-        <translation>No se puede conectar al servidor Redis</translation>
+        <translation>Conectar a servidor Redis</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="40"/>
