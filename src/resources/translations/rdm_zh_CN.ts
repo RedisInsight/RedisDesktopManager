@@ -1713,32 +1713,32 @@
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save Raw Value to File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存原始内容到文件</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save Formatted Value to File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存格式化后的内容到文件</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
         <source>Save Raw Value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存原始内容</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
         <source>Save Formatted Value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存格式化后的内容</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
         <source>Save raw value to file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存原始内容到文件</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
         <source>Save formatted value to file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存格式化后的内容到文件</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="71"/>
