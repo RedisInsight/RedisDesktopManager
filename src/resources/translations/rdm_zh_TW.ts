@@ -1700,14 +1700,6 @@
         <translation>選擇檔案</translation>
     </message>
     <message>
-        <source>Save to File</source>
-        <translation type="vanished">儲存到檔案</translation>
-    </message>
-    <message>
-        <source>Save Value</source>
-        <translation type="vanished">儲存值</translation>
-    </message>
-    <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="723"/>
         <source>Save value to file</source>
         <translation>儲存值到檔案</translation>
@@ -1715,32 +1707,32 @@
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save Raw Value to File</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存原始值到檔案</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save Formatted Value to File</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存格式化的值到檔案</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
         <source>Save Raw Value</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存原始值</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
         <source>Save Formatted Value</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存格式化的值</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
         <source>Save raw value to file</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存原始值到檔案</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
         <source>Save formatted value to file</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存格式化的值到檔案</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="71"/>
