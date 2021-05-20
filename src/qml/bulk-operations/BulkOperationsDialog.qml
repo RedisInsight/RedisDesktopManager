@@ -50,7 +50,10 @@ Dialog {
         bulkErrorNotification.text = text
         if (details) {
             bulkErrorNotification.detailedText = details
+        } else {
+            bulkErrorNotification.detailedText = ""
         }
+
         bulkErrorNotification.open()
     }
 
@@ -363,7 +366,7 @@ Dialog {
                                 bulkSuccessNotification.open()
                             }
 
-                            function onError(e) {
+                            function onError(e, details) {
                                 showError(qsTranslate("RDM","Bulk Operation finished with errors"), e, details)
                             }
                         }
@@ -428,10 +431,39 @@ Dialog {
                 MouseArea { anchors.fill: parent }
             }
 
-            OkDialog {
+            Loader {
                 id: bulkErrorNotification
-                modality: Qt.NonModal
-                visible: false
+
+                property var icon: StandardIcon.Warning
+                property string title
+                property string text
+                property string detailedText
+
+                Component {
+                    id: bulkNotificationTemplate
+
+                    OkDialog {
+                        modality: Qt.NonModal
+                        title: bulkErrorNotification.title
+                        icon: bulkErrorNotification.icon
+                        text: bulkErrorNotification.text
+                        detailedText: bulkErrorNotification.detailedText
+
+                        onVisibleChanged: {
+                            if (!visible) {
+                                bulkErrorNotification.sourceComponent = undefined
+                            }
+                        }
+                    }
+                }
+
+                onLoaded: {
+                    item.open()
+                }
+
+                function open() {
+                    sourceComponent = bulkNotificationTemplate
+                }
             }
 
             OkDialog {

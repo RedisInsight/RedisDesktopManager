@@ -130,22 +130,48 @@ ApplicationWindow {
         }
     }
 
-    OkDialog {
+    Loader {
         id: notification
-        objectName: "rdm_qml_error_dialog"
-        visible: false
+
+        property var icon
+        property string text
+        property string details
 
         function showError(msg, details="") {
             icon = StandardIcon.Warning
             text = msg
-            detailedText = details
-            open()
+            notification.details = details
+            sourceComponent = notificationTemplate
         }
 
         function showMsg(msg) {
             icon = StandardIcon.Information
             text = msg
-            open()
+            details = ""
+            sourceComponent = notificationTemplate
+        }
+
+        onLoaded: {
+            item.open()
+        }
+
+        Component {
+            id: notificationTemplate
+
+            OkDialog {
+                objectName: "rdm_qml_error_dialog"
+                visible: false
+
+                icon: notification.icon
+                text: notification.text
+                detailedText: notification.details
+
+                onVisibleChanged: {
+                    if (!visible) {
+                        notification.sourceComponent = undefined
+                    }
+                }
+            }
         }
     }
 
