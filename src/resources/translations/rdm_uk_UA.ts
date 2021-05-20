@@ -635,75 +635,109 @@
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="223"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="291"/>
         <source>Sign in with rdm.dev account</source>
         <translation>Увійдіть за допомогою облікового запису rdm.dev</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
         <source>Renew your subscription</source>
         <translation>Поновити підписку</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
         <source>Your trial has ended.</source>
-        <translation>Ваш пробний період закінчився.</translation>
+        <translation type="vanished">Ваш пробний період закінчився.</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="208"/>
+        <source>You have no active subscription</source>
+        <translation>У вас немає активної підписки</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="211"/>
+        <source>No internet connection</source>
+        <translation>Немає підключення до інтернету</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="214"/>
+        <source>Your trial has ended</source>
+        <translation>Ваш пробний період закінчився</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="226"/>
         <source>To use this version you need to renew your subscription.</source>
         <translation>Для використання цієї версії вам потрібно поновити підписку.</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="229"/>
+        <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
+        <translation>Будь ласка, переконайтеся, що RDM не заблоковано брандмауером, а також перевірте наявність підключення до інтернету.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
+        <source>If you’re behind a proxy please enable </source>
+        <translation>Якщо ви за проксі-сервером, увімкніть </translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="235"/>
+        <source> option before sign-in.</source>
+        <translation> опцію перед входом.</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="238"/>
         <source>Please purchase a subscription to continue using RDM.</source>
         <translation>Будь ласка, придбайте передплату, щоб продовжити використання RDM.</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="242"/>
         <source>If you have any questions please contact support </source>
         <translation>Якщо у вас є будь-які запитання, звертайтесь до служби підтримки </translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
         <translation>Поновити підписку</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="254"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
         <translation>Купити підписку</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="267"/>
+        <source>Try Again</source>
+        <translation>Спробувати ще раз</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="305"/>
         <source>Email:</source>
         <translation>Електронна адреса:</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="321"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
         <translation>Пароль:</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="350"/>
         <source>Forgot password?</source>
         <translation>Забули пароль?</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="299"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="367"/>
         <source>Application will be restarted to apply this setting.</source>
         <translation>Додаток буде перезапущено, щоб застосувати цей параметр.</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="375"/>
         <source>Sign In</source>
         <translation>Увійти</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="380"/>
         <source>Please enter email &amp; password to sign in.</source>
         <translation>Введіть адресу електронної пошти та пароль для входу.</translation>
     </message>
@@ -792,7 +826,7 @@
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="200"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="592"/>
         <location filename="../../qml/GlobalSettings.qml" line="316"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
@@ -847,7 +881,8 @@
         <translation>Показати лише останню частину ключів з простором імен</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="233"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="366"/>
         <location filename="../../qml/GlobalSettings.qml" line="107"/>
         <source>Use system proxy settings</source>
         <translation>Використовувати налаштування системного проксі</translation>
@@ -955,7 +990,7 @@
         <translation>Вийти з режиму перегрупування</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="276"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="344"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>Показати пароль</translation>
@@ -1068,7 +1103,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="238"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="239"/>
         <source>Server Info</source>
         <translation>Інформація про сервер</translation>
     </message>
@@ -1130,180 +1165,180 @@
         <translation>Закрити</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="108"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="109"/>
         <source>Redis Version</source>
         <translation>Версія Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="123"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="124"/>
         <source>Used memory</source>
         <translation>Використана пам’ять</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="138"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="246"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="350"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="139"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="247"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="351"/>
         <source>Clients</source>
         <translation>Клієнти</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="153"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="154"/>
         <source>Commands Processed</source>
         <translation>Команд оброблено</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="170"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="171"/>
         <source>Uptime</source>
         <translation>Час роботи</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="186"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="488"/>
         <source>Total Keys</source>
         <translation>Усього ключів</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="201"/>
         <source>Hit Ratio</source>
         <translation>Коефіцієнт влучень</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="221"/>
         <source> day(s)</source>
         <translation> днів</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="235"/>
         <source>Info</source>
         <translation>Інформація</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="299"/>
         <source>Commands Per Second</source>
         <translation>Команд на секунду</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="313"/>
         <source>Ops/s</source>
         <translation>Операцій/с</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="337"/>
         <source>Connected Clients</source>
         <translation>Підключені клієнти</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="375"/>
         <source>Memory Usage</source>
         <translation>Використання пам&apos;яті</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="386"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="387"/>
         <source>Mb</source>
         <translation>Mb</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="416"/>
         <source>Network Input</source>
         <translation>Вхідні дані</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="428"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="464"/>
         <source>Kb/s</source>
         <translation>Kb/s</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="452"/>
         <source>Network Output</source>
         <translation>Вихідні дані</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="502"/>
         <source>Keys</source>
         <translation>Ключі</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="692"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="749"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="585"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="693"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="759"/>
         <source>Auto Refresh</source>
         <translation>Автоматичне оновлення</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="618"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="619"/>
         <source>Property</source>
         <translation>Властивість</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="625"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="22"/>
         <source>Value</source>
         <translation>Значення</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="837"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="847"/>
         <source>Subscribe in Console</source>
         <translation>Переглянути в консолі</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="242"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="243"/>
         <source>Slowlog</source>
         <translation>Slowlog</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="251"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="252"/>
         <source>Pub/Sub Channels</source>
         <translation>Pub/Sub канали</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="807"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="817"/>
         <source>Enable</source>
         <translation>Увімкнути</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="826"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="836"/>
         <source>Channel Name</source>
         <translation>Назва каналу</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="282"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="708"/>
         <source>Command</source>
         <translation>Команда</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="724"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="725"/>
         <source>Processed at</source>
         <translation>Оброблено за</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="740"/>
         <source>Execution Time (μs)</source>
         <translation>Час виконання (мкс)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="764"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="774"/>
         <source>Client Address</source>
         <translation>Адреса клієнта</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="770"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="780"/>
         <source>Age (sec)</source>
         <translation>Вік (сек)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="776"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="786"/>
         <source>Idle</source>
         <translation>Незайнятий</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="782"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="792"/>
         <source>Flags</source>
         <translation>Прапорці</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="788"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="798"/>
         <source>Current Database</source>
         <translation>Поточна база даних</translation>
     </message>
@@ -1755,44 +1790,44 @@
         <translation>Недійсний логін або пароль</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="196"/>
+        <location filename="../../modules/api/api_client.cpp" line="199"/>
         <source>Too many requests from your IP</source>
         <translation>Забагато запитів з вашого IP</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="199"/>
+        <location filename="../../modules/api/api_client.cpp" line="205"/>
         <source>Unknown error. Status code %1</source>
         <translation>Невідома помилка. Код відповіді %1</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="219"/>
-        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <location filename="../../modules/api/api_client.cpp" line="225"/>
+        <location filename="../../modules/api/api_client.cpp" line="327"/>
         <source>Cannot parse server reply</source>
         <translation>Не вдається розібрати відповідь сервера</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="341"/>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
         <source>Cannot validate token</source>
         <translation>Не вдається перевірити токен</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="347"/>
+        <location filename="../../modules/api/api_client.cpp" line="353"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
         <translation>Не вдається ввійти -%1. &lt;br/&gt; Спробуйте ще раз або зв’яжіться з &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="581"/>
-        <location filename="../../modules/api/api_client.cpp" line="607"/>
+        <location filename="../../modules/api/api_client.cpp" line="587"/>
+        <location filename="../../modules/api/api_client.cpp" line="613"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
         <translation>Не вдається зберегти оновлення. Диск заповнений або папка для завантаження недоступна для запису.</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="659"/>
+        <location filename="../../modules/api/api_client.cpp" line="665"/>
         <source>Download was canceled</source>
         <translation>Завантаження скасовано</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="666"/>
+        <location filename="../../modules/api/api_client.cpp" line="672"/>
         <source>Network error</source>
         <translation>Помилка мережі</translation>
     </message>

@@ -712,7 +712,7 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="200"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="592"/>
         <location filename="../../qml/GlobalSettings.qml" line="316"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="396"/>
@@ -740,7 +740,7 @@
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="299"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="367"/>
         <source>Application will be restarted to apply this setting.</source>
         <translation type="unfinished">新设置将在软件重启后生效</translation>
     </message>
@@ -767,7 +767,8 @@
         <translation type="unfinished">字节长度</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="298"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="233"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="366"/>
         <location filename="../../qml/GlobalSettings.qml" line="107"/>
         <source>Use system proxy settings</source>
         <translation>使用系统代理设置</translation>
@@ -1012,76 +1013,110 @@
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="223"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="291"/>
         <source>Sign in with rdm.dev account</source>
         <translation type="unfinished">使用 rdm.dev 账号登陆</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="166"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="205"/>
         <source>Renew your subscription</source>
         <translation type="unfinished">更新订阅</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="167"/>
         <source>Your trial has ended.</source>
-        <translation type="unfinished">试用版已结束</translation>
+        <translation type="obsolete">试用版已结束</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="174"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="208"/>
+        <source>You have no active subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="211"/>
+        <source>No internet connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="214"/>
+        <source>Your trial has ended</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="226"/>
         <source>To use this version you need to renew your subscription.</source>
         <translation type="unfinished">要继续使用该版本，需要更新你的订阅。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="175"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="229"/>
+        <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
+        <source>If you’re behind a proxy please enable </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="235"/>
+        <source> option before sign-in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="238"/>
         <source>Please purchase a subscription to continue using RDM.</source>
         <translation type="unfinished">请购买一份订阅来继续使用RDM。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="177"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="242"/>
         <source>If you have any questions please contact support </source>
         <translation type="unfinished">遇到任何问题，请联系支持。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="187"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
         <translation type="unfinished">更新订阅</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="188"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="254"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
         <translation type="unfinished">购买订阅</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="267"/>
+        <source>Try Again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="305"/>
         <source>Email:</source>
         <translation type="unfinished">邮箱：</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="253"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="321"/>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="200"/>
         <source>Password:</source>
         <translation type="unfinished">密码：</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="276"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="344"/>
         <location filename="../../qml/common/PasswordInput.qml" line="20"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="282"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="350"/>
         <source>Forgot password?</source>
         <translation type="unfinished">忘记密码？</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="307"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="375"/>
         <source>Sign In</source>
         <translation type="unfinished">登录</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="312"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="380"/>
         <source>Please enter email &amp; password to sign in.</source>
         <translation type="unfinished">请输入邮箱和密码来登录。</translation>
     </message>
@@ -1193,7 +1228,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="19"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="238"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="239"/>
         <source>Server Info</source>
         <translation>服务器信息</translation>
     </message>
@@ -1255,180 +1290,180 @@
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="108"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="109"/>
         <source>Redis Version</source>
         <translation>Redis 版本</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="123"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="124"/>
         <source>Used memory</source>
         <translation>已使用的内存</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="138"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="246"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="350"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="139"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="247"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="351"/>
         <source>Clients</source>
         <translation>客户端</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="153"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="154"/>
         <source>Commands Processed</source>
         <translation>已执行的命令</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="170"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="171"/>
         <source>Uptime</source>
         <translation>正常运行时间</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="487"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="186"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="488"/>
         <source>Total Keys</source>
         <translation type="unfinished">键总量</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="201"/>
         <source>Hit Ratio</source>
         <translation type="unfinished">命中率</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="221"/>
         <source> day(s)</source>
         <translation> 天</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="234"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="235"/>
         <source>Info</source>
         <translation type="unfinished">信息</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="298"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="299"/>
         <source>Commands Per Second</source>
         <translation type="unfinished">每秒执行命令数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="312"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="313"/>
         <source>Ops/s</source>
         <translation type="unfinished">每秒查询率</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="336"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="337"/>
         <source>Connected Clients</source>
         <translation type="unfinished">已连接的客户端数量</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="374"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="375"/>
         <source>Memory Usage</source>
         <translation>内存占用</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="386"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="387"/>
         <source>Mb</source>
         <translation>Mb</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="415"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="416"/>
         <source>Network Input</source>
         <translation type="unfinished">网络输入</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="427"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="463"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="428"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="464"/>
         <source>Kb/s</source>
         <translation type="unfinished">Kb/s</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="451"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="452"/>
         <source>Network Output</source>
         <translation type="unfinished">网络输出</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="501"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="502"/>
         <source>Keys</source>
         <translation type="unfinished">键数量</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="584"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="692"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="749"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="585"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="693"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="759"/>
         <source>Auto Refresh</source>
         <translation>自动刷新</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="618"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="619"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="625"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="22"/>
         <source>Value</source>
         <translation>键值</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="837"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="847"/>
         <source>Subscribe in Console</source>
         <translation type="unfinished">控制台订阅</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="242"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="243"/>
         <source>Slowlog</source>
         <translation>慢查询日志</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="251"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="252"/>
         <source>Pub/Sub Channels</source>
         <translation type="unfinished">推送/订阅 通道</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="807"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="817"/>
         <source>Enable</source>
         <translation type="unfinished">启用</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="826"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="836"/>
         <source>Channel Name</source>
         <translation type="unfinished">通道名</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="282"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="707"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="708"/>
         <source>Command</source>
         <translation>指令</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="724"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="725"/>
         <source>Processed at</source>
         <translation>处理于</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="740"/>
         <source>Execution Time (μs)</source>
         <translation>执行时长 (μs)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="764"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="774"/>
         <source>Client Address</source>
         <translation>客户端地址</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="770"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="780"/>
         <source>Age (sec)</source>
         <translation>时长 (sec)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="776"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="786"/>
         <source>Idle</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="782"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="792"/>
         <source>Flags</source>
         <translation>标记</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="788"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="798"/>
         <source>Current Database</source>
         <translation>当前库</translation>
     </message>
@@ -1651,44 +1686,44 @@
         <translation type="unfinished">无效的账号或密码</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="196"/>
+        <location filename="../../modules/api/api_client.cpp" line="199"/>
         <source>Too many requests from your IP</source>
         <translation type="unfinished">过多请求来源你的IP</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="199"/>
+        <location filename="../../modules/api/api_client.cpp" line="205"/>
         <source>Unknown error. Status code %1</source>
         <translation type="unfinished">未知错误，状态码 %1</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="219"/>
-        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <location filename="../../modules/api/api_client.cpp" line="225"/>
+        <location filename="../../modules/api/api_client.cpp" line="327"/>
         <source>Cannot parse server reply</source>
         <translation type="unfinished">无法解析服务器响应</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="341"/>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
         <source>Cannot validate token</source>
         <translation type="unfinished">无法效验令牌</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="347"/>
+        <location filename="../../modules/api/api_client.cpp" line="353"/>
         <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
         <translation type="unfinished">无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="581"/>
-        <location filename="../../modules/api/api_client.cpp" line="607"/>
+        <location filename="../../modules/api/api_client.cpp" line="587"/>
+        <location filename="../../modules/api/api_client.cpp" line="613"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
         <translation type="unfinished">无法保存更新文件，磁盘已满或下载目录无法写入。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="659"/>
+        <location filename="../../modules/api/api_client.cpp" line="665"/>
         <source>Download was canceled</source>
         <translation type="unfinished">下载已取消</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="666"/>
+        <location filename="../../modules/api/api_client.cpp" line="672"/>
         <source>Network error</source>
         <translation type="unfinished">网络错误</translation>
     </message>
