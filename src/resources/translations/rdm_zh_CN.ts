@@ -1029,17 +1029,17 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="208"/>
         <source>You have no active subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">您没有可用订阅</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="211"/>
         <source>No internet connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无网络</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="214"/>
         <source>Your trial has ended</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">您的试用已结束</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="226"/>
@@ -1049,17 +1049,17 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="229"/>
         <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">确保RDM没有被防火墙阻挡，并且网络正常</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
         <source>If you’re behind a proxy please enable </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">如果您处于代理之中，请启用代理</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="235"/>
         <source> option before sign-in.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> 登陆前选项</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="238"/>
@@ -1086,7 +1086,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="267"/>
         <source>Try Again</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重试</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="305"/>
