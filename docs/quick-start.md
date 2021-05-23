@@ -108,7 +108,7 @@ The **Advanced settings** tab allows you to customise the namespace separator an
 ## Next steps
 Now you can test a connection or create a connection right away. 
 
-Congratulations, you've successfully connected to your Redis Server. You should see something similar to what we show above.
+Congratulations, you've successfully connected to your Redis Server. You should see something similar to what we show below.
 ![](http://rdm.dev/static/docs/rdm_main2.png?v=2)
 
 
