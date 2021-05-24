@@ -14,8 +14,8 @@
 #include <QSslSocket>
 #include <QtConcurrent>
 
-#if defined(Q_OS_WINDOWS)
-#include "win_darkmode.h"
+#if defined(Q_OS_WINDOWS) || defined(Q_OS_LINUX)
+#include "darkmode.h"
 #include <QStyleFactory>
 #endif
 
@@ -51,8 +51,8 @@ Application::Application(int& argc, char** argv)
   processCmdArgs();
   initAppFonts();
 
-#if defined(Q_OS_WINDOWS)
-  if (isWindowsDarkThemeEnabled()) {
+#if defined(Q_OS_WINDOWS) || defined(Q_OS_LINUX)
+  if (isDarkThemeEnabled()) {
     setStyle(QStyleFactory::create("Fusion"));
     setPalette(createDarkModePalette());
   }

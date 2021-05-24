@@ -2,13 +2,22 @@
 #include <QPalette>
 #include <QSettings>
 
-bool isWindowsDarkThemeEnabled() {
-  QSettings settings(
+bool isDarkThemeEnabled() {
+#if defined(Q_OS_WINDOWS)
+  QSettings settings;
+  QSettings systemSettings(
       "HKEY_CURRENT_"
       "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
       QSettings::NativeFormat);
 
-  return settings.value("AppsUseLightTheme") == 0;
+  return settings.value("app/darkModeOn", systemSettings.value("AppsUseLightTheme") == 0).toBool();
+#elif defined(Q_OS_LINUX)
+  QSettings settings;
+
+  return settings.value("app/darkModeOn", false).toBool();
+#else
+  return false;
+#endif
 }
 
 QPalette createDarkModePalette() {

@@ -49,7 +49,7 @@ HEADERS  += \
     $$PWD/app/apputils.h \
     $$PWD/app/qmlutils.h \
     $$PWD/app/qcompress.h \
-    $$PWD/app/win_darkmode.h \
+    $$PWD/app/darkmode.h \
     $$files($$PWD/app/models/*.h) \
     $$files($$PWD/app/models/key-models/*.h) \
     $$files($$PWD/modules/connections-tree/*.h) \
