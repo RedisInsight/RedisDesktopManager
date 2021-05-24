@@ -54,7 +54,9 @@ Dialog {
                     }
 
                     GridLayout {
-                        columns: 3
+                        columns: 2
+                        rows: 3
+                        flow: GridLayout.TopToBottom
                         Layout.fillWidth: true
                         rowSpacing: 10
                         columnSpacing: 15
@@ -98,6 +100,20 @@ Dialog {
                         }
 
                         BoolOption {
+                            id: darkMode
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            value: false
+                            label: qsTranslate("RDM","Dark Mode")
+
+                            visible: !PlatformUtils.isOSX()
+
+                            onValueChanged: root.restartRequired = true
+                        }
+
+                        BoolOption {
                             id: systemProxy
 
                             Layout.fillWidth: true
@@ -114,11 +130,10 @@ Dialog {
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
-                            Layout.columnSpan: 2
 
                             value: false
                             label: qsTranslate("RDM","Use system proxy only for HTTP(S) requests")
-                        }                        
+                        }
                     }
 
                     SettingsGroupTitle {
@@ -128,8 +143,11 @@ Dialog {
 
                     GridLayout {
                         columns: 2
+                        rows: 2
+                        flow: GridLayout.TopToBottom
                         rowSpacing: 10
                         columnSpacing: 15
+
 
                         ComboboxOption {
                             id: valueEditorFont
@@ -179,7 +197,9 @@ Dialog {
 
                     GridLayout {
                         columns: 2
-                        rowSpacing: 30
+                        rows: 3
+                        flow: GridLayout.TopToBottom
+                        rowSpacing: 10
                         columnSpacing: 20
 
                         BoolOption {
@@ -188,7 +208,7 @@ Dialog {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
-                            value: Qt.platform.os == "windiws"? true : false
+                            value: Qt.platform.os == "windows"? true : false
                             label: qsTranslate("RDM","Show namespaced keys on top")
                         }
 
@@ -337,6 +357,7 @@ Dialog {
         property alias valueEditorFontSize: valueEditorFontSize.value
         property alias valueSizeLimit: valueSizeLimit.value
         property alias locale: appLang.value
+        property alias darkModeOn: darkMode.value
         property alias useSystemProxy: systemProxy.value
         property alias disableProxyForRedisConnections: disableProxyForRedisConnections.value
     }
