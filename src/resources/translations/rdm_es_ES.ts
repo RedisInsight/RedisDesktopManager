@@ -1039,17 +1039,17 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="208"/>
         <source>You have no active subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>No tienes una suscripción activa</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="211"/>
         <source>No internet connection</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay conexión a Internet</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="214"/>
         <source>Your trial has ended</source>
-        <translation type="unfinished"></translation>
+        <translation>Tu periodo de prueba ha finalizado</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="226"/>
@@ -1059,17 +1059,17 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="229"/>
         <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Asegúrate de que RDM no está bloqueado y tienes conexión a Internet</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
         <source>If you’re behind a proxy please enable </source>
-        <translation type="unfinished"></translation>
+        <translation>Actívalo si estás detrás de un Proxy</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="235"/>
         <source> option before sign-in.</source>
-        <translation type="unfinished"></translation>
+        <translation> opción antes de iniciar sesión</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="238"/>
@@ -1096,7 +1096,7 @@
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="267"/>
         <source>Try Again</source>
-        <translation type="unfinished"></translation>
+        <translation>Inténtalo de nuevo</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="305"/>
@@ -1758,32 +1758,32 @@
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save Raw Value to File</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor en Bruto en Fichero</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="9"/>
         <source>Save Formatted Value to File</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor Formateado en Fichero</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
         <source>Save Raw Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor en Bruto</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="26"/>
         <source>Save Formatted Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor Formateado</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
         <source>Save raw value to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor Formateado en Fichero</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="50"/>
         <source>Save formatted value to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Valor Formateado en Fichero</translation>
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="71"/>
