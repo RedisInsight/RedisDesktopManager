@@ -99,8 +99,23 @@ Dialog {
                             onValueChanged: root.restartRequired = true
                         }
 
+                        ComboboxOption {
+                            id: darkModeWindows
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            model: ["Auto", "On", "Off"]
+                            value: "Auto"
+                            label: qsTranslate("RDM","Dark Mode")
+
+                            visible: PlatformUtils.isWindows()
+
+                            onValueChanged: root.restartRequired = true
+                        }
+
                         BoolOption {
-                            id: darkMode
+                            id: darkModeLinux
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
@@ -108,7 +123,7 @@ Dialog {
                             value: false
                             label: qsTranslate("RDM","Dark Mode")
 
-                            visible: !PlatformUtils.isOSX()
+                            visible: PlatformUtils.isLinux()
 
                             onValueChanged: root.restartRequired = true
                         }
@@ -357,7 +372,8 @@ Dialog {
         property alias valueEditorFontSize: valueEditorFontSize.value
         property alias valueSizeLimit: valueSizeLimit.value
         property alias locale: appLang.value
-        property alias darkModeOn: darkMode.value
+        property alias darkModeOn: darkModeLinux.value
+        property alias darkMode: darkModeWindows.value
         property alias useSystemProxy: systemProxy.value
         property alias disableProxyForRedisConnections: disableProxyForRedisConnections.value
     }
