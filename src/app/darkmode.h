@@ -10,7 +10,14 @@ bool isDarkThemeEnabled() {
       "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
       QSettings::NativeFormat);
 
-  return settings.value("app/darkModeOn", systemSettings.value("AppsUseLightTheme") == 0).toBool();
+  QString darkMode = settings.value("app/darkMode", "Auto").toString();
+  if (darkMode == "Auto") {
+      return systemSettings.value("AppsUseLightTheme") == 0;
+  } else if (darkMode == "On") {
+      return true;
+  } else {
+      return false;
+  }
 #elif defined(Q_OS_LINUX)
   QSettings settings;
 
