@@ -66,9 +66,8 @@ class TabsModel : public QAbstractListModel {
   int m_currentTabIndex;
 
   bool isIndexValid(const QModelIndex& index) const;
-  QSharedPointer<ValueViewModel> loadModel(const QString& loadingBanner,
-                 QWeakPointer<ConnectionsTree::KeyItem> key,
-                 bool openNewTab = false);
+  QSharedPointer<ValueViewModel> createViewModel(const QString& loadingBanner,
+                 QWeakPointer<ConnectionsTree::KeyItem> key);
   void tabChanged(QSharedPointer<ValueViewModel> m);
   void tabRemoved(QSharedPointer<ValueViewModel> m);
 };

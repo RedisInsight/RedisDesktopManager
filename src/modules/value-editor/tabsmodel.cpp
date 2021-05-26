@@ -21,11 +21,43 @@ ValueEditor::TabsModel::~TabsModel() { m_viewModels.clear(); }
 void ValueEditor::TabsModel::openTab(
     QSharedPointer<RedisClient::Connection> connection,
     QSharedPointer<ConnectionsTree::KeyItem> key, bool inNewTab) {
-  auto viewModel = loadModel(
+
+  auto viewModel = createViewModel(
       QString(QCoreApplication::translate("RDM", "Loading key: %1 from db %2"))
           .arg(QString::fromUtf8(key->getFullPath()))
           .arg(key->getDbIndex()),
-      key.toWeakRef(), inNewTab);
+      key.toWeakRef());
+
+  QSharedPointer<RedisClient::Connection> conn;
+
+  if (inNewTab || m_viewModels.count() == 0) {
+    beginInsertRows(QModelIndex(), m_viewModels.count(), m_viewModels.count());
+    m_viewModels.append(viewModel);
+    endInsertRows();
+  } else {
+    emit layoutAboutToBeChanged();
+
+    if (!(0 <= m_currentTabIndex && m_currentTabIndex < rowCount())) {
+      m_currentTabIndex = rowCount() - 1;
+    }
+
+    auto oldModel = m_viewModels[m_currentTabIndex];
+    m_viewModels.replace(m_currentTabIndex, viewModel);
+    emit layoutChanged();
+    emit replaceTab(m_currentTabIndex);
+
+    auto keyModel = oldModel->model();
+
+    bool reuseConnection =
+        (keyModel && keyModel->getConnection()->getConfig().id() ==
+                         connection->getConfig().id());
+
+    if (reuseConnection) {
+      conn = keyModel->getConnection();
+    }
+
+    oldModel.clear();
+  }
 
   auto viewModelWeekRef = viewModel.toWeakRef();
 
@@ -51,19 +83,17 @@ void ValueEditor::TabsModel::openTab(
     QTimer::singleShot(1, [=]() { loadingHandler(keyModel, error); });
   };
 
-  auto conn = connection->clone();
-  conn->disableAutoConnect();
-  m_events->registerLoggerForConnection(*conn);
-
-  QObject::connect(viewModel.data(), &ValueViewModel::tabClosed, [conn]() {
-    if (conn) {
-      conn->disconnect();
-    }
-  });
+  if (!conn) {
+    conn = connection->clone();
+    conn->disableAutoConnect();
+    m_events->registerLoggerForConnection(*conn);
+  }
 
   try {
     QtConcurrent::run([this, conn, key, viewModelWeekRef, callbackWrapper]() {
-      conn->connect();
+      if (!conn->isConnected())
+        conn->connect();
+
       m_keyFactory->loadKey(conn, key->getFullPath(), key->getDbIndex(),
                             callbackWrapper);
     });
@@ -88,7 +118,7 @@ void ValueEditor::TabsModel::closeDbKeys(
 
     if (tabMatch) {
       beginRemoveRows(QModelIndex(), index, index);
-      auto model = m_viewModels[index];
+      auto model = m_viewModels[index];      
       m_viewModels.removeAt(index);
       endRemoveRows();
       index--;
@@ -215,55 +245,48 @@ void ValueEditor::TabsModel::tabRemoved(
   oldModel.clear();
 }
 
-QSharedPointer<ValueEditor::ValueViewModel> ValueEditor::TabsModel::loadModel(
-    const QString& loadingBanner, QWeakPointer<ConnectionsTree::KeyItem> key,
-    bool openNewTab) {
-  auto viewModel = QSharedPointer<ValueViewModel>(
+QSharedPointer<ValueEditor::ValueViewModel> ValueEditor::TabsModel::createViewModel(
+    const QString& loadingBanner, QWeakPointer<ConnectionsTree::KeyItem> key) {
+  QSharedPointer<ValueViewModel> viewModel = QSharedPointer<ValueViewModel>(
       new ValueViewModel(loadingBanner), &QObject::deleteLater);
 
+  auto wPtr = viewModel.toWeakRef();
+
   connect(viewModel.data(), &ValueViewModel::rowsLoaded, this,
-          [this, viewModel](int, int) {
-            qDebug() << "row loaded (tab model)";
+          [this, wPtr](int, int) {
+            auto viewModel = wPtr.toStrongRef();
+            if (!wPtr) return;
             tabChanged(viewModel);
           });
 
-  connect(viewModel.data(), &ValueViewModel::modelLoaded, this,
-          [this, viewModel]() {
-            qDebug() << "model loaded (tab model)";
-            tabChanged(viewModel);
-          });
-
-  if (openNewTab || m_viewModels.count() == 0) {
-    beginInsertRows(QModelIndex(), m_viewModels.count(), m_viewModels.count());
-    m_viewModels.append(viewModel);
-    endInsertRows();
-  } else {
-    emit layoutAboutToBeChanged();
-
-    if (!(0 <= m_currentTabIndex && m_currentTabIndex < rowCount())) {
-        m_currentTabIndex = rowCount() - 1;
-    }
-
-    auto oldModel = m_viewModels[m_currentTabIndex];
-    m_viewModels.replace(m_currentTabIndex, viewModel);
-    emit layoutChanged();
-    emit replaceTab(m_currentTabIndex);
-    oldModel.clear();
-  }
+  connect(viewModel.data(), &ValueViewModel::modelLoaded, this, [this, wPtr]() {
+    auto viewModel = wPtr.toStrongRef();
+    if (!viewModel) return;
+    tabChanged(viewModel);
+  });
 
   connect(viewModel.data(), &ValueViewModel::keyRenamed, this,
-          [this, viewModel, key] {
+          [this, wPtr, key] {
+            auto viewModel = wPtr.toStrongRef();
+            if (!viewModel) return;
+
             tabChanged(viewModel);
             if (key && viewModel->model())
               key.toStrongRef()->setFullPath(
                   viewModel->model()->getKeyName().toUtf8());
           });
 
-  connect(viewModel.data(), &ValueViewModel::keyTTLChanged, this,
-          [this, viewModel] { tabChanged(viewModel); });
+  connect(viewModel.data(), &ValueViewModel::keyTTLChanged, this, [this, wPtr] {
+    auto viewModel = wPtr.toStrongRef();
+    if (!viewModel) return;
+    tabChanged(viewModel);
+  });
 
   connect(viewModel.data(), &ValueViewModel::keyRemoved, this,
-          [this, viewModel, key] {
+          [this, wPtr, key] {
+            auto viewModel = wPtr.toStrongRef();
+            if (!viewModel) return;
+
             tabRemoved(viewModel);
 
             if (key) key.toStrongRef()->setRemoved();
