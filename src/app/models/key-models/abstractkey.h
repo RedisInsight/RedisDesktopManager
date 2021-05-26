@@ -30,7 +30,10 @@ class KeyModel : public ValueEditor::Model {
         m_scanCursor(0),
         m_notifier(new ValueEditor::ModelSignals(), &QObject::deleteLater) {}
 
-  virtual ~KeyModel() { m_notifier.clear(); }
+  virtual ~KeyModel() {
+    m_notifier.clear();
+    m_connection.clear();
+  }
 
   virtual QString getKeyName() override {
     return printableString(m_keyFullPath);

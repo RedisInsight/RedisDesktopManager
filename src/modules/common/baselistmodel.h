@@ -7,6 +7,7 @@ class BaseListModel : public QAbstractListModel
 
     public:
         BaseListModel(QObject *parent = Q_NULLPTR);
+        virtual ~BaseListModel() {}
 
     protected:
         QVariantMap getRowRaw(int row);
