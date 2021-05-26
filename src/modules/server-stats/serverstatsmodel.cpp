@@ -51,7 +51,7 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
     m_connection->cmd({"CLIENT", "LIST"}, this, 0,
                       [this](RedisClient::Response r) {
                         QVariant result = r.value();
-                        QStringList lines = result.toString().split("\r\n");
+                        QStringList lines = result.toString().split("\n");
 
                         QVariantList parsedClients;
 
