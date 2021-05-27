@@ -32,6 +32,7 @@ QPalette createDarkModePalette() {
   QColor base = QColor(30, 30, 30);
   QColor alt = QColor(50, 50, 50);
   QColor text = QColor(223, 223, 223);
+  QColor buttonText = QColor(170, 170, 170);
   QColor disabledColor = QColor(127, 127, 127);
 
   QPalette p(alt, base);
@@ -49,7 +50,7 @@ QPalette createDarkModePalette() {
   p.setColor(QPalette::Text, text);
   p.setColor(QPalette::Disabled, QPalette::Text, disabledColor);
   p.setColor(QPalette::Button, alt);
-  p.setColor(QPalette::ButtonText, text);
+  p.setColor(QPalette::ButtonText, buttonText);
   p.setColor(QPalette::Disabled, QPalette::ButtonText, disabledColor);
   p.setColor(QPalette::BrightText, text.lighter(80));
   p.setColor(QPalette::Link, QColor(42, 130, 218));
