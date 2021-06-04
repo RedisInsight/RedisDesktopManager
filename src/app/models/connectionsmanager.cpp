@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QUrlQuery>
 
 #include "app/events.h"
 #include "configmanager.h"
@@ -206,6 +207,33 @@ bool ConnectionsManager::testConnectionSettings(const ServerConfig& config) {
 
 ServerConfig ConnectionsManager::createEmptyConfig() const {
   return ServerConfig();
+}
+
+ServerConfig ConnectionsManager::parseConfigFromRedisConnectionString(const QString& connectionString) const {
+    QUrl url = QUrl(connectionString);
+
+    QUrlQuery query = QUrlQuery(url.query());
+
+    ServerConfig config;
+
+    config.setHost(url.host().isEmpty() || url.host() == "localhost" ? "127.0.0.1" : url.host());
+
+    config.setPort(url.port() == -1 ? 6379 : url.port());
+
+    config.setUsername(url.userName());
+
+    config.setAuth(url.password().isEmpty() ? query.queryItemValue("password") : url.password());
+
+    if (url.scheme() == "rediss" || (!query.isEmpty() && query.queryItemValue("ssl") == "true")) {
+        config.setSsl(true);
+    }
+
+    return config;
+}
+
+bool ConnectionsManager::isRedisConnectionStringValid(const QString& connectionString) {
+    QUrl url = QUrl(connectionString);
+    return url.isValid() && (url.scheme() == "redis" || url.scheme() == "rediss") && !url.host().isEmpty();
 }
 
 int ConnectionsManager::size() {

@@ -13,6 +13,13 @@ Button {
 
     property string tooltip
 
+    MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onPressed: mouse.accepted = false
+            cursorShape: Qt.PointingHandCursor
+    }
+
     Image {
         id: img
         anchors.centerIn: parent

@@ -31,12 +31,12 @@ AWS ElastiCache is not accessible outside of your VPC. In order to connect to yo
 
 #### How to connect to AWS ElastiCache with In-Transit Encryption
 ##### VPN / NAT
-Enable SSL/TLS checkox and connect to your AWS ElastiCache with In-Transit Encryption.
+Enable SSL/TLS checkbox and connect to your AWS ElastiCache with In-Transit Encryption.
 
 ##### SSH tunnel
 Click on "Enable TLS-over-SSH" checkbox in the the SSH connection settings and connect to your AWS ElastiCache with In-Transit Encryption.
 
-### Windows Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" width="100" />
+### Microsoft Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" width="100" />
 
 1. Create a connection with all requested information.
  <br /> <img src="http://rdm.dev/static/docs/rdm_ssl_azure.png?v=2" />
@@ -57,7 +57,11 @@ Digital Ocean connection settings is a bit confusing. To connect to a Digital Oc
 
 1. Copy host, port and password information to RDM
 2. **Leave Username field in RDM empty** (Important!)
-3. Enable SSL/TLS checkox
+3. Enable SSL/TLS checkbox
+
+Or using Quick Connect tab for new connections:
+1. Copy connection string (starts with "rediss://") from connection details to RDM
+2. Click "Import" and "Test Connection"
 
 ### Heroku Redis <br /> <img src="https://brand.heroku.com/static/media/heroku-logo-stroke.aa0b53be.svg" width="80">
 
@@ -72,7 +76,7 @@ Example output:
 rediss://user:password@host:port
 ```
 2. Enter connection settings in RDM Connection dialog:
-- If URL starts with `rediss` enable SSL/TLS checkox and **uncheck** "Enable strict mode" checkbox
+- If URL starts with `rediss` enable SSL/TLS checkbox and **uncheck** "Enable strict mode" checkbox
 - Copy `user` to "Username" field
 - Copy `password` to "Password" field
 - Copy `host` and `port` to "Address" field in RDM
