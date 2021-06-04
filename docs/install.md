@@ -69,7 +69,7 @@ cd 3rdparty/lz4/build/cmake
 cmake -DLZ4_BUNDLED_MODE=ON  .
 make
 ```
-6. Install Python 3.7 amd64 to `C:\Python37-x64`.
+6. Install Python 3.9 amd64 to `C:\Python39-x64`.
 7. Install Python requirements `pip3 install -r src/py/requirements.txt`.
 8. Open `./src/rdm.pro` in **Qt Creator**.  Choose the `Desktop Qt 5.15.x MSVC2019 64bit > Release` build profile.
 9. Run build. (Just hit `Ctrl-B`)
