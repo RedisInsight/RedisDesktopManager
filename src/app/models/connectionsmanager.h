@@ -50,6 +50,10 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
   Q_INVOKABLE ServerConfig createEmptyConfig() const;
 
+  Q_INVOKABLE ServerConfig parseConfigFromRedisConnectionString(const QString&) const;
+
+  Q_INVOKABLE bool isRedisConnectionStringValid(const QString&);
+
   void saveConfig();
 
   Q_INVOKABLE int size();

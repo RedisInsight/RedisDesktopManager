@@ -19,6 +19,14 @@ Button {
     palette.brightText: sysPalette.highlightedText
     palette.windowText: sysPalette.text
     palette.buttonText: enabled ? sysPalette.text : disabledSysPalette.text
+    palette.highlight: sysPalette.highlight
+
+    MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onPressed: mouse.accepted = false
+            cursorShape: Qt.PointingHandCursor
+    }
 
     BetterToolTip {
         title: root.tooltip

@@ -48,5 +48,9 @@
         <file alias="copy_2.svg">images/copy_2.svg</file>
         <file alias="code_file.svg">images/code_file.svg</file>
         <file alias="binary_file.svg">images/binary_file.svg</file>
+        <file alias="digitalocean_logo.svg">images/digitalocean_logo.svg</file>
+        <file alias="aws_logo.svg">images/aws_logo.svg</file>
+        <file alias="azure_logo.svg">images/azure_logo.svg</file>
+        <file alias="heroku_logo.svg">images/heroku_logo.svg</file>
     </qresource>
 </RCC>
