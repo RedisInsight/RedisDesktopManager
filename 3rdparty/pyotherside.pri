@@ -1,11 +1,12 @@
 
 # Python
 PY_VERSION="39"
+PY_WIN_VERSION="38"
 PY_LIB_SUFFIX="3.9"
 
 win32* {
-    QMAKE_LIBS += -LC:\Python$${PY_VERSION}-x64\libs -lpython$${PY_VERSION}
-    INCLUDEPATH += C:\Python$${PY_VERSION}-x64\include\
+    QMAKE_LIBS += -LC:\Python$${PY_WIN_VERSION}-x64\libs -lpython$${PY_WIN_VERSION}
+    INCLUDEPATH += C:\Python$${PY_WIN_VERSION}-x64\include\
 } else {
     unix:macx {
       exists($$PWD/python-3) {
