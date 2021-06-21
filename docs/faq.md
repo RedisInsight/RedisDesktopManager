@@ -3,6 +3,6 @@
 
 **macOS dmg** `$HOME/Library/Preferences/rdm/connections.json`
 
-**macOS App Store** `$HOME/Library/Containers/com.redisdesktop.rdm/Data/Library/Preferences/rdm/`
+**macOS App Store** `$HOME/Library/Containers/RDM - GUI for Redis®/Data/Library/Preferences/rdm/`
 
 **Linux** `$HOME/.rdm/connections.json`
