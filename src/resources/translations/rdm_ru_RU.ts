@@ -488,7 +488,7 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="144"/>
-        <source>Connection Wizard</source>
+        <source>How to connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -497,149 +497,189 @@
         <translation type="unfinished">Настройки подключения</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="180"/>
+        <source>Create connection from Redis URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="233"/>
+        <source>Learn more about Redis URL:  </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="241"/>
         <source>Connection guides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="309"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="262"/>
+        <source>Local or Public Redis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="278"/>
+        <source>Redis with SSL/TLS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="294"/>
+        <source>SSH tunnel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="310"/>
+        <source>UNIX socket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="397"/>
         <source>Cannot figure out how to connect to your redis-server?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="315"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="403"/>
         <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="327"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="415"/>
+        <source>Don&apos;t have running Redis?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="421"/>
+        <source>Spin up hassle-free Redis on Digital Ocean</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="433"/>
         <source>Skip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="364"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="468"/>
         <source>Name:</source>
         <translation type="unfinished">Название:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="370"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="474"/>
         <source>Connection Name</source>
         <translation type="unfinished">Имя подключения</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="376"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="480"/>
         <source>Address:</source>
         <translation>Адрес:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="381"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="485"/>
         <source>redis-server host</source>
         <translation type="unfinished">хост сервера Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="405"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="509"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(Необязательно) пароль подключения к серверу Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="424"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="528"/>
         <source>Security</source>
         <translation type="unfinished">Безопасность</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="455"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="559"/>
         <source>Public Key:</source>
         <translation type="unfinished">Публичный ключ:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="461"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="565"/>
         <source>(Optional) Public Key in PEM format</source>
         <translation>(НЕеобязательно) Публичный ключ в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="463"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="567"/>
         <source>Select public key in PEM format</source>
         <translation type="unfinished">Выберите публичный ключ в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="474"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
         <source>(Optional) Private Key in PEM format</source>
         <translation>(Необязательно) Приватный ключ в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="476"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="570"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="580"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="674"/>
         <source>Select private key in PEM format</source>
         <translation type="unfinished">Выберите приватный ключ в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="481"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="585"/>
         <source>Authority:</source>
         <translation type="unfinished">Authority:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="487"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="591"/>
         <source>(Optional) Authority in PEM format</source>
         <translation>(Необязательно) Authority в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="489"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="593"/>
         <source>Select authority file in PEM format</source>
         <translation type="unfinished">Выберите Authority файл в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="508"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="612"/>
         <source>SSH Tunnel</source>
         <translation type="unfinished">SSH туннель</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="527"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="631"/>
         <source>SSH Address:</source>
         <translation type="unfinished">SSH адрес:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="531"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="635"/>
         <source>Remote Host with SSH server</source>
         <translation type="unfinished">Удаленный хост с SSH сервером</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="539"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="643"/>
         <source>SSH User:</source>
         <translation type="unfinished">SSH пользователь:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="545"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="649"/>
         <source>Valid SSH User Name</source>
         <translation>Валидное имя пользователя SSH</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="468"/>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="552"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="572"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="656"/>
         <source>Private Key</source>
         <translation type="unfinished">Приватный ключ</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="568"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="672"/>
         <source>Path to Private Key in PEM format</source>
         <translation type="unfinished">Путь к приватному ключу в РЕМ формате</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="578"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="682"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="583"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="687"/>
         <source>Password</source>
         <translation type="unfinished">Пароль</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="594"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="698"/>
         <source>SSH User Password</source>
         <translation type="unfinished">Пароль пользователя SSH</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="605"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="709"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -649,116 +689,110 @@
         <translation type="unfinished">Расширенные настройки</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="180"/>
-        <source>Import connection parameters from Redis connection string</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="392"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="496"/>
         <source>For better network performance please use 127.0.0.1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="399"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="503"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="410"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="514"/>
         <source>Username:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="416"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="520"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="435"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="539"/>
         <source>SSL / TLS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="494"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="598"/>
         <source>Enable strict mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="642"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="746"/>
         <source>Keys loading</source>
         <translation type="unfinished">Загрузка ключей</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="646"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="750"/>
         <source>Default filter:</source>
         <translation type="unfinished">Фильтр по умолчанию:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="652"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="756"/>
         <source>Pattern which defines loaded keys from redis-server</source>
         <translation type="unfinished">Будут загружены ключи которые соответствуют шаблону</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="658"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="762"/>
         <source>Namespace Separator:</source>
         <translation type="unfinished">Разделитель пространства имен:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="665"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="769"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation type="unfinished">Разделитель для извлечения пространства имен из ключа</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="671"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="775"/>
         <source>Timeouts &amp; Limits</source>
         <translation type="unfinished">Тайм-ауты и ограничения</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="675"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="779"/>
         <source>Connection Timeout (sec):</source>
         <translation type="unfinished">Таймаут соединения (сек):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="688"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="792"/>
         <source>Execution Timeout (sec):</source>
         <translation type="unfinished">Таймаут выполнения (сек):</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="699"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="803"/>
         <source>Databases discovery limit:</source>
         <translation type="unfinished">Ограничение количества баз данных:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="713"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="817"/>
         <source>Cluster</source>
         <translation type="unfinished">Кластер</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="717"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="821"/>
         <source>Change host on cluster redirects:</source>
         <translation type="unfinished">Изменить адрес хоста при перенаправлении от кластера:</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="773"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="877"/>
         <source>Invalid settings detected!</source>
         <translation type="unfinished">Неправильные настройки!</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="744"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="848"/>
         <source>Test Connection</source>
         <translation type="unfinished">Тест соединения</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="781"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="885"/>
         <location filename="../../qml/GlobalSettings.qml" line="339"/>
-        <location filename="../../qml/QuickStartDialog.qml" line="62"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="114"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="715"/>
         <source>OK</source>
         <translation type="unfinished">ОК</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="795"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="899"/>
         <location filename="../../qml/GlobalSettings.qml" line="351"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
@@ -797,6 +831,12 @@
         <translation type="unfinished">Размер шрифта</translation>
     </message>
     <message>
+        <location filename="../../qml/GlobalSettings.qml" line="110"/>
+        <location filename="../../qml/GlobalSettings.qml" line="124"/>
+        <source>Dark Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/GlobalSettings.qml" line="202"/>
         <source>Maximum Formatted Value Size</source>
         <translation type="unfinished"></translation>
@@ -810,12 +850,6 @@
         <location filename="../../qml/GlobalSettings.qml" line="138"/>
         <source>Use system proxy settings</source>
         <translation>Использовать прокси-сервер операционной системы</translation>
-    </message>
-    <message>
-        <location filename="../../qml/GlobalSettings.qml" line="110"/>
-        <location filename="../../qml/GlobalSettings.qml" line="124"/>
-        <source>Dark Mode</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="150"/>
@@ -884,43 +918,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Explore RDM</source>
-        <translation type="unfinished">Изучение RDM</translation>
+        <translation type="obsolete">Изучение RDM</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="45"/>
         <source>Before using RDM take a look on the %1</source>
-        <translation type="unfinished">Перед использование RDM взгляните на %1</translation>
+        <translation type="obsolete">Перед использование RDM взгляните на %1</translation>
     </message>
     <message>
-        <location filename="../../qml/ConnectionSettignsDialog.qml" line="753"/>
-        <location filename="../../qml/QuickStartDialog.qml" line="46"/>
+        <location filename="../../qml/ConnectionSettignsDialog.qml" line="857"/>
         <source>Quick Start Guide</source>
         <translation type="unfinished">Краткое руководство</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="109"/>
+        <location filename="../../qml/app.qml" line="111"/>
         <source>Successful connection to redis-server</source>
         <translation type="unfinished">Подключение к серверу Redis установлено</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="112"/>
+        <location filename="../../qml/app.qml" line="114"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation type="unfinished">Ошибка при подключении к серверу Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="280"/>
+        <location filename="../../qml/app.qml" line="282"/>
         <source>Add Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="294"/>
+        <location filename="../../qml/app.qml" line="296"/>
         <source>Regroup connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="316"/>
+        <location filename="../../qml/app.qml" line="318"/>
         <source>Exit Regroup Mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1708,6 +1739,26 @@
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
+        <source>Getting Started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/QuickStartDialog.qml" line="41"/>
+        <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/QuickStartDialog.qml" line="59"/>
+        <source>Connect to Redis-Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/QuickStartDialog.qml" line="72"/>
+        <source>Read the Docs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
