@@ -26,6 +26,8 @@ ApplicationWindow {
     minimumWidth: 1100
     minimumHeight: 700
 
+    property bool darkModeEnabled: sysPalette.base.hslLightness < 0.4
+
     property double wRatio : (width * 1.0) / (Screen.width * 1.0)
     property double hRatio : (height * 1.0) / (Screen.height * 1.0)
 
