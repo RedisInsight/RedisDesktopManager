@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 
-Button {
+BetterButton {
     id: root
 
     implicitWidth: 18
@@ -10,6 +10,7 @@ Button {
     property alias imgHeight: img.height
     property alias imgSource: img.source
     property alias iconSource: img.source
+    property bool showBorder: false
 
     property string tooltip
 
@@ -35,9 +36,9 @@ Button {
         implicitWidth: root.implicitWidth + 3
         implicitHeight: root.implicitHeight + 3
         opacity: root.enabled ? 1 : 0.3
-        color: root.hovered ? "#eee" : "transparent"
-        border.width: root.hovered ? 1 : 0
-        border.color: "#eee"
+        color: root.hovered ? sysPalette.highlight : "transparent"
+        border.width: root.hovered ? 1 : root.showBorder ? 1 : 0
+        border.color: root.hovered? sysPalette.highlight : sysPalette.mid
         radius: 5
    }
 

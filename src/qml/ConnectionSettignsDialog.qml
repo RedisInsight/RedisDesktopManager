@@ -126,7 +126,7 @@ Dialog {
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 5
+                anchors.margins: 10
 
                 TabBar {
                     id: connectionSettingsTabBar
@@ -141,7 +141,7 @@ Dialog {
                     TabButton {
                         id: connectionWizardTabBtn
                         objectName: "rdm_connection_settings_dialog_wizard_tab"
-                        text:  qsTranslate("RDM","Connection Wizard")
+                        text:  qsTranslate("RDM","How to connect")
                         visible: isNewConnection
                         width: visible ? undefined : 0
                     }
@@ -173,11 +173,11 @@ Dialog {
                         ColumnLayout {
                             anchors.fill: parent
                             anchors.margins: 5
-                            spacing: 10
+                            spacing: 20
 
                             RowLayout {
                                 SettingsGroupTitle {
-                                    text: qsTranslate("RDM","Import connection parameters from Redis connection string")
+                                    text: qsTranslate("RDM","Create connection from Redis URL")
                                 }
                             }
 
@@ -229,6 +229,12 @@ Dialog {
                                 }
                             }
 
+                            RichTextWithLinks {
+                                text: qsTranslate("RDM", "Learn more about Redis URL:  ")
+                                      + "<a href='https://www.iana.org/assignments/uri-schemes/prov/redis'>redis://</a>,&nbsp;"
+                                      + "<a href='https://www.iana.org/assignments/uri-schemes/prov/rediss'>rediss://</a>"
+                            }
+
                             RowLayout {
 
                                 SettingsGroupTitle {
@@ -236,18 +242,91 @@ Dialog {
                                 }
                             }
 
-                            RowLayout {
+                            GridLayout {
+                                id: tileGrid
+                                columns: 4
+
+                                Layout.fillWidth: true
+
+                                property int tileSize: 90
+                                property int tileIconSize: 64
+
+                                ImageButton {
+                                    property string url: "http://docs.rdm.dev/en/latest/quick-start/#connect-to-a-local-or-public-redis-server"
+
+                                    tooltip: url
+
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
+
+                                    text: qsTranslate("RDM", "Local or Public Redis")
+
+                                    showBorder: true
+
+                                    iconSource: ""
+                                    onClicked: Qt.openUrlExternally(url)
+                                }
+
+                                ImageButton {
+                                    property string url: "http://docs.rdm.dev/en/latest/quick-start/#connect-to-a-public-redis-server-with-ssl"
+
+                                    tooltip: url
+
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
+
+                                    text: qsTranslate("RDM", "Redis with SSL/TLS")
+
+                                    showBorder: true
+
+                                    iconSource: ""
+                                    onClicked: Qt.openUrlExternally(url)
+                                }
+
+                                ImageButton {
+                                    property string url: "http://docs.rdm.dev/en/latest/quick-start/#connect-to-private-redis-server-via-ssh-tunnel"
+
+                                    tooltip: url
+
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
+
+                                    text: qsTranslate("RDM", "SSH tunnel")
+
+                                    showBorder: true
+
+                                    iconSource: ""
+                                    onClicked: Qt.openUrlExternally(url)
+                                }
+
+                                ImageButton {
+                                    property string url: "http://docs.rdm.dev/en/latest/quick-start/#connect-to-a-unix-socket"
+
+                                    tooltip: url
+
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
+
+                                    text: qsTranslate("RDM", "UNIX socket")
+
+                                    showBorder: true
+
+                                    iconSource: ""
+                                    onClicked: Qt.openUrlExternally(url)
+                                }
 
                                 ImageButton {
                                     property string url: "http://docs.rdm.dev/en/latest/quick-start/#digital-ocean-managed-redis"
 
-                                    implicitWidth: 90
-                                    implicitHeight: 90
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
 
-                                    imgWidth: 64
-                                    imgHeight: 64
+                                    imgWidth: tileGrid.tileIconSize
+                                    imgHeight: tileGrid.tileIconSize
 
                                     iconSource: "qrc:/images/digitalocean_logo.svg"
+
+                                    showBorder: true
 
                                     tooltip: url
 
@@ -257,13 +336,15 @@ Dialog {
                                 ImageButton {
                                     property string url: "http://docs.rdm.dev/en/latest/quick-start/#microsoft-azure-redis-cache"
 
-                                    implicitWidth: 90
-                                    implicitHeight: 90
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
 
-                                    imgWidth: 64
-                                    imgHeight: 64
+                                    imgWidth: tileGrid.tileIconSize
+                                    imgHeight: tileGrid.tileIconSize
 
                                     iconSource: "qrc:/images/azure_logo.svg"
+
+                                    showBorder: true
 
                                     tooltip: url
 
@@ -273,13 +354,15 @@ Dialog {
                                 ImageButton {
                                     property string url: "http://docs.rdm.dev/en/latest/quick-start/#aws-elasticache"
 
-                                    implicitWidth: 90
-                                    implicitHeight: 90
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
 
-                                    imgWidth: 64
-                                    imgHeight: 64
+                                    imgWidth: tileGrid.tileIconSize
+                                    imgHeight: tileGrid.tileIconSize
 
-                                    iconSource: "qrc:/images/aws_logo.svg"
+                                    iconSource: approot.darkModeEnabled? "qrc:/images/aws_logo_white.svg" : "qrc:/images/aws_logo.svg"
+
+                                    showBorder: true
 
                                     tooltip: url
 
@@ -289,23 +372,28 @@ Dialog {
                                 ImageButton {
                                     property string url: "http://docs.rdm.dev/en/latest/quick-start/#heroku-redis"
 
-                                    implicitWidth: 90
-                                    implicitHeight: 90
+                                    Layout.fillWidth: true
+                                    implicitHeight: tileGrid.tileSize
 
-                                    imgWidth: 64
-                                    imgHeight: 64
+                                    imgWidth: tileGrid.tileIconSize
+                                    imgHeight: tileGrid.tileIconSize
 
                                     iconSource: "qrc:/images/heroku_logo.svg"
+
+                                    showBorder: true
 
                                     tooltip: url
 
                                     onClicked: Qt.openUrlExternally(url)
-                                }
+                                }                               
                             }
 
                             ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.topMargin: 10
 
-                                BetterLabel {
+                                SettingsGroupTitle {
                                     text: qsTranslate("RDM",'Cannot figure out how to connect to your redis-server?')
                                 }
 
@@ -318,9 +406,27 @@ Dialog {
                                 }
                             }
 
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.topMargin: 10
+
+                                SettingsGroupTitle {
+                                    text: qsTranslate("RDM","Don't have running Redis?")
+                                }
+
+                                RichTextWithLinks {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.WrapAnywhere
+                                    html: '<a href="https://do.co/3humIhx">' + qsTranslate("RDM",'Spin up hassle-free Redis on Digital Ocean') + '</a>'
+                                }
+                            }
+
                             RowLayout {
 
                                 Item { Layout.fillWidth: true }
+
+                                Item { Layout.fillHeight: true }
 
                                 BetterButton {
                                     id: skipToNextTabBtn
@@ -338,8 +444,6 @@ Dialog {
                                     }
                                 }
                             }
-
-                            Item { Layout.fillHeight: true }
                         }
                     }
 
