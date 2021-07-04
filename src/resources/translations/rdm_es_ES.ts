@@ -489,7 +489,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="144"/>
         <source>Connection Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistente de Conexión</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="151"/>
@@ -499,22 +499,22 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="235"/>
         <source>Connection guides</source>
-        <translation type="unfinished"></translation>
+        <translation>Guías de conexión</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="309"/>
         <source>Cannot figure out how to connect to your redis-server?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿No sabe cómo conectar a su servidor redis?</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="315"/>
         <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Leer la documentación&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contactar Soporte&lt;/a&gt; o pedir ayuda en nuestro &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Grupo de Telegram&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="327"/>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Omitir</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="364"/>
@@ -671,7 +671,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="180"/>
         <source>Import connection parameters from Redis connection string</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar parámetros de conexión desde la cadena de conexión Redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="435"/>
@@ -814,7 +814,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="110"/>
         <location filename="../../qml/GlobalSettings.qml" line="124"/>
         <source>Dark Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo Oscuro</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="150"/>
