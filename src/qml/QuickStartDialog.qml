@@ -8,7 +8,7 @@ import "./common/platformutils.js" as PlatformUtils
 BetterDialog {
     id: root
     objectName: "rdm_quick_start_dialog"
-    title: qsTranslate("RDM","Explore RDM")
+    title: qsTranslate("RDM","Getting Started")
 
     footer: null
 
@@ -22,10 +22,12 @@ BetterDialog {
         Control {
             palette: approot.palette
             anchors.fill: parent
-            anchors.margins: 15
+            anchors.margins: 30
 
             ColumnLayout {
                 anchors.fill: parent
+
+                Item { Layout.fillHeight: true }
 
                 RowLayout {
                     id: msgLayout
@@ -33,17 +35,11 @@ BetterDialog {
                     Layout.fillHeight: true
                     Layout.alignment: Qt.AlignHCenter
 
-                    Image {
-                        source: "qrc:/images/help.svg"
-                        sourceSize.width: 50
-                        sourceSize.height: 50
-                    }
-
-                    RichTextWithLinks {
+                    BetterLabel {
                         Layout.fillWidth: true
                         wrapMode: Text.WrapAnywhere
-                        html: "<p style='font-size: 13pt;'>" + qsTranslate("RDM","Before using RDM take a look on the %1").arg(
-                                  "<a href='http://docs.rdm.dev/en/latest/quick-start/'>" + qsTranslate("RDM","Quick Start Guide")+ "</a>") + "</p>"
+                        text: qsTranslate("RDM","Thank you for choosing RDM. Let's make your Redis experience better.")
+                        font.pixelSize: 16
 
                         Component.onCompleted: {
                             if (!PlatformUtils.isOSX()) {
@@ -53,16 +49,36 @@ BetterDialog {
                     }
                 }
 
-                RowLayout {
-                    Layout.fillWidth: true
+                Item { Layout.fillHeight: true }
 
-                    Item { Layout.fillWidth: true; }
+                RowLayout {
+
+                    Item { Layout.fillWidth: true }
+
                     BetterButton {
-                        objectName: "rdm_quick_start_dialog_ok_btn"
-                        text: qsTranslate("RDM","OK")
-                        onClicked: root.close()
+                        text: qsTranslate("RDM","Connect to Redis-Server")
+                        palette.button: "#c6302b"
+                        palette.buttonText: "#ffffff"
+                        onClicked: {
+                            root.close()
+                            connectionSettingsDialog.settings = connectionsManager.createEmptyConfig()
+                            connectionSettingsDialog.open()
+                        }
                     }
+
+                    BetterButton {
+                        property string url: "http://docs.rdm.dev/en/latest/quick-start/"
+
+                        text: qsTranslate("RDM","Read the Docs")
+                        tooltip: url
+
+                        onClicked: Qt.openUrlExternally(url)
+                    }
+
+                    Item { Layout.fillWidth: true }
                 }
+
+                Item { Layout.fillHeight: true }
             }
         }
     }
