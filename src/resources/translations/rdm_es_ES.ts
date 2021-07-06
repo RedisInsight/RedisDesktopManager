@@ -489,7 +489,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="144"/>
         <source>How to connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Cómo conectar</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="151"/>
@@ -499,62 +499,62 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="180"/>
         <source>Create connection from Redis URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear conexión desde Redis URL</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="233"/>
         <source>Learn more about Redis URL:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Aprender más acerca de Redis URL:  </translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="241"/>
         <source>Connection guides</source>
-        <translation type="unfinished"></translation>
+        <translation>Guías de conexión</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="262"/>
         <source>Local or Public Redis</source>
-        <translation type="unfinished"></translation>
+        <translation>Redis Público o Local</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="278"/>
         <source>Redis with SSL/TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>Redis con SSL/TLS</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="294"/>
         <source>SSH tunnel</source>
-        <translation type="unfinished"></translation>
+        <translation>Túnel SSH</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="310"/>
         <source>UNIX socket</source>
-        <translation type="unfinished"></translation>
+        <translation>Socket UNIX</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="397"/>
         <source>Cannot figure out how to connect to your redis-server?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿No sabe cómo conectar a su servidor redis?</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="403"/>
         <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Leer la documentación&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contactar Soporte&lt;/a&gt; o pedir ayuda en nuestro &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Grupo de Telegram&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="415"/>
         <source>Don&apos;t have running Redis?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿No tiene Redis en ejecución?</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="421"/>
         <source>Spin up hassle-free Redis on Digital Ocean</source>
-        <translation type="unfinished"></translation>
+        <translation>Lanza Redis sin complicaciones en Digital Ocean</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="433"/>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>Omitir</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="468"/>
@@ -833,7 +833,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="110"/>
         <location filename="../../qml/GlobalSettings.qml" line="124"/>
         <source>Dark Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo Oscuro</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="202"/>
@@ -1888,22 +1888,22 @@
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Getting Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Empezar</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="41"/>
         <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gracias por elegir RDM</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="59"/>
         <source>Connect to Redis-Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectar a Servidor Redis</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="72"/>
         <source>Read the Docs</source>
-        <translation type="unfinished"></translation>
+        <translation>Leer la Documentación</translation>
     </message>
 </context>
 </TS>
