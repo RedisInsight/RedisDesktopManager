@@ -9,14 +9,14 @@ StreamKeyModel::StreamKeyModel(
 QString StreamKeyModel::type() { return "stream"; }
 
 QStringList StreamKeyModel::getColumnNames() {
-  return QStringList() << "row"
+  return QStringList() << "rowNumber"
                        << "id"
                        << "value";
 }
 
 QHash<int, QByteArray> StreamKeyModel::getRoles() {
   QHash<int, QByteArray> roles;
-  roles[Roles::RowNumber] = "row";
+  roles[Roles::RowNumber] = "rowNumber";
   roles[Roles::ID] = "id";
   roles[Roles::Value] = "value";
   return roles;

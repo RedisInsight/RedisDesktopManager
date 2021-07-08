@@ -50,8 +50,7 @@ public:
     void classBegin();
     void componentComplete();
 
-    Q_INVOKABLE int getOriginalRowIndex(int i);
-    Q_INVOKABLE int getProxyRowIndex(int i);
+    Q_INVOKABLE int getOriginalRowIndex(int i);    
 
 signals:
     void filterStringChanged();

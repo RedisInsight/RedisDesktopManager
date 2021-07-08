@@ -9,14 +9,14 @@ HashKeyModel::HashKeyModel(QSharedPointer<RedisClient::Connection> connection,
 QString HashKeyModel::type() { return "hash"; }
 
 QStringList HashKeyModel::getColumnNames() {
-  return QStringList() << "row"
+  return QStringList() << "rowNumber"
                        << "key"
                        << "value";
 }
 
 QHash<int, QByteArray> HashKeyModel::getRoles() {
   QHash<int, QByteArray> roles;
-  roles[Roles::RowNumber] = "row";
+  roles[Roles::RowNumber] = "rowNumber";
   roles[Roles::Key] = "key";
   roles[Roles::Value] = "value";
   return roles;

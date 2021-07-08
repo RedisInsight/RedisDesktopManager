@@ -349,6 +349,8 @@ Repeater {
 
                         Loader {
                             id: valueEditor
+                            objectName: "rdm_value_editor_loader"
+
                             Layout.topMargin: 5
                             Layout.fillWidth: true
                             Layout.fillHeight: true

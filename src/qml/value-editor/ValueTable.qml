@@ -50,7 +50,13 @@ Item {
 
                         BetterLabel {
                             anchors.centerIn: parent
-                            text: modelData
+                            text: {
+                                if (modelData === "rowNumber") {
+                                    return "#";
+                                } else {
+                                    return modelData
+                                }
+                            }
                             color: sysPalette.windowText
                         }
 
@@ -183,6 +189,7 @@ Item {
                         reuseItems: false
                         model: searchModel ? searchModel : null
 
+                        // Proxy model row index from 0 to maxItemsOnPage
                         property int currentRow: -1
                         property var searchField
                         property var currentStart: 0
@@ -266,14 +273,18 @@ Item {
                             DelegateChoice {
                                 column: 0
 
+
+                                // NOTE: rowNumber - key model zero based index from 0 to rowsCount
+                                // NOTE: row - from 0 to pageSize
+
                                 ValueTableCell {
                                     objectName: "rdm_value_table_cell_col1"
                                     implicitWidth: table.firstColumnWidth
                                     implicitHeight: 30
-                                    text: Number(row) + 1
-                                    selected: table.model.getOriginalRowIndex(table.currentRow) === row
+                                    text: Number(rowNumber) + 1
+                                    selected: table.currentRow === row
                                     onClicked: {
-                                        table.currentRow = table.model.getProxyRowIndex(row)
+                                        table.currentRow = row
                                         table.forceActiveFocus()
                                     }
                                 }
@@ -287,12 +298,9 @@ Item {
                                     implicitWidth: table.valueColumnWidth
                                     implicitHeight: 30
                                     text: renderText(display)
-                                    selected: table.model.getOriginalRowIndex(table.currentRow) === row
+                                    selected: table.currentRow === row
                                     onClicked: {
-                                        table.currentRow = table.model.getProxyRowIndex(row)
-
-                                        console.log(table.model.getProxyRowIndex(row), row)
-
+                                         table.currentRow = row
                                         table.forceActiveFocus()
                                     }
                                 }
@@ -306,9 +314,9 @@ Item {
                                     implicitWidth: table.valueColumnWidth
                                     implicitHeight: 30
 
-                                    selected: table.model.getOriginalRowIndex(table.currentRow) === row
+                                    selected: table.currentRow === row
                                     onClicked: {
-                                        table.currentRow = table.model.getProxyRowIndex(row)
+                                        table.currentRow = row
                                         table.forceActiveFocus()
                                     }
 
@@ -430,7 +438,7 @@ Item {
                         onCurrentRowChanged: {
                             console.log("Current row in table changed: ", currentRow)
                             if (currentRow >= 0) {
-                                valueEditor.loadRowValue(table.model.getOriginalRowIndex(currentRow))
+                                valueEditor.loadRowValue(currentStart + table.model.getOriginalRowIndex(currentRow))
                             }
                         }
                     }

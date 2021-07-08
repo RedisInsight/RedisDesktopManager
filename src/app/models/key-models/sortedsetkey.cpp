@@ -10,14 +10,14 @@ SortedSetKeyModel::SortedSetKeyModel(
 QString SortedSetKeyModel::type() { return "zset"; }
 
 QStringList SortedSetKeyModel::getColumnNames() {
-  return QStringList() << "row"
+  return QStringList() << "rowNumber"
                        << "value"
                        << "score";
 }
 
 QHash<int, QByteArray> SortedSetKeyModel::getRoles() {
   QHash<int, QByteArray> roles;
-  roles[Roles::RowNumber] = "row";
+  roles[Roles::RowNumber] = "rowNumber";
   roles[Roles::Value] = "value";
   roles[Roles::Score] = "score";
   return roles;

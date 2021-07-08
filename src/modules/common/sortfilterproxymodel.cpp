@@ -96,15 +96,6 @@ int SortFilterProxyModel::getOriginalRowIndex(int i)
     return mapToSource(proxyIndex).row();
 }
 
-int SortFilterProxyModel::getProxyRowIndex(int i)
-{
-    if (!sourceModel())
-      return -1;
-
-    QModelIndex originalIndex = sourceModel()->index(i, 0);
-    return mapFromSource(originalIndex).row();
-}
-
 int SortFilterProxyModel::roleKey(const QByteArray &role) const
 {
     QHash<int, QByteArray> roles = roleNames();

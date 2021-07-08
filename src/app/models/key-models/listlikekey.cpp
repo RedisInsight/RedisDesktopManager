@@ -6,14 +6,14 @@ ListLikeKeyModel::ListLikeKeyModel(
     : KeyModel(connection, fullPath, dbIndex, ttl, rowsCountCmd, rowsLoadCmd) {}
 
 QStringList ListLikeKeyModel::getColumnNames() {
-  return QStringList() << "row"
+  return QStringList() << "rowNumber"
                        << "value";
 }
 
 QHash<int, QByteArray> ListLikeKeyModel::getRoles() {
   QHash<int, QByteArray> roles;
   roles[Roles::Value] = "value";
-  roles[Roles::RowNumber] = "row";
+  roles[Roles::RowNumber] = "rowNumber";
   return roles;
 }
 
