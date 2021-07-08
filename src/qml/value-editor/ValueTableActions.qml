@@ -113,7 +113,7 @@ ColumnLayout {
 
             console.log("removing row", table.currentRow)
 
-            deleteRowConfirmation.rowToDelete = table.currentRow
+            deleteRowConfirmation.rowToDelete = table.model.getOriginalRowIndex(table.currentRow)
             deleteRowConfirmation.open()
         }
 
