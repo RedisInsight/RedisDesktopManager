@@ -7,7 +7,7 @@
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="351"/>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="388"/>
         <source>Cannot connect to cluster node %1:%2</source>
-        <translation>無法連接到叢集節點 %1:%2</translation>
+        <translation>無法連線到叢集節點 %1:%2</translation>
     </message>
     <message>
         <location filename="../../../3rdparty/qredisclient/src/qredisclient/connection.cpp" line="399"/>
@@ -481,7 +481,7 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="144"/>
         <source>How to connect</source>
-        <translation type="unfinished"></translation>
+        <translation>如何連線</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="151"/>
@@ -491,62 +491,62 @@
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="180"/>
         <source>Create connection from Redis URL</source>
-        <translation type="unfinished"></translation>
+        <translation>以 Redis URL 建立連線</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="233"/>
         <source>Learn more about Redis URL:  </source>
-        <translation type="unfinished"></translation>
+        <translation>了解更多關於 Redis URL: </translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="241"/>
         <source>Connection guides</source>
-        <translation type="unfinished"></translation>
+        <translation>連線嚮導</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="262"/>
         <source>Local or Public Redis</source>
-        <translation type="unfinished"></translation>
+        <translation>本機或公開的 Redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="278"/>
         <source>Redis with SSL/TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 SSL/TLS 的 Redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="294"/>
         <source>SSH tunnel</source>
-        <translation type="unfinished"></translation>
+        <translation>SSH 隧道</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="310"/>
         <source>UNIX socket</source>
-        <translation type="unfinished"></translation>
+        <translation>UNIX socket</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="397"/>
         <source>Cannot figure out how to connect to your redis-server?</source>
-        <translation type="unfinished"></translation>
+        <translation>不知道如何連線到您的 Redis 伺服器嗎？</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="403"/>
         <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;閱讀文件&lt;/a&gt;，&lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;聯絡客服&lt;/a&gt;或是在 &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram 群組&lt;/a&gt; 內請求協助。</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="415"/>
         <source>Don&apos;t have running Redis?</source>
-        <translation type="unfinished"></translation>
+        <translation>Redis 沒有在執行中嗎？</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="421"/>
         <source>Spin up hassle-free Redis on Digital Ocean</source>
-        <translation type="unfinished"></translation>
+        <translation>快速使用 Digital Ocean 上的 Redis</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="433"/>
         <source>Skip</source>
-        <translation type="unfinished"></translation>
+        <translation>略過</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="468"/>
@@ -825,7 +825,7 @@
         <location filename="../../qml/GlobalSettings.qml" line="110"/>
         <location filename="../../qml/GlobalSettings.qml" line="124"/>
         <source>Dark Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>深色模式</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="202"/>
@@ -1393,7 +1393,7 @@
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="337"/>
         <source>Connected Clients</source>
-        <translation>已連接的客戶端</translation>
+        <translation>已連線的客戶端</translation>
     </message>
     <message>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="375"/>
@@ -1806,7 +1806,7 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
         <source>Cannot connect to redis-server</source>
-        <translation>無法連接到 Redis 伺服器</translation>
+        <translation>無法連線到 Redis 伺服器</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server_group.qml" line="12"/>
@@ -1872,22 +1872,22 @@
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Getting Started</source>
-        <translation type="unfinished"></translation>
+        <translation>入門指南</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="41"/>
         <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
-        <translation type="unfinished"></translation>
+        <translation>感謝您選用 RDM 。我們一起讓 Redis 有更好的使用體驗吧！</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="59"/>
         <source>Connect to Redis-Server</source>
-        <translation type="unfinished"></translation>
+        <translation>連線到 Redis 伺服器</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="72"/>
         <source>Read the Docs</source>
-        <translation type="unfinished"></translation>
+        <translation>閱讀文件</translation>
     </message>
 </context>
 </TS>
