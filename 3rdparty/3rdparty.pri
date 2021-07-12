@@ -33,6 +33,13 @@ include($$PWD/pyotherside.pri)
 LZ4DIR = $$PWD/lz4/
 INCLUDEPATH += $$LZ4DIR/lib
 
+#SIMDJSON
+SIMDJSONDIR = $$PWD/simdjson/singleheader
+INCLUDEPATH += $$SIMDJSONDIR/
+HEADERS += $$SIMDJSONDIR/simdjson.h
+SOURCES += $$SIMDJSONDIR/simdjson.cpp
+
+
 win32* {
     ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native    
     INCLUDEPATH += $$ZLIBDIR/include

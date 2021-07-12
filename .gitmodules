@@ -16,3 +16,6 @@
 [submodule "3rdparty/lz4"]
 	path = 3rdparty/lz4
 	url = https://github.com/lz4/lz4.git
+[submodule "3rdparty/simdjson"]
+	path = 3rdparty/simdjson
+	url = https://github.com/simdjson/simdjson.git
