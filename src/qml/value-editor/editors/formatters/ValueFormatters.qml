@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQml.Models 2.13
 import "./hexy.js" as Hexy
-import "./json-tools.js" as JSONFormatter
 import "../../../common/platformutils.js" as PlatformUtils
 
 ListModel {
