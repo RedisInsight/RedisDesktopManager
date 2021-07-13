@@ -36,8 +36,7 @@
         <file>GlobalSettings.qml</file>
         <file>settings/BoolOption.qml</file>
         <file>settings/IntOption.qml</file>
-        <file>bulk-operations/BulkOperationsDialog.qml</file>
-        <file>value-editor/editors/formatters/json-tools.js</file>
+        <file>bulk-operations/BulkOperationsDialog.qml</file>        
         <file>settings/ComboboxOption.qml</file>
         <file>server-info/ServerInfoTabs.qml</file>
         <file>common/platformutils.js</file>

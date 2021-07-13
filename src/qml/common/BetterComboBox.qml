@@ -15,7 +15,12 @@ ComboBox {
     palette.dark: sysPalette.dark
     palette.window: sysPalette.window
 
-    function selectItem(txt) {
+    function selectItem(txt) {        
+        _select(txt)
+        activated(index)
+    }
+
+    function _select(txt) {
         var index = find(txt)
 
         console.log("Index:", index)
@@ -23,7 +28,5 @@ ComboBox {
         if (index !== -1) {
             currentIndex = index;
         }
-
-        activated(index)
     }
 }

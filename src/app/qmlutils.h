@@ -9,10 +9,13 @@
 class QmlUtils : public QObject
 {
     Q_OBJECT
-public:    
+public:
     Q_INVOKABLE bool isBinaryString(const QVariant &value);
     Q_INVOKABLE long binaryStringLength(const QVariant &value);    
     Q_INVOKABLE QVariant b64toByteArray(const QVariant &value);
+    Q_INVOKABLE QByteArray minifyJSON(const QVariant &value);
+    Q_INVOKABLE QByteArray prettyPrintJSON(const QVariant &value);
+    Q_INVOKABLE bool isJSON(const QVariant &value);
 
     Q_INVOKABLE unsigned isCompressed(const QVariant &value);
     Q_INVOKABLE QVariant decompress(const QVariant &value);
