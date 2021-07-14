@@ -40,6 +40,11 @@ BetterDialog {
                 model: Editor.getSupportedKeyTypes()
                 Layout.fillWidth: true
                 objectName: "rdm_add_key_type_field"
+
+                onCurrentIndexChanged: {
+                    if (valueAddEditor.item.keyType !== undefined)
+                        valueAddEditor.item.keyType = typeSelector.model[typeSelector.currentIndex]
+                }
             }
 
             Loader {
@@ -95,16 +100,14 @@ BetterDialog {
                         if (!valueAddEditor.item)
                             return
 
-                        if (valueFilePath.path) {
-                            submitNewKeyRequest();
-                        } else {
-                            valueAddEditor.item.validateValue(function (result) {
-                                if (!result)
-                                    return;
+                        valueAddEditor.item.validateVal = (valueFilePath.path === "")
 
-                                submitNewKeyRequest();
-                            })
-                        }
+                        valueAddEditor.item.validateValue(function (result) {
+                            if (!result)
+                                return;
+
+                            submitNewKeyRequest();
+                        })
                     }
 
                     Connections {

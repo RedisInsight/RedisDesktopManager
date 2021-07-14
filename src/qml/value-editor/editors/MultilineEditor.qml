@@ -24,6 +24,7 @@ Item
     property var value    
     property int valueCompression: 0
     property alias readOnly: textView.readOnly
+    property string formatterSettingsPrefix: ""
 
     function initEmpty() {
         // init editor with empty model
@@ -45,7 +46,7 @@ Item
                 return callback(false);
             }
 
-            var valid = validationRule(raw)
+            var valid = validationRule(raw)            
 
             if (valid) {
                 hideValidationError()
@@ -98,7 +99,7 @@ Item
         if (val) {
             root.value = val
 
-            var formatterOverride = defaultFormatterSettings.value(keyName, "");
+            var formatterOverride = defaultFormatterSettings.value(root.formatterSettingsPrefix + keyName, "");
 
             if (formatterOverride) {
                 formatterSelector._select(formatterOverride)
@@ -286,7 +287,7 @@ Item
                 onActivated: {
                     currentIndex = index
                     console.log("Set default formatter '" + currentText + "' for key " + keyName)
-                    defaultFormatterSettings.setValue(keyName, currentText)
+                    defaultFormatterSettings.setValue(root.formatterSettingsPrefix + keyName, currentText)
                     loadFormattedValue()
                 }
             }
