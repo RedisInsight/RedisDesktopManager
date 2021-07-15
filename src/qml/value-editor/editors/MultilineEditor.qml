@@ -185,9 +185,7 @@ Item
 
         uiBlocker.visible = true
 
-        formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
-            textView.format = format
-
+        function processFormattingResult(error, formatted, isReadOnly, format) {
             textView.textFormat = (format === "html")
                 ? TextEdit.RichText
                 : TextEdit.PlainText;
@@ -198,8 +196,8 @@ Item
                 if (formatted) {
                     textView.model = qmlUtils.wrapLargeText(formatted)
                 } else {
-                    var isBin = false
-                    formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
+                    formatterSelector.currentIndex = valueFormattersModel.guessFormatter(root.value, isBin)
+                    return _loadFormatter(isBin)
                 }
                 textView.readOnly = isReadOnly
                 textView.format = "text"
@@ -223,6 +221,22 @@ Item
             textView.format = format
             root.isEdited = false
             uiBlocker.visible = false
+        }
+
+        formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
+            textView.format = format
+
+            if (format === "json" && formatter["name"] !== "JSON" && !error) {
+                formatterSelector.model.getJSONFormatter().getFormatted(formatted, function (jsonError, plainText) {
+                    if (jsonError) {
+                        processFormattingResult(jsonError, formatted, isReadOnly, format)
+                    } else {
+                        processFormattingResult(jsonError, plainText, isReadOnly, format)
+                    }
+                })
+            } else {
+                processFormattingResult(error, formatted, isReadOnly, format)
+            }
         })
     }
 
