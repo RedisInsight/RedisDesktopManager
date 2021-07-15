@@ -16,8 +16,11 @@ ComboBox {
     palette.window: sysPalette.window
 
     function selectItem(txt) {        
-        _select(txt)
-        activated(index)
+        var res = _select(txt);
+
+        if (res >= 0) {
+            activated(res)
+        }
     }
 
     function _select(txt) {
@@ -28,5 +31,7 @@ ComboBox {
         if (index !== -1) {
             currentIndex = index;
         }
+
+        return index
     }
 }
