@@ -27,7 +27,7 @@ bool QmlUtils::isBinaryString(const QVariant &value) {
   }
   QByteArray val = value.toByteArray();   
 
-  return !simdjson::validate_utf8(val.data(), val.size());;
+  return isBinary(val);
 }
 
 long QmlUtils::binaryStringLength(const QVariant &value) {
