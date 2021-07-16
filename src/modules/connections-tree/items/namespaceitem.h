@@ -15,7 +15,7 @@ class NamespaceItem : public AbstractNamespaceItem {
   NamespaceItem(const QByteArray& fullPath,
                 QSharedPointer<Operations> operations,
                 QWeakPointer<TreeItem> parent, Model& model, uint dbIndex,
-                QRegExp filter);
+                QRegExp filter, QString lastNsSeparator);
 
   QString getDisplayName() const override;
 
@@ -38,6 +38,7 @@ class NamespaceItem : public AbstractNamespaceItem {
 
  private:
   QByteArray m_fullPath;
+  QString m_lastNsSeparator;
   bool m_removed;
 };
 }  // namespace ConnectionsTree

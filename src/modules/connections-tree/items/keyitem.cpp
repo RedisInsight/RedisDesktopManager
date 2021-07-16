@@ -39,9 +39,17 @@ QString KeyItem::getDisplayName() const {
       m_shortRendering) {
     auto parent = parentTreeItemToNs(m_parent);
 
-    title = printableString(getFullPath().mid(
-        parent->getFullPath().size() +
-        parent->operations()->getNamespaceSeparator().size()));
+    auto nsRx = parent->operations()->getNamespaceSeparator();
+    int searchFrom = parent->getFullPath().size() > 0 ? parent->getFullPath().size() - 1 : 0;
+    int nsRxPos = QString::fromUtf8(getFullPath()).indexOf(nsRx, searchFrom);
+
+    int nsSize = 0;
+
+    if (nsRxPos >= 0) {
+        nsSize = nsRx.matchedLength();
+    }
+
+    title = printableString(getFullPath().mid(parent->getFullPath().size() + nsSize));
   } else {
     title = printableString(getFullPath(), true);
   }

@@ -39,6 +39,16 @@ void ServerConfig::setNamespaceSeparator(QString ns)
     return setParam<QString>("namespace_separator", ns);
 }
 
+bool ServerConfig::namespaceSeparatorIsRegex() const
+{
+    return param<bool>("namespace_separator_is_regex", false);
+}
+
+void ServerConfig::setNamespaceSeparatorIsRegex(bool v)
+{
+    return setParam<bool>("namespace_separator_is_regex", v);
+}
+
 uint ServerConfig::databaseScanLimit() const
 {
     return param<uint>("db_scan_limit", DEFAULT_DB_SCAN_LIMIT);

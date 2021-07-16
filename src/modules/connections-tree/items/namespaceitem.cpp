@@ -15,9 +15,10 @@ using namespace ConnectionsTree;
 NamespaceItem::NamespaceItem(const QByteArray &fullPath,
                              QSharedPointer<Operations> operations,
                              QWeakPointer<TreeItem> parent, Model &model,
-                             uint dbIndex, QRegExp filter)
+                             uint dbIndex, QRegExp filter, QString lastNsSeparator)
     : AbstractNamespaceItem(model, parent, operations, dbIndex, filter),
       m_fullPath(fullPath),
+      m_lastNsSeparator(lastNsSeparator),
       m_removed(false) {}
 
 QString NamespaceItem::getDisplayName() const {
@@ -33,10 +34,11 @@ QString NamespaceItem::getDisplayName() const {
 }
 
 QByteArray NamespaceItem::getName() const {
-  qsizetype pos = m_fullPath.lastIndexOf(m_operations->getNamespaceSeparator());
+  auto rx = m_operations->getNamespaceSeparator();
+  qsizetype pos = QString::fromUtf8(m_fullPath).lastIndexOf(rx);
 
   if (pos >= 0) {
-      return m_fullPath.mid(pos + m_operations->getNamespaceSeparator().size());
+      return m_fullPath.mid(pos + rx.matchedLength());
   } else {
       return m_fullPath;
   }
@@ -71,18 +73,18 @@ void NamespaceItem::load() {
     return renderRawKeys(rawKeys, m_filter, onKeysRendered, true, false);
   }
 
-  QString nsFilter = QString("%1%2*")
-                         .arg(QString::fromUtf8(m_fullPath))
-                         .arg(m_operations->getNamespaceSeparator());
+  QString nsFilter =  QString("%1%2*")
+      .arg(QString::fromUtf8(m_fullPath))
+      .arg(m_lastNsSeparator);
 
   if (!m_filter.isEmpty()) {
     if (m_filter.pattern().startsWith(nsFilter.chopped(1))) {
       nsFilter = m_filter.pattern();
     } else {
       nsFilter = QString("%1%2%3")
-                     .arg(QString::fromUtf8(m_fullPath))
-                     .arg(m_operations->getNamespaceSeparator())
-                     .arg(m_filter.pattern());
+          .arg(QString::fromUtf8(m_fullPath))
+          .arg(m_lastNsSeparator)
+          .arg(m_filter.pattern());
     }
   }
 
@@ -134,7 +136,7 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
         },
         QString("%1%2")
             .arg(QString::fromUtf8(getFullPath()))
-            .arg(m_operations->getNamespaceSeparator()));
+            .arg(m_lastNsSeparator));
   });
 
   events.insert("reload", [this]() { reload(); });
