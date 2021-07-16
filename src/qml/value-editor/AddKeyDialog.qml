@@ -40,6 +40,11 @@ BetterDialog {
                 model: Editor.getSupportedKeyTypes()
                 Layout.fillWidth: true
                 objectName: "rdm_add_key_type_field"
+
+                onCurrentIndexChanged: {
+                    if (valueAddEditor.item.keyType !== undefined)
+                        valueAddEditor.item.keyType = typeSelector.model[typeSelector.currentIndex]
+                }
             }
 
             Loader {
@@ -60,6 +65,18 @@ BetterDialog {
                 }
             }
 
+            BetterLabel { text: qsTranslate("RDM", "Or Import Value from the file") + ":" }
+
+            FilePathInput {
+                id: valueFilePath
+                objectName: "rdm_add_key_value_file"
+                Layout.fillWidth: true
+                placeholderText: qsTranslate("RDM","(Optional) Any file")
+                nameFilters: [ "Any file (*)" ]
+                title: qsTranslate("RDM","Select file with value")
+                path: ""
+            }
+
             RowLayout {
                 Layout.fillWidth: true
                 Layout.minimumHeight: 40
@@ -70,18 +87,26 @@ BetterDialog {
                     objectName: "rdm_add_key_save_btn"
                     text: qsTranslate("RDM","Save")
 
+                    function submitNewKeyRequest() {
+                        root.request.keyName = newKeyName.text
+                        root.request.keyType = typeSelector.model[typeSelector.currentIndex]
+                        root.request.value = valueAddEditor.item.getValue()
+                        root.request.valueFilePath = valueFilePath.path
+                        keyFactory.submitNewKeyRequest(root.request)
+                    }
+
+
                     onClicked: {
                         if (!valueAddEditor.item)
                             return
+
+                        valueAddEditor.item.validateVal = (valueFilePath.path === "")
 
                         valueAddEditor.item.validateValue(function (result) {
                             if (!result)
                                 return;
 
-                            root.request.keyName = newKeyName.text
-                            root.request.keyType = typeSelector.model[typeSelector.currentIndex]
-                            root.request.value = valueAddEditor.item.getValue()
-                            keyFactory.submitNewKeyRequest(root.request)
+                            submitNewKeyRequest();
                         })
                     }
 
@@ -92,6 +117,7 @@ BetterDialog {
                             root.request = null
                             valueAddEditor.item.reset()
                             valueAddEditor.item.initEmpty()
+                            valueFilePath.path = ""
                             root.close()
                         }
 

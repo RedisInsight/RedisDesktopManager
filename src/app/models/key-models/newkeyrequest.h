@@ -11,6 +11,7 @@ class NewKeyRequest {
   Q_PROPERTY(QString keyName READ keyName WRITE setKeyName)
   Q_PROPERTY(QString keyType READ keyType WRITE setKeyType)
   Q_PROPERTY(QVariantMap value READ value WRITE setValue)
+  Q_PROPERTY(QString valueFilePath READ valueFilePath WRITE setValueFilePath)
 
  public:
   NewKeyRequest(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
@@ -18,7 +19,8 @@ class NewKeyRequest {
       : m_connection(connection),
         m_dbIndex(dbIndex),
         m_callback(callback),
-        m_keyName(keyPrefix) {}
+        m_keyName(keyPrefix),
+        m_valueFilePath(QString()){}
 
   NewKeyRequest() {}
 
@@ -42,6 +44,10 @@ class NewKeyRequest {
 
   void setValue(const QVariantMap& v) { m_value = v; }
 
+  QString valueFilePath() const { return m_valueFilePath; }
+
+  void setValueFilePath(const QString& path) { m_valueFilePath = path; }
+
   QSharedPointer<RedisClient::Connection> connection() { return m_connection; }
 
   void callback() const {
@@ -55,6 +61,7 @@ class NewKeyRequest {
   QString m_keyName;
   QString m_keyType;
   QVariantMap m_value;
+  QString m_valueFilePath;
 };
 
 Q_DECLARE_METATYPE(NewKeyRequest)

@@ -1,15 +1,25 @@
 import QtQuick 2.0
 import QtQml.Models 2.13
 import "./hexy.js" as Hexy
-import "./json-tools.js" as JSONFormatter
 import "../../../common/platformutils.js" as PlatformUtils
 
 ListModel {
     id: rootModel
 
-    function guessFormatter(isBinary)
-    {
-        return getDefaultFormatter(isBinary)
+    property int _jsonFormatterIndex: 3
+
+    function guessFormatter(val, isBinary)
+    {       
+        if (isBinary) {
+            return 1
+        } else {
+            if (qmlUtils.isJSON(val)) {
+                return _jsonFormatterIndex
+            } else {
+                return 0
+            }
+        }
+
     }
 
     function getDefaultFormatter(isBinary)
@@ -22,7 +32,7 @@ ListModel {
     }
 
     function getJSONFormatter() {
-        return rootModel.get(3)
+        return rootModel.get(_jsonFormatterIndex)
     }
 
     property var rwFormatters
@@ -205,18 +215,20 @@ ListModel {
         property string readOnly: false
 
         property var getFormatted: function (raw, callback) {
-            console.error("Call JSON worker script")
+            return callback("", qmlUtils.prettyPrintJSON(raw), false, "json")
         }
 
         property var isValid: function (raw, callback) {
-            console.error("Call JSON worker script")
+            return callback(qmlUtils.isJSON(raw))
         }
 
-        property var getRaw: function (formatted, callback) {
-            try {
-                return callback("", JSONFormatter.minify(formatted))
-            } catch (e) {
-                return callback(qsTranslate("RDM", "Error") + ": " + e)
+        property var getRaw: function (formatted, callback) {                            
+            var minified = qmlUtils.minifyJSON(formatted);
+
+            if (!minified) {
+                return callback(qsTranslate("RDM", "Error") + ": Cannot minify JSON string")
+            } else {
+                return callback("", minified)
             }
         }
     }

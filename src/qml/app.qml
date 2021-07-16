@@ -72,6 +72,11 @@ ApplicationWindow {
         property int valueSizeLimit: 150000
     }
 
+    Settings {
+        id: defaultFormatterSettings
+        category: "formatter_overrides"
+    }
+
     SystemPalette {
         id: sysPalette
     }

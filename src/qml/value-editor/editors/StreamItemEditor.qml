@@ -79,9 +79,13 @@ AbstractEditor {
 
     function validateValue(callback) {
         idValue.validate(function (keyTextValid) {
-            textArea.validate(function (textAreaValid) {
-                return callback(keyTextValid && textAreaValid);
-            });
+            if (!root.validateVal) {
+                return callback(keyTextValid);
+            } else {
+                textArea.validate(function (textAreaValid) {
+                    return callback(keyTextValid && textAreaValid);
+                });
+            }
         });
     }
 

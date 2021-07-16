@@ -70,6 +70,10 @@ AbstractEditor {
     }
 
     function validateValue(callback) {
+        if (!root.validateVal) {
+            return callback(true);
+        }
+
         return textArea.validate(callback);
     }
 

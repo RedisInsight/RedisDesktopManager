@@ -23,8 +23,8 @@ Item
     property bool isEdited: false
     property var value    
     property int valueCompression: 0
-    property string formatterSettingsCategory: "formatters_value"
     property alias readOnly: textView.readOnly
+    property string formatterSettingsPrefix: ""
 
     function initEmpty() {
         // init editor with empty model
@@ -46,7 +46,7 @@ Item
                 return callback(false);
             }
 
-            var valid = validationRule(raw)
+            var valid = validationRule(raw)            
 
             if (valid) {
                 hideValidationError()
@@ -99,10 +99,12 @@ Item
         if (val) {
             root.value = val
 
-            if (defaultFormatterSettings.defaultFormatterIndex === 0) {
-                guessFormatter = true
+            var formatterOverride = defaultFormatterSettings.value(root.formatterSettingsPrefix + keyName, "");
+
+            if (formatterOverride) {
+                formatterSelector._select(formatterOverride)
             } else {
-                formatterSelector.currentIndex = defaultFormatterSettings.defaultFormatterIndex
+                guessFormatter = true
             }
         }
 
@@ -130,8 +132,8 @@ Item
         }
 
         // If current formatter is plain text - try to guess formatter
-        if (guessFormatter && formatterSelector.currentIndex === 0) {
-            _guessFormatter(isBin, function() {
+        if (guessFormatter) {
+            _guessFormatter(root.value, isBin, function() {
                 _loadFormatter(isBin)
             })
         } else {
@@ -145,10 +147,10 @@ Item
         }
     }
 
-    function _guessFormatter(isBin, callback) {
+    function _guessFormatter(value, isBin, callback) {
         console.log("Guessing formatter")
 
-        var candidates = valueFormattersModel.guessFormatter(isBin)
+        var candidates = valueFormattersModel.guessFormatter(value, isBin)
 
         console.log("candidates:", candidates)
 
@@ -158,7 +160,7 @@ Item
                 var cFormatter = formatterSelector.model[candidates[index]]
 
                 cFormatter.isValid(root.value, function (isValid) {
-                    if (isValid && formatterSelector.currentIndex == 0) {
+                    if (isValid) {
                         formatterSelector.currentIndex = candidates[index]
                         callback()
                     }
@@ -183,27 +185,59 @@ Item
 
         uiBlocker.visible = true
 
-        if (formatter["name"] === "JSON") {
-            jsonFormattingWorker.sendMessage({"isReadOnly": false,
-                                              "data": String(root.value)})
-        } else {
-            formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
+        function processFormattingResult(error, formatted, isReadOnly, format) {
+            textView.textFormat = (format === "html")
+                ? TextEdit.RichText
+                : TextEdit.PlainText;
 
-                function process(error, formatted, stub, format) {
-                    jsonFormattingWorker.processFormatted(error, formatted, stub, format)
-                }
+            console.log("format", format)
 
-                textView.format = format
-
-                if (format === "json") {
-                    jsonFormattingWorker.sendMessage({"error": error,
-                                                      "isReadOnly": isReadOnly,
-                                                      "data": String(formatted)})
+            if (error || !formatted) {
+                if (formatted) {
+                    textView.model = qmlUtils.wrapLargeText(formatted)
                 } else {
-                    process(error, formatted, isReadOnly, format);
+                    formatterSelector.currentIndex = valueFormattersModel.guessFormatter(root.value, isBin)
+                    return _loadFormatter(isBin)
                 }
-            })
+                textView.readOnly = isReadOnly
+                textView.format = "text"
+                root.isEdited = false
+                uiBlocker.visible = false
+
+                var details
+                if (error.length > 200) {
+                    details = error
+                    error = qsTranslate("RDM","Formatting error")
+                } else {
+                    details = ""
+                }
+
+                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"), details)
+                return
+            }
+
+            textView.model = qmlUtils.wrapLargeText(formatted)
+            textView.readOnly = isReadOnly
+            textView.format = format
+            root.isEdited = false
+            uiBlocker.visible = false
         }
+
+        formatter.getFormatted(root.value, function (error, formatted, isReadOnly, format) {
+            textView.format = format
+
+            if (format === "json" && formatter["name"] !== "JSON" && !error) {
+                formatterSelector.model.getJSONFormatter().getFormatted(formatted, function (jsonError, plainText) {
+                    if (jsonError) {
+                        processFormattingResult(jsonError, formatted, isReadOnly, format)
+                    } else {
+                        processFormattingResult(jsonError, plainText, isReadOnly, format)
+                    }
+                })
+            } else {
+                processFormattingResult(error, formatted, isReadOnly, format)
+            }
+        })
     }
 
     function reset() {
@@ -228,55 +262,6 @@ Item
 
     function hideValidationError() {
         validationError.visible = false
-    }
-
-    WorkerScript {
-        id: jsonFormattingWorker
-
-        source: "./formatters/json-tools.js"
-        onMessage: {
-            processFormatted(messageObject.error, messageObject.formatted, messageObject.isReadOnly, messageObject.format);
-        }
-
-        function processFormatted(error, formatted, isReadOnly, format) {
-            textView.textFormat = (format === "html")
-                ? TextEdit.RichText
-                : TextEdit.PlainText;
-
-            console.log("format", format)
-
-            if (error || !formatted) {
-                if (formatted) {
-                    defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
-                    textView.model = qmlUtils.wrapLargeText(formatted)
-                } else {
-                    var isBin = false
-                    formatterSelector.currentIndex = valueFormattersModel.guessFormatter(isBin) // Reset formatter to plain text
-                }
-                textView.readOnly = isReadOnly
-                textView.format = "text"
-                root.isEdited = false
-                uiBlocker.visible = false
-
-                var details
-                if (error.length > 200) {
-                    details = error
-                    error = qsTranslate("RDM","Formatting error")
-                } else {
-                    details = ""
-                }
-
-                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"), details)
-                return
-            }
-
-            defaultFormatterSettings.defaultFormatterIndex = formatterSelector.currentIndex
-            textView.model = qmlUtils.wrapLargeText(formatted)
-            textView.readOnly = isReadOnly
-            textView.format = format
-            root.isEdited = false
-            uiBlocker.visible = false
-        }
     }
 
     ColumnLayout {
@@ -305,12 +290,6 @@ Item
 
             BetterLabel { visible: showFormatters; text: qsTranslate("RDM","View as:") }
 
-            Settings {
-                id: defaultFormatterSettings
-                category: formatterSettingsCategory
-                property int defaultFormatterIndex
-            }
-
             BetterComboBox {
                 id: formatterSelector
                 visible: showFormatters && !showOnlyRWformatters
@@ -321,6 +300,8 @@ Item
 
                 onActivated: {
                     currentIndex = index
+                    console.log("Set default formatter '" + currentText + "' for key " + keyName)
+                    defaultFormatterSettings.setValue(root.formatterSettingsPrefix + keyName, currentText)
                     loadFormattedValue()
                 }
             }

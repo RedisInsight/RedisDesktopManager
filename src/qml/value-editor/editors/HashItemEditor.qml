@@ -17,7 +17,7 @@ AbstractEditor {
         fieldLabel: qsTranslate("RDM","Key:")
         Layout.fillWidth: true
         Layout.minimumHeight: 30
-        Layout.preferredHeight: 140
+        Layout.preferredHeight: root.state == "new"? 70: 140
 
         value: ""
         enabled: root.active || root.state !== "edit"
@@ -25,7 +25,7 @@ AbstractEditor {
         showSaveBtn: root.state == "edit"
         showFormatters: root.state == "edit"
         objectName: "rdm_key_hash_key_field"
-        formatterSettingsCategory: "formatters_hash_key"
+        formatterSettingsPrefix: "hash_key_"
     }
 
     MultilineEditor {
@@ -48,10 +48,14 @@ AbstractEditor {
     }
 
     function validateValue(callback) {
-        keyText.validate(function (keyTextValid) {
-            textArea.validate(function (textAreaValid) {
-                return callback(keyTextValid && textAreaValid);
-            });
+        keyText.validate(function (keyTextValid) {            
+            if (!root.validateVal) {
+                return callback(keyTextValid);
+            } else {
+                textArea.validate(function (textAreaValid) {
+                    return callback(keyTextValid && textAreaValid);
+                });
+            }
         });
     }
 

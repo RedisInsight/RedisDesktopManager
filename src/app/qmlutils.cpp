@@ -13,6 +13,8 @@
 #include <QtConcurrent>
 #include <QUrl>
 
+#include <simdjson.h>
+
 #include "apputils.h"
 #include "qcompress.h"
 #include "value-editor/largetextmodel.h"
@@ -23,7 +25,8 @@ bool QmlUtils::isBinaryString(const QVariant &value) {
   if (!value.canConvert(QVariant::ByteArray)) {
     return false;
   }
-  QByteArray val = value.toByteArray();
+  QByteArray val = value.toByteArray();   
+
   return isBinary(val);
 }
 
@@ -42,6 +45,132 @@ QVariant QmlUtils::b64toByteArray(const QVariant &value)
     }
 
     return QVariant(QByteArray::fromBase64(value.toString().toUtf8()));
+}
+
+QByteArray QmlUtils::minifyJSON(const QVariant &value)
+{
+    if (!value.canConvert(QVariant::ByteArray)) {
+      return QByteArray();
+    }
+
+    QByteArray val = value.toByteArray();
+
+    QByteArray minified;
+    minified.resize(val.size());
+
+    size_t new_length{};
+    auto error = simdjson::minify(val.data(), val.size(), minified.data(), new_length);
+
+    if (error != 0) {
+        qDebug() << "Failed to minify JSON with simdjson:" << error;
+        return QByteArray();
+    }
+
+    minified.resize(new_length);
+
+    return minified;
+}
+
+QByteArray QmlUtils::prettyPrintJSON(const QVariant &value)
+{
+    if (!value.canConvert(QVariant::ByteArray)) {
+      return QByteArray();
+    }
+
+    QByteArray val = value.toByteArray();
+    QByteArray result;
+    result.reserve(val.size() * 32);
+
+    const QByteArray whitespace("  ");
+    long level = 0;
+    bool ignore_next = false;
+    bool in_string = false;
+
+    // Based on https://github.com/alula/json-beautifier/blob/master/src/beautify.cpp
+    for (auto c : qAsConst(val)) {
+      switch (c) {
+        case '[':
+        case '{':
+          if (in_string) {
+            result.append(c);
+            break;
+          }
+          level++;
+          result.append(c);
+          result.append("\n");
+          for (long i = 0; i < level; i++) result.append(whitespace);
+          break;
+        case ']':
+        case '}':
+          if (in_string) {
+            result.append(c);
+            break;
+          }
+          if (level != 0) level--;
+          result.append("\n");
+          for (long i = 0; i < level; i++) result.append(whitespace);
+          result.append(c);
+          break;
+        case ',':
+          if (in_string) {
+            result.append(',');
+            break;
+          }
+          result.append(',');
+          result.append("\n");
+          for (long i = 0; i < level; i++) result.append(whitespace);
+          break;
+        case '\\':
+          if (ignore_next)
+            ignore_next = false;
+          else
+            ignore_next = true;
+          result.append("\\");
+          break;
+        case '"':
+          if (!ignore_next) in_string = !in_string;
+          result.append("\"");
+          break;
+        case ' ':
+          if (in_string) result.append(" ");
+          break;
+        case ':':
+          result.append(":");
+          if (!in_string) result.append(" ");
+          break;
+        case '\r':
+        case '\n':
+          break;
+        default:
+          if (ignore_next) ignore_next = false;
+          result.append(c);
+          break;
+      }
+    }
+
+    return result;
+}
+
+bool QmlUtils::isJSON(const QVariant &value)
+{
+    if (!value.canConvert(QVariant::ByteArray)) {
+      return false;
+    }
+
+    QByteArray val = value.toByteArray();
+    int originalSize = val.size();
+    val.resize(val.size() + simdjson::SIMDJSON_PADDING);
+
+    simdjson::dom::parser parser;
+    simdjson::dom::element data;
+    auto error = parser.parse(val.data(), originalSize, false).get(data);
+
+    if (error != simdjson::SUCCESS && error != simdjson::NUMBER_ERROR) {
+        qDebug() << "JSON is not valid:" << simdjson::error_message(error);
+        return false;
+    }
+
+    return true;
 }
 
 QVariant QmlUtils::decompress(const QVariant &value) {

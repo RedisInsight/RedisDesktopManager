@@ -4,6 +4,7 @@
 #include <qredisclient/utils/text.h>
 
 #include <QObject>
+#include <QFile>
 
 #include "hashkey.h"
 #include "listkey.h"
@@ -119,7 +120,20 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r) {
           return onRowAdded(testResp);
         }
 
-        result->addRow(r.value(), onRowAdded);
+        auto val = r.value();
+
+        if (!r.valueFilePath().isEmpty() && QFile::exists(r.valueFilePath())) {
+            QFile valueFile(r.valueFilePath());
+
+            if (!valueFile.open(QIODevice::ReadOnly)) {
+                return onRowAdded(QCoreApplication::translate(
+                                      "RDM", "Cannot open file with key value"));
+            }
+
+            val["value"] = valueFile.readAll();            
+        }
+
+        result->addRow(val, onRowAdded);
       },
       onRowAdded);
 }

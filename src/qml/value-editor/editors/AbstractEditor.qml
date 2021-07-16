@@ -8,6 +8,8 @@ ColumnLayout {
 
     state: "edit"
 
+    property bool validateVal: true
+
     states: [
         State { name: "new"}, // Creating new key
         State { name: "add"}, // Adding new value to existing key
