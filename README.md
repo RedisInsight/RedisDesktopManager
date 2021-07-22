@@ -2,19 +2,12 @@
 
 [Install & Run](http://docs.rdm.dev/en/latest/install/) | 
 [Quick Start](http://docs.rdm.dev/en/latest/quick-start/) |
-[Native Formatters](http://docs.rdm.dev/en/latest/native-formatters/) |
-[Development Guide](http://docs.rdm.dev/en/latest/development/) |
 [Known issues](http://docs.rdm.dev/en/latest/known-issues/) |
-[**Telegram Chat**](https://t.me/RedisDesktopManager)
-
+[**Telegram Chat**](https://t.me/RedisDesktopManager) |
 [![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.rdm.dev/en/latest/?badge=latest)
 
 Open source cross-platform Desktop Manager for Redis &reg; based on Qt 5
 
-![RDM screenshot](http://rdm.dev/static/img/features/all.png?v2021)
-
-
-**Officially Supported platforms**:
 <a target="_blank" href='//www.microsoft.com/store/apps/9NDK76ZVZ3TM?cid=storebadge&ocid=badge'>
 <img height="50" src='https://developer.microsoft.com/en-us/store/badges/images/English_get-it-from-MS.png' alt='Get it from Microsoft'/>
 </a>
@@ -24,5 +17,7 @@ Open source cross-platform Desktop Manager for Redis &reg; based on Qt 5
 <a href="https://snapcraft.io/redis-desktop-manager">
 <img height="50" alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
 </a>
+
+![RDM screenshot](http://rdm.dev/static/img/features/all.png?v2021)
 
 **Supported Redis versions**: 2.8+ (for old redis-servers use [RedisDesktopManager 0.8.8](https://github.com/uglide/RedisDesktopManager/releases/tag/0.8.8))
