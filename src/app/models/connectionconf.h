@@ -59,7 +59,6 @@ public:
     QString namespaceSeparator() const;
     void setNamespaceSeparator(QString);
 
-    bool luaKeysLoading() const;
     void setLuaKeysLoading(bool);
 
     uint databaseScanLimit() const;

@@ -33,8 +33,7 @@ void TestConnectionsManager::saveConnectionsConfigToFile() {
   QFETCH(QString, connectionName);
   QString configTestFile = QString("%1/test_rdm.json").arg(QDir::tempPath());
   QFile::remove(configTestFile);
-  RedisClient::ConnectionConfig connectionConfig =
-      getDummyConfig(connectionName);
+  auto connectionConfig = getDummyConfig(connectionName);
   auto events = QSharedPointer<Events>(new Events());
   ConnectionsManager testManager(configTestFile, events);
 

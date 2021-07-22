@@ -11,6 +11,7 @@
 #include "configmanager.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 #include "modules/connections-tree/items/serveritem.h"
+#include "modules/connections-tree/items/servergroup.h"
 #include "modules/value-editor/tabsmodel.h"
 
 ConnectionsManager::ConnectionsManager(const QString& configPath,

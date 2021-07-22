@@ -12,7 +12,6 @@
 #include "testcases/connections-tree/test_databaseitem.h"
 #include "testcases/connections-tree/test_model.h"
 #include "testcases/connections-tree/test_serveritem.h"
-#include "testcases/console/test_console.h"
 #include "testcases/console/test_consolemodel.h"
 
 int main(int argc, char *argv[]) {
@@ -27,14 +26,13 @@ int main(int argc, char *argv[]) {
                        QTest::qExec(new TestModel, argc, argv)
 
                        // console module
-                       + QTest::qExec(new TestConsole, argc, argv)
+                       + QTest::qExec(new TestConsoleOperations, argc, argv)
 
                        // app
                        + QTest::qExec(new TestConnectionsManager, argc, argv) +
                        QTest::qExec(new TestConfigManager, argc, argv) +
-                       QTest::qExec(new TestConsoleOperations, argc, argv) +
-                       QTest::qExec(new TestTreeOperations, argc, argv) +
                        QTest::qExec(new TestKeyModels, argc, argv) +
+                       QTest::qExec(new TestTreeOperations, argc, argv) +
                        QTest::qExec(new TestAbstractKey, argc, argv);
 
   if (allTestsResult == 0)

@@ -27,7 +27,7 @@ void TestDatabaseItem::testLoadKeys() {
   operations->keys.append("test-2-key:namespace:subkey2");
   Model dummyModel;
   QSharedPointer<ServerItem> parentItem(
-      new ServerItem("test", operations_, dummyModel));
+      new ServerItem(operations_, dummyModel));
   parentItem->setWeakPointer(parentItem.toWeakRef());
 
   // when

@@ -21,7 +21,7 @@ void TestServerItem::testLoad()
     ItemOperationsMock* operations = new ItemOperationsMock();
     operations->databases.insert(0, 55);
     Model dummyModel;
-    ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
+    ServerItem item {QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
     QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
 
     //when
@@ -39,7 +39,7 @@ void TestServerItem::testLoad_invalid()
     //given
     ItemOperationsMock* operations = new ItemOperationsMock(false);
     Model dummyModel;
-    ServerItem item {"test", QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};    
+    ServerItem item {QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
 
     //when
     item.handleEvent("click");
@@ -56,7 +56,7 @@ void TestServerItem::testUnload()
     ItemOperationsMock* operations = new ItemOperationsMock();
     operations->databases.insert(0, 55);
     Model dummyModel;
-    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
+    ServerItem item((QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
 
     //when
     item.handleEvent("unload");
@@ -73,7 +73,7 @@ void TestServerItem::testReload()
     ItemOperationsMock* operations = new ItemOperationsMock();
     operations->databases.insert(0, 55);
     Model dummyModel;
-    ServerItem item{"test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel};
+    ServerItem item{(QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel};
     QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
 
     //when
@@ -90,7 +90,7 @@ void TestServerItem::testBasicMethods()
     Model dummyModel;
 
     //when
-    ServerItem item("test", (QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
+    ServerItem item((QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
 
     //then
     QCOMPARE(item.getDisplayName(), QString("test"));    

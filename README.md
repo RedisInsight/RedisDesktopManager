@@ -7,15 +7,11 @@
 [Known issues](http://docs.rdm.dev/en/latest/known-issues/) |
 [**Telegram Chat**](https://t.me/RedisDesktopManager)
 
-[![Travis Build Status](https://travis-ci.org/uglide/RedisDesktopManager.svg?branch=2019)](https://travis-ci.org/uglide/RedisDesktopManager) 
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/3pwtjfl9yioyom9t?svg=true)](https://ci.appveyor.com/project/uglide/redisdesktopmanager/branch/2019)
-[![Coverage Status](https://coveralls.io/repos/uglide/RedisDesktopManager/badge.svg?branch=2019)](https://coveralls.io/r/uglide/RedisDesktopManager?branch=2019)
-[![Snap Status](https://build.snapcraft.io/badge/RedisDesktop/redisdesktopmanager-snap.svg)](https://build.snapcraft.io/user/RedisDesktop/redisdesktopmanager-snap)
 [![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.rdm.dev/en/latest/?badge=latest)
 
 Open source cross-platform Desktop Manager for Redis &reg; based on Qt 5
 
-![RDM screenshot](http://rdm.dev/static/img/features/all.png?v2020)
+![RDM screenshot](http://rdm.dev/static/img/features/all.png?v2021)
 
 
 **Officially Supported platforms**:

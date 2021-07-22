@@ -153,7 +153,7 @@ void TestKeyModels::testValueLoading_data() {
                         << ":-1\r\n"
                         << "$17\r\n__nice_test_data!\r\n")
       << 0 << Qt::UserRole + 1 << (unsigned long)1 << false
-      << "__nice_test_data!" << QStringList();
+      << "__nice_test_data!" << (QStringList() << "value");
 
   QTest::newRow("Valid list model")
       << (QStringList() << "+list\r\n"
@@ -161,7 +161,7 @@ void TestKeyModels::testValueLoading_data() {
                         << ":2\r\n"
                         << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
       << 1 << Qt::UserRole + 2 << (unsigned long)2 << true << "bar"
-      << (QStringList() << "row"
+      << (QStringList() << "rowNumber"
                         << "value");
 
   QTest::newRow("Valid set model")
@@ -174,7 +174,7 @@ void TestKeyModels::testValueLoading_data() {
                         << ":1\r\n"
                         << ":1\r\n")
       << 1 << Qt::UserRole + 2 << (unsigned long)2 << true << "bar"
-      << (QStringList() << "row"
+      << (QStringList() << "rowNumber"
                         << "value");
 
   QTest::newRow("Valid zset model")
@@ -184,7 +184,7 @@ void TestKeyModels::testValueLoading_data() {
           << ":2\r\n"
           << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n")
       << 1 << Qt::UserRole + 2 << (unsigned long)2 << true << "bar"
-      << (QStringList() << "row"
+      << (QStringList() << "rowNumber"
                         << "value"
                         << "score");
 
@@ -195,7 +195,7 @@ void TestKeyModels::testValueLoading_data() {
                         << "*2\r\n$1\r\n0\r\n*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$"
                            "3\r\nfoo\r\n$3\r\nbar\r\n")
       << 1 << Qt::UserRole + 3 << (unsigned long)2 << true << "bar"
-      << (QStringList() << "row"
+      << (QStringList() << "rowNumber"
                         << "key"
                         << "value");
 }

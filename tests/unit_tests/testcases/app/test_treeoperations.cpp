@@ -9,10 +9,10 @@
 void TestTreeOperations::testCreation() {
   // given
   auto events = QSharedPointer<Events>(new Events());
-  auto connection = getRealConnectionWithDummyTransporter();
+  auto config = getDummyConfig();
 
   // when
-  TreeOperations operations(connection, events);
+  TreeOperations operations(config, events);
 
   // then
   // all ok
@@ -42,11 +42,12 @@ void TestTreeOperations::testGetDatabases() {
 
   // when
   qDebug() << "testGetDatabases - start execution";
-  TreeOperations operations(connection, events);
+  TreeOperations operations(getDummyConfig(), events);
+  operations.setConnection(connection);
   operations.getDatabases(
-      [&callbackCalled, &result](const RedisClient::DatabaseList& r) {
+      [&callbackCalled, &result](const RedisClient::DatabaseList& r, const QString& err) {
         callbackCalled = true;
-        result = r;
+        result = r;        
       });
 
   // then
@@ -57,7 +58,6 @@ void TestTreeOperations::testGetDatabases() {
 
 void TestTreeOperations::testLoadNamespaceItems() {
   // given
-  QFETCH(bool, useLuaLoading);
   QFETCH(uint, runCommandCalled);
   QFETCH(uint, retrieveCollectionCalled);
   QFETCH(QList<QVariant>, expectedScanResponses);
@@ -66,12 +66,12 @@ void TestTreeOperations::testLoadNamespaceItems() {
   // Setup dummy connection with on/off lua loading
   auto connection = getFakeConnection(expectedScanResponses, expectedResponses);
   ServerConfig conf;
-  conf.setLuaKeysLoading(useLuaLoading);
   connection->setConnectionConfig(conf);
 
   auto events = QSharedPointer<Events>(new Events());
   QSharedPointer<TreeOperations> operations(
-      new TreeOperations(connection, events));
+      new TreeOperations(getDummyConfig(), events));
+  operations->setConnection(connection);
 
   ConnectionsTree::Model dummyModel;
   QSharedPointer<ConnectionsTree::DatabaseItem> item(
@@ -100,15 +100,10 @@ void TestTreeOperations::testLoadNamespaceItems() {
 }
 
 void TestTreeOperations::testLoadNamespaceItems_data() {
-  QTest::addColumn<bool>("useLuaLoading");
   QTest::addColumn<uint>("runCommandCalled");
   QTest::addColumn<uint>("retrieveCollectionCalled");
   QTest::addColumn<QList<QVariant> >("expectedScanResponses");
   QTest::addColumn<QStringList>("expectedResponses");
-  QTest::newRow("LUA execution")
-      << true << 1u << 0u << (QList<QVariant>() << QVariant())
-      << (QStringList()
-          << "*2\r\n$2\r\n{}\r\n\$20\r\n{\"test\":1,\"test2\":1}\r\n");
   QTest::newRow("SCAN execution")
       << false << 0u << 1u
       << (QList<QVariant>()
@@ -124,7 +119,8 @@ void TestTreeOperations::testFlushDb() {
 
   // when
   bool callbackCalled = false;
-  TreeOperations operations(connection, events);
+  TreeOperations operations(getDummyConfig(), events);
+  operations.setConnection(connection);
   operations.flushDb(0, [&callbackCalled](const QString&) {
     // then - part 2
     callbackCalled = true;
@@ -146,7 +142,8 @@ void TestTreeOperations::testFlushDbCommandError() {
 
   // when
   bool callbackCalledWithError = false;
-  TreeOperations operations(connection, events);
+  TreeOperations operations(getDummyConfig(), events);
+  operations.setConnection(connection);
   operations.flushDb(0, [&callbackCalledWithError](const QString& e) {
     // then - part 2
     callbackCalledWithError = !e.isEmpty();

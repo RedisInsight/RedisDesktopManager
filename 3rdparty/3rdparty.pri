@@ -4,9 +4,12 @@
 #
 #-------------------------------------------------
 
-DEFINES += ENABLE_EXTERNAL_FORMATTERS
-HEADERS += $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.h
-SOURCES += $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.cpp
+exists( $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.h) {
+    message("External formatters was enabled")
+    DEFINES += ENABLE_EXTERNAL_FORMATTERS
+    HEADERS += $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.h
+    SOURCES += $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.cpp
+}
 
 # qredisclient
 if(win32*):exists( $$PWD/qredisclient/qredisclient.lib ) {

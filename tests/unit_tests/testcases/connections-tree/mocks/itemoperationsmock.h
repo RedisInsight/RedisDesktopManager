@@ -11,10 +11,12 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
       : m_positive_mode(positive_mode) {}
 
   QMap<int, int> databases;
+  QString databaseLoadingError;
+
   virtual QFuture<void> getDatabases(
-      std::function<void(QMap<int, int>)> callback) override {
+      std::function<void(QMap<int, int>, const QString& err)> callback) override {
     if (m_positive_mode) {
-      callback(databases);
+      callback(databases, databaseLoadingError);
       return QFuture<void>();
     } else {
       return QFuture<void>();
@@ -37,10 +39,6 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
     } else {
       throw ConnectionsTree::Operations::Exception("fake error");
     }
-  }
-
-  virtual QSharedPointer<Console::Operations> getConsoleOperations() {
-    return QSharedPointer<Console::Operations>();
   }
 
   QString namespaceSeparator = ":";
@@ -80,8 +78,9 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
     return QFuture<bool>();
   }
 
-  virtual QFuture<qlonglong> getUsedMemory(const QByteArray&, int) override {
-    return QFuture<qlonglong>();
+  virtual void getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
+                                           std::function<void(qlonglong)> result,
+                                           std::function<void(qlonglong)> progress) override {
   }
 
   void resetConnection() override {}
@@ -93,6 +92,14 @@ class ItemOperationsMock : public ConnectionsTree::Operations {
   void openKeyIfExists(const QByteArray& key,
                        QSharedPointer<ConnectionsTree::DatabaseItem> parent,
                        std::function<void(const QString&, bool)> callback) override {};
+
+  QString connectionName() const override {
+      return "test";
+  }
+
+  QVariantMap getFilterHistory() override {
+      return QVariantMap();
+  }
 
  protected:
   bool m_positive_mode;

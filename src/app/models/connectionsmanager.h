@@ -5,7 +5,6 @@
 #include <functional>
 
 #include "app/models/connectionconf.h"
-#include "connections-tree/items/servergroup.h"
 #include "bulk-operations/connections.h"
 #include "connections-tree/model.h"
 #include "treeoperations.h"
@@ -13,6 +12,10 @@
 
 namespace ValueEditor {
 class TabsModel;
+}
+
+namespace ConnectionsTree {
+class ServerGroup;
 }
 
 class Events;
