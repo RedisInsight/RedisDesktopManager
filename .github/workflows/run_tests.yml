@@ -2,9 +2,12 @@ name: Run Tests
 
 on:
   push:
-    branches: [ 2021 ]
+    branches:
+    - 2021
+    - play_with_ga
   pull_request:
     branches: [ 2021 ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,14 +18,26 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2.3.4
       with:
-        submodules: 'recursive'    
+        submodules: 'recursive'
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.13.2
       with:
-        version: 5.15.2    
-    - name: qmake
-      run: qmake
+        version: 5.15.2
+        modules: qtcharts
+    - name: Install Cmake
+      run: |
+          sudo apt-get update -y
+          sudo apt-get install cmake liblz4-dev libzstd-dev libbrotli-dev libsnappy-dev -y
+          cmake --version
+          gcc --version
+    - name: Setup Redis
+      uses: zhulik/redis-action@1.1.0
+#     - name: lz4
+#       run: cmake -DLZ4_BUNDLED_MODE=ON  . && make
+#       working-directory: 3rdparty/lz4/build/cmake
+    - name: Build RDM
+      run: qmake "SYSTEM_LZ4=1" "SYSTEM_ZSTD=1" "SYSTEM_SNAPPY=1" "SYSTEM_BROTLI=1" && make -j 2
       working-directory: ./src
-    - name: make
-      run: make
-      working-directory: ./src
+    - name: Build Tests
+      run: qmake DEFINES+=INTEGRATION_TESTS && make -j 2
+      working-directory: ./tests

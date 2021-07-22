@@ -1,104 +1,113 @@
 #include "test_serveritem.h"
-#include "mocks/itemoperationsmock.h"
+
+#include <QMenu>
+#include <QSignalSpy>
+#include <QTest>
+#include <QtCore>
+
 #include "connections-tree/items/serveritem.h"
 #include "connections-tree/model.h"
-
-#include <QtCore>
-#include <QTest>
-#include <QSignalSpy>
-#include <QMenu>
+#include "mocks.h"
 
 using namespace ConnectionsTree;
+using namespace fakeit;
 
-TestServerItem::TestServerItem(QObject *parent) :
-    QObject(parent)
-{
+TestServerItem::TestServerItem(QObject* parent) : QObject(parent) {}
+
+void TestServerItem::testLoad() {
+  // given
+  QMap<int, int> databases = {{0, 55}};
+  Mock<Operations> operations =
+      getOperationsWithGetDatabases(databases, QString());
+  Operations& mock = operations.get();
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
+
+  QFETCH(QString, action);
+
+  Model dummyModel;
+  ServerItem item{ptr, dummyModel};
+
+  // when
+  item.handleEvent(action);
+
+  QTest::qWait(50);
+
+  // then
+  QCOMPARE(item.childCount(), static_cast<uint>(1));
+  QCOMPARE(item.child(0)->getDisplayName(), QString("db0  (55)"));
+  QCOMPARE(item.isLocked(), false);
+  QCOMPARE(item.isDatabaseListLoaded(), true);
 }
 
-void TestServerItem::testLoad()
-{    
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock();
-    operations->databases.insert(0, 55);
-    Model dummyModel;
-    ServerItem item {QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
-    QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
-
-    //when
-    item.handleEvent("click");
-
-    //then
-    QCOMPARE(spy.count(), 1);
-    QCOMPARE(item.childCount(), static_cast<uint>(1));
-    QCOMPARE(item.isLocked(), false);
-    QCOMPARE(item.isDatabaseListLoaded(), true);    
+void TestServerItem::testLoad_data() {
+  QTest::addColumn<QString>("action");
+  QTest::newRow("load") << "click";
+  QTest::newRow("reload") << "reload";
 }
 
-void TestServerItem::testLoad_invalid()
-{
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock(false);
-    Model dummyModel;
-    ServerItem item {QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)), dummyModel};
+void TestServerItem::testBasicMethods() {
+  // given
+  Mock<Operations> operations;
+  When(Method(operations, connectionName)).Return("test");
+  Operations& mock = operations.get();
 
-    //when
-    item.handleEvent("click");
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
 
-    //then    
-    QCOMPARE(item.childCount(), static_cast<uint>(0));
-    QCOMPARE(item.isLocked(), false);
-    QCOMPARE(item.isDatabaseListLoaded(), false);    
+  Model dummyModel;
+
+  // when
+  ServerItem item(ptr, dummyModel);
+
+  // then
+  QCOMPARE(item.getDisplayName(), QString("test"));
+  QCOMPARE(item.parent() == nullptr, true);
+  QCOMPARE(item.isEnabled(), true);
+  QCOMPARE(item.isLocked(), false);
+  QCOMPARE(item.child(0).isNull(), true);
+  QCOMPARE(item.getAllChilds().isEmpty(), true);
+  QCOMPARE(item.row(), 0);
 }
 
-void TestServerItem::testUnload()
-{
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock();
-    operations->databases.insert(0, 55);
-    Model dummyModel;
-    ServerItem item((QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
+void TestServerItem::testLoad_invalid() {
+  // given
+  Mock<Operations> operations =
+      getOperationsWithGetDatabases({}, QString("fake connection error"));
+  Operations& mock = operations.get();
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
 
-    //when
-    item.handleEvent("unload");
+  Model dummyModel;
+  ServerItem item{ptr, dummyModel};
 
-    //then
-    QCOMPARE(item.childCount(), static_cast<uint>(0));
-    QCOMPARE(item.isLocked(), false);
-    QCOMPARE(item.isDatabaseListLoaded(), false);
+  // when
+  item.handleEvent("click");
+  QTest::qWait(50);
+
+  // then
+  // TODO: check mock calls
+  QCOMPARE(item.childCount(), static_cast<uint>(0));
+  QCOMPARE(item.isLocked(), false);
+  QCOMPARE(item.isDatabaseListLoaded(), false);
 }
 
-void TestServerItem::testReload()
-{
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock();
-    operations->databases.insert(0, 55);
-    Model dummyModel;
-    ServerItem item{(QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel};
-    QSignalSpy spy(&dummyModel, SIGNAL(itemChildsLoaded(QWeakPointer<TreeItem>)));
+void TestServerItem::testUnload() {
+  // given
+  QMap<int, int> databases = {{0, 55}};
+  Mock<Operations> operations =
+      getOperationsWithGetDatabases(databases, QString());
+  Operations& mock = operations.get();
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
 
-    //when
-    item.handleEvent("reload");
+  Model dummyModel;
+  ServerItem item{ptr, dummyModel};
 
-    //then
-    QCOMPARE(spy.count(), 1);
+  // when
+  item.handleEvent("click");
+  QTest::qWait(50);
+  item.handleEvent("unload");
+
+  // then
+  // TODO: check mock calls
+  QCOMPARE(item.childCount(), static_cast<uint>(0));
+  QCOMPARE(item.isLocked(), false);
+  QCOMPARE(item.isDatabaseListLoaded(), false);
 }
-
-void TestServerItem::testBasicMethods()
-{
-    //given
-    ItemOperationsMock* operations = new ItemOperationsMock();
-    Model dummyModel;
-
-    //when
-    ServerItem item((QSharedPointer<Operations>(dynamic_cast<Operations*>(operations))), dummyModel);
-
-    //then
-    QCOMPARE(item.getDisplayName(), QString("test"));    
-    QCOMPARE(item.parent() == nullptr, true);
-    QCOMPARE(item.isEnabled(), true);
-    QCOMPARE(item.isLocked(), false);
-    QCOMPARE(item.child(0).isNull(), true);
-    QCOMPARE(item.getAllChilds().isEmpty(), true);
-    QCOMPARE(item.row(), 0);
-}
-
