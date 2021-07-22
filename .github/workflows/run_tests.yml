@@ -1,0 +1,28 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ 2021 ]
+  pull_request:
+    branches: [ 2021 ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2.3.4
+      with:
+        submodules: 'recursive'    
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.13.2
+      with:
+        version: 5.15.2    
+    - name: qmake
+      run: qmake
+      working-directory: ./src
+    - name: make
+      run: make
+      working-directory: ./src
