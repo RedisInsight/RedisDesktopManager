@@ -273,7 +273,7 @@ Repeater {
                             Layout.fillHeight: true
 
                             property int chartWidth: tab.width / 3
-                            property int chartHeight: (tab.height - 60) / 2
+                            property int chartHeight: (tab.height - 80) / 2
 
                             function chartTheme() {
                                 if (sysPalette.base.hslLightness < 0.4) {
