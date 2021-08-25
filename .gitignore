@@ -81,3 +81,4 @@ prime
 stage
 3rdparty/python*
 __pycache__/
+qml_*.cpp

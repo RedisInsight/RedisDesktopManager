@@ -3,12 +3,6 @@
 
 ConnectionsTree::TreeItem::TreeItem(Model &m) : m_model(m), m_locked(false) {}
 
-QVariant ConnectionsTree::TreeItem::metadata(const QString &key) const {
-  if (!metadata().contains(key)) return QVariant();
-
-  return metadata()[key];
-}
-
 QVariantMap ConnectionsTree::TreeItem::metadata() const {
   QVariantMap meta;
   meta["name"] = getDisplayName();
@@ -50,13 +44,13 @@ ConnectionsTree::Model &ConnectionsTree::TreeItem::model() { return m_model; }
 void ConnectionsTree::TreeItem::lock() {
   m_locked = true;
   if (getSelf())
-    emit m_model.itemChanged(getSelf());
+    m_model.itemChanged(getSelf());
 }
 
 void ConnectionsTree::TreeItem::unlock() {
   m_locked = false;
   if (getSelf())
-    emit m_model.itemChanged(getSelf());
+    m_model.itemChanged(getSelf());
 }
 
 QHash<QString, std::function<void()>>
@@ -71,7 +65,7 @@ void ConnectionsTree::TreeItem::handleEvent(QString event) {
 
   if (isLocked() && event != "cancel") {
     qDebug() << "Item is locked. Ignore event: " << event;
-    emit m_model.itemChanged(getSelf());
+    m_model.itemChanged(getSelf());
     return;
   }
 

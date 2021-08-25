@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QList>
@@ -49,35 +49,39 @@ class Model : public QAbstractItemModel {
     if (!index.isValid()) return nullptr;
     if (index.model() != this) return nullptr;
 
-    TreeItem *parent = static_cast<TreeItem *>(index.internalPointer());
-    if (!parent || !m_rawPointers->contains(parent)) return nullptr;
+    TreeItem *item = static_cast<TreeItem *>(index.internalPointer());
+    if (!item || !m_rawPointers->contains(item)) return nullptr;
 
-    if (!m_rawPointers->value(parent)) {
-      m_rawPointers->remove(parent);
+    if (!m_rawPointers->value(item)) {
+      m_rawPointers->remove(item);
       return nullptr;
     }
-
-    return parent;
+    return item;
   }
 
   QModelIndex getIndexFromItem(QWeakPointer<TreeItem>);
 
-  bool canFetchMore(const QModelIndex &parent) const override;
-
-  void fetchMore(const QModelIndex &parent) override;
-
-  QSet<QByteArray> m_expanded;
+  QSet<QByteArray> expandedNamespaces;
 
  signals:
   void expand(const QModelIndex &index);
 
   void error(const QString &err);
 
-  void itemChanged(QWeakPointer<TreeItem> item);
+ public:
+  void itemChanged(QWeakPointer<TreeItem> item);  
 
-  void itemChildsLoaded(QWeakPointer<TreeItem> item);
+  void beforeItemChildsUnloaded(QWeakPointer<TreeItem> item);  
 
-  void itemChildsUnloaded(QWeakPointer<TreeItem> item);
+  void beforeChildLoadedAtPos(QWeakPointer<TreeItem> item, int pos);
+
+  void beforeChildLoaded(QWeakPointer<TreeItem> item, int count);
+
+  void childLoaded(QWeakPointer<TreeItem> item);
+
+  void beforeItemChildRemoved(QWeakPointer<TreeItem> item, int row);
+
+  void itemChildRemoved(QWeakPointer<TreeItem> childItem);
 
   void expandItem(QWeakPointer<TreeItem> item);
 
@@ -85,22 +89,7 @@ class Model : public QAbstractItemModel {
 
   void itemLayoutChanged(QWeakPointer<TreeItem> item);
 
- protected slots:
-  void onItemChanged(QWeakPointer<TreeItem>);
-
-  void onItemChildsLoaded(QWeakPointer<TreeItem> item);
-
-  void onItemChildsUnloaded(QWeakPointer<TreeItem> item);
-
-  void onExpandItem(QWeakPointer<TreeItem> item);
-
-  void onBeforeItemLayoutChanged(QWeakPointer<TreeItem> item);
-
-  void onItemLayoutChanged(QWeakPointer<TreeItem> item);
-
  public slots:
-  QVariant getMetadata(const QModelIndex &index, const QString &metaKey);
-
   void setMetadata(const QModelIndex &index, const QString &metaKey,
                    QVariant value);
 
@@ -123,11 +112,10 @@ class Model : public QAbstractItemModel {
 
   void removeRootItem(QSharedPointer<TreeItem> item);
 
-  void restoreOpenedNamespaces(QSharedPointer<AbstractNamespaceItem> ns);
-
  protected:
   QList<QSharedPointer<TreeItem>> m_treeItems;
   QSharedPointer<QHash<TreeItem *, QWeakPointer<TreeItem>>> m_rawPointers;
   QHash<QSharedPointer<TreeItem>, QModelIndex> m_pendingChanges;
+  QHash<QSharedPointer<TreeItem>, QList<QWeakPointer<TreeItem>>> m_pendingRemoval;
 };
 }  // namespace ConnectionsTree

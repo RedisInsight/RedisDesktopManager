@@ -19,12 +19,12 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="83"/>
+        <location filename="../../app/app.cpp" line="79"/>
         <source>Settings directory is not writable</source>
         <translation>設定したディレクトリは書き込みできません</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="85"/>
+        <location filename="../../app/app.cpp" line="81"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
     </message>
@@ -93,27 +93,32 @@
         <translation>サーバからデータが部分的にロードされました。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="29"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="30"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
         <translation>キー%1を読めません。接続エラーが発生しました: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="40"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="41"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
         <translation>データベースに存在しないためキー%1を読めません。接続ツリーをリロードしてから改めて試してください。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="68"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
         <translation>キー%1のTTLがロードできません。接続エラーが発生しました: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="86"/>
         <source>Cannot retrieve type of the key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="129"/>
+        <source>Cannot open file with key value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="60"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>サポートしていないRedisのデータ型です&#x3000;%1</translation>
     </message>
@@ -128,22 +133,22 @@
         <translation>オープンソース版のRedis Desktop ManagerはSSHトンネルをサポートして&lt;b&gt;いません&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;全ての機能を有効にするには&lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;でサブスクリプションに加入してください。&lt;br/&gt;&lt;br /&gt;ご加入の皆様からいただきました資金により、私たちは開発を続けることができ、皆様をサポートできます。&lt;br /&gt;もしご質問がございましたらお気軽に&lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;または&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;までお問い合わせください。</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="222"/>
+        <location filename="../../app/models/treeoperations.cpp" line="206"/>
         <source>Cannot load keys: %1</source>
         <translation>キーをロードできません: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="308"/>
+        <location filename="../../app/models/treeoperations.cpp" line="292"/>
         <source>Delete key error: %1</source>
         <translation>キー削除エラー: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="428"/>
+        <location filename="../../app/models/treeoperations.cpp" line="412"/>
         <source>Cannot determine amount of used memory by key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="371"/>
+        <location filename="../../app/models/treeoperations.cpp" line="355"/>
         <source>Cannot flush database: </source>
         <translation>データベースをフラッシュできません: </translation>
     </message>
@@ -153,28 +158,28 @@
         <translation>不正な接続です。接続の設定を確認してください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
         <translation>キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="275"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>キーを追加しました。選択したデータベースのキーをリロードしますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="141"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="283"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="133"/>
         <source>Key was added</source>
         <translation>キーを追加しました。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="255"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="291"/>
         <source>Another operation is currently in progress</source>
         <translation>別の処理が動作しています。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="257"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="293"/>
         <source>Please wait until another operation will be finished.</source>
         <translation>処理が終わるまでお待ちください。</translation>
     </message>
@@ -183,12 +188,12 @@
         <translation type="vanished">処理が終わるまでお待ちください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="268"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="304"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>このデータベースから全てのキーを削除しても本当によろしいですか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="68"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="71"/>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="76"/>
         <source>Cannot load databases:
 
@@ -196,7 +201,7 @@
         <translation>データベースをロードできません:</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="195"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="231"/>
         <source>Live update was disabled</source>
         <translation>ライブ・アップデートは無効です</translation>
     </message>
@@ -223,7 +228,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="292"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="277"/>
         <source>Size: </source>
         <translation>サイズ: </translation>
     </message>
@@ -288,7 +293,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="348"/>
         <source>Add Element to HLL</source>
         <translation>HLLに要素を追加</translation>
     </message>
@@ -324,12 +329,12 @@
         <translation>すべて検索</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="185"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="190"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>この接続に関連する値とコンソールのタブを閉じます。続行しますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="197"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="202"/>
         <source>Do you really want to delete connection?</source>
         <translation>接続を本当に削除しますか?</translation>
     </message>
@@ -797,19 +802,19 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="885"/>
-        <location filename="../../qml/GlobalSettings.qml" line="339"/>
+        <location filename="../../qml/GlobalSettings.qml" line="351"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="114"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="715"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="696"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="899"/>
-        <location filename="../../qml/GlobalSettings.qml" line="351"/>
+        <location filename="../../qml/GlobalSettings.qml" line="363"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="107"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="133"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
@@ -900,31 +905,36 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="260"/>
+        <source>Maximum amount of rendered child items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="272"/>
         <source>Live update maximum allowed keys</source>
         <translation>ライブアップデートで読み込むキーの最大数</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="272"/>
+        <location filename="../../qml/GlobalSettings.qml" line="284"/>
         <source>Live update interval (in seconds)</source>
         <translation>ライブアップデートの更新頻度(秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="282"/>
+        <location filename="../../qml/GlobalSettings.qml" line="294"/>
         <source>External Value View Formatters</source>
         <translation>外部の値ビューフォーマッタ</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="291"/>
+        <location filename="../../qml/GlobalSettings.qml" line="303"/>
         <source>Formatters path: %0</source>
         <translation>フォーマッタのパス: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="308"/>
+        <location filename="../../qml/GlobalSettings.qml" line="320"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="313"/>
+        <location filename="../../qml/GlobalSettings.qml" line="325"/>
         <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>Version</source>
         <translation>バージョン</translation>
@@ -943,27 +953,27 @@
         <translation>クイックスタート・ガイド</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="111"/>
+        <location filename="../../qml/app.qml" line="116"/>
         <source>Successful connection to redis-server</source>
         <translation>Redisサーバへの接続に成功</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="114"/>
+        <location filename="../../qml/app.qml" line="119"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>Redisサーバに接続できません</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="282"/>
+        <location filename="../../qml/app.qml" line="287"/>
         <source>Add Group</source>
         <translation>グループを追加</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="296"/>
+        <location filename="../../qml/app.qml" line="301"/>
         <source>Regroup connections</source>
         <translation>接続グループの編集</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="318"/>
+        <location filename="../../qml/app.qml" line="323"/>
         <source>Exit Regroup Mode</source>
         <translation>接続グループ編集モードを終了</translation>
     </message>
@@ -1126,7 +1136,7 @@
         <translation>パラメーター</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="323"/>
+        <location filename="../../qml/GlobalSettings.qml" line="335"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation>説明</translation>
@@ -1279,7 +1289,7 @@
         <translation>チャンネル名</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="317"/>
+        <location filename="../../qml/GlobalSettings.qml" line="329"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="708"/>
         <source>Command</source>
         <translation>コマンド</translation>
@@ -1336,11 +1346,26 @@
         <translation>型:</translation>
     </message>
     <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
+        <source>Or Import Value from the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="74"/>
+        <source>(Optional) Any file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="76"/>
+        <source>Select file with value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="88"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="437"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="418"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1361,8 +1386,8 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="219"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="144"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="229"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
@@ -1377,77 +1402,77 @@
         <translation>有効な値を入力</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="264"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="210"/>
         <source>Formatting error</source>
         <translation>フォーマットエラー</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="269"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="215"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>予期せぬフォーマッタのエラー&#x3000;(空の応答)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="297"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="282"/>
         <source>[Binary]</source>
         <translation>[バイナリ]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="300"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="285"/>
         <source> [Compressed: </source>
         <translation> [圧縮: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="385"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="366"/>
         <source>Copy to Clipboard</source>
         <translation>クリップボードにコピー</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="438"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="419"/>
         <source>Save Changes</source>
         <translation>変更を保存</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="542"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="523"/>
         <source>Search string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="537"/>
         <source>Find Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="537"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="588"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="569"/>
         <source>Regex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="574"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="555"/>
         <source>Cannot find more results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="575"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
         <source>Cannot find any results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="711"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="692"/>
         <source>Binary value is too large to display</source>
         <translation>バイナリが大きすぎるため表示できません</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="306"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="291"/>
         <source>View as:</source>
         <translation>表示形式:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="343"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>値が大きすぎます(&gt;150kB)。フォーマッタは使用できません。</translation>
     </message>
@@ -1649,12 +1674,12 @@
         <translation>TTLをキーに設定できません</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="353"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation>あなたのRedisサーバは&lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;コマンドをサポートしていません。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="128"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
         <translation>キーを追加しました。選択されているネームスペースのキーをリロードしますか?</translation>
     </message>
@@ -1672,7 +1697,7 @@
         <translation type="vanished">値を保存</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="723"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="704"/>
         <source>Save value to file</source>
         <translation>値をファイルに保存</translation>
     </message>
@@ -1787,6 +1812,11 @@
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="72"/>
         <source>Read the Docs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/loadmoreitem.cpp" line="12"/>
+        <source>Load more keys</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

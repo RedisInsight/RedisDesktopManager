@@ -11,14 +11,19 @@ namespace ConnectionsTree {
     class AbstractNamespaceItem;
     class Model;
 
+    QSharedPointer<AbstractNamespaceItem> resolveRootItem(QSharedPointer<AbstractNamespaceItem> item);
+
     class KeysTreeRenderer
     {
     public:
         struct RenderingSettigns {
             QRegExp filter;
             QString nsSeparator;
-            uint dbIndex;
-            bool sortKeys;
+            uint dbIndex;            
+            uint renderLimit;            
+            bool appendNewItems;
+            bool checkPreRenderedItems;
+            bool shortKeysRendering;
         };
 
     public:
@@ -26,10 +31,11 @@ namespace ConnectionsTree {
                                RedisClient::Connection::RawKeysList keys,
                                QSharedPointer<AbstractNamespaceItem> parent,
                                RenderingSettigns settings,
-                               const QSet<QByteArray> &expandedNamespaces);
+                               const QSet<QByteArray> &expandedNamespaces);                
 
     private:
-        static void renderLazily(QSharedPointer<AbstractNamespaceItem> parent,
+        static void renderLazily(QSharedPointer<AbstractNamespaceItem> root,
+                                 QSharedPointer<AbstractNamespaceItem> parent,
                                  const QByteArray &notProcessedKeyPart,
                                  const QByteArray &fullKey,
                                  QSharedPointer<Operations> operations,

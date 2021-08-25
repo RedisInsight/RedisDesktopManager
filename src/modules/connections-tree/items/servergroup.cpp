@@ -19,7 +19,7 @@ uint ServerGroup::childCount(bool) const {
   return static_cast<uint>(m_servers.size());
 }
 
-QSharedPointer<TreeItem> ServerGroup::child(uint row) const {
+QSharedPointer<TreeItem> ServerGroup::child(uint row) {
   if (row < m_servers.size()) {
     return m_servers.at(row);
   }

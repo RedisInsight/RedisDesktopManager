@@ -249,6 +249,18 @@ Dialog {
                         }
 
                         IntOption {
+                            id: childItemsLimit
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            min: 1
+                            max: 100000
+                            value: 1000
+                            label: qsTranslate("RDM","Maximum amount of rendered child items")
+                        }
+
+                        IntOption {
                             id: liveKeyLimit
 
                             Layout.fillWidth: true
@@ -364,6 +376,7 @@ Dialog {
         property alias showNamespacesOnTop: nsOnTop.value
         property alias reopenNamespacesOnReload: nsReload.value        
         property alias namespacedKeysShortName: namespacedKeysShortName.value
+        property alias treeItemMaxChilds: childItemsLimit.value
         property alias liveUpdateKeysLimit: liveKeyLimit.value
         property alias liveUpdateInterval: liveUpdateInterval.value
         property alias appFont: appFont.value

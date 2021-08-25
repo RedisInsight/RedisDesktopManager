@@ -33,13 +33,13 @@ class TreeItem {
 
   virtual uint childCount(bool recursive = false) const = 0;
 
-  virtual QSharedPointer<TreeItem> child(uint row) const = 0;
+  virtual QSharedPointer<TreeItem> child(uint row) = 0;
+
+  virtual void removeChild(int) {};
 
   virtual QWeakPointer<TreeItem> parent() const { return QWeakPointer<TreeItem>(); }
 
-  virtual bool supportChildItems() const { return true; }
-
-  virtual QVariant metadata(const QString& key) const;
+  virtual bool supportChildItems() const { return true; }  
 
   virtual QVariantMap metadata() const;
 
@@ -57,9 +57,7 @@ class TreeItem {
 
   virtual bool isEnabled() const { return true; };
 
-  virtual bool isExpanded() const { return false; }
-
-  virtual bool canFetchMore() const { return false; }
+  virtual bool isExpanded() const { return false; }  
 
   virtual void fetchMore() {}
 

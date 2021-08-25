@@ -33,7 +33,7 @@ uint ServerItem::childCount(bool) const {
   return static_cast<uint>(m_databases.size());
 }
 
-QSharedPointer<TreeItem> ServerItem::child(uint row) const {
+QSharedPointer<TreeItem> ServerItem::child(uint row) {
   if (row < m_databases.size()) {
     return m_databases.at(row);
   }
@@ -84,16 +84,21 @@ void ServerItem::load() {
         }
 
         RedisClient::DatabaseList::const_iterator db = databases.constBegin();
+        QList<QSharedPointer<TreeItem>> dbs;
         while (db != databases.constEnd()) {
           QSharedPointer<TreeItem> database((new DatabaseItem(
               db.key(), db.value(), m_operations, m_self, m_model)));
 
-          m_databases.push_back(database);
+          dbs.push_back(database);
           ++db;
         }
 
+        m_model.beforeChildLoaded(getSelf(), dbs.size());
+        m_databases = dbs;
+        m_model.childLoaded(getSelf());
+
         unlock();
-        emit m_model.itemChildsLoaded(m_self);
+        m_model.expandItem(getSelf());
       };
 
   m_currentOperation = m_operations->getDatabases(callback);
@@ -118,7 +123,7 @@ void ServerItem::unload() {
 
   lock();
 
-  emit m_model.itemChildsUnloaded(m_self);
+  m_model.beforeItemChildsUnloaded(m_self);
 
   m_operations->disconnect();
 
@@ -131,7 +136,7 @@ void ServerItem::unload() {
   }
 
   m_databases.clear();
-
+  m_model.itemChildRemoved(getSelf());
   unlock();
 }
 
@@ -169,7 +174,7 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
 
   events.insert("reload", [this]() {
     reload();
-    emit m_model.itemChanged(getSelf());
+    m_model.itemChanged(getSelf());
   });
 
   events.insert("unload", [this]() { unload(); });

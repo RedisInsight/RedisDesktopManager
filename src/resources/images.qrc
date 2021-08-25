@@ -14,7 +14,7 @@
         <file alias="alert.svg">images/alert.svg</file>
         <file alias="add.svg">images/add.svg</file>
         <file alias="import.svg">images/import.svg</file>
-        <file alias="execute.svg">images/execute.svg</file>
+        <file alias="loader.svg">images/loader.svg</file>
         <file alias="export.svg">images/export.svg</file>
         <file alias="delete.svg">images/delete.svg</file>
         <file alias="ua.svg">images/ua.svg</file>

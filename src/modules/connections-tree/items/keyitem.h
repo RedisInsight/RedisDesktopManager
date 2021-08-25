@@ -9,7 +9,7 @@ namespace ConnectionsTree {
 class KeyItem : public TreeItem, public MemoryUsage {
  public:
   KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
-          Model& model);
+          Model& model, bool shortNameRendering);
 
   QString getDisplayName() const override;
 
@@ -23,7 +23,7 @@ class KeyItem : public TreeItem, public MemoryUsage {
 
   uint childCount(bool recursive = false) const override;
 
-  QSharedPointer<TreeItem> child(uint) const override;
+  QSharedPointer<TreeItem> child(uint) override;
 
   QWeakPointer<TreeItem> parent() const override;
 
