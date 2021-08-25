@@ -23,8 +23,6 @@ class DatabaseItem : public AbstractNamespaceItem {
 
   bool isEnabled() const override;
 
-  void notifyModel() override;
-
   QVariantMap metadata() const override;
 
   void setMetadata(const QString&, QVariant) override;
@@ -34,7 +32,8 @@ class DatabaseItem : public AbstractNamespaceItem {
   void reload(std::function<void()> callback = std::function<void()>());
 
  protected:
-  void loadKeys(std::function<void()> callback = std::function<void()>());
+  void loadKeys(std::function<void()> callback = std::function<void()>(),
+                bool partialReload=false);
   void unload(bool notify = true);
   void performLiveUpdate();
   void filterKeys(const QRegExp& filter);

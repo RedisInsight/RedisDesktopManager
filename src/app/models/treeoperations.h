@@ -27,9 +27,10 @@ class TreeOperations : public QObject,
   QFuture<void> getDatabases(std::function<void (RedisClient::DatabaseList, const QString&)>) override;
 
   void loadNamespaceItems(
-      QSharedPointer<ConnectionsTree::AbstractNamespaceItem> parent,
-      const QString& filter, std::function<void(const QString& err)> callback,
-      QSet<QByteArray> expandedNs) override;
+      uint dbIndex, const QString& filter,
+      std::function<void(const RedisClient::Connection::RawKeysList& keylist,
+                         const QString& err)>
+          callback) override;
 
   void disconnect() override;
 

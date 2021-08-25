@@ -23,14 +23,13 @@ QSharedPointer<AbstractNamespaceItem> parentTreeItemToNs(
 }
 
 KeyItem::KeyItem(const QByteArray& fullPath, QWeakPointer<TreeItem> parent,
-                 Model& model)
+                 Model& model, bool shortNameRendering)
     : TreeItem(model),
       m_fullPath(fullPath),
       m_parent(parent),
-      m_removed(false) {
-  QSettings settings;
-  m_shortRendering =
-      settings.value("app/namespacedKeysShortName", true).toBool();
+      m_removed(false),
+      m_shortRendering(shortNameRendering)
+{
 }
 
 QString KeyItem::getDisplayName() const {
@@ -64,7 +63,7 @@ bool KeyItem::supportChildItems() const { return false; }
 
 uint KeyItem::childCount(bool) const { return 0u; }
 
-QSharedPointer<TreeItem> KeyItem::child(uint) const {
+QSharedPointer<TreeItem> KeyItem::child(uint) {
   return QSharedPointer<TreeItem>();
 }
 
@@ -93,7 +92,7 @@ int KeyItem::getDbIndex() const {
 void KeyItem::setRemoved() {
   m_removed = true;
 
-  emit m_model.itemChanged(getSelf());
+  m_model.itemChanged(getSelf());
 }
 
 void KeyItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
@@ -105,14 +104,14 @@ void KeyItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
           [this, callback](qlonglong result) {
       m_usedMemory = result;
       callback(result);
-      emit m_model.itemChanged(getSelf());
+      m_model.itemChanged(getSelf());
   }, [](qlonglong){});
 }
 
 void KeyItem::setFullPath(const QByteArray& p) {
   m_fullPath = p;
 
-  emit m_model.itemChanged(getSelf());
+  m_model.itemChanged(getSelf());
 }
 
 QHash<QString, std::function<void()>> KeyItem::eventHandlers() {

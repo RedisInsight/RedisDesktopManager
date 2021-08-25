@@ -19,12 +19,12 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="83"/>
+        <location filename="../../app/app.cpp" line="79"/>
         <source>Settings directory is not writable</source>
         <translation>Каталог з налаштуваннями недоступний для запису</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="85"/>
+        <location filename="../../app/app.cpp" line="81"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM не може зберегти файл підключень до каталогу налаштувань. Змініть файлові дозволи або перезапустіть RDM як адміністратор.</translation>
     </message>
@@ -93,27 +93,32 @@
         <translation>Дані були завантажені з сервера частково.</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="29"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="30"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
         <translation>Не вдається завантажити ключ %1, сталася помилка підключення: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="40"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="41"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
         <translation>Не вдається завантажити ключ %1, оскільки він не існує в базі даних. Перезавантажте дерево підключення та повторіть спробу.</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="68"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
         <translation>Не вдається завантажити TTL для ключа %1, сталася помилка підключення: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="85"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="86"/>
         <source>Cannot retrieve type of the key: </source>
         <translation>Не вдається отримати тип ключа: </translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="59"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="129"/>
+        <source>Cannot open file with key value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="60"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>Тип даних Redis %1 не підтримується</translation>
     </message>
@@ -132,22 +137,22 @@
         <translation>Версія RDM з відкритим кодом &lt;b&gt;не підтримує тунелювання SSH&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; Щоб отримати повнофункціональну програму, придбайте підписку на &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Кожна окрема підписка дає нам кошти для продовження процесу розробки та надання підтримки нашим користувачам. &lt;br /&gt;Якщо у вас виникли запитання, будь ласка, зв&apos;яжіться з нами за адресою &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; або приєднуйтеся до &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram-чату&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="222"/>
+        <location filename="../../app/models/treeoperations.cpp" line="206"/>
         <source>Cannot load keys: %1</source>
         <translation>Не вдається завантажити ключі: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="308"/>
+        <location filename="../../app/models/treeoperations.cpp" line="292"/>
         <source>Delete key error: %1</source>
         <translation>Помилка видалення ключа: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="428"/>
+        <location filename="../../app/models/treeoperations.cpp" line="412"/>
         <source>Cannot determine amount of used memory by key: %1</source>
         <translation>Не вдається визначити обсяг використаної пам&apos;яті за ключем: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="371"/>
+        <location filename="../../app/models/treeoperations.cpp" line="355"/>
         <source>Cannot flush database: </source>
         <translation>Не вдається очистити базу даних: </translation>
     </message>
@@ -157,38 +162,38 @@
         <translation>Недійсне з’єднання. Перевірте налаштування підключення.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="196"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
         <translation>Автоматичне оновлення було вимкнено через перевищення обмеження ключів. Будь ласка, вказуйте фільтр обережніше або змініть обмеження в налаштуваннях.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="239"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="275"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>Ключ додано. Хочете перезавантажити ключі в обраній базі даних?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="247"/>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="141"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="283"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="133"/>
         <source>Key was added</source>
         <translation>Ключ додано</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="255"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="291"/>
         <source>Another operation is currently in progress</source>
         <translation>Інша операція вже обробляється</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="257"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="293"/>
         <source>Please wait until another operation will be finished.</source>
         <translation>Зачекайте, доки не буде закінчена інша операція.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="268"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="304"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>Ви дійсно хочете видалити всі ключі з цієї бази даних?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="68"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="71"/>
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="76"/>
         <source>Cannot load databases:
 
@@ -198,7 +203,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="195"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="231"/>
         <source>Live update was disabled</source>
         <translation>Автоматичне оновлення було вимкнено</translation>
     </message>
@@ -221,7 +226,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="223"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="292"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="277"/>
         <source>Size: </source>
         <translation>Розмір: </translation>
     </message>
@@ -286,7 +291,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="367"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="348"/>
         <source>Add Element to HLL</source>
         <translation>Додати елемент до HLL</translation>
     </message>
@@ -322,12 +327,12 @@
         <translation>Повний пошук</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="185"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="190"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>Вкладки значень та консоль, пов’язані з цим з’єднанням, будуть закриті. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="197"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="202"/>
         <source>Do you really want to delete connection?</source>
         <translation>Ви дійсно хочете видалити підключення?</translation>
     </message>
@@ -873,19 +878,19 @@
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="885"/>
-        <location filename="../../qml/GlobalSettings.qml" line="339"/>
+        <location filename="../../qml/GlobalSettings.qml" line="351"/>
         <location filename="../../qml/common/SaveToFileButton.qml" line="114"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="715"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="696"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../../qml/ConnectionSettignsDialog.qml" line="899"/>
-        <location filename="../../qml/GlobalSettings.qml" line="351"/>
+        <location filename="../../qml/GlobalSettings.qml" line="363"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="107"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="133"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
         <source>Cancel</source>
@@ -976,31 +981,36 @@
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="260"/>
+        <source>Maximum amount of rendered child items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/GlobalSettings.qml" line="272"/>
         <source>Live update maximum allowed keys</source>
         <translation>Максимальна кількість ключів для автоматичного оновлення</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="272"/>
+        <location filename="../../qml/GlobalSettings.qml" line="284"/>
         <source>Live update interval (in seconds)</source>
         <translation>Інтервал автоматичного оновлення (у секундах)</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="282"/>
+        <location filename="../../qml/GlobalSettings.qml" line="294"/>
         <source>External Value View Formatters</source>
         <translation>Зовнішні форматери</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="291"/>
+        <location filename="../../qml/GlobalSettings.qml" line="303"/>
         <source>Formatters path: %0</source>
         <translation>Шлях до форматерів:%0</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="308"/>
+        <location filename="../../qml/GlobalSettings.qml" line="320"/>
         <source>Name</source>
         <translation>Назва</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="313"/>
+        <location filename="../../qml/GlobalSettings.qml" line="325"/>
         <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>Version</source>
         <translation>Версія</translation>
@@ -1019,27 +1029,27 @@
         <translation>Інструкція для початківців</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="111"/>
+        <location filename="../../qml/app.qml" line="116"/>
         <source>Successful connection to redis-server</source>
         <translation>Успішне підключення до redis-сервера</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="114"/>
+        <location filename="../../qml/app.qml" line="119"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>Не вдається підключитися до redis-сервера</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="282"/>
+        <location filename="../../qml/app.qml" line="287"/>
         <source>Add Group</source>
         <translation>Додати групу</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="296"/>
+        <location filename="../../qml/app.qml" line="301"/>
         <source>Regroup connections</source>
         <translation>Перегрупувати підключення</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="318"/>
+        <location filename="../../qml/app.qml" line="323"/>
         <source>Exit Regroup Mode</source>
         <translation>Вийти з режиму перегрупування</translation>
     </message>
@@ -1202,7 +1212,7 @@
         <translation>Параметри</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="323"/>
+        <location filename="../../qml/GlobalSettings.qml" line="335"/>
         <location filename="../../qml/console/RedisConsole.qml" line="239"/>
         <source>Description</source>
         <translation>Опис</translation>
@@ -1355,7 +1365,7 @@
         <translation>Назва каналу</translation>
     </message>
     <message>
-        <location filename="../../qml/GlobalSettings.qml" line="317"/>
+        <location filename="../../qml/GlobalSettings.qml" line="329"/>
         <location filename="../../qml/server-info/ServerInfoTabs.qml" line="708"/>
         <source>Command</source>
         <translation>Команда</translation>
@@ -1412,11 +1422,26 @@
         <translation>Тип:</translation>
     </message>
     <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="68"/>
+        <source>Or Import Value from the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="74"/>
+        <source>(Optional) Any file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="76"/>
+        <source>Select file with value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="71"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="88"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="255"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="437"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="418"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
@@ -1437,8 +1462,8 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="71"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="118"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="219"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="144"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="229"/>
         <source>Error</source>
         <translation>Помилка</translation>
     </message>
@@ -1453,77 +1478,77 @@
         <translation>Введіть дійсне значення</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="264"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="210"/>
         <source>Formatting error</source>
         <translation>Помилка форматування</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="269"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="215"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>Невідома помилка форматування (порожня відповідь)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="297"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="282"/>
         <source>[Binary]</source>
         <translation>[Бінарне значення]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="300"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="285"/>
         <source> [Compressed: </source>
         <translation> [Стиснутий: </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="385"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="366"/>
         <source>Copy to Clipboard</source>
         <translation>Копіювати в буфер обміну</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="438"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="419"/>
         <source>Save Changes</source>
         <translation>Зберегти зміни</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="542"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="523"/>
         <source>Search string</source>
         <translation>Шукати строку</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="537"/>
         <source>Find Next</source>
         <translation>Знайти далі</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="537"/>
         <source>Find</source>
         <translation>Знайти</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="588"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="569"/>
         <source>Regex</source>
         <translation>Регулярний вираз</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="574"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="555"/>
         <source>Cannot find more results</source>
         <translation>Не вдається знайти більше результатів</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="575"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="556"/>
         <source>Cannot find any results</source>
         <translation>Не вдається знайти результати</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="711"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="692"/>
         <source>Binary value is too large to display</source>
         <translation>Бінарне значення завелике для відображення</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="306"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="291"/>
         <source>View as:</source>
         <translation>Переглянути як:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="343"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="324"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>Велике значення (&gt; 150 кБ). Форматери недоступні.</translation>
     </message>
@@ -1725,12 +1750,12 @@
         <translation>Не вдається встановити TTL для ключа </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="157"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="353"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation>Ваш redis сервер не підтримує команду &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="136"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="128"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
         <translation>Ключ додано. Хочете перезавантажити ключі в обраному неймспейсі?</translation>
     </message>
@@ -1748,7 +1773,7 @@
         <translation type="vanished">Зберегти значення</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="723"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="704"/>
         <source>Save value to file</source>
         <translation>Зберегти значення у файл</translation>
     </message>
@@ -1912,6 +1937,11 @@
         <location filename="../../qml/QuickStartDialog.qml" line="72"/>
         <source>Read the Docs</source>
         <translation>Читати документацію</translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/loadmoreitem.cpp" line="12"/>
+        <source>Load more keys</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

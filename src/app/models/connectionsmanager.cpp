@@ -60,7 +60,7 @@ void ConnectionsManager::updateGroup(const ConnectionGroup &group)
         return;
     }
 
-    onItemChanged(serverGroup);
+    itemChanged(serverGroup);
 
     saveConfig();
 
@@ -302,7 +302,7 @@ void ConnectionsManager::createServerItemForConnection(
       [this, serverItem]() {
         if (!serverItem) return;
 
-        onItemChanged(
+        itemChanged(
             serverItem.dynamicCast<ConnectionsTree::TreeItem>().toWeakRef());
       });
 

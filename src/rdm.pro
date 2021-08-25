@@ -65,6 +65,7 @@ HEADERS  += \
     $$files($$PWD/modules/bulk-operations/operations/*.h) \
     $$files($$PWD/modules/common/*.h) \
     $$files($$PWD/modules/server-stats/*.h) \
+    $$PWD/modules/connections-tree/items/loadmoreitem.h
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
 

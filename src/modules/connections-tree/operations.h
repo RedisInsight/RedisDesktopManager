@@ -37,9 +37,10 @@ class Operations {
    * @param callback
    */
   virtual void loadNamespaceItems(
-      QSharedPointer<AbstractNamespaceItem> parent, const QString& filter,
-      std::function<void(const QString& err)> callback,
-      QSet<QByteArray> expandedNs) = 0;
+      uint dbIndex, const QString& filter,
+      std::function<void(const RedisClient::Connection::RawKeysList& keylist,
+                         const QString& err)>
+          callback) = 0;
 
   /**
    * Cancel all operations & close connection

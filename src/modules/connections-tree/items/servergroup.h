@@ -21,7 +21,7 @@ class ServerGroup : public QObject, public SortableTreeItem {
 
   uint childCount(bool recursive = false) const override;
 
-  QSharedPointer<TreeItem> child(uint row) const override;
+  QSharedPointer<TreeItem> child(uint row) override;
 
   QSharedPointer<TreeItem> takeChild(uint row);
 

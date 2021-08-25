@@ -187,7 +187,7 @@ ColumnLayout {
         id: globalSearch
 
         Layout.fillWidth: true
-        iconSource: "qrc:/images/execute.svg"
+        iconSource: "qrc:/images/loader.svg"
         text: qsTranslate("RDM","Full Search")
 
         onClicked: {

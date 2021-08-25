@@ -9,11 +9,13 @@
 #include <functional>
 #include <typeinfo>
 
+#include "app/apputils.h"
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
 #include "keyitem.h"
 #include "namespaceitem.h"
 #include "serveritem.h"
+#include "loadmoreitem.h"
 
 using namespace ConnectionsTree;
 
@@ -34,21 +36,22 @@ QString DatabaseItem::getDisplayName() const {
                        ? ""
                        : QString("[filter: %1]").arg(m_filter.pattern());
 
+  QString baseString = QString("db%1").arg(m_dbIndex);
+
+  if (m_usedMemory > 0) {
+    baseString.append(QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));
+  }
+
   if (m_operations->mode() == "cluster") {
-    return QString("db%1 %2").arg(m_dbIndex).arg(filter);
+    return QString("%1 %2").arg(baseString).arg(filter);
   } else {
-    return QString("db%1 %2 (%3)").arg(m_dbIndex).arg(filter).arg(m_keysCount);
+    return QString("%1 %2 (%3)").arg(baseString).arg(filter).arg(m_keysCount);
   }
 }
 
 bool DatabaseItem::isEnabled() const { return true; }
 
-void DatabaseItem::notifyModel() {
-  unlock();
-  AbstractNamespaceItem::notifyModel();
-}
-
-void DatabaseItem::loadKeys(std::function<void()> callback) {
+void DatabaseItem::loadKeys(std::function<void()> callback, bool partialReload) {
   lock();
 
   QString filter = (m_filter.isEmpty()) ? "" : m_filter.pattern();
@@ -72,23 +75,41 @@ void DatabaseItem::loadKeys(std::function<void()> callback) {
 
         if (dbMapping.contains(m_dbIndex)) {
           m_keysCount = dbMapping[m_dbIndex];
-          emit m_model.itemChanged(getSelf());
+          m_model.itemChanged(getSelf());
         }
       };
 
   m_operations->getDatabases(dbLoadCallback);
 
-  m_operations->loadNamespaceItems(
-      qSharedPointerDynamicCast<AbstractNamespaceItem>(self), filter,
-      [this, callback](const QString& err) {
-        unlock();
-        if (!err.isEmpty()) return showLoadingError(err);
+  auto onKeysRendered = [this, callback]() {
+    ensureLoaderIsCreated();
+    unlock();
 
-        if (callback) {
-          callback();
+    if (!isExpanded()) {
+        setExpanded(true);
+        m_model.expandItem(getSelf());
+    }
+
+    m_model.itemChanged(getSelf());
+
+    if (callback) {
+      callback();
+    }
+  };
+
+  m_operations->loadNamespaceItems(
+      m_dbIndex, filter,
+      [this, onKeysRendered, partialReload](
+          const RedisClient::Connection::RawKeysList& keylist,
+          const QString& err) {
+        if (!err.isEmpty()) {
+          unlock();
+          return showLoadingError(err);
         }
-      },
-      m_model.m_expanded);
+
+        return renderRawKeys(keylist, m_filter, onKeysRendered,
+                             !partialReload, partialReload);
+      });
 }
 
 QVariantMap DatabaseItem::metadata() const {
@@ -139,7 +160,7 @@ void DatabaseItem::setMetadata(const QString& key, QVariant value) {
       liveUpdateTimer()->start();
     }
 
-    emit m_model.itemChanged(getSelf());
+    m_model.itemChanged(getSelf());
   }
 }
 
@@ -170,8 +191,21 @@ void DatabaseItem::unload(bool notify) {
 }
 
 void DatabaseItem::reload(std::function<void()> callback) {
-  unload(false);
-  loadKeys(callback);
+  clear();
+  loadKeys([this, callback]() {
+    QSettings settings;
+    m_model.expandedNamespaces.clear();
+
+    if (settings.value("app/reopenNamespacesOnReload", true).toBool()) {
+      auto self = getSelf().toStrongRef();
+
+      if (!self) return;
+
+      restoreOpenedNamespaces(self.staticCast<AbstractNamespaceItem>());
+    }
+
+    if (callback) callback();
+  });
 }
 
 void DatabaseItem::performLiveUpdate() {
@@ -184,12 +218,14 @@ void DatabaseItem::performLiveUpdate() {
     return;
   }
 
-  reload([this]() {
+  m_rawChildKeys.clear();
+
+  loadKeys([this]() {
     QSettings settings;
     if (m_childItems.size() >=
         settings.value("app/liveUpdateKeysLimit", 1000).toInt()) {
       liveUpdateTimer()->stop();
-      emit m_model.itemChanged(getSelf());
+      m_model.itemChanged(getSelf());
       QMessageBox::warning(
           nullptr,
           QCoreApplication::translate("RDM", "Live update was disabled"),
@@ -200,20 +236,20 @@ void DatabaseItem::performLiveUpdate() {
               "settings."));
     } else {
       liveUpdateTimer()->start();
-      emit m_model.itemChanged(getSelf());
+      m_model.itemChanged(getSelf());
     }
-  });
+  }, true);
 }
 
 void DatabaseItem::filterKeys(const QRegExp& filter) {
   m_filter = filter;
-  emit m_model.itemChanged(getSelf());
+  m_model.itemChanged(getSelf());
   reload();
 }
 
 void DatabaseItem::resetFilter() {
   m_filter = QRegExp(m_operations->defaultFilter());
-  emit m_model.itemChanged(getSelf());
+  m_model.itemChanged(getSelf());
   reload();
 }
 
@@ -229,7 +265,7 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
   events.insert("right-click", [this]() {
     if (m_childItems.size() != 0) return;
 
-    emit m_model.itemChanged(getSelf());
+    m_model.itemChanged(getSelf());
   });
 
   events.insert("add_key", [this]() {
