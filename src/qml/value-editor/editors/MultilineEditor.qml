@@ -147,6 +147,16 @@ Item
         }
     }
 
+    function hintFormatter(name) {
+        if (showOnlyRWformatters) {
+            rwFormatterSelector._select(name)
+            formatterSelector._select(name)
+        } else {
+            formatterSelector._select(name)
+        }
+        _loadFormatter(false)
+    }
+
     function _guessFormatter(value, isBin, callback) {
         console.log("Guessing formatter")
 
@@ -192,7 +202,7 @@ Item
 
             console.log("format", format)
 
-            if (error || !formatted) {
+            if (error || (!formatted && root.value)) {
                 if (formatted) {
                     textView.model = qmlUtils.wrapLargeText(formatted)
                 } else {
@@ -299,7 +309,7 @@ Item
                 objectName: "rdm_value_editor_formatter_combobox"
 
                 onActivated: {
-                    currentIndex = index
+                    currentIndex = index                    
                     console.log("Set default formatter '" + currentText + "' for key " + keyName)
                     defaultFormatterSettings.setValue(root.formatterSettingsPrefix + keyName, currentText)
                     loadFormattedValue()

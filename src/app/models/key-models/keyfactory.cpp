@@ -92,7 +92,6 @@ void KeyFactory::createNewKeyRequest(
     QSharedPointer<RedisClient::Connection> connection,
     std::function<void()> callback, int dbIndex, QString keyPrefix) {
   if (connection.isNull() || dbIndex < 0) return;
-
   emit newKeyDialog(NewKeyRequest(connection, dbIndex, callback, keyPrefix));
 }
 
@@ -156,7 +155,7 @@ QSharedPointer<ValueEditor::Model> KeyFactory::createModel(
   } else if (type == "hash") {
     return QSharedPointer<ValueEditor::Model>(
         new HashKeyModel(connection, keyFullPath, dbIndex, ttl));
-  } else if (type == "ReJSON-RL") {
+  } else if (type == "ReJSON-RL" || type == "ReJSON") {
     return QSharedPointer<ValueEditor::Model>(
         new ReJSONKeyModel(connection, keyFullPath, dbIndex, ttl));
   } else if (type == "stream") {
