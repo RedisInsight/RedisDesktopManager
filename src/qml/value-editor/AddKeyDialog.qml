@@ -9,8 +9,38 @@ BetterDialog {
     title: qsTranslate("RDM","Add New Key to ") + (request? request.dbIdString: "")
     visible: false
     property var request
+    property bool loadingKeyTypes: false
+    property var supportedKeyTypes
 
     footer: null
+
+    onRequestChanged: {
+        if (!request)
+            return;
+
+        root.loadingKeyTypes = true;
+        request.loadAdditionalKeyTypesInfo(processAdditionalKeyTypes);
+
+        root.supportedKeyTypes = Editor.getSupportedKeyTypes();
+    }
+
+
+    function processAdditionalKeyTypes() {
+        console.log(root.supportedKeyTypes)
+
+        if (arguments && arguments.length > 0) {
+            for (var indx in arguments) {
+                console.log("module:", arguments[indx])
+                root.supportedKeyTypes.push(arguments[indx])
+            }
+        }
+
+        console.log(root.supportedKeyTypes)
+
+        root.supportedKeyTypes = supportedKeyTypes;
+        root.loadingKeyTypes = false;
+    }
+
 
     Item {
         anchors.fill: parent
@@ -37,14 +67,22 @@ BetterDialog {
 
             BetterComboBox {
                 id: typeSelector
-                model: Editor.getSupportedKeyTypes()
+                model: root.supportedKeyTypes
                 Layout.fillWidth: true
                 objectName: "rdm_add_key_type_field"
 
                 onCurrentIndexChanged: {
-                    if (valueAddEditor.item.keyType !== undefined)
-                        valueAddEditor.item.keyType = typeSelector.model[typeSelector.currentIndex]
+                    if (valueAddEditor.item.keyType !== undefined) {
+                        valueAddEditor.item.keyType = typeSelector.model[typeSelector.currentIndex]                        
+                    }
                 }
+
+                BusyIndicator {
+                    anchors.centerIn: parent
+                    running: root.loadingKeyTypes === true
+                    width: typeSelector.height
+                }
+
             }
 
             Loader {

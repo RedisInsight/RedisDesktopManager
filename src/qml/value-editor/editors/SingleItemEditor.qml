@@ -31,8 +31,14 @@ AbstractEditor {
         }
     }
 
+    onKeyTypeChanged: {
+        if (root.keyType === "ReJSON") {
+            textEditor.hintFormatter("JSON")
+        }
+    }
+
     function initEmpty() {
-        textEditor.initEmpty()
+        textEditor.initEmpty()      
     }
 
     function validateValue(callback) {

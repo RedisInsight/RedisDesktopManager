@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <functional>
+#include <QJSValue>
 
 class NewKeyRequest {
   Q_GADGET
@@ -11,16 +12,11 @@ class NewKeyRequest {
   Q_PROPERTY(QString keyName READ keyName WRITE setKeyName)
   Q_PROPERTY(QString keyType READ keyType WRITE setKeyType)
   Q_PROPERTY(QVariantMap value READ value WRITE setValue)
-  Q_PROPERTY(QString valueFilePath READ valueFilePath WRITE setValueFilePath)
+  Q_PROPERTY(QString valueFilePath READ valueFilePath WRITE setValueFilePath)  
 
  public:
   NewKeyRequest(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
-                std::function<void()> callback, QString keyPrefix = QString())
-      : m_connection(connection),
-        m_dbIndex(dbIndex),
-        m_callback(callback),
-        m_keyName(keyPrefix),
-        m_valueFilePath(QString()){}
+                std::function<void()> callback, QString keyPrefix = QString());
 
   NewKeyRequest() {}
 
@@ -54,10 +50,13 @@ class NewKeyRequest {
     if (m_callback) m_callback();
   }
 
+  Q_INVOKABLE void loadAdditionalKeyTypesInfo(QJSValue jsCallback);
+
  private:
   QSharedPointer<RedisClient::Connection> m_connection;
   int m_dbIndex;
   std::function<void()> m_callback;
+  QJSValue m_jsCallback;
   QString m_keyName;
   QString m_keyType;
   QVariantMap m_value;
