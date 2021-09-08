@@ -111,9 +111,11 @@ ColumnLayout {
                 deleteRowConfirmation.text = qsTranslate("RDM","Do you really want to remove this row?")
             }
 
-            console.log("removing row", table.currentRow)
+            var rowIndex = table.currentStart + table.model.getOriginalRowIndex(table.currentRow)
 
-            deleteRowConfirmation.rowToDelete = table.model.getOriginalRowIndex(table.currentRow)
+            console.log("removing row", rowIndex)
+
+            deleteRowConfirmation.rowToDelete = rowIndex
             deleteRowConfirmation.open()
         }
 
