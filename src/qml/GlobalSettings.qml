@@ -87,16 +87,15 @@ Dialog {
 
                         }
 
-                        ComboboxOption {
+                        FontSizeOption {
                             id: appFontSize
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
-                            model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                             label: qsTranslate("RDM","Font Size")
 
-                            onValueChanged: root.restartRequired = true
+                            onValueChanged: root.restartRequired = true                            
                         }
 
                         ComboboxOption {
@@ -177,13 +176,12 @@ Dialog {
                             onValueChanged: root.restartRequired = true
                         }
 
-                        ComboboxOption {
+                        FontSizeOption {
                             id: valueEditorFontSize
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
-                            model: ["8", "9", "10", "11", "12", "13", "14", "15", "16"]
                             value: Qt.platform.os == "osx"? "12" : "11"
                             label: qsTranslate("RDM","Font Size")
 

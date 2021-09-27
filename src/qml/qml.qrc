@@ -35,6 +35,7 @@
         <file>common/ImageButton.qml</file>
         <file>GlobalSettings.qml</file>
         <file>settings/BoolOption.qml</file>
+        <file>settings/FontSizeOption.qml</file>
         <file>settings/IntOption.qml</file>
         <file>bulk-operations/BulkOperationsDialog.qml</file>        
         <file>settings/ComboboxOption.qml</file>

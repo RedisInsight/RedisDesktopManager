@@ -187,6 +187,8 @@ void Application::initAppInfo() {
 
 void Application::initAppFonts() {
   QSettings settings;
+
+  const int minFontSize = 4;
 #ifdef Q_OS_MAC
   QString defaultFontName("Helvetica Neue");
   QString defaultMonospacedFont("Monaco");
@@ -210,7 +212,7 @@ void Application::initAppFonts() {
 
   int appFontSize = settings.value("app/appFontSize", defaultFontSize).toInt();
 
-  if (appFontSize < 5)
+  if (appFontSize < minFontSize)
     appFontSize = defaultFontSize;
 
   if (appFont == "Open Sans") {
@@ -232,7 +234,7 @@ void Application::initAppFonts() {
 
   int valuesFontSize = settings.value("app/valueEditorFontSize", defaultFontSize).toInt();
 
-  if (valuesFontSize < 5)
+  if (valuesFontSize < minFontSize)
     valuesFontSize = defaultFontSize;
 
   int valueSizeLimit = settings.value("app/valueSizeLimit", defaultValueSizeLimit).toInt();
