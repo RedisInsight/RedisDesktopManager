@@ -212,7 +212,9 @@ TreeView {
                         anchors.leftMargin: 3
                         anchors.verticalCenter: parent.verticalCenter
                         text: wrapper.itemEnabled ? styleData.value["name"] : styleData.value["name"] + qsTranslate("RDM"," (Removed)")
-                        color: wrapper.itemEnabled ? sysPalette.windowText: inactiveSysPalette.windowText
+                        color: wrapper.itemEnabled ?
+                                   styleData.selected? sysPalette.highlightedText : sysPalette.windowText:
+                                   inactiveSysPalette.windowText
                     }
 
                     Loader {
