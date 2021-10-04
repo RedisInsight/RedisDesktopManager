@@ -28,6 +28,7 @@ SOURCES += \
     $$PWD/app/apputils.cpp \
     $$PWD/app/events.cpp \
     $$PWD/app/qmlutils.cpp \
+    $$PWD/app/jsonutils.cpp \
     $$PWD/app/qcompress.cpp \
     $$files($$PWD/app/models/*.cpp) \
     $$files($$PWD/app/models/key-models/*.cpp) \
@@ -48,6 +49,7 @@ HEADERS  += \
     $$PWD/app/events.h \
     $$PWD/app/apputils.h \
     $$PWD/app/qmlutils.h \
+    $$PWD/app/jsonutils.h \
     $$PWD/app/qcompress.h \
     $$PWD/app/darkmode.h \
     $$files($$PWD/app/models/*.h) \
