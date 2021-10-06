@@ -115,7 +115,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="128"/>
         <source>Cannot open file with key value</source>
-        <translation type="unfinished"></translation>
+        <translation>無法以鍵值開啟檔案</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="60"/>
@@ -890,7 +890,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="258"/>
         <source>Maximum amount of rendered child items</source>
-        <translation type="unfinished"></translation>
+        <translation>子項目的最大渲染數量</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="270"/>
@@ -1205,27 +1205,27 @@
         <location filename="../../modules/api/qml/SignInDialog.qml" line="415"/>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="437"/>
         <source>Offline Activation</source>
-        <translation type="unfinished"></translation>
+        <translation>離線啟用</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="458"/>
         <source>Paste Activation code here</source>
-        <translation type="unfinished"></translation>
+        <translation>在此處貼上啟用碼</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="474"/>
         <source>Where can I find my activation code?</source>
-        <translation type="unfinished"></translation>
+        <translation>我能在哪裡找到我的啟用碼？</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="483"/>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="488"/>
         <source>Please enter valid activation code.</source>
-        <translation type="unfinished"></translation>
+        <translation>請輸入啟用碼</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
@@ -1593,17 +1593,17 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="106"/>
         <source>Or Import Value from the file</source>
-        <translation type="unfinished"></translation>
+        <translation>或從檔案匯入值</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="112"/>
         <source>(Optional) Any file</source>
-        <translation type="unfinished"></translation>
+        <translation>(可選) 任何檔案</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
         <source>Select file with value</source>
-        <translation type="unfinished"></translation>
+        <translation>以值選擇檔案</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
@@ -1990,7 +1990,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/loadmoreitem.cpp" line="12"/>
         <source>Load more keys</source>
-        <translation type="unfinished"></translation>
+        <translation>載入更多鍵</translation>
     </message>
 </context>
 </TS>
