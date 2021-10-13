@@ -1,5 +1,7 @@
 #include "keysrendering.h"
 
+#include <QtGlobal>
+
 #include "items/abstractnamespaceitem.h"
 #include "items/keyitem.h"
 #include "items/namespaceitem.h"
@@ -95,7 +97,9 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
         bulkInsertItems.append(rawKey);
         continue;
     } else if (bulkInsertItems.size() > 0 && parent) {
-      int itemsAboutToBeInserted = settings.renderLimit - parent->getAllChilds().size();
+      int itemsAboutToBeInserted =
+          qMin(static_cast<uint>(bulkInsertItems.size()),
+               settings.renderLimit - parent->getAllChilds().size());
 
       qDebug() << "Bulk insert" << itemsAboutToBeInserted;
 
