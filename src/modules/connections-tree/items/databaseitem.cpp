@@ -257,7 +257,13 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
   auto events = AbstractNamespaceItem::eventHandlers();
 
   events.insert("click", [this]() {
-    if (m_childItems.size() != 0) return;
+    if (m_childItems.size() != 0) {
+        if (!isExpanded()) {
+            setExpanded(true);
+            m_model.expandItem(getSelf());
+        }
+        return;
+    }
 
     loadKeys();
   });

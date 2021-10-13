@@ -285,7 +285,11 @@ unsigned int Model::size() { return m_treeItems.size(); }
 void Model::setExpanded(const QModelIndex &index) {
   TreeItem *item = getItemFromIndex(index);
 
-  if (!item || item->type() != "namespace") return;
+  if (!item) return;
+
+  item->setExpanded(true);
+
+  if (item->type() != "namespace") return;
 
   expandedNamespaces.insert(item->getFullPath());
 }
@@ -293,11 +297,23 @@ void Model::setExpanded(const QModelIndex &index) {
 void Model::setCollapsed(const QModelIndex &index) {
   TreeItem *item = getItemFromIndex(index);
 
-  if (!item || item->type() != "namespace") return;
+  if (!item) return;
 
-  // TODO: remove child ns
+  QTimer::singleShot(10, [item]() {
+      if (item) item->setExpanded(false);
+  });
 
-  expandedNamespaces.remove(item->getFullPath());
+  if (item->type() != "namespace") return;
+
+  if (expandedNamespaces.contains(item->getFullPath())) {
+    expandedNamespaces.remove(item->getFullPath());
+
+    QMutableSetIterator<QByteArray> it(expandedNamespaces);
+    while (it.hasNext()) {
+        if (it.next().startsWith(item->getFullPath()))
+            it.remove();
+    }
+  }
 }
 
 void Model::collapseRootItems()

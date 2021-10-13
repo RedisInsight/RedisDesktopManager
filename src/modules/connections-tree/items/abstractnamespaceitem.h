@@ -66,10 +66,6 @@ class AbstractNamespaceItem : public QObject, public TreeItem, public MemoryUsag
     return m_childNamespaces[name];
   }
 
-  virtual bool isExpanded() const override { return m_expanded; }
-
-  virtual void setExpanded(bool v) { m_expanded = v; }
-
   virtual uint getDbIndex() { return m_dbIndex; }
 
   virtual QSharedPointer<Operations> operations() { return m_operations; }
@@ -111,8 +107,7 @@ class AbstractNamespaceItem : public QObject, public TreeItem, public MemoryUsag
   QList<QSharedPointer<TreeItem>> m_childItems;
   QHash<QByteArray, QSharedPointer<AbstractNamespaceItem>> m_childNamespaces;
   QList<QByteArray> m_rawChildKeys;
-  QRegExp m_filter;
-  bool m_expanded;
+  QRegExp m_filter;  
   uint m_dbIndex;
   QSharedPointer<AsyncFuture::Deferred<qlonglong>> m_runningOperation;
   bool m_showNsOnTop;  

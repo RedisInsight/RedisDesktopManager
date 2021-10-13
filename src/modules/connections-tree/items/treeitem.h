@@ -57,7 +57,9 @@ class TreeItem {
 
   virtual bool isEnabled() const { return true; };
 
-  virtual bool isExpanded() const { return false; }  
+  virtual bool isExpanded() const { return m_expanded; }
+
+  virtual void setExpanded(bool v) { m_expanded = v; }
 
   virtual void fetchMore() {}
 
@@ -72,6 +74,7 @@ class TreeItem {
   Model& m_model;  
   QWeakPointer<TreeItem> m_selfPtr;
   bool m_locked;
+  bool m_expanded;
   QFuture<void> m_currentOperation;
 };
 

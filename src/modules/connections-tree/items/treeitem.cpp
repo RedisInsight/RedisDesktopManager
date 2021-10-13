@@ -1,7 +1,8 @@
 #include "treeitem.h"
 #include "connections-tree/model.h"
 
-ConnectionsTree::TreeItem::TreeItem(Model &m) : m_model(m), m_locked(false) {}
+ConnectionsTree::TreeItem::TreeItem(Model &m)
+    : m_model(m), m_locked(false), m_expanded(false) {}
 
 QVariantMap ConnectionsTree::TreeItem::metadata() const {
   QVariantMap meta;

@@ -22,8 +22,7 @@ AbstractNamespaceItem::AbstractNamespaceItem(
       m_parent(parent),
       m_operations(operations),
       m_filter(filter.isEmpty() ? QRegExp(operations->defaultFilter())
-                                : filter),
-      m_expanded(false),
+                                : filter),      
       m_dbIndex(dbIndex),
       m_runningOperation(nullptr) {
   QSettings settings;

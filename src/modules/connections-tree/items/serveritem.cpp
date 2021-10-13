@@ -161,7 +161,13 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
   events.insert("click", [this]() {
-    if (isDatabaseListLoaded()) return;
+    if (isDatabaseListLoaded()) {
+        if (!isExpanded()) {
+            setExpanded(true);
+            m_model.expandItem(getSelf());
+        }
+        return;
+    }
 
     load();
   });
