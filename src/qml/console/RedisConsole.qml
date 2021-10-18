@@ -46,9 +46,10 @@ Rectangle {
                             + appSettings.valueEditorFont + "'>"
                             + qmlUtils.escapeHtmlEntities(text) + '</span>')
         } else {
-            textArea.append("<pre style='color: white; font-family: "
+            console.log(qmlUtils.escapeHtmlEntities(text))
+            textArea.append("<code style='color: white;white-space: pre-wrap;font-family: "
                             + appSettings.valueEditorFont + "'>"
-                            + qmlUtils.escapeHtmlEntities(text) + '</pre>')
+                            + qmlUtils.escapeHtmlEntities(text) + '</code>')
         }
 
         if (type == "complete" || type == "error") {

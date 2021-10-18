@@ -77,7 +77,7 @@ void Model::execCmd(QList<QByteArray> cmd)
         }
 
         QVariant value = result.value();
-        emit addOutput(RedisClient::Response::valueToHumanReadString(value),
+        emit addOutput(RedisClient::Response::valueToHumanReadString(value).replace("\r\n", "\n"),
                        "part");
       });
 
@@ -98,7 +98,7 @@ void Model::execCmd(QList<QByteArray> cmd)
           }
 
           QVariant value = result.value();
-          emit addOutput(RedisClient::Response::valueToHumanReadString(value),
+          emit addOutput(RedisClient::Response::valueToHumanReadString(value).replace("\r\n", "\n"),
                          "complete");
         });
 
