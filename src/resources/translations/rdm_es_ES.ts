@@ -115,7 +115,7 @@
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="128"/>
         <source>Cannot open file with key value</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede abrir el fichero con clave valor</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="60"/>
@@ -898,7 +898,7 @@
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="258"/>
         <source>Maximum amount of rendered child items</source>
-        <translation type="unfinished"></translation>
+        <translation type="">Cantidad máxima de items hijos a mostrar</translation>
     </message>
     <message>
         <location filename="../../qml/GlobalSettings.qml" line="270"/>
@@ -1213,27 +1213,27 @@
         <location filename="../../modules/api/qml/SignInDialog.qml" line="415"/>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="437"/>
         <source>Offline Activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Activación Offline</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="458"/>
         <source>Paste Activation code here</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar aquí código de Activación</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="474"/>
         <source>Where can I find my activation code?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Dónde puedo encontrar mi código de activación?</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="483"/>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="488"/>
         <source>Please enter valid activation code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor introduzca un código de activación válido</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
@@ -1601,17 +1601,17 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="106"/>
         <source>Or Import Value from the file</source>
-        <translation type="unfinished"></translation>
+        <translation>O importar valor desde el fichero</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="112"/>
         <source>(Optional) Any file</source>
-        <translation type="unfinished"></translation>
+        <translation><(Opcional) Cualquier fichero/translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
         <source>Select file with value</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar fichero con valor</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
@@ -2006,7 +2006,7 @@
     <message>
         <location filename="../../modules/connections-tree/items/loadmoreitem.cpp" line="12"/>
         <source>Load more keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargar más claves</translation>
     </message>
 </context>
 </TS>
