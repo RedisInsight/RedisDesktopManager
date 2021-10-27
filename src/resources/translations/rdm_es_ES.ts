@@ -1606,7 +1606,7 @@
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="112"/>
         <source>(Optional) Any file</source>
-        <translation>(Opcional) Cualquier fichero/translation>
+        <translation>(Opcional) Cualquier fichero</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
