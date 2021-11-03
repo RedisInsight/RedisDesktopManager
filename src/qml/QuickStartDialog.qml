@@ -37,13 +37,14 @@ BetterDialog {
 
                     BetterLabel {
                         Layout.fillWidth: true
-                        wrapMode: Text.WrapAnywhere
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
                         text: qsTranslate("RDM","Thank you for choosing RDM. Let's make your Redis experience better.")
                         font.pixelSize: 16
 
                         Component.onCompleted: {
                             if (!PlatformUtils.isOSX()) {
-                                root.width = contentWidth
+                                root.width = contentWidth + 100
                             }
                         }
                     }
