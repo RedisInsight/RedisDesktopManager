@@ -69,21 +69,23 @@ void BulkOperations::DeleteOperation::deleteKeys(
         if (r.isErrorMessage()) {
           return processError(r.value().toByteArray());
         }
+        
+        {
+            QMutexLocker l(&m_processedKeysMutex);
+            QVariant incrResult = r.value();
 
-        QMutexLocker l(&m_processedKeysMutex);
-        QVariant incrResult = r.value();
+            if (incrResult.canConvert(QVariant::ByteArray)) {
+              m_progress++;
+            } else if (incrResult.canConvert(QVariant::List)) {
+              auto responses = incrResult.toList();
 
-        if (incrResult.canConvert(QVariant::ByteArray)) {
-          m_progress++;
-        } else if (incrResult.canConvert(QVariant::List)) {
-          auto responses = incrResult.toList();
+              for (auto resp : responses) {
+                m_progress++;
+              }
+            }
 
-          for (auto resp : responses) {
-            m_progress++;
-          }
+            emit progress(m_progress);
         }
-
-        emit progress(m_progress);
 
         if (m_progress >= expectedResponses) {
           callback();

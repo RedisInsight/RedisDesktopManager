@@ -151,6 +151,18 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
   return true;
 }
 
+void ConnectionsManager::tryToConnect(const ServerConfig &config, QJSValue jsCallback)
+{
+    RedisClient::Connection testConnection(config);
+    m_events->registerLoggerForConnection(testConnection);
+
+    try {
+      jsCallback.call(QJSValueList{testConnection.connect()});
+    } catch (const RedisClient::Connection::Exception&) {
+      jsCallback.call(QJSValueList{false});
+    }
+}
+
 void ConnectionsManager::saveConfig() {
   saveConnectionsConfigToFile(m_configPath);
 }
@@ -169,7 +181,14 @@ bool ConnectionsManager::saveConnectionsConfigToFile(
 
     if (!op) return;
 
-    connections.push_back(QJsonValue(op->config().toJsonObject()));
+    auto config = op->config();
+    QSet<QString> ignoreFields {"id"};
+
+    if (config.askForSshPassword()) {
+        ignoreFields.insert(ServerConfig::SSH_SECRET_ID);
+    }
+
+    connections.push_back(QJsonValue(config.toJsonObject(ignoreFields)));
   };
 
   for (auto item : m_treeItems) {
@@ -195,15 +214,43 @@ bool ConnectionsManager::saveConnectionsConfigToFile(
   return saveJsonArrayToFile(connections, pathToFile);
 }
 
-bool ConnectionsManager::testConnectionSettings(const ServerConfig& config) {
-  RedisClient::Connection testConnection(config);
-  m_events->registerLoggerForConnection(testConnection);
-
-  try {
-    return testConnection.connect();
-  } catch (const RedisClient::Connection::Exception&) {
-    return false;
+void ConnectionsManager::testConnectionSettings(const ServerConfig& config,
+                                                QJSValue jsCallback) {
+  if (!jsCallback.isCallable()) {
+    qDebug() << "JS callback is not callable";
+    return;
   }
+
+  if (config.askForSshPassword()) {
+    m_jsCallback = jsCallback;
+
+    emit askUserForConnectionSecret(config, ServerConfig::SSH_SECRET_ID);
+  } else {
+    tryToConnect(config, jsCallback);
+  }
+}
+
+void ConnectionsManager::proceedWithConnectionSecret(const ServerConfig &config)
+{
+    if (m_jsCallback.isCallable()) {
+        tryToConnect(config, m_jsCallback);
+        m_jsCallback = QJSValue();
+        return;
+    }
+
+    if (!config.owner()) {
+        qWarning() << "Invalid config with secret";
+        return;
+    }
+
+    auto treeOperations = config.owner().toStrongRef();
+
+    if (!treeOperations) {
+        qWarning() << "Config with secret doesn't have owner";
+        return;
+    }
+
+    treeOperations->proceedWithSecret(config);
 }
 
 ServerConfig ConnectionsManager::createEmptyConfig() const {
@@ -286,6 +333,9 @@ void ConnectionsManager::createServerItemForConnection(
   connect(treeModel.data(), &TreeOperations::createNewConnection, this,
           [this](const ServerConfig& config) { addNewConnection(config); });
 
+  connect(treeModel.data(), &TreeOperations::secretRequired, this,
+          &ConnectionsManager::askUserForConnectionSecret);
+
   QWeakPointer<TreeItem> parent;
 
   if (group) {
@@ -315,9 +365,16 @@ void ConnectionsManager::createServerItemForConnection(
           this, [this, treeModel]() {
             if (!treeModel) return;
 
-            emit connectionAboutToBeEdited(treeModel->config().name());            
+            auto config = treeModel->config();
 
-            emit editConnection(treeModel->config());
+            emit connectionAboutToBeEdited(config.name());
+
+            // NOTE(u_glide): Do not show temproary stored password in the UI
+            if (config.askForSshPassword()) {
+                config.setSshPassword(QString());
+            }
+
+            emit editConnection(config);
           });
 
   connect(serverItem.data(),

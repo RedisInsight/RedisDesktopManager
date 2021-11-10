@@ -17,7 +17,7 @@ TextField {
     background: Rectangle {
         implicitWidth: control.bgImplicitWidth
         implicitHeight: control.bgImplicitHeight
-        color: sysPalette.button
+        color: control.enabled? sysPalette.button : inactiveSysPalette.button
         border.width: control.validationError? 2 : 1
         border.color: {
             if (control.validationError || !control.acceptableInput)

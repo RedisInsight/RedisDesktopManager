@@ -12,7 +12,7 @@ CheckBox {
            x: checkBox.leftPadding
            y: parent.height / 2 - height / 2
            radius: 3
-           color: checkBox.down ? sysPalette.dark : sysPalette.base
+           color: checkBox.down || !checkBox.enabled ? sysPalette.dark : sysPalette.base
            border.color: sysPalette.dark
 
            Rectangle {

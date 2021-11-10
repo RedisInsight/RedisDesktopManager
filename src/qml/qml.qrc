@@ -3,13 +3,13 @@
         <file>app.qml</file>
         <file>WelcomeTab.qml</file>
         <file>QuickStartDialog.qml</file>
-        <file>ConnectionSettignsDialog.qml</file>
         <file>common/RichTextWithLinks.qml</file>
         <file>common/PasswordInput.qml</file>
         <file>common/AddressInput.qml</file>
         <file>common/FilePathInput.qml</file>
         <file>common/BetterTabView.qml</file>
         <file>common/BetterTab.qml</file>
+        <file>connections/ConnectionSettignsDialog.qml</file>
         <file>connections-tree/menu/InlineMenu.qml</file>
         <file>connections-tree/menu/server.qml</file>
         <file>connections-tree/menu/database.qml</file>
@@ -33,11 +33,11 @@
         <file>AppToolBar.qml</file>
         <file>common/BetterSplitView.qml</file>
         <file>common/ImageButton.qml</file>
-        <file>GlobalSettings.qml</file>
+        <file>settings/GlobalSettings.qml</file>
         <file>settings/BoolOption.qml</file>
         <file>settings/FontSizeOption.qml</file>
         <file>settings/IntOption.qml</file>
-        <file>bulk-operations/BulkOperationsDialog.qml</file>        
+        <file>bulk-operations/BulkOperationsDialog.qml</file>
         <file>settings/ComboboxOption.qml</file>
         <file>server-info/ServerInfoTabs.qml</file>
         <file>common/platformutils.js</file>
@@ -54,6 +54,7 @@
         <file>common/BetterMessageDialog.qml</file>
         <file>common/BetterDialog.qml</file>
         <file>common/OkDialog.qml</file>
+        <file>common/OkDialogOverlay.qml</file>
         <file>common/BetterSpinBox.qml</file>
         <file>common/BetterComboBox.qml</file>
         <file>value-editor/editors/formatters/ValueFormatters.qml</file>
@@ -69,5 +70,7 @@
         <file>value-editor/filters/ListFilters.qml</file>
         <file>value-editor/filters/StreamFilters.qml</file>
         <file>common/JsonHighlighter.qml</file>
+        <file>connections/AskSecretDialog.qml</file>
+        <file>common/OkDialogOverlay.qml</file>
     </qresource>
 </RCC>

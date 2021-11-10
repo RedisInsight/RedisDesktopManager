@@ -5,9 +5,9 @@ import QtQuick.Controls 1.4 as LC
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
 import QtQuick.Window 2.3
-import "./common"
-import "./settings"
-import "./common/platformutils.js" as PlatformUtils
+import "../common"
+import "."
+import "../common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root

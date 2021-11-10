@@ -88,20 +88,22 @@ void BulkOperations::RDBImportOperation::performOperation(
             return processError(err);
           }
 
-          QMutexLocker l(&m_processedKeysMutex);
-          QVariant incrResult = r.value();
+          {
+            QMutexLocker l(&m_processedKeysMutex);
+            QVariant incrResult = r.value();
 
-          if (incrResult.canConvert(QVariant::ByteArray)) {
-            m_progress++;
-          } else if (incrResult.canConvert(QVariant::List)) {
-            auto responses = incrResult.toList();
-
-            for (auto resp : responses) {
+            if (incrResult.canConvert(QVariant::ByteArray)) {
               m_progress++;
-            }
-          }
+            } else if (incrResult.canConvert(QVariant::List)) {
+              auto responses = incrResult.toList();
 
-          emit progress(m_progress);
+              for (auto resp : responses) {
+                m_progress++;
+              }
+            }
+
+            emit progress(m_progress);
+          }
 
           if (m_progress >= expectedResponses) {
             returnResults();

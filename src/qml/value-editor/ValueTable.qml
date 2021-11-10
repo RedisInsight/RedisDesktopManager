@@ -335,7 +335,7 @@ Item {
                             }
                         }
 
-                        OkDialog {
+                        OkDialogOverlay {
                             id: valueErrorNotification
                             visible: false
                         }

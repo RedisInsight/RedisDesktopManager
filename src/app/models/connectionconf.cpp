@@ -73,3 +73,13 @@ void ServerConfig::setFilterHistory(QVariantMap filterHistory)
 {
     setParam<QVariantMap>("filter_history", filterHistory);
 }
+
+bool ServerConfig::askForSshPassword() const
+{
+    return param<bool>("ask_ssh_password", false);
+}
+
+void ServerConfig::setAskForSshPassword(bool v)
+{
+    setParam<bool>("ask_ssh_password", v);
+}

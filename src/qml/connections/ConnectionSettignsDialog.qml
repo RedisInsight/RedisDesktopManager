@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.13
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.3
-import "./common"
-import "./common/platformutils.js" as PlatformUtils
+import "../common"
+import "../common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root
@@ -653,9 +653,10 @@ Dialog {
                                     }
 
                                     BetterGroupbox {
+                                        id: sshKeyGroupBox
                                         labelText: qsTranslate("RDM","Private Key")
                                         objectName: "rdm_connection_security_ssh_key_group_box"
-                                        checked: root.settings ? root.settings.sshPrivateKey : false
+                                        checked: root.settings ? root.settings.sshPrivateKey : false                                        
 
                                         Layout.columnSpan: 2
                                         Layout.fillWidth: true
@@ -684,20 +685,38 @@ Dialog {
                                     }
 
                                     BetterGroupbox {
-                                        labelText: qsTranslate("RDM","Password")
+                                        labelText: sshKeyGroupBox.checked? qsTranslate("RDM","Passphrase") : qsTranslate("RDM","Password")
                                         objectName: "rdm_connection_security_ssh_password_group_box"
-                                        checked: root.settings ? root.settings.sshPassword : true
+                                        checked: root.settings ? root.settings.sshPassword || root.settings.askForSshPassword : true
 
                                         Layout.columnSpan: 2
                                         Layout.fillWidth: true
 
-                                        PasswordInput {
-                                            id: sshPassword
-                                            objectName: "rdm_connection_security_ssh_password_field"
+                                        RowLayout {
                                             anchors.fill: parent
-                                            placeholderText: qsTranslate("RDM","SSH User Password")
-                                            text: root.settings ? root.settings.sshPassword : ""
-                                            onTextChanged: root.settings.sshPassword = text
+
+                                            PasswordInput {
+                                                id: sshPassword
+                                                objectName: "rdm_connection_security_ssh_password_field"
+
+                                                Layout.fillWidth: true
+                                                placeholderText: sshKeyGroupBox.checked? qsTranslate("RDM","Passphrase for provided private key")
+                                                                                       : sshAskForPasswordCheckbox.checked?
+                                                                                             qsTranslate("RDM","Password request will be prompt prior to connection")
+                                                                                           : qsTranslate("RDM","SSH User Password")
+                                                text: root.settings ? root.settings.sshPassword : ""
+                                                onTextChanged: root.settings.sshPassword = text
+
+                                                enabled: !sshAskForPasswordCheckbox.checked
+                                            }
+
+                                            BetterCheckbox {
+                                                id: sshAskForPasswordCheckbox
+                                                objectName: "rdm_connection_security_ssh_ask_for_password"
+                                                text: qsTranslate("RDM","Ask for password")
+                                                checked: root.settings ? root.settings.askForSshPassword : false
+                                                onCheckedChanged: root.settings.askForSshPassword = checked
+                                            }
                                         }
                                     }
 
@@ -920,23 +939,24 @@ Dialog {
                     anchors.fill: parent
                 }
             }
-            MessageDialog {
+            OkDialogOverlay {
                 id: dialog_notification
-                objectName: "rdm_qml_connection_settings_error_dialog"
-                visible: false
-                modality: Qt.NonModal
-                icon: StandardIcon.Warning
-                standardButtons: StandardButton.Ok
 
-                function showError(msg) {
-                    icon = StandardIcon.Warning
+                x: (root.width - width) / 2
+                y: (root.height - height) / 3
+
+                objectName: "rdm_qml_connection_settings_error_dialog"
+                visible: false                                              
+
+                function showError(msg) {                    
                     text = msg
+                    title = qsTranslate("RDM","Error")
                     open()
                 }
 
-                function showMsg(msg) {
-                    icon = StandardIcon.Information
+                function showMsg(msg) {                    
                     text = msg
+                    title = qsTranslate("RDM","Success")
                     open()
                 }
             }
