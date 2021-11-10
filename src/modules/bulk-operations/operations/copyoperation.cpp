@@ -38,27 +38,29 @@ void BulkOperations::CopyOperation::performOperation(
       return processError(err);
     }
 
-    QMutexLocker l(&m_processedKeysMutex);
-    QVariant incrResult = r.value();
+    {
+      QMutexLocker l(&m_processedKeysMutex);
+      QVariant incrResult = r.value();
 
-    auto getRestoreCmd = [this, r, replace, ttl](const QByteArray& dump) {
-      QList<QByteArray> restoreCmd{
-          "RESTORE", m_affectedKeys[m_dumpedKeys].toUtf8(), ttl, dump};
-      if (!replace.isEmpty()) {
-        restoreCmd.append(replace);
-      }
-      return restoreCmd;
-    };
+      auto getRestoreCmd = [this, r, replace, ttl](const QByteArray& dump) {
+        QList<QByteArray> restoreCmd{
+            "RESTORE", m_affectedKeys[m_dumpedKeys].toUtf8(), ttl, dump};
+        if (!replace.isEmpty()) {
+          restoreCmd.append(replace);
+        }
+        return restoreCmd;
+      };
 
-    if (incrResult.canConvert(QVariant::ByteArray)) {
-      m_restoreBuffer.append(getRestoreCmd(incrResult.toByteArray()));
-      m_dumpedKeys++;
-    } else if (incrResult.canConvert(QVariant::List)) {
-      auto responses = incrResult.toList();
-
-      for (auto resp : responses) {
-        m_restoreBuffer.append(getRestoreCmd(resp.toByteArray()));
+      if (incrResult.canConvert(QVariant::ByteArray)) {
+        m_restoreBuffer.append(getRestoreCmd(incrResult.toByteArray()));
         m_dumpedKeys++;
+      } else if (incrResult.canConvert(QVariant::List)) {
+        auto responses = incrResult.toList();
+
+        for (auto resp : qAsConst(responses)) {
+          m_restoreBuffer.append(getRestoreCmd(resp.toByteArray()));
+          m_dumpedKeys++;
+        }
       }
     }
 
@@ -71,26 +73,28 @@ void BulkOperations::CopyOperation::performOperation(
               return processError(err);
             }
             QVariant incrResult = r.value();
-            QMutexLocker l(&m_processedKeysMutex);
+            {
+              QMutexLocker l(&m_processedKeysMutex);
 
-            if (incrResult.canConvert(QVariant::ByteArray)) {
-              if (r.isErrorMessage()) {
-                return processError(incrResult.toString());
-              }
-              m_progress++;
-            } else if (incrResult.canConvert(QVariant::List)) {
-              auto responses = incrResult.toList();
-
-              for (auto resp : responses) {
-                if (resp.toString().startsWith("ERR")) {
-                  return processError(resp.toString());
+              if (incrResult.canConvert(QVariant::ByteArray)) {
+                if (r.isErrorMessage()) {
+                  return processError(incrResult.toString());
                 }
-
                 m_progress++;
-              }
-            }
+              } else if (incrResult.canConvert(QVariant::List)) {
+                auto responses = incrResult.toList();
 
-            emit progress(m_progress);
+                for (auto resp : responses) {
+                  if (resp.toString().startsWith("ERR")) {
+                    return processError(resp.toString());
+                  }
+
+                  m_progress++;
+                }
+              }
+
+              emit progress(m_progress);
+            }
 
             if (m_progress >= m_affectedKeys.size()) {
               returnResults();

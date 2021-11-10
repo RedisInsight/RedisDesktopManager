@@ -38,7 +38,6 @@ Repeater {
                     title: qsTranslate("RDM","Changes are not saved")
                     text: qsTranslate("RDM","Do you want to close key tab without saving changes?")
 
-                    modality: Qt.WindowModal
                     visible: false
 
                     onYesClicked: {

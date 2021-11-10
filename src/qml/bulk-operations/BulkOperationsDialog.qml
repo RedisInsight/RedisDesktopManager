@@ -466,9 +466,14 @@ Dialog {
                 }
             }
 
-            OkDialog {
+            OkDialogOverlay {
                 id: bulkSuccessNotification
-                modality: Qt.ApplicationModal
+
+                title: qsTranslate("RDM","Success")
+
+                x: (root.width - width) / 2
+                y: (root.height - height) / 3
+
                 visible: false
                 onAccepted: cleanUp()
 
@@ -486,6 +491,10 @@ Dialog {
 
             BetterMessageDialog {
                 id: bulkConfirmation
+
+                x: (root.width - width) / 2
+                y: (root.height - height) / 3
+
                 title: qsTranslate("RDM", "Confirmation")
                 text: qsTranslate("RDM", "Do you really want to perform bulk operation?")
                 onYesClicked: {

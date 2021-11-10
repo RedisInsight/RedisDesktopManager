@@ -33,15 +33,17 @@ TreeOperations::~TreeOperations() {
 }
 
 void TreeOperations::loadDatabases(
+    QSharedPointer<RedisClient::Connection> c,
     QSharedPointer<AsyncFuture::Deferred<void>> d,
     std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
-  if (!d)
-    return;
+  if (!d) return;
 
-  auto connection = m_connection->clone(false);
+  auto connection = c->clone(false);
 
-  d->onCanceled([connection](){
-      QtConcurrent::run([connection]() { if (connection) connection->disconnect(); });
+  d->onCanceled([connection]() {
+    QtConcurrent::run([connection]() {
+      if (connection) connection->disconnect();
+    });
   });
 
   m_events->registerLoggerForConnection(*connection);
@@ -164,27 +166,48 @@ void TreeOperations::requestBulkOperation(
   QString pattern =
       QString("%1%2*")
           .arg(QString::fromUtf8(ns.getFullPath()))
-          .arg(ns.getFullPath().size() > 0 ? m_config.namespaceSeparator() : "");
+          .arg(ns.getFullPath().size() > 0 ? m_config.namespaceSeparator()
+                                           : "");
   QRegExp filter(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
 
-  // NOTE(u_glide): Use "clean" connection wihout logger here for better performance
-  emit m_events->requestBulkOperation(m_connection->clone(), ns.getDbIndex(), op, filter,
-                                      callback);
+  auto dbIndex = ns.getDbIndex();
+
+  getReadyConnection([this, dbIndex, filter, op,
+                      callback](QSharedPointer<RedisClient::Connection> c) {
+    // NOTE(u_glide): Use "clean" connection wihout logger here for better
+    // performance
+    emit m_events->requestBulkOperation(c->clone(), dbIndex, op, filter,
+                                        callback);
+  });
+}
+
+void TreeOperations::getReadyConnection(TreeOperations::PendingOperation callback)
+{
+    if (m_config.askForSshPassword() && m_config.sshPassword().isEmpty()) {
+        m_pendingOperation = callback;
+        m_config.setOwner(sharedFromThis().toWeakRef());
+        emit secretRequired(m_config, ServerConfig::SSH_SECRET_ID);
+    } else {
+        return callback(m_connection);
+    }
 }
 
 QFuture<void> TreeOperations::getDatabases(
     std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
   m_dbScanOp = QSharedPointer<AsyncFuture::Deferred<void>>(
-            new AsyncFuture::Deferred<void>());
+      new AsyncFuture::Deferred<void>());
 
-  QtConcurrent::run(this, &TreeOperations::loadDatabases, m_dbScanOp, callback);
+  getReadyConnection(
+      [this, callback](QSharedPointer<RedisClient::Connection> c) {
+        QtConcurrent::run(this, &TreeOperations::loadDatabases, c, m_dbScanOp,
+                          callback);
+      });
 
   return m_dbScanOp->future();
 }
 
 void TreeOperations::loadNamespaceItems(
-    uint dbIndex,
-    const QString& filter,
+    uint dbIndex, const QString& filter,
     std::function<void(const RedisClient::Connection::RawKeysList& keylist,
                        const QString& err)>
         callback) {
@@ -198,33 +221,36 @@ void TreeOperations::loadNamespaceItems(
   m_config.setFilterHistory(m_filterHistory);
   emit filterHistoryUpdated();
 
-  if (!connect(m_connection)) return;
+  getReadyConnection([this, dbIndex, filter, callback,
+                      keyPattern](QSharedPointer<RedisClient::Connection> c) {
+    if (!connect(c)) return;
 
-  auto processErr = [callback](const QString& err) {
-    return callback(
-        RedisClient::Connection::RawKeysList(),
-        QCoreApplication::translate("RDM", "Cannot load keys: %1").arg(err));
-  };
+    auto processErr = [callback](const QString& err) {
+      return callback(
+          RedisClient::Connection::RawKeysList(),
+          QCoreApplication::translate("RDM", "Cannot load keys: %1").arg(err));
+    };
 
-  try {
-    if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
-      m_connection->getClusterKeys(callback, keyPattern);
-    } else {
-      m_connection->cmd(
-          {"ping"}, this, dbIndex,
-          [this, callback, keyPattern,
-           processErr](const RedisClient::Response& r) {
-            if (r.isErrorMessage()) {
-              return processErr(r.value().toString());
-            }
-            m_connection->getDatabaseKeys(callback, keyPattern, -1);
-          },
-          [processErr](const QString& err) { return processErr(err); });
+    try {
+      if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
+        m_connection->getClusterKeys(callback, keyPattern);
+      } else {
+        m_connection->cmd(
+            {"ping"}, this, dbIndex,
+            [this, callback, keyPattern,
+             processErr](const RedisClient::Response& r) {
+              if (r.isErrorMessage()) {
+                return processErr(r.value().toString());
+              }
+              m_connection->getDatabaseKeys(callback, keyPattern, -1);
+            },
+            [processErr](const QString& err) { return processErr(err); });
+      }
+
+    } catch (const RedisClient::Connection::Exception& error) {
+      processErr(error.what());
     }
-
-  } catch (const RedisClient::Connection::Exception& error) {
-    processErr(error.what());
-  }
+  });
 }
 
 void TreeOperations::disconnect() { m_connection->disconnect(); }
@@ -253,21 +279,32 @@ QString TreeOperations::connectionName() const {
 
 void TreeOperations::openKeyTab(QSharedPointer<ConnectionsTree::KeyItem> key,
                                 bool openInNewTab) {
-  emit m_events->openValueTab(m_connection, key, openInNewTab);
+  getReadyConnection(
+      [this, key, openInNewTab](QSharedPointer<RedisClient::Connection> c) {
+        emit m_events->openValueTab(c, key, openInNewTab);
+      });
 }
 
 void TreeOperations::openConsoleTab(int dbIndex) {
-  emit m_events->openConsole(m_connection, dbIndex);
+  getReadyConnection(
+      [this, dbIndex](QSharedPointer<RedisClient::Connection> c) {
+        emit m_events->openConsole(c, dbIndex);
+      });
 }
 
 void TreeOperations::openNewKeyDialog(int dbIndex,
                                       std::function<void()> callback,
                                       QString keyPrefix) {
-  emit m_events->newKeyDialog(m_connection, callback, dbIndex, keyPrefix);
+  getReadyConnection([this, dbIndex, callback,
+                      keyPrefix](QSharedPointer<RedisClient::Connection> c) {
+    emit m_events->newKeyDialog(c, callback, dbIndex, keyPrefix);
+  });
 }
 
 void TreeOperations::openServerStats() {
-  emit m_events->openServerStats(m_connection);
+  getReadyConnection([this](QSharedPointer<RedisClient::Connection> c) {
+    emit m_events->openServerStats(c);
+  });
 }
 
 void TreeOperations::duplicateConnection() {
@@ -280,18 +317,24 @@ void TreeOperations::notifyDbWasUnloaded(int dbIndex) {
 
 void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
                                  std::function<void(const QString&)> callback) {
-  m_connection->cmd(
-      {"DEL", key.getFullPath()}, this, key.getDbIndex(),
-      [this, &key](RedisClient::Response) {
-        key.setRemoved();
-        QRegExp filter(key.getFullPath(), Qt::CaseSensitive, QRegExp::Wildcard);
-        if (m_events) m_events->closeDbKeys(m_connection, key.getDbIndex(), filter);
-      },
-      [this, callback](const QString& err) {
-        QString errorMsg =
-            QCoreApplication::translate("RDM", "Delete key error: %1").arg(err);
-        callback(errorMsg);
-        if (m_events) m_events->error(errorMsg);
+  getReadyConnection(
+      [this, &key, callback](QSharedPointer<RedisClient::Connection> c) {
+        c->cmd(
+            {"DEL", key.getFullPath()}, this, key.getDbIndex(),
+            [this, &key](RedisClient::Response) {
+              key.setRemoved();
+              QRegExp filter(key.getFullPath(), Qt::CaseSensitive,
+                             QRegExp::Wildcard);
+              if (m_events)
+                m_events->closeDbKeys(m_connection, key.getDbIndex(), filter);
+            },
+            [this, callback](const QString& err) {
+              QString errorMsg =
+                  QCoreApplication::translate("RDM", "Delete key error: %1")
+                      .arg(err);
+              callback(errorMsg);
+              if (m_events) m_events->error(errorMsg);
+            });
       });
 }
 
@@ -303,11 +346,14 @@ void TreeOperations::deleteDbKeys(ConnectionsTree::DatabaseItem& db) {
         if (!self) {
           return;
         }
-
+        uint dbIndex = db.getDbIndex();
         db.reload();
 
-        if (m_events) {
-          emit m_events->closeDbKeys(m_connection, db.getDbIndex(), filter);
+        if (m_events && m_connection) {
+          getReadyConnection(
+              [this, dbIndex, filter](QSharedPointer<RedisClient::Connection> c) {
+                emit m_events->closeDbKeys(c, dbIndex, filter);
+              });
         }
       });
 }
@@ -320,11 +366,14 @@ void TreeOperations::deleteDbNamespace(ConnectionsTree::NamespaceItem& ns) {
         if (!self) {
           return;
         }
-
+        uint dbIndex = ns.getDbIndex();
         ns.setRemoved();
 
-        if (m_events) {
-          emit m_events->closeDbKeys(m_connection, ns.getDbIndex(), filter);
+        if (m_events && m_connection) {
+          getReadyConnection(
+              [this, dbIndex, filter](QSharedPointer<RedisClient::Connection> c) {
+                emit m_events->closeDbKeys(c, dbIndex, filter);
+              });
         }
       });
 }
@@ -340,21 +389,26 @@ void TreeOperations::copyKeys(ConnectionsTree::AbstractNamespaceItem& ns) {
 }
 
 void TreeOperations::importKeysFromRdb(ConnectionsTree::DatabaseItem& db) {
-  emit m_events->requestBulkOperation(
-      m_connection->clone(), db.getDbIndex(),
-      BulkOperations::Manager::Operation::IMPORT_RDB_KEYS, QRegExp(".*"),
-      [&db](QRegExp, int, const QStringList&) { db.reload(); });
+  getReadyConnection([this, &db](QSharedPointer<RedisClient::Connection> c) {
+    emit m_events->requestBulkOperation(
+        c->clone(), db.getDbIndex(),
+        BulkOperations::Manager::Operation::IMPORT_RDB_KEYS, QRegExp(".*"),
+        [&db](QRegExp, int, const QStringList&) { db.reload(); });
+  });
 }
 
 void TreeOperations::flushDb(int dbIndex,
                              std::function<void(const QString&)> callback) {
-  try {
-    m_connection->flushDbKeys(dbIndex, callback);
-  } catch (const RedisClient::Connection::Exception& e) {
-    throw ConnectionsTree::Operations::Exception(
-        QCoreApplication::translate("RDM", "Cannot flush database: ") +
-        QString(e.what()));
-  }
+  getReadyConnection(
+      [dbIndex, callback](QSharedPointer<RedisClient::Connection> c) {
+        try {
+          c->flushDbKeys(dbIndex, callback);
+        } catch (const RedisClient::Connection::Exception& e) {
+          throw ConnectionsTree::Operations::Exception(
+              QCoreApplication::translate("RDM", "Cannot flush database: ") +
+              QString(e.what()));
+        }
+      });
 }
 
 QFuture<bool> TreeOperations::connectionSupportsMemoryOperations() {
@@ -370,25 +424,28 @@ void TreeOperations::openKeyIfExists(
     return;
   }
 
-  m_connection->cmd(
-      {"exists", fullPath}, this, static_cast<int>(parent->getDbIndex()),
-      [this, parent, fullPath, callback](RedisClient::Response r) {
-        QVariant result = r.value();
+  getReadyConnection([this, fullPath, parent,
+                      callback](QSharedPointer<RedisClient::Connection> c) {
+    c->cmd(
+        {"exists", fullPath}, this, static_cast<int>(parent->getDbIndex()),
+        [this, parent, fullPath, callback](RedisClient::Response r) {
+          QVariant result = r.value();
 
-        if (result.toByteArray() == "1") {
-          auto key = QSharedPointer<ConnectionsTree::KeyItem>(
-              new ConnectionsTree::KeyItem(fullPath, parent.toWeakRef(),
-                                           parent->model(),
-                                           parent->keysShortNameRendering()));
+          if (result.toByteArray() == "1") {
+            auto key = QSharedPointer<ConnectionsTree::KeyItem>(
+                new ConnectionsTree::KeyItem(fullPath, parent.toWeakRef(),
+                                             parent->model(),
+                                             parent->keysShortNameRendering()));
 
-          emit m_events->openValueTab(m_connection, key, true);
+            emit m_events->openValueTab(m_connection, key, true);
 
-          callback(QString(), true);
-        } else {
-          callback(QString(), false);
-        }
-      },
-      [callback](const QString& err) { callback(err, false); });
+            callback(QString(), true);
+          } else {
+            callback(QString(), false);
+          }
+        },
+        [callback](const QString& err) { callback(err, false); });
+  });
 }
 
 void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
@@ -472,4 +529,18 @@ void TreeOperations::setConfig(const ServerConfig &c)
     m_config.setOwner(sharedFromThis().toWeakRef());
     m_connection->setConnectionConfig(m_config);
     emit configUpdated();
+}
+
+void TreeOperations::proceedWithSecret(const ServerConfig &c)
+{
+    m_config = c;
+    m_config.setOwner(sharedFromThis().toWeakRef());
+    m_connection->setConnectionConfig(m_config);
+
+    if (m_pendingOperation) {
+        m_pendingOperation(m_connection);
+    } else {
+        qWarning() << "Unknown proceedWithSecret request";
+        return;
+    }
 }

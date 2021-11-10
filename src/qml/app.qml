@@ -11,10 +11,12 @@ import "./common"
 import "./common/platformutils.js" as PlatformUtils
 import "./value-editor/"
 import "./value-editor/editors/formatters/"
+import "./connections"
 import "./connections-tree"
 import "./console"
 import "./server-info"
 import "./bulk-operations"
+import "./settings"
 
 ApplicationWindow {
     id: approot
@@ -102,7 +104,7 @@ ApplicationWindow {
         id: settingsDialog
 
         asynchronous: true
-        source: "GlobalSettings.qml"
+        source: "settings/GlobalSettings.qml"
     }
 
     ConnectionSettignsDialog {
@@ -111,7 +113,11 @@ ApplicationWindow {
         objectName: "rdm_connection_settings_dialog"
 
         onTestConnection: {
-            if (connectionsManager.testConnectionSettings(settings)) {
+            connectionsManager.testConnectionSettings(settings, connectionTested)
+        }
+
+        function connectionTested(result) {
+            if (result) {
                 hideLoader()
                 showMsg(qsTranslate("RDM","Successful connection to redis-server"))
             } else {
@@ -119,8 +125,11 @@ ApplicationWindow {
                 showError(qsTranslate("RDM","Can't connect to redis-server"))
             }
         }
-
         onSaveConnection: connectionsManager.updateConnection(settings)
+    }
+
+    AskSecretDialog {
+        id: askSecretDialog
     }
 
     ConnectionGroupDialog {
@@ -248,6 +257,15 @@ ApplicationWindow {
         function onConnectionsLoaded() {
             if (connectionsManager.size() === 0)
                 quickStartDialog.open()
+        }
+
+        function onAskUserForConnectionSecret(config, id) {
+            console.log("Ask user for secret", config.name, id)
+
+            askSecretDialog.secretId = id;
+            askSecretDialog.config = config;
+            askSecretDialog.open()
+            askSecretDialog.forceFocus()
         }
     }
 

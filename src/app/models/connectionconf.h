@@ -24,6 +24,7 @@ class ServerConfig : public RedisClient::ConnectionConfig
 
     /* SSH Settings */
     Q_PROPERTY(QString sshPassword READ sshPassword WRITE setSshPassword)
+    Q_PROPERTY(bool askForSshPassword READ askForSshPassword WRITE setAskForSshPassword)
     Q_PROPERTY(QString sshUser READ sshUser WRITE setSshUser)
     Q_PROPERTY(QString sshHost READ sshHost WRITE setSshHost)
     Q_PROPERTY(uint sshPort READ sshPort WRITE setSshPort)
@@ -44,6 +45,7 @@ public:
     static const char DEFAULT_KEYS_GLOB_PATTERN = '*';
     static const bool DEFAULT_LUA_KEYS_LOADING = false;
     static const uint DEFAULT_DB_SCAN_LIMIT = 20;
+    static constexpr const char* SSH_SECRET_ID = "ssh_password";
 
 public:
     ServerConfig(const QString & host = "127.0.0.1", const QString & auth = "",
@@ -71,6 +73,9 @@ public:
 
     QVariantMap filterHistory();
     void setFilterHistory(QVariantMap filterHistory);
+
+    bool askForSshPassword() const;
+    void setAskForSshPassword(bool v);
 
 private:
     QWeakPointer<TreeOperations> m_owner;

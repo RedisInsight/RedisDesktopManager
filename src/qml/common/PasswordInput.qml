@@ -8,11 +8,20 @@ RowLayout {
     property alias placeholderText: textField.placeholderText
     property alias text: textField.text
     property alias validationError: textField.validationError
+    property alias checkboxWidth: passwordMask.width
+
+    signal accepted
+
+    function forceFocus() {
+        textField.forceActiveFocus()
+    }
 
     BetterTextField {
         id: textField
         Layout.fillWidth: true
         echoMode: passwordMask.checked ? TextInput.Normal : TextInput.Password
+
+        onAccepted: root.accepted()
     }
 
     BetterCheckbox {

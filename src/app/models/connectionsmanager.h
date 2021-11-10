@@ -49,7 +49,9 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
   Q_INVOKABLE bool saveConnectionsConfigToFile(const QString&);
 
-  Q_INVOKABLE bool testConnectionSettings(const ServerConfig& config);
+  Q_INVOKABLE void testConnectionSettings(const ServerConfig& config, QJSValue jsCallback);
+
+  Q_INVOKABLE void proceedWithConnectionSecret(const ServerConfig& config);
 
   Q_INVOKABLE ServerConfig createEmptyConfig() const;
 
@@ -79,9 +81,13 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
   void connectionsLoaded();
 
+  void askUserForConnectionSecret(const ServerConfig& config, const QString& id);
+
  protected:
   bool loadConnectionsConfigFromFile(const QString& config,
                                      bool saveChangesToFile = false);
+
+  void tryToConnect(const ServerConfig& config, QJSValue jsCallback);
 
  private:
   void createServerItemForConnection(const ServerConfig &config,
@@ -94,5 +100,6 @@ class ConnectionsManager : public ConnectionsTree::Model,
  private:
   QString m_configPath;
   QSharedPointer<Events> m_events;
+  QJSValue m_jsCallback;
   QMap<QString, QSharedPointer<ConnectionsTree::ServerItem>> m_connectionsCache;
 };

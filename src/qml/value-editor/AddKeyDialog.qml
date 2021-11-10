@@ -177,7 +177,7 @@ BetterDialog {
             }
         }
 
-        OkDialog {
+        OkDialogOverlay {
             id: addError
             title: qsTranslate("RDM","Error")
             text: ""

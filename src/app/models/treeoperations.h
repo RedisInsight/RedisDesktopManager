@@ -96,6 +96,8 @@ class TreeOperations : public QObject,
 
   void setConfig(const ServerConfig& c);
 
+  void proceedWithSecret(const ServerConfig &c);
+
 signals:
   void createNewConnection(const ServerConfig& config);
 
@@ -103,8 +105,11 @@ signals:
 
   void filterHistoryUpdated();
 
+  void secretRequired(const ServerConfig& config, const QString& id);
+
  protected:
-  void loadDatabases(QSharedPointer<AsyncFuture::Deferred<void>> d,
+  void loadDatabases(QSharedPointer<RedisClient::Connection> c,
+                     QSharedPointer<AsyncFuture::Deferred<void>> d,
                      std::function<void(RedisClient::DatabaseList, const QString&)> callback);
 
   void recursiveSelectScan(QSharedPointer<AsyncFuture::Deferred<void>> d,
@@ -120,6 +125,10 @@ signals:
       BulkOperations::AbstractOperation::OperationCallback callback);
 
  private:
+  typedef std::function<void(QSharedPointer<RedisClient::Connection>)> PendingOperation;
+  void getReadyConnection(PendingOperation callback);
+
+ private:
   QSharedPointer<RedisClient::Connection> m_connection;
   QSharedPointer<Events> m_events;
   uint m_dbCount;
@@ -128,4 +137,5 @@ signals:
   QVariantMap m_filterHistory;
   QWeakPointer<ConnectionsTree::ServerItem> m_serverItem;
   QSharedPointer<AsyncFuture::Deferred<void>> m_dbScanOp;
+  PendingOperation m_pendingOperation;
 };

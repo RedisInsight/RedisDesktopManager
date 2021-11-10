@@ -104,7 +104,9 @@ void BulkOperations::AbstractOperation::incrementProgress() {
 }
 
 void BulkOperations::AbstractOperation::processError(const QString& err) {
-  QMutexLocker l(&m_errorsMutex);
-  m_errors.append(m_errorMessagePrefix + err);
+  {
+      QMutexLocker l(&m_errorsMutex);
+      m_errors.append(m_errorMessagePrefix + err);
+  }
   m_callback(m_keyPattern, m_progress, m_errors);
 }

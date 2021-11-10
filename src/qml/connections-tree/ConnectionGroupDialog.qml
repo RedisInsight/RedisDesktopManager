@@ -65,12 +65,5 @@ BetterDialog {
             }
             Item { Layout.fillWidth: true }
         }
-
-        OkDialog {
-            id: dialogError
-            title: qsTranslate("RDM","Error")
-            text: ""
-            visible: false
-        }
     }
 }
