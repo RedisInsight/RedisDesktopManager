@@ -36,7 +36,9 @@ class Manager : public QObject {
   };
 
  public:
-  Manager(QSharedPointer<ConnectionsModel> model, QSharedPointer<QPython> p);
+  Manager(QSharedPointer<ConnectionsModel> model);
+
+  void setPython(QSharedPointer<QPython> p);
 
   Q_INVOKABLE bool hasOperation() const;
   Q_INVOKABLE bool multiConnectionOperation() const;

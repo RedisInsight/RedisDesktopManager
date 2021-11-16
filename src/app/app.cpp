@@ -59,8 +59,7 @@ Application::Application(int& argc, char** argv)
 #endif
 
   initRedisClient();
-  installTranslator();
-  initPython();
+  installTranslator();  
 }
 
 Application::~Application()
@@ -103,12 +102,8 @@ void Application::initModels() {
   m_connections = QSharedPointer<ConnectionsManager>(
       new ConnectionsManager(config, m_events));
 
-  connect(m_events.data(), &Events::appRendered, this, [this]() {
-    if (m_connections) m_connections->loadConnections();
-  });
-
   m_bulkOperations = QSharedPointer<BulkOperations::Manager>(
-      new BulkOperations::Manager(m_connections, m_python));
+      new BulkOperations::Manager(m_connections));
 
   connect(m_events.data(), &Events::requestBulkOperation,
           m_bulkOperations.data(),
@@ -163,7 +158,7 @@ void Application::initModels() {
 #endif
 
   m_embeddedFormatters = QSharedPointer<ValueEditor::EmbeddedFormattersManager>(
-      new ValueEditor::EmbeddedFormattersManager(m_python));
+      new ValueEditor::EmbeddedFormattersManager());
 
   connect(m_embeddedFormatters.data(),
           &ValueEditor::EmbeddedFormattersManager::error, this,
@@ -173,6 +168,17 @@ void Application::initModels() {
 
   m_consoleAutocompleteModel = QSharedPointer<Console::AutocompleteModel>(
       new Console::AutocompleteModel());
+
+  connect(m_events.data(), &Events::appRendered, this, [this]() {
+    if (m_connections) m_connections->loadConnections();
+
+    initPython();
+
+    if (m_embeddedFormatters) m_embeddedFormatters->init(m_python);
+    if (m_bulkOperations) m_bulkOperations->setPython(m_python);
+
+    if (m_events) emit m_events->pythonLoaded();
+  });
 }
 
 void Application::initAppInfo() {

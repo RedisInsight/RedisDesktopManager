@@ -230,10 +230,11 @@ ApplicationWindow {
             notification.showError(msg)
         }
 
-        function onAppRendered() {
+        function onPythonLoaded() {
             valueFormattersModel.loadEmbeddedFormatters();            
             valueFormattersModel.updateRWFormatters();
         }
+
 
         function onExternalFormattersLoaded() {
             valueFormattersModel.loadExternalFormatters();
