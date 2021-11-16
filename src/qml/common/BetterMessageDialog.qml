@@ -5,21 +5,7 @@ import "."
 BetterDialog {
     id: root
 
-    header: BetterLabel {
-        text: root.title
-        visible: root.title
-        elide: Label.ElideRight
-        font.bold: true
-        padding: 12
-        background: Rectangle {
-            x: 1; y: 1
-            width: parent.width - 2
-            height: parent.height - 1
-            color: sysPalette.window
-        }
-    }
-
-    implicitWidth: 300
+    implicitWidth: label.contentWidth + 50
 
     property alias text: label.text
 
@@ -32,12 +18,14 @@ BetterDialog {
     signal yesClicked
 
     footer: BetterDialogButtonBox {
+        spacing: 3
+
         BetterButton {
             text: qsTranslate("RDM","Yes")
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
             onClicked: {
                 root.yesClicked()
-            }
+            }            
         }
 
         BetterButton {

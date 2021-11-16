@@ -1,7 +1,9 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.13
 
-DialogButtonBox {  
+DialogButtonBox {
+  spacing: 3
+
   background: Rectangle {
       implicitHeight: 40
       x: 1; y: 1
