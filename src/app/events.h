@@ -52,6 +52,8 @@ class Events : public QObject, public QEnableSharedFromThis<Events> {
 
   void appRendered();
 
+  void pythonLoaded();
+
   void externalFormattersLoaded();
 
 };

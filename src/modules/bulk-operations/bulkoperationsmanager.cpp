@@ -9,10 +9,19 @@
 #include "operations/rdbimport.h"
 #include "operations/ttloperation.h"
 
-BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model,
-                                 QSharedPointer<QPython> p)
-    : QObject(nullptr), m_model(model), m_python(p) {
-  Q_ASSERT(m_model);
+BulkOperations::Manager::Manager(QSharedPointer<ConnectionsModel> model)
+    : QObject(nullptr), m_model(model), m_python(nullptr) {
+    Q_ASSERT(m_model);
+}
+
+void BulkOperations::Manager::setPython(QSharedPointer<QPython> p)
+{
+    if (!p) {
+        qWarning() << "Invalid python instance passed to BulkOperations";
+        return;
+    }
+
+    m_python = p;
 }
 
 bool BulkOperations::Manager::hasOperation() const {
@@ -143,6 +152,11 @@ void BulkOperations::Manager::requestBulkOperation(
         new BulkOperations::CopyOperation(connection, dbIndex, callbackWrapper,
                                           keyPattern));
   } else if (op == Operation::IMPORT_RDB_KEYS) {
+    if (!m_python) {
+      qWarning() << "Python is not ready yet";
+      return;
+    }
+
     m_operation = QSharedPointer<BulkOperations::AbstractOperation>(
         new BulkOperations::RDBImportOperation(
             connection, dbIndex, callbackWrapper, m_python, keyPattern));

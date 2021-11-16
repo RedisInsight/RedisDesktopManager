@@ -14,7 +14,9 @@ class EmbeddedFormattersManager : public QObject {
   enum Roles { name = Qt::UserRole + 1, version, description, cmd };
 
  public:
-  EmbeddedFormattersManager(QSharedPointer<QPython> p);
+  EmbeddedFormattersManager();
+
+  void init(QSharedPointer<QPython> p);
 
  signals:
   void error(const QString& msg);
