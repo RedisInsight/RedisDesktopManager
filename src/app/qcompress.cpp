@@ -2,6 +2,7 @@
 
 #include <lz4frame.h>
 #include <zlib.h>
+#include <zstd.h>
 
 #include <QDebug>
 
@@ -9,44 +10,15 @@
 #define ZLIB_CHUNK_SIZE 32 * 1024
 #define ZLIB_LEVEL 6
 
+#define ZSTD_LEVEL 1
+
 struct LZ4FCleanUp {
   static inline void cleanup(LZ4F_dctx *p) { LZ4F_freeDecompressionContext(p); }
 };
 
-unsigned qcompress::guessFormat(const QByteArray &val) {
-  if (val.size() > 2 && val.startsWith(QByteArray::fromHex("x1fx8b"))) {
-    return qcompress::GZIP;
-  } else if (val.size() > 4 &&
-             val.startsWith(QByteArray::fromHex("x04x22x4dx18"))) {
-    LZ4F_dctx *lz4_dctx = nullptr;
-    LZ4F_createDecompressionContext(&lz4_dctx, LZ4F_VERSION);
-
-    if (!lz4_dctx) {
-      qWarning() << "LZ4 error. Cannot initialize context";
-      return qcompress::UNKNOWN;
-    }
-
-    QScopedPointer<LZ4F_dctx, LZ4FCleanUp> dctx(lz4_dctx);
-
-    LZ4F_frameInfo_t lz4_frameinfo;
-    size_t buffSize = val.size();
-
-    size_t res = LZ4F_getFrameInfo(dctx.data(), &lz4_frameinfo,
-                                   static_cast<const void *>(val.constData()),
-                                   static_cast<size_t *>(&buffSize));
-
-    if (LZ4F_isError(res)) {
-      qWarning() << "LZ4 error. Cannot retrive frame info";
-      return qcompress::UNKNOWN;
-    }
-
-    if (lz4_frameinfo.contentSize > 0) {
-      return qcompress::LZ4;
-    }
-  }
-
-  return qcompress::UNKNOWN;
-}
+struct ZSTDCleanUp {
+  static inline void cleanup(ZSTD_DCtx *p) { ZSTD_freeDCtx(p); }
+};
 
 QByteArray gzipDecode(const QByteArray &val) {
   z_stream strm;
@@ -149,20 +121,9 @@ QByteArray lz4Decode(const QByteArray &val) {
   if (LZ4F_isError(res)) {
     qWarning() << "LZ4 error. Cannot decode frame" << LZ4F_getErrorName(res);
     return QByteArray();
-  }
+  }  
 
   return dst;
-}
-
-QByteArray qcompress::decompress(const QByteArray &val) {
-  switch (guessFormat(val)) {
-    case qcompress::GZIP:
-      return gzipDecode(val);
-    case qcompress::LZ4:
-      return lz4Decode(val);
-    default:
-      return QByteArray();
-  }
 }
 
 QByteArray gzipEncode(const QByteArray &val) {
@@ -240,12 +201,137 @@ QByteArray lz4Encode(const QByteArray &val) {
   return dst;
 }
 
+QByteArray zstdDecode(const QByteArray &val) {
+    size_t buffSize = val.size();
+    unsigned long long decompressedSize = ZSTD_getFrameContentSize(
+        static_cast<const void *>(val.constData()), buffSize);
+
+    if (decompressedSize == 0UL || decompressedSize == ZSTD_CONTENTSIZE_ERROR) {
+        return QByteArray();
+    }
+
+    size_t srcSize = val.size();
+
+    if (!(0 < decompressedSize && decompressedSize <= 255 * srcSize)) {
+      return QByteArray();
+    }
+
+    ZSTD_DCtx* const zstd_dctx = ZSTD_createDCtx();
+
+    if (!zstd_dctx) {
+      qWarning() << "ZSTD error. Cannot initialize context";
+      return QByteArray();
+    }
+
+    QScopedPointer<ZSTD_DCtx, ZSTDCleanUp> dctx(zstd_dctx);
+
+    QByteArray dst(decompressedSize, '\x00');
+    size_t dstSize = dst.size();
+
+    size_t const res = ZSTD_decompress(static_cast<void *>(dst.data()), dstSize, static_cast<const void *>(val.data()), srcSize);
+
+    if (ZSTD_isError(res)) {
+        qWarning() << "ZSTD error. Cannot decode frame" << ZSTD_getErrorName(res);
+        return QByteArray();
+    }
+
+    dst.resize(res);
+
+    return dst;
+}
+
+QByteArray zstdEncode(const QByteArray &val) {
+    QByteArray dst;
+    dst.resize(ZSTD_compressBound(val.size()));
+
+    size_t res = ZSTD_compress(dst.data(), dst.size(), val.data(), val.size(), ZSTD_LEVEL);
+
+    if (ZSTD_isError(res)) {
+      qWarning() << "ZSTD error. Cannot compress frame" << ZSTD_getErrorName(res);
+      return QByteArray();
+    }
+
+    dst.resize(res);
+
+    return dst;
+}
+
+bool validateLZ4Frame(const QByteArray &val) {
+  const auto magicHeader = QByteArray::fromHex("x04x22x4dx18");
+
+  if (!val.startsWith(magicHeader)) return false;
+
+  LZ4F_dctx *lz4_dctx = nullptr;
+  LZ4F_createDecompressionContext(&lz4_dctx, LZ4F_VERSION);
+
+  if (!lz4_dctx) {
+    qWarning() << "LZ4 error. Cannot initialize context";
+    return false;
+  }
+
+  QScopedPointer<LZ4F_dctx, LZ4FCleanUp> dctx(lz4_dctx);
+
+  LZ4F_frameInfo_t lz4_frameinfo;
+  size_t buffSize = val.size();
+
+  size_t res = LZ4F_getFrameInfo(dctx.data(), &lz4_frameinfo,
+                                 static_cast<const void *>(val.constData()),
+                                 static_cast<size_t *>(&buffSize));
+
+  if (LZ4F_isError(res)) {
+    qWarning() << "LZ4 error. Cannot retrive frame info";
+    return false;
+  }
+
+  return lz4_frameinfo.contentSize > 0;
+}
+
+bool validateZSTDFrame(const QByteArray &val) {
+  const auto magicHeader = QByteArray::fromHex("x28xB5x2FxFD");
+
+  if (!val.startsWith(magicHeader)) {
+    return false;
+  }
+  size_t buffSize = val.size();
+  unsigned long long decompressedSize = ZSTD_getFrameContentSize(
+      static_cast<const void *>(val.constData()), buffSize);
+
+  return !(decompressedSize == ZSTD_CONTENTSIZE_ERROR);
+}
+
+unsigned qcompress::guessFormat(const QByteArray &val) {
+  if (val.size() > 2 && val.startsWith(QByteArray::fromHex("x1fx8b"))) {
+    return qcompress::GZIP;
+  } else if (val.size() > 4 && validateLZ4Frame(val)) {
+    return qcompress::LZ4;
+  } else if (val.size() > 4 && validateZSTDFrame(val)) {
+    return qcompress::ZSTD;
+  }
+
+  return qcompress::UNKNOWN;
+}
+
 QByteArray qcompress::compress(const QByteArray &val, unsigned algo) {
   switch (algo) {
     case qcompress::GZIP:
       return gzipEncode(val);
     case qcompress::LZ4:
       return lz4Encode(val);
+    case qcompress::ZSTD:
+      return zstdEncode(val);
+    default:
+      return QByteArray();
+  }
+}
+
+QByteArray qcompress::decompress(const QByteArray &val) {
+  switch (guessFormat(val)) {
+    case qcompress::GZIP:
+      return gzipDecode(val);
+    case qcompress::LZ4:
+      return lz4Decode(val);
+    case qcompress::ZSTD:
+      return zstdDecode(val);
     default:
       return QByteArray();
   }
@@ -253,11 +339,13 @@ QByteArray qcompress::compress(const QByteArray &val, unsigned algo) {
 
 QString qcompress::nameOf(unsigned alg) {
   switch (alg) {
-    case GZIP:
+    case qcompress::GZIP:
       return "gzip";
-    case LZ4:
+    case qcompress::LZ4:
       return "lz4";
-    case UNKNOWN:
+    case qcompress::ZSTD:
+      return "ZSTD";
+    case qcompress::UNKNOWN:
     default:
       return "unknown";
   }

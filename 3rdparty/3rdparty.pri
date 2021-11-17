@@ -36,6 +36,10 @@ include($$PWD/pyotherside.pri)
 LZ4DIR = $$PWD/lz4/
 INCLUDEPATH += $$LZ4DIR/lib
 
+#ZSTD
+ZSTDDIR = $$PWD/zstd/
+INCLUDEPATH += $$ZSTDDIR/lib
+
 #SIMDJSON
 SIMDJSONDIR = $$PWD/simdjson/singleheader
 INCLUDEPATH += $$SIMDJSONDIR/
@@ -47,10 +51,11 @@ win32* {
     ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native    
     INCLUDEPATH += $$ZLIBDIR/include
     LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/Release/lz4.lib
+    LIBS += $$ZSTDDIR/build/cmake/lib/libzstd.lib
 }
 
 unix:macx { # OSX
-    LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a
+    LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a $$ZSTDDIR/build/cmake/lib/libzstd.a
 }
 
 unix:!macx { # ubuntu & debian   
@@ -71,6 +76,11 @@ unix:!macx { # ubuntu & debian
         LIBS += $$LZ4DIR/build/cmake/liblz4.a
     }
 
+    defined(SYSTEM_ZSTD, var) {
+        LIBS += -lzstd
+    } else {
+        LIBS += $$ZSTDDIR/build/cmake/lib/libzstd.a
+    }
 
     # Unix signal watcher
     defined(LINUX_SIGNALS, var) {
