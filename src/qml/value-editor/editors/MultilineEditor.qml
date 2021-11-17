@@ -95,7 +95,45 @@ Item
     }
 
     function loadFormattedValue(val) {
-        var guessFormatter = false
+        var continueFormatting = function (guessFormatter) {
+            if (!root.value) {
+                console.log("Empty value. Skipping formatting stage");
+                return;
+            }
+
+            var isBin = qmlUtils.isBinaryString(root.value)
+            binaryFlag.visible = isBin
+
+            if (qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
+                root.showFormatters = false
+                formatterSelector.currentIndex = formatterSelector.model.getDefaultFormatter(isBin)
+                guessFormatter = false
+            } else {
+                root.showFormatters = true
+            }
+
+            valueCompression = qmlUtils.isCompressed(root.value)
+
+            if (valueCompression > 0) {
+                root.value = qmlUtils.decompress(root.value)
+                isBin = qmlUtils.isBinaryString(root.value)
+            }
+
+            // If current formatter is plain text - try to guess formatter
+            if (guessFormatter) {
+                _guessFormatter(root.value, isBin, function() {
+                    _loadFormatter(isBin)
+                })
+            } else {
+                _loadFormatter(isBin)
+            }
+
+            if (isBin && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
+                largeValueDialog.visible = true
+            } else {
+                largeValueDialog.visible = false
+            }
+        };
 
         if (val) {
             root.value = val
@@ -105,49 +143,28 @@ Item
                         defaultFormatterSettings.value(root.lastSelectedFormatterSetting, "")
             );
 
-            if (formatterOverride) {
-                formatterSelector._select(formatterOverride)
-            } else {
-                guessFormatter = true
+            if (!formatterOverride) {
+                return continueFormatting(true)
             }
-        }
 
-        if (!root.value) {
-            console.log("Empty value. Skipping formatting stage");
-            return;
-        }
+            var expectedFormatter = formatterSelector.find(formatterOverride);
 
-        var isBin = qmlUtils.isBinaryString(root.value)
-        binaryFlag.visible = isBin
+            if (expectedFormatter === -1) {
+                return continueFormatting(true)
+            }
 
-        if (qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
-            root.showFormatters = false
-            formatterSelector.currentIndex = formatterSelector.model.getDefaultFormatter(isBin)
-            guessFormatter = false
-        } else {
-            root.showFormatters = true
-        }
+            var cFormatter = formatterSelector.model.get(expectedFormatter)
 
-        valueCompression = qmlUtils.isCompressed(root.value)
-
-        if (valueCompression > 0) {
-            root.value = qmlUtils.decompress(root.value)
-            isBin = qmlUtils.isBinaryString(root.value)
-        }
-
-        // If current formatter is plain text - try to guess formatter
-        if (guessFormatter) {
-            _guessFormatter(root.value, isBin, function() {
-                _loadFormatter(isBin)
+            return cFormatter.isValid(root.value, function (isValid) {
+                if (isValid) {
+                    formatterSelector._select(expectedFormatter)
+                    continueFormatting(false)
+                } else {
+                    continueFormatting(true)
+                }
             })
         } else {
-            _loadFormatter(isBin)
-        }
-
-        if (isBin && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
-            largeValueDialog.visible = true
-        } else {
-            largeValueDialog.visible = false
+            continueFormatting(false)
         }
     }
 

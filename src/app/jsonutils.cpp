@@ -217,9 +217,14 @@ QByteArray JSONUtils::prettyPrintJSON(QByteArray val)
 
     try {
       auto doc = p.iterate(val.data(), val.size());
+
+      if (doc.is_scalar()) {
+          return val;
+      }
+
       print_json(result, simdjson::ondemand::value(doc), 0);
-    } catch (...) {
-      qDebug() << "Cannot parse JSON";
+    } catch (const std::exception& e) {
+      qDebug() << "Cannot parse JSON:" << e.what();
       return QByteArray();
     }
 
@@ -253,7 +258,18 @@ bool JSONUtils::isJSON(QByteArray val)
     simdjson::dom::element data;
     auto error = parser.parse(val.data(), originalSize, false).get(data);
 
-    if (error != simdjson::SUCCESS && error != simdjson::NUMBER_ERROR) {
+    // NOTE(u_glide): Workaround to distinguish invalid JSON and valid JSON with Big Int
+    if (error == simdjson::NUMBER_ERROR) {
+        simdjson::ondemand::parser p;
+
+        try {
+          auto doc = p.iterate(val.data(), val.size());
+          return !doc.is_scalar();
+        } catch (const std::exception& e) {
+          qDebug() << "JSON is not valid:" << e.what();
+          return false;
+        }
+    } else if (error != simdjson::SUCCESS) {
         qDebug() << "JSON is not valid:" << simdjson::error_message(error);
         return false;
     }
