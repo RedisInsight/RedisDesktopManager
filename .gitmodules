@@ -10,3 +10,6 @@
 [submodule "3rdparty/simdjson"]
 	path = 3rdparty/simdjson
 	url = https://github.com/simdjson/simdjson.git
+[submodule "3rdparty/zstd"]
+	path = 3rdparty/zstd
+	url = https://github.com/facebook/zstd.git

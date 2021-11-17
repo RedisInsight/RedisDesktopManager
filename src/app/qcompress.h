@@ -4,7 +4,7 @@
 
 namespace qcompress {
 
-enum { UNKNOWN, GZIP, LZ4 };
+enum { UNKNOWN, GZIP, LZ4, ZSTD };
 
 unsigned guessFormat(const QByteArray& val);
 
