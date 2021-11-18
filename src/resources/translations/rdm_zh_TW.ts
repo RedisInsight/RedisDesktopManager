@@ -713,17 +713,17 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="703"/>
         <source>Passphrase for provided private key</source>
-        <translation type="unfinished"></translation>
+        <translation>私鑰的密詞</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="705"/>
         <source>Password request will be prompt prior to connection</source>
-        <translation type="unfinished"></translation>
+        <translation>將會在連接前詢問密碼</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="716"/>
         <source>Ask for password</source>
-        <translation type="unfinished"></translation>
+        <translation>詢問密碼</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="765"/>
@@ -1098,7 +1098,7 @@
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="472"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="959"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>成功</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="498"/>
@@ -1965,33 +1965,33 @@
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="36"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>是</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="44"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>否</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="19"/>
         <source>SSH Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation>SSH 密詞</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="21"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>未知</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
         <source>Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation>密詞</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="71"/>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>繼續</translation>
     </message>
 </context>
 </TS>
