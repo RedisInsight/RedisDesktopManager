@@ -1,12 +1,14 @@
 #include "qcompress.h"
 
 #include <lz4frame.h>
+#include <lz4.h>
 #include <zlib.h>
 #include <zstd.h>
 
 #include <QDebug>
 
 #define ZLIB_WINDOW_BIT 15 + 16
+#define ZLIB_PHP_WINDOW_BIT 15
 #define ZLIB_CHUNK_SIZE 32 * 1024
 #define ZLIB_LEVEL 6
 
@@ -20,7 +22,7 @@ struct ZSTDCleanUp {
   static inline void cleanup(ZSTD_DCtx *p) { ZSTD_freeDCtx(p); }
 };
 
-QByteArray gzipDecode(const QByteArray &val) {
+QByteArray gzipDecode(const QByteArray &val, int windowBits) {
   z_stream strm;
   strm.zalloc = Z_NULL;
   strm.zfree = Z_NULL;
@@ -29,7 +31,7 @@ QByteArray gzipDecode(const QByteArray &val) {
   strm.next_in = Z_NULL;
   QByteArray output;
 
-  int ret = inflateInit2(&strm, ZLIB_WINDOW_BIT);
+  int ret = inflateInit2(&strm, windowBits);
 
   if (ret != Z_OK) return QByteArray();
 
@@ -80,7 +82,46 @@ QByteArray gzipDecode(const QByteArray &val) {
   }
 }
 
-QByteArray lz4Decode(const QByteArray &val) {
+QByteArray lz4RawDecode(const QByteArray &val) {
+
+    int offset = sizeof(int);
+
+    if (val.size() < offset) {
+        return QByteArray();
+    }
+
+    int dataSize;
+    memcpy(&dataSize, val.data(), offset);
+
+    QByteArray dst(dataSize, '\x00');
+
+    auto res = LZ4_decompress_safe(val.constData() + offset, dst.data(), val.size() - offset, dst.capacity());
+
+    if (res < 0) {
+      qWarning() << "LZ4 raw decoding error";
+      return QByteArray();
+    }
+
+    return dst;
+}
+
+QByteArray lz4RawEncode(const QByteArray &val) {
+
+    int maxSize = LZ4_compressBound(val.size());
+
+    QByteArray dst(maxSize, '\x00');
+
+    int res = LZ4_compress_default(val.constData(), dst.data(), val.size(), dst.capacity());
+
+    if (res == 0) {
+      qWarning() << "LZ4 raw decoding error";
+      return QByteArray();
+    }
+
+    return dst;
+}
+
+QByteArray lz4FrameDecode(const QByteArray &val) {
   LZ4F_dctx *lz4_dctx = nullptr;
   LZ4F_createDecompressionContext(&lz4_dctx, LZ4F_VERSION);
 
@@ -126,7 +167,7 @@ QByteArray lz4Decode(const QByteArray &val) {
   return dst;
 }
 
-QByteArray gzipEncode(const QByteArray &val) {
+QByteArray gzipEncode(const QByteArray &val, int windowBits) {
   int flush = 0;
 
   z_stream strm;
@@ -138,7 +179,7 @@ QByteArray gzipEncode(const QByteArray &val) {
   QByteArray output;
 
   int ret = deflateInit2(&strm, qMax(-1, qMin(9, ZLIB_LEVEL)), Z_DEFLATED,
-                         ZLIB_WINDOW_BIT, 8, Z_DEFAULT_STRATEGY);
+                         windowBits, 8, Z_DEFAULT_STRATEGY);
 
   if (ret != Z_OK) return output;
 
@@ -184,7 +225,7 @@ QByteArray gzipEncode(const QByteArray &val) {
   }
 }
 
-QByteArray lz4Encode(const QByteArray &val) {
+QByteArray lz4FrameEncode(const QByteArray &val) {
   QByteArray dst;
   LZ4F_preferences_t opt{};
   opt.frameInfo.contentSize = val.size();
@@ -299,9 +340,64 @@ bool validateZSTDFrame(const QByteArray &val) {
   return !(decompressedSize == ZSTD_CONTENTSIZE_ERROR);
 }
 
+bool validateGZip(const QByteArray &val, int from = 0) {
+    return val.indexOf(QByteArray::fromHex("x1fx8b"), from) == 0;
+}
+
+bool isMagentoCacheFormat(unsigned f) {
+    return qcompress::MAGENTO_CACHE_GZIP <= f && f <= qcompress::MAGENTO_CACHE_ZSTD;
+}
+
+QHash<unsigned, QByteArray> knownMagentoFormats() {
+  return {
+      {qcompress::MAGENTO_CACHE_GZIP, "gz"},
+      {qcompress::MAGENTO_SESSION_GZIP, "gz"},
+      {qcompress::MAGENTO_CACHE_LZ4, "l4"},
+      {qcompress::MAGENTO_SESSION_LZ4, "l4"},
+      {qcompress::MAGENTO_CACHE_ZSTD, "zs"},
+  };
+}
+
+static const QHash<unsigned, QByteArray> magentoFormats = knownMagentoFormats();
+
+QByteArray magentoPrefix(unsigned f) {
+    if (!magentoFormats.contains(f)) {
+        return QByteArray();
+    }
+
+    QByteArray id = magentoFormats[f];
+
+    qDebug() << "is cache" << isMagentoCacheFormat(f);
+
+    if (isMagentoCacheFormat(f)) {
+        id += QByteArray(":") + QByteArray::fromHex("x1fx8b");
+    } else {
+        id = QByteArray(":") + id + QByteArray(":");
+    }
+
+    qDebug() << "id" << id;
+
+    return id;
+}
+
 unsigned qcompress::guessFormat(const QByteArray &val) {
-  if (val.size() > 2 && val.startsWith(QByteArray::fromHex("x1fx8b"))) {
-    return qcompress::GZIP;
+
+  if (val.size() > 4) {
+      auto mFormats = magentoFormats.keys();
+
+      QByteArray prefix;
+
+      for (auto f : qAsConst(mFormats)) {
+        prefix = magentoPrefix(f);
+
+        if (val.startsWith(prefix)) {
+            return f;
+        }
+      }
+  }
+
+  if (val.size() > 2 && validateGZip(val)) {
+    return qcompress::GZIP;  
   } else if (val.size() > 4 && validateLZ4Frame(val)) {
     return qcompress::LZ4;
   } else if (val.size() > 4 && validateZSTDFrame(val)) {
@@ -314,24 +410,49 @@ unsigned qcompress::guessFormat(const QByteArray &val) {
 QByteArray qcompress::compress(const QByteArray &val, unsigned algo) {
   switch (algo) {
     case qcompress::GZIP:
-      return gzipEncode(val);
+      return gzipEncode(val, ZLIB_WINDOW_BIT);
+    case qcompress::MAGENTO_SESSION_GZIP:
+    case qcompress::MAGENTO_CACHE_GZIP:
+      return magentoPrefix(algo) + gzipEncode(val, ZLIB_PHP_WINDOW_BIT);
     case qcompress::LZ4:
-      return lz4Encode(val);
+      return lz4FrameEncode(val);
+    case qcompress::MAGENTO_SESSION_LZ4:
+    case qcompress::MAGENTO_CACHE_LZ4:
+        return magentoPrefix(algo) + lz4RawEncode(val);
     case qcompress::ZSTD:
       return zstdEncode(val);
+    case qcompress::MAGENTO_CACHE_ZSTD:
+        return magentoPrefix(algo) + zstdEncode(val);
     default:
       return QByteArray();
   }
 }
 
 QByteArray qcompress::decompress(const QByteArray &val) {
-  switch (guessFormat(val)) {
+
+  int offset = 0;
+  auto format = guessFormat(val);
+
+  if (magentoFormats.contains(format)) {
+      qDebug() << "prefix" << magentoPrefix(format);
+      offset = magentoPrefix(format).size();
+  }
+
+  switch (format) {
     case qcompress::GZIP:
-      return gzipDecode(val);
+      return gzipDecode(val, ZLIB_WINDOW_BIT);
+    case qcompress::MAGENTO_SESSION_GZIP:
+    case qcompress::MAGENTO_CACHE_GZIP:
+      return gzipDecode(val.mid(offset), ZLIB_PHP_WINDOW_BIT);
     case qcompress::LZ4:
-      return lz4Decode(val);
+      return lz4FrameDecode(val);
+    case qcompress::MAGENTO_SESSION_LZ4:
+    case qcompress::MAGENTO_CACHE_LZ4:
+      return lz4RawDecode(val.mid(offset));
     case qcompress::ZSTD:
       return zstdDecode(val);
+    case qcompress::MAGENTO_CACHE_ZSTD:
+      return zstdDecode(val.mid(offset));
     default:
       return QByteArray();
   }
@@ -343,6 +464,16 @@ QString qcompress::nameOf(unsigned alg) {
       return "gzip";
     case qcompress::LZ4:
       return "lz4";
+    case qcompress::MAGENTO_SESSION_GZIP:
+      return "magento-session-gzip";
+    case qcompress::MAGENTO_SESSION_LZ4:
+      return "magento-session-lz4";
+    case qcompress::MAGENTO_CACHE_GZIP:
+      return "magento-cache-gzip";
+    case qcompress::MAGENTO_CACHE_LZ4:
+      return "magento-cache-lz4";
+    case qcompress::MAGENTO_CACHE_ZSTD:
+      return "magento-cache-zstd";
     case qcompress::ZSTD:
       return "ZSTD";
     case qcompress::UNKNOWN:

@@ -77,6 +77,9 @@ Item
                  } else {
                     root.value = compress(raw)
                  }
+
+                 root.valueCompression = -1;
+
                  return callback(error, root.value)
              })
         }
@@ -112,11 +115,19 @@ Item
                 root.showFormatters = true
             }
 
-            valueCompression = qmlUtils.isCompressed(root.value)
+            if (valueCompression <= 0) {
+                valueCompression = qmlUtils.isCompressed(root.value);
 
-            if (valueCompression > 0) {
-                root.value = qmlUtils.decompress(root.value)
-                isBin = qmlUtils.isBinaryString(root.value)
+                if (valueCompression > 0) {
+                    root.value = qmlUtils.decompress(root.value)
+                    isBin = qmlUtils.isBinaryString(root.value)
+                }
+
+                // NOTE(u_glide): hint PHP formatter if MAGENTO/PHP compression detected
+                if (guessFormatter && valueCompression == 4 || valueCompression == 5) {
+                    formatterSelector._select("php");
+                    guessFormatter = false;
+                }
             }
 
             // If current formatter is plain text - try to guess formatter
