@@ -368,6 +368,7 @@ Repeater {
                                 if (valueEditor.item) {
                                     var rowValue = keyTab.keyModel.getRow(row)
                                     valueEditor.currentRow = row
+                                    valueEditor.item.reset()
                                     valueEditor.item.setValue(rowValue)
                                 } else {
                                     console.log("cannot load row value - item is missing")
