@@ -77,12 +77,12 @@ bool QmlUtils::isJSON(const QVariant &value)
     return JSONUtils::isJSON(val);
 }
 
-QVariant QmlUtils::decompress(const QVariant &value) {
+QVariant QmlUtils::decompress(const QVariant &value, unsigned alg) {
   if (!value.canConvert(QVariant::ByteArray)) {
     return 0;
   }
 
-  return qcompress::decompress(value.toByteArray());
+  return qcompress::decompress(value.toByteArray(), alg);
 }
 
 QVariant QmlUtils::compress(const QVariant &value, unsigned alg) {
@@ -98,7 +98,22 @@ unsigned QmlUtils::isCompressed(const QVariant &value) {
 }
 
 QString QmlUtils::compressionAlgName(unsigned alg) {
-  return qcompress::nameOf(alg);
+    return qcompress::nameOf(alg);
+}
+
+QVariant QmlUtils::compressionMethodsNoMagic()
+{
+    QVariantList methodsWithoutMagicHeaders = {
+        qcompress::UNKNOWN,
+        qcompress::BROTLI,
+        qcompress::LZ4_RAW,
+
+        //NOTE(u_glide): Should be always last in this list
+        // QML side use it for conditions
+        qcompress::GZIP_PHP,
+    };
+
+    return methodsWithoutMagicHeaders;
 }
 
 QString QmlUtils::humanSize(long size) { return humanReadableSize(size); }

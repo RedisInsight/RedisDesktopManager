@@ -69,12 +69,14 @@ AbstractEditor {
         textArea.initEmpty()
     }
 
-    function validateValue(callback) {
-        if (!root.validateVal) {
-            return callback(true);
+    function getValue(validateVal, callback) {
+        if (!validateVal) {
+            return callback(true, {"value": "", "score": scoreText.text});
         }
 
-        return textArea.validate(callback);
+        return textArea.validate(function (valid, raw) {
+            callback(valid, {"value": raw, "score": scoreText.text})
+        });
     }
 
     function setValue(rowValue) {
@@ -89,10 +91,6 @@ AbstractEditor {
     function isEdited() {
         return textArea.isEdited || scoreText.isEdited
     }
-
-    function getValue() {
-        return {"value": textArea.value, "score": scoreText.text}
-    }    
 
     function reset() {
         root.active = false

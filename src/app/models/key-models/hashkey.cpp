@@ -45,8 +45,8 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
 
   QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
-  bool keyChanged = cachedRow.first != row["key"].toString();
-  bool valueChanged = cachedRow.second != row["value"].toString();
+  bool keyChanged = cachedRow.first != row["key"].toByteArray();
+  bool valueChanged = cachedRow.second != row["value"].toByteArray();
 
   QPair<QByteArray, QByteArray> newRow(
       (keyChanged) ? row["key"].toByteArray() : cachedRow.first,

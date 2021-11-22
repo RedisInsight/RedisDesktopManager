@@ -71,12 +71,10 @@ ColumnLayout {
                         if (!valueAddEditor.item)
                             return false
 
-                        valueAddEditor.item.validateValue(function (result){
-                            if (!result) {
+                        valueAddEditor.item.getValue(true, function (valid, row){
+                            if (!valid) {
                                 return;
-                            }
-
-                            var row = valueAddEditor.item.getValue()
+                            }                            
 
                             keyTab.keyModel.addRow(row)
                             keyTab.keyModel.reload()

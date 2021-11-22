@@ -18,9 +18,10 @@ public:
     Q_INVOKABLE bool isJSON(const QVariant &value);
 
     Q_INVOKABLE unsigned isCompressed(const QVariant &value);
-    Q_INVOKABLE QVariant decompress(const QVariant &value);
+    Q_INVOKABLE QVariant decompress(const QVariant &value, unsigned alg);
     Q_INVOKABLE QVariant compress(const QVariant &value, unsigned alg);
     Q_INVOKABLE QString compressionAlgName(unsigned alg);
+    Q_INVOKABLE QVariant compressionMethodsNoMagic();
 
     Q_INVOKABLE QString humanSize(long size);
     Q_INVOKABLE QVariant valueToBinary(const QVariant &value);

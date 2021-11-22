@@ -47,13 +47,13 @@ AbstractEditor {
         textArea.initEmpty()
     }
 
-    function validateValue(callback) {
-        keyText.validate(function (keyTextValid) {            
-            if (!root.validateVal) {
-                return callback(keyTextValid);
+    function getValue(validateVal, callback) {
+        keyText.validate(function (keyTextValid, rawKey) {
+            if (!validateVal) {
+                return callback(keyTextValid, {"value": "", "key": rawKey});
             } else {
-                textArea.validate(function (textAreaValid) {
-                    return callback(keyTextValid && textAreaValid);
+                textArea.validate(function (textAreaValid, rawValue) {
+                    return callback(keyTextValid && textAreaValid, {"value": rawValue, "key": rawKey});
                 });
             }
         });
@@ -70,11 +70,7 @@ AbstractEditor {
 
     function isEdited() {
         return textArea.isEdited || keyText.isEdited
-    }
-
-    function getValue() {
-        return {"value": textArea.value, "key": keyText.value}
-    }
+    }    
 
     function reset() {
         textArea.reset()

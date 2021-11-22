@@ -41,12 +41,14 @@ AbstractEditor {
         textEditor.initEmpty()      
     }
 
-    function validateValue(callback) {
-        if (!root.validateVal) {
-            return callback(true);
+    function getValue(validateVal, callback) {
+        if (!validateVal) {
+            return callback(true, {"value": ""});
         }
 
-        return textEditor.validate(callback);
+        return textEditor.validate(function (valid, raw) {
+            return callback(valid, {"value": raw});
+        });
     }
 
     function setValue(rowValue) {
@@ -59,11 +61,7 @@ AbstractEditor {
 
     function isEdited() {
         return textEditor.isEdited
-    }
-
-    function getValue() {
-        return {"value": textEditor.value}
-    }
+    }    
 
     function reset() {
         textEditor.reset()

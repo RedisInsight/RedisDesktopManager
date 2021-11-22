@@ -125,10 +125,10 @@ BetterDialog {
                     objectName: "rdm_add_key_save_btn"
                     text: qsTranslate("RDM","Save")
 
-                    function submitNewKeyRequest() {
+                    function submitNewKeyRequest(row) {
                         root.request.keyName = newKeyName.text
                         root.request.keyType = typeSelector.model[typeSelector.currentIndex]
-                        root.request.value = valueAddEditor.item.getValue()
+                        root.request.value = row
                         root.request.valueFilePath = valueFilePath.path
                         keyFactory.submitNewKeyRequest(root.request)
                     }
@@ -138,13 +138,13 @@ BetterDialog {
                         if (!valueAddEditor.item)
                             return
 
-                        valueAddEditor.item.validateVal = (valueFilePath.path === "")
+                        var validateVal = (valueFilePath.path === "")
 
-                        valueAddEditor.item.validateValue(function (result) {
-                            if (!result)
+                        valueAddEditor.item.getValue(validateVal, function (valid, row) {
+                            if (!valid)
                                 return;
 
-                            submitNewKeyRequest();
+                            submitNewKeyRequest(row);
                         })
                     }
 

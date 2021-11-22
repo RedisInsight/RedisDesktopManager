@@ -47,8 +47,8 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row,
 
   QPair<QByteArray, QByteArray> cachedRow = m_rowsCache[rowIndex];
 
-  bool valueChanged = cachedRow.first != row["value"].toString();
-  bool scoreChanged = cachedRow.second != row["score"].toString();
+  bool valueChanged = cachedRow.first != row["value"].toByteArray();
+  bool scoreChanged = cachedRow.second != row["score"].toByteArray();
 
   QPair<QByteArray, QByteArray> newRow(
       (valueChanged) ? row["value"].toByteArray() : cachedRow.first,

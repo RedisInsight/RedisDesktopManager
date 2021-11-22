@@ -1,5 +1,7 @@
 #include "qcompress.h"
 
+#include <brotli/decode.h>
+#include <brotli/encode.h>
 #include <lz4.h>
 #include <lz4frame.h>
 #include <snappy.h>
@@ -14,6 +16,8 @@
 #define ZLIB_LEVEL 6
 
 #define ZSTD_LEVEL 1
+
+#define BROTLI_BUFFER_SIZE 32 * 1024
 
 struct LZ4FCleanUp {
   static inline void cleanup(LZ4F_dctx *p) { LZ4F_freeDecompressionContext(p); }
@@ -336,6 +340,85 @@ QByteArray snappyEncode(const QByteArray &val) {
   return QByteArray::fromStdString(output);
 }
 
+QByteArray brotliDecode(const QByteArray &val)
+{
+    auto decoder = BrotliDecoderCreateInstance(nullptr, nullptr, nullptr);
+
+    if (!decoder) {
+        qWarning() << "BROTLI: Cannot create decoder";
+        return QByteArray();
+    }
+
+    QByteArray dst;
+    dst.resize(BROTLI_BUFFER_SIZE);
+
+    size_t availableIn = val.size(), availableOut = dst.size();
+    const uint8_t* nextIn = reinterpret_cast<const uint8_t*>(val.constData());
+    uint8_t* nextOut = reinterpret_cast<uint8_t*>(dst.data());
+    BrotliDecoderResult itResult;
+
+    do {
+      itResult = BrotliDecoderDecompressStream(
+          decoder, &availableIn, &nextIn, &availableOut, &nextOut, nullptr);
+      if (itResult == BROTLI_DECODER_RESULT_NEEDS_MORE_OUTPUT) {
+        size_t offset = dst.size() - availableOut;
+        availableOut += dst.size();
+        dst.resize(dst.size() * 2);
+        nextOut = reinterpret_cast<uint8_t *>(dst.data()) + offset;
+        itResult = BROTLI_DECODER_RESULT_SUCCESS;
+      }
+
+      if (itResult != BROTLI_DECODER_RESULT_SUCCESS) {
+          qWarning() << "Brotli: Invalid input";
+          return QByteArray();
+      }
+    } while (!(availableIn == 0 &&
+               itResult == BROTLI_DECODER_RESULT_SUCCESS));
+
+    if (itResult == BROTLI_DECODER_RESULT_SUCCESS)
+        dst.resize(dst.size() - availableOut);
+
+    BrotliDecoderDestroyInstance(decoder);
+    return dst;
+}
+
+QByteArray brotliEncode(const QByteArray &val)
+{
+    auto encoder = BrotliEncoderCreateInstance(nullptr, nullptr, nullptr);
+
+    if (!encoder) {
+        qWarning() << "BROTLI: Cannot create encoder";
+        return QByteArray();
+    }
+
+    QByteArray dst;
+    dst.resize(BROTLI_BUFFER_SIZE);
+
+    size_t availableIn = val.size(), available_out = dst.size();
+    const uint8_t* nextIn = reinterpret_cast<const uint8_t*>(val.constData());
+    uint8_t* nextOut = reinterpret_cast<uint8_t*>(dst.data());
+    size_t totalOut = 0;
+
+    int itResult;
+
+    do
+    {
+        itResult = BrotliEncoderCompressStream
+        (
+            encoder, BROTLI_OPERATION_FINISH,
+            &availableIn, &nextIn, &available_out, &nextOut, &totalOut
+        );
+    }
+    while (!(availableIn == 0 && BrotliEncoderIsFinished(encoder)));
+
+    if (itResult == BROTLI_TRUE) {
+        dst.resize(totalOut);
+    }
+
+    BrotliEncoderDestroyInstance(encoder);
+    return dst;
+}
+
 bool validateLZ4Frame(const QByteArray &val) {
   const auto magicHeader = QByteArray::fromHex("x04x22x4dx18");
 
@@ -471,14 +554,15 @@ QByteArray qcompress::compress(const QByteArray &val, unsigned algo) {
     case qcompress::MAGENTO_CACHE_SNAPPY:
     case qcompress::MAGENTO_SESSION_SNAPPY:
       return magentoPrefix(algo) + snappyEncode(val);
+    case qcompress::BROTLI:
+      return brotliEncode(val);
     default:
       return QByteArray();
   }
 }
 
-QByteArray qcompress::decompress(const QByteArray &val) {
+QByteArray qcompress::decompress(const QByteArray &val, unsigned format) {
   int offset = 0;
-  auto format = guessFormat(val);
 
   if (magentoFormats.contains(format)) {
     offset = magentoPrefix(format).size();
@@ -489,11 +573,13 @@ QByteArray qcompress::decompress(const QByteArray &val) {
       return gzipDecode(val, ZLIB_WINDOW_BIT);
     case qcompress::MAGENTO_SESSION_GZIP:
     case qcompress::MAGENTO_CACHE_GZIP:
+    case qcompress::GZIP_PHP:
       return gzipDecode(val.mid(offset), ZLIB_PHP_WINDOW_BIT);
     case qcompress::LZ4:
       return lz4FrameDecode(val);
     case qcompress::MAGENTO_SESSION_LZ4:
     case qcompress::MAGENTO_CACHE_LZ4:
+    case qcompress::LZ4_RAW:
       return lz4RawDecode(val.mid(offset));
     case qcompress::ZSTD:
       return zstdDecode(val);
@@ -504,6 +590,8 @@ QByteArray qcompress::decompress(const QByteArray &val) {
     case qcompress::MAGENTO_CACHE_SNAPPY:
     case qcompress::MAGENTO_SESSION_SNAPPY:
       return snappyDecode(val.mid(offset));
+    case qcompress::BROTLI:
+      return brotliDecode(val);
     default:
       return QByteArray();
   }
@@ -533,6 +621,12 @@ QString qcompress::nameOf(unsigned alg) {
       return "ZSTD";
     case qcompress::SNAPPY:
       return "Snappy";
+    case qcompress::GZIP_PHP:
+      return "PHP gzcompress";
+    case qcompress::LZ4_RAW:
+      return "LZ4 Raw";
+    case qcompress::BROTLI:
+      return "Brotli";
     case qcompress::UNKNOWN:
     default:
       return "unknown";
