@@ -16,6 +16,7 @@ enum {
    **/
   MAGENTO_SESSION_GZIP,
   MAGENTO_SESSION_LZ4,
+  MAGENTO_SESSION_SNAPPY,
   // MAGENTO_SESSION_ZSTD, // ZSTD is not yet supported -
   // https://github.com/colinmollenhour/php-redis-session-abstract/issues/42
 
@@ -25,7 +26,10 @@ enum {
    */
   MAGENTO_CACHE_GZIP,
   MAGENTO_CACHE_LZ4,
-  MAGENTO_CACHE_ZSTD
+  MAGENTO_CACHE_ZSTD,
+  MAGENTO_CACHE_SNAPPY,
+
+  SNAPPY
 };
 
 unsigned guessFormat(const QByteArray& val);

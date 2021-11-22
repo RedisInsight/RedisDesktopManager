@@ -124,7 +124,9 @@ Item
                 }
 
                 // NOTE(u_glide): hint PHP formatter if MAGENTO/PHP compression detected
-                if (guessFormatter && valueCompression == 4 || valueCompression == 5) {
+                if (guessFormatter && valueCompression == 4
+                        || valueCompression == 5
+                        || valueCompression == 6) {
                     formatterSelector._select("php");
                     guessFormatter = false;
                 }
