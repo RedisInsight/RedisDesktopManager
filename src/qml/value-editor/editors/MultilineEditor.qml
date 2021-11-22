@@ -26,6 +26,7 @@ Item
     property alias readOnly: textView.readOnly
     property string formatterSettingsPrefix: ""
     property string lastSelectedFormatterSetting: "last_selected_" + root.formatterSettingsPrefix + "formatter"
+    property string lastSelectedManualDecompression: "last_selected_" + root.formatterSettingsPrefix + "decompression"
 
     function initEmpty() {
         // init editor with empty model
@@ -44,7 +45,7 @@ Item
 
             if (error) {
                 notification.showError(error)
-                return callback(false);
+                return callback(false, raw);
             }
 
             var valid = validationRule(raw)            
@@ -55,7 +56,7 @@ Item
                 showValidationError(qsTranslate("RDM", "Enter valid value"))
             }
 
-            return callback(valid)
+            return callback(valid, raw)
         });
     }
 
@@ -72,15 +73,13 @@ Item
             var formatter = valueFormattersModel.get(formatterSelector.currentIndex)
 
              formatter.getRaw(formattedValue, function (error, raw) {
+                 var compressed;
                  if (formatter.type === "external") {
-                    root.value = compress(qmlUtils.b64toByteArray(raw))
+                    compressed = compress(qmlUtils.b64toByteArray(raw))
                  } else {
-                    root.value = compress(raw)
+                    compressed = compress(raw)
                  }
-
-                 root.valueCompression = -1;
-
-                 return callback(error, root.value)
+                 return callback(error, compressed)
              })
         }
 
@@ -119,16 +118,21 @@ Item
                 valueCompression = qmlUtils.isCompressed(root.value);
 
                 if (valueCompression > 0) {
-                    root.value = qmlUtils.decompress(root.value)
+                    root.value = qmlUtils.decompress(root.value, valueCompression)
                     isBin = qmlUtils.isBinaryString(root.value)
                 }
 
+                var compression = qmlUtils.compressionAlgName(valueCompression);
+
                 // NOTE(u_glide): hint PHP formatter if MAGENTO/PHP compression detected
-                if (guessFormatter && valueCompression == 4
-                        || valueCompression == 5
-                        || valueCompression == 6) {
+                if (guessFormatter && compression
+                        && compression.startsWith("magento-session-")) {
                     formatterSelector._select("php");
                     guessFormatter = false;
+                }
+
+                if (isBin && valueCompression <= 0) {
+                    noMagicCompressionSelector.loadLastUsed()
                 }
             }
 
@@ -295,7 +299,8 @@ Item
         textView.model = null
         root.value = ""
         root.isEdited = false
-        root.valueCompression = 0
+        root.valueCompression = 0        
+        saveBtnTimer.resetSaveBtn()
         hideValidationError()
     }
 
@@ -324,12 +329,6 @@ Item
                 color: "#ccc"
             }
             BetterLabel { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
-            BetterLabel {
-                objectName: "rdm_value_editor_compressed_value_label"
-                text: qsTranslate("RDM"," [Compressed: ") + qmlUtils.compressionAlgName(root.valueCompression) + "]";
-                visible: root.valueCompression > 0;
-                color: "red";
-            }
             Item { Layout.fillWidth: true }
 
             BetterLabel { visible: showFormatters; text: qsTranslate("RDM","View as:") }
@@ -361,6 +360,95 @@ Item
 
                 onActivated: {
                     formatterSelector.currentIndex = valueFormattersModel.getFormatterIndex(currentText);
+                }
+            }
+
+            BetterLabel {
+                visible: noMagicCompressionSelector.visible
+                text: noMagicCompressionSelector.enabled? qsTranslate("RDM","Try to decompress as:") :
+                                                          qsTranslate("RDM","Decompressed as:")
+            }
+
+            BetterComboBox {
+                id: noMagicCompressionSelector
+
+                objectName: "rdm_value_editor_compression_combobox"
+                textRole: "text"
+
+                visible: {
+                    return binaryFlag.visible || root.valueCompression > 0
+                }
+
+                enabled: {
+                    return binaryFlag.visible && root.valueCompression < 1
+                            || root.valueCompression >= firstNoMagicMethod;
+                }
+
+                displayText: {
+                    if (0 < root.valueCompression && root.valueCompression < noMagicCompressionSelector.firstNoMagicMethod) {
+                        return qmlUtils.compressionAlgName(root.valueCompression)
+                    } else {
+                        return currentText;
+                    }
+                }
+
+                property int firstNoMagicMethod: {
+                    var noMagicCompress = qmlUtils.compressionMethodsNoMagic();
+                    return noMagicCompress[noMagicCompress.length - 1];
+                }
+
+                model: {
+                   var noMagicCompress = qmlUtils.compressionMethodsNoMagic();
+
+                   var modelList = [];
+                    for (var index in noMagicCompress) {
+                        var label = qmlUtils.compressionAlgName(noMagicCompress[index]);
+
+                        if (label === "unknown") {
+                            label = "";
+                        }
+
+                        modelList.push({"value": noMagicCompress[index], "text": label});
+                    }
+
+                   return modelList;
+                }
+
+                function loadLastUsed() {
+                    var lastSelected = defaultCompressionSettings.value(
+                                root.formatterSettingsPrefix + keyName,
+                                defaultCompressionSettings.value(root.lastSelectedManualDecompression, "")
+                    );
+
+                    selectItem(lastSelected);
+                }
+
+                onActivated: {
+                    console.log("Try to decompress as", currentText)
+
+                    var expectedCompression = model[currentIndex]['value'];
+
+                    if (expectedCompression === 0) {
+                        valueCompression = -1
+                        defaultCompressionSettings.setValue(root.formatterSettingsPrefix + keyName, "")
+                        defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, "")
+                        root.loadFormattedValue()
+                        return
+                    }
+
+                    var decompressed = qmlUtils.decompress(root.value, expectedCompression)
+
+                    if (qmlUtils.binaryStringLength(decompressed) > 0) {
+                        binaryFlag.visible = qmlUtils.isBinaryString(root.value)
+                        valueCompression = expectedCompression;
+                        root.loadFormattedValue(decompressed)
+                        defaultCompressionSettings.setValue(root.formatterSettingsPrefix + keyName, currentText)
+                        defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, currentText)
+                        noMagicCompressionSelector.enabled = false;
+                    } else {
+                        notification.showError(qsTranslate("RDM","Cannot decompress value using ") + currentText)
+                        currentIndex = 0;
+                    }
                 }
             }
 
@@ -473,14 +561,12 @@ Item
                             return
                         }
 
-                        valueEditor.item.validateValue(function (result) {
-                            if (!result)
+                        valueEditor.item.getValue(true, function (valid, row) {
+                            if (!valid)
                                 return;
 
-                            var value = valueEditor.item.getValue()
-
-                            saveBtnTimer.start()
-                            keyTab.keyModel.updateRow(valueEditor.currentRow, value)
+                            saveBtnTimer.start()                            
+                            keyTab.keyModel.updateRow(valueEditor.currentRow, row)
                         })
                     }
 
@@ -589,8 +675,7 @@ Item
 
                         var result = textView.model.searchText(searchField.text,
                                                                searchToolbar.lastSearchResultPosition,
-                                                               searchRegexInText.checked)
-                        console.log(result)
+                                                               searchRegexInText.checked)                        
 
                         if (result[0] >= 0) {
                             textView.currentIndex = result[0];

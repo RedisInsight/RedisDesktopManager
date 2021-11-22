@@ -59,7 +59,7 @@ void StreamKeyModel::addRow(const QVariantMap &row,
 
   for (auto key : valuesObject.keys()) {
     cmd.append(key.toUtf8());
-    cmd.append(valuesObject[key].toVariant().toString().toUtf8());
+    cmd.append(valuesObject[key].toVariant().toByteArray());
   }
 
   executeCmd(cmd, c);

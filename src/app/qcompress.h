@@ -29,14 +29,17 @@ enum {
   MAGENTO_CACHE_ZSTD,
   MAGENTO_CACHE_SNAPPY,
 
-  SNAPPY
+  SNAPPY,
+  GZIP_PHP,
+  LZ4_RAW,
+  BROTLI
 };
 
 unsigned guessFormat(const QByteArray& val);
 
 QString nameOf(unsigned alg);
 
-QByteArray decompress(const QByteArray& val);
+QByteArray decompress(const QByteArray& val, unsigned algo);
 
 QByteArray compress(const QByteArray& val, unsigned algo);
 

@@ -6,9 +6,7 @@ import QtQuick.Dialogs 1.2
 
 ColumnLayout {
 
-    state: "edit"
-
-    property bool validateVal: true
+    state: "edit"    
 
     states: [
         State { name: "new"}, // Creating new key
@@ -20,7 +18,7 @@ ColumnLayout {
         console.exception("Not implemented")
     }
 
-    function validateValue(callback) {
+    function getValue(validateVal, callback) {
         console.exception("Not implemented")
     }
 
@@ -29,10 +27,6 @@ ColumnLayout {
     }
 
     function setValue(value) {
-        console.exception("Not implemented")
-    }
-
-    function getValue() {
         console.exception("Not implemented")
     }
 

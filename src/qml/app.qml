@@ -79,6 +79,11 @@ ApplicationWindow {
         category: "formatter_overrides"
     }
 
+    Settings {
+        id: defaultCompressionSettings
+        category: "compression_overrides"
+    }
+
     SystemPalette {
         id: sysPalette
     }

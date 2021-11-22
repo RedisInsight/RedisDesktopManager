@@ -44,6 +44,10 @@ INCLUDEPATH += $$ZSTDDIR/lib
 SNAPPYDIR = $$PWD/snappy
 INCLUDEPATH += $$SNAPPYDIR
 
+#Brotli
+BROTLIDIR = $$PWD/brotli
+INCLUDEPATH += $$BROTLIDIR/c/include
+
 #SIMDJSON
 SIMDJSONDIR = $$PWD/simdjson/singleheader
 INCLUDEPATH += $$SIMDJSONDIR/
@@ -57,11 +61,13 @@ win32* {
     LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/Release/lz4.lib
     LIBS += $$ZSTDDIR/build/cmake/lib/Release/zstd_static.lib
     LIBS += $$SNAPPYDIR/Release/snappy.lib
+    LIBS += -L$$BROTLIDIR/Release/ -lbrotlicommon-static -lbrotlidec-static -lbrotlienc-static
 }
 
 unix:macx { # OSX
     LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a $$ZSTDDIR/build/cmake/lib/libzstd.a
     LIBS += $$SNAPPYDIR/libsnappy.a
+    LIBS += -L$$BROTLIDIR/ -lbrotlicommon-static -lbrotlidec-static -lbrotlienc-static
 }
 
 unix:!macx { # ubuntu & debian   
@@ -92,6 +98,12 @@ unix:!macx { # ubuntu & debian
         LIBS += -lsnappy
     } else {
         LIBS += $$SNAPPYDIR/libsnappy.a
+    }
+
+    defined(SYSTEM_BROTLI, var) {
+        LIBS += -lbrotlicommon -lbrotlidec -lbrotlienc
+    } else {
+        LIBS += -L$$BROTLIDIR/ -lbrotlicommon-static -lbrotlidec-static -lbrotlienc-static
     }
 
     # Unix signal watcher

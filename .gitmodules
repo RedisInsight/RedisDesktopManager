@@ -16,3 +16,6 @@
 [submodule "3rdparty/snappy"]
 	path = 3rdparty/snappy
 	url = https://github.com/google/snappy.git
+[submodule "3rdparty/brotli"]
+	path = 3rdparty/brotli
+	url = https://github.com/google/brotli.git
