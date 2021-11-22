@@ -40,6 +40,10 @@ INCLUDEPATH += $$LZ4DIR/lib
 ZSTDDIR = $$PWD/zstd/
 INCLUDEPATH += $$ZSTDDIR/lib
 
+#Snappy
+SNAPPYDIR = $$PWD/snappy
+INCLUDEPATH += $$SNAPPYDIR
+
 #SIMDJSON
 SIMDJSONDIR = $$PWD/simdjson/singleheader
 INCLUDEPATH += $$SIMDJSONDIR/
@@ -52,10 +56,12 @@ win32* {
     INCLUDEPATH += $$ZLIBDIR/include
     LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/Release/lz4.lib
     LIBS += $$ZSTDDIR/build/cmake/lib/Release/zstd_static.lib
+    LIBS += $$SNAPPYDIR/Release/snappy.lib
 }
 
 unix:macx { # OSX
     LIBS += -lz $$LZ4DIR/build/cmake/liblz4.a $$ZSTDDIR/build/cmake/lib/libzstd.a
+    LIBS += $$SNAPPYDIR/libsnappy.a
 }
 
 unix:!macx { # ubuntu & debian   
@@ -80,6 +86,12 @@ unix:!macx { # ubuntu & debian
         LIBS += -lzstd
     } else {
         LIBS += $$ZSTDDIR/build/cmake/lib/libzstd.a
+    }
+
+    defined(SYSTEM_SNAPPY, var) {
+        LIBS += -lsnappy
+    } else {
+        LIBS += $$SNAPPYDIR/libsnappy.a
     }
 
     # Unix signal watcher

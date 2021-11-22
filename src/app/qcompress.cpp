@@ -1,7 +1,8 @@
 #include "qcompress.h"
 
-#include <lz4frame.h>
 #include <lz4.h>
+#include <lz4frame.h>
+#include <snappy.h>
 #include <zlib.h>
 #include <zstd.h>
 
@@ -83,42 +84,42 @@ QByteArray gzipDecode(const QByteArray &val, int windowBits) {
 }
 
 QByteArray lz4RawDecode(const QByteArray &val) {
+  int offset = sizeof(int);
 
-    int offset = sizeof(int);
+  if (val.size() < offset) {
+    return QByteArray();
+  }
 
-    if (val.size() < offset) {
-        return QByteArray();
-    }
+  int dataSize;
+  memcpy(&dataSize, val.data(), offset);
 
-    int dataSize;
-    memcpy(&dataSize, val.data(), offset);
+  QByteArray dst(dataSize, '\x00');
 
-    QByteArray dst(dataSize, '\x00');
+  auto res = LZ4_decompress_safe(val.constData() + offset, dst.data(),
+                                 val.size() - offset, dst.capacity());
 
-    auto res = LZ4_decompress_safe(val.constData() + offset, dst.data(), val.size() - offset, dst.capacity());
+  if (res < 0) {
+    qWarning() << "LZ4 raw decoding error";
+    return QByteArray();
+  }
 
-    if (res < 0) {
-      qWarning() << "LZ4 raw decoding error";
-      return QByteArray();
-    }
-
-    return dst;
+  return dst;
 }
 
 QByteArray lz4RawEncode(const QByteArray &val) {
+  int maxSize = LZ4_compressBound(val.size());
 
-    int maxSize = LZ4_compressBound(val.size());
+  QByteArray dst(maxSize, '\x00');
 
-    QByteArray dst(maxSize, '\x00');
+  int res = LZ4_compress_default(val.constData(), dst.data(), val.size(),
+                                 dst.capacity());
 
-    int res = LZ4_compress_default(val.constData(), dst.data(), val.size(), dst.capacity());
+  if (res == 0) {
+    qWarning() << "LZ4 raw decoding error";
+    return QByteArray();
+  }
 
-    if (res == 0) {
-      qWarning() << "LZ4 raw decoding error";
-      return QByteArray();
-    }
-
-    return dst;
+  return dst;
 }
 
 QByteArray lz4FrameDecode(const QByteArray &val) {
@@ -162,7 +163,7 @@ QByteArray lz4FrameDecode(const QByteArray &val) {
   if (LZ4F_isError(res)) {
     qWarning() << "LZ4 error. Cannot decode frame" << LZ4F_getErrorName(res);
     return QByteArray();
-  }  
+  }
 
   return dst;
 }
@@ -243,58 +244,96 @@ QByteArray lz4FrameEncode(const QByteArray &val) {
 }
 
 QByteArray zstdDecode(const QByteArray &val) {
-    size_t buffSize = val.size();
-    unsigned long long decompressedSize = ZSTD_getFrameContentSize(
-        static_cast<const void *>(val.constData()), buffSize);
+  size_t buffSize = val.size();
+  unsigned long long decompressedSize = ZSTD_getFrameContentSize(
+      static_cast<const void *>(val.constData()), buffSize);
 
-    if (decompressedSize == 0UL || decompressedSize == ZSTD_CONTENTSIZE_ERROR) {
-        return QByteArray();
-    }
+  if (decompressedSize == 0UL || decompressedSize == ZSTD_CONTENTSIZE_ERROR) {
+    return QByteArray();
+  }
 
-    size_t srcSize = val.size();
+  size_t srcSize = val.size();
 
-    if (!(0 < decompressedSize && decompressedSize <= 255 * srcSize)) {
-      return QByteArray();
-    }
+  if (!(0 < decompressedSize && decompressedSize <= 255 * srcSize)) {
+    return QByteArray();
+  }
 
-    ZSTD_DCtx* const zstd_dctx = ZSTD_createDCtx();
+  ZSTD_DCtx *const zstd_dctx = ZSTD_createDCtx();
 
-    if (!zstd_dctx) {
-      qWarning() << "ZSTD error. Cannot initialize context";
-      return QByteArray();
-    }
+  if (!zstd_dctx) {
+    qWarning() << "ZSTD error. Cannot initialize context";
+    return QByteArray();
+  }
 
-    QScopedPointer<ZSTD_DCtx, ZSTDCleanUp> dctx(zstd_dctx);
+  QScopedPointer<ZSTD_DCtx, ZSTDCleanUp> dctx(zstd_dctx);
 
-    QByteArray dst(decompressedSize, '\x00');
-    size_t dstSize = dst.size();
+  QByteArray dst(decompressedSize, '\x00');
+  size_t dstSize = dst.size();
 
-    size_t const res = ZSTD_decompress(static_cast<void *>(dst.data()), dstSize, static_cast<const void *>(val.data()), srcSize);
+  size_t const res =
+      ZSTD_decompress(static_cast<void *>(dst.data()), dstSize,
+                      static_cast<const void *>(val.data()), srcSize);
 
-    if (ZSTD_isError(res)) {
-        qWarning() << "ZSTD error. Cannot decode frame" << ZSTD_getErrorName(res);
-        return QByteArray();
-    }
+  if (ZSTD_isError(res)) {
+    qWarning() << "ZSTD error. Cannot decode frame" << ZSTD_getErrorName(res);
+    return QByteArray();
+  }
 
-    dst.resize(res);
+  dst.resize(res);
 
-    return dst;
+  return dst;
 }
 
 QByteArray zstdEncode(const QByteArray &val) {
-    QByteArray dst;
-    dst.resize(ZSTD_compressBound(val.size()));
+  QByteArray dst;
+  dst.resize(ZSTD_compressBound(val.size()));
 
-    size_t res = ZSTD_compress(dst.data(), dst.size(), val.data(), val.size(), ZSTD_LEVEL);
+  size_t res =
+      ZSTD_compress(dst.data(), dst.size(), val.data(), val.size(), ZSTD_LEVEL);
 
-    if (ZSTD_isError(res)) {
-      qWarning() << "ZSTD error. Cannot compress frame" << ZSTD_getErrorName(res);
-      return QByteArray();
-    }
+  if (ZSTD_isError(res)) {
+    qWarning() << "ZSTD error. Cannot compress frame" << ZSTD_getErrorName(res);
+    return QByteArray();
+  }
 
-    dst.resize(res);
+  dst.resize(res);
 
-    return dst;
+  return dst;
+}
+
+QByteArray snappyDecode(const QByteArray &val) {
+  size_t size = 0;
+
+  bool res = snappy::GetUncompressedLength(val.constData(), val.size(), &size);
+
+  if (!res) {
+    qWarning() << "Snappy error: Cannot get uncompressed size";
+    QByteArray();
+  }
+
+  std::string output;
+
+  res = snappy::Uncompress(val.constData(), val.size(), &output);
+
+  if (!res) {
+    qWarning() << "Snappy error: Cannot uncompress buffer";
+    QByteArray();
+  }
+
+  return QByteArray::fromStdString(output);
+}
+
+QByteArray snappyEncode(const QByteArray &val) {
+  std::string output;
+
+  bool res = snappy::Compress(val.constData(), val.size(), &output);
+
+  if (!res) {
+    qWarning() << "Snappy error: Cannot compress buffer";
+    QByteArray();
+  }
+
+  return QByteArray::fromStdString(output);
 }
 
 bool validateLZ4Frame(const QByteArray &val) {
@@ -341,11 +380,16 @@ bool validateZSTDFrame(const QByteArray &val) {
 }
 
 bool validateGZip(const QByteArray &val, int from = 0) {
-    return val.indexOf(QByteArray::fromHex("x1fx8b"), from) == 0;
+  return val.indexOf(QByteArray::fromHex("x1fx8b"), from) == 0;
+}
+
+bool validateSnappyFrame(const QByteArray &val) {
+  return snappy::IsValidCompressedBuffer(val.constData(), val.size());
 }
 
 bool isMagentoCacheFormat(unsigned f) {
-    return qcompress::MAGENTO_CACHE_GZIP <= f && f <= qcompress::MAGENTO_CACHE_ZSTD;
+  return qcompress::MAGENTO_CACHE_GZIP <= f &&
+         f <= qcompress::MAGENTO_CACHE_SNAPPY;
 }
 
 QHash<unsigned, QByteArray> knownMagentoFormats() {
@@ -355,53 +399,52 @@ QHash<unsigned, QByteArray> knownMagentoFormats() {
       {qcompress::MAGENTO_CACHE_LZ4, "l4"},
       {qcompress::MAGENTO_SESSION_LZ4, "l4"},
       {qcompress::MAGENTO_CACHE_ZSTD, "zs"},
+      {qcompress::MAGENTO_SESSION_SNAPPY, "sn"},
+      {qcompress::MAGENTO_CACHE_SNAPPY, "sn"},
   };
 }
 
 static const QHash<unsigned, QByteArray> magentoFormats = knownMagentoFormats();
 
 QByteArray magentoPrefix(unsigned f) {
-    if (!magentoFormats.contains(f)) {
-        return QByteArray();
-    }
+  if (!magentoFormats.contains(f)) {
+    return QByteArray();
+  }
 
-    QByteArray id = magentoFormats[f];
+  QByteArray id = magentoFormats[f];
 
-    qDebug() << "is cache" << isMagentoCacheFormat(f);
+  if (isMagentoCacheFormat(f)) {
+    id += QByteArray(":") + QByteArray::fromHex("x1fx8b");
+  } else {
+    id = QByteArray(":") + id + QByteArray(":");
+  }
 
-    if (isMagentoCacheFormat(f)) {
-        id += QByteArray(":") + QByteArray::fromHex("x1fx8b");
-    } else {
-        id = QByteArray(":") + id + QByteArray(":");
-    }
-
-    qDebug() << "id" << id;
-
-    return id;
+  return id;
 }
 
 unsigned qcompress::guessFormat(const QByteArray &val) {
-
   if (val.size() > 4) {
-      auto mFormats = magentoFormats.keys();
+    auto mFormats = magentoFormats.keys();
 
-      QByteArray prefix;
+    QByteArray prefix;
 
-      for (auto f : qAsConst(mFormats)) {
-        prefix = magentoPrefix(f);
+    for (auto f : qAsConst(mFormats)) {
+      prefix = magentoPrefix(f);
 
-        if (val.startsWith(prefix)) {
-            return f;
-        }
+      if (val.startsWith(prefix)) {
+        return f;
       }
+    }
   }
 
   if (val.size() > 2 && validateGZip(val)) {
-    return qcompress::GZIP;  
+    return qcompress::GZIP;
   } else if (val.size() > 4 && validateLZ4Frame(val)) {
     return qcompress::LZ4;
   } else if (val.size() > 4 && validateZSTDFrame(val)) {
     return qcompress::ZSTD;
+  } else if (val.size() > 10 && validateSnappyFrame(val)) {
+    return qcompress::SNAPPY;
   }
 
   return qcompress::UNKNOWN;
@@ -418,24 +461,27 @@ QByteArray qcompress::compress(const QByteArray &val, unsigned algo) {
       return lz4FrameEncode(val);
     case qcompress::MAGENTO_SESSION_LZ4:
     case qcompress::MAGENTO_CACHE_LZ4:
-        return magentoPrefix(algo) + lz4RawEncode(val);
+      return magentoPrefix(algo) + lz4RawEncode(val);
     case qcompress::ZSTD:
       return zstdEncode(val);
     case qcompress::MAGENTO_CACHE_ZSTD:
-        return magentoPrefix(algo) + zstdEncode(val);
+      return magentoPrefix(algo) + zstdEncode(val);
+    case qcompress::SNAPPY:
+      return snappyEncode(val);
+    case qcompress::MAGENTO_CACHE_SNAPPY:
+    case qcompress::MAGENTO_SESSION_SNAPPY:
+      return magentoPrefix(algo) + snappyEncode(val);
     default:
       return QByteArray();
   }
 }
 
 QByteArray qcompress::decompress(const QByteArray &val) {
-
   int offset = 0;
   auto format = guessFormat(val);
 
   if (magentoFormats.contains(format)) {
-      qDebug() << "prefix" << magentoPrefix(format);
-      offset = magentoPrefix(format).size();
+    offset = magentoPrefix(format).size();
   }
 
   switch (format) {
@@ -453,6 +499,11 @@ QByteArray qcompress::decompress(const QByteArray &val) {
       return zstdDecode(val);
     case qcompress::MAGENTO_CACHE_ZSTD:
       return zstdDecode(val.mid(offset));
+    case qcompress::SNAPPY:
+      return snappyDecode(val);
+    case qcompress::MAGENTO_CACHE_SNAPPY:
+    case qcompress::MAGENTO_SESSION_SNAPPY:
+      return snappyDecode(val.mid(offset));
     default:
       return QByteArray();
   }
@@ -474,8 +525,14 @@ QString qcompress::nameOf(unsigned alg) {
       return "magento-cache-lz4";
     case qcompress::MAGENTO_CACHE_ZSTD:
       return "magento-cache-zstd";
+    case qcompress::MAGENTO_CACHE_SNAPPY:
+      return "magento-cache-snappy";
+    case qcompress::MAGENTO_SESSION_SNAPPY:
+      return "magento-session-snappy";
     case qcompress::ZSTD:
       return "ZSTD";
+    case qcompress::SNAPPY:
+      return "Snappy";
     case qcompress::UNKNOWN:
     default:
       return "unknown";

@@ -13,3 +13,6 @@
 [submodule "3rdparty/zstd"]
 	path = 3rdparty/zstd
 	url = https://github.com/facebook/zstd.git
+[submodule "3rdparty/snappy"]
+	path = 3rdparty/snappy
+	url = https://github.com/google/snappy.git
