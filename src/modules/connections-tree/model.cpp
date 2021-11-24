@@ -116,7 +116,7 @@ QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item) {
     return index(sRef->row(), 0, QModelIndex());
   }
 
-  return createIndex(item.toStrongRef()->row(), 0, (void *)item.data());
+  return createIndex(sRef->row(), 0, (void *)sRef.data());
 }
 
 void Model::itemChanged(QWeakPointer<TreeItem> item) {
