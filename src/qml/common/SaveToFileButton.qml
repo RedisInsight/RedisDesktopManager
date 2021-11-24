@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
-import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1
 import QtQuick.Layouts 1.1
 import "./platformutils.js" as PlatformUtils
 
@@ -26,12 +26,12 @@ ImageButton {
         id: saveValueToFileDialog
         title: raw ? qsTranslate("RESP","Save Raw Value") : qsTranslate("RESP","Save Formatted Value")
         nameFilters: ["All files (*)"]
-        selectExisting: false
+        fileMode: FileDialog.SaveFile
 
         onAccepted: {
-            root.fileUrl = fileUrl
+            root.fileUrl = file
 
-            var path = qmlUtils.getPathFromUrl(fileUrl)
+            var path = qmlUtils.getPathFromUrl(file)
             root.folderUrl = qmlUtils.getUrlFromPath(qmlUtils.getDir(path))
             root.path = qmlUtils.getNativePath(path)
             if (raw) {
@@ -46,12 +46,13 @@ ImageButton {
         }
     }
 
-    Dialog {
+    BetterDialog {
         id: saveToFileConfirmation
-        title: raw ? qsTranslate("RESP","Save raw value to file") : qsTranslate("RESP","Save formatted value to file")
+        title: qsTranslate("RESP","Value was saved to file:")
         visible: false
+        footer: null
 
-        contentItem: Rectangle {
+        Rectangle {
             objectName: "rdm_save_to_file_confirmation_dialog"
             color: sysPalette.base
             anchors.fill: parent
@@ -66,11 +67,6 @@ ImageButton {
 
                 ColumnLayout {
                     anchors.fill: parent
-
-                    BetterLabel {
-                        Layout.fillWidth: true
-                        text: qsTranslate("RESP","Value was saved to file:")
-                    }
 
                     TextEdit {
                         objectName: "rdm_save_to_file_confirmation_dialog_path"

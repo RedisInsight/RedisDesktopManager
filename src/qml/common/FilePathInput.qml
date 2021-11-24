@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
-import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1
 import "./platformutils.js" as PlatformUtils
 
 
@@ -30,7 +30,7 @@ RowLayout {
 
     FileDialog {
         id: fileDialog
-        selectExisting: true
-        onAccepted: textField.text = qmlUtils.getPathFromUrl(fileDialog.fileUrl)
+        fileMode: FileDialog.OpenFile
+        onAccepted: textField.text = qmlUtils.getPathFromUrl(fileDialog.file)
     }
 }
