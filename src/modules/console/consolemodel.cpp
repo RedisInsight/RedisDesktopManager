@@ -64,8 +64,8 @@ void Model::execCmd(QList<QByteArray> cmd)
       emit addOutput(
           QCoreApplication::translate(
               "RDM",
-              "Switch to Pub/Sub mode. Close console tab to stop listen for "
-              "messages."),
+              "Switch to %1 mode. Close console tab to stop listen for "
+              "messages.").arg(command.isSubscriptionCommand()? "Pub/Sub": "Monitor"),
           "part");
 
       command.setCallBack(this, [this](Response result, QString err) {
