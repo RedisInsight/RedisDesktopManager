@@ -352,8 +352,12 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
+        <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
-        <translation>Перехід у режим Pub/Sub. Закрийте вкладку консолі, щоб зупинити прослуховування повідомлень.</translation>
+        <translation type="vanished">Перехід у режим Pub/Sub. Закрийте вкладку консолі, щоб зупинити прослуховування повідомлень.</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="74"/>

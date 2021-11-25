@@ -346,7 +346,7 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
-        <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
+        <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
         <translation>切换到推送/订阅模式，关闭标签页来停止接收信息。</translation>
     </message>
     <message>
