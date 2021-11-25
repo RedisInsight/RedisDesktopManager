@@ -100,7 +100,7 @@ ToolBar {
             implicitWidth: 40
             iconSource: "qrc:/images/twi.svg"
             tooltip: qsTranslate("RDM","Follow")
-            onClicked: Qt.openUrlExternally("https://twitter.com/RedisDesktop")
+            onClicked: Qt.openUrlExternally("https://twitter.com/dev_rdm")
         }
 
         BetterButton {
