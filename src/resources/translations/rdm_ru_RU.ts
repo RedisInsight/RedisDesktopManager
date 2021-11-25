@@ -19,12 +19,12 @@
 <context>
     <name>RDM</name>
     <message>
-        <location filename="../../app/app.cpp" line="79"/>
+        <location filename="../../app/app.cpp" line="78"/>
         <source>Settings directory is not writable</source>
         <translation>Папка настроек недоступна для записи</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="81"/>
+        <location filename="../../app/app.cpp" line="80"/>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
         <translation>RDM не может сохранить файл с подключениями в папку настроек. Поменяйте права на папку или запустите RDM с правами админа.</translation>
     </message>
@@ -230,7 +230,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="222"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="291"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="326"/>
         <source>Size: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -282,7 +282,7 @@
         <translation type="unfinished">Удалить ключ?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="142"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="140"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="317"/>
         <source>Reload Value</source>
         <translation type="unfinished">Обновить значение</translation>
@@ -295,7 +295,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="363"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="489"/>
         <source>Add Element to HLL</source>
         <translation type="unfinished"></translation>
     </message>
@@ -305,28 +305,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="103"/>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="124"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="101"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="122"/>
         <source>Delete row</source>
         <translation type="unfinished">Удалить строку</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="109"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="107"/>
         <source>The row is the last one in the key. After removing it key will be deleted.</source>
         <translation type="unfinished">Эта строка последняя в ключе. После удаления ключ будет удален.</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="111"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="109"/>
         <source>Do you really want to remove this row?</source>
         <translation type="unfinished">Удалить строку?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="166"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="162"/>
         <source>Search on page...</source>
         <translation type="unfinished">Поиск на стр...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="193"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="189"/>
         <source>Full Search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -808,7 +808,7 @@
         <location filename="../../qml/common/SaveToFileButton.qml" line="114"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="904"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="349"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="711"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="834"/>
         <source>OK</source>
         <translation type="unfinished">ОК</translation>
     </message>
@@ -820,7 +820,7 @@
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="918"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="361"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="171"/>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="91"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="89"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="267"/>
         <source>Cancel</source>
         <translation type="unfinished">Отмена</translation>
@@ -958,27 +958,27 @@
         <translation type="unfinished">Краткое руководство</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="122"/>
+        <location filename="../../qml/app.qml" line="127"/>
         <source>Successful connection to redis-server</source>
         <translation type="unfinished">Подключение к серверу Redis установлено</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="125"/>
+        <location filename="../../qml/app.qml" line="130"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation type="unfinished">Ошибка при подключении к серверу Redis</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="305"/>
+        <location filename="../../qml/app.qml" line="311"/>
         <source>Add Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="319"/>
+        <location filename="../../qml/app.qml" line="325"/>
         <source>Regroup connections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="341"/>
+        <location filename="../../qml/app.qml" line="347"/>
         <source>Exit Regroup Mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1507,7 +1507,7 @@
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="126"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="254"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="433"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="559"/>
         <source>Save</source>
         <translation type="unfinished">Сохранить</translation>
     </message>
@@ -1539,82 +1539,92 @@
         <translation type="unfinished">Страница</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="55"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="56"/>
         <source>Enter valid value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="224"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="258"/>
         <source>Formatting error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="229"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="263"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation type="unfinished">Ошибка форматирования (Пустой ответ)</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="296"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="331"/>
         <source>[Binary]</source>
         <translation>[Двоичный]</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="299"/>
-        <source> [Compressed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="381"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="507"/>
         <source>Copy to Clipboard</source>
         <translation type="unfinished">Скопировать в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="434"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="560"/>
         <source>Save Changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="538"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="662"/>
         <source>Search string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="552"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="676"/>
         <source>Find Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="552"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="676"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="584"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="707"/>
         <source>Regex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="570"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="693"/>
         <source>Cannot find more results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="571"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="368"/>
+        <source>Try to decompress:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="369"/>
+        <source>Decompressed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="457"/>
+        <source>Cannot decompress value using </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
         <source>Cannot find any results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="707"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="830"/>
         <source>Binary value is too large to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="305"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="334"/>
         <source>View as:</source>
         <translation>Показать как:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="339"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="465"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation type="unfinished">Показ невозможен (&gt;150kB). Форматирование недоступно.</translation>
     </message>
@@ -1650,7 +1660,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="122"/>
+        <location filename="../../modules/bulk-operations/bulkoperationsmanager.cpp" line="131"/>
         <source>Failed to perform actions on %1 keys. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1700,7 +1710,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="719"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="842"/>
         <source>Save value to file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1836,12 +1846,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/common/BetterMessageDialog.qml" line="36"/>
+        <location filename="../../qml/common/BetterMessageDialog.qml" line="24"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/common/BetterMessageDialog.qml" line="44"/>
+        <location filename="../../qml/common/BetterMessageDialog.qml" line="32"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
