@@ -234,7 +234,8 @@ QByteArray lz4FrameEncode(const QByteArray &val) {
   QByteArray dst;
   LZ4F_preferences_t opt{};
   opt.frameInfo.contentSize = val.size();
-  dst.resize(LZ4F_compressFrameBound(val.size(), &opt));
+  size_t expectedSize = LZ4F_compressFrameBound(val.size(), &opt);
+  dst.resize(expectedSize);
 
   size_t res =
       LZ4F_compressFrame(dst.data(), dst.size(), val.data(), val.size(), &opt);
@@ -244,23 +245,23 @@ QByteArray lz4FrameEncode(const QByteArray &val) {
     return QByteArray();
   }
 
+  if (expectedSize > res) {
+      dst.resize(res);
+  }
+
   return dst;
 }
 
 QByteArray zstdDecode(const QByteArray &val) {
   size_t buffSize = val.size();
-  unsigned long long decompressedSize = ZSTD_getFrameContentSize(
+  auto decompressedSize = ZSTD_getFrameContentSize(
       static_cast<const void *>(val.constData()), buffSize);
 
   if (decompressedSize == 0UL || decompressedSize == ZSTD_CONTENTSIZE_ERROR) {
     return QByteArray();
   }
 
-  size_t srcSize = val.size();
-
-  if (!(0 < decompressedSize && decompressedSize <= 255 * srcSize)) {
-    return QByteArray();
-  }
+  size_t srcSize = val.size();  
 
   ZSTD_DCtx *const zstd_dctx = ZSTD_createDCtx();
 

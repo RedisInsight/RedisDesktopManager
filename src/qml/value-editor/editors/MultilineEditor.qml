@@ -299,7 +299,8 @@ Item
         textView.model = null
         root.value = ""
         root.isEdited = false
-        root.valueCompression = 0        
+        root.valueCompression = -1
+        binaryFlag.visible = false
         saveBtnTimer.resetSaveBtn()
         hideValidationError()
     }
@@ -321,8 +322,7 @@ Item
             spacing: 5
 
             BetterLabel { text: root.fieldLabel }
-            TextEdit {
-                Layout.preferredWidth: 150
+            TextEdit {                
                 text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
                 readOnly: true;
                 selectByMouse: true
@@ -365,12 +365,14 @@ Item
 
             BetterLabel {
                 visible: noMagicCompressionSelector.visible
-                text: noMagicCompressionSelector.enabled? qsTranslate("RDM","Try to decompress as:") :
-                                                          qsTranslate("RDM","Decompressed as:")
+                text: noMagicCompressionSelector.enabled? qsTranslate("RDM","Try to decompress:") :
+                                                          qsTranslate("RDM","Decompressed:")
             }
 
             BetterComboBox {
                 id: noMagicCompressionSelector
+
+                Layout.preferredWidth: enabled? 120 : 70
 
                 objectName: "rdm_value_editor_compression_combobox"
                 textRole: "text"
@@ -378,6 +380,12 @@ Item
                 visible: {
                     return binaryFlag.visible || root.valueCompression > 0
                 }
+
+                onEnabledChanged: {
+                    indicator.visible = enabled;
+                }
+
+                flat: !enabled
 
                 enabled: {
                     return binaryFlag.visible && root.valueCompression < 1
