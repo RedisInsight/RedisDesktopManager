@@ -23,9 +23,9 @@ ApplicationWindow {
     visible: true
     objectName: "rdm_qml_root"
     title: "RDM - GUI for Redis® " + Qt.application.version
-    width: 1100
+    width: 1180
     height: 800
-    minimumWidth: 1100
+    minimumWidth: 1180
     minimumHeight: 700
 
     property bool darkModeEnabled: sysPalette.base.hslLightness < 0.4
