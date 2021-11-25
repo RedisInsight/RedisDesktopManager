@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
-        <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
-        <translation>Cambio a modo Pub/sub. Cierra la pestaña de consola para dejar de escuchar mensajes.</translation>
+        <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
+        <translation>Cambio a modo %1. Cierra la pestaña de consola para dejar de escuchar mensajes.</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="74"/>

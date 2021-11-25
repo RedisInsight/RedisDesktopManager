@@ -348,8 +348,12 @@
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
+        <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
-        <translation>切斷到 發布/訂閱 模式。關閉控制台以停止監聽訊息。</translation>
+        <translation type="vanished">切斷到 發布/訂閱 模式。關閉控制台以停止監聽訊息。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="74"/>
