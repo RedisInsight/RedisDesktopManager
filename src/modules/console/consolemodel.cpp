@@ -60,7 +60,7 @@ void Model::execCmd(QList<QByteArray> cmd)
 
     Command command(cmd, m_current_db);
 
-    if (command.isSubscriptionCommand()) {
+    if (command.isSubscriptionCommand() || command.isMonitorCommand()) {
       emit addOutput(
           QCoreApplication::translate(
               "RDM",
