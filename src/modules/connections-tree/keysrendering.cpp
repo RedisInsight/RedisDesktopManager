@@ -37,8 +37,20 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
 
   int unprocessedPartStart = 0;
   if (parent->getFullPath().size() > 0 || parent->type() == "namespace") {
-    unprocessedPartStart =
-        parent->getFullPath().size() + settings.nsSeparator.length();
+      int nsLength = 0;
+
+      if (keys.size() > 0) {
+        QString firstKey = QString::fromUtf8(keys[0]);
+        int res = firstKey.indexOf(settings.nsSeparator, parent->getFullPath().size());
+
+        qDebug() << "NSs regex pos:" << res;
+
+        nsLength = settings.nsSeparator.matchedLength();
+      }
+
+      unprocessedPartStart =
+          parent->getFullPath().size() + nsLength;
+
   }
 
   auto rootItem = resolveRootItem(parent);
@@ -70,10 +82,12 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
 
   auto isBulkInsert = [settings, preRenderedKeysSet, unprocessedPartStart](
                           const QByteArray &current, const QByteArray &next) {
+    QString currentKey = QString::fromUtf8(current);
+    QString nextKey = QString::fromUtf8(current);
     return (settings.appendNewItems &&
-            current.indexOf(settings.nsSeparator, unprocessedPartStart) == -1 &&
+            currentKey.indexOf(settings.nsSeparator, unprocessedPartStart) == -1 &&
             !next.isEmpty() &&
-            next.indexOf(settings.nsSeparator, unprocessedPartStart) == -1 &&
+            nextKey.indexOf(settings.nsSeparator, unprocessedPartStart) == -1 &&
             !preRenderedKeysSet.contains(next));
   };
 
@@ -134,7 +148,7 @@ void KeysTreeRenderer::renderKeys(QSharedPointer<Operations> operations,
       parent->showLoadingError("Not enough memory to render all keys");
       break;
     }
-  }  
+  }
 
   if (preRenderedKeysToBeRemoved.size() > 0) {
     QList<QWeakPointer<KeyItem>> obsoleteKeys;
@@ -165,10 +179,17 @@ void KeysTreeRenderer::renderLazily(QSharedPointer<AbstractNamespaceItem> root,
   QWeakPointer<TreeItem> currentParent =
       parent.staticCast<TreeItem>().toWeakRef();
 
-  int indexOfNaspaceSeparator =
-      (settings.nsSeparator.isEmpty())
-          ? -1
-          : notProcessedKeyPart.indexOf(settings.nsSeparator);
+  int indexOfNaspaceSeparator = -1;
+  auto nsSeparator = settings.nsSeparator;
+  int nsSeparatorLength = nsSeparator.pattern().size();
+
+  if (!nsSeparator.isEmpty() && nsSeparator.patternSyntax() == QRegExp::RegExp) {
+    QString keyPart = QString::fromUtf8(notProcessedKeyPart);
+    indexOfNaspaceSeparator = keyPart.indexOf(nsSeparator);
+
+    qDebug() << "NSs regex pos:" << indexOfNaspaceSeparator << nsSeparator.cap();
+    nsSeparatorLength = nsSeparator.matchedLength();
+  }
 
   if (indexOfNaspaceSeparator == -1) {
     if (parent->getAllChilds().size() >= settings.renderLimit) {
@@ -203,7 +224,8 @@ void KeysTreeRenderer::renderLazily(QSharedPointer<AbstractNamespaceItem> root,
     QByteArray namespaceFullPath = fullKey.mid(0, nsPos);
 
     // Single namespaced key
-    if (nextKey.isEmpty() || nextKey.indexOf(namespaceFullPath) == -1) {
+if (nsSeparator.patternSyntax() != QRegExp::RegExp
+            && (nextKey.isEmpty() || nextKey.indexOf(namespaceFullPath) == -1)) {
       QSharedPointer<KeyItem> newKey(new KeyItem(fullKey, currentParent,
                                                  parent->model(),
                                                  settings.shortKeysRendering));
@@ -213,7 +235,7 @@ void KeysTreeRenderer::renderLazily(QSharedPointer<AbstractNamespaceItem> root,
 
     namespaceItem = QSharedPointer<NamespaceItem>(
         new NamespaceItem(namespaceFullPath, m_operations, currentParent,
-                          parent->model(), settings.dbIndex, settings.filter));
+                          parent->model(), settings.dbIndex, settings.filter, nsSeparator.cap()));
 
     if (expandedNamespaces.contains(namespaceFullPath)) {
       namespaceItem->setExpanded(true);
@@ -223,8 +245,7 @@ void KeysTreeRenderer::renderLazily(QSharedPointer<AbstractNamespaceItem> root,
   }
 
   renderLazily(root, namespaceItem,
-               notProcessedKeyPart.mid(indexOfNaspaceSeparator +
-                                       settings.nsSeparator.length()),
+               notProcessedKeyPart.mid(indexOfNaspaceSeparator + nsSeparatorLength),
                fullKey, m_operations, settings, expandedNamespaces,
                level + 1, nextKey);
 }

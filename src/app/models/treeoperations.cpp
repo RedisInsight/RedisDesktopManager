@@ -236,8 +236,9 @@ void TreeOperations::resetConnection() {
   QtConcurrent::run([oldConnection]() { oldConnection->disconnect(); });
 }
 
-QString TreeOperations::getNamespaceSeparator() {
-  return m_config.namespaceSeparator();
+QRegExp TreeOperations::getNamespaceSeparator() {
+  return QRegExp(m_config.namespaceSeparator(), Qt::CaseSensitive,
+                 m_config.namespaceSeparatorIsRegex()? QRegExp::RegExp : QRegExp::FixedString);
 }
 
 QString TreeOperations::defaultFilter() { return m_config.keysPattern(); }

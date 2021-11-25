@@ -58,7 +58,7 @@ class Operations {
    * @brief getNamespaceSeparator
    * @return
    */
-  virtual QString getNamespaceSeparator() = 0;
+  virtual QRegExp getNamespaceSeparator() = 0;
 
   virtual QString defaultFilter() = 0;
 

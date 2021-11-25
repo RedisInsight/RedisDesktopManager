@@ -761,14 +761,24 @@ Dialog {
 
                             BetterLabel { text: qsTranslate("RDM","Namespace Separator:") }
 
-                            BetterTextField
-                            {
-                                id: namespaceSeparator
-                                Layout.fillWidth: true
-                                objectName: "rdm_advanced_settings_namespace_separator_field"
-                                placeholderText: qsTranslate("RDM","Separator used for namespace extraction from keys")
-                                text: root.settings ? root.settings.namespaceSeparator : ""
-                                onTextChanged: if (root.settings) { root.settings.namespaceSeparator = text }
+                            RowLayout {
+                                BetterTextField
+                                {
+                                    id: namespaceSeparator
+                                    Layout.fillWidth: true
+                                    objectName: "rdm_advanced_settings_namespace_separator_field"
+                                    placeholderText: qsTranslate("RDM","Separator used for namespace extraction from keys")
+                                    text: root.settings ? root.settings.namespaceSeparator : ""
+                                    onTextChanged: if (root.settings) { root.settings.namespaceSeparator = text }
+                                }
+
+                                BetterCheckbox {
+                                    id: nsRegex
+                                    Layout.fillWidth: true
+                                    checked: root.settings ? root.settings.namespaceSeparatorIsRegex : false
+                                    onCheckedChanged: if (root.settings) { root.settings.namespaceSeparatorIsRegex = checked }
+                                    text: qsTranslate("RDM","Regex")
+                                }
                             }
 
                             SettingsGroupTitle {

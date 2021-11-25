@@ -18,9 +18,9 @@ namespace ConnectionsTree {
     public:
         struct RenderingSettigns {
             QRegExp filter;
-            QString nsSeparator;
-            uint dbIndex;            
-            uint renderLimit;            
+            QRegExp nsSeparator;
+            uint dbIndex;
+            uint renderLimit;
             bool appendNewItems;
             bool checkPreRenderedItems;
             bool shortKeysRendering;
@@ -31,7 +31,7 @@ namespace ConnectionsTree {
                                RedisClient::Connection::RawKeysList keys,
                                QSharedPointer<AbstractNamespaceItem> parent,
                                RenderingSettigns settings,
-                               const QSet<QByteArray> &expandedNamespaces);                
+                               const QSet<QByteArray> &expandedNamespaces);
 
     private:
         static void renderLazily(QSharedPointer<AbstractNamespaceItem> root,
