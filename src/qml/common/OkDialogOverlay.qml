@@ -5,7 +5,7 @@ import "."
 BetterDialog {
     id: root
 
-    implicitWidth: 300
+    implicitWidth: label.contentWidth + 50
 
     property alias text: label.text
 
