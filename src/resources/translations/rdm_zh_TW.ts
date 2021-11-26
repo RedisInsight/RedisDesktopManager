@@ -349,7 +349,7 @@
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="65"/>
         <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>切換為 %1 模式。關閉頁籤以停止監聽訊息。</translation>
     </message>
     <message>
         <source>Switch to Pub/Sub mode. Close console tab to stop listen for messages.</source>
@@ -1696,17 +1696,17 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="368"/>
         <source>Try to decompress:</source>
-        <translation type="unfinished"></translation>
+        <translation>嘗試解壓縮:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="369"/>
         <source>Decompressed:</source>
-        <translation type="unfinished"></translation>
+        <translation>解壓縮:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="457"/>
         <source>Cannot decompress value using </source>
-        <translation type="unfinished"></translation>
+        <translation>無法解壓縮以</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
