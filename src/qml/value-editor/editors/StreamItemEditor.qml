@@ -44,7 +44,7 @@ AbstractEditor {
             }
 
             function validate(callback) {
-                return callback(text == "*" || text.indexOf("-") !== -1);
+                return callback(text == "*" || text.indexOf("-") !== -1, text);
             }
     }
 
@@ -62,7 +62,7 @@ AbstractEditor {
 
         function validationRule(raw) {
             try {
-                var obj = JSON.parse(textArea.value);
+                var obj = JSON.parse(raw);
 
                 return typeof obj === "object";
             } catch (e) {
@@ -78,13 +78,13 @@ AbstractEditor {
     }
 
     function getValue(validateVal, callback) {
-        idValue.validate(function (keyTextValid, id) {
+        idValue.validate(function (keyTextValid, idVal) {
             if (!validateVal) {
-                return callback(keyTextValid, {"value": "", "id": id});
+                return callback(keyTextValid, {"value": "", "id": idVal});
             } else {
                 textArea.validate(function (textAreaValid, value) {
                     return callback(keyTextValid && textAreaValid,
-                                    {"value": value, "id": id});
+                                    {"value": value, "id": idVal});
                 });
             }
         });
