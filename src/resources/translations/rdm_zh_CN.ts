@@ -711,17 +711,17 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="703"/>
         <source>Passphrase for provided private key</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提供的私钥的密码</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="705"/>
         <source>Password request will be prompt prior to connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将会在连接前询问密码</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="716"/>
         <source>Ask for password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">询问密码</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="765"/>
@@ -1096,7 +1096,7 @@
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="472"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="959"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">成功</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="498"/>
@@ -1690,17 +1690,17 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="368"/>
         <source>Try to decompress:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">尝试解压:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="369"/>
         <source>Decompressed:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">解压:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="457"/>
         <source>Cannot decompress value using </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法解压以</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
@@ -1985,33 +1985,33 @@
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="24"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">是</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="32"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">否</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="19"/>
         <source>SSH Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SSH 密钥</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="21"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未知</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
         <source>Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">密钥</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="71"/>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">继续</translation>
     </message>
 </context>
 </TS>
