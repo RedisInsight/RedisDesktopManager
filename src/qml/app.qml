@@ -71,7 +71,7 @@ ApplicationWindow {
         category: "app"
         property string valueEditorFont
         property string valueEditorFontSize
-        property int valueSizeLimit: 150000
+        property int valueSizeLimit: 1500000
     }
 
     Settings {

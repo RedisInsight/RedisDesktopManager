@@ -97,21 +97,33 @@ Item
     }
 
     function loadFormattedValue(val) {
+
+        var guessFormatter = false;
+
+        if (val) {
+            root.value = val;
+            guessFormatter = true;
+        }
+
+        var isBin = qmlUtils.isBinaryString(root.value)
+        binaryFlag.visible = isBin
+
+        if (isBin && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
+            largeValueDialog.visible = true;
+            root.showFormatters = false;
+            textView.model = qmlUtils.wrapLargeText(qmlUtils.printable(root.value, false, 50000));
+            textView.readOnly = true;
+            saveBtn.enabled = false;
+            return;
+        } else {
+            largeValueDialog.visible = false
+            root.showFormatters = true
+        }
+
         var continueFormatting = function (guessFormatter) {
             if (!root.value) {
                 console.log("Empty value. Skipping formatting stage");
                 return;
-            }
-
-            var isBin = qmlUtils.isBinaryString(root.value)
-            binaryFlag.visible = isBin
-
-            if (qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
-                root.showFormatters = false
-                formatterSelector.currentIndex = formatterSelector.model.getDefaultFormatter(isBin)
-                guessFormatter = false
-            } else {
-                root.showFormatters = true
             }
 
             if (valueCompression <= 0) {
@@ -131,7 +143,8 @@ Item
                     guessFormatter = false;
                 }
 
-                if (isBin && valueCompression <= 0) {
+                if (isBin && valueCompression <= 0
+                        && qmlUtils.binaryStringLength(root.value) <= appSettings.valueSizeLimit) {
                     noMagicCompressionSelector.loadLastUsed()
                 }
             }
@@ -144,17 +157,9 @@ Item
             } else {
                 _loadFormatter(isBin)
             }
-
-            if (isBin && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit) {
-                largeValueDialog.visible = true
-            } else {
-                largeValueDialog.visible = false
-            }
         };
 
-        if (val) {
-            root.value = val
-
+        if (guessFormatter) {
             var formatterOverride = defaultFormatterSettings.value(
                         root.formatterSettingsPrefix + keyName,
                         defaultFormatterSettings.value(root.lastSelectedFormatterSetting, "")
@@ -378,7 +383,8 @@ Item
                 textRole: "text"
 
                 visible: {
-                    return binaryFlag.visible || root.valueCompression > 0
+                    return binaryFlag.visible && qmlUtils.binaryStringLength(root.value) <= appSettings.valueSizeLimit
+                            || root.valueCompression > 0
                 }
 
                 onEnabledChanged: {
@@ -527,7 +533,7 @@ Item
                         imgWidth: imgBtnWidth
                         imgHeight: imgBtnHeight
 
-                        enabled: root.value !== ""
+                        enabled: root.value !== "" && root.showFormatters
 
                         shortcutText: qmlUtils.standardKeyToString(StandardKey.SaveAs)
                     }
@@ -826,7 +832,10 @@ Item
     }
 
     BetterDialog {
-        id: largeValueDialog
+        id: largeValueDialog               
+
+        height: 150
+
         title: qsTranslate("RDM","Binary value is too large to display")
         visible: false
         footer: BetterDialogButtonBox {
@@ -837,13 +846,11 @@ Item
         }
 
         RowLayout {
-            Text {
+            anchors.fill: parent
+
+            Text {                
                 color: sysPalette.text
                 text: qsTranslate("RDM","Save value to file")+ ": "
-            }
-
-            SaveToFileButton {
-                objectName: "rdm_save_large_value_to_file_dialog_btn"
             }
 
             SaveToFileButton {

@@ -194,9 +194,9 @@ Dialog {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
-                            min: 1
+                            min: 1000
                             max: 20000000
-                            value: 150000
+                            value: 1500000
                             label: qsTranslate("RDM","Maximum Formatted Value Size")
                             description: qsTranslate("RDM", "Size in bytes")
                         }
