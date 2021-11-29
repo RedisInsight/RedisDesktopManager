@@ -1,5 +1,8 @@
 #include "stream.h"
 #include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 
 StreamKeyModel::StreamKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
@@ -59,7 +62,16 @@ void StreamKeyModel::addRow(const QVariantMap &row,
 
   for (auto key : valuesObject.keys()) {
     cmd.append(key.toUtf8());
-    cmd.append(valuesObject[key].toVariant().toByteArray());
+
+    if (valuesObject[key].isArray()) {
+        QJsonDocument d = QJsonDocument(valuesObject[key].toArray());
+        cmd.append(d.toJson(QJsonDocument::Compact));
+    } else if (valuesObject[key].isObject()) {
+        QJsonDocument d = QJsonDocument(valuesObject[key].toObject());
+        cmd.append(d.toJson(QJsonDocument::Compact));
+    } else {
+        cmd.append(valuesObject[key].toVariant().toByteArray());
+    }
   }
 
   executeCmd(cmd, c);
@@ -133,8 +145,7 @@ int StreamKeyModel::addLoadedRowsToCache(const QVariantList &rows,
       auto valKey = valItem->toByteArray();
       valItem++;
 
-      // NOTE(u_glide): Temporary workaround for https://bugreports.qt.io/browse/QTBUG-84739
-      mappedVal[valKey] = QString::fromUtf8(valItem->toByteArray());
+      mappedVal[valKey] = valItem->toByteArray();
     }
 
     value.second = mappedVal;
