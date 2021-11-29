@@ -4,6 +4,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "app/jsonutils.h"
+
 StreamKeyModel::StreamKeyModel(
     QSharedPointer<RedisClient::Connection> connection, QByteArray fullPath,
     int dbIndex, long long ttl)
@@ -27,7 +29,6 @@ QHash<int, QByteArray> StreamKeyModel::getRoles() {
 
 QVariant StreamKeyModel::getData(int rowIndex, int dataRole) {
   if (!isRowLoaded(rowIndex)) return QVariant();
-
   switch (dataRole) {
     case Value:
       return QJsonDocument::fromVariant(m_rowsCache[rowIndex].second)
@@ -145,7 +146,19 @@ int StreamKeyModel::addLoadedRowsToCache(const QVariantList &rows,
       auto valKey = valItem->toByteArray();
       valItem++;
 
-      mappedVal[valKey] = valItem->toByteArray();
+      QByteArray fieldValue = valItem->toByteArray();
+
+      if (JSONUtils::isJSON(fieldValue)) {
+        auto doc = QJsonDocument::fromJson(fieldValue);
+
+        if (doc.isObject() || doc.isArray()) {
+            mappedVal[valKey] = doc.toVariant();
+        } else {
+            mappedVal[valKey] = fieldValue;
+        }
+      } else {
+          mappedVal[valKey] = fieldValue;
+      }
     }
 
     value.second = mappedVal;
