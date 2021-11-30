@@ -54,5 +54,10 @@
         <file alias="aws_logo_white.svg">images/aws_logo_white.svg</file>
         <file alias="azure_logo.svg">images/azure_logo.svg</file>
         <file alias="heroku_logo.svg">images/heroku_logo.svg</file>
+        <file alias="fullscreen.svg">images/fullscreen.svg</file>
+        <file alias="fullscreen_white.svg">images/fullscreen_white.svg</file>
+        <file alias="square-half.svg">images/square-half.svg</file>
+        <file alias="list.svg">images/list.svg</file>
+        <file alias="plus.svg">images/plus.svg</file>
     </qresource>
 </RCC>
