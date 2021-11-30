@@ -278,6 +278,7 @@ ApplicationWindow {
     header: AppToolBar {}
 
     Rectangle {
+        id: appWrapper
         anchors.fill: parent
         color: sysPalette.base
         border.color: sysPalette.mid
@@ -290,6 +291,7 @@ ApplicationWindow {
         orientation: Qt.Horizontal
 
         ColumnLayout {
+            id: connectionsTreeWrapper
             SplitView.fillHeight: true
             SplitView.minimumWidth: 404
             SplitView.minimumHeight: 500

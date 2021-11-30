@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 2.13
+import QtQuick.Controls 2.15
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
@@ -24,7 +24,7 @@ ToolBar {
             BetterButton {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 190
-                iconSource: "qrc:/images/add.svg"
+                iconSource: "qrc:/images/plus.svg"
                 text: qsTranslate("RESP","Connect to Redis Server")
                 objectName: "rdm_connect_to_redis_server_btn"
 
@@ -34,14 +34,13 @@ ToolBar {
                 }
             }
 
-            BetterButton {
-                Layout.fillWidth: true
-                iconSource: "qrc:/images/import.svg"
-                text: width < 100 ? "" : qsTranslate("RESP","Import")
-                tooltip: qsTranslate("RESP","Import Connections")
-                objectName: "rdm_import_connections_btn"
 
-                onClicked: importConnectionsDialog.open()
+            ImageButton {
+                id: connectionsMenuBtn
+                Layout.preferredWidth: 30
+                iconSource: "qrc:/images/list.svg"
+
+                onClicked: menu.open()
 
                 FileDialog {
                     id: importConnectionsDialog
@@ -50,16 +49,6 @@ ToolBar {
                     selectExisting: true
                     onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(fileUrl))
                 }
-            }
-
-            BetterButton {
-                Layout.fillWidth: true
-                iconSource: "qrc:/images/export.svg"
-                text: width < 100 ? "" : qsTranslate("RESP","Export")
-                tooltip: qsTranslate("RESP","Export Connections")
-                objectName: "rdm_export_connections_btn"
-
-                onClicked: exportConnectionsDialog.open()
 
                 FileDialog {
                     id: exportConnectionsDialog
@@ -67,6 +56,33 @@ ToolBar {
                     nameFilters: ["Connections (*.json)"]
                     selectExisting: false
                     onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
+                }
+
+                Menu {
+                    id: menu
+
+                    MenuItem {
+                        objectName: "rdm_import_connections_btn"
+                        text: qsTranslate("RDM","Import Connections")
+                        onTriggered: importConnectionsDialog.open()
+                    }
+                    MenuItem {
+                        objectName: "rdm_export_connections_btn"
+                        text: qsTranslate("RDM","Export Connections")
+                        onTriggered: exportConnectionsDialog.open()
+                    }
+                }
+            }
+
+            ImageButton {
+                id: toggleTreeViewBtn
+                Layout.preferredWidth: 30
+                iconSource: "qrc:/images/square-half.svg"
+                imgWidth: 15
+                imgHeight: 15
+
+                onClicked: {
+                    connectionsTreeWrapper.visible = !connectionsTreeWrapper.visible
                 }
             }
         }

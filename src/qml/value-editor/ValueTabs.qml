@@ -339,30 +339,92 @@ Repeater {
                     }
 
                     // Value editor
-                    ColumnLayout {
+                    Item {
                         id: editorWrapper
+
                         SplitView.fillWidth: true
                         SplitView.fillHeight: !isMultiRow
                         Layout.topMargin: 20
                         SplitView.minimumHeight: 220
-                        spacing: 10
 
-                        Loader {
-                            id: valueEditor
-                            objectName: "rdm_value_editor_loader"
+                        BetterDialog {
+                            id: fullScreenEditorDialog
+                            title: tabName
 
-                            Layout.topMargin: 5
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            Layout.minimumHeight: 180
+                            width: approot.width * 0.9
+                            height: approot.height * 0.9
+                            footer: null
 
-                            Component.onCompleted: {
-                                keyTab.valueEditor = valueEditor
+                            Rectangle {
+                                id: fullscreenEditorParent
+
+                                anchors.fill: parent
+                                implicitHeight: 500
+                                implicitWidth: 800
                             }
 
-                            property int currentRow: -1
+                            onClosed: {
+                                editor.state = "default"
+                            }
+                        }
 
-                            source: keyTab.keyModel? Editor.getEditorByTypeString(keyType) : ""
+                        Rectangle {
+                            id: editor
+                            anchors.fill: parent
+
+                            color: sysPalette.base
+
+                            state: "default"
+
+                            states: [
+                                State {
+                                        name: "full_screen"
+                                        ParentChange { target: editor; parent: fullscreenEditorParent;}
+                                        PropertyChanges {
+                                            target: fullScreenEditorDialog
+                                            visible: true
+                                        }
+                                        PropertyChanges {
+                                            target: fullScreenModeBtn
+                                            visible: false
+                                        }
+                                    },
+                                State {
+                                    name: "default"
+                                    ParentChange { target: editor; parent: editorWrapper; }
+                                    PropertyChanges {
+                                        target: fullScreenEditorDialog
+                                        visible: false
+                                    }
+                                    PropertyChanges {
+                                        target: fullScreenModeBtn
+                                        visible: true
+                                    }
+                                }
+                            ]                            
+
+                            ColumnLayout {
+                                id: editorLayout
+                                anchors.fill: parent
+                                anchors.margins: 5                                
+                                spacing: 10
+
+                                Loader {
+                                    id: valueEditor
+                                    objectName: "rdm_value_editor_loader"
+
+                                    Layout.topMargin: 5
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    Layout.minimumHeight: 180
+
+                                    Component.onCompleted: {
+                                        keyTab.valueEditor = valueEditor
+                                    }
+
+                                    property int currentRow: -1
+
+                                    source: keyTab.keyModel? Editor.getEditorByTypeString(keyType) : ""
 
                                     function loadRowValue(row) {
                                         console.log("loading row value", row)
@@ -377,19 +439,21 @@ Repeater {
                                         }
                                     }
 
-                            function clear() {
-                                if (valueEditor.item) {
-                                    currentRow = -1
+                                    function clear() {
+                                        if (valueEditor.item) {
+                                            currentRow = -1
 
-                                    if (valueEditor.item.keyType !== undefined) {
-                                        valueEditor.item.keyType = keyType
+                                            if (valueEditor.item.keyType !== undefined) {
+                                                valueEditor.item.keyType = keyType
+                                            }
+
+                                            valueEditor.item.reset()
+                                        }
                                     }
 
-                                    valueEditor.item.reset()
+                                    onLoaded: clear()
                                 }
                             }
-
-                            onLoaded: clear()
                         }
                     }
                     // Value editor end

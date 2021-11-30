@@ -579,6 +579,26 @@ Item
                     }
                 }
 
+                ImageButton {
+                    id: fullScreenModeBtn
+
+                    iconSource: editor.state === "default"?
+                                    PlatformUtils.getThemeIcon("maximize.svg")
+                                  : PlatformUtils.getThemeIcon("minimize.svg")
+                    implicitWidth: imgBtnWidth
+                    implicitHeight: imgBtnHeight
+                    imgWidth: imgBtnWidth * 0.8
+                    imgHeight: imgBtnHeight * 0.8
+
+                    tooltip: (editor.state === "default"? "" : qsTranslate("RDM","Exit "))
+                                                         + qsTranslate("RDM","Full Screen Mode")
+
+                    onClicked: {
+                        editor.state = editor.state === "default"? "full_screen" : "default"
+                        editor.forceActiveFocus()
+                    }
+                }
+
                 BetterButton {
                     id: saveBtn
                     objectName: "rdm_value_editor_save_btn"
