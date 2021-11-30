@@ -68,6 +68,8 @@ RowLayout {
         id: streamRangeSlider
         objectName: "rdm_stream_filter_range_slider"
 
+        implicitWidth: 100
+
         Layout.fillWidth: true
         palette.midlight: sysPalette.button
         palette.dark: enabled ? sysPalette.highlight : disabledSysPalette.highlight
@@ -78,11 +80,11 @@ RowLayout {
         stepSize: 1.0
         snapMode: Slider.SnapAlways
 
-        first.handle.implicitWidth: 20
-        first.handle.implicitHeight: 20
+        first.handle.implicitWidth: PlatformUtils.isOSXRetina(Screen) ? 15 : 20
+        first.handle.implicitHeight: PlatformUtils.isOSXRetina(Screen) ? 15 : 20
 
-        second.handle.implicitWidth: 20
-        second.handle.implicitHeight: 20
+        second.handle.implicitWidth: PlatformUtils.isOSXRetina(Screen) ? 15 : 20
+        second.handle.implicitHeight: PlatformUtils.isOSXRetina(Screen) ? 15 : 20
 
         first.onPressedChanged: {
             if (!first.pressed) {
@@ -129,9 +131,9 @@ RowLayout {
 
     BetterButton {
         objectName: "rdm_stream_filter_apply_btn"
-
+        implicitWidth: 30
         iconSource: "qrc:/images/filter.svg"
-        text: qsTranslate("RDM","Apply filter")
+        tooltip: qsTranslate("RDM","Apply filter")
         enabled: (streamRangeStartField.isEdited || streamRangeEndField.isEdited) && streamFilter.enabled
 
         onClicked: {
