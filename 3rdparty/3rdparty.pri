@@ -103,7 +103,7 @@ unix:!macx { # ubuntu & debian
     defined(SYSTEM_BROTLI, var) {
         LIBS += -lbrotlicommon -lbrotlidec -lbrotlienc
     } else {
-        LIBS += -L$$BROTLIDIR/ -lbrotlicommon-static -lbrotlidec-static -lbrotlienc-static
+        LIBS += -L$$BROTLIDIR/ -lbrotlienc-static -lbrotlicommon-static -lbrotlidec-static
     }
 
     # Unix signal watcher
