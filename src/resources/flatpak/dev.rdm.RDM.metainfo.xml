@@ -3,7 +3,7 @@
     <id>dev.rdm.RDM</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-only</project_license>
-    <name>Redis Desktop Manager</name>
+    <name>RDM - GUI for Redis ®</name>
     <summary>Cross-platform open source database management tool for Redis ®</summary>
     <description>
         <p>RDM — is a fast open source Redis ® database management application for Windows, Linux and MacOS.
