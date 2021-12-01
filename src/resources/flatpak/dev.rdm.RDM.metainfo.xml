@@ -19,8 +19,8 @@
     </screenshots>
     <content_rating type="oars-1.0"/>
     <releases>
-        <release version="2021.7" date="2021-07-16"/>
-        <release version="2021.8" date="2021-10-26"/>
         <release version="2021.9" date="2021-11-30"/>
+        <release version="2021.8" date="2021-10-26"/>
+        <release version="2021.7" date="2021-07-16"/>
     </releases>
 </component>
