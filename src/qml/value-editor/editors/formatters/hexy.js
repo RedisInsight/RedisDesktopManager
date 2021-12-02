@@ -6,8 +6,7 @@ var hexy = function (buffer, config) {
     return h.toString()
 }
 var Hexy = function (buffer, config) {
-    var self = {}
-    buffer = buffer
+    var self = {}    
     config = config || {}
     self.buffer = buffer // magic string conversion here?
     self.width = config.width || 16
@@ -42,7 +41,7 @@ var Hexy = function (buffer, config) {
     for (var i = 0; i!=self.indent; ++i) {
         self.prefix = " "+self.prefix
     }
-    var pos = 0
+
     this.toString = function () {
         var str = "<style> * { font-family: '"+ self.font + "'}</style>"
         if (self.html) { str += "<table border='1'>\n"}
