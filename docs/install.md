@@ -50,6 +50,13 @@
 cd 3rdparty/lz4/build/cmake
 cmake -DLZ4_BUNDLED_MODE=ON  .
 make
+cd 3rdparty/brotli
+cmake -DBUILD_SHARED_LIBS=OFF
+make
+cd 3rdparty/snappy
+cmake -DHAVE_LIBLZO2=0 -DHAVE_LIBLZ4=0 && make
+cd 3rdparty/zstd/build/cmake
+cmake ./ && make
 ```
 6. Install Python requirements `pip3 install -t ../bin/osx/release -r py/requirements.txt`
 7. Install [Qt 5.15](http://www.qt.io/download-open-source/#section-2). Add Qt Creator and under Qt 5.15.x add Qt Charts module.
