@@ -1,8 +1,8 @@
-# **How to start using RDM**
+# **How to start using RDM.dev**
 ***
 
 
-After you've [installed](install.md) RDM, the first thing you need to do in order to get going is to create a connection to your Redis server. On the main window, press the button labelled **Connect to Redis Server**. 
+After you've [installed](install.md) RDM.dev, the first thing you need to do in order to get going is to create a connection to your Redis server. On the main window, press the button labelled **Connect to Redis Server**. 
 
 ![](http://rdm.dev/static/docs/rdm_main.png?v=2)
 
@@ -55,12 +55,12 @@ To connect to a Redis Labs instance with SSL/TLS encryption, follow the steps be
 ### Digital Ocean Managed Redis <br /> <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/DigitalOcean_logo.svg" width="100">
 Digital Ocean connection settings is a bit confusing. To connect to a Digital Ocean Managed Redis you need to follow steps bellow:
 
-1. Copy host, port and password information to RDM
-2. **Leave Username field in RDM empty** (Important!)
+1. Copy host, port and password information to RDM.dev
+2. **Leave Username field in RDM.dev empty** (Important!)
 3. Enable SSL/TLS checkbox
 
 Or using Quick Connect tab for new connections:
-1. Copy connection string (starts with "rediss://") from connection details to RDM
+1. Copy connection string (starts with "rediss://") from connection details to RDM.dev
 2. Click "Import" and "Test Connection"
 
 ### Heroku Redis <br /> <img src="https://brand.heroku.com/static/media/heroku-logo-stroke.aa0b53be.svg" width="80">
@@ -75,11 +75,11 @@ Example output:
 ```
 rediss://user:password@host:port
 ```
-2. Enter connection settings in RDM Connection dialog:
+2. Enter connection settings in RDM.dev Connection dialog:
 - If URL starts with `rediss` enable SSL/TLS checkbox and **uncheck** "Enable strict mode" checkbox
 - Copy `user` to "Username" field
 - Copy `password` to "Password" field
-- Copy `host` and `port` to "Address" field in RDM
+- Copy `host` and `port` to "Address" field in RDM.dev
 
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
@@ -99,7 +99,7 @@ ssh SSH_HOST -L 7000:localhost:6379
 
 ## Connect to a UNIX socket
 
-RDM [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
+RDM.dev [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
 
 ```
 socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock
