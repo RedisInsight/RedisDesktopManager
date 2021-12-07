@@ -1,4 +1,4 @@
-### Build RDM from source
+### Build RDM.dev from source
 See [instruction](install.md#build-from-source)
 
 ### Generate test data

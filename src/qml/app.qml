@@ -22,7 +22,7 @@ ApplicationWindow {
     id: approot
     visible: true
     objectName: "rdm_qml_root"
-    title: "RDM - GUI for Redis® " + Qt.application.version
+    title: "RDM.dev - GUI for Redis® " + Qt.application.version
     width: 1180
     height: 800
     minimumWidth: 1180

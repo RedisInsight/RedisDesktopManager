@@ -4,7 +4,7 @@
     This feature is not available in the Apple AppStore version due to sandboxing restrictions.    
 
 Native value formatters are scripts or executables developed in different programming languages which allow
- to display in readable form the key values of various formats inside the RDM value editor. You can easily implement any formatter for your own purposes as well. 
+ to display in readable form the key values of various formats inside the RDM.dev value editor. You can easily implement any formatter for your own purposes as well. 
 
 ![91f4b202-89a4-11e5-8446-b34f21ee9152](https://cloud.githubusercontent.com/assets/1655867/20011127/315cb0c4-a2b3-11e6-8479-ae8a6d030f40.png)
 
@@ -17,7 +17,7 @@ Native value formatters are scripts or executables developed in different progra
 2. Implement script or executable which meets protocol described below. 
 3. Add file `usage.json` with usage shell command<br />
 For example for python script it will be: `['python', 'my_super_formatter.py']`
-4. Test your formatter in RDM!
+4. Test your formatter in RDM.dev!
 
 ### Protocol
 #### Formatter info:
@@ -79,7 +79,7 @@ OUT (json):
 
 ### Installation
 
-To install the formatter create `formatters/` directory inside of `.rdm/` settings directory which is by default located inside of your home directory or by the path you specify as `--settings-dir` option when you run RDM. Then copy formatter's directory into `.rdm/formatters/`. Or just clone the repository with examples into `.rdm/` like shown below.
+To install the formatter create `formatters/` directory inside of `.rdm/` settings directory which is by default located inside of your home directory or by the path you specify as `--settings-dir` option when you run RDM.dev. Then copy formatter's directory into `.rdm/formatters/`. Or just clone the repository with examples into `.rdm/` like shown below.
 
 ```shell
 cd ~/.rdm/
