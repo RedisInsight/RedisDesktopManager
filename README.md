@@ -1,4 +1,4 @@
-# [RDM](http://rdm.dev "RDM Official Site")
+# [RDM.dev - GUI for Redis &reg;](http://rdm.dev "RDM.dev Official Site")
 
 [Install & Run](http://docs.rdm.dev/en/latest/install/) | 
 [Quick Start](http://docs.rdm.dev/en/latest/quick-start/) |
@@ -19,6 +19,6 @@ Open source cross-platform Desktop Manager for Redis &reg; based on Qt 5
 </a>
 <a href='https://flathub.org/apps/details/dev.rdm.RDM'><img height="50" alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
 
-![RDM screenshot](http://rdm.dev/static/img/features/all.png?v2021)
+![RDM.dev screenshot](http://rdm.dev/static/img/features/all.png?v2021)
 
 **Supported Redis versions**: 2.8+ (for old redis-servers use [RedisDesktopManager 0.8.8](https://github.com/uglide/RedisDesktopManager/releases/tag/0.8.8))
