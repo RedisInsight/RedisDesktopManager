@@ -1,5 +1,5 @@
-site_name: "RDM"
-site_description: "RDM Documentation"
+site_name: "RDM.dev"
+site_description: "RDM.dev Documentation"
 site_author: "Igor Malinovskiy"
 site_favicon: "favicon.ico"
 repo_url: https://github.com/uglide/RedisDesktopManager
