@@ -380,7 +380,8 @@ Item
             BetterComboBox {
                 id: noMagicCompressionSelector
 
-                Layout.preferredWidth: enabled? 120 : 70
+                Layout.preferredWidth: 120
+                Layout.fillWidth: true
 
                 objectName: "rdm_value_editor_compression_combobox"
                 textRole: "text"
