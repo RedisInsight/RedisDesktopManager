@@ -126,24 +126,27 @@ Item
                 return;
             }
 
-            if (valueCompression <= 0) {
-                valueCompression = qmlUtils.isCompressed(root.value);
+            // NOTE(u_glide): -1 means "not set", 0 - unknown or not compressed
+            if (valueCompression < 0) {
+                var compressionMethod = qmlUtils.isCompressed(root.value);
 
-                if (valueCompression > 0) {
+                if (compressionMethod > 0) {
+                    valueCompression = compressionMethod
                     root.value = qmlUtils.decompress(root.value, valueCompression)
                     isBin = qmlUtils.isBinaryString(root.value)
+
+                    var compression = qmlUtils.compressionAlgName(valueCompression);
+
+                    // NOTE(u_glide): hint PHP formatter if MAGENTO/PHP compression detected
+                    if (guessFormatter && compression
+                            && compression.startsWith("magento-session-")) {
+                        formatterSelector._select("php");
+                        guessFormatter = false;
+                    }
                 }
 
-                var compression = qmlUtils.compressionAlgName(valueCompression);
-
-                // NOTE(u_glide): hint PHP formatter if MAGENTO/PHP compression detected
-                if (guessFormatter && compression
-                        && compression.startsWith("magento-session-")) {
-                    formatterSelector._select("php");
-                    guessFormatter = false;
-                }
-
-                if (isBin && valueCompression <= 0
+                // NOTE(u_glide): try to decompress using last "no magic" compression
+                if (isBin && valueCompression < 0
                         && qmlUtils.binaryStringLength(root.value) <= appSettings.valueSizeLimit) {
                     noMagicCompressionSelector.loadLastUsed()
                 }
@@ -432,7 +435,7 @@ Item
                     var lastSelected = defaultCompressionSettings.value(
                                 root.formatterSettingsPrefix + keyName,
                                 defaultCompressionSettings.value(root.lastSelectedManualDecompression, "")
-                    );
+                    );                    
 
                     selectItem(lastSelected);
                 }
@@ -442,10 +445,10 @@ Item
 
                     var expectedCompression = model[currentIndex]['value'];
 
-                    if (expectedCompression === 0) {
-                        valueCompression = -1
+                    if (expectedCompression == 0) {
+                        valueCompression = 0
                         defaultCompressionSettings.setValue(root.formatterSettingsPrefix + keyName, "")
-                        defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, "")
+                        defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, "")                        
                         root.loadFormattedValue()
                         return
                     }
@@ -461,6 +464,9 @@ Item
                         noMagicCompressionSelector.enabled = false;
                     } else {
                         notification.showError(qsTranslate("RDM","Cannot decompress value using ") + currentText)
+                        defaultCompressionSettings.setValue(root.formatterSettingsPrefix + keyName, "")
+                        defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, "")
+                        valueCompression = 0
                         currentIndex = 0;
                     }
                 }
