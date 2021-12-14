@@ -3,8 +3,8 @@
 #include <qredisclient/redisclient.h>
 #include <qredisclient/utils/text.h>
 
-#include <QObject>
 #include <QFile>
+#include <QObject>
 
 #include "hashkey.h"
 #include "listkey.h"
@@ -21,8 +21,15 @@ void KeyFactory::loadKey(
     int dbIndex,
     std::function<void(QSharedPointer<ValueEditor::Model>, const QString&)>
         callback) {
-  auto loadModel = [this, connection, keyFullPath, dbIndex, callback](
-                       RedisClient::Response resp, QString) {
+  auto processError = [callback, keyFullPath](const QString& err) {
+    QString msg(QCoreApplication::translate(
+        "RDM", "Cannot load key %1, connection error occurred: %2"));
+    callback(QSharedPointer<ValueEditor::Model>(),
+             msg.arg(printableString(keyFullPath)).arg(err));
+  };
+
+  auto loadModel = [this, connection, keyFullPath, dbIndex, callback,
+                    processError](RedisClient::Response resp) {
     QSharedPointer<ValueEditor::Model> result;
 
     if (resp.isErrorMessage() ||
@@ -46,8 +53,8 @@ void KeyFactory::loadKey(
       return;
     }
 
-    auto parseTtl = [this, type, connection, keyFullPath, dbIndex,
-                     callback](const RedisClient::Response& ttlResult) {
+    auto parseTtl = [this, type, connection, keyFullPath, dbIndex, callback,
+                     processError](const RedisClient::Response& ttlResult) {
       long long ttl = -1;
 
       if (ttlResult.type() == RedisClient::Response::Integer) {
@@ -64,27 +71,17 @@ void KeyFactory::loadKey(
       callback(result, QString());
     };
 
-    auto processTtlError = [callback, result, keyFullPath](const QString& err) {
-      QString msg(QCoreApplication::translate(
-          "RDM", "Cannot load TTL for key %1, connection error occurred: %2"));
-      callback(result, msg.arg(printableString(keyFullPath)).arg(err));
-    };
-
-    connection->cmd({"ttl", keyFullPath}, this, -1, parseTtl, processTtlError);
+    connection->cmd({"ttl", keyFullPath}, this, -1, parseTtl, processError);
   };
 
-  RedisClient::Command typeCmd({"type", keyFullPath}, this, loadModel, dbIndex);
-
   try {
-    RedisClient::Response typeResult = connection->runCommand(typeCmd);
-    if (typeResult.isPermissionError()) {
-      emit error(typeResult.value().toString());
-    }
+    connection->cmd({"type", keyFullPath}, this, dbIndex, loadModel,
+                    processError);
   } catch (const RedisClient::Connection::Exception& e) {
-    callback(
-        QSharedPointer<ValueEditor::Model>(),
-        QCoreApplication::translate("RDM", "Cannot retrieve type of the key: ") +
-            QString(e.what()));
+    callback(QSharedPointer<ValueEditor::Model>(),
+             QCoreApplication::translate("RDM",
+                                         "Cannot retrieve type of the key: ") +
+                 QString(e.what()));
   }
 }
 
@@ -122,14 +119,14 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r) {
         auto val = r.value();
 
         if (!r.valueFilePath().isEmpty() && QFile::exists(r.valueFilePath())) {
-            QFile valueFile(r.valueFilePath());
+          QFile valueFile(r.valueFilePath());
 
-            if (!valueFile.open(QIODevice::ReadOnly)) {
-                return onRowAdded(QCoreApplication::translate(
-                                      "RDM", "Cannot open file with key value"));
-            }
+          if (!valueFile.open(QIODevice::ReadOnly)) {
+            return onRowAdded(QCoreApplication::translate(
+                "RDM", "Cannot open file with key value"));
+          }
 
-            val["value"] = valueFile.readAll();            
+          val["value"] = valueFile.readAll();
         }
 
         result->addRow(val, onRowAdded);

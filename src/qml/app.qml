@@ -462,7 +462,7 @@ ApplicationWindow {
                 target: valuesModel
                 ignoreUnknownSignals: true
 
-                function onKeyError(error) {
+                function onTabError(index, error) {
                     if (index != -1)
                         tabs.currentIndex = index
 
