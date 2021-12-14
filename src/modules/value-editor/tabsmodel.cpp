@@ -28,9 +28,9 @@ void ValueEditor::TabsModel::openTab(
           .arg(key->getDbIndex()),
       key.toWeakRef());
 
-  QSharedPointer<RedisClient::Connection> conn;
+  QSharedPointer<RedisClient::Connection> conn;  
 
-  if (inNewTab || m_viewModels.count() == 0) {
+  if (inNewTab || m_viewModels.count() == 0) {    
     beginInsertRows(QModelIndex(), m_viewModels.count(), m_viewModels.count());
     m_viewModels.append(viewModel);
     endInsertRows();
@@ -88,6 +88,20 @@ void ValueEditor::TabsModel::openTab(
     conn->disableAutoConnect();
     m_events->registerLoggerForConnection(*conn);
   }
+
+  viewModel->setConnection(conn);
+
+  connect(conn.data(), &RedisClient::Connection::shutdownStart,
+          this, [this, viewModel](){
+      if (!viewModel) return;
+     viewModel->setTabError(QCoreApplication::translate("RDM", "Connection error"));
+
+     int modelIndex = m_viewModels.indexOf(viewModel);
+
+     if (modelIndex != -1) {
+         emit dataChanged(index(modelIndex, 0), index(modelIndex, 0));
+     }
+  });
 
   try {
     QtConcurrent::run([this, conn, key, viewModelWeekRef, callbackWrapper]() {

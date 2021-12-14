@@ -7,6 +7,8 @@
 
 ValueEditor::ValueViewModel::ValueViewModel(const QString& loadingTitle)
     : BaseListModel(),
+      m_model(nullptr),
+      m_connection(nullptr),
       m_startFramePosition(0),
       m_lastLoadedRowFrameSize(0),
       m_singlePageMode(false),
@@ -35,6 +37,11 @@ int ValueEditor::ValueViewModel::columnCount(const QModelIndex& parent) const {
 
 QString ValueEditor::ValueViewModel::tabLoadingTitle() const {
     return m_tabTitle;
+}
+
+void ValueEditor::ValueViewModel::setTabError(const QString &t)
+{
+    m_tabTitle = t;
 }
 
 bool ValueEditor::ValueViewModel::isModelLoaded() const {
@@ -67,6 +74,11 @@ QSharedPointer<ValueEditor::Model> ValueEditor::ValueViewModel::model() {
 void ValueEditor::ValueViewModel::setModel(QSharedPointer<Model> model) {
   m_model = model;
   emit modelLoaded();
+}
+
+void ValueEditor::ValueViewModel::setConnection(QSharedPointer<RedisClient::Connection> c)
+{
+    m_connection = c;
 }
 
 void ValueEditor::ValueViewModel::renameKey(const QString& newKeyName) {

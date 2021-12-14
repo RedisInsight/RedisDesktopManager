@@ -32,7 +32,11 @@ class ValueViewModel : public BaseListModel {
   QSharedPointer<Model> model();
   void setModel(QSharedPointer<Model> model);
 
+  void setConnection(QSharedPointer<RedisClient::Connection> c);
+
   QString tabLoadingTitle() const;
+
+  void setTabError(const QString& t);
 
   void close();
 
@@ -84,6 +88,7 @@ class ValueViewModel : public BaseListModel {
 
  private:
   QSharedPointer<Model> m_model;
+  QSharedPointer<RedisClient::Connection> m_connection;
   int m_startFramePosition;
   int m_lastLoadedRowFrameSize;
   bool m_singlePageMode;
