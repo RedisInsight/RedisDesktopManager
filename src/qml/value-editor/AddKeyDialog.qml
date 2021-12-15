@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.12
 import "./../common"
 import "./editors/editor.js" as Editor
+import "../common/platformutils.js" as PlatformUtils
 
 BetterDialog {
     id: root
@@ -44,8 +45,8 @@ BetterDialog {
 
     Item {
         anchors.fill: parent
-        implicitHeight: 400
-        implicitWidth: 600
+        implicitHeight: PlatformUtils.isOSX() ? 400 : 600
+        implicitWidth: PlatformUtils.isOSX() ? 600 : 800
 
         ColumnLayout {
             anchors.fill: parent
