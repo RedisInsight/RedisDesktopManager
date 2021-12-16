@@ -112,10 +112,13 @@ class Model : public QAbstractItemModel {
 
   void removeRootItem(QSharedPointer<TreeItem> item);
 
+  typedef QPair<QWeakPointer<TreeItem>, QModelIndex> PendingIndexChange;
+
+  void iterateAllChilds(QSharedPointer<TreeItem> item, QList<PendingIndexChange> &pendingChanges);
+
  protected:
   QList<QSharedPointer<TreeItem>> m_treeItems;
-  QSharedPointer<QHash<TreeItem *, QWeakPointer<TreeItem>>> m_rawPointers;
-  QHash<QSharedPointer<TreeItem>, QModelIndex> m_pendingChanges;
-  QHash<QSharedPointer<TreeItem>, QList<QWeakPointer<TreeItem>>> m_pendingRemoval;
+  QSharedPointer<QHash<TreeItem *, QWeakPointer<TreeItem>>> m_rawPointers; 
+  QHash<QSharedPointer<TreeItem>, QList<PendingIndexChange>> m_pendingChanges;
 };
 }  // namespace ConnectionsTree
