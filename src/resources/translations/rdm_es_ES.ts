@@ -409,7 +409,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="97"/>
         <source>Connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de conexión</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="115"/>
@@ -726,17 +726,17 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="703"/>
         <source>Passphrase for provided private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña para clave privada proporcionada</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="705"/>
         <source>Password request will be prompt prior to connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Se pedirá contraseña antes de la conexión</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="716"/>
         <source>Ask for password</source>
-        <translation type="unfinished"></translation>
+        <translation>Pedir contraseña</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="765"/>
@@ -1111,7 +1111,7 @@
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="472"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="959"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Correcto</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="498"/>
@@ -1705,17 +1705,17 @@
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="376"/>
         <source>Try to decompress:</source>
-        <translation type="unfinished"></translation>
+        <translation>Intento de descomprimir:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="377"/>
         <source>Decompressed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Descomprimido:</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="467"/>
         <source>Cannot decompress value using </source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede descomprimir valor usando </translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="707"/>
@@ -2000,33 +2000,33 @@
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="24"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sí</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="32"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="19"/>
         <source>SSH Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña SSH</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="21"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Desconocido</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
         <source>Passphrase</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="71"/>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Continuar</translation>
     </message>
 </context>
 </TS>
