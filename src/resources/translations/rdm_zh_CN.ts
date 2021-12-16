@@ -68,8 +68,8 @@
         <location filename="../../app/models/key-models/setkey.cpp" line="33"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="44"/>
         <location filename="../../app/models/key-models/sortedsetkey.cpp" line="77"/>
-        <location filename="../../app/models/key-models/stream.cpp" line="44"/>
-        <location filename="../../app/models/key-models/stream.cpp" line="55"/>
+        <location filename="../../app/models/key-models/stream.cpp" line="48"/>
+        <location filename="../../app/models/key-models/stream.cpp" line="59"/>
         <source>Invalid row</source>
         <translation>无效行</translation>
     </message>
@@ -93,32 +93,32 @@
         <translation>部分数据已经从服务器加载。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="30"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="25"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="37"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
         <translation>无法加载键 %1，连接发生错误：%2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="41"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="48"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
         <translation>无法加载键 %1，数据库中不存在该键，请重载连接树后重试。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="68"/>
         <source>Cannot load TTL for key %1, connection error occurred: %2</source>
-        <translation>无法加载键 %1 的 TTL 值，连接发生错误: %2</translation>
+        <translation type="vanished">无法加载键 %1 的 TTL 值，连接发生错误: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="86"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="82"/>
         <source>Cannot retrieve type of the key: </source>
         <translation type="unfinished">无法重设键类型：</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="128"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="125"/>
         <source>Cannot open file with key value</source>
         <translation type="unfinished">无法用键值打开文件</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="60"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
         <source>Unsupported Redis Data type %1</source>
         <translation>数据格式不支持 %1</translation>
     </message>
@@ -222,7 +222,7 @@
     <message>
         <location filename="../../qml/value-editor/Pagination.qml" line="45"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="222"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="326"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="334"/>
         <source>Size: </source>
         <translation>大小：</translation>
     </message>
@@ -287,7 +287,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="30"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="489"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="502"/>
         <source>Add Element to HLL</source>
         <translation type="unfinished">添加元素到HLL</translation>
     </message>
@@ -313,12 +313,12 @@
         <translation>确定要删除该行数据吗？</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="162"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="164"/>
         <source>Search on page...</source>
         <translation>页面搜索中...</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/ValueTableActions.qml" line="189"/>
+        <location filename="../../qml/value-editor/ValueTableActions.qml" line="191"/>
         <source>Full Search</source>
         <translation type="unfinished">全文搜索</translation>
     </message>
@@ -397,17 +397,22 @@
         <translation>无法打开键值对话框</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/tabsmodel.cpp" line="101"/>
+        <location filename="../../modules/value-editor/tabsmodel.cpp" line="97"/>
+        <source>Connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/value-editor/tabsmodel.cpp" line="115"/>
         <source>Connection error. Can&apos;t open value tab. </source>
         <translation>连接错误，无法打开键值对话框。</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="164"/>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="176"/>
         <source>Cannot reload key value: %1</source>
         <translation>无法重载键值: %1</translation>
     </message>
     <message>
-        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="216"/>
+        <location filename="../../modules/value-editor/valueviewmodel.cpp" line="228"/>
         <source>Cannot load key value: %1</source>
         <translation>无法加载键值：%1</translation>
     </message>
@@ -793,7 +798,7 @@
         <location filename="../../qml/common/SaveToFileButton.qml" line="114"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="904"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="349"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="834"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="850"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -804,7 +809,7 @@
         <location filename="../../qml/connections/AskSecretDialog.qml" line="89"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="918"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="361"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="171"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="172"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="89"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="267"/>
         <source>Cancel</source>
@@ -1562,42 +1567,42 @@
         <translation>当前库</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="9"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="10"/>
         <source>Add New Key to </source>
         <translation>添加新键到 </translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="55"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="56"/>
         <location filename="../../qml/value-editor/editors/HashItemEditor.qml" line="17"/>
         <source>Key:</source>
         <translation>键名：</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="65"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="66"/>
         <source>Type:</source>
         <translation>类型：</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="106"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="107"/>
         <source>Or Import Value from the file</source>
         <translation type="unfinished">或从文件中导入值</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="112"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="113"/>
         <source>(Optional) Any file</source>
         <translation type="unfinished">(可选)任意文件</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="114"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="115"/>
         <source>Select file with value</source>
         <translation type="unfinished">使用值选择文件</translation>
     </message>
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="126"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="127"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="254"/>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="559"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="572"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1618,7 +1623,7 @@
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="953"/>
-        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="182"/>
+        <location filename="../../qml/value-editor/AddKeyDialog.qml" line="183"/>
         <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="229"/>
         <source>Error</source>
         <translation>错误</translation>
@@ -1634,17 +1639,17 @@
         <translation type="unfinished">请输入有效的值</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="258"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="266"/>
         <source>Formatting error</source>
         <translation type="unfinished">格式化错误</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="263"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="271"/>
         <source>Unknown formatter error (Empty response)</source>
         <translation>未知的格式化错误（无响应）</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="331"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="339"/>
         <source>[Binary]</source>
         <translation>[二进制]</translation>
     </message>
@@ -1653,72 +1658,72 @@
         <translation type="obsolete">[压缩的：</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="507"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="520"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="560"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="573"/>
         <source>Save Changes</source>
         <translation type="unfinished">保存更改</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="662"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="675"/>
         <source>Search string</source>
         <translation type="unfinished">搜索字符串</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="676"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="689"/>
         <source>Find Next</source>
         <translation type="unfinished">查找下一条</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="676"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="689"/>
         <source>Find</source>
         <translation type="unfinished">查找</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="707"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="720"/>
         <source>Regex</source>
         <translation type="unfinished">正则表达式</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="693"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="706"/>
         <source>Cannot find more results</source>
         <translation type="unfinished">找不到更多的结果</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="368"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="376"/>
         <source>Try to decompress:</source>
         <translation type="unfinished">尝试解压:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="369"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="377"/>
         <source>Decompressed:</source>
         <translation type="unfinished">解压:</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="457"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="467"/>
         <source>Cannot decompress value using </source>
         <translation type="unfinished">无法解压以</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="694"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="707"/>
         <source>Cannot find any results</source>
         <translation type="unfinished">找不到任何结果</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="830"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="846"/>
         <source>Binary value is too large to display</source>
         <translation type="unfinished">二进制内容太长无法展示</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="334"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="342"/>
         <source>View as:</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="465"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="478"/>
         <source>Large value (&gt;150kB). Formatters are not available.</source>
         <translation>键值内容过大（&gt;150kB），格式化配置无效。</translation>
     </message>
@@ -1852,7 +1857,7 @@
         <translation type="obsolete">保存内容</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="842"/>
+        <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="860"/>
         <source>Save value to file</source>
         <translation type="unfinished">保存内容到文件</translation>
     </message>
@@ -1932,7 +1937,7 @@
         <translation type="unfinished">开始时间应该早于结束时间</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="134"/>
+        <location filename="../../qml/value-editor/filters/StreamFilters.qml" line="136"/>
         <source>Apply filter</source>
         <translation type="unfinished">应用筛选条件</translation>
     </message>
