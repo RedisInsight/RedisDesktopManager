@@ -13,7 +13,7 @@ Model::Model(QObject *parent)
     : QAbstractItemModel(parent),
       m_rawPointers(new QHash<TreeItem *, QWeakPointer<TreeItem>>())
 {
-  qRegisterMetaType<QWeakPointer<TreeItem>>("QWeakPointer<TreeItem>");  
+  qRegisterMetaType<QWeakPointer<TreeItem>>("QWeakPointer<TreeItem>");
 }
 
 QVariant Model::data(const QModelIndex &index, int role) const {
@@ -57,12 +57,10 @@ QModelIndex Model::index(int row, int column, const QModelIndex &parent) const {
     childItem = m_treeItems.at(row);
   }
 
-  if (childItem.isNull())
-    return QModelIndex();
-  else {    
-    m_rawPointers->insert(childItem.data(), childItem.toWeakRef());
-    return createIndex(row, column, childItem.data());
-  }
+  if (!childItem) return QModelIndex();
+
+  m_rawPointers->insert(childItem.data(), childItem.toWeakRef());
+  return createIndex(row, column, childItem.data());
 }
 
 QModelIndex Model::parent(const QModelIndex &index) const {
@@ -78,7 +76,7 @@ QModelIndex Model::parent(const QModelIndex &index) const {
 
   if (!parentStrongRef) return QModelIndex();
 
-  m_rawPointers->insert(parentItem.data(), parentItem);
+  m_rawPointers->insert(parentStrongRef.data(), parentItem);
   return createIndex(parentStrongRef->row(), 0,
                      parentStrongRef.data());
 }
@@ -116,6 +114,7 @@ QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item) {
     return index(sRef->row(), 0, QModelIndex());
   }
 
+  m_rawPointers->insert(sRef.data(), item);
   return createIndex(sRef->row(), 0, (void *)sRef.data());
 }
 
@@ -124,7 +123,7 @@ void Model::itemChanged(QWeakPointer<TreeItem> item) {
 
   auto index = getIndexFromItem(item);
 
-  if (!index.isValid()) return;  
+  if (!index.isValid()) return;
 
   emit dataChanged(index, index);
 }
@@ -140,7 +139,7 @@ void Model::beforeItemChildsUnloaded(QWeakPointer<TreeItem> item)
     auto itemPtr = item.toStrongRef();
 
     if (!itemPtr || itemPtr->childCount() == 0)
-        return;   
+        return;
 
     beginRemoveRows(index, 0, itemPtr->childCount() - 1);
 }
@@ -213,6 +212,20 @@ void Model::expandItem(QWeakPointer<TreeItem> item) {
   emit expand(index);
 }
 
+void Model::iterateAllChilds(QSharedPointer<TreeItem> item, QList<PendingIndexChange>& pendingChanges)
+{
+    if (!item->isExpanded()) {
+        return;
+    }
+
+    for (long rowIndex = 0; rowIndex < item->childCount(); rowIndex++) {
+      auto child = item->child(rowIndex);
+
+      pendingChanges.append({child, getIndexFromItem(child)});
+      iterateAllChilds(child, pendingChanges);
+    }
+}
+
 void Model::beforeItemLayoutChanged(QWeakPointer<TreeItem> item) {
   if (!item) return;
 
@@ -222,14 +235,21 @@ void Model::beforeItemLayoutChanged(QWeakPointer<TreeItem> item) {
 
   if (!index.isValid()) return;
 
-  emit layoutAboutToBeChanged({index}, QAbstractItemModel::VerticalSortHint);
-
-  m_pendingChanges.clear();
-
-  for (long rowIndex = 0; rowIndex < itemS->childCount(); rowIndex++) {
-    auto child = itemS->child(rowIndex);
-    m_pendingChanges.insert(child, getIndexFromItem(child));
+  if (m_pendingChanges.contains(item)) {
+      m_pendingChanges.remove(item);
   }
+
+  qDebug() << "Layout about to change";
+
+  emit layoutAboutToBeChanged({}, QAbstractItemModel::VerticalSortHint);
+
+  QList<PendingIndexChange> pendingChanges;
+
+  iterateAllChilds(itemS, pendingChanges);
+
+  qDebug() << "----- pending changes:" << pendingChanges.size();
+
+  m_pendingChanges[item] = pendingChanges;
 }
 
 void Model::itemLayoutChanged(QWeakPointer<TreeItem> item) {
@@ -241,18 +261,35 @@ void Model::itemLayoutChanged(QWeakPointer<TreeItem> item) {
 
   if (!index.isValid()) return;
 
-  for (long rowIndex = 0; rowIndex < itemS->childCount(); rowIndex++) {
-    auto child = itemS->child(rowIndex);
-
-    if (!m_pendingChanges.contains(child)) continue;
-
-    changePersistentIndex(m_pendingChanges.take(child),
-                          getIndexFromItem(child));
+  if (!m_pendingChanges.contains(item)) {
+      qWarning() << "Item " << item << " doesnt have pending layout changes";
+      return;
   }
 
-  m_pendingChanges.clear();
+  auto changeIndexes = m_pendingChanges.take(item);
 
-  emit layoutChanged({index}, QAbstractItemModel::VerticalSortHint);
+  while (changeIndexes.size() > 0) {
+      auto change = changeIndexes.takeFirst();
+
+      auto child = change.first.toStrongRef();
+
+      if (!child) {
+          qDebug() << "Layout change: Child was removed. Skipping";
+          continue;
+      }
+
+      auto from = change.second;
+      auto to = getIndexFromItem(child);
+
+      qDebug() << "Update model index from " << from.row() << from.parent() << "to" << to.row() << to.parent();
+      changePersistentIndex(from, to);
+  }
+
+  qDebug() << "layout changed";
+
+  QPersistentModelIndex indx(index);
+
+  emit layoutChanged({}, QAbstractItemModel::VerticalSortHint);
 
   for (long rowIndex = 0; rowIndex < itemS->childCount(); rowIndex++) {
     auto child = itemS->child(rowIndex);
@@ -271,7 +308,7 @@ void Model::setMetadata(const QModelIndex &index, const QString &metaKey,
   item->setMetadata(metaKey, value);
 }
 
-void Model::sendEvent(const QModelIndex &index, QString event) {  
+void Model::sendEvent(const QModelIndex &index, QString event) {
   TreeItem *item = getItemFromIndex(index);
 
   if (!item)
@@ -318,7 +355,7 @@ void Model::setCollapsed(const QModelIndex &index) {
 
 void Model::collapseRootItems()
 {
-    for (auto item : qAsConst(m_treeItems)) {
+    for (const auto &item : qAsConst(m_treeItems)) {
 
         auto server = item.dynamicCast<SortableTreeItem>();
 
@@ -341,9 +378,9 @@ void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
 
     if (!(item->type() == "server"
           && targetItem->type() == "server_group"
-          && (!item->parent() || item->parent() != targetItem->getSelf()))) {        
+          && (!item->parent() || item->parent() != targetItem->getSelf()))) {
         return;
-    }      
+    }
 
     int targetIndex = targetItem->childCount();
 
@@ -357,9 +394,9 @@ void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
     bool res = beginMoveRows(srcParent, index.row(), index.row(),
                              targetParent, targetIndex);
 
-    if (!res) {        
+    if (!res) {
         return;
-    }    
+    }
 
     auto findRootItem = [](TreeItem* t, QList<QSharedPointer<TreeItem>> treeItems) {
         for (auto rI : treeItems) {
@@ -384,8 +421,8 @@ void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
 
         sourceGroup->removeChild(srv);
     } else {
-      srv = findRootItem(item, m_treeItems);      
-      m_treeItems.removeAll(srv);      
+      srv = findRootItem(item, m_treeItems);
+      m_treeItems.removeAll(srv);
     }
 
     endMoveRows();
@@ -406,7 +443,7 @@ void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
         return;
     }
 
-    srvItem->setParent(targetGroup.toWeakRef());    
+    srvItem->setParent(targetGroup.toWeakRef());
 
     emit layoutAboutToBeChanged();
     emit layoutChanged();
@@ -414,7 +451,7 @@ void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
 
 void Model::applyGroupChanges()
 {
-    emit layoutAboutToBeChanged();        
+    emit layoutAboutToBeChanged();
 
     // TBD
 
