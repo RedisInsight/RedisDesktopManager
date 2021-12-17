@@ -208,6 +208,10 @@ void KeysTreeRenderer::renderLazily(QSharedPointer<AbstractNamespaceItem> root,
                                                  parent->model(),
                                                  settings.shortKeysRendering));
       parent->append(newKey);
+
+      if (root && root->type() == "database") {
+        root->appendKeyToIndex(newKey);
+      }
       return;
     }
 
