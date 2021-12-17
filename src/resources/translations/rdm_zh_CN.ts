@@ -399,7 +399,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="97"/>
         <source>Connection error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">连接错误</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="115"/>
