@@ -49,50 +49,62 @@ ListModel {
         return 0;
     }
 
+    function onEmbeddedFormattersLoaded(result) {
+        for (var indx in result) {
+            var formatterName = result[indx][0];
+            var readOnly = result[indx][1];
+
+            var getFormatted = function (formatterName) {
+                var r = function (raw, callback) {
+                    return embeddedFormattersManager.decode(formatterName, raw, function (response) {
+                        return callback(response[0], response[1], response[2], response[3])
+                    })
+                }
+                return r
+            };
+
+            var getRaw = function (formatterName) {
+                var r = function (formatted, callback) {
+                    return embeddedFormattersManager.encode(formatterName, formatted, function (response) {
+                        return callback(response[0], response[1])
+                    })
+                }
+                return r
+            };
+
+            var isValid = function (formatterName) {
+                var r = function (raw, callback) {
+                    return embeddedFormattersManager.isValid(formatterName, raw, function (response) {
+                        return callback(response[0])
+                    })
+                }
+                return r
+            };
+
+            rootModel.append({'name': formatterName, 'type': "embedded",})
+            rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
+            rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterName))
+            rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterName))
+            rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
+
+        }
+
+        console.log("Embedded formatters:", result);
+    }
+
     function loadEmbeddedFormatters()
     {
-        embeddedFormattersManager.loadFormatters(function (result) {
-            for (var indx in result) {
-                var formatterName = result[indx][0];
-                var readOnly = result[indx][1];
+        embeddedFormattersManager.loadFormattersModule(function (result) {
+            console.log("Is Embedded formatters module loaded:", result)
 
-                var getFormatted = function (formatterName) {
-                    var r = function (raw, callback) {
-                        return embeddedFormattersManager.decode(formatterName, raw, function (response) {
-                            return callback(response[0], response[1], response[2], response[3])
-                        })
-                    }
-                    return r
-                };
-
-                var getRaw = function (formatterName) {
-                    var r = function (formatted, callback) {
-                        return embeddedFormattersManager.encode(formatterName, formatted, function (response) {
-                            return callback(response[0], response[1])
-                        })
-                    }
-                    return r
-                };
-
-                var isValid = function (formatterName) {
-                    var r = function (raw, callback) {
-                        return embeddedFormattersManager.isValid(formatterName, raw, function (response) {
-                            return callback(response[0])
-                        })
-                    }
-                    return r
-                };
-
-                rootModel.append({'name': formatterName, 'type': "embedded",})
-                rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
-                rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterName))
-                rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterName))
-                rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
-
+            if (!result) {
+                return;
             }
 
-            console.log("Embedded formatters:", result);
-        });
+            embeddedFormattersManager.loadFormatters(function (result) {
+                rootModel.onEmbeddedFormattersLoaded(result);
+            });
+        })
     }
 
 

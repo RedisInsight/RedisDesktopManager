@@ -22,6 +22,8 @@ class EmbeddedFormattersManager : public QObject {
   void error(const QString& msg);
 
  public:
+  Q_INVOKABLE void loadFormattersModule(QJSValue callback);
+
   Q_INVOKABLE void loadFormatters(QJSValue callback);
 
   Q_INVOKABLE void decode(const QString& formatterName, const QByteArray& data,

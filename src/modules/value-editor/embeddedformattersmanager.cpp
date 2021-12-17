@@ -26,13 +26,22 @@ void ValueEditor::EmbeddedFormattersManager::init(QSharedPointer<QPython> p) {
                    &EmbeddedFormattersManager::error);
 }
 
+void ValueEditor::EmbeddedFormattersManager::loadFormattersModule(QJSValue callback)
+{
+    if (!m_python) {
+      qWarning() << "EmbeddedFormattersManager is not ready";
+      return;
+    }
+
+    m_python->importModule("formatters", callback);
+}
+
 void ValueEditor::EmbeddedFormattersManager::loadFormatters(QJSValue callback) {
   if (!m_python) {
     qWarning() << "EmbeddedFormattersManager is not ready";
     return;
   }
 
-  m_python->importModule_sync("formatters");
   m_python->call("formatters.get_formatters_list", QVariantList(), callback);
 }
 
