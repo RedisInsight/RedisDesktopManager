@@ -31,7 +31,7 @@ void BulkOperations::TtlOperation::performOperation(
                       // Retry on keys with errors
                       if (m_keysWithErrors.size() > 0) {
                         m_errors.clear();
-                        setTtl(QStringList(m_keysWithErrors), ttl,
+                        setTtl(m_keysWithErrors, ttl,
                                returnResults);
                       } else {
                         returnResults();
@@ -39,13 +39,13 @@ void BulkOperations::TtlOperation::performOperation(
                     });
 }
 
-void BulkOperations::TtlOperation::setTtl(const QStringList& keys,
+void BulkOperations::TtlOperation::setTtl(const QList<QByteArray>& keys,
                                           const QByteArray& ttl,
                                           std::function<void()> callback) {
   QList<QList<QByteArray>> rawCmds;
 
-  for (QString k : keys) {
-    rawCmds.append({"EXPIRE", k.toUtf8(), ttl});
+  for (const QByteArray& k : keys) {
+    rawCmds.append({"EXPIRE", k, ttl});
   }
 
   int expectedResponses = rawCmds.size();

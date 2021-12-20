@@ -27,6 +27,6 @@ class TtlOperation : public AbstractOperation {
       int targetDbIndex) override;
 
 
-  void setTtl(const QStringList& keys, const QByteArray &ttl, std::function<void()> callback);
+  void setTtl(const QList<QByteArray> &keys, const QByteArray &ttl, std::function<void()> callback);
 };
 }  // namespace BulkOperations

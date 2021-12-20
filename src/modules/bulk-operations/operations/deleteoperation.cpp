@@ -38,7 +38,7 @@ void BulkOperations::DeleteOperation::performOperation(
                             // Retry on keys with errors
                             if (m_keysWithErrors.size() > 0) {
                               m_errors.clear();
-                              deleteKeys(QStringList(m_keysWithErrors),
+                              deleteKeys(m_keysWithErrors,
                                          removalCmd, returnResults);
                             } else {
                               returnResults();
@@ -48,12 +48,12 @@ void BulkOperations::DeleteOperation::performOperation(
 }
 
 void BulkOperations::DeleteOperation::deleteKeys(
-    const QStringList &keys, const QByteArray &rmCmd,
+    const QList<QByteArray> &keys, const QByteArray &rmCmd,
     std::function<void()> callback) {
   QList<QList<QByteArray>> rawCmds;
 
-  for (QString k : keys) {
-    rawCmds.append({rmCmd, k.toUtf8()});
+  for (const QByteArray& k : keys) {
+    rawCmds.append({rmCmd, k});
   }
 
   int expectedResponses = rawCmds.size();
