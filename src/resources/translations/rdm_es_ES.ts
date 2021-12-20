@@ -1801,12 +1801,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="26"/>
         <source>Invalid regexp for keys filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Regexp inválido para filtro de claves</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="39"/>
         <source>Cannot get the list of affected keys</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede obtener la lista de claves afectadas</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="11"/>
