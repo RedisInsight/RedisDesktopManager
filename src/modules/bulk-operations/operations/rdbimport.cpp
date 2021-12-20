@@ -1,6 +1,7 @@
 #include "rdbimport.h"
 
 #include <qpython.h>
+#include <qredisclient/utils/text.h>
 
 #include <QFileInfo>
 #include <QtConcurrent>
@@ -40,12 +41,14 @@ void BulkOperations::RDBImportOperation::getAffectedKeys(
         }
 
         QVariantList keys = v.toList();
+        QStringList keyNames;
 
         for (const QVariant &k : qAsConst(keys)) {
-          m_affectedKeys.append(QString::fromUtf8(k.toByteArray()));
+          m_affectedKeys.append(k.toByteArray());
+          keyNames.append(printableString(k.toByteArray(), true));
         }
 
-        return callback(QVariant(m_affectedKeys), "");
+        return callback(QVariant(keyNames), "");
       });
 }
 

@@ -1,4 +1,5 @@
 #include "abstractoperation.h"
+#include <qredisclient/utils/text.h>
 
 BulkOperations::AbstractOperation::AbstractOperation(
     QSharedPointer<RedisClient::Connection> connection, int dbIndex,
@@ -22,11 +23,14 @@ void BulkOperations::AbstractOperation::getAffectedKeys(
 
         m_affectedKeys.clear();
 
-        for (QByteArray k : keys) {
-          m_affectedKeys.append(QString::fromUtf8(k));
+        QStringList keyNames;
+
+        for (const QByteArray &k : keys) {
+          m_affectedKeys.append(k);
+          keyNames.append(printableString(k, true));
         }
 
-        return callback(QVariant(m_affectedKeys), "");
+        return callback(QVariant(keyNames), "");
       };
 
   try {

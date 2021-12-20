@@ -69,8 +69,8 @@ class AbstractOperation : public QObject {
   QRegExp m_keyPattern;
   State m_currentState;
   int m_progress;
-  QStringList m_affectedKeys;
-  QStringList m_keysWithErrors;
+  QList<QByteArray> m_affectedKeys;
+  QList<QByteArray> m_keysWithErrors;
   QVariantMap m_metadata;
   OperationCallback m_callback;
   QStringList m_errors;

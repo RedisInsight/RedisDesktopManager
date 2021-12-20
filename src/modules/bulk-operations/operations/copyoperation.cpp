@@ -44,7 +44,7 @@ void BulkOperations::CopyOperation::performOperation(
 
       auto getRestoreCmd = [this, r, replace, ttl](const QByteArray& dump) {
         QList<QByteArray> restoreCmd{
-            "RESTORE", m_affectedKeys[m_dumpedKeys].toUtf8(), ttl, dump};
+            "RESTORE", m_affectedKeys[m_dumpedKeys], ttl, dump};
         if (!replace.isEmpty()) {
           restoreCmd.append(replace);
         }
@@ -107,8 +107,8 @@ void BulkOperations::CopyOperation::performOperation(
   auto processKeys = [this, processKeyDumps]() {
     QList<QList<QByteArray>> rawCmds;
 
-    for (QString k : m_affectedKeys) {
-      rawCmds.append({"DUMP", k.toUtf8()});
+    for (const QByteArray &k : qAsConst(m_affectedKeys)) {
+      rawCmds.append({"DUMP", k});
     }
 
     m_connection->pipelinedCmd(rawCmds, this, -1, processKeyDumps);

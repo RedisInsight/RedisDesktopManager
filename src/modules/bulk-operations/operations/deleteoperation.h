@@ -24,7 +24,7 @@ class DeleteOperation : public AbstractOperation {
       QSharedPointer<RedisClient::Connection> targetConnection,
       int targetDbIndex) override;
 
-  void deleteKeys(const QStringList& keys,
+  void deleteKeys(const QList<QByteArray> &keys,
                   const QByteArray& rmCmd,
                   std::function<void()> callback);
 };
