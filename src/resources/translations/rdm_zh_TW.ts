@@ -1630,7 +1630,7 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="953"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="183"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="229"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="241"/>
         <source>Error</source>
         <translation>錯誤</translation>
     </message>
@@ -1790,9 +1790,19 @@
         <translation>無法刪除鍵 </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="16"/>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="17"/>
         <source>Cannot execute command </source>
         <translation>無法執行指令 </translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="26"/>
+        <source>Invalid regexp for keys filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="39"/>
+        <source>Cannot get the list of affected keys</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="11"/>
@@ -1895,7 +1905,7 @@
         <translation>已儲存值到檔案:</translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
+        <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="38"/>
         <source>Cannot connect to redis-server</source>
         <translation>無法連線到 Redis 伺服器</translation>
     </message>

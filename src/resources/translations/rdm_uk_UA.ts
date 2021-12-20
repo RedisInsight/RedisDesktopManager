@@ -1489,7 +1489,7 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="953"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="183"/>
-        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="229"/>
+        <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="241"/>
         <source>Error</source>
         <translation>Помилка</translation>
     </message>
@@ -1786,9 +1786,19 @@
         <translation>Не вдається видалити ключ </translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="16"/>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="17"/>
         <source>Cannot execute command </source>
         <translation>Не вдається виконати команду </translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="26"/>
+        <source>Invalid regexp for keys filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="39"/>
+        <source>Cannot get the list of affected keys</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="11"/>
@@ -1859,7 +1869,7 @@
         <translation>Значення було збережено у файл:</translation>
     </message>
     <message>
-        <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="34"/>
+        <location filename="../../modules/bulk-operations/operations/abstractoperation.cpp" line="38"/>
         <source>Cannot connect to redis-server</source>
         <translation>Не вдається підключитися до redis-server</translation>
     </message>
