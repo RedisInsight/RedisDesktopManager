@@ -9,7 +9,7 @@ VALID_TYPES = ("hash", "set", "string", "list", "sortedset")
 def process_command(callback, path_to_rdb, db,
                     include_keys_pattern,
                     exclude_keys_pattern,
-                    key_types):
+                    key_types, scan_keys=False):
     filters = {}
 
     if db:
@@ -32,7 +32,7 @@ def process_command(callback, path_to_rdb, db,
             else:
                 filters['types'].append(x)
 
-    parser = rdbtools.RdbParser(callback=callback, filters=filters)
+    parser = rdbtools.RdbParser(callback=callback, filters=filters, ignore_values=scan_keys)
     parser.parse(path_to_rdb)
 
 
@@ -45,42 +45,8 @@ def rdb_list_keys(path_to_rdb, db,
             super(KeysOnlyCallback, self).__init__(string_escape)
             self._out = set()
 
-        def _keyout(self, key):
+        def key(self, key):
             self._out.add(self.encode_key(key))
-
-        def set(self, key, value, expiry, info):
-            self._keyout(key)
-
-        def start_hash(self, key, length, expiry, info):
-            self._keyout(key)
-
-        def hset(self, key, field, value):
-            self._keyout(key)
-
-        def start_set(self, key, cardinality, expiry, info):
-            self._keyout(key)
-
-        def sadd(self, key, member):
-            self._keyout(key)
-
-        def start_list(self, key, expiry, info):
-            self._keyout(key)
-
-        def rpush(self, key, value):
-            self._keyout(key)
-
-        def start_sorted_set(self, key, length, expiry, info):
-            self._keyout(key)
-
-        def zadd(self, key, score, member):
-            self._keyout(key)
-
-        def start_stream(self, key, listpacks_count, expiry, info):
-            self._keyout(key)
-
-        def start_module(self, key, module_name, expiry, info):
-            self._keyout(key)
-            return False
 
         def keys(self):
             return list(self._out)
@@ -217,3 +183,4 @@ def rdb_export_as_commands(path_to_rdb, db,
                     key_types)
 
     return callback.commands()
+

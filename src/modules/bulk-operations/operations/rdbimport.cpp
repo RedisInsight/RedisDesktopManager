@@ -18,6 +18,14 @@ BulkOperations::RDBImportOperation::RDBImportOperation(
 
 void BulkOperations::RDBImportOperation::getAffectedKeys(
     std::function<void(QVariant, QString)> callback) {
+
+  m_keyPattern.setPatternSyntax(QRegExp::RegExp2);
+
+  if (!m_keyPattern.isValid()) {
+    return callback(QVariant(), QCoreApplication::translate(
+                                    "RDM", "Invalid regexp for keys filter."));
+  }
+
   m_python->call_native(
       "rdb.rdb_list_keys",
       QVariantList{m_metadata["path"].toString(), m_metadata["db"].toInt(),
@@ -25,9 +33,15 @@ void BulkOperations::RDBImportOperation::getAffectedKeys(
       [callback, this](QVariant v) {
         m_affectedKeys.clear();
 
+        if (v.isNull()) {
+          return callback(QVariant(),
+                          QCoreApplication::translate(
+                              "RDM", "Cannot get the list of affected keys"));
+        }
+
         QVariantList keys = v.toList();
 
-        for (QVariant k : keys) {
+        for (const QVariant &k : qAsConst(keys)) {
           m_affectedKeys.append(QString::fromUtf8(k.toByteArray()));
         }
 
@@ -45,7 +59,7 @@ QList<QByteArray> convertToByteArray(QVariant v) {
 
   QList<QByteArray> result;
 
-  for (QVariant b : l) {
+  for (const QVariant &b : qAsConst(l)) {
     result.append(b.toByteArray());
   }
 
@@ -68,7 +82,7 @@ void BulkOperations::RDBImportOperation::performOperation(
   auto processCommands = [this, returnResults](const QVariantList& commands) {
     QList<QList<QByteArray>> rawCmds;
 
-    for (QVariant cmd : commands) {
+    for (const QVariant &cmd : commands) {
       auto rawCmd = convertToByteArray(cmd);
 
       if (rawCmd.at(0).toLower() == QByteArray("select")) {

@@ -2,5 +2,5 @@ bitstring
 cbor
 msgpack
 git+https://github.com/mrnom/phpserialize.git#egg=phpserialize
-rdbtools
+git+https://github.com/uglide/redis-rdb-tools#egg=rdbtools
 python-lzf
