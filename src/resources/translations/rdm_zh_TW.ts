@@ -405,7 +405,7 @@
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="97"/>
         <source>Connection error</source>
-        <translation type="unfinished"></translation>
+        <translation>連接錯誤</translation>
     </message>
     <message>
         <location filename="../../modules/value-editor/tabsmodel.cpp" line="115"/>
@@ -1797,12 +1797,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="26"/>
         <source>Invalid regexp for keys filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>鍵篩選器的正規表達式無效</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="39"/>
         <source>Cannot get the list of affected keys</source>
-        <translation type="unfinished"></translation>
+        <translation>無法取得受影響的鍵的清單</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="11"/>
