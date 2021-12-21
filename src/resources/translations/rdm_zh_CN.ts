@@ -1791,12 +1791,12 @@
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="26"/>
         <source>Invalid regexp for keys filter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">键筛选表达式无效</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/rdbimport.cpp" line="39"/>
         <source>Cannot get the list of affected keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法获取受到影响的键列表</translation>
     </message>
     <message>
         <location filename="../../modules/bulk-operations/operations/ttloperation.cpp" line="11"/>
