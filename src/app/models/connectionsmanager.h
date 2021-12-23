@@ -28,9 +28,7 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
  public:
   ConnectionsManager(const QString& m_configPath,
-                     QSharedPointer<Events> events);
-
-  ~ConnectionsManager(void);
+                     QSharedPointer<Events> events);  
 
   void loadConnections();
 
@@ -61,7 +59,7 @@ class ConnectionsManager : public ConnectionsTree::Model,
 
   void saveConfig();
 
-  Q_INVOKABLE int size();
+  Q_INVOKABLE int size() override;
 
   // BulkOperations model methods
   QSharedPointer<RedisClient::Connection> getByIndex(int index) override;

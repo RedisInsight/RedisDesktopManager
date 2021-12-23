@@ -374,7 +374,7 @@ QVariantList DatabaseItem::filterHistoryTop10() const {
     }
     std::sort(filterHistoryRating.begin(), filterHistoryRating.end(), [](FilterUsage i, FilterUsage j) { return (i.second > j.second); });
 
-    for (int i = 0; filterHistoryRating.size(); i++) {
+    for (int i = 0; filterHistoryRating.size() > 0; i++) {
         if (i >= 10) break;
         filterHistoryList.append(filterHistoryRating.takeFirst().first);
     }

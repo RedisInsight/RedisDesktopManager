@@ -50,7 +50,7 @@ class MsgpackFormatter(BaseFormatter):
 
         elif isinstance(o, bytes):
             try:
-                return o.decode()
+                return o.decode("utf-8")
             except UnicodeDecodeError:
                 return base64.b64encode(o)
         else:

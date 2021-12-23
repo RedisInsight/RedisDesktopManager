@@ -257,15 +257,14 @@ void QmlUtils::addNewValueToDynamicChart(QtCharts::QXYSeries *series,
     ax->setMin(QDateTime::currentDateTime());
   }
 
-  bool dataNotChangedLastFivePoints = (
-              totalPoints > 10
-              && value
-               == series->at(totalPoints - 1).y()
-               == series->at(totalPoints - 2).y()
-               == series->at(totalPoints - 3).y()
-               == series->at(totalPoints - 4).y()
-               == series->at(totalPoints - 5).y()
-              );
+  bool dataNotChangedLastFivePoints = totalPoints > 10;
+
+  for (int i = 1; dataNotChangedLastFivePoints && i < 6; i++) {
+    if (value != series->at(totalPoints - i).y()) {
+      dataNotChangedLastFivePoints = false;
+      break;
+    }
+  }
 
   if (dataNotChangedLastFivePoints) {
     series->replace(totalPoints - 1, QDateTime::currentDateTime().toMSecsSinceEpoch(), value);

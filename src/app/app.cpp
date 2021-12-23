@@ -44,7 +44,8 @@ Application::Application(int& argc, char** argv)
     : QApplication(argc, argv),
       m_engine(this),
       m_qmlUtils(QSharedPointer<QmlUtils>(new QmlUtils())),
-      m_events(QSharedPointer<Events>(new Events())) {
+      m_events(QSharedPointer<Events>(new Events()))
+{
   // Init components required for models and qml
   initAppInfo();
   initProxySettings();
@@ -60,11 +61,6 @@ Application::Application(int& argc, char** argv)
 
   initRedisClient();
   installTranslator();  
-}
-
-Application::~Application()
-{
-    m_connections.clear();
 }
 
 void Application::initModels() {
@@ -117,11 +113,12 @@ void Application::initModels() {
 
   auto srvStatsFactory = [this](QSharedPointer<RedisClient::Connection> c,
                                 int dbIndex, QList<QByteArray> initCmd) {
-    auto rawModelPtr = new ServerStats::Model(c, dbIndex, initCmd);
-    auto model = QSharedPointer<TabModel>(rawModelPtr, &QObject::deleteLater);
+    auto model = QSharedPointer<TabModel>(
+        new ServerStats::Model(c, dbIndex, initCmd), &QObject::deleteLater);
 
-    QObject::connect(rawModelPtr, &ServerStats::Model::openConsoleTerminal,
-                     m_events.data(), &Events::openConsole);
+    QObject::connect(model.staticCast<ServerStats::Model>().data(),
+                     &ServerStats::Model::openConsoleTerminal, m_events.data(),
+                     &Events::openConsole);
 
     return model;
   };
@@ -353,12 +350,12 @@ void Application::installTranslator() {
     locale = preferredLocale;
   }
 
-  QTranslator* translator = new QTranslator((QObject*)this);
-  if (translator->load(QString(":/translations/rdm_") + locale)) {
+  m_translator = QSharedPointer<QTranslator>(new QTranslator((QObject*)this));
+  if (m_translator->load(QString(":/translations/rdm_") + locale)) {
     qDebug() << "Load translations file for locale:" << locale;
-    QCoreApplication::installTranslator(translator);
+    QCoreApplication::installTranslator(m_translator.data());
   } else {
-    delete translator;
+    m_translator.clear();
   }
 }
 

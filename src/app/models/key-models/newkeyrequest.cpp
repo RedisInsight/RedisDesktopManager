@@ -33,9 +33,9 @@ void NewKeyRequest::loadAdditionalKeyTypesInfo(QJSValue jsCallback) {
 
         QJSValueList supportedKeyTypesExposedByModules;
 
-        for (QString module : loadedModules) {
-            if (module == "ReJSON")
-                supportedKeyTypesExposedByModules.append(QJSValue(module));
+        for (QString mod : loadedModules) {
+            if (mod == "ReJSON")
+                supportedKeyTypesExposedByModules.append(QJSValue(mod));
         }
 
         m_jsCallback.call(supportedKeyTypesExposedByModules);

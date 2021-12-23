@@ -317,7 +317,7 @@ void Model::sendEvent(const QModelIndex &index, QString event) {
   item->handleEvent(event);
 }
 
-unsigned int Model::size() { return m_treeItems.size(); }
+int Model::size() { return m_treeItems.size(); }
 
 void Model::setExpanded(const QModelIndex &index) {
   TreeItem *item = getItemFromIndex(index);

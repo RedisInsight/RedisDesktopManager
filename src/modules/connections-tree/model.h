@@ -95,7 +95,7 @@ class Model : public QAbstractItemModel {
 
   void sendEvent(const QModelIndex &index, QString event);
 
-  unsigned int size();
+  virtual int size();
 
   void setExpanded(const QModelIndex &index);
 

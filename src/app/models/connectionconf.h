@@ -51,9 +51,7 @@ public:
     ServerConfig(const QString & host = "127.0.0.1", const QString & auth = "",
                      const uint port = DEFAULT_REDIS_PORT, const QString & name = "");
 
-    ServerConfig(const QVariantHash& options);
-
-    ServerConfig(const ServerConfig& options);
+    explicit ServerConfig(const QVariantHash& options);
 
     QString keysPattern() const;
     void setKeysPattern(QString keyGlobPattern);

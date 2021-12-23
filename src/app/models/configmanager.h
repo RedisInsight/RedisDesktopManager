@@ -7,7 +7,7 @@
 class ConfigManager
 {
 public:
-    ConfigManager(const QString& basePath = QDir::homePath());
+    explicit ConfigManager(const QString& basePath = QDir::homePath());
     QString getApplicationConfigPath(const QString &, bool checkPath=true);    
 public:
     static QString getConfigPath(QString basePath = QDir::homePath());    
