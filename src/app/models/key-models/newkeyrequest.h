@@ -53,8 +53,8 @@ class NewKeyRequest {
   Q_INVOKABLE void loadAdditionalKeyTypesInfo(QJSValue jsCallback);
 
  private:
-  QSharedPointer<RedisClient::Connection> m_connection;
-  int m_dbIndex;
+  QSharedPointer<RedisClient::Connection> m_connection = nullptr;
+  int m_dbIndex = -1;
   std::function<void()> m_callback;
   QJSValue m_jsCallback;
   QString m_keyName;

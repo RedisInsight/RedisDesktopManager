@@ -119,7 +119,7 @@ std::string escape_string(const std::string_view& s) noexcept
                 if (c >= 0x00 and c <= 0x1f)
                 {
                     // print character c as \uxxxx
-                    sprintf(&result[pos + 1], "u%04x", int(c));
+                    std::snprintf(&result[pos + 1], 7, "u%04x", int(c));
                     pos += 6;
                     // overwrite trailing null character
                     result[pos] = '\\';

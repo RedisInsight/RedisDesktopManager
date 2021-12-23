@@ -31,11 +31,6 @@ Model::Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
 QString Model::getName() const { return m_connection->getConfig().name(); }
 
 void Model::executeCommand(const QString& cmd) {
-  if (cmd == "segfault") {  // crash
-    delete reinterpret_cast<QString*>(0xFEE1DEAD);
-    return;
-  }   
-
   return execCmd(RedisClient::Command::splitCommandString(cmd));
 }
 

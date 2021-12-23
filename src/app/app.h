@@ -37,7 +37,6 @@ class Application : public QApplication {
 
  public:
   Application(int &argc, char **argv);
-  ~Application() override;
 
   void initModels();
   void initQml();
@@ -75,4 +74,5 @@ class Application : public QApplication {
   QString m_settingsDir;
   QString m_formattersDir;
   QString m_renderingBackend;
+  QSharedPointer<QTranslator> m_translator = nullptr;
 };

@@ -21,8 +21,6 @@ ConnectionsManager::ConnectionsManager(const QString& configPath,
           &Events::error);
 }
 
-ConnectionsManager::~ConnectionsManager(void) {}
-
 void ConnectionsManager::loadConnections() {
   if (!m_configPath.isEmpty() && QFile::exists(m_configPath)) {
     loadConnectionsConfigFromFile(m_configPath);
@@ -113,9 +111,11 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
 
     auto obj = connection.toObject();
 
-    if (obj.contains("type") && obj.contains("connections") &&
-        obj.contains("name") && obj["connections"].isArray() &&
-        obj["type"].toString().toLower() == "group") {
+    bool isValidGroup = obj.contains("type") && obj.contains("connections") &&
+            obj.contains("name") && obj["connections"].isArray() &&
+            obj["type"].toString().toLower() == "group";
+
+    if (isValidGroup) {
       auto groupConnections = obj["connections"].toArray();
 
       auto group = QSharedPointer<ConnectionsTree::ServerGroup>(
@@ -123,7 +123,7 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
               obj["name"].toString(),
               *static_cast<ConnectionsTree::Model*>(this)));
 
-      for (QJsonValue c : groupConnections) {
+      for (const QJsonValue &c : qAsConst(groupConnections)) {
         if (!c.isObject()) continue;
 
         ServerConfig conf(c.toObject().toVariantHash());
@@ -287,7 +287,7 @@ bool ConnectionsManager::isRedisConnectionStringValid(const QString& connectionS
 int ConnectionsManager::size() {
   int connectionsCount = 0;
 
-  for (auto item : m_treeItems) {
+  for (auto item : qAsConst(m_treeItems)) {
     if (item->type() == "server_group") {
       connectionsCount += item->childCount();
     } else if (item->type() == "server") {

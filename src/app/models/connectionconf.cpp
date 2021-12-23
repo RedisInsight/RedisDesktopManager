@@ -13,12 +13,6 @@ ServerConfig::ServerConfig(const QVariantHash &options)
 
 }
 
-ServerConfig::ServerConfig(const ServerConfig &other)
-{
-    m_parameters = other.m_parameters;
-    m_owner = other.m_owner;
-}
-
 QString ServerConfig::keysPattern() const
 {
     return param<QString>("keys_pattern", QString(DEFAULT_KEYS_GLOB_PATTERN));
