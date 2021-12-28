@@ -68,9 +68,9 @@ class Model : public QAbstractItemModel {
 
   void error(const QString &err);
 
- public:
-  void itemChanged(QWeakPointer<TreeItem> item);  
+  void itemChanged(QWeakPointer<TreeItem> item);
 
+ public:
   void beforeItemChildsUnloaded(QWeakPointer<TreeItem> item);  
 
   void beforeChildLoadedAtPos(QWeakPointer<TreeItem> item, int pos);
@@ -90,6 +90,8 @@ class Model : public QAbstractItemModel {
   void itemLayoutChanged(QWeakPointer<TreeItem> item);
 
  public slots:
+  void onItemChanged(QWeakPointer<TreeItem> item);
+
   void setMetadata(const QModelIndex &index, const QString &metaKey,
                    QVariant value);
 
@@ -114,7 +116,7 @@ class Model : public QAbstractItemModel {
 
   typedef QPair<QWeakPointer<TreeItem>, QModelIndex> PendingIndexChange;
 
-  void iterateAllChilds(QSharedPointer<TreeItem> item, QList<PendingIndexChange> &pendingChanges);
+  void iterateAllChilds(QSharedPointer<TreeItem> item, QList<PendingIndexChange> &pendingChanges);  
 
  protected:
   QList<QSharedPointer<TreeItem>> m_treeItems;

@@ -14,6 +14,7 @@ Model::Model(QObject *parent)
       m_rawPointers(new QHash<TreeItem *, QWeakPointer<TreeItem>>())
 {
   qRegisterMetaType<QWeakPointer<TreeItem>>("QWeakPointer<TreeItem>");
+  QObject::connect(this, &Model::itemChanged, this, &Model::onItemChanged);
 }
 
 QVariant Model::data(const QModelIndex &index, int role) const {
@@ -118,8 +119,8 @@ QModelIndex Model::getIndexFromItem(QWeakPointer<TreeItem> item) {
   return createIndex(sRef->row(), 0, (void *)sRef.data());
 }
 
-void Model::itemChanged(QWeakPointer<TreeItem> item) {
-  if (!item) return;
+void Model::onItemChanged(QWeakPointer<TreeItem> item) {
+  if (!item) return;  
 
   auto index = getIndexFromItem(item);
 
@@ -130,7 +131,7 @@ void Model::itemChanged(QWeakPointer<TreeItem> item) {
 
 void Model::beforeItemChildsUnloaded(QWeakPointer<TreeItem> item)
 {
-    if (!item) return;
+    if (!item) return;    
 
     auto index = getIndexFromItem(item);
 
@@ -146,7 +147,7 @@ void Model::beforeItemChildsUnloaded(QWeakPointer<TreeItem> item)
 
 void Model::beforeChildLoadedAtPos(QWeakPointer<TreeItem> item, int pos)
 {
-    if (!item) return;
+    if (!item) return;    
 
     auto index = getIndexFromItem(item);
 
@@ -157,7 +158,7 @@ void Model::beforeChildLoadedAtPos(QWeakPointer<TreeItem> item, int pos)
 
 void Model::beforeChildLoaded(QWeakPointer<TreeItem> item, int count)
 {
-    if (!item) return;
+    if (!item) return;    
 
     auto index = getIndexFromItem(item);
 
@@ -173,7 +174,7 @@ void Model::beforeChildLoaded(QWeakPointer<TreeItem> item, int count)
 
 void Model::childLoaded(QWeakPointer<TreeItem> item)
 {
-    if (!item) return;
+    if (!item) return;    
 
     auto index = getIndexFromItem(item);
 
@@ -184,26 +185,24 @@ void Model::childLoaded(QWeakPointer<TreeItem> item)
 
 void Model::beforeItemChildRemoved(QWeakPointer<TreeItem> item, int row)
 {
-    if (!item) return;
+    if (!item) return;    
 
     auto index = getIndexFromItem(item);
 
-    if (!index.isValid()) return;
-
-    qDebug() << "before child removal";
+    if (!index.isValid()) return;    
 
     beginRemoveRows(index, row, row);
 }
 
 void Model::itemChildRemoved(QWeakPointer<TreeItem> childItem)
 {
-    if (!childItem) return;
+    if (!childItem) return;    
 
     endRemoveRows();
 }
 
 void Model::expandItem(QWeakPointer<TreeItem> item) {
-  if (!item) return;
+  if (!item) return;  
 
   auto index = getIndexFromItem(item);
 
@@ -227,7 +226,7 @@ void Model::iterateAllChilds(QSharedPointer<TreeItem> item, QList<PendingIndexCh
 }
 
 void Model::beforeItemLayoutChanged(QWeakPointer<TreeItem> item) {
-  if (!item) return;
+  if (!item) return;  
 
   auto itemS = item.toStrongRef();
 
@@ -237,23 +236,19 @@ void Model::beforeItemLayoutChanged(QWeakPointer<TreeItem> item) {
 
   if (m_pendingChanges.contains(item)) {
       m_pendingChanges.remove(item);
-  }
-
-  qDebug() << "Layout about to change";
+  }  
 
   emit layoutAboutToBeChanged({}, QAbstractItemModel::VerticalSortHint);
 
   QList<PendingIndexChange> pendingChanges;
 
-  iterateAllChilds(itemS, pendingChanges);
-
-  qDebug() << "----- pending changes:" << pendingChanges.size();
+  iterateAllChilds(itemS, pendingChanges);  
 
   m_pendingChanges[item] = pendingChanges;
 }
 
 void Model::itemLayoutChanged(QWeakPointer<TreeItem> item) {
-  if (!item) return;
+  if (!item) return;  
 
   auto itemS = item.toStrongRef();
 
@@ -279,15 +274,9 @@ void Model::itemLayoutChanged(QWeakPointer<TreeItem> item) {
       }
 
       auto from = change.second;
-      auto to = getIndexFromItem(child);
-
-      qDebug() << "Update model index from " << from.row() << from.parent() << "to" << to.row() << to.parent();
+      auto to = getIndexFromItem(child);      
       changePersistentIndex(from, to);
-  }
-
-  qDebug() << "layout changed";
-
-  QPersistentModelIndex indx(index);
+  }  
 
   emit layoutChanged({}, QAbstractItemModel::VerticalSortHint);
 
@@ -480,7 +469,7 @@ void Model::addRootItem(QSharedPointer<SortableTreeItem> item) {
 }
 
 void Model::removeRootItem(QSharedPointer<TreeItem> item) {
-  if (!item) return;
+  if (!item) return;  
 
   beginRemoveRows(QModelIndex(), item->row(), item->row());
   m_treeItems.removeAll(item);

@@ -51,7 +51,7 @@ void NamespaceItem::setRemoved() {
 
   clear();
 
-  m_model.itemChanged(getSelf());
+  emit m_model.itemChanged(getSelf());
 }
 
 void NamespaceItem::load() {
@@ -60,7 +60,7 @@ void NamespaceItem::load() {
 
     unlock();
     setExpanded(true);
-    m_model.itemChanged(getSelf());
+    emit m_model.itemChanged(getSelf());
     m_model.expandItem(getSelf());
   };
 
@@ -115,7 +115,7 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
       load();
     } else if (!isExpanded()) {
       setExpanded(true);
-      m_model.itemChanged(getSelf());
+      emit m_model.itemChanged(getSelf());
       m_model.expandItem(getSelf());
     }
   });

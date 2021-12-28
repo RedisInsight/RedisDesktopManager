@@ -92,7 +92,7 @@ int KeyItem::getDbIndex() const {
 void KeyItem::setRemoved() {
   m_removed = true;
 
-  m_model.itemChanged(getSelf());
+  emit m_model.itemChanged(getSelf());
 }
 
 void KeyItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
@@ -104,14 +104,14 @@ void KeyItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
           [this, callback](qlonglong result) {
       m_usedMemory = result;
       callback(result);
-      m_model.itemChanged(getSelf());
+      emit m_model.itemChanged(getSelf());
   }, [](qlonglong){});
 }
 
 void KeyItem::setFullPath(const QByteArray& p) {
   m_fullPath = p;
 
-  m_model.itemChanged(getSelf());
+  emit m_model.itemChanged(getSelf());
 }
 
 QHash<QString, std::function<void()>> KeyItem::eventHandlers() {

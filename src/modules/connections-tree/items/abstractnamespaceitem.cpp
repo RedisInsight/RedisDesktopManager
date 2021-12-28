@@ -268,7 +268,7 @@ void AbstractNamespaceItem::clearLoader() {
 }
 
 void AbstractNamespaceItem::showLoadingError(const QString &err) {
-  m_model.itemChanged(getSelf());
+  emit m_model.itemChanged(getSelf());
   emit m_model.error(err);
 }
 
@@ -298,7 +298,7 @@ void AbstractNamespaceItem::sortChilds() {
   m_model.beforeItemLayoutChanged(getSelf());
   std::sort(m_childItems.begin(), m_childItems.end(), compareChilds);
   m_model.itemLayoutChanged(getSelf());
-  m_model.itemChanged(getSelf());
+  emit m_model.itemChanged(getSelf());
 }
 
 void AbstractNamespaceItem::renderRawKeys(
@@ -374,9 +374,11 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
       }
 
       getMemoryUsage([this](qlonglong) {
-        sortChilds();
-        unlock();
-        m_runningOperation.clear();
+        QTimer::singleShot(0, this, [this]() {
+          sortChilds();
+          unlock();
+          m_runningOperation.clear();
+        });
       });
     });
   });
@@ -407,7 +409,9 @@ void AbstractNamespaceItem::fetchMore() {
 
   int childsCount = m_childItems.size();
   auto rawKeys = m_rawChildKeys;
-  m_model.itemChanged(getSelf());
+
+  emit m_model.itemChanged(getSelf());
+
   m_rawChildKeys.clear();
 
   return renderRawKeys(
@@ -451,7 +455,7 @@ void AbstractNamespaceItem::calculateUsedMemory(
     QMutexLocker locker(&m_updateUsedMemoryMutex);
     Q_UNUSED(locker);
     m_usedMemory += result;
-    m_model.itemChanged(getSelf());
+    emit m_model.itemChanged(getSelf());
 
     (*resultsRemaining)--;
 
