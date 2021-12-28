@@ -93,12 +93,14 @@ void ServerItem::load() {
           ++db;
         }
 
-        m_model.beforeChildLoaded(getSelf(), dbs.size());
-        m_databases = dbs;
-        m_model.childLoaded(getSelf());
+        QTimer::singleShot(0, this, [this, dbs]() {
+            m_model.beforeChildLoaded(getSelf(), dbs.size());
+            m_databases = dbs;
+            m_model.childLoaded(getSelf());
 
-        unlock();
-        m_model.expandItem(getSelf());
+            unlock();
+            m_model.expandItem(getSelf());
+        });
       };
 
   m_currentOperation = m_operations->getDatabases(callback);
@@ -180,7 +182,7 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
 
   events.insert("reload", [this]() {
     reload();
-    m_model.itemChanged(getSelf());
+    emit m_model.itemChanged(getSelf());
   });
 
   events.insert("unload", [this]() { unload(); });
