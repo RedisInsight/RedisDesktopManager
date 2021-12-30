@@ -14,7 +14,7 @@ AbstractEditor {
 
     MultilineEditor {
         id: keyText
-        fieldLabel: qsTranslate("RDM","Key:")
+        fieldLabel: qsTranslate("RESP","Key:")
         Layout.fillWidth: true
         Layout.minimumHeight: 30
         Layout.preferredHeight: root.state == "new"? 70: 140

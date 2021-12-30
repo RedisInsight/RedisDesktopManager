@@ -18,7 +18,7 @@ InlineMenu {
 
     model:
         [
-            {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTranslate("RDM","Copy Key Name")},
-            {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTranslate("RDM","Delete key")}
+            {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTranslate("RESP","Copy Key Name")},
+            {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTranslate("RESP","Delete key")}
         ]
 }

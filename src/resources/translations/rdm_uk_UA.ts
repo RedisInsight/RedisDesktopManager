@@ -17,45 +17,49 @@
     </message>
 </context>
 <context>
-    <name>RDM</name>
+    <name>RESP</name>
     <message>
-        <location filename="../../app/app.cpp" line="78"/>
+        <location filename="../../app/app.cpp" line="74"/>
         <source>Settings directory is not writable</source>
         <translation>Каталог з налаштуваннями недоступний для запису</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="80"/>
-        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM не може зберегти файл підключень до каталогу налаштувань. Змініть файлові дозволи або перезапустіть RDM як адміністратор.</translation>
+        <location filename="../../app/app.cpp" line="76"/>
+        <source>RESP.app can&apos;t save connections file to settings directory. Please change file permissions or restart RESP.app as administrator.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="164"/>
+        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
+        <translation type="vanished">RDM не може зберегти файл підключень до каталогу налаштувань. Змініть файлові дозволи або перезапустіть RDM як адміністратор.</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="159"/>
         <source>Cannot parse scan response</source>
         <translation>Не вдається розібрати відповідь на команду SCAN</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="324"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="319"/>
         <source>Server returned unexpected response: </source>
         <translation>Сервер повернув несподівану відповідь: </translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="110"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="105"/>
         <source>Cannot set TTL for key %1</source>
         <translation>Не вдається встановити TTL для ключа %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="85"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="80"/>
         <source>Cannot rename key %1: %2</source>
         <translation>Не вдається перейменувати ключ %1: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="129"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="124"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
         <translation>Не вдається зробити ключ &apos;%1&apos; постійним. &lt;br&gt; Ключ не існує або не має присвоєного значення TTL</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="270"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="281"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="276"/>
         <source>Cannot load rows for key %1: %2</source>
         <translation>Не вдається завантажити рядки для ключа %1: %2</translation>
     </message>
@@ -79,10 +83,10 @@
         <translation>Значення з таким самим ключем вже існує</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="188"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="336"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="183"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="331"/>
         <location filename="../../app/models/treeoperations.cpp" line="156"/>
-        <location filename="../../modules/console/consolemodel.cpp" line="89"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="84"/>
         <source>Connection error: </source>
         <translation>Помилка підключення: </translation>
     </message>
@@ -132,9 +136,13 @@
         <translation>Не вдається підключитися до сервера &apos;%1&apos;. Перевірте журнал для деталей.</translation>
     </message>
     <message>
+        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation type="vanished">Версія RDM з відкритим кодом &lt;b&gt;не підтримує тунелювання SSH&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; Щоб отримати повнофункціональну програму, придбайте підписку на &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Кожна окрема підписка дає нам кошти для продовження процесу розробки та надання підтримки нашим користувачам. &lt;br /&gt;Якщо у вас виникли запитання, будь ласка, зв&apos;яжіться з нами за адресою &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; або приєднуйтеся до &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram-чату&lt;/a&gt;.</translation>
+    </message>
+    <message>
         <location filename="../../app/models/treeoperations.cpp" line="144"/>
-        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation>Версія RDM з відкритим кодом &lt;b&gt;не підтримує тунелювання SSH&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; Щоб отримати повнофункціональну програму, придбайте підписку на &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Кожна окрема підписка дає нам кошти для продовження процесу розробки та надання підтримки нашим користувачам. &lt;br /&gt;Якщо у вас виникли запитання, будь ласка, зв&apos;яжіться з нами за адресою &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; або приєднуйтеся до &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram-чату&lt;/a&gt;.</translation>
+        <source>Open Source version of RESP.app &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="231"/>
@@ -162,33 +170,33 @@
         <translation>Недійсне з’єднання. Перевірте налаштування підключення.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="234"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
         <translation>Автоматичне оновлення було вимкнено через перевищення обмеження ключів. Будь ласка, вказуйте фільтр обережніше або змініть обмеження в налаштуваннях.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="281"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="283"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>Ключ додано. Хочете перезавантажити ключі в обраній базі даних?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="289"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="291"/>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="133"/>
         <source>Key was added</source>
         <translation>Ключ додано</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="297"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
         <source>Another operation is currently in progress</source>
         <translation>Інша операція вже обробляється</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="301"/>
         <source>Please wait until another operation will be finished.</source>
         <translation>Зачекайте, доки не буде закінчена інша операція.</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="310"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="312"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>Ви дійсно хочете видалити всі ключі з цієї бази даних?</translation>
     </message>
@@ -203,7 +211,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="231"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="233"/>
         <source>Live update was disabled</source>
         <translation>Автоматичне оновлення було вимкнено</translation>
     </message>
@@ -327,12 +335,12 @@
         <translation>Повний пошук</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="196"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="198"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>Вкладки значень та консоль, пов’язані з цим з’єднанням, будуть закриті. Ви хочете продовжити?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="208"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="210"/>
         <source>Do you really want to delete connection?</source>
         <translation>Ви дійсно хочете видалити підключення?</translation>
     </message>
@@ -351,7 +359,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="65"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="60"/>
         <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,7 +368,7 @@
         <translation type="vanished">Перехід у режим Pub/Sub. Закрийте вкладку консолі, щоб зупинити прослуховування повідомлень.</translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="74"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="69"/>
         <source>Subscribe error: %1</source>
         <translation>Помилка підписки на канал: %1</translation>
     </message>
@@ -547,8 +555,8 @@
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="403"/>
-        <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Ознайомтеся з документацією&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;зверніться за підтримкою&lt;/a&gt; або зверніться за допомогою до нашої &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram-групи&lt;/a&gt;</translation>
+        <source>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;Ознайомтеся з документацією&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;зверніться за підтримкою&lt;/a&gt; або зверніться за допомогою до нашої &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram-групи&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="415"/>
@@ -717,93 +725,154 @@
         <translation>Розширені налаштування</translation>
     </message>
     <message>
-        <source>Sign in with rdm.dev account</source>
-        <translation type="vanished">Увійдіть за допомогою облікового запису rdm.dev</translation>
+        <source>Sign in with resp.app account</source>
+        <translation type="vanished">Увійдіть за допомогою облікового запису resp.app</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
         <source>Renew your subscription</source>
-        <translation type="vanished">Поновити підписку</translation>
+        <translation>Поновити підписку</translation>
     </message>
     <message>
         <source>Your trial has ended.</source>
         <translation type="vanished">Ваш пробний період закінчився.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="234"/>
         <source>You have no active subscription</source>
-        <translation type="vanished">У вас немає активної підписки</translation>
+        <translation>У вас немає активної підписки</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
         <source>No internet connection</source>
-        <translation type="vanished">Немає підключення до інтернету</translation>
+        <translation>Немає підключення до інтернету</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="240"/>
         <source>Your trial has ended</source>
-        <translation type="vanished">Ваш пробний період закінчився</translation>
+        <translation>Ваш пробний період закінчився</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="252"/>
         <source>To use this version you need to renew your subscription.</source>
-        <translation type="vanished">Для використання цієї версії вам потрібно поновити підписку.</translation>
+        <translation>Для використання цієї версії вам потрібно поновити підписку.</translation>
     </message>
     <message>
         <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
         <translation type="vanished">Будь ласка, переконайтеся, що RDM не заблоковано брандмауером, а також перевірте наявність підключення до інтернету.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="257"/>
         <source>If you’re behind a proxy please enable </source>
-        <translation type="vanished">Якщо ви за проксі-сервером, увімкніть </translation>
+        <translation>Якщо ви за проксі-сервером, увімкніть </translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="261"/>
         <source> option before sign-in.</source>
-        <translation type="vanished"> опцію перед входом.</translation>
+        <translation> опцію перед входом.</translation>
     </message>
     <message>
         <source>Please purchase a subscription to continue using RDM.</source>
         <translation type="vanished">Будь ласка, придбайте передплату, щоб продовжити використання RDM.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="317"/>
+        <source>Sign in with RESP.app account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="255"/>
+        <source>Please make sure that RESP.app is not blocked by a firewall and you have an internet connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="264"/>
+        <source>Please purchase a subscription to continue using RESP.app.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
         <source>If you have any questions please contact support </source>
-        <translation type="vanished">Якщо у вас є будь-які запитання, звертайтесь до служби підтримки </translation>
+        <translation>Якщо у вас є будь-які запитання, звертайтесь до служби підтримки </translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="279"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
-        <translation type="vanished">Поновити підписку</translation>
+        <translation>Поновити підписку</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="280"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
-        <translation type="vanished">Купити підписку</translation>
+        <translation>Купити підписку</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="293"/>
         <source>Try Again</source>
-        <translation type="vanished">Спробувати ще раз</translation>
+        <translation>Спробувати ще раз</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="331"/>
         <source>Email:</source>
-        <translation type="vanished">Електронна адреса:</translation>
+        <translation>Електронна адреса:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="347"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="503"/>
         <source>Password:</source>
         <translation>Пароль:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="376"/>
         <source>Forgot password?</source>
-        <translation type="vanished">Забули пароль?</translation>
+        <translation>Забули пароль?</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="422"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="444"/>
+        <source>Offline Activation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="465"/>
+        <source>Paste Activation code here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="481"/>
+        <source>Where can I find my activation code?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="490"/>
+        <source>Activate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="495"/>
+        <source>Please enter valid activation code.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Don’t have an account? Sign up</source>
         <translation type="vanished">Не маєте акаунту? Зареєструватися</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="393"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="vanished">Додаток буде перезапущено, щоб застосувати цей параметр.</translation>
+        <translation>Додаток буде перезапущено, щоб застосувати цей параметр.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="404"/>
         <source>Sign In</source>
-        <translation type="vanished">Увійти</translation>
+        <translation>Увійти</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="409"/>
         <source>Please enter email &amp; password to sign in.</source>
-        <translation type="vanished">Введіть адресу електронної пошти та пароль для входу.</translation>
+        <translation>Введіть адресу електронної пошти та пароль для входу.</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="539"/>
@@ -910,6 +979,8 @@
         <translation>OK</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="294"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="508"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
@@ -971,6 +1042,8 @@
         <translation>Показати лише останню частину ключів з простором імен</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="259"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="392"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="137"/>
         <source>Use system proxy settings</source>
         <translation>Використовувати налаштування системного проксі</translation>
@@ -1080,6 +1153,7 @@
         <translation>Вийти з режиму перегрупування</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="370"/>
         <location filename="../../qml/common/PasswordInput.qml" line="29"/>
         <source>Show password</source>
         <translation>Показати пароль</translation>
@@ -1914,60 +1988,89 @@
         <translation>Застосувати фільтр</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="147"/>
         <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation type="vanished">Мережа недоступна. Переконайтесь, що у вас є доступ до Інтернету, і повторіть спробу.</translation>
+        <translation>Мережа недоступна. Переконайтесь, що у вас є доступ до Інтернету, і повторіть спробу.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="190"/>
         <source>Invalid login or password</source>
-        <translation type="vanished">Недійсний логін або пароль</translation>
+        <translation>Недійсний логін або пароль</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="200"/>
         <source>Too many requests from your IP</source>
-        <translation type="vanished">Забагато запитів з вашого IP</translation>
+        <translation>Забагато запитів з вашого IP</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="206"/>
         <source>Unknown error. Status code %1</source>
-        <translation type="vanished">Невідома помилка. Код відповіді %1</translation>
+        <translation>Невідома помилка. Код відповіді %1</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <location filename="../../modules/api/api_client.cpp" line="734"/>
         <source>Cannot parse server reply</source>
-        <translation type="vanished">Не вдається розібрати відповідь сервера</translation>
+        <translation>Не вдається розібрати відповідь сервера</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="341"/>
         <source>Cannot validate token</source>
-        <translation type="vanished">Не вдається перевірити токен</translation>
+        <translation>Не вдається перевірити токен</translation>
     </message>
     <message>
-        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
-        <translation type="vanished">Не вдається ввійти -%1. &lt;br/&gt; Спробуйте ще раз або зв’яжіться з &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</source>
+        <translation type="unfinished">Не вдається ввійти -%1. &lt;br/&gt; Спробуйте ще раз або зв’яжіться з &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="718"/>
+        <source>Expired activation code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="731"/>
+        <source>Invalid activation code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="588"/>
+        <location filename="../../modules/api/api_client.cpp" line="614"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation type="vanished">Не вдається зберегти оновлення. Диск заповнений або папка для завантаження недоступна для запису.</translation>
+        <translation>Не вдається зберегти оновлення. Диск заповнений або папка для завантаження недоступна для запису.</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="666"/>
         <source>Download was canceled</source>
-        <translation type="vanished">Завантаження скасовано</translation>
+        <translation>Завантаження скасовано</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="673"/>
         <source>Network error</source>
-        <translation type="vanished">Помилка мережі</translation>
+        <translation>Помилка мережі</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
         <source>Trial is active till</source>
-        <translation type="vanished">Пробна версія активна до</translation>
+        <translation>Пробна версія активна до</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
         <source>Licensed to</source>
-        <translation type="vanished">Ліцензія зареєстрована на</translation>
+        <translation>Ліцензія зареєстрована на</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
         <source>Subscription is active until:</source>
-        <translation type="vanished">Підписка активна до:</translation>
+        <translation>Підписка активна до:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="vanished">Керувати підпискою</translation>
+        <translation>Керувати підпискою</translation>
     </message>
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
@@ -1980,9 +2083,13 @@
         <translation>Початок роботи</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="42"/>
         <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
-        <translation>Дякуємо, що обрали RDM. Давайте зробимо вашу роботу з Redis краще.</translation>
+        <translation type="vanished">Дякуємо, що обрали RDM. Давайте зробимо вашу роботу з Redis краще.</translation>
+    </message>
+    <message>
+        <location filename="../../qml/QuickStartDialog.qml" line="42"/>
+        <source>Thank you for choosing RESP.app. Let&apos;s make your Redis experience better.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="60"/>

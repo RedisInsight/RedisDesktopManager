@@ -9,7 +9,7 @@ ColumnLayout {
         Layout.fillWidth: true
 
         BetterLabel {
-            text: qsTranslate("RDM","Page") + ":"
+            text: qsTranslate("RESP","Page") + ":"
             wrapMode: Text.WrapAnywhere
         }
 
@@ -18,7 +18,7 @@ ColumnLayout {
 
             text: table.currentPage;
 
-            tooltip: qsTranslate("RDM", "Total pages: ") + table.totalPages
+            tooltip: qsTranslate("RESP", "Total pages: ") + table.totalPages
 
             Layout.fillWidth: true
 
@@ -42,7 +42,7 @@ ColumnLayout {
 
         BetterLabel {
             Layout.columnSpan: 2
-            text:  qsTranslate("RDM","Size: ") + keyRowsCount
+            text:  qsTranslate("RESP","Size: ") + keyRowsCount
         }
     }
 

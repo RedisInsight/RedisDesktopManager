@@ -181,13 +181,13 @@ void ValueEditor::ExternalFormattersManager::decode(
     const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
-        QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
+        QCoreApplication::translate("RESP", "Can't find formatter with name: %1")
             .arg(formatterName));
     return;
   }
 
   if (!jsCallback.isCallable()) {
-    emit error(QCoreApplication::translate("RDM", "Invalid callback"));
+    emit error(QCoreApplication::translate("RESP", "Invalid callback"));
     return;
   }
 
@@ -202,7 +202,7 @@ void ValueEditor::ExternalFormattersManager::decode(
   if (outputObj.isEmpty()) {
     jsCallback.call(
         QJSValueList{QCoreApplication::translate(
-                         "RDM", "Cannot decode value using %1 formatter. ")
+                         "RESP", "Cannot decode value using %1 formatter. ")
                          .arg(formatterName)});
     return;
   }
@@ -216,7 +216,7 @@ void ValueEditor::ExternalFormattersManager::isValid(
     const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
-        QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
+        QCoreApplication::translate("RESP", "Can't find formatter with name: %1")
             .arg(formatterName));
     return;
   }
@@ -231,7 +231,7 @@ void ValueEditor::ExternalFormattersManager::isValid(
 
   if (outputObj.isEmpty()) {
     emit error(QCoreApplication::translate(
-                   "RDM", "Cannot validate value using %1 formatter.")
+                   "RESP", "Cannot validate value using %1 formatter.")
                    .arg(formatterName));
     return;
   }
@@ -245,7 +245,7 @@ void ValueEditor::ExternalFormattersManager::encode(
     const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
   if (!m_mapping.contains(formatterName)) {
     emit error(
-        QCoreApplication::translate("RDM", "Can't find formatter with name: %1")
+        QCoreApplication::translate("RESP", "Can't find formatter with name: %1")
             .arg(formatterName));
     return;
   }
@@ -260,7 +260,7 @@ void ValueEditor::ExternalFormattersManager::encode(
 
   if (result.isEmpty()) {
     emit error(QCoreApplication::translate(
-                   "RDM", "Cannot encode value using %1 formatter. ")
+                   "RESP", "Cannot encode value using %1 formatter. ")
                    .arg(formatterName));
     return;
   }

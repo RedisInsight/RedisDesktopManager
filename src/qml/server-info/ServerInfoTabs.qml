@@ -106,7 +106,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Redis Version")
+                        text: qsTranslate("RESP","Redis Version")
                         font.pointSize: 12
                         color: "grey"
                     }
@@ -121,7 +121,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Used memory")
+                        text: qsTranslate("RESP","Used memory")
                         font.pointSize: 12
                         color: "grey"
                     }
@@ -136,7 +136,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Clients")
+                        text: qsTranslate("RESP","Clients")
                         font.pointSize: 12
                         color: "grey"
                     }
@@ -151,7 +151,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Commands Processed")
+                        text: qsTranslate("RESP","Commands Processed")
                         font.pointSize: 12
                         color: "grey"
                         wrapMode: Text.WordWrap
@@ -168,7 +168,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Uptime")
+                        text: qsTranslate("RESP","Uptime")
                         font.pointSize: 12
                         color: "grey"
                     }
@@ -183,7 +183,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Total Keys")
+                        text: qsTranslate("RESP","Total Keys")
                         font.pointSize: 12
                         color: "grey"
                     }
@@ -198,7 +198,7 @@ Repeater {
                     Text {
                         Layout.preferredWidth: tab.colWidth
 
-                        text: qsTranslate("RDM","Hit Ratio")
+                        text: qsTranslate("RESP","Hit Ratio")
                         font.pointSize: 12
                         color: "grey"
                     }
@@ -218,7 +218,7 @@ Repeater {
                             redisVersionLabel.text = tab.getValue("server", "redis_version")
                             connectedClientsLabel.text = tab.getValue("clients", "connected_clients")
                             totalCommandsProcessedLabel.text = tab.getValue("stats", "total_commands_processed")
-                            uptimeLabel.text = tab.getValue("server", "uptime_in_days") + qsTranslate("RDM"," day(s)")
+                            uptimeLabel.text = tab.getValue("server", "uptime_in_days") + qsTranslate("RESP"," day(s)")
                             totalKeysLabel.text = tab.getTotalKeysValue()
                             hitRatioLabel.text = tab.getHitRatio() + "%"
                         }
@@ -232,24 +232,24 @@ Repeater {
                     Layout.preferredHeight: 30
 
                     TabButton {
-                        text: qsTranslate("RDM","Info")
+                        text: qsTranslate("RESP","Info")
                     }
 
                     TabButton {
-                        text: qsTranslate("RDM","Server Info")
+                        text: qsTranslate("RESP","Server Info")
                     }
 
                     TabButton {
-                        text: qsTranslate("RDM","Slowlog")
+                        text: qsTranslate("RESP","Slowlog")
                     }
 
                     TabButton {
-                        text: qsTranslate("RDM","Clients")
+                        text: qsTranslate("RESP","Clients")
                     }
 
                     TabButton {
                         objectName: "rdm_server_info_tab_btn_pub_sub_channels"
-                        text: qsTranslate("RDM","Pub/Sub Channels")
+                        text: qsTranslate("RESP","Pub/Sub Channels")
                     }
                 }
 
@@ -296,7 +296,7 @@ Repeater {
 
                                 backgroundColor: sysPalette.base
 
-                                title: qsTranslate("RDM","Commands Per Second")
+                                title: qsTranslate("RESP","Commands Per Second")
                                 antialiasing: true
 
                                 DateTimeAxis {
@@ -310,7 +310,7 @@ Repeater {
                                     min: 0
                                     max: 100
                                     labelFormat: "%d"
-                                    titleText: qsTranslate("RDM","Ops/s")
+                                    titleText: qsTranslate("RESP","Ops/s")
                                 }
 
                                 LineSeries {
@@ -334,7 +334,7 @@ Repeater {
 
                                 backgroundColor: sysPalette.base
 
-                                title: qsTranslate("RDM","Connected Clients")
+                                title: qsTranslate("RESP","Connected Clients")
                                 antialiasing: true
 
                                 DateTimeAxis {
@@ -348,7 +348,7 @@ Repeater {
                                     min: 0
                                     max: 100
                                     labelFormat: "%d"
-                                    titleText: qsTranslate("RDM","Clients")
+                                    titleText: qsTranslate("RESP","Clients")
                                 }
 
                                 SplineSeries {
@@ -372,7 +372,7 @@ Repeater {
                                 theme: parent.chartTheme()
                                 backgroundColor: sysPalette.base
 
-                                title: qsTranslate("RDM","Memory Usage")
+                                title: qsTranslate("RESP","Memory Usage")
                                 antialiasing: true
 
                                 DateTimeAxis {
@@ -384,7 +384,7 @@ Repeater {
                                 ValueAxis {
                                     id: axisYMemoryUsage
                                     min: 0
-                                    titleText: qsTranslate("RDM","Mb")
+                                    titleText: qsTranslate("RESP","Mb")
                                 }
 
                                 function toMsecsSinceEpoch(date) {
@@ -413,7 +413,7 @@ Repeater {
 
                                 backgroundColor: sysPalette.base
 
-                                title: qsTranslate("RDM","Network Input")
+                                title: qsTranslate("RESP","Network Input")
                                 antialiasing: true
 
                                 DateTimeAxis {
@@ -425,7 +425,7 @@ Repeater {
                                 ValueAxis {
                                     id: axisYNetworkInput
                                     min: 0
-                                    titleText: qsTranslate("RDM","Kb/s")
+                                    titleText: qsTranslate("RESP","Kb/s")
                                 }
 
                                 LineSeries {
@@ -449,7 +449,7 @@ Repeater {
 
                                 backgroundColor: sysPalette.base
 
-                                title: qsTranslate("RDM","Network Output")
+                                title: qsTranslate("RESP","Network Output")
                                 antialiasing: true
 
                                 DateTimeAxis {
@@ -461,7 +461,7 @@ Repeater {
                                 ValueAxis {
                                     id: axisYNetworkOutput
                                     min: 0
-                                    titleText: qsTranslate("RDM","Kb/s")
+                                    titleText: qsTranslate("RESP","Kb/s")
                                 }
 
                                 LineSeries {
@@ -485,7 +485,7 @@ Repeater {
 
                                 backgroundColor: sysPalette.base
 
-                                title: qsTranslate("RDM","Total Keys")
+                                title: qsTranslate("RESP","Total Keys")
                                 antialiasing: true
 
                                 DateTimeAxis {
@@ -499,7 +499,7 @@ Repeater {
                                     min: 0
                                     max: 100
                                     labelFormat: "%d"
-                                    titleText: qsTranslate("RDM","Keys")
+                                    titleText: qsTranslate("RESP","Keys")
                                 }
 
                                 LineSeries {
@@ -582,7 +582,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTranslate("RDM","Auto Refresh")
+                                label: qsTranslate("RESP","Auto Refresh")
                             }
 
                             TabBar {
@@ -616,13 +616,13 @@ Repeater {
 
                                         LC.TableViewColumn {
                                             role: "name"
-                                            title: qsTranslate("RDM","Property")
+                                            title: qsTranslate("RESP","Property")
                                             width: 250
                                         }
 
                                         LC.TableViewColumn {
                                             role: "value"
-                                            title: qsTranslate("RDM","Value")
+                                            title: qsTranslate("RESP","Value")
                                             width: 350
                                         }
                                     }
@@ -690,7 +690,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTranslate("RDM","Auto Refresh")
+                                label: qsTranslate("RESP","Auto Refresh")
 
                                 onValueChanged: {
                                     tab.model.refreshSlowLog = value
@@ -705,7 +705,7 @@ Repeater {
 
                                 LC.TableViewColumn {
                                     role: "cmd"
-                                    title: qsTranslate("RDM","Command")
+                                    title: qsTranslate("RESP","Command")
                                     width: 600
 
                                     delegate: Text {
@@ -722,7 +722,7 @@ Repeater {
 
                                 LC.TableViewColumn {
                                     role: "time"
-                                    title: qsTranslate("RDM","Processed at")
+                                    title: qsTranslate("RESP","Processed at")
                                     width: 150
 
                                     delegate: Text {
@@ -737,7 +737,7 @@ Repeater {
 
                                 LC.TableViewColumn {
                                     role: "exec_time"
-                                    title: qsTranslate("RDM","Execution Time (μs)")
+                                    title: qsTranslate("RESP","Execution Time (μs)")
                                     width: 150
                                 }
                             }
@@ -756,7 +756,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTranslate("RDM","Auto Refresh")
+                                label: qsTranslate("RESP","Auto Refresh")
 
                                 onValueChanged: {
                                     tab.model.refreshClients = value
@@ -771,31 +771,31 @@ Repeater {
 
                                 LC.TableViewColumn {
                                     role: "addr"
-                                    title: qsTranslate("RDM","Client Address")
+                                    title: qsTranslate("RESP","Client Address")
                                     width: 200
                                 }
 
                                 LC.TableViewColumn {
                                     role: "age"
-                                    title: qsTranslate("RDM","Age (sec)")
+                                    title: qsTranslate("RESP","Age (sec)")
                                     width: 75
                                 }
 
                                 LC.TableViewColumn {
                                     role: "idle"
-                                    title: qsTranslate("RDM","Idle")
+                                    title: qsTranslate("RESP","Idle")
                                     width: 75
                                 }
 
                                 LC.TableViewColumn {
                                     role: "flags"
-                                    title: qsTranslate("RDM","Flags")
+                                    title: qsTranslate("RESP","Flags")
                                     width: 75
                                 }
 
                                 LC.TableViewColumn {
                                     role: "db"
-                                    title: qsTranslate("RDM","Current Database")
+                                    title: qsTranslate("RESP","Current Database")
                                     width: 120
                                 }
                             }
@@ -814,7 +814,7 @@ Repeater {
                                 Layout.preferredHeight: 40
 
                                 value: true
-                                label: qsTranslate("RDM","Enable")
+                                label: qsTranslate("RESP","Enable")
 
                                 onValueChanged: {
                                     tab.model.refreshPubSubMonitor = value
@@ -833,7 +833,7 @@ Repeater {
 
                                 LC.TableViewColumn {
                                     role: "addr"
-                                    title: qsTranslate("RDM","Channel Name")
+                                    title: qsTranslate("RESP","Channel Name")
                                     width: 200
                                 }
 
@@ -844,7 +844,7 @@ Repeater {
                                         BetterButton {
                                             objectName: "rdm_server_info_pub_sub_subscribe_to_channel_btn"
                                             anchors.centerIn: parent
-                                            text: qsTranslate("RDM","Subscribe in Console")
+                                            text: qsTranslate("RESP","Subscribe in Console")
                                             onClicked: {
                                                 console.log(styleData.value)
                                                 tab.model.subscribeToChannel(styleData.value)

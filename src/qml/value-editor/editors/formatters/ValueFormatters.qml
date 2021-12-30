@@ -238,7 +238,7 @@ ListModel {
             var minified = qmlUtils.minifyJSON(formatted);
 
             if (!minified) {
-                return callback(qsTranslate("RDM", "Error") + ": Cannot minify JSON string")
+                return callback(qsTranslate("RESP", "Error") + ": Cannot minify JSON string")
             } else {
                 return callback("", minified)
             }

@@ -211,7 +211,7 @@ TreeView {
                         anchors.left: itemIcon.right
                         anchors.leftMargin: 3
                         anchors.verticalCenter: parent.verticalCenter
-                        text: wrapper.itemEnabled ? styleData.value["name"] : styleData.value["name"] + qsTranslate("RDM"," (Removed)")
+                        text: wrapper.itemEnabled ? styleData.value["name"] : styleData.value["name"] + qsTranslate("RESP"," (Removed)")
                         color: wrapper.itemEnabled ?
                                    styleData.selected? sysPalette.highlightedText : sysPalette.windowText:
                                    inactiveSysPalette.windowText

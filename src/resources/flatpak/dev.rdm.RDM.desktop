@@ -1,10 +1,11 @@
 [Desktop Entry]
 Version=1.0
-Name=RDM
+Name=RESP.app
 Comment=Cross-platform open source database management tool for Redis ®
 Type=Application
 Categories=Development;
 Exec=rdm
 Terminal=false
 StartupNotify=true
+Keywords=RDM;Redis;
 Icon=dev.rdm.RDM

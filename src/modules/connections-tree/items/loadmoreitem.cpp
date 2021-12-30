@@ -9,7 +9,7 @@ ConnectionsTree::LoadMoreItem::LoadMoreItem(QWeakPointer<TreeItem> parent, Model
 
 QString ConnectionsTree::LoadMoreItem::getDisplayName() const
 {
-    return QCoreApplication::translate("RDM", "Load more keys");
+    return QCoreApplication::translate("RESP", "Load more keys");
 }
 
 QList<QSharedPointer<ConnectionsTree::TreeItem> > ConnectionsTree::LoadMoreItem::getAllChilds() const

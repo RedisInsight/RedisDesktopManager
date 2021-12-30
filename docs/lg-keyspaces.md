@@ -3,7 +3,7 @@
 ## Use specific `SCAN` filter to reduce loaded amount of keys
 
 
-By default RDM.dev uses `*` (wildcard glob-style pattern) in  `SCAN` command to load all keys from the selected database. It’s simple and user-friendly for cases when you have only a couple of thousands keys. But for production redis-servers with millions of keys it leads to a huge amount of time needed to load keys in RDM.dev. 
+By default RESP.app uses `*` (wildcard glob-style pattern) in  `SCAN` command to load all keys from the selected database. It’s simple and user-friendly for cases when you have only a couple of thousands keys. But for production redis-servers with millions of keys it leads to a huge amount of time needed to load keys in RESP.app. 
 
 However, while working with production redis-servers that contain millions of keys users have to wait for a long time till all keys are loaded. 
 
@@ -27,7 +27,7 @@ Colon sign `:` is a commonly used convention when naming Redis keys. For example
 
 Following this schema allows you to simplify removal of obsolete keys and performing other operations with keys in Redis.
 
-Using namespaced keys is also important for loading huge keyspaces in RDM.dev. It renders namespaces on demand (since 2020.2+) and this approach allows to visualise millions of keys with small memory footprint.
+Using namespaced keys is also important for loading huge keyspaces in RESP.app. It renders namespaces on demand (since 2020.2+) and this approach allows to visualise millions of keys with small memory footprint.
 
 <img width="250" src="https://user-images.githubusercontent.com/1655867/91547979-5c538900-e92d-11ea-8afa-10cc1634343f.png">
 

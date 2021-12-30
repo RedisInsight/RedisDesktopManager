@@ -1,9 +1,9 @@
 !addincludedir .\include
 !addplugindir .\plugin
 
-Name "RDM"
+Name "RESP.app (formerly RedisDesktopManager)"
 
-BrandingText "Open source GUI management tool for Redis"
+BrandingText "Open source Developer GUI for Redis"
 
 RequestExecutionLevel admin
 
@@ -14,8 +14,8 @@ ManifestDPIAware true
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(Name)"
 !define COMPANY "Igor Malinovskiy"
-!define URL rdm.dev
-!define APP_EXE "rdm.exe"
+!define URL resp.app
+!define APP_EXE "resp.exe"
 
 # MUI Symbol Definitions
 !define MUI_ICON "..\..\..\src\resources\images\logo.ico"
@@ -48,13 +48,13 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile rdm-${VERSION}.exe
-InstallDir $PROGRAMFILES64\RDM
+OutFile resp-${VERSION}.exe
+InstallDir $PROGRAMFILES64\RESP_app
 CRCCheck on
 XPStyle on
 ShowInstDetails show
 VIProductVersion ${VERSION}.0
-VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "RDM"
+VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "RESP.app (formerly RedisDesktopManager)"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyWebsite "${URL}"
@@ -70,7 +70,7 @@ Section -Main SEC0000
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
 
     ${IfNot} ${RunningX64}
-        MessageBox MB_OK "Starting from version 2019.0.0, RDM doesn't support 32-bit Windows"
+        MessageBox MB_OK "Starting from version 2019.0.0, RESP.app doesn't support 32-bit Windows"
         Quit
     ${EndIf}
 
@@ -95,12 +95,12 @@ Section -post SEC0001
     WriteUninstaller $INSTDIR\uninstall.exe
     SetOutPath $SMPROGRAMS\$StartMenuGroup
     
-    CreateShortCut "$DESKTOP\RDM.lnk" "$INSTDIR\${APP_EXE}" ""
+    CreateShortCut "$DESKTOP\RESP.lnk" "$INSTDIR\${APP_EXE}" ""
     
     IfSilent 0 +2
         Exec "$INSTDIR\${APP_EXE}"
 
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\RDM.lnk" "$INSTDIR\${APP_EXE}"
+    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\RESP.lnk" "$INSTDIR\${APP_EXE}"
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
 
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
@@ -137,8 +137,8 @@ SectionEnd
 
 Section -un.post UNSEC0001
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
-    Delete /REBOOTOK "$DESKTOP\RDM.lnk"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\RDM.lnk"
+    Delete /REBOOTOK "$DESKTOP\RESP.lnk"
+    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\RESP.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk"
     Delete /REBOOTOK $INSTDIR\uninstall.exe
     DeleteRegValue HKLM "${REGKEY}" Path
@@ -151,14 +151,14 @@ SectionEnd
 # Installer functions
 Function .onInit
     InitPluginsDir
-    StrCpy $StartMenuGroup RDM
+    StrCpy $StartMenuGroup RESP
 FunctionEnd
 
 # Uninstaller functions
 Function un.onInit
     SetAutoClose true
     ReadRegStr $INSTDIR HKLM "${REGKEY}" Path
-    StrCpy $StartMenuGroup RDM
+    StrCpy $StartMenuGroup RESP
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
 

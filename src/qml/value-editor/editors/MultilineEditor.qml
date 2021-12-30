@@ -19,7 +19,7 @@ Item
     property bool showSaveBtn: false
     property bool showFormatters: true
     property bool showOnlyRWformatters: false
-    property string fieldLabel: qsTranslate("RDM","Value") + ":"
+    property string fieldLabel: qsTranslate("RESP","Value") + ":"
     property bool isEdited: false
     property var value    
     property int valueCompression: 0
@@ -53,7 +53,7 @@ Item
             if (valid) {
                 hideValidationError()
             } else {
-                showValidationError(qsTranslate("RDM", "Enter valid value"))
+                showValidationError(qsTranslate("RESP", "Enter valid value"))
             }
 
             return callback(valid, raw)
@@ -263,12 +263,12 @@ Item
                 var details
                 if (error.length > 200) {
                     details = error
-                    error = qsTranslate("RDM","Formatting error")
+                    error = qsTranslate("RESP","Formatting error")
                 } else {
                     details = ""
                 }
 
-                notification.showError(error || qsTranslate("RDM","Unknown formatter error (Empty response)"), details)
+                notification.showError(error || qsTranslate("RESP","Unknown formatter error (Empty response)"), details)
                 return
             }
 
@@ -331,15 +331,15 @@ Item
 
             BetterLabel { text: root.fieldLabel }
             TextEdit {                
-                text: qsTranslate("RDM", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
+                text: qsTranslate("RESP", "Size: ") + qmlUtils.humanSize(qmlUtils.binaryStringLength(value));
                 readOnly: true;
                 selectByMouse: true
                 color: "#ccc"
             }
-            BetterLabel { id: binaryFlag; text: qsTranslate("RDM","[Binary]"); visible: false; color: "green"; }
+            BetterLabel { id: binaryFlag; text: qsTranslate("RESP","[Binary]"); visible: false; color: "green"; }
             Item { Layout.fillWidth: true }
 
-            BetterLabel { visible: showFormatters; text: qsTranslate("RDM","View as:") }
+            BetterLabel { visible: showFormatters; text: qsTranslate("RESP","View as:") }
 
             BetterComboBox {
                 id: formatterSelector
@@ -373,8 +373,8 @@ Item
 
             BetterLabel {
                 visible: noMagicCompressionSelector.visible
-                text: noMagicCompressionSelector.enabled? qsTranslate("RDM","Try to decompress:") :
-                                                          qsTranslate("RDM","Decompressed:")
+                text: noMagicCompressionSelector.enabled? qsTranslate("RESP","Try to decompress:") :
+                                                          qsTranslate("RESP","Decompressed:")
             }
 
             BetterComboBox {
@@ -464,7 +464,7 @@ Item
                         defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, currentText)
                         noMagicCompressionSelector.enabled = false;
                     } else {
-                        notification.showError(qsTranslate("RDM","Cannot decompress value using ") + currentText)
+                        notification.showError(qsTranslate("RESP","Cannot decompress value using ") + currentText)
                         defaultCompressionSettings.setValue(root.formatterSettingsPrefix + keyName, "")
                         defaultCompressionSettings.setValue(root.lastSelectedManualDecompression, "")
                         valueCompression = 0
@@ -475,7 +475,7 @@ Item
 
             BetterLabel {
                 visible: !showFormatters && qmlUtils.binaryStringLength(root.value) > appSettings.valueSizeLimit
-                text: qsTranslate("RDM","Large value (>150kB). Formatters are not available.")
+                text: qsTranslate("RESP","Large value (>150kB). Formatters are not available.")
                 color: "red"
             }
 
@@ -499,7 +499,7 @@ Item
 
                         Layout.alignment: Qt.AlignHCenter
 
-                        tooltip: qsTranslate("RDM","Add Element to HLL");
+                        tooltip: qsTranslate("RESP","Add Element to HLL");
                         visible: keyType === "hyperloglog"
 
                         onClicked: {
@@ -517,7 +517,7 @@ Item
 
                         Layout.alignment: Qt.AlignHCenter
 
-                        tooltip: qsTranslate("RDM","Copy to Clipboard")
+                        tooltip: qsTranslate("RESP","Copy to Clipboard")
                         enabled: root.value !== ""
 
                         onClicked: copyValue()
@@ -569,8 +569,8 @@ Item
                     state: "default"
                     implicitWidth: isMultiRow ? 100 : 105
 
-                    text: qsTranslate("RDM","Save")
-                    tooltip: qsTranslate("RDM","Save Changes") + " (" + shortcutText + ")"
+                    text: qsTranslate("RESP","Save")
+                    tooltip: qsTranslate("RESP","Save Changes") + " (" + shortcutText + ")"
                     visible: showSaveBtn
 
                     property string shortcutText: qmlUtils.standardKeyToString(StandardKey.Save)
@@ -672,7 +672,7 @@ Item
                 BetterTextField {
                     id: searchField
                     objectName: "rdm_value_editor_search_field"
-                    placeholderText: qsTranslate("RDM", "Search string")
+                    placeholderText: qsTranslate("RESP", "Search string")
 
                     onTextChanged: {
                         searchToolbar.lastSearchResultPosition = -1;
@@ -686,7 +686,7 @@ Item
                 BetterButton {
                     id: submitSearchButton
                     objectName: "rdm_value_editor_search_btn"
-                    text: searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RDM","Find Next") : qsTranslate("RDM","Find")
+                    text: searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RESP","Find Next") : qsTranslate("RESP","Find")
                     onClicked: {
                         performSearch()
                     }
@@ -703,8 +703,8 @@ Item
                             searchToolbar.lastSearchResultPosition = result[1] + result[3];
                             textView.currentItem.selectSearchResult(result[2], result[3], searchField.text);
                         } else {
-                            noResults.text = searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RDM","Cannot find more results")
-                                                                                       : qsTranslate("RDM","Cannot find any results");
+                            noResults.text = searchToolbar.lastSearchResultPosition>=0 ? qsTranslate("RESP","Cannot find more results")
+                                                                                       : qsTranslate("RESP","Cannot find any results");
                             if (searchToolbar.lastSearchResultPosition>=0) {
                                 searchToolbar.lastSearchResultPosition = -1;
                             }
@@ -717,7 +717,7 @@ Item
                 BetterCheckbox {
                     id: searchRegexInText
                     objectName: "rdm_value_editor_search_regex_checkbox"
-                    text: qsTranslate("RDM","Regex")
+                    text: qsTranslate("RESP","Regex")
                     onCheckedChanged: {
                         searchToolbar.lastSearchResultPosition = -1;
                         noResults.visible = false;
@@ -843,11 +843,11 @@ Item
 
         height: 150
 
-        title: qsTranslate("RDM","Binary value is too large to display")
+        title: qsTranslate("RESP","Binary value is too large to display")
         visible: false
         footer: BetterDialogButtonBox {
             BetterButton {
-                text: qsTranslate("RDM","OK")
+                text: qsTranslate("RESP","OK")
                 onClicked: largeValueDialog.close()
             }
         }
@@ -857,7 +857,7 @@ Item
 
             Text {                
                 color: sysPalette.text
-                text: qsTranslate("RDM","Save value to file")+ ": "
+                text: qsTranslate("RESP","Save value to file")+ ": "
             }
 
             SaveToFileButton {

@@ -8,7 +8,7 @@ BulkOperations::TtlOperation::TtlOperation(
     : BulkOperations::AbstractOperation(connection, dbIndex, callback,
                                         keyPattern) {
   m_errorMessagePrefix =
-      QCoreApplication::translate("RDM", "Cannot set TTL for key ");
+      QCoreApplication::translate("RESP", "Cannot set TTL for key ");
 }
 
 void BulkOperations::TtlOperation::performOperation(

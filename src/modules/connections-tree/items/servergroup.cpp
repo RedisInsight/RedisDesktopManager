@@ -56,7 +56,7 @@ QHash<QString, std::function<void()> > ServerGroup::eventHandlers() {
   events.insert("delete", [this]() {
     confirmAction(nullptr,
                   QCoreApplication::translate(
-                      "RDM", "Do you really want to delete group <b>with all connections</b>?"),
+                      "RESP", "Do you really want to delete group <b>with all connections</b>?"),
                   [this]() { emit deleteActionRequested(); });
   });
 

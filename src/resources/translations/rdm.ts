@@ -17,45 +17,45 @@
     </message>
 </context>
 <context>
-    <name>RDM</name>
+    <name>RESP</name>
     <message>
-        <location filename="../../app/app.cpp" line="78"/>
+        <location filename="../../app/app.cpp" line="74"/>
         <source>Settings directory is not writable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="80"/>
-        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
+        <location filename="../../app/app.cpp" line="76"/>
+        <source>RESP.app can&apos;t save connections file to settings directory. Please change file permissions or restart RESP.app as administrator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="164"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="159"/>
         <source>Cannot parse scan response</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="324"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="319"/>
         <source>Server returned unexpected response: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="110"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="105"/>
         <source>Cannot set TTL for key %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="85"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="80"/>
         <source>Cannot rename key %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="129"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="124"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="270"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="281"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="276"/>
         <source>Cannot load rows for key %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -79,10 +79,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="188"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="336"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="183"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="331"/>
         <location filename="../../app/models/treeoperations.cpp" line="156"/>
-        <location filename="../../modules/console/consolemodel.cpp" line="89"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="84"/>
         <source>Connection error: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -125,7 +125,7 @@
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="144"/>
-        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <source>Open Source version of RESP.app &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -154,33 +154,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="234"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="281"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="283"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="289"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="291"/>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="133"/>
         <source>Key was added</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="297"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
         <source>Another operation is currently in progress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="301"/>
         <source>Please wait until another operation will be finished.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="310"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="312"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -193,7 +193,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="231"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="233"/>
         <source>Live update was disabled</source>
         <translation type="unfinished"></translation>
     </message>
@@ -317,12 +317,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="196"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="198"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="208"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="210"/>
         <source>Do you really want to delete connection?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -339,12 +339,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="65"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="60"/>
         <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="74"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="69"/>
         <source>Subscribe error: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -532,7 +532,7 @@
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="403"/>
-        <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
+        <source>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -698,8 +698,133 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="317"/>
+        <source>Sign in with RESP.app account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
+        <source>Renew your subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="234"/>
+        <source>You have no active subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
+        <source>No internet connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="240"/>
+        <source>Your trial has ended</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="252"/>
+        <source>To use this version you need to renew your subscription.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="255"/>
+        <source>Please make sure that RESP.app is not blocked by a firewall and you have an internet connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="257"/>
+        <source>If you’re behind a proxy please enable </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="261"/>
+        <source> option before sign-in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="264"/>
+        <source>Please purchase a subscription to continue using RESP.app.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
+        <source>If you have any questions please contact support </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="279"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Renew Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="280"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
+        <source>Buy Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="293"/>
+        <source>Try Again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="331"/>
+        <source>Email:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="347"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="503"/>
         <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="376"/>
+        <source>Forgot password?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="393"/>
+        <source>Application will be restarted to apply this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="404"/>
+        <source>Sign In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="409"/>
+        <source>Please enter email &amp; password to sign in.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="422"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="444"/>
+        <source>Offline Activation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="465"/>
+        <source>Paste Activation code here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="481"/>
+        <source>Where can I find my activation code?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="490"/>
+        <source>Activate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="495"/>
+        <source>Please enter valid activation code.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -802,6 +927,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="294"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="508"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
@@ -863,6 +990,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="259"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="392"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="137"/>
         <source>Use system proxy settings</source>
         <translation type="unfinished"></translation>
@@ -964,6 +1093,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="370"/>
         <location filename="../../qml/common/PasswordInput.qml" line="29"/>
         <source>Show password</source>
         <translation type="unfinished"></translation>
@@ -1797,7 +1927,7 @@
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="42"/>
-        <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
+        <source>Thank you for choosing RESP.app. Let&apos;s make your Redis experience better.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1844,6 +1974,91 @@
     <message>
         <location filename="../../qml/common/BetterMessageDialog.qml" line="32"/>
         <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
+        <source>Trial is active till</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
+        <source>Licensed to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
+        <source>Subscription is active until:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Manage Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="147"/>
+        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="190"/>
+        <source>Invalid login or password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="200"/>
+        <source>Too many requests from your IP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="206"/>
+        <source>Unknown error. Status code %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <location filename="../../modules/api/api_client.cpp" line="734"/>
+        <source>Cannot parse server reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="341"/>
+        <source>Cannot validate token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="588"/>
+        <location filename="../../modules/api/api_client.cpp" line="614"/>
+        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="666"/>
+        <source>Download was canceled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="673"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="718"/>
+        <source>Expired activation code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="731"/>
+        <source>Invalid activation code</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

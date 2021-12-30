@@ -39,7 +39,7 @@ QVariant HashKeyModel::getData(int rowIndex, int dataRole) {
 
 void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
-    c(QCoreApplication::translate("RDM", "Invalid row"));
+    c(QCoreApplication::translate("RESP", "Invalid row"));
     return;
   }
 
@@ -72,7 +72,7 @@ void HashKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
 
 void HashKeyModel::addRow(const QVariantMap &row, Callback c) {
   if (!isRowValid(row)) {
-    c(QCoreApplication::translate("RDM", "Invalid row"));
+    c(QCoreApplication::translate("RESP", "Invalid row"));
     return;
   }
 
@@ -111,7 +111,7 @@ void HashKeyModel::setHashRow(const QByteArray &hashKey,
              [updateIfNotExist](RedisClient::Response r, Callback c) {
                if (updateIfNotExist == false && r.value().toInt() == 0) {
                  return c(QCoreApplication::translate(
-                     "RDM", "Value with the same key already exists"));
+                     "RESP", "Value with the same key already exists"));
                } else {
                  return c(QString());
                }
@@ -134,7 +134,7 @@ int HashKeyModel::addLoadedRowsToCache(const QVariantList &rows,
 
     if (item == rows.end()) {
       emit m_notifier->error(QCoreApplication::translate(
-          "RDM", "Data was loaded from server partially."));
+          "RESP", "Data was loaded from server partially."));
       return 0;
     }
 

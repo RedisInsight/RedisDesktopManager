@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.1
 ImageButton {
     id: root
     iconSource: raw ? "qrc:/images/binary_file.svg" : "qrc:/images/code_file.svg"
-    tooltip: raw ? qsTranslate("RDM","Save Raw Value to File") : qsTranslate("RDM","Save Formatted Value to File") + " (" + shortcutText + ")"
+    tooltip: raw ? qsTranslate("RESP","Save Raw Value to File") : qsTranslate("RESP","Save Formatted Value to File") + " (" + shortcutText + ")"
 
     property string fileUrl
     property string folderUrl
@@ -23,7 +23,7 @@ ImageButton {
 
     FileDialog {
         id: saveValueToFileDialog
-        title: raw ? qsTranslate("RDM","Save Raw Value") : qsTranslate("RDM","Save Formatted Value")
+        title: raw ? qsTranslate("RESP","Save Raw Value") : qsTranslate("RESP","Save Formatted Value")
         nameFilters: ["All files (*)"]
         selectExisting: false
 
@@ -47,7 +47,7 @@ ImageButton {
 
     Dialog {
         id: saveToFileConfirmation
-        title: raw ? qsTranslate("RDM","Save raw value to file") : qsTranslate("RDM","Save formatted value to file")
+        title: raw ? qsTranslate("RESP","Save raw value to file") : qsTranslate("RESP","Save formatted value to file")
         visible: false
 
         contentItem: Rectangle {
@@ -68,7 +68,7 @@ ImageButton {
 
                     BetterLabel {
                         Layout.fillWidth: true
-                        text: qsTranslate("RDM","Value was saved to file:")
+                        text: qsTranslate("RESP","Value was saved to file:")
                     }
 
                     TextEdit {
@@ -111,7 +111,7 @@ ImageButton {
 
                         BetterButton {
                             objectName: "rdm_save_to_file_confirmation_dialog_ok_btn"
-                            text: qsTranslate("RDM","OK")
+                            text: qsTranslate("RESP","OK")
                             onClicked: saveToFileConfirmation.close()
                         }
                     }

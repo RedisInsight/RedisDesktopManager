@@ -26,9 +26,9 @@ BetterTab {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size:30px;">RDM.dev - GUI for Redis<sup>®</sup></span>'}
-                RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size: 13px;"><b>'+ qsTranslate("RDM","Version") + '</b> ' + Qt.application.version +'</span>' }
-                RichTextWithLinks { Layout.fillWidth: true;  html:  qsTranslate("RDM", '<span style="font-size: 11px;">Powered by awesome <a href="https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty">open-source software</a> and '
+                RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size:30px;">RESP</span><sup style="font-size:18px; line-height:30px;">.app</sup><span style="font-size:30px;line-height: 30px;"> - GUI for Redis</span><sup style="font-size:18px;">®</sup>'}
+                RichTextWithLinks { Layout.fillWidth: true; html: '<span style="font-size: 13px;"><b>'+ qsTranslate("RESP","Version") + '</b> ' + Qt.application.version +'</span>' }
+                RichTextWithLinks { Layout.fillWidth: true;  html:  qsTranslate("RESP", '<span style="font-size: 11px;">Powered by awesome <a href="https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty">open-source software</a> and '
                                                                     + '<a href="http://icons8.com/">icons8</a>.</span>')}
             }
         }

@@ -9,16 +9,16 @@ Dialog {
     id: root
 
     modality: Qt.ApplicationModal
-    title: qsTranslate("RDM","Enter " + getSecretName()  + " to connect to ") + config.name
+    title: qsTranslate("RESP","Enter " + getSecretName()  + " to connect to ") + config.name
 
     property string secretId: ""
     property var config
 
     function getSecretName() {
        if (secretId === "ssh_password") {
-           return qsTranslate("RDM","SSH Passphrase")
+           return qsTranslate("RESP","SSH Passphrase")
        } else {
-           return qsTranslate("RDM","Unknown")
+           return qsTranslate("RESP","Unknown")
        }
     }
 
@@ -43,7 +43,7 @@ Dialog {
                     Layout.fillWidth: true
 
                     BetterLabel {
-                        text: qsTranslate("RDM","Passphrase")
+                        text: qsTranslate("RESP","Passphrase")
                     }
                     PasswordInput {
                         id: secretValue
@@ -68,7 +68,7 @@ Dialog {
                         Layout.preferredWidth: secretValue.checkboxWidth
 
                         objectName: "rdm_secret_continue_btn"
-                        text: qsTranslate("RDM","Continue")
+                        text: qsTranslate("RESP","Continue")
 
                         function submit() {
                             if (!secretValue.text) {
@@ -86,7 +86,7 @@ Dialog {
                         Layout.preferredWidth: secretValue.checkboxWidth
 
                         objectName: "rdm_secret_cancel_btn"
-                        text: qsTranslate("RDM","Cancel")
+                        text: qsTranslate("RESP","Cancel")
                         onClicked: root.close()
                     }
                 }

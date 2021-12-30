@@ -41,7 +41,7 @@ QVariant SortedSetKeyModel::getData(int rowIndex, int dataRole) {
 void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row,
                                   Callback c) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
-    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    emit m_notifier->error(QCoreApplication::translate("RESP", "Invalid row"));
     return;
   }
 
@@ -74,7 +74,7 @@ void SortedSetKeyModel::updateRow(int rowIndex, const QVariantMap &row,
 
 void SortedSetKeyModel::addRow(const QVariantMap &row, Callback c) {
   if (!isRowValid(row)) {
-    return c(QCoreApplication::translate("RDM", "Invalid row"));
+    return c(QCoreApplication::translate("RESP", "Invalid row"));
   }
 
   auto onAdded = [this, c](const QString &err) {
@@ -134,7 +134,7 @@ int SortedSetKeyModel::addLoadedRowsToCache(const QVariantList &rows,
 
     if (item == rows.end()) {
       emit m_notifier->error(QCoreApplication::translate(
-          "RDM", "Data was loaded from server partially."));
+          "RESP", "Data was loaded from server partially."));
       return 0;
     }
 

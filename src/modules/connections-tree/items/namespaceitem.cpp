@@ -126,11 +126,11 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
         [this]() {
           confirmAction(nullptr,
                         QCoreApplication::translate(
-                            "RDM",
+                            "RESP",
                             "Key was added. Do you want to reload keys in "
                             "selected namespace?"),
                         [this]() { reload(); },
-                        QCoreApplication::translate("RDM", "Key was added"));
+                        QCoreApplication::translate("RESP", "Key was added"));
         },
         QString("%1%2")
             .arg(QString::fromUtf8(getFullPath()))

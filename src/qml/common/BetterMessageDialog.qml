@@ -21,7 +21,7 @@ BetterDialog {
         spacing: 3
 
         BetterButton {
-            text: qsTranslate("RDM","Yes")
+            text: qsTranslate("RESP","Yes")
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
             onClicked: {
                 root.yesClicked()
@@ -29,7 +29,7 @@ BetterDialog {
         }
 
         BetterButton {
-            text: qsTranslate("RDM","No")
+            text: qsTranslate("RESP","No")
             onClicked: root.close()
         }
     }

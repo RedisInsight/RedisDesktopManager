@@ -19,7 +19,7 @@ ColumnLayout {
     BetterButton {
         objectName: "rdm_value_tab_add_row_btn"
         Layout.fillWidth: true
-        text: qsTranslate("RDM","Add Row")
+        text: qsTranslate("RESP","Add Row")
         iconSource: "qrc:/images/add.svg"
         onClicked: {
             addRowDialog.open()
@@ -27,8 +27,8 @@ ColumnLayout {
 
         BetterDialog {
             id: addRowDialog
-            title: keyType === "hyperloglog"? qsTranslate("RDM","Add Element to HLL")
-                                            : qsTranslate("RDM","Add Row")
+            title: keyType === "hyperloglog"? qsTranslate("RESP","Add Element to HLL")
+                                            : qsTranslate("RESP","Add Row")
 
             width: 550
             height: 400
@@ -65,7 +65,7 @@ ColumnLayout {
                 BetterButton {
                     DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
                     objectName: "rdb_add_row_dialog_add_button"
-                    text: qsTranslate("RDM","Add")
+                    text: qsTranslate("RESP","Add")
 
                     onClicked: {
                         if (!valueAddEditor.item)
@@ -86,7 +86,7 @@ ColumnLayout {
                 }
 
                 BetterButton {
-                    text: qsTranslate("RDM", "Cancel")
+                    text: qsTranslate("RESP", "Cancel")
                     DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
                 }
             }
@@ -98,15 +98,15 @@ ColumnLayout {
     BetterButton {
         objectName: "rdm_value_editor_delete_row_btn"
         Layout.fillWidth: true
-        text: qsTranslate("RDM","Delete row")
+        text: qsTranslate("RESP","Delete row")
         iconSource: "qrc:/images/delete.svg"
         enabled: table.currentRow != -1
 
         onClicked: {
             if (keyTab.keyModel.totalRowCount === 1) {
-                deleteRowConfirmation.text = qsTranslate("RDM","The row is the last one in the key. After removing it key will be deleted.")
+                deleteRowConfirmation.text = qsTranslate("RESP","The row is the last one in the key. After removing it key will be deleted.")
             } else {
-                deleteRowConfirmation.text = qsTranslate("RDM","Do you really want to remove this row?")
+                deleteRowConfirmation.text = qsTranslate("RESP","Do you really want to remove this row?")
             }
 
             var rowIndex = table.currentStart + table.model.getOriginalRowIndex(table.currentRow)
@@ -119,7 +119,7 @@ ColumnLayout {
 
         BetterMessageDialog {
             id: deleteRowConfirmation
-            title: qsTranslate("RDM","Delete row")
+            title: qsTranslate("RESP","Delete row")
             text: ""
             onYesClicked: {
                 console.log("remove row in key")
@@ -137,7 +137,7 @@ ColumnLayout {
     BetterButton {
         objectName: "rdm_value_editor_reload_value_btn"
         Layout.fillWidth: true
-        text: qsTranslate("RDM","Reload Value")
+        text: qsTranslate("RESP","Reload Value")
         iconSource: "qrc:/images/refresh.svg"
         action: reLoadAction
 
@@ -161,7 +161,7 @@ ColumnLayout {
             Layout.fillWidth: true
 
             readOnly: keyTab.keyModel ? keyTab.keyModel.singlePageMode : false
-            placeholderText: qsTranslate("RDM","Search on page...")
+            placeholderText: qsTranslate("RESP","Search on page...")
 
             Component.onCompleted: {
                 table.searchField = searchField
@@ -188,7 +188,7 @@ ColumnLayout {
 
         Layout.fillWidth: true
         iconSource: "qrc:/images/loader.svg"
-        text: qsTranslate("RDM","Full Search")
+        text: qsTranslate("RESP","Full Search")
 
         onClicked: {
             wrapper.showLoader()

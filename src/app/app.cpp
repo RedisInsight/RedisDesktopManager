@@ -71,12 +71,12 @@ void Application::initModels() {
   if (config.isNull()) {
     QMessageBox::critical(
         nullptr,
-        QCoreApplication::translate("RDM",
+        QCoreApplication::translate("RESP",
                                     "Settings directory is not writable"),
         QCoreApplication::translate(
-            "RDM",
-            "RDM can't save connections file to settings directory. "
-            "Please change file permissions or restart RDM as "
+            "RESP",
+            "RESP.app can't save connections file to settings directory. "
+            "Please change file permissions or restart RESP.app as "
             "administrator."));
 
     throw std::runtime_error("invalid connections config");
@@ -179,8 +179,8 @@ void Application::initModels() {
 }
 
 void Application::initAppInfo() {
-  setApplicationName("RedisDesktopManager");
-  setApplicationVersion(QString(RDM_VERSION));
+  setApplicationName("RESP.app - Developer GUI for Redis");
+  setApplicationVersion(QString(APP_VERSION));
   setOrganizationDomain("redisdesktop.com");
   setOrganizationName("redisdesktop");
   setWindowIcon(QIcon(":/images/logo.png"));
@@ -362,12 +362,12 @@ void Application::installTranslator() {
 void Application::processCmdArgs() {
   QCommandLineParser parser;
   QCommandLineOption settingsDir("settings-dir",
-                                 "(Optional) Directory where RDM looks/saves "
+                                 "(Optional) Directory where RESP.app looks/saves "
                                  ".rdm directory with connections.json file",
                                  "settingsDir", QDir::homePath());
   QCommandLineOption formattersDir(
       "formatters-dir",
-      "(Optional) Directory where RDM looks for native value formatters",
+      "(Optional) Directory where RESP.app looks for native value formatters",
       "formattersDir",
 #ifdef Q_OS_WIN32
       QString("%1/formatters").arg(QCoreApplication::applicationDirPath()));

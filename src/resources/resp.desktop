@@ -1,10 +1,10 @@
 [Desktop Entry]
 Version=1.0
-Name=RDM
-Comment=RDM
+Name=RESP.app
+Comment=Developer GUI for Redis
 Type=Application
 Categories=Development;
-Exec=/opt/redis-desktop-manager/rdm
+Exec=/opt/resp_app/resp
 Terminal=false
 StartupNotify=true
 Icon=rdm

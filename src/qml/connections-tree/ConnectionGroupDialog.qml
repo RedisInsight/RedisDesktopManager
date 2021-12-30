@@ -8,7 +8,7 @@ import "../common/platformutils.js" as PlatformUtils
 
 BetterDialog {
     id: root
-    title: group? qsTranslate("RDM","Edit Connections Group") + group.name : qsTranslate("RDM","Add New Connections Group")
+    title: group? qsTranslate("RESP","Edit Connections Group") + group.name : qsTranslate("RESP","Add New Connections Group")
     visible: false
     property var group
 
@@ -27,7 +27,7 @@ BetterDialog {
             anchors.margins: 5
 
             BetterLabel {
-                text: qsTranslate("RDM","Group Name:")
+                text: qsTranslate("RESP","Group Name:")
             }
             BetterTextField {
                 id: groupName
@@ -44,7 +44,7 @@ BetterDialog {
                 }
                 BetterButton {
                     objectName: "rdm_connections_group_save_btn"
-                    text: qsTranslate("RDM","Save")
+                    text: qsTranslate("RESP","Save")
 
                     onClicked: {                        
                         if (group) {
@@ -59,7 +59,7 @@ BetterDialog {
                 }
 
                 BetterButton {
-                    text: qsTranslate("RDM","Cancel")
+                    text: qsTranslate("RESP","Cancel")
                     onClicked: root.close()
                 }
             }

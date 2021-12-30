@@ -1,7 +1,7 @@
 #include "listkey.h"
 #include <qredisclient/connection.h>
 
-const static QByteArray LIST_ITEM_REMOVAL_STUB("---VALUE_REMOVED_BY_RDM---");
+const static QByteArray LIST_ITEM_REMOVAL_STUB("---VALUE_REMOVED_BY_RESP_APP---");
 
 ListKeyModel::ListKeyModel(QSharedPointer<RedisClient::Connection> connection,
                            QByteArray fullPath, int dbIndex, long long ttl)
@@ -11,7 +11,7 @@ QString ListKeyModel::type() { return "list"; }
 
 void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
-    return c(QCoreApplication::translate("RDM", "Invalid row"));
+    return c(QCoreApplication::translate("RESP", "Invalid row"));
   }
 
   int dbRowIndex = rowIndex;
@@ -38,7 +38,7 @@ void ListKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
 
 void ListKeyModel::addRow(const QVariantMap &row, Callback c) {
   if (!isRowValid(row)) {
-    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    emit m_notifier->error(QCoreApplication::translate("RESP", "Invalid row"));
     return;
   }
 
@@ -124,7 +124,7 @@ void ListKeyModel::verifyListItemPosition(int row, Callback c) {
                      currentState[0].toByteArray() != QString(cachedValue);
 
     if (isChanged) {
-      return c(QCoreApplication::translate("RDM",
+      return c(QCoreApplication::translate("RESP",
                                            "The row has been changed on server."
                                            "Reload and try again."));
     } else {

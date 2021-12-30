@@ -17,7 +17,7 @@ BetterDialog {
 
     footer: BetterDialogButtonBox {
         BetterButton {
-            text: qsTranslate("RDM","OK")
+            text: qsTranslate("RESP","OK")
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
         }
     }

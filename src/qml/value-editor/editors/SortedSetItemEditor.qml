@@ -15,7 +15,7 @@ AbstractEditor {
 
     BetterLabel {
         Layout.fillWidth: true
-        text: qsTranslate("RDM", "Score")
+        text: qsTranslate("RESP", "Score")
     }
 
     BetterTextField {
@@ -27,7 +27,7 @@ AbstractEditor {
         text: ""
         enabled: root.active || root.state !== "edit"
 
-        placeholderText: qsTranslate("RDM","Score")
+        placeholderText: qsTranslate("RESP","Score")
         validator: DoubleValidator { locale: "C"; } // force point as decimal separator
         objectName: "rdm_key_zset_score_field"
 

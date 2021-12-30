@@ -41,7 +41,7 @@ void TabModel::init() {
     m_connection->connect(false);
   } catch (RedisClient::Connection::Exception&) {
     emit error(QCoreApplication::translate(
-        "RDM", "Invalid Connection. Check connection settings."));
+        "RESP", "Invalid Connection. Check connection settings."));
     return;
   }
 }

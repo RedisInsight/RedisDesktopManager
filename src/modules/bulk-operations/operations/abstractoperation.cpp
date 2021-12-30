@@ -36,7 +36,7 @@ void BulkOperations::AbstractOperation::getAffectedKeys(
   try {
     if (!m_connection->connect(true)) {
       return callback(QVariant(), QCoreApplication::translate(
-                                      "RDM", "Cannot connect to redis-server"));
+                                      "RESP", "Cannot connect to redis-server"));
     }
 
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {

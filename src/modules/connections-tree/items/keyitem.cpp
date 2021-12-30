@@ -142,7 +142,7 @@ QHash<QString, std::function<void()>> KeyItem::eventHandlers() {
   events.insert("delete", [this]() {
     confirmAction(
         nullptr,
-        QCoreApplication::translate("RDM",
+        QCoreApplication::translate("RESP",
                                     "Do you really want to delete this key?"),
         [this]() {
           auto parentNs = parentTreeItemToNs(m_parent);

@@ -9,7 +9,7 @@ QString SetKeyModel::type() { return "set"; }
 
 void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
   if (!isRowLoaded(rowIndex) || !isRowValid(row)) {
-    emit m_notifier->error(QCoreApplication::translate("RDM", "Invalid row"));
+    emit m_notifier->error(QCoreApplication::translate("RESP", "Invalid row"));
     return;
   }
 
@@ -30,7 +30,7 @@ void SetKeyModel::updateRow(int rowIndex, const QVariantMap &row, Callback c) {
 
 void SetKeyModel::addRow(const QVariantMap &row, Callback c) {
   if (!isRowValid(row)) {
-    return c(QCoreApplication::translate("RDM", "Invalid row"));
+    return c(QCoreApplication::translate("RESP", "Invalid row"));
   }
 
   addSetRow(row["value"].toByteArray(), [this, c](const QString &err) {

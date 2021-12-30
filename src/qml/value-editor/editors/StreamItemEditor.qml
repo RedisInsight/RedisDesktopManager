@@ -15,7 +15,7 @@ AbstractEditor {
 
     BetterLabel {
         Layout.fillWidth: true
-        text: qsTranslate("RDM","ID")
+        text: qsTranslate("RESP","ID")
     }
 
     BetterTextField {
@@ -58,7 +58,7 @@ AbstractEditor {
         showFormatters: root.state == "edit"
         objectName: "rdm_key_stream_text_field"
 
-        fieldLabel: qsTranslate("RDM","Value (represented as JSON object)") + ":"
+        fieldLabel: qsTranslate("RESP","Value (represented as JSON object)") + ":"
 
         function validationRule(raw) {
             try {

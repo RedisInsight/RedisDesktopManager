@@ -365,7 +365,7 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
     AsyncFuture::observe(future).subscribe([this](bool isSupported) {
       if (!isSupported) {
         emit m_model.error(QCoreApplication::translate(
-            "RDM",
+            "RESP",
             "Your redis-server doesn't support <a "
             "href='https://redis.io/commands/memory-usage'><b>MEMORY</b></a> "
             "commands."));

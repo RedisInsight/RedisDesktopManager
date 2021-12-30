@@ -22,7 +22,7 @@ ApplicationWindow {
     id: approot
     visible: true
     objectName: "rdm_qml_root"
-    title: "RDM.dev - GUI for Redis® " + Qt.application.version
+    title: "RESP.app - GUI for Redis® " + Qt.application.version
     width: 1180
     height: 800
     minimumWidth: 1180
@@ -124,10 +124,10 @@ ApplicationWindow {
         function connectionTested(result) {
             if (result) {
                 hideLoader()
-                showMsg(qsTranslate("RDM","Successful connection to redis-server"))
+                showMsg(qsTranslate("RESP","Successful connection to redis-server"))
             } else {
                 hideLoader()
-                showError(qsTranslate("RDM","Can't connect to redis-server"))
+                showError(qsTranslate("RESP","Can't connect to redis-server"))
             }
         }
         onSaveConnection: connectionsManager.updateConnection(settings)
@@ -308,7 +308,7 @@ ApplicationWindow {
                 BetterButton {
                     id: addConnectionGroupBtn
                     iconSource: "qrc:/images/add.svg"
-                    text: qsTranslate("RDM", "Add Group")
+                    text: qsTranslate("RESP", "Add Group")
 
                     Layout.fillWidth: true
 
@@ -322,7 +322,7 @@ ApplicationWindow {
 
                 BetterButton {
                     id: sortButton
-                    text: qsTranslate("RDM", "Regroup connections")
+                    text: qsTranslate("RESP", "Regroup connections")
 
                     iconSource: "qrc:/images/sort.svg"
 
@@ -344,7 +344,7 @@ ApplicationWindow {
 
                     Layout.fillWidth: true
 
-                    text: qsTranslate("RDM", "Exit Regroup Mode")
+                    text: qsTranslate("RESP", "Exit Regroup Mode")
                     visible: !sortButton.visible
 
                     iconSource: "qrc:/images/ok.svg"

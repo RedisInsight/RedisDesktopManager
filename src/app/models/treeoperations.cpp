@@ -132,7 +132,7 @@ bool TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
     if (!c->connect(true)) {
       emit m_events->error(
           QCoreApplication::translate(
-              "RDM", "Cannot connect to server '%1'. Check log for details.")
+              "RESP", "Cannot connect to server '%1'. Check log for details.")
               .arg(m_connection->getConfig().name()));
       return false;
     }
@@ -141,19 +141,19 @@ bool TreeOperations::connect(QSharedPointer<RedisClient::Connection> c) {
     return true;
   } catch (const RedisClient::Connection::SSHSupportException& e) {
       emit m_events->error(
-          QCoreApplication::translate("RDM", "Open Source version of RDM <b>doesn't support SSH tunneling</b>.<br /><br /> "
+          QCoreApplication::translate("RESP", "Open Source version of RESP.app <b>doesn't support SSH tunneling</b>.<br /><br /> "
                                              "To get fully-featured application, please buy subscription on "
-                                             "<a href='https://rdm.dev/subscriptions'>rdm.dev</a>. <br/><br />"
+                                             "<a href='https://resp.app/subscriptions'>resp.app</a>. <br/><br />"
                                              "Every single subscription gives us funds to continue "
                                              "the development process and provide support to our users. <br />"
                                              "If you have any questions please feel free to contact us "
-                                             "at <a href='mailto:support@rdm.dev'>support@rdm.dev</a> "
+                                             "at <a href='mailto:support@resp.app'>support@resp.app</a> "
                                              "or join <a href='https://t.me/RedisDesktopManager'>Telegram chat</a>.")
       );
       return false;
   } catch (const RedisClient::Connection::Exception& e) {
     emit m_events->error(
-        QCoreApplication::translate("RDM", "Connection error: ") +
+        QCoreApplication::translate("RESP", "Connection error: ") +
         QString(e.what()));
     return false;
   }
@@ -228,7 +228,7 @@ void TreeOperations::loadNamespaceItems(
     auto processErr = [callback](const QString& err) {
       return callback(
           RedisClient::Connection::RawKeysList(),
-          QCoreApplication::translate("RDM", "Cannot load keys: %1").arg(err));
+          QCoreApplication::translate("RESP", "Cannot load keys: %1").arg(err));
     };
 
     try {
@@ -330,7 +330,7 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
             },
             [this, callback](const QString& err) {
               QString errorMsg =
-                  QCoreApplication::translate("RDM", "Delete key error: %1")
+                  QCoreApplication::translate("RESP", "Delete key error: %1")
                       .arg(err);
               callback(errorMsg);
               if (m_events) m_events->error(errorMsg);
@@ -405,7 +405,7 @@ void TreeOperations::flushDb(int dbIndex,
           c->flushDbKeys(dbIndex, callback);
         } catch (const RedisClient::Connection::Exception& e) {
           throw ConnectionsTree::Operations::Exception(
-              QCoreApplication::translate("RDM", "Cannot flush database: ") +
+              QCoreApplication::translate("RESP", "Cannot flush database: ") +
               QString(e.what()));
         }
       });
@@ -468,7 +468,7 @@ void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
         if (!err.isEmpty()) {
           QString errorMsg =
               QCoreApplication::translate(
-                  "RDM", "Cannot determine amount of used memory by key: %1")
+                  "RESP", "Cannot determine amount of used memory by key: %1")
                   .arg(err);
           m_events->error(errorMsg);          
         } else {

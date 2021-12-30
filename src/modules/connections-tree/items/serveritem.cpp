@@ -73,7 +73,7 @@ void ServerItem::load() {
         if (err.size() > 0) {
           unlock();
           emit m_model.error(
-              QCoreApplication::translate("RDM", "Cannot load databases:\n\n") +
+              QCoreApplication::translate("RESP", "Cannot load databases:\n\n") +
               err);
           return;
         }
@@ -196,7 +196,7 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
     if (m_operations->isConnected()) {
       confirmAction(nullptr,
                     QCoreApplication::translate(
-                        "RDM",
+                        "RESP",
                         "Value and Console tabs related to this "
                         "connection will be closed. Do you want to continue?"),
                     unloadAction);
@@ -208,7 +208,7 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
   events.insert("delete", [this]() {
     confirmAction(nullptr,
                   QCoreApplication::translate(
-                      "RDM", "Do you really want to delete connection?"),
+                      "RESP", "Do you really want to delete connection?"),
                   [this]() {
                     unload();
                     emit deleteActionRequested();

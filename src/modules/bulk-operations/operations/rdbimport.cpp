@@ -14,7 +14,7 @@ BulkOperations::RDBImportOperation::RDBImportOperation(
       m_python(p) {
   m_python->importModule_sync("rdb");
   m_errorMessagePrefix =
-      QCoreApplication::translate("RDM", "Cannot execute command ");
+      QCoreApplication::translate("RESP", "Cannot execute command ");
 }
 
 void BulkOperations::RDBImportOperation::getAffectedKeys(
@@ -24,7 +24,7 @@ void BulkOperations::RDBImportOperation::getAffectedKeys(
 
   if (!m_keyPattern.isValid()) {
     return callback(QVariant(), QCoreApplication::translate(
-                                    "RDM", "Invalid regexp for keys filter."));
+                                    "RESP", "Invalid regexp for keys filter."));
   }
 
   m_python->call_native(
@@ -37,7 +37,7 @@ void BulkOperations::RDBImportOperation::getAffectedKeys(
         if (v.isNull()) {
           return callback(QVariant(),
                           QCoreApplication::translate(
-                              "RDM", "Cannot get the list of affected keys"));
+                              "RESP", "Cannot get the list of affected keys"));
         }
 
         QVariantList keys = v.toList();

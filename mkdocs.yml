@@ -3,7 +3,7 @@ site_description: "RDM.dev Documentation"
 site_author: "Igor Malinovskiy"
 site_favicon: "favicon.ico"
 repo_url: https://github.com/uglide/RedisDesktopManager
-edit_uri: edit/2021/docs/
+edit_uri: edit/2022/docs/
 theme: readthedocs
 extra_css:
 - css/extra.css

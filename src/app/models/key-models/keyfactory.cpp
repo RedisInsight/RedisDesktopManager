@@ -23,7 +23,7 @@ void KeyFactory::loadKey(
         callback) {
   auto processError = [callback, keyFullPath](const QString& err) {
     QString msg(QCoreApplication::translate(
-        "RDM", "Cannot load key %1, connection error occurred: %2"));
+        "RESP", "Cannot load key %1, connection error occurred: %2"));
     callback(QSharedPointer<ValueEditor::Model>(),
              msg.arg(printableString(keyFullPath)).arg(err));
   };
@@ -35,7 +35,7 @@ void KeyFactory::loadKey(
     if (resp.isErrorMessage() ||
         resp.type() != RedisClient::Response::Type::Status) {
       QString msg(QCoreApplication::translate(
-          "RDM", "Cannot load key %1, connection error occurred: %2"));
+          "RESP", "Cannot load key %1, connection error occurred: %2"));
       callback(
           result,
           msg.arg(printableString(keyFullPath)).arg(resp.value().toString()));
@@ -46,7 +46,7 @@ void KeyFactory::loadKey(
 
     if (type == "none") {
       QString msg(QCoreApplication::translate(
-          "RDM",
+          "RESP",
           "Cannot load key %1 because it doesn't exist in database."
           " Please reload connection tree and try again."));
       callback(result, msg.arg(printableString(keyFullPath)));
@@ -65,7 +65,7 @@ void KeyFactory::loadKey(
 
       if (!result)
         return callback(result, QCoreApplication::translate(
-                                    "RDM", "Unsupported Redis Data type %1")
+                                    "RESP", "Unsupported Redis Data type %1")
                                     .arg(type));
 
       callback(result, QString());
@@ -79,7 +79,7 @@ void KeyFactory::loadKey(
                     processError);
   } catch (const RedisClient::Connection::Exception& e) {
     callback(QSharedPointer<ValueEditor::Model>(),
-             QCoreApplication::translate("RDM",
+             QCoreApplication::translate("RESP",
                                          "Cannot retrieve type of the key: ") +
                  QString(e.what()));
   }
@@ -123,7 +123,7 @@ void KeyFactory::submitNewKeyRequest(NewKeyRequest r) {
 
           if (!valueFile.open(QIODevice::ReadOnly)) {
             return onRowAdded(QCoreApplication::translate(
-                "RDM", "Cannot open file with key value"));
+                "RESP", "Cannot open file with key value"));
           }
 
           val["value"] = valueFile.readAll();

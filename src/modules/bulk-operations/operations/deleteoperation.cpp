@@ -8,7 +8,7 @@ BulkOperations::DeleteOperation::DeleteOperation(
     : BulkOperations::AbstractOperation(connection, dbIndex, callback,
                                         keyPattern) {
   m_errorMessagePrefix =
-      QCoreApplication::translate("RDM", "Cannot remove key ");
+      QCoreApplication::translate("RESP", "Cannot remove key ");
 }
 
 void BulkOperations::DeleteOperation::performOperation(

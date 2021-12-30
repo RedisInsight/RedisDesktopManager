@@ -1,8 +1,8 @@
-### Build RDM.dev from source
+### Build RESP.app from source
 See [instruction](install.md#build-from-source)
 
 ### Generate test data
-Open RDM console or redis-cli and execute:
+Open RESP.app console or redis-cli and execute:
 
 ```lua
 eval "for index = 0,100000 do redis.call('SET', 'test_key' .. index, index) end" 0

@@ -23,7 +23,7 @@ void ValueEditor::TabsModel::openTab(
     QSharedPointer<ConnectionsTree::KeyItem> key, bool inNewTab) {
 
   auto viewModel = createViewModel(
-      QString(QCoreApplication::translate("RDM", "Loading key: %1 from db %2"))
+      QString(QCoreApplication::translate("RESP", "Loading key: %1 from db %2"))
           .arg(QString::fromUtf8(key->getFullPath()))
           .arg(key->getDbIndex()),
       key.toWeakRef());
@@ -66,7 +66,7 @@ void ValueEditor::TabsModel::openTab(
     if (keyModel.isNull() || !error.isEmpty()) {
       emit tabError(-1, QString("<b>%1</b>:\n%2")
                             .arg(QCoreApplication::translate(
-                                "RDM", "Cannot open value tab"))
+                                "RESP", "Cannot open value tab"))
                             .arg(error));
       return;
     }
@@ -94,7 +94,7 @@ void ValueEditor::TabsModel::openTab(
   connect(conn.data(), &RedisClient::Connection::shutdownStart,
           this, [this, viewModel](){
       if (!viewModel) return;
-     viewModel->setTabError(QCoreApplication::translate("RDM", "Connection error"));
+     viewModel->setTabError(QCoreApplication::translate("RESP", "Connection error"));
 
      int modelIndex = m_viewModels.indexOf(viewModel);
 
@@ -113,7 +113,7 @@ void ValueEditor::TabsModel::openTab(
     });
   } catch (...) {
     emit tabError(-1, QCoreApplication::translate(
-                          "RDM", "Connection error. Can't open value tab. "));
+                          "RESP", "Connection error. Can't open value tab. "));
   }
 }
 

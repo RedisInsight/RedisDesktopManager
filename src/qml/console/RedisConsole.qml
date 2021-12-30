@@ -17,8 +17,8 @@ Rectangle {
     property alias busy: textArea.readOnly
 
     property string initText:
-          "<span style='color: white; font-size: 13pt;'>RDM Redis Console</span><br/>" +
-          qsTranslate("RDM","Connecting...")
+          "<span style='color: white; font-size: 13pt;'>RESP.app Redis Console</span><br/>" +
+          qsTranslate("RESP","Connecting...")
 
 
     function setPrompt(txt, display) {
@@ -191,7 +191,7 @@ Rectangle {
             id: menu
 
             MenuItem {
-                text: qsTranslate("RDM","Clear")
+                text: qsTranslate("RESP","Clear")
                 iconSource: "qrc:/images/cleanup.svg"
                 onTriggered: {
                     root.clear()
@@ -231,19 +231,19 @@ Rectangle {
             }
 
             TableViewColumn {
-                title: qsTranslate("RDM","Arguments")
+                title: qsTranslate("RESP","Arguments")
                 role: "arguments"
                 width: 250
             }
 
             TableViewColumn {
-                title: qsTranslate("RDM","Description")
+                title: qsTranslate("RESP","Description")
                 role: "summary"
                 width: 350
             }
 
             TableViewColumn {
-                title: qsTranslate("RDM","Available since")
+                title: qsTranslate("RESP","Available since")
                 role: "since"
                 width: 60
             }
@@ -294,7 +294,7 @@ Rectangle {
 
             Button {
                 id: closeBtn
-                text: qsTranslate("RDM","Close")
+                text: qsTranslate("RESP","Close")
                 onClicked: {
                     autocompleteModel.filterString = ""
                 }

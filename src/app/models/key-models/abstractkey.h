@@ -78,7 +78,7 @@ class KeyModel : public ValueEditor::Model {
               [this, newKeyName](RedisClient::Response r, Callback c) {
                 if (!r.isOkMessage()) {
                   return c(QCoreApplication::translate(
-                               "RDM", "Cannot rename key %1: %2")
+                               "RESP", "Cannot rename key %1: %2")
                                .arg(getKeyName())
                                .arg(r.value().toString()));
                 }
@@ -102,7 +102,7 @@ class KeyModel : public ValueEditor::Model {
         [this, ttl](RedisClient::Response r, Callback c) {
           if (r.value().toInt() == 0) {
             return c(
-                QCoreApplication::translate("RDM", "Cannot set TTL for key %1")
+                QCoreApplication::translate("RESP", "Cannot set TTL for key %1")
                     .arg(getKeyName()));
           }
 
@@ -122,7 +122,7 @@ class KeyModel : public ValueEditor::Model {
         [this](RedisClient::Response r, Callback c) {
           if (r.value().toInt() == 0) {
             return c(QCoreApplication::translate(
-                         "RDM",
+                         "RESP",
                          "Cannot persist key '%1'. <br> Key does not exist or "
                          "does not have an assigned TTL value")
                          .arg(getKeyName()));
@@ -157,7 +157,7 @@ class KeyModel : public ValueEditor::Model {
           [this, callback, rowStart, self](RedisClient::Response r) {
             if (!r.isValidScanResponse()) {
               callback(QCoreApplication::translate(
-                           "RDM", "Cannot parse scan response"),
+                           "RESP", "Cannot parse scan response"),
                        0);
               return;
             }
@@ -180,7 +180,7 @@ class KeyModel : public ValueEditor::Model {
             }
 
             return callback(
-                QCoreApplication::translate("RDM", "Connection error: ") + err,
+                QCoreApplication::translate("RESP", "Connection error: ") + err,
                 0);
           });
 
@@ -263,7 +263,7 @@ class KeyModel : public ValueEditor::Model {
 
             if (r.type() != RedisClient::Response::Array) {
               return callback(QCoreApplication::translate(
-                                  "RDM", "Cannot load rows for key %1: %2")
+                                  "RESP", "Cannot load rows for key %1: %2")
                                   .arg(getKeyName()),
                               QVariantList());
             }
@@ -273,7 +273,7 @@ class KeyModel : public ValueEditor::Model {
           -1);
     } catch (const RedisClient::Connection::Exception& e) {
       callback(
-          QCoreApplication::translate("RDM", "Cannot load rows for key %1: %2")
+          QCoreApplication::translate("RESP", "Cannot load rows for key %1: %2")
               .arg(getKeyName())
               .arg(e.what()),
           QVariantList());
@@ -317,7 +317,7 @@ class KeyModel : public ValueEditor::Model {
           if (expectedType != RedisClient::Response::Type::Unknown &&
               r.type() != expectedType) {
             return c(QCoreApplication::translate(
-                         "RDM", "Server returned unexpected response: ") +
+                         "RESP", "Server returned unexpected response: ") +
                      r.value().toString());
           }
 
@@ -328,7 +328,7 @@ class KeyModel : public ValueEditor::Model {
           }
         },
         [c](QString err) {
-          return c(QCoreApplication::translate("RDM", "Connection error: ") +
+          return c(QCoreApplication::translate("RESP", "Connection error: ") +
                    err);
         });
   }

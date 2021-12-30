@@ -9,7 +9,7 @@ BulkOperations::CopyOperation::CopyOperation(
     OperationCallback callback, QRegExp keyPattern)
     : BulkOperations::AbstractOperation(connection, dbIndex, callback,
                                         keyPattern) {
-  m_errorMessagePrefix = QCoreApplication::translate("RDM", "Cannot copy key ");
+  m_errorMessagePrefix = QCoreApplication::translate("RESP", "Cannot copy key ");
 }
 
 void BulkOperations::CopyOperation::performOperation(
@@ -120,7 +120,7 @@ void BulkOperations::CopyOperation::performOperation(
         [processKeys, this](const RedisClient::Response& r) {
           if (r.isErrorMessage()) {
             return processError(
-                QCoreApplication::translate("RDM", "Source connection error"));
+                QCoreApplication::translate("RESP", "Source connection error"));
           }
           QtConcurrent::run(processKeys);
         },
@@ -132,7 +132,7 @@ void BulkOperations::CopyOperation::performOperation(
       [verifySourceConnection, this](const RedisClient::Response& r) {
         if (r.isErrorMessage()) {
           return processError(
-              QCoreApplication::translate("RDM", "Target connection error"));
+              QCoreApplication::translate("RESP", "Target connection error"));
         }
 
         verifySourceConnection();

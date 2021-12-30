@@ -25,7 +25,7 @@ ToolBar {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 190
                 iconSource: "qrc:/images/add.svg"
-                text: qsTranslate("RDM","Connect to Redis Server")
+                text: qsTranslate("RESP","Connect to Redis Server")
                 objectName: "rdm_connect_to_redis_server_btn"
 
                 onClicked: {
@@ -37,16 +37,16 @@ ToolBar {
             BetterButton {
                 Layout.fillWidth: true
                 iconSource: "qrc:/images/import.svg"
-                text: width < 100 ? "" : qsTranslate("RDM","Import")
-                tooltip: qsTranslate("RDM","Import Connections")
+                text: width < 100 ? "" : qsTranslate("RESP","Import")
+                tooltip: qsTranslate("RESP","Import Connections")
                 objectName: "rdm_import_connections_btn"
 
                 onClicked: importConnectionsDialog.open()
 
                 FileDialog {
                     id: importConnectionsDialog
-                    title: qsTranslate("RDM","Import Connections")
-                    nameFilters: ["RDM Connections (*.xml *.json)"]
+                    title: qsTranslate("RESP","Import Connections")
+                    nameFilters: ["Connections (*.json)"]
                     selectExisting: true
                     onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(fileUrl))
                 }
@@ -55,16 +55,16 @@ ToolBar {
             BetterButton {
                 Layout.fillWidth: true
                 iconSource: "qrc:/images/export.svg"
-                text: width < 100 ? "" : qsTranslate("RDM","Export")
-                tooltip: qsTranslate("RDM","Export Connections")
+                text: width < 100 ? "" : qsTranslate("RESP","Export")
+                tooltip: qsTranslate("RESP","Export Connections")
                 objectName: "rdm_export_connections_btn"
 
                 onClicked: exportConnectionsDialog.open()
 
                 FileDialog {
                     id: exportConnectionsDialog
-                    title: qsTranslate("RDM","Export Connections")
-                    nameFilters: ["RDM Connections (*.json)"]
+                    title: qsTranslate("RESP","Export Connections")
+                    nameFilters: ["Connections (*.json)"]
                     selectExisting: false
                     onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
                 }
@@ -78,35 +78,35 @@ ToolBar {
         BetterButton {
             implicitWidth: 40
             iconSource: "qrc:/images/alert.svg"
-            tooltip: qsTranslate("RDM","Report issue")
+            tooltip: qsTranslate("RESP","Report issue")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/issues")
         }
 
         BetterButton {
             implicitWidth: 40
             iconSource: "qrc:/images/help.svg"
-            tooltip: qsTranslate("RDM","Documentation")
-            onClicked: Qt.openUrlExternally("http://docs.rdm.dev/en/latest/")
+            tooltip: qsTranslate("RESP","Documentation")
+            onClicked: Qt.openUrlExternally("http://docs.resp.app/en/latest/")
         }
 
         BetterButton {
             implicitWidth: 40
             iconSource: "qrc:/images/telegram.svg"
-            tooltip: qsTranslate("RDM","Join Telegram Chat")
+            tooltip: qsTranslate("RESP","Join Telegram Chat")
             onClicked: Qt.openUrlExternally("https://t.me/RedisDesktopManager")
         }
 
         BetterButton {
             implicitWidth: 40
             iconSource: "qrc:/images/twi.svg"
-            tooltip: qsTranslate("RDM","Follow")
+            tooltip: qsTranslate("RESP","Follow")
             onClicked: Qt.openUrlExternally("https://twitter.com/dev_rdm")
         }
 
         BetterButton {
             implicitWidth: 40
             iconSource: "qrc:/images/github.svg"
-            tooltip: qsTranslate("RDM","Star on GitHub!")
+            tooltip: qsTranslate("RESP","Star on GitHub!")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager")
         }
 
@@ -114,7 +114,7 @@ ToolBar {
 
         BetterButton {
             iconSource: "qrc:/images/log.svg"
-            text: qsTranslate("RDM","Log")
+            text: qsTranslate("RESP","Log")
 
             onClicked: logDrawer.open()
         }
@@ -122,7 +122,7 @@ ToolBar {
         BetterButton {
             objectName: "rdm_global_settings_btn"
             iconSource: "qrc:/images/settings.svg"
-            text: qsTranslate("RDM","Settings")
+            text: qsTranslate("RESP","Settings")
 
             onClicked: {
                 settingsDialog.item.open()

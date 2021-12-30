@@ -129,7 +129,7 @@ void BulkOperations::Manager::requestBulkOperation(
                                           const QStringList& e) {
     if (e.size() > 0) {
       emit error(QCoreApplication::translate(
-                     "RDM", "Failed to perform actions on %1 keys. ")
+                     "RESP", "Failed to perform actions on %1 keys. ")
                      .arg(e.size()),
                  e.join("\n"));
     } else {

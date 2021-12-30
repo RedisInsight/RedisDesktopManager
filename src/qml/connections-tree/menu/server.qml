@@ -10,37 +10,37 @@ InlineMenu {
         if (styleData.value["locked"] === true) {
             return [
                         {
-                            'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RDM","Disconnect"),
+                            'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
                         },
                     ]
         } else {
             return [
                         {
-                            'icon': "qrc:/images/log.svg", 'event': 'server_info', "help": qsTranslate("RDM","Server Info"),
+                            'icon': "qrc:/images/log.svg", 'event': 'server_info', "help": qsTranslate("RESP","Server Info"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+I" : "Ctrl+I"
                         },
                         {
-                            'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RDM","Open Console"),
+                            'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RESP","Open Console"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
                         },
                         {
-                            'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RDM","Reload Server"),
+                            'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RESP","Reload Server"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+R" : "Ctrl+R",
                         },
                         {
-                            'icon': "qrc:/images/offline.svg", 'event': 'unload', "help": qsTranslate("RDM","Unload All Data"),
+                            'icon': "qrc:/images/offline.svg", 'event': 'unload', "help": qsTranslate("RESP","Unload All Data"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+U" : "Ctrl+U",
                         },
                         {
-                            'icon': "qrc:/images/settings.svg", 'event': 'edit', "help": qsTranslate("RDM","Edit Connection Settings"),
+                            'icon': "qrc:/images/settings.svg", 'event': 'edit', "help": qsTranslate("RESP","Edit Connection Settings"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+E" : "Ctrl+E",
                         },
                         {
-                            'icon': "qrc:/images/copy.svg", 'event': 'duplicate', "help": qsTranslate("RDM","Duplicate Connection"),
+                            'icon': "qrc:/images/copy.svg", 'event': 'duplicate', "help": qsTranslate("RESP","Duplicate Connection"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+C" : "Ctrl+C",
                         },
                         {
-                            'icon': "qrc:/images/delete.svg", 'event': 'delete', "help": qsTranslate("RDM","Delete Connection"),
+                            'icon': "qrc:/images/delete.svg", 'event': 'delete', "help": qsTranslate("RESP","Delete Connection"),
                             "shortcut": Qt.platform.os == "osx"? "Meta+Del" : "Ctrl+Del",
                         },
                     ]

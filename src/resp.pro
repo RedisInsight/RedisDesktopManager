@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Redis Desktop Manager
+# RESP.app (formerly Redis Desktop Manager)
 #
 #-------------------------------------------------
 
@@ -12,15 +12,15 @@ CCACHE_BIN = $$system(which ccache)
 
 QT += core gui network concurrent widgets quick quickwidgets charts svg
 
-TARGET = rdm
+TARGET = resp
 TEMPLATE = app
 
 !defined(VERSION, var) {
-    VERSION=2021.0.0-dev
+    VERSION=2022.0.0-dev
 }
 
 message($$VERSION)
-DEFINES += RDM_VERSION=\\\"$$VERSION\\\"
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += \
     $$PWD/main.cpp \
@@ -87,17 +87,17 @@ win32 {
     CONFIG += c++11
 
     RC_ICONS = $$PWD/resources/images/logo.ico
-    QMAKE_TARGET_COMPANY = rdm.dev
-    QMAKE_TARGET_PRODUCT = RDM
-    QMAKE_TARGET_DESCRIPTION = "Open source GUI management tool for Redis®"
-    QMAKE_TARGET_COPYRIGHT = "Igor Malinovskiy (C) 2013-2020"
+    QMAKE_TARGET_COMPANY = resp.app
+    QMAKE_TARGET_PRODUCT = RESP
+    QMAKE_TARGET_DESCRIPTION = "RESP.app - Open source Developer GUI for Redis®"
+    QMAKE_TARGET_COPYRIGHT = "Igor Malinovskiy (C) 2013-2022"
 
     release: DESTDIR = ./../bin/windows/release
     debug:   DESTDIR = ./../bin/windows/debug
 }
 
 unix:macx { # OSX
-    TARGET = "RDM"
+    TARGET = "RESP"
     QT += svg
     CONFIG += c++11
 
@@ -108,7 +108,7 @@ unix:macx { # OSX
 
     #deployment
     QMAKE_INFO_PLIST =  $$PWD/resources/Info.plist
-    ICON = $$PWD/resources/rdm.icns
+    ICON = $$PWD/resources/logo.icns
 }
 
 unix:!macx { # ubuntu & debian
@@ -126,7 +126,7 @@ unix:!macx { # ubuntu & debian
     LINUX_INSTALL_PATH = /opt/redis-desktop-manager
     
     target.path = $$LINUX_INSTALL_PATH
-    target.files = $$DESTDIR/rdm $$DESTDIR/crashreporter $$PWD/resources/rdm.sh
+    target.files = $$DESTDIR/resp
     INSTALLS += target
     
     exists( $$PWD/resources/qt.conf ) {
@@ -140,11 +140,11 @@ unix:!macx { # ubuntu & debian
     INSTALLS += data
     
     appicon.path = /usr/share/pixmaps/
-    appicon.files = $$PWD/resources/images/rdm.png
+    appicon.files = $$PWD/resources/images/resp.png
     INSTALLS += appicon
 
     deskicon.path = /usr/share/applications
-    deskicon.files =  $$PWD/resources/rdm.desktop
+    deskicon.files =  $$PWD/resources/resp.desktop
     INSTALLS += deskicon
 
     RESOURCES += $$PWD/resources/fonts.qrc

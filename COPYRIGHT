@@ -1,10 +1,10 @@
-RDM, Cross-platform GUI management tool for Redis®
+RESP.app (formerly RedisDesktopManager), Cross-platform GUI management tool for Redis®
 
-Copyright 2013-2021, Ihor Malinovskyi.
+Copyright 2013-2022, Ihor Malinovskyi.
 
-The RDM is released under the terms of the GNU General Public
+The RESP.app is released under the terms of the GNU General Public
 License, version 3.
 
-The RDM Project includes files written by third
+The RESP.app Project includes files written by third
 parties and used with permission or subject to their respective 
 license agreements.

@@ -35,8 +35,8 @@ Repeater {
 
                 BetterMessageDialog {
                     id: closeConfirmation
-                    title: qsTranslate("RDM","Changes are not saved")
-                    text: qsTranslate("RDM","Do you want to close key tab without saving changes?")
+                    title: qsTranslate("RESP","Changes are not saved")
+                    text: qsTranslate("RESP","Do you want to close key tab without saving changes?")
 
                     visible: false
 
@@ -180,14 +180,14 @@ Repeater {
                     BetterButton {
                         Layout.preferredWidth: 98
 
-                        text: qsTranslate("RDM","Rename key")
+                        text: qsTranslate("RESP","Rename key")
                         objectName: "rdm_key_rename_btn"
 
                         onClicked: renameConfirmation.open()
 
                         BetterDialog {
                             id: renameConfirmation
-                            title: qsTranslate("RDM","Rename key")
+                            title: qsTranslate("RESP","Rename key")
 
                             width: 520
 
@@ -196,7 +196,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                BetterLabel { text: qsTranslate("RDM","New name:") }
+                                BetterLabel { text: qsTranslate("RESP","New name:") }
                                 BetterTextField {
                                     id: newKeyName;
                                     Layout.fillWidth: true;
@@ -219,18 +219,18 @@ Repeater {
 
                     BetterLabel {
                         visible: keyType === "hyperloglog";
-                        text:  qsTranslate("RDM","Size: ") + keyRowsCount
+                        text:  qsTranslate("RESP","Size: ") + keyRowsCount
                     }
 
                     BetterButton {
                         Layout.preferredWidth: 98
 
-                        text: qsTranslate("RDM","TTL:") + keyTtl
+                        text: qsTranslate("RESP","TTL:") + keyTtl
                         objectName: "rdm_key_ttl_value"
 
                         BetterDialog {
                             id: setTTLConfirmation
-                            title: qsTranslate("RDM","Set key TTL")
+                            title: qsTranslate("RESP","Set key TTL")
 
                             width: 520
 
@@ -239,7 +239,7 @@ Repeater {
                                 implicitHeight: 100
                                 width: 500
 
-                                BetterLabel { text: qsTranslate("RDM","New TTL:") }
+                                BetterLabel { text: qsTranslate("RESP","New TTL:") }
                                 BetterTextField {
                                     id: newTTL;
                                     Layout.fillWidth: true;
@@ -251,12 +251,12 @@ Repeater {
 
                             footer: BetterDialogButtonBox {
                                 BetterButton {
-                                    text: qsTranslate("RDM","Save")
+                                    text: qsTranslate("RESP","Save")
                                     DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
                                 }
 
                                 BetterButton {
-                                    text: qsTranslate("RDM","Persist key")
+                                    text: qsTranslate("RESP","Persist key")
                                     onClicked: {
                                         keyTab.keyModel.persistKey()
                                         setTTLConfirmation.close()
@@ -264,7 +264,7 @@ Repeater {
                                 }
 
                                 BetterButton {
-                                    text: qsTranslate("RDM","Cancel")
+                                    text: qsTranslate("RESP","Cancel")
                                     onClicked: setTTLConfirmation.close()
                                 }
                             }
@@ -294,13 +294,13 @@ Repeater {
                     BetterButton {
                         objectName: "rdm_value_tab_delete_btn"
                         Layout.preferredWidth: 98
-                        text: qsTranslate("RDM","Delete")
+                        text: qsTranslate("RESP","Delete")
                         iconSource: "qrc:/images/delete.svg"
 
                         BetterMessageDialog {
                             id: deleteConfirmation
-                            title: qsTranslate("RDM","Delete key")
-                            text: qsTranslate("RDM","Do you really want to delete this key?")
+                            title: qsTranslate("RESP","Delete key")
+                            text: qsTranslate("RESP","Do you really want to delete this key?")
                             onYesClicked: {
                                 keyTab.keyModel.removeKey()
                             }
@@ -314,7 +314,7 @@ Repeater {
 
                     BetterButton {
                         objectName: "rdm_value_editor_reload_value_btn"
-                        text: qsTranslate("RDM","Reload Value")
+                        text: qsTranslate("RESP","Reload Value")
                         onClicked: reloadValue()
                         visible: !isMultiRow
                         iconSource: "qrc:/images/refresh.svg"

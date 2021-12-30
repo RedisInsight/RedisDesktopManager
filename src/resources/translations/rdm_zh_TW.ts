@@ -17,45 +17,49 @@
     </message>
 </context>
 <context>
-    <name>RDM</name>
+    <name>RESP</name>
     <message>
-        <location filename="../../app/app.cpp" line="78"/>
+        <location filename="../../app/app.cpp" line="74"/>
         <source>Settings directory is not writable</source>
         <translation>設定儲存資料夾沒有寫入權限</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="80"/>
-        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation>RDM 無法儲存設定檔。請更改檔寫入權限或者以管理員模式啟動 RDM。</translation>
+        <location filename="../../app/app.cpp" line="76"/>
+        <source>RESP.app can&apos;t save connections file to settings directory. Please change file permissions or restart RESP.app as administrator.</source>
+        <translation>RESP.app 無法儲存設定檔。請更改檔寫入權限或者以管理員模式啟動 RESP.app。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="85"/>
+        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
+        <translation type="vanished">RDM 無法儲存設定檔。請更改檔寫入權限或者以管理員模式啟動 RDM。</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="80"/>
         <source>Cannot rename key %1: %2</source>
         <translation>無法重新命名鍵 %1: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="129"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="124"/>
         <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
         <translation>無法將鍵持久化 &apos;%1&apos; &lt;br&gt; 鍵不存在或是不會逾時</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="164"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="159"/>
         <source>Cannot parse scan response</source>
         <translation>無法解析 scan 的結果</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="324"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="319"/>
         <source>Server returned unexpected response: </source>
         <translation>伺服器返回未預期的回應: </translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="110"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="105"/>
         <source>Cannot set TTL for key %1</source>
         <translation>無法設定鍵 %1 的 TTL</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="270"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="281"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="265"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="276"/>
         <source>Cannot load rows for key %1: %2</source>
         <translation>無法載入鍵 %1 的資料: %2</translation>
     </message>
@@ -79,10 +83,10 @@
         <translation>已經存在同名的鍵</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="188"/>
-        <location filename="../../app/models/key-models/abstractkey.h" line="336"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="183"/>
+        <location filename="../../app/models/key-models/abstractkey.h" line="331"/>
         <location filename="../../app/models/treeoperations.cpp" line="156"/>
-        <location filename="../../modules/console/consolemodel.cpp" line="89"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="84"/>
         <source>Connection error: </source>
         <translation>連線錯誤: </translation>
     </message>
@@ -128,9 +132,13 @@
         <translation>無法連線到伺服器 &apos;%1&apos; 。細節請查看紀錄檔。</translation>
     </message>
     <message>
+        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation type="vanished">開源版本的 RDM &lt;b&gt;不支援 SSH 隧道功能&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;若要取得完整功能的程式，請在 &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt; 上購買訂閱。&lt;br/&gt;&lt;br /&gt;每個訂閱都是我們繼續開發以及支援使用者的原動力。&lt;br /&gt;如果你有任何問題，請聯絡 &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; 或是加入 &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天群組&lt;/a&gt;。</translation>
+    </message>
+    <message>
         <location filename="../../app/models/treeoperations.cpp" line="144"/>
-        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation>開源版本的 RDM &lt;b&gt;不支援 SSH 隧道功能&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;若要取得完整功能的程式，請在 &lt;a href=&apos;https://rdm.dev/subscriptions&apos;&gt;rdm.dev&lt;/a&gt; 上購買訂閱。&lt;br/&gt;&lt;br /&gt;每個訂閱都是我們繼續開發以及支援使用者的原動力。&lt;br /&gt;如果你有任何問題，請聯絡 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt; 或是加入 &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天群組&lt;/a&gt;。</translation>
+        <source>Open Source version of RESP.app &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation>開源版本的 RDM &lt;b&gt;不支援 SSH 隧道功能&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;若要取得完整功能的程式，請在 &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt; 上購買訂閱。&lt;br/&gt;&lt;br /&gt;每個訂閱都是我們繼續開發以及支援使用者的原動力。&lt;br /&gt;如果你有任何問題，請聯絡 &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; 或是加入 &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天群組&lt;/a&gt;。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="231"/>
@@ -158,33 +166,33 @@
         <translation>無效連線，請檢查連線設定。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="232"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="234"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
         <translation>由於超出載入鍵的數量限制，同步更新功能已經關閉。請設定更精確的篩選條件或更改載入限制設定。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="281"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="283"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>已經添加鍵。需要重新載入該資料庫的鍵名嗎？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="289"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="291"/>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="133"/>
         <source>Key was added</source>
         <translation>已經插入鍵</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="297"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
         <source>Another operation is currently in progress</source>
         <translation>另一項操作正在進行中</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="301"/>
         <source>Please wait until another operation will be finished.</source>
         <translation>請耐心等待另一項操作完成。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="310"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="312"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>確定要刪除該資料庫裡面所有的鍵嗎？</translation>
     </message>
@@ -199,7 +207,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="231"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="233"/>
         <source>Live update was disabled</source>
         <translation>同步更新已經禁止</translation>
     </message>
@@ -323,12 +331,12 @@
         <translation>全文搜尋</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="196"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="198"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>所有與該連線相關的鍵值對話方塊和指令操作對話方塊都將被關閉，確定要繼續嗎？</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="208"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="210"/>
         <source>Do you really want to delete connection?</source>
         <translation>確定要刪除連線？</translation>
     </message>
@@ -347,7 +355,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="65"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="60"/>
         <source>Switch to %1 mode. Close console tab to stop listen for messages.</source>
         <translation>切換為 %1 模式。關閉頁籤以停止監聽訊息。</translation>
     </message>
@@ -356,7 +364,7 @@
         <translation type="vanished">切斷到 發布/訂閱 模式。關閉控制台以停止監聽訊息。</translation>
     </message>
     <message>
-        <location filename="../../modules/console/consolemodel.cpp" line="74"/>
+        <location filename="../../modules/console/consolemodel.cpp" line="69"/>
         <source>Subscribe error: %1</source>
         <translation>訂閱錯誤: %1</translation>
     </message>
@@ -544,8 +552,8 @@
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="403"/>
-        <source>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;https://docs.rdm.dev/en/latest/quick-start/&quot;&gt;閱讀文件&lt;/a&gt;，&lt;a href=&quot;mailto:support@rdm.dev&quot;&gt;聯絡客服&lt;/a&gt;或是在 &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram 群組&lt;/a&gt; 內請求協助。</translation>
+        <source>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;閱讀文件&lt;/a&gt;，&lt;a href=&quot;mailto:support@resp.app&quot;&gt;聯絡客服&lt;/a&gt;或是在 &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram 群組&lt;/a&gt; 內請求協助。</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="415"/>
@@ -809,6 +817,8 @@
         <translation>確定</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="294"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="508"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
         <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
@@ -837,8 +847,9 @@
         <translation>語言</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="393"/>
         <source>Application will be restarted to apply this setting.</source>
-        <translation type="vanished">程式將會重新啟動以套用新的設定</translation>
+        <translation>程式將會重新啟動以套用新的設定</translation>
     </message>
     <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="84"/>
@@ -869,6 +880,8 @@
         <translation>長度（位元組）</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="259"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="392"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="137"/>
         <source>Use system proxy settings</source>
         <translation>使用系統的代理設定</translation>
@@ -1120,110 +1133,151 @@
         <translation>確認要執行批次操作？</translation>
     </message>
     <message>
-        <source>Sign in with rdm.dev account</source>
-        <translation type="vanished">以 rdm.dev 的帳號登入</translation>
+        <source>Sign in with resp.app account</source>
+        <translation type="vanished">以 resp.app 的帳號登入</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
         <source>Renew your subscription</source>
-        <translation type="vanished">續期您的訂閱</translation>
+        <translation>續期您的訂閱</translation>
     </message>
     <message>
         <source>Your trial has ended.</source>
         <translation type="vanished">您的試用已經到期</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="234"/>
         <source>You have no active subscription</source>
-        <translation type="vanished">您沒有可用的訂閱</translation>
+        <translation>您沒有可用的訂閱</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
         <source>No internet connection</source>
-        <translation type="vanished">無網絡連線</translation>
+        <translation>無網絡連線</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="240"/>
         <source>Your trial has ended</source>
-        <translation type="vanished">您的試用已結束</translation>
+        <translation>您的試用已結束</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="252"/>
         <source>To use this version you need to renew your subscription.</source>
-        <translation type="vanished">您必須續期訂閱已繼續使用此版本。</translation>
+        <translation>您必須續期訂閱已繼續使用此版本。</translation>
     </message>
     <message>
         <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
         <translation type="vanished">請確保 RDM 沒有被防火牆阻擋，並且網絡連線正常。</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="257"/>
         <source>If you’re behind a proxy please enable </source>
-        <translation type="vanished">如果您處於代理之中，請啟用 </translation>
+        <translation>如果您處於代理之中，請啟用 </translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="261"/>
         <source> option before sign-in.</source>
-        <translation type="vanished"> 選項（在登入前）。</translation>
+        <translation> 選項（在登入前）。</translation>
     </message>
     <message>
         <source>Please purchase a subscription to continue using RDM.</source>
         <translation type="vanished">請購買訂閱以繼續使用 RDM 。</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="317"/>
+        <source>Sign in with RESP.app account</source>
+        <translation>以 resp.app 的帳號登入</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="255"/>
+        <source>Please make sure that RESP.app is not blocked by a firewall and you have an internet connection.</source>
+        <translation>請確保 RDM 沒有被防火牆阻擋，並且網絡連線正常。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="264"/>
+        <source>Please purchase a subscription to continue using RESP.app.</source>
+        <translation>請購買訂閱以繼續使用 RDM 。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
         <source>If you have any questions please contact support </source>
-        <translation type="vanished">如果您有任何問題，請聯絡客服 </translation>
+        <translation>如果您有任何問題，請聯絡客服 </translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="279"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Renew Subscription</source>
-        <translation type="vanished">續期訂閱</translation>
+        <translation>續期訂閱</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="280"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
         <source>Buy Subscription</source>
-        <translation type="vanished">購買訂閱</translation>
+        <translation>購買訂閱</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="293"/>
         <source>Try Again</source>
-        <translation type="vanished">重試</translation>
+        <translation>重試</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="331"/>
         <source>Email:</source>
-        <translation type="vanished">Email:</translation>
+        <translation>Email:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="347"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="503"/>
         <source>Password:</source>
         <translation>密碼:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="370"/>
         <location filename="../../qml/common/PasswordInput.qml" line="29"/>
         <source>Show password</source>
         <translation>顯示密碼</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="376"/>
         <source>Forgot password?</source>
-        <translation type="vanished">忘記密碼？</translation>
+        <translation>忘記密碼？</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="404"/>
         <source>Sign In</source>
-        <translation type="vanished">登入</translation>
+        <translation>登入</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="409"/>
         <source>Please enter email &amp; password to sign in.</source>
-        <translation type="vanished">請輸入 email 與密碼登入。</translation>
+        <translation>請輸入 email 與密碼登入。</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="422"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="444"/>
         <source>Offline Activation</source>
-        <translation type="vanished">離線啟用</translation>
+        <translation>離線啟用</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="465"/>
         <source>Paste Activation code here</source>
-        <translation type="vanished">在此處貼上啟用碼</translation>
+        <translation>在此處貼上啟用碼</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="481"/>
         <source>Where can I find my activation code?</source>
-        <translation type="vanished">我能在哪裡找到我的啟用碼？</translation>
+        <translation>我能在哪裡找到我的啟用碼？</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="490"/>
         <source>Activate</source>
-        <translation type="vanished">啟用</translation>
+        <translation>啟用</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="495"/>
         <source>Please enter valid activation code.</source>
-        <translation type="vanished">請輸入啟用碼</translation>
+        <translation>請輸入啟用碼</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
@@ -1820,44 +1874,66 @@
         <translation>已新增鍵。你想要重新載入命名空間中的鍵嗎？</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="147"/>
         <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation type="vanished">無法存取網路。請確認您可以存取網路後重新再試。</translation>
+        <translation>無法存取網路。請確認您可以存取網路後重新再試。</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="190"/>
         <source>Invalid login or password</source>
-        <translation type="vanished">無效的登入資料</translation>
+        <translation>無效的登入資料</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="200"/>
         <source>Too many requests from your IP</source>
-        <translation type="vanished">您的 IP 發起過多的請求</translation>
+        <translation>您的 IP 發起過多的請求</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="206"/>
         <source>Unknown error. Status code %1</source>
-        <translation type="vanished">未知錯誤。狀態碼 %1</translation>
+        <translation>未知錯誤。狀態碼 %1</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <location filename="../../modules/api/api_client.cpp" line="734"/>
         <source>Cannot parse server reply</source>
-        <translation type="vanished">無法解析伺服器回應</translation>
+        <translation>無法解析伺服器回應</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="341"/>
         <source>Cannot validate token</source>
-        <translation type="vanished">無法驗證權杖</translation>
+        <translation>無法驗證權杖</translation>
     </message>
     <message>
-        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</source>
-        <translation type="vanished">無法登入 - %1 。&lt;br/&gt; 請再試一次或聯絡 &lt;a href=&apos;mailto:support@rdm.dev&apos;&gt;support@rdm.dev&lt;/a&gt;</translation>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</source>
+        <translation>無法登入 - %1 。&lt;br/&gt; 請再試一次或聯絡 &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="718"/>
+        <source>Expired activation code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="731"/>
+        <source>Invalid activation code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="588"/>
+        <location filename="../../modules/api/api_client.cpp" line="614"/>
         <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation type="vanished">無法保存更新檔，可能是硬碟已滿或是資料夾無法寫入。</translation>
+        <translation>無法保存更新檔，可能是硬碟已滿或是資料夾無法寫入。</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="666"/>
         <source>Download was canceled</source>
-        <translation type="vanished">下載已被取消</translation>
+        <translation>下載已被取消</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="673"/>
         <source>Network error</source>
-        <translation type="vanished">網路錯誤</translation>
+        <translation>網路錯誤</translation>
     </message>
     <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
@@ -1950,20 +2026,27 @@
         <translation>套用篩選器</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
         <source>Trial is active till</source>
-        <translation type="vanished">試用到</translation>
+        <translation>試用到</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="58"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="59"/>
         <source>Licensed to</source>
-        <translation type="vanished">授權給</translation>
+        <translation>授權給</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="66"/>
         <source>Subscription is active until:</source>
-        <translation type="vanished">訂閱到:</translation>
+        <translation>訂閱到:</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation type="vanished">管理訂閱</translation>
+        <translation>管理訂閱</translation>
     </message>
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
@@ -1976,8 +2059,12 @@
         <translation>入門指南</translation>
     </message>
     <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="42"/>
         <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
+        <translation type="vanished">感謝您選用 RDM 。我們一起讓 Redis 有更好的使用體驗吧！</translation>
+    </message>
+    <message>
+        <location filename="../../qml/QuickStartDialog.qml" line="42"/>
+        <source>Thank you for choosing RESP.app. Let&apos;s make your Redis experience better.</source>
         <translation>感謝您選用 RDM 。我們一起讓 Redis 有更好的使用體驗吧！</translation>
     </message>
     <message>

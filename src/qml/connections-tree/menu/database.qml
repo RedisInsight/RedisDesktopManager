@@ -67,36 +67,36 @@ RowLayout {
             if (styleData.value["locked"] === true) {
                 return [
                             {
-                                'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RDM","Disconnect"),
+                                'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
                             },
                         ]
             } else {
                 return [
                             {
-                                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTranslate("RDM","Open Keys Filter"),
+                                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTranslate("RESP","Open Keys Filter"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
                             },
                             {
-                                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RDM","Reload Keys in Database"),
+                                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RESP","Reload Keys in Database"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
                             },
                             {
-                                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RDM","Add New Key"),
+                                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RESP","Add New Key"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
                             },
                             {
                                 'icon': styleData.value["live_update"]? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg",
                                 'callback': 'live_update',
-                                "help": styleData.value["live_update"]? qsTranslate("RDM","Disable Live Update") : qsTranslate("RDM","Enable Live Update"),
+                                "help": styleData.value["live_update"]? qsTranslate("RESP","Disable Live Update") : qsTranslate("RESP","Enable Live Update"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
                             },
                             {
-                                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RDM","Open Console"),
+                                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RESP","Open Console"),
                                 "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
                             },
-                            {'icon': "qrc:/images/memory_usage.svg", "event": "analyze_memory_usage", "help": qsTranslate("RDM","Analyze Used Memory")},
+                            {'icon': "qrc:/images/memory_usage.svg", "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
                             {
-                                'icon': "qrc:/images/bulk_operations.svg", 'callback': 'bulk_menu', "help": qsTranslate("RDM","Bulk Operations"),
+                                'icon': "qrc:/images/bulk_operations.svg", 'callback': 'bulk_menu', "help": qsTranslate("RESP","Bulk Operations"),
                             },
                         ]
             }
@@ -117,22 +117,22 @@ RowLayout {
         model: {
             return [
                         {
-                            'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RDM","Flush Database"),                            
+                            'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RESP","Flush Database"),
                         },
                         {
-                            'icon': "qrc:/images/cleanup_filtered.svg", 'event': 'delete_keys', "help": qsTranslate("RDM","Delete keys with filter"),
+                            'icon': "qrc:/images/cleanup_filtered.svg", 'event': 'delete_keys', "help": qsTranslate("RESP","Delete keys with filter"),
                         },
                         {
-                            'icon': "qrc:/images/ttl.svg", 'event': 'ttl', "help": qsTranslate("RDM","Set TTL for multiple keys"),
+                            'icon': "qrc:/images/ttl.svg", 'event': 'ttl', "help": qsTranslate("RESP","Set TTL for multiple keys"),
                         },
                         {
-                            'icon': "qrc:/images/db_copy.svg", 'event': 'copy_keys', "help": qsTranslate("RDM","Copy keys from this database to another"),
+                            'icon': "qrc:/images/db_copy.svg", 'event': 'copy_keys', "help": qsTranslate("RESP","Copy keys from this database to another"),
                         },
                         {
-                            'icon': "qrc:/images/import.svg", 'event': 'rdb_import', "help": qsTranslate("RDM","Import keys from RDB file"),
+                            'icon': "qrc:/images/import.svg", 'event': 'rdb_import', "help": qsTranslate("RESP","Import keys from RDB file"),
                         },
                         {
-                            'icon': "qrc:/images/back.svg", 'callback': 'db_menu', "help": qsTranslate("RDM","Back"),
+                            'icon': "qrc:/images/back.svg", 'callback': 'db_menu', "help": qsTranslate("RESP","Back"),
                         },
 
                     ]
@@ -212,7 +212,7 @@ RowLayout {
             imgWidth: filterMenu.btnWidth
             imgHeight: filterMenu.btnHeight
             iconSource: "qrc:/images/help.svg"
-            onClicked: Qt.openUrlExternally("http://docs.rdm.dev/en/latest/features/#search-in-connection-tree")
+            onClicked: Qt.openUrlExternally("http://docs.resp.app/en/latest/features/#search-in-connection-tree")
         }
 
         ImageButton {

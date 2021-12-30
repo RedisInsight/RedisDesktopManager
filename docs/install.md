@@ -3,25 +3,25 @@
 ## Windows
 
 1. Install [Microsoft Visual C++ 2015-2019 x64](https://aka.ms/vs/16/release/vc_redist.x64.exe)  (If you have not already).
-2. Download Windows Installer from [http://rdm.dev/download](http://rdm.dev/download). **(Requires subscription)**
+2. Download Windows Installer from [http://resp.app/subscriptions](http://resp.app/subscriptions). **(Requires subscription)**
 3. Run the downloaded installer.
 
 ## Mac OS X
 
-1. Download dmg image from [http://rdm.dev/download](http://rdm.dev/download). **(Requires subscription)**
+1. Download dmg image from [http://resp.app/subscriptions](http://resp.app/subscriptions). **(Requires subscription)**
 2. Mount the DMG image.
 3. Run rdm.app.
 
 ## Ubuntu / ArchLinux / Debian / Fedora / CentOS / OpenSUSE / etc
 
-1. Install RDM.dev using [Snapcraft](https://snapcraft.io/redis-desktop-manager).
+1. Install RESP.app using [Snapcraft](https://snapcraft.io/redis-desktop-manager).
 
 > !!! warning "SSH Keys"
-    To be able to access your ssh keys from RDM.dev please connect `ssh-key` interface:
+    To be able to access your ssh keys from RESP.app please connect `ssh-key` interface:
     `sudo snap connect redis-desktop-manager:ssh-keys`
     
 > !!! tip "How to Run"
-    If RDM.dev icon hasn't appeared in your application launcher you can run RDM.dev from terminal `/snap/bin/redis-desktop-manager.rdm`
+    If RESP.app icon hasn't appeared in your application launcher you can run RESP.app from terminal `/snap/bin/redis-desktop-manager.rdm`
 
 ## Build from source
 
@@ -31,11 +31,11 @@
     
 2. Get the source code:
     ```
-    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2021 rdm && cd ./rdm
+    git clone --recursive https://github.com/uglide/RedisDesktopManager.git -b 2022 rdm && cd ./rdm
     ```
 
 > !!! warning "SSH Tunneling support"
-    Since 0.9.9 RDM.dev by default does not include SSH Tunneling support. You can create a SSH tunnel to your Redis server manually and connect to `localhost`:
+    Since 0.9.9 RESP.app by default does not include SSH Tunneling support. You can create a SSH tunnel to your Redis server manually and connect to `localhost`:
     `ssh -L 6379:REDIS_HOST:6379 SSH_USER@SSH_HOST -P SSH_PORT -i SSH_KEY -T -N` or [use pre-built binary for your OS](#quick-install)
 
 
@@ -44,7 +44,7 @@
 1. Install [Xcode](https://developer.apple.com/xcode/) with Xcode build tools.
 2. Install [Homebrew](http://brew.sh/).
 3. Copy `cd ./src && cp ./resources/Info.plist.sample ./resources/Info.plist`.
-4. Building RDM.dev dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
+4. Building RESP.app dependencies require i.a. `openssl`, `cmake` and `python3`. Install them: `brew install openssl cmake python3`
 5. Build lz4 lib
 ```
 cd 3rdparty/lz4/build/cmake

@@ -10,10 +10,10 @@ Model::Model(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
   QObject::connect(this, &TabModel::initialized, [this, initCmd]() {
     if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
       emit addOutput(
-          QCoreApplication::translate("RDM", "Connected to cluster.\n"),
+          QCoreApplication::translate("RESP", "Connected to cluster.\n"),
           "complete");
     } else {
-      emit addOutput(QCoreApplication::translate("RDM", "Connected.\n"),
+      emit addOutput(QCoreApplication::translate("RESP", "Connected.\n"),
                      "complete");
     }
 
@@ -58,7 +58,7 @@ void Model::execCmd(QList<QByteArray> cmd)
     if (command.isSubscriptionCommand() || command.isMonitorCommand()) {
       emit addOutput(
           QCoreApplication::translate(
-              "RDM",
+              "RESP",
               "Switch to %1 mode. Close console tab to stop listen for "
               "messages.").arg(command.isSubscriptionCommand()? "Pub/Sub": "Monitor"),
           "part");
@@ -66,7 +66,7 @@ void Model::execCmd(QList<QByteArray> cmd)
       command.setCallBack(this, [this](Response result, QString err) {
         if (!err.isEmpty()) {
           emit addOutput(
-              QCoreApplication::translate("RDM", "Subscribe error: %1").arg(err),
+              QCoreApplication::translate("RESP", "Subscribe error: %1").arg(err),
               "error");
           return;
         }
@@ -81,7 +81,7 @@ void Model::execCmd(QList<QByteArray> cmd)
         bool isSelect = command.isSelectCommand();
         command.setCallBack(this, [this, isSelect](Response result, QString err) {
           if (!err.isEmpty()) {
-              emit addOutput(QCoreApplication::translate("RDM", "Connection error: ") +
+              emit addOutput(QCoreApplication::translate("RESP", "Connection error: ") +
                                  QString(err),
                              "error");
             return;

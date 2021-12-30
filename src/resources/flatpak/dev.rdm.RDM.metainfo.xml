@@ -3,18 +3,18 @@
     <id>dev.rdm.RDM</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-only</project_license>
-    <name>RDM - GUI for Redis ®</name>
+    <name>RESP.app - GUI for Redis ®</name>
     <summary>Cross-platform open source database management tool for Redis ®</summary>
     <description>
-        <p>RDM — is a fast open source Redis ® database management application for Windows, Linux and MacOS.
+        <p>RESP (formerly RedisDesktopManager) — is a fast open source Redis ® database management application for Windows, Linux and MacOS.
             This tool offers you an easy-to-use GUI to access your Redis ® DB and perform some basic operations: view keys as a tree, CRUD keys, execute commands via shell.
-            RDM supports SSL/TLS encryption, SSH tunnels and cloud Redis instances, such as: Amazon ElastiCache, Microsoft Azure Redis Cache and other Redis ® clouds.</p>
+            RESP supports SSL/TLS encryption, SSH tunnels and cloud Redis instances, such as: Amazon ElastiCache, Microsoft Azure Redis Cache and other Redis ® clouds.</p>
     </description>
-    <url type="homepage">https://rdm.dev/</url>
+    <url type="homepage">https://resp.app/</url>
     <launchable type="desktop-id">dev.rdm.RDM.desktop</launchable>
     <screenshots>
         <screenshot type="default">
-            <image type="source">https://rdm.dev/static/img/features/all.png?v=20202</image>
+            <image type="source">https://resp.app/static/img/features/all.png?v=20202</image>
         </screenshot>
     </screenshots>
     <content_rating type="oars-1.0"/>

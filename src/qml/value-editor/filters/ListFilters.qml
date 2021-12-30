@@ -5,7 +5,7 @@ import "./../../common"
 RowLayout {
 
     BetterLabel {
-        text: qsTranslate("RDM", "Order of elements:")
+        text: qsTranslate("RESP", "Order of elements:")
     }
 
     BetterComboBox {
@@ -17,8 +17,8 @@ RowLayout {
             id: filterDirectionModel
 
             Component.onCompleted: {
-                filterDirectionModel.append({ value: "default", text: qsTranslate("RDM", "Default") })
-                filterDirectionModel.append({ value: "reverse", text: qsTranslate("RDM", "Reverse") })
+                filterDirectionModel.append({ value: "default", text: qsTranslate("RESP", "Default") })
+                filterDirectionModel.append({ value: "reverse", text: qsTranslate("RESP", "Reverse") })
                 filterDirection.currentIndex = 0
             }
         }

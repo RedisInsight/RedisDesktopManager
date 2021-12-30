@@ -173,7 +173,7 @@ void ValueEditor::ValueViewModel::reload() {
   m_model->loadRowsCount([this](const QString& err) {
     if (err.size() > 0 || m_model->rowsCount() <= 0) {
       emit error(
-          QCoreApplication::translate("RDM", "Cannot reload key value: %1")
+          QCoreApplication::translate("RESP", "Cannot reload key value: %1")
               .arg(err));
       return;
     }
@@ -225,7 +225,7 @@ void ValueEditor::ValueViewModel::loadRows(int start, int limit) {
     return;
   }
 
-  QString msg = QCoreApplication::translate("RDM", "Cannot load key value: %1");
+  QString msg = QCoreApplication::translate("RESP", "Cannot load key value: %1");
 
   m_model->loadRows(
       start, limit,

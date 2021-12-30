@@ -36,12 +36,12 @@ Dialog {
 
     footer: BetterDialogButtonBox {
         BetterButton {
-            text: qsTranslate("RDM","Save")
+            text: qsTranslate("RESP","Save")
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
         }
 
         BetterButton {
-            text: qsTranslate("RDM","Cancel")
+            text: qsTranslate("RESP","Cancel")
             onClicked: root.close()
         }
     }

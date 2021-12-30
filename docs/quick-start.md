@@ -1,10 +1,10 @@
-# **How to start using RDM.dev**
+# **How to start using RESP.app**
 ***
 
 
-After you've [installed](install.md) RDM.dev, the first thing you need to do in order to get going is to create a connection to your Redis server. On the main window, press the button labelled **Connect to Redis Server**. 
+After you've [installed](install.md) RESP.app, the first thing you need to do in order to get going is to create a connection to your Redis server. On the main window, press the button labelled **Connect to Redis Server**. 
 
-![](http://rdm.dev/static/docs/rdm_main.png?v=2)
+![](http://resp.app/static/docs/rdm_main.png?v=2)
 
 ## Connect to a local or public redis-server
 On the first tab (Connection Settings), put in general information regarding the connection that you are creating.
@@ -19,7 +19,7 @@ On the first tab (Connection Settings), put in general information regarding the
 If you want to connect to a redis-server instance with SSL you need to enable SSL on the second tab and provide a public key in PEM format. 
 Instructions for certain cloud services are below:
 
-<img src="http://rdm.dev/static/docs/rdm_ssl.png?v=2" />
+<img src="http://resp.app/static/docs/rdm_ssl.png?v=2" />
 
 ### AWS ElastiCache
 AWS ElastiCache is not accessible outside of your VPC. In order to connect to your ElastiCache remotely, you need to use one of the following options:
@@ -39,7 +39,7 @@ Click on "Enable TLS-over-SSH" checkbox in the the SSH connection settings and c
 ### Microsoft Azure Redis Cache <br /> <img src="https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/media/index/redis-cache.svg" width="100" />
 
 1. Create a connection with all requested information.
- <br /> <img src="http://rdm.dev/static/docs/rdm_ssl_azure.png?v=2" />
+ <br /> <img src="http://resp.app/static/docs/rdm_ssl_azure.png?v=2" />
 2. Make sure that the "Use SSL Protocol" checkbox is enabled.
 3. Your Azure Redis connection is ready to use.
 
@@ -55,12 +55,12 @@ To connect to a Redis Labs instance with SSL/TLS encryption, follow the steps be
 ### Digital Ocean Managed Redis <br /> <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/DigitalOcean_logo.svg" width="100">
 Digital Ocean connection settings is a bit confusing. To connect to a Digital Ocean Managed Redis you need to follow steps bellow:
 
-1. Copy host, port and password information to RDM.dev
-2. **Leave Username field in RDM.dev empty** (Important!)
+1. Copy host, port and password information to RESP.app
+2. **Leave Username field in RESP.app empty** (Important!)
 3. Enable SSL/TLS checkbox
 
 Or using Quick Connect tab for new connections:
-1. Copy connection string (starts with "rediss://") from connection details to RDM.dev
+1. Copy connection string (starts with "rediss://") from connection details to RESP.app
 2. Click "Import" and "Test Connection"
 
 ### Heroku Redis <br /> <img src="https://brand.heroku.com/static/media/heroku-logo-stroke.aa0b53be.svg" width="80">
@@ -75,11 +75,11 @@ Example output:
 ```
 rediss://user:password@host:port
 ```
-2. Enter connection settings in RDM.dev Connection dialog:
+2. Enter connection settings in RESP.app Connection dialog:
 - If URL starts with `rediss` enable SSL/TLS checkbox and **uncheck** "Enable strict mode" checkbox
 - Copy `user` to "Username" field
 - Copy `password` to "Password" field
-- Copy `host` and `port` to "Address" field in RDM.dev
+- Copy `host` and `port` to "Address" field in RESP.app
 
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
@@ -89,7 +89,7 @@ To use a SSH tunnel select checkbox "Use SSH Tunnel". There are different securi
 >!!! note "for Windows users:" 
     Your private key must be in .pem format.
 
-<img src="http://rdm.dev/static/docs/rdm_ssh.png?v=2" />
+<img src="http://resp.app/static/docs/rdm_ssh.png?v=2" />
 
 ### Advanced SSH tunneling
 If you need advanced SSH tunneling you should setup a SSH tunnel manually and connect via localhost:
@@ -99,7 +99,7 @@ ssh SSH_HOST -L 7000:localhost:6379
 
 ## Connect to a UNIX socket
 
-RDM.dev [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
+RESP.app [doesn't support UNIX sockets](https://github.com/uglide/RedisDesktopManager/issues/1751) directly, but you can use redirecting of the local socket to the UNIX domain socket, for instance with [socat](https://sourceforge.net/projects/socat):
 
 ```
 socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock
@@ -107,13 +107,13 @@ socat -v tcp-l:6379,reuseaddr,fork unix:/tmp/redis.sock
 
 ## Advanced connection settings
 The **Advanced settings** tab allows you to customise the namespace separator and other advanced settings.
-<img src="http://rdm.dev/static/docs/rdm_advanced_settings.png?v=3" />
+<img src="http://resp.app/static/docs/rdm_advanced_settings.png?v=3" />
 
 ## Next steps
 Now you can test a connection or create a connection right away. 
 
 Congratulations, you've successfully connected to your Redis Server. You should see something similar to what we show below.
-![](http://rdm.dev/static/docs/rdm_main2.png?v=2)
+![](http://resp.app/static/docs/rdm_main2.png?v=2)
 
 
 Click on the connection and expand keys. By clicking the right button, you can see console menu and manage your connection from there. 

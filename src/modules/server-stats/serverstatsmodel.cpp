@@ -91,7 +91,7 @@ ServerStats::Model::~Model() {
 }
 
 QString ServerStats::Model::getName() const {
-  return QCoreApplication::translate("RDM", "Server %0")
+  return QCoreApplication::translate("RESP", "Server %0")
       .arg(m_connection->getConfig().name());
 }
 

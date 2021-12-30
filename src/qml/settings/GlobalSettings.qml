@@ -11,7 +11,7 @@ import "../common/platformutils.js" as PlatformUtils
 
 Dialog {
     id: root
-    title: qsTranslate("RDM","Settings")
+    title: qsTranslate("RESP","Settings")
 
     property bool restartRequired: false
 
@@ -44,12 +44,12 @@ Dialog {
 
                         SettingsGroupTitle {
                             Layout.fillWidth: true
-                            text: qsTranslate("RDM","General")
+                            text: qsTranslate("RESP","General")
                         }
 
                         BetterLabel {
                             color: disabledSysPalette.text
-                            text: qsTranslate("RDM","Application will be restarted to apply these settings.")
+                            text: qsTranslate("RESP","Application will be restarted to apply these settings.")
                         }
                     }
 
@@ -69,7 +69,7 @@ Dialog {
 
                             model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES", "ja_JP"]
                             value: "system"
-                            label: qsTranslate("RDM","Language")
+                            label: qsTranslate("RESP","Language")
                             onValueChanged: root.restartRequired = true
                         }
 
@@ -81,7 +81,7 @@ Dialog {
                             popupWidth: 300
 
                             model: Qt.fontFamilies()
-                            label: qsTranslate("RDM","Font")
+                            label: qsTranslate("RESP","Font")
 
                             onValueChanged: root.restartRequired = true
 
@@ -93,7 +93,7 @@ Dialog {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
-                            label: qsTranslate("RDM","Font Size")
+                            label: qsTranslate("RESP","Font Size")
 
                             onValueChanged: root.restartRequired = true                            
                         }
@@ -106,7 +106,7 @@ Dialog {
 
                             model: ["Auto", "On", "Off"]
                             value: "Auto"
-                            label: qsTranslate("RDM","Dark Mode")
+                            label: qsTranslate("RESP","Dark Mode")
 
                             visible: PlatformUtils.isWindows()
 
@@ -120,7 +120,7 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: false
-                            label: qsTranslate("RDM","Dark Mode")
+                            label: qsTranslate("RESP","Dark Mode")
 
                             visible: PlatformUtils.isLinux()
 
@@ -134,7 +134,7 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: false
-                            label: qsTranslate("RDM","Use system proxy settings")
+                            label: qsTranslate("RESP","Use system proxy settings")
 
                             onValueChanged: root.restartRequired = true
                         }
@@ -146,13 +146,13 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: false
-                            label: qsTranslate("RDM","Use system proxy only for HTTP(S) requests")
+                            label: qsTranslate("RESP","Use system proxy only for HTTP(S) requests")
                         }
                     }
 
                     SettingsGroupTitle {
                         Layout.topMargin: 10
-                        text: qsTranslate("RDM","Value Editor")
+                        text: qsTranslate("RESP","Value Editor")
                     }
 
                     GridLayout {
@@ -171,7 +171,7 @@ Dialog {
                             popupWidth: 300
 
                             model: Qt.fontFamilies()
-                            label: qsTranslate("RDM","Font")
+                            label: qsTranslate("RESP","Font")
 
                             onValueChanged: root.restartRequired = true
                         }
@@ -183,7 +183,7 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: Qt.platform.os == "osx"? "12" : "11"
-                            label: qsTranslate("RDM","Font Size")
+                            label: qsTranslate("RESP","Font Size")
 
                             onValueChanged: root.restartRequired = true
                         }
@@ -197,14 +197,14 @@ Dialog {
                             min: 1000
                             max: 20000000
                             value: 1500000
-                            label: qsTranslate("RDM","Maximum Formatted Value Size")
-                            description: qsTranslate("RDM", "Size in bytes")
+                            label: qsTranslate("RESP","Maximum Formatted Value Size")
+                            description: qsTranslate("RESP", "Size in bytes")
                         }
 
                     }
 
                     SettingsGroupTitle {
-                        text: qsTranslate("RDM","Connections Tree")
+                        text: qsTranslate("RESP","Connections Tree")
                         Layout.topMargin: 20
                     }
 
@@ -222,7 +222,7 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: Qt.platform.os == "windows"? true : false
-                            label: qsTranslate("RDM","Show namespaced keys on top")
+                            label: qsTranslate("RESP","Show namespaced keys on top")
                         }
 
                         BoolOption {
@@ -232,8 +232,8 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: true
-                            label: qsTranslate("RDM","Reopen namespaces on reload")
-                            description: qsTranslate("RDM","(Disable to improve treeview performance)")
+                            label: qsTranslate("RESP","Reopen namespaces on reload")
+                            description: qsTranslate("RESP","(Disable to improve treeview performance)")
                         }
 
                         BoolOption {
@@ -243,7 +243,7 @@ Dialog {
                             Layout.preferredHeight: 30
 
                             value: true
-                            label: qsTranslate("RDM","Show only last part for namespaced keys")
+                            label: qsTranslate("RESP","Show only last part for namespaced keys")
                         }
 
                         IntOption {
@@ -255,7 +255,7 @@ Dialog {
                             min: 1
                             max: 100000
                             value: 1000
-                            label: qsTranslate("RDM","Maximum amount of rendered child items")
+                            label: qsTranslate("RESP","Maximum amount of rendered child items")
                         }
 
                         IntOption {
@@ -267,7 +267,7 @@ Dialog {
                             min: 100
                             max: 100000
                             value: 1000
-                            label: qsTranslate("RDM","Live update maximum allowed keys")                            
+                            label: qsTranslate("RESP","Live update maximum allowed keys")
                         }
 
                         IntOption {
@@ -279,7 +279,7 @@ Dialog {
                             min: 3
                             max: 100000
                             value: 10
-                            label: qsTranslate("RDM","Live update interval (in seconds)")                            
+                            label: qsTranslate("RESP","Live update interval (in seconds)")
                         }
 
                     }
@@ -289,7 +289,7 @@ Dialog {
 
                         SettingsGroupTitle {
                             visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-                            text: qsTranslate("RDM","External Value View Formatters")
+                            text: qsTranslate("RESP","External Value View Formatters")
                         }
 
                         Item {
@@ -298,7 +298,7 @@ Dialog {
 
                         Text {
                             visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-                            text: formattersManager? qsTranslate("RDM","Formatters path: %0").arg(formattersManager.formattersPath()) : ""
+                            text: formattersManager? qsTranslate("RESP","Formatters path: %0").arg(formattersManager.formattersPath()) : ""
                             font.pixelSize: 12
                             color: "grey"
                         }
@@ -315,22 +315,22 @@ Dialog {
 
                         LC.TableViewColumn {
                             role: "name"
-                            title: qsTranslate("RDM","Name")
+                            title: qsTranslate("RESP","Name")
                         }
                         LC.TableViewColumn {
                             role: "version"
                             width: 75
-                            title: qsTranslate("RDM","Version")
+                            title: qsTranslate("RESP","Version")
                         }
                         LC.TableViewColumn {
                             role: "cmd"
-                            title: qsTranslate("RDM","Command")
+                            title: qsTranslate("RESP","Command")
                         }
 
                         LC.TableViewColumn {
                             width: 250
                             role: "description"
-                            title: qsTranslate("RDM","Description")
+                            title: qsTranslate("RESP","Description")
                         }
 
                         model: formattersManager
@@ -346,7 +346,7 @@ Dialog {
 
                         Item { Layout.fillWidth: true; }
                         BetterButton {
-                            text: qsTranslate("RDM","OK")
+                            text: qsTranslate("RESP","OK")
                             onClicked: {
                                 if (root.restartRequired === true) {
                                     // restart app
@@ -358,7 +358,7 @@ Dialog {
                             }
                         }
                         BetterButton {
-                            text: qsTranslate("RDM","Cancel")
+                            text: qsTranslate("RESP","Cancel")
                             onClicked: root.close()
                         }
                     }

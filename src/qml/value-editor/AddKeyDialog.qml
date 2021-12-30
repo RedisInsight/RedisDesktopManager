@@ -7,7 +7,7 @@ import "../common/platformutils.js" as PlatformUtils
 
 BetterDialog {
     id: root
-    title: qsTranslate("RDM","Add New Key to ") + (request? request.dbIdString: "")
+    title: qsTranslate("RESP","Add New Key to ") + (request? request.dbIdString: "")
     visible: false
     property var request
     property bool loadingKeyTypes: false
@@ -53,7 +53,7 @@ BetterDialog {
             anchors.margins: 5
 
             BetterLabel {
-                text: qsTranslate("RDM","Key:")
+                text: qsTranslate("RESP","Key:")
             }
             BetterTextField {
                 id: newKeyName
@@ -63,7 +63,7 @@ BetterDialog {
             }
 
             BetterLabel {
-                text: qsTranslate("RDM","Type:")
+                text: qsTranslate("RESP","Type:")
             }
 
             BetterComboBox {
@@ -104,15 +104,15 @@ BetterDialog {
                 }
             }
 
-            BetterLabel { text: qsTranslate("RDM", "Or Import Value from the file") + ":" }
+            BetterLabel { text: qsTranslate("RESP", "Or Import Value from the file") + ":" }
 
             FilePathInput {
                 id: valueFilePath
                 objectName: "rdm_add_key_value_file"
                 Layout.fillWidth: true
-                placeholderText: qsTranslate("RDM","(Optional) Any file")
+                placeholderText: qsTranslate("RESP","(Optional) Any file")
                 nameFilters: [ "Any file (*)" ]
-                title: qsTranslate("RDM","Select file with value")
+                title: qsTranslate("RESP","Select file with value")
                 path: ""
             }
 
@@ -124,7 +124,7 @@ BetterDialog {
                 }
                 BetterButton {
                     objectName: "rdm_add_key_save_btn"
-                    text: qsTranslate("RDM","Save")
+                    text: qsTranslate("RESP","Save")
 
                     function submitNewKeyRequest(row) {
                         root.request.keyName = newKeyName.text
@@ -169,7 +169,7 @@ BetterDialog {
                 }
 
                 BetterButton {
-                    text: qsTranslate("RDM","Cancel")
+                    text: qsTranslate("RESP","Cancel")
                     onClicked: root.close()
                 }
             }
@@ -180,7 +180,7 @@ BetterDialog {
 
         OkDialogOverlay {
             id: addError
-            title: qsTranslate("RDM","Error")
+            title: qsTranslate("RESP","Error")
             text: ""
             visible: false
         }

@@ -45,7 +45,7 @@ QVariant StreamKeyModel::getData(int rowIndex, int dataRole) {
 void StreamKeyModel::addRow(const QVariantMap &row,
                             ValueEditor::Model::Callback c) {
   if (!isRowValid(row)) {
-    c(QCoreApplication::translate("RDM", "Invalid row"));
+    c(QCoreApplication::translate("RESP", "Invalid row"));
     return;
   }
 
@@ -56,7 +56,7 @@ void StreamKeyModel::addRow(const QVariantMap &row,
       QJsonDocument::fromJson(row["value"].toByteArray(), &err);
 
   if (err.error != QJsonParseError::NoError || !jsonValues.isObject()) {
-    return c(QCoreApplication::translate("RDM", "Invalid row"));
+    return c(QCoreApplication::translate("RESP", "Invalid row"));
   }
 
   auto valuesObject = jsonValues.object();

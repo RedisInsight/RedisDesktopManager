@@ -5,7 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QSharedPointer>
 
-#ifndef RDM_VERSION
+#ifndef APP_VERSION
 #include "../version.h"
 #endif
 

@@ -25,7 +25,7 @@ RowLayout {
             streamRangeStartField.isEdited = false;
             streamRangeEndField.isEdited = false;
         } else {
-            notification.showError(qsTranslate("RDM","Start date should be less than End date"))
+            notification.showError(qsTranslate("RESP","Start date should be less than End date"))
         }
     }
 
@@ -133,7 +133,7 @@ RowLayout {
         objectName: "rdm_stream_filter_apply_btn"
         implicitWidth: 30
         iconSource: "qrc:/images/filter.svg"
-        tooltip: qsTranslate("RDM","Apply filter")
+        tooltip: qsTranslate("RESP","Apply filter")
         enabled: (streamRangeStartField.isEdited || streamRangeEndField.isEdited) && streamFilter.enabled
 
         onClicked: {

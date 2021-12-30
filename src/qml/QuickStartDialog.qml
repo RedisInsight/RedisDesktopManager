@@ -8,7 +8,7 @@ import "./common/platformutils.js" as PlatformUtils
 BetterDialog {
     id: root
     objectName: "rdm_quick_start_dialog"
-    title: qsTranslate("RDM","Getting Started")
+    title: qsTranslate("RESP","Getting Started")
 
     footer: null
 
@@ -39,7 +39,7 @@ BetterDialog {
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
-                        text: qsTranslate("RDM","Thank you for choosing RDM. Let's make your Redis experience better.")
+                        text: qsTranslate("RESP","Thank you for choosing RESP.app. Let's make your Redis experience better.")
                         font.pixelSize: 16
 
                         Component.onCompleted: {
@@ -57,7 +57,7 @@ BetterDialog {
                     Item { Layout.fillWidth: true }
 
                     BetterButton {
-                        text: qsTranslate("RDM","Connect to Redis-Server")
+                        text: qsTranslate("RESP","Connect to Redis-Server")
                         palette.button: "#c6302b"
                         palette.buttonText: "#ffffff"
                         onClicked: {
@@ -68,9 +68,9 @@ BetterDialog {
                     }
 
                     BetterButton {
-                        property string url: "http://docs.rdm.dev/en/latest/quick-start/"
+                        property string url: "http://docs.resp.app/en/latest/quick-start/"
 
-                        text: qsTranslate("RDM","Read the Docs")
+                        text: qsTranslate("RESP","Read the Docs")
                         tooltip: url
 
                         onClicked: Qt.openUrlExternally(url)

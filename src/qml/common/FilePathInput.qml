@@ -24,7 +24,7 @@ RowLayout {
     BetterButton {
         implicitHeight: 30
         objectName: root.objectName? root.objectName + "_button" : ""
-        text: qsTranslate("RDM","Select File")
+        text: qsTranslate("RESP","Select File")
         onClicked: fileDialog.open()
     }
 

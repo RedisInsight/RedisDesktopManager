@@ -68,7 +68,7 @@ void DatabaseItem::loadKeys(std::function<void()> callback, bool partialReload) 
         if (err.size() > 0) {
           unlock();
           emit m_model.error(
-              QCoreApplication::translate("RDM", "Cannot load databases:\n\n") +
+              QCoreApplication::translate("RESP", "Cannot load databases:\n\n") +
               err);
           return;
         }
@@ -230,9 +230,9 @@ void DatabaseItem::performLiveUpdate() {
 
       QMessageBox::warning(
           nullptr,
-          QCoreApplication::translate("RDM", "Live update was disabled"),
+          QCoreApplication::translate("RESP", "Live update was disabled"),
           QCoreApplication::translate(
-              "RDM",
+              "RESP",
               "Live update was disabled due to exceeded keys limit. "
               "Please specify filter more carefully or change limit in "
               "settings."));
@@ -281,14 +281,14 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
       confirmAction(
           nullptr,
           QCoreApplication::translate(
-              "RDM",
+              "RESP",
               "Key was added. Do you want to reload keys in "
               "selected database?"),
           [this]() {
             reload();
             m_keysCount++;
           },
-          QCoreApplication::translate("RDM", "Key was added"));
+          QCoreApplication::translate("RESP", "Key was added"));
     });
   });
 
@@ -297,9 +297,9 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
       QMessageBox::warning(
           nullptr,
           QCoreApplication::translate(
-              "RDM", "Another operation is currently in progress"),
+              "RESP", "Another operation is currently in progress"),
           QCoreApplication::translate(
-              "RDM", "Please wait until another operation will be finished."));
+              "RESP", "Please wait until another operation will be finished."));
       return;
     }
 
@@ -310,7 +310,7 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
     confirmAction(
         nullptr,
         QCoreApplication::translate(
-            "RDM", "Do you really want to remove all keys from this database?"),
+            "RESP", "Do you really want to remove all keys from this database?"),
         [this]() {
           m_operations->flushDb(m_dbIndex,
                                 [this](const QString&) { unload(); });
