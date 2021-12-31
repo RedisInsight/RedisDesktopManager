@@ -1912,12 +1912,12 @@
     <message>
         <location filename="../../modules/api/api_client.cpp" line="718"/>
         <source>Expired activation code</source>
-        <translation type="unfinished"></translation>
+        <translation>過期的啟動碼</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="731"/>
         <source>Invalid activation code</source>
-        <translation type="unfinished"></translation>
+        <translation>無效的啟動碼</translation>
     </message>
     <message>
         <location filename="../../modules/api/api_client.cpp" line="588"/>
