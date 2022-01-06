@@ -123,7 +123,7 @@ unix:!macx { # ubuntu & debian
     debug:   DESTDIR = $$PWD/../bin/linux/debug
 
     #deployment
-    LINUX_INSTALL_PATH = /opt/redis-desktop-manager
+    LINUX_INSTALL_PATH = /opt/resp_app
     
     target.path = $$LINUX_INSTALL_PATH
     target.files = $$DESTDIR/resp
