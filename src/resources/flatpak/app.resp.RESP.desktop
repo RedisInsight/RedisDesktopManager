@@ -8,4 +8,4 @@ Exec=resp
 Terminal=false
 StartupNotify=true
 Keywords=RDM;Redis;
-Icon=dev.rdm.RDM
+Icon=app.resp.RESP
