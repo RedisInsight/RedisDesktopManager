@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-    <id>dev.rdm.RDM</id>
+    <id>app.resp.RESP</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0-only</project_license>
     <name>RESP.app - GUI for Redis ®</name>
@@ -11,7 +11,7 @@
             RESP supports SSL/TLS encryption, SSH tunnels and cloud Redis instances, such as: Amazon ElastiCache, Microsoft Azure Redis Cache and other Redis ® clouds.</p>
     </description>
     <url type="homepage">https://resp.app/</url>
-    <launchable type="desktop-id">dev.rdm.RDM.desktop</launchable>
+    <launchable type="desktop-id">app.resp.RESP.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image type="source">https://resp.app/static/img/features/all.png?v=20202</image>
@@ -19,6 +19,7 @@
     </screenshots>
     <content_rating type="oars-1.0"/>
     <releases>
+	<release version="2021.10.2" date="2021-12-28"/>    
         <release version="2021.9" date="2021-11-30"/>
         <release version="2021.8" date="2021-10-26"/>
         <release version="2021.7" date="2021-07-16"/>
