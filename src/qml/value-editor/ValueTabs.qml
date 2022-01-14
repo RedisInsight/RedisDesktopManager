@@ -256,6 +256,7 @@ Repeater {
                                 }
 
                                 BetterButton {
+                                    objectName: "rdm_persist_key_btn"
                                     text: qsTranslate("RESP","Persist key")
                                     onClicked: {
                                         keyTab.keyModel.persistKey()
