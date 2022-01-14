@@ -35,6 +35,10 @@ class EmbeddedFormattersManager : public QObject {
   Q_INVOKABLE void encode(const QString& formatterName, const QByteArray& data,
                           QJSValue jsCallback);
 
+ protected:
+  void pythonCall(const QString& callable_name, const QVariantList& args,
+                  QJSValue jsCallback);
+
  private:
   QSharedPointer<QPython> m_python;
 };
