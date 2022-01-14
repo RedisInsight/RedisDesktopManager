@@ -230,26 +230,32 @@ Repeater {
                     id: serverInfoTabBar
                     Layout.fillWidth: true
                     Layout.preferredHeight: 30
+                    property int btnWidth: (width - 20) / 6
 
                     TabButton {
                         text: qsTranslate("RESP","Info")
+                        width: serverInfoTabBar.btnWidth
                     }
 
                     TabButton {
                         text: qsTranslate("RESP","Server Info")
+                        width: serverInfoTabBar.btnWidth
                     }
 
                     TabButton {
                         text: qsTranslate("RESP","Slowlog")
+                        width: serverInfoTabBar.btnWidth
                     }
 
                     TabButton {
                         text: qsTranslate("RESP","Clients")
+                        width: serverInfoTabBar.btnWidth
                     }
 
                     TabButton {
                         objectName: "rdm_server_info_tab_btn_pub_sub_channels"
                         text: qsTranslate("RESP","Pub/Sub Channels")
+                        width: serverInfoTabBar.btnWidth * 2
                     }
                 }
 
@@ -708,7 +714,7 @@ Repeater {
                                     title: qsTranslate("RESP","Command")
                                     width: 600
 
-                                    delegate: Text {
+                                    delegate: BetterLabel {
                                         text: {
                                             var result = "";
                                             for (var index in modelData['cmd']) {
@@ -725,7 +731,7 @@ Repeater {
                                     title: qsTranslate("RESP","Processed at")
                                     width: 150
 
-                                    delegate: Text {
+                                    delegate: BetterLabel {
                                         text: {
                                             return new Date(modelData['time']*1000).toLocaleString(
                                                         locale, PlatformUtils.dateTimeFormat);
