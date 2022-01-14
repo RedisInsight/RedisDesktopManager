@@ -26,51 +26,44 @@ void ValueEditor::EmbeddedFormattersManager::init(QSharedPointer<QPython> p) {
                    &EmbeddedFormattersManager::error);
 }
 
-void ValueEditor::EmbeddedFormattersManager::loadFormattersModule(QJSValue callback)
-{
-    if (!m_python) {
-      qWarning() << "EmbeddedFormattersManager is not ready";
-      return;
-    }
-
-    m_python->importModule("formatters", callback);
-}
-
-void ValueEditor::EmbeddedFormattersManager::loadFormatters(QJSValue callback) {
+void ValueEditor::EmbeddedFormattersManager::loadFormattersModule(
+    QJSValue callback) {
   if (!m_python) {
     qWarning() << "EmbeddedFormattersManager is not ready";
     return;
   }
 
-  m_python->call("formatters.get_formatters_list", QVariantList(), callback);
+  m_python->importModule("formatters", callback);
+}
+
+void ValueEditor::EmbeddedFormattersManager::loadFormatters(QJSValue callback) {
+  pythonCall("formatters.get_formatters_list", QVariantList(), callback);
 }
 
 void ValueEditor::EmbeddedFormattersManager::decode(
     const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
-  if (!m_python) {
-    qWarning() << "EmbeddedFormattersManager is not ready";
-    return;
-  }
-  m_python->call("formatters.decode", QVariantList{formatterName, data},
-                 jsCallback);
+  pythonCall("formatters.decode", QVariantList{formatterName, data},
+             jsCallback);
 }
 
 void ValueEditor::EmbeddedFormattersManager::isValid(
     const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
-  if (!m_python) {
-    qWarning() << "EmbeddedFormattersManager is not ready";
-    return;
-  }
-  m_python->call("formatters.validate", QVariantList{formatterName, data},
-                 jsCallback);
+  pythonCall("formatters.validate", QVariantList{formatterName, data},
+             jsCallback);
 }
 
 void ValueEditor::EmbeddedFormattersManager::encode(
     const QString &formatterName, const QByteArray &data, QJSValue jsCallback) {
+  pythonCall("formatters.encode", QVariantList{formatterName, data},
+             jsCallback);
+}
+
+void ValueEditor::EmbeddedFormattersManager::pythonCall(
+    const QString &callable_name, const QVariantList &args,
+    QJSValue jsCallback) {
   if (!m_python) {
     qWarning() << "EmbeddedFormattersManager is not ready";
     return;
   }
-  m_python->call("formatters.encode", QVariantList{formatterName, data},
-                 jsCallback);
+  m_python->call(callable_name, args, jsCallback);
 }
