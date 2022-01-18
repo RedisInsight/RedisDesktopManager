@@ -307,6 +307,7 @@ ApplicationWindow {
 
                 BetterButton {
                     id: addConnectionGroupBtn
+                    objectName: "rdm_add_group_btn"
                     iconSource: "qrc:/images/add.svg"
                     text: qsTranslate("RESP", "Add Group")
 
@@ -322,6 +323,7 @@ ApplicationWindow {
 
                 BetterButton {
                     id: sortButton
+                    objectName: "rdm_regroup_connections_btn"
                     text: qsTranslate("RESP", "Regroup connections")
 
                     iconSource: "qrc:/images/sort.svg"
@@ -341,7 +343,7 @@ ApplicationWindow {
 
                 BetterButton {
                     id: sortApplyButton
-
+                    objectName: "rdm_exit_regroup_mode_btn"
                     Layout.fillWidth: true
 
                     text: qsTranslate("RESP", "Exit Regroup Mode")
