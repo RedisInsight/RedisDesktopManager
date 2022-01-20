@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file alias="logo.png">images/logo.png</file>
+        <file alias="logo.icns">logo.icns</file>
         <file alias="twi.svg">images/twi.svg</file>
         <file alias="github.svg">images/github.svg</file>
         <file alias="ok.svg">images/ok.svg</file>

@@ -183,7 +183,12 @@ void Application::initAppInfo() {
   setApplicationVersion(QString(APP_VERSION));
   setOrganizationDomain("redisdesktop.com");
   setOrganizationName("redisdesktop");
+
+#ifdef Q_OS_MAC
+  setWindowIcon(QIcon(":/images/logo.icns"));
+#else
   setWindowIcon(QIcon(":/images/logo.png"));
+#endif
 
   qDebug() << "TLS support:" << QSslSocket::sslLibraryVersionString();
 }
