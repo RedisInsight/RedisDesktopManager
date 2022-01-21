@@ -171,7 +171,7 @@ Rectangle {
                 commandsHistoryModel.appendCommand(command)
             }
 
-            autocompleteModel.filterString = getText(commandStartPos, cursorPosition) + event.text
+            autocompleteModel.filterString = "^" + getText(commandStartPos, cursorPosition) + event.text
         }
 
         Component.onCompleted: {
@@ -202,6 +202,7 @@ Rectangle {
     }
 
     ColumnLayout {
+        objectName: "rdm_autocomplete_results"
         height: 150
         width: root.width - x - 50
 
@@ -215,7 +216,7 @@ Rectangle {
         }
 
         TableView {
-            id: cmdAutocomplete
+            id: cmdAutocomplete            
 
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -305,11 +306,8 @@ Rectangle {
     SortFilterProxyModel {
         id: autocompleteModel
         source: consoleAutocompleteModel
-        sortOrder: cmdAutocomplete.sortIndicatorOrder
-        sortCaseSensitivity: Qt.CaseInsensitive
-        sortRole: "name"
 
-        filterSyntax: SortFilterProxyModel.FixedString
+        filterSyntax: SortFilterProxyModel.RegExp
         filterCaseSensitivity: Qt.CaseInsensitive
         filterRole: "name"
     }
