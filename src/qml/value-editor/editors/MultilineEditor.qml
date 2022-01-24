@@ -28,6 +28,9 @@ Item
     property string lastSelectedFormatterSetting: "last_selected_" + root.formatterSettingsPrefix + "formatter"
     property string lastSelectedManualDecompression: "last_selected_" + root.formatterSettingsPrefix + "decompression"
 
+    property var __formatterCombobox: formatterSelector
+    property var __textView: textView
+
     function initEmpty() {
         // init editor with empty model
         textView.model = qmlUtils.wrapLargeText("")
@@ -182,7 +185,7 @@ Item
 
             return cFormatter.isValid(root.value, function (isValid) {
                 if (isValid) {
-                    formatterSelector._select(expectedFormatter)
+                    formatterSelector._select(formatterOverride)
                     continueFormatting(false)
                 } else {
                     continueFormatting(true)
