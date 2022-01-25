@@ -12,7 +12,12 @@ class BaseFormatter(object):
 
     def validate(self, value):
         try:
-            self.decode(value)
-            return True
-        except Exception:
-            return False
+            result = self.decode(value)
+
+            if type(result) is dict:
+                err = result.get('error', '')
+                return [err == '', err]
+            else:
+                return [True, ""]
+        except Exception as e:
+            return [False, str(e)]
