@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import "."
+import "./../../common/platformutils.js" as PlatformUtils
 
 InlineMenu {
     id: root
@@ -18,7 +19,7 @@ InlineMenu {
 
     model:
         [
-            {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTranslate("RESP","Copy Key Name")},
-            {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTranslate("RESP","Delete key")}
+            {'icon': PlatformUtils.getThemeIcon("copy.svg"), "callback": "copy", "help": qsTranslate("RESP","Copy Key Name")},
+            {'icon': PlatformUtils.getThemeIcon("delete.svg"), "event": "delete", "help": qsTranslate("RESP","Delete key")}
         ]
 }

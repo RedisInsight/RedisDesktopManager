@@ -59,7 +59,7 @@ Repeater {
             id: serverTabButton
 
             BetterTabButton {
-                icon.source: "qrc:/images/database.svg"
+                icon.source: PlatformUtils.getThemeIcon("database.svg")
 
                 text: tabName
 

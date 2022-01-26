@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import "."
+import "./../../common/platformutils.js" as PlatformUtils
 
 InlineMenu {
     id: root
@@ -20,16 +21,16 @@ InlineMenu {
         if (styleData.value["locked"] === true) {
             return [
                         {
-                            'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
+                            'icon': PlatformUtils.getThemeIcon("offline.svg"), 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
                         },
                     ]
         } else {
             [
-                {'icon': "qrc:/images/refresh.svg", "event": "reload", "help": qsTranslate("RESP","Reload Namespace")},
-                {'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RESP","Add New Key")},
-                {'icon': "qrc:/images/copy.svg", "callback": "copy", "help": qsTranslate("RESP","Copy Namespace Pattern")},
-                {'icon': "qrc:/images/memory_usage.svg", "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
-                {'icon': "qrc:/images/delete.svg", "event": "delete", "help": qsTranslate("RESP","Delete Namespace")},
+                {'icon': PlatformUtils.getThemeIcon("refresh.svg"), "event": "reload", "help": qsTranslate("RESP","Reload Namespace")},
+                {'icon': PlatformUtils.getThemeIcon("add.svg"), 'event': 'add_key', "help": qsTranslate("RESP","Add New Key")},
+                {'icon': PlatformUtils.getThemeIcon("copy.svg"), "callback": "copy", "help": qsTranslate("RESP","Copy Namespace Pattern")},
+                {'icon': PlatformUtils.getThemeIcon("memory_usage.svg"), "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
+                {'icon': PlatformUtils.getThemeIcon("delete.svg"), "event": "delete", "help": qsTranslate("RESP","Delete Namespace")},
             ]
         }
     }

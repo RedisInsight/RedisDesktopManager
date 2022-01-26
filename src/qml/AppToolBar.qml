@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
 import "."
 import "./common"
+import "./common/platformutils.js" as PlatformUtils
 
 ToolBar {
 
@@ -24,7 +25,7 @@ ToolBar {
             BetterButton {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 190
-                iconSource: "qrc:/images/plus.svg"
+                iconSource: PlatformUtils.getThemeIcon("add.svg")
                 text: qsTranslate("RESP","Connect to Redis Server")
                 objectName: "rdm_connect_to_redis_server_btn"
 
@@ -38,7 +39,7 @@ ToolBar {
             ImageButton {
                 id: connectionsMenuBtn
                 Layout.preferredWidth: 30
-                iconSource: "qrc:/images/list.svg"
+                iconSource: PlatformUtils.getThemeIcon("list.svg")
 
                 onClicked: menu.open()
 
@@ -77,7 +78,7 @@ ToolBar {
             ImageButton {
                 id: toggleTreeViewBtn
                 Layout.preferredWidth: 30
-                iconSource: "qrc:/images/square-half.svg"
+                iconSource: PlatformUtils.getThemeIcon("square-half.svg")
                 imgWidth: 15
                 imgHeight: 15
 
@@ -93,35 +94,35 @@ ToolBar {
 
         BetterButton {
             implicitWidth: 40
-            iconSource: "qrc:/images/alert.svg"
+            iconSource: PlatformUtils.getThemeIcon("alert.svg")
             tooltip: qsTranslate("RESP","Report issue")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager/issues")
         }
 
         BetterButton {
             implicitWidth: 40
-            iconSource: "qrc:/images/help.svg"
+            iconSource: PlatformUtils.getThemeIcon("help.svg")
             tooltip: qsTranslate("RESP","Documentation")
             onClicked: Qt.openUrlExternally("http://docs.resp.app/en/latest/")
         }
 
         BetterButton {
             implicitWidth: 40
-            iconSource: "qrc:/images/telegram.svg"
+            iconSource: PlatformUtils.getThemeIcon("telegram.svg")
             tooltip: qsTranslate("RESP","Join Telegram Chat")
             onClicked: Qt.openUrlExternally("https://t.me/RedisDesktopManager")
         }
 
         BetterButton {
             implicitWidth: 40
-            iconSource: "qrc:/images/twi.svg"
+            iconSource: PlatformUtils.getThemeIcon("twi.svg")
             tooltip: qsTranslate("RESP","Follow")
             onClicked: Qt.openUrlExternally("https://twitter.com/dev_rdm")
         }
 
         BetterButton {
             implicitWidth: 40
-            iconSource: "qrc:/images/github.svg"
+            iconSource: PlatformUtils.getThemeIcon("github.svg")
             tooltip: qsTranslate("RESP","Star on GitHub!")
             onClicked: Qt.openUrlExternally("https://github.com/uglide/RedisDesktopManager")
         }
@@ -129,7 +130,7 @@ ToolBar {
         Item { Layout.fillWidth: true }
 
         BetterButton {
-            iconSource: "qrc:/images/log.svg"
+            iconSource: PlatformUtils.getThemeIcon("log.svg")
             text: qsTranslate("RESP","Log")
 
             onClicked: logDrawer.open()
@@ -137,7 +138,7 @@ ToolBar {
 
         BetterButton {
             objectName: "rdm_global_settings_btn"
-            iconSource: "qrc:/images/settings.svg"
+            iconSource: PlatformUtils.getThemeIcon("settings.svg")
             text: qsTranslate("RESP","Settings")
 
             onClicked: {

@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import "."
+import "./../../common/platformutils.js" as PlatformUtils
 
 InlineMenu {
     id: root
@@ -10,38 +11,38 @@ InlineMenu {
         if (styleData.value["locked"] === true) {
             return [
                         {
-                            'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
+                            'icon': PlatformUtils.getThemeIcon("offline.svg"), 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
                         },
                     ]
         } else {
             return [
                         {
-                            'icon': "qrc:/images/log.svg", 'event': 'server_info', "help": qsTranslate("RESP","Server Info"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+I" : "Ctrl+I"
+                            'icon': PlatformUtils.getThemeIcon("log.svg"), 'event': 'server_info', "help": qsTranslate("RESP","Server Info"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+I" : "Ctrl+I"
                         },
                         {
-                            'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RESP","Open Console"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
+                            'icon': PlatformUtils.getThemeIcon("console.svg"), 'event': 'console', "help": qsTranslate("RESP","Open Console"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+T" : "Ctrl+T",
                         },
                         {
-                            'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RESP","Reload Server"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+R" : "Ctrl+R",
+                            'icon': PlatformUtils.getThemeIcon("refresh.svg"), 'event': 'reload', "help": qsTranslate("RESP","Reload Server"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
                         },
                         {
-                            'icon': "qrc:/images/offline.svg", 'event': 'unload', "help": qsTranslate("RESP","Unload All Data"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+U" : "Ctrl+U",
+                            'icon': PlatformUtils.getThemeIcon("offline.svg"), 'event': 'unload', "help": qsTranslate("RESP","Unload All Data"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+U" : "Ctrl+U",
                         },
                         {
-                            'icon': "qrc:/images/settings.svg", 'event': 'edit', "help": qsTranslate("RESP","Edit Connection Settings"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+E" : "Ctrl+E",
+                            'icon': PlatformUtils.getThemeIcon("settings.svg"), 'event': 'edit', "help": qsTranslate("RESP","Edit Connection Settings"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+E" : "Ctrl+E",
                         },
                         {
-                            'icon': "qrc:/images/copy.svg", 'event': 'duplicate', "help": qsTranslate("RESP","Duplicate Connection"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+C" : "Ctrl+C",
+                            'icon': PlatformUtils.getThemeIcon("copy.svg"), 'event': 'duplicate', "help": qsTranslate("RESP","Duplicate Connection"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+C" : "Ctrl+C",
                         },
                         {
-                            'icon': "qrc:/images/delete.svg", 'event': 'delete', "help": qsTranslate("RESP","Delete Connection"),
-                            "shortcut": Qt.platform.os == "osx"? "Meta+Del" : "Ctrl+Del",
+                            'icon': PlatformUtils.getThemeIcon("delete.svg"), 'event': 'delete', "help": qsTranslate("RESP","Delete Connection"),
+                            "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
                         },
                     ]
         }

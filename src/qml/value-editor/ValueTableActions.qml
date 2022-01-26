@@ -20,7 +20,7 @@ ColumnLayout {
         objectName: "rdm_value_tab_add_row_btn"
         Layout.fillWidth: true
         text: qsTranslate("RESP","Add Row")
-        iconSource: "qrc:/images/add.svg"
+        iconSource: PlatformUtils.getThemeIcon("add.svg")
         onClicked: {
             addRowDialog.open()
         }
@@ -99,7 +99,7 @@ ColumnLayout {
         objectName: "rdm_value_editor_delete_row_btn"
         Layout.fillWidth: true
         text: qsTranslate("RESP","Delete row")
-        iconSource: "qrc:/images/delete.svg"
+        iconSource: PlatformUtils.getThemeIcon("delete.svg")
         enabled: table.currentRow != -1
 
         onClicked: {
@@ -138,7 +138,7 @@ ColumnLayout {
         objectName: "rdm_value_editor_reload_value_btn"
         Layout.fillWidth: true
         text: qsTranslate("RESP","Reload Value")
-        iconSource: "qrc:/images/refresh.svg"
+        iconSource: PlatformUtils.getThemeIcon("refresh.svg")
         action: reLoadAction
 
         Action {
@@ -172,7 +172,7 @@ ColumnLayout {
             id: clearGlobalSearch
             visible: keyTab.keyModel ? keyTab.keyModel.singlePageMode : false
 
-            iconSource: "qrc:/images/clear.svg"
+            iconSource: PlatformUtils.getThemeIcon("clear.svg")
 
             onClicked: {
                 wrapper.showLoader()
@@ -187,7 +187,7 @@ ColumnLayout {
         id: globalSearch
 
         Layout.fillWidth: true
-        iconSource: "qrc:/images/loader.svg"
+        iconSource: PlatformUtils.getThemeIcon("loader.svg")
         text: qsTranslate("RESP","Full Search")
 
         onClicked: {

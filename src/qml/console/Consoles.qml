@@ -5,7 +5,7 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import "./../common"
-
+import "./../common/platformutils.js" as PlatformUtils
 
 Repeater {
     id: root
@@ -18,7 +18,7 @@ Repeater {
             id: consoleTabButton
 
             BetterTabButton {
-                icon.source: "qrc:/images/console.svg"
+                icon.source: PlatformUtils.getThemeIcon("console.svg")
 
                 text: tabName
                 tooltip: tabName

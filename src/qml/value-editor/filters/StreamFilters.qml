@@ -132,7 +132,7 @@ RowLayout {
     BetterButton {
         objectName: "rdm_stream_filter_apply_btn"
         implicitWidth: 30
-        iconSource: "qrc:/images/filter.svg"
+        iconSource: PlatformUtils.getThemeIcon("filter.svg")
         tooltip: qsTranslate("RESP","Apply filter")
         enabled: (streamRangeStartField.isEdited || streamRangeEndField.isEdited) && streamFilter.enabled
 

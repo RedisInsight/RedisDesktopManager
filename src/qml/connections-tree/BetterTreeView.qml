@@ -167,7 +167,7 @@ TreeView {
                     property string itemType: styleData.value["type"] ? styleData.value["type"] : ""
                     property string itemIconSource: {
                         if (itemLocked) {
-                            return "qrc:/images/wait.svg"
+                            return PlatformUtils.getThemeIcon("wait.svg")
                         }
 
                         var type = itemType
@@ -176,19 +176,19 @@ TreeView {
                             var server_type = styleData.value["server_type"]
 
                             if (server_type === "unknown") {
-                                return "qrc:/images/server_offline.svg"
+                                return PlatformUtils.getThemeIcon("server_offline.svg")
                             } else if (server_type === "standalone") {
-                                return "qrc:/images/server.svg"
+                                return PlatformUtils.getThemeIcon("server.svg")
                             } else {
-                                return "qrc:/images/" + server_type + ".svg"
+                                return PlatformUtils.getThemeIcon(server_type + ".svg")
                             }
                         } else if (type === "database" && styleData.value["live_update"] === true) {
-                            return "qrc:/images/live_update.svg"
-                        } else if (type === "namespace" && styleData.isExpanded) {
-                            return "qrc:/images/" + type + "_open.svg"
+                            return PlatformUtils.getThemeIcon("live_update.svg")
+                        } else if (type === "namespace" || type == "server_group" && styleData.isExpanded) {
+                            return PlatformUtils.getThemeIcon(type + "_open.svg")
                         } else {
                             if (type !== "") {
-                                return "qrc:/images/" + type + ".svg"
+                                return PlatformUtils.getThemeIcon(type + ".svg")
                             } else {
                                 return ""
                             }

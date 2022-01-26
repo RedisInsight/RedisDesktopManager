@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import "."
+import "./../../common/platformutils.js" as PlatformUtils
 
 InlineMenu {
     id: root
@@ -9,12 +10,12 @@ InlineMenu {
     model: {
         return [
                     {
-                        'icon': "qrc:/images/settings.svg", 'event': 'edit', "help": qsTranslate("RESP","Edit Connection Group"),
-                        "shortcut": Qt.platform.os == "osx"? "Meta+E" : "Ctrl+E",
+                        'icon': PlatformUtils.getThemeIcon("settings.svg"), 'event': 'edit', "help": qsTranslate("RESP","Edit Connection Group"),
+                        "shortcut": PlatformUtils.isOSX()? "Meta+E" : "Ctrl+E",
                     },
                     {
-                        'icon': "qrc:/images/delete.svg", 'event': 'delete', "help": qsTranslate("RESP","Delete Connection Group"),
-                        "shortcut": Qt.platform.os == "osx"? "Meta+Del" : "Ctrl+Del",
+                        'icon': PlatformUtils.getThemeIcon("delete.svg"), 'event': 'delete', "help": qsTranslate("RESP","Delete Connection Group"),
+                        "shortcut": PlatformUtils.isOSX()? "Meta+Del" : "Ctrl+Del",
                     },
                 ]
     }

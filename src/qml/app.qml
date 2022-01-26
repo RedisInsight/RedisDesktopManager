@@ -310,7 +310,7 @@ ApplicationWindow {
                 BetterButton {
                     id: addConnectionGroupBtn
                     objectName: "rdm_add_group_btn"
-                    iconSource: "qrc:/images/add.svg"
+                    iconSource: PlatformUtils.getThemeIcon("add.svg")
                     text: qsTranslate("RESP", "Add Group")
 
                     Layout.fillWidth: true
@@ -328,7 +328,7 @@ ApplicationWindow {
                     objectName: "rdm_regroup_connections_btn"
                     text: qsTranslate("RESP", "Regroup connections")
 
-                    iconSource: "qrc:/images/sort.svg"
+                    iconSource: PlatformUtils.getThemeIcon("sort.svg")
 
                     Layout.fillWidth: true
 
@@ -351,7 +351,7 @@ ApplicationWindow {
                     text: qsTranslate("RESP", "Exit Regroup Mode")
                     visible: !sortButton.visible
 
-                    iconSource: "qrc:/images/ok.svg"
+                    iconSource: PlatformUtils.getThemeIcon("ok.svg")
 
                     onClicked: {
                         connectionsTree.sortConnections = false

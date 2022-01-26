@@ -934,7 +934,7 @@ Dialog {
 
                     BetterButton {
                         objectName: "rdm_connection_settings_dialog_test_btn"
-                        iconSource: "qrc:/images/offline.svg"
+                        iconSource: PlatformUtils.getThemeIcon("offline.svg")
                         text: qsTranslate("RESP","Test Connection")
                         onClicked: {
                             showLoader()
@@ -943,7 +943,7 @@ Dialog {
                     }
 
                     BetterButton {
-                        iconSource: "qrc:/images/help.svg"
+                        iconSource: PlatformUtils.getThemeIcon("help.svg")
                         text: qsTranslate("RESP","Quick Start Guide")
                         onClicked: Qt.openUrlExternally(root.quickStartGuideUrl)
                         visible: !isNewConnection
@@ -961,7 +961,7 @@ Dialog {
                             height: 15
                             sourceSize.width: 30
                             sourceSize.height: 30
-                            source: "qrc:/images/alert.svg"
+                            source: PlatformUtils.getThemeIcon("alert.svg")
                         }
                         BetterLabel {
                             text: qsTranslate("RESP","Invalid settings detected!")
