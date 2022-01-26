@@ -178,8 +178,11 @@ Item
             var expectedFormatter = formatterSelector.find(formatterOverride);
 
             if (expectedFormatter === -1) {
+                console.log("Formatter", formatterOverride, " is not loaded. Fallback to guessing...")
                 return continueFormatting(true)
             }
+
+            console.log("Formatter override:", formatterOverride)
 
             var cFormatter = formatterSelector.model.get(expectedFormatter)
 
@@ -188,6 +191,7 @@ Item
                     formatterSelector._select(formatterOverride)
                     continueFormatting(false)
                 } else {
+                    console.log("Formatter", formatterOverride, " cannot decode value. Fallback to guessing...")
                     continueFormatting(true)
                 }
             })
