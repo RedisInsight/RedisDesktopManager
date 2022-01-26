@@ -192,7 +192,7 @@ Rectangle {
 
             MenuItem {
                 text: qsTranslate("RESP","Clear")
-                iconSource: "qrc:/images/cleanup.svg"
+                iconSource: PlatformUtils.getThemeIcon("cleanup.svg")
                 onTriggered: {
                     root.clear()
                     root.displayPrompt()

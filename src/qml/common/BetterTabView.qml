@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.1
 import "."
+import "./platformutils.js" as PlatformUtils
 
 TabView {
     id: root
@@ -82,7 +83,7 @@ TabView {
                         Layout.preferredWidth: 18
                         Layout.preferredHeight: 18
 
-                        imgSource: "qrc:/images/clear.svg"
+                        imgSource: PlatformUtils.getThemeIcon("clear.svg")
                         onClicked: root.getTab(styleData.index).closeTab(styleData.index)
                     }
                 }

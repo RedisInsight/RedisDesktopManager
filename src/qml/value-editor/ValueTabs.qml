@@ -20,7 +20,7 @@ Repeater {
 
             BetterTabButton {
                 objectName: "rdm_value_tab_btn"
-                icon.source: "qrc:/images/key.svg"
+                icon.source: PlatformUtils.getThemeIcon("key.svg")
 
                 text: tabName
                 tooltip: keyModel && tabName <= keyName? keyName : ""
@@ -296,7 +296,7 @@ Repeater {
                         objectName: "rdm_value_tab_delete_btn"
                         Layout.preferredWidth: 98
                         text: qsTranslate("RESP","Delete")
-                        iconSource: "qrc:/images/delete.svg"
+                        iconSource: PlatformUtils.getThemeIcon("delete.svg")
 
                         BetterMessageDialog {
                             id: deleteConfirmation
@@ -318,7 +318,7 @@ Repeater {
                         text: qsTranslate("RESP","Reload Value")
                         onClicked: reloadValue()
                         visible: !isMultiRow
-                        iconSource: "qrc:/images/refresh.svg"
+                        iconSource: PlatformUtils.getThemeIcon("refresh.svg")
                     }
                 }
 

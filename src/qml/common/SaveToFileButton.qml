@@ -2,10 +2,11 @@ import QtQuick 2.0
 import QtQuick.Controls 2.13
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
+import "./platformutils.js" as PlatformUtils
 
 ImageButton {
     id: root
-    iconSource: raw ? "qrc:/images/binary_file.svg" : "qrc:/images/code_file.svg"
+    iconSource: raw ? PlatformUtils.getThemeIcon("binary_file.svg") : PlatformUtils.getThemeIcon("code_file.svg")
     tooltip: raw ? qsTranslate("RESP","Save Raw Value to File") : qsTranslate("RESP","Save Formatted Value to File") + " (" + shortcutText + ")"
 
     property string fileUrl

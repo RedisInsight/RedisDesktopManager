@@ -508,7 +508,7 @@ Item
                     Layout.preferredWidth: 98
 
                     ImageButton {
-                        iconSource: "qrc:/images/add.svg"
+                        iconSource: PlatformUtils.getThemeIcon("add.svg")
                         implicitWidth: imgBtnWidth
                         implicitHeight: imgBtnHeight
                         imgWidth: imgBtnWidth
@@ -526,7 +526,7 @@ Item
 
                     ImageButton {
                         id: copyValueToClipboardBtn
-                        iconSource: "qrc:/images/copy_2.svg"
+                        iconSource: PlatformUtils.getThemeIcon("copy_2.svg")
                         implicitWidth: imgBtnWidth
                         implicitHeight: imgBtnHeight
                         imgWidth: imgBtnWidth
@@ -634,7 +634,7 @@ Item
 
                             PropertyChanges {
                                 target: saveBtn
-                                iconSource: "qrc:/images/save.svg"
+                                iconSource: PlatformUtils.getThemeIcon("save.svg")
                                 enabled: !showOnlyRWformatters && root.value !== "" && valueEditor.item.isEdited() && keyType != "stream"
                             }
                         },
@@ -643,7 +643,7 @@ Item
 
                             PropertyChanges {
                                 target: saveBtn
-                                iconSource: "qrc:/images/wait.svg"
+                                iconSource: PlatformUtils.getThemeIcon("wait.svg")
                                 enabled: false
                             }
                         }
@@ -701,7 +701,7 @@ Item
                 anchors.leftMargin: 10
 
                 Image {
-                    source: "qrc:/images/search.svg"
+                    source: PlatformUtils.getThemeIcon("search.svg")
                     Layout.preferredWidth: 20
                     Layout.preferredHeight: 20
                 }
@@ -776,7 +776,7 @@ Item
                     Layout.preferredWidth: 20
                     Layout.preferredHeight: 20
 
-                    imgSource: "qrc:/images/clear.svg"
+                    imgSource: PlatformUtils.getThemeIcon("clear.svg")
                     onClicked: {
                         searchToolbar.visible = false;
                         searchToolbar.lastSearchResultPosition = -1;

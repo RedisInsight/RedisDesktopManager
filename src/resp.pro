@@ -160,7 +160,8 @@ INCLUDEPATH += $$PWD/ \
     $$UI_DIR/ \
 
 RESOURCES += \
-    $$PWD/resources/images.qrc \   
+    $$PWD/resources/images.qrc \
+    $$PWD/resources/icons.qrc \
     $$PWD/qml/qml.qrc \
     $$PWD/py/py.qrc \
     $$PWD/resources/commands.qrc

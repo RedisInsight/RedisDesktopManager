@@ -67,36 +67,36 @@ RowLayout {
             if (styleData.value["locked"] === true) {
                 return [
                             {
-                                'icon': "qrc:/images/offline.svg", 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
+                                'icon': PlatformUtils.getThemeIcon("offline.svg"), 'event': 'cancel', "help": qsTranslate("RESP","Disconnect"),
                             },
                         ]
             } else {
                 return [
                             {
-                                'icon': "qrc:/images/filter.svg", 'callback': 'filter', "help": qsTranslate("RESP","Open Keys Filter"),
+                                'icon': PlatformUtils.getThemeIcon("filter.svg"), 'callback': 'filter', "help": qsTranslate("RESP","Open Keys Filter"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
                             },
                             {
-                                'icon': "qrc:/images/refresh.svg", 'event': 'reload', "help": qsTranslate("RESP","Reload Keys in Database"),
+                                'icon': PlatformUtils.getThemeIcon("refresh.svg"), 'event': 'reload', "help": qsTranslate("RESP","Reload Keys in Database"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
                             },
                             {
-                                'icon': "qrc:/images/add.svg", 'event': 'add_key', "help": qsTranslate("RESP","Add New Key"),
+                                'icon': PlatformUtils.getThemeIcon("add.svg"), 'event': 'add_key', "help": qsTranslate("RESP","Add New Key"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
                             },
                             {
-                                'icon': styleData.value["live_update"]? "qrc:/images/live_update_disable.svg" : "qrc:/images/live_update.svg",
+                                'icon': styleData.value["live_update"]? PlatformUtils.getThemeIcon("live_update_disable.svg") : PlatformUtils.getThemeIcon("live_update.svg"),
                                 'callback': 'live_update',
                                 "help": styleData.value["live_update"]? qsTranslate("RESP","Disable Live Update") : qsTranslate("RESP","Enable Live Update"),
                                 "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
                             },
                             {
-                                'icon': "qrc:/images/console.svg", 'event': 'console', "help": qsTranslate("RESP","Open Console"),
+                                'icon': PlatformUtils.getThemeIcon("console.svg"), 'event': 'console', "help": qsTranslate("RESP","Open Console"),
                                 "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
                             },
-                            {'icon': "qrc:/images/memory_usage.svg", "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
+                            {'icon': PlatformUtils.getThemeIcon("memory_usage.svg"), "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
                             {
-                                'icon': "qrc:/images/bulk_operations.svg", 'callback': 'bulk_menu', "help": qsTranslate("RESP","Bulk Operations"),
+                                'icon': PlatformUtils.getThemeIcon("bulk_operations.svg"), 'callback': 'bulk_menu', "help": qsTranslate("RESP","Bulk Operations"),
                             },
                         ]
             }
@@ -117,22 +117,22 @@ RowLayout {
         model: {
             return [
                         {
-                            'icon': "qrc:/images/cleanup.svg", 'event': 'flush', "help": qsTranslate("RESP","Flush Database"),
+                            'icon': PlatformUtils.getThemeIcon("cleanup.svg"), 'event': 'flush', "help": qsTranslate("RESP","Flush Database"),
                         },
                         {
-                            'icon': "qrc:/images/cleanup_filtered.svg", 'event': 'delete_keys', "help": qsTranslate("RESP","Delete keys with filter"),
+                            'icon': PlatformUtils.getThemeIcon("cleanup_filtered.svg"), 'event': 'delete_keys', "help": qsTranslate("RESP","Delete keys with filter"),
                         },
                         {
-                            'icon': "qrc:/images/ttl.svg", 'event': 'ttl', "help": qsTranslate("RESP","Set TTL for multiple keys"),
+                            'icon': PlatformUtils.getThemeIcon("ttl.svg"), 'event': 'ttl', "help": qsTranslate("RESP","Set TTL for multiple keys"),
                         },
                         {
-                            'icon': "qrc:/images/db_copy.svg", 'event': 'copy_keys', "help": qsTranslate("RESP","Copy keys from this database to another"),
+                            'icon': PlatformUtils.getThemeIcon("db-copy.svg"), 'event': 'copy_keys', "help": qsTranslate("RESP","Copy keys from this database to another"),
                         },
                         {
-                            'icon': "qrc:/images/import.svg", 'event': 'rdb_import', "help": qsTranslate("RESP","Import keys from RDB file"),
+                            'icon': PlatformUtils.getThemeIcon("import.svg"), 'event': 'rdb_import', "help": qsTranslate("RESP","Import keys from RDB file"),
                         },
                         {
-                            'icon': "qrc:/images/back.svg", 'callback': 'db_menu', "help": qsTranslate("RESP","Back"),
+                            'icon': PlatformUtils.getThemeIcon("back.svg"), 'callback': 'db_menu', "help": qsTranslate("RESP","Back"),
                         },
 
                     ]
@@ -190,7 +190,7 @@ RowLayout {
             implicitHeight: filterMenu.btnHeight
             imgWidth: filterMenu.btnWidth
             imgHeight: filterMenu.btnHeight
-            iconSource: "qrc:/images/ok.svg"
+            iconSource: PlatformUtils.getThemeIcon("ok.svg")
             objectName: "rdm_inline_menu_button_apply_filter"
 
             onClicked: setFilter()
@@ -211,7 +211,7 @@ RowLayout {
             implicitHeight: filterMenu.btnHeight
             imgWidth: filterMenu.btnWidth
             imgHeight: filterMenu.btnHeight
-            iconSource: "qrc:/images/help.svg"
+            iconSource: PlatformUtils.getThemeIcon("help.svg")
             onClicked: Qt.openUrlExternally("http://docs.resp.app/en/latest/features/#search-in-connection-tree")
         }
 
@@ -222,7 +222,7 @@ RowLayout {
             implicitHeight: filterMenu.btnHeight
             imgWidth: filterMenu.btnWidth
             imgHeight: filterMenu.btnHeight
-            iconSource: "qrc:/images/clear.svg"
+            iconSource: PlatformUtils.getThemeIcon("clear.svg")
             objectName: "rdm_inline_menu_button_reset_filter"
 
             onClicked: {

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
+import "./platformutils.js" as PlatformUtils
 
 Rectangle {
     id: root
@@ -64,7 +65,7 @@ Rectangle {
 
         MenuItem {
             text: "Copy"
-            icon.source: "qrc:/images/copy.svg"
+            icon.source: PlatformUtils.getThemeIcon("copy.svg")
             icon.color: "transparent"
 
             onTriggered: {                

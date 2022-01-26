@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
+import "./platformutils.js" as PlatformUtils
 
 BetterButton {
     id: root
@@ -24,7 +25,7 @@ BetterButton {
     Image {
         id: img
         anchors.centerIn: parent
-        source: "qrc:/images/clear.svg"
+        source: PlatformUtils.getThemeIcon("clear.svg")
         width: 18
         height: 18
         sourceSize.width: width * 2

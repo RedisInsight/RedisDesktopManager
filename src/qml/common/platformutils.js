@@ -17,3 +17,10 @@ function isOSXRetina(screen) {
     return isOSX() && screen.devicePixelRatio> 1
 }
 
+function getThemeIcon(icon) {
+    if (sysPalette.base.hslLightness < 0.4) {
+        return "qrc:/images/dark_theme/" + icon
+    } else {
+        return "qrc:/images/light_theme/" + icon
+    }
+}
