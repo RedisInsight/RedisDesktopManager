@@ -17,6 +17,25 @@
 #include <sigwatch.h>
 #endif
 
+#ifdef IGNORE_QML_WARNINGS
+static const QtMessageHandler QT_DEFAULT_MESSAGE_HANDLER =
+    qInstallMessageHandler(0);
+
+void customMessageHandler(QtMsgType type, const QMessageLogContext &context,
+                          const QString &msg) {
+  switch (type) {
+    case QtWarningMsg: {
+      if (!msg.contains("QML IconLabel")) {
+        (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, msg);
+      }
+    } break;
+    default:  // Call the default handler.
+      (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, msg);
+      break;
+  }
+}
+#endif
+
 #include "app/app.h"
 
 int main(int argc, char *argv[])
@@ -56,6 +75,10 @@ int main(int argc, char *argv[])
 #endif
 
     Application a(argc, argv);
+
+#ifdef IGNORE_QML_WARNINGS
+    qInstallMessageHandler(customMessageHandler);
+#endif
 
 #ifdef LINUX_SIGNALS
     UnixSignalWatcher sigwatch;
