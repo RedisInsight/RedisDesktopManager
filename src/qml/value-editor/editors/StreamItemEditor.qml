@@ -12,6 +12,7 @@ AbstractEditor {
     anchors.fill: parent    
 
     property bool active: false
+    property alias defaultFormatter: textArea.defaultFormatter
 
     BetterLabel {
         Layout.fillWidth: true

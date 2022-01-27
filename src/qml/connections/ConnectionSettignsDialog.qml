@@ -846,6 +846,77 @@ Dialog {
                                 onCheckedChanged: if (root.settings) { root.settings.overrideClusterHost = checked }
                             }
 
+                            SettingsGroupTitle {
+                                text: qsTranslate("RESP","Formatters")
+                                Layout.columnSpan: 2
+                            }
+
+                            BetterLabel { text: qsTranslate("RESP","Default value formatter:")}
+
+                            RowLayout {
+                                Layout.fillWidth: true
+
+                                BetterComboBox {
+                                    id: defaultFormatterLogicSelector
+
+                                    Layout.fillWidth: true
+
+                                    property int customFormatterIndex: 2
+
+                                    ListModel {
+                                        id: defaultFormatterOptionsModel
+
+                                        Component.onCompleted: {
+                                            append({ value: "auto", text: qsTranslate("RESP", "Auto detect (JSON / Plain Text / HEX)") })
+                                            append({ value: "last_selected", text: qsTranslate("RESP", "Last selected") })
+                                            append({ value: "specific", text: qsTranslate("RESP", "Select formatter ...") })
+                                            defaultFormatterLogicSelector.currentIndex = 0
+                                        }
+                                    }
+
+                                    textRole: "text"
+                                    model: defaultFormatterOptionsModel
+
+                                    Connections {
+                                        target: root
+
+                                        function onSettingsChanged(s) {
+                                            if (!root.settings) {
+                                                defaultFormatterLogicSelector.currentIndex = 0;
+                                                return;
+                                            }
+
+                                            if (root.settings.defaultFormatter !== "auto"
+                                                    && root.settings.defaultFormatter !== "last_selected") {
+                                                defaultFormatterSelector._select(root.settings.defaultFormatter)
+                                                defaultFormatterLogicSelector.currentIndex = defaultFormatterLogicSelector.customFormatterIndex;
+                                                return;
+                                            }
+
+                                            defaultFormatterLogicSelector.currentIndex = root.settings.defaultFormatter === "auto"? 0 : 1;
+                                        }
+                                    }
+
+                                    onActivated: {
+                                        if (currentIndex != customFormatterIndex) {
+                                            root.settings.defaultFormatter = defaultFormatterOptionsModel.get(currentIndex)["value"]
+                                        }
+                                    }
+                                }
+
+                                BetterComboBox {
+                                    id: defaultFormatterSelector
+
+                                    visible: defaultFormatterLogicSelector.currentIndex == 2
+                                    model: valueFormattersModel
+                                    textRole: "name"
+
+                                    onActivated: {
+                                        root.settings.defaultFormatter = currentText
+                                    }
+                                }
+                            }
+
                             Item {
                                 Layout.columnSpan: 2
                                 Layout.fillHeight: true

@@ -12,6 +12,7 @@ AbstractEditor {
 
     property bool active: false
     property string keyType: ""
+    property alias defaultFormatter: textEditor.defaultFormatter
 
     MultilineEditor {
         id: textEditor

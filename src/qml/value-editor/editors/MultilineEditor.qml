@@ -27,6 +27,7 @@ Item
     property string formatterSettingsPrefix: ""
     property string lastSelectedFormatterSetting: "last_selected_" + root.formatterSettingsPrefix + "formatter"
     property string lastSelectedManualDecompression: "last_selected_" + root.formatterSettingsPrefix + "decompression"
+    property string defaultFormatter: "auto"
 
     property var __formatterCombobox: formatterSelector
     property var __textView: textView
@@ -166,13 +167,22 @@ Item
         };
 
         if (guessFormatter) {
+            console.log("Default formatter:", root.defaultFormatter)
+
             var formatterOverride = defaultFormatterSettings.value(
-                        root.formatterSettingsPrefix + keyName,
-                        defaultFormatterSettings.value(root.lastSelectedFormatterSetting, "")
+                root.formatterSettingsPrefix + keyName, ""
             );
 
             if (!formatterOverride) {
-                return continueFormatting(true)
+                if (root.defaultFormatter == "last_used") {
+                    formatterOverride = defaultFormatterSettings.value(root.lastSelectedFormatterSetting, "");
+                } else if (root.defaultFormatter != "auto") {
+                    formatterOverride = root.defaultFormatter;
+                }
+
+                if (!formatterOverride || root.defaultFormatter == "auto") {
+                    return continueFormatting(true)
+                }
             }
 
             var expectedFormatter = formatterSelector.find(formatterOverride);
