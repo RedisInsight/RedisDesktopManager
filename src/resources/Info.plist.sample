@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>RESP</string>
 	<key>CFBundleIconFile</key>
-	<string>rdm.icns</string>
+	<string>logo.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.redisdesktop.rdm</string>
 	<key>CFBundleInfoDictionaryVersion</key>
