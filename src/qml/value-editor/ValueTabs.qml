@@ -364,17 +364,18 @@ Repeater {
 
                             source: keyTab.keyModel? Editor.getEditorByTypeString(keyType) : ""
 
-                            function loadRowValue(row) {
-                                console.log("loading row value", row)
-                                if (valueEditor.item) {
-                                    var rowValue = keyTab.keyModel.getRow(row)
-                                    valueEditor.currentRow = row
-                                    valueEditor.item.reset()
-                                    valueEditor.item.setValue(rowValue)
-                                } else {
-                                    console.log("cannot load row value - item is missing")
-                                }
-                            }
+                                    function loadRowValue(row) {
+                                        console.log("loading row value", row)
+                                        if (valueEditor.item) {
+                                            var rowValue = keyTab.keyModel.getRow(row)
+                                            valueEditor.currentRow = row
+                                            valueEditor.item.reset()
+                                            valueEditor.item.defaultFormatter = defaultFormatter
+                                            valueEditor.item.setValue(rowValue)
+                                        } else {
+                                            console.log("cannot load row value - item is missing")
+                                        }
+                                    }
 
                             function clear() {
                                 if (valueEditor.item) {

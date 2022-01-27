@@ -189,6 +189,8 @@ QVariant ValueEditor::TabsModel::data(const QModelIndex& index,
       return model->isMultiRow();
     case showLoader:
       return false;
+    case defaultFormatter:
+      return model->getDefaultFormatter();
     case keyModel:
       QObject* modelPtr =
           static_cast<QObject*>(m_viewModels.at(index.row()).data());
@@ -211,6 +213,7 @@ QHash<int, QByteArray> ValueEditor::TabsModel::roleNames() const {
   roles[keyModel] = "keyViewModel";
   roles[showLoader] = "showLoader";
   roles[tabName] = "tabName";
+  roles[defaultFormatter] = "defaultFormatter";
   return roles;
 }
 

@@ -11,6 +11,7 @@
 #include <QVariant>
 #include "modules/value-editor/keymodel.h"
 #include "rowcache.h"
+#include "app/models/connectionconf.h"
 
 template <typename T>
 class KeyModel : public ValueEditor::Model {
@@ -206,6 +207,14 @@ class KeyModel : public ValueEditor::Model {
   virtual QSharedPointer<RedisClient::Connection> getConnection()
       const override {
     return m_connection;
+  }
+
+  virtual QString getDefaultFormatter() const override{
+      if (!m_connection)
+          return QString("auto");
+
+      // TODO(u_glide): Pass ServerConfig to KeyModel and remove this
+      return m_connection->getConfig().getInternalParameters().value("default_formatter", QString("auto")).toString();
   }
 
   virtual unsigned int dbIndex() const override { return m_dbIndex; }

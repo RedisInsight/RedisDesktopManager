@@ -77,3 +77,13 @@ void ServerConfig::setAskForSshPassword(bool v)
 {
     setParam<bool>("ask_ssh_password", v);
 }
+
+QString ServerConfig::defaultFormatter() const
+{
+    return param<QString>("default_formatter", QString("auto"));
+}
+
+void ServerConfig::setDefaultFormatter(const QString &v)
+{
+    setParam<QString>("default_formatter", v);
+}

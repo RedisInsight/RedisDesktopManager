@@ -30,6 +30,7 @@ class TabsModel : public QAbstractListModel {
     keyModel,
     showLoader,
     tabName,
+    defaultFormatter
   };
 
  public:

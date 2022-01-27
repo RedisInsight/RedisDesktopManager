@@ -60,6 +60,7 @@ class Model : public QEnableSharedFromThis<Model> {
   virtual QSharedPointer<ModelSignals> getConnector() const = 0;
   virtual QSharedPointer<RedisClient::Connection> getConnection() const = 0;
   virtual unsigned int dbIndex() const = 0;
+  virtual QString getDefaultFormatter() const = 0;
 
   virtual ~Model() {}
 };

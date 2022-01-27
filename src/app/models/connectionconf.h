@@ -38,6 +38,7 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(bool overrideClusterHost READ overrideClusterHost WRITE setClusterHostOverride)
     Q_PROPERTY(bool ignoreSSLErrors READ ignoreAllSslErrors WRITE setIgnoreAllSslErrors)
     Q_PROPERTY(uint databaseScanLimit READ databaseScanLimit WRITE setDatabaseScanLimit)
+    Q_PROPERTY(QString defaultFormatter READ defaultFormatter WRITE setDefaultFormatter)
 
 
 public:
@@ -74,6 +75,9 @@ public:
 
     bool askForSshPassword() const;
     void setAskForSshPassword(bool v);
+
+    QString defaultFormatter() const;
+    void setDefaultFormatter(const QString& v);
 
 private:
     QWeakPointer<TreeOperations> m_owner;
