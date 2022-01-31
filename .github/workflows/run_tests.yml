@@ -23,7 +23,7 @@ jobs:
       with:
         version: 5.15.2
         modules: qtcharts
-    - name: Install Cmake
+    - name: Install Build deps
       run: |
           sudo apt-get update -y
           sudo apt-get install cmake liblz4-dev libzstd-dev libbrotli-dev libsnappy-dev -y
@@ -34,6 +34,10 @@ jobs:
     - name: Build Tests
       run: qmake "SYSTEM_LZ4=1" "SYSTEM_ZSTD=1" "SYSTEM_SNAPPY=1" "SYSTEM_BROTLI=1" DEFINES+=INTEGRATION_TESTS && make -j 2
       working-directory: ./tests
-    - name: Run Tests
+    - name: Run Cpp Tests
       run: ./../bin/tests/tests -platform minimal -txt
       working-directory: ./tests  
+    - name: Run QML Tests
+      run: ./../bin/tests/qml_tests -platform minimal -txt
+      working-directory: ./tests 
+    
