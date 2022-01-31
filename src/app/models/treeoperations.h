@@ -22,8 +22,6 @@ class TreeOperations : public QObject,
   TreeOperations(const ServerConfig& config,
                  QSharedPointer<Events> events);
 
-  ~TreeOperations();
-
   QFuture<void> getDatabases(std::function<void (RedisClient::DatabaseList, const QString&)>) override;
 
   void loadNamespaceItems(

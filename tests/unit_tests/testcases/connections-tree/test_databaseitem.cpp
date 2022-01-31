@@ -54,21 +54,3 @@ void TestDatabaseItem::testLoadKeys() {
   QCOMPARE(item->isEnabled(), true);
   QCOMPARE(item->isLocked(), false);
 }
-
-// FIXME: add test for reload instead
-// void TestDatabaseItem::testUnloadKeys()
-//{
-//    //given
-//    ItemOperationsMock* operations = new ItemOperationsMock();
-//    Model model;
-//    DatabaseItem item(0, 300,
-//    QSharedPointer<Operations>(dynamic_cast<Operations*>(operations)),
-//                      QWeakPointer<ConnectionsTree::TreeItem>(), model);
-
-//    //when
-//    item.unload();
-
-//    //then
-//    QCOMPARE(item.childCount(), (unsigned int)0);
-//    QCOMPARE(item.isLocked(), false);
-//}

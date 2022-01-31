@@ -4,7 +4,7 @@ APP_SRC_DIR = $$PWD/../../../../src/app/
 INCLUDEPATH += $$APP_SRC_DIR
 
 HEADERS  += \
-    #$$PWD/test_*.h \
+    $$PWD/test_*.h \
     $$APP_SRC_DIR/events.h \
     $$APP_SRC_DIR/apputils.h \
     $$APP_SRC_DIR/jsonutils.h \
@@ -26,7 +26,7 @@ HEADERS  += \
     $$APP_SRC_DIR/models/key-models/newkeyrequest.h \
 
 SOURCES += \
-    #$$PWD/test_*.cpp \
+    $$PWD/test_*.cpp \
     $$APP_SRC_DIR/events.cpp \
     $$APP_SRC_DIR/apputils.cpp \
     $$APP_SRC_DIR/jsonutils.cpp \
@@ -47,5 +47,5 @@ SOURCES += \
     $$APP_SRC_DIR/models/key-models/newkeyrequest.cpp \
 
 OTHER_FILES += \
-    connections.xml
+    $$PWD/connections.json
 

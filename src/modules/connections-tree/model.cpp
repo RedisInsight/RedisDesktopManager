@@ -408,7 +408,7 @@ void Model::dropItemAt(const QModelIndex &index, const QModelIndex &at)
             return;
         }
 
-        sourceGroup->removeChild(srv);
+        sourceGroup->removeConnection(srv);
     } else {
       srv = findRootItem(item, m_treeItems);
       m_treeItems.removeAll(srv);

@@ -13,15 +13,12 @@ HEADERS += \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.h \    
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/mocks/*.h \
     $$PROJECT_ROOT/src/modules/common/*.h \
+    $$PWD/*.h \
 
 SOURCES += \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.cpp \
     $$PROJECT_ROOT/src/modules/common/*.cpp \
     $$PWD/main.cpp \
-
-
-#RESOURCES += \
-#    $$SRC_DIR/resources/rdm.qrc
 
 INCLUDEPATH += $$SRC_DIR/modules/ \
     $$SRC_DIR/ \
@@ -34,14 +31,10 @@ DEFINES += INTEGRATION_TESTS
 #TEST CASES
 include($$PWD/testcases/app/app-tests.pri)
 include($$PWD/testcases/connections-tree/connections-tree-tests.pri)
-#include($$PWD/testcases/console/console-tests.pri)
+include($$PWD/testcases/console/console-tests.pri)
 include($$PWD/testcases/value-editor/value-editor-tests.pri)
 #############
 include($$PROJECT_ROOT/3rdparty/3rdparty.pri)
-
-HEADERS += $$PROJECT_ROOT/3rdparty/qt_modeltest/*.h
-SOURCES += $$PROJECT_ROOT/3rdparty/qt_modeltest/*.cpp
-INCLUDEPATH += $$PROJECT_ROOT/3rdparty/qt_modeltest/
 
 release: DESTDIR = $$PROJECT_ROOT/bin/tests
 debug:   DESTDIR = $$PROJECT_ROOT/bin/tests

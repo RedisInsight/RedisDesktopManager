@@ -34,7 +34,7 @@ Mock<ConnectionsTree::Operations> getOperationsWithDbAndKeys(
   auto op = getOperationsWithGetDatabases(db, err);
 
   When(Method(op, loadNamespaceItems))
-      .Do([keys, err](uint dbIndex, const QString &filter,
+      .Do([keys, err](uint, const QString&,
                       std::function<void(
                           const RedisClient::Connection::RawKeysList &keylist,
                           const QString &)>

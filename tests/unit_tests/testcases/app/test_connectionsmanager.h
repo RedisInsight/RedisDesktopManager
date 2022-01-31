@@ -1,8 +1,8 @@
 #pragma once
-#include "basetestcase.h"
+#include "respbasetestcase.h"
 #include "value-editor/tabsmodel.h"
 
-class TestConnectionsManager : public BaseTestCase
+class TestConnectionsManager : public RESPBaseTestCase
 {
 	Q_OBJECT
 	
