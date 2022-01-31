@@ -3,15 +3,14 @@ name: Run Tests
 on:
   push:
     branches:
-    - 2021
+    - 2022
     - play_with_ga
   pull_request:
-    branches: [ 2021 ]
+    branches: [ 2022 ]
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -32,12 +31,9 @@ jobs:
           gcc --version
     - name: Setup Redis
       uses: zhulik/redis-action@1.1.0
-#     - name: lz4
-#       run: cmake -DLZ4_BUNDLED_MODE=ON  . && make
-#       working-directory: 3rdparty/lz4/build/cmake
-    - name: Build RDM
-      run: qmake "SYSTEM_LZ4=1" "SYSTEM_ZSTD=1" "SYSTEM_SNAPPY=1" "SYSTEM_BROTLI=1" && make -j 2
-      working-directory: ./src
     - name: Build Tests
-      run: qmake DEFINES+=INTEGRATION_TESTS && make -j 2
+      run: qmake "SYSTEM_LZ4=1" "SYSTEM_ZSTD=1" "SYSTEM_SNAPPY=1" "SYSTEM_BROTLI=1" DEFINES+=INTEGRATION_TESTS && make -j 2
       working-directory: ./tests
+    - name: Run Tests
+      run: ./../bin/tests/tests -platform minimal -txt
+      working-directory: ./tests  
