@@ -1,6 +1,9 @@
 TEMPLATE = app
 TARGET = qml_tests
+
 CONFIG += warn_on qmltestcase
+CONFIG-=app_bundle
+
 SOURCES += $$PWD/qml_test_runner.cpp \
     setup.cpp
 
