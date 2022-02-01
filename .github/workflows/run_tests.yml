@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - 2022
-    - play_with_ga
   pull_request:
     branches: [ 2022 ]
   workflow_dispatch:
@@ -39,5 +38,5 @@ jobs:
       working-directory: ./tests  
     - name: Run QML Tests
       run: ./../bin/tests/qml_tests -platform minimal -txt
-      working-directory: ./tests 
-    
+      working-directory: ./tests
+
