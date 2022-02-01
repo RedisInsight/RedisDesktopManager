@@ -51,6 +51,7 @@ TestCase {
 
     function test_loadFormattedValue() {
         defaultFormatterSettings.cleanup()
+        defaultFormatterSettings.sync()
 
         editor.loadFormattedValue(validJson)
 
@@ -63,6 +64,7 @@ TestCase {
     function test_loadFormattedValue_withLastSelectedFormatter() {
         defaultFormatterSettings.cleanup()
         defaultFormatterSettings.setValue("last_selected_formatter", "Plain Text")
+        defaultFormatterSettings.sync()
 
         editor.loadFormattedValue(validJson)
 
@@ -76,6 +78,7 @@ TestCase {
         defaultFormatterSettings.cleanup()
         defaultFormatterSettings.setValue(editor.keyName, "HEX")
         defaultFormatterSettings.setValue("last_selected_formatter", "Plain Text")
+        defaultFormatterSettings.sync()
 
         editor.loadFormattedValue(validJson)
 
