@@ -40,13 +40,6 @@ include($$PROJECT_ROOT/3rdparty/3rdparty.pri)
 release: DESTDIR = $$PROJECT_ROOT/bin/tests
 debug:   DESTDIR = $$PROJECT_ROOT/bin/tests
 
-unix:!mac {
-    #code coverage
-    QMAKE_CXXFLAGS += -g -fprofile-arcs -ftest-coverage -O0 -Wno-sign-compare
-    QMAKE_LFLAGS += -g -fprofile-arcs -ftest-coverage  -O0
-    LIBS += -lgcov
-}
-
 UI_DIR = $$DESTDIR/ui
 OBJECTS_DIR = $$DESTDIR/obj
 MOC_DIR = $$DESTDIR/obj
