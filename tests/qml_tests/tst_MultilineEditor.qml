@@ -63,8 +63,11 @@ TestCase {
 
     function test_loadFormattedValue_withLastSelectedFormatter() {
         defaultFormatterSettings.cleanup()
-        defaultFormatterSettings.setValue("last_selected_formatter", "Plain Text")
+        defaultFormatterSettings.setValue(editor.lastSelectedFormatterSetting, "Plain Text")
         defaultFormatterSettings.sync()
+
+        console.log(editor.lastSelectedFormatterSetting, defaultFormatterSettings.value(editor.lastSelectedFormatterSetting),
+                    defaultFormatterSettings.value(editor.keyName))
 
         editor.loadFormattedValue(validJson)
 
@@ -77,7 +80,7 @@ TestCase {
     function test_loadFormattedValue_withLastSelectedFormatter_and_key_override() {
         defaultFormatterSettings.cleanup()
         defaultFormatterSettings.setValue(editor.keyName, "HEX")
-        defaultFormatterSettings.setValue("last_selected_formatter", "Plain Text")
+        defaultFormatterSettings.setValue(editor.lastSelectedFormatterSetting, "Plain Text")
         defaultFormatterSettings.sync()
 
         editor.loadFormattedValue(validJson)
