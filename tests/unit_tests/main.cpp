@@ -20,8 +20,10 @@ int main(int argc, char *argv[]) {
 
   int allTestsResult = 0
                        // connections-tree module
+#ifndef Q_OS_WIN
                        + QTest::qExec(new TestServerItem, argc, argv)
                        + QTest::qExec(new TestDatabaseItem, argc, argv)
+#endif
                        + QTest::qExec(new TestModel, argc, argv)
 
                        // console module

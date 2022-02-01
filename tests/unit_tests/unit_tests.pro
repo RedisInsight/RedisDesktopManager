@@ -11,13 +11,14 @@ SRC_DIR = $$PROJECT_ROOT/src//
 
 HEADERS += \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.h \    
-    $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/mocks/*.h \
-    $$PROJECT_ROOT/src/modules/common/*.h \
-    $$PWD/*.h \
+    $$files($$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/mocks/*.h) \
+    $$files($$PROJECT_ROOT/src/modules/common/*.h) \
+    $$files($$PWD/*.h) \
 
 SOURCES += \
     $$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/basetestcase.cpp \
-    $$PROJECT_ROOT/src/modules/common/*.cpp \
+    $$files($$PROJECT_ROOT/3rdparty/qredisclient/tests/unit_tests/mocks/*.cpp) \
+    $$files($$PROJECT_ROOT/src/modules/common/*.cpp) \
     $$PWD/main.cpp \
 
 INCLUDEPATH += $$SRC_DIR/modules/ \
