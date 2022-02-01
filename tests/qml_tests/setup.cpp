@@ -7,6 +7,9 @@
 
 void Setup::qmlEngineAvailable(QQmlEngine *engine)
 {
+    QCoreApplication::instance()->setOrganizationDomain("redisdesktop.com");
+    QCoreApplication::instance()->setOrganizationName("redisdesktop");
+
     qmlRegisterType<SyntaxHighlighter>("rdm.models", 1, 0, "SyntaxHighlighter");
     qmlRegisterType<TextCharFormat>("rdm.models", 1, 0, "TextCharFormat");
 
