@@ -36,13 +36,13 @@ void TestDatabaseItem::testLoadKeys() {
 
   // when
   parentItem->handleEvent("click");
-  QTest::qWait(50);
+  QTest::qWait(150);
   qDebug() << parentItem->childCount();
   QSharedPointer<TreeItem> item = parentItem->child(0);
 
   item->handleEvent("click");
 
-  QTest::qWait(100);
+  QTest::qWait(150);
 
   // then
   // TODO: check mock calls
