@@ -64,12 +64,12 @@ ToolBar {
 
                     MenuItem {
                         objectName: "rdm_import_connections_btn"
-                        text: qsTranslate("RDM","Import Connections")
+                        text: qsTranslate("RESP","Import Connections")
                         onTriggered: importConnectionsDialog.open()
                     }
                     MenuItem {
                         objectName: "rdm_export_connections_btn"
-                        text: qsTranslate("RDM","Export Connections")
+                        text: qsTranslate("RESP","Export Connections")
                         onTriggered: exportConnectionsDialog.open()
                     }
                 }

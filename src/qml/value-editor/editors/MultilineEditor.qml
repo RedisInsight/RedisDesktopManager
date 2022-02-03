@@ -590,8 +590,8 @@ Item
                     imgWidth: imgBtnWidth * 0.8
                     imgHeight: imgBtnHeight * 0.8
 
-                    tooltip: (editor.state === "default"? "" : qsTranslate("RDM","Exit "))
-                                                         + qsTranslate("RDM","Full Screen Mode")
+                    tooltip: (editor.state === "default"? "" : qsTranslate("RESP","Exit "))
+                                                         + qsTranslate("RESP","Full Screen Mode")
 
                     onClicked: {
                         editor.state = editor.state === "default"? "full_screen" : "default"
