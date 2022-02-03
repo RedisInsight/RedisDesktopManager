@@ -45,13 +45,14 @@ void TestTreeOperations::testGetDatabases() {
   TreeOperations operations(getDummyConfig(), events);
   operations.setConnection(connection);
   operations.getDatabases(
-      [&callbackCalled, &result](const RedisClient::DatabaseList& r, const QString& err) {
+      [&callbackCalled, &result](const RedisClient::DatabaseList& r, const QString&) {
         callbackCalled = true;
         result = r;        
       });
 
   // then
   wait(100);
+  connection.clear();
   QCOMPARE(callbackCalled, true);
   QCOMPARE(result.size(), 13);
 }
@@ -73,24 +74,16 @@ void TestTreeOperations::testLoadNamespaceItems() {
       new TreeOperations(getDummyConfig(), events));
   operations->setConnection(connection);
 
-  ConnectionsTree::Model dummyModel;
-  QSharedPointer<ConnectionsTree::DatabaseItem> item(
-      new ConnectionsTree::DatabaseItem(
-          0, 1, operations, QWeakPointer<ConnectionsTree::TreeItem>(),
-          dummyModel));
-
   // when
   bool callbackCalled = false;
 
   operations->loadNamespaceItems(
-      qSharedPointerDynamicCast<ConnectionsTree::AbstractNamespaceItem>(item),
-      QString(),
-      [&callbackCalled](const QString& err) {
+              0, QString("*"),
+      [&callbackCalled](const QList<QByteArray>& keys, const QString& err) {
         // then - part 2
         callbackCalled = true;
         QVERIFY2(err.isEmpty(), qPrintable(err));
-      },
-      QSet<QByteArray>());
+      });
 
   // then - part 1
   wait(5);
@@ -105,17 +98,17 @@ void TestTreeOperations::testLoadNamespaceItems_data() {
   QTest::addColumn<QList<QVariant> >("expectedScanResponses");
   QTest::addColumn<QStringList>("expectedResponses");
   QTest::newRow("SCAN execution")
-      << false << 0u << 1u
+      << 1u << 1u
       << (QList<QVariant>()
           << QVariant(QVariantList() << QString("test") << QString("test2")))
-      << (QStringList() << "");
+      << (QStringList() << "+OK\r\n");
 }
 
 void TestTreeOperations::testFlushDb() {
   // given
   auto events = QSharedPointer<Events>(new Events());
   auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
-                                      QStringList() << "+OK");
+                                      QStringList() << "+OK\r\n");
 
   // when
   bool callbackCalled = false;

@@ -19,3 +19,6 @@
 [submodule "3rdparty/brotli"]
 	path = 3rdparty/brotli
 	url = https://github.com/google/brotli.git
+[submodule "3rdparty/fakeit"]
+	path = 3rdparty/fakeit
+	url = https://github.com/eranpeer/FakeIt.git

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "basetestcase.h"
+#include "respbasetestcase.h"
 
-class TestTreeOperations : public BaseTestCase
+class TestTreeOperations : public RESPBaseTestCase
 {
     Q_OBJECT    
 

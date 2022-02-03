@@ -134,14 +134,12 @@ bool ConnectionsManager::loadConnectionsConfigFromFile(const QString& config,
         addNewConnection(conf, false, group);
       }
 
-      addGroup(group);
+      addGroup(group);      
+    } else {
+        ServerConfig conf(obj.toVariantHash());
+        if (conf.isNull()) continue;
+        addNewConnection(conf, false);
     }
-
-    ServerConfig conf(obj.toVariantHash());
-
-    if (conf.isNull()) continue;
-
-    addNewConnection(conf, false);
   }
 
   if (saveChangesToFile) saveConfig();
@@ -385,7 +383,7 @@ void ConnectionsManager::createServerItemForConnection(
             emit connectionAboutToBeEdited(treeModel->config().name());
 
             if (group) {
-              group->removeChild(serverItem);
+              group->removeConnection(serverItem);
             } else {
               removeRootItem(serverItem);
             }

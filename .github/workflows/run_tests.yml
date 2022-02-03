@@ -1,0 +1,42 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+    - 2022
+  pull_request:
+    branches: [ 2022 ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2.3.4
+      with:
+        submodules: 'recursive'
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2.13.2
+      with:
+        version: 5.15.2
+        modules: qtcharts
+    - name: Install Build deps
+      run: |
+          sudo apt-get update -y
+          sudo apt-get install cmake liblz4-dev libzstd-dev libbrotli-dev libsnappy-dev lcov -y
+          cmake --version
+          gcc --version
+    - name: Setup Redis
+      uses: zhulik/redis-action@1.1.0
+    - name: Build Tests
+      run: qmake "SYSTEM_LZ4=1" "SYSTEM_ZSTD=1" "SYSTEM_SNAPPY=1" "SYSTEM_BROTLI=1" DEFINES+=INTEGRATION_TESTS && make -j 2
+      working-directory: ./tests
+    - name: Run Cpp Tests
+      run: ./../bin/tests/tests -platform minimal -txt
+      working-directory: ./tests  
+    - name: Run QML Tests
+      run: ./../bin/tests/qml_tests -platform minimal -txt
+      working-directory: ./tests
+

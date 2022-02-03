@@ -4,7 +4,6 @@
 // tests
 #include <qredisclient/redisclient.h>
 #include <iostream>
-#include "testcases/app/test_abstractkey.h"
 #include "testcases/app/test_configmanager.h"
 #include "testcases/app/test_connectionsmanager.h"
 #include "testcases/app/test_keymodels.h"
@@ -21,19 +20,21 @@ int main(int argc, char *argv[]) {
 
   int allTestsResult = 0
                        // connections-tree module
-                       + QTest::qExec(new TestServerItem, argc, argv) +
-                       QTest::qExec(new TestDatabaseItem, argc, argv) +
-                       QTest::qExec(new TestModel, argc, argv)
+#ifndef Q_OS_WIN
+                       + QTest::qExec(new TestServerItem, argc, argv)
+                       + QTest::qExec(new TestDatabaseItem, argc, argv)
+#endif
+                       + QTest::qExec(new TestModel, argc, argv)
 
                        // console module
                        + QTest::qExec(new TestConsoleOperations, argc, argv)
 
                        // app
-                       + QTest::qExec(new TestConnectionsManager, argc, argv) +
-                       QTest::qExec(new TestConfigManager, argc, argv) +
-                       QTest::qExec(new TestKeyModels, argc, argv) +
-                       QTest::qExec(new TestTreeOperations, argc, argv) +
-                       QTest::qExec(new TestAbstractKey, argc, argv);
+                       + QTest::qExec(new TestConnectionsManager, argc, argv)
+                       + QTest::qExec(new TestConfigManager, argc, argv)
+                       + QTest::qExec(new TestKeyModels, argc, argv)
+                       + QTest::qExec(new TestTreeOperations, argc, argv)
+                       ;
 
   if (allTestsResult == 0)
     qDebug() << "[Tests PASS]";

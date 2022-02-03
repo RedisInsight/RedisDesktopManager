@@ -25,13 +25,6 @@ TreeOperations::TreeOperations(const ServerConfig &config,
   m_events->registerLoggerForConnection(*m_connection);
 }
 
-TreeOperations::~TreeOperations() {
-  if (m_connection) {
-    m_connection->disconnect();
-    m_connection->deleteLater();
-  }
-}
-
 void TreeOperations::loadDatabases(
     QSharedPointer<RedisClient::Connection> c,
     QSharedPointer<AsyncFuture::Deferred<void>> d,
@@ -39,9 +32,11 @@ void TreeOperations::loadDatabases(
   if (!d) return;
 
   auto connection = c->clone(false);
+  auto connectionWRef = connection.toWeakRef();
 
-  d->onCanceled([connection]() {
-    QtConcurrent::run([connection]() {
+  d->onCanceled([connectionWRef]() {
+    QtConcurrent::run([connectionWRef]() {
+      auto connection = connectionWRef.toStrongRef();
       if (connection) connection->disconnect();
     });
   });

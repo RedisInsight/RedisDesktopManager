@@ -10,12 +10,13 @@ TestConnectionsManager::TestConnectionsManager() {}
 
 void TestConnectionsManager::loadConnectionsConfigFromFile() {
   // given
-  // xml fixture
+  // json fixture
   QString configTestFile = "./unit_tests/testcases/app/connections.json";
   auto events = QSharedPointer<Events>(new Events());
 
   // when loads connections
   ConnectionsManager testManager(configTestFile, events);
+  testManager.loadConnections();
 
   // then
   QCOMPARE(testManager.size(), 1);
@@ -42,13 +43,13 @@ void TestConnectionsManager::saveConnectionsConfigToFile() {
   testManager.addNewConnection(connectionConfig, true);
   // load everything from scratch
   ConnectionsManager testManagerNew(configTestFile, events);
+  testManagerNew.loadConnections();
   QModelIndex testIndex = testManagerNew.index(0, 0, QModelIndex());
-  QString actualConnectionName =
-      testManagerNew.data(testIndex, ConnectionsTree::Model::itemName)
-          .toString();
+  auto metadata =
+      testManagerNew.data(testIndex, ConnectionsTree::Model::itemMetaData).toHash();
 
-  // then
-  qDebug() << "Actual name: " << actualConnectionName;
+  // then  
   QCOMPARE(QFile::exists(configTestFile), true);
-  QCOMPARE(actualConnectionName, connectionName);
+  QCOMPARE(testManagerNew.rowCount(), 1);
+  QCOMPARE(metadata["name"], QVariant(connectionName));
 }

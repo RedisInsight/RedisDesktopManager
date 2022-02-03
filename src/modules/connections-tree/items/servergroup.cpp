@@ -43,7 +43,7 @@ void ServerGroup::insertChildAt(uint row, QSharedPointer<TreeItem> srv)
     m_servers.insert(row, srv);
 }
 
-void ServerGroup::removeChild(QSharedPointer<TreeItem> srv)
+void ServerGroup::removeConnection(QSharedPointer<TreeItem> srv)
 {
     m_servers.removeAll(srv);
 }

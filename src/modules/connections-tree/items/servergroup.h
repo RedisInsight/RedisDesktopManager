@@ -27,7 +27,7 @@ class ServerGroup : public QObject, public SortableTreeItem {
 
   void insertChildAt(uint row, QSharedPointer<TreeItem> srv);
 
-  void removeChild(QSharedPointer<TreeItem> srv);
+  void removeConnection(QSharedPointer<TreeItem> srv);
 
   void setName(const QString &name);
 

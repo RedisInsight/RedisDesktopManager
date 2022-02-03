@@ -205,21 +205,36 @@ void TestKeyModels::testKeyModelModifyRows() {
   QFETCH(QStringList, testReplies);
   QFETCH(QVariantMap, row);
   QFETCH(int, role);
+  bool rowsCountLoaded = false;
   auto dummyConnection = getRealConnectionWithDummyTransporter(testReplies);
 
   // when
   QSharedPointer<ValueEditor::Model> keyModel = getKeyModel(dummyConnection);
   QVERIFY(keyModel.isNull() == false);
-  keyModel->loadRows(0, 10, [](const QString&, unsigned long) { return; });
+  keyModel->loadRowsCount([keyModel, &rowsCountLoaded](QString) {
+    rowsCountLoaded = true;
+
+    keyModel->loadRows(0, 10, [](const QString& err, unsigned long) {
+      if (!err.isEmpty()) {
+        qWarning() << err;
+        return;
+      }
+    });
+  });
   wait(500);
-  keyModel->addRow(row, [](QString) {});
+
   row["value"] = "fakeUpdate";
-  keyModel->updateRow(0, row, [](QString) {});
-  wait(100);
+  keyModel->updateRow(0, row, [](const QString& err) {
+    if (!err.isEmpty()) {
+      qWarning() << err;
+    }
+  });
+  wait(500);
+
   QVariant actualResult = keyModel->getData(0, role);
-  keyModel->removeRow(0, [](QString) {});
 
   // then
+  QVERIFY(rowsCountLoaded);
   QVERIFY(actualResult.type() == QVariant::ByteArray);
   QCOMPARE(actualResult.toString(), QString("fakeUpdate"));
 }
@@ -235,64 +250,57 @@ void TestKeyModels::testKeyModelModifyRows_data() {
       << (QStringList() << "+string\r\n"
                         << ":-1\r\n"
                         << "$17\r\n__nice_test_data!\r\n"
-                        << "+OK\r\n"
                         << "+OK\r\n")
       << stringRow << Qt::UserRole + 1;
 
   QVariantMap listRow;
-  listRow["row"] = 0;
+  listRow["rowNumber"] = 0;
   listRow["value"] = "test";
   QTest::newRow("Valid list model")
       << (QStringList() << "+list\r\n"
+                        << ":-1\r\n"
                         << ":2\r\n"
                         << "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
-                        << "+OK\r\n"
                         << "*1\r\n$3\r\nfoo\r\n"
-                        << "+OK\r\n"
-                        << "*1\r\n$10\r\nfakeUpdate\r\n"
-                        << "+OK\r\n"
                         << "+OK\r\n")
       << listRow << Qt::UserRole + 2;
 
   QVariantMap setRow;
-  setRow["row"] = 0;
+  setRow["rowNumber"] = 0;
   setRow["value"] = "test";
   QTest::newRow("Valid set model")
       << (QStringList() << "+set\r\n"
+                        << ":-1\r\n"
                         << ":2\r\n"
                         << "*2\r\n$1\r\n0\r\n*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n"
                         << ":1\r\n"
-                        << "+OK\r\n"
-                        << ":1\r\n"
-                        << "+OK\r\n")
+                        << ":1\r\n")
       << setRow << Qt::UserRole + 2;
 
   QVariantMap zsetRow;
-  zsetRow["row"] = 0;
+  zsetRow["rowNumber"] = 0;
   zsetRow["value"] = "test";
   zsetRow["score"] = 1.1;
   QTest::newRow("Valid zset model")
       << (QStringList()
           << "+zset\r\n"
+          << ":-1\r\n"
           << ":2\r\n"
           << "*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$3\r\nbar\r\n$1\r\n1\r\n"
-          << ":1\r\n"
-          << ":1\r\n"
           << ":1\r\n"
           << ":1\r\n")
       << zsetRow << Qt::UserRole + 2;
 
   QVariantMap hashRow;
-  hashRow["row"] = 0;
+  hashRow["rowNumber"] = 0;
   hashRow["key"] = "test";
   hashRow["value"] = "test";
   QTest::newRow("Valid hash model")
       << (QStringList() << "+hash\r\n"
+                        << ":-1\r\n"
                         << ":2\r\n"
                         << "*2\r\n$1\r\n0\r\n*4\r\n$3\r\nfoo\r\n$1\r\n1\r\n$"
                            "3\r\nbar\r\n$1\r\n1\r\n"
-                        << ":1\r\n"
-                        << ":1\r\n"
                         << ":1\r\n"
                         << ":1\r\n")
       << hashRow << Qt::UserRole + 3;

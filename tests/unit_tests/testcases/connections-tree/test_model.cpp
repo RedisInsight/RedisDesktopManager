@@ -1,16 +1,19 @@
 #include "test_model.h"
-#include <modeltest.h>
 #include "connections-tree/model.h"
 
-void TestModel::testLoadImplementation()
-{
-    // Given
-   ConnectionsTree::Model m;
+#include <QAbstractItemModelTester>
 
-   // When
-   ModelTest test((QAbstractItemModel *)&m);
+void TestModel::testLoadImplementation() {
+  // Given
+  ConnectionsTree::Model m;
 
-   // Then
-   // No assertions
-   Q_UNUSED(test);
+  // When
+  auto test =
+      QScopedPointer<QAbstractItemModelTester>(new QAbstractItemModelTester(
+          (QAbstractItemModel *)&m,
+          QAbstractItemModelTester::FailureReportingMode::Fatal, this));
+
+  // Then
+  // No assertions
+  Q_UNUSED(test);
 }

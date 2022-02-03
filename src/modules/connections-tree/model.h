@@ -17,10 +17,7 @@ class Model : public QAbstractItemModel {
   Q_OBJECT
  public:
   enum Roles {
-    itemName = Qt::UserRole + 1,
-    itemType,
-    itemIsInitiallyExpanded,
-    itemMetaData,
+    itemMetaData = Qt::UserRole + 1
   };
 
  public:

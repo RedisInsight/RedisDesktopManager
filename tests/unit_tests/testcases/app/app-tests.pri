@@ -4,9 +4,10 @@ APP_SRC_DIR = $$PWD/../../../../src/app/
 INCLUDEPATH += $$APP_SRC_DIR
 
 HEADERS  += \
-    $$PWD/test_*.h \
+    $$files($$PWD/test_*.h) \
     $$APP_SRC_DIR/events.h \
     $$APP_SRC_DIR/apputils.h \
+    $$APP_SRC_DIR/jsonutils.h \
     $$APP_SRC_DIR/models/connectionsmanager.h \
     $$APP_SRC_DIR/models/configmanager.h \
     $$APP_SRC_DIR/models/connectionconf.h \
@@ -25,9 +26,10 @@ HEADERS  += \
     $$APP_SRC_DIR/models/key-models/newkeyrequest.h \
 
 SOURCES += \
-    $$PWD/test_*.cpp \
+    $$files($$PWD/test_*.cpp) \
     $$APP_SRC_DIR/events.cpp \
     $$APP_SRC_DIR/apputils.cpp \
+    $$APP_SRC_DIR/jsonutils.cpp \
     $$APP_SRC_DIR/models/connectionsmanager.cpp \
     $$APP_SRC_DIR/models/configmanager.cpp \
     $$APP_SRC_DIR/models/connectiongroup.cpp \
@@ -42,7 +44,8 @@ SOURCES += \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.cpp \
     $$APP_SRC_DIR/models/key-models/hashkey.cpp \
     $$APP_SRC_DIR/models/key-models/rejsonkey.cpp \
+    $$APP_SRC_DIR/models/key-models/newkeyrequest.cpp \
 
 OTHER_FILES += \
-    connections.xml
+    $$PWD/connections.json
 
