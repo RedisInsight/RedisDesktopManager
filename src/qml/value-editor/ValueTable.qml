@@ -198,8 +198,9 @@ Item {
                         property int totalPages: keyTab.keyModel ? Math.ceil(keyTab.keyModel.totalRowCount / maxItemsOnPage) : 0
                         property bool forceLoading: false
                         property int firstColumnWidth: 75
-                        property int valueColumnWidth:  keyTab.keyModel && keyTab.keyModel.columnNames.length == 2? root.width - 200 - table.firstColumnWidth - table.columnSpacing
-                                                                                                                  : (root.width - 200 - table.firstColumnWidth - table.columnSpacing) / 2
+                        property int valueColumnWidth:  keyTab.keyModel && table.columns > 2 ? (root.width - 200 - table.firstColumnWidth - table.columnSpacing) / (table.columns - 1)
+                                                                                             : root.width - 200 - table.firstColumnWidth - table.columnSpacing
+
                         property var valueColumnWidthOverrides: QtObject {}
 
                         Keys.onUpPressed: {
@@ -239,7 +240,7 @@ Item {
                             if (keyTab.keyModel.columnNames.length == 2) {
                                 table.valueColumnWidthOverrides[index] = width;
                             } else {
-                                for (var i=1; i < 3; i++)
+                                for (var i=1; i < keyTab.keyModel.columnNames.length; i++)
                                 {
                                     if (i === index) {
                                         table.valueColumnWidthOverrides[i] = width;
@@ -330,6 +331,37 @@ Item {
                                         }
 
                                         return renderText(display)
+                                    }
+                                }
+                            }
+
+                            DelegateChoice {
+                                column: 3
+
+                                ValueTableCell {
+                                    objectName: "rdm_value_table_cell_col4"
+                                    implicitWidth: table.valueColumnWidth
+                                    implicitHeight: 30
+
+                                    selected: table.currentRow === row
+                                    onClicked: {
+                                        table.currentRow = row
+                                        table.forceActiveFocus()
+                                    }
+
+                                    textDelegate: Component {
+                                        TextEdit {
+                                            wrapMode: Text.WrapAnywhere
+                                            color: root.selected ? sysPalette.highlightedText : sysPalette.text
+                                            readOnly: true
+                                            selectByMouse: true
+                                            text: {
+                                                if (display === "" || !isMultiRow) {
+                                                    return ""
+                                                }
+                                                return "TTL:" + model.ttl + "\nVersion:" + model.version
+                                            }
+                                        }
                                     }
                                 }
                             }
