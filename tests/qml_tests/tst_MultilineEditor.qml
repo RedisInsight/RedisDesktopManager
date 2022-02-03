@@ -26,6 +26,12 @@ TestCase {
         }
     }
 
+    Item {
+        id: appSettings
+
+        property string valueEditorFont: "sans-serif"
+    }
+
     ValueFormatters {
         id: valueFormattersModel
     }
@@ -49,10 +55,12 @@ TestCase {
         property string keyName: "fake_list"
     }
 
-    function test_loadFormattedValue() {
+    function init() {
         defaultFormatterSettings.cleanup()
-        defaultFormatterSettings.sync()
+        editor.defaultFormatter = "auto"
+    }
 
+    function test_loadFormattedValue() {       
         editor.loadFormattedValue(validJson)
 
         verify(editor.__formatterCombobox.currentText === "JSON")
@@ -61,13 +69,23 @@ TestCase {
         verify(editor.__textView.textFormat === TextEdit.PlainText)
     }
 
-    function test_loadFormattedValue_withLastSelectedFormatter() {
-        defaultFormatterSettings.cleanup()
+    function test_loadFormattedValue_withDefaultFormatter() {
+        editor.defaultFormatter = "HEX TABLE"
         defaultFormatterSettings.setValue(editor.lastSelectedFormatterSetting, "Plain Text")
         defaultFormatterSettings.sync()
 
-        console.log(editor.lastSelectedFormatterSetting, defaultFormatterSettings.value(editor.lastSelectedFormatterSetting),
-                    defaultFormatterSettings.value(editor.keyName))
+        editor.loadFormattedValue(validJson)
+
+        verify(editor.__formatterCombobox.currentText === "HEX TABLE")
+        verify(editor.__textView.format === "html")
+        verify(editor.__textView.readOnly)
+        verify(editor.__textView.textFormat === TextEdit.RichText)
+    }
+
+    function test_loadFormattedValue_withLastSelectedFormatter() {
+        editor.defaultFormatter = "last_used"
+        defaultFormatterSettings.setValue(editor.lastSelectedFormatterSetting, "Plain Text")
+        defaultFormatterSettings.sync()
 
         editor.loadFormattedValue(validJson)
 
@@ -78,7 +96,6 @@ TestCase {
     }
 
     function test_loadFormattedValue_withLastSelectedFormatter_and_key_override() {
-        defaultFormatterSettings.cleanup()
         defaultFormatterSettings.setValue(editor.keyName, "HEX")
         defaultFormatterSettings.setValue(editor.lastSelectedFormatterSetting, "Plain Text")
         defaultFormatterSettings.sync()
