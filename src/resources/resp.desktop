@@ -7,5 +7,5 @@ Categories=Development;
 Exec=/opt/resp_app/resp
 Terminal=false
 StartupNotify=true
-Icon=rdm
+Icon=resp
 Keywords=RDM;Redis;
