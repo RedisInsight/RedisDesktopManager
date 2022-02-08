@@ -10,6 +10,7 @@ RowLayout {
     id: root
 
     focus: true
+    spacing: 0
 
     state: "menu"
 
@@ -144,6 +145,8 @@ RowLayout {
         id: filterMenu
 
         Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.topMargin: PlatformUtils.isOSX() ? -3 : 0
 
         property int btnWidth: PlatformUtils.isOSXRetina(Screen)? 18 : 22
         property int btnHeight: PlatformUtils.isOSXRetina(Screen)? 18 : 22
@@ -152,8 +155,13 @@ RowLayout {
             id: filterCombobox
             objectName: "rdm_inline_menu_filter_field"
             editable: true
-            Layout.fillWidth: true
-            indicator.width: 30
+
+            Layout.preferredWidth: connectionsTree.width * 0.4
+            Layout.preferredHeight: PlatformUtils.isOSX()? 25 : 30
+
+            indicator.width: PlatformUtils.isOSX()? 30 : 40
+            indicator.height: PlatformUtils.isOSX()? 25 : 30
+
             selectTextByMouse: true
             editText: styleData.value["filter"]
             model: styleData.value["filterHistory"]
@@ -212,7 +220,7 @@ RowLayout {
             imgWidth: filterMenu.btnWidth
             imgHeight: filterMenu.btnHeight
             iconSource: PlatformUtils.getThemeIcon("help.svg")
-            onClicked: Qt.openUrlExternally("http://docs.resp.app/en/latest/features/#search-in-connection-tree")
+            onClicked: Qt.openUrlExternally("https://docs.resp.app/en/latest/lg-keyspaces/#use-specific-scan-filter-to-reduce-loaded-amount-of-keys")
         }
 
         ImageButton {
