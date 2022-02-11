@@ -19,6 +19,11 @@ RowLayout {
         color: textField.text? textField.text: "transparent"
         border.color:  sysPalette.highlight
         border.width: 1
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: dialog.open()
+        }
     }
 
     BetterTextField {
