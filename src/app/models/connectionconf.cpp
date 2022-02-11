@@ -87,3 +87,13 @@ void ServerConfig::setDefaultFormatter(const QString &v)
 {
     setParam<QString>("default_formatter", v);
 }
+
+QString ServerConfig::iconColor() const
+{
+    return param<QString>("icon_color", QString(""));
+}
+
+void ServerConfig::setIconColor(const QString &v)
+{
+    setParam<QString>("icon_color", v);
+}

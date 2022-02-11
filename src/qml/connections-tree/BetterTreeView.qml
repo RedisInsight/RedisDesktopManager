@@ -21,6 +21,30 @@ TreeView {
 
     property bool sortConnections: false
 
+    function __getIconColorMappings(userColor)
+    {
+        if (!userColor)
+            return {}
+
+        if (approot.darkModeEnabled) {
+            return {
+                "unknown": {"#979798": qmlUtils.changeColorAlpha(userColor, 150)},
+                "standalone": {"#DC423C": userColor, "#9A2928": qmlUtils.changeColorAlpha(userColor, 200)},
+                "cluster": {"#5856D6": userColor},
+                "sentinel": {"#DC423C": userColor},
+                "database": {"#DC423C": userColor}
+            }
+        } else {
+            return {
+                "unknown": {"#B8BEC9": qmlUtils.changeColorAlpha(userColor, 150)},
+                "standalone": {"#DC423C": userColor, "#9A2928": qmlUtils.changeColorAlpha(userColor, 200)},
+                "cluster": {"#5E5CE6": userColor},
+                "sentinel": {"#DC423C": userColor},
+                "database": {"#DC423C": userColor}
+            }
+        }
+    }
+
     backgroundVisible: false
 
     /**
@@ -165,25 +189,43 @@ TreeView {
                     property bool itemEnabled: styleData.value["state"] === true
                     property bool itemLocked: styleData.value["locked"] === true
                     property string itemType: styleData.value["type"] ? styleData.value["type"] : ""
+                    property string userColor: styleData.value["user_color"]? styleData.value["user_color"] : ""
                     property string itemIconSource: {
                         if (itemLocked) {
                             return PlatformUtils.getThemeIcon("wait.svg")
                         }
 
-                        var type = itemType
+                        var type = itemType;
 
                         if (type === "server") {
                             var server_type = styleData.value["server_type"]
+                            var serverIcon = "";
 
                             if (server_type === "unknown") {
-                                return PlatformUtils.getThemeIcon("server_offline.svg")
+                                serverIcon = PlatformUtils.getThemeIcon("server_offline.svg");
                             } else if (server_type === "standalone") {
-                                return PlatformUtils.getThemeIcon("server.svg")
+                                serverIcon = PlatformUtils.getThemeIcon("server.svg")
                             } else {
-                                return PlatformUtils.getThemeIcon(server_type + ".svg")
+                                serverIcon = PlatformUtils.getThemeIcon(server_type + ".svg")
                             }
-                        } else if (type === "database" && styleData.value["live_update"] === true) {
-                            return PlatformUtils.getThemeIcon("live_update.svg")
+
+                            if (userColor) {
+                                return qmlUtils.replaceColorsInSvg(serverIcon, root.__getIconColorMappings(userColor)[server_type])
+                            } else {
+                                return serverIcon;
+                            }
+
+                        } else if (type === "database") {
+                            if (styleData.value["live_update"] === true) {
+                                return PlatformUtils.getThemeIcon("live_update.svg")
+                            } else {
+                                var icon = PlatformUtils.getThemeIcon(type + ".svg");
+                                if (userColor) {
+                                    return qmlUtils.replaceColorsInSvg(icon, root.__getIconColorMappings(userColor)[type])
+                                } else {
+                                    return icon;
+                                }
+                            }
                         } else if (type === "namespace" || type == "server_group" && styleData.isExpanded) {
                             return PlatformUtils.getThemeIcon(type + "_open.svg")
                         } else {

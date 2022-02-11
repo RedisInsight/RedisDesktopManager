@@ -72,5 +72,6 @@
         <file>common/JsonHighlighter.qml</file>
         <file>connections/AskSecretDialog.qml</file>
         <file>common/OkDialogOverlay.qml</file>
+        <file>common/ColorInput.qml</file>
     </qresource>
 </RCC>

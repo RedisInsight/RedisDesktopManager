@@ -190,7 +190,48 @@ QString QmlUtils::getDir(const QString &path) {
 }
 
 bool QmlUtils::fileExists(const QString &path) {
-  return QFileInfo::exists(path);
+    return QFileInfo::exists(path);
+}
+
+QString QmlUtils::replaceColorsInSvg(const QString &path, QVariant mapping)
+{
+    QFile svgFile(path.mid(3));
+    if (!svgFile.open(QIODevice::ReadOnly)) {
+        qWarning() << "Cannot open svg:" << path.mid(3);
+        return QString();
+    }
+
+    if (!mapping.canConvert<QVariantMap>()) {
+        qWarning() << "Invalid colors mapping:" << mapping;
+        return QString();
+    }
+
+    QVariantMap colors = mapping.toMap();
+
+    QString svgData = QString::fromUtf8(svgFile.readAll());
+
+    auto it = colors.constBegin();
+
+    while (it != colors.constEnd()) {
+        auto originalColor = it.key();
+        auto newColor = QColor(it.value().toString());
+
+        if (newColor.alphaF() < 1) {
+            svgData.replace(originalColor, QString("%1\" fill-opacity=\"%2").arg(newColor.name()).arg(newColor.alphaF()));
+        } else {
+            svgData = svgData.replace(originalColor, newColor.name());
+        }
+        ++it;
+    }
+
+    return QString("data:image/svg+xml;utf8,%1").arg(svgData);
+
+}
+
+QString QmlUtils::changeColorAlpha(QColor c, int a)
+{
+    c.setAlpha(a);
+    return c.name(QColor::HexArgb);
 }
 
 void QmlUtils::copyToClipboard(const QString &text) {
