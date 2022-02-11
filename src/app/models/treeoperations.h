@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <QEnableSharedFromThis>
 #include <QObject>
 #include <QSharedPointer>
@@ -95,6 +95,8 @@ class TreeOperations : public QObject,
   void setConfig(const ServerConfig& c);
 
   void proceedWithSecret(const ServerConfig &c);
+
+  QString iconColor() override;
 
 signals:
   void createNewConnection(const ServerConfig& config);

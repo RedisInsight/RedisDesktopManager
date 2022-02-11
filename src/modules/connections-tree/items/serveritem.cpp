@@ -232,5 +232,7 @@ QVariantMap ConnectionsTree::ServerItem::metadata() const {
     meta["server_type"] = "unknown";
   }
 
+  meta["user_color"] = m_operations->iconColor();
+
   return meta;
 }

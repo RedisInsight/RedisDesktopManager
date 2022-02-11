@@ -917,6 +917,23 @@ Dialog {
                                 }
                             }
 
+                            SettingsGroupTitle {
+                                text: qsTranslate("RESP","Appearance")
+                                Layout.columnSpan: 2
+                            }
+
+                            BetterLabel { text: qsTranslate("RESP","Icon color:")}
+
+                            ColorInput {
+                                id: iconsColor
+                                Layout.fillWidth: true
+
+                                color: {
+                                    return root.settings ? root.settings.iconColor : 1
+                                }
+                                onColorChanged: if (root.settings) { root.settings.iconColor = color }
+                            }
+
                             Item {
                                 Layout.columnSpan: 2
                                 Layout.fillHeight: true

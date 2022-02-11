@@ -35,6 +35,9 @@ public:
     Q_INVOKABLE QString getDir(const QString &path);
     Q_INVOKABLE bool fileExists(const QString& path);
 
+    Q_INVOKABLE QString replaceColorsInSvg(const QString& path, QVariant mapping);
+    Q_INVOKABLE QString changeColorAlpha(QColor c, int a);
+
     Q_INVOKABLE void copyToClipboard(const QString &text);
     Q_INVOKABLE bool saveToFile(const QVariant &value, const QString &path);
     Q_INVOKABLE void addNewValueToDynamicChart(QtCharts::QXYSeries* series, qreal value);

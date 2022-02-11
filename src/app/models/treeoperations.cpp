@@ -539,3 +539,8 @@ void TreeOperations::proceedWithSecret(const ServerConfig &c)
         return;
     }
 }
+
+QString TreeOperations::iconColor()
+{
+    return m_config.iconColor();
+}

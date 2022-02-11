@@ -117,6 +117,7 @@ QVariantMap DatabaseItem::metadata() const {
   metadata["filter"] = m_filter.pattern();
   metadata["filterHistory"] = filterHistoryTop10();
   metadata["live_update"] = isLiveUpdateEnabled();
+  metadata["user_color"] = m_operations->iconColor();
   return metadata;
 }
 

@@ -60,6 +60,8 @@ class Operations {
    */
   virtual QString getNamespaceSeparator() = 0;
 
+  virtual QString iconColor() = 0;
+
   virtual QString defaultFilter() = 0;
 
   virtual QVariantMap getFilterHistory() = 0;
