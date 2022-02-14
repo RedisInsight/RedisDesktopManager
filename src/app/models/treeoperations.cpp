@@ -188,14 +188,16 @@ void TreeOperations::getReadyConnection(TreeOperations::PendingOperation callbac
 }
 
 QFuture<void> TreeOperations::getDatabases(
-    std::function<void(RedisClient::DatabaseList, const QString&)> callback) {
+    QSharedPointer<GetDatabasesCallback> callback) {
   m_dbScanOp = QSharedPointer<AsyncFuture::Deferred<void>>(
       new AsyncFuture::Deferred<void>());
 
   getReadyConnection(
       [this, callback](QSharedPointer<RedisClient::Connection> c) {
         QtConcurrent::run(this, &TreeOperations::loadDatabases, c, m_dbScanOp,
-                          callback);
+                          [callback](RedisClient::DatabaseList dbs, const QString& err){
+            callback->call(dbs, err);
+        });
       });
 
   return m_dbScanOp->future();
@@ -203,9 +205,7 @@ QFuture<void> TreeOperations::getDatabases(
 
 void TreeOperations::loadNamespaceItems(
     uint dbIndex, const QString& filter,
-    std::function<void(const RedisClient::Connection::RawKeysList& keylist,
-                       const QString& err)>
-        callback) {
+    QSharedPointer<LoadNamespaceItemsCallback> callback) {
   QString keyPattern = filter.isEmpty() ? m_config.keysPattern() : filter;
 
   if (m_filterHistory.contains(keyPattern)) {
@@ -221,23 +221,28 @@ void TreeOperations::loadNamespaceItems(
     if (!connect(c)) return;
 
     auto processErr = [callback](const QString& err) {
-      return callback(
+      return callback->call(
           RedisClient::Connection::RawKeysList(),
           QCoreApplication::translate("RESP", "Cannot load keys: %1").arg(err));
     };
 
+    auto callbackWrapper = [callback](const RedisClient::Connection::RawKeysList &keys,
+        const QString &err) {
+      return callback->call(keys, err);
+    };
+
     try {
       if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
-        m_connection->getClusterKeys(callback, keyPattern);
+        m_connection->getClusterKeys(callbackWrapper, keyPattern);
       } else {
         m_connection->cmd(
             {"ping"}, this, dbIndex,
-            [this, callback, keyPattern,
+            [this, callbackWrapper, keyPattern,
              processErr](const RedisClient::Response& r) {
               if (r.isErrorMessage()) {
                 return processErr(r.value().toString());
               }
-              m_connection->getDatabaseKeys(callback, keyPattern, -1);
+              m_connection->getDatabaseKeys(callbackWrapper, keyPattern, -1);
             },
             [processErr](const QString& err) { return processErr(err); });
       }
@@ -288,7 +293,7 @@ void TreeOperations::openConsoleTab(int dbIndex) {
 }
 
 void TreeOperations::openNewKeyDialog(int dbIndex,
-                                      std::function<void()> callback,
+                                      QSharedPointer<OpenNewKeyDialogCallback> callback,
                                       QString keyPrefix) {
   getReadyConnection([this, dbIndex, callback,
                       keyPrefix](QSharedPointer<RedisClient::Connection> c) {
@@ -311,7 +316,7 @@ void TreeOperations::notifyDbWasUnloaded(int dbIndex) {
 }
 
 void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
-                                 std::function<void(const QString&)> callback) {
+                                 QSharedPointer<DeleteDbKeyCallback> callback) {
   getReadyConnection(
       [this, &key, callback](QSharedPointer<RedisClient::Connection> c) {
         c->cmd(
@@ -327,7 +332,7 @@ void TreeOperations::deleteDbKey(ConnectionsTree::KeyItem& key,
               QString errorMsg =
                   QCoreApplication::translate("RESP", "Delete key error: %1")
                       .arg(err);
-              callback(errorMsg);
+              callback->call(errorMsg);
               if (m_events) m_events->error(errorMsg);
             });
       });
@@ -393,11 +398,16 @@ void TreeOperations::importKeysFromRdb(ConnectionsTree::DatabaseItem& db) {
 }
 
 void TreeOperations::flushDb(int dbIndex,
-                             std::function<void(const QString&)> callback) {
+                             QSharedPointer<FlushDbCallback> callback) {
+
+  auto callbackWrapper = [callback](const QString &err) {
+    callback->call(err);
+  };
+
   getReadyConnection(
-      [dbIndex, callback](QSharedPointer<RedisClient::Connection> c) {
+      [dbIndex, callbackWrapper](QSharedPointer<RedisClient::Connection> c) {
         try {
-          c->flushDbKeys(dbIndex, callback);
+          c->flushDbKeys(dbIndex, callbackWrapper);
         } catch (const RedisClient::Connection::Exception& e) {
           throw ConnectionsTree::Operations::Exception(
               QCoreApplication::translate("RESP", "Cannot flush database: ") +
@@ -410,10 +420,9 @@ QFuture<bool> TreeOperations::connectionSupportsMemoryOperations() {
     return m_connection->isCommandSupported({"MEMORY", "HELP"});
 }
 
-void TreeOperations::openKeyIfExists(
-    const QByteArray& fullPath,
+void TreeOperations::openKeyIfExists(const QByteArray& fullPath,
     QSharedPointer<ConnectionsTree::DatabaseItem> parent,
-    std::function<void(const QString&, bool)> callback) {
+    QSharedPointer<OpenKeyIfExistsCallback> callback) {
   if (!parent) {
     qWarning() << "TreeOperations::openKeyIfExists > Invalid parent";
     return;
@@ -434,18 +443,18 @@ void TreeOperations::openKeyIfExists(
 
             emit m_events->openValueTab(m_connection, key, true);
 
-            callback(QString(), true);
+            callback->call(QString(), true);
           } else {
-            callback(QString(), false);
+            callback->call(QString(), false);
           }
         },
-        [callback](const QString& err) { callback(err, false); });
+        [callback](const QString& err) { callback->call(err, false); });
   });
 }
 
 void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
-                                   std::function<void(qlonglong)> result,
-                                   std::function<void(qlonglong)> progress) {
+                                   QSharedPointer<GetUsedMemoryCallback> result,
+                                   QSharedPointer<GetUsedMemoryCallback> progress) {
   QList<QList<QByteArray>> commands;
 
   for (int index = 0; index < keys.size(); ++index) {
@@ -481,10 +490,11 @@ void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
             }
           }
 
-          progress(*totalMemory);
+          if (progress)
+            progress->call(std::move(*totalMemory));
 
-          if ((*processedResponses) >= expectedResponses) {
-            result(*totalMemory);
+          if ((*processedResponses) >= expectedResponses && result) {
+            result->call(std::move(*totalMemory));
           }
         }
       });

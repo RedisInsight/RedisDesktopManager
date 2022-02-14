@@ -86,18 +86,21 @@ void NamespaceItem::load() {
     }
   }
 
-  m_operations->loadNamespaceItems(
-      m_dbIndex, nsFilter,
-      [this, nsFilter, onKeysRendered](
-          const RedisClient::Connection::RawKeysList &keylist,
-          const QString &err) {
-        if (!err.isEmpty()) {
-          unlock();
-          return showLoadingError(err);
-        }
+  auto callback = QSharedPointer<Operations::LoadNamespaceItemsCallback>(
+      new Operations::LoadNamespaceItemsCallback(
+          getSelf(), [this, nsFilter, onKeysRendered](
+                         const RedisClient::Connection::RawKeysList &keylist,
+                         const QString &err) {
+            if (!err.isEmpty()) {
+              unlock();
+              return showLoadingError(err);
+            }
 
-        return renderRawKeys(keylist, m_filter, onKeysRendered, true, false);
-      });
+            return renderRawKeys(keylist, m_filter, onKeysRendered, true,
+                                 false);
+          }));
+
+  m_operations->loadNamespaceItems(m_dbIndex, nsFilter, callback);
 }
 
 void NamespaceItem::reload() {
@@ -121,17 +124,19 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
   });
 
   events.insert("add_key", [this]() {
+    auto callback = QSharedPointer<Operations::OpenNewKeyDialogCallback>(
+        new Operations::OpenNewKeyDialogCallback(getSelf(), [this]() {
+          confirmAction(
+              nullptr,
+              QCoreApplication::translate(
+                  "RESP",
+                  "Key was added. Do you want to reload keys in "
+                  "selected namespace?"),
+              [this]() { reload(); },
+              QCoreApplication::translate("RESP", "Key was added"));
+        }));
     m_operations->openNewKeyDialog(
-        m_dbIndex,
-        [this]() {
-          confirmAction(nullptr,
-                        QCoreApplication::translate(
-                            "RESP",
-                            "Key was added. Do you want to reload keys in "
-                            "selected namespace?"),
-                        [this]() { reload(); },
-                        QCoreApplication::translate("RESP", "Key was added"));
-        },
+        m_dbIndex, callback,
         QString("%1%2")
             .arg(QString::fromUtf8(getFullPath()))
             .arg(m_operations->getNamespaceSeparator()));

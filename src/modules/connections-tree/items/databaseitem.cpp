@@ -13,9 +13,9 @@
 #include "connections-tree/model.h"
 #include "connections-tree/utils.h"
 #include "keyitem.h"
+#include "loadmoreitem.h"
 #include "namespaceitem.h"
 #include "serveritem.h"
-#include "loadmoreitem.h"
 
 using namespace ConnectionsTree;
 
@@ -39,7 +39,8 @@ QString DatabaseItem::getDisplayName() const {
   QString baseString = QString("db%1").arg(m_dbIndex);
 
   if (m_usedMemory > 0) {
-    baseString.append(QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));
+    baseString.append(
+        QString(" <b>[%1]</b>").arg(humanReadableSize(m_usedMemory)));
   }
 
   if (m_operations->mode() == "cluster") {
@@ -51,43 +52,50 @@ QString DatabaseItem::getDisplayName() const {
 
 bool DatabaseItem::isEnabled() const { return true; }
 
-void DatabaseItem::loadKeys(std::function<void()> callback, bool partialReload) {
+void DatabaseItem::loadKeys(std::function<void()> callback,
+                            bool partialReload) {
   lock();
 
   QString filter = (m_filter.isEmpty()) ? "" : m_filter.pattern();
 
-  auto self = getSelf().toStrongRef();
+  auto selfWPtr = getSelf();
+  auto self = selfWPtr.toStrongRef();
 
   if (!self) {
     unlock();
     return;
   }
 
-  std::function<void(RedisClient::DatabaseList, const QString&)>
-      dbLoadCallback = [this](QMap<int, int> dbMapping, const QString& err) {
-        if (err.size() > 0) {
-          unlock();
-          emit m_model.error(
-              QCoreApplication::translate("RESP", "Cannot load databases:\n\n") +
-              err);
-          return;
-        }
+  auto dbLoadCallback = QSharedPointer<Operations::GetDatabasesCallback>(
+      new Operations::GetDatabasesCallback(
+          getSelf(), [this](QMap<int, int> dbMapping, const QString& err) {
+            if (err.size() > 0) {
+              unlock();
+              emit m_model.error(QCoreApplication::translate(
+                                     "RESP", "Cannot load databases:\n\n") +
+                                 err);
+              return;
+            }
 
-        if (dbMapping.contains(m_dbIndex)) {
-          m_keysCount = dbMapping[m_dbIndex];
-          emit m_model.itemChanged(getSelf());
-        }
-      };
+            if (dbMapping.contains(m_dbIndex)) {
+              m_keysCount = dbMapping[m_dbIndex];
+              emit m_model.itemChanged(getSelf());
+            }
+          }));
 
   m_operations->getDatabases(dbLoadCallback);
 
-  auto onKeysRendered = [this, callback]() {
+  auto onKeysRendered = [selfWPtr, this, callback]() {
+    auto self = selfWPtr.toStrongRef();
+
+    if (!self) return;
+
     ensureLoaderIsCreated();
     unlock();
 
     if (!isExpanded()) {
-        setExpanded(true);
-        m_model.expandItem(getSelf());
+      setExpanded(true);
+      m_model.expandItem(getSelf());
     }
 
     emit m_model.itemChanged(getSelf());
@@ -97,19 +105,21 @@ void DatabaseItem::loadKeys(std::function<void()> callback, bool partialReload) 
     }
   };
 
-  m_operations->loadNamespaceItems(
-      m_dbIndex, filter,
-      [this, onKeysRendered, partialReload](
-          const RedisClient::Connection::RawKeysList& keylist,
-          const QString& err) {
-        if (!err.isEmpty()) {
-          unlock();
-          return showLoadingError(err);
-        }
+  auto nsItemsCallback = QSharedPointer<Operations::LoadNamespaceItemsCallback>(
+      new Operations::LoadNamespaceItemsCallback(
+          getSelf(), [this, onKeysRendered, partialReload](
+                         const RedisClient::Connection::RawKeysList& keylist,
+                         const QString& err) {
+            if (!err.isEmpty()) {
+              unlock();
+              return showLoadingError(err);
+            }
 
-        return renderRawKeys(keylist, m_filter, onKeysRendered,
-                             !partialReload, partialReload);
-      });
+            return renderRawKeys(keylist, m_filter, onKeysRendered,
+                                 !partialReload, partialReload);
+          }));
+
+  m_operations->loadNamespaceItems(m_dbIndex, filter, nsItemsCallback);
 }
 
 QVariantMap DatabaseItem::metadata() const {
@@ -143,13 +153,22 @@ void DatabaseItem::setMetadata(const QString& key, QVariant value) {
       return applyFilter();
     }
 
-    m_operations->openKeyIfExists(
-        val, getSelf().toStrongRef().dynamicCast<DatabaseItem>(),
-        [applyFilter](const QString&, bool result) {
-          if (!result) {
-            applyFilter();
-          }
-        });
+    auto selfWPtr = getSelf();
+
+    auto openKeyCallback = QSharedPointer<Operations::OpenKeyIfExistsCallback>(
+        new Operations::OpenKeyIfExistsCallback(
+            selfWPtr, [applyFilter](const QString&, bool result) {
+              if (!result) {
+                applyFilter();
+              }
+            }));
+
+    auto self = selfWPtr.toStrongRef();
+
+    if (!self) return;
+
+    m_operations->openKeyIfExists(val, self.dynamicCast<DatabaseItem>(),
+                                  openKeyCallback);
 
     return;
   } else if (key == "live_update") {
@@ -221,27 +240,29 @@ void DatabaseItem::performLiveUpdate() {
 
   m_rawChildKeys.clear();
 
-  loadKeys([this]() {
-    QSettings settings;
-    if (m_childItems.size() >=
-        settings.value("app/liveUpdateKeysLimit", 1000).toInt()) {
-      liveUpdateTimer()->stop();
+  loadKeys(
+      [this]() {
+        QSettings settings;
+        if (m_childItems.size() >=
+            settings.value("app/liveUpdateKeysLimit", 1000).toInt()) {
+          liveUpdateTimer()->stop();
 
-      emit m_model.itemChanged(getSelf());
+          emit m_model.itemChanged(getSelf());
 
-      QMessageBox::warning(
-          nullptr,
-          QCoreApplication::translate("RESP", "Live update was disabled"),
-          QCoreApplication::translate(
-              "RESP",
-              "Live update was disabled due to exceeded keys limit. "
-              "Please specify filter more carefully or change limit in "
-              "settings."));
-    } else {
-      liveUpdateTimer()->start();
-      emit m_model.itemChanged(getSelf());
-    }
-  }, true);
+          QMessageBox::warning(
+              nullptr,
+              QCoreApplication::translate("RESP", "Live update was disabled"),
+              QCoreApplication::translate(
+                  "RESP",
+                  "Live update was disabled due to exceeded keys limit. "
+                  "Please specify filter more carefully or change limit in "
+                  "settings."));
+        } else {
+          liveUpdateTimer()->start();
+          emit m_model.itemChanged(getSelf());
+        }
+      },
+      true);
 }
 
 void DatabaseItem::filterKeys(const QRegExp& filter) {
@@ -261,11 +282,11 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
 
   events.insert("click", [this]() {
     if (m_childItems.size() != 0) {
-        if (!isExpanded()) {
-            setExpanded(true);
-            m_model.expandItem(getSelf());
-        }
-        return;
+      if (!isExpanded()) {
+        setExpanded(true);
+        m_model.expandItem(getSelf());
+      }
+      return;
     }
 
     loadKeys();
@@ -278,19 +299,22 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
   });
 
   events.insert("add_key", [this]() {
-    m_operations->openNewKeyDialog(m_dbIndex, [this]() {
-      confirmAction(
-          nullptr,
-          QCoreApplication::translate(
-              "RESP",
-              "Key was added. Do you want to reload keys in "
-              "selected database?"),
-          [this]() {
-            reload();
-            m_keysCount++;
-          },
-          QCoreApplication::translate("RESP", "Key was added"));
-    });
+    auto callback = QSharedPointer<Operations::OpenNewKeyDialogCallback>(
+        new Operations::OpenNewKeyDialogCallback(getSelf(), [this]() {
+          confirmAction(
+              nullptr,
+              QCoreApplication::translate(
+                  "RESP",
+                  "Key was added. Do you want to reload keys in "
+                  "selected database?"),
+              [this]() {
+                reload();
+                m_keysCount++;
+              },
+              QCoreApplication::translate("RESP", "Key was added"));
+        }));
+
+    m_operations->openNewKeyDialog(m_dbIndex, callback);
   });
 
   events.insert("reload", [this]() {
@@ -311,10 +335,13 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
     confirmAction(
         nullptr,
         QCoreApplication::translate(
-            "RESP", "Do you really want to remove all keys from this database?"),
+            "RESP",
+            "Do you really want to remove all keys from this database?"),
         [this]() {
-          m_operations->flushDb(m_dbIndex,
-                                [this](const QString&) { unload(); });
+          auto callback = QSharedPointer<Operations::FlushDbCallback>(
+              new Operations::FlushDbCallback(
+                  getSelf(), [this](const QString&) { unload(); }));
+          m_operations->flushDb(m_dbIndex, callback);
         });
   });
 
@@ -325,7 +352,8 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
 
   events.insert("copy_keys", [this]() { m_operations->copyKeys(*this); });
 
-  events.insert("rdb_import", [this]() { m_operations->importKeysFromRdb(*this); });
+  events.insert("rdb_import",
+                [this]() { m_operations->importKeysFromRdb(*this); });
 
   events.insert("ttl", [this]() { m_operations->setTTL(*this); });
 
@@ -357,29 +385,30 @@ bool DatabaseItem::isLiveUpdateEnabled() const {
 
 // Top 10 filters
 QVariantList DatabaseItem::filterHistoryTop10() const {
-    typedef QPair<QString, int> FilterUsage;
+  typedef QPair<QString, int> FilterUsage;
 
-    QList<FilterUsage> filterHistoryRating;
-    QVariantList filterHistoryList;
-    auto server = parent().toStrongRef();
+  QList<FilterUsage> filterHistoryRating;
+  QVariantList filterHistoryList;
+  auto server = parent().toStrongRef();
 
-    if (!server || !server.staticCast<ServerItem>()) return filterHistoryList;
+  if (!server || !server.staticCast<ServerItem>()) return filterHistoryList;
 
-    QVariantMap filterHistory = m_operations->getFilterHistory();
-    QVariantMap::const_iterator i(filterHistory.begin());
+  QVariantMap filterHistory = m_operations->getFilterHistory();
+  QVariantMap::const_iterator i(filterHistory.begin());
 
-    while (i != filterHistory.end()) {
-        FilterUsage filterUsage;
-        filterUsage.first = i.key();
-        filterUsage.second = i.value().toInt();
-        filterHistoryRating.append(filterUsage);
-        ++i;
-    }
-    std::sort(filterHistoryRating.begin(), filterHistoryRating.end(), [](FilterUsage i, FilterUsage j) { return (i.second > j.second); });
+  while (i != filterHistory.end()) {
+    FilterUsage filterUsage;
+    filterUsage.first = i.key();
+    filterUsage.second = i.value().toInt();
+    filterHistoryRating.append(filterUsage);
+    ++i;
+  }
+  std::sort(filterHistoryRating.begin(), filterHistoryRating.end(),
+            [](FilterUsage i, FilterUsage j) { return (i.second > j.second); });
 
-    for (int i = 0; filterHistoryRating.size() > 0; i++) {
-        if (i >= 10) break;
-        filterHistoryList.append(filterHistoryRating.takeFirst().first);
-    }
-    return filterHistoryList;
+  for (int i = 0; filterHistoryRating.size() > 0; i++) {
+    if (i >= 10) break;
+    filterHistoryList.append(filterHistoryRating.takeFirst().first);
+  }
+  return filterHistoryList;
 }

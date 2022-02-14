@@ -7,9 +7,11 @@
 #include <QString>
 #include <functional>
 #include "modules/bulk-operations/bulkoperationsmanager.h"
+#include "common/callbackwithowner.h"
 
 namespace ConnectionsTree {
 class KeyItem;
+class TreeItem;
 }
 
 class Events : public QObject, public QEnableSharedFromThis<Events> {
@@ -41,9 +43,10 @@ class Events : public QObject, public QEnableSharedFromThis<Events> {
       BulkOperations::Manager::Operation op, QRegExp keyPattern,
       BulkOperations::AbstractOperation::OperationCallback callback);
 
-  void newKeyDialog(QSharedPointer<RedisClient::Connection> connection,
-                    std::function<void()> callback, int dbIndex,
-                    QString keyPrefix);
+  void newKeyDialog(
+      QSharedPointer<RedisClient::Connection> connection,
+      QSharedPointer<CallbackWithOwner<ConnectionsTree::TreeItem>> callback,
+      int dbIndex, QString keyPrefix);
 
   // Notifications
   void error(const QString& msg);

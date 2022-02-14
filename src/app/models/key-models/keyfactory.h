@@ -3,6 +3,7 @@
 #include "exception.h"
 #include "modules/value-editor/abstractkeyfactory.h"
 #include "newkeyrequest.h"
+#include "modules/connections-tree/operations.h"
 
 class KeyFactory : public QObject, public ValueEditor::AbstractKeyFactory {
   Q_OBJECT
@@ -16,9 +17,11 @@ class KeyFactory : public QObject, public ValueEditor::AbstractKeyFactory {
           callback) override;
 
  public slots:
-  void createNewKeyRequest(QSharedPointer<RedisClient::Connection> connection,
-                           std::function<void()> callback, int dbIndex,
-                           QString keyPrefix);
+  void createNewKeyRequest(
+      QSharedPointer<RedisClient::Connection> connection,
+      QSharedPointer<ConnectionsTree::Operations::OpenNewKeyDialogCallback>
+          callback,
+      int dbIndex, QString keyPrefix);
 
   void submitNewKeyRequest(NewKeyRequest r);
 

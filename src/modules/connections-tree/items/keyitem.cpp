@@ -100,12 +100,17 @@ void KeyItem::getMemoryUsage(std::function<void(qlonglong)> callback) {
 
   if (!parentNs || !parentNs->operations()) return callback(0);
 
-  parentNs->operations()->getUsedMemory({getFullPath()}, getDbIndex(),
-          [this, callback](qlonglong result) {
-      m_usedMemory = result;
-      callback(result);
-      emit m_model.itemChanged(getSelf());
-  }, [](qlonglong){});
+  auto cb = QSharedPointer<Operations::GetUsedMemoryCallback>(
+      new Operations::GetUsedMemoryCallback(
+          getSelf(), [this, callback](qlonglong result) {
+            m_usedMemory = result;
+            callback(result);
+            emit m_model.itemChanged(getSelf());
+          }));
+
+  parentNs->operations()->getUsedMemory(
+      {getFullPath()}, getDbIndex(), cb,
+      QSharedPointer<Operations::GetUsedMemoryCallback>());
 }
 
 void KeyItem::setFullPath(const QByteArray& p) {
@@ -148,9 +153,17 @@ QHash<QString, std::function<void()>> KeyItem::eventHandlers() {
           auto parentNs = parentTreeItemToNs(m_parent);
 
           if (!parentNs || !parentNs->operations()) return;
-          parentNs->operations()->deleteDbKey(*this, [](const QString& error) {
-            qDebug() << error;
-          });
+
+          auto callback = QSharedPointer<Operations::DeleteDbKeyCallback>(
+              new Operations::DeleteDbKeyCallback(
+                  getSelf(), [this](const QString& err) {
+                    emit m_model.error(QCoreApplication::translate(
+                                           "RESP", "Cannot delete key:\n\n") +
+                                       err);
+                    return;
+                  }));
+
+          parentNs->operations()->deleteDbKey(*this, callback);
         });
   });
   return events;

@@ -1,6 +1,6 @@
 #include "newkeyrequest.h"
 
-NewKeyRequest::NewKeyRequest(QSharedPointer<RedisClient::Connection> connection, int dbIndex, std::function<void ()> callback, QString keyPrefix)
+NewKeyRequest::NewKeyRequest(QSharedPointer<RedisClient::Connection> connection, int dbIndex, QSharedPointer<ConnectionsTree::Operations::OpenNewKeyDialogCallback> callback, QString keyPrefix)
     : m_connection(connection),
       m_dbIndex(dbIndex),
       m_callback(callback),

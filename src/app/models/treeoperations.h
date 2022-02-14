@@ -3,32 +3,33 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <functional>
+
 #include "app/models/connectionconf.h"
+#include "connections-tree/items/keyitem.h"
 #include "modules/bulk-operations/bulkoperationsmanager.h"
 #include "modules/connections-tree/operations.h"
-#include "connections-tree/items/keyitem.h"
 
 class Events;
 
 namespace ConnectionsTree {
-    class ServerItem;
-}
+class ServerItem;
+class TreeItem;
+}  // namespace ConnectionsTree
 
 class TreeOperations : public QObject,
                        public ConnectionsTree::Operations,
                        public QEnableSharedFromThis<TreeOperations> {
   Q_OBJECT
  public:
-  TreeOperations(const ServerConfig& config,
-                 QSharedPointer<Events> events);
+  TreeOperations(const ServerConfig& config, QSharedPointer<Events> events);
 
-  QFuture<void> getDatabases(std::function<void (RedisClient::DatabaseList, const QString&)>) override;
+  QFuture<void> getDatabases(
+      QSharedPointer<GetDatabasesCallback> callback) override;
 
   void loadNamespaceItems(
       uint dbIndex, const QString& filter,
-      std::function<void(const RedisClient::Connection::RawKeysList& keylist,
-                         const QString& err)>
-          callback) override;
+      QSharedPointer<LoadNamespaceItemsCallback> callback)
+      override;
 
   void disconnect() override;
 
@@ -47,7 +48,8 @@ class TreeOperations : public QObject,
 
   void openConsoleTab(int dbIndex = 0) override;
 
-  void openNewKeyDialog(int dbIndex, std::function<void()> callback,
+  void openNewKeyDialog(int dbIndex,
+                        QSharedPointer<OpenNewKeyDialogCallback> callback,
                         QString keyPrefix = QString()) override;
 
   void openServerStats() override;
@@ -57,7 +59,7 @@ class TreeOperations : public QObject,
   void notifyDbWasUnloaded(int dbIndex) override;
 
   void deleteDbKey(ConnectionsTree::KeyItem& key,
-                   std::function<void(const QString&)> callback) override;
+                   QSharedPointer<DeleteDbKeyCallback> callback) override;
 
   virtual void deleteDbKeys(ConnectionsTree::DatabaseItem& db) override;
 
@@ -70,17 +72,18 @@ class TreeOperations : public QObject,
   virtual void importKeysFromRdb(ConnectionsTree::DatabaseItem& ns) override;
 
   virtual void flushDb(int dbIndex,
-                       std::function<void(const QString&)> callback) override;
+                       QSharedPointer<FlushDbCallback> callback) override;
 
   virtual QFuture<bool> connectionSupportsMemoryOperations() override;
 
-  virtual void openKeyIfExists(const QByteArray& key,
-                               QSharedPointer<ConnectionsTree::DatabaseItem> parent,
-                               std::function<void(const QString&, bool)> callback) override;
+  virtual void openKeyIfExists(
+      const QByteArray& key,
+      QSharedPointer<ConnectionsTree::DatabaseItem> parent,
+      QSharedPointer<OpenKeyIfExistsCallback> callback) override;
 
   virtual void getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
-      std::function<void(qlonglong)> result,
-      std::function<void(qlonglong)> progress) override;
+                             QSharedPointer<GetUsedMemoryCallback> result,
+                             QSharedPointer<GetUsedMemoryCallback> progress) override;
 
   virtual QString mode() override;
 
@@ -94,7 +97,7 @@ class TreeOperations : public QObject,
 
   void setConfig(const ServerConfig& c);
 
-  void proceedWithSecret(const ServerConfig &c);
+  void proceedWithSecret(const ServerConfig& c);
 
   QString iconColor() override;
 
@@ -108,14 +111,16 @@ signals:
   void secretRequired(const ServerConfig& config, const QString& id);
 
  protected:
-  void loadDatabases(QSharedPointer<RedisClient::Connection> c,
-                     QSharedPointer<AsyncFuture::Deferred<void>> d,
-                     std::function<void(RedisClient::DatabaseList, const QString&)> callback);
+  void loadDatabases(
+      QSharedPointer<RedisClient::Connection> c,
+      QSharedPointer<AsyncFuture::Deferred<void>> d,
+      std::function<void(RedisClient::DatabaseList, const QString&)> callback);
 
-  void recursiveSelectScan(QSharedPointer<AsyncFuture::Deferred<void>> d,
-                           QSharedPointer<RedisClient::Connection> c,
-                           QSharedPointer<RedisClient::DatabaseList> dbList,
-                           std::function<void(RedisClient::DatabaseList, const QString&)> callback);
+  void recursiveSelectScan(
+      QSharedPointer<AsyncFuture::Deferred<void>> d,
+      QSharedPointer<RedisClient::Connection> c,
+      QSharedPointer<RedisClient::DatabaseList> dbList,
+      std::function<void(RedisClient::DatabaseList, const QString&)> callback);
 
   bool connect(QSharedPointer<RedisClient::Connection> c);
 
@@ -125,7 +130,8 @@ signals:
       BulkOperations::AbstractOperation::OperationCallback callback);
 
  private:
-  typedef std::function<void(QSharedPointer<RedisClient::Connection>)> PendingOperation;
+  typedef std::function<void(QSharedPointer<RedisClient::Connection>)>
+      PendingOperation;
   void getReadyConnection(PendingOperation callback);
 
  private:

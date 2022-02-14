@@ -87,7 +87,8 @@ void KeyFactory::loadKey(
 
 void KeyFactory::createNewKeyRequest(
     QSharedPointer<RedisClient::Connection> connection,
-    std::function<void()> callback, int dbIndex, QString keyPrefix) {
+    QSharedPointer<ConnectionsTree::Operations::OpenNewKeyDialogCallback> callback,
+    int dbIndex, QString keyPrefix) {
   if (connection.isNull() || dbIndex < 0) return;
   emit newKeyDialog(NewKeyRequest(connection, dbIndex, callback, keyPrefix));
 }

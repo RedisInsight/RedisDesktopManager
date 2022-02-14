@@ -328,10 +328,18 @@ void AbstractNamespaceItem::renderRawKeys(
       },
       keylist);
 
-  AsyncFuture::observe(future).subscribe([this, settings, callback, future]() {
+  auto selfWPtr = getSelf();
+
+  AsyncFuture::observe(future).subscribe([selfWPtr, this, settings, callback, future]() {
+
+    auto self = selfWPtr.toStrongRef();
+
+    if (!self)
+      return;
+
     ConnectionsTree::KeysTreeRenderer::renderKeys(
         m_operations, future.result(),
-        qSharedPointerDynamicCast<AbstractNamespaceItem>(getSelf()), settings,
+        qSharedPointerDynamicCast<AbstractNamespaceItem>(self), settings,
         m_model.expandedNamespaces);
     callback();
   });
@@ -362,7 +370,14 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
 
     auto future = m_operations->connectionSupportsMemoryOperations();
 
-    AsyncFuture::observe(future).subscribe([this](bool isSupported) {
+    auto selfWPtr = getSelf();
+
+    AsyncFuture::observe(future).subscribe([selfWPtr, this](bool isSupported) {
+      auto self = selfWPtr.toStrongRef();
+
+      if (!self)
+        return;
+
       if (!isSupported) {
         emit m_model.error(QCoreApplication::translate(
             "RESP",
@@ -373,7 +388,7 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
         return;
       }
 
-      getMemoryUsage([this](qlonglong) {
+      getMemoryUsage([selfWPtr, this](qlonglong) {
         QTimer::singleShot(0, this, [this]() {
           sortChilds();
           unlock();
@@ -432,18 +447,24 @@ void AbstractNamespaceItem::calculateUsedMemory(
   }
 
   if (m_rawChildKeys.size() > 0) {
-    operations()->getUsedMemory(
-        m_rawChildKeys, m_dbIndex,
-        [this, callback](qlonglong result) {
-          m_usedMemory = result;
-          emit m_model.itemChanged(getSelf());
+    auto resultCallback = QSharedPointer<Operations::GetUsedMemoryCallback>(
+        new Operations::GetUsedMemoryCallback(
+            getSelf(), [this, callback](qlonglong result) {
+              m_usedMemory = result;
+              emit m_model.itemChanged(getSelf());
 
-          if (m_childItems.size() == 0) callback(result);
-        },
-        [this](qlonglong progress) {
-          m_usedMemory = progress;
-          emit m_model.itemChanged(getSelf());
-        });
+              if (m_childItems.size() == 0) callback(result);
+            }));
+
+    auto progressCallback = QSharedPointer<Operations::GetUsedMemoryCallback>(
+        new Operations::GetUsedMemoryCallback(
+            getSelf(), [this](qlonglong progress) {
+              m_usedMemory = progress;
+              emit m_model.itemChanged(getSelf());
+            }));
+
+    operations()->getUsedMemory(m_rawChildKeys, m_dbIndex, resultCallback,
+                                progressCallback);
   }
 
   auto resultsRemaining = QSharedPointer<qlonglong>(new qlonglong(0));
