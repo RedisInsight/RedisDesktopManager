@@ -55,14 +55,15 @@ void NamespaceItem::setRemoved() {
 }
 
 void NamespaceItem::load() {
-  auto onKeysRendered = [this]() {
-    ensureLoaderIsCreated();
+  auto onKeysRendered = QSharedPointer<RenderRawKeysCallback>(
+      new RenderRawKeysCallback(getSelf(), [this]() {
+        ensureLoaderIsCreated();
 
-    unlock();
-    setExpanded(true);
-    emit m_model.itemChanged(getSelf());
-    m_model.expandItem(getSelf());
-  };
+        unlock();
+        setExpanded(true);
+        emit m_model.itemChanged(getSelf());
+        m_model.expandItem(getSelf());
+      }));
 
   if (m_rawChildKeys.size() > 0) {
     auto rawKeys = m_rawChildKeys;
@@ -104,23 +105,23 @@ void NamespaceItem::load() {
 }
 
 void NamespaceItem::reload() {
-  lock();
   clear();
   load();
 }
 
-QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
+QHash<QString, std::function<bool()>> NamespaceItem::eventHandlers() {
   auto events = AbstractNamespaceItem::eventHandlers();
 
   events.insert("click", [this]() {
     if (m_childItems.size() == 0) {
-      lock();
       load();
+      return false;
     } else if (!isExpanded()) {
       setExpanded(true);
       emit m_model.itemChanged(getSelf());
-      m_model.expandItem(getSelf());
+      m_model.expandItem(getSelf());      
     }
+    return true;
   });
 
   events.insert("add_key", [this]() {
@@ -140,11 +141,12 @@ QHash<QString, std::function<void()>> NamespaceItem::eventHandlers() {
         QString("%1%2")
             .arg(QString::fromUtf8(getFullPath()))
             .arg(m_operations->getNamespaceSeparator()));
+    return true;
   });
 
-  events.insert("reload", [this]() { reload(); });
+  events.insert("reload", [this]() { reload(); return false; });
 
-  events.insert("delete", [this]() { m_operations->deleteDbNamespace(*this); });
+  events.insert("delete", [this]() { m_operations->deleteDbNamespace(*this); return true; });
 
   return events;
 }

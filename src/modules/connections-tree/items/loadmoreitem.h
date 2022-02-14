@@ -26,7 +26,7 @@ class LoadMoreItem : public TreeItem {
   bool isEnabled() const override;
 
  protected:
-  QHash<QString, std::function<void()>> eventHandlers() override;
+  QHash<QString, std::function<bool()>> eventHandlers() override;
 
  private:
   QWeakPointer<TreeItem> m_parent;

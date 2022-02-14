@@ -34,7 +34,7 @@ class NamespaceItem : public AbstractNamespaceItem {
 
   void reload();
 
-  QHash<QString, std::function<void()>> eventHandlers() override;
+  QHash<QString, std::function<bool()>> eventHandlers() override;
 
  private:
   QByteArray m_fullPath;

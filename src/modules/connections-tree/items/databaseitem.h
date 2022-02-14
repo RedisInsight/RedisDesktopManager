@@ -39,7 +39,7 @@ class DatabaseItem : public AbstractNamespaceItem {
   void filterKeys(const QRegExp& filter);
   void resetFilter();
 
-  QHash<QString, std::function<void()>> eventHandlers() override;
+  QHash<QString, std::function<bool()>> eventHandlers() override;
 
  private:
   QSharedPointer<QTimer> liveUpdateTimer();

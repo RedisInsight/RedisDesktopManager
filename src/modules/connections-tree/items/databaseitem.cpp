@@ -58,8 +58,7 @@ void DatabaseItem::loadKeys(std::function<void()> callback,
 
   QString filter = (m_filter.isEmpty()) ? "" : m_filter.pattern();
 
-  auto selfWPtr = getSelf();
-  auto self = selfWPtr.toStrongRef();
+  auto self = getSelf().toStrongRef();
 
   if (!self) {
     unlock();
@@ -85,25 +84,22 @@ void DatabaseItem::loadKeys(std::function<void()> callback,
 
   m_operations->getDatabases(dbLoadCallback);
 
-  auto onKeysRendered = [selfWPtr, this, callback]() {
-    auto self = selfWPtr.toStrongRef();
+  auto onKeysRendered = QSharedPointer<RenderRawKeysCallback>(
+      new RenderRawKeysCallback(getSelf(), [this, callback]() {
+        ensureLoaderIsCreated();
+        unlock();
 
-    if (!self) return;
+        if (!isExpanded()) {
+          setExpanded(true);
+          m_model.expandItem(getSelf());
+        }
 
-    ensureLoaderIsCreated();
-    unlock();
+        emit m_model.itemChanged(getSelf());
 
-    if (!isExpanded()) {
-      setExpanded(true);
-      m_model.expandItem(getSelf());
-    }
-
-    emit m_model.itemChanged(getSelf());
-
-    if (callback) {
-      callback();
-    }
-  };
+        if (callback) {
+          callback();
+        }
+      }));
 
   auto nsItemsCallback = QSharedPointer<Operations::LoadNamespaceItemsCallback>(
       new Operations::LoadNamespaceItemsCallback(
@@ -277,7 +273,7 @@ void DatabaseItem::resetFilter() {
   reload();
 }
 
-QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
+QHash<QString, std::function<bool ()> > DatabaseItem::eventHandlers() {
   auto events = AbstractNamespaceItem::eventHandlers();
 
   events.insert("click", [this]() {
@@ -286,16 +282,18 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
         setExpanded(true);
         m_model.expandItem(getSelf());
       }
-      return;
+      return true;
     }
 
     loadKeys();
+    return false;
   });
 
   events.insert("right-click", [this]() {
-    if (m_childItems.size() != 0) return;
+    if (m_childItems.size() != 0) return true;
 
     emit m_model.itemChanged(getSelf());
+    return true;
   });
 
   events.insert("add_key", [this]() {
@@ -315,20 +313,12 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
         }));
 
     m_operations->openNewKeyDialog(m_dbIndex, callback);
+    return true;
   });
 
   events.insert("reload", [this]() {
-    if (isLocked()) {
-      QMessageBox::warning(
-          nullptr,
-          QCoreApplication::translate(
-              "RESP", "Another operation is currently in progress"),
-          QCoreApplication::translate(
-              "RESP", "Please wait until another operation will be finished."));
-      return;
-    }
-
     reload();
+    return false;
   });
 
   events.insert("flush", [this]() {
@@ -343,19 +333,20 @@ QHash<QString, std::function<void()>> DatabaseItem::eventHandlers() {
                   getSelf(), [this](const QString&) { unload(); }));
           m_operations->flushDb(m_dbIndex, callback);
         });
+    return true;
   });
 
   events.insert("console",
-                [this]() { m_operations->openConsoleTab(m_dbIndex); });
+                [this]() { m_operations->openConsoleTab(m_dbIndex); return true; });
 
-  events.insert("delete_keys", [this]() { m_operations->deleteDbKeys(*this); });
+  events.insert("delete_keys", [this]() { m_operations->deleteDbKeys(*this); return true; });
 
-  events.insert("copy_keys", [this]() { m_operations->copyKeys(*this); });
+  events.insert("copy_keys", [this]() { m_operations->copyKeys(*this); return true; });
 
   events.insert("rdb_import",
-                [this]() { m_operations->importKeysFromRdb(*this); });
+                [this]() { m_operations->importKeysFromRdb(*this); return true; });
 
-  events.insert("ttl", [this]() { m_operations->setTTL(*this); });
+  events.insert("ttl", [this]() { m_operations->setTTL(*this); return true; });
 
   return events;
 }

@@ -30,9 +30,9 @@ class Operations {
    * List of databases with keys counters
    * @emit databesesLoaded
    **/
-  typedef QMap<int, int> DbMapping;
-  typedef CallbackWithOwner<TreeItem, DbMapping, const QString&>
-      GetDatabasesCallback;
+  using DbMapping = QMap<int, int>;
+  using GetDatabasesCallback =
+      CallbackWithOwner<TreeItem, DbMapping, const QString&>;
 
   virtual QFuture<void> getDatabases(QSharedPointer<GetDatabasesCallback>) = 0;
 
@@ -42,9 +42,9 @@ class Operations {
    * @param filter
    * @param callback
    */
-  typedef CallbackWithOwner<
-      TreeItem,  const RedisClient::Connection::RawKeysList&, const QString&>
-      LoadNamespaceItemsCallback;
+  using LoadNamespaceItemsCallback =
+      CallbackWithOwner<TreeItem, const RedisClient::Connection::RawKeysList&,
+                        const QString&>;
 
   virtual void loadNamespaceItems(uint dbIndex, const QString& filter,
                                   QSharedPointer<LoadNamespaceItemsCallback>) = 0;
@@ -79,8 +79,7 @@ class Operations {
 
   virtual void openConsoleTab(int dbIndex = 0) = 0;
 
-  typedef CallbackWithOwner<TreeItem>
-      OpenNewKeyDialogCallback;
+  using OpenNewKeyDialogCallback = CallbackWithOwner<TreeItem>;
 
   virtual void openNewKeyDialog(int dbIndex, QSharedPointer<OpenNewKeyDialogCallback> callback,
                                 QString keyPrefix = QString()) = 0;
@@ -91,8 +90,7 @@ class Operations {
 
   virtual void notifyDbWasUnloaded(int dbIndex) = 0;
 
-  typedef CallbackWithOwner<TreeItem, const QString&>
-      DeleteDbKeyCallback;
+  using DeleteDbKeyCallback = CallbackWithOwner<TreeItem, const QString&>;
 
   virtual void deleteDbKey(ConnectionsTree::KeyItem& key,
                            QSharedPointer<DeleteDbKeyCallback> callback) = 0;
@@ -107,13 +105,11 @@ class Operations {
 
   virtual void importKeysFromRdb(ConnectionsTree::DatabaseItem& ns) = 0;
 
-  typedef CallbackWithOwner<TreeItem, const QString&>
-      FlushDbCallback;
+  using FlushDbCallback = CallbackWithOwner<TreeItem, const QString&>;
 
   virtual void flushDb(int dbIndex, QSharedPointer<FlushDbCallback> callback) = 0;
 
-  typedef CallbackWithOwner<TreeItem, const QString&, bool>
-      OpenKeyIfExistsCallback;
+  using OpenKeyIfExistsCallback = CallbackWithOwner<TreeItem, const QString&, bool>;
 
   virtual void openKeyIfExists(
       const QByteArray& key,
@@ -126,8 +122,7 @@ class Operations {
 
   virtual QFuture<bool> connectionSupportsMemoryOperations() = 0;
 
-  typedef CallbackWithOwner<TreeItem, qlonglong>
-       GetUsedMemoryCallback;
+  using GetUsedMemoryCallback = CallbackWithOwner<TreeItem, qlonglong>;
 
   virtual void getUsedMemory(
       const QList<QByteArray>& keys, int dbIndex,

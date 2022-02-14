@@ -51,7 +51,7 @@ void ServerItem::setParent(QWeakPointer<TreeItem> p)
 }
 
 bool ServerItem::isDatabaseListLoaded() const {
-  return isLocked() == false && m_databases.size() > 0;
+  return m_databases.size() > 0;
 }
 
 QSharedPointer<Operations> ServerItem::getOperations() { return m_operations; }
@@ -66,8 +66,6 @@ int ServerItem::row() const
 }
 
 void ServerItem::load() {
-  lock();
-
   auto callback = QSharedPointer<Operations::GetDatabasesCallback>(
       new Operations::GetDatabasesCallback(
           getSelf(),
@@ -108,25 +106,13 @@ void ServerItem::load() {
 
   m_currentOperation = m_operations->getDatabases(callback);
 
-  if (m_currentOperation.isRunning()) {
-    auto wPtr = m_self;
-
-    AsyncFuture::observe(m_currentOperation)
-        .subscribe(
-            []() {},
-            [this, wPtr]() {
-              if (!wPtr) return;             
-              unlock();
-            });
-  } else {
+  if (!m_currentOperation.isRunning()) {
     unlock();
   }
 }
 
 void ServerItem::unload() {
   if (!isDatabaseListLoaded()) return;
-
-  lock();
 
   m_model.beforeItemChildsUnloaded(m_self);
 
@@ -141,8 +127,7 @@ void ServerItem::unload() {
   }
 
   m_databases.clear();
-  m_model.itemChildRemoved(getSelf());
-  unlock();
+  m_model.itemChildRemoved(getSelf());  
 }
 
 void ServerItem::reload() {
@@ -162,7 +147,7 @@ void ServerItem::remove() {
 
 void ServerItem::openConsole() { m_operations->openConsoleTab(); }
 
-QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
+QHash<QString, std::function<bool()> > ServerItem::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
   events.insert("click", [this]() {
@@ -171,24 +156,25 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
             setExpanded(true);
             m_model.expandItem(getSelf());
         }
-        return;
+        return true;
     }
 
     load();
+    return false;
   });
 
-  events.insert("console", [this]() { m_operations->openConsoleTab(); });
+  events.insert("console", [this]() { m_operations->openConsoleTab(); return true; });
 
-  events.insert("server_info", [this]() { m_operations->openServerStats(); });
+  events.insert("server_info", [this]() { m_operations->openServerStats(); return true; });
 
-  events.insert("duplicate", [this]() { m_operations->duplicateConnection(); });
+  events.insert("duplicate", [this]() { m_operations->duplicateConnection(); return true; });
 
   events.insert("reload", [this]() {
     reload();
-    emit m_model.itemChanged(getSelf());
+    return false;
   });
 
-  events.insert("unload", [this]() { unload(); });
+  events.insert("unload", [this]() { unload(); return true; });
 
   events.insert("edit", [this]() {
     auto unloadAction = [this]() {
@@ -206,6 +192,7 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
     } else {
       unloadAction();
     }
+    return true;
   });
 
   events.insert("delete", [this]() {
@@ -216,6 +203,7 @@ QHash<QString, std::function<void()> > ServerItem::eventHandlers() {
                     unload();
                     emit deleteActionRequested();
                   });
+    return true;
   });
 
   return events;

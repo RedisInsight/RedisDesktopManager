@@ -491,10 +491,10 @@ void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
           }
 
           if (progress)
-            progress->call(std::move(*totalMemory));
+            progress->call(*totalMemory);
 
           if ((*processedResponses) >= expectedResponses && result) {
-            result->call(std::move(*totalMemory));
+            result->call(*totalMemory);
           }
         }
       });

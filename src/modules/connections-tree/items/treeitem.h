@@ -68,7 +68,7 @@ class TreeItem {
  protected:
   void lock();
   void unlock();
-  virtual QHash<QString, std::function<void()>> eventHandlers();
+  virtual QHash<QString, std::function<bool ()> > eventHandlers();
 
  protected:
   Model& m_model;  
