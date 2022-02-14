@@ -4,6 +4,7 @@
 #include <QSharedPointer>
 #include <functional>
 #include <QJSValue>
+#include "modules/connections-tree/operations.h"
 
 class NewKeyRequest {
   Q_GADGET
@@ -16,7 +17,8 @@ class NewKeyRequest {
 
  public:
   NewKeyRequest(QSharedPointer<RedisClient::Connection> connection, int dbIndex,
-                std::function<void()> callback, QString keyPrefix = QString());
+                QSharedPointer<ConnectionsTree::Operations::OpenNewKeyDialogCallback> callback,
+                QString keyPrefix = QString());
 
   NewKeyRequest() {}
 
@@ -47,7 +49,7 @@ class NewKeyRequest {
   QSharedPointer<RedisClient::Connection> connection() { return m_connection; }
 
   void callback() const {
-    if (m_callback) m_callback();
+    if (m_callback) m_callback->call();
   }
 
   Q_INVOKABLE void loadAdditionalKeyTypesInfo(QJSValue jsCallback);
@@ -55,7 +57,7 @@ class NewKeyRequest {
  private:
   QSharedPointer<RedisClient::Connection> m_connection = nullptr;
   int m_dbIndex = -1;
-  std::function<void()> m_callback;
+  QSharedPointer<ConnectionsTree::Operations::OpenNewKeyDialogCallback> m_callback;
   QJSValue m_jsCallback;
   QString m_keyName;
   QString m_keyType;

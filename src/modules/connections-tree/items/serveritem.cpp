@@ -68,40 +68,43 @@ int ServerItem::row() const
 void ServerItem::load() {
   lock();
 
-  std::function<void(RedisClient::DatabaseList, const QString&)> callback =
-      [this](RedisClient::DatabaseList databases, const QString& err) {
-        if (err.size() > 0) {
-          unlock();
-          emit m_model.error(
-              QCoreApplication::translate("RESP", "Cannot load databases:\n\n") +
-              err);
-          return;
-        }
+  auto callback = QSharedPointer<Operations::GetDatabasesCallback>(
+      new Operations::GetDatabasesCallback(
+          getSelf(),
+          [this](RedisClient::DatabaseList databases, const QString& err) {
+            if (err.size() > 0) {
+              unlock();
+              emit m_model.error(QCoreApplication::translate(
+                                     "RESP", "Cannot load databases:\n\n") +
+                                 err);
+              return;
+            }
 
-        if (databases.size() == 0) {
-          unlock();
-          return;
-        }
+            if (databases.size() == 0) {
+              unlock();
+              return;
+            }
 
-        RedisClient::DatabaseList::const_iterator db = databases.constBegin();
-        QList<QSharedPointer<TreeItem>> dbs;
-        while (db != databases.constEnd()) {
-          QSharedPointer<TreeItem> database((new DatabaseItem(
-              db.key(), db.value(), m_operations, m_self, m_model)));
+            RedisClient::DatabaseList::const_iterator db =
+                databases.constBegin();
+            QList<QSharedPointer<TreeItem>> dbs;
+            while (db != databases.constEnd()) {
+              QSharedPointer<TreeItem> database((new DatabaseItem(
+                  db.key(), db.value(), m_operations, m_self, m_model)));
 
-          dbs.push_back(database);
-          ++db;
-        }
+              dbs.push_back(database);
+              ++db;
+            }
 
-        QTimer::singleShot(0, this, [this, dbs]() {
-            m_model.beforeChildLoaded(getSelf(), dbs.size());
-            m_databases = dbs;
-            m_model.childLoaded(getSelf());
+            QTimer::singleShot(0, this, [this, dbs]() {
+              m_model.beforeChildLoaded(getSelf(), dbs.size());
+              m_databases = dbs;
+              m_model.childLoaded(getSelf());
 
-            unlock();
-            m_model.expandItem(getSelf());
-        });
-      };
+              unlock();
+              m_model.expandItem(getSelf());
+            });
+          }));
 
   m_currentOperation = m_operations->getDatabases(callback);
 

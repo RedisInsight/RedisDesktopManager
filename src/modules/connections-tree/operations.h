@@ -9,6 +9,7 @@
 #include <functional>
 
 #include "exception.h"
+#include "modules/common/callbackwithowner.h"
 
 namespace Console {
 class Operations;
@@ -20,6 +21,7 @@ class KeyItem;
 class NamespaceItem;
 class AbstractNamespaceItem;
 class DatabaseItem;
+class TreeItem;
 
 class Operations {
   ADD_EXCEPTION
@@ -28,7 +30,11 @@ class Operations {
    * List of databases with keys counters
    * @emit databesesLoaded
    **/
-  virtual QFuture<void> getDatabases(std::function<void(QMap<int, int>, const QString&)>) = 0;
+  typedef QMap<int, int> DbMapping;
+  typedef CallbackWithOwner<TreeItem, DbMapping, const QString&>
+      GetDatabasesCallback;
+
+  virtual QFuture<void> getDatabases(QSharedPointer<GetDatabasesCallback>) = 0;
 
   /**
    * @brief loadNamespaceItems
@@ -36,11 +42,12 @@ class Operations {
    * @param filter
    * @param callback
    */
-  virtual void loadNamespaceItems(
-      uint dbIndex, const QString& filter,
-      std::function<void(const RedisClient::Connection::RawKeysList& keylist,
-                         const QString& err)>
-          callback) = 0;
+  typedef CallbackWithOwner<
+      TreeItem,  const RedisClient::Connection::RawKeysList&, const QString&>
+      LoadNamespaceItemsCallback;
+
+  virtual void loadNamespaceItems(uint dbIndex, const QString& filter,
+                                  QSharedPointer<LoadNamespaceItemsCallback>) = 0;
 
   /**
    * Cancel all operations & close connection
@@ -72,7 +79,10 @@ class Operations {
 
   virtual void openConsoleTab(int dbIndex = 0) = 0;
 
-  virtual void openNewKeyDialog(int dbIndex, std::function<void()> callback,
+  typedef CallbackWithOwner<TreeItem>
+      OpenNewKeyDialogCallback;
+
+  virtual void openNewKeyDialog(int dbIndex, QSharedPointer<OpenNewKeyDialogCallback> callback,
                                 QString keyPrefix = QString()) = 0;
 
   virtual void openServerStats() = 0;
@@ -81,8 +91,11 @@ class Operations {
 
   virtual void notifyDbWasUnloaded(int dbIndex) = 0;
 
+  typedef CallbackWithOwner<TreeItem, const QString&>
+      DeleteDbKeyCallback;
+
   virtual void deleteDbKey(ConnectionsTree::KeyItem& key,
-                           std::function<void(const QString&)> callback) = 0;
+                           QSharedPointer<DeleteDbKeyCallback> callback) = 0;
 
   virtual void deleteDbKeys(ConnectionsTree::DatabaseItem& db) = 0;
 
@@ -94,13 +107,18 @@ class Operations {
 
   virtual void importKeysFromRdb(ConnectionsTree::DatabaseItem& ns) = 0;
 
-  virtual void flushDb(int dbIndex,
-                       std::function<void(const QString&)> callback) = 0;
+  typedef CallbackWithOwner<TreeItem, const QString&>
+      FlushDbCallback;
+
+  virtual void flushDb(int dbIndex, QSharedPointer<FlushDbCallback> callback) = 0;
+
+  typedef CallbackWithOwner<TreeItem, const QString&, bool>
+      OpenKeyIfExistsCallback;
 
   virtual void openKeyIfExists(
       const QByteArray& key,
       QSharedPointer<ConnectionsTree::DatabaseItem> parent,
-      std::function<void(const QString&, bool)> callback) = 0;
+      QSharedPointer<OpenKeyIfExistsCallback> callback) = 0;
 
   virtual QString mode() = 0;
 
@@ -108,9 +126,13 @@ class Operations {
 
   virtual QFuture<bool> connectionSupportsMemoryOperations() = 0;
 
-  virtual void getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
-                             std::function<void(qlonglong)> result,
-                             std::function<void(qlonglong)> progress) = 0;
+  typedef CallbackWithOwner<TreeItem, qlonglong>
+       GetUsedMemoryCallback;
+
+  virtual void getUsedMemory(
+      const QList<QByteArray>& keys, int dbIndex,
+      QSharedPointer<GetUsedMemoryCallback> result,
+      QSharedPointer<GetUsedMemoryCallback> progress) = 0;
 
   virtual ~Operations() {}
 };
