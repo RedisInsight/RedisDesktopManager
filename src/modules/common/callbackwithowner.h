@@ -11,7 +11,7 @@ class CallbackWithOwner
 {
 public:
   CallbackWithOwner(QWeakPointer<Object> owner, std::function<void(Args...)> c)
-    : m_owner(owner), callback(c)
+    : m_owner(owner), m_callback(c)
   {
   }
 
@@ -23,7 +23,7 @@ public:
           return;
       }
 
-      return callback(std::forward<Args>(args)...);
+      return m_callback(args...);
   }
 
   bool isValid()
@@ -32,7 +32,7 @@ public:
     return !owner.isNull();
   }
 
-  std::function<void(Args...)> callback;
 private:
   QWeakPointer<Object> m_owner;
+  std::function<void(Args...)> m_callback;
 };

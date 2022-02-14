@@ -119,29 +119,32 @@ void KeyItem::setFullPath(const QByteArray& p) {
   emit m_model.itemChanged(getSelf());
 }
 
-QHash<QString, std::function<void()>> KeyItem::eventHandlers() {
+QHash<QString, std::function<bool()>> KeyItem::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
   events.insert("click", [this]() {
-    if (!isEnabled()) return;
+    if (!isEnabled()) return true;
 
     auto parentNs = parentTreeItemToNs(m_parent);
 
-    if (!parentNs || !parentNs->operations()) return;
+    if (!parentNs || !parentNs->operations()) return true;
 
     parentNs->operations()->openKeyTab(
         getSelf().toStrongRef().staticCast<KeyItem>(), false);
+    return true;
   });
 
   events.insert("mid-click", [this]() {
-    if (!isEnabled()) return;
+    if (!isEnabled()) return true;
 
     auto parentNs = parentTreeItemToNs(m_parent);
 
-    if (!parentNs || !parentNs->operations()) return;
+    if (!parentNs || !parentNs->operations()) return true;
 
     parentNs->operations()->openKeyTab(
         getSelf().toStrongRef().staticCast<KeyItem>(), true);
+
+    return true;
   });
 
   events.insert("delete", [this]() {
@@ -165,6 +168,7 @@ QHash<QString, std::function<void()>> KeyItem::eventHandlers() {
 
           parentNs->operations()->deleteDbKey(*this, callback);
         });
+    return true;
   });
   return events;
 }

@@ -42,7 +42,7 @@ class ServerGroup : public QObject, public SortableTreeItem {
   void deleteActionRequested();
 
  protected:
-  QHash<QString, std::function<void()>> eventHandlers() override;
+  QHash<QString, std::function<bool()>> eventHandlers() override;
 
  private:
   QString m_name;

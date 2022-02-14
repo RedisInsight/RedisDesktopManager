@@ -115,7 +115,7 @@ QSharedPointer<TreeItem> resolveItemToRemove(QSharedPointer<TreeItem> item) {
 
   if (!parent || parent->type() == "database") return item;
 
-  if (parent->type() == "namespace" && parent->getAllChilds().size() == 0)
+  if (parent->type() == "namespace" && parent->getAllChilds().empty())
     return resolveItemToRemove(parent);
 
   return item;
@@ -254,7 +254,7 @@ void AbstractNamespaceItem::clear() {
 }
 
 void AbstractNamespaceItem::clearLoader() {
-  if (m_childItems.size() == 0) {
+  if (m_childItems.empty()) {
     return;
   }
 
@@ -303,7 +303,7 @@ void AbstractNamespaceItem::sortChilds() {
 
 void AbstractNamespaceItem::renderRawKeys(
     const RedisClient::Connection::RawKeysList &keylist, QRegExp filter,
-    std::function<void()> callback, bool appendNewItems,
+    QSharedPointer<RenderRawKeysCallback> callback, bool appendNewItems,
     bool checkPreRenderedItems, int maxChildItems) {
   if (!m_operations) {
     return;
@@ -341,12 +341,13 @@ void AbstractNamespaceItem::renderRawKeys(
         m_operations, future.result(),
         qSharedPointerDynamicCast<AbstractNamespaceItem>(self), settings,
         m_model.expandedNamespaces);
-    callback();
+    if (callback)
+      callback->call();
   });
 }
 
 void AbstractNamespaceItem::ensureLoaderIsCreated() {
-  if (m_rawChildKeys.size() == 0 || m_childItems.size() == 0) {
+  if (m_rawChildKeys.empty() || m_childItems.empty()) {
     return;
   }
 
@@ -360,13 +361,11 @@ void AbstractNamespaceItem::ensureLoaderIsCreated() {
   m_model.childLoaded(getSelf());
 }
 
-QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
+QHash<QString, std::function<bool ()> > AbstractNamespaceItem::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
   events.insert("analyze_memory_usage", [this]() {
-    if (m_usedMemory > 0) return;
-
-    lock();
+    if (m_usedMemory > 0) return true;
 
     auto future = m_operations->connectionSupportsMemoryOperations();
 
@@ -396,6 +395,7 @@ QHash<QString, std::function<void()>> AbstractNamespaceItem::eventHandlers() {
         });
       });
     });
+    return false;
   });
 
   return events;
@@ -415,11 +415,10 @@ void AbstractNamespaceItem::getMemoryUsage(
 }
 
 void AbstractNamespaceItem::fetchMore() {
-  if (m_rawChildKeys.size() == 0) {
+  if (m_rawChildKeys.empty()) {
     return;
   }
 
-  lock();
   clearLoader();
 
   int childsCount = m_childItems.size();
@@ -429,13 +428,15 @@ void AbstractNamespaceItem::fetchMore() {
 
   m_rawChildKeys.clear();
 
-  return renderRawKeys(
-      rawKeys, m_filter,
-      [this]() {
+  auto callback = QSharedPointer<RenderRawKeysCallback>(
+      new RenderRawKeysCallback(getSelf(), [this]() {
         ensureLoaderIsCreated();
 
         unlock();
-      },
+      }));
+
+  return renderRawKeys(
+      rawKeys, m_filter, callback,
       true, false, static_cast<uint>(childsCount) + keysRenderingLimit());
 }
 
@@ -453,7 +454,7 @@ void AbstractNamespaceItem::calculateUsedMemory(
               m_usedMemory = result;
               emit m_model.itemChanged(getSelf());
 
-              if (m_childItems.size() == 0) callback(result);
+              if (m_childItems.empty()) callback(result);
             }));
 
     auto progressCallback = QSharedPointer<Operations::GetUsedMemoryCallback>(

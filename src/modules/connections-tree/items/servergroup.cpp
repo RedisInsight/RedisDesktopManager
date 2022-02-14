@@ -48,16 +48,17 @@ void ServerGroup::removeConnection(QSharedPointer<TreeItem> srv)
     m_servers.removeAll(srv);
 }
 
-QHash<QString, std::function<void()> > ServerGroup::eventHandlers() {
+QHash<QString, std::function<bool ()> > ServerGroup::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
-  events.insert("edit", [this]() { emit editActionRequested(); });
+  events.insert("edit", [this]() { emit editActionRequested(); return true; });
 
   events.insert("delete", [this]() {
     confirmAction(nullptr,
                   QCoreApplication::translate(
                       "RESP", "Do you really want to delete group <b>with all connections</b>?"),
                   [this]() { emit deleteActionRequested(); });
+    return true;
   });
 
   return events;

@@ -54,10 +54,10 @@ void ConnectionsTree::TreeItem::unlock() {
     emit m_model.itemChanged(getSelf());
 }
 
-QHash<QString, std::function<void()>>
+QHash<QString, std::function<bool()>>
 ConnectionsTree::TreeItem::eventHandlers() {
-  QHash<QString, std::function<void()>> events;
-  events["cancel"] = [this]() { cancelCurrentOperation(); };
+  QHash<QString, std::function<bool()>> events;
+  events["cancel"] = [this]() { cancelCurrentOperation(); return true; };
   return events;
 }
 
@@ -66,14 +66,23 @@ void ConnectionsTree::TreeItem::handleEvent(QString event) {
 
   if (isLocked() && event != "cancel") {
     qDebug() << "Item is locked. Ignore event: " << event;
+
     emit m_model.itemChanged(getSelf());
     return;
   }
 
+  auto handler = eventHandlers()[event];
+
   try {
-    eventHandlers()[event]();
+    lock();
+    bool shouldUnlock = handler();
+
+    if (shouldUnlock) {
+      unlock();
+    }
   } catch (...) {
     qWarning() << "Error on event processing: " << event;
+    unlock();
   }
 }
 

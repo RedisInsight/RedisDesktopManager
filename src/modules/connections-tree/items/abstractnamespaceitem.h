@@ -7,6 +7,7 @@
 
 #include "memoryusage.h"
 #include "treeitem.h"
+#include "modules/common/callbackwithowner.h"
 
 namespace ConnectionsTree {
 
@@ -89,13 +90,15 @@ class AbstractNamespaceItem : public QObject, public TreeItem, public MemoryUsag
 
   void sortChilds();
 
+  using RenderRawKeysCallback = CallbackWithOwner<TreeItem>;
+
   void renderRawKeys(const RedisClient::Connection::RawKeysList& keylist, QRegExp filter,
-                     std::function<void ()> callback,
+                     QSharedPointer<RenderRawKeysCallback> callback,
                      bool appendNewItems,
                      bool checkPreRenderedItems,
                      int maxChildItems=-1);  
 
-  QHash<QString, std::function<void()>> eventHandlers() override;
+  QHash<QString, std::function<bool()>> eventHandlers() override;
 
   void calculateUsedMemory(QSharedPointer<AsyncFuture::Deferred<qlonglong>> parentD, std::function<void(qlonglong)> callback);
 

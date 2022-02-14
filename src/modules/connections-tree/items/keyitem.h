@@ -40,7 +40,7 @@ class KeyItem : public TreeItem, public MemoryUsage {
   void getMemoryUsage(std::function<void(qlonglong)> callback) override;
 
  protected:
-  QHash<QString, std::function<void()>> eventHandlers() override;
+  QHash<QString, std::function<bool()>> eventHandlers() override;
 
  private:
   QByteArray m_fullPath;

@@ -42,15 +42,16 @@ bool ConnectionsTree::LoadMoreItem::isEnabled() const
     return true;
 }
 
-QHash<QString, std::function<void ()> > ConnectionsTree::LoadMoreItem::eventHandlers()
+QHash<QString, std::function<bool()> > ConnectionsTree::LoadMoreItem::eventHandlers()
 {
-    QHash<QString, std::function<void()>> events;
+    QHash<QString, std::function<bool()>> events;
     events["click"] = [this]() {
         auto parentPtr = m_parent.toStrongRef();
         if (!parentPtr) {
-            return;
+            return true;
         }        
         parentPtr->fetchMore();
+        return false;
     };
     return events;
 }
