@@ -67,6 +67,7 @@ ShowUninstDetails show
 
 # Installer sections
 Section -Main SEC0000
+    ${nsProcess::KillProcess} "rdm.exe" $R4
     ${nsProcess::KillProcess} "${APP_EXE}" $R4
 
     ${IfNot} ${RunningX64}
