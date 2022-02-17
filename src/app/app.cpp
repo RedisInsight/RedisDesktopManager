@@ -40,6 +40,10 @@
 #include "modules/value-editor/valueviewmodel.h"
 #include "qmlutils.h"
 
+#ifdef Q_OS_WINDOWS
+#include <dwmapi.h>
+#endif
+
 Application::Application(int& argc, char** argv)
     : QApplication(argc, argv),
       m_engine(this),
@@ -405,6 +409,26 @@ void Application::updatePalette()
         return;
     }
 
-    m_engine.rootObjects().at(0)->setProperty(
-                "palette", QGuiApplication::palette());
+    auto rootObject = m_engine.rootObjects().at(0);
+
+    rootObject->setProperty("palette", QGuiApplication::palette());
+
+#ifdef Q_OS_WINDOWS
+    if (!isDarkThemeEnabled()) return;
+
+    auto window = qobject_cast<QWindow*>(rootObject);
+
+    if (window) {
+      auto winHwnd = reinterpret_cast<HWND>(window->winId());
+      BOOL USE_DARK_MODE = true;
+      BOOL SET_IMMERSIVE_DARK_MODE_SUCCESS = SUCCEEDED(DwmSetWindowAttribute(
+          winHwnd, 20, &USE_DARK_MODE, sizeof(USE_DARK_MODE)));
+
+      if (SET_IMMERSIVE_DARK_MODE_SUCCESS) {
+        // Dirty hack to re-draw window and apply darkmode color
+        rootObject->setProperty("visible", false);
+        rootObject->setProperty("visible", true);
+      }
+    }
+#endif
 }

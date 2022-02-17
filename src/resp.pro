@@ -94,6 +94,8 @@ win32 {
 
     release: DESTDIR = ./../bin/windows/release
     debug:   DESTDIR = ./../bin/windows/debug
+
+    LIBS +=  -ldwmapi
 }
 
 unix:macx { # OSX
