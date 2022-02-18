@@ -24,8 +24,7 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/app/app.cpp \
-    $$PWD/app/apputils.cpp \
+    $$PWD/app/app.cpp \    
     $$PWD/app/events.cpp \
     $$PWD/app/qmlutils.cpp \
     $$PWD/app/jsonutils.cpp \
