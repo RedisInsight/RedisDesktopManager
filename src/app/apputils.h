@@ -1,4 +1,7 @@
 #pragma once
 #include <QString>
+#include <QLocale>
 
-QString humanReadableSize(long size);
+inline QString humanReadableSize(qint64 size) {
+  return QLocale().formattedDataSize(size, 2, QLocale::DataSizeSIFormat);
+}

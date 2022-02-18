@@ -27,8 +27,7 @@ HEADERS  += \
 
 SOURCES += \
     $$files($$PWD/test_*.cpp) \
-    $$APP_SRC_DIR/events.cpp \
-    $$APP_SRC_DIR/apputils.cpp \
+    $$APP_SRC_DIR/events.cpp \    
     $$APP_SRC_DIR/jsonutils.cpp \
     $$APP_SRC_DIR/models/connectionsmanager.cpp \
     $$APP_SRC_DIR/models/configmanager.cpp \

@@ -8,6 +8,7 @@
 #include "testcases/app/test_connectionsmanager.h"
 #include "testcases/app/test_keymodels.h"
 #include "testcases/app/test_treeoperations.h"
+#include "testcases/app/test_apputils.h"
 #include "testcases/connections-tree/test_databaseitem.h"
 #include "testcases/connections-tree/test_model.h"
 #include "testcases/connections-tree/test_serveritem.h"
@@ -34,6 +35,7 @@ int main(int argc, char *argv[]) {
                        + QTest::qExec(new TestConfigManager, argc, argv)
                        + QTest::qExec(new TestKeyModels, argc, argv)
                        + QTest::qExec(new TestTreeOperations, argc, argv)
+                       + QTest::qExec(new TestAppUtils, argc, argv)
                        ;
 
   if (allTestsResult == 0)
