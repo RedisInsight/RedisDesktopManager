@@ -25,7 +25,7 @@ ApplicationWindow {
     title: "RESP.app - GUI for Redis® " + Qt.application.version
     width: 1180
     height: 800
-    minimumWidth: 1180
+    minimumWidth: 1000
     minimumHeight: 600
 
     property bool darkModeEnabled: sysPalette.base.hslLightness < 0.4
@@ -413,7 +413,7 @@ ApplicationWindow {
 
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.minimumWidth: 650
+                Layout.minimumWidth: 550
                 Layout.minimumHeight: 30
 
                 onCountChanged: {
