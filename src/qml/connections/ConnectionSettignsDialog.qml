@@ -175,10 +175,9 @@ Dialog {
                             anchors.margins: 5
                             spacing: 20
 
-                            RowLayout {
-                                SettingsGroupTitle {
-                                    text: qsTranslate("RESP","Create connection from Redis URL")
-                                }
+                            SettingsGroupTitle {
+                                Layout.fillWidth: true
+                                text: qsTranslate("RESP","Create connection from Redis URL")
                             }
 
                             RowLayout {
@@ -230,16 +229,15 @@ Dialog {
                             }
 
                             RichTextWithLinks {
+                                Layout.fillWidth: true
                                 text: qsTranslate("RESP", "Learn more about Redis URL:  ")
                                       + "<a href='https://www.iana.org/assignments/uri-schemes/prov/redis'>redis://</a>,&nbsp;"
                                       + "<a href='https://www.iana.org/assignments/uri-schemes/prov/rediss'>rediss://</a>"
                             }
 
-                            RowLayout {
-
-                                SettingsGroupTitle {
-                                    text: qsTranslate("RESP","Connection guides")
-                                }
+                            SettingsGroupTitle {
+                                Layout.fillWidth: true
+                                text: qsTranslate("RESP","Connection guides")
                             }
 
                             GridLayout {
