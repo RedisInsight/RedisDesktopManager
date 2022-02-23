@@ -38,6 +38,8 @@ ToolBar {
 
             ImageButton {
                 id: connectionsMenuBtn
+                objectName: "rdm_connections_menu_btn"
+
                 Layout.preferredWidth: 30
                 iconSource: PlatformUtils.getThemeIcon("list.svg")
 
