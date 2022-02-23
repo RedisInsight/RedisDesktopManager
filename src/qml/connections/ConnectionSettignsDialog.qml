@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.13
 import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1 as QLabDialogs
 import QtQuick.Window 2.3
 import "../common"
 import "../common/platformutils.js" as PlatformUtils
@@ -10,14 +11,13 @@ Dialog {
     id: root
     title: isNewConnection ? qsTranslate("RESP","New Connection Settings") : qsTranslate("RESP","Edit Connection Settings") + " " + settings.name
 
-    modality: Qt.ApplicationModal
-
     property bool isNewConnection: !settings || !settings.name
     property var settings
     property string quickStartGuideUrl: "http://docs.resp.app/en/latest/quick-start/"
 
     signal testConnection
     signal saveConnection(var settings)
+    signal resetSettings
 
     property var items: []
     property var sshItems: []
@@ -111,13 +111,13 @@ Dialog {
 
     contentItem: Rectangle {
         color: sysPalette.base
-        implicitWidth: 700
+        implicitWidth: 650
         implicitHeight: {
             if (screen.devicePixelRatio === 1) {
                 return connectionSettingsTabBar.implicitHeight
                         + sshSettingsGrid.implicitHeight + 350
             } else {
-                return 660
+                return 600
             }
         }
         Control {
@@ -928,10 +928,16 @@ Dialog {
                                 id: iconsColor
                                 Layout.fillWidth: true
 
-                                color: {
-                                    return root.settings ? root.settings.iconColor : 1
+                                color: root.settings ? root.settings.iconColor : ""
+                                onColorChanged: root.settings.iconColor = color
+
+                                Connections {
+                                    target: root
+
+                                    function onResetSettings() {
+                                        iconsColor.reset();
+                                    }
                                 }
-                                onColorChanged: if (root.settings) { root.settings.iconColor = color }
                             }
 
                             Item {
@@ -994,6 +1000,7 @@ Dialog {
                             if (root.validate()) {
                                 root.saveConnection(root.settings)
                                 root.settings = connectionsManager.createEmptyConfig()
+                                root.resetSettings()
                                 root.close()
                             } else {
                                 validationWarning.visible = true
@@ -1006,6 +1013,8 @@ Dialog {
                         text: qsTranslate("RESP","Cancel")
                         onClicked: {
                             root.settings = connectionsManager.createEmptyConfig()
+                            root.cleanStyle()
+                            root.resetSettings()
                             root.close()
                         }
                     }

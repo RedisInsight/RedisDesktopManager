@@ -13,6 +13,11 @@ RowLayout {
     property alias title: dialog.title
     property alias validationError: textField.validationError
 
+    function reset() {
+        color = ""
+        dialog.color = ""
+    }
+
     Rectangle {
         implicitWidth: 30
         implicitHeight: 30
