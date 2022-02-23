@@ -26,7 +26,7 @@ ApplicationWindow {
     width: 1180
     height: 800
     minimumWidth: 1180
-    minimumHeight: 700
+    minimumHeight: 600
 
     property bool darkModeEnabled: sysPalette.base.hslLightness < 0.4
 
