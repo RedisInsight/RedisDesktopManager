@@ -29,6 +29,8 @@ class NamespaceItem : public AbstractNamespaceItem {
 
   void setRemoved();
 
+  QVariantMap metadata() const override;
+
  protected:
   void load();
 

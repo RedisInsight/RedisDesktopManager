@@ -54,6 +54,12 @@ void NamespaceItem::setRemoved() {
   emit m_model.itemChanged(getSelf());
 }
 
+QVariantMap NamespaceItem::metadata() const {
+  QVariantMap metadata = TreeItem::metadata();
+  metadata["full_path"] = getFullPath();
+  return metadata;
+}
+
 void NamespaceItem::load() {
   auto onKeysRendered = QSharedPointer<RenderRawKeysCallback>(
       new RenderRawKeysCallback(getSelf(), [this]() {

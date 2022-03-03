@@ -9,7 +9,7 @@ InlineMenu {
 
     callbacks: {
         "copy": function() {
-            var result = styleData.value["full_name"]
+            var result = styleData.value["full_path"]
 
             if (result) {
                 qmlUtils.copyToClipboard(result + ":*")
