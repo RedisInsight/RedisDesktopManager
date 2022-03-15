@@ -2139,7 +2139,7 @@
         <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
         <source>Passphrase</source>
-        <translation>密詞</translation>
+        <translation>密碼</translation>
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="71"/>
