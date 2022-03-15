@@ -1,5 +1,6 @@
 ## Where is the connections config stored?
-**Windows** `C:\Users\%Your user%\.rdm\connections.json`
+
+**Windows** `%USERPROFILE%\.rdm\connections.json`
 
 **macOS dmg** `$HOME/Library/Preferences/rdm/connections.json`
 
