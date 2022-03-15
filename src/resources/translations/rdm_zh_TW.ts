@@ -2079,7 +2079,7 @@
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
-        <translation>管理訂閱</translation>
+        <translation>訂閱管理</translation>
     </message>
     <message>
         <location filename="../../qml/WelcomeTab.qml" line="31"/>
