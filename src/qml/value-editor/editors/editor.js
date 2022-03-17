@@ -12,7 +12,7 @@ function getEditorByTypeString(keyType) {
         return "./editors/SingleItemEditor.qml"    
     } else if (keyType === "zset") {
         return "./editors/SortedSetItemEditor.qml"
-    } else if (keyType === "hash") {
+    } else if (keyType === "hash" || keyType === "tairhash") {
         return "./editors/HashItemEditor.qml"
     } else if (keyType === "stream") {
         return "./editors/StreamItemEditor.qml"

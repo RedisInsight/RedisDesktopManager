@@ -13,6 +13,7 @@
 #include "sortedsetkey.h"
 #include "stream.h"
 #include "stringkey.h"
+#include "tairhashkey.h"
 
 KeyFactory::KeyFactory() {}
 
@@ -159,6 +160,9 @@ QSharedPointer<ValueEditor::Model> KeyFactory::createModel(
   } else if (type == "stream") {
     return QSharedPointer<ValueEditor::Model>(
         new StreamKeyModel(connection, keyFullPath, dbIndex, ttl));
+  } else if (type == "tairhash-") {
+      return QSharedPointer<ValueEditor::Model>(
+          new TairHashKeyModel(connection, keyFullPath, dbIndex, ttl));
   }
 
   return QSharedPointer<ValueEditor::Model>();

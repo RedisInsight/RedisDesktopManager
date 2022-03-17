@@ -4,7 +4,8 @@ import QtQuick.Controls 2.0
 Item {
     id: root
 
-    property alias text: textItem.text
+    property string text
+    property alias textDelegate: textItem.sourceComponent
     property alias color: background.color
     property bool selected: false
 
@@ -18,14 +19,19 @@ Item {
         color: root.selected ? sysPalette.highlight : sysPalette.base
         clip: true
 
-        TextInput {
+        Loader {
             id: textItem
             anchors.centerIn: parent
-            wrapMode: Text.WrapAnywhere
-            color: root.selected ? sysPalette.highlightedText : sysPalette.text            
-            readOnly: true
-            selectByMouse: true            
-            autoScroll: false
+            sourceComponent: Component {
+                TextInput {
+                    wrapMode: Text.WrapAnywhere
+                    color: root.selected ? sysPalette.highlightedText : sysPalette.text
+                    readOnly: true
+                    selectByMouse: true
+                    text: root.text
+                    autoScroll: false
+                }
+            }
         }
     }
 

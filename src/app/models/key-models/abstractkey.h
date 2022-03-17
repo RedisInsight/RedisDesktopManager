@@ -146,7 +146,7 @@ class KeyModel : public ValueEditor::Model {
 
   virtual void loadRows(QVariant rowStart, unsigned long count,
                         LoadRowsCallback callback) override {
-    if (m_rowsLoadCmd.mid(1, 4).toLower() == "scan") {
+    if (m_rowsLoadCmd.right(4).toLower() == "scan") {
       QList<QByteArray> cmdParts = {m_rowsLoadCmd, m_keyFullPath,
                                     QString::number(m_scanCursor).toLatin1(),
                                     "COUNT", QString::number(count).toLatin1()};
