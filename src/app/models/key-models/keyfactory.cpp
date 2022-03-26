@@ -13,6 +13,7 @@
 #include "sortedsetkey.h"
 #include "stream.h"
 #include "stringkey.h"
+#include "unknownkey.h"
 
 KeyFactory::KeyFactory() {}
 
@@ -62,11 +63,6 @@ void KeyFactory::loadKey(
       }
 
       auto result = createModel(type, connection, keyFullPath, dbIndex, ttl);
-
-      if (!result)
-        return callback(result, QCoreApplication::translate(
-                                    "RESP", "Unsupported Redis Data type %1")
-                                    .arg(type));
 
       callback(result, QString());
     };
@@ -161,5 +157,6 @@ QSharedPointer<ValueEditor::Model> KeyFactory::createModel(
         new StreamKeyModel(connection, keyFullPath, dbIndex, ttl));
   }
 
-  return QSharedPointer<ValueEditor::Model>();
+  return QSharedPointer<ValueEditor::Model>(
+      new UnknownKeyModel(connection, keyFullPath, dbIndex, ttl, type));
 }

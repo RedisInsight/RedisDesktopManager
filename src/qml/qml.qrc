@@ -73,5 +73,6 @@
         <file>connections/AskSecretDialog.qml</file>
         <file>common/OkDialogOverlay.qml</file>
         <file>common/ColorInput.qml</file>
+        <file>value-editor/editors/UnsupportedDataType.qml</file>
     </qresource>
 </RCC>
