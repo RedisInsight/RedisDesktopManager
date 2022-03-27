@@ -5,8 +5,6 @@
 
 using namespace fakeit;
 
-static void fakeDeleter(ConnectionsTree::Operations*) {}
-
 Mock<ConnectionsTree::Operations> getOperations();
 
 Mock<ConnectionsTree::Operations> getOperationsWithGetDatabases(

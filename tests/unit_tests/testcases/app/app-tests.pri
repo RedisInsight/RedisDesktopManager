@@ -23,6 +23,7 @@ HEADERS  += \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.h \
     $$APP_SRC_DIR/models/key-models/hashkey.h \            
     $$APP_SRC_DIR/models/key-models/rejsonkey.h \
+    $$APP_SRC_DIR/models/key-models/unknownkey.h \
     $$APP_SRC_DIR/models/key-models/newkeyrequest.h \
 
 SOURCES += \
@@ -43,6 +44,7 @@ SOURCES += \
     $$APP_SRC_DIR/models/key-models/sortedsetkey.cpp \
     $$APP_SRC_DIR/models/key-models/hashkey.cpp \
     $$APP_SRC_DIR/models/key-models/rejsonkey.cpp \
+    $$APP_SRC_DIR/models/key-models/unknownkey.cpp \
     $$APP_SRC_DIR/models/key-models/newkeyrequest.cpp \
 
 OTHER_FILES += \

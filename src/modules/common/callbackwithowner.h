@@ -32,6 +32,11 @@ public:
     return !owner.isNull();
   }
 
+  std::function<void(Args...)> rawCallback()
+  {
+      return m_callback;
+  }
+
 private:
   QWeakPointer<Object> m_owner;
   std::function<void(Args...)> m_callback;

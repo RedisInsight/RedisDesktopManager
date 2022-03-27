@@ -5,6 +5,7 @@
 #include <QTest>
 #include <QtCore>
 
+#include "respbasetestcase.h"
 #include "connections-tree/items/serveritem.h"
 #include "connections-tree/model.h"
 #include "mocks.h"
@@ -20,7 +21,7 @@ void TestServerItem::testLoad() {
   Mock<Operations> operations =
       getOperationsWithGetDatabases(databases, QString());
   Operations& mock = operations.get();
-  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter<Operations>);
 
   QFETCH(QString, action);
 
@@ -51,7 +52,7 @@ void TestServerItem::testBasicMethods() {
   When(Method(operations, connectionName)).Return("test");
   Operations& mock = operations.get();
 
-  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter<Operations>);
 
   Model dummyModel;
 
@@ -73,7 +74,7 @@ void TestServerItem::testLoad_invalid() {
   Mock<Operations> operations =
       getOperationsWithGetDatabases({}, QString("fake connection error"));
   Operations& mock = operations.get();
-  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter<Operations>);
 
   Model dummyModel;
   ServerItem item{ptr, dummyModel};
@@ -95,7 +96,7 @@ void TestServerItem::testUnload() {
   Mock<Operations> operations =
       getOperationsWithGetDatabases(databases, QString());
   Operations& mock = operations.get();
-  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter<Operations>);
 
   Model dummyModel;
   ServerItem item{ptr, dummyModel};
