@@ -65,7 +65,7 @@ void TestKeyModels::testKeyFactoryAddKey() {
   QFETCH(QVariantMap, row);
   auto connection = getRealConnectionWithDummyTransporter(testReplies);
   KeyFactory factory;
-  NewKeyRequest r(connection, -1, []() {});
+  NewKeyRequest r(connection, -1, QSharedPointer<ConnectionsTree::Operations::OpenNewKeyDialogCallback>());
 
   // when
   r.setKeyName("testKey");

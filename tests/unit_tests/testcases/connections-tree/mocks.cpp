@@ -19,12 +19,13 @@ Mock<ConnectionsTree::Operations> getOperationsWithGetDatabases(
   auto op = getOperations();
 
   When(Method(op, getDatabases))
-      .AlwaysDo([db,
-           err](std::function<void(RedisClient::DatabaseList, const QString &)>
-                    cb) -> QFuture<void> {
-        cb(db, err);
-        return QFuture<void>();
-      });
+      .AlwaysDo(
+          [db, err](
+              QSharedPointer<ConnectionsTree::Operations::GetDatabasesCallback>
+                  cb) -> QFuture<void> {
+            cb->rawCallback()(db, err);
+            return QFuture<void>();
+          });
 
   return op;
 }
@@ -34,13 +35,11 @@ Mock<ConnectionsTree::Operations> getOperationsWithDbAndKeys(
   auto op = getOperationsWithGetDatabases(db, err);
 
   When(Method(op, loadNamespaceItems))
-      .Do([keys, err](uint, const QString&,
-                      std::function<void(
-                          const RedisClient::Connection::RawKeysList &keylist,
-                          const QString &)>
-                          cb) -> void {
-        cb(keys, err);
-      });
+      .Do([keys, err](
+              uint, const QString &,
+              QSharedPointer<
+                  ConnectionsTree::Operations::LoadNamespaceItemsCallback>
+                  cb) -> void { cb->rawCallback()(keys, err); });
 
   return op;
 }

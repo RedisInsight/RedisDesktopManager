@@ -4,6 +4,9 @@
 #include "basetestcase.h"
 #include "models/connectionconf.h"
 
+template<typename T>
+static void fakeDeleter(T*) {}
+
 class RESPBaseTestCase : public BaseTestCase {
   Q_OBJECT
 

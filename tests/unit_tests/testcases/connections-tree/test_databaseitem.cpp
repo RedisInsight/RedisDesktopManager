@@ -5,6 +5,7 @@
 #include <QTest>
 #include <QtCore>
 
+#include <respbasetestcase.h>
 #include "connections-tree/items/databaseitem.h"
 #include "connections-tree/items/serveritem.h"
 #include "connections-tree/model.h"
@@ -28,7 +29,7 @@ void TestDatabaseItem::testLoadKeys() {
   auto operations = getOperationsWithDbAndKeys({{0, 55}}, QString(), keys);
 
   Operations& mock = operations.get();
-  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter);
+  auto ptr = QSharedPointer<Operations>(&mock, fakeDeleter<Operations>);
 
   Model dummyModel;
   QSharedPointer<ServerItem> parentItem(new ServerItem(ptr, dummyModel));

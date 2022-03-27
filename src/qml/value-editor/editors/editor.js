@@ -17,7 +17,7 @@ function getEditorByTypeString(keyType) {
     } else if (keyType === "stream") {
         return "./editors/StreamItemEditor.qml"
     } else if (keyType) {
-        console.error("Editor for type " + keyType + " is not defined!")
+        return "./editors/UnsupportedDataType.qml"
     }
 }
 

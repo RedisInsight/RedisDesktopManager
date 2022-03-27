@@ -1,10 +1,15 @@
 #include "test_treeoperations.h"
 #include <qredisclient/connection.h>
+#include <fakeit.hpp>
+
 #include "app/events.h"
 #include "connections-tree/items/databaseitem.h"
 #include "connections-tree/model.h"
 #include "models/connectionconf.h"
 #include "models/treeoperations.h"
+
+using namespace fakeit;
+using namespace ConnectionsTree;
 
 void TestTreeOperations::testCreation() {
   // given
@@ -37,23 +42,28 @@ void TestTreeOperations::testGetDatabases() {
   auto connection = getFakeConnection();
   connection->setFakeResponses(expectedResponses);
   connection->setClone(connection);
-  bool callbackCalled = false;
+
+  // Fake callback
   RedisClient::DatabaseList result;
+  Mock<TreeItem> fake;
+  TreeItem& owner = fake.get();
+  auto fakeOwner = QSharedPointer<TreeItem>(&owner, fakeDeleter<TreeItem>);
+
+  auto callback = QSharedPointer<Operations::GetDatabasesCallback>(
+      new Operations::GetDatabasesCallback(
+          fakeOwner,
+          [&result](Operations::DbMapping r, const QString&) { result = r; }));
 
   // when
   qDebug() << "testGetDatabases - start execution";
   TreeOperations operations(getDummyConfig(), events);
   operations.setConnection(connection);
-  operations.getDatabases(
-      [&callbackCalled, &result](const RedisClient::DatabaseList& r, const QString&) {
-        callbackCalled = true;
-        result = r;        
-      });
+
+  operations.getDatabases(callback);
 
   // then
   wait(100);
   connection.clear();
-  QCOMPARE(callbackCalled, true);
   QCOMPARE(result.size(), 13);
 }
 
@@ -74,20 +84,25 @@ void TestTreeOperations::testLoadNamespaceItems() {
       new TreeOperations(getDummyConfig(), events));
   operations->setConnection(connection);
 
-  // when
-  bool callbackCalled = false;
+  // Fake callback
+  RedisClient::Connection::RawKeysList result;
+  Mock<TreeItem> fake;
+  TreeItem& owner = fake.get();
+  auto fakeOwner = QSharedPointer<TreeItem>(&owner, fakeDeleter<TreeItem>);
 
+  auto callback = QSharedPointer<Operations::LoadNamespaceItemsCallback>(
+      new Operations::LoadNamespaceItemsCallback(
+          fakeOwner,
+          [&result](const RedisClient::Connection::RawKeysList& r,
+                  const QString&) { result = r; }));
+
+  // when
   operations->loadNamespaceItems(
-              0, QString("*"),
-      [&callbackCalled](const QList<QByteArray>& keys, const QString& err) {
-        // then - part 2
-        callbackCalled = true;
-        QVERIFY2(err.isEmpty(), qPrintable(err));
-      });
+              0, QString("*"), callback);
 
   // then - part 1
   wait(5);
-  QCOMPARE(callbackCalled, true);
+  QCOMPARE(result.size(), 2);
   QCOMPARE(connection->runCommandCalled, runCommandCalled);
   QCOMPARE(connection->retrieveCollectionCalled, retrieveCollectionCalled);
 }
@@ -110,18 +125,26 @@ void TestTreeOperations::testFlushDb() {
   auto connection = getFakeConnection(QList<QVariant>() << QVariant(),
                                       QStringList() << "+OK\r\n");
 
+  // Mock callback
+  bool callbackCalledWithError = false;
+  Mock<TreeItem> fake;
+  TreeItem& owner = fake.get();
+  auto fakeOwner = QSharedPointer<TreeItem>(&owner, fakeDeleter<TreeItem>);
+
+  auto callback = QSharedPointer<Operations::FlushDbCallback>(
+      new Operations::FlushDbCallback(
+          fakeOwner, [&callbackCalledWithError](const QString& e) {
+            callbackCalledWithError = !e.isEmpty();
+          }));
+
   // when
-  bool callbackCalled = false;
   TreeOperations operations(getDummyConfig(), events);
   operations.setConnection(connection);
-  operations.flushDb(0, [&callbackCalled](const QString&) {
-    // then - part 2
-    callbackCalled = true;
-  });
+  operations.flushDb(0, callback);
 
   // then - part 1
   wait(5);
-  QCOMPARE(callbackCalled, true);
+  QCOMPARE(callbackCalledWithError, false);
   QCOMPARE(connection->runCommandCalled, 1u);
   QCOMPARE(connection->executedCommands[0].getPartAsString(0),
            QString("FLUSHDB"));
@@ -133,14 +156,22 @@ void TestTreeOperations::testFlushDbCommandError() {
   auto connection = getFakeConnection();
   connection->returnErrorOnCmdRun = true;
 
-  // when
+  // Fake callback
   bool callbackCalledWithError = false;
+  Mock<TreeItem> fake;
+  TreeItem& owner = fake.get();
+  auto fakeOwner = QSharedPointer<TreeItem>(&owner, fakeDeleter<TreeItem>);
+
+  auto callback = QSharedPointer<Operations::FlushDbCallback>(
+      new Operations::FlushDbCallback(
+          fakeOwner, [&callbackCalledWithError](const QString& e) {
+            callbackCalledWithError = !e.isEmpty();
+          }));
+
+  // when
   TreeOperations operations(getDummyConfig(), events);
   operations.setConnection(connection);
-  operations.flushDb(0, [&callbackCalledWithError](const QString& e) {
-    // then - part 2
-    callbackCalledWithError = !e.isEmpty();
-  });
+  operations.flushDb(0, callback);
 
   // then - part 1
   wait(5);
