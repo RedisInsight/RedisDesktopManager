@@ -54,9 +54,6 @@ void TestTreeOperations::testGetDatabases() {
           fakeOwner,
           [&result](Operations::DbMapping r, const QString&) { result = r; }));
 
-  Mock<Operations::GetDatabasesCallback> spy(*callback);
-  When(Method(spy, isValid)).AlwaysReturn(true);
-
   // when
   qDebug() << "testGetDatabases - start execution";
   TreeOperations operations(getDummyConfig(), events);
