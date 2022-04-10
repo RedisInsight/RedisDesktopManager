@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.13
 import QtQuick.Controls.Styles 1.1
-import QtQuick.Dialogs 1.2
 import QtQml.Models 2.2
 import QtQuick.Window 2.2
 import Qt.labs.settings 1.0

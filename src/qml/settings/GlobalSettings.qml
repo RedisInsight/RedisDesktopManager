@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.13
 import QtQuick.Controls 1.4 as LC
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs 1.3
 import Qt.labs.settings 1.0
 import QtQuick.Window 2.3
 import "../common"

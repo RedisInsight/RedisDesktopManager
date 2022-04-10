@@ -1,8 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.13
-import QtQuick.Dialogs 1.2
-import Qt.labs.platform 1.1 as QLabDialogs
+import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.3
 import "../common"
 import "../common/platformutils.js" as PlatformUtils

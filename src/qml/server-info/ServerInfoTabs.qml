@@ -2,7 +2,6 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import QtQuick.Controls 1.4 as LC
-import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import QtCharts 2.3
 import "./../common"
