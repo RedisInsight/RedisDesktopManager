@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Styles 1.1
-import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1
 import QtQml.Models 2.2
 import "."
 import "./common"
@@ -49,16 +49,16 @@ ToolBar {
                     id: importConnectionsDialog
                     title: qsTranslate("RESP","Import Connections")
                     nameFilters: ["Connections (*.json)"]
-                    selectExisting: true
-                    onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(fileUrl))
+                    fileMode: FileDialog.OpenFile
+                    onAccepted: connectionsManager.importConnections(qmlUtils.getPathFromUrl(file))
                 }
 
                 FileDialog {
                     id: exportConnectionsDialog
                     title: qsTranslate("RESP","Export Connections")
                     nameFilters: ["Connections (*.json)"]
-                    selectExisting: false
-                    onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(fileUrl))
+                    fileMode: FileDialog.SaveFile
+                    onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(file))
                 }
 
                 Menu {
