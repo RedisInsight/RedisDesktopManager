@@ -112,6 +112,13 @@ ApplicationWindow {
         source: "settings/GlobalSettings.qml"
     }
 
+    Loader {
+        id: extServerSettingsDialog
+
+        asynchronous: true
+        source: "extension-server/ExtensionServerSettings.qml"
+    }
+
     ConnectionSettignsDialog {
         id: connectionSettingsDialog
 

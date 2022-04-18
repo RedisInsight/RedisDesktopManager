@@ -185,9 +185,11 @@ lupdate_only{
         $$PWD/qml/settings/*.qml \
         $$PWD/qml/server-info/*.qml \
         $$PWD/qml/console/*.qml \
+        $$PWD/qml/connections/*.qml \
         $$PWD/qml/connections-tree/*.qml \
         $$PWD/qml/common/*.qml \
         $$PWD/qml/bulk-operations/*.qml \
+        $$PWD/qml/extension-server/*.qml \
 }
 
 
