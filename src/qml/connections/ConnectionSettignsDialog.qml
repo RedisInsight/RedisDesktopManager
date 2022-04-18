@@ -529,21 +529,37 @@ Dialog {
                                 objectName: "rdm_connection_group_box_security"
                                 columns: 2
 
-                                BetterRadioButton {
-                                    id: sslRadioButton
-                                    objectName: "rdm_connection_security_ssl_radio_button"
+                                RowLayout {
+                                    Layout.fillWidth: true
                                     Layout.columnSpan: 2
-                                    text: qsTranslate("RESP","SSL / TLS")
-                                    allowUncheck: true
-                                    checked: root.settings ? root.settings.sslEnabled && !root.sshEnabled : false
-                                    Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
-                                    onCheckedChanged: {
-                                        root.settings.sslEnabled = checked
-                                        root.cleanStyle()
+
+                                    BetterRadioButton {
+                                        id: sslRadioButton
+                                        objectName: "rdm_connection_security_ssl_radio_button"
+                                        text: qsTranslate("RESP","SSL / TLS")
+                                        allowUncheck: true
+                                        checked: root.settings ? root.settings.sslEnabled && !root.sshEnabled : false
+                                        Component.onCompleted: root.sslEnabled = Qt.binding(function() { return sslRadioButton.checked })
+                                        onCheckedChanged: {
+                                            root.settings.sslEnabled = checked
+                                            root.cleanStyle()
+                                        }
+                                    }
+
+                                    BetterRadioButton {
+                                        id: sshRadioButton
+                                        objectName: "rdm_connection_security_ssh_radio_button"
+                                        text: qsTranslate("RESP","SSH Tunnel")
+                                        allowUncheck: true
+                                        checked: root.settings ? root.settings.useSshTunnel() : false
+                                        Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
+                                        onCheckedChanged: {
+                                            root.cleanStyle()
+                                        }
                                     }
                                 }
 
-                                Item { Layout.preferredWidth: 20 }
+                                Item { Layout.preferredWidth: 15 }
 
                                 GridLayout {
                                     id: tlsSettingsGrid
@@ -602,21 +618,6 @@ Dialog {
                                     }
                                 }
 
-                                BetterRadioButton {
-                                    id: sshRadioButton
-                                    objectName: "rdm_connection_security_ssh_radio_button"
-                                    Layout.columnSpan: 2
-                                    text: qsTranslate("RESP","SSH Tunnel")
-                                    allowUncheck: true
-                                    checked: root.settings ? root.settings.useSshTunnel() : false
-                                    Component.onCompleted: root.sshEnabled = Qt.binding(function() { return sshRadioButton.checked })
-                                    onCheckedChanged: {
-                                        root.cleanStyle()
-                                    }
-                                }
-
-                                Item { Layout.preferredWidth: 20 }
-
                                 GridLayout {
                                     id: sshSettingsGrid
                                     objectName: "rdm_connection_security_ssh_grid"
@@ -649,11 +650,32 @@ Dialog {
                                         onTextChanged: root.settings.sshUser = text
                                     }
 
+                                    BetterCheckbox {
+                                        id: sshAgentCheckbox
+                                        objectName: "rdm_connection_security_ssh_agent"
+                                        text: qsTranslate("RESP","Use SSH Agent")
+                                        checked: root.settings ? root.settings.sshAgent : false
+                                        onCheckedChanged: root.settings.sshAgent = checked
+                                    }
+
+                                    FilePathInput {
+                                        id: sshAgentPath
+                                        objectName: "rdm_connection_security_ssh_agent_path_field"
+                                        Layout.fillWidth: true
+                                        placeholderText: qsTranslate("RESP","(Optional) Custom SSH Agent Path")
+                                        nameFilters: [ "SSH Agent (*.*)" ]
+                                        title: qsTranslate("RESP","Select SSH Agent")
+                                        path: root.settings ? root.settings.sshAgentPath : ""
+                                        onPathChanged: root.settings.sshAgentPath = path
+                                    }
+
                                     BetterGroupbox {
                                         id: sshKeyGroupBox
                                         labelText: qsTranslate("RESP","Private Key")
                                         objectName: "rdm_connection_security_ssh_key_group_box"
                                         checked: root.settings ? root.settings.sshPrivateKey : false                                        
+                                        enabled: !sshAgentCheckbox.checked
+                                        opacity: enabled ? 1 : 0.5
 
                                         Layout.columnSpan: 2
                                         Layout.fillWidth: true
@@ -682,9 +704,12 @@ Dialog {
                                     }
 
                                     BetterGroupbox {
+                                        id: sshPasswordGroupBox
                                         labelText: sshKeyGroupBox.checked? qsTranslate("RESP","Passphrase") : qsTranslate("RESP","Password")
                                         objectName: "rdm_connection_security_ssh_password_group_box"
                                         checked: root.settings ? root.settings.sshPassword || root.settings.askForSshPassword : true
+                                        enabled: !sshAgentCheckbox.checked
+                                        opacity: enabled ? 1 : 0.5
 
                                         Layout.columnSpan: 2
                                         Layout.fillWidth: true
@@ -995,6 +1020,19 @@ Dialog {
                         text: qsTranslate("RESP","OK")
                         onClicked: {
                             if (root.validate()) {
+
+                                if (!sshKeyGroupBox.checked)
+                                    root.settings.sshPrivateKey = ""
+                                if (!sshPasswordGroupBox.checked)
+                                    root.settings.sshPassword = ""
+
+                                if (sshAgentCheckbox.checked) {
+                                    root.settings.sshPrivateKey = ""
+                                    root.settings.sshPassword = ""
+                                } else {
+                                    root.settings.sshAgentPath = ""
+                                }
+
                                 root.saveConnection(root.settings)
                                 root.settings = connectionsManager.createEmptyConfig()
                                 root.resetSettings()

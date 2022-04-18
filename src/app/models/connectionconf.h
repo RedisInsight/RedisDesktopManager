@@ -29,6 +29,8 @@ class ServerConfig : public RedisClient::ConnectionConfig
     Q_PROPERTY(QString sshHost READ sshHost WRITE setSshHost)
     Q_PROPERTY(uint sshPort READ sshPort WRITE setSshPort)
     Q_PROPERTY(QString sshPrivateKey READ getSshPrivateKeyPath WRITE setSshPrivateKeyPath)
+    Q_PROPERTY(bool sshAgent READ sshAgent WRITE setSshAgent)
+    Q_PROPERTY(QString sshAgentPath READ sshAgentPath WRITE setSshAgentPath)
 
     /* Advanced settings */
     Q_PROPERTY(QString keysPattern READ keysPattern WRITE setKeysPattern)
