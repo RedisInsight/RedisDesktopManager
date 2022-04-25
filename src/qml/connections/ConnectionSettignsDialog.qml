@@ -1,14 +1,15 @@
 import QtQuick 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.13
-import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.3
 import "../common"
 import "../common/platformutils.js" as PlatformUtils
 
-Dialog {
+BetterDialog {
     id: root
     title: isNewConnection ? qsTranslate("RESP","New Connection Settings") : qsTranslate("RESP","Edit Connection Settings") + " " + settings.name
+
+    footer: null
 
     property bool isNewConnection: !settings || !settings.name
     property var settings
@@ -663,7 +664,7 @@ Dialog {
                                         objectName: "rdm_connection_security_ssh_agent_path_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTranslate("RESP","(Optional) Custom SSH Agent Path")
-                                        nameFilters: [ "SSH Agent (*.*)" ]
+                                        nameFilters: [ "SSH Agent (*)" ]
                                         title: qsTranslate("RESP","Select SSH Agent")
                                         path: root.settings ? root.settings.sshAgentPath : ""
                                         onPathChanged: root.settings.sshAgentPath = path
