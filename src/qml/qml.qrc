@@ -70,8 +70,7 @@
         <file>value-editor/filters/ListFilters.qml</file>
         <file>value-editor/filters/StreamFilters.qml</file>
         <file>common/JsonHighlighter.qml</file>
-        <file>connections/AskSecretDialog.qml</file>
-        <file>common/OkDialogOverlay.qml</file>
+        <file>connections/AskSecretDialog.qml</file>        
         <file>common/ColorInput.qml</file>
         <file>value-editor/editors/UnsupportedDataType.qml</file>
     </qresource>
