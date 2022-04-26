@@ -661,6 +661,7 @@ BetterDialog {
 
                                     FilePathInput {
                                         id: sshAgentPath
+                                        visible: Qt.platform.os !== "windows"
                                         objectName: "rdm_connection_security_ssh_agent_path_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTranslate("RESP","(Optional) Custom SSH Agent Path")
