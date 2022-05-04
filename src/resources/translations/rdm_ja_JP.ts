@@ -19,18 +19,14 @@
 <context>
     <name>RESP</name>
     <message>
-        <location filename="../../app/app.cpp" line="78"/>
+        <location filename="../../app/app.cpp" line="82"/>
         <source>Settings directory is not writable</source>
         <translation>設定したディレクトリは書き込みできません</translation>
     </message>
     <message>
-        <location filename="../../app/app.cpp" line="80"/>
+        <location filename="../../app/app.cpp" line="84"/>
         <source>RESP.app can&apos;t save connections file to settings directory. Please change file permissions or restart RESP.app as administrator.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation type="vanished">RDMは設定ディレクトリに接続情報を保存できませんでした。ファイルのパーミッションを変更するか、RDMを管理者として再起動してください。</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="160"/>
@@ -97,13 +93,13 @@
         <translation>サーバからデータが部分的にロードされました。</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="25"/>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="37"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="26"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="38"/>
         <source>Cannot load key %1, connection error occurred: %2</source>
         <translation>キー%1を読めません。接続エラーが発生しました: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="48"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="49"/>
         <source>Cannot load key %1 because it doesn&apos;t exist in database. Please reload connection tree and try again.</source>
         <translation>データベースに存在しないためキー%1を読めません。接続ツリーをリロードしてから改めて試してください。</translation>
     </message>
@@ -112,28 +108,19 @@
         <translation type="vanished">キー%1のTTLがロードできません。接続エラーが発生しました: %2</translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="82"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="78"/>
         <source>Cannot retrieve type of the key: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="125"/>
+        <location filename="../../app/models/key-models/keyfactory.cpp" line="122"/>
         <source>Cannot open file with key value</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/keyfactory.cpp" line="67"/>
-        <source>Unsupported Redis Data type %1</source>
-        <translation>サポートしていないRedisのデータ型です&#x3000;%1</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="129"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>サーバ&apos;%1&apos;に接続できません。詳細はログを確認してください。</translation>
-    </message>
-    <message>
-        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation type="vanished">オープンソース版のRedis Desktop ManagerはSSHトンネルをサポートして&lt;b&gt;いません&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt;全ての機能を有効にするには&lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;でサブスクリプションに加入してください。&lt;br/&gt;&lt;br /&gt;ご加入の皆様からいただきました資金により、私たちは開発を続けることができ、皆様をサポートできます。&lt;br /&gt;もしご質問がございましたらお気軽に&lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;または&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;までお問い合わせください。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="139"/>
@@ -146,17 +133,17 @@
         <translation>キーをロードできません: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="328"/>
+        <location filename="../../app/models/treeoperations.cpp" line="333"/>
         <source>Delete key error: %1</source>
         <translation>キー削除エラー: %1</translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="465"/>
+        <location filename="../../app/models/treeoperations.cpp" line="474"/>
         <source>Cannot determine amount of used memory by key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../app/models/treeoperations.cpp" line="403"/>
+        <location filename="../../app/models/treeoperations.cpp" line="413"/>
         <source>Cannot flush database: </source>
         <translation>データベースをフラッシュできません: </translation>
     </message>
@@ -166,50 +153,48 @@
         <translation>不正な接続です。接続の設定を確認してください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="234"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="251"/>
         <source>Live update was disabled due to exceeded keys limit. Please specify filter more carefully or change limit in settings.</source>
         <translation>キーの上限を超えているためライブアップデートは無効です。より適切なフィルタを指定するか、または設定で上限を変更してください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="283"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="304"/>
         <source>Key was added. Do you want to reload keys in selected database?</source>
         <translation>キーを追加しました。選択したデータベースのキーをリロードしますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="291"/>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="133"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="312"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="143"/>
         <source>Key was added</source>
         <translation>キーを追加しました。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="299"/>
         <source>Another operation is currently in progress</source>
-        <translation>別の処理が動作しています。</translation>
+        <translation type="vanished">別の処理が動作しています。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="301"/>
         <source>Please wait until another operation will be finished.</source>
-        <translation>処理が終わるまでお待ちください。</translation>
+        <translation type="vanished">処理が終わるまでお待ちください。</translation>
     </message>
     <message>
         <source>Please wait until another operation will be finised.</source>
         <translation type="vanished">処理が終わるまでお待ちください。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="312"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="327"/>
         <source>Do you really want to remove all keys from this database?</source>
         <translation>このデータベースから全てのキーを削除しても本当によろしいですか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="71"/>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="76"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="73"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="75"/>
         <source>Cannot load databases:
 
 </source>
         <translation>データベースをロードできません:</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="233"/>
+        <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="250"/>
         <source>Live update was disabled</source>
         <translation>ライブ・アップデートは無効です</translation>
     </message>
@@ -283,7 +268,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="304"/>
-        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="145"/>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="153"/>
         <source>Do you really want to delete this key?</source>
         <translation>このキーを本当に削除してもよろしいですか?</translation>
     </message>
@@ -337,12 +322,12 @@
         <translation>すべて検索</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="198"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="187"/>
         <source>Value and Console tabs related to this connection will be closed. Do you want to continue?</source>
         <translation>この接続に関連する値とコンソールのタブを閉じます。続行しますか?</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="210"/>
+        <location filename="../../modules/connections-tree/items/serveritem.cpp" line="200"/>
         <source>Do you really want to delete connection?</source>
         <translation>接続を本当に削除しますか?</translation>
     </message>
@@ -437,13 +422,13 @@
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="114"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="206"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="205"/>
         <source>Import</source>
         <translation>インポート</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="48"/>
-        <location filename="../../qml/AppToolBar.qml" line="67"/>
+        <location filename="../../qml/AppToolBar.qml" line="50"/>
+        <location filename="../../qml/AppToolBar.qml" line="69"/>
         <source>Import Connections</source>
         <translation>接続情報のインポート</translation>
     </message>
@@ -452,49 +437,49 @@
         <translation type="vanished">エクスポート</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="56"/>
-        <location filename="../../qml/AppToolBar.qml" line="72"/>
+        <location filename="../../qml/AppToolBar.qml" line="58"/>
+        <location filename="../../qml/AppToolBar.qml" line="74"/>
         <source>Export Connections</source>
         <translation>接続情報のエクスポート</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="98"/>
+        <location filename="../../qml/AppToolBar.qml" line="100"/>
         <source>Report issue</source>
         <translation>問題を報告</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="105"/>
+        <location filename="../../qml/AppToolBar.qml" line="107"/>
         <source>Documentation</source>
         <translation>ドキュメント</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="112"/>
+        <location filename="../../qml/AppToolBar.qml" line="114"/>
         <source>Join Telegram Chat</source>
         <translation>Telegram Chatに参加</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="119"/>
+        <location filename="../../qml/AppToolBar.qml" line="121"/>
         <source>Follow</source>
         <translation>フォローする</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="126"/>
+        <location filename="../../qml/AppToolBar.qml" line="128"/>
         <source>Star on GitHub!</source>
         <translation>GitHubで貢献する!</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="134"/>
+        <location filename="../../qml/AppToolBar.qml" line="136"/>
         <source>Log</source>
         <translation>ログ</translation>
     </message>
     <message>
-        <location filename="../../qml/AppToolBar.qml" line="142"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="14"/>
+        <location filename="../../qml/AppToolBar.qml" line="144"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="13"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="11"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="10"/>
         <source>New Connection Settings</source>
         <translation>新しい接続の設定</translation>
     </message>
@@ -519,194 +504,194 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="241"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="240"/>
         <source>Connection guides</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="262"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="260"/>
         <source>Local or Public Redis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="278"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="276"/>
         <source>Redis with SSL/TLS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="294"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="292"/>
         <source>SSH tunnel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="310"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="308"/>
         <source>UNIX socket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="397"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="395"/>
         <source>Cannot figure out how to connect to your redis-server?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="403"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="401"/>
         <source>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="415"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="413"/>
         <source>Don&apos;t have running Redis?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="421"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="419"/>
         <source>Spin up hassle-free Redis on Digital Ocean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="433"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="431"/>
         <source>Skip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="468"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="466"/>
         <source>Name:</source>
         <translation>名前:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="474"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="472"/>
         <source>Connection Name</source>
         <translation>接続名</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="480"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="478"/>
         <source>Address:</source>
         <translation>アドレス:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="485"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="483"/>
         <source>redis-server host</source>
         <translation>Redisサーバのホスト</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="496"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="494"/>
         <source>For better network performance please use 127.0.0.1</source>
         <translation>127.0.0.1を使うとネットワークのパフォーマンスが向上します</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="509"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="507"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(任意) Redisサーバ認証パスワード</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="514"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="512"/>
         <source>Username:</source>
         <translation>ユーザー名:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="520"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="518"/>
         <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
         <translation>(任意) Redisサーバ認証ユーザー名 (Redis &gt;6.0)</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="528"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="526"/>
         <source>Security</source>
         <translation>セキュリティ</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="559"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="573"/>
         <source>Public Key:</source>
         <translation>公開鍵:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="565"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="579"/>
         <source>(Optional) Public Key in PEM format</source>
         <translation>(任意) PEM形式の公開鍵</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="567"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="581"/>
         <source>Select public key in PEM format</source>
         <translation>PEM形式の公開鍵を選択してください</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="578"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="592"/>
         <source>(Optional) Private Key in PEM format</source>
         <translation>(任意) PEM形式の非公開鍵</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="580"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="675"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="594"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="703"/>
         <source>Select private key in PEM format</source>
         <translation>PEM形式の非公開鍵を選択してください</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="585"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="599"/>
         <source>Authority:</source>
         <translation>証明書:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="591"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="605"/>
         <source>(Optional) Authority in PEM format</source>
         <translation>(任意) PEM形式の証明書</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="593"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="607"/>
         <source>Select authority file in PEM format</source>
         <translation>PEM形式の証明書を選択してください</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="612"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="553"/>
         <source>SSH Tunnel</source>
         <translation>SSHトンネル</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="631"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="630"/>
         <source>SSH Address:</source>
         <translation>SSHアドレス</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="635"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="634"/>
         <source>Remote Host with SSH server</source>
         <translation>SSHサーバのリモートホスト</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="643"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="642"/>
         <source>SSH User:</source>
         <translation>SSHユーザー:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="649"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="648"/>
         <source>Valid SSH User Name</source>
         <translation>有効なSSHユーザー名</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="572"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="657"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="586"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="683"/>
         <source>Private Key</source>
         <translation>非公開鍵</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="673"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="701"/>
         <source>Path to Private Key in PEM format</source>
         <translation>PEM形式の非公開鍵のファイルパス</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="683"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="711"/>
         <source>&lt;b&gt;Tip:&lt;/b&gt; Use &lt;code&gt;⌘ + Shift + .&lt;/code&gt; to show hidden files and folders in dialog</source>
         <translation>&lt;b&gt;Tip:&lt;/b&gt; &lt;code&gt;⌘ + Shift + .&lt;/code&gt;で隠しファイルや隠しフォルダをダイアログに表示できます</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="717"/>
         <source>Password</source>
         <translation>パスワード</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="706"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="737"/>
         <source>SSH User Password</source>
         <translation>SSHユーザーのパスワード</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="728"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="759"/>
         <source>Enable TLS-over-SSH (&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</source>
         <translation>TLS-over-SSHを有効にする。(&lt;b&gt;AWS ElastiCache&lt;/b&gt; &lt;b&gt;Encryption in-transit&lt;/b&gt;)</translation>
     </message>
@@ -799,7 +784,7 @@
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="347"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="503"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="501"/>
         <source>Password:</source>
         <translation>パスワード:</translation>
     </message>
@@ -850,125 +835,155 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="539"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="540"/>
         <source>SSL / TLS</source>
         <translation>SSL / TLS</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="598"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="612"/>
         <source>Enable strict mode:</source>
         <translation>ストリクトモードを有効にする</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="703"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="657"/>
+        <source>Use SSH Agent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="667"/>
+        <source>(Optional) Custom SSH Agent Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="669"/>
+        <source>Select SSH Agent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="678"/>
+        <source>Additional configuration is required to enable SSH Agent support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="734"/>
         <source>Passphrase for provided private key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="705"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="736"/>
         <source>Password request will be prompt prior to connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="716"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="747"/>
         <source>Ask for password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="765"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="796"/>
         <source>Keys loading</source>
         <translation>キーの読み込み</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="769"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="800"/>
         <source>Default filter:</source>
         <translation>規定のフィルタ:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="775"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="806"/>
         <source>Pattern which defines loaded keys from redis-server</source>
         <translation>Redisサーバからロードするキー定義のパターン</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="781"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="812"/>
         <source>Namespace Separator:</source>
         <translation>ネームスペースのセパレータ:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="788"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="819"/>
         <source>Separator used for namespace extraction from keys</source>
         <translation>キーから抽出するネームスペースに使用するセパレータ</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="794"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="825"/>
         <source>Timeouts &amp; Limits</source>
         <translation>タイムアウトと上限</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="798"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="829"/>
         <source>Connection Timeout (sec):</source>
         <translation>接続タイムアウト(秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="811"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="842"/>
         <source>Execution Timeout (sec):</source>
         <translation>実行タイムアウト(秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="822"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="853"/>
         <source>Databases discovery limit:</source>
         <translation>データベース探索リミット:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="836"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="867"/>
         <source>Cluster</source>
         <translation>クラスタ</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="840"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="871"/>
         <source>Change host on cluster redirects:</source>
         <translation>クラスタをリダイレクトするホストを変更:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="850"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="881"/>
         <source>Formatters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="854"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="885"/>
         <source>Default value formatter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="870"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="901"/>
         <source>Auto detect (JSON / Plain Text / HEX)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="871"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="902"/>
         <source>Last selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="872"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="903"/>
         <source>Select formatter ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="967"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="952"/>
+        <source>Appearance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="956"/>
+        <source>Icon color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1021"/>
         <source>Invalid settings detected!</source>
         <translation>不正な設定を検出しました!</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="938"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="992"/>
         <source>Test Connection</source>
         <translation>接続テスト</translation>
     </message>
     <message>
         <location filename="../../qml/common/OkDialogOverlay.qml" line="20"/>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="115"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="975"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="349"/>
+        <location filename="../../qml/common/SaveToFileButton.qml" line="111"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1029"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="350"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="887"/>
         <source>OK</source>
         <translation>OK</translation>
@@ -978,10 +993,10 @@
         <location filename="../../modules/api/qml/SignInDialog.qml" line="508"/>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="399"/>
         <location filename="../../qml/common/BetterDialog.qml" line="44"/>
-        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="62"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="61"/>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="89"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="989"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="361"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1057"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="362"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="172"/>
         <location filename="../../qml/value-editor/ValueTableActions.qml" line="89"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="268"/>
@@ -989,161 +1004,153 @@
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="47"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="48"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="52"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="53"/>
         <source>Application will be restarted to apply these settings.</source>
         <translation>アプリケーションを再起動すると設定が有効になります。</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="72"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="73"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="84"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="174"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="85"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="175"/>
         <source>Font</source>
         <translation>フォント</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="96"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="186"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="97"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="187"/>
         <source>Font Size</source>
         <translation>フォントサイズ</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="109"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="123"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="110"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="124"/>
         <source>Dark Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="200"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="201"/>
         <source>Maximum Formatted Value Size</source>
         <translation>フォーマット済み値の最大サイズ</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="201"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="202"/>
         <source>Size in bytes</source>
         <translation>バイト数</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="259"/>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="392"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="137"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="138"/>
         <source>Use system proxy settings</source>
         <translation>OSのプロキシ設定を使う</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="149"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="150"/>
         <source>Use system proxy only for HTTP(S) requests</source>
         <translation>HTTP(S)にシステムのプロキシ設定のみを使う</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="155"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="156"/>
         <source>Value Editor</source>
         <translation>値エディタ</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="207"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="208"/>
         <source>Connections Tree</source>
         <translation>接続ツリー</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="225"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="226"/>
         <source>Show namespaced keys on top</source>
         <translation>ネームスペース付きのキーを上に表示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="235"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="236"/>
         <source>Reopen namespaces on reload</source>
         <translation>リロード時にネームスペースを開きなおす</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="236"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="237"/>
         <source>(Disable to improve treeview performance)</source>
         <translation>(無効にするとツリービューが早くなります)</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="246"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="247"/>
         <source>Show only last part for namespaced keys</source>
         <translation>ネームスペース付きのキーの末尾のみを表示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="258"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="259"/>
         <source>Maximum amount of rendered child items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="270"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="271"/>
         <source>Live update maximum allowed keys</source>
         <translation>ライブアップデートで読み込むキーの最大数</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="282"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="283"/>
         <source>Live update interval (in seconds)</source>
         <translation>ライブアップデートの更新頻度(秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="292"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="293"/>
         <source>External Value View Formatters</source>
         <translation>外部の値ビューフォーマッタ</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="301"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="302"/>
         <source>Formatters path: %0</source>
         <translation>フォーマッタのパス: %0</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="318"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="319"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../../qml/WelcomeTab.qml" line="30"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="323"/>
+        <location filename="../../qml/WelcomeTab.qml" line="29"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="324"/>
         <source>Version</source>
         <translation>バージョン</translation>
     </message>
     <message>
-        <source>Explore RDM</source>
-        <translation type="vanished">RDMの詳細</translation>
-    </message>
-    <message>
-        <source>Before using RDM take a look on the %1</source>
-        <translation type="vanished">RDMのご利用前に%1をご覧ください</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="947"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1001"/>
         <source>Quick Start Guide</source>
         <translation>クイックスタート・ガイド</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="127"/>
+        <location filename="../../qml/app.qml" line="126"/>
         <source>Successful connection to redis-server</source>
         <translation>Redisサーバへの接続に成功</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="130"/>
+        <location filename="../../qml/app.qml" line="129"/>
         <source>Can&apos;t connect to redis-server</source>
         <translation>Redisサーバに接続できません</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="314"/>
+        <location filename="../../qml/app.qml" line="313"/>
         <source>Add Group</source>
         <translation>グループを追加</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="329"/>
+        <location filename="../../qml/app.qml" line="328"/>
         <source>Regroup connections</source>
         <translation>接続グループの編集</translation>
     </message>
     <message>
-        <location filename="../../qml/app.qml" line="351"/>
+        <location filename="../../qml/app.qml" line="350"/>
         <source>Exit Regroup Mode</source>
         <translation>接続グループ編集モードを終了</translation>
     </message>
@@ -1154,81 +1161,81 @@
         <translation>パスワードを表示</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
+        <location filename="../../qml/connections-tree/BetterTreeView.qml" line="255"/>
         <source> (Removed)</source>
         <translation> (削除済)</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="76"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="77"/>
         <source>Open Keys Filter</source>
         <translation>キーフィルタを開く</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="80"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="81"/>
         <source>Reload Keys in Database</source>
         <translation>データベースのキーをリロード</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="84"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="85"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="30"/>
         <source>Add New Key</source>
         <translation>キーを追加</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="90"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="91"/>
         <source>Disable Live Update</source>
         <translation>ライブアップデートを無効化</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="90"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="91"/>
         <source>Enable Live Update</source>
         <translation>ライブアップデートを有効化</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="94"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="95"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="24"/>
         <source>Open Console</source>
         <translation>コンソールを開く</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="97"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="98"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="32"/>
         <source>Analyze Used Memory</source>
         <translation>メモリを分析</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="99"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="100"/>
         <source>Bulk Operations</source>
         <translation>バッチ処理</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="120"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="121"/>
         <source>Flush Database</source>
         <translation>データベースを初期化</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="123"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="124"/>
         <source>Delete keys with filter</source>
         <translation>フィルタを用いてキーを削除</translation>
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="94"/>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="126"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="127"/>
         <source>Set TTL for multiple keys</source>
         <translation>複数のキーにTTLを設定</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="129"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="130"/>
         <source>Copy keys from this database to another</source>
         <translation>このデータベースから別のデータベースへキーをコピー</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="132"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="133"/>
         <source>Import keys from RDB file</source>
         <translation>RDBファイルからキーをインポート</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="135"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="136"/>
         <source>Back</source>
         <translation>戻る</translation>
     </message>
@@ -1253,7 +1260,7 @@
         <translation>ネームスペースを削除</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/menu/database.qml" line="70"/>
+        <location filename="../../qml/connections-tree/menu/database.qml" line="71"/>
         <location filename="../../qml/connections-tree/menu/namespace.qml" line="24"/>
         <location filename="../../qml/connections-tree/menu/server.qml" line="14"/>
         <source>Disconnect</source>
@@ -1261,7 +1268,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="20"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="241"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="240"/>
         <source>Server Info</source>
         <translation>サーバ情報</translation>
     </message>
@@ -1277,7 +1284,7 @@
     </message>
     <message>
         <location filename="../../qml/connections-tree/menu/server.qml" line="36"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="11"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="10"/>
         <source>Edit Connection Settings</source>
         <translation>接続情報を編集</translation>
     </message>
@@ -1308,7 +1315,7 @@
     </message>
     <message>
         <location filename="../../qml/console/RedisConsole.qml" line="241"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="333"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="334"/>
         <source>Description</source>
         <translation>説明</translation>
     </message>
@@ -1323,180 +1330,180 @@
         <translation>閉じる</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="109"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="108"/>
         <source>Redis Version</source>
         <translation>Redisバージョン</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="124"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="123"/>
         <source>Used memory</source>
         <translation>消費メモリ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="139"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="251"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="357"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="138"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="250"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="356"/>
         <source>Clients</source>
         <translation>クライアント数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="154"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="153"/>
         <source>Commands Processed</source>
         <translation>実行コマンド数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="171"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="170"/>
         <source>Uptime</source>
         <translation>稼働時間</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="186"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="494"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="185"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="493"/>
         <source>Total Keys</source>
         <translation>総キー数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="201"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="200"/>
         <source>Hit Ratio</source>
         <translation>ヒット率</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="221"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="220"/>
         <source> day(s)</source>
         <translation> 日</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="236"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="235"/>
         <source>Info</source>
         <translation>情報</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="305"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="304"/>
         <source>Commands Per Second</source>
         <translation>コマンド数/秒</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="319"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="318"/>
         <source>Ops/s</source>
         <translation>OP数/秒</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="343"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="342"/>
         <source>Connected Clients</source>
         <translation>クライアント接続数</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="381"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="380"/>
         <source>Memory Usage</source>
         <translation>メモリ消費量</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="393"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="392"/>
         <source>Mb</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="422"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="421"/>
         <source>Network Input</source>
         <translation>ネットワーク入力</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="434"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="470"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="433"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="469"/>
         <source>Kb/s</source>
         <translation>KB/秒</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="458"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="457"/>
         <source>Network Output</source>
         <translation>ネットワーク出力</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="508"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="507"/>
         <source>Keys</source>
         <translation>キー</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="591"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="699"/>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="765"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="590"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="698"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="764"/>
         <source>Auto Refresh</source>
         <translation>自動リフレッシュ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="625"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="624"/>
         <source>Property</source>
         <translation>プロパティ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="631"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="630"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="22"/>
         <source>Value</source>
         <translation>値</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="853"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="852"/>
         <source>Subscribe in Console</source>
         <translation>コンソール上でサブスクライブ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="246"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="245"/>
         <source>Slowlog</source>
         <translation>Slowlog</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="257"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="256"/>
         <source>Pub/Sub Channels</source>
         <translation>Pub/Subチャンネル</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="823"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="822"/>
         <source>Enable</source>
         <translation>有効</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="842"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="841"/>
         <source>Channel Name</source>
         <translation>チャンネル名</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="714"/>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="327"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="713"/>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="328"/>
         <source>Command</source>
         <translation>コマンド</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="731"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="730"/>
         <source>Processed at</source>
         <translation>処理</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="746"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="745"/>
         <source>Execution Time (μs)</source>
         <translation>実行時間(μs)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="780"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="779"/>
         <source>Client Address</source>
         <translation>クライアントのアドレス</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="786"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="785"/>
         <source>Age (sec)</source>
         <translation>経過時間(秒)</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="792"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="791"/>
         <source>Idle</source>
         <translation>アイドル</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="798"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="797"/>
         <source>Flags</source>
         <translation>フラグ</translation>
     </message>
     <message>
-        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="804"/>
+        <location filename="../../qml/server-info/ServerInfoTabs.qml" line="803"/>
         <source>Current Database</source>
         <translation>現在のデータベース</translation>
     </message>
@@ -1507,7 +1514,7 @@
     </message>
     <message>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="56"/>
-        <location filename="../../qml/value-editor/editors/HashItemEditor.qml" line="18"/>
+        <location filename="../../qml/value-editor/editors/HashItemEditor.qml" line="17"/>
         <source>Key:</source>
         <translation>キー:</translation>
     </message>
@@ -1533,7 +1540,7 @@
     </message>
     <message>
         <location filename="../../qml/common/BetterDialog.qml" line="39"/>
-        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="47"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="46"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="127"/>
         <location filename="../../qml/value-editor/ValueTabs.qml" line="254"/>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="609"/>
@@ -1541,22 +1548,22 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="10"/>
         <source>Edit Connections Group</source>
         <translation>接続グループを編集</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="11"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="10"/>
         <source>Add New Connections Group</source>
         <translation>接続グループの新規追加</translation>
     </message>
     <message>
-        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="30"/>
+        <location filename="../../qml/connections-tree/ConnectionGroupDialog.qml" line="29"/>
         <source>Group Name:</source>
         <translation>グループ名:</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1024"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1094"/>
         <location filename="../../qml/value-editor/AddKeyDialog.qml" line="183"/>
         <location filename="../../qml/value-editor/editors/formatters/ValueFormatters.qml" line="241"/>
         <source>Error</source>
@@ -1672,8 +1679,8 @@
         <translation>値が大きすぎます(&gt;150kB)。フォーマッタは使用できません。</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="19"/>
-        <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="31"/>
+        <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="18"/>
+        <location filename="../../qml/value-editor/editors/SortedSetItemEditor.qml" line="30"/>
         <source>Score</source>
         <translation>ソース</translation>
     </message>
@@ -1810,7 +1817,7 @@
     </message>
     <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="472"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1030"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1100"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1825,12 +1832,12 @@
         <translation type="unfinished">バッチ処理を本当に実行しますか?</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="19"/>
+        <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="18"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="62"/>
+        <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="61"/>
         <source>Value (represented as JSON object)</source>
         <translation>値(JSONオブジェクト形式)</translation>
     </message>
@@ -1885,12 +1892,12 @@
         <translation>TTLをキーに設定できません</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="367"/>
+        <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="381"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
         <translation>あなたのRedisサーバは&lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt;コマンドをサポートしていません。</translation>
     </message>
     <message>
-        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="128"/>
+        <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="138"/>
         <source>Key was added. Do you want to reload keys in selected namespace?</source>
         <translation>キーを追加しました。選択されているネームスペースのキーをリロードしますか?</translation>
     </message>
@@ -1934,16 +1941,6 @@
     </message>
     <message>
         <location filename="../../qml/common/SaveToFileButton.qml" line="51"/>
-        <source>Save raw value to file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="51"/>
-        <source>Save formatted value to file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/common/SaveToFileButton.qml" line="72"/>
         <source>Value was saved to file:</source>
         <translation>値をファイルに保存しました:</translation>
     </message>
@@ -2055,7 +2052,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/WelcomeTab.qml" line="31"/>
+        <location filename="../../qml/WelcomeTab.qml" line="30"/>
         <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2096,7 +2093,7 @@
     </message>
     <message>
         <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="717"/>
         <source>Passphrase</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2136,6 +2133,23 @@
     <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
         <source>Manage Subscription</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/common/ColorInput.qml" line="43"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/value-editor/editors/UnsupportedDataType.qml" line="24"/>
+        <source>Unsupported Redis Data type </source>
+        <translation>サポートしていないRedisのデータ型です</translation>
+    </message>
+    <message>
+        <location filename="../../modules/connections-tree/items/keyitem.cpp" line="163"/>
+        <source>Cannot delete key:
+
+</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
