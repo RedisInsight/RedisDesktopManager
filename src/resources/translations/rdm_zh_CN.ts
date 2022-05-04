@@ -29,6 +29,20 @@
         <translation>RESP.app 无法将连接文件保存到设置目录。 请更改文件权限或以管理员身份重新启动 RESP.app。</translation>
     </message>
     <message>
+        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
+        <translation type="vanished">RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="81"/>
+        <source>Cannot rename key %1: %2</source>
+        <translation>无法重命名键 %1: %2</translation>
+    </message>
+    <message>
+        <location filename="../../app/models/key-models/abstractkey.h" line="125"/>
+        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
+        <translation>无法持久化键 &apos;%1&apos;，&lt;br&gt; 键不存在或没有设置TTL时长</translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="160"/>
         <source>Cannot parse scan response</source>
         <translation>无法解析扫描结果</translation>
@@ -42,16 +56,6 @@
         <location filename="../../app/models/key-models/abstractkey.h" line="106"/>
         <source>Cannot set TTL for key %1</source>
         <translation>无法给键 %1 设置 TTL</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="81"/>
-        <source>Cannot rename key %1: %2</source>
-        <translation>无法重命名键 %1: %2</translation>
-    </message>
-    <message>
-        <location filename="../../app/models/key-models/abstractkey.h" line="125"/>
-        <source>Cannot persist key &apos;%1&apos;. &lt;br&gt; Key does not exist or does not have an assigned TTL value</source>
-        <translation>无法持久化键 '%1'，&lt;br&gt; 键不存在或没有设置TTL时长</translation>
     </message>
     <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="274"/>
@@ -104,6 +108,10 @@
         <translation>无法加载键 %1，数据库中不存在该键，请重载连接树后重试。</translation>
     </message>
     <message>
+        <source>Cannot load TTL for key %1, connection error occurred: %2</source>
+        <translation type="vanished">无法加载键 %1 的 TTL 值，连接发生错误: %2</translation>
+    </message>
+    <message>
         <location filename="../../app/models/key-models/keyfactory.cpp" line="82"/>
         <source>Cannot retrieve type of the key: </source>
         <translation>无法重设键类型：</translation>
@@ -121,12 +129,16 @@
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="129"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
-        <translation>无法连接到服务器 '%1'，详情请查看日志。</translation>
+        <translation>无法连接到服务器 &apos;%1&apos;，详情请查看日志。</translation>
+    </message>
+    <message>
+        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
+        <translation type="obsolete">开源版本的 RDM &lt;b&gt; 不支持 SSH 通道连接&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 请从 &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt; 购买订阅来获取完整功能的版本。&lt;br/&gt;&lt;br /&gt;每份订阅都会为开发组筹集资金来继续完成后续的开发，为我们的用户提供支持。&lt;br /&gt;如果您有任何问题，欢迎直接联系我们：&lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;或者加入&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天组&lt;/a&gt;。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="139"/>
         <source>Open Source version of RESP.app &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation>RESP.app 的开源版本&lt;b&gt;不支持 SSH 隧道&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 要获得功能齐全的应用程序，请在 &lt;a href='https://resp 上购买订阅 .app/subscriptions'&gt;resp.app&lt;/a&gt;。 &lt;br/&gt;&lt;br /&gt;每一次订阅都为我们提供了资金来继续开发过程并为我们的用户提供支持。 &lt;br /&gt;如果您有任何问题，请随时通过 &lt;a href='mailto:support@resp.app'&gt;support@resp.app&lt;/a&gt; 与我们联系或加入 &lt;a href='https:// t.me/RedisDesktopManager'&gt;Telegram chat&lt;/a&gt;。 </translation>
+        <translation>RESP.app 的开源版本&lt;b&gt;不支持 SSH 隧道&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 要获得功能齐全的应用程序，请在 &lt;a href=&apos;https://resp 上购买订阅 .app/subscriptions&apos;&gt;resp.app&lt;/a&gt;。 &lt;br/&gt;&lt;br /&gt;每一次订阅都为我们提供了资金来继续开发过程并为我们的用户提供支持。 &lt;br /&gt;如果您有任何问题，请随时通过 &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; 与我们联系或加入 &lt;a href=&apos;https:// t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;。 </translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="226"/>
@@ -189,10 +201,10 @@
         <location filename="../../modules/connections-tree/items/serveritem.cpp" line="76"/>
         <source>Cannot load databases:
 
-source>
+</source>
         <translation>无法加载数据库：
 
-translation>
+</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/databaseitem.cpp" line="233"/>
@@ -331,13 +343,13 @@ translation>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="13"/>
         <source>Connected to cluster.
-source>
+</source>
         <translation>已连接到集群。</translation>
     </message>
     <message>
         <location filename="../../modules/console/consolemodel.cpp" line="16"/>
         <source>Connected.
-source>
+</source>
         <translation>已连接。</translation>
     </message>
     <message>
@@ -428,6 +440,10 @@ source>
         <location filename="../../qml/AppToolBar.qml" line="67"/>
         <source>Import Connections</source>
         <translation>导入连接</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation type="obsolete">导出</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="56"/>
@@ -529,7 +545,7 @@ source>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="403"/>
         <source>&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;Read the Docs&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;Contact Support&lt;/a&gt; or ask for help in our &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</source>
-        <translation>&lt;a href="https://docs.resp.app/en/latest/quick-start/"&gt;查看文档&lt;/a&gt;, &lt;a href="mailto:support@resp.app"&gt;联系支持&lt;/a&gt; 或者点这里寻求帮助 &lt;a href="https://t.me/RedisDesktopManager"&gt;Telegram Group&lt;/a&gt;</translation>
+        <translation type="unfinished">&lt;a href=&quot;https://docs.resp.app/en/latest/quick-start/&quot;&gt;查看文档&lt;/a&gt;, &lt;a href=&quot;mailto:support@resp.app&quot;&gt;联系支持&lt;/a&gt; 或者点这里寻求帮助 &lt;a href=&quot;https://t.me/RedisDesktopManager&quot;&gt;Telegram Group&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="415"/>
@@ -567,24 +583,9 @@ source>
         <translation>Redis 服务器地址</translation>
     </message>
     <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="496"/>
-        <source>For better network performance please use 127.0.0.1</source>
-        <translation>请使用127.0.0.1获得更好的网络连接速度</translation>
-    </message>
-    <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="509"/>
         <source>(Optional) redis-server authentication password</source>
         <translation>(可选) Redis 服务器验证密码</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="514"/>
-        <source>Username:</source>
-        <translation>用户名:</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="520"/>
-        <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
-        <translation>可选：服务端认证用户名 (Redis &gt;6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="528"/>
@@ -694,134 +695,19 @@ source>
         <translation>高级设置</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="317"/>
-        <source>Sign in with RESP.app account</source>
-        <translation>使用 RESP.app 帐户登录</translation>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="496"/>
+        <source>For better network performance please use 127.0.0.1</source>
+        <translation>请使用127.0.0.1获得更好的网络连接速度</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
-        <source>Renew your subscription</source>
-        <translation>更新订阅</translation>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="514"/>
+        <source>Username:</source>
+        <translation>用户名:</translation>
     </message>
     <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="234"/>
-        <source>You have no active subscription</source>
-        <translation>您没有可用订阅</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
-        <source>No internet connection</source>
-        <translation>无网络</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="240"/>
-        <source>Your trial has ended</source>
-        <translation>您的试用已结束</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="252"/>
-        <source>To use this version you need to renew your subscription.</source>
-        <translation>要继续使用该版本，需要更新你的订阅。</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="255"/>
-        <source>Please make sure that RESP.app is not blocked by a firewall and you have an internet connection.</source>
-        <translation>请确保 RESP.app 未被防火墙阻止并且您有互联网连接。</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="257"/>
-        <source>If you’re behind a proxy please enable </source>
-        <translation>如果您处于代理之中，请启用代理</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="261"/>
-        <source> option before sign-in.</source>
-        <translation> 登陆前选项</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="264"/>
-        <source>Please purchase a subscription to continue using RESP.app.</source>
-        <translation>请购买订阅以继续使用 RESP.app。</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
-        <source>If you have any questions please contact support </source>
-        <translation>遇到任何问题，请联系支持。</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="279"/>
-        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
-        <source>Renew Subscription</source>
-        <translation>更新订阅</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="280"/>
-        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
-        <source>Buy Subscription</source>
-        <translation>购买订阅</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="293"/>
-        <source>Try Again</source>
-        <translation>重试</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="331"/>
-        <source>Email:</source>
-        <translation>邮箱：</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="347"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="503"/>
-        <source>Password:</source>
-        <translation>密码：</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="376"/>
-        <source>Forgot password?</source>
-        <translation>忘记密码？</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="393"/>
-        <source>Application will be restarted to apply this setting.</source>
-        <translation>新设置将在软件重启后生效</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="404"/>
-        <source>Sign In</source>
-        <translation>登录</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="409"/>
-        <source>Please enter email &amp; password to sign in.</source>
-        <translation>请输入邮箱和密码来登录。</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="422"/>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="444"/>
-        <source>Offline Activation</source>
-        <translation>离线激活</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="465"/>
-        <source>Paste Activation code here</source>
-        <translation>在这里粘贴激活码</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="481"/>
-        <source>Where can I find my activation code?</source>
-        <translation>我在哪里能找到我的激活码？</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="490"/>
-        <source>Activate</source>
-        <translation>激活</translation>
-    </message>
-    <message>
-        <location filename="../../modules/api/qml/SignInDialog.qml" line="495"/>
-        <source>Please enter valid activation code.</source>
-        <translation>请输入正确的激活码。</translation>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="520"/>
+        <source>(Optional) redis-server authentication username (Redis &gt;6.0)</source>
+        <translation>可选：服务端认证用户名 (Redis &gt;6.0)</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="539"/>
@@ -978,6 +864,11 @@ source>
         <translation>语言</translation>
     </message>
     <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="393"/>
+        <source>Application will be restarted to apply this setting.</source>
+        <translation>新设置将在软件重启后生效</translation>
+    </message>
+    <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="84"/>
         <location filename="../../qml/settings/GlobalSettings.qml" line="174"/>
         <source>Font</source>
@@ -1004,11 +895,6 @@ source>
         <location filename="../../qml/settings/GlobalSettings.qml" line="201"/>
         <source>Size in bytes</source>
         <translation>字节长度</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/GlobalSettings.qml" line="246"/>
-        <source>Show only last part for namespaced keys</source>
-        <translation>仅显示命名空间中键名最后一部分内容</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="259"/>
@@ -1048,6 +934,11 @@ source>
         <translation>(禁用树状视图提高性能)</translation>
     </message>
     <message>
+        <location filename="../../qml/settings/GlobalSettings.qml" line="246"/>
+        <source>Show only last part for namespaced keys</source>
+        <translation>仅显示命名空间中键名最后一部分内容</translation>
+    </message>
+    <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="258"/>
         <source>Maximum amount of rendered child items</source>
         <translation>子项目的最大渲染数量</translation>
@@ -1084,6 +975,14 @@ source>
         <translation>版本</translation>
     </message>
     <message>
+        <source>Explore RDM</source>
+        <translation type="vanished">探索 RDM</translation>
+    </message>
+    <message>
+        <source>Before using RDM take a look on the %1</source>
+        <translation type="vanished">在使用  RDM 之前，请看看 %1</translation>
+    </message>
+    <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="947"/>
         <source>Quick Start Guide</source>
         <translation>快速入门指南</translation>
@@ -1114,10 +1013,288 @@ source>
         <translation>退出重组模式</translation>
     </message>
     <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
+        <source>Bulk Operations Manager</source>
+        <translation>批量操作管理</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="63"/>
+        <source>Invalid RDB path</source>
+        <translation>无效的RDB路径</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="63"/>
+        <source>Please specify valid path to RDB file</source>
+        <translation>请指定有效的RDB文件路径</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="85"/>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="86"/>
+        <source>Delete keys</source>
+        <translation>删除键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
+        <source>Set TTL</source>
+        <translation>设置TTL</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="103"/>
+        <source>Copy keys to another database</source>
+        <translation>复制键到其他库</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="104"/>
+        <source>Copy keys</source>
+        <translation>复制键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="113"/>
+        <source>Import data from rdb file</source>
+        <translation>从RDB文件导入数据</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="148"/>
+        <source>Redis Server:</source>
+        <translation>Redis 服务器：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="160"/>
+        <source>Database number:</source>
+        <translation>数据库编号：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="180"/>
+        <source>Path to RDB file:</source>
+        <translation>RDB文件路径：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="202"/>
+        <source>Select DB in RDB file:</source>
+        <translation>从RDB文件选择库：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="222"/>
+        <source>Key pattern:</source>
+        <translation>键名表达式：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="222"/>
+        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
+        <translation>导入匹配&lt;b&gt;regex&lt;/b&gt;的键：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="269"/>
+        <source>Destination Redis Server:</source>
+        <translation>目标 Redis 服务器：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="280"/>
+        <source>Destination Redis Server Database Index:</source>
+        <translation>目标 Redis 数据库编号：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="317"/>
+        <source>Show matched keys</source>
+        <translation>显示匹配的键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="317"/>
+        <source>Show Affected keys</source>
+        <translation>显示受影响的键</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="340"/>
+        <source>Affected keys:</source>
+        <translation>受影响的键：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="340"/>
+        <source>Matched keys:</source>
+        <translation>匹配的键：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="365"/>
+        <source>Bulk Operation finished.</source>
+        <translation>批量操作完成。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="370"/>
+        <source>Bulk Operation finished with errors</source>
+        <translation>批量操作完成，但发生了一些错误。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="422"/>
+        <source>Processed: </source>
+        <translation>已处理：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="424"/>
+        <source>Getting list of affected keys...</source>
+        <translation>获取受影响的键列表...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="472"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1030"/>
+        <source>Success</source>
+        <translation>成功</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="498"/>
+        <source>Confirmation</source>
+        <translation>确认</translation>
+    </message>
+    <message>
+        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="499"/>
+        <source>Do you really want to perform bulk operation?</source>
+        <translation>确认要执行批量操作？</translation>
+    </message>
+    <message>
+        <source>Sign in with resp.app account</source>
+        <translation type="obsolete">使用 resp.app 账号登陆</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="231"/>
+        <source>Renew your subscription</source>
+        <translation>更新订阅</translation>
+    </message>
+    <message>
+        <source>Your trial has ended.</source>
+        <translation type="obsolete">试用版已结束</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="234"/>
+        <source>You have no active subscription</source>
+        <translation>您没有可用订阅</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="237"/>
+        <source>No internet connection</source>
+        <translation>无网络</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="240"/>
+        <source>Your trial has ended</source>
+        <translation>您的试用已结束</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="252"/>
+        <source>To use this version you need to renew your subscription.</source>
+        <translation>要继续使用该版本，需要更新你的订阅。</translation>
+    </message>
+    <message>
+        <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
+        <translation type="obsolete">确保RDM没有被防火墙阻挡，并且网络正常</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="257"/>
+        <source>If you’re behind a proxy please enable </source>
+        <translation>如果您处于代理之中，请启用代理</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="261"/>
+        <source> option before sign-in.</source>
+        <translation> 登陆前选项</translation>
+    </message>
+    <message>
+        <source>Please purchase a subscription to continue using RDM.</source>
+        <translation type="obsolete">请购买一份订阅来继续使用RDM。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="317"/>
+        <source>Sign in with RESP.app account</source>
+        <translation>使用 RESP.app 帐户登录</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="255"/>
+        <source>Please make sure that RESP.app is not blocked by a firewall and you have an internet connection.</source>
+        <translation>请确保 RESP.app 未被防火墙阻止并且您有互联网连接。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="264"/>
+        <source>Please purchase a subscription to continue using RESP.app.</source>
+        <translation>请购买订阅以继续使用 RESP.app。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="268"/>
+        <source>If you have any questions please contact support </source>
+        <translation>遇到任何问题，请联系支持。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="279"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="71"/>
+        <source>Renew Subscription</source>
+        <translation>更新订阅</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="280"/>
+        <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="32"/>
+        <source>Buy Subscription</source>
+        <translation>购买订阅</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="293"/>
+        <source>Try Again</source>
+        <translation>重试</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="331"/>
+        <source>Email:</source>
+        <translation>邮箱：</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="347"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="503"/>
+        <source>Password:</source>
+        <translation>密码：</translation>
+    </message>
+    <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="370"/>
         <location filename="../../qml/common/PasswordInput.qml" line="29"/>
         <source>Show password</source>
         <translation>显示密码</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="376"/>
+        <source>Forgot password?</source>
+        <translation>忘记密码？</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="404"/>
+        <source>Sign In</source>
+        <translation>登录</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="409"/>
+        <source>Please enter email &amp; password to sign in.</source>
+        <translation>请输入邮箱和密码来登录。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="422"/>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="444"/>
+        <source>Offline Activation</source>
+        <translation>离线激活</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="465"/>
+        <source>Paste Activation code here</source>
+        <translation>在这里粘贴激活码</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="481"/>
+        <source>Where can I find my activation code?</source>
+        <translation>我在哪里能找到我的激活码？</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="490"/>
+        <source>Activate</source>
+        <translation>激活</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/qml/SignInDialog.qml" line="495"/>
+        <source>Please enter valid activation code.</source>
+        <translation>请输入正确的激活码。</translation>
     </message>
     <message>
         <location filename="../../qml/connections-tree/BetterTreeView.qml" line="214"/>
@@ -1554,6 +1731,10 @@ source>
         <translation>[二进制]</translation>
     </message>
     <message>
+        <source> [Compressed: </source>
+        <translation type="obsolete">[压缩的：</translation>
+    </message>
+    <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="537"/>
         <source>Copy to Clipboard</source>
         <translation>复制到剪切板</translation>
@@ -1640,62 +1821,6 @@ source>
         <translation>分数</translation>
     </message>
     <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="10"/>
-        <source>Bulk Operations Manager</source>
-        <translation>批量操作管理</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="63"/>
-        <source>Invalid RDB path</source>
-        <translation>无效的RDB路径</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="63"/>
-        <source>Please specify valid path to RDB file</source>
-        <translation>请指定有效的RDB文件路径</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="85"/>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="86"/>
-        <source>Delete keys</source>
-        <translation>删除键</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="95"/>
-        <source>Set TTL</source>
-        <translation>设置TTL</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="103"/>
-        <source>Copy keys to another database</source>
-        <translation>复制键到其他库</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="104"/>
-        <source>Copy keys</source>
-        <translation>复制键</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="113"/>
-        <source>Import data from rdb file</source>
-        <translation>从RDB文件导入数据</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="148"/>
-        <source>Redis Server:</source>
-        <translation>Redis 服务器：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="160"/>
-        <source>Database number:</source>
-        <translation>数据库编号：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="180"/>
-        <source>Path to RDB file:</source>
-        <translation>RDB文件路径：</translation>
-    </message>
-    <message>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="191"/>
         <source>Path to dump.rdb file</source>
         <translation>导出为 dump.rdb 文件的路径</translation>
@@ -1704,87 +1829,6 @@ source>
         <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="193"/>
         <source>Select dump.rdb</source>
         <translation>选择 dump.rdb</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="202"/>
-        <source>Select DB in RDB file:</source>
-        <translation>从RDB文件选择库：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="222"/>
-        <source>Import keys that match &lt;b&gt;regex&lt;/b&gt;:</source>
-        <translation>导入匹配&lt;b&gt;regex&lt;/b&gt;的键：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="222"/>
-        <source>Key pattern:</source>
-        <translation>键名表达式：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="269"/>
-        <source>Destination Redis Server:</source>
-        <translation>目标 Redis 服务器：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="280"/>
-        <source>Destination Redis Server Database Index:</source>
-        <translation>目标 Redis 数据库编号：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="317"/>
-        <source>Show matched keys</source>
-        <translation>显示匹配的键</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="317"/>
-        <source>Show Affected keys</source>
-        <translation>显示受影响的键</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="340"/>
-        <source>Matched keys:</source>
-        <translation>匹配的键：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="340"/>
-        <source>Affected keys:</source>
-        <translation>受影响的键：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="365"/>
-        <source>Bulk Operation finished.</source>
-        <translation>批量操作完成。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="370"/>
-        <source>Bulk Operation finished with errors</source>
-        <translation>批量操作完成，但发生了一些错误。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="422"/>
-        <source>Processed: </source>
-        <translation>已处理：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="424"/>
-        <source>Getting list of affected keys...</source>
-        <translation>获取受影响的键列表...</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="472"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1030"/>
-        <source>Success</source>
-        <translation>成功</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="498"/>
-        <source>Confirmation</source>
-        <translation>确认</translation>
-    </message>
-    <message>
-        <location filename="../../qml/bulk-operations/BulkOperationsDialog.qml" line="499"/>
-        <source>Do you really want to perform bulk operation?</source>
-        <translation>确认要执行批量操作？</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/StreamItemEditor.qml" line="19"/>
@@ -1849,7 +1893,7 @@ source>
     <message>
         <location filename="../../modules/connections-tree/items/abstractnamespaceitem.cpp" line="367"/>
         <source>Your redis-server doesn&apos;t support &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; commands.</source>
-        <translation>你的Redis服务端不支持 &lt;a href='https://redis.io/commands/memory-usage'&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; 指令</translation>
+        <translation>你的Redis服务端不支持 &lt;a href=&apos;https://redis.io/commands/memory-usage&apos;&gt;&lt;b&gt;MEMORY&lt;/b&gt;&lt;/a&gt; 指令</translation>
     </message>
     <message>
         <location filename="../../modules/connections-tree/items/namespaceitem.cpp" line="128"/>
@@ -1857,9 +1901,79 @@ source>
         <translation>键已经添加。需要重新加载选中的命名空间中的键吗？</translation>
     </message>
     <message>
+        <location filename="../../modules/api/api_client.cpp" line="147"/>
+        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
+        <translation>网络无效，请确保已经连上互联网，然后重试。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="190"/>
+        <source>Invalid login or password</source>
+        <translation>无效的账号或密码</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="200"/>
+        <source>Too many requests from your IP</source>
+        <translation>过多请求来源你的IP</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="206"/>
+        <source>Unknown error. Status code %1</source>
+        <translation>未知错误，状态码 %1</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="321"/>
+        <location filename="../../modules/api/api_client.cpp" line="734"/>
+        <source>Cannot parse server reply</source>
+        <translation>无法解析服务器响应</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="341"/>
+        <source>Cannot validate token</source>
+        <translation>无法效验令牌</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="347"/>
+        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</source>
+        <translation>无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="718"/>
+        <source>Expired activation code</source>
+        <translation>激活码已过期</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="731"/>
+        <source>Invalid activation code</source>
+        <translation>无效的激活码</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="588"/>
+        <location filename="../../modules/api/api_client.cpp" line="614"/>
+        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
+        <translation>无法保存更新文件，磁盘已满或下载目录无法写入。</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="666"/>
+        <source>Download was canceled</source>
+        <translation>下载已取消</translation>
+    </message>
+    <message>
+        <location filename="../../modules/api/api_client.cpp" line="673"/>
+        <source>Network error</source>
+        <translation>网络错误</translation>
+    </message>
+    <message>
         <location filename="../../qml/common/FilePathInput.qml" line="27"/>
         <source>Select File</source>
         <translation>选择文件</translation>
+    </message>
+    <message>
+        <source>Save to File</source>
+        <translation type="obsolete">保存到文件</translation>
+    </message>
+    <message>
+        <source>Save Value</source>
+        <translation type="obsolete">保存内容</translation>
     </message>
     <message>
         <location filename="../../qml/value-editor/editors/MultilineEditor.qml" line="897"/>
@@ -1947,67 +2061,6 @@ source>
         <translation>应用筛选条件</translation>
     </message>
     <message>
-        <location filename="../../qml/WelcomeTab.qml" line="31"/>
-        <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
-        <source>Getting Started</source>
-        <translation>使用入门</translation>
-    </message>
-    <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="42"/>
-        <source>Thank you for choosing RESP.app. Let&apos;s make your Redis experience better.</source>
-        <translation>感谢您选择 RESP.app。 让我们给您的 Redis 体验更好。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="60"/>
-        <source>Connect to Redis-Server</source>
-        <translation>连接到Redis服务器</translation>
-    </message>
-    <message>
-        <location filename="../../qml/QuickStartDialog.qml" line="73"/>
-        <source>Read the Docs</source>
-        <translation>阅读文档</translation>
-    </message>
-    <message>
-        <location filename="../../modules/connections-tree/items/loadmoreitem.cpp" line="12"/>
-        <source>Load more keys</source>
-        <translation>加载更多的键</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/AskSecretDialog.qml" line="19"/>
-        <source>SSH Passphrase</source>
-        <translation>SSH 密钥</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/AskSecretDialog.qml" line="21"/>
-        <source>Unknown</source>
-        <translation>未知</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
-        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
-        <source>Passphrase</source>
-        <translation>密钥</translation>
-    </message>
-    <message>
-        <location filename="../../qml/connections/AskSecretDialog.qml" line="71"/>
-        <source>Continue</source>
-        <translation>继续</translation>
-    </message>
-    <message>
-        <location filename="../../qml/common/BetterMessageDialog.qml" line="24"/>
-        <source>Yes</source>
-        <translation>是</translation>
-    </message>
-    <message>
-        <location filename="../../qml/common/BetterMessageDialog.qml" line="32"/>
-        <source>No</source>
-        <translation>否</translation>
-    </message>
-    <message>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="19"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="25"/>
         <location filename="../../modules/api/qml/SubscriptionInfo.qml" line="49"/>
@@ -2031,66 +2084,69 @@ source>
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="147"/>
-        <source>Network is not accessible. Please ensure that you have internet access and try again.</source>
-        <translation>网络无效，请确保已经连上互联网，然后重试。</translation>
+        <location filename="../../qml/WelcomeTab.qml" line="31"/>
+        <source>&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</source>
+        <translation type="unfinished">&lt;span style=&quot;font-size: 11px;&quot;&gt;Powered by awesome &lt;a href=&quot;https://github.com/uglide/RedisDesktopManager/tree/2021/3rdparty&quot;&gt;open-source software&lt;/a&gt; and &lt;a href=&quot;http://icons8.com/&quot;&gt;icons8&lt;/a&gt;.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="190"/>
-        <source>Invalid login or password</source>
-        <translation>无效的账号或密码</translation>
+        <location filename="../../qml/QuickStartDialog.qml" line="11"/>
+        <source>Getting Started</source>
+        <translation>使用入门</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="200"/>
-        <source>Too many requests from your IP</source>
-        <translation>过多请求来源你的IP</translation>
+        <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
+        <translation type="obsolete">感谢您选择RDM，我们一起让Redis有更好的体验。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="206"/>
-        <source>Unknown error. Status code %1</source>
-        <translation>未知错误，状态码 %1</translation>
+        <location filename="../../qml/QuickStartDialog.qml" line="42"/>
+        <source>Thank you for choosing RESP.app. Let&apos;s make your Redis experience better.</source>
+        <translation>感谢您选择 RESP.app。 让我们给您的 Redis 体验更好。</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="321"/>
-        <location filename="../../modules/api/api_client.cpp" line="734"/>
-        <source>Cannot parse server reply</source>
-        <translation>无法解析服务器响应</translation>
+        <location filename="../../qml/QuickStartDialog.qml" line="60"/>
+        <source>Connect to Redis-Server</source>
+        <translation>连接到Redis服务器</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="341"/>
-        <source>Cannot validate token</source>
-        <translation>无法效验令牌</translation>
+        <location filename="../../qml/QuickStartDialog.qml" line="73"/>
+        <source>Read the Docs</source>
+        <translation>阅读文档</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="347"/>
-        <source>Cannot login - %1. &lt;br/&gt; Please try again or contact  &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;</source>
-        <translation>无法登录 - %1。&lt;br/&gt; 请重试。或直接联系 &lt;a href='mailto:support@resp.app'&gt;support@resp.app&lt;/a&gt;</translation>
+        <location filename="../../modules/connections-tree/items/loadmoreitem.cpp" line="12"/>
+        <source>Load more keys</source>
+        <translation>加载更多的键</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="588"/>
-        <location filename="../../modules/api/api_client.cpp" line="614"/>
-        <source>Cannot save the update. Disk is full or download folder is not writable.</source>
-        <translation>无法保存更新文件，磁盘已满或下载目录无法写入。</translation>
+        <location filename="../../qml/common/BetterMessageDialog.qml" line="24"/>
+        <source>Yes</source>
+        <translation>是</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="666"/>
-        <source>Download was canceled</source>
-        <translation>下载已取消</translation>
+        <location filename="../../qml/common/BetterMessageDialog.qml" line="32"/>
+        <source>No</source>
+        <translation>否</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="673"/>
-        <source>Network error</source>
-        <translation>网络错误</translation>
+        <location filename="../../qml/connections/AskSecretDialog.qml" line="19"/>
+        <source>SSH Passphrase</source>
+        <translation>SSH 密钥</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="718"/>
-        <source>Expired activation code</source>
-        <translation>激活码已过期</translation>
+        <location filename="../../qml/connections/AskSecretDialog.qml" line="21"/>
+        <source>Unknown</source>
+        <translation>未知</translation>
     </message>
     <message>
-        <location filename="../../modules/api/api_client.cpp" line="731"/>
-        <source>Invalid activation code</source>
-        <translation>无效的激活码</translation>
+        <location filename="../../qml/connections/AskSecretDialog.qml" line="46"/>
+        <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="688"/>
+        <source>Passphrase</source>
+        <translation>密钥</translation>
+    </message>
+    <message>
+        <location filename="../../qml/connections/AskSecretDialog.qml" line="71"/>
+        <source>Continue</source>
+        <translation>继续</translation>
     </message>
 </context>
 </TS>
