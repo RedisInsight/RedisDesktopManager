@@ -84,12 +84,47 @@ rediss://user:password@host:port
 ## Connect to private redis-server via SSH tunnel
 ### Basic SSH tunneling
 SSH tab is supposed to allow you to use a SSH tunnel. It's useful if your redis-server is not publicly accessible.
-To use a SSH tunnel select checkbox "Use SSH Tunnel". There are different security options; you can use a plain password or OpenSSH private key. 
+To use a SSH tunnel select checkbox "SSH Tunnel". There are different security options; you can use a plain password or OpenSSH private key. 
 
 >!!! note "for Windows users:" 
     Your private key must be in .pem format.
 
-<img src="http://resp.app/static/docs/rdm_ssh.png?v=2" />
+<img height="350" src="http://resp.app/static/docs/resp_ssh.png?v=1" />
+
+### SSH Agent
+Starting from version 2022.3 RESP.app supports SSH Agents. This allows using password managers like [1Password](https://developer.1password.com/docs/ssh/agent)
+to securely store your SSH keys with 2FA.
+
+>!!! note "for Windows users:" 
+    On Windows RESP.app supports only [Microsoft OpenSSH](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_overview) that's why "Custom SSH Agent Path" option is not available.  
+
+##### How to connect to 1Password SSH-Agent from DMG version of RESP.app
+It's possible to set default SSH Agent for all connections in RESP.app by overriding environment variable `SSH_AUTH_SOCK`.
+If you need to use custom ssh agent only for specific connections follow steps above:
+
+1. Create symlink to agent.sock
+```
+mkdir -p ~/.1password && ln -s ~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock ~/.1password/agent.sock
+```
+2. In RESP.app check "Use SSH Agent" checkbox and click on the "Select File" button next to "Custom SSH Agent Path" field
+3. Press `⌘ + Shift + .` to show hidden files and folders in the dialog
+4. Select file `~/.1password/agent.sock`
+5. Save connection settings
+
+##### How to connect to SSH-Agent from AppStore version of RESP.app
+
+Due to AppStore sandboxing RESP.app cannot access default or custom SSH Agents defined by `SSH_AUTH_SOCK` variable.
+To overcome this limitation you need to create proxy unix socket inside RESP.app sandbox container:
+
+1. Install socat with homebrew
+```
+brew install socat
+```
+2. Create proxy unix-socket with socat:
+```
+socat UNIX-LISTEN:$HOME/Library/Containers/com.redisdesktop.rdm/Data/agent.sock UNIX-CONNECT:"$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+```
+
 
 ### Advanced SSH tunneling
 If you need advanced SSH tunneling you should setup a SSH tunnel manually and connect via localhost:
