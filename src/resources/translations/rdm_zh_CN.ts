@@ -29,10 +29,6 @@
         <translation>RESP.app 无法将连接文件保存到设置目录。 请更改文件权限或以管理员身份重新启动 RESP.app。</translation>
     </message>
     <message>
-        <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
-        <translation type="vanished">RDM 不能保存设置文件。请更改文件写入权限或者以管理员模式启动 RDM。</translation>
-    </message>
-    <message>
         <location filename="../../app/models/key-models/abstractkey.h" line="81"/>
         <source>Cannot rename key %1: %2</source>
         <translation>无法重命名键 %1: %2</translation>
@@ -130,10 +126,6 @@
         <location filename="../../app/models/treeoperations.cpp" line="129"/>
         <source>Cannot connect to server &apos;%1&apos;. Check log for details.</source>
         <translation>无法连接到服务器 &apos;%1&apos;，详情请查看日志。</translation>
-    </message>
-    <message>
-        <source>Open Source version of RDM &lt;b&gt;doesn&apos;t support SSH tunneling&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt; To get fully-featured application, please buy subscription on &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt;. &lt;br/&gt;&lt;br /&gt;Every single subscription gives us funds to continue the development process and provide support to our users. &lt;br /&gt;If you have any questions please feel free to contact us at &lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt; or join &lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram chat&lt;/a&gt;.</source>
-        <translation type="obsolete">开源版本的 RDM &lt;b&gt; 不支持 SSH 通道连接&lt;/b&gt;。&lt;br /&gt;&lt;br /&gt; 请从 &lt;a href=&apos;https://resp.app/subscriptions&apos;&gt;resp.app&lt;/a&gt; 购买订阅来获取完整功能的版本。&lt;br/&gt;&lt;br /&gt;每份订阅都会为开发组筹集资金来继续完成后续的开发，为我们的用户提供支持。&lt;br /&gt;如果您有任何问题，欢迎直接联系我们：&lt;a href=&apos;mailto:support@resp.app&apos;&gt;support@resp.app&lt;/a&gt;或者加入&lt;a href=&apos;https://t.me/RedisDesktopManager&apos;&gt;Telegram 聊天组&lt;/a&gt;。</translation>
     </message>
     <message>
         <location filename="../../app/models/treeoperations.cpp" line="139"/>
@@ -975,14 +967,6 @@
         <translation>版本</translation>
     </message>
     <message>
-        <source>Explore RDM</source>
-        <translation type="vanished">探索 RDM</translation>
-    </message>
-    <message>
-        <source>Before using RDM take a look on the %1</source>
-        <translation type="vanished">在使用  RDM 之前，请看看 %1</translation>
-    </message>
-    <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="947"/>
         <source>Quick Start Guide</source>
         <translation>快速入门指南</translation>
@@ -1183,10 +1167,6 @@
         <translation>要继续使用该版本，需要更新你的订阅。</translation>
     </message>
     <message>
-        <source>Please make sure that RDM is not blocked by a firewall and you have an internet connection.</source>
-        <translation type="obsolete">确保RDM没有被防火墙阻挡，并且网络正常</translation>
-    </message>
-    <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="257"/>
         <source>If you’re behind a proxy please enable </source>
         <translation>如果您处于代理之中，请启用代理</translation>
@@ -1195,10 +1175,6 @@
         <location filename="../../modules/api/qml/SignInDialog.qml" line="261"/>
         <source> option before sign-in.</source>
         <translation> 登陆前选项</translation>
-    </message>
-    <message>
-        <source>Please purchase a subscription to continue using RDM.</source>
-        <translation type="obsolete">请购买一份订阅来继续使用RDM。</translation>
     </message>
     <message>
         <location filename="../../modules/api/qml/SignInDialog.qml" line="11"/>
@@ -2092,10 +2068,6 @@
         <location filename="../../qml/QuickStartDialog.qml" line="11"/>
         <source>Getting Started</source>
         <translation>使用入门</translation>
-    </message>
-    <message>
-        <source>Thank you for choosing RDM. Let&apos;s make your Redis experience better.</source>
-        <translation type="obsolete">感谢您选择RDM，我们一起让Redis有更好的体验。</translation>
     </message>
     <message>
         <location filename="../../qml/QuickStartDialog.qml" line="42"/>
