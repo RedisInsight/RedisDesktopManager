@@ -661,7 +661,7 @@ BetterDialog {
 
                                     FilePathInput {
                                         id: sshAgentPath
-                                        visible: Qt.platform.os !== "windows"
+                                        visible: !(Qt.platform.os === "windows" || (PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()))
                                         objectName: "rdm_connection_security_ssh_agent_path_field"
                                         Layout.fillWidth: true
                                         placeholderText: qsTranslate("RESP","(Optional) Custom SSH Agent Path")
@@ -669,6 +669,13 @@ BetterDialog {
                                         title: qsTranslate("RESP","Select SSH Agent")
                                         path: root.settings ? root.settings.sshAgentPath : ""
                                         onPathChanged: root.settings.sshAgentPath = path
+                                    }
+
+                                    RichTextWithLinks {
+                                        visible: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()
+                                        Layout.fillWidth: true
+                                        wrapMode: Text.WrapAnywhere
+                                        html: '<a href="https://docs.resp.app/en/latest/quick-start/#ssh-agent">' + qsTranslate("RESP",'Additional configuration is required to enable SSH Agent support') + '</a>'
                                     }
 
                                     BetterGroupbox {
