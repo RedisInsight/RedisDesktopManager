@@ -1083,9 +1083,6 @@ BetterDialog {
             OkDialogOverlay {
                 id: dialog_notification
 
-                x: (root.width - width) / 2
-                y: (root.height - height) / 3
-
                 objectName: "rdm_qml_connection_settings_error_dialog"
                 visible: false                                              
 
