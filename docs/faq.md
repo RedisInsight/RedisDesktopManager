@@ -6,4 +6,6 @@
 
 **macOS App Store** `$HOME/Library/Containers/com.redisdesktop.rdm/Data/Library/Preferences/rdm/`
 
-**Linux** `$HOME/.rdm/connections.json`
+**Linux flatpak** `$HOME/.rdm/connections.json`
+
+**Linux snap** `$HOME/snap/redis-desktop-manager/common/.rdm/connections.json`
