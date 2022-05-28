@@ -14,6 +14,20 @@
 
 ## Ubuntu / ArchLinux / Debian / Fedora / CentOS / OpenSUSE / etc
 
+### Install flatpak
+
+1. Install RESP.app using [Flathub](https://flathub.org/apps/details/app.resp.RESP).
+
+> !!! info "How to install in command line"
+    Make sure to follow the [setup guide](https://flatpak.org/setup/) before installing
+    <br />`flatpak install flathub app.resp.RESP`
+
+> !!! tip "How to run"
+    If RESP.app icon hasn't appeared in your application launcher, you can run RESP.app from terminal with:
+    <br /> `flatpak run app.resp.RESP`
+
+### Install snap
+
 1. Install RESP.app using [Snapcraft](https://snapcraft.io/redis-desktop-manager).
 
 > !!! warning "SSH Keys"
