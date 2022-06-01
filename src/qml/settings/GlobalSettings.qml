@@ -68,7 +68,7 @@ BetterDialog {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
 
-                            model: ["system", "en_US", "zh_CN", "zh_TW", "ru_RU", "es_ES", "ja_JP"]
+                            model: ["system", "en_US", "zh_CN", "zh_TW", "uk_UA", "es_ES", "ja_JP"]
                             value: "system"
                             label: qsTranslate("RESP","Language")
                             onValueChanged: root.restartRequired = true
@@ -349,7 +349,7 @@ BetterDialog {
                         BetterButton {
                             text: qsTranslate("RESP","OK")
                             onClicked: {
-                                if (root.restartRequired === true) {
+                                if (!PlatformUtils.isOSX() && root.restartRequired === true) {
                                     // restart app
                                     Qt.exit(1001)
                                 }
