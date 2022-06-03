@@ -14,8 +14,7 @@ server and click on a target database like db0:
 
 It's a useful operation if you need to invalidate cache in a couple clicks instead of firing `FLUSHDB` command.
 > !!! warning "Be careful"
-    Do not use it on Production servers. You can safeguard your Production Redis server by
-using [a restricted user with limited permissions](https://redis.io/docs/manual/security/acl/).
+    Do not use it on Production servers. You can safeguard your Production Redis server by using [a restricted user with limited permissions](https://redis.io/docs/manual/security/acl/).
 
 ### Delete keys with filter
 
@@ -37,17 +36,17 @@ crash or stop responding after consuming all available memory. If you realized t
 Sometimes you need to copy some keys from a Production Redis server to local one for debugging or vice-versa.
 You can achieve that by writing custom script, however it's much easier to just make a couple of clicks in RESP.app to copy keys:
 
-![](http://resp.app/static/docs/bulk_copy.png?v=1)
-
 > !!! warning "Limitations"
     Currently RESP.app supports only copying data between redis-servers with the same RDB version. 
     Usually it means that major versions of both Redis servers should be the same.  
+
+![](http://resp.app/static/docs/bulk_copy_keys.png?v=1)
 
 
 ### Import keys directly from RDB files
 
 Usually, production Redis servers have [AOF or RDB back-ups or persistent files](https://redis.io/docs/manual/persistence/).
-While AOF are basically a file with all commands that should be played again to reconstruct original dataset, RDB files don't have such flexibility.
+While AOF is basically a file with all commands that should be played again to reconstruct original dataset, RDB files don't have such flexibility.
 Therefore, RESP.app provides a convenient way to easily import subset of data for debugging and testing directly from RDB file instead of creating additional load to your Production system.
 
 ![](http://resp.app/static/docs/bulk_import_rdb.png?v=1)
