@@ -1,0 +1,57 @@
+# Bulk operations
+***
+
+RESP.app simplifies your Redis daily routines with bulk operations. To access bulk operations connect to Redis
+server and click on a target database like db0:
+
+![](http://resp.app/static/docs/bulk_operations.png?v=1)
+
+## Supported bulk operations
+
+![](http://resp.app/static/docs/bulk_operations_list.png?v=1)
+
+### Flush database
+
+It's a useful operation if you need to clean cache and more comfortable to make a couple of clicks instead of firing `FLUSHDB` command.
+> !!! warning "Be careful"
+  Do not use it on production servers. You can help yourself and safeguard your production Redis server by
+using [a restricted user with limited permissions](https://redis.io/docs/manual/security/acl/).
+
+### Delete keys with filter
+
+If you need to remove some specific keys or a ["namespace"](lg-keyspaces.md#use-namespaced-keys) from your Redis server this bulk operation can come in handy.
+It allows you to specify a glob style pattern to define which keys should be removed.
+
+![](http://resp.app/static/docs/bulk_delete_keys.png?v=1)
+
+### Set TTL for multiple keys
+
+As you know Redis is an in-memory database. You should be careful and set appropriate TTL for all keys otherwise redis can 
+consume all memory, crash or stop responding. If you realized that some keys have wrong TTL values or don't have TTL at all you can fix it using RESP.app:
+
+![](http://resp.app/static/docs/bulk_ttl.png?v=1)
+
+
+### Copy keys from one redis server to another
+
+Sometimes you need to copy some keys from a production redis server to local for debugging or vice-versa.
+You can achieve it by writing custom script, but it's much easier to just make a couple of clicks in RESP.app to copy keys:
+
+![](http://resp.app/static/docs/bulk_copy.png?v=1)
+
+> !!! warning "Limitations"
+  Currently RESP.app support only copying data between redis-servers with the same RDB version. 
+  Usually it means that major versions of both Redis servers should be the same.  
+
+
+### Import keys directly from RDB files
+
+Usually, production Redis servers have [AOF or RDB back-ups or persistent files](https://redis.io/docs/manual/persistence/).
+While AOF files are basically a file with all commands that should be played again to reconstruct original dataset, RDB files don't have such flexibility.
+Therefore, RESP.app provides a convenient way to easily import data for debugging and testing directly from RDB file 
+instead of creating additional load to your production system.
+
+![](http://resp.app/static/docs/bulk_import_rdb.png?v=1)
+
+
+#### Is your use case not covered in RESP.app? [Contact us](mailto:support@resp.app), and we will do our best to solve it!  
