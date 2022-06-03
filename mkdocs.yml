@@ -1,5 +1,5 @@
-site_name: "RDM.dev"
-site_description: "RDM.dev Documentation"
+site_name: "RESP.app"
+site_description: "RESP.app Documentation (formerly RedisDesktopManager)"
 site_author: "Igor Malinovskiy"
 site_favicon: "favicon.ico"
 repo_url: https://github.com/uglide/RedisDesktopManager
