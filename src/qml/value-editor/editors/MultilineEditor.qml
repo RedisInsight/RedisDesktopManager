@@ -84,13 +84,8 @@ Item
         function process(formattedValue) {
             var formatter = valueFormattersModel.get(formatterSelector.currentIndex)
 
-             formatter.getRaw(formattedValue, function (error, raw) {
-                 var compressed;
-                 if (formatter.type === "external") {
-                    compressed = compress(qmlUtils.b64toByteArray(raw))
-                 } else {
-                    compressed = compress(raw)
-                 }
+             formatter.getRaw(formattedValue, function (error, raw) {                 
+                 var compressed = compress(raw);
                  return callback(error, compressed)
              }, __getFormattingContext())
         }

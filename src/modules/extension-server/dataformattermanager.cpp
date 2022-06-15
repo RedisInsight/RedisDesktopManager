@@ -11,8 +11,8 @@
 #include "app/models/configmanager.h"
 #include "client/OAIDefaultApi.h"
 
-RespExtServer::DataFormattersManager::DataFormattersManager()
-    : m_api(new RespExtServer::OAIDefaultApi()) {
+RespExtServer::DataFormattersManager::DataFormattersManager(QQmlApplicationEngine &engine)
+    : m_engine(engine), m_api(new RespExtServer::OAIDefaultApi()) {
   QSettings settings;
 
   int requestTimeout =
@@ -150,14 +150,19 @@ void RespExtServer::DataFormattersManager::encode(const QString &formatterId,
   }
 
   m_context = FormatterContext{jsCallback, formatterId};
-  auto requestContext = context.toMap();
 
-  OAIDecodePayload payload;
+  OAIEncodePayload payload;
   payload.setData(data.toBase64());
-  payload.setRedisKeyName(requestContext["redis-key-name"].toByteArray());
-  payload.setRedisKeyType(requestContext["redis-key-type"].toString());
 
-  m_api->dataFormattersIdDecodePost(formatterId, payload);
+  auto requestContext = QJsonDocument::fromVariant(context);
+
+  if (requestContext.isObject()) {
+    OAIObject metadata;
+    metadata.fromJsonObject(requestContext.object());
+    payload.setMetadata(metadata);
+  }
+
+  m_api->dataFormattersIdEncodePost(formatterId, payload);
 }
 
 QVariantList RespExtServer::DataFormattersManager::getPlainList() {
@@ -232,7 +237,7 @@ void RespExtServer::DataFormattersManager::onEncoded(
     OAIHttpRequestWorker *worker, QString) {
   if (!worker || !m_context.isValid()) return;
 
-  auto encoded = QString::fromUtf8(worker->response);
+  auto encoded = m_engine.toScriptValue(worker->response);
 
   m_context.jsCallback.call(QJSValueList{QString(), encoded});
 }

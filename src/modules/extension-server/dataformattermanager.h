@@ -6,6 +6,7 @@
 #include <QJSValue>
 #include <QNetworkReply>
 #include <QSharedPointer>
+#include <QQmlApplicationEngine>
 
 namespace RespExtServer {
 class OAIDefaultApi;
@@ -17,7 +18,7 @@ class DataFormattersManager : public QAbstractListModel {
   enum Roles { name = Qt::UserRole + 1, id, keyTypes, magicHeader, readOnly };
 
  public:
-  DataFormattersManager();
+  DataFormattersManager(QQmlApplicationEngine& engine);
 
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
@@ -77,6 +78,7 @@ class DataFormattersManager : public QAbstractListModel {
   };
 
  private:
+  QQmlApplicationEngine& m_engine;
   QList<OAIDataFormatter> m_formattersData;
   QHash<QString, int> m_mapping;
   QString m_extServerUrl;

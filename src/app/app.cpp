@@ -137,7 +137,7 @@ void Application::initModels() {
 
 #ifdef ENABLE_EXTERNAL_FORMATTERS
   m_extServerManager =
-      QSharedPointer<RespExtServer::DataFormattersManager>(new RespExtServer::DataFormattersManager());
+      QSharedPointer<RespExtServer::DataFormattersManager>(new RespExtServer::DataFormattersManager(m_engine));
 
   connect(m_extServerManager.data(), &RespExtServer::DataFormattersManager::error, this,
           [this](const QString& msg) {

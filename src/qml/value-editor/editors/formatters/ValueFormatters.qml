@@ -118,8 +118,6 @@ ListModel {
             var formatterName = formatter["name"];
             var formatterId = formatter["id"];
             var readOnly = formatter["readOnly"];
-            var keyTypes = formatter["keyTypes"];
-            var magicHeader = formatter["magicHeader"];
 
             var getFormatted = function (formatterId) {
                 var r = function (raw, callback, context) {
@@ -147,7 +145,6 @@ ListModel {
             rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterId))
             rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterId))
             rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
-            rootModel.setProperty(rootModel.count - 1, "keyTypes", keyTypes)
         }
     }
 
