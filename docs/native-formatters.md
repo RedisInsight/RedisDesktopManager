@@ -47,13 +47,13 @@ STDOUT (json):
 
 ```
 {
-    “output”: “<decoded data for human-friendly edit>”,
-    “read-only”: “false”,    
-    “format”: “plain_text” // or “json”
+    "output": "<decoded data for human-friendly edit>",
+    "read-only": "false",
+    "format": "plain_text" // or "json"
 }
 ```
 #### Encode string-representation 
-**Required only for formatters which return `“read-only”: true`**
+**Required only for formatters which return `"read-only": false`**
 
 CMD: `<executable> encode`
 
@@ -62,7 +62,7 @@ STDIN : `<edited-string-representation-encoded-with-base64>`
 STDOUT (json): 
 ```
 {
-    “output”: “<binary-data-encoded-with-base64>”,    
+    "output": "<binary-data-encoded-with-base64>",    
 }
 
 ```
@@ -73,7 +73,7 @@ If formatter cannot decode/encode value error response should be returned:
 OUT (json): 
 ```
 {
-    “error”: “Invalid CBOR data”,    
+    "error": "Invalid CBOR data",    
 }
 ```
 
