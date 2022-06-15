@@ -136,6 +136,7 @@ BetterDialog {
                         }
 
                         LC.TableViewColumn {
+                            width: 250
                             role: "name"
                             title: qsTranslate("RESP","Name")
                         }
@@ -144,17 +145,6 @@ BetterDialog {
                             width: 75
                             role: "readOnly"
                             title: qsTranslate("RESP","Read Only")
-                        }
-
-                        LC.TableViewColumn {
-                            role: "keyTypes"
-                            title: qsTranslate("RESP","Key types")
-                        }
-
-                        LC.TableViewColumn {
-                            width: 250
-                            role: "magicHeader"
-                            title: qsTranslate("RESP","Magic header")
                         }
 
                         model: formattersManager

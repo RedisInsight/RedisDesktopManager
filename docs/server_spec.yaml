@@ -95,10 +95,6 @@ components:
           type: string
           description: Name displayed inside RDM app
           example: "My .net models decoder"
-        key-types:
-          type: string
-          description: Glob-style pattern to match key types that should be decoded with this data formatter
-          example: "*"
         read-only:
           type: boolean
           description: Read-only formatters only receive decode requests

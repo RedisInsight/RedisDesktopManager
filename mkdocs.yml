@@ -7,16 +7,19 @@ edit_uri: edit/2022/docs/
 theme: readthedocs
 extra_css:
 - css/extra.css
-pages:
+nav:
 - Home: 'index.md'
 - Install: 'install.md'
 - Quick Start: 'quick-start.md'
 - Bulk operations: 'bulk-operations.md'
 - Working with large keyspaces: 'lg-keyspaces.md'
 - Native Formatters: 'native-formatters.md'
+- Extension server: 'extension-server.md'
 - FAQ: 'faq.md'
 - Known Issues: 'known-issues.md'
 - AppStore Limitations: 'app-store.md'
 - Development Guide: 'development.md'
 markdown_extensions:
   - markdown.extensions.admonition
+plugins:
+  - render_swagger
