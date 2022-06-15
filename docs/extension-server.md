@@ -8,7 +8,7 @@ Is your serialization format not mentioned above? Continue reading to find out h
 ### What is it?
 
 Starting from version `2022.4` RESP.app comes with build-in client for Extension Server. Extension Server is a simple REST API defined by
-the following [OpenAPI Specification](extension-server.md#OpenAPI-v3-Specification). This server allows you to support 
+the following [OpenAPI Specification](extension-server.md#openapi-v3-specification). This server allows you to support 
 any custom compression or serialization format.
 
 ### Build your own Extension Server in minutes
