@@ -139,6 +139,16 @@ ToolBar {
         }
 
         BetterButton {
+            objectName: "rdm_extension_server_settings_btn"
+            iconSource: PlatformUtils.getThemeIcon("server_2.svg")
+            text: qsTranslate("RESP","Extension Server")
+
+            onClicked: {
+                extServerSettingsDialog.item.open()
+            }
+        }
+
+        BetterButton {
             objectName: "rdm_global_settings_btn"
             iconSource: PlatformUtils.getThemeIcon("settings.svg")
             text: qsTranslate("RESP","Settings")

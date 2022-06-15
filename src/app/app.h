@@ -19,10 +19,12 @@ class QPython;
 namespace ValueEditor {
 class TabsModel;
 }
-namespace ValueEditor {
 #ifdef ENABLE_EXTERNAL_FORMATTERS
-class ExternalFormattersManager;
+namespace RespExtServer {
+class DataFormattersManager;
+}
 #endif
+namespace ValueEditor {
 class EmbeddedFormattersManager;
 }  // namespace ValueEditor
 namespace BulkOperations {
@@ -63,7 +65,7 @@ class Application : public QApplication {
   QSharedPointer<KeyFactory> m_keyFactory;
   QSharedPointer<ValueEditor::TabsModel> m_keyValues;
 #ifdef ENABLE_EXTERNAL_FORMATTERS
-  QSharedPointer<ValueEditor::ExternalFormattersManager> m_formattersManager;
+  QSharedPointer<RespExtServer::DataFormattersManager> m_extServerManager;
 #endif
   QSharedPointer<ValueEditor::EmbeddedFormattersManager> m_embeddedFormatters;
   QSharedPointer<BulkOperations::Manager> m_bulkOperations;
@@ -72,7 +74,7 @@ class Application : public QApplication {
   QSharedPointer<Console::AutocompleteModel> m_consoleAutocompleteModel;
   QSharedPointer<QPython> m_python;
   QString m_settingsDir;
-  QString m_formattersDir;
+  QString m_extServerUrl;
   QString m_renderingBackend;
   QSharedPointer<QTranslator> m_translator = nullptr;
 };

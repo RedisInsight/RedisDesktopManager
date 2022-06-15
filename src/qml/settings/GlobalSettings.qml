@@ -19,7 +19,7 @@ BetterDialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth: 950
-        implicitHeight: PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild()? 600 : 650
+        implicitHeight: 550
 
         color: sysPalette.base
 
@@ -282,63 +282,9 @@ BetterDialog {
                             value: 10
                             label: qsTranslate("RESP","Live update interval (in seconds)")
                         }
-
-                    }
-
-                    RowLayout {
-                        Layout.topMargin: 10
-
-                        SettingsGroupTitle {
-                            visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-                            text: qsTranslate("RESP","External Value View Formatters")
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                        }
-
-                        Text {
-                            visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-                            text: formattersManager? qsTranslate("RESP","Formatters path: %0").arg(formattersManager.formattersPath()) : ""
-                            font.pixelSize: 12
-                            color: "grey"
-                        }
-                    }
-
-                    LC.TableView {
-                        id: formattersTable
-                        visible: !(PlatformUtils.isOSX() && qmlUtils.isAppStoreBuild())
-
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.preferredHeight: 100
-                        verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-
-                        LC.TableViewColumn {
-                            role: "name"
-                            title: qsTranslate("RESP","Name")
-                        }
-                        LC.TableViewColumn {
-                            role: "version"
-                            width: 75
-                            title: qsTranslate("RESP","Version")
-                        }
-                        LC.TableViewColumn {
-                            role: "cmd"
-                            title: qsTranslate("RESP","Command")
-                        }
-
-                        LC.TableViewColumn {
-                            width: 250
-                            role: "description"
-                            title: qsTranslate("RESP","Description")
-                        }
-
-                        model: formattersManager
                     }
 
                     Item {
-                        visible: !formattersTable.visible
                         Layout.fillHeight: true
                     }
 

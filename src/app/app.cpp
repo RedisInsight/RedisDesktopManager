@@ -32,7 +32,7 @@
 #include "modules/server-stats/serverstatsmodel.h"
 #include "modules/value-editor/embeddedformattersmanager.h"
 #ifdef ENABLE_EXTERNAL_FORMATTERS
-#include "modules/value-editor/externalformattersmanager.h"
+#include "modules/extension-server/dataformattermanager.h"
 #endif
 #include "modules/value-editor/syntaxhighlighter.h"
 #include "modules/value-editor/textcharformat.h"
@@ -136,25 +136,27 @@ void Application::initModels() {
           });
 
 #ifdef ENABLE_EXTERNAL_FORMATTERS
-  m_formattersManager = QSharedPointer<ValueEditor::ExternalFormattersManager>(
-      new ValueEditor::ExternalFormattersManager());
+  m_extServerManager =
+      QSharedPointer<RespExtServer::DataFormattersManager>(new RespExtServer::DataFormattersManager());
 
-  connect(m_formattersManager.data(),
-          &ValueEditor::ExternalFormattersManager::error, this,
+  connect(m_extServerManager.data(), &RespExtServer::DataFormattersManager::error, this,
           [this](const QString& msg) {
             qDebug() << "External formatters:" << msg;
             m_events->log(QString("External: %1").arg(msg));
           });
 
-  if (!m_formattersDir.isEmpty()) {
-    m_formattersManager->setPath(m_formattersDir);
+  connect(m_extServerManager.data(), &RespExtServer::DataFormattersManager::loaded, this,
+          [this]() {
+            qDebug() << "External formatters loaded";
+            emit m_events->externalFormattersLoaded();
+          });
+
+  if (!m_extServerUrl.isEmpty()) {
+    m_extServerManager->setUrl(m_extServerUrl);
   }
 
   connect(m_events.data(), &Events::appRendered, this, [this]() {
-    QtConcurrent::run([this]() {
-      if (m_formattersManager) m_formattersManager->loadFormatters();
-      if (m_events) emit m_events->externalFormattersLoaded();
-    });
+      if (m_extServerManager) m_extServerManager->loadFormatters();
   });
 #endif
 
@@ -289,7 +291,7 @@ void Application::registerQmlRootObjects() {
   m_engine.rootContext()->setContextProperty("valuesModel", m_keyValues.data());
 #ifdef ENABLE_EXTERNAL_FORMATTERS
   m_engine.rootContext()->setContextProperty("formattersManager",
-                                             m_formattersManager.data());
+                                             m_extServerManager.data());
 #endif
   m_engine.rootContext()->setContextProperty("embeddedFormattersManager",
                                              m_embeddedFormatters.data());
@@ -374,17 +376,11 @@ void Application::processCmdArgs() {
                                  "(Optional) Directory where RESP.app looks/saves "
                                  ".rdm directory with connections.json file",
                                  "settingsDir", QDir::homePath());
-  QCommandLineOption formattersDir(
-      "formatters-dir",
-      "(Optional) Directory where RESP.app looks for native value formatters",
-      "formattersDir",
-#ifdef Q_OS_WIN32
-      QString("%1/formatters").arg(QCoreApplication::applicationDirPath()));
-#elif defined Q_OS_MACOS
-      QString("%1/.rdm/formatters").arg(QDir::homePath()));
-#else
+  QCommandLineOption extensionServerUrl(
+      "extension-server-url",
+      "(Optional) Overrides extension server url",
+      "extensionServerUrl",
       QString());
-#endif
 
   QCommandLineOption renderingBackend(
       "rendering-backend",
@@ -393,12 +389,12 @@ void Application::processCmdArgs() {
   parser.addHelpOption();
   parser.addVersionOption();
   parser.addOption(settingsDir);
-  parser.addOption(formattersDir);
+  parser.addOption(extensionServerUrl);
   parser.addOption(renderingBackend);
   parser.process(*this);
 
   m_settingsDir = parser.value(settingsDir);
-  m_formattersDir = parser.value(formattersDir);
+  m_extServerUrl = parser.value(extensionServerUrl);
   m_renderingBackend = parser.value(renderingBackend);
 }
 

@@ -55,7 +55,7 @@ ListModel {
             var readOnly = result[indx][1];
 
             var getFormatted = function (formatterName) {
-                var r = function (raw, callback) {
+                var r = function (raw, callback, context) {
                     return embeddedFormattersManager.decode(formatterName, raw, function (response) {
                         return callback(response[0], response[1], response[2], response[3])
                     })
@@ -64,7 +64,7 @@ ListModel {
             };
 
             var getRaw = function (formatterName) {
-                var r = function (formatted, callback) {
+                var r = function (formatted, callback, context) {
                     return embeddedFormattersManager.encode(formatterName, formatted, function (response) {
                         return callback(response[0], response[1])
                     })
@@ -72,7 +72,7 @@ ListModel {
                 return r
             };
 
-            var isValid = function (formatterName) {
+            var isValid = function (formatterName, context) {
                 var r = function (raw, callback) {
                     return embeddedFormattersManager.isValid(formatterName, raw, function (response) {
                         return callback(response[0])
@@ -86,6 +86,7 @@ ListModel {
             rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterName))
             rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterName))
             rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
+            rootModel.setProperty(rootModel.count - 1, "keyTypes", "*")
 
         }
 
@@ -115,34 +116,38 @@ ListModel {
             var formatter = nativeFormatters[index];
 
             var formatterName = formatter["name"];
-            var readOnly = formatter["read_only"];
+            var formatterId = formatter["id"];
+            var readOnly = formatter["readOnly"];
+            var keyTypes = formatter["keyTypes"];
+            var magicHeader = formatter["magicHeader"];
 
-            var getFormatted = function (formatterName) {
-                var r = function (raw, callback) {
-                    return formattersManager.decode(formatterName, raw, callback)
+            var getFormatted = function (formatterId) {
+                var r = function (raw, callback, context) {
+                    return formattersManager.decode(formatterId, raw, context, callback)
                 }
                 return r
             };
 
-            var getRaw = function (formatterName) {
-                var r = function (formatted, callback) {
-                    return formattersManager.encode(formatterName, formatted, callback)
+            var getRaw = function (formatterId) {
+                var r = function (formatted, callback, context) {
+                    return formattersManager.encode(formatterId, formatted, context, callback)
                 }
                 return r
             };
 
-            var isValid = function (formatterName) {
+            var isValid = function (formatterId, context) {
                 var r = function (raw, callback) {
-                    return formattersManager.isValid(formatterName, raw, callback)
+                    return formattersManager.isValid(formatterId, raw, context, callback)
                 }
                 return r
             };
 
             rootModel.append({'name': formatterName, 'type': "external"})
-            rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterName))
-            rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterName))
-            rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterName))
+            rootModel.setProperty(rootModel.count - 1, "getFormatted", getFormatted(formatterId))
+            rootModel.setProperty(rootModel.count - 1, "getRaw", getRaw(formatterId))
+            rootModel.setProperty(rootModel.count - 1, "isValid", isValid(formatterId))
             rootModel.setProperty(rootModel.count - 1, "readOnly", readOnly)
+            rootModel.setProperty(rootModel.count - 1, "keyTypes", keyTypes)
         }
     }
 
@@ -167,6 +172,8 @@ ListModel {
 
         property string readOnly: false
 
+        property string keyTypes: "*"
+
         property var getFormatted: function (raw, callback) {
             return callback("", raw, false, "plain")
         }
@@ -187,15 +194,17 @@ ListModel {
 
         property string readOnly: true
 
-        property var getFormatted: function (raw, callback) {
+        property string keyTypes: "*"
+
+        property var getFormatted: function (raw, callback, context) {
             return callback("", qmlUtils.printable(raw), false, "plain")
         }
 
-        property var isValid: function (raw, callback) {
+        property var isValid: function (raw, callback, context) {
             return callback(true)
         }
 
-        property var getRaw: function (formatted, callback) {
+        property var getRaw: function (formatted, callback, context) {
             return callback("", qmlUtils.printableToValue(formatted))
         }
     }
@@ -207,11 +216,13 @@ ListModel {
 
         property string readOnly: true
 
-        property var isValid: function (raw, callback) {
+        property string keyTypes: "*"
+
+        property var isValid: function (raw, callback, context) {
             return callback(true)
         }
 
-        property var getFormatted: function (raw, callback) {
+        property var getFormatted: function (raw, callback, context) {
             return callback("", Hexy.hexy(
                                 qmlUtils.valueToBinary(raw),
                                 {'html': true, 'font': appSettings.valueEditorFont}),
@@ -226,15 +237,17 @@ ListModel {
 
         property string readOnly: false
 
-        property var getFormatted: function (raw, callback) {
+        property string keyTypes: "*"
+
+        property var getFormatted: function (raw, callback, context) {
             return callback("", qmlUtils.prettyPrintJSON(raw), false, "json")
         }
 
-        property var isValid: function (raw, callback) {
+        property var isValid: function (raw, callback, context) {
             return callback(qmlUtils.isJSON(raw))
         }
 
-        property var getRaw: function (formatted, callback) {                            
+        property var getRaw: function (formatted, callback, context) {
             var minified = qmlUtils.minifyJSON(formatted);
 
             if (!minified) {
@@ -252,15 +265,17 @@ ListModel {
 
         property string readOnly: true
 
-        property var getFormatted: function (raw, callback) {
+        property string keyTypes: "*"
+
+        property var getFormatted: function (raw, callback, context) {
             return callback("", Qt.atob(raw), false, "plain")
         }
 
-        property var isValid: function (raw, callback) {
+        property var isValid: function (raw, callback, context) {
             return callback(true)
         }
 
-        property var getRaw: function (formatted, callback) {
+        property var getRaw: function (formatted, callback, context) {
             return callback("", Qt.btoa(formatted))
         }
     }
@@ -272,15 +287,17 @@ ListModel {
 
         property string readOnly: true
 
-        property var getFormatted: function (raw, callback) {
+        property string keyTypes: "*"
+
+        property var getFormatted: function (raw, callback, context) {
             return callback("", Qt.atob(raw), false, "json")
         }
 
-        property var isValid: function (raw, callback) {
+        property var isValid: function (raw, callback, context) {
             return callback(true)
         }
 
-        property var getRaw: function (formatted, callback) {
+        property var getRaw: function (formatted, callback, context) {
             return callback("", Qt.btoa(formatted))
         }
     }

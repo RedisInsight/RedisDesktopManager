@@ -4,11 +4,12 @@
 #
 #-------------------------------------------------
 
-exists( $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.h) {
-    message("External formatters was enabled")
+exists( $$_PRO_FILE_PWD_/modules/extension-server/client/client.pri) {
+    message("RESP.app Extension server integration was enabled")
     DEFINES += ENABLE_EXTERNAL_FORMATTERS
-    HEADERS += $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.h
-    SOURCES += $$_PRO_FILE_PWD_/modules/value-editor/externalformattersmanager.cpp
+    HEADERS += $$_PRO_FILE_PWD_/modules/extension-server/dataformattermanager.h
+    SOURCES += $$_PRO_FILE_PWD_/modules/extension-server/dataformattermanager.cpp
+    include($$_PRO_FILE_PWD_/modules/extension-server/client/client.pri)
 }
 
 # qredisclient

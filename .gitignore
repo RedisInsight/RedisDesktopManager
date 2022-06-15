@@ -82,3 +82,9 @@ stage
 3rdparty/python*
 __pycache__/
 qml_*.cpp
+src/modules/extension-server/server*
+.openapi-generator*
+build-*
+*.xcodeproj
+.xcode
+*qmlcache*

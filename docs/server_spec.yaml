@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  version: 2022.0-preview1
+  title: RESP.app Extension server
+  description: RESP.app Extension Server API allows you to extend RESP.app with your custom data formatters
+paths:
+  /data-formatters:
+    get:
+      description: Returns a list of data formatters
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/DataFormatters"
+  /data-formatters/{id}/decode:
+    post:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of data formatter
+          schema:
+            type: string
+      requestBody:
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/DecodePayload'
+      responses:
+        '200':
+          description: Successful response with correct content type. RESP.app supports text/plain, application/json and application/octet-stream
+          content:
+            '*/*' :
+              schema:
+                type: string
+        '400':
+          description: Validation error response
+          content: 
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+          
+  /data-formatters/{id}/encode:
+    post:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of data formatter
+          schema:
+            type: string
+      requestBody:
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/EncodePayload'
+      responses:
+        '200':
+          description: Successful response with content type application/octet-stream
+          content:
+            '*/*' :
+              schema:
+                type: string
+        '400':
+          description: Validation error response
+          content: 
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string        
+components:
+  securitySchemes:
+    basic:
+      type: http
+      scheme: basic
+  schemas:
+    DataFormatter:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: Internal formatter ID used in requests to this API
+          example: "1"
+        name:
+          type: string
+          description: Name displayed inside RDM app
+          example: "My .net models decoder"
+        read-only:
+          type: boolean
+          description: Read-only formatters only receive decode requests
+          
+    DataFormatters:
+      type: array
+      items:
+        $ref: "#/components/schemas/DataFormatter"
+        
+    DecodePayload:
+      type: object
+      properties:
+        data: 
+          type: string
+          description: Base64 encoded string
+        redis-key-name:
+          type: string
+        redis-key-type:
+          type: string
+          
+    EncodePayload:
+      type: object
+      properties:
+        data:
+          type: string
+          description: Base64 encoded string
+        metadata:
+          type: object
+          description: Metadata from formatter custom ui forms
+
+security:
+  - basic: []
