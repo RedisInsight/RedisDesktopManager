@@ -60,6 +60,13 @@ class Model : public TabModel {
  protected:
   void cmdErrorHander(const QString& err);
 
+ protected slots:
+  void srvInfoCallback();
+
+  void slowLogCallback();
+
+  void clientsCallback();
+
  private:
   QTimer m_serverInfoUpdateTimer;
   QTimer m_slowLogUpdateTimer;
