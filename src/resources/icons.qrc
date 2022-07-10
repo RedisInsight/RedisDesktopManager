@@ -2,6 +2,7 @@
 <qresource prefix="images/dark_theme">
      <file alias="server_group.svg">images/dark_theme/server_group.svg</file>
     <file alias="search.svg">images/dark_theme/search.svg</file>
+    <file alias="pub-sub-channels.svg">images/dark_theme/pub-sub-channels.svg</file>
     <file alias="list.svg">images/dark_theme/list.svg</file>
     <file alias="code_file.svg">images/dark_theme/code_file.svg</file>
     <file alias="offline.svg">images/dark_theme/offline.svg</file>
@@ -17,6 +18,7 @@
     <file alias="clear.svg">images/dark_theme/clear.svg</file>
     <file alias="maximize.svg">images/dark_theme/maximize.svg</file>
     <file alias="twi.svg">images/dark_theme/twi.svg</file>
+    <file alias="slowlog.svg">images/dark_theme/slowlog.svg</file>
     <file alias="server_group_open.svg">images/dark_theme/server_group_open.svg</file>
     <file alias="key.svg">images/dark_theme/key.svg</file>
     <file alias="minimize.svg">images/dark_theme/minimize.svg</file>
@@ -29,13 +31,16 @@
     <file alias="telegram.svg">images/dark_theme/telegram.svg</file>
     <file alias="square-half.svg">images/dark_theme/square-half.svg</file>
     <file alias="cluster.svg">images/dark_theme/cluster.svg</file>
+    <file alias="server-config.svg">images/dark_theme/server-config.svg</file>
     <file alias="plus.svg">images/dark_theme/plus.svg</file>
     <file alias="document.svg">images/dark_theme/document.svg</file>
     <file alias="namespace_open.svg">images/dark_theme/namespace_open.svg</file>
     <file alias="loader.svg">images/dark_theme/loader.svg</file>
     <file alias="add.svg">images/dark_theme/add.svg</file>
+    <file alias="server-stats.svg">images/dark_theme/server-stats.svg</file>
     <file alias="copy.svg">images/dark_theme/copy.svg</file>
     <file alias="refresh.svg">images/dark_theme/refresh.svg</file>
+    <file alias="clients.svg">images/dark_theme/clients.svg</file>
     <file alias="wait.svg">images/dark_theme/wait.svg</file>
     <file alias="save.svg">images/dark_theme/save.svg</file>
     <file alias="back.svg">images/dark_theme/back.svg</file>
@@ -57,6 +62,7 @@
 <qresource prefix="images/light_theme">
     <file alias="server_group.svg">images/light_theme/server_group.svg</file>
     <file alias="search.svg">images/light_theme/search.svg</file>
+    <file alias="pub-sub-channels.svg">images/light_theme/pub-sub-channels.svg</file>
     <file alias="list.svg">images/light_theme/list.svg</file>
     <file alias="code_file.svg">images/light_theme/code_file.svg</file>
     <file alias="offline.svg">images/light_theme/offline.svg</file>
@@ -72,6 +78,7 @@
     <file alias="clear.svg">images/light_theme/clear.svg</file>
     <file alias="maximize.svg">images/light_theme/maximize.svg</file>
     <file alias="twi.svg">images/light_theme/twi.svg</file>
+    <file alias="slowlog.svg">images/light_theme/slowlog.svg</file>
     <file alias="server_group_open.svg">images/light_theme/server_group_open.svg</file>
     <file alias="key.svg">images/light_theme/key.svg</file>
     <file alias="minimize.svg">images/light_theme/minimize.svg</file>
@@ -84,13 +91,16 @@
     <file alias="telegram.svg">images/light_theme/telegram.svg</file>
     <file alias="square-half.svg">images/light_theme/square-half.svg</file>
     <file alias="cluster.svg">images/light_theme/cluster.svg</file>
+    <file alias="server-config.svg">images/light_theme/server-config.svg</file>
     <file alias="plus.svg">images/light_theme/plus.svg</file>
     <file alias="document.svg">images/light_theme/document.svg</file>
     <file alias="namespace_open.svg">images/light_theme/namespace_open.svg</file>
     <file alias="loader.svg">images/light_theme/loader.svg</file>
     <file alias="add.svg">images/light_theme/add.svg</file>
+    <file alias="server-stats.svg">images/light_theme/server-stats.svg</file>
     <file alias="copy.svg">images/light_theme/copy.svg</file>
     <file alias="refresh.svg">images/light_theme/refresh.svg</file>
+    <file alias="clients.svg">images/light_theme/clients.svg</file>
     <file alias="wait.svg">images/light_theme/wait.svg</file>
     <file alias="save.svg">images/light_theme/save.svg</file>
     <file alias="back.svg">images/light_theme/back.svg</file>
