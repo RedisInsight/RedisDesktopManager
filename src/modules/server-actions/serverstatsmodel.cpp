@@ -13,74 +13,15 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
   m_clientsUpdateTimer.setSingleShot(false);
 
   m_pubSubMonitorConnection = connection->clone();
-  setRefreshPubSubMonitor(true);
 
-  auto srvInfoUpdateCallback = [this] {
-      m_connection->cmd({"INFO", "all"}, this, -1,
-                        [this](RedisClient::Response r) {
-                          m_serverInfo =
-                              RedisClient::ServerInfo::fromString(
-                                  QString::fromUtf8(r.value().toByteArray()))
-                                  .parsed.toVariantMap();
-                          emit serverInfoChanged();
-                        },
-                        [this](const QString& e) { cmdErrorHander(e); });
-  };
+  QObject::connect(&m_serverInfoUpdateTimer, &QTimer::timeout, this, &Model::srvInfoCallback);
 
-  QObject::connect(&m_serverInfoUpdateTimer, &QTimer::timeout, this, srvInfoUpdateCallback);
+  QObject::connect(&m_slowLogUpdateTimer, &QTimer::timeout, this, &Model::slowLogCallback);
 
-  QObject::connect(&m_slowLogUpdateTimer, &QTimer::timeout, this, [this] {
-    m_connection->cmd({"SLOWLOG", "GET", "15"}, this, -1,
-                      [this](RedisClient::Response r) {
-                        QVariantList processed;
+  QObject::connect(&m_clientsUpdateTimer, &QTimer::timeout, this, &Model::clientsCallback);
 
-                        for (QVariant item : r.value().toList()) {
-                          auto itemList = item.toList();
-                          QVariantMap row;
-                          row.insert("time", itemList[1]);
-                          row.insert("exec_time", itemList[2]);
-                          row.insert("cmd", itemList[3]);
-                          processed.append(row);
-                        }
-
-                        m_slowLog = processed;
-                        emit slowLogChanged();
-                      },
-                      [this](const QString& e) { cmdErrorHander(e); });
-  });
-
-  QObject::connect(&m_clientsUpdateTimer, &QTimer::timeout, this, [this] {
-    m_connection->cmd({"CLIENT", "LIST"}, this, -1,
-                      [this](RedisClient::Response r) {
-                        QVariant result = r.value();
-                        QStringList lines = result.toString().split("\n");
-
-                        QVariantList parsedClients;
-
-                        for (auto rawLine : lines) {
-                          QStringList lineParts = rawLine.split(" ");
-                          QVariantMap parsed;
-
-                          for (auto linePart : lineParts) {
-                            QStringList keyAndVal = linePart.split("=");
-
-                            if (keyAndVal.size() > 1) {
-                              parsed.insert(keyAndVal[0], keyAndVal[1]);
-                            } else {
-                              parsed.insert(keyAndVal[0], "");
-                            }
-                          }
-                          parsedClients.append(parsed);
-                        }
-
-                        m_clients = parsedClients;
-                        emit clientsChanged();
-                      },
-                      [this](const QString& e) { cmdErrorHander(e); });
-  });
-
-  QObject::connect(this, &TabModel::initialized, [this, srvInfoUpdateCallback]() {
-    srvInfoUpdateCallback();
+  QObject::connect(this, &TabModel::initialized, [this]() {
+    srvInfoCallback();
     m_serverInfoUpdateTimer.start();
   });
 }
@@ -116,7 +57,10 @@ bool ServerStats::Model::refreshSlowLog() {
 
 void ServerStats::Model::setRefreshSlowLog(bool v) {
   if (refreshSlowLog() != v && refreshSlowLog()) m_slowLogUpdateTimer.stop();
-  if (refreshSlowLog() != v && !refreshSlowLog()) m_slowLogUpdateTimer.start();
+  if (refreshSlowLog() != v && !refreshSlowLog()) {
+      slowLogCallback();
+      m_slowLogUpdateTimer.start();
+  }
 }
 
 bool ServerStats::Model::refreshClients() {
@@ -125,7 +69,10 @@ bool ServerStats::Model::refreshClients() {
 
 void ServerStats::Model::setRefreshClients(bool v) {
   if (refreshClients() != v && refreshClients()) m_clientsUpdateTimer.stop();
-  if (refreshClients() != v && !refreshClients()) m_clientsUpdateTimer.start();
+  if (refreshClients() != v && !refreshClients()) {
+      clientsCallback();
+      m_clientsUpdateTimer.start();
+  }
 }
 
 bool ServerStats::Model::refreshPubSubMonitor() {
@@ -149,9 +96,9 @@ void ServerStats::Model::setRefreshPubSubMonitor(bool v) {
           QVariantList msg = result.value().toList();
 
           if (msg.size() == 4) {
-            m_pubSubChannels.insert(msg[2].toByteArray());
-            emit pubSubChannelsChanged();
+            m_pubSubChannels.insert(msg[2].toByteArray());            
           }
+          emit pubSubChannelsChanged();
         },
         [this](const QString& e) { cmdErrorHander(e); });
   }
@@ -173,3 +120,67 @@ void ServerStats::Model::openTerminal()
 }
 
 void ServerStats::Model::cmdErrorHander(const QString& err) { emit error(err); }
+
+void ServerStats::Model::srvInfoCallback() {
+  m_connection->cmd(
+      {"INFO", "all"}, this, -1,
+      [this](RedisClient::Response r) {
+        m_serverInfo = RedisClient::ServerInfo::fromString(
+                           QString::fromUtf8(r.value().toByteArray()))
+                           .parsed.toVariantMap();
+        emit serverInfoChanged();
+      },
+      [this](const QString& e) { cmdErrorHander(e); });
+}
+
+void ServerStats::Model::slowLogCallback() {
+  m_connection->cmd(
+      {"SLOWLOG", "GET", "15"}, this, -1,
+      [this](RedisClient::Response r) {
+        QVariantList processed;
+
+        for (QVariant item : r.value().toList()) {
+          auto itemList = item.toList();
+          QVariantMap row;
+          row.insert("time", itemList[1]);
+          row.insert("exec_time", itemList[2]);
+          row.insert("cmd", itemList[3]);
+          processed.append(row);
+        }
+
+        m_slowLog = processed;
+        emit slowLogChanged();
+      },
+      [this](const QString& e) { cmdErrorHander(e); });
+}
+
+void ServerStats::Model::clientsCallback() {
+  m_connection->cmd(
+      {"CLIENT", "LIST"}, this, -1,
+      [this](RedisClient::Response r) {
+        QVariant result = r.value();
+        QStringList lines = result.toString().split("\n");
+
+        QVariantList parsedClients;
+
+        for (auto rawLine : lines) {
+          QStringList lineParts = rawLine.split(" ");
+          QVariantMap parsed;
+
+          for (auto linePart : lineParts) {
+            QStringList keyAndVal = linePart.split("=");
+
+            if (keyAndVal.size() > 1) {
+              parsed.insert(keyAndVal[0], keyAndVal[1]);
+            } else {
+              parsed.insert(keyAndVal[0], "");
+            }
+          }
+          parsedClients.append(parsed);
+        }
+
+        m_clients = parsedClients;
+        emit clientsChanged();
+      },
+      [this](const QString& e) { cmdErrorHander(e); });
+}

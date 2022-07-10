@@ -16,12 +16,16 @@ Item {
         id: uiBlocker
         visible: false
         anchors.fill: parent
-        color: Qt.rgba(0, 0, 0, 0.1)
+        color: Qt.rgba(sysPalette.base.red, sysPalette.base.green, sysPalette.base.blue, 0.15)
         z: 1000
 
         Item {
             anchors.fill: parent
-            BusyIndicator { anchors.centerIn: parent; running: true }
+
+            ProgressBar {
+                anchors.centerIn: parent
+                indeterminate: true
+            }
         }
 
         MouseArea {
