@@ -29,7 +29,7 @@
 #include "modules/common/sortfilterproxymodel.h"
 #include "modules/console/autocompletemodel.h"
 #include "modules/console/consolemodel.h"
-#include "modules/server-stats/serverstatsmodel.h"
+#include "modules/server-actions/serverstatsmodel.h"
 #include "modules/value-editor/embeddedformattersmanager.h"
 #ifdef ENABLE_EXTERNAL_FORMATTERS
 #include "modules/extension-server/dataformattermanager.h"
@@ -132,7 +132,7 @@ void Application::initModels() {
 
   connect(m_events.data(), &Events::openServerStats, this,
           [this](QSharedPointer<RedisClient::Connection> c) {
-            m_serverStatsModel->openTab(c);
+            m_serverStatsModel->openTab(c, 0 , false);
           });
 
 #ifdef ENABLE_EXTERNAL_FORMATTERS

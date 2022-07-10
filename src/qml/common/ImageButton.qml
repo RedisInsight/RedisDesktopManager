@@ -24,13 +24,23 @@ BetterButton {
 
     Image {
         id: img
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
         source: PlatformUtils.getThemeIcon("clear.svg")
         width: 18
         height: 18
         sourceSize.width: width * 2
         sourceSize.height: height * 2
         opacity: root.enabled? 1.0: 0.8
+    }
+
+    contentItem: Text {
+      text: root.text
+      font: root.font
+      opacity: enabled ? 1.0 : 0.8
+      color: root.down ? sysPalette.highlightedText : enabled ? sysPalette.text : disabledSysPalette.text
+      horizontalAlignment: Text.AlignHCenter
+      verticalAlignment: root.imgSource != "" ? Text.AlignBottom : Text.AlignVCenter
+      elide: Text.ElideRight
     }
 
     background: Rectangle {

@@ -288,7 +288,7 @@ void TreeOperations::openKeyTab(QSharedPointer<ConnectionsTree::KeyItem> key,
 void TreeOperations::openConsoleTab(int dbIndex) {
   getReadyConnection(
       [this, dbIndex](QSharedPointer<RedisClient::Connection> c) {
-        emit m_events->openConsole(c, dbIndex);
+        emit m_events->openConsole(c, dbIndex, true);
       });
 }
 

@@ -41,7 +41,7 @@ SOURCES += \
     $$files($$PWD/modules/bulk-operations/*.cpp) \
     $$files($$PWD/modules/bulk-operations/operations/*.cpp) \
     $$files($$PWD/modules/common/*.cpp) \
-    $$files($$PWD/modules/server-stats/*.cpp) \
+    $$files($$PWD/modules/server-actions/*.cpp) \
 
 HEADERS  += \
     $$PWD/app/app.h \
@@ -65,7 +65,7 @@ HEADERS  += \
     $$files($$PWD/modules/bulk-operations/*.h) \
     $$files($$PWD/modules/bulk-operations/operations/*.h) \
     $$files($$PWD/modules/common/*.h) \
-    $$files($$PWD/modules/server-stats/*.h) \
+    $$files($$PWD/modules/server-actions/*.h) \
     $$PWD/modules/connections-tree/items/loadmoreitem.h
 
 THIRDPARTYDIR = $$PWD/../3rdparty/
@@ -183,7 +183,7 @@ lupdate_only{
         $$PWD/qml/*.qml \
         $$PWD/qml/value-editor/*.qml \
         $$PWD/qml/settings/*.qml \
-        $$PWD/qml/server-info/*.qml \
+        $$PWD/qml/server-actions/*.qml \
         $$PWD/qml/console/*.qml \
         $$PWD/qml/connections/*.qml \
         $$PWD/qml/connections-tree/*.qml \

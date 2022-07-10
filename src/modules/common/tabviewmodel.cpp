@@ -56,19 +56,40 @@ void TabViewModel::closeTab(int i) {
 int TabViewModel::tabsCount() const { return m_models.count(); }
 
 void TabViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
-                           int dbIndex, QList<QByteArray> initCmd) {
-  beginInsertRows(QModelIndex(), m_models.count(), m_models.count());
-  m_models.append(m_modelFactory(connection, dbIndex, initCmd));
-  emit changeCurrentTab(m_models.size() - 1);
-  endInsertRows();
+                           int dbIndex, bool inNewTab,
+                           QList<QByteArray> initCmd) {
+  if (inNewTab) {
+    beginInsertRows(QModelIndex(), m_models.count(), m_models.count());
+    m_models.append(m_modelFactory(connection, dbIndex, initCmd));
+    emit changeCurrentTab(m_models.size() - 1);
+    endInsertRows();
+  } else {
+    bool found = false;
+
+    for (int index = 0; 0 <= index && index < m_models.size(); index++) {
+      auto model = m_models.at(index);
+
+      if (model->getConnection()->getConfig().id() ==
+          connection->getConfig().id()) {
+        found = true;
+        emit changeCurrentTab(index);
+        break;
+      }
+    }
+
+    if (!found) {
+        return openTab(connection, true, dbIndex, initCmd);
+    }
+
+  }
 }
 
 void TabViewModel::closeAllTabsWithConnection(
     QSharedPointer<RedisClient::Connection> connection) {
   for (int index = 0; 0 <= index && index < m_models.size(); index++) {
-    auto model = m_models.at(index);
+    auto model = m_models.at(index);    
 
-    if (model->getConnection() == connection) {
+    if (model->getConnection()->getConfig().id() == connection->getConfig().id()) {
       beginRemoveRows(QModelIndex(), index, index);
       m_models.removeAt(index);
       endRemoveRows();

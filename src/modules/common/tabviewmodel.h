@@ -39,8 +39,9 @@ class TabViewModel : public QAbstractListModel {
   void changeCurrentTab(int i);
 
  public slots:
-  void openTab(QSharedPointer<RedisClient::Connection> connection,
-               int dbIndex = 0, QList<QByteArray> initCmd=QList<QByteArray>());
+  virtual void openTab(QSharedPointer<RedisClient::Connection> connection,
+                       int dbIndex=0, bool inNewTab=true,
+                       QList<QByteArray> initCmd = QList<QByteArray>());
 
   void closeAllTabsWithConnection(
       QSharedPointer<RedisClient::Connection> connection);

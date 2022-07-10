@@ -15,20 +15,22 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
   m_pubSubMonitorConnection = connection->clone();
   setRefreshPubSubMonitor(true);
 
-  QObject::connect(&m_serverInfoUpdateTimer, &QTimer::timeout, this, [this] {
-    m_connection->cmd({"INFO", "all"}, this, 0,
-                      [this](RedisClient::Response r) {
-                        m_serverInfo =
-                            RedisClient::ServerInfo::fromString(
-                                QString::fromUtf8(r.value().toByteArray()))
-                                .parsed.toVariantMap();
-                        emit serverInfoChanged();
-                      },
-                      [this](const QString& e) { cmdErrorHander(e); });
-  });
+  auto srvInfoUpdateCallback = [this] {
+      m_connection->cmd({"INFO", "all"}, this, -1,
+                        [this](RedisClient::Response r) {
+                          m_serverInfo =
+                              RedisClient::ServerInfo::fromString(
+                                  QString::fromUtf8(r.value().toByteArray()))
+                                  .parsed.toVariantMap();
+                          emit serverInfoChanged();
+                        },
+                        [this](const QString& e) { cmdErrorHander(e); });
+  };
+
+  QObject::connect(&m_serverInfoUpdateTimer, &QTimer::timeout, this, srvInfoUpdateCallback);
 
   QObject::connect(&m_slowLogUpdateTimer, &QTimer::timeout, this, [this] {
-    m_connection->cmd({"SLOWLOG", "GET", "15"}, this, 0,
+    m_connection->cmd({"SLOWLOG", "GET", "15"}, this, -1,
                       [this](RedisClient::Response r) {
                         QVariantList processed;
 
@@ -48,7 +50,7 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
   });
 
   QObject::connect(&m_clientsUpdateTimer, &QTimer::timeout, this, [this] {
-    m_connection->cmd({"CLIENT", "LIST"}, this, 0,
+    m_connection->cmd({"CLIENT", "LIST"}, this, -1,
                       [this](RedisClient::Response r) {
                         QVariant result = r.value();
                         QStringList lines = result.toString().split("\n");
@@ -77,10 +79,9 @@ ServerStats::Model::Model(QSharedPointer<RedisClient::Connection> connection,
                       [this](const QString& e) { cmdErrorHander(e); });
   });
 
-  QObject::connect(this, &TabModel::initialized, [this]() {
+  QObject::connect(this, &TabModel::initialized, [this, srvInfoUpdateCallback]() {
+    srvInfoUpdateCallback();
     m_serverInfoUpdateTimer.start();
-    m_slowLogUpdateTimer.start();
-    m_clientsUpdateTimer.start();
   });
 }
 
@@ -139,7 +140,7 @@ void ServerStats::Model::setRefreshPubSubMonitor(bool v) {
 
   if (!m_pubSubMonitorConnection->isConnected() && v) {
     m_pubSubMonitorConnection->cmd(
-        {"PSUBSCRIBE", "*"}, this, 0,
+        {"PSUBSCRIBE", "*"}, this, -1,
         [this](RedisClient::Response result) {
           if (result.type() != RedisClient::Response::Array) {
             return;
@@ -158,7 +159,17 @@ void ServerStats::Model::setRefreshPubSubMonitor(bool v) {
 
 void ServerStats::Model::subscribeToChannel(const QString &c)
 {
-    emit openConsoleTerminal(m_connection, m_dbIndex, {"SUBSCRIBE", c.toUtf8()});
+    emit openConsoleTerminal(m_connection, m_dbIndex, true, {"SUBSCRIBE", c.toUtf8()});
+}
+
+void ServerStats::Model::monitorCommands()
+{
+    emit openConsoleTerminal(m_connection, m_dbIndex, true, {"MONITOR"});
+}
+
+void ServerStats::Model::openTerminal()
+{
+    emit openConsoleTerminal(m_connection, m_dbIndex, true, {});
 }
 
 void ServerStats::Model::cmdErrorHander(const QString& err) { emit error(err); }
