@@ -88,7 +88,7 @@ void ServerStats::Model::setRefreshPubSubMonitor(bool v) {
   if (!m_pubSubMonitorConnection->isConnected() && v) {
     m_pubSubMonitorConnection->cmd(
         {"PSUBSCRIBE", "*"}, this, -1,
-        [this](RedisClient::Response result) {
+        [this](const RedisClient::Response& result) {
           if (result.type() != RedisClient::Response::Array) {
             return;
           }
@@ -124,7 +124,7 @@ void ServerStats::Model::cmdErrorHander(const QString& err) { emit error(err); }
 void ServerStats::Model::srvInfoCallback() {
   m_connection->cmd(
       {"INFO", "all"}, this, -1,
-      [this](RedisClient::Response r) {
+      [this](const RedisClient::Response& r) {
         m_serverInfo = RedisClient::ServerInfo::fromString(
                            QString::fromUtf8(r.value().toByteArray()))
                            .parsed.toVariantMap();
@@ -136,7 +136,7 @@ void ServerStats::Model::srvInfoCallback() {
 void ServerStats::Model::slowLogCallback() {
   m_connection->cmd(
       {"SLOWLOG", "GET", "15"}, this, -1,
-      [this](RedisClient::Response r) {
+      [this](const RedisClient::Response& r) {
         QVariantList processed;
 
         for (QVariant item : r.value().toList()) {
@@ -157,7 +157,7 @@ void ServerStats::Model::slowLogCallback() {
 void ServerStats::Model::clientsCallback() {
   m_connection->cmd(
       {"CLIENT", "LIST"}, this, -1,
-      [this](RedisClient::Response r) {
+      [this](const RedisClient::Response& r) {
         QVariant result = r.value();
         QStringList lines = result.toString().split("\n");
 
