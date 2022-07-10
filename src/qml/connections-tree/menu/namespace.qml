@@ -26,11 +26,11 @@ InlineMenu {
                     ]
         } else {
             [
-                {'icon': PlatformUtils.getThemeIcon("refresh.svg"), "event": "reload", "help": qsTranslate("RESP","Reload Namespace")},
+                {'icon': PlatformUtils.getThemeIcon("refresh.svg"), "event": "reload", "help": qsTranslate("RESP","Reload Namespace"), "shortcut": "Ctrl+R"},
                 {'icon': PlatformUtils.getThemeIcon("add.svg"), 'event': 'add_key', "help": qsTranslate("RESP","Add New Key")},
-                {'icon': PlatformUtils.getThemeIcon("copy.svg"), "callback": "copy", "help": qsTranslate("RESP","Copy Namespace Pattern")},
+                {'icon': PlatformUtils.getThemeIcon("copy.svg"), "callback": "copy", "help": qsTranslate("RESP","Copy Namespace Pattern"), "shortcut": "Ctrl+C"},
                 {'icon': PlatformUtils.getThemeIcon("memory_usage.svg"), "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
-                {'icon': PlatformUtils.getThemeIcon("delete.svg"), "event": "delete", "help": qsTranslate("RESP","Delete Namespace")},
+                {'icon': PlatformUtils.getThemeIcon("delete.svg"), "event": "delete", "help": qsTranslate("RESP","Delete Namespace"), "shortcut": "D"},
             ]
         }
     }

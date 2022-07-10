@@ -19,7 +19,7 @@ InlineMenu {
 
     model:
         [
-            {'icon': PlatformUtils.getThemeIcon("copy.svg"), "callback": "copy", "help": qsTranslate("RESP","Copy Key Name")},
-            {'icon': PlatformUtils.getThemeIcon("delete.svg"), "event": "delete", "help": qsTranslate("RESP","Delete key")}
+            {'icon': PlatformUtils.getThemeIcon("copy.svg"), "callback": "copy", "help": qsTranslate("RESP","Copy Key Name"), "shortcut": "Ctrl+C"},
+            {'icon': PlatformUtils.getThemeIcon("delete.svg"), "event": "delete", "help": qsTranslate("RESP","Delete key"), "shortcut": "D"}
         ]
 }

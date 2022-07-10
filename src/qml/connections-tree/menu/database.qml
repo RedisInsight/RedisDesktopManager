@@ -75,25 +75,25 @@ RowLayout {
                 return [
                             {
                                 'icon': PlatformUtils.getThemeIcon("filter.svg"), 'callback': 'filter', "help": qsTranslate("RESP","Open Keys Filter"),
-                                "shortcut": PlatformUtils.isOSX()? "Meta+F" : "Ctrl+F",
+                                "shortcut": "Ctrl+F",
                             },
                             {
                                 'icon': PlatformUtils.getThemeIcon("refresh.svg"), 'event': 'reload', "help": qsTranslate("RESP","Reload Keys in Database"),
-                                "shortcut": PlatformUtils.isOSX()? "Meta+R" : "Ctrl+R",
+                                "shortcut": "Ctrl+R",
                             },
                             {
                                 'icon': PlatformUtils.getThemeIcon("add.svg"), 'event': 'add_key', "help": qsTranslate("RESP","Add New Key"),
-                                "shortcut": PlatformUtils.isOSX()? "Meta+N" : "Ctrl+N",
+                                "shortcut": "Ctrl+N",
                             },
                             {
                                 'icon': styleData.value["live_update"]? PlatformUtils.getThemeIcon("live_update_disable.svg") : PlatformUtils.getThemeIcon("live_update.svg"),
                                 'callback': 'live_update',
                                 "help": styleData.value["live_update"]? qsTranslate("RESP","Disable Live Update") : qsTranslate("RESP","Enable Live Update"),
-                                "shortcut": PlatformUtils.isOSX()? "Meta+L" : "Ctrl+L",
+                                "shortcut": "Ctrl+L",
                             },
                             {
                                 'icon': PlatformUtils.getThemeIcon("console.svg"), 'event': 'console', "help": qsTranslate("RESP","Open Console"),
-                                "shortcut": Qt.platform.os == "osx"? "Meta+T" : "Ctrl+T",
+                                "shortcut": "Ctrl+T",
                             },
                             {'icon': PlatformUtils.getThemeIcon("memory_usage.svg"), "event": "analyze_memory_usage", "help": qsTranslate("RESP","Analyze Used Memory")},
                             {
