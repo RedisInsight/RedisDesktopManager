@@ -216,8 +216,11 @@ void TreeOperations::loadNamespaceItems(
   m_config.setFilterHistory(m_filterHistory);
   emit filterHistoryUpdated();
 
+  QSettings settings;
+  qlonglong scanLimit = settings.value("app/scanLimit", DEFAULT_SCAN_LIMIT).toLongLong();
+
   getReadyConnection([this, dbIndex, filter, callback,
-                      keyPattern](QSharedPointer<RedisClient::Connection> c) {
+                      keyPattern, scanLimit](QSharedPointer<RedisClient::Connection> c) {
     if (!connect(c)) return;
 
     auto processErr = [callback](const QString& err) {
@@ -233,16 +236,16 @@ void TreeOperations::loadNamespaceItems(
 
     try {
       if (m_connection->mode() == RedisClient::Connection::Mode::Cluster) {
-        m_connection->getClusterKeys(callbackWrapper, keyPattern);
+        m_connection->getClusterKeys(callbackWrapper, keyPattern, scanLimit);
       } else {
         m_connection->cmd(
             {"ping"}, this, dbIndex,
             [this, callbackWrapper, keyPattern,
-             processErr](const RedisClient::Response& r) {
+             processErr, scanLimit](const RedisClient::Response& r) {
               if (r.isErrorMessage()) {
                 return processErr(r.value().toString());
               }
-              m_connection->getDatabaseKeys(callbackWrapper, keyPattern, -1);
+              m_connection->getDatabaseKeys(callbackWrapper, keyPattern, -1, scanLimit);
             },
             [processErr](const QString& err) { return processErr(err); });
       }

@@ -1,11 +1,18 @@
 # Working with large keyspaces
 
+By default, RESP.app uses `*` (wildcard glob-style pattern) in  `SCAN` command to load all keys from the selected database. It’s simple and user-friendly for cases when you have only a couple of thousands keys. But for production redis-servers with millions of keys it leads to a huge amount of time needed to load keys in RESP.app.
+On this page you will find different approaches how to work with large Redis keyspaces efficiently. 
+
+## Increase limit for `SCAN` command
+RESP.app limits amount of keys that should be scanned by Redis to `10000`. If you have more than 100K keys in Redis it's recommended to increase this limit to
+`50000` or `100000`. 
+
+> !!! warning "Be careful!"
+    High scanning limit may affect your Redis performance!
+
+To increase this limit click on the Settings button in top right corner for the main window and change value for `Limit for SCAN command` setting.
+
 ## Use specific `SCAN` filter to reduce loaded amount of keys
-
-
-By default RESP.app uses `*` (wildcard glob-style pattern) in  `SCAN` command to load all keys from the selected database. It’s simple and user-friendly for cases when you have only a couple of thousands keys. But for production redis-servers with millions of keys it leads to a huge amount of time needed to load keys in RESP.app. 
-
-However, while working with production redis-servers that contain millions of keys users have to wait for a long time till all keys are loaded. 
 
 Consider using more specific  filters for `SCAN` in order to speed up keys loading and reduce memory footprint 
 
