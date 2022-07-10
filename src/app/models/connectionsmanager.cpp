@@ -277,9 +277,19 @@ ServerConfig ConnectionsManager::parseConfigFromRedisConnectionString(const QStr
     return config;
 }
 
-bool ConnectionsManager::isRedisConnectionStringValid(const QString& connectionString) {
-    QUrl url = QUrl(connectionString);
-    return url.isValid() && (url.scheme() == "redis" || url.scheme() == "rediss") && !url.host().isEmpty();
+bool ConnectionsManager::isRedisConnectionStringValid(
+    const QString& connectionString) {
+  QUrl url;
+  if (connectionString.startsWith("redis://") ||
+      connectionString.startsWith("rediss://")) {
+    url = QUrl(connectionString);
+  } else {
+    url = QUrl(QString("redis://%1").arg(connectionString));
+  }
+
+  return url.isValid() &&
+         (url.scheme() == "redis" || url.scheme() == "rediss") &&
+         !url.host().isEmpty();
 }
 
 int ConnectionsManager::size() {
