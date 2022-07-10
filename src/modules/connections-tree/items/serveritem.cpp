@@ -151,6 +151,8 @@ QHash<QString, std::function<bool()> > ServerItem::eventHandlers() {
   auto events = TreeItem::eventHandlers();
 
   events.insert("click", [this]() {
+    m_operations->openServerStats();
+
     if (isDatabaseListLoaded()) {
         if (!isExpanded()) {
             setExpanded(true);
@@ -159,13 +161,15 @@ QHash<QString, std::function<bool()> > ServerItem::eventHandlers() {
         return true;
     }
 
-    load();
+    load();    
     return false;
   });
 
   events.insert("console", [this]() { m_operations->openConsoleTab(); return true; });
 
-  events.insert("server_info", [this]() { m_operations->openServerStats(); return true; });
+  auto openServerContextTab = [this]() { m_operations->openServerStats(); return true; };
+  events.insert("right-click", openServerContextTab);
+  events.insert("mid-click", openServerContextTab);
 
   events.insert("duplicate", [this]() { m_operations->duplicateConnection(); return true; });
 

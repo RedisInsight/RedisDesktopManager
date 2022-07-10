@@ -28,7 +28,8 @@ class Events : public QObject, public QEnableSharedFromThis<Events> {
                     bool inNewTab);
 
   void openConsole(QSharedPointer<RedisClient::Connection> connection,
-                   int dbIndex, QList<QByteArray> initCmd = QList<QByteArray>());
+                   int dbIndex, bool inNewTab,
+                   QList<QByteArray> initCmd = QList<QByteArray>());
 
   void openServerStats(QSharedPointer<RedisClient::Connection> connection);
 

@@ -14,7 +14,7 @@ import "./value-editor/editors/formatters/"
 import "./connections"
 import "./connections-tree"
 import "./console"
-import "./server-info"
+import "./server-actions"
 import "./bulk-operations"
 import "./settings"
 
@@ -453,7 +453,7 @@ ApplicationWindow {
                     visible: tabs.count == 1
                 }
 
-                ServerInfoTabs {
+                ServerActionTabs {
                     objectName: "rdm_qml_server_info_tabs"
                     model: serverStatsModel
                 }

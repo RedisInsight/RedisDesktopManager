@@ -46,6 +46,8 @@ class Model : public TabModel {
   void setRefreshPubSubMonitor(bool v);
 
   Q_INVOKABLE void subscribeToChannel(const QString& c);
+  Q_INVOKABLE void monitorCommands();
+  Q_INVOKABLE void openTerminal();
 
  signals:
   void serverInfoChanged();
@@ -53,7 +55,7 @@ class Model : public TabModel {
   void clientsChanged();
   void pubSubChannelsChanged();
   void openConsoleTerminal(QSharedPointer<RedisClient::Connection> c,
-                           int db, QList<QByteArray> cmd);
+                           int db, bool inNewTab, QList<QByteArray> cmd);
 
  protected:
   void cmdErrorHander(const QString& err);

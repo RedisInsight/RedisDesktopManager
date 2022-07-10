@@ -39,7 +39,6 @@
         <file>settings/IntOption.qml</file>
         <file>bulk-operations/BulkOperationsDialog.qml</file>
         <file>settings/ComboboxOption.qml</file>
-        <file>server-info/ServerInfoTabs.qml</file>
         <file>common/platformutils.js</file>
         <file>common/NewTextArea.qml</file>
         <file>common/BetterGroupbox.qml</file>
@@ -70,9 +69,17 @@
         <file>value-editor/filters/ListFilters.qml</file>
         <file>value-editor/filters/StreamFilters.qml</file>
         <file>common/JsonHighlighter.qml</file>
-        <file>connections/AskSecretDialog.qml</file>        
+        <file>connections/AskSecretDialog.qml</file>
         <file>common/ColorInput.qml</file>
         <file>value-editor/editors/UnsupportedDataType.qml</file>
         <file>extension-server/ExtensionServerSettings.qml</file>
+        <file>connections-tree/TreeItemDelegate.qml</file>
+        <file>server-actions/ServerActionTabs.qml</file>
+        <file>server-actions/ServerCharts.qml</file>
+        <file>server-actions/ServerConfig.qml</file>
+        <file>server-actions/ServerSlowlog.qml</file>
+        <file>server-actions/ServerClients.qml</file>
+        <file>server-actions/ServerPubSub.qml</file>
+        <file>server-actions/ServerAction.qml</file>
     </qresource>
 </RCC>
