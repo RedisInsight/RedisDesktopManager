@@ -211,7 +211,7 @@ BetterDialog {
 
                     GridLayout {
                         columns: 2
-                        rows: 3
+                        rows: 4
                         flow: GridLayout.TopToBottom
                         rowSpacing: 10
                         columnSpacing: 20
@@ -242,9 +242,22 @@ BetterDialog {
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: 30
+                            Layout.rowSpan: 2
 
                             value: true
                             label: qsTranslate("RESP","Show only last part for namespaced keys")
+                        }
+
+                        IntOption {
+                            id: scanCommandLimit
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            min: 1000
+                            max: 500000
+                            value: 10000
+                            label: qsTranslate("RESP","Limit for SCAN command")
                         }
 
                         IntOption {
@@ -334,6 +347,7 @@ BetterDialog {
         property alias darkMode: darkModeWindows.value
         property alias useSystemProxy: systemProxy.value
         property alias disableProxyForRedisConnections: disableProxyForRedisConnections.value
+        property alias scanLimit: scanCommandLimit.value
     }
 
     Settings {
