@@ -202,6 +202,17 @@ BetterDialog {
                             description: qsTranslate("RESP", "Size in bytes")
                         }
 
+                        IntOption {
+                            id: valueEditorPageSizeControl
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+
+                            min: 10
+                            max: 10000
+                            value: 100
+                            label: qsTranslate("RESP","Maximum amount of items per page")
+                        }
                     }
 
                     SettingsGroupTitle {
@@ -342,6 +353,7 @@ BetterDialog {
         property alias valueEditorFont: valueEditorFont.value
         property alias valueEditorFontSize: valueEditorFontSize.value
         property alias valueSizeLimit: valueSizeLimit.value
+        property alias valueEditorPageSize: valueEditorPageSizeControl.value
         property alias locale: appLang.value
         property alias darkModeOn: darkModeLinux.value
         property alias darkMode: darkModeWindows.value
