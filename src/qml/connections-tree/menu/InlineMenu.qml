@@ -2,7 +2,6 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.2
-import QtQuick.Controls.Styles 1.4
 import "./../../common/platformutils.js" as PlatformUtils
 import "./../../"
 import "./../../common/"
@@ -48,7 +47,7 @@ RowLayout {
                         return root.sendEvent(modelData['event'])
                 }
 
-                tooltip: modelData['help'] != undefined ? modelData['help'] + (modelData["shortcut"]? " (" + modelData["shortcut"] + ")" : "")  : ""
+                tooltip: modelData['help'] != undefined ? modelData['help'] + (modelData["shortcut"]? " (" + shortcut.nativeText + ")" : "")  : ""
 
                 objectName: {
                     if (modelData['event'] != undefined)
@@ -62,6 +61,7 @@ RowLayout {
             }
 
             Shortcut {
+                id: shortcut
                 sequence: modelData["shortcut"]
                 onActivated: actionButton.handleClick()
             }
