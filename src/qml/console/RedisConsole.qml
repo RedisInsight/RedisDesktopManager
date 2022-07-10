@@ -45,8 +45,7 @@ Rectangle {
             textArea.append("<span style='color: red; font-family: "
                             + appSettings.valueEditorFont + "'>"
                             + qmlUtils.escapeHtmlEntities(text) + '</span>')
-        } else {
-            console.log(qmlUtils.escapeHtmlEntities(text))
+        } else {            
             textArea.append("<code style='color: white;white-space: pre-wrap;font-family: "
                             + appSettings.valueEditorFont + "'>"
                             + qmlUtils.escapeHtmlEntities(text) + '</code>')
