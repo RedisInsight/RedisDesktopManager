@@ -78,7 +78,7 @@ void TabViewModel::openTab(QSharedPointer<RedisClient::Connection> connection,
     }
 
     if (!found) {
-        return openTab(connection, true, dbIndex, initCmd);
+        return openTab(connection, dbIndex, true, initCmd);
     }
 
   }

@@ -132,7 +132,7 @@ void Application::initModels() {
 
   connect(m_events.data(), &Events::openServerStats, this,
           [this](QSharedPointer<RedisClient::Connection> c) {
-            m_serverStatsModel->openTab(c, 0 , false);
+            m_serverStatsModel->openTab(c, 0, false);
           });
 
 #ifdef ENABLE_EXTERNAL_FORMATTERS
