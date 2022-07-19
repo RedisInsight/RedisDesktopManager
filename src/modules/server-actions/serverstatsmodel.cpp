@@ -172,11 +172,12 @@ void ServerStats::Model::clientsCallback() {
 
             if (keyAndVal.size() > 1) {
               parsed.insert(keyAndVal[0], keyAndVal[1]);
-            } else {
+            } else if (linePart > 0) {
               parsed.insert(keyAndVal[0], "");
             }
           }
-          parsedClients.append(parsed);
+          if (parsed.size() > 0)
+            parsedClients.append(parsed);
         }
 
         m_clients = parsedClients;
