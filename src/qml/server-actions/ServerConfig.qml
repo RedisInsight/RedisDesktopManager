@@ -32,6 +32,7 @@ ServerAction {
             id: serverInfoDetailsTabBar
             Layout.fillWidth: true
             Layout.preferredHeight: 30
+            visible: !uiBlocked
 
             currentIndex: 0
 
@@ -39,6 +40,7 @@ ServerAction {
                 id: serverInfoBuilderTabButtons
                 TabButton {
                     text: modelData['name']
+                    implicitWidth: 100
                 }
             }
         }
@@ -48,12 +50,14 @@ ServerAction {
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.topMargin: 15
+
             currentIndex: serverInfoDetailsTabBar.currentIndex
 
             Repeater {
                 id: serverInfoBuilder
 
-                LC.TableView {
+                LegacyTableView {
 
                     model: modelData['section_data']
 
