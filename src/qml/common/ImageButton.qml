@@ -13,8 +13,6 @@ BetterButton {
     property alias iconSource: img.source
     property bool showBorder: false
 
-    property string tooltip
-
     MouseArea {
             id: mouseArea
             anchors.fill: parent
@@ -51,10 +49,6 @@ BetterButton {
         border.width: root.hovered ? 1 : root.showBorder ? 1 : 0
         border.color: root.hovered? sysPalette.highlight : sysPalette.mid
         radius: 5
-   }
-
-   BetterToolTip {
-       title: root.tooltip
    }
 }
 
