@@ -99,6 +99,8 @@ Repeater {
                             property int tileIconSize: 64
 
                             ImageButton {
+                                objectName: "rdm_server_action_info"
+
                                 Layout.fillWidth: true
                                 Layout.rowSpan: 2
                                 implicitHeight: tileGrid.tileSize * 2
@@ -192,6 +194,8 @@ Repeater {
                             }
 
                             ImageButton {
+                                objectName: "rdm_server_action_monitor"
+
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
@@ -208,6 +212,8 @@ Repeater {
                             }
 
                             ImageButton {
+                                objectName: "rdm_server_action_slowlog"
+
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
@@ -227,7 +233,7 @@ Repeater {
 
                             ImageButton {
                                 id: connectedClientsBtn
-                                objectName: "rdm_server_info_clients"
+                                objectName: "rdm_server_action_clients"
 
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
@@ -247,6 +253,8 @@ Repeater {
                             }
 
                             ImageButton {
+                                objectName: "rdm_server_action_charts"
+
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
@@ -264,6 +272,8 @@ Repeater {
                             }
 
                             ImageButton {
+                                objectName: "rdm_server_action_console"
+
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
@@ -280,6 +290,8 @@ Repeater {
                             }
 
                             ImageButton {
+                                objectName: "rdm_server_action_pubsub"
+
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
