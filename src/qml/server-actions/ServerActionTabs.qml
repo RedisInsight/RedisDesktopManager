@@ -95,7 +95,7 @@ Repeater {
 
                             Layout.fillWidth: true
 
-                            property int tileSize: 90
+                            property int tileSize: PlatformUtils.isOSX()? 100 : 120
                             property int tileIconSize: 64
 
                             ImageButton {
@@ -128,7 +128,7 @@ Repeater {
                                      Text {
                                          text: qsTranslate("RESP","Redis Version")
                                          font.pointSize: 12
-                                         color: "grey"
+                                         color: sysPalette.windowText
                                      }
 
                                      BetterLabel {
@@ -141,7 +141,7 @@ Repeater {
                                      Text {
                                          text: qsTranslate("RESP","Uptime")
                                          font.pointSize: 12
-                                         color: "grey"
+                                         color: sysPalette.windowText
                                      }
 
                                      BetterLabel {
@@ -154,7 +154,7 @@ Repeater {
                                      Text {
                                          text: qsTranslate("RESP","Hit Ratio")
                                          font.pointSize: 12
-                                         color: "grey"
+                                         color: sysPalette.windowText
                                      }
 
                                      BetterLabel {
@@ -167,7 +167,7 @@ Repeater {
                                      Text {
                                          text: qsTranslate("RESP","Used memory")
                                          font.pointSize: 12
-                                         color: "grey"
+                                         color: sysPalette.windowText
                                      }
 
                                      BetterLabel {
@@ -180,7 +180,7 @@ Repeater {
                                      Text {
                                          text: qsTranslate("RESP","Cmd Processed")
                                          font.pointSize: 12
-                                         color: "grey"
+                                         color: sysPalette.windowText
                                          wrapMode: Text.WordWrap
                                      }
 
