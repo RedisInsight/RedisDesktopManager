@@ -73,18 +73,6 @@ Repeater {
             return Math.round(hits / total * 100 * 100) / 100
         }
 
-        function getTotalKeysValue() {
-            var total = 0;
-
-            for (var key in model.serverInfo["keyspace"]) {
-                var line = model.serverInfo["keyspace"][key]
-                var parts = line.split(/[\:\=\,]/);
-                var count = parseInt(parts[1])
-                total += count
-            }
-            return total
-        }
-
         Rectangle {
             id: wrappingBackground
             anchors.fill: parent
@@ -101,15 +89,9 @@ Repeater {
 
                     ColumnLayout {
 
-                        SettingsGroupTitle {
-                            Layout.fillWidth: true
-                            Layout.topMargin: 20
-                            text: qsTranslate("RESP", "Actions")
-                        }
-
                         GridLayout {
                             id: tileGrid
-                            columns: 5
+                            columns: 4
 
                             Layout.fillWidth: true
 
@@ -118,34 +100,94 @@ Repeater {
 
                             ImageButton {
                                 Layout.fillWidth: true
-                                implicitHeight: tileGrid.tileSize
+                                Layout.rowSpan: 2
+                                implicitHeight: tileGrid.tileSize * 2
 
-                                text: qsTranslate("RESP", "Server Stats")
+                                tooltip: qsTranslate("RESP", "View Server Info")
 
                                 showBorder: true
 
                                 imgWidth: tileGrid.tileIconSize
                                 imgHeight: tileGrid.tileIconSize
-                                iconSource: PlatformUtils.getThemeIcon("server-stats.svg")
+                                iconSource: PlatformUtils.getThemeIcon("server-config.svg")
                                 onClicked: {
-                                    currentAction.text = text
-                                    serverStackView.push(serverCharts)
+                                    currentAction.text = tooltip
+                                    serverStackView.push(serverConfig)
                                 }
-                            }
 
-                            ImageButton {
-                                Layout.fillWidth: true
-                                implicitHeight: tileGrid.tileSize
+                                GridLayout {
+                                     anchors.bottom: parent.bottom
+                                     anchors.horizontalCenter: parent.horizontalCenter
+                                     anchors.margins: 15
 
-                                text: qsTranslate("RESP", "Console")
+                                     columns: 2
+                                     flow: GridLayout.LeftToRight
 
-                                showBorder: true
+                                     Text {
+                                         text: qsTranslate("RESP","Redis Version")
+                                         font.pointSize: 12
+                                         color: "grey"
+                                     }
 
-                                imgWidth: tileGrid.tileIconSize
-                                imgHeight: tileGrid.tileIconSize
-                                iconSource: PlatformUtils.getThemeIcon("console.svg")
-                                onClicked: {
-                                    serverTab.model.openTerminal()
+                                     BetterLabel {
+                                         id: redisVersionLabel
+                                         text: "N/A"
+                                         font.pointSize: 12
+                                         objectName: "rdm_server_info_redis_version"
+                                     }
+
+                                     Text {
+                                         text: qsTranslate("RESP","Uptime")
+                                         font.pointSize: 12
+                                         color: "grey"
+                                     }
+
+                                     BetterLabel {
+                                         id: uptimeLabel;
+                                         text: "N/A";
+                                         font.pointSize: 12
+                                         objectName: "rdm_server_info_uptime"
+                                     }
+
+                                     Text {
+                                         text: qsTranslate("RESP","Hit Ratio")
+                                         font.pointSize: 12
+                                         color: "grey"
+                                     }
+
+                                     BetterLabel {
+                                         id: hitRatioLabel;
+                                         text: "N/A";
+                                         font.pointSize: 12
+                                         objectName: "rdm_server_info_hit_ratio"
+                                     }
+
+                                     Text {
+                                         text: qsTranslate("RESP","Used memory")
+                                         font.pointSize: 12
+                                         color: "grey"
+                                     }
+
+                                     BetterLabel {
+                                         id: usedMemoryLabel;
+                                         text: "N/A";
+                                         font.pointSize: 12
+                                         objectName: "rdm_server_info_used_memory"
+                                     }
+
+                                     Text {
+                                         text: qsTranslate("RESP","Cmd Processed")
+                                         font.pointSize: 12
+                                         color: "grey"
+                                         wrapMode: Text.WordWrap
+                                     }
+
+                                     BetterLabel {
+                                         id: totalCommandsProcessedLabel;
+                                         text: "N/A";
+                                         font.pointSize: 12
+                                         objectName: "rdm_server_info_cmd_processed"
+                                     }
                                 }
                             }
 
@@ -184,6 +226,9 @@ Repeater {
                             }
 
                             ImageButton {
+                                id: connectedClientsBtn
+                                objectName: "rdm_server_info_clients"
+
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
@@ -205,6 +250,39 @@ Repeater {
                                 Layout.fillWidth: true
                                 implicitHeight: tileGrid.tileSize
 
+                                text: qsTranslate("RESP", "Server Stats")
+
+                                showBorder: true
+
+                                imgWidth: tileGrid.tileIconSize
+                                imgHeight: tileGrid.tileIconSize
+                                iconSource: PlatformUtils.getThemeIcon("server-stats.svg")
+                                onClicked: {
+                                    currentAction.text = text
+                                    serverStackView.push(serverCharts)
+                                }
+                            }
+
+                            ImageButton {
+                                Layout.fillWidth: true
+                                implicitHeight: tileGrid.tileSize
+
+                                text: qsTranslate("RESP", "Console")
+
+                                showBorder: true
+
+                                imgWidth: tileGrid.tileIconSize
+                                imgHeight: tileGrid.tileIconSize
+                                iconSource: PlatformUtils.getThemeIcon("console.svg")
+                                onClicked: {
+                                    serverTab.model.openTerminal()
+                                }
+                            }
+
+                            ImageButton {
+                                Layout.fillWidth: true
+                                implicitHeight: tileGrid.tileSize
+
                                 text: qsTranslate("RESP", "Pub/Sub Channels")
 
                                 showBorder: true
@@ -219,20 +297,16 @@ Repeater {
                                 }
                             }
 
-                            ImageButton {
-                                Layout.fillWidth: true
-                                implicitHeight: tileGrid.tileSize
+                            Connections {
+                                target: model? model : null
 
-                                text: qsTranslate("RESP", "Server Config")
-
-                                showBorder: true
-
-                                imgWidth: tileGrid.tileIconSize
-                                imgHeight: tileGrid.tileIconSize
-                                iconSource: PlatformUtils.getThemeIcon("server-config.svg")
-                                onClicked: {
-                                    currentAction.text = text
-                                    serverStackView.push(serverConfig)
+                                function onServerInfoChanged() {
+                                    usedMemoryLabel.text = serverTab.getValue("memory", "used_memory_human")
+                                    redisVersionLabel.text = serverTab.getValue("server", "redis_version")
+                                    connectedClientsBtn.text = qsTranslate("RESP", "Clients") + " " + serverTab.getValue("clients", "connected_clients")
+                                    totalCommandsProcessedLabel.text = serverTab.getValue("stats", "total_commands_processed")
+                                    uptimeLabel.text = serverTab.getValue("server", "uptime_in_days") + qsTranslate("RESP"," day(s)")
+                                    hitRatioLabel.text = serverTab.getHitRatio() + "%"
                                 }
                             }
                         }                        
@@ -281,139 +355,7 @@ Repeater {
                     ServerSlowlog {
                         model: serverTab.model
                     }
-                }
-
-                GridLayout {
-                    id: serverHighlights
-                    Layout.fillWidth: true
-                    Layout.columnSpan: 3
-
-                    rows: 2
-                    flow: GridLayout.TopToBottom
-
-                    property int colWidth: wrappingBackground.width / 8
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Redis Version")
-                        font.pointSize: 12
-                        color: "grey"
-                    }
-
-                    BetterLabel {
-                        id: redisVersionLabel
-                        text: "N/A"
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_redis_version"
-                    }
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Used memory")
-                        font.pointSize: 12
-                        color: "grey"
-                    }
-
-                    BetterLabel {
-                        id: usedMemoryLabel;
-                        text: "N/A";
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_used_memory"
-                    }
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Clients")
-                        font.pointSize: 12
-                        color: "grey"
-                    }
-
-                    BetterLabel {
-                        id: connectedClientsLabel;
-                        text: "N/A";
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_clients"
-                    }
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Commands Processed")
-                        font.pointSize: 12
-                        color: "grey"
-                        wrapMode: Text.WordWrap
-                    }
-
-                    BetterLabel {
-                        id: totalCommandsProcessedLabel;
-                        text: "N/A";
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_cmd_processed"
-                    }
-
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Uptime")
-                        font.pointSize: 12
-                        color: "grey"
-                    }
-
-                    BetterLabel {
-                        id: uptimeLabel;
-                        text: "N/A";
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_uptime"
-                    }
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Total Keys")
-                        font.pointSize: 12
-                        color: "grey"
-                    }
-
-                    BetterLabel {
-                        id: totalKeysLabel;
-                        text: "N/A";
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_total_keys"
-                    }
-
-                    Text {
-                        Layout.preferredWidth: serverHighlights.colWidth
-
-                        text: qsTranslate("RESP","Hit Ratio")
-                        font.pointSize: 12
-                        color: "grey"
-                    }
-
-                    BetterLabel {
-                        id: hitRatioLabel;
-                        text: "N/A";
-                        font.pointSize: 12
-                        objectName: "rdm_server_info_hit_ratio"
-                    }
-
-                    Connections {
-                        target: model? model : null
-
-                        function onServerInfoChanged() {
-                            usedMemoryLabel.text = serverTab.getValue("memory", "used_memory_human")
-                            redisVersionLabel.text = serverTab.getValue("server", "redis_version")
-                            connectedClientsLabel.text = serverTab.getValue("clients", "connected_clients")
-                            totalCommandsProcessedLabel.text = serverTab.getValue("stats", "total_commands_processed")
-                            uptimeLabel.text = serverTab.getValue("server", "uptime_in_days") + qsTranslate("RESP"," day(s)")
-                            totalKeysLabel.text = serverTab.getTotalKeysValue()
-                            hitRatioLabel.text = serverTab.getHitRatio() + "%"
-                        }
-                    }
-                }
+                }                
 
                 RowLayout {
                     visible: serverStackView.depth > 1

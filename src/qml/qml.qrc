@@ -81,5 +81,6 @@
         <file>server-actions/ServerClients.qml</file>
         <file>server-actions/ServerPubSub.qml</file>
         <file>server-actions/ServerAction.qml</file>
+        <file>common/LegacyTableView.qml</file>
     </qresource>
 </RCC>

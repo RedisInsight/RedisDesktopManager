@@ -1,12 +1,14 @@
-import QtQuick 2.3
+import QtQuick 2.15
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import QtQuick.Controls 1.4 as LC
+import Qt.labs.qmlmodels 1.0
 import QtQuick.Window 2.2
 import QtCharts 2.3
 import "./../common"
 import "./../common/platformutils.js" as PlatformUtils
 import "./../settings"
+import "./../value-editor"
 
 ServerAction {
     id: tab
@@ -36,9 +38,9 @@ ServerAction {
             onValueChanged: {
                 tab.model.refreshClients = value
             }
-        }
+        }        
 
-        LC.TableView {
+        LegacyTableView {
             Layout.fillHeight: true
             Layout.fillWidth: true
 

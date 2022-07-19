@@ -43,7 +43,7 @@ ServerAction {
             }
         }
 
-        LC.TableView {
+        LegacyTableView {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
