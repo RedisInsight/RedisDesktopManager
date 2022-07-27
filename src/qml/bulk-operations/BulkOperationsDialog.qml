@@ -5,10 +5,11 @@ import QtQuick.Dialogs 1.3
 
 import "./../common/"
 
-Dialog {
+BetterDialog {
     id: root
     title: qsTranslate("RESP","Bulk Operations Manager")
-    modality: Qt.ApplicationModal
+
+    footer: null
 
     property string operationName: bulkOperations.operationName
 
