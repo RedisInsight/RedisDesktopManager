@@ -31,9 +31,9 @@ Item {
             }
 
             Text {
-                color: "#cccccc"
+                color: disabledSysPalette.text
                 text: root.description
-                visible: !!text
+                visible: root.description
             }
         }
 

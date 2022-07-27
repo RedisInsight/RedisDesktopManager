@@ -2,8 +2,8 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.13
 import QtQuick.Dialogs 1.3
-
 import "./../common/"
+import "../common/platformutils.js" as PlatformUtils
 
 BetterDialog {
     id: root
@@ -12,6 +12,8 @@ BetterDialog {
     footer: null
 
     property string operationName: bulkOperations.operationName
+
+    property int firstColSize: PlatformUtils.isScalingDisabled()? 300 : 250
 
     standardButtons: StandardButton.NoButton
 
@@ -70,8 +72,8 @@ BetterDialog {
 
     contentItem: Rectangle {
         id: contentWrapper
-        implicitWidth: 900
-        implicitHeight: 600
+        implicitWidth: PlatformUtils.isScalingDisabled() ? 1100 : 900
+        implicitHeight: PlatformUtils.isScalingDisabled() ? 650 : 600
         color: sysPalette.base
 
         Control {
@@ -147,7 +149,7 @@ BetterDialog {
 
                     BetterLabel {
                         text: qsTranslate("RESP","Redis Server:")
-                        Layout.preferredWidth: 250
+                        Layout.preferredWidth: root.firstColSize
                         Layout.preferredHeight: 25
                     }
 
@@ -159,7 +161,7 @@ BetterDialog {
 
                     BetterLabel {
                         text: qsTranslate("RESP","Database number:")
-                        Layout.preferredWidth: 250
+                        Layout.preferredWidth: root.firstColSize
                         Layout.preferredHeight: 25
                     }
 
@@ -179,7 +181,7 @@ BetterDialog {
                         BetterLabel {
                             id: rdbPathLabel
                             text: qsTranslate("RESP","Path to RDB file:")
-                            Layout.preferredWidth: 250
+                            Layout.preferredWidth: root.firstColSize
                         }
 
                         FilePathInput {
@@ -201,7 +203,7 @@ BetterDialog {
                         BetterLabel {
                             id: rdbDbLabel
                             text: qsTranslate("RESP","Select DB in RDB file:")
-                            Layout.preferredWidth: 250
+                            Layout.preferredWidth: root.firstColSize
                         }
 
                         BetterSpinBox {
@@ -221,7 +223,7 @@ BetterDialog {
 
                     BetterLabel {
                         text: root.operationName == "rdb_import"? qsTranslate("RESP","Import keys that match <b>regex</b>:") : qsTranslate("RESP","Key pattern:")
-                        Layout.preferredWidth: 250
+                        Layout.preferredWidth: root.firstColSize
                     }
 
                     BetterTextField {
@@ -242,7 +244,7 @@ BetterDialog {
 
                         BetterLabel {
                             text: "New TTL value (seconds):"
-                            Layout.preferredWidth: 250
+                            Layout.preferredWidth: root.firstColSize
                         }
 
                         BetterSpinBox {
@@ -266,7 +268,7 @@ BetterDialog {
                     visible: bulkOperations.multiConnectionOperation()
 
                     BetterLabel {
-                        Layout.preferredWidth: 250
+                        Layout.preferredWidth: root.firstColSize
                         text: qsTranslate("RESP","Destination Redis Server:")
                     }
 
@@ -277,7 +279,7 @@ BetterDialog {
                     }
 
                     BetterLabel {
-                        Layout.preferredWidth: 250
+                        Layout.preferredWidth: root.firstColSize
                         text: qsTranslate("RESP","Destination Redis Server Database Index:")
                     }
 
@@ -300,7 +302,7 @@ BetterDialog {
 
                         BetterLabel {
                             text: "Replace existing keys in target db:"
-                            Layout.preferredWidth: 250
+                            Layout.preferredWidth: root.firstColSize
                         }
 
                         BetterCheckbox {

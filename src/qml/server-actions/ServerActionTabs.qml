@@ -95,8 +95,8 @@ Repeater {
 
                             Layout.fillWidth: true
 
-                            property int tileSize: PlatformUtils.isOSX()? 100 : 120
-                            property int tileIconSize: 64
+                            property int tileSize: PlatformUtils.isScalingDisabled()? 150 : 110
+                            property int tileIconSize: PlatformUtils.isScalingDisabled()? 90 : 75
 
                             ImageButton {
                                 objectName: "rdm_server_action_info"
@@ -108,6 +108,7 @@ Repeater {
                                 tooltip: qsTranslate("RESP", "View Server Info")
 
                                 showBorder: true
+                                imgStickTop: true
 
                                 imgWidth: tileGrid.tileIconSize
                                 imgHeight: tileGrid.tileIconSize

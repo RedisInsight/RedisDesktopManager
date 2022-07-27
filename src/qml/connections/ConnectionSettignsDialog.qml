@@ -111,7 +111,7 @@ BetterDialog {
 
     contentItem: Rectangle {
         color: sysPalette.base
-        implicitWidth: 650
+        implicitWidth: PlatformUtils.isScalingDisabled() ? 900 : 650
         implicitHeight: {
             if (screen.devicePixelRatio === 1) {
                 return connectionSettingsTabBar.implicitHeight

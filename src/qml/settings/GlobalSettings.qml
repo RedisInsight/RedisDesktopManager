@@ -18,8 +18,8 @@ BetterDialog {
 
     contentItem: Rectangle {
         id: dialogRoot
-        implicitWidth: 950
-        implicitHeight: 550
+        implicitWidth:  PlatformUtils.isScalingDisabled() ? 1100 : 950
+        implicitHeight: PlatformUtils.isScalingDisabled() ? 650 : 550
 
         color: sysPalette.base
 
@@ -59,8 +59,8 @@ BetterDialog {
                         rows: 3
                         flow: GridLayout.TopToBottom
                         Layout.fillWidth: true
-                        rowSpacing: 10
-                        columnSpacing: 15
+                        rowSpacing: PlatformUtils.isScalingDisabled() ? 20 : 10
+                        columnSpacing: PlatformUtils.isScalingDisabled() ? 20 : 15
 
                         ComboboxOption {
                             id: appLang
@@ -160,9 +160,8 @@ BetterDialog {
                         columns: 2
                         rows: 2
                         flow: GridLayout.TopToBottom
-                        rowSpacing: 10
-                        columnSpacing: 15
-
+                        rowSpacing: PlatformUtils.isScalingDisabled() ? 20 : 10
+                        columnSpacing: PlatformUtils.isScalingDisabled() ? 20 : 15
 
                         ComboboxOption {
                             id: valueEditorFont
@@ -224,8 +223,8 @@ BetterDialog {
                         columns: 2
                         rows: 4
                         flow: GridLayout.TopToBottom
-                        rowSpacing: 10
-                        columnSpacing: 20
+                        rowSpacing: PlatformUtils.isScalingDisabled() ? 20 : 10
+                        columnSpacing: PlatformUtils.isScalingDisabled() ? 20 : 15
 
                         BoolOption {
                             id: nsOnTop
