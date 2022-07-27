@@ -9,8 +9,7 @@ AbstractEditor {
     id: root
     anchors.fill: parent
 
-    property bool active: false
-    property string keyType: ""
+    property bool active: false    
     property alias defaultFormatter: textEditor.defaultFormatter
 
     MultilineEditor {

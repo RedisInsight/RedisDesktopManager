@@ -31,7 +31,7 @@ AbstractEditor {
         asynchronous: true
         source: keyType? "https://resp.app/qml/BetaModuleSupport.qml?app_version="
                 + Qt.application.version + "&platform=" + Qt.platform.os
-                + "&module=" + encodeURIComponent(keyType) : ""
+                + "&module=" + encodeURIComponent(keyType) + "&t=" + Date.now() : ""
     }
 
     Item {
