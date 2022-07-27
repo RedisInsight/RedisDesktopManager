@@ -37,13 +37,13 @@ QString ServerStats::Model::getName() const {
       .arg(m_connection->getConfig().name());
 }
 
-QVariantMap ServerStats::Model::serverInfo() { return m_serverInfo; }
+QVariantMap ServerStats::Model::serverInfo() const { return m_serverInfo; }
 
-QVariant ServerStats::Model::slowLog() { return m_slowLog; }
+QVariant ServerStats::Model::slowLog() const { return m_slowLog; }
 
-QVariant ServerStats::Model::clients() { return m_clients; }
+QVariant ServerStats::Model::clients() const { return m_clients; }
 
-QVariant ServerStats::Model::pubSubChannels() {
+QVariant ServerStats::Model::pubSubChannels() const {
   QVariantList r;
   for (QByteArray ch : m_pubSubChannels) {
     r.append(QVariant(ch));
@@ -51,7 +51,7 @@ QVariant ServerStats::Model::pubSubChannels() {
   return r;
 }
 
-bool ServerStats::Model::refreshSlowLog() {
+bool ServerStats::Model::refreshSlowLog() const {
   return m_slowLogUpdateTimer.isActive();
 }
 
@@ -63,7 +63,7 @@ void ServerStats::Model::setRefreshSlowLog(bool v) {
   }
 }
 
-bool ServerStats::Model::refreshClients() {
+bool ServerStats::Model::refreshClients() const {
   return m_clientsUpdateTimer.isActive();
 }
 
@@ -75,7 +75,7 @@ void ServerStats::Model::setRefreshClients(bool v) {
   }
 }
 
-bool ServerStats::Model::refreshPubSubMonitor() {
+bool ServerStats::Model::refreshPubSubMonitor() const {
   return m_pubSubMonitorConnection->isConnected();
 }
 
@@ -172,7 +172,7 @@ void ServerStats::Model::clientsCallback() {
 
             if (keyAndVal.size() > 1) {
               parsed.insert(keyAndVal[0], keyAndVal[1]);
-            } else if (linePart > 0) {
+            } else if (linePart.size() > 0) {
               parsed.insert(keyAndVal[0], "");
             }
           }
