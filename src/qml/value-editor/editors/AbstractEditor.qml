@@ -5,7 +5,8 @@ import QtQuick.Controls.Styles 1.1
 
 ColumnLayout {
 
-    state: "edit"    
+    state: "edit"
+    property string keyType: ""
 
     states: [
         State { name: "new"}, // Creating new key
