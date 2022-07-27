@@ -28,21 +28,21 @@ class Model : public TabModel {
 
   QString getName() const override;
 
-  QVariantMap serverInfo();
+  QVariantMap serverInfo() const;
 
-  QVariant slowLog();
+  QVariant slowLog() const;
 
-  QVariant clients();
+  QVariant clients() const;
 
-  QVariant pubSubChannels();
+  QVariant pubSubChannels() const;
 
-  bool refreshSlowLog();
+  bool refreshSlowLog() const;
   void setRefreshSlowLog(bool v);
 
-  bool refreshClients();
+  bool refreshClients() const;
   void setRefreshClients(bool v);
 
-  bool refreshPubSubMonitor();
+  bool refreshPubSubMonitor() const;
   void setRefreshPubSubMonitor(bool v);
 
   Q_INVOKABLE void subscribeToChannel(const QString& c);
