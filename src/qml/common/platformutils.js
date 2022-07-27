@@ -1,6 +1,11 @@
 
 var dateTimeFormat = "yyyy-MM-dd hh:mm:ss.zzz"
 
+function isScalingDisabled() {
+    return (Qt.platform.os == "windows" || Qt.platform.os == "linux")
+            && screen.devicePixelRatio < 2
+}
+
 function isWindows() {
     return Qt.platform.os == "windows"
 }

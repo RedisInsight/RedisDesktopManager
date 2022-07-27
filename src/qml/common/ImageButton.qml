@@ -12,6 +12,7 @@ BetterButton {
     property alias imgSource: img.source
     property alias iconSource: img.source
     property bool showBorder: false
+    property bool imgStickTop: false
 
     MouseArea {
             id: mouseArea
@@ -23,6 +24,7 @@ BetterButton {
     Image {
         id: img
         anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: root.text || root.imgStickTop ? null : parent.verticalCenter
         source: PlatformUtils.getThemeIcon("clear.svg")
         width: 18
         height: 18
