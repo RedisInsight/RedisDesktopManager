@@ -19,7 +19,7 @@ BetterDialog {
     contentItem: Rectangle {
         id: dialogRoot
         implicitWidth:  PlatformUtils.isScalingDisabled() ? 1100 : 950
-        implicitHeight: PlatformUtils.isScalingDisabled() ? 650 : 550
+        implicitHeight: PlatformUtils.isScalingDisabled() ? 700 : 550
 
         color: sysPalette.base
 
@@ -38,7 +38,7 @@ BetterDialog {
                     id: innerLayout
                     width: globalSettingsScrollView.width - 25
                     height: (dialogRoot.height - 50 > implicitHeight) ? dialogRoot.height - 50 : implicitHeight
-                    spacing: 10
+                    spacing: PlatformUtils.isScalingDisabled()? 20 : 10
 
                     RowLayout {
                         Layout.fillWidth: true
