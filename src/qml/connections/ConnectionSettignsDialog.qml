@@ -117,7 +117,7 @@ BetterDialog {
                 return connectionSettingsTabBar.implicitHeight
                         + sshSettingsGrid.implicitHeight + 350
             } else {
-                return 600
+                return 610
             }
         }
         Control {
