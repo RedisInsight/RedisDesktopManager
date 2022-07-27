@@ -61,15 +61,15 @@ ToolBar {
                     onAccepted: connectionsManager.saveConnectionsConfigToFile(qmlUtils.getPathFromUrl(file))
                 }
 
-                Menu {
+                BetterMenu {
                     id: menu
 
-                    MenuItem {
+                    BetterMenuItem {
                         objectName: "rdm_import_connections_btn"
                         text: qsTranslate("RESP","Import Connections")
                         onTriggered: importConnectionsDialog.open()
                     }
-                    MenuItem {
+                    BetterMenuItem {
                         objectName: "rdm_export_connections_btn"
                         text: qsTranslate("RESP","Export Connections")
                         onTriggered: exportConnectionsDialog.open()

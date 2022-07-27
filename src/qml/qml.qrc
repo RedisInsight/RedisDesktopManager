@@ -82,5 +82,7 @@
         <file>server-actions/ServerPubSub.qml</file>
         <file>server-actions/ServerAction.qml</file>
         <file>common/LegacyTableView.qml</file>
+        <file>common/BetterMenu.qml</file>
+        <file>common/BetterMenuItem.qml</file>
     </qresource>
 </RCC>
