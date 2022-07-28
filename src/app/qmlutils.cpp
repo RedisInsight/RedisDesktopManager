@@ -178,6 +178,7 @@ QString QmlUtils::getNativePath(const QString &path) {
 }
 
 QString QmlUtils::getPathFromUrl(const QUrl &url) {
+  qDebug() << "getPathFromUrl:" << url;
   return url.isLocalFile() ? url.toLocalFile() : url.path();
 }
 
