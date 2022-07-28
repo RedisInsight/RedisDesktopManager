@@ -257,6 +257,8 @@ bool QmlUtils::saveToFile(const QVariant &value, const QString &path) {
       outStream.writeRawData(val, val.size());
       outputFile.close();
       return true;
+    } else {
+        qDebug() << "Cannot get access to file " << path;
     }
     return false;
   });

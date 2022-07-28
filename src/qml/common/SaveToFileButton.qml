@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
-import Qt.labs.platform 1.1
 import QtQuick.Dialogs 1.3
+import QtQuick.Layouts 1.15
 import "./platformutils.js" as PlatformUtils
 
 ImageButton {
@@ -30,6 +30,8 @@ ImageButton {
 
         onAccepted: {
             root.fileUrl = fileUrl
+
+            console.log(fileUrl)
 
             var path = qmlUtils.getPathFromUrl(fileUrl)
             root.folderUrl = qmlUtils.getUrlFromPath(qmlUtils.getDir(path))
