@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
 import Qt.labs.platform 1.1
-import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.3
 import "./platformutils.js" as PlatformUtils
 
 ImageButton {
@@ -26,12 +26,12 @@ ImageButton {
         id: saveValueToFileDialog
         title: raw ? qsTranslate("RESP","Save Raw Value") : qsTranslate("RESP","Save Formatted Value")
         nameFilters: ["All files (*)"]
-        fileMode: FileDialog.SaveFile
+        selectExisting: false
 
         onAccepted: {
-            root.fileUrl = file
+            root.fileUrl = fileUrl
 
-            var path = qmlUtils.getPathFromUrl(file)
+            var path = qmlUtils.getPathFromUrl(fileUrl)
             root.folderUrl = qmlUtils.getUrlFromPath(qmlUtils.getDir(path))
             root.path = qmlUtils.getNativePath(path)
             if (raw) {
