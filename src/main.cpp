@@ -61,10 +61,6 @@ int main(int argc, char *argv[])
     }
 #endif
 
-#if defined (Q_OS_LINUX) && defined(DISABLE_SCALING_TEST)
-    disableAutoScaling = true;
-#endif
-
     if (disableAutoScaling) {
         qDebug() << "Disable auto-scaling";
         QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);

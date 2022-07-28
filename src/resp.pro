@@ -116,6 +116,8 @@ unix:!macx { # ubuntu & debian
     CONFIG += static release
     CONFIG -= debug
 
+    DEFINES += DISABLE_SCALING_TEST
+
     QTPLUGIN += qsvg qsvgicon
 
     QMAKE_CXXFLAGS += -Wno-sign-compare    
