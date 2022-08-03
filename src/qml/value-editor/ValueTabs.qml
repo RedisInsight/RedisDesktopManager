@@ -227,6 +227,7 @@ Repeater {
 
                         text: qsTranslate("RESP","TTL:") + keyTtl
                         objectName: "rdm_key_ttl_value"
+                        tooltip: keyTtl
 
                         BetterDialog {
                             id: setTTLConfirmation
