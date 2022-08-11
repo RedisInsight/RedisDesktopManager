@@ -19,7 +19,8 @@ Consider using more specific  filters for `SCAN` in order to speed up keys loadi
 1. Right click on database and click on Filter button <br> <img width="250" src="https://user-images.githubusercontent.com/1655867/91542521-aa18c300-e926-11ea-8f09-4a0322d0f9ee.png">
 2. Enter glob-style pattern and press apply button <br> <img width="250" src="https://user-images.githubusercontent.com/1655867/91542549-b4d35800-e926-11ea-9920-ca0ad8701c56.png">
 
-More details about `SCAN` filter syntax you can find in Redis documentation https://redis.io/commands/scan#the-match-option
+> !!! note
+    More details about `SCAN` filter syntax you can find in Redis documentation [https://redis.io/commands/scan#the-match-option]()
 
 
 Default `SCAN` filter can be changed in connection settings on “Advanced Settings” tab:
@@ -40,5 +41,5 @@ Using namespaced keys is also important for loading huge keyspaces in RESP.app. 
 
 Default namespace separator can be changed in connection settings on “Advanced Settings” tab.
 
-More tips about Redis keys naming you can find in this tutorial https://redis.io/topics/data-types-intro#redis-keys
+More tips about Redis keys naming you can find in this tutorial [https://redis.io/topics/data-types-intro#redis-keys]()
 
