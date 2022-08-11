@@ -26,7 +26,7 @@
     <message>
         <location filename="../../app/app.cpp" line="84"/>
         <source>RESP.app can&apos;t save connections file to settings directory. Please change file permissions or restart RESP.app as administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>RESP.app no puede guardar las conexiones en el directorio de configuraciones. Cambia los permisos o reinicia RESP.app como administrador.</translation>
     </message>
     <message>
         <source>RDM can&apos;t save connections file to settings directory. Please change file permissions or restart RDM as administrator.</source>
@@ -382,7 +382,7 @@
         <location filename="../../modules/extension-server/dataformattermanager.cpp" line="109"/>
         <location filename="../../modules/extension-server/dataformattermanager.cpp" line="147"/>
         <source>Can&apos;t find formatter: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No puede encontrar el formateador: %1</translation>
     </message>
     <message>
         <location filename="../../modules/extension-server/dataformattermanager.cpp" line="115"/>
@@ -392,12 +392,12 @@
     <message>
         <location filename="../../modules/extension-server/dataformattermanager.cpp" line="204"/>
         <source>Can&apos;t load list of available formatters from extension server: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No puede cargar la lista de formateadores del servidor de extensión: %1</translation>
     </message>
     <message>
         <location filename="../../modules/extension-server/dataformattermanager.cpp" line="260"/>
         <source>Can&apos;t encode value: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>No puede codificar el valor: %1</translation>
     </message>
     <message>
         <source>Cannot decode value using %1 formatter. </source>
@@ -502,7 +502,7 @@
         <location filename="../../qml/AppToolBar.qml" line="144"/>
         <location filename="../../qml/extension-server/ExtensionServerSettings.qml" line="13"/>
         <source>Extension Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor de extensión</translation>
     </message>
     <message>
         <location filename="../../qml/AppToolBar.qml" line="154"/>
@@ -747,22 +747,22 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="657"/>
         <source>Use SSH Agent</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar Agente SSH</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="667"/>
         <source>(Optional) Custom SSH Agent Path</source>
-        <translation type="unfinished"></translation>
+        <translation>(Opcional) Mofificar Ruta del Agente SSH</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="669"/>
         <source>Select SSH Agent</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar Agente SSH</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="678"/>
         <source>Additional configuration is required to enable SSH Agent support</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración adicional es requerida para habilitar el soporte de Agente SSH</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="734"/>
@@ -837,37 +837,37 @@
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="881"/>
         <source>Formatters</source>
-        <translation type="unfinished"></translation>
+        <translation>Formateadores</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="885"/>
         <source>Default value formatter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor por defecto del formateador:</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="901"/>
-        <source>Auto detect (JSON / Plain Text / HEX)</source>
-        <translation type="unfinished"></translation>
+        <source>Auto autodetect (JSON / Plain Text / HEX)</source>
+        <translation>Autodetectar (JSON / Texto Plano / HEX)</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="902"/>
         <source>Last selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Último seleccionado</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="903"/>
         <source>Select formatter ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar formateador ...</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="952"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Apariencia</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="956"/>
         <source>Icon color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Color del ícono</translation>
     </message>
     <message>
         <location filename="../../qml/connections/ConnectionSettignsDialog.qml" line="1021"/>
@@ -973,7 +973,7 @@
     <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="213"/>
         <source>Maximum amount of items per page</source>
-        <translation type="unfinished"></translation>
+        <translation>Máxima cantidad de items por página</translation>
     </message>
     <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="218"/>
@@ -1003,7 +1003,7 @@
     <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="270"/>
         <source>Limit for SCAN command</source>
-        <translation type="unfinished"></translation>
+        <translation>Límite para comando SCAN</translation>
     </message>
     <message>
         <location filename="../../qml/settings/GlobalSettings.qml" line="282"/>
@@ -1031,17 +1031,17 @@
     <message>
         <location filename="../../qml/extension-server/ExtensionServerSettings.qml" line="61"/>
         <source>Server Url:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL del servidor</translation>
     </message>
     <message>
         <location filename="../../qml/extension-server/ExtensionServerSettings.qml" line="75"/>
         <source>Basic Auth:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorización básica</translation>
     </message>
     <message>
         <location filename="../../qml/extension-server/ExtensionServerSettings.qml" line="81"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuario</translation>
     </message>
     <message>
         <location filename="../../qml/extension-server/ExtensionServerSettings.qml" line="99"/>
