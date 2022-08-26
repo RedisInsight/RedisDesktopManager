@@ -23,6 +23,7 @@
   StrCmp $0 "OK" InstallVCplusplus
 
   MessageBox MB_ICONSTOP "Download failed: $0. Please install it manually and try again: ${VCplus_URL}"
+  ExecShell open "${VCplus_URL}"
   Abort
 
   InstallVCplusplus:
