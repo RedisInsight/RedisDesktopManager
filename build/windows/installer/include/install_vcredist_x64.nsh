@@ -22,9 +22,9 @@
   DetailPrint "Result: $0"
   StrCmp $0 "OK" InstallVCplusplus
 
-  MessageBox MB_ICONSTOP "Download failed: $0. Please install it manually and try again: ${VCplus_URL}"
+  MessageBox MB_ICONSTOP "Cannot download VC++ 2015-2019 Redistributable. Please install it manually if you experience any issues: ${VCplus_URL}"
   ExecShell open "${VCplus_URL}"
-  Abort
+  goto VCInstalled
 
   InstallVCplusplus:
   DetailPrint "Completed download."
