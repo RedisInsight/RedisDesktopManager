@@ -500,7 +500,7 @@ void TreeOperations::getUsedMemory(const QList<QByteArray>& keys, int dbIndex,
             result->call(*totalMemory);
           }
         }
-      });
+      }, true);
 }
 
 QString TreeOperations::mode() {

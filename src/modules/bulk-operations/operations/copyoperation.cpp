@@ -66,40 +66,24 @@ void BulkOperations::CopyOperation::performOperation(
 
     if (m_restoreBuffer.size() > RESTORE_BUFFER_LIMIT ||
         m_dumpedKeys == m_affectedKeys.size()) {
+      int batchSize = m_restoreBuffer.size();
+
       targetConnection->pipelinedCmd(
           m_restoreBuffer, this, targetDbIndex,
-          [this, returnResults](const RedisClient::Response& r, QString err) {
-            if (!err.isEmpty()) {
-              return processError(err);
+          [this, returnResults, batchSize](const RedisClient::Response& r, QString err) {
+            if (!err.isEmpty() || r.isErrorMessage()) {
+              return processError(err.isEmpty()? r.value().toByteArray() : err);
             }
-            QVariant incrResult = r.value();
             {
               QMutexLocker l(&m_processedKeysMutex);
-
-              if (incrResult.canConvert(QVariant::ByteArray)) {
-                if (r.isErrorMessage()) {
-                  return processError(incrResult.toString());
-                }
-                m_progress++;
-              } else if (incrResult.canConvert(QVariant::List)) {
-                auto responses = incrResult.toList();
-
-                for (auto resp : responses) {
-                  if (resp.toString().startsWith("ERR")) {
-                    return processError(resp.toString());
-                  }
-
-                  m_progress++;
-                }
-              }
-
+              m_progress += batchSize;
               emit progress(m_progress);
             }
 
             if (m_progress >= m_affectedKeys.size()) {
               returnResults();
             }
-          });
+          }, false);
       m_restoreBuffer.clear();
     }
   };
@@ -111,7 +95,7 @@ void BulkOperations::CopyOperation::performOperation(
       rawCmds.append({"DUMP", k});
     }
 
-    m_connection->pipelinedCmd(rawCmds, this, -1, processKeyDumps);
+    m_connection->pipelinedCmd(rawCmds, this, -1, processKeyDumps, true);
   };
 
   auto verifySourceConnection = [this, processKeys, targetConnection]() {

@@ -95,37 +95,27 @@ void BulkOperations::RDBImportOperation::performOperation(
       rawCmds.append(rawCmd);
     }
 
+    int batchSize = m_connection->pipelineCommandsLimit();
     int expectedResponses = rawCmds.size();
 
     m_connection->pipelinedCmd(
-        rawCmds, this, -1,
-        [this, returnResults, expectedResponses](const RedisClient::Response& r,
+        rawCmds, this, m_dbIndex,
+        [this, returnResults, expectedResponses, batchSize](const RedisClient::Response& r,
                                                  const QString& err) {
-          if (!err.isEmpty()) {
-            return processError(err);
+          if (!err.isEmpty() || r.isErrorMessage()) {
+            return processError(err.isEmpty()? r.value().toByteArray() : err);
           }
 
           {
-            QMutexLocker l(&m_processedKeysMutex);
-            QVariant incrResult = r.value();
-
-            if (incrResult.canConvert(QVariant::ByteArray)) {
-              m_progress++;
-            } else if (incrResult.canConvert(QVariant::List)) {
-              auto responses = incrResult.toList();
-
-              for (auto resp : responses) {
-                m_progress++;
-              }
-            }
-
+            QMutexLocker l(&m_processedKeysMutex);            
+            m_progress += batchSize;
             emit progress(m_progress);
           }
 
           if (m_progress >= expectedResponses) {
             returnResults();
           }
-        });
+        }, false);
   };
 
   m_python->call_native(
@@ -136,10 +126,14 @@ void BulkOperations::RDBImportOperation::performOperation(
         QVariantList commands = v.toList();
 
         m_connection->cmd(
-            {"ping", QByteArray::number(m_dbIndex)}, this, -1,
-            [processCommands, commands](const RedisClient::Response&) {
+            {"ping"}, this, m_dbIndex,
+            [processCommands, commands, this](const RedisClient::Response& r) {
+              if (r.isErrorMessage()) {
+                return processError(QCoreApplication::translate(
+                    "RESP", "Target connection error"));
+              }
               QtConcurrent::run(processCommands, commands);
             },
-            [](const QString&) {});
+            [this](const QString& err) { processError(err); });
       });
 }
