@@ -48,35 +48,26 @@ void BulkOperations::TtlOperation::setTtl(const QList<QByteArray>& keys,
     rawCmds.append({"EXPIRE", k, ttl});
   }
 
+  int batchSize = m_connection->pipelineCommandsLimit();
   int expectedResponses = rawCmds.size();
 
   m_connection->pipelinedCmd(
       rawCmds, this, -1,
-      [this, expectedResponses, callback](const RedisClient::Response& r,
-                                          QString err) {
-        if (!err.isEmpty()) {
-          return processError(err);
+      [this, expectedResponses, callback, batchSize](
+          const RedisClient::Response& r, QString err) {
+        if (!err.isEmpty() || r.isErrorMessage()) {
+          return processError(err.isEmpty() ? r.value().toByteArray() : err);
         }
 
         {
           QMutexLocker l(&m_processedKeysMutex);
-          QVariant incrResult = r.value();
-
-          if (incrResult.canConvert(QVariant::ByteArray)) {
-            m_progress++;
-          } else if (incrResult.canConvert(QVariant::List)) {
-            auto responses = incrResult.toList();
-
-            for (auto resp : responses) {
-              m_progress++;
-            }
-          }
-
+          m_progress += batchSize;
           emit progress(m_progress);
         }
 
         if (m_progress >= expectedResponses) {
           callback();
         }
-      });
+      },
+      false);
 }

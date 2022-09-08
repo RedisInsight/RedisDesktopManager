@@ -56,39 +56,27 @@ void BulkOperations::DeleteOperation::deleteKeys(
     rawCmds.append({rmCmd, k});
   }
 
+  int batchSize = m_connection->pipelineCommandsLimit();
   int expectedResponses = rawCmds.size();
 
   m_connection->pipelinedCmd(
       rawCmds, this, m_dbIndex,
-      [this, expectedResponses, callback](const RedisClient::Response &r,
-                                          QString err) {
-        if (!err.isEmpty()) {
-          return processError(err);
+      [this, expectedResponses, callback, batchSize](
+          const RedisClient::Response &r, QString err) {
+        if (!err.isEmpty() || r.isErrorMessage()) {
+          return processError(err.isEmpty() ? r.value().toByteArray() : err);
         }
 
-        if (r.isErrorMessage()) {
-          return processError(r.value().toByteArray());
-        }
-        
         {
-            QMutexLocker l(&m_processedKeysMutex);
-            QVariant incrResult = r.value();
+          QMutexLocker l(&m_processedKeysMutex);
+          m_progress += batchSize;
 
-            if (incrResult.canConvert(QVariant::ByteArray)) {
-              m_progress++;
-            } else if (incrResult.canConvert(QVariant::List)) {
-              auto responses = incrResult.toList();
-
-              for (auto resp : responses) {
-                m_progress++;
-              }
-            }
-
-            emit progress(m_progress);
+          emit progress(m_progress);
         }
 
         if (m_progress >= expectedResponses) {
           callback();
         }
-      });
+      },
+      false);
 }
