@@ -7,7 +7,7 @@ Is your serialization format not mentioned above? Continue reading to find out h
 
 ### What is it?
 
-Starting from version `2022.4` RESP.app comes with build-in client for Extension Server. Extension Server is a simple REST API defined by
+Starting from version `2022.4` RESP.app comes with a built-in client for Extension Server. Extension Server is a simple REST API defined by
 the following [OpenAPI Specification](extension-server.md#openapi-v3-specification). This server allows you to support 
 any custom compression or serialization format.
 
@@ -25,7 +25,7 @@ openapi-generator generate -i server_spec.yaml -g YOUR_GENERATOR -o my_extension
 5. Open `my_extension_server` in your favorite IDE and start adding your custom formatters to generated server.
 
 
-**If you faced with any issues you can [contact support](mailto:support@resp.app) or ask for help in [telegram chat](https://t.me/RedisDesktopManager)**
+**If you are faced with any issues you can [contact support](mailto:support@resp.app) or ask for help in [telegram chat](https://t.me/RedisDesktopManager)**
 
 
 ### Connect to Extension Server in RESP.app
