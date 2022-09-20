@@ -94,7 +94,7 @@ BetterDialog {
 
                 asynchronous: true
                 source: Editor.getEditorByTypeString(
-                            typeSelector.model[typeSelector.currentIndex])
+                            typeSelector.model[typeSelector.currentIndex], true)
 
                 onLoaded: {
                     item.state = "new"

@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QObject>
 
+#include "bfkey.h"
 #include "hashkey.h"
 #include "listkey.h"
 #include "rejsonkey.h"
@@ -155,6 +156,10 @@ QSharedPointer<ValueEditor::Model> KeyFactory::createModel(
   } else if (type == "stream") {
     return QSharedPointer<ValueEditor::Model>(
         new StreamKeyModel(connection, keyFullPath, dbIndex, ttl));
+  } else if (type.startsWith("MBbloom")) {
+      QString ff = type.endsWith("CF")? "cf" : "bf";
+      return QSharedPointer<ValueEditor::Model>(
+          new BloomFilterKeyModel(connection, keyFullPath, dbIndex, ttl, ff));
   }
 
   return QSharedPointer<ValueEditor::Model>(
