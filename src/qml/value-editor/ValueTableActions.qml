@@ -54,8 +54,9 @@ ColumnLayout {
                         source: keyTab.keyModel ? Editor.getEditorByTypeString(keyType) : ""
 
                         onLoaded: {
-                            item.state = "add"
+                            item.state = "add"                            
                             item.initEmpty()
+                            keyTab.addRowDialog = addRowDialog
                         }
                     }
                 }

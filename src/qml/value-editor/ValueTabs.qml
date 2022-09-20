@@ -54,6 +54,7 @@ Repeater {
         property var tabButton
         property bool loadingModel: showLoader
         property variant keyModel: keyViewModel
+        property var addRowDialog
 
         onKeyModelChanged: {
             console.log("keyModel changed")
@@ -447,11 +448,7 @@ Repeater {
                                     function clear() {
                                         if (valueEditor.item) {
                                             currentRow = -1
-
-                                            if (valueEditor.item.keyType !== undefined) {
-                                                valueEditor.item.keyType = keyType
-                                            }
-
+                                            valueEditor.item.keyType = Qt.binding(function() { return keyType });
                                             valueEditor.item.reset()
                                         }
                                     }
