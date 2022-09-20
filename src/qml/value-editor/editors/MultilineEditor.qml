@@ -19,6 +19,7 @@ Item
     property bool showSaveBtn: false
     property bool showFormatters: true
     property bool showOnlyRWformatters: false
+    property bool showValueSize: true
     property string fieldLabel: qsTranslate("RESP","Value") + ":"
     property bool isEdited: false
     property var value    
@@ -361,6 +362,7 @@ Item
                 readOnly: true;
                 selectByMouse: true
                 color: "#ccc"
+                visible: showValueSize
             }
             BetterLabel { id: binaryFlag; text: qsTranslate("RESP","[Binary]"); visible: false; color: "green"; }
             Item { Layout.fillWidth: true }
@@ -510,8 +512,10 @@ Item
                 iconSource: PlatformUtils.getThemeIcon("add.svg")
                 Layout.alignment: Qt.AlignHCenter
 
-                text: qsTranslate("RESP","Add Element to HLL");
-                visible: keyType === "hyperloglog"
+                text: qsTranslate("RESP","Add Element");
+                visible: (keyType === "hyperloglog"
+                          || keyType === "bf"
+                          || keyType === "cf")
 
                 onClicked: {
                     keyTab.addRowDialog.open()

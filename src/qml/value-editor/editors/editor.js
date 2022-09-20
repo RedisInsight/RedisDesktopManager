@@ -3,7 +3,7 @@ function getSupportedKeyTypes() {
     return ["string", "list", "set", "zset", "hash", "stream"]
 }
 
-function getEditorByTypeString(keyType) {
+function getEditorByTypeString(keyType, writeOnly) {
     if (keyType === "string"
             || keyType === "hyperloglog"
             || keyType === "list"
@@ -16,6 +16,12 @@ function getEditorByTypeString(keyType) {
         return "./editors/HashItemEditor.qml"
     } else if (keyType === "stream") {
         return "./editors/StreamItemEditor.qml"
+    } else if (keyType === "bf" || keyType === "cf") {
+        if (writeOnly) {
+            return "./editors/SingleItemEditor.qml"
+        } else {
+            return "./editors/ReadOnlySingleItemEditor.qml"
+        }
     } else if (keyType) {
         return "./editors/UnsupportedDataType.qml"
     }

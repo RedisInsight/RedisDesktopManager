@@ -72,6 +72,7 @@
         <file>connections/AskSecretDialog.qml</file>
         <file>common/ColorInput.qml</file>
         <file>value-editor/editors/UnsupportedDataType.qml</file>
+        <file>value-editor/editors/ReadOnlySingleItemEditor.qml</file>
         <file>extension-server/ExtensionServerSettings.qml</file>
         <file>connections-tree/TreeItemDelegate.qml</file>
         <file>server-actions/ServerActionTabs.qml</file>

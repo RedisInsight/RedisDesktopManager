@@ -430,7 +430,7 @@ Repeater {
 
                                     property int currentRow: -1
 
-                                    source: keyTab.keyModel? Editor.getEditorByTypeString(keyType) : ""
+                                    source: keyTab.keyModel? Editor.getEditorByTypeString(keyType, false) : ""
 
                                     function loadRowValue(row) {
                                         console.log("loading row value", row)
