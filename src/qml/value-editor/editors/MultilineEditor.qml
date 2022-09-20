@@ -413,7 +413,8 @@ Item
                 textRole: "text"
 
                 visible: {
-                    return binaryFlag.visible && qmlUtils.binaryStringLength(root.value) <= appSettings.valueSizeLimit
+                    console.log("keyType:", keyType)
+                    return binaryFlag.visible && keyType != "hyperloglog" && qmlUtils.binaryStringLength(root.value) <= appSettings.valueSizeLimit
                             || root.valueCompression > 0
                 }
 
@@ -505,33 +506,28 @@ Item
                 color: "red"
             }
 
+            BetterButton {
+                iconSource: PlatformUtils.getThemeIcon("add.svg")
+                Layout.alignment: Qt.AlignHCenter
+
+                text: qsTranslate("RESP","Add Element to HLL");
+                visible: keyType === "hyperloglog"
+
+                onClicked: {
+                    keyTab.addRowDialog.open()
+                }
+            }
+
             RowLayout {
                 id: valueEditorToolBar
                 Layout.preferredWidth: isMultiRow ? 200 : 208
                 Layout.maximumWidth: isMultiRow ? 200 : 208
 
-                visible: showToolBar                
+                visible: showToolBar
 
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 98
-
-                    ImageButton {
-                        iconSource: PlatformUtils.getThemeIcon("add.svg")
-                        implicitWidth: imgBtnWidth
-                        implicitHeight: imgBtnHeight
-                        imgWidth: imgBtnWidth
-                        imgHeight: imgBtnHeight
-
-                        Layout.alignment: Qt.AlignHCenter
-
-                        tooltip: qsTranslate("RESP","Add Element to HLL");
-                        visible: keyType === "hyperloglog"
-
-                        onClicked: {
-                            addRowDialog.open()
-                        }
-                    }
 
                     ImageButton {
                         id: copyValueToClipboardBtn
