@@ -200,7 +200,9 @@ Item
             var cFormatter = formatterSelector.model.get(expectedFormatter)
 
             return cFormatter.isValid(root.value, function (isValid) {
-                if (isValid) {
+                var compressionMethod = qmlUtils.isCompressed(root.value);
+
+                if (isValid || compressionMethod > 0) {
                     formatterSelector._select(formatterOverride)
                     continueFormatting(false)
                 } else {
