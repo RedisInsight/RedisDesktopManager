@@ -12,10 +12,16 @@ class BloomFilterKeyModel : public KeyModel<QVariant> {
   QVariant getData(int rowIndex, int dataRole) override;
 
   void addRow(const QVariantMap&, Callback c) override;
+
   virtual void updateRow(int, const QVariantMap&,
-                         Callback) override {}
+                         Callback) override {
+      // NOTE(u_glide): BF/CF is read-only
+  }
   void loadRows(QVariant, unsigned long, LoadRowsCallback callback) override;
-  void removeRow(int, Callback) override {}
+
+  void removeRow(int, Callback) override {
+      // NOTE(u_glide): BF/CF is read-only
+  }
 
   virtual unsigned long rowsCount() override { return m_rowCount; }
 
