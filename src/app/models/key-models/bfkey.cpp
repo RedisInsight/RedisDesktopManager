@@ -44,14 +44,13 @@ void BloomFilterKeyModel::loadRows(QVariant, unsigned long,
     return callback(err, 0);
   };
 
-  auto responseHandler = [this, callback](RedisClient::Response r, Callback) {
+  auto responseHandler = [this, callback](const RedisClient::Response& r, Callback) {
     m_rowsCache.clear();
     auto value = r.value().toList();
 
     QVariantMap row;
 
-    for (QVariantList::const_iterator item = value.cbegin(); item != value.cend();
-         ++item) {
+    for (auto item = value.cbegin(); item != value.cend(); ++item) {
       auto key = item->toByteArray();
       ++item;
 
