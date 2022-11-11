@@ -247,7 +247,7 @@ ListModel {
         property var getRaw: function (formatted, callback, context) {
             var minified = qmlUtils.minifyJSON(formatted);
 
-            if (!minified) {
+            if (!minified || minified == "") {
                 return callback(qsTranslate("RESP", "Error") + ": Cannot minify JSON string")
             } else {
                 return callback("", minified)
