@@ -7,5 +7,6 @@
         <file alias="aws_logo_white.svg">images/aws_logo_white.svg</file>
         <file alias="azure_logo.svg">images/azure_logo.svg</file>
         <file alias="heroku_logo.svg">images/heroku_logo.svg</file>
+        <file alias="redisinsight.svg">images/redisinsight.svg</file>
     </qresource>
 </RCC>
