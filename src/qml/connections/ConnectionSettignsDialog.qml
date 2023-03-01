@@ -416,7 +416,7 @@ BetterDialog {
                                 RichTextWithLinks {
                                     Layout.fillWidth: true
                                     wrapMode: Text.WrapAnywhere
-                                    html: '<a href="https://do.co/3humIhx">' + qsTranslate("RESP",'Spin up hassle-free Redis on Digital Ocean') + '</a>'
+                                    html: '<a href="https://redis.com/try-free/?utm_source=respapp&utm_medium=app&utm_campaign=newconn">' + qsTranslate("RESP",'Use Redis Cloud: Up to 6 month free with $200 credits') + '</a>'
                                 }
                             }
 
