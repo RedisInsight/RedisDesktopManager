@@ -19,7 +19,8 @@
     </screenshots>
     <content_rating type="oars-1.0"/>
     <releases>
-	<release version="2022.4.2" date="2022-07-28"/>    
+        <release version="2022.5" date="2022-10-07"/>  
+	    <release version="2022.4.2" date="2022-07-28"/>    
         <release version="2022.4" date="2022-06-15"/>
         <release version="2022.3" date="2022-05-04"/>
         <release version="2022.2.1" date="2022-04-11"/>
