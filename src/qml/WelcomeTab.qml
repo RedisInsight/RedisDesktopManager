@@ -62,6 +62,12 @@ BetterTab {
                     }
 
                     BetterButton {
+                        text: qsTranslate("RESP","Download from AppStore")
+                        onClicked: Qt.openUrlExternally("https://apps.apple.com/us/app/redisinsight/id6446987963")
+                        visible: PlatformUtils.isOSX()
+                    }
+
+                    BetterButton {
                         text: PlatformUtils.isWindows() ? qsTranslate("RESP","Download Installer") : qsTranslate("RESP","Download DMG")
                         onClicked: Qt.openUrlExternally("https://redis.com/redis-enterprise/redis-insight/")
                         visible: !PlatformUtils.isLinux()
