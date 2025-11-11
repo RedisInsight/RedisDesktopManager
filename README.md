@@ -13,7 +13,13 @@
 [![Snap Status](https://build.snapcraft.io/badge/RedisDesktop/redisdesktopmanager-snap.svg)](https://build.snapcraft.io/user/RedisDesktop/redisdesktopmanager-snap)
 [![Documentation Status](https://readthedocs.org/projects/redisdesktopmanager/badge/?version=latest)](http://docs.redisdesktop.com/en/latest/?badge=latest)
 
-Open source cross-platform Redis Desktop Manager based on Qt 5
+Open source cross-platform Redis Desktop Manager based on Qt 54
+
+
+
+
+
+
 
 ![Redis Desktop Manager screenshoot](http://redisdesktop.com/static/img/features/all.png?v2019)
 
