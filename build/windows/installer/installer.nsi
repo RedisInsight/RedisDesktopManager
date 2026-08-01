@@ -12,10 +12,13 @@ SetCompressor /SOLID /FINAL lzma
 ManifestDPIAware true
 
 # General Symbol Definitions
-!define REGKEY "SOFTWARE\$(Name)"
+!define REGKEY "SOFTWARE\RESP.app"
 !define COMPANY "Igor Malinovskiy"
 !define URL resp.app
 !define APP_EXE "resp.exe"
+!ifndef SOURCE_DIR
+    !define SOURCE_DIR "resources"
+!endif
 
 # MUI Symbol Definitions
 !define MUI_ICON "..\..\..\src\resources\images\logo.ico"
@@ -48,7 +51,11 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile resp-${VERSION}.exe
+!ifdef OUTPUT_FILE
+    OutFile "${OUTPUT_FILE}"
+!else
+    OutFile resp-${VERSION}.exe
+!endif
 InstallDir $PROGRAMFILES64\RESP_app
 CRCCheck on
 XPStyle on
@@ -84,9 +91,11 @@ Section -Main SEC0000
 
     not_installed:
     SetOutPath $INSTDIR    
-    File /r resources\*
+    File /r "${SOURCE_DIR}\*"
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
-    !insertmacro InstallVCredist
+    !ifndef SKIP_VCREDIST
+        !insertmacro InstallVCredist
+    !endif
     BringToFront
 SectionEnd
 
