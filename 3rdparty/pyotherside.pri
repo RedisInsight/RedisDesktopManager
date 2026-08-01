@@ -5,8 +5,13 @@ PY_WIN_VERSION="38"
 PY_LIB_SUFFIX="3.9"
 
 win32* {
-    QMAKE_LIBS += -LC:\Python$${PY_WIN_VERSION}-x64\libs -lpython$${PY_WIN_VERSION}
-    INCLUDEPATH += C:\Python$${PY_WIN_VERSION}-x64\include\
+    defined(PYTHON_ROOT, var) {
+        QMAKE_LIBS += -L$$PYTHON_ROOT/libs -lpython$${PY_WIN_VERSION}
+        INCLUDEPATH += $$PYTHON_ROOT/include
+    } else {
+        QMAKE_LIBS += -LC:\Python$${PY_WIN_VERSION}-x64\libs -lpython$${PY_WIN_VERSION}
+        INCLUDEPATH += C:\Python$${PY_WIN_VERSION}-x64\include\
+    }
 } else {
     unix:macx {
       exists($$PWD/python-3) {
@@ -41,9 +46,12 @@ win32* {
     }
 }
 
+RESP_APP_VERSION = $$VERSION
 include(pyotherside/pyotherside.pri)
+PYOTHERSIDE_EMBEDDED_VERSION = $$VERSION
+VERSION = $$RESP_APP_VERSION
 
-DEFINES += PYOTHERSIDE_VERSION=\\\"$${VERSION}\\\"
+DEFINES += PYOTHERSIDE_VERSION=\\\"$$PYOTHERSIDE_EMBEDDED_VERSION\\\"
 
 DEPENDPATH += $$PWD/pyotherside/src
 INCLUDEPATH += $$PWD/pyotherside/src

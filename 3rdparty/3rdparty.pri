@@ -56,8 +56,25 @@ HEADERS += $$SIMDJSONDIR/simdjson.h
 SOURCES += $$SIMDJSONDIR/simdjson.cpp
 
 
-win32* {
-    ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native    
+win32-g++ {
+    !defined(WINDOWS_MINGW_BUILD_ROOT, var) {
+        error("WINDOWS_MINGW_BUILD_ROOT must point to the directory containing the MinGW dependency builds")
+    }
+    !defined(MINGW_ROOT, var) {
+        error("MINGW_ROOT must point to the MinGW toolchain root")
+    }
+
+    INCLUDEPATH += $$MINGW_ROOT/x86_64-w64-mingw32/include
+    INCLUDEPATH += $$WINDOWS_MINGW_BUILD_ROOT/snappy-release
+    LIBS += $$MINGW_ROOT/x86_64-w64-mingw32/lib/libz.a
+    LIBS += $$WINDOWS_MINGW_BUILD_ROOT/lz4-release/liblz4.a
+    LIBS += $$WINDOWS_MINGW_BUILD_ROOT/zstd-release/lib/libzstd.a
+    LIBS += $$WINDOWS_MINGW_BUILD_ROOT/snappy-release/libsnappy.a
+    LIBS += $$WINDOWS_MINGW_BUILD_ROOT/brotli-release/libbrotlidec-static.a
+    LIBS += $$WINDOWS_MINGW_BUILD_ROOT/brotli-release/libbrotlienc-static.a
+    LIBS += $$WINDOWS_MINGW_BUILD_ROOT/brotli-release/libbrotlicommon-static.a
+} else:win32* {
+    ZLIBDIR = $$PWD/zlib-msvc14-x64.1.2.11.7795/build/native
     INCLUDEPATH += $$ZLIBDIR/include
     LIBS += $$ZLIBDIR/lib_release/zlibstatic.lib $$LZ4DIR/build/cmake/Release/lz4.lib
     LIBS += $$ZSTDDIR/build/cmake/lib/Release/zstd_static.lib
